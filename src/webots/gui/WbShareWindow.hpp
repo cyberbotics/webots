@@ -20,13 +20,9 @@
 //
 
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-
-
-#include "WbMainWindow.hpp"
-#include "WbPreferences.hpp"
-#include "WbStandardPaths.hpp"
 
 class WbShareWindow : public QDialog {
   Q_OBJECT
@@ -41,9 +37,12 @@ public:
   explicit WbLinkWindow(QWidget *parent = NULL);
   virtual ~WbLinkWindow() {}
 
-  QLabel *mLabelLink;
+  void fileSaved();
+  void setLabelLink(QString url);
 
 private:
+  QGroupBox *groupBoxLink;
+  QLabel *mLabelLink;
   QPushButton *mPushButtonSave;
   void reject() override;
 };

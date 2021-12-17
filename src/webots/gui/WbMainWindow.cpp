@@ -56,7 +56,6 @@
 #include "WbSaveWarningDialog.hpp"
 #include "WbSceneTree.hpp"
 #include "WbSelection.hpp"
-#include "WbShareWindow.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSimulationView.hpp"
 #include "WbSimulationWorld.hpp"
@@ -1624,6 +1623,7 @@ void WbMainWindow::exportHtmlFiles() {
                "if your browser prevents local files CORS requests.")
               .arg(fileName),
             tr("Export HTML5 Scene"));
+    mLinkWindow->fileSaved();
   }
 
   WbSimulationState::instance()->setMode(currentMode);
@@ -1745,14 +1745,15 @@ void WbMainWindow::uploadFinished() {
     }
   }
   if (url.isEmpty()) {
+    mUploadProgressDialog->close();
     QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
 
-    WbLinkWindow *linkWindowUi = new WbLinkWindow(this);
-    linkWindowUi->mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
-    linkWindowUi->exec();
+    mLinkWindow = new WbLinkWindow(this);
+    mLinkWindow->setLabelLink(url);
+    mLinkWindow->exec();
   }
 }
 

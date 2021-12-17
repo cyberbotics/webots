@@ -23,9 +23,11 @@
 #include <QtWidgets/QMainWindow>
 
 #include "WbLog.hpp"
+#include "WbShareWindow.hpp"
 
 class WbBuildEditor;
 class WbConsole;
+class WbLinkWindow;
 class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
@@ -206,6 +208,7 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbStreamingServer *mStreamingServer;
+  WbLinkWindow *mLinkWindow;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");

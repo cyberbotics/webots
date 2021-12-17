@@ -14,11 +14,14 @@
 
 #include "WbShareWindow.hpp"
 
-#include <QtWidgets/QGridLayout>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QSpacerItem>
+
+#include "WbMainWindow.hpp"
+#include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 QString groupBoxStyleSheet;
 
@@ -32,54 +35,50 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QGridLayout *layout = new QGridLayout(this);
 
-  QLabel *mLabelIntro = new QLabel(this);
-  mLabelIntro->setWordWrap(true);
-  mLabelIntro->setOpenExternalLinks(true);
-  mLabelIntro->setText(
-    tr("<html><head/><body><p>Publish your simulation on <a href=\"https://%1/\"><span "
-       "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.</p></body></html>")
-      .arg(uploadUrl));
-  layout->addWidget(mLabelIntro, 3, 0, 1, 2);
+  QLabel *labelIntro = new QLabel(this);
+  labelIntro->setOpenExternalLinks(true);
+  labelIntro->setText(tr("<html><head/><body><p>Publish your simulation on <a href=\"https://%1/\"><span "
+                         "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.</p></body></html>")
+                        .arg(uploadUrl));
+  layout->addWidget(labelIntro, 3, 0, 1, 2);
 
-  QSpacerItem *verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+  QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
   layout->addItem(verticalSpacer, 4, 0, 1, 2);
 
-  QPushButton *mPushButtonScene = new QPushButton(this);
-  //mPushButtonScene->setGeometry(QRect(12, 72, 150, 42));
-  mPushButtonScene->setFocusPolicy(Qt::NoFocus);
-  mPushButtonScene->setText(tr("Upload your scene"));
-  layout->addWidget(mPushButtonScene, 5, 0, 1, 1);
+  QPushButton *pushButtonAnimation = new QPushButton(this);
+  pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
+  pushButtonAnimation->setText(tr("Record and\n"
+                                  "upload &animation"));
+  layout->addWidget(pushButtonAnimation, 5, 1, 1, 1);
 
-  QPushButton *mPushButtonAnimation = new QPushButton(this);
-  //mPushButtonAnimation->setGeometry(QRect(12, 72, 150, 42));
-  mPushButtonAnimation->setFocusPolicy(Qt::NoFocus);
-  mPushButtonAnimation->setText(tr("Record and\n"
-                                   "upload &animation"));
-  layout->addWidget(mPushButtonAnimation, 5, 1, 1, 1);
+  QPushButton *pushButtonScene = new QPushButton(this);
+  pushButtonScene->setFocusPolicy(Qt::NoFocus);
+  pushButtonScene->setText(tr("Upload your scene"));
+  pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
+  layout->addWidget(pushButtonScene, 5, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
-
-  connect(mPushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
-  connect(mPushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
-
-  connect(mPushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
-  connect(mPushButtonAnimation, &QPushButton::pressed, this, &WbShareWindow::close);
+  connect(pushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
+  connect(pushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
+  connect(pushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
+  connect(pushButtonAnimation, &QPushButton::pressed, this, &WbShareWindow::close);
 }
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Share your simulation"));
 
-  QGroupBox *mGroupBoxLink = new QGroupBox(this);
-  mGroupBoxLink->setTitle(tr("Upload successful"));
-  mGroupBoxLink->setStyleSheet(groupBoxStyleSheet);
-  mGroupBoxLink->setGeometry(QRect(10, 20, 291, 61));
+  groupBoxLink = new QGroupBox(this);
+  groupBoxLink->setTitle(tr("Upload successful"));
+  groupBoxLink->setStyleSheet(groupBoxStyleSheet);
+  groupBoxLink->setGeometry(QRect(10, 20, 291, 61));
 
-  mLabelLink = new QLabel(mGroupBoxLink);
-  mLabelLink->setGeometry(QRect(10, 30, 271, 21));
-  mLabelLink->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+  QGridLayout *layout = new QGridLayout(groupBoxLink);
+  mLabelLink = new QLabel(groupBoxLink);
+  mLabelLink->setAlignment(Qt::AlignCenter);
   mLabelLink->setStyleSheet("border: none;");
   mLabelLink->setOpenExternalLinks(true);
-  mLabelLink->setWordWrap(true);
+  mLabelLink->setMinimumHeight(15);
+  layout->addWidget(mLabelLink, 0, 0, 1, 1);
 
   mPushButtonSave = new QPushButton(this);
   mPushButtonSave->setGeometry(QRect(10, 90, 181, 25));
@@ -87,12 +86,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   mPushButtonSave->setText(tr("Also save a local copy..."));
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
-  connect(mPushButtonSave, &QPushButton::pressed, mainWindow, &WbMainWindow::exportHtmlFiles);
-  connect(mPushButtonSave, &QPushButton::pressed, this, [this]() {
-    mPushButtonSave->setEnabled(false);
-    mPushButtonSave->setText(tr("local copy saved"));
-    mPushButtonSave->setStyleSheet("color: gray;");
-  });
+  connect(mPushButtonSave, &QPushButton::clicked, mainWindow, &WbMainWindow::exportHtmlFiles);
 }
 
 void WbLinkWindow::reject() {
@@ -103,4 +97,15 @@ void WbLinkWindow::reject() {
     QFile::remove(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension);
 
   QDialog::reject();
+}
+
+void WbLinkWindow::fileSaved() {
+  mPushButtonSave->setEnabled(false);
+  mPushButtonSave->setText(tr("local copy saved"));
+  mPushButtonSave->setStyleSheet("color: gray;");
+}
+
+void WbLinkWindow::setLabelLink(QString url) {
+  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
+  groupBoxLink->adjustSize();
 }

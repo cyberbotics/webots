@@ -396,7 +396,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *upload = new QGroupBox(tr("Upload"), this);
+  QGroupBox *upload = new QGroupBox(tr("Simulation upload service"), this);
   upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
   cache->setObjectName("networkGroupBox");
@@ -442,7 +442,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 0
   mUploadUrl = new WbLineEdit(this);
   mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
-  layout->addWidget(new QLabel(tr("Set the upload url:"), this), 0, 0);
+  layout->addWidget(new QLabel(tr("URL:"), this), 0, 0);
   layout->addWidget(mUploadUrl, 0, 1);
 
   // Cache
