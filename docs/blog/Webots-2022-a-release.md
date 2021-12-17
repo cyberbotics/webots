@@ -67,6 +67,7 @@ Several improvement enhanced the user experience:
   - Rotating objects directly in the scene is now easier than before.
   - The zooming speed has been adjusted to make the navigation more pleasant.
   - Webots now displays a warning when a user attempts to add a node in an already started simulation.
+  - The **night theme** is now the default theme on Linux.
 
 ---
 
