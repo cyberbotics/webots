@@ -4,6 +4,12 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### DrakerDG 12/01/2021 00:03:43
+I am too old 😔
+
+##### emabrey 11/30/2021 23:25:48
+We are a robotics and computer science learning lab located in the U.S.A.  We are seeking an online instructor for our students aged between 13 and 17 to work with Webots in C/C++. Please go here - [https://jobs.stormingrobots.com](https://jobs.stormingrobots.com)  to view the details if interested.
+
 ##### Olivier Michel [Cyberbotics] 11/17/2021 15:49:05
 The RoboCup Humanoid League Virtual Season 2021/22 just launched: [https://humanoid.robocup.org/hl-vs2022/hl-vs2022-cfp/](https://humanoid.robocup.org/hl-vs2022/hl-vs2022-cfp/)
 
