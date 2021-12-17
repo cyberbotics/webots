@@ -25,9 +25,9 @@ ifeq ($(OSTYPE),linux)
  VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- SUMO_PACKAGE=sumo-1.11-linux18.04.tar.xz
- SUMO_MD5SUM="cac9e6d03bf75836399f28d149def4d1"
- PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-1.11-linux18.04.tar.xz))
+ SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
+ PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
