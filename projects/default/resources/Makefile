@@ -27,9 +27,9 @@ ifeq ($(OSTYPE),linux)
  OS_TAG=linux64
 ifeq ($(VER_UBUNTU),18.04)
  SUMO_VERSION=1.11
- SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
-else
  SUMO_MD5SUM="aee08d40dfa26ea1167e6a6fd99b5ced"
+else
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
 endif
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
