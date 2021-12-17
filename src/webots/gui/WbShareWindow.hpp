@@ -19,12 +19,10 @@
 // Description: Share dialog for the Share button.
 //
 
-#include <QtCore/QDir>
-#include <QtCore/QFile>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+
 
 #include "WbMainWindow.hpp"
 #include "WbPreferences.hpp"
