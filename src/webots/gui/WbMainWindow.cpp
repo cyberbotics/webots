@@ -1113,7 +1113,8 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
+  const bool saveScreenPerspective =
+    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
   if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
   if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
