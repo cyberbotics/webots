@@ -61,6 +61,8 @@ ifeq ($(OSTYPE),windows)
  WGET=wget --quiet
 endif
 
+release debug profile: $(SUMO_TARGET)
+
 $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(SUMO_PACKAGE)
