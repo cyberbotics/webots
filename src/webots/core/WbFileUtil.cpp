@@ -16,6 +16,7 @@
 
 #include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
+#include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QCryptographicHash>
@@ -155,9 +156,8 @@ bool WbFileUtil::isLocatedInDirectory(const QString &file, const QString &direct
 }
 
 bool WbFileUtil::isLocatedInInstallationDirectory(const QString &file) {
-  bool forbidModifyInstallation = qgetenv("WEBOTS_ALLOW_MODIFY_INSTALLATION").isEmpty();
-  bool inWebots = WbFileUtil::isLocatedInDirectory(file, WbStandardPaths::webotsHomePath());
-  return inWebots && forbidModifyInstallation;
+  const bool inWebots = WbFileUtil::isLocatedInDirectory(file, WbStandardPaths::webotsHomePath());
+  return inWebots && !WbPreferences::booleanEnvironmentVariable("WEBOTS_ALLOW_MODIFY_INSTALLATION");
 }
 
 void WbFileUtil::searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root) {
