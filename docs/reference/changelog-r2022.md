@@ -1,7 +1,7 @@
 # Webots R2022 Change Log
 
 ## Webots R2022a
-Released on XX, XXth, 2022.
+Released on December 20th, 2022.
 
   - New Features:
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
