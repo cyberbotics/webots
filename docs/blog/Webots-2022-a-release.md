@@ -42,7 +42,7 @@ We worked hard to convert all PROTOs and worlds distributed with Webots for you,
 A mechanism of backward compatibility has been implemented directly in Webots.
 Unfortunately, it was not possible to make it work in every cases.
 It will try to convert worlds and PROTOs at runtime, but PROTO changes cannot be saved.
-We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own PROTOs and worlds to use them in Webots R2022a.
+We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a) to help you convert your own PROTOs and worlds to use them in Webots R2022a.
 
 We are aware that it is a major change and it can be annoying to convert your worlds and PROTOs to the new format.
 However, it is a worthwhile effort, especially if you work with ROS.
