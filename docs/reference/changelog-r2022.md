@@ -23,6 +23,7 @@ Released on XX, XXth, 2022.
     - Fixed bug which made the points returned by `getPointCloud` python API inaccessible ([#3558](https://github.com/cyberbotics/webots/pull/3558)).
     - Fixed starting of Webots from the Windows CMD.exe console ([#3512](https://github.com/cyberbotics/webots/pull/3512)).
     - Fixed 'Convert to Base Node(s)' with textures defined by urls ([#3591](https://github.com/cyberbotics/webots/pull/3591)).
+    - Fixed memory leak due to incorrect cleaning of shadow coords buffer ([#4038](https://github.com/cyberbotics/webots/pull/4038)).
     - Fixed the force direction applied by the [Track](track.md) node ([#3693](https://github.com/cyberbotics/webots/pull/3693)).
     - Fixed broken Lua gd on Windows ([#3769](https://github.com/cyberbotics/webots/pull/3769)).
     - Fixed [`wb_supervisor_node_set_visibility`](supervisor.md#wb_supervisor_node_set_visibility) applying visibility to parent and sibling nodes if not used with geometry or [Transform](transform.md) nodes ([#3543](https://github.com/cyberbotics/webots/pull/3543)).
