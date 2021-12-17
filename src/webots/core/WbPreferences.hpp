@@ -31,6 +31,7 @@ public:
   static WbPreferences *createInstance(const QString &companyName, const QString &applicationName, const WbVersion &version);
   static WbPreferences *instance();
   static void cleanup();
+  static bool booleanEnvironmentVariable(const QByteArray &variable);
   void setMoviePreferences(int resolutionIndex, int quality, double acceleration, bool caption);
   void moviePreferences(int &resolutionIndex, int &quality, double &acceleration, bool &caption) const;
   QString accessErrorString() const;

@@ -232,3 +232,8 @@ void WbPreferences::checkIsWritable() {
                    true);
 }
 #endif
+
+bool WbPreferences::booleanEnvironmentVariable(const QByteArray &variable) {
+  const QByteArray content = qgetenv(variable).toLower();
+  return !content.isEmpty() && content != "0" && content != "false";
+}

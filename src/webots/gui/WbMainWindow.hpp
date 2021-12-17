@@ -51,7 +51,7 @@ public:
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
-  void savePerspective(bool reloading, bool saveToFile);
+  bool savePerspective(bool reloading, bool saveToFile);
   void restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory);
 
   const QString &enabledIconPath() const { return mEnabledIconPath; }
