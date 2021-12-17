@@ -165,10 +165,7 @@ bool WbNewProjectWizard::validateCurrentPage() {
     if (mDirEdit->text().isEmpty())
       return false;
 
-    if (!qgetenv("WEBOTS_ALLOW_MODIFY_INSTALLATION").isEmpty())
-      return true;
-
-    if (WbFileUtil::isLocatedInDirectory(mDirEdit->text(), WbStandardPaths::webotsHomePath())) {
+    if (WbFileUtil::isLocatedInInstallationDirectory(mDirEdit->text())) {
       WbMessageBox::warning(tr("It is not allowed to create a new project inside the Webots installation directory.") + "\n" +
                               tr("Please select another directory."),
                             this, tr("Invalid new project directory"));

@@ -453,7 +453,8 @@ void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
     paste();
     return;
   } else if (event->matches(QKeySequence::Save)) {
-    save();
+    if (!save())
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(mFileName));
     return;
   }
 
