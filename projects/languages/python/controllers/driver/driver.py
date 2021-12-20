@@ -54,8 +54,8 @@ class Driver (Supervisor):
                 t = self.translation.value
                 print('ROBOT1 is located at (' + str(t[0]) + ',' + str(t[2]) + ')')
             elif k == 'R':
-                print('Teleport ROBOT1 at (0.1, 0.0, 0.3)')
-                self.translation.value = [0.1, 0.0, 0.3]
+                print('Teleport ROBOT1 at (0.1, 0.3, 0.0)')
+                self.translation.value = [0.1, 0.3, 0.0]
 
             # Send a new message through the emitter device.
             if message != '' and message != previous_message:
