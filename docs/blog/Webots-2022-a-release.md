@@ -74,7 +74,7 @@ Several improvement enhanced the user experience:
 ## ROS and ROS 2
 
 The Webots ROS and ROS 2 interfaces were maintained and updated to benefit from the new features of Webots R2022a, such as the ENU/FLU orientations, the Skin node and the GPS speed vector.
-New versions of the `webots_ros` package were released for [melodic](https://index.ros.org/p/webots_ros/#melodic) and [noetic](https://index.ros.org/p/webots_ros/#noetic).
+A new version of the `webots_ros` package was released for [noetic](https://index.ros.org/p/webots_ros/#noetic).
 
 In addition to this, the Webots ROS 2 interface was fully redesigned to be more user friendly and scalable.
 The `webots_ros2_driver` sub-package replaces the previous `webots_ros2_core` sub-package, which is now obsolete.
