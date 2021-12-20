@@ -319,6 +319,26 @@ void WbBuildEditor::make(const QString &target) {
   if (!WbProjectRelocationDialog::validateLocation(this, compilePath))
     return;
 
+  const QFileInfo dir(compilePath);
+  if (!dir.isWritable()) {
+    WbMessageBox::warning(tr("\'%1\'\n\nYou don't have write access to this folder. "
+                             "Webots won't be able to clean or compile any controller in this path. "
+                             "Please move this Webots project into a folder where you have write access.")
+                            .arg(compilePath),
+                          this);
+    return;
+  }
+#ifdef _WIN32
+  const QString PROGRAMFILES = QDir::fromNativeSeparators(qgetenv("PROGRAMFILES") + '\\');
+  if (compilePath.startsWith(PROGRAMFILES)) {
+    WbMessageBox::warning(tr("\'%1\'\n\nYou don't have write access to the 'Program Files' folder. "
+                             "Webots won't be able to clean or compile any controller in this path. "
+                             "Please move this Webots project into a folder where you have write access.")
+                            .arg(compilePath),
+                          this);
+    return;
+  }
+#endif
   // update path of modified files from external project
   const QString &oldProjectPath = WbProjectRelocationDialog::relocatedExternalProtoProjectPath();
   if (!oldProjectPath.isEmpty())

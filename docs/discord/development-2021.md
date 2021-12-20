@@ -346,7 +346,7 @@ Do you know why I am getting this error?
 ##### Bitbots\_Jasper [Moderator] 01/23/2021 19:02:50
 you seem to be missiong ros-<version>-console-bridge
 
-##### adiagr 01/24/2021 18:32:16
+##### Aditya Agrawal 01/24/2021 18:32:16
 You can first threshold the image and then find contours in the image. Select the contour with the maximum area. Finally, find centroid of that contour and use it as an input to a PID controller or something similar to drive your robot
 
 ##### Luftwaffel [Moderator] 01/25/2021 15:11:40
@@ -2757,7 +2757,7 @@ It looks like there was some discussion of doing what `@mironix<inactive>` sugge
 ##### mironix<inactive> 10/13/2021 10:39:12
 thanks `@Justin Fisher` i'll check this out
 
-##### Meghana|Contributor 10/18/2021 02:44:57
+##### Meghana|GDSC 10/18/2021 02:44:57
 Hi
 
 
@@ -2829,4 +2829,112 @@ Video: [https://www.youtube.com/watch?v=6OxeKOUKwGM](https://www.youtube.com/wat
 
 ##### Luftwaffel [Moderator] 11/14/2021 19:08:46
 Awesome work!
+
+##### BerkcanBarut 11/26/2021 13:48:01
+Hi guys. Velodyne VLP-16, I am trying to do autonomous driving using this lidar. How do I filter data from lidar? How to visualize lidar data over point cloud? Can you help me ?
+
+## December
+
+##### tenglvjun 12/01/2021 12:37:02
+Hi guys. I create a simply webots  controller for my baby two-wheels car. I add ROS to my project. I set  INCLUDE = -I"/opt/ros/noetic/include" and LIBRARIES = -L"/opt/ros/noetic/lib" -lroscpp -lroslib -lrosconsole -lrostime -lroscpp\_serialization -ltf\_conversions -ltf to the MakeFile. All of the path is correctly. It was complied correctly in my vscode editor, but failed in webots. The error is fatal error: ros/ros.h: No such file or directory.  
+
+Did I miss something?
+
+##### Benjamin Hug [Cyberbotics] 12/01/2021 13:11:23
+`LIBRARIES +=` instead of `LIBRARIES =` might be a solution.
+
+##### tenglvjun 12/01/2021 13:15:53
+I change LIBRARIES += instead of LIBRARIES = . But it still not works. 
+
+
+
+The errors in webots console. 
+
+make: *** [build/release/ros\_node.o] Error 1
+
+make: *** Waiting for unfinished jobs....
+
+In file included from robot\_state.h:22:0,
+
+                 from robot\_state.cpp:1:
+
+ros\_node.h:14:10: fatal error: ros/ros.h: No such file or directory
+
+ #include <ros/ros.h>
+
+          ^~~~~~~~~~~
+
+In file included from robot\_state.h:22:0,
+
+                 from javis\_controller.cpp:7:
+
+ros\_node.h:14:10: fatal error: ros/ros.h: No such file or directory
+
+ #include <ros/ros.h>
+
+          ^~~~~~~~~~~
+
+compilation terminated.
+
+compilation terminated.
+
+/snap/webots/19/usr/share/webots/resources/Makefile.include:544: recipe for target 'build/release/robot\_state.o' failed
+
+/snap/webots/19/usr/share/webots/resources/Makefile.include:544: recipe for target 'build/release/javis\_controller.o' failed
+
+make: *** [build/release/robot\_state.o] Error 1
+
+make: *** [build/release/javis\_controller.o] Error 1
+
+
+
+My controller Makefile
+
+
+
+CXX\_SOURCES = robot\_state.cpp robot\_pose.cpp ros\_node.cpp javis\_controller.cpp
+
+\#\#\#
+
+\#\#\# ---- Compilation options ----
+
+\#\#\# if special compilation flags are necessary:
+
+\#\#\# CFLAGS = -Wno-unused-result
+
+\#\#\#
+
+\#\#\# ---- Linked libraries ----
+
+\#\#\# if your program needs additional libraries:
+
+INCLUDE = -I"/opt/ros/noetic/include"
+
+LIBRARIES += -L"/opt/ros/noetic/lib" -lroscpp -lroslib -lrosconsole -lrostime -lroscpp\_serialization -ltf\_conversions -ltf
+
+##### JoeDerybshire 12/01/2021 13:26:28
+Hiya everyone. I have to make the the abb irp robot arm draw the letter "n"
+
+is there any like tutorial that could explain the general idea of inverse kinematics in ikpy?
+
+
+I didn't find anything in the documentation.
+
+##### DDaniel [Cyberbotics] 12/01/2021 14:09:46
+I don't believe there is a tutorial, but you can look up the sample world: `file > open sample world > inverse_kinematics.wbt`, it's a IRB robot that draws a circle. You can take inspiration from it.
+
+##### Luftwaffel [Moderator] 12/01/2021 19:15:00
+I would recommend going the pyikfast route. ikpy is very slow and flawed. I wrote a a very solid ikfast controller if you have  a solver for your robot
+
+
+what is the exact robot arm you are trying to use?
+
+
+[https://github.com/Simon-Steinmann/webots\_pyikfast\_tutorial](https://github.com/Simon-Steinmann/webots_pyikfast_tutorial)
+
+
+this is the sample, using the irb4600
+
+##### JoeDerybshire 12/02/2021 16:10:21
+I'll check those out, thank you both!
 

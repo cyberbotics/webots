@@ -17,7 +17,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Shrimp {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Shrimp"
   SFString   controller      "shrimp"
   MFString   controllerArgs  []

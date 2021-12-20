@@ -97,11 +97,11 @@ Okey, thank you
 You're welcome
 
 ##### NaoTeam28 09/23/2019 08:36:37
-Hello Guys, 
+Hello Guys,
 
 
 
-we got a problem. 
+we got a problem.
 
 
 
@@ -277,12 +277,12 @@ When the rays hit objects, the rays are rejected if the angle between the ray an
 Is it more clear?
 
 ##### BlackPearl 10/17/2019 10:14:42
-Ah ok, yes 
+Ah ok, yes
 
 Thank you very much
 
 ##### HiguchiNakamura 10/27/2019 15:41:02
-Hi. I think the inertial unit section  (function getRollPitchYaw) has wrong information. 
+Hi. I think the inertial unit section  (function getRollPitchYaw) has wrong information.
 
 
 
@@ -310,7 +310,7 @@ then , for pitch and roll the description also specified that this is only true 
 How would you create a custom chassy
 
 ##### Stefania Pedrazzi [Cyberbotics] 10/28/2019 07:11:24
-`@dreamerz` what do you mean exactly? a complete one including wheels or just a solid piece? 
+`@dreamerz` what do you mean exactly? a complete one including wheels or just a solid piece?
 
 Did you already look at the tutorials? [https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
 
@@ -327,7 +327,7 @@ Thanks
 and you can find a simple example in the distributed samples folder `projects/samples/devices/worlds/track.wbt`
 
 ##### JoanGerard 10/28/2019 17:25:02
-Hello, I was trying to run an external robot controller but there is no <external> option while selecting the controller of my robot. I have the Webots R2019a version. 
+Hello, I was trying to run an external robot controller but there is no <external> option while selecting the controller of my robot. I have the Webots R2019a version.
 
 Maybe this options is not available any more?
 %figure
@@ -540,7 +540,7 @@ Thank you so much 🙂
 You're welcome
 
 ##### 🍎小苹果🍎 01/30/2020 00:48:26
-Hi! Sorry for disturbing you again. I converted the data and made the image progressing. I want to show it with display screen. I have something like 
+Hi! Sorry for disturbing you again. I converted the data and made the image progressing. I want to show it with display screen. I have something like
 
 <<
 
@@ -548,7 +548,7 @@ Hi! Sorry for disturbing you again. I converted the data and made the image prog
 
  display.imagePaste(ref,0,0,blend=false)
 
- >> 
+ >>
 
  when I use cv2 to show I can see the processed image  but when I use display it shows somewhere else in the simulation with 90° rotation where I'm doing wrong? And I'm really sorry for asking too many questions I really tried for days but couldn't solve.
 
@@ -608,9 +608,9 @@ Just posted on stack, thanks
 Thank you, I will have a look at this today.
 
 ##### Ptosidis\_opendr 02/11/2020 10:04:16
-Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question). 
+Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question).
 
-I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work. 
+I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work.
 
 Any insights on how to find all devices by name, or better the names of all devices on a robot?
 
@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### Mumuxe 04/21/2020 15:59:54
+##### Axel M 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -917,7 +917,7 @@ which corresponds to 60°
 Oh I understand now thank you so much
 
 ##### davisUndergrad 05/06/2020 17:21:50
-Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm\_ik function provided in the arm.c 
+Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm\_ik function provided in the arm.c
 
 library is located. Is this documented somewhere?
 
@@ -1322,7 +1322,7 @@ which is the correct branch for R2021a?
 develop?
 
 
-[https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots](https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots) pretty sure that should say 
+[https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots](https://github.com/cyberbotics/webots/wiki/Linux-installation#build-webots) pretty sure that should say
 
 "For example, type make -j12 on a CPU with six cores and hyper-threading." and not "four cores"
 
@@ -1538,7 +1538,7 @@ That is smart, thank you for the explaination Olivier 🙂
 Hi there! I'm trying to control a quadricopter iin webots by using ROS and extern controller from VisualStudio code. I previously made the controller in C and runned it from the webots interface but I'm bit lost about how to face the new requirements (extern controller+ROS). I got how the . launch file is running the .wbt file but i don't know the way the .cpp node is joining with the quadricopter (mavic2pro) in the simulation and providing it of a controller. So.. I have few question i would be glad if someone could guide me a bit through.. 1st.- Is this the only way to work with webots+extern\_controller+ROS?.. It is necessary to use the .cpp file in src folder?, 2nd.- Could the .cpp file be replaced for a .py file so i won't have to C++ programming? and 3rd.- If the answer of 2nd question is a "no".. there is some documentation explaining the complete\_test.cpp file or at least the robot\_information\_parser file? The code looks bit wide and complex for me.. Thank in advance:)
 
 ##### Darko Lukić [Cyberbotics] 12/03/2020 13:48:12
-Hello `@j-ub` 
+Hello `@j-ub`
 
 >  Is this the only way to work with webots+extern\_controller+ROS
 
@@ -1604,8 +1604,8 @@ Under-the-hood it looks something like this:
 ```md
              `ros_controller.py`
                       |
-               (TCPROS/UDPROS) 
-                      |      
+               (TCPROS/UDPROS)
+                      |
                `ros_python.py`
                       |
 (Webots protocol based on a shared memory and pipes)
@@ -1719,7 +1719,7 @@ Probably. Anyhow thank you for reporting it and for your feedback.
 Hi guys is there any sample robotic arm in webots that use to train with a actor-critic algorithm!?
 
 ##### Darko Lukić [Cyberbotics] 01/27/2021 07:48:46
-`@ahforoughi` 
+`@ahforoughi`
 
 Here is a tutorial about Actor-Critic algorithm and Open AI Gym:
 
@@ -2068,11 +2068,11 @@ WARNING: 'emitter\_receiver' controller crashed.
 
 
 
-how can i solve this error 
+how can i solve this error
 
-once i clean and make then it worked for one day 
+once i clean and make then it worked for one day
 
-but its again crashing 
+but its again crashing
 
 what should i do?
 
@@ -2242,7 +2242,7 @@ No problem. Your contribution is welcome.
 ##### mironix<inactive> 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 
-##### BeachJuic3 10/25/2021 08:56:49
+##### BananaJuic3 10/25/2021 08:56:49
 I got a question regarding the **Position Sensor**
 
 
@@ -2270,4 +2270,31 @@ hello, I have a question, is there such a thing as a motion editor? I'm using R2
 
 ##### Olivier Michel [Cyberbotics] 11/15/2021 16:17:15
 No, there is no motion editor (except your favorite text editor 😉 or custom python script).
+
+##### Tosidis 11/24/2021 13:03:39
+Hello, is there a way to change the coordinate system of an object? (e.g. mavic2Pro)
+
+##### sillyfoal 11/28/2021 11:01:34
+Does anybody know how i can access the Documentation, no matter what browser i use the page is blank
+
+
+
+%figure
+![Capture.PNG](https://cdn.discordapp.com/attachments/565155720933146637/914471128947367946/Capture.PNG)
+%end
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:04:16
+Works for me, which page are you trying to access?
+
+##### sillyfoal 11/28/2021 11:05:57
+Just the user guide, any link to the documentation just gives me that blank page
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:09:19
+Odd, I tried with 2 different IPs and different browsers but works for me. Try doing CTRL + F5 to clear the cache
+
+##### sillyfoal 11/28/2021 11:11:46
+I found the problem. I'm using my University's internet connection, and for some reason when using their internet it doesn't work, but on my phone's roaming connection i can access.
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:13:21
+Interesting, can I ask you the country? Should work regardless
 

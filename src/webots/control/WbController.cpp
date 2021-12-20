@@ -234,7 +234,7 @@ void WbController::start() {
   info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
-  if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_FIREJAIL_CONTROLLERS") && mRobot->findField("controller")) {
     mArguments.prepend(mCommand);
     mCommand = "firejail";
     QStringList firejailArguments;
@@ -516,11 +516,10 @@ void WbController::setProcessEnvironment() {
 #ifdef __APPLE__
     QProcess process;
     process.setProcessEnvironment(env);
-    process.start(mPythonCommand, QStringList() << "-c"
-                                                << "import sys; print(sys.exec_prefix);");
+    process.start("which", QStringList() << mPythonCommand);
     process.waitForFinished();
     const QString output = process.readAll();
-    if (output.startsWith("/usr/local/Cellar"))
+    if (output.startsWith("/usr/local/Cellar/python@"))
       addToPathEnvironmentVariable(
         env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
     else

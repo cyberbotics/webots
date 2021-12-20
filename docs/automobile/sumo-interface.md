@@ -69,7 +69,7 @@ Here are the parameters of the `SumoInterface` PROTO (which inherits from the [S
 PROTO SumoInterface [
   field SFString  name                  "sumo interface"
   field SFBool    gui                   TRUE
-  field SFBool    useNetconvert         TRUE
+  field SFBool    useNetconvert         FALSE
   field SFBool    enableTrafficLights   TRUE
   field SFBool    enableWheelsRotation  FALSE
   field SFInt32   maxVehicles           100

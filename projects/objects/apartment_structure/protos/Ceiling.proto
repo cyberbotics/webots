@@ -4,7 +4,7 @@
 # A configurable standard ceiling.
 
 PROTO Ceiling [
-  field SFVec3f    translation      0 2.4 0
+  field SFVec3f    translation      0 0 2.4
   field SFRotation rotation         1 0 0 3.14159
   field SFString   name             "ceiling"
   field SFString   contactMaterial  "default"

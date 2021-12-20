@@ -76,8 +76,8 @@ class Driver (Supervisor):
             ' F for move forward\n'
             ' S for stop\n'
             ' T for turn\n'
-            ' R for positioning ROBOT1 at (0.1,0.3)\n'
-            ' G for knowing the (x,z) position of ROBOT1'
+            ' R for positioning ROBOT1 at (-0.3,-0.1)\n'
+            ' G for knowing the (x,y) position of ROBOT1'
         )
 
 

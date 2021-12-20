@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) or similar to FLU (x-Forward, y-Left, z-Up)."""
+"""
+Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) or similar to FLU (x-Forward, y-Left, z-Up).
+- RUB: Common in Webots
+- LUF: Used by some robots
+- FUR: Common for distance sensors
+"""
 
 import argparse
 import numpy as np
@@ -26,8 +31,22 @@ TO_FLU_FROM = {
     'RUB': transforms3d.axangles.axangle2mat(
         [-0.5773516025189619, 0.5773476025217157, 0.5773516025189619], -2.094405307179586),
     'LUF': transforms3d.axangles.axangle2mat(
-        [0.577351, 0.57735, 0.57735], 2.0944)
+        [0.577351, 0.57735, 0.57735], 2.0944),
+    'FUR': transforms3d.euler.euler2mat(-np.pi/2, 0, 0, 'rxyz')
 }
+
+
+def convert_orientation(rotation_angle_axis, from_system):
+    rotation_angle_axis = [float(value) for value in rotation_angle_axis]
+    orientation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
+    new_rotation = TO_FLU_FROM[from_system] @ orientation
+    new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
+    return new_rotation_axis, new_rotation_angle
+
+
+def convert_translation(translation, from_system):
+    translation = [float(value) for value in translation]
+    return TO_FLU_FROM[from_system] @ np.array(translation)
 
 
 def find(function, elements, default=None):
@@ -84,13 +103,18 @@ def set_vector3(node, value, name='translation'):
     vector3_field['value'] = value
 
 
-def vector_to_string(vector, decimals):
+def vector_to_string(vector, decimals, zero_one_decimals=None):
+    if zero_one_decimals is None:
+        # Zero and one are special cases and typically it is fine to be more agressive when rounding
+        zero_one_decimals = int(0.7 * decimals)
     new_str = []
     for value in vector:
-        if abs(value) > 1 / (10**decimals):
-            new_str.append(str(round(value, decimals)))
-        else:
+        if abs(value) < 1 / (10**zero_one_decimals):
             new_str.append('0')
+        elif abs(value - 1) < 1 / (10**zero_one_decimals):
+            new_str.append('1')
+        else:
+            new_str.append(str(round(value, decimals)))
     return new_str
 
 
@@ -99,10 +123,8 @@ def convert_pose(rotation_angle_axis, translation, z_offset, initial_orientation
     assert len(translation) == 3, f'Translation {translation} is not the correct length'
 
     # Convert
-    rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
-    new_rotation = TO_FLU_FROM[initial_orientation] @ rotation
-    new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
-    new_translation = TO_FLU_FROM[initial_orientation] @ np.array(translation)
+    new_rotation_axis, new_rotation_angle = convert_orientation(rotation_angle_axis, initial_orientation)
+    new_translation = convert_translation(translation, initial_orientation)
     new_translation[2] += z_offset
 
     # Convert to string array
@@ -115,13 +137,12 @@ def convert_pose(rotation_angle_axis, translation, z_offset, initial_orientation
 def convert_physics(node, z_offset, initial_orientation):
     physics_field = get_field(node, 'physics')
     new_center_of_masses_str = []
-    if physics_field:
+    if physics_field and physics_field['type'] != 'IS':
         physics_node = physics_field['value']
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
-            for ceneter_of_mass_str in center_of_mass_field['value']:
-                center_of_mass = [float(value) for value in ceneter_of_mass_str]
-                new_center_of_mass = TO_FLU_FROM[initial_orientation] @ np.array(center_of_mass)
+            for center_of_mass_str in center_of_mass_field['value']:
+                new_center_of_mass = convert_translation(center_of_mass_str, initial_orientation)
                 new_center_of_mass[2] += z_offset
                 new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]
                 new_center_of_masses_str.append(new_center_of_mass_str)
@@ -130,11 +151,11 @@ def convert_physics(node, z_offset, initial_orientation):
 
 def convert_nodes(nodes, z_offset, initial_orientation):
     for node in nodes:
-        if 'Hinge' in node['name']:
+        if 'Joint' in node['name']:
             joint_parameters_node = get_field(node, 'jointParameters')['value']
 
             anchor = get_vector3(joint_parameters_node, name='anchor')
-            new_anchor = TO_FLU_FROM[initial_orientation] @ np.array(anchor)
+            new_anchor = convert_translation(anchor, initial_orientation)
             new_anchor[2] += z_offset
             new_anchor_str = [f'{round(v, 5):.5}' for v in new_anchor]
             set_vector3(joint_parameters_node, new_anchor_str, name='anchor')
@@ -152,18 +173,22 @@ def convert_nodes(nodes, z_offset, initial_orientation):
             if children and children['type'] != 'IS':
                 convert_nodes(children['value'], z_offset, initial_orientation)
         elif node['name'] == 'Shape':
-            # TODO: It would be better to convert it pixel by pixel
-            current_node = node.copy()
-            node.clear()
-            node['name'] = 'Transform'
-            node['fields'] = [
-                {'name': 'children', 'type': 'MFNode', 'value': [current_node]}
-            ]
-            translation = get_vector3(node)
-            rotation = get_rotation(node)
-            new_rotation, new_translaton = convert_pose(rotation, translation, z_offset, initial_orientation)
-            set_rotation(node, new_rotation)
-            set_vector3(node, new_translaton)
+            geometry_node = get_field(node, 'geometry')['value']
+            geometry_cord_node = get_field(geometry_node, 'coord')['value']
+            geometry_points = get_field(geometry_cord_node, 'point')['value']
+            for i in range(0, len(geometry_points), 3):
+                new_point = convert_translation(geometry_points[i:i+3], initial_orientation)
+                geometry_points[i:i+3] = vector_to_string(new_point, 7)
+
+            if False:
+                # If we want to invert the faces.
+                geometry_indices = get_field(geometry_node, 'coordIndex')['value']
+                previous_delimiter_index = -1
+                for i in range(0, len(geometry_indices)):
+                    if geometry_indices[i] == '-1':
+                        geometry_indices[previous_delimiter_index+1:i] = \
+                            list(reversed(geometry_indices[previous_delimiter_index+1:i]))
+                        previous_delimiter_index = i
         elif node['name'] == 'Slot':
             # Ignore
             pass
@@ -179,8 +204,9 @@ def convert_nodes(nodes, z_offset, initial_orientation):
 
 
 def convert_bounding_object(node, z_offset, initial_orientation):
-    bounding_object = get_field(node, 'boundingObject')['value']
+    bounding_object = get_field(node, 'boundingObject')
     if bounding_object:
+        bounding_object = bounding_object['value']
         convert_nodes([bounding_object], z_offset, initial_orientation)
 
 
@@ -192,7 +218,7 @@ def main():
                         help='Change z-offset to match the ground level')
     parser.add_argument('proto_file', type=str, help='Path to the PROTO file')
     parser.add_argument('--initial-orientation', dest='initial_orientation',
-                        choices=['RUB', 'LUF'], default='RUB', help='Initial PROTO orientation')
+                        choices=['RUB', 'LUF', 'FUR'], default='RUB', help='Initial PROTO orientation')
     args = parser.parse_args()
 
     proto = WebotsParser()
@@ -201,6 +227,7 @@ def main():
     # Find the Robot's children field
     # root > PROTO (`[0]['root']`) > Robot (`[0]`) > fields (`['fields']`)
     robot_node = proto.content['root'][0]['root'][0]
+    # print(robot_node)
 
     # Convert robot's children
     robot_children = get_field(robot_node, 'children')['value']
@@ -211,7 +238,6 @@ def main():
 
     # Convert bounding objects
     convert_bounding_object(robot_node, args.z_offset, args.initial_orientation)
-
     proto.save(args.proto_file)
 
 

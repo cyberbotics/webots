@@ -410,12 +410,16 @@ static char **expand_wildcard_filename(const char *big_buffer, int *n) {
 static void add_ros_dependencies(const char *path) {
   fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
 #ifdef WEBOTS_UBUNTU_18_04
+  fprintf(fd, "cp /opt/ros/melodic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/melodic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/melodic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/melodic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -427,6 +431,9 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n",
+          path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #elif defined(WEBOTS_UBUNTU_20_04)
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -1164,6 +1171,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
       fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
+      fprintf(fd, "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, ");  // SUMO dependencies
       fprintf(fd, "libgd3, libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, ");
       fprintf(fd, "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\" >> DEBIAN/control\n");
 
@@ -1271,7 +1279,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/include/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       add_ros_dependencies("$DESTDIR/usr/share/webots");
       break;

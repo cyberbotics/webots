@@ -377,6 +377,7 @@ QT_SOURCES += \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbQjsFile.cpp \
+  WbQjsCollada.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \
@@ -445,6 +446,7 @@ QT_SOURCES += \
   WbTreeView.cpp \
   WbTriangleMeshGeometry.cpp \
   WbUndoStack.cpp \
+  WbUpdatedDialog.cpp \
   WbValue.cpp \
   WbValueEditor.cpp \
   WbVariant.cpp \

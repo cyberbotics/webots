@@ -27,6 +27,7 @@
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
 #include "WbFileUtil.hpp"
+#include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
@@ -62,6 +63,7 @@
 #include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbUpdatedDialog.hpp"
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
 #include "WbVisualBoundingSphere.hpp"
@@ -118,12 +120,12 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
 #endif
-
   setObjectName("MainWindow");
   QStatusBar *statusBar = new QStatusBar(this);
   statusBar->showMessage(tr("Welcome to Webots!"));
   setStatusBar(statusBar);
 
+  WbGuiApplication::setWindowsDarkMode(this);
   style()->polish(this);
   QDir::addSearchPath("enabledIcons", WbStandardPaths::resourcesPath() + enabledIconPath());
   QDir::addSearchPath("disabledIcons", WbStandardPaths::resourcesPath() + disabledIconPath());
@@ -147,7 +149,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // listen to log
   connect(WbLog::instance(), &WbLog::logEmitted, this, &WbMainWindow::showStatusBarMessage);
 
-  // world reload or simulation quit shoud not be executed directly (Qt::QueuedConnection)
+  // world reload or simulation quit should not be executed directly (Qt::QueuedConnection)
   // because it is call in a Webots state where events have to be solved
   // (typically packets comming from libController)
   // applying the reload or quit directly may imply a Webots crash
@@ -475,7 +477,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(manager->action(WbAction::TAKE_SCREENSHOT));
   menu->addAction(mSimulationView->movieAction());
   action = new QAction(this);
-  action->setText(tr("&Export HTML5 Model..."));
+  action->setText(tr("&Export HTML5 Scene..."));
   action->setStatusTip(tr("Export the whole Scene Tree as an HTML5 file."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::exportHtml);
@@ -523,9 +525,6 @@ QMenu *WbMainWindow::createEditMenu() {
   menu->addAction(manager->action(WbAction::GO_TO_LINE));
   menu->addSeparator();
   menu->addAction(manager->action(WbAction::TOGGLE_LINE_COMMENT));
-  menu->addSeparator();
-  menu->addAction(manager->action(WbAction::DUPLICATE_SELECTION));
-  menu->addAction(manager->action(WbAction::TRANSPOSE_LINE));
 
   return menu;
 }
@@ -1099,10 +1098,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return;
+    return false;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1114,7 +1113,8 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
+  const bool saveScreenPerspective =
+    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
   if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
   if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
@@ -1172,9 +1172,11 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
   }
 
+  if (!saveToFile)
+    return false;
+
   // save our new perspective in the file
-  if (saveToFile)
-    perspective->save();
+  return perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1471,9 +1473,12 @@ void WbMainWindow::saveWorld() {
   }
 
   mSimulationView->applyChanges();
-  world->save();
-  savePerspective(false, true);
-  updateWindowTitle();
+  if (world->save()) {
+    if (!savePerspective(false, true))
+      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    updateWindowTitle();
+  } else
+    WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
   simulationState->resumeSimulation();
 }
 
@@ -1503,9 +1508,12 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
-    world->saveAs(fileName);
-    savePerspective(false, true);
-    updateWindowTitle();
+    if (world->saveAs(fileName)) {
+      if (!savePerspective(false, true))
+        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      updateWindowTitle();
+    } else
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
 
   simulationState->resumeSimulation();
@@ -1594,7 +1602,7 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbWorld *world = WbWorld::instance();
 
-  QString fileName = findHtmlFileName("Export HTML Model");
+  QString fileName = findHtmlFileName("Export HTML Scene");
   if (fileName.isEmpty()) {
     WbSimulationState::instance()->setMode(currentMode);
     return;
@@ -1604,13 +1612,13 @@ void WbMainWindow::exportHtml() {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
-            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+            tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
               .arg(fileName),
-            tr("Export HTML5 Model"));
+            tr("Export HTML5 Scene"));
   }
 
   WbSimulationState::instance()->setMode(currentMode);
@@ -1619,6 +1627,13 @@ void WbMainWindow::exportHtml() {
 void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
+}
+
+void WbMainWindow::showUpdatedDialog() {
+  WbUpdatedDialog *updatedDialog = new WbUpdatedDialog(this);
+  updatedDialog->show();
+  updatedDialog->raise();
+  connect(updatedDialog, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
 }
 
 void WbMainWindow::showGuidedTour() {
@@ -2110,9 +2125,10 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   }
 #endif
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, this);
+  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
+  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));

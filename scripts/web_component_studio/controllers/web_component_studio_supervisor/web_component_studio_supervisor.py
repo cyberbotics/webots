@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Create a web component scene foreach robot of the robots.json file."""
+"""Create a web component scene foreach robot in the components.json file."""
 
 from controller import Supervisor
 import json

@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.0075 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0075",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.0075 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0075",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -92,49 +92,49 @@
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "-0.0245 0.0144 -0.012",
+      "transformOffset": "0.012 0.0245 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "-0.0185 0.0144 -0.021",
+      "transformOffset": "0.021 0.0185 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls2",
       "transformID": "n10",
-      "transformOffset": "-0.0075 0.0144 -0.027",
+      "transformOffset": "0.027 0.0075 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls3",
       "transformID": "n10",
-      "transformOffset": "0.0075 0.0144 -0.027",
+      "transformOffset": "0.027 -0.0075 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls4",
       "transformID": "n10",
-      "transformOffset": "0.0185 0.0144 -0.021",
+      "transformOffset": "0.021 -0.0185 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls5",
       "transformID": "n10",
-      "transformOffset": "0.0245 0.0144 -0.012",
+      "transformOffset": "0.012 -0.0245 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls6",
       "transformID": "n10",
-      "transformOffset": "0.009 0.0144 0.026",
+      "transformOffset": "-0.026 -0.009 0.0144",
       "type": "LightSensor"
     },
     {
       "name": "ls7",
       "transformID": "n10",
-      "transformOffset": "-0.009 0.0144 0.026",
+      "transformOffset": "-0.026 0.009 0.0144",
       "type": "LightSensor"
     },
     {

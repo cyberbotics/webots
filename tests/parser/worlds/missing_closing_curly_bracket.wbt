@@ -18,4 +18,5 @@ DirectionalLight {
   castShadows TRUE
 # error here: the closing curly bracket is missing: "}"
 RectangleArena {
+  rotation 1 0 0 -1.5708
 }

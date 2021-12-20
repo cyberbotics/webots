@@ -40,7 +40,7 @@ PROTO TorusBoundingObject [
     children [
        %< for (let i = 0; i < referenceCircle.length; ++i) { >%
         Transform {
-          translation %<= majorRadius * referenceCircle[i].x >% 0 %<= majorRadius * referenceCircle[i].y >%
+          translation %<= majorRadius * referenceCircle[i].x >% %<= majorRadius * referenceCircle[i].y >% 0
           children [
             Sphere {
               radius %<= minorRadius >%

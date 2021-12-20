@@ -46,7 +46,7 @@ void WbPhysicsVectorRepresentation::initializeTailAndArrow(const float *material
   // Create arrow & tail mesh
   const float tailVertices[6] = {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
 
-  const float arrowVertices[12] = {0.0f, -0.9f, 0.0f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, -1.0f, 0.0f};
+  const float arrowVertices[12] = {0.0f, 0.9f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.0f};
 
   const float arrowNormals[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 

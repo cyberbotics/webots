@@ -50,7 +50,7 @@ class WbWrenCamera : public QObject {
 
 public:
   enum CameraOrientation {
-    CAMERA_ORIENTATION_FRONT,
+    CAMERA_ORIENTATION_FRONT = 0,
     CAMERA_ORIENTATION_RIGHT,
     CAMERA_ORIENTATION_BACK,
     CAMERA_ORIENTATION_LEFT,
@@ -66,7 +66,6 @@ public:
 
   bool isSpherical() { return mIsSpherical; }
   bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
-  WrCamera *getSubCamera(int cameraIndex) { return mCamera[cameraIndex]; }
   WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
 
   WrTexture *getWrenTexture() const;
@@ -101,6 +100,7 @@ public:
 
   void enableTextureUpdateNotifications(bool enabled) { mNotifyOnTextureUpdate = enabled; }
 
+  void rotateRoll(float angle);
   void rotateYaw(float angle);
   void rotatePitch(float angle);
 

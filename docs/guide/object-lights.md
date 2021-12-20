@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CeilingLight {
   SFVec3f    translation                0 2.4 0
-  SFRotation rotation                   0 1 0 0
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
   MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_bulb.jpg"
@@ -69,7 +69,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CeilingSpotLight {
   SFVec3f    translation               0 1.0 0
-  SFRotation rotation                  0 1 0 0
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "ceiling light"
   SFNode     supportAppearance         DamascusSteel { }
   SFColor    spotLightColor            1 1 1
@@ -111,7 +111,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ConstructionLamp {
   SFVec3f    translation               0 0.07 0
-  SFRotation rotation                  0 1 0 0
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "construction lamp"
   SFNode     supportAppearance         MetalPipePaint { }
   SFColor    spotLightColor            1 1 1
@@ -154,7 +154,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DoubleFluorescentLamp {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "double fuorescent lamp"
   SFFloat    intensity       10
 }
@@ -184,7 +184,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FloorLight {
   SFVec3f    translation                0 0 0
-  SFRotation rotation                   0 1 0 0
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "floor light"
   SFColor    bulbColor                  1 1 1
   MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_bulb.jpg"

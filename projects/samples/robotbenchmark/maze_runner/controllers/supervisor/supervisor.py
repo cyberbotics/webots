@@ -15,11 +15,11 @@ except ImportError:
 
 
 def isPositionChanged(v1, v2):
-    return abs(v1[0] - v2[0]) > 0.001 or abs(v1[2] - v2[2]) > 0.001
+    return abs(v1[1] - v2[1]) > 0.001 or abs(v1[0] - v2[0]) > 0.001
 
 
 def isMazeEndReached(position):
-    return position[0] < 0.60 and position[0] > 0.45 and position[2] < 0.15 and position[2] > -0.15
+    return position[0] < 0.15 and position[0] > -0.15 and position[1] > -0.60 and position[1] < -0.45
 
 
 robot = Supervisor()
