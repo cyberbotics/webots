@@ -37,7 +37,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
-
+#include <QtCore/qdebug.h>
 #include <ode/ode.h>
 
 #include <cassert>
@@ -78,11 +78,17 @@ static void init() {
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
 
-  if (gDefaultDevice || gMute)  // init was already done or sound is mute
+  if (gDefaultDevice)  // init was already done or sound is mute
     return;
   qAddPostRoutine(cleanup);
   try {
+    const ALCchar *devices;
+    // Pass in NULL device handle to get list of *all* devices
+    devices = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
+
+    // defaultDeviceName contains the name of the def
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+    qDebug() << "devices:" << devices << "defaultDeviceName:" << defaultDeviceName;
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
@@ -96,6 +102,7 @@ static void init() {
   } catch (const QString &e) {
     WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
+  qDebug() << "gdevice" << gDefaultDevice << "gContext" << gContext;
   WbSoundEngine::updateListener();
 }
 
