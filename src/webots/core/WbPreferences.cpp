@@ -87,10 +87,13 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
 #ifdef _WIN32
   // "Monospace" isn't supported under Windows: the non-monospaced Arial font is loaded instead
   setDefault("Editor/font", "Consolas,10");
+  setDefault("General/theme", "webots_classic.qss");
 #elif defined(__APPLE__)
   setDefault("Editor/font", "Courier,14");  // "Monospace" isn't supported under MacOS
+  setDefault("General/theme", "webots_classic.qss");
 #else
   setDefault("Editor/font", "Monospace, 9");
+  setDefault("General/theme", "webots_night.qss");
 #endif  // "Consolas" seems to be a standard Windows monospaced font, so we use it instead
   setDefault("Internal/firstLaunch", true);
   setDefault("Movie/resolution", 6);  // 480p: 854 x 480
@@ -229,3 +232,8 @@ void WbPreferences::checkIsWritable() {
                    true);
 }
 #endif
+
+bool WbPreferences::booleanEnvironmentVariable(const QByteArray &variable) {
+  const QByteArray content = qgetenv(variable).toLower();
+  return !content.isEmpty() && content != "0" && content != "false";
+}

@@ -234,7 +234,7 @@ void WbController::start() {
   info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
-  if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_FIREJAIL_CONTROLLERS") && mRobot->findField("controller")) {
     mArguments.prepend(mCommand);
     mCommand = "firejail";
     QStringList firejailArguments;

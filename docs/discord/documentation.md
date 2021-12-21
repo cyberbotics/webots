@@ -2274,3 +2274,27 @@ No, there is no motion editor (except your favorite text editor 😉 or custom p
 ##### Tosidis 11/24/2021 13:03:39
 Hello, is there a way to change the coordinate system of an object? (e.g. mavic2Pro)
 
+##### sillyfoal 11/28/2021 11:01:34
+Does anybody know how i can access the Documentation, no matter what browser i use the page is blank
+
+
+
+%figure
+![Capture.PNG](https://cdn.discordapp.com/attachments/565155720933146637/914471128947367946/Capture.PNG)
+%end
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:04:16
+Works for me, which page are you trying to access?
+
+##### sillyfoal 11/28/2021 11:05:57
+Just the user guide, any link to the documentation just gives me that blank page
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:09:19
+Odd, I tried with 2 different IPs and different browsers but works for me. Try doing CTRL + F5 to clear the cache
+
+##### sillyfoal 11/28/2021 11:11:46
+I found the problem. I'm using my University's internet connection, and for some reason when using their internet it doesn't work, but on my phone's roaming connection i can access.
+
+##### DDaniel [Cyberbotics] 11/28/2021 11:13:21
+Interesting, can I ask you the country? Should work regardless
+

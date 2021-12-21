@@ -310,7 +310,7 @@ void WbGuiApplication::parseArguments() {
     mTask = NORMAL;
   }
 
-  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_SAFE_MODE")) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
     WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
@@ -373,7 +373,7 @@ bool WbGuiApplication::setup() {
     if (WbNewVersionDialog::run() != QDialog::Accepted) {
       mTask = QUIT;
       return false;
-    } else if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss")
+    } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
       udpateStyleSheet();
   }
 
@@ -480,7 +480,7 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showGuidedTour();
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
   return true;
 }
@@ -611,13 +611,8 @@ static void setDarkTitlebar(HWND hwnd) {
 #endif  // _WIN32
 
 void WbGuiApplication::udpateStyleSheet() {
-#ifdef __linux__
-  const QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_night.qss").toString();
-#else
-  const QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
-#endif
-
-  QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
+  mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
+  QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
   qssFile.open(QFile::ReadOnly);
   QString styleSheet = QString::fromUtf8(qssFile.readAll());
 
@@ -639,7 +634,7 @@ void WbGuiApplication::udpateStyleSheet() {
 
   qApp->setStyleSheet(styleSheet);
 #ifdef _WIN32
-  if (themeToLoad != "webots_classic.qss")
+  if (mThemeLoaded != "webots_classic.qss")
     windowsDarkMode = true;
 #endif
 }

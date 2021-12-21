@@ -34,8 +34,6 @@ class WbGeometry;
 class WbScaleManipulator;
 class WbViewpoint;
 
-#include <QtCore/QPointer>
-
 // Scale Cylinder
 class WbRescaleCylinderEvent : public WbRegularResizeEvent {
 public:
