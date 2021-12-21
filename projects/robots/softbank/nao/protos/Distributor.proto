@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Nao challenge distributor
 
 PROTO Distributor [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "distributor"
   field SFString   controller  "distributor"
   field SFBool     supervisor  FALSE          # Is `Robot.supervisor`.
@@ -22,11 +22,11 @@ Robot {
         roughness 0.4
       }
       geometry Box {
-        size 0.2 0.3 0.1
+        size 0.1 0.2 0.3
       }
     }
     TouchSensor {
-      translation 0 -0.1 0.055
+      translation 0.055 0 -0.1
       children [
         DEF DISTRIBUTOR_BUMPER_SHAPE Shape {
           appearance PBRAppearance {
@@ -35,7 +35,7 @@ Robot {
             roughness 0.4
           }
           geometry Box {
-            size 0.2 0.1 0.01
+            size 0.01 0.2 0.1
           }
         }
       ]
@@ -45,7 +45,7 @@ Robot {
       }
     }
     LED {
-      translation 0 0.05 0.05
+      translation 0.05 0 0.05
       children [
         Shape {
           appearance PBRAppearance {
@@ -54,7 +54,7 @@ Robot {
             roughness 0.4
           }
           geometry Box {
-            size 0.15 0.15 0.005
+            size 0.005 0.15 0.15
           }
         }
       ]

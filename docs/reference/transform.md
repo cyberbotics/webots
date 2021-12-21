@@ -4,9 +4,11 @@ Derived from [Group](group.md).
 
 ```
 Transform {
-  SFVec3f    translation 0 0 0     # any vector
-  SFRotation rotation    0 1 0 0   # unit axis, (-inf, inf) angle
-  SFVec3f    scale       1 1 1     # any vector
+  SFVec3f    translation     0 0 0     # any vector
+  SFRotation rotation        0 0 1 0   # unit axis, (-inf, inf) angle
+  SFVec3f    scale           1 1 1     # any vector
+  SFFloat    translationStep 0.01
+  SFFloat    rotationStep    0.261799387
 }
 ```
 
@@ -56,5 +58,8 @@ In the case of a `Cylinder`, *x y z* will be reset to *x z x*.
 If some value changes within one of the previous constrained scale fields, the two others are actuated using the new value and the corresponding constraint rule.
 Scaling is forbidden if a `Robot` is a descendant of the `Transform`.
 In this case, *x y z* will be reset to *1 1 1* and a warning will be printed.
+
+- The `translationStep` and `rotationStep` fields defines the minimum step size used by the translation and rotation handles appearing in the 3D view when the object is selected.
+If they are set to 0, then the step is disabled and translation and rotation are continuous.
 
 > **Note**: If a `Transform` is named using the [DEF](def-and-use.md) keyword and later referenced inside a `boundingObject` with a USE statement, the constraint corresponding to its first `Geometry` descendant applies to the `scale` fields of the defining `Transform` and of all its further references.

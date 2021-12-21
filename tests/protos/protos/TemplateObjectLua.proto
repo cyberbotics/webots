@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO TemplateObjectLua [
   field     SFColor    color             0.1 0.15 0.18

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3at
@@ -6,7 +6,7 @@
 
 PROTO Pioneer3at [
   field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0        # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-AT" # Is `Solid.name`.
   field SFString   controller      "void"         # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
@@ -244,7 +244,7 @@ PROTO Pioneer3at [
           ]
           name "back left wheel"
           boundingObject DEF BOUNDING_WHEEL Transform {
-            rotation 0 0 1 1.5708
+            rotation 0.577349 0.577351 0.577351 2.094396
             children [
               Cylinder {
                 height 0.095
@@ -611,7 +611,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_TOP_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
+          rotation 0 0 1 -1.5708
           translation 0.064 0 0.273
           children [
             Cylinder {
@@ -622,7 +622,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_TOP_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
+          rotation 0 0 1 -1.5708
           translation -0.0835 0 0.273
           children [
             Cylinder {
@@ -633,7 +633,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF FRONT_RING_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
+          rotation 0 0 1 -1.5708
           translation 0.106 0 0.247
           children [
             Cylinder {
@@ -644,7 +644,7 @@ PROTO Pioneer3at [
           ]
         }
         DEF BACK_RING_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
+          rotation 0 0 1 -1.5708
           translation -0.104 0 0.247
           children [
             Cylinder {
@@ -655,8 +655,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF LEFT_ANTENNA_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
-          translation 0 0.082 0.284
+          rotation 0 0 1 -1.5708
+          translation -0.0167 0.0828 0.284
           children [
             Cylinder {
               height 0.016
@@ -666,8 +666,8 @@ PROTO Pioneer3at [
           ]
         }
         DEF RIGHT_ANTENNA_CYLINDER Transform {
-          rotation -0.577352 0.577348 0.577352 -2.094405
-          translation 0 -0.087 0.284
+          rotation 0 0 1 -1.5708
+          translation -0.017 -0.0855 0.284
           children [
             Cylinder {
               height 0.016
@@ -714,7 +714,7 @@ PROTO Pioneer3at [
         }
         DEF FRONT_AXLE Transform {
           translation 0.134 0 0.111
-          rotation 0 1.0 0 -1.5708
+          rotation 0.577349 0.577351 0.577351 -2.094397
           children [
             DEF AXLE_CYLINDER Cylinder {
               height 0.4
@@ -725,7 +725,7 @@ PROTO Pioneer3at [
         }
         DEF BACK_AXLE Transform {
           translation -0.132 0 0.111
-          rotation 0 1.0 0 -1.5708
+          rotation 0.577349 0.577351 0.577351 -2.094397
           children [
             USE AXLE_CYLINDER
           ]

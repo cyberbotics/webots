@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   physics "emitter_receiver_physics"
   coordinateSystem "NUE"
@@ -14,9 +14,14 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   name "solid(1)"
@@ -54,11 +59,16 @@ DEF ROBOT_RADIO Robot {
         Transform {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
             Transform {
               translation 0 0.03 0
@@ -87,11 +97,16 @@ DEF ROBOT_RADIO Robot {
         Transform {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
             Transform {
               translation 0 0.03 0
@@ -120,11 +135,16 @@ DEF ROBOT_RADIO Robot {
         Transform {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
             Transform {
               translation 0 0.03 0

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.25324508529131295 0.9031223041657729 0.3467521167838787 1.97543
-  position 1.39288 1.23734 -0.390381
+  orientation -0.24320921960843714 -0.10076339438162439 0.9647258749770052 3.738781832049101
+  position 1.1311960874630498 0.7706073107755511 0.7862766750509965
 }
 TexturedBackground {
 }
@@ -41,28 +40,28 @@ DEF WALL2 Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.6 0 0.6
-            0.6 0 -0.6
-            -0.6 0 -0.6
-            -0.6 0 0.6
-            -0.59 0 0.6
-            -0.59 0 -0.59
-            0.59 0 -0.59
-            0.59 0 0.59
-            -0.59 0 0.59
-            -0.59 0 0.6
-            0.6 0 0.6
-            0.6 0.05 0.6
-            0.6 0.05 -0.6
-            -0.6 0.05 -0.6
-            -0.6 0.05 0.6
-            -0.59 0.05 0.6
-            -0.59 0.05 -0.59
-            0.59 0.05 -0.59
-            0.59 0.05 0.59
-            -0.59 0.05 0.59
-            -0.59 0.05 0.6
-            0.6 0.05 0.6
+            -0.6 -0.6 0
+            0.6 -0.6 0
+            0.6 0.6 0
+            -0.6 0.6 0
+            -0.6 0.59 0
+            0.59 0.59 0
+            0.59 -0.59 0
+            -0.59 -0.59 0
+            -0.59 0.59 0
+            -0.6 0.59 0
+            -0.6 -0.6 0
+            -0.6 -0.6 0.05
+            0.6 -0.6 0.05
+            0.6 0.6 0.05
+            -0.6 0.6 0.05
+            -0.6 0.59 0.05
+            0.59 0.59 0.05
+            0.59 -0.59 0.05
+            -0.59 -0.59 0.05
+            -0.59 0.59 0.05
+            -0.6 0.59 0.05
+            -0.6 -0.6 0.05
           ]
         }
         coordIndex [
@@ -75,7 +74,8 @@ DEF WALL2 Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.59 0.025 0
+        translation 0 -0.59 0.025
+        rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
@@ -86,21 +86,22 @@ DEF WALL2 Solid {
         ]
       }
       Transform {
-        translation -0.59 0.025 0
+        translation 0 0.59 0.025
+        rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.59
-        rotation 0 1 0 1.57
+        translation -0.59 0 0.025
+        rotation 1 0 0 1.5707964853
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.59
-        rotation 0 1 0 1.57
+        translation 0.59 0 0.025
+        rotation 1 0 0 1.5707964853
         children [
           USE WALL_SHAPE
         ]
@@ -110,10 +111,9 @@ DEF WALL2 Solid {
   locked TRUE
 }
 E-puck {
-  translation -0.369828 0 0.316283
-  rotation 0 1 0 4.7795
+  translation -0.369828 -0.316283 0
   controller "intermediate_lfm"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
 }

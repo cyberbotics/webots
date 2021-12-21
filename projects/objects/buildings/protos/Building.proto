@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable building, the size, appearance and geometry can fully be defined.
@@ -6,7 +6,7 @@
 
 PROTO Building [
   field SFVec3f     translation            0 0 0
-  field SFRotation  rotation               0 1 0 0
+  field SFRotation  rotation               0 0 1 0
   field SFString    name                   "building"                                 # Defines the name of the building.
   field SFFloat     floorHeight            3                                          # Defines the height of one floor.
   field SFInt32     floorNumber            3                                          # Defines the number of floors (excluding roof).
@@ -221,9 +221,9 @@ PROTO Building [
                 point [
                   %< for (let i = 0; i < nbCorners; ++i) { >%
                     # bottom
-                    %<= corners[i].x >% %<= (j + startingFloor - 1)*floorHeight >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= (j + startingFloor - 1)*floorHeight >%
                     # top
-                    %<= corners[i].x >% %<= (j + startingFloor)*floorHeight >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= (j + startingFloor)*floorHeight >%
                   %< } >%
                 ]
               }
@@ -239,9 +239,9 @@ PROTO Building [
               coordIndex [
                 # Sides
                 %< for (let i = 0; i <= nbCorners - 2; ++i) { >%
-                  %<= i * 2 >% %<= i * 2 + 1 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                  %<= i * 2 + 1 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% %<= i * 2 >% -1
                 %< } >%
-                %<= (nbCorners - 1) * 2 >% %<= (nbCorners - 1) * 2 + 1 >% %<= 1 >% %<= 0 >% -1
+                0 1 %<= (nbCorners - 1) * 2 + 1 >% %<= (nbCorners - 1) * 2 >% -1
               ]
               texCoordIndex [
                 # Sides
@@ -260,14 +260,14 @@ PROTO Building [
                 point [
                   %< for (let i = 0; i < nbCorners; ++i) { >%
                     # bottom
-                    %<= corners[i].x >% %<= (groundFloorNumber + startingFloor) * floorHeight >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= (groundFloorNumber + startingFloor) * floorHeight >%
                     # top
-                    %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                   %< } >%
                   %< if (roofShape === 'gabled roof') { >%
                     # In case of gabled roof we need to add 2 points for the walls
-                    %<= middlePoint1.x >% %<= height + roofHeight >% %<= middlePoint1.y >%
-                    %<= middlePoint2.x >% %<= height + roofHeight >% %<= middlePoint2.y >%
+                    %<= middlePoint1.x >% %<= middlePoint1.y >% %<= height + roofHeight >%
+                    %<= middlePoint2.x >% %<= middlePoint2.y >% %<= height + roofHeight >%
                   %< } >%
                 ]
               }
@@ -289,17 +289,17 @@ PROTO Building [
                   %< if (roofShape === 'gabled roof') { >%
                     # In case of gabled roof, 2 sides have 5 points
                     %< if (i === 0) { >%
-                      %<= i * 2 >% %<= i * 2 + 1 >% %<= 8 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                      %<= i * 2 + 2 >% %<= i * 2 + 3 >% 8 %<= i * 2 + 1 >% %<= i * 2 >% -1
                     %< } else if (i === 2) { >%
-                      %<= i * 2 >% %<= i * 2 + 1 >% %<= 9 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                      %<= i * 2 + 2 >% %<= i * 2 + 3 >% 9 %<= i * 2 + 1 >% %<= i * 2 >% -1
                     %< } else { >%
-                      %<= i * 2 >% %<= i * 2 + 1 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                      %<= i * 2 + 2 >% %<= i * 2 + 3 >% %<= i * 2 + 1 >% %<= i * 2 >% -1
                     %< } >%
                   %< } else { >%
-                    %<= i * 2 >% %<= i * 2 + 1 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                    %<= i * 2 + 2 >% %<= i * 2 + 3 >% %<= i * 2 + 1 >% %<= i * 2 >% -1
                   %< } >%
                 %< } >%
-                %<= (nbCorners - 1) * 2 >% %<= (nbCorners - 1) * 2 + 1 >% %<= 1 >% %<= 0 >% -1
+                0 1 %<= (nbCorners - 1) * 2 + 1 >% %<= (nbCorners - 1) * 2 >% -1
               ]
               texCoordIndex [
                 # Sides
@@ -330,7 +330,7 @@ PROTO Building [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbCorners; ++i) { >%
-                    %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                   %< } >%
                 ]
               }
@@ -343,7 +343,7 @@ PROTO Building [
               }
               coordIndex [
                 %< for (let i = 0; i < nbCorners; ++i) { >%
-                  %<= (nbCorners - i) - 1 >%
+                  %<= i >%
                 %< } >%
                 -1
               ]
@@ -357,9 +357,9 @@ PROTO Building [
             %< } else if (roofShape === 'pyramidal roof') { >%
               coord Coordinate {
                 point [
-                    %<= center.x >% %<= height + roofHeight >% %<= center.y >%
+                    %<= center.x >% %<= center.y >% %<= height + roofHeight >%
                   %< for (let i = 0; i < nbCorners; ++i) { >%
-                    %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                   %< } >%
                 ]
               }
@@ -377,9 +377,9 @@ PROTO Building [
               }
               coordIndex [
                 %< for (let i = 1; i <= nbCorners - 1; ++i) { >%
-                  %<= 0 >% %<= i + 1 >% %<= i >%  -1
+                  %<= i >% %<= i + 1 >% 0 -1
                 %< } >%
-                %<= 0 >% %<= 1 >% %<= nbCorners >% -1
+                %<= nbCorners >% 1 0 -1
               ]
               texCoordIndex [
                 %< for (let i = 0; i <= nbCorners - 1; ++i) { >%
@@ -390,10 +390,10 @@ PROTO Building [
             %< } else if (roofShape === 'hipped roof') { >%
               coord Coordinate {
                 point [
-                    %<= hippedPoint1.x >% %<= height + roofHeight >% %<= hippedPoint1.y >%
-                    %<= hippedPoint2.x >% %<= height + roofHeight >% %<= hippedPoint2.y >%
+                    %<= hippedPoint1.x >% %<= hippedPoint1.y >% %<= height + roofHeight >%
+                    %<= hippedPoint2.x >% %<= hippedPoint2.y >% %<= height + roofHeight >%
                   %< for (let i = 0; i < nbCorners; ++i) { >%
-                    %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                   %< } >%
                 ]
               }
@@ -412,10 +412,10 @@ PROTO Building [
                 ]
               }
               coordIndex [
-                %<= 1 >% %<= 0 >% %<= 2 >% %<= 5 >% -1
-                %<= 0 >% %<= 1 >% %<= 4 >% %<= 3 >% -1
-                %<= 0 >% %<= 3 >% %<= 2 >% -1
-                %<= 1 >% %<= 5 >% %<= 4 >% -1
+                5 2 0 1 -1
+                3 4 1 0 -1
+                2 3 0 -1
+                4 5 1 -1
               ]
               texCoordIndex [
                 %<= 0 >% %<= 1 >% %<= 2 >% %<= 3 >% -1
@@ -428,10 +428,10 @@ PROTO Building [
             %< } else if (roofShape === 'gabled roof') { >%
               coord Coordinate {
                 point [
-                    %<= middlePoint1.x >% %<= height + roofHeight >% %<= middlePoint1.y >%
-                    %<= middlePoint2.x >% %<= height + roofHeight >% %<= middlePoint2.y >%
+                    %<= middlePoint1.x >% %<= middlePoint1.y >% %<= height + roofHeight >%
+                    %<= middlePoint2.x >% %<= middlePoint2.y >% %<= height + roofHeight >%
                   %< for (let i = 0 ; i < nbCorners; ++i) { >%
-                    %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                    %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                   %< } >%
                 ]
               }
@@ -446,12 +446,12 @@ PROTO Building [
                 ]
               }
               coordIndex [
-                %<= 1 >% %<= 0 >% %<= 2 >% %<= 5 >% -1
-                %<= 0 >% %<= 1 >% %<= 4 >% %<= 3 >% -1
+                5 2 0 1 -1
+                3 4 1 0 -1
               ]
               texCoordIndex [
-                %<= 0 >% %<= 1 >% %<= 2 >% %<= 3 >% -1
-                %<= 4 >% %<= 5 >% %<= 2 >% %<= 3 >% -1
+                0 1 2 3 -1
+                4 5 2 3 -1
               ]
             %< } >%
           }
@@ -468,13 +468,13 @@ PROTO Building [
             coord Coordinate {
               point [
                 %< for (let i = 0; i < nbCorners; ++i) { >%
-                  %<= corners[i].x >% %<= startingFloor * floorHeight >% %<= corners[i].y >%
+                  %<= corners[i].x >% %<= corners[i].y >% %<= startingFloor * floorHeight >%
                 %< } >%
               ]
             }
             coordIndex [
               %< for (let i = 0; i <= nbCorners - 1; ++i) { >%
-                %<= i >%
+                %<= (nbCorners - i) - 1 >%
               %< } >%
               -1
             ]
@@ -491,18 +491,18 @@ PROTO Building [
               point [
                 %< for (let i = 0; i < nbCorners; ++i) { >%
                   # bottom
-                  %<= corners[i].x >% %<= startingFloor * floorHeight >% %<= corners[i].y >%
+                  %<= corners[i].x >% %<= corners[i].y >% %<= startingFloor * floorHeight >%
                   # top
-                  %<= corners[i].x >% %<= height >% %<= corners[i].y >%
+                  %<= corners[i].x >% %<= corners[i].y >% %<= height >%
                 %< } >%
               ]
             }
             coordIndex [
               # Sides
               %< for (let i = 0; i <= nbCorners - 2; ++i) { >%
-                %<= i * 2 >% %<= i * 2 + 1 >% %<= i * 2 + 3 >% %<= i * 2 + 2 >% -1
+                %<= i * 2 + 2 >% %<= i * 2 + 3 >% %<= i * 2 + 1 >% %<= i * 2 >% -1
               %< } >%
-              %<= (nbCorners - 1) * 2 >% %<= (nbCorners - 1) * 2 + 1 >% %<= 1 >% %<= 0 >% -1
+              0 1 %<= (nbCorners - 1) * 2 + 1 >% %<= (nbCorners - 1) * 2 >% -1
             ]
           }
           USE ROOF

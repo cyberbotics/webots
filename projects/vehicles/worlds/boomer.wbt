@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Boomer 3050 Tractor"
@@ -6,7 +6,6 @@ WorldInfo {
   title "Boomer 3050 Tractor"
   ERP 0.7
   basicTimeStep 20
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -15,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.10571301981600961 0.9673411383163714 0.23038202959902687 3.93451
-  position -5.40748 5.63732 -5.67547
+  orientation 0.003971713183190687 -0.6884844601886132 -0.7252402178403956 5.70975447953216
+  position -7.929210770620571 -3.311988918169612 5.802308724278821
   follow "vehicle"
   followSmoothness 0
 }
@@ -48,17 +47,17 @@ DEF FLOOR Solid {
   boundingObject USE PLANE_SHAPE
 }
 DEF BOOMER_T3050 Tractor {
-  translation 0 2.14471 0
-  rotation 0 0 -1 0.0707971
+  translation 0 0 2.14471
+  rotation 1 0 0 0.0707971
   controller "boomer"
   sensorSlot [
     Camera {
-      translation -8.630814e-10 0.97344943 1.9889894
-      rotation -3.592801893310027e-10 0.9971888181431856 -0.07492970686047722 3.1415926
+      translation 1.98899 0 0.973449
+      rotation 0 1 0 -0.1499953071795863
       children [
         Transform {
-          translation 0 0 0.05
-          rotation 1 0 0 1.5708
+          translation -0.05 0 0
+          rotation 0 -1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -77,8 +76,8 @@ DEF BOOMER_T3050 Tractor {
       width 128
     }
     SickLms291 {
-      translation -2.4859527e-10 0.57400942 2.311692
-      rotation 0 0.9975390707399396 -0.07011278305200722 3.1415926
+      translation 2.31169 0 0.574009
+      rotation 0 -1 0 0.140345
     }
     GPS {
     }

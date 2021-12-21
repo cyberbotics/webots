@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # TIAGo robot's body from PAL Robotics.
@@ -6,7 +6,7 @@
 
 PROTO TiagoBody [
   field  SFVec3f     translation   -0.054 0 0.193
-  field  SFRotation  rotation      0 1 0 0
+  field  SFRotation  rotation      0 0 1 0
   field  MFNode      cameraSlot    []              # Extends the robot with a camera at head level.
   field  MFNode      rightArmSlot  []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
   field  MFNode      frontArmSlot  []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
@@ -343,7 +343,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.008 -0.019 0
-                            rotation 1 0 0 -1.5708
+                            rotation 0 0 1 -1.5708
                             children [
                               Cylinder {
                                 height 0.132
@@ -361,7 +361,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.053 0.056 -0.068
-                            rotation 0 0 1 -1.5708
+                            rotation 0 1 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.111
@@ -371,7 +371,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.053 0.056 0.068
-                            rotation 0 0 1 -1.5708
+                            rotation 0 1 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.111
@@ -393,6 +393,7 @@ PROTO TiagoBody [
                   children [
                     Transform {
                       translation 0.01 0 0.097
+                      rotation 1 0 0 -1.5708
                       children [
                         Cylinder {
                           height 0.09

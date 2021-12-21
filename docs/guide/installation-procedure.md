@@ -89,7 +89,7 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 you should download the `webots-R2020b-x86-64_ubuntu-18.04.tar.bz2` package.
+Note that for the old Ubuntu versions 18.04 you should download the `webots-R2022a-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.
@@ -124,7 +124,11 @@ Execute the following command to install *ffmpeg* with *x264* support:
 ```sh
 conda install x264 ffmpeg -c conda-forge
 ```
-
+For SUMO, you will need to install libxerces-c-devel, libproj-devel, libgdal-devel, and fox16-devel.
+Execute the following commands to enable SUMO on Debian / Ubuntu based distributions:
+```sh
+sudo apt-get install libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev
+```
 
 #### Installing the Snap Package
 
@@ -156,7 +160,7 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
-##### Install Docker
+##### Install Docker
 
 Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
 
@@ -169,7 +173,7 @@ To pull the image and start a docker container with it use the following command
 docker run -it cyberbotics/webots:latest
 ```
 
-> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2020b-rev1-ubuntu20.04`).
+> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2021b-ubuntu20.04`).
 
 After starting the docker container you can start Webots headlessly using xvfb:
 ```

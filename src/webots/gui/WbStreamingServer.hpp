@@ -52,6 +52,7 @@ protected slots:
 protected:
   virtual void create(int port);
   virtual void stop();
+  // cppcheck-suppress virtualCallInConstructor
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);

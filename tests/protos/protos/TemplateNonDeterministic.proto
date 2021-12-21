@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # tags: nonDeterministic
 # template language: javascript
 
 PROTO TemplateNonDeterministic [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFFloat    width       0.01
   field SFInt32    seed        0
 ]

@@ -12,7 +12,7 @@ This allows to store the position and orientation of the PROTO instances.
 "TwoColorChair.proto":
 
 ```
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://www.cyberbotics.com/doc/guide/object-chairs
@@ -20,7 +20,7 @@ This allows to store the position and orientation of the PROTO instances.
 
 PROTO TwoColorChair [
   field SFVec3f    translation       0 0.91 0
-  field SFRotation rotation          0 1 0 0
+  field SFRotation rotation          0 0 1 0
   field SFString   name              "two-color chair"
   field SFColor    legColor          1 1 0
   field SFColor    seatColor         1 0.65 0
@@ -88,7 +88,7 @@ Field values which differ from the default must be specified.
 "ThreeChairs.wbt":
 
 ```
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 WorldInfo {
 }

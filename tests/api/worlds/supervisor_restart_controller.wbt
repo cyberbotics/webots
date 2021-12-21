@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Test world resetting a robot controller and checking it is restarted correctly"
@@ -19,6 +19,7 @@ PointLight {
   location 0 0.3 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 Solid {
   translation 0.4 0.05 -0.18
@@ -56,6 +57,7 @@ DEF MY_BOT Robot {
   children [
     Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.57079632679
       children [
         Shape {
           appearance Appearance {
@@ -88,7 +90,7 @@ DEF MY_BOT Robot {
         rotation 1 0 0 -2.55421
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance Appearance {
@@ -141,7 +143,7 @@ DEF MY_BOT Robot {
       rotation 0 1 0 2.2253
       children [
         DEF SENSOR_TRANSFORM Transform {
-          rotation 0 0 1 1.57
+          rotation 0 1 0 -1.57
           children [
             Shape {
               appearance Appearance {
@@ -185,6 +187,7 @@ DEF MY_BOT Robot {
   name "MyBot"
   boundingObject DEF MYBOT_BOUNDING Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.57079632679
     children [
       USE BODY
     ]

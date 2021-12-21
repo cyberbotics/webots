@@ -1,16 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of a simple LinearMotor device."
   ]
   title "Linear Motor"
   basicTimeStep 16
-  coordinateSystem "NUE"
   lineScale 0.02
 }
 Viewpoint {
-  orientation 0.2115037393377376 0.9696597369637928 0.1225812496161725 5.2548879
-  position -0.16355032 0.09498183 0.14039713
+  orientation 0.12496753182684382 0.9467719203897065 -0.29665813110497075 0.8637062079644805
+  position -0.165011117377324 -0.037533428750737924 0.2161197043596873
 }
 TexturedBackground {
 }
@@ -23,15 +22,15 @@ DEF ROBOT Robot {
     SliderJoint {
       jointParameters JointParameters {
         position 0.05
-        axis 1 0 0
+        axis 0 -1 0
       }
       device [
         LinearMotor {
         }
       ]
       endPoint Solid {
-        translation 0.05 0.005 -0.014
-        rotation 1 0 0 1.5708
+        translation 0.015 -0.05 0.005
+        rotation 0 1 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -40,16 +39,17 @@ DEF ROBOT Robot {
               metalness 0
             }
             geometry Cylinder {
-              bottom FALSE
               height 0.02
               radius 0.001
+              top FALSE
             }
           }
         ]
       }
     }
     DEF BASIS_GROUP Transform {
-      translation 0.1025 0.005 -0.03
+      translation 0.03 -0.1025 0
+      rotation 0 -1 0 1.570795
       children [
         Shape {
           appearance PBRAppearance {
@@ -57,7 +57,7 @@ DEF ROBOT Robot {
             metalness 0
           }
           geometry Box {
-            size 0.25 0.01 0.02
+            size 0.02 0.25 0.01
           }
         }
       ]
@@ -75,14 +75,14 @@ DEF ROBOT Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.204 0.001 0.015
-            0.204 0.001 -0.015
-            0.204 0 0.015
-            0.204 0 -0.015
-            -0.0042 0.001 0.015
-            -0.0042 0.001 -0.015
-            -0.0042 0 0.015
-            -0.0042 0 -0.015
+            -0.015 -0.204 0.001
+            0.015 -0.204 0.001
+            -0.015 -0.204 0
+            0.015 -0.204 0
+            -0.015 0.0042 0.001
+            0.015 0.0042 0.001
+            -0.015 0.0042 0
+            0.015 0.0042 0
           ]
         }
         texCoord TextureCoordinate {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic and customizable landing model for straight stairs.
@@ -6,9 +6,9 @@
 
 PROTO StraightStairsLanding [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "straight stairs landing"
-  field SFVec3f    landingSize     0.4 0.03 1.27                                                      # Defines the size of the landing.
+  field SFVec3f    landingSize     0.4 1.27 0.03                                                     # Defines the size of the landing.
   field SFFloat    height          2.0                                                                # Defines the height of the landing.
   field SFVec2f    stringerSize    0.3 0.02                                                           # Defines the height and width of the stringer.
   field SFBool     stringerLeft    TRUE                                                               # Defines whether the left part of the stringer should be included.
@@ -52,7 +52,7 @@ PROTO StraightStairsLanding [
     rotation IS rotation
     children [
       DEF LANDING_SHAPE Transform {
-        translation 0 %<= height >% 0
+        translation 0 0 %<= height >%
         children [
           Shape {
             appearance IS floorAppearance
@@ -63,17 +63,17 @@ PROTO StraightStairsLanding [
         ]
       }
       Transform {
-        translation 0 %<= height >% 0
+        translation 0 0 %<= height >% 
         children IS rail
       }
       %< if (fields.stringerRight.value) { >%
         Solid {
-          translation 0 %<= height >% %<= (landingSize.z + stringerSize.y) * 0.5 >%
+          translation 0 %<= (-landingSize.y - stringerSize.y) * 0.5 >% %<= height >%
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %<= landingSize.x >% %<= stringerSize.x >% %<= stringerSize.y >%
+                size %<= landingSize.x >% %<= stringerSize.y >% %<= stringerSize.x >%
               }
             }
           ]
@@ -84,12 +84,12 @@ PROTO StraightStairsLanding [
       %< } >%
       %< if (fields.stringerLeft.value) { >%
         Solid {
-          translation 0 %<= height >% %<= (-landingSize.z - stringerSize.y) * 0.5 >%
+          translation 0 %<= (landingSize.y + stringerSize.y) * 0.5 >% %<= height >%
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %<= landingSize.x >% %<= stringerSize.x >% %<= stringerSize.y >%
+                size %<= landingSize.x >% %<= stringerSize.y >% %<= stringerSize.x >%
               }
             }
           ]
@@ -100,12 +100,12 @@ PROTO StraightStairsLanding [
       %< } >%
       %< if (fields.stringerBack.value) { >%
         Solid {
-          translation %<= (landingSize.x + stringerSize.y) * 0.5 >% %<= height >% 0
+          translation %<= (landingSize.x + stringerSize.y) * 0.5 >% 0 %<= height >%
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %<= stringerSize.y >% %<= stringerSize.x >% %<= landingSize.z >%
+                size %<= stringerSize.y >% %<= landingSize.y >% %<= stringerSize.x >%
               }
             }
           ]
@@ -116,12 +116,12 @@ PROTO StraightStairsLanding [
       %< } >%
       %< if (supportPoleSize.x > 0 && supportPoleSize.y) { >%
         Solid {
-          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= height*0.5>% %<= (landingSize.z - supportPoleSize.y) * 0.5 >%
+          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= (-landingSize.y + supportPoleSize.y) * 0.5 >% %<= height*0.5>%
           children [
             DEF POLE Shape {
               appearance IS appearance
               geometry Box {
-                size %<= supportPoleSize.x >% %<= height - landingSize.y * 0.5 >% %<= supportPoleSize.y >%
+                size %<= supportPoleSize.x >% %<= supportPoleSize.y >% %<= height - landingSize.z * 0.5 >%
               }
             }
           ]
@@ -130,7 +130,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5 >% %<= height*0.5 >% %<= (landingSize.z - supportPoleSize.y) * 0.5 >%
+          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5 >% %<= (-landingSize.y + supportPoleSize.y) * 0.5 >% %<= height*0.5 >%
           children [
             USE POLE
           ]
@@ -139,7 +139,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5>% %<= height*0.5 >% %<= (-landingSize.z + supportPoleSize.y) * 0.5 >%
+          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5>% %<= (landingSize.y - supportPoleSize.y) * 0.5 >% %<= height*0.5 >%
           children [
             USE POLE
           ]
@@ -148,7 +148,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= height*0.5 >% %<= (-landingSize.z + supportPoleSize.y) * 0.5 >%
+          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= (landingSize.y - supportPoleSize.y) * 0.5 >% %<= height*0.5 >%
           children [
             USE POLE
           ]

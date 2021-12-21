@@ -30,14 +30,18 @@ jobs:
     steps:
     - uses: msys2/setup-msys2@v2
       with:
-        update: true
+        update: false
+        install: >-
+          git
+          openssh
     - uses: actions/checkout@v2
       with:
          submodules: true
-    - name: Install Visual Studio 10 and OpenJDK 8
+         fetch-depth: 15
+    - name: Install Visual Studio 10 and OpenJDK 17
       shell: powershell
       run: |
-        choco install jdk8
+        choco install openjdk17
         choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
@@ -45,7 +49,7 @@ jobs:
         export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
-        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_211' >> ~/.bash_profile
+        echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
         echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
@@ -64,7 +68,6 @@ jobs:
     - name: Deploy Webots Controller
       if: ${{ github.event_name == 'schedule' }}
       run: |
-        pacman -S --noconfirm git openssh
         export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
         mkdir ~/.ssh
         ssh-keyscan -H github.com > ~/.ssh/known_hosts

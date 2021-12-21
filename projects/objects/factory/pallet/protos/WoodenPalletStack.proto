@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -7,10 +7,10 @@
 
 PROTO WoodenPalletStack [
   field SFVec3f    translation              0 0 0
-  field SFRotation rotation                 0 1 0 0
+  field SFRotation rotation                 0 0 1 0
   field SFString   name                     "wooden pallet stack"
   field SFInt32    palletNumber             8                      # Defines the number of pallet in the stack (vertically).
-  field SFVec3f    palletSize               0.8 0.14 1.2           # Defines the size of one pallet.
+  field SFVec3f    palletSize               1.2 0.8 0.14           # Defines the size of one pallet.
   field SFInt32    palletLathNumber         6                      # Defines the number of lath of each pallets.
   field SFFloat    palletLathWidth          0.08                   # Defines the width of the pallet laths.
   field SFFloat    lateralMisalignment      0.1                    # Defines the maximum lateral misalignment between two pallets.
@@ -40,18 +40,18 @@ PROTO WoodenPalletStack [
   if (lateralMisalignment < 0) {
     lateralMisalignment = 0;
     console.error('\'lateralMisalignment\' must be positive or zero. Value set to ' + lateralMisalignment + '.');
-  } else if (lateralMisalignment > palletSize.x * 0.5) {
-    lateralMisalignment = palletSize.x * 0.5;
-    console.error('\'lateralMisalignment\' must be smaller than half of first component of \'size\'. Value reset to ' + lateralMisalignment + '.');
+  } else if (lateralMisalignment > palletSize.y * 0.5) {
+    lateralMisalignment = palletSize.y * 0.5;
+    console.error('\'lateralMisalignment\' must be smaller than half of second component of \'size\'. Value reset to ' + lateralMisalignment + '.');
   }
 
   let longitudinalMisalignment = fields.longitudinalMisalignment.value;
   if (longitudinalMisalignment < 0) {
     longitudinalMisalignment = 0;
     console.error('\'longitudinalMisalignment\' must be positive or zero. Value set to ' + longitudinalMisalignment + '.');
-  } else if (longitudinalMisalignment > palletSize.z * 0.5) {
-    longitudinalMisalignment = palletSize.z * 0.5;
-    console.error('\'longitudinalMisalignment\' must be smaller than half of third component of \'size\'. Value reset to ' + longitudinalMisalignment + '.');
+  } else if (longitudinalMisalignment > palletSize.x * 0.5) {
+    longitudinalMisalignment = palletSize.x * 0.5;
+    console.error('\'longitudinalMisalignment\' must be smaller than half of first component of \'size\'. Value reset to ' + longitudinalMisalignment + '.');
   }
 
   let maxLateralMisalignment = 0;
@@ -66,14 +66,14 @@ Solid {
     %< for (let i = 0; i <= palletNumber - 1; ++i) { >%
       WoodenPallet {
         %<
-          const xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
-          const yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
-          if (Math.abs(xOffset) > maxLateralMisalignment)
-            maxLateralMisalignment = xOffset;
-          if (Math.abs(yOffset) > maxLongitudinalMisalignment)
+          const yOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
+          const xOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
+          if (Math.abs(yOffset) > maxLateralMisalignment)
+            maxLateralMisalignment = yOffset;
+          if (Math.abs(xOffset) > maxLongitudinalMisalignment)
             maxLongitudinalMisalignment = xOffset;
         >%
-        translation %<= xOffset >% %<= i * palletSize.y >% %<= yOffset >%
+        translation %<= xOffset >% %<= yOffset >% %<= i * palletSize.z >%
         name %<= '"wooden pallet' + i + '"' >%
         size %<= palletSize.x >% %<= palletSize.y >% %<= palletSize.z >%
         lathNumber IS palletLathNumber
@@ -87,11 +87,11 @@ Solid {
   model "wooden pallet stack"
   %< if (fields.boundingObject.value) { >%
   boundingObject Transform {
-    translation 0 %<= palletSize.y * palletNumber * 0.5 >% 0
+    translation 0 0 %<= palletSize.z * palletNumber * 0.5 >%
     children
     [
       Box {
-        size %<= palletSize.x + maxLateralMisalignment >% %<= palletSize.y * palletNumber >% %<= palletSize.z + maxLongitudinalMisalignment >%
+        size %<= palletSize.x + maxLongitudinalMisalignment >% %<= palletSize.y + maxLateralMisalignment >% %<= palletSize.z * palletNumber >%
       }
     ]
   }

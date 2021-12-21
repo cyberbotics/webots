@@ -1,8 +1,7 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -67,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.22492161633715926 -0.9464493204166238 -0.23161163698568923 1.594940076251099
-  position -93.17160000000001 22.5394 49.4169
+  orientation -0.19884042049686187 0.1891995425947396 0.96159555960839 1.657752561043425
+  position -47.12421008954344 -9.254277030216358 23.911145154206356
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -84,7 +83,6 @@ Fog {
 }
 SumoInterface {
   gui FALSE
-  useNetconvert FALSE
 }
 DEF GROUND Solid {
   boundingObject DEF GROUND_PLANE Plane {
@@ -93,7 +91,7 @@ DEF GROUND Solid {
   locked TRUE
 }
 DEF GROUND_SHAPE Solid {
-  translation 0 -0.02 0
+  translation 0 0 -0.02
   children [
     Shape {
       appearance PBRAppearance {
@@ -119,8 +117,8 @@ DEF GROUND_SHAPE Solid {
   locked TRUE
 }
 CurvedRoadSegment {
-  translation -4.5 0.02 64.5
-  rotation 0 1 0 4.71239
+  translation -64.5 4.5 0.02
+  rotation 0 0 1 1.5708
   id "0"
   startJunction "40"
   endJunction "26"
@@ -140,8 +138,8 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -4.5 0.02 105
-  rotation 0 1 0 1.5708
+  translation -105 4.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(1)"
   id "1"
   startJunction "40"
@@ -162,7 +160,8 @@ StraightRoadSegment {
   length 69
 }
 CurvedRoadSegment {
-  translation 64.5 0.02 64.5
+  translation -64.5 -64.5 0.02
+  rotation 0 0 1 3.14156
   name "road(2)"
   id "2"
   startJunction "38"
@@ -183,8 +182,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation 105 0.02 64.5
-  rotation 0 1 0 3.1416
+  translation -64.5 -105 0.02
   name "road(3)"
   id "3"
   startJunction "38"
@@ -205,8 +203,8 @@ StraightRoadSegment {
   length 69
 }
 CurvedRoadSegment {
-  translation 64.5 0.02 -4.5
-  rotation 0 1 0 1.5708
+  translation 4.5 -64.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(4)"
   id "4"
   startJunction "25"
@@ -227,8 +225,8 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 RoadIntersection {
-  translation 45 0.02 -45
-  rotation 0 1 0 0.785398
+  translation 45 -45 0.02
+  rotation 0 0 1 0.785398
   id "25"
   connectedRoadIDs [
     "9"
@@ -258,8 +256,8 @@ RoadIntersection {
   startRoadBorder FALSE
 }
 StraightRoadSegment {
-  translation -4.5 0.02 -45
-  rotation 0 1 0 1.5708
+  translation 45 4.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(5)"
   id "5"
   startJunction "43"
@@ -280,8 +278,7 @@ StraightRoadSegment {
   length 30
 }
 CurvedRoadSegment {
-  translation -4.5 0.02 -4.5
-  rotation 0 1 0 3.1416
+  translation 4.5 4.5 0.02
   name "road(6)"
   id "6"
   startJunction "44"
@@ -302,8 +299,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -45 0.02 25.5
-  rotation 0 1 0 3.1416
+  translation -25.5 45 0.02
   name "road(7)"
   id "7"
   startJunction "26"
@@ -324,8 +320,8 @@ StraightRoadSegment {
   length 30
 }
 RoadIntersection {
-  translation -45 0.02 45
-  rotation 0 1 0 0.785398
+  translation -45 45 0.02
+  rotation 0 0 1 0.785398
   name "road intersection(1)"
   id "26"
   connectedRoadIDs [
@@ -356,8 +352,8 @@ RoadIntersection {
   startRoadBorder FALSE
 }
 RoadIntersection {
-  translation -93 0.02 -105
-  rotation 0 1 0 0.785398
+  translation 105 93 0.02
+  rotation 0 0 1 0.785398
   name "road intersection(2)"
   id "27"
   connectedRoadIDs [
@@ -388,7 +384,8 @@ RoadIntersection {
   startRoadBorder FALSE
 }
 CurvedRoadSegment {
-  translation 4.5 0.02 4.5
+  translation -4.5 -4.5 0.02
+  rotation 0 0 1 3.14156
   name "road(8)"
   id "8"
   startJunction "42"
@@ -409,8 +406,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation 45 0.02 4.5
-  rotation 0 -1 0 3.14158
+  translation -4.5 -45 0.02
   name "road(9)"
   id "9"
   startJunction "42"
@@ -431,8 +427,8 @@ StraightRoadSegment {
   length 30
 }
 CurvedRoadSegment {
-  translation 4.5 0.02 -64.5
-  rotation 0 1 0 1.5708
+  translation 64.5 -4.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(10)"
   id "10"
   startJunction "45"
@@ -453,8 +449,8 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation 97.5 0.02 -75
-  rotation 0 1 0 1.5708
+  translation 75 -97.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(11)"
   id "11"
   startJunction "35"
@@ -475,7 +471,8 @@ CurvedRoadSegment {
   curvatureRadius 90
 }
 StraightRoadSegment {
-  translation -93 0.02 -85.5
+  translation 85.5 93 0.02
+  rotation 0 0 1 3.14156
   name "road(12)"
   id "12"
   startJunction "27"
@@ -496,8 +493,8 @@ StraightRoadSegment {
   length 9
 }
 StraightRoadSegment {
-  translation 187.5 0.02 -75
-  rotation 0 -1 0 6.28318
+  translation 75 -187.5 0.02
+  rotation 0 0 -1 3.14156
   name "road(13)"
   id "13"
   startJunction "36"
@@ -517,8 +514,8 @@ StraightRoadSegment {
   length 250
 }
 StraightRoadSegment {
-  translation -52.5 0.02 -165
-  rotation 0 1 0 1.5708
+  translation 165 52.5 0.02
+  rotation 0 0 1 -1.5708
   name "road(14)"
   id "14"
   startJunction "34"
@@ -539,7 +536,8 @@ StraightRoadSegment {
   length 150
 }
 StraightRoadSegment {
-  translation -231 0.02 -64.5
+  translation 64.5 231 0.02
+  rotation 0 0 1 3.14156
   name "road(15)"
   id "15"
   startJunction "32"
@@ -559,8 +557,8 @@ StraightRoadSegment {
   length 200
 }
 StraightRoadSegment {
-  translation -112.5 0.02 -105
-  rotation 0 -1 0 1.57079
+  translation 105 112.5 0.02
+  rotation 0 0 1 1.57079
   name "road(16)"
   id "16"
   startJunction "27"
@@ -581,8 +579,8 @@ StraightRoadSegment {
   length 78
 }
 StraightRoadSegment {
-  translation 4.5 0.02 -105
-  rotation 0 -1 0 1.57079
+  translation 105 -4.5 0.02
+  rotation 0 0 1 1.57079
   name "road(17)"
   id "17"
   startJunction "45"
@@ -603,8 +601,8 @@ StraightRoadSegment {
   length 78
 }
 CurvedRoadSegment {
-  translation -133.5 0.02 -76.5
-  rotation 0 -1 0 6.28318
+  translation 76.5 133.5 0.02
+  rotation 0 0 -1 3.14156
   name "road(18)"
   id "18"
   startJunction "28"
@@ -625,8 +623,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation -190.5 0.02 -64.5
-  rotation 0 1 0 3.1416
+  translation 64.5 190.5 0.02
   name "road(19)"
   id "19"
   startJunction "32"
@@ -647,8 +644,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation -52.5 0.02 -124.5
-  rotation 0 1 0 3.1416
+  translation 124.5 52.5 0.02
   name "road(20)"
   id "20"
   startJunction "27"
@@ -669,8 +665,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation -133.5 0.02 4.5
-  rotation 0 -1 0 3.14158
+  translation -4.5 133.5 0.02
   name "road(21)"
   id "21"
   startJunction "30"
@@ -691,8 +686,8 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation -133.5 0.02 4.5
-  rotation 0 1 0 4.7124
+  translation -4.5 133.5 0.02
+  rotation 0 0 1 1.5708
   name "road(22)"
   id "22"
   startJunction "31"
@@ -713,8 +708,8 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -25.5 0.02 45
-  rotation 0 -1 0 4.71239
+  translation -45 25.5 0.02
+  rotation 0 0 -1 1.5708
   name "road(23)"
   id "23"
   startJunction "26"
@@ -735,8 +730,8 @@ StraightRoadSegment {
   length 30
 }
 StraightRoadSegment {
-  translation -64.5 0.02 45
-  rotation 0 1 0 4.71239
+  translation -45 64.5 0.02
+  rotation 0 0 1 1.5708
   name "road(24)"
   id "24"
   startJunction "26"
@@ -757,15 +752,16 @@ StraightRoadSegment {
   length 69
 }
 DEF WEBOTS_VEHICLE0 BmwX5 {
-  translation -45.88 0.4 45
+  translation -45 45.88 0.4
+  rotation 0 0 1 3.14159
   controller "autonomous_vehicle"
   sensorsSlotTop [
     Camera {
-      translation 0 -0.05 -0.72
+      translation 0.72 0 -0.05
       children [
         Transform {
-          translation 0 0 0.05
-          rotation 1 0 0 1.5708
+          translation -0.05 0 0
+          rotation 0 -1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -797,21 +793,22 @@ DEF WEBOTS_VEHICLE0 BmwX5 {
   ]
 }
 GenericTrafficLight {
-  translation -55.2732 0 34.665
+  translation -34.665 55.2732 0
   startGreen FALSE
   greenTime 10
   redTime 10
+  state "red"
 }
 CrossRoadsTrafficLight {
-  translation 45 0 -45
+  translation 45 -45 0
 }
 DEF STONES Solid {
-  translation 136.158 -4.23581 -5.03891
+  translation 5.03891 -136.158 -4.23581
   children [
     DEF STONES_GROUP Group {
       children [
         Transform {
-          translation -2 -0.6 0
+          translation 0 2 -0.6
           children [
             Shape {
               appearance DEF OBJECTS_APPEARANCE PBRAppearance {
@@ -827,7 +824,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 3.5 -0.3 -0.5
+          translation 0.5 -3.5 -0.3
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -839,7 +836,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation -2 -0.15 -4
+          translation 4 2 -0.15
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -851,7 +848,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 1 0 -6
+          translation 6 -1 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -863,7 +860,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 0 0.15 -9
+          translation 9 0 0.15
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -875,7 +872,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 5 0.2 -5.5
+          translation 5.5 -5 0.2
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -887,7 +884,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 0 0.05 0
+          translation 0 0 0.05
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -899,7 +896,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation -5 0 -10
+          translation 10 5 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -911,7 +908,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation -6 0.3 -1
+          translation 1 6 0.3
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -923,7 +920,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 4 0 -13
+          translation 13 -4 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -935,7 +932,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation -1.5 0.4 -13.5
+          translation 13.5 1.5 0.4
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -953,42 +950,42 @@ DEF STONES Solid {
   boundingObject USE STONES_GROUP
 }
 BuildingUnderConstruction {
-  translation -143.08 2.13163e-14 -78.5008
+  translation 78.5008 143.08 0
 }
 CommercialBuilding {
-  translation -31.6315 0 -70.9574
+  translation 70.9574 31.6315 0
 }
 UBuilding {
-  translation -81.9927 1.42109e-13 87.1466
+  translation -87.1466 81.9927 0
 }
 HollowBuilding {
 }
 Hotel {
-  translation -71.6228 -5.11591e-13 9.97953
+  translation -9.97953 71.6228 0
 }
 TheThreeTowers {
-  translation 90.636 -2.84217e-14 -68.118
+  translation 68.118 -90.636 0
 }
 CyberboticsTower {
-  translation -68.7504 0 -27.5187
+  translation 27.5187 68.7504 0
 }
 BigGlassTower {
-  translation 9.29537 -2.84217e-14 -68.6779
-  rotation 0 1 0 1.5708
+  translation 68.6779 -9.29537 0
+  rotation 0 0 1 1.5708
 }
 Auditorium {
-  translation 61.9719 -2.13163e-13 63.9296
-  rotation 0 1 0 -0.9163
+  translation -63.9296 -61.9719 0
+  rotation 0 0 1 0.654496
 }
 Museum {
-  translation 68.6571 2.13163e-14 0.191182
+  translation -0.191182 -68.6571 0
+  rotation 0 0 1 1.5708
 }
 ResidentialBuilding {
-  translation 1.81329 -2.84217e-14 69.274
+  translation -69.274 -1.81329 0
 }
 FastFoodRestaurant {
-  translation -212.26 0 -63.46
-  rotation 0 -1 0 4.712389
+  translation 63.46 212.26 0
   height 4.3
   length 13
   width 12
@@ -996,8 +993,8 @@ FastFoodRestaurant {
   numberOfSides 2
 }
 FastFoodRestaurant {
-  translation -48.933131 0 -48.60864
-  rotation 0 1 0 4.4505895
+  translation 48.60864 48.933131 0
+  rotation 0 0 -1 -2.8797953071795863
   name "fast food restaurant(1)"
   height 4.3
   length 13
@@ -1006,16 +1003,16 @@ FastFoodRestaurant {
   numberOfSides 2
 }
 SimpleBuilding {
-  translation -208.338 -5.18696e-13 -46.9364
+  translation 46.9364 208.338 0
   wallType "glass highrise"
 }
 SimpleBuilding {
-  translation -195.97 -5.40012e-13 -66.8317
+  translation 66.8317 195.97 0
   name "building(1)"
   wallType "glass highrise"
 }
 SimpleBuilding {
-  translation 149.501 3.69482e-12 -97.8047
+  translation 97.8047 -149.501 0
   name "building(2)"
   floorHeight 5
   wallType "brick building"
@@ -1023,7 +1020,7 @@ SimpleBuilding {
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation 135.778 3.69482e-12 -117.415
+  translation 117.415 -135.778 0
   name "building(3)"
   floorHeight 5
   wallType "brick building"
@@ -1031,7 +1028,7 @@ SimpleBuilding {
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation 115.963 3.69482e-12 -126.106
+  translation 126.106 -115.963 0
   name "building(4)"
   floorHeight 5
   wallType "brick building"
@@ -1039,7 +1036,7 @@ SimpleBuilding {
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation 95.9459 3.70903e-12 -139.996
+  translation 139.996 -95.9459 0
   name "building(5)"
   floorHeight 5
   wallType "brick building"
@@ -1047,12 +1044,12 @@ SimpleBuilding {
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation -175.999 -5.82645e-13 -78.2778
+  translation 78.2778 175.999 0
   name "building(6)"
   wallType "glass highrise"
 }
 SimpleBuilding {
-  translation -259.763 4.54747e-13 -57.9852
+  translation 57.9852 259.763 0
   name "building(7)"
   floorNumber 2
   corners [
@@ -1064,7 +1061,7 @@ SimpleBuilding {
   wallType "classic building"
 }
 SimpleBuilding {
-  translation -258.571 -6.53699e-13 53.2255
+  translation -53.2255 258.571 0
   name "building(8)"
   floorNumber 2
   corners [
@@ -1075,8 +1072,8 @@ SimpleBuilding {
   ]
 }
 SimpleBuilding {
-  translation -182.166 -5.68435e-14 56.5761
-  rotation 0 1 0 3.66519
+  translation -56.5761 182.166 0
+  rotation 0 0 -1 2.618
   name "building(9)"
   floorNumber 6
   corners [
@@ -1092,8 +1089,8 @@ SimpleBuilding {
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation 133.213 9.37916e-13 72.4649
-  rotation 0 1 0 5.23599
+  translation -72.4649 -133.213 0
+  rotation 0 0 1 5.23599
   name "building(10)"
   floorNumber 2
   corners [
@@ -1107,7 +1104,7 @@ SimpleBuilding {
   wallType "highrise"
 }
 SimpleBuilding {
-  translation -258.921 4.83169e-13 22.0181
+  translation -22.0181 258.921 0
   name "building(11)"
   floorNumber 2
   corners [
@@ -1119,7 +1116,7 @@ SimpleBuilding {
   wallType "factory building"
 }
 SimpleBuilding {
-  translation -259.676 4.83169e-13 -20.4483
+  translation 20.4483 259.676 0
   name "building(12)"
   floorNumber 2
   corners [
@@ -1131,11 +1128,12 @@ SimpleBuilding {
   wallType "tall house"
 }
 SimpleBuilding {
-  translation -144.18 4.83169e-13 3.91795
+  translation -3.91795 144.18 0
   name "building(13)"
   wallType "residential building"
 }
 Forest {
+  rotation 0 0 1 -1.5608
   shape [
     -105.8 -117
     -99 -150.8
@@ -1147,6 +1145,7 @@ Forest {
   density 0.3
 }
 Forest {
+  rotation 0 0 1 -1.5608
   shape [
     -80 -118
     -73.7 -141
@@ -1156,6 +1155,7 @@ Forest {
   ]
 }
 Forest {
+  rotation 0 0 1 -1.5608
   shape [
     -7.6 116.2
     72.4 116.5
@@ -1165,134 +1165,134 @@ Forest {
   ]
 }
 SimpleTree {
-  translation 3.69635 0 86.3803
+  translation -86.3803 -3.69635 0
 }
 SimpleTree {
-  translation 18.9264 0 86.3803
+  translation -86.3803 -18.9264 0
   name "tree(1)"
 }
 SimpleTree {
-  translation 123.055 -2.84217e-14 43.078
+  translation -43.078 -123.055 0
   name "tree(2)"
 }
 SimpleTree {
-  translation 123.055 -2.84217e-14 22.318
+  translation -22.318 -123.055 0
   name "tree(3)"
 }
 SimpleTree {
-  translation 123.055 -2.84217e-14 -1.70201
+  translation 1.70201 -123.055 0
   name "tree(4)"
 }
 SimpleTree {
-  translation -130.5 2.55795e-13 -20.4431
+  translation 20.4431 130.5 0
   name "tree(5)"
 }
 SimpleTree {
-  translation -123.995 1.84741e-12 -53.4842
-  rotation 0 1 0 5.49779
+  translation 53.4842 123.995 0
+  rotation 0 0 1 5.49779
   name "tree(6)"
 }
 SimpleTree {
-  translation -196.584 -1.9611e-12 -83.0494
+  translation 83.0494 196.584 0
   name "tree(7)"
 }
 SimpleTree {
-  translation -179.976 -1.90425e-12 33.9112
-  rotation 1 0 0 6.28319
+  translation -33.9112 179.976 0
+  rotation 0 -1 0 6.28319
   name "tree(8)"
 }
 SimpleTree {
-  translation -114.947 -1.84741e-12 59.8734
+  translation -59.8734 114.947 0
   name "tree(9)"
 }
 SimpleTree {
-  translation -150.308 -1.81899e-12 22.2335
-  rotation 1 0 0 6.28319
+  translation -22.2335 150.308 0
+  rotation 0 -1 0 6.28319
   name "tree(10)"
 }
 SimpleTree {
-  translation -145.045 2.55795e-13 -16.4343
+  translation 16.4343 145.045 0
   name "tree(11)"
 }
 SimpleTree {
-  translation -77.3517 8.52651e-14 -89.3742
+  translation 89.3742 77.3517 0
   name "tree(12)"
 }
 SimpleTree {
-  translation -59.8317 8.52651e-14 -89.3742
+  translation 89.3742 59.8317 0
   name "tree(13)"
 }
 SimpleTree {
-  translation -42.5017 8.52651e-14 -89.3742
+  translation 89.3742 42.5017 0
   name "tree(14)"
 }
 SimpleTree {
-  translation -24.6817 8.52651e-14 -89.3742
+  translation 89.3742 24.6817 0
   name "tree(15)"
 }
 SimpleTree {
-  translation -6.71175 8.52651e-14 -89.3742
+  translation 89.3742 6.71175 0
   name "tree(16)"
 }
 SimpleTree {
-  translation 10.6583 8.52651e-14 -89.3742
+  translation 89.3742 -10.6583 0
   name "tree(17)"
 }
 SimpleTree {
-  translation 53.2389 7.10543e-14 -137.36
+  translation 137.36 -53.2389 0
   name "tree(18)"
 }
 SimpleTree {
-  translation 32.1201 4.26326e-14 -122.111
+  translation 122.111 -32.1201 0
   name "tree(19)"
 }
 SimpleTree {
-  translation 29.023 2.84217e-14 -110.762
+  translation 110.762 -29.023 0
   name "tree(20)"
 }
 SimpleTree {
-  translation 54.456 2.84217e-14 -90.773
+  translation 90.773 -54.456 0
   name "tree(21)"
 }
 SimpleTree {
-  translation 105.225 -2.84217e-14 -40.292
+  translation 40.292 -105.225 0
   name "tree(22)"
 }
 SimpleTree {
-  translation 59.5626 0 29.8047
+  translation -29.8047 -59.5626 0
   name "tree(23)"
 }
 SimpleTree {
-  translation 34.7085 0 56.111
+  translation -56.111 -34.7085 0
   name "tree(24)"
 }
 SimpleTree {
-  translation 38.0164 0 86.3803
+  translation -86.3803 -38.0164 0
   name "tree(25)"
 }
 SimpleTree {
-  translation -9.02365 0 86.3803
+  translation -86.3803 9.02365 0
   name "tree(26)"
 }
 PedestrianCrossing {
-  translation 26 -0.06 -45
-  rotation 0 1 0 1.5708
+  translation 45 -26 -0.06
+  rotation 0 0 1 -3.1415853071795863
 }
 PedestrianCrossing {
-  translation -45.0693 -0.06 61.4608
-  rotation 0 1 0 3.1416
+  translation -61.4608 45.0693 -0.06
+  rotation 0 0 1 -1.5707853071795865
   name "pedestrian crossing(1)"
 }
 PedestrianCrossing {
-  translation 45.1201 -0.06 -26.9799
-  rotation 0 1 0 3.1416
+  translation 26.9799 -45.1201 -0.06
+  rotation 0 0 1 -1.5707853071795865
   name "pedestrian crossing(2)"
 }
 CautionSign {
-  translation -48.9391 0 91.9275
+  translation -91.9275 48.9391 0
   signBoards [
     CautionPanel {
-      translation 0 -0.17 0
+      translation 0 0 -0.17
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/turn_left.jpg"
       ]
@@ -1300,12 +1300,12 @@ CautionSign {
   ]
 }
 CautionSign {
-  translation 94.6291 1.24345e-14 -45.9944
-  rotation 0 1 0 -2.4871
+  translation 45.9944 -94.6291 0
+  rotation 0 0 1 -2.4871
   name "caution sign(1)"
   signBoards [
     CautionPanel {
-      translation 0 -0.17 0
+      translation 0 0 -0.17
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
@@ -1313,16 +1313,16 @@ CautionSign {
   ]
 }
 CautionSign {
-  translation -55.4925 -3.55271e-15 -8.87679
+  translation 8.87679 55.4925 0
   name "caution sign(2)"
 }
 CautionSign {
-  translation -10.5534 0 -33.842
-  rotation 0 1 0 1.7017
+  translation 33.842 10.5534 0
+  rotation 0 0 1 1.7017
   name "caution sign(3)"
   signBoards [
     CautionPanel {
-      translation 0 -0.17 0
+      translation 0 0 -0.17
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/bump.jpg"
       ]
@@ -1330,12 +1330,12 @@ CautionSign {
   ]
 }
 CautionSign {
-  translation 26.9475 -3.55271e-15 -84.1154
-  rotation 0 1 0 0.6545
+  translation 84.1154 -26.9475 0
+  rotation 0 0 1 0.6545
   name "caution sign(4)"
   signBoards [
     CautionPanel {
-      translation 0 -0.17 0
+      translation 0 0 -0.17
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
@@ -1343,12 +1343,12 @@ CautionSign {
   ]
 }
 CautionSign {
-  translation 34.1146 0 5.43669
-  rotation 0 1 0 -0.5236
+  translation -5.43669 -34.1146 0
+  rotation 0 0 1 -0.5236
   name "caution sign(5)"
   signBoards [
     CautionPanel {
-      translation 0 -0.17 0
+      translation 0 0 -0.17
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
       ]
@@ -1356,11 +1356,11 @@ CautionSign {
   ]
 }
 OrderSign {
-  translation -34.4983 1.81188e-13 67.6589
-  rotation 0 1 0 3.14159
+  translation -67.6589 34.4983 0
+  rotation 0 0 1 3.14159
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/no_right_turn.jpg"
       ]
@@ -1368,19 +1368,19 @@ OrderSign {
   ]
 }
 StopSign {
-  translation -34.2884 1.77636e-15 34.6012
-  rotation 0 1 0 -1.5708
+  translation -34.6012 34.2884 0
+  rotation 0 0 1 -1.5708
 }
 YieldSign {
-  translation -66.4958 0 55.468
-  rotation 0 1 0 1.5708
+  translation -55.468 66.4958 0
+  rotation 0 0 1 1.5708
 }
 SpeedLimitSign {
-  translation -20.4404 0 113.192
-  rotation 0 1 0 0.9163
+  translation -113.192 20.4404 0
+  rotation 0 0 1 0.9163
   signBoards [
     SpeedLimitPanel {
-      translation 0 0 -0.023
+      translation 0.023 0 0
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
@@ -1388,12 +1388,12 @@ SpeedLimitSign {
   ]
 }
 SpeedLimitSign {
-  translation 84.4244 1.77636e-14 -26.6277
-  rotation 0 1 0 0.6545
+  translation 26.6277 -84.4244 0
+  rotation 0 0 1 0.6545
   name "speed limit(1)"
   signBoards [
     SpeedLimitPanel {
-      translation 0 0 -0.023
+      translation 0.023 0 0
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
@@ -1401,12 +1401,12 @@ SpeedLimitSign {
   ]
 }
 SpeedLimitSign {
-  translation -79.1341 0 30.3528
-  rotation 0 1 0 -2.3562
+  translation -30.3528 79.1341 0
+  rotation 0 0 1 -2.3562
   name "speed limit(2)"
   signBoards [
     SpeedLimitPanel {
-      translation 0 0 -0.023
+      translation 0.023 0 0
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
@@ -1414,12 +1414,12 @@ SpeedLimitSign {
   ]
 }
 SpeedLimitSign {
-  translation 50.335 0 -87.1538
-  rotation 0 1 0 -3.14159
+  translation 87.1538 -50.335 0
+  rotation 0 0 1 -3.14159
   name "speed limit(3)"
   signBoards [
     SpeedLimitPanel {
-      translation 0 0 -0.023
+      translation 0.023 0 0
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
@@ -1427,11 +1427,11 @@ SpeedLimitSign {
   ]
 }
 SpeedLimitSign {
-  translation 34.4459 8.88178e-15 -31.0289
+  translation 31.0289 -34.4459 0
   name "speed limit(4)"
   signBoards [
     SpeedLimitPanel {
-      translation 0 0 -0.023
+      translation 0.023 0 0
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/us/one_way_sign_left.jpg"
       ]
@@ -1439,14 +1439,14 @@ SpeedLimitSign {
   ]
 }
 TrafficCone {
-  translation 53.7608 0 -33.9741
+  translation 33.9741 -53.7608 0
   physics Physics {
     density -1
     mass 1
   }
 }
 TrafficCone {
-  translation 51.435 0 -33.9697
+  translation 33.9697 -51.435 0
   name "traffic cone(1)"
   physics Physics {
     density -1
@@ -1454,7 +1454,7 @@ TrafficCone {
   }
 }
 TrafficCone {
-  translation 48.9544 0 -33.9536
+  translation 33.9536 -48.9544 0
   name "traffic cone(2)"
   physics Physics {
     density -1
@@ -1462,7 +1462,7 @@ TrafficCone {
   }
 }
 TrafficCone {
-  translation 45.7234 -7.10543e-15 -33.7172
+  translation 33.7172 -45.7234 0
   name "traffic cone(3)"
   physics Physics {
     density -1
@@ -1470,8 +1470,8 @@ TrafficCone {
   }
 }
 AdvertisingBoard {
-  translation 116.28367 0 -48.100535
-  rotation 0 -1 0 0.52359881
+  translation 48.100535 -116.28367 0
+  rotation 0 0 1 2.61799
   backTexture []
   displayBackLight TRUE
   displayWidth 8
@@ -1483,13 +1483,13 @@ AdvertisingBoard {
   baseRatio 5.8
 }
 HighwayPole {
-  translation 117.85 0 17.67
-  rotation 0 1 0 4.712389
+  translation -17.67 -117.85 0
+  rotation 0 0 -1 3.14159
   height 9
   length 12
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 4.56
+      translation 0 -4.56 0
       height 4
       length 5.5
       texture [
@@ -1509,7 +1509,8 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -72.97 0 -118.15
+  translation 118.15 72.97 0
+  rotation 0 0 1 -1.5707953071795862
   name "highway pole(1)"
   stand 2
   height 8
@@ -1518,7 +1519,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 3.95
+      translation 0 -3.95 0
       height 4
       length 5.5
       color 0.6 0.6 0.6
@@ -1527,7 +1528,7 @@ HighwayPole {
   rightVerticalSigns []
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.58 0
+      translation 0 0 0.58
       name "highway sign(1)"
       height 2.5
       length 3
@@ -1539,7 +1540,7 @@ HighwayPole {
   ]
 }
 Crossroad {
-  translation -93 0 -76.500107
+  translation 76.500107 93 0
   id "28"
   shape []
   connectedRoadIDs [
@@ -1548,7 +1549,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -133.50015 0 -36
+  translation 36 133.50015 0
   name "crossroad(1)"
   id "29"
   shape []
@@ -1558,7 +1559,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -174 0 4.500405
+  translation -4.500405 174 0
   name "crossroad(2)"
   id "30"
   shape []
@@ -1568,7 +1569,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -133.49978 0 45.000035
+  translation -45.000035 133.49978 0
   name "crossroad(3)"
   id "31"
   shape []
@@ -1578,7 +1579,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -231 0 -64.499851
+  translation 64.499851 231 0
   name "crossroad(4)"
   id "32"
   shape []
@@ -1588,7 +1589,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -190.50007 0 -104.99975
+  translation 104.99975 190.50007 0
   name "crossroad(5)"
   id "33"
   shape []
@@ -1598,7 +1599,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -52.500074 0 -165
+  translation 165 52.500074 0
   name "crossroad(6)"
   id "34"
   shape []
@@ -1608,7 +1609,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 97.499835 0 -165.00028
+  translation 165.00028 -97.499835 0
   name "crossroad(7)"
   id "35"
   shape []
@@ -1618,7 +1619,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 187.5 0 -75
+  translation 75 -187.5 0
   name "crossroad(8)"
   id "36"
   shape []
@@ -1628,7 +1629,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 104.99975 0 -4.5
+  translation 4.5 -104.99975 0
   name "crossroad(9)"
   id "37"
   shape []
@@ -1638,7 +1639,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 105 0 64.5
+  translation -64.5 -105 0
   name "crossroad(10)"
   id "38"
   shape []
@@ -1648,7 +1649,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 64.499926 0 104.99987
+  translation -104.99987 -64.499926 0
   name "crossroad(11)"
   id "39"
   shape []
@@ -1658,7 +1659,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -4.4999794 0 105
+  translation -105 4.4999794 0
   name "crossroad(12)"
   id "40"
   shape []
@@ -1668,7 +1669,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 4.4999256 0 45.000015
+  translation -45.000015 -4.4999256 0
   name "crossroad(13)"
   id "41"
   shape []
@@ -1678,7 +1679,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 45 0 4.5
+  translation -4.5 -45 0
   name "crossroad(14)"
   id "42"
   shape []
@@ -1688,7 +1689,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -4.5000744 0 -45
+  translation 45 4.5000744 0
   name "crossroad(15)"
   id "43"
   shape []
@@ -1698,7 +1699,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -45.00011 0 -4.4998512
+  translation 4.4998512 45.00011 0
   name "crossroad(16)"
   id "44"
   shape []
@@ -1708,7 +1709,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 4.4999256 0 -105
+  translation 105 -4.4999256 0
   name "crossroad(17)"
   id "45"
   shape []

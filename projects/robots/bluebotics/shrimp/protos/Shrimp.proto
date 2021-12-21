@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/shrimp
@@ -7,7 +7,7 @@
 
 PROTO Shrimp [
   field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0  # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.
   field SFString   name            "Shrimp" # Is `Solid.name`.
   field SFString   controller      "shrimp" # Is `Robot.controller`.
   field MFString   controllerArgs  []       # Is `Robot.controllerArgs`.
@@ -33,7 +33,7 @@ PROTO Shrimp [
       Group {
         children [
           Transform {
-            translation 0 0.159 0
+            translation 0 0 0.159
             children [
               DEF BASE Shape {
                 appearance DEF BLUE PBRAppearance {
@@ -49,7 +49,7 @@ PROTO Shrimp [
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.135 0 -0.015, 0.125 0 -0.025, 0.125 0 -0.09, 0.113 0 -0.102, 0.009 0 -0.102, 0.009 0 -0.039, -0.009 0 -0.039, -0.009 0 -0.102, -0.113 0 -0.102, -0.125 0 -0.09, -0.125 0 -0.025, -0.135 0 -0.015, -0.135 0 0.015, -0.125 0 0.025, -0.125 0 0.09, -0.01 0 0.165, 0.01 0 0.165, 0.125 0 0.09, 0.125 0 0.025, 0.135 0 0.015, 0.135 0 -0.015, 0.135 0.002 -0.015, 0.125 0.002 -0.025, 0.125 0.002 -0.09, 0.113 0.002 -0.102, 0.009 0.002 -0.102, 0.009 0.002 -0.039, -0.009 0.002 -0.039, -0.009 0.002 -0.102, -0.113 0.002 -0.102, -0.125 0.002 -0.09, -0.125 0.002 -0.025, -0.135 0.002 -0.015, -0.135 0.002 0.015, -0.125 0.002 0.025, -0.125 0.002 0.09, -0.01 0.002 0.165, 0.01 0.002 0.165, 0.125 0.002 0.09, 0.125 0.002 0.025, 0.135 0.002 0.015, 0.135 0.002 -0.015
+                      0.0149995 -0.1350001 -1.4e-06 0.0249996 -0.1250001 -1.2e-06 0.0899996 -0.1250003 0 0.1019996 -0.1130004 0 0.102 -0.0090004 0 0.039 -0.0090001 0 0.039 0.0089999 0 0.102 0.0089996 0 0.1020004 0.1129996 1.6e-06 0.0900004 0.1249997 1.6e-06 0.0250004 0.1249999 1.4e-06 0.0150005 0.1349999 1.5e-06 -0.0149995 0.1350001 1.4e-06 -0.0249996 0.1250001 1.2e-06 -0.0899996 0.1250003 0 -0.165 0.0100006 0 -0.165 -0.0099994 0 -0.0900004 -0.1249997 -1.6e-06 -0.0250004 -0.1249999 -1.4e-06 -0.0150005 -0.1349999 -1.5e-06 0.0149995 -0.1350001 -1.4e-06 0.0149995 -0.1350001 0.0019986 0.0249995 -0.1250001 0.0019988 0.0899995 -0.1250003 0.001999 0.1019996 -0.1130004 0.0019992 0.102 -0.0090004 0.0020003 0.039 -0.0090002 0.002 0.039 0.0089998 0.0020002 0.102 0.0089996 0.0020005 0.1020004 0.1129996 0.0020016 0.0900004 0.1249997 0.0020016 0.0250004 0.1249999 0.0020014 0.0150005 0.1349999 0.0020015 -0.0149995 0.135 0.0020014 -0.0249996 0.1250001 0.0020012 -0.0899996 0.1250003 0.002001 -0.165 0.0100006 0.0019995 -0.165 -0.0099994 0.0019993 -0.0900005 -0.1249997 0.0019984 -0.0250005 -0.1249999 0.0019986 -0.0150005 -0.135 0.0019985 0.0149995 -0.1350001 0.0019986
                     ]
                   }
                   coordIndex [
@@ -61,87 +61,87 @@ PROTO Shrimp [
             ]
           }
           Transform {
-            translation 0 0.226 0
+            translation 0 -0.0 0.226
             children [
               USE BASE
             ]
           }
           Transform {
-            translation -0.131 0.193 0
+            translation 0 0.131 0.193
             children [
               DEF LATERAL_SUPPORT Shape {
                 appearance USE BLUE
                 geometry Box {
-                  size 0.008 0.068 0.03
+                  size 0.03 0.008 0.068
                 }
               }
             ]
           }
           Transform {
-            translation 0.131 0.193 0
+            translation 0 -0.131 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
           Transform {
-            translation -0.013 0.193 -0.062
+            translation 0.062 0.013 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
           Transform {
-            translation 0.013 0.193 -0.062
+            translation 0.062 -0.013 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
           Transform {
-            translation 0 0.193 0.161
+            translation -0.161 -0.0 0.193
             children [
               Shape {
                 appearance USE BLUE
                 geometry Box {
-                  size 0.02 0.068 0.008
+                  size 0.008 0.02 0.068
                 }
               }
             ]
           }
           Transform {
-            translation 0 0.1455 -0.034
+            translation 0.034 -0.0 0.1455
             children [
               Shape {
                 appearance USE BLUE
                 geometry Box {
-                  size 0.25 0.027 0.058
+                  size 0.058 0.25 0.027
                 }
               }
             ]
           }
           Transform {
-            translation -0.011 0.173 0.1745
+            translation -0.1745 0.011 0.173
             children [
               DEF FRONT_WHEEL_LATERAL_SUPPORT Shape {
                 appearance USE BLUE
                 geometry Box {
-                  size 0.002 0.01 0.035
+                  size 0.035 0.002 0.01
                 }
               }
             ]
           }
           Transform {
-            translation 0.011 0.173 0.1745
+            translation -0.1745 -0.011 0.173
             children [
               USE FRONT_WHEEL_LATERAL_SUPPORT
             ]
           }
           Transform {
-            translation 0 0.1755 0.186
-            rotation 1 0 0 -0.478
+            translation -0.186 -0.0 0.1755
+            rotation 0 1 0 0.478
             children [
               Shape {
                 appearance USE BLUE
                 geometry Box {
-                  size 0.0201 0.102 0.015
+                  size 0.015 0.0201 0.102
                 }
               }
             ]
@@ -149,39 +149,35 @@ PROTO Shrimp [
           DEF ROTATIONAL_MOTOR Group {
             children [
               Transform {
-                translation 0 0.138 0.234
-                rotation 0 0 1 0
+                translation -0.234 0 0.138
                 children [
                   Shape {
                     appearance USE BLUE
                     geometry Box {
-                      size 0.02 0.01 0.047
+                      size 0.047 0.02 0.01
                     }
                   }
                 ]
               }
               Transform {
-                translation -0.011 0.153 0.23
-                rotation 0 0 1 0
+                translation -0.23 0.011 0.153
                 children [
                   DEF MOTOR_SUPPORT Shape {
                     appearance USE BLUE
                     geometry Box {
-                      size 0.002 0.04 0.02
+                      size 0.02 0.002 0.04
                     }
                   }
                 ]
               }
               Transform {
-                translation 0.011 0.153 0.23
-                rotation 0 0 1 0
+                translation -0.23 -0.011 0.153
                 children [
                   USE MOTOR_SUPPORT
                 ]
               }
               Transform {
-                translation 0 0.178 0.236
-                rotation 0 0 1 0
+                translation -0.236 -0.0 0.178
                 children [
                   DEF MOTOR Shape {
                     appearance DEF BLACK PBRAppearance {
@@ -190,7 +186,7 @@ PROTO Shrimp [
                       roughness 1
                     }
                     geometry Box {
-                      size 0.02 0.037 0.04
+                      size 0.04 0.02 0.037
                     }
                   }
                 ]
@@ -198,8 +194,8 @@ PROTO Shrimp [
             ]
           }
           Transform {
-            translation 0.14 0.2195 0
-            rotation 0 0 1 1.57
+            translation -0.0 -0.14 0.2195
+            rotation 1 0 0 1.57
             children [
               DEF BOGIE_AXE Shape {
                 appearance USE BLACK
@@ -212,36 +208,36 @@ PROTO Shrimp [
             ]
           }
           Transform {
-            translation 0.14 0.1695 0
-            rotation 0 0 1 1.57
+            translation -0.0 -0.14 0.1695
+            rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
           Transform {
-            translation -0.14 0.2195 0
-            rotation 0 0 1 1.57
+            translation 0 0.14 0.2195
+            rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
           Transform {
-            translation -0.14 0.1695 0
-            rotation 0 0 1 1.57
+            translation 0 0.14 0.1695
+            rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
           Transform {
-            translation 0 0.2195 -0.053
-            rotation 0 0 1 1.57
+            translation 0.053 -0.0 0.2195
+            rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
           Transform {
-            translation 0 0.1695 -0.072
-            rotation 0 0 1 1.57
+            translation 0.072 -0.0 0.1695
+            rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
@@ -250,8 +246,8 @@ PROTO Shrimp [
       }
       DEF BACK_WHEEL_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 0.138 0.252
+          axis 0 0 1
+          anchor -0.252 0 0.138
         }
         device [
           RotationalMotor {
@@ -261,37 +257,35 @@ PROTO Shrimp [
           }
         ]
         endPoint DEF BACK_WHEEL Solid {
-          translation 0 0.138 0.252
+          translation -0.252 0 0.138
           children [
             DEF ROTATIONAL_SUPPORT Group {
               children [
                 Transform {
-                  translation -0.013 -0.009 0
-                  rotation 0 0 1 0
+                  translation 0 0.013 -0.009
                   children [
                     Shape {
                       appearance USE BLUE
                       geometry Box {
-                        size 0.039 0.008 0.01
+                        size 0.01 0.039 0.008
                       }
                     }
                   ]
                 }
                 Transform {
-                  translation -0.0285 -0.0425 0
-                  rotation 0 0 1 0
+                  translation 0 0.0285 -0.0425
                   children [
                     Shape {
                       appearance USE BLUE
                       geometry Box {
-                        size 0.008 0.059 0.01
+                        size 0.01 0.008 0.059
                       }
                     }
                   ]
                 }
                 Transform {
-                  translation -0.02 -0.08 0
-                  rotation 0 0 1 1.57
+                  translation 0 0.02 -0.08
+                  rotation 1 0 0 1.57
                   children [
                     DEF WHEEL_AXE Shape {
                       appearance USE BLUE
@@ -307,8 +301,9 @@ PROTO Shrimp [
             }
             DEF BACK_TIRE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 -0.08 0
-              }
+                anchor 0 0 -0.08
+                axis 0 -1 0
+               }
               device [
                 RotationalMotor {
                   name "wheel motor 05"
@@ -319,13 +314,12 @@ PROTO Shrimp [
                 }
               ]
               endPoint DEF BACK_TIRE Solid {
-                translation 0 -0.08 0
-                rotation 1 0 0 0
+                translation 0 0 -0.08
                 children [
                   DEF WHEEL Group {
                     children [
                       Transform {
-                        rotation 0 0 1 1.57
+                        rotation 1 0 0 1.57
                         children [
                           Shape {
                             appearance USE BLACK
@@ -338,39 +332,15 @@ PROTO Shrimp [
                         ]
                       }
                       Transform {
-                        translation 0.02 0 0
-                        rotation 0 0 1 -1.57
+                        translation 0 -0.02 0
+                        rotation 1 0 0 1.57
                         children [
                           Shape {
                             appearance USE BLUE
                             geometry IndexedFaceSet {
                               coord Coordinate {
                                 point [
-                                  0.007 0.013 -0.002
-                                  0.047 0 -0.012
-                                  0.035 0 -0.034
-                                  0.006 0.013 -0.005
-                                  0.007 0.013 0.002
-                                  0.047 0 0.013
-                                  0.006 0.013 0.005
-                                  0.035 0 0.034
-                                  0.002 0.013 0.007
-                                  0.013 0 0.047
-                                  -0.001 0.013 0.007
-                                  -0.012 0 0.047
-                                  -0.005 0.013 0.005
-                                  -0.034 0 0.034
-                                  -0.007 0.013 0.002
-                                  -0.046 0 0.013
-                                  -0.046 0 -0.012
-                                  -0.005 0.013 -0.005
-                                  -0.034 0 -0.034
-                                  -0.012 0 -0.047
-                                  0.013 0 -0.047
-                                  0 0 0
-                                  -0.007 0.013 -0.002
-                                  0.002 0.013 -0.007
-                                  -0.001 0.013 -0.007
+                                  0.0019999 -0.0070001 0.0129999 0.0119998 -0.047 0 0.0339999 -0.0350001 0 0.0049999 -0.0060002 0.013 -0.0020001 -0.0070001 0.0129999 -0.0130002 -0.047 0 -0.0050001 -0.0060001 0.0129999 -0.0340001 -0.0349999 0 -0.0070001 -0.0020001 0.013 -0.047 -0.0129998 0 -0.007 0.0009999 0.013 -0.047 0.0120002 0 -0.005 0.0049999 0.013 -0.0339999 0.0340001 0 -0.002 0.0069999 0.0130001 -0.0129998 0.046 0 0.0120002 0.046 0 0.005 0.0049998 0.0130001 0.0340001 0.0339999 0 0.047 0.0119998 0 0.047 -0.0130002 0 0 0 0 0.002 0.0069999 0.0130001 0.0069999 -0.0020002 0.013 0.007 0.0009998 0.013
                                 ]
                               }
                               coordIndex [
@@ -385,8 +355,8 @@ PROTO Shrimp [
                   }
                 ]
                 boundingObject DEF BOUNDING_WHEEL Transform {
-                  translation 0.004 0 0
-                  rotation 0 0 1 1.57
+                  translation 0 -0.004 0
+                  rotation 1 0 0 1.57
                   children [
                     Shape {
                       geometry Cylinder {
@@ -408,19 +378,18 @@ PROTO Shrimp [
           boundingObject DEF BOUNDING_ROTATIONAL_SUPPORT Group {
             children [
               Transform {
-                translation -0.013 -0.0425 0
-                rotation 0 0 1 0
+                translation 0 0.013 -0.0425
                 children [
                   Shape {
                     geometry Box {
-                      size 0.039 0.075 0.01
+                      size 0.01 0.039 0.075
                     }
                   }
                 ]
               }
               Transform {
-                translation -0.02 -0.08 0
-                rotation 0 0 1 1.57
+                translation 0 0.02 -0.08
+                rotation 1 0 0 1.57
                 children [
                   DEF BOUNDING_WHEEL_AXE Shape {
                     geometry Cylinder {
@@ -438,64 +407,65 @@ PROTO Shrimp [
             density -1
             mass 0.178
             centerOfMass [
-              -0.015 -0.06 0
+              0 0.015 -0.06
             ]
             inertiaMatrix [
-              0.000117613 2.89259e-5 0.000139178
-              -1.08718e-5 0 0
+              0.000139178 0.000117613 2.89259e-5
+              0 0 1.08718e-5
             ]
           }
         }
       }
       DEF UPPER_RIGHT_BOGIE_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.1465 0.2195 0
+          anchor 0 -0.1465 0.2195
+          axis 0 -1 0
           minStop -1.35566
           maxStop 1.35566
         }
         endPoint DEF UPPER_RIGHT_BOGIE Solid {
-          translation 0.1465 0.2195 0
-          rotation 1 0 0 0
+          translation 0 -0.1465 0.2195
           children [
             Transform {
               children [
                 DEF BOGIE_HORIZONTAL Shape {
                   appearance USE BLUE
                   geometry DEF BOUNDING_BOGIE_HORIZONTAL Box {
-                    size 0.015 0.015 0.183
+                    size 0.183 0.015 0.015
                   }
                 }
               ]
             }
             DEF BACK_RIGHT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 0.089
+                anchor -0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint DEF BACK_RIGHT_BOGIE Solid {
-                translation 0 -0.2195 0.089
-                rotation 1 0 0 0
+                translation -0.089 0 -0.2195
                 children [
                   Transform {
-                    translation 0 0.147 0
+                    translation 0 0 0.147
                     children [
                       DEF BOGIE_VERTICAL Shape {
                         appearance USE BLUE
                         geometry DEF BOUNDING_BOGIE_VERTICAL Box {
-                          size 0.02 0.16 0.015
+                          size 0.015 0.02 0.16
                         }
                       }
                     ]
                   }
                   Transform {
-                    translation 0.0165 0.058 0
-                    rotation 0 0 1 1.57
+                    translation 0 -0.0165 0.058
+                    rotation 1 0 0 1.57
                     children [
                       USE WHEEL_AXE
                     ]
                   }
                   DEF BACK_RIGHT_TIRE_HINGE HingeJoint {
                     jointParameters HingeJointParameters {
-                      anchor 0.0355 0.058 0
+                      anchor 0 -0.0355 0.058
+                      axis 0 -1.0 0
                     }
                     device [
                       RotationalMotor {
@@ -507,8 +477,7 @@ PROTO Shrimp [
                       }
                     ]
                     endPoint DEF BACK_RIGHT_TIRE_SOLID Solid {
-                      translation 0.0355 0.058 0
-                      rotation 1 0 0 0
+                      translation 0 -0.0355 0.058
                       children [
                         USE WHEEL
                       ]
@@ -521,14 +490,14 @@ PROTO Shrimp [
                 boundingObject DEF BOUNDING_BOGIE_VERTICAL_AXE Group {
                   children [
                     Transform {
-                      translation 0 0.147 0
+                      translation 0 -0.0 0.147
                       children [
                         USE BOUNDING_BOGIE_VERTICAL
                       ]
                     }
                     Transform {
-                      translation 0.0165 0.058 0
-                      rotation 0 0 1 1.57
+                      translation 0 -0.0165 0.058
+                      rotation 1 0 0 1.57
                       children [
                         USE BOUNDING_WHEEL_AXE
                       ]
@@ -539,39 +508,40 @@ PROTO Shrimp [
                   density -1
                   mass 0.23263
                   centerOfMass [
-                    0 0.09 0
+                    0 0 0.09
                   ]
                   inertiaMatrix [
-                    0.000966127 3.86276e-5 0.000993287
-                    3.56632e-5 0 0
+                    0.000993287 0.000966127 3.86276e-5
+                    0 0 -3.56632e-5
                   ]
                 }
               }
             }
             DEF FRONT_RIGHT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 -0.089
+                anchor 0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint DEF FRONT_RIGHT_BOGIE Solid {
-                translation 0 -0.2195 -0.089
-                rotation 1 0 0 0
+                translation 0.089 0.0 -0.2195
                 children [
                   Transform {
-                    translation 0 0.147 0
+                    translation 0 0 0.147
                     children [
                       USE BOGIE_VERTICAL
                     ]
                   }
                   Transform {
-                    translation 0.0165 0.058 0
-                    rotation 0 0 1 1.57
+                    translation 0 -0.0165 0.058
+                    rotation 1 0 0 1.57
                     children [
                       USE WHEEL_AXE
                     ]
                   }
                   DEF FRONT_RIGHT_TIRE_HINGE HingeJoint {
                     jointParameters HingeJointParameters {
-                      anchor 0.0355 0.058 0
+                      anchor 0 -0.0355 0.058
+                      axis 0 -1.0 0
                     }
                     device [
                       RotationalMotor {
@@ -583,8 +553,7 @@ PROTO Shrimp [
                       }
                     ]
                     endPoint DEF FRONT_RIGHT_TIRE Solid {
-                      translation 0.0355 0.058 0
-                      rotation 1 0 0 0
+                      translation 0 -0.0355 0.058
                       children [
                         USE WHEEL
                       ]
@@ -608,7 +577,7 @@ PROTO Shrimp [
               0 0 0
             ]
             inertiaMatrix [
-              0.000115681 0.000115681 1.54406e-5
+              1.54406e-5 0.000115681 0.000115681
               0 0 0
             ]
           }
@@ -616,13 +585,13 @@ PROTO Shrimp [
       }
       DEF LOWER_RIGHT_BOGIE_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.1465 0.1695 0
+          anchor 0 -0.1465 0.1695
+          axis 0 -1.0 0
           minStop -1.35566
           maxStop 1.35566
         }
         endPoint DEF LOWER_RIGHT_BOGIE Solid {
-          translation 0.1465 0.1695 0
-          rotation 1 0 0 0
+          translation 0 -0.1465 0.1695
           children [
             Transform {
               children [
@@ -631,7 +600,8 @@ PROTO Shrimp [
             }
             DEF BACK_RIGHT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 0.089
+                anchor -0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint SolidReference {
                 solidName "back right bogie"
@@ -639,7 +609,8 @@ PROTO Shrimp [
             }
             DEF FRONT_RIGHT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 -0.089
+                anchor 0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint SolidReference {
                 solidName "front right bogie"
@@ -653,13 +624,13 @@ PROTO Shrimp [
       }
       DEF UPPER_LEFT_BOGIE_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.1465 0.2195 0
+          anchor 0 0.1465 0.2195
+          axis 0 -1.0 0
           minStop -1.35566
           maxStop 1.35566
         }
         endPoint DEF UPPER_LEFT_BOGIE Solid {
-          translation -0.1465 0.2195 0
-          rotation 1 0 0 0
+          translation 0 0.1465 0.2195
           children [
             Transform {
               children [
@@ -671,14 +642,15 @@ PROTO Shrimp [
             }
             DEF BACK_LEFT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 0.089
+                anchor -0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint DEF BACK_LEFT_BOGIE Solid {
-                translation 0 -0.2195 0.089
-                rotation 0 1 0 3.1415
+                translation -0.089 0 -0.2195
+                rotation 0 0 1 3.1415
                 children [
                   Transform {
-                    translation 0 0.147 0
+                    translation 0 -0.0 0.147
                     children [
                       DEF BOGIE_VERTICAL Shape {
                         appearance USE BLUE
@@ -687,15 +659,16 @@ PROTO Shrimp [
                     ]
                   }
                   Transform {
-                    translation 0.0165 0.058 0
-                    rotation 0 0 1 1.57
+                    translation 0 -0.0165 0.058
+                    rotation 1 0 0 1.57
                     children [
                       USE WHEEL_AXE
                     ]
                   }
                   DEF BACK_LEFT_TIRE_HINGE HingeJoint {
                     jointParameters HingeJointParameters {
-                      anchor 0.0355 0.058 0
+                      anchor 0 -0.0355 0.058
+                      axis 0 -1.0 0
                     }
                     device [
                       RotationalMotor {
@@ -707,8 +680,7 @@ PROTO Shrimp [
                       }
                     ]
                     endPoint DEF BACK_LEFT_TIRE Solid {
-                      translation 0.0355 0.058 0
-                      rotation 1 0 0 0
+                      translation 0 -0.0355 0.058
                       children [
                         USE WHEEL
                       ]
@@ -724,28 +696,30 @@ PROTO Shrimp [
             }
             DEF FRONT_LEFT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 -0.089
+                anchor 0.089 0 0
+                axis 0 -1.0 0
               }
               endPoint DEF FRONT_LEFT_BOGIE Solid {
-                translation 0 -0.2195 -0.089
-                rotation 0 1 0 3.1415
+                translation 0.089 0.0 -0.2195
+                rotation 0 0 1 3.1415
                 children [
                   Transform {
-                    translation 0 0.147 0
+                    translation 0 0 0.147
                     children [
                       USE BOGIE_VERTICAL
                     ]
                   }
                   Transform {
-                    translation 0.0165 0.058 0
-                    rotation 0 0 1 1.57
+                    translation 0 -0.0165 0.058
+                    rotation 1 0 0 1.57
                     children [
                       USE WHEEL_AXE
                     ]
                   }
                   DEF FRONT_LEFT_TIRE_HINGE HingeJoint {
                     jointParameters HingeJointParameters {
-                      anchor 0.0355 0.058 0
+                      anchor 0 -0.0355 0.058
+                      axis 0 -1.0 0
                     }
                     device [
                       RotationalMotor {
@@ -757,8 +731,7 @@ PROTO Shrimp [
                       }
                     ]
                     endPoint DEF FRONT_LEFT_TIRE Solid {
-                      translation 0.0355 0.058 0
-                      rotation 1 0 0 0
+                      translation 0 -0.0355 0.058
                       children [
                         USE WHEEL
                       ]
@@ -780,13 +753,13 @@ PROTO Shrimp [
       }
       DEF LOWER_LEFT_BOGIE_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.1465 0.1695 0
+          anchor 0 0.1465 0.1695
+          axis 0 -1 0
           minStop -1.35566
           maxStop 1.35566
         }
         endPoint DEF LOWER_LEFT_BOGIE Solid {
-          translation -0.1465 0.1695 0
-          rotation 1 0 0 0
+          translation 0 0.1465 0.1695
           children [
             Transform {
               children [
@@ -795,7 +768,8 @@ PROTO Shrimp [
             }
             DEF BACK_LEFT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 0.089
+                anchor -0.089 0 0
+                axis 0 -1 0
               }
               endPoint SolidReference {
                 solidName "back left bogie"
@@ -803,7 +777,8 @@ PROTO Shrimp [
             }
             DEF FRONT_LEFT_BOGIE_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0 -0.089
+                anchor 0.089 0 0
+                axis 0 -1 0
               }
               endPoint SolidReference {
                 solidName "front left bogie"
@@ -817,46 +792,47 @@ PROTO Shrimp [
       }
       DEF UPPER_FORK_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0 0.2195 -0.053
+          anchor 0.053 -0.0 0.2195
+          axis 0 -1 0
           minStop -1.93
           maxStop 1.32
         }
         endPoint DEF UPPER_FORK Solid {
-          translation 0 0.2445 -0.102
-          rotation 1 0 0 0.4712
+          translation 0.102 -0.0 0.2445
+          rotation 0 -1 0 0.4712
           children [
             Transform {
-              translation 0 0 0.0025
+              translation -0.0025 0 0
               children [
                 Shape {
                   appearance USE BLUE
                   geometry Box {
-                    size 0.015 0.015 0.115
+                    size 0.115 0.015 0.015
                   }
                 }
               ]
             }
             DEF FRONT_FORK_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 -0.000225406 -0.0535313
+                anchor 0.0535 0 -0.0002
+                axis 0 -1 0
               }
               endPoint DEF FRONT_FORK Solid {
-                translation 0 -0.171613 -0.102237
-                rotation -1 0 0 0.4712
+                translation 0.1022 0.0 -0.1716
+                rotation 0 1 0 0.4712
                 children [
                   Transform {
-                    translation 0 0.0613 0.0813
-                    rotation 1 0 0 -1.04845
+                    translation -0.0813 0 0.0613
+                    rotation 0 1 0 1.04845
                     children [
                       Shape {
                         appearance USE BLUE
                         geometry Box {
-                          size 0.02 0.015 0.175
+                          size 0.175 0.02 0.015
                         }
                       }
                       DEF LOGO Transform {
-                        translation 0 0.0085 0.035
-                        rotation 1 0 0 0
+                        translation -0.035 0 0.0085
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -871,10 +847,7 @@ PROTO Shrimp [
                             geometry IndexedFaceSet {
                               coord Coordinate {
                                 point [
-                                  0.009 0 -0.05
-                                  0.009 0 0.05
-                                  -0.009 0 0.05
-                                  -0.009 0 -0.05
+                                  0.05 -0.0090002 0 -0.05 -0.0089998 0 -0.05 0.0090002 0 0.05 0.0089998 0
                                 ]
                               }
                               texCoord TextureCoordinate {
@@ -898,15 +871,15 @@ PROTO Shrimp [
                     ]
                   }
                   Transform {
-                    translation 0 -0.138 0.251
-                    rotation 0 1 0 3.1415
+                    translation -0.251 0.0 -0.138
+                    rotation 0 0 1 3.1415
                     children [
                       USE ROTATIONAL_MOTOR
                     ]
                   }
                   DEF FRONT_WHEEL_HINGE HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 1 0
+                      axis 0 0 1
                     }
                     device [
                       RotationalMotor {
@@ -920,7 +893,8 @@ PROTO Shrimp [
                         USE ROTATIONAL_SUPPORT
                         DEF FRONT_TIRE_HINGE HingeJoint {
                           jointParameters HingeJointParameters {
-                            anchor 0 -0.08 0
+                            anchor 0 0 -0.08
+                            axis 0 -1 0
                           }
                           device [
                             RotationalMotor {
@@ -932,8 +906,7 @@ PROTO Shrimp [
                             }
                           ]
                           endPoint DEF FRONT_TIRE Solid {
-                            translation 0 -0.08 0
-                            rotation 1 0 0 0
+                            translation 0 0 -0.08
                             children [
                               USE WHEEL
                             ]
@@ -951,23 +924,22 @@ PROTO Shrimp [
                 boundingObject Group {
                   children [
                     Transform {
-                      translation 0 0.0613 0.0813
-                      rotation 1 0 0 -1.04845
+                      translation -0.0813 0 0.0613
+                      rotation 0 1 0 1.04845
                       children [
                         Shape {
                           geometry Box {
-                            size 0.02 0.015 0.175
+                            size 0.175 0.02 0.015
                           }
                         }
                       ]
                     }
                     Transform {
-                      translation 0 0.027 0.015
-                      rotation 0 0 1 0
+                      translation -0.015 0 0.027
                       children [
                         Shape {
                           geometry Box {
-                            size 0.024 0.062 0.04
+                            size 0.04 0.024 0.062
                           }
                         }
                       ]
@@ -978,26 +950,26 @@ PROTO Shrimp [
                   density -1
                   mass 0.1159
                   centerOfMass [
-                    0 0.03 0.05
+                    -0.05 0 0.03
                   ]
                   inertiaMatrix [
-                    0.000350003 0.000176901 0.000182635
-                    0 0 -0.00011918
+                    0.000182635 0.000350003 0.000176901
+                    0 0.00011918 0
                   ]
                 }
               }
             }
             DEF UPPER_SPRINGS_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 -2.40438e-5 -0.0150266
+                anchor 0.015 0 0
+                axis 0 -1 0
               }
               endPoint DEF UPPER_SPRINGS Solid {
-                translation 0 -0.0196439 -0.0191718
-                rotation 1 0 0 0.20808
+                translation 0.0192 0 -0.0196
+                rotation 0 1 0 -0.20808
                 children [
                   DEF RIGHT_SPRING Transform {
-                    translation -0.015 0 0
-                    rotation 1 0 0 0
+                    translation 0 0.015 0
                     children [
                       DEF SPRING Shape {
                         appearance USE BLACK
@@ -1010,8 +982,7 @@ PROTO Shrimp [
                     ]
                   }
                   DEF LEFT_SPRING Transform {
-                    translation 0.015 0 0
-                    rotation 1 0 0 0
+                    translation 0 -0.015 0
                     children [
                       USE SPRING
                     ]
@@ -1021,13 +992,13 @@ PROTO Shrimp [
                 boundingObject DEF BOUNDING_SPRINGS Group {
                   children [
                     Transform {
-                      translation 0.015 0 0
+                      translation 0 -0.015 0
                       children [
                         USE SPRING
                       ]
                     }
                     Transform {
-                      translation -0.015 0 0
+                      translation 0 0.015 0
                       children [
                         USE SPRING
                       ]
@@ -1046,7 +1017,7 @@ PROTO Shrimp [
             children [
               Shape {
                 geometry Box {
-                  size 0.015 0.015 0.12
+                  size 0.12 0.015 0.015
                 }
               }
             ]
@@ -1055,10 +1026,10 @@ PROTO Shrimp [
             density -1
             mass 0.03806
             centerOfMass [
-              0 -0.015 0
+              0 0 -0.015
             ]
             inertiaMatrix [
-              5.49491e-5 4.63856e-5 9.99075e-6
+              9.99075e-6 5.49491e-5 4.63856e-5
               0 0 0
             ]
           }
@@ -1066,26 +1037,28 @@ PROTO Shrimp [
       }
       DEF LOWER_FORK_HINGE HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0 0.1695 -0.072
+          anchor 0.072 -0.0 0.1695
+          axis 0 -1 0
         }
         endPoint DEF LOWER_FORK Solid {
-          translation 0 0.18875 -0.128825
-          rotation 1 0 0 0.3506
+          translation 0.1288 -0.0 0.1888
+          rotation 0 1 0 -0.3506
           children [
             Transform {
-              translation 0 0 0.0025
+              translation -0.0025 0 0
               children [
                 Shape {
                   appearance USE BLUE
                   geometry Box {
-                    size 0.015 0.015 0.125
+                    size 0.125 0.015 0.015
                   }
                 }
               ]
             }
             DEF FRONT_FORK_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 -0.00223624 -0.0618707
+                anchor 0.0619 0 -0.0022
+                axis 0 -1 0
               }
               endPoint SolidReference {
                 solidName "front fork"
@@ -1093,17 +1066,18 @@ PROTO Shrimp [
             }
             DEF LOWER_SPRINGS_HINGE HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0 0.001436 -0.0299928
+                anchor 0.03 0 0.0014
+                axis 0 -1 0
               }
               endPoint DEF LOWER_SPRINGS Solid {
-                translation 0 0.0204146 -0.0235173
-                rotation 1 0 0 0.32868
+                translation 0.0235 0 0.0204
+                rotation 0 1 0 -0.32868
                 children [
                   USE RIGHT_SPRING
                   USE LEFT_SPRING
                   DEF UPPER_SPRINGS_SLIDER SliderJoint {
                     jointParameters JointParameters {
-                      axis 0 0.778025 -0.628233
+                      axis 0.6282 0 0.778
                       springConstant 4905
                     }
                     endPoint SolidReference {
@@ -1119,7 +1093,7 @@ PROTO Shrimp [
           ]
           name "lower fork"
           boundingObject Box {
-            size 0.015 0.015 0.13
+            size 0.13 0.015 0.015
           }
           physics Physics {
             density -1
@@ -1128,7 +1102,7 @@ PROTO Shrimp [
               0 0 0
             ]
             inertiaMatrix [
-              0.000417422 0.000417422 1.09687e-5
+              1.09687e-5 0.000417422 0.000417422
               0 0 0
             ]
           }
@@ -1138,71 +1112,70 @@ PROTO Shrimp [
     boundingObject DEF BOUNDING_BODY Group {
       children [
         Transform {
-          translation 0 0.193 -0.005
+          translation 0.005 -0.0 0.193
           children [
             Shape {
               geometry Box {
-                size 0.25 0.068 0.192
+                size 0.192 0.25 0.068
               }
             }
           ]
         }
         Transform {
-          translation 0.0523 0.193 0.109
-          rotation 0 1 0 0.578
+          translation -0.109 -0.0523 0.193
+          rotation 0 0 1 0.578
           children [
             DEF BOUNDING_BASE Shape {
               geometry Box {
-                size 0.14 0.068 0.05
+                size 0.05 0.14 0.068
               }
             }
           ]
         }
         Transform {
-          translation -0.0523 0.193 0.109
-          rotation 0 1 0 -0.578
+          translation -0.109 0.0523 0.193
+          rotation 0 0 1 -0.578
           children [
             USE BOUNDING_BASE
           ]
         }
         Transform {
-          translation 0 0.1455 -0.034
+          translation 0.034 0 0.1455
           children [
             Shape {
               geometry Box {
-                size 0.25 0.027 0.058
+                size 0.058 0.25 0.027
               }
             }
           ]
         }
         Transform {
-          translation 0 0.193 0.1
+          translation -0.1 0 0.193
           children [
             Shape {
               geometry Box {
-                size 0.06 0.068 0.03
+                size 0.03 0.06 0.068
               }
             }
           ]
         }
         Transform {
-          translation 0 0.1755 0.186
-          rotation 1 0 0 -0.478
+          translation -0.186 0 0.1755
+          rotation 0 1 0 0.478
           children [
             Shape {
               geometry Box {
-                size 0.02 0.102 0.015
+                size 0.015 0.02 0.102
               }
             }
           ]
         }
         Transform {
-          translation 0 0.165 0.236
-          rotation 0 0 1 0
+          translation -0.236 0 0.165
           children [
             Shape {
               geometry Box {
-                size 0.024 0.062 0.04
+                size 0.04 0.024 0.062
               }
             }
           ]
@@ -1213,11 +1186,11 @@ PROTO Shrimp [
       density -1
       mass 3.322
       centerOfMass [
-        0 0.13785 0.03604
+        -0.03604 -0.0 0.13785
       ]
       inertiaMatrix [
-        0.0288494 0.0342201 0.0261036
-        7.00127e-20 1.83044e-20 0.00196405
+        0.0261036 0.0288494 0.0342201
+        1.83044e-20 -0.00196405 -7.00127e-20
       ]
     }
   }

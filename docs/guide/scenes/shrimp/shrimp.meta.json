@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.138 0.252",
-      "axis": "0 1 0",
+      "anchor": "-0.252 0 0.138",
+      "axis": "0 0 1",
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "back wheel rotation",
@@ -12,7 +12,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "0 0 1",
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "front wheel rotation",
@@ -21,8 +21,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.08 0",
-      "axis": "1 0 0",
+      "anchor": "0 0 -0.08",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 00",
@@ -31,8 +31,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0355 0.058 0",
-      "axis": "1 0 0",
+      "anchor": "0 -0.0355 0.058",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 01",
@@ -41,8 +41,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0355 0.058 0",
-      "axis": "1 0 0",
+      "anchor": "0 -0.0355 0.058",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 02",
@@ -51,8 +51,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0355 0.058 0",
-      "axis": "1 0 0",
+      "anchor": "0 -0.0355 0.058",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 03",
@@ -61,8 +61,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0355 0.058 0",
-      "axis": "1 0 0",
+      "anchor": "0 -0.0355 0.058",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 04",
@@ -71,8 +71,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.08 0",
-      "axis": "1 0 0",
+      "anchor": "0 0 -0.08",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel motor 05",

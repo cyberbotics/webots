@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable cabinet containing elements (shelves, dynamic doors, and drawers).
@@ -12,7 +12,7 @@
 
 PROTO Cabinet [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "cabinet"
   field SFFloat    depth          0.5                  # Defines the depth of the cabinet.
   field SFFloat    innerThickness 0.02                 # Defines the inner thickness of the cabinet frame.
@@ -119,12 +119,12 @@ PROTO Cabinet [
       }
     }
 
-    let size = {x: 2 * outerThickness, y: 2 * outerThickness, z: depth};
+    let size = {x: depth, y: 2 * outerThickness, z: 2 * outerThickness};
     for (let i = 0; i < nColumns; ++i)
-      size.x += columnsWidths[i];
+      size.y += columnsWidths[i];
 
     for (let i = 0; i < nRows; ++i)
-      size.y += rowsHeights[i];
+      size.z += rowsHeights[i];
 
     // in order to avoid object collisions
     const objectScaleFactor = 0.995;
@@ -134,33 +134,33 @@ PROTO Cabinet [
     rotation IS rotation
     children [
       SolidBox { # back of the cabinet frame
-        translation 0 %<= 0.5 * size.y >% %<= 0.5 * outerThickness >%
+        translation %<= 0.5 * outerThickness >% 0 %<= 0.5 * size.z >%
         name "back box"
-        size %<= size.x >% %<= size.y - 2.0 * outerThickness >% %<= outerThickness >%
+        size %<= outerThickness >% %<= size.y >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # left side of the cabinet frame
-        translation %<= 0.5 * size.x - 0.5 * outerThickness >% %<= 0.5 * size.y >% %<= 0.5 * outerThickness + 0.5 * size.z >%
+        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= 0.5 * size.y - 0.5 * outerThickness >% %<= 0.5 * size.z >%
         name "left box"
-        size %<= outerThickness >% %<= size.y - 2.0 * outerThickness >% %<= size.z - outerThickness >%
+        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # right side of the cabinet frame
-        translation %<= -0.5 * size.x + 0.5 * outerThickness >% %<= 0.5 * size.y >% %<= 0.5 * outerThickness + 0.5 * size.z >%
+        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= -0.5 * size.y + 0.5 * outerThickness >% %<= 0.5 * size.z >%
         name "right box"
-        size %<= outerThickness >% %<= size.y - 2.0 * outerThickness >% %<= size.z - outerThickness >%
+        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # top side of the cabinet frame
-        translation 0 %<= size.y - 0.5 * outerThickness>% %<= 0.5 * size.z >%
+        translation %<= 0.5 * size.x >% 0 %<= size.z - 0.5 * outerThickness>%
         name "top box"
-        size %<= size.x >% %<= outerThickness >% %<= size.z >%
+        size %<= size.x >% %<= size.y >% %<= outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # bottom side of the cabinet frame
-        translation 0 %<= 0.5 * outerThickness >% %<= 0.5 * size.z >%
+        translation %<= 0.5 * size.x >% 0 %<= 0.5 * outerThickness >%
         name "bottom box"
-        size %<= size.x >% %<= outerThickness >% %<= size.z >%
+        size %<= size.x >% %<= size.y >% %<= outerThickness >%
         appearance IS primaryAppearance
       }
       # parse layout
@@ -194,13 +194,13 @@ PROTO Cabinet [
                   name %<= '"drawer ' + i + '"' >%
               %< } >%
                   translation
-                    %<= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.x + outerThickness >%
+                    %<= size.x >%
+                    %<= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.y + outerThickness >%
                     %<= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness >%
-                    %<= size.z >%
                   size
+                    %<= objectScaleFactor * (size.x - outerThickness) >%
                     %<= objectScaleFactor * computeDimension(columnsWidths, data[1], data[3]) >%
                     %<= objectScaleFactor * computeDimension(rowsHeights,   data[2], data[4]) >%
-                    %<= objectScaleFactor * (size.z - outerThickness) >%
                   %< if (data[5] !== undefined && data[5] > 0.0) { >%
                     mass %<= data[5] >%
                   %< } >%
@@ -220,13 +220,13 @@ PROTO Cabinet [
                  name %<= '"box ' + i + '"' >%
                 appearance IS primaryAppearance
                 translation
-                  %<= computeCoordinate(columnsWidths, horizontalOffset + data[1], data[3]) - 0.5 * size.x + outerThickness + depthFightingOffset >%
+                  %<= 0.5 * size.x + 0.5 * (outerThickness - innerThickness) + depthFightingOffset >%
+                  %<= computeCoordinate(columnsWidths, horizontalOffset + data[1], data[3]) - 0.5 * size.y + outerThickness + depthFightingOffset >%
                   %<= computeCoordinate(rowsHeights, data[2], data[4]) + outerThickness + depthFightingOffset >%
-                  %<= 0.5 * size.z + 0.5 * (outerThickness - innerThickness) + depthFightingOffset >%
                 size
+                  %<= objectScaleFactor * (size.x - outerThickness - innerThickness) >%
                   %<= innerThickness + computeDimension(columnsWidths, data[1], data[3]) >%
                   %<= innerThickness + computeDimension(rowsHeights,   data[2], data[4]) >%
-                  %<= objectScaleFactor * (size.z - outerThickness - innerThickness) >%
                }
             %<  } else { >%
               %< console.error('\'layout[' + i + ']\': unknown object: ' + data[0] + '.'); >%

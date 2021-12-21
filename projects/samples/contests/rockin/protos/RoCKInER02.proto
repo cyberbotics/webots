@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 
 PROTO RoCKInER02 [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "RoCKIn ER02"
   field SFColor    color       0.1 0.1 0.6
 ]
@@ -16,7 +16,8 @@ PROTO RoCKInER02 [
       DEF ER02_SHAPE Group {
         children [
           Transform {
-            translation 0 0.01 0
+            translation 0 0 0.01
+            rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
               Shape {
                 appearance DEF ER02_APPEARANCE PBRAppearance {
@@ -31,7 +32,8 @@ PROTO RoCKInER02 [
             ]
           }
           Transform {
-            translation 0.09 0.1 0
+            translation 0 -0.09 0.1
+            rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
               Shape {
                 appearance USE ER02_APPEARANCE
@@ -42,7 +44,8 @@ PROTO RoCKInER02 [
             ]
           }
           Transform {
-            translation -0.09 0.1 0
+            translation 0 0.09 0.1
+            rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
               Shape {
                 appearance USE ER02_APPEARANCE
@@ -53,8 +56,8 @@ PROTO RoCKInER02 [
             ]
           }
           Transform {
-            translation 0 0.1 -0.14
-            rotation 0 1 0 1.5708
+            translation 0.14 0 0.1
+            rotation -1 0 0 -1.570796
             children [
               Shape {
                 appearance USE ER02_APPEARANCE
@@ -65,8 +68,8 @@ PROTO RoCKInER02 [
             ]
           }
           Transform {
-            translation 0 0.1 0.14
-            rotation 0 1 0 1.5708
+            translation -0.14 0 0.1
+            rotation -1 0 0 -1.570796
             children [
               Shape {
                 appearance USE ER02_APPEARANCE

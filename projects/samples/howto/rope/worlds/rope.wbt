@@ -1,12 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   ERP 0.8
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.8416331264924354 0.5386570809569442 0.038758605825187115 5.72059
-  position -0.666474 1.619 1.9763
+  orientation -0.147201594678016 -0.9766203480645257 0.15666648100526678 5.730757807910226
+  position -4.938296499867578 0.19041072492182998 3.5217418524168567
 }
 TexturedBackground {
 }
@@ -15,7 +14,7 @@ TexturedBackgroundLight {
 Floor {
 }
 DEF BLUE_BALL_1 Solid {
-  translation -0.302432 0.0507267 0.277321
+  translation -0.277321 0.302432 0.0507267
   children [
     DEF OBJECT_SHAPE Shape {
       appearance PBRAppearance {
@@ -35,7 +34,7 @@ DEF BLUE_BALL_1 Solid {
   }
 }
 DEF BLUE_BALL_2 Solid {
-  translation 0.0341574 0.412037 0.00906426
+  translation -0.00906426 -0.0341574 0.412037
   children [
     DEF OBJECT_SHAPE Shape {
       appearance PBRAppearance {
@@ -59,20 +58,20 @@ DEF ROPE Solid {
   children [
     DEF INITIAL_BALL_JOINT BallJoint {
       jointParameters BallJointParameters {
-        anchor 0 0.99 0
+        anchor 0 0 0.99
       }
       endPoint DEF ROPE_INITIAL_ELEMENT Solid {
-        translation 0 0.99 0
+        translation 0 0 0.99
         children [
           DEF BALL_JOINT_1 BallJoint {
             jointParameters BallJointParameters {
               springConstant 1
             }
             endPoint DEF ROPE_ELEMENT_1 Solid {
-              translation 0 -0.1 0
+              translation 0 0 -0.1
               children [
                 DEF ROPE_ELEMENT Transform {
-                  translation 0 0.05 0
+                  translation 0 0 0.05
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -92,7 +91,7 @@ DEF ROPE Solid {
                     springConstant 1
                   }
                   endPoint DEF ROPE_ELEMENT_2 Solid {
-                    translation 0 -0.1 0
+                    translation 0 0 -0.1
                     children [
                       USE ROPE_ELEMENT
                       DEF BALL_JOINT_3 BallJoint {
@@ -100,7 +99,7 @@ DEF ROPE Solid {
                           springConstant 1
                         }
                         endPoint DEF ROPE_ELEMENT_3 Solid {
-                          translation 0 -0.1 0
+                          translation 0 0 -0.1
                           children [
                             USE ROPE_ELEMENT
                             DEF BALL_JOINT_4 BallJoint {
@@ -108,7 +107,7 @@ DEF ROPE Solid {
                                 springConstant 1
                               }
                               endPoint DEF ROPE_ELEMENT_4 Solid {
-                                translation 0 -0.1 0
+                                translation 0 0 -0.1
                                 children [
                                   USE ROPE_ELEMENT
                                   DEF BALL_JOINT_5 BallJoint {
@@ -116,11 +115,11 @@ DEF ROPE Solid {
                                       springConstant 1
                                     }
                                     endPoint DEF ROPE_ELEMENT_5 Solid {
-                                      translation 0 -0.1 0
+                                      translation 0 0 -0.1
                                       children [
                                         USE ROPE_ELEMENT
                                         Solid {
-                                          translation 0 -0.05 0
+                                          translation 0 0 -0.05
                                           children [
                                             DEF ROPE_MASS_SHAPE Shape {
                                               appearance DEF SUPPORT_APPEARANCE PBRAppearance {
@@ -147,7 +146,7 @@ DEF ROPE Solid {
                                           0 0 0
                                         ]
                                         inertiaMatrix [
-                                          5.7e-05 9.5e-06 5.7e-05
+                                          5.7e-05 5.7e-05 9.5e-06
                                           0 0 0
                                         ]
                                         damping Damping {
@@ -187,7 +186,7 @@ DEF ROPE Solid {
     DEF SUPPORT_GROUP Group {
       children [
         Transform {
-          translation -0.35 0.05 0
+          translation 0 0.35 0.05
           children [
             Shape {
               appearance DEF SUPPORT_APPEARANCE PBRAppearance {
@@ -196,13 +195,13 @@ DEF ROPE Solid {
                 metalness 0
               }
               geometry Box {
-                size 0.2 0.1 0.2
+                size 0.2 0.2 0.1
               }
             }
           ]
         }
         Transform {
-          translation 0.35 0.05 0
+          translation 0 -0.35 0.05
           children [
             Shape {
               appearance DEF SUPPORT_APPEARANCE PBRAppearance {
@@ -211,13 +210,13 @@ DEF ROPE Solid {
                 metalness 0
               }
               geometry Box {
-                size 0.2 0.1 0.2
+                size 0.2 0.2 0.1
               }
             }
           ]
         }
         Transform {
-          translation -0.35 0.5 0
+          translation 0 0.35 0.5
           children [
             Shape {
               appearance DEF SUPPORT_APPEARANCE PBRAppearance {
@@ -226,29 +225,29 @@ DEF ROPE Solid {
                 metalness 0
               }
               geometry Box {
-                size 0.1 1 0.1
+                size 0.1 0.1 1
               }
             }
           ]
         }
         Transform {
-          translation 0.35 0.5 0
+          translation 0 -0.35 0.5
           children [
             Shape {
               appearance USE SUPPORT_APPEARANCE
               geometry Box {
-                size 0.1 1 0.1
+                size 0.1 0.1 1
               }
             }
           ]
         }
         Transform {
-          translation 0 1.05 0
+          translation 0 0 1.05
           children [
             Shape {
               appearance USE SUPPORT_APPEARANCE
               geometry Box {
-                size 0.8 0.1 0.1
+                size 0.1 0.8 0.1
               }
             }
           ]

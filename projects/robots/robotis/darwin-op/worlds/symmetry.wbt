@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.9440950706679743 -0.21111799356141295 -0.25320681336614165 1.4468538762541638
-  position -0.743453829077677 -1.648699498969355 0.46999642357666227
+  orientation 0.08454956503044155 -0.13179791502993438 -0.9876642550213739 5.131074392727184
+  position -0.7579751998031342 -1.7013381285630313 0.45354939286723184
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -25,7 +25,6 @@ RobotisOp2 {
   cameraHeight 240
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance Parquetry {
   }

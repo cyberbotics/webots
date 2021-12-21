@@ -49,6 +49,7 @@
 #include "WbTreeItem.hpp"
 #include "WbTreeView.hpp"
 #include "WbUndoStack.hpp"
+#include "WbUrl.hpp"
 #include "WbValueEditor.hpp"
 #include "WbVariant.hpp"
 #include "WbViewpoint.hpp"
@@ -728,10 +729,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
-      const QFileInfo fileInfo(destination);
-      if (!QDir(fileInfo.absolutePath()).exists())
-        QDir().mkpath(fileInfo.absolutePath());
-      QFile::copy(it.value(), destination);
+      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
+        const QFileInfo fileInfo(destination);
+        if (!QDir(fileInfo.absolutePath()).exists())
+          QDir().mkpath(fileInfo.absolutePath());
+        QFile::copy(it.value(), destination);
+      }
     }
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
@@ -1438,7 +1441,7 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
   else if ((mSelectedItem->isItem() && !mSelectedItem->isNode() && mSelectedItem->field()->isMultiple()) ||
            (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
-  // default behavior, collapse/expoand tree item
+  // default behavior, collapse/expand tree item
   else if (mTreeView->isExpanded(mTreeView->currentIndex()))
     mTreeView->collapse(mTreeView->currentIndex());
   else

@@ -60,12 +60,13 @@ bool RosSensor::enableSensor(int timestep) {
         copy++;
     }
     if (copy == 0) {
-      mPublishList.push_back(publisherDetails());
-      mPublishList.back().mSamplingPeriod = timestep;
-      mPublishList.back().mNewPublisher = true;
-      mPublishList.back().mPublisher = createPublisher();
       if (minPeriod == timestep)
         rosEnable(timestep);
+      publisherDetails details;
+      details.mPublisher = createPublisher();
+      details.mSamplingPeriod = timestep;
+      details.mNewPublisher = true;
+      mPublishList.push_back(details);
     }
     return true;
   }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A box object with rounded corners and edges implemented at the Solid-node level.
@@ -7,7 +7,7 @@
 
 PROTO SolidRoundedBox [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "rounded box"
   field SFVec3f    size                  2 2 2                                                                                                          # Defines the size of the box.
   field SFFloat    borderRadius          0.5                                                                                                            # Defines the radius of the box borders.
@@ -88,15 +88,15 @@ PROTO SolidRoundedBox [
               }
             }
           %< } >%
-          %< if (innerSize.z > 0) { >%
+          %< if (innerSize.x > 0) { >%
             Transform {
-              translation %<= 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
-              rotation 1 0 0 1.5708
+              translation 0 %<= 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
+              rotation 0.57735 0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %<= innerSize.z >%
+                    height %<= innerSize.x >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -104,12 +104,56 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= -0.5 * size.x + borderRadius >% %<= 0.5 * innerSize.y >% 0
-              rotation 1 0 0 1.5708
+              translation 0 %<= -0.5 * size.y + borderRadius >% %<= 0.5 * innerSize.z >%
+              rotation 0.57735 0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 %<= 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
+              rotation 0.57735 0.57735 0.57735 2.09394
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 %<= - 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
+              rotation 0.57735 0.57735 0.57735 2.09394
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
+                  }
+                }
+              ]
+            }
+          %< } >%
+          %< if (innerSize.z > 0) { >%
+            Transform {
+              translation %<= 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
                     height %<= innerSize.z >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
@@ -119,11 +163,11 @@ PROTO SolidRoundedBox [
             }
             Transform {
               translation %<= 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
-              rotation 1 0 0 1.5708
+              rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
-                  geometry Capsule {
+                  geometry Cylinder {
                     height %<= innerSize.z >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
@@ -133,11 +177,25 @@ PROTO SolidRoundedBox [
             }
             Transform {
               translation %<= - 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
-              rotation 1 0 0 1.5708
+              rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
-                  geometry Capsule {
+                  geometry Cylinder {
+                    height %<= innerSize.z >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %<= - 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
                     height %<= innerSize.z >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
@@ -149,32 +207,7 @@ PROTO SolidRoundedBox [
           %< if (innerSize.y > 0) { >%
             Transform {
               translation %<= 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
-              children [
-                Shape {
-                  appearance IS appearance
-                  geometry Cylinder {
-                    height %<= innerSize.y >%
-                    radius %<= borderRadius >%
-                    subdivision %<= subdivision >%
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation %<= - 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
-              children [
-                Shape {
-                  appearance IS appearance
-                  geometry Cylinder {
-                    height %<= innerSize.y >%
-                    radius %<= borderRadius >%
-                    subdivision %<= subdivision >%
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation %<= - 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
+              rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
@@ -188,6 +221,7 @@ PROTO SolidRoundedBox [
             }
             Transform {
               translation %<= 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
+              rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
@@ -199,16 +233,14 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-          %< } >%
-          %< if (innerSize.x > 0) { >%
             Transform {
-              translation 0 %<= 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
-              rotation 0 0 1 1.5708
+              translation %<= - 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
+              rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -216,41 +248,13 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation 0 %<= - 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
-              rotation 0 0 1 1.5708
+              translation %<= - 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
+              rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
-                    radius %<= borderRadius >%
-                    subdivision %<= subdivision >%
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation 0 %<= - 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
-              rotation 0 0 1 1.5708
-              children [
-                Shape {
-                  appearance IS appearance
-                  geometry Cylinder {
-                    height %<= innerSize.x >%
-                    radius %<= borderRadius >%
-                    subdivision %<= subdivision >%
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation 0 %<= 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
-              rotation 0 0 1 1.5708
-              children [
-                Shape {
-                  appearance IS appearance
-                  geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }

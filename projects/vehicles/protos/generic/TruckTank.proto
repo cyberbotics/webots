@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A non-controllable truck tank model with physics properties.
@@ -25,12 +25,11 @@ PROTO TruckTank [
         }
         DEF FRONT_RIGHT_WHEEL Transform {
           translation -1 0 -5.45
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 -1 0
-                suspensionAxis 1 0 0
+                axis -1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -49,12 +48,12 @@ PROTO TruckTank [
         }
         DEF FRONT_LEFT_WHEEL Transform {
           translation 1 0 -5.45
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14156
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
-                suspensionAxis 1 0 0
+                axis 1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -62,6 +61,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "front left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100
@@ -73,12 +73,11 @@ PROTO TruckTank [
         }
         DEF CENTER_RIGHT_WHEEL Transform {
           translation -1 0 -6.55
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 -1 0
-                suspensionAxis 1 0 0
+                axis -1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -97,12 +96,12 @@ PROTO TruckTank [
         }
         DEF CENTER_LEFT_WHEEL Transform {
           translation 1 0 -6.55
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14156
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
-                suspensionAxis 1 0 0
+                axis 1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -110,6 +109,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "central left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100
@@ -121,12 +121,11 @@ PROTO TruckTank [
         }
         DEF REAR_RIGHT_WHEEL Transform {
           translation -1 0 -7.65
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 -1 0
-                suspensionAxis 1 0 0
+                axis -1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -145,12 +144,12 @@ PROTO TruckTank [
         }
         DEF REAR_LEFT_WHEEL Transform {
           translation 1 0 -7.65
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14156
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
-                suspensionAxis 1 0 0
+                axis 1 0 0
+                suspensionAxis 0 1 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
               }
@@ -158,6 +157,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "rear left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100

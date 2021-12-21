@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the E-puck robot"
   ]
   title "E-puck simulation"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.04913069345659068 0.9922428678493876 0.11419398479121845 3.8679
-  position -0.189716 0.0926762 -0.198126
+  orientation -0.15020139637050148 -0.0891662702192408 0.984626282801521 4.002831150795431
+  position 0.25847289727030187 0.25498154380089166 0.18495554441956158
   follow "e-puck"
 }
 TexturedBackground {
@@ -19,36 +18,36 @@ RectangleArena {
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.683174
-  rotation 0 1 0 0.5
+  translation -0.683174 0.2 0.05
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation 0.35 0.75 0.05
+  rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation -0.35471 -0.5 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.66 0.65 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.571595307179586
   controller "e-puck"
   kinematic TRUE
 }

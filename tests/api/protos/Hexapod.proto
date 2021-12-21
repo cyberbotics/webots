@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO Hexapod [
   field SFVec3f translation 0 0.06 0
@@ -25,16 +25,21 @@ DEF HEXAPOD Robot {
       endPoint Solid {
         translation 0.2 0 0.05
         children [
-          DEF HIP_SHAPE Shape {
-            appearance DEF HIP_APPEARANCE Appearance {
-              material Material {
-                diffuseColor 1 0 0
+          DEF HIP_SHAPE Transform {
+            rotation -1 0 0 1.5708
+            children [
+              Shape {
+                appearance DEF HIP_APPEARANCE Appearance {
+                  material Material {
+                    diffuseColor 1 0 0
+                  }
+                }
+                geometry Cylinder {
+                  height 0.06
+                  radius 0.02
+                }
               }
-            }
-            geometry Cylinder {
-              height 0.06
-              radius 0.02
-            }
+            ]
           }
           DEF FEMUR_TRANS Transform {
             translation 0 0 0.06
@@ -53,6 +58,7 @@ DEF HEXAPOD Robot {
           }
           DEF KNEE_TRANS Transform {
             translation 0 0 0.11
+            rotation -1 0 0 1.5708
             children [
               DEF KNEE_SHAPE Shape {
                 appearance DEF KNEE_APPEARANCE Appearance {
@@ -84,7 +90,6 @@ DEF HEXAPOD Robot {
               rotation 1 0 0 1.5708
               children [
                 DEF TIBIA_TRANS Transform {
-                  rotation 1 0 0 1.5708
                   children [
                     DEF TIBIA_SHAPE Shape {
                       appearance USE METAL_APPEARANCE
@@ -220,6 +225,7 @@ DEF HEXAPOD Robot {
           }
           DEF LEFT_KNEE_TRANS Transform {
             translation 0 0 -0.11
+            rotation 1 0 0 1.5708
             children [
               USE KNEE_SHAPE
             ]

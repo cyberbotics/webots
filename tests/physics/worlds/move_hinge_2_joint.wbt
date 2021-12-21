@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   ERP 0.6
   lineScale 1.7
@@ -10,11 +10,10 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2748867109265388 -0.900713933035965 -0.3363803011338104 1.779097
-  position -20.43118 19.174285 -3.4897581
+  orientation -0.032792104866749695 0.9883815488810487 -0.14841358323922768 1.1000080994007726
+  position -15.445593386398377 2.3249102199785314 25.22620701271293
 }
 Background {
   skyColor [
@@ -23,23 +22,25 @@ Background {
 }
 DirectionalLight {
   ambientIntensity 1
-  direction 0.1 -0.5 -0.3
+  direction 0.3 -0.1 -0.5
   castShadows TRUE
 }
 Floor {
+  rotation 0 0 1 -1.5708
   size 15 15
 }
 DEF VEHICLE Robot {
-  translation -3.5289477 0.5 0.46033814
+  translation 0.46033814 -3.5289477 0.5
   children [
     Transform {
-      rotation 0 0 1 -1.5708
+      rotation 1 0 0 1.5708
       children [
         DEF STEER_HINGE2 Hinge2Joint {
           jointParameters HingeJointParameters {
+            axis 0 -1 0
           }
           jointParameters2 JointParameters {
-            axis 0 1 0
+            axis 0 0 -1
           }
           device [
             RotationalMotor {
@@ -53,6 +54,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
+            rotation 0 1 0 -3.1415853071795863
             children [
               DEF CYLINDER Shape {
                 appearance Appearance {
@@ -77,12 +79,12 @@ DEF VEHICLE Robot {
       ]
     }
     Transform {
-      translation 1 0 -2
-      rotation 0 0 1 -1.5708
+      translation -2 -1 0
+      rotation -1 0 0 -1.5708
       children [
         DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
           jointParameters HingeJointParameters {
-            axis 0 1 0
+            axis 0 0 -1
           }
           device [
             RotationalMotor {
@@ -90,6 +92,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
+            rotation 0 1 0 -3.1415853071795863
             children [
               USE CYLINDER
             ]
@@ -104,12 +107,12 @@ DEF VEHICLE Robot {
       ]
     }
     Transform {
-      translation -1 0 -2
-      rotation 0 0 1 1.5708
+      translation -2 1 0
+      rotation -1 0 0 1.5708
       children [
         DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
           jointParameters HingeJointParameters {
-            axis 0 -1 0
+            axis 0 0 1
           }
           device [
             RotationalMotor {
@@ -117,7 +120,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
-            rotation 0 -1 0 0
+            rotation 0 1 0 -3.1415853071795863
             children [
               USE CYLINDER
             ]
@@ -132,8 +135,8 @@ DEF VEHICLE Robot {
       ]
     }
     DistanceSensor {
-      translation 0.40854012 0 -0.702227
-      rotation 0 1 0 4.4505862
+      translation -0.702227 0.40854012 0
+      rotation 0 0 1 6.0213862
       name "front wheel sensor"
       lookupTable [
         0 0 0
@@ -144,10 +147,10 @@ DEF VEHICLE Robot {
     }
   ]
   boundingObject Transform {
-    translation 0 0 -1.64
+    translation -1.64 0 0
     children [
       Box {
-        size 1 0.1 1.7
+        size 1.7 1 0.1
       }
     ]
   }
@@ -164,19 +167,19 @@ DEF CAR Car {
   hidden position2_0_1 8.407
   hidden position_0_2 7.03964
   hidden position_0_3 6.66752
-  hidden rotation_1 0.055386094017574695 -0.9934687686711855 0.09976064486777862 4.149678629760579
-  hidden rotation_2 -0.05560820802292396 0.9934650603306239 0.09967397404914154 4.153801098520317
-  hidden rotation_3 0 -1 0 5.526730614359173
-  hidden rotation_4 0 1 0 5.898850614359174
-  translation 5.1164165 0.34688528 -1.4528767
-  rotation 0.010146934020187369 -0.9999444219893937 -0.002862282705694524 0.50605632
+  hidden rotation_1 -0.9934687686711855 -0.09976064486777862 -0.055386094017574695 4.149678629760579
+  hidden rotation_2 0.9934650603306239 0.09967397404914154 -0.05560820802292396 4.153801098520317
+  hidden rotation_3 -1 0 0 5.526730614359173
+  hidden rotation_4 1 0 0 5.898850614359174
+  translation -1.4528767 5.1164165 0.34688528
+  rotation 0.002862123643396681 -0.010146370136459845 -0.9999444281665376 0.50605632
   controller "move_car"
   extensionSlot [
     TestSuiteEmitter {
     }
     DistanceSensor {
-      translation -0.95690683 0 3.4569208
-      rotation 0 -1 0 1.75
+      translation 3.4569208 -0.95690683 0
+      rotation 0 0 -1 0.1792
       name "right sensor"
       lookupTable [
         0 0 0
@@ -185,8 +188,8 @@ DEF CAR Car {
       type "infra-red"
     }
     DistanceSensor {
-      translation 0.75615429 0 3.433311
-      rotation 0 -1 0 1.78
+      translation 3.433311 0.75615429 0
+      rotation 0 0 -1 0.1792
       name "left sensor"
       lookupTable [
         0 0 0
@@ -196,10 +199,10 @@ DEF CAR Car {
     }
   ]
   boundingObject Transform {
-    translation 0 1 1.93
+    translation 1.93 0 1
     children [
       Box {
-        size 1 0.2 2.1
+        size 2.1 1 0.2
       }
     ]
   }

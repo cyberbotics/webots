@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/salamander
@@ -6,7 +6,7 @@
 
 PROTO Salamander [
   field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0      # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
   field SFString   name            "Salamander" # Is `Solid.name`.
   field SFString   controller      "salamander" # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
@@ -33,28 +33,24 @@ PROTO Salamander [
       }
       DEF SMALL_SEGMENT Group {
         children [
-          Transform {
-            children [
-              Shape {
-                appearance DEF SALAMANDER_COLOR PBRAppearance {
-                  baseColor 1 0.8 0.3
-                  roughness 0.3
-                  metalness 0
-                }
-                geometry Cylinder {
-                  height 0.0561
-                  radius 0.019
-                }
-              }
-            ]
+          Shape {
+            appearance DEF SALAMANDER_COLOR PBRAppearance {
+              baseColor 1 0.8 0.3
+              roughness 0.3
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.0561
+              radius 0.019
+            }
           }
           Transform {
-            translation 0 0 0.038
+            translation -0.038 0 0
             children [
               Shape {
                 appearance USE SALAMANDER_COLOR
                 geometry Box {
-                  size 0.038 0.056 0.076
+                  size 0.076 0.038 0.056
                 }
               }
             ]
@@ -62,8 +58,8 @@ PROTO Salamander [
         ]
       }
       DEF LEFT_EYE DistanceSensor {
-        translation -0.02 0.03 0
-        rotation 0 1 0 2.356
+        translation 0 0.02 0.03
+        rotation 0 0 1 0.785205
         children [
           DEF EYE_SHAPE Shape {
             appearance DEF EYE_APPEARANCE PBRAppearance {
@@ -86,8 +82,8 @@ PROTO Salamander [
         aperture 0.8
       }
       DEF RIGHT_EYE DistanceSensor {
-        translation 0.02 0.03 0
-        rotation 0 1 0 0.785
+        translation 0 -0.02 0.03
+        rotation 0 0 1 -0.785795
         children [
           USE EYE_SHAPE
         ]
@@ -101,34 +97,30 @@ PROTO Salamander [
       }
       HingeJoint {  # Simulation of backlash.
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 0 0.108
+          axis 0 0 1
+          anchor -0.108 0 0
           minStop -0.0001
           maxStop 0.0001
         }
         endPoint DEF SOLID_THORAX Solid {
-          translation 0 0 0.108
+          translation -0.108 0 0
           children [
             DEF BIG_SEGMENT Group {
               children [
-                Transform {
-                  children [
-                    Shape {
-                      appearance USE SALAMANDER_COLOR
-                      geometry Cylinder {
-                        height 0.0561
-                        radius 0.032
-                      }
-                    }
-                  ]
+                Shape {
+                  appearance USE SALAMANDER_COLOR
+                  geometry Cylinder {
+                    height 0.0561
+                    radius 0.032
+                  }
                 }
                 Transform {
-                  translation 0 0 0.0235
+                  translation -0.0235 0 0
                   children [
                     Shape {
                       appearance USE SALAMANDER_COLOR
                       geometry Box {
-                        size 0.064 0.056 0.047
+                        size 0.047 0.064 0.056
                       }
                     }
                   ]
@@ -137,7 +129,8 @@ PROTO Salamander [
             }
             DEF HINGE_JOINT_LEG_1 HingeJoint {
               jointParameters HingeJointParameters {
-                anchor -0.032 0 0.02
+                anchor -0.02 0.032 0
+                axis 0 -1 0
               }
               device [
                 RotationalMotor {
@@ -147,14 +140,14 @@ PROTO Salamander [
                 }
               ]
               endPoint DEF SOLID_LEG_1 Solid {
-                translation -0.032 0 0.02
-                rotation 1 0 0 0
+                translation -0.02 0.032 0
+                rotation -0.577352 0.577348 0.577352 -2.094405
                 children [
                   DEF GROUP_FEMUR_1 Group {
                     children [
                       DEF TRANSFORM_HIP_1 Transform {
                         translation -0.004 0 0
-                        rotation 0 0 1 1.5708
+                        rotation 0 1 0 -1.5708
                         children [
                           DEF SHAPE_HIP Shape {
                             appearance DEF LEG_COLOR PBRAppearance {
@@ -171,7 +164,7 @@ PROTO Salamander [
                       }
                       DEF TRANSFORM_FEMUR_1 Transform {
                         translation -0.016 0 0
-                        rotation 0 0 1 1.5708
+                        rotation 0 1 0 -1.5708
                         children [
                           DEF FEMUR Shape {
                             appearance USE LEG_COLOR
@@ -192,7 +185,7 @@ PROTO Salamander [
                         children [
                           DEF TRANSFORM_TIBIA_1 Transform {
                             translation -0.0225 0 0
-                            rotation 0 0 1 1.5708
+                            rotation 0 1 0 1.5708
                             children [
                               DEF TIBIA Shape {
                                 appearance USE LEG_COLOR
@@ -205,7 +198,7 @@ PROTO Salamander [
                           }
                           DEF TRANSFORM_FOOT_1 Transform {
                             translation -0.045 -0.002 -0.0055
-                            rotation 0 0 1 -1.0472
+                            rotation 0.774596 -0.447214 0.447214 -1.823478
                             children [
                               DEF FOOT Shape {
                                 appearance USE LEG_COLOR
@@ -223,7 +216,7 @@ PROTO Salamander [
                     immersionProperties [
                       DEF IMMERSION_PROP_TIBIA ImmersionProperties {
                         fluidName "fluid"
-                        dragForceCoefficients 0.95 0.15 0.15
+                        dragForceCoefficients 0.15 0.95 0.15
                       }
                     ]
                     boundingObject USE GROUP_TIBIA_1
@@ -231,11 +224,11 @@ PROTO Salamander [
                       density -1
                       mass 0.0045704
                       centerOfMass [
-                        -0.03 0 0
+                        0 0.03 0
                       ]
                       inertiaMatrix [
-                        2.59057e-7 1.32103e-6 1.25007e-6
-                        -2.73481e-8 -1.64256e-7 -2.19008e-8
+                        1.25007e-6 2.59057e-7 1.32103e-6
+                        -1.64256e-7 2.19008e-8 2.73481e-8
                       ]
                     }
                   }
@@ -245,7 +238,7 @@ PROTO Salamander [
                 immersionProperties [
                   DEF IMMERSION_PROP_FEMUR ImmersionProperties {
                     fluidName "fluid"
-                    dragForceCoefficients 0 0.15 0.15
+                    dragForceCoefficients 0.15 0 0.15
                   }
                 ]
                 boundingObject USE GROUP_FEMUR_1
@@ -253,18 +246,19 @@ PROTO Salamander [
                   density -1
                   mass 0.00242371
                   centerOfMass [
-                    -0.012 0 0
+                    0 0.012 0
                   ]
                   inertiaMatrix [
-                    7.57828e-8 1.99961e-7 1.99961e-7
-                    -1.03066e-13 0 0
+                    1.99961e-7 7.57828e-8 1.99961e-7
+                    0 0 1.03066e-13
                   ]
                 }
               }
             }
             DEF HINGE_JOINT_LEG_2 HingeJoint {
               jointParameters HingeJointParameters {
-                anchor 0.032 0 0.02
+                anchor -0.02 -0.032 0
+                axis 0 -1 0
               }
               device [
                 RotationalMotor {
@@ -274,21 +268,21 @@ PROTO Salamander [
                 }
               ]
               endPoint DEF SOLID_LEG_2 Solid {
-                translation 0.032 0 0.02
-                rotation 1 0 0 3.14159
+                translation -0.02 -0.032 0
+                rotation 0.577347 -0.577355 0.577349 -2.094391
                 children [
                   DEF GROUP_FEMUR_2 Group {
                     children [
                       DEF TRANSFORM_HIP_2 Transform {
                         translation 0.004 0 0
-                        rotation 0 0 1 1.5708
+                        rotation 0 1 0 1.5708
                         children [
                           USE SHAPE_HIP
                         ]
                       }
                       DEF TRANSFORM_FEMUR_2 Transform {
                         translation 0.016 0 0
-                        rotation 0 0 1 1.5708
+                        rotation 0 1 0 1.5708
                         children [
                           DEF FEMUR Shape {
                             appearance USE LEG_COLOR
@@ -309,7 +303,7 @@ PROTO Salamander [
                         children [
                           DEF TRANSFORM_TIBIA_2 Transform {
                             translation 0.0225 0 0
-                            rotation 0 0 1 1.5708
+                            rotation 0 1 0 1.5708
                             children [
                               DEF TIBIA Shape {
                                 appearance USE LEG_COLOR
@@ -322,7 +316,7 @@ PROTO Salamander [
                           }
                           DEF TRANSFORM_FOOT_2 Transform {
                             translation 0.045 0.002 0.0055
-                            rotation 0 0 1 -1.0472
+                            rotation 0.774596 -0.447214 0.447214 -1.823478
                             children [
                               DEF FOOT Shape {
                                 appearance USE LEG_COLOR
@@ -345,11 +339,11 @@ PROTO Salamander [
                       density -1
                       mass 0.0045704
                       centerOfMass [
-                        0.03 0 0
+                        0 -0.03 0
                       ]
                       inertiaMatrix [
-                        2.59057e-7 1.32103e-6 1.25007e-6
-                        -2.73481e-8 -1.64256e-7 -2.19008e-8
+                        1.25007e-6 2.59057e-7 1.32103e-6
+                        -1.64256e-7 2.19008e-8 2.73481e-8
                       ]
                     }
                   }
@@ -364,19 +358,19 @@ PROTO Salamander [
                   density -1
                   mass 0.00242371
                   centerOfMass [
-                    0.012 0 0
+                    0 -0.012 0
                   ]
                   inertiaMatrix [
-                    7.57828e-8 1.99961e-7 1.99961e-7
-                    -1.03066e-13 0 0
+                    1.99961e-7 7.57828e-8 1.99961e-7
+                    0 0 -1.03066e-13
                   ]
                 }
               }
             }
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
-                anchor 0 0 0.066
+                axis 0 0 1
+                anchor -0.066 0 0
               }
               device [
                 RotationalMotor {
@@ -387,13 +381,13 @@ PROTO Salamander [
                 }
               ]
               endPoint DEF SEGMENT_1 Solid {
-                translation 0 0 0.066
+                translation -0.066 0 0
                 children [
                   USE SMALL_SEGMENT
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 1 0
-                      anchor 0 0 0.095
+                      axis 0 0 1
+                      anchor -0.095 0 0
                     }
                     device [
                       RotationalMotor {
@@ -404,13 +398,13 @@ PROTO Salamander [
                       }
                     ]
                     endPoint DEF SEGMENT_2 Solid {
-                      translation 0 0 0.095
+                      translation -0.095 0 0
                       children [
                         USE SMALL_SEGMENT
                         HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 1 0
-                            anchor 0 0 0.095
+                            axis 0 0 1
+                            anchor -0.095 0 0
                           }
                           device [
                             RotationalMotor {
@@ -421,23 +415,24 @@ PROTO Salamander [
                             }
                           ]
                           endPoint DEF SEGMENT_3 Solid {
-                            translation 0 0 0.095
+                            translation -0.095 0 0
                             children [
                               USE SMALL_SEGMENT
                               HingeJoint {  # Simulation of backlash.
                                 jointParameters HingeJointParameters {
-                                  axis 0 1 0
-                                  anchor 0 0 0.108
+                                  axis 0 0 1
+                                  anchor -0.108 0 0
                                   minStop -0.0001
                                   maxStop 0.0001
                                 }
                                 endPoint DEF SEGMENT_PELVIS Solid {
-                                  translation 0 0 0.108
+                                  translation -0.108 0 0
                                   children [
                                     USE BIG_SEGMENT
                                     DEF HINGE_JOINT_LEG_3 HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor -0.032 0 0.02
+                                        anchor -0.02 0.032 0
+                                        axis -0.0 -1.0 -0.0
                                       }
                                       device [
                                         RotationalMotor {
@@ -447,21 +442,21 @@ PROTO Salamander [
                                         }
                                       ]
                                       endPoint DEF SOLID_LEG_3 Solid {
-                                        translation -0.032 0 0.02
-                                        rotation 1 0 0 0
+                                        translation -0.02 0.032 0
+                                        rotation -0.577352 0.577348 0.577352 -2.094405
                                         children [
                                           DEF GROUP_FEMUR_3 Group {
                                             children [
                                               DEF TRANSFORM_HIP_3 Transform {
                                                 translation -0.004 0 0
-                                                rotation 0 0 1 1.5708
+                                                rotation 0 1 0 1.5708
                                                 children [
                                                   USE SHAPE_HIP
                                                 ]
                                               }
                                               DEF TRANSFORM_FEMUR_3 Transform {
                                                 translation -0.016 0 0
-                                                rotation 0 0 1 1.5708
+                                                rotation 0 1 0 1.5708
                                                 children [
                                                   DEF FEMUR Shape {
                                                     appearance USE LEG_COLOR
@@ -482,7 +477,7 @@ PROTO Salamander [
                                                 children [
                                                   DEF TRANSFORM_TIBIA_3 Transform {
                                                     translation -0.0225 0 0
-                                                    rotation 0 0 1 1.5708
+                                                    rotation 0 1 0 1.5708
                                                     children [
                                                       DEF TIBIA Shape {
                                                         appearance USE LEG_COLOR
@@ -495,7 +490,7 @@ PROTO Salamander [
                                                   }
                                                   DEF TRANSFORM_FOOT_3 Transform {
                                                     translation -0.045 -0.002 -0.0055
-                                                    rotation 0 0 1 -1.0472
+                                                    rotation 0.774596 -0.447214 0.447214 -1.823478
                                                     children [
                                                       DEF FOOT Shape {
                                                         appearance USE LEG_COLOR
@@ -518,11 +513,11 @@ PROTO Salamander [
                                               density -1
                                               mass 0.0045704
                                               centerOfMass [
-                                                -0.03 0 0
+                                                0 0.03 0
                                               ]
                                               inertiaMatrix [
-                                                2.59057e-7 1.32103e-6 1.25007e-6
-                                                -2.73481e-8 -1.64256e-7 -2.19008e-8
+                                                1.25007e-6 2.59057e-7 1.32103e-6
+                                                -1.64256e-7 2.19008e-8 2.73481e-8
                                               ]
                                             }
                                           }
@@ -537,18 +532,19 @@ PROTO Salamander [
                                           density -1
                                           mass 0.00242371
                                           centerOfMass [
-                                            -0.012 0 0
+                                            0 0.012 0
                                           ]
                                           inertiaMatrix [
-                                            7.57828e-8 1.99961e-7 1.99961e-7
-                                            -1.03066e-13 0 0
+                                            1.99961e-7 7.57828e-8 1.99961e-7
+                                            0 0 1.03066e-13
                                           ]
                                         }
                                       }
                                     }
                                     DEF HINGE_JOINT_LEG_4 HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor 0.032 0 0.02
+                                        anchor -0.02 -0.032 0
+                                        axis 0 -1 0
                                       }
                                       device [
                                         RotationalMotor {
@@ -558,21 +554,21 @@ PROTO Salamander [
                                         }
                                       ]
                                       endPoint DEF SOLID_LEG_4 Solid {
-                                        translation 0.032 0 0.02
-                                        rotation 1 0 0 3.14159
+                                        translation -0.02 -0.032 0
+                                        rotation 0.577347 -0.577355 0.577349 -2.094391
                                         children [
                                           DEF GROUP_FEMUR_4 Group {
                                             children [
                                               DEF TRANSFORM_HIP_4 Transform {
                                                 translation 0.004 0 0
-                                                rotation 0 0 1 1.5708
+                                                rotation 0 1 0 1.5708
                                                 children [
                                                   USE SHAPE_HIP
                                                 ]
                                               }
                                               DEF TRANSFORM_FEMUR_4 Transform {
                                                 translation 0.016 0 0
-                                                rotation 0 0 1 1.5708
+                                                rotation 0 1 0 1.5708
                                                 children [
                                                   DEF FEMUR Shape {
                                                     appearance USE LEG_COLOR
@@ -593,7 +589,7 @@ PROTO Salamander [
                                                 children [
                                                   DEF TRANSFORM_TIBIA_4 Transform {
                                                     translation 0.0225 0 0
-                                                    rotation 0 0 1 1.5708
+                                                    rotation 0 1 0 1.5708
                                                     children [
                                                       DEF TIBIA Shape {
                                                         appearance USE LEG_COLOR
@@ -606,7 +602,7 @@ PROTO Salamander [
                                                   }
                                                   DEF TRANSFORM_FOOT_4 Transform {
                                                     translation 0.045 0.002 0.0055
-                                                    rotation 0 0 1 -1.0472
+                                                    rotation 0.774596 -0.447214 0.447214 -1.823478
                                                     children [
                                                       DEF FOOT Shape {
                                                         appearance USE LEG_COLOR
@@ -629,11 +625,11 @@ PROTO Salamander [
                                               density -1
                                               mass 0.0045704
                                               centerOfMass [
-                                                0.03 0 0
+                                                0 -0.03 0
                                               ]
                                               inertiaMatrix [
-                                                2.59057e-7 1.32103e-6 1.25007e-6
-                                                -2.73481e-8 -1.64256e-7 -2.19008e-8
+                                                1.25007e-6 2.59057e-7 1.32103e-6
+                                                -1.64256e-7 2.19008e-8 2.73481e-8
                                               ]
                                             }
                                           }
@@ -648,19 +644,19 @@ PROTO Salamander [
                                           density -1
                                           mass 0.00242371
                                           centerOfMass [
-                                            0.012 0 0
+                                            0 -0.012 0
                                           ]
                                           inertiaMatrix [
-                                            7.57828e-8 1.99961e-7 1.99961e-7
-                                            -1.03066e-13 0 0
+                                            1.99961e-7 7.57828e-8 1.99961e-7
+                                            0 0 1.03066e-13
                                           ]
                                         }
                                       }
                                     }
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        axis 0 1 0
-                                        anchor 0 0 0.066
+                                        axis 0 0 1
+                                        anchor -0.066 0 0
                                       }
                                       device [
                                         RotationalMotor {
@@ -671,13 +667,13 @@ PROTO Salamander [
                                         }
                                       ]
                                       endPoint DEF SEGMENT_4 Solid {
-                                        translation 0 0 0.066
+                                        translation -0.066 0 0
                                         children [
                                           USE SMALL_SEGMENT
                                           HingeJoint {
                                             jointParameters HingeJointParameters {
-                                              axis 0 1 0
-                                              anchor 0 0 0.095
+                                              axis 0 0 1
+                                              anchor -0.095 0 0
                                             }
                                             device [
                                               RotationalMotor {
@@ -688,13 +684,13 @@ PROTO Salamander [
                                               }
                                             ]
                                             endPoint DEF SEGMENT_5 Solid {
-                                              translation 0 0 0.095
+                                              translation -0.095 0 0
                                               children [
                                                 USE SMALL_SEGMENT
                                                 HingeJoint {
                                                   jointParameters HingeJointParameters {
-                                                    axis 0 1 0
-                                                    anchor 0 0 0.095
+                                                    axis 0 0 1
+                                                    anchor -0.095 0 0
                                                   }
                                                   device [
                                                     RotationalMotor {
@@ -705,7 +701,7 @@ PROTO Salamander [
                                                     }
                                                   ]
                                                   endPoint DEF SEGMENT_6 Solid {
-                                                    translation 0 0 0.095
+                                                    translation -0.095 0 0
                                                     children [
                                                       USE SMALL_SEGMENT
                                                     ]
@@ -714,7 +710,7 @@ PROTO Salamander [
                                                       DEF IMMERSION_PROP_SEGMENT ImmersionProperties {
                                                         fluidName "fluid"
                                                         referenceArea "xyz-projection"
-                                                        dragForceCoefficients 3.1 1.3 0
+                                                        dragForceCoefficients 0 3.1 1.3
                                                         viscousResistanceTorqueCoefficient 5
                                                       }
                                                     ]
@@ -723,11 +719,11 @@ PROTO Salamander [
                                                       density -1
                                                       mass 0.180281
                                                       centerOfMass [
-                                                        0 -0.014 0.038
+                                                        -0.038 0 -0.014
                                                       ]
                                                       inertiaMatrix [
-                                                        0.000222864 0.000160531 0.000102659
-                                                        0 0 2.70783e-5
+                                                        0.000102659 0.000222864 0.000160531
+                                                        0 -2.70783e-5 0
                                                       ]
                                                     }
                                                   }
@@ -756,7 +752,7 @@ PROTO Salamander [
                                     DEF IMMERSION_PROP_BIG_SEGMENT ImmersionProperties {
                                       fluidName "fluid"
                                       referenceArea "xyz-projection"
-                                      dragForceCoefficients 1.8 0.95 0.75
+                                      dragForceCoefficients 0.75 1.8 0.95
                                       viscousResistanceTorqueCoefficient 5
                                     }
                                   ]
@@ -765,11 +761,11 @@ PROTO Salamander [
                                     density -1
                                     mass 0.279137
                                     centerOfMass [
-                                      0 -0.014 0.0235
+                                      -0.0235 0 -0.014
                                     ]
                                     inertiaMatrix [
-                                      0.000269294 0.000224459 0.000210752
-                                      0 0 4.75005e-5
+                                      0.000210752 0.000269294 0.000224459
+                                      0 -4.75005e-5 0
                                     ]
                                   }
                                 }
@@ -816,7 +812,7 @@ PROTO Salamander [
       DEF IMMERSION_PROP_HEAD ImmersionProperties {
         fluidName "fluid"
         referenceArea "xyz-projection"
-        dragForceCoefficients 2 1 1
+        dragForceCoefficients 1 2 1
         viscousResistanceTorqueCoefficient 5
       }
     ]

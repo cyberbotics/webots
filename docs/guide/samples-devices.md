@@ -377,6 +377,13 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
 A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
 
+### [skin.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/skin.wbt)
+
+**Keywords**: [Skin](../reference/skin.md) animation
+
+![skin.png](images/samples/skin.thumbnail.jpg) In this example, a human rigged model is animated using the [Skin](../reference/skin.md) device.
+In this case the animation is purely graphical and just the left leg bone orientation and the root bone position are modified by the controller.
+
 ### [speaker.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/speaker.wbt)
 
 **Keywords**: [Speaker](../reference/speaker.md), WAV

@@ -17,8 +17,7 @@ The following operating systems are supported:
 But it is also known to run on most recent major Linux distributions, including RedHat, Mandrake, Debian, Gentoo, Arch, SuSE, and Slackware.
 We recommend using a recent version of Linux.
 Webots is provided for Linux 64 (x86-64) systems.
-Webots doesn't run on Ubuntu versions earlier than 16.04, but only packages for Ubuntu 18.04 and 20.04 are provided.
-To run Webots on Ubuntu 16.04, please compile Webots from sources following [these instructions](https://github.com/cyberbotics/webots/wiki/Linux-installation).
+Webots doesn't run on Ubuntu versions earlier than 18.04.
 - Windows: Webots runs on Windows 10 and Windows 8.1 (64-bit versions only).
 - Mac: Webots runs on macOS 10.15 "Catalina" and 10.14 "Mojave".
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable conveyor belt moving at a constant speed.
@@ -6,9 +6,9 @@
 
 PROTO ConveyorBelt [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "conveyor belt"
-  field SFVec3f    size             1.5 0.6 0.5
+  field SFVec3f    size             1.5 0.5 0.6
   field SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }  # Defines the appearance of the conveyor belt.
   field SFFloat    borderThickness  0.03                                                                 # Defines the thickness of the metal part around the conveyor belt.
   field SFFloat    borderHeight     0.01                                                                 # Defines the height of the border around the conveyor.
@@ -43,18 +43,17 @@ PROTO ConveyorBelt [
     ]
     children [
       Track {
-        translation 0 %<= 0.75 * size.y >% 0
-        rotation -1 0 0 3.141592653589793
+        translation 0 0 %<= 0.75 * size.z >%
         children [
           Shape {
             appearance Rubber {
               type "dotted"
               textureTransform TextureTransform {
-                scale %<= 4.0 * size.x >% %<= 4.0 * size.z >%
+                scale %<= 4.0 * size.x >% %<= 4.0 * size.y >%
               }
             }
             geometry DEF BELT_BO Box {
-              size %<= size.x >% %<= 0.5 * size.y >% %<= size.z >%
+              size %<= size.x >% %<= size.y >% %<= 0.5 * size.z >%
             }
           }
         ]
@@ -71,7 +70,7 @@ PROTO ConveyorBelt [
             sound ""
           }
         ]
-        textureAnimation %<= -1 / size.x >% 0
+        textureAnimation %<= 1 / size.x >% 0
       }
       Shape {
         appearance IS appearance
@@ -79,30 +78,30 @@ PROTO ConveyorBelt [
           %<
             const xA = 0.5 * size.x;
             const xB = 0.5 * size.x + borderThickness;
-            const yA = 0.0;
-            const yB = size.y;
-            const yC = size.y + borderHeight;
-            const zA = 0.5 * size.z;
-            const zB = 0.5 * size.z + borderThickness;
+            const yA = 0.5 * size.y;
+            const yB = 0.5 * size.y + borderThickness;
+            const zA = 0.0;
+            const zB = size.z;
+            const zC = size.z + borderHeight;
           >%
           coord Coordinate {
             point [
-              %<= xB >% %<= yA >% %<= zB >%
-              %<= xB >% %<= yC >% %<= zB >%
-              %<= -xB >% %<= yC >% %<= zB >%
-              %<= -xB >% %<= yA >% %<= zB >%
-              %<= xB >% %<= yA >% %<= -zB >%
-              %<= xB >% %<= yC >% %<= -zB >%
-              %<= -xB >% %<= yC >% %<= -zB >%
-              %<= -xB >% %<= yA >% %<= -zB >%
-              %<= xA >% %<= yC >% %<= zA >%
-              %<= xA >% %<= yC >% %<= -zA >%
-              %<= -xA >% %<= yC >% %<= -zA >%
-              %<= -xA >% %<= yC >% %<= zA >%
-              %<= xA >% %<= yB >% %<= zA >%
-              %<= xA >% %<= yB >% %<= -zA >%
-              %<= -xA >% %<= yB >% %<= -zA >%
-              %<= -xA >% %<= yB >% %<= zA >%
+              %<= xB >% %<= -yB >% %<= zA >%
+              %<= xB >% %<= -yB >% %<= zC >%
+              %<= -xB >% %<= -yB >% %<= zC >%
+              %<= -xB >% %<= -yB >% %<= zA >%
+              %<= xB >% %<= yB >% %<= zA >%
+              %<= xB >% %<= yB >% %<= zC >%
+              %<= -xB >% %<= yB >% %<= zC >%
+              %<= -xB >% %<= yB >% %<= zA >%
+              %<= xA >% %<= -yA >% %<= zC >%
+              %<= xA >% %<= yA >% %<= zC >%
+              %<= -xA >% %<= yA >% %<= zC >%
+              %<= -xA >% %<= -yA >% %<= zC >%
+              %<= xA >% %<= -yA >% %<= zB >%
+              %<= xA >% %<= yA >% %<= zB >%
+              %<= -xA >% %<= yA >% %<= zB >%
+              %<= -xA >% %<= -yA >% %<= zB >%
             ]
           }
           texCoord TextureCoordinate {
@@ -111,11 +110,11 @@ PROTO ConveyorBelt [
               1 0
               1 1
               0 1
-              0 %<= yC/xB >%
-              1 %<= yC/xB >%
-              0 %<= yC/xB >%
-              %<= zB/xB >% %<= yC/xB >%
-              %<= zB/xB >% 0
+              0 %<= zC/xB >%
+              1 %<= zC/xB >%
+              0 %<= zC/xB >%
+              %<= yB/xB >% %<= zC/xB >%
+              %<= yB/xB >% 0
               0 0
               0.001 0
               0.001 0.001
@@ -162,34 +161,34 @@ PROTO ConveyorBelt [
     boundingObject Group {
       children [
         Transform {
-          translation %<= 0.5 * (size.x + borderThickness) >% %<= 0.5 * (size.y + borderHeight) >% 0
+          translation %<= 0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
-              size %<= borderThickness >% %<= size.y + borderHeight >% %<= size.z + 2.0 * borderThickness >%
+              size %<= borderThickness >% %<= size.y + 2.0 * borderThickness >% %<= size.z + borderHeight >%
             }
           ]
         }
         Transform {
-          translation %<= -0.5 * (size.x + borderThickness) >% %<= 0.5 * (size.y + borderHeight) >% 0
+          translation %<= -0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
-              size %<= borderThickness >% %<= size.y + borderHeight >% %<= size.z + 2.0 * borderThickness >%
+              size %<= borderThickness >% %<= size.y + 2.0 * borderThickness >% %<= size.z + borderHeight >%
             }
           ]
         }
         Transform {
-          translation 0 %<= 0.5 * (size.y + borderHeight) >% %<= -0.5 * (size.z + borderThickness) >%
+          translation 0 %<= -0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
-              size %<= size.x >% %<= size.y + borderHeight >% %<= borderThickness >%
+              size %<= size.x >% %<= borderThickness >% %<= size.z + borderHeight >%
             }
           ]
         }
         Transform {
-          translation 0 %<= 0.5 * (size.y + borderHeight) >% %<= 0.5 * (size.z + borderThickness) >%
+          translation 0 %<= 0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
-              size %<= size.x >% %<= size.y + borderHeight >% %<= borderThickness >%
+              size %<= size.x >% %<= borderThickness >% %<= size.z + borderHeight >%
             }
           ]
         }

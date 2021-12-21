@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This example shows an integration of OpenAI Gym with Webots."
@@ -6,15 +6,14 @@ WorldInfo {
   title "OpenAI Gym Environment"
 }
 Viewpoint {
-  orientation 0.5467221553550105 -0.5918346831085609 -0.5923061646764798 2.140275848036169
-  position -3.19564172871877 0.3114654193957642 0.40859318447231485
+  orientation 0.039620786212746346 0.046648105252169975 -0.9981253165691502 1.6348167552564403
+  position 0.325429139559551 4.811657001240169 0.6473423548515526
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Pioneer3at {
-  rotation 0 0 1 1.5708
   controller "openai_gym"
   supervisor TRUE
   extensionSlot [
@@ -31,10 +30,9 @@ Pioneer3at {
       ]
       endPoint Solid {
         translation 0 0 0.51
-        rotation 1 0 0 1.5707999999999998
         children [
           DEF POLE_ENDPOINT Solid {
-            translation 0 0.26 0
+            translation 0 0 0.26
             children [
               DEF BALL_SHAPE Shape {
                 appearance CorrodedMetal {
@@ -68,7 +66,6 @@ Pioneer3at {
   ]
 }
 Floor {
-  rotation 1 0 0 1.57
   appearance Parquetry {
     type "light strip"
   }

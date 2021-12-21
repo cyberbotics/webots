@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -15,6 +15,7 @@ DirectionalLight {
   direction 0 -1 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 Robot {
   translation 0 1.05 0

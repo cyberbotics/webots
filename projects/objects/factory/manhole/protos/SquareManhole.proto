@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple square manhole.
@@ -6,9 +6,9 @@
 
 PROTO SquareManhole [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "manhole"
-  field SFVec3f    size                  1 0.1 1    # Defines the size of the manhole.
+  field SFVec3f    size                  1 1 0.1    # Defines the size of the manhole.
   field SFBool     enableBoundingObject  TRUE       # Defines whether the manhole should have a bounding object.
 ]
 {
@@ -18,37 +18,42 @@ PROTO SquareManhole [
     name IS name
     model "manhole"
     children [
-      Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/objects/factory/manhole/protos/textures/manhole_base_color.jpg"
-            ]
+      Transform {
+        rotation 0 0 1 1.57
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/objects/factory/manhole/protos/textures/manhole_base_color.jpg"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "webots://projects/objects/factory/manhole/protos/textures/manhole_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "webots://projects/objects/factory/manhole/protos/textures/manhole_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/objects/factory/manhole/protos/textures/manhole_normal.jpg"
+                ]
+              }
+              occlusionMap ImageTexture {
+                url [
+                  "webots://projects/objects/factory/manhole/protos/textures/manhole_occlusion.jpg"
+                ]
+              }
+            }
+            geometry DEF MANHOLE_BOX Box {
+              size IS size
+            }
           }
-          roughnessMap ImageTexture {
-            url [
-              "webots://projects/objects/factory/manhole/protos/textures/manhole_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "webots://projects/objects/factory/manhole/protos/textures/manhole_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/objects/factory/manhole/protos/textures/manhole_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "webots://projects/objects/factory/manhole/protos/textures/manhole_occlusion.jpg"
-            ]
-          }
-        }
-        geometry DEF MANHOLE_BOX Box {
-          size IS size
-        }
+        ]
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%

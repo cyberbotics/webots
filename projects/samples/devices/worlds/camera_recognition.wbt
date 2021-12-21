@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with recognition capability."
   ]
   title "Camera Image Recognition"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.7346252174262549 -0.6024593478892954 -0.31203929890677645 5.284452
-  position 0.95115265 1.680706 1.2636394
+  orientation 0.45182170121048415 0.18115506182862967 -0.8735216047065633 2.662125484144553
+  position 0.9124970970887923 0.3726448052237924 1.3893275356823303
 }
 TexturedBackground {
 }
@@ -17,54 +16,60 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Can {
-  translation -0.29020133 0.06 -0.26762583
+  translation -0.267626 -0.290201 0.06
+  rotation 0 0 1 3.14159
 }
 Apple {
-  translation -0.27766617 0.05 0.22187232
+  translation 0.221872 -0.277666 0.05
 }
 Apple {
-  translation -0.29124061 0.05 0.42827574
+  translation 0.428276 -0.291241 0.05
   name "apple(1)"
 }
 JamJar {
-  translation 0.28829817 0 -0.31403324
-  rotation 0 1 0 2.0943951
+  translation -0.314033 0.288298 0
+  rotation 0 0 -1 1.0472
   mass 0
 }
 BiscuitBox {
-  translation -0.2475227 0.09 0.37291531
-  rotation -0.1861567804306528 -0.6947465916072183 0.6947465916072183 3.5096927
-  size 0.33 0.04 0.17
+  translation 0.372915 -0.247523 0.09
+  rotation 0.6947461893666473 -0.1861560507404686 -0.6947471893669199 -2.773495
+  size 0.17 0.33 0.04
   mass 0
 }
 OilBarrel {
-  translation 0.40230985 0.07 0.1228684
+  translation 0.122868 0.40231 0.07
+  rotation 0 0 1 1.5708
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.27852103 0.07 0.18219826
+  translation 0.182198 0.278521 0.07
+  rotation 0 0 1 1.5708
   name "oil barrel(1)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.36487567 0.07 0.31809679
+  translation 0.318097 0.364876 0.07
+  rotation 0 0 1 1.5708
   name "oil barrel(2)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.19656081 0.07 0.36824127
+  translation 0.368241 0.196561 0.07
+  rotation 0 0 1 1.5708
   name "oil barrel(3)"
   height 0.14
   radius 0.06
 }
 Robot {
-  rotation 0 1 0 2
+  rotation 0 0 -1 1.14156
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -81,8 +86,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -94,11 +99,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -124,8 +129,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -137,8 +142,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -148,11 +153,11 @@ Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -178,8 +183,8 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -206,12 +211,12 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.015 0.038 -0.041
-            0.015 0.023 -0.041
-            0 0.023 -0.0455
-            -0.015 0.023 -0.041
-            -0.015 0.038 -0.041
-            0 0.038 -0.0455
+            -0.041 0.015 0.038
+            -0.041 0.015 0.023
+            -0.0455 0 0.023
+            -0.041 -0.015 0.023
+            -0.041 -0.015 0.038
+            -0.0455 0 0.038
           ]
         }
         texCoord TextureCoordinate {
@@ -234,12 +239,11 @@ Robot {
       }
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      translation 0.04 0 0.0915
       children [
         Transform {
-          translation 0 0 0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -266,7 +270,8 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]

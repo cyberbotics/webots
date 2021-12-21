@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This behavior-based controller allows the e-puck robot to follow the black line, avoid obstacles and recover its path afterwards."
@@ -6,12 +6,11 @@ WorldInfo {
     "Thanks to Jean-Christophe Zufferey (EPFL-LIS)."
   ]
   title "E-Puck"
-  coordinateSystem "NUE"
   lineScale 0.04
 }
 Viewpoint {
-  orientation 0.2737971179330687 0.9518924100101338 0.13760805927213854 5.31154
-  position -0.149567 0.0843526 0.281244
+  orientation 0.28919863977267735 0.727946849169463 -0.6216570851666413 0.9538756098144414
+  position -0.7561502419358979 0.5323782212175429 0.8540430444798764
   follow "e-puck"
 }
 TexturedBackground {
@@ -19,6 +18,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 0 1 -1.5708
   floorSize 0.9 0.9
   floorTileSize 0.9 0.9
   floorAppearance PBRAppearance {
@@ -33,7 +33,7 @@ RectangleArena {
   wallHeight 0.05
 }
 DEF OBSTACLE1 Solid {
-  translation 0.0871577 0.025 -0.192401
+  translation 0.192401 -0.0871577 0.025
   children [
     Shape {
       appearance PBRAppearance {
@@ -50,8 +50,8 @@ DEF OBSTACLE1 Solid {
   boundingObject USE BOX1
 }
 DEF OBSTACLE2 Solid {
-  translation -0.0740804 0.025 -0.0300418
-  rotation 0 1 0 3.82203
+  translation 0.0327153 0.0677406 0.025
+  rotation 0 0 1 3.82203
   children [
     Shape {
       appearance PBRAppearance {
@@ -60,7 +60,7 @@ DEF OBSTACLE2 Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.08 0.05 0.08
+        size 0.08 0.08 0.05
       }
     }
   ]
@@ -68,8 +68,8 @@ DEF OBSTACLE2 Solid {
   boundingObject USE BOX2
 }
 DEF OBSTACLE3 Solid {
-  translation 0.116597 0.025 0.110302
-  rotation 0 1 0 13.7261
+  translation -0.110302 -0.116597 0.025
+  rotation 0 0 1 13.7261
   children [
     Shape {
       appearance PBRAppearance {
@@ -78,7 +78,7 @@ DEF OBSTACLE3 Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.2 0.05 0.05
+        size 0.05 0.2 0.05
       }
     }
   ]
@@ -86,8 +86,8 @@ DEF OBSTACLE3 Solid {
   boundingObject USE BOX3
 }
 DEF EPUCK E-puck {
-  translation 0.0148 0 0.175
-  rotation 0 1 0 1.5
+  translation -0.175 -0.012 0
+  rotation 0 0 1 1.5
   controller "e-puck_line_demo"
   groundSensorsSlot [
     E-puckGroundSensors {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera4
@@ -6,7 +6,7 @@
 
 PROTO Khepera4 [
   field SFVec3f    translation         0 0 0                   # Is `Transform.translation`.
-  field SFRotation rotation            0 1 0 0                 # Is `Transform.rotation`.
+  field SFRotation rotation            0 0 1 0                 # Is `Transform.rotation`.
   field SFString   name                "Khepera IV"            # Is `Solid.name`.
   field SFString   controller          "khepera4"              # Is `Robot.controller`.
   field MFString   controllerArgs      []                      # Is `Robot.controllerArgs`.
@@ -36,8 +36,8 @@ PROTO Khepera4 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor -0.0527 0.021 0
+          axis 0 1 0
+          anchor 0 0.0527 0.021
         }
         device [
           RotationalMotor {
@@ -51,11 +51,11 @@ PROTO Khepera4 [
           }
         ]
         endPoint DEF LEFT_WHEEL Solid {
-          translation -0.0527 0.021 0
-          rotation 1 0 0 0
+          translation 0 0.0527 0.021
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             DEF WHEEL Transform {
-              rotation 0 0 1 -1.5708
+              rotation 0.577349 -0.577351 0.577351 -2.094397
               children [
                 Shape {
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -83,8 +83,8 @@ PROTO Khepera4 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0.0527 0.021 0
+          axis 0 1 0
+          anchor 0 -0.0527 0.021
         }
         device [
           RotationalMotor {
@@ -98,8 +98,8 @@ PROTO Khepera4 [
           }
         ]
         endPoint DEF RIGHT_WHEEL Solid {
-          translation 0.0527 0.021 0
-          rotation 1 0 0 0
+          translation 0 -0.0527 0.021
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE WHEEL
           ]
@@ -110,7 +110,8 @@ PROTO Khepera4 [
         }
       }
       DEF GREY_CYLINDER_MESHES Transform {
-        translation 0 0.0315 0
+        translation 0 0 0.0315
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -218,7 +219,8 @@ PROTO Khepera4 [
         ]
       }
       DEF BLUE_CYLINDER_MESHES Transform {
-        translation 0 0.01 0
+        translation 0 0 0.01
+        rotation 0 0 1 -1.570796
         children [
           Shape {
             appearance PBRAppearance {
@@ -273,7 +275,8 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_CASTER_WHEEL Solid {
-        translation 0 0.005 -0.05
+        translation 0.05 0 0.005
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF CASTER_WHEEL_SHAPE Shape {
             appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -294,7 +297,8 @@ PROTO Khepera4 [
         }
       }
       DEF BACK_CASTER_WHEEL Solid {
-        translation 0 0.005 0.05
+        translation -0.05 0 0.005
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           USE CASTER_WHEEL_SHAPE
         ]
@@ -304,7 +308,8 @@ PROTO Khepera4 [
         physics USE CASTER_WHEEL_PHYSICS
       }
       DEF FRONT_LEFT_SCREW Transform {
-        translation -0.029 0.058 -0.045
+        translation 0.045 0.029 0.058
+        rotation 0 0 1 -1.570796
         children [
           DEF SCREW_SHAPE Group {
             children [
@@ -333,25 +338,26 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_RIGHT_SCREW Transform {
-        translation 0.029 0.058 -0.045
+        translation 0.045 -0.029 0.058
         children [
           USE SCREW_SHAPE
         ]
       }
       DEF REAR_RIGHT_SCREW Transform {
-        translation 0.034 0.058 0.041
+        translation -0.041 -0.034 0.058
         children [
           USE SCREW_SHAPE
         ]
       }
       DEF REAR_LEFT_SCREW Transform {
-        translation -0.034 0.058 0.041
+        translation -0.041 0.034 0.058
         children [
           USE SCREW_SHAPE
         ]
       }
       DEF FRONT_LEFT_LED LED {
-        translation -0.024 0.058 -0.039
+        translation 0.039 0.024 0.058
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "front left led"
         children [
           Shape {
@@ -369,7 +375,8 @@ PROTO Khepera4 [
         gradual TRUE
       }
       DEF FRONT_RIGHT_LED LED {
-        translation 0.024 0.058 -0.039
+        translation 0.039 -0.024 0.058
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "front right led"
         children [
           Shape {
@@ -381,7 +388,8 @@ PROTO Khepera4 [
         gradual TRUE
       }
       DEF REAR_LED LED {
-        translation 0 0.058 0.048
+        translation -0.048 0 0.058
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "rear led"
         children [
           Shape {
@@ -393,8 +401,8 @@ PROTO Khepera4 [
         gradual TRUE
       }
       DEF LEFT_ULTRASONIC_SENSOR DistanceSensor {
-        translation -0.07 0.045 0
-        rotation 0 1 0 3.1416
+        translation 0 0.07 0.045
+        rotation -0.577347 -0.577352 -0.577352 -2.094399
         type "sonar"
         name "left ultrasonic sensor"
         lookupTable [
@@ -402,8 +410,8 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_LEFT_ULTRASONIC_SENSOR DistanceSensor {
-        translation -0.05 0.045 -0.05
-        rotation 0 1 0 2.3562
+        translation 0.05 0.05 0.045
+        rotation 0.862854 0.357409 0.357409 1.717773
         type "sonar"
         name "front left ultrasonic sensor"
         lookupTable [
@@ -411,8 +419,8 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_ULTRASONIC_SENSOR DistanceSensor {
-        translation 0 0.045 -0.07
-        rotation 0 1 0 1.5708
+        translation 0.07 0 0.045
+        rotation -1 0 0 -1.570796
         type "sonar"
         name "front ultrasonic sensor"
         lookupTable [
@@ -420,8 +428,8 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_RIGHT_ULTRASONIC_SENSOR DistanceSensor {
-        translation 0.05 0.045 -0.05
-        rotation 0 1 0 0.7854
+        translation 0.05 -0.05 0.045
+        rotation 0.862857 -0.357406 -0.357406 1.717771
         type "sonar"
         name "front right ultrasonic sensor"
         lookupTable [
@@ -429,7 +437,8 @@ PROTO Khepera4 [
         ]
       }
       DEF FRONT_RIGHT_ULTRASONIC_SENSOR DistanceSensor {
-        translation 0.07 0.045 0
+        translation 0 -0.07 0.045
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         type "sonar"
         name "right ultrasonic sensor"
         lookupTable [
@@ -437,70 +446,71 @@ PROTO Khepera4 [
         ]
       }
       DEF REAR_LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation -0.0495 0.014 0.0495
-        rotation 0 1 0 3.927
+        translation -0.0495 0.0495 0.014
+        rotation -0.281081 -0.678599 -0.678599 -2.59357
         name "rear left infrared sensor"
       }
       DEF LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation -0.07 0.014 0
-        rotation 0 1 0 3.1415
+        translation 0 0.07 0.014
+        rotation 0.577386 0.577332 0.577332 2.094342
         name "left infrared sensor"
       }
       DEF FRONT_LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation -0.0495 0.014 -0.0495
-        rotation 0 1 0 2.3562
+        translation 0.0495 0.0495 0.014
+        rotation 0.862854 0.357409 0.357409 1.717773
         name "front left infrared sensor"
       }
       DEF FRONT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0 0.014 -0.07
-        rotation 0 1 0 1.5708
+        translation 0.07 0 0.014
+        rotation -1 0 0 -1.570796
         name "front infrared sensor"
       }
       DEF FRONT_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0.0495 0.014 -0.0495
-        rotation 0 1 0 0.7854
+        translation 0.0495 -0.0495 0.014
+        rotation 0.862857 -0.357406 -0.357406 1.717771
         name "front right infrared sensor"
       }
       DEF RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0.07 0.014 0
+        translation 0 -0.07 0.014
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "right infrared sensor"
       }
       DEF REAR_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0.0495 0.014 0.0495
-        rotation 0 1 0 -0.7854
+        translation -0.0495 -0.0495 0.014
+        rotation -0.281084 0.678598 0.678598 -2.593565
         name "rear right infrared sensor"
       }
       DEF REAR_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0 0.014 0.07
-        rotation 0 1 0 -1.5708
+        translation -0.07 0 0.014
+        rotation 0 -0.707107 -0.707107 -3.14159
         name "rear infrared sensor"
       }
       DEF GROUND_LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation -0.0585 0.0045 -0.02
-        rotation 0 0 1 -1.5708
+        translation 0.02 0.0585 0.0045
+        rotation 0.707107 1e-06 -0.707107 -3.14159
         name "ground left infrared sensor"
         shortRange TRUE
       }
       DEF GROUND_FRONT_LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation -0.01 0.0045 -0.062
-        rotation -0.577352 0.57735 -0.57735 2.0944
+        translation 0.062 0.01 0.0045
+        rotation -0.577348 -0.577353 0.57735 -2.094395
         name "ground front left infrared sensor"
         shortRange TRUE
       }
       DEF GROUND_FRONT_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0.01 0.0045 -0.062
-        rotation -0.577352 0.57735 -0.57735 2.0944
+        translation 0.062 -0.01 0.0045
+        rotation -0.577348 -0.577353 0.57735 -2.094395
         name "ground front right infrared sensor"
         shortRange TRUE
       }
       DEF GROUND_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
-        translation 0.0585 0.0045 -0.02
-        rotation 0 0 1 -1.5708
+        translation 0.02 -0.0585 0.0045
+        rotation 0.707107 0 -0.707107 -3.14159
         name "ground right infrared sensor"
         shortRange TRUE
       }
       Camera {
-        translation 0 0.0275 -0.06
+        translation 0.06 0 0.0275
         fieldOfView 2.287
         width 752
         height 480
@@ -516,11 +526,9 @@ PROTO Khepera4 [
       }
       Accelerometer {
         translation 0 0.029 0
-        rotation 0.57735 0.57735 -0.57735 2.0944
       }
       Gyro {
         translation 0 0.029 0
-        rotation 0.57735 0.57735 -0.57735 2.0944
       }
       Speaker {
         translation 0 0.029 0
@@ -531,7 +539,8 @@ PROTO Khepera4 [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.0315 0
+          translation 0 0 0.0315
+          rotation 0 0 1 -1.570796
           children [
             Shape {
               geometry Cylinder {
@@ -543,7 +552,8 @@ PROTO Khepera4 [
           ]
         }
         Transform {
-          translation 0 0.01 0
+          translation 0 0 0.01
+          rotation 0 0 1 -1.570796
           children [
             Shape {
               geometry Cylinder {

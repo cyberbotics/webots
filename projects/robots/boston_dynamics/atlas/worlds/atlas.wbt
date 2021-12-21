@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Atlas sample"
@@ -6,12 +6,11 @@ WorldInfo {
   CFM 1e-07
   ERP 0.8
   basicTimeStep 8
-  coordinateSystem "NUE"
   lineScale 0.25
 }
 Viewpoint {
-  orientation 0.07361487165598588 -0.9880371064661203 -0.13551209140563525 4.208435019952087
-  position 4.007193926491309 2.1969755916188816 -2.1227761648514134
+  orientation -0.12659710552975714 -0.22835578605467902 0.9653117671751635 5.240580919908894
+  position -2.293920734012428 3.7668710396965643 2.01477919250191
 }
 TexturedBackground {
 }
@@ -21,4 +20,5 @@ Floor {
   size 1000 1000
 }
 Atlas {
+  rotation 0 0 1 1.5708
 }

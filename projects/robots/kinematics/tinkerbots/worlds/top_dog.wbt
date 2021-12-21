@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.08897524368134656 0.9779589265105891 0.18889082579654565 3.9729461923833074
-  position -0.3035728137600681 0.19257501146066228 -0.18010004459068588
+  orientation -0.17854784256042236 -0.07330987864480512 0.9811963766800723 3.9075470270741963
+  position 0.2423941099937625 0.32889872449611274 0.2238446472265976
   near 0.001
   exposure 2
   follow "top dog"
@@ -34,8 +33,7 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.06 0
-  rotation 1 0 0 4.71
+  translation 0 0 0.06
   name "top dog"
   upASlot TinkerbotsCubieTriangle {
     rotation 0 0 1 3.1415

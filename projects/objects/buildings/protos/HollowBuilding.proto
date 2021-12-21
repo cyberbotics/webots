@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A hollow building.
 
 PROTO HollowBuilding [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "hollow building"
 ]
 {
@@ -23,7 +23,7 @@ PROTO HollowBuilding [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              15.5 31.003 -15.5 15.5 31.003 15.5 -15.5 31.003 15.5 -15.5 31.003 -15.5 9.41072 31.003 -9.41072 9.41072 31.003 9.41072 -9.41072 31.003 9.41072 -9.41072 31.003 -9.41072
+              15.5 15.5 31.003 15.5 -15.5 31.003 -15.5 -15.5 31.003 -15.5 15.5 31.003 9.41072 9.41072 31.003 9.41072 -9.41072 31.003 -9.41072 -9.41072 31.003 -9.41072 9.41072 31.003
             ]
           }
           coordIndex [
@@ -58,7 +58,7 @@ PROTO HollowBuilding [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              15.5 0.002991 -15.5 15.5 0.002991 15.5 -15.5 0.002991 15.5 -15.5 0.002991 -15.5 15.5 31.003 -15.5 15.5 31.003 15.5 -15.5 31.003 15.5 -15.5 31.003 -15.5 9.41072 31.003 -9.41072 9.41072 31.003 9.41072 -9.41072 31.003 9.41072 -9.41072 31.003 -9.41072 9.41072 0.03319 -9.41072 9.41072 0.03319 9.41072 -9.41072 0.03319 9.41072 -9.41072 0.03319 -9.41072
+              15.5 15.5 0.002991 15.5 -15.5 0.002991 -15.5 -15.5 0.002991 -15.5 15.5 0.002991 15.5 15.5 31.003 15.5 -15.5 31.003 -15.5 -15.5 31.003 -15.5 15.5 31.003 9.41072 9.41072 31.003 9.41072 -9.41072 31.003 -9.41072 -9.41072 31.003 -9.41072 9.41072 31.003 9.41072 9.41072 0.03319 9.41072 -9.41072 0.03319 -9.41072 -9.41072 0.03319 -9.41072 9.41072 0.03319
             ]
           }
           texCoord TextureCoordinate {
@@ -80,7 +80,8 @@ PROTO HollowBuilding [
     boundingObject Group {
       children [
         Transform {
-          translation 0 15.5 12.45
+          rotation 1 0 0 1.570796
+          translation 0 -12.45 15.5
           children [
             Box {
               size 31 31 6.1
@@ -88,7 +89,8 @@ PROTO HollowBuilding [
           ]
         }
         Transform {
-          translation 0 15.5 -12.45
+          rotation 1 0 0 1.570796
+          translation 0 12.45 15.5
           children [
             Box {
               size 31 31 6.1
@@ -96,7 +98,8 @@ PROTO HollowBuilding [
           ]
         }
         Transform {
-          translation 12.45 15.5 0
+          rotation 1 0 0 1.570796
+          translation 12.45 0 15.5
           children [
             Box {
               size 6.1 31 18.8
@@ -104,7 +107,8 @@ PROTO HollowBuilding [
           ]
         }
         Transform {
-          translation -12.45 15.5 0
+          rotation 1 0 0 1.570796
+          translation -12.45 0 15.5
           children [
             Box {
               size 6.1 31 18.8

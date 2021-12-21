@@ -1,16 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of GPS in latitude-altitude-longitude mode."
   ]
   title "GPS"
-  coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
   gpsReference 40.67 -73.94 10
 }
 Viewpoint {
-  orientation 0.9996558344984333 0.020832396551018713 -0.015944397360268755 5.28878
-  position -0.0280271 1.10831 0.7688
+  orientation 0.007858911978497975 -0.9995834396646446 -0.027770211571250626 5.816500905133365
+  position -2.087411552660437 0.08188584433490534 1.4082311497604962
 }
 TexturedBackground {
 }
@@ -19,7 +18,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.25
+  translation 0.25 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -28,7 +27,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -42,8 +41,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -66,8 +65,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF YELLOW_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.15 0.2 0.05
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -76,7 +75,7 @@ DEF YELLOW_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -90,7 +89,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.1 -0.42 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -99,7 +98,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -113,11 +112,12 @@ DEF PINK_BOX Solid {
   }
 }
 DEF GPS_ROBOT Robot {
-  translation 0.15 0 0
-  rotation 0 1 0 1
+  translation 0 -0.15 0
+  rotation 0 0 1 1
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -134,8 +134,8 @@ DEF GPS_ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -147,11 +147,11 @@ DEF GPS_ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -177,8 +177,8 @@ DEF GPS_ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -190,8 +190,8 @@ DEF GPS_ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -201,11 +201,11 @@ DEF GPS_ROBOT Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -231,8 +231,8 @@ DEF GPS_ROBOT Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -246,8 +246,8 @@ DEF GPS_ROBOT Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -271,7 +271,8 @@ DEF GPS_ROBOT Robot {
   ]
   name "MyBot"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]

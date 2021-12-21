@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -13,9 +13,14 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE
@@ -24,22 +29,27 @@ DEF BOARD Solid {
   translation 0 0.005 0
   rotation 1 0 0 0
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
-          specularColor 0.74902 0.74902 0.74902
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+              specularColor 0.74902 0.74902 0.74902
+            }
+            texture ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Plane {
+            size 0.15 0.3
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 0.15 0.3
-      }
+      ]
     }
   ]
   locked TRUE
@@ -73,7 +83,7 @@ DEF ROBOT Robot {
     }
     DEF PEN0 Pen {
       translation 0 -0.02 0.08
-      rotation 0 0 1 0
+      rotation 1 0 0 -1.57
       name "pen0"
       inkColor 1 0 0
       inkDensity 0.0980392
@@ -81,7 +91,7 @@ DEF ROBOT Robot {
     }
     DEF PEN1 Pen {
       translation 0 -0.02 -0.08
-      rotation 0 0 1 0
+      rotation 1 0 0 -1.57
       name "pen1"
       inkColor 0 1 0
       inkDensity 1
@@ -89,13 +99,18 @@ DEF ROBOT Robot {
     }
     DEF CAM0 Camera {
       translation 0 -0.008 0.08
-      rotation 1 0 0 -1.5708
+      rotation 0.7071057811840316 -0.7071077811834126 0 3.14159
       children [
-        Shape {
-          geometry Cylinder {
-            height 0.01
-            radius 0.01
-          }
+        Transform {
+          rotation 1 0 0 -1.57079632679
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
         }
       ]
       name "camera0"
@@ -103,13 +118,18 @@ DEF ROBOT Robot {
     }
     DEF CAM1 Camera {
       translation 0 -0.008 -0.08
-      rotation 1 0 0 -1.5708
+      rotation 0.7071057811840316 -0.7071077811834126 0 3.14159
       children [
-        Shape {
-          geometry Cylinder {
-            height 0.01
-            radius 0.01
-          }
+        Transform {
+          rotation 1 0 0 -1.57079632679
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
         }
       ]
       name "camera1"

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (kid size)"
@@ -34,8 +34,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.7740618353667722 -0.3393112407167443 -0.5345055256514077 1.3737629675929948
-  position -10.918806145468938 -9.442194213986694 6.060809393740457
+  orientation -0.1923925106479555 0.5064687337498686 0.8405204004546118 1.0884314612611645
+  position -11.657984537389392 -15.042779899453736 11.939309279967292
 }
 TexturedBackground {
   texture "stadium_dry"

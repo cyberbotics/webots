@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world for demonstrating the InertialUnit."
   ]
   title "Inertial Unit"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.2954309947130792 -0.9526699829513802 -0.07169679871694135 5.71352
-  position 0.72117 0.477662 1.14814
+  orientation -0.27058761095325146 0.15552320321156243 0.9500499345094588 2.036068371800117
+  position 0.6488353984990919 -1.1979171148143992 1.0036208330790966
 }
 TexturedBackground {
 }
@@ -21,7 +20,7 @@ DEF ROBOT Robot {
   children [
     DEF YAW_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
+        axis 0 0 1
       }
       device [
         RotationalMotor {
@@ -32,23 +31,24 @@ DEF ROBOT Robot {
         children [
           DEF PITCH_HINGE_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 0.33 0
+              axis 0 1 0
+              anchor 0 0 0.33
             }
             device [
               RotationalMotor {
                 name "pitch motor"
-                minPosition -0.8
+                minPosition -2.3
                 maxPosition 1.5
               }
             ]
             endPoint Solid {
-              translation 0 0.33 0
-              rotation 0 0 1 0
+              translation 0 0 0.33
+              rotation 0 0 1 1.570785
               children [
                 DEF ROLL_HINGE_JOINT HingeJoint {
                   jointParameters HingeJointParameters {
-                    anchor 0.3 0 0
+                    axis 0 -1 0
+                    anchor 0 -0.3 0
                   }
                   device [
                     RotationalMotor {
@@ -56,11 +56,12 @@ DEF ROBOT Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0.3 0 0
-                    rotation 1 0 0 0
+                    translation 0 -0.3 0
+                    rotation 0 0.7071067811865476 0.7071067811865476 3.14159
                     children [
                       InertialUnit {
-                        translation 0.08 0 0
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -82,7 +83,7 @@ DEF ROBOT Robot {
                       DEF ROLL_GROUP Group {
                         children [
                           Transform {
-                            translation 0.02 0 0
+                            translation 0 0 -0.02
                             rotation 0 0 1 1.5708
                             children [
                               Shape {
@@ -100,7 +101,8 @@ DEF ROBOT Robot {
                             ]
                           }
                           Transform {
-                            translation 0.06 0 0
+                            translation 0 0 -0.06
+                            rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
                             children [
                               Shape {
                                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -109,7 +111,7 @@ DEF ROBOT Robot {
                                   metalness 0
                                 }
                                 geometry Box {
-                                  size 0.06 0.02 0.02
+                                  size 0.02 0.06 0.02
                                 }
                               }
                             ]
@@ -123,7 +125,7 @@ DEF ROBOT Robot {
                 DEF PITCH_GROUP Group {
                   children [
                     Transform {
-                      rotation 1 0 0 1.5708
+                      rotation 0 1 0 1.5708
                       children [
                         Shape {
                           appearance USE PLASTIC_APPEARANCE
@@ -136,19 +138,19 @@ DEF ROBOT Robot {
                       ]
                     }
                     Transform {
-                      translation 0.15 0 0
+                      translation 0 -0.15 0
                       children [
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Box {
-                            size 0.3 0.04 0.03
+                            size 0.03 0.3 0.04
                           }
                         }
                       ]
                     }
                     Transform {
-                      translation 0.3 0 0
-                      rotation 0 0 1 1.5708
+                      translation 0 -0.3 0
+                      rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395
                       children [
                         Shape {
                           appearance USE METAL_APPEARANCE
@@ -169,7 +171,7 @@ DEF ROBOT Robot {
           DEF YAW_GROUP Group {
             children [
               Transform {
-                translation 0 0.18 0
+                translation 0 0 0.18
                 children [
                   Shape {
                     appearance USE METAL_APPEARANCE
@@ -182,8 +184,8 @@ DEF ROBOT Robot {
                 ]
               }
               Transform {
-                translation 0 0.33 0
-                rotation 1 0 0 1.5708
+                translation 0 0 0.33
+                rotation 1 0 0 -1.570795
                 children [
                   Shape {
                     appearance USE METAL_APPEARANCE
@@ -204,7 +206,7 @@ DEF ROBOT Robot {
     DEF BASIS_GROUP Group {
       children [
         Transform {
-          translation 0 0.02 0
+          translation 0 0 0.02
           children [
             Shape {
               appearance USE METAL_APPEARANCE
@@ -217,7 +219,7 @@ DEF ROBOT Robot {
           ]
         }
         Transform {
-          translation 0 0.04 0
+          translation 0 0 0.04
           children [
             Shape {
               appearance USE PLASTIC_APPEARANCE

@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 1.1
-  orientation 0.4447039698767724 -0.8513559584975763 -0.27826500158394285 5.207202333893893
-  position 6.442030557280244 5.206668161781518 3.0097162179105705
+  orientation -0.35544160077404713 0.41648077537591444 0.8367825477275801 1.1388864099905323
+  position -3.987915179912671 -7.680410095814834 7.499691251300155
   exposure 0.7999999999999999
 }
 TexturedBackground {
@@ -16,7 +15,8 @@ TexturedBackground {
   ]
 }
 Cabinet {
-  translation 1 0.83 -2.15
+  translation 2.15 -1 0.83
+  rotation 0 0 1 3.14159
   name "cabinet(1)"
   depth 0.7
   outerThickness 0.02
@@ -35,7 +35,7 @@ Cabinet {
     "Shelf (1,6, 1, 0)"
   ]
   handle CabinetHandle {
-    translation -0.3 0 0
+    translation 0 0 -0.3
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -48,8 +48,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -1.65 0.15 0.11
-  rotation 0 1 0 1.5708
+  translation -0.11 1.65 0.15
+  rotation 0 0 1 -1.5707953071795862
   name "cabinet(2)"
   depth 0.67
   outerThickness 0.02
@@ -69,7 +69,7 @@ Cabinet {
     "Shelf (1,6, 1, 0)"
   ]
   handle CabinetHandle {
-    translation -0.15 0 0
+    translation 0 -0.15 0
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -82,7 +82,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 0.1 1.4 -2.15
+  translation 2.15 -0.1 1.4
+  rotation 0 0 1 3.14159
   name "cabinet(3)"
   outerThickness 0.02
   rowsHeights [
@@ -101,7 +102,7 @@ Cabinet {
     "Shelf (2, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation -0.2 0 0
+    translation 0 -0.2 0
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -114,8 +115,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -1.647 1.4 -0.37
-  rotation 0 1 0 1.5708
+  translation 0.37 1.647 1.4
+  rotation 0 0 1 -1.5707953071795862
   name "cabinet(4)"
   outerThickness 0.02
   rowsHeights [
@@ -130,7 +131,7 @@ Cabinet {
     "Shelf (1, 3 ,1 , 0)"
   ]
   handle CabinetHandle {
-    translation -0.2 0 0
+    translation 0 -0.2 0
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -143,8 +144,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -1.48 0.15 -0.79
-  rotation 0 1 0 1.5708
+  translation 0.79 1.48 0.15
+  rotation 0 0 1 -1.5707953071795862
   name "cabinet(5)"
   outerThickness 0.02
   rowsHeights [
@@ -163,7 +164,7 @@ Cabinet {
     "Shelf (2, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.1 0 0
+    translation 0 0 0.1
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -176,7 +177,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 0.12 0.15 -2.15
+  translation 2.15 -0.12 0.15
+  rotation 0 0 1 3.14159
   depth 0.7
   outerThickness 0.02
   rowsHeights [
@@ -213,7 +215,8 @@ Cabinet {
   }
 }
 Floor {
-  translation 0.17 0 0
+  translation 0 -0.17 0
+  rotation 0 0 1 1.5708
   name "floor(1)"
   size 3.6666 4.5
   tileSize 1 1
@@ -221,70 +224,70 @@ Floor {
   }
 }
 Floor {
-  translation 3 0 0.5
+  translation -0.5 -3 0
+  rotation 0 0 1 1.5708
   size 2 3.5
   tileSize 1 1
   appearance Parquetry {
   }
 }
 Ceiling {
-  translation 1.1 2.4 0
+  translation 0 -1.1 2.4
   size 5.9 4.7
 }
 Wall {
-  translation -1.75 0 -1.8
-  rotation 0 1 0 1.5708
+  translation 1.8 1.75 0
+  rotation 0 0 1 1.5708
   name "wall(1)"
-  size 0.7 2.4 0.2
+  size 0.2 0.7 2.4
 }
 Wall {
-  translation 0.15 0 -2.25
-  rotation 0 1 0 3.1416
+  translation 2.25 -0.15 0
+  rotation 0 0 1 3.1416
   name "wall(2)"
-  size 4 2.4 0.2
+  size 0.2 4 2.4
 }
 Wall {
-  translation -1.75 0 0.75
-  rotation 0 1 0 1.5708
+  translation -0.75 1.75 0
+  rotation 0 0 1 1.5708
   name "wall(3)"
-  size 2.8 2.4 0.2
+  size 0.2 2.8 2.4
 }
 Wall {
-  translation -1.35 0 2.25
+  translation -2.25 1.35 0
   name "wall(4)"
 }
 Wall {
-  translation 0.45 0 2.25
+  translation -2.25 -0.45 0
   name "wall(5)"
 }
 Wall {
-  translation 2.985 0 2.25
+  translation -2.25 -2.985 0
   name "wall(6)"
-  size 2.07 2.4 0.2
+  size 0.2 2.07 2.4
 }
 Wall {
-  translation 3.92 0 0.5
+  translation -0.5 -3.92 0
   name "wall(7)"
-  size 0.2 2.4 3.3
+  size 3.3 0.2 2.4
 }
 Wall {
-  translation 2.986 0 -1.25
+  translation 1.25 -2.986 0
   name "wall(8)"
-  size 2.07 2.4 0.2
+  size 0.2 2.07 2.4
 }
 Wall {
-  translation 2.05 0 -1.75
-  rotation 0 1 0 4.71239
-  size 0.8 2.4 0.2
+  translation 1.75 -2.05 0
+  rotation 0 0 1 4.71239
+  size 0.2 0.8 2.4
 }
 Door {
-  translation 1.45 0 2.25
-  rotation 0 1 0 3.14159
+  translation -2.25 -1.45 0
 }
 SolidBox {
-  translation 0.12 0.07 -1.55
+  translation 1.55 -0.12 0.07
   name "box(1)"
-  size 2.2 0.16 0.2
+  size 0.2 2.2 0.16
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -295,10 +298,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -1.08 0.07 -0.65
-  rotation 0 1 0 1.5708
+  translation 0.65 1.08 0.07
+  rotation 0 0 1 1.5708
   name "box(2)"
-  size 2 0.16 0.2
+  size 0.2 2 0.16
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -309,10 +312,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.12 0.07 -1.9
-  rotation 0 -1 0 4.71239
+  translation 1.9 -1.12 0.07
+  rotation 0 0 -1 4.71239
   name "box(3)"
-  size 0.5 0.16 0.2
+  size 0.2 0.5 0.16
   appearance PBRAppearance {
     roughness 0.5
     metalness 0
@@ -322,10 +325,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -1.415 0.07 0.25
-  rotation 0 -1 0 6.28318
+  translation -0.25 1.415 0.07
+  rotation 0 0 -1 6.28318
   name "box(4)"
-  size 0.47 0.16 0.2
+  size 0.2 0.47 0.16
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -336,9 +339,9 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -1.645 0.03 1.23
+  translation -1.23 1.645 0.03
   name "box(5)"
-  size 0.01 0.07 1.84
+  size 1.84 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -349,10 +352,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -0.345 0.03 2.145
-  rotation 0 1 0 1.5708
+  translation -2.145 0.345 0.03
+  rotation 0 0 1 1.5708
   name "box(6)"
-  size 0.01 0.07 2.59
+  size 2.59 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -363,10 +366,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 2.885 0.03 2.145
-  rotation 0 1 0 1.5708
+  translation -2.145 -2.885 0.03
+  rotation 0 0 1 1.5708
   name "box(7)"
-  size 0.01 0.07 1.87
+  size 1.87 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -377,10 +380,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.945 0.03 -1.645
-  rotation 0 -1 0 3.14159
+  translation 1.645 -1.945 0.03
+  rotation 0 0 -1 3.14159
   name "box(8)"
-  size 0.01 0.07 1.01
+  size 1.01 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -391,10 +394,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 2.88 0.03 -1.145
-  rotation 0 1 0 4.71239
+  translation 1.145 -2.88 0.03
+  rotation 0 0 1 4.71239
   name "box(9)"
-  size 0.01 0.07 1.86
+  size 1.86 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -405,9 +408,9 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 3.815 0.03 0.495
-  rotation 0 1 0 3.14159
-  size 0.01 0.07 3.29
+  translation -0.495 -3.815 0.03
+  rotation 0 0 1 3.14159
+  size 3.29 0.01 0.07
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -418,66 +421,67 @@ SolidBox {
   }
 }
 Window {
-  translation -0.45 0 2.25
-  rotation 0 1 0 3.14159
+  translation -2.25 0.45 0
+  rotation 0 0 1 3.14159
   name "window(1)"
   bottomWallHeight 0.9
   windowHeight 1
   windowSillSize 0.01 0.05
 }
 Window {
-  translation -1.75 0 -1.05
-  rotation 0 1 0 1.5708
+  translation 1.05 1.75 0
+  rotation 0 0 1 1.5708
   bottomWallHeight 1.2
   windowHeight 1
   windowSillSize 0.01 0.05
 }
 Fridge {
-  translation 1.57 0 -1.8
-  rotation 0 1 0 4.71239
+  translation 1.8 -1.57 0
+  rotation 0 0 -1 3.14159
 }
 Worktop {
-  translation -1.31 0.86 -0.345
-  rotation 0 1 0 4.71239
+  translation 0.345 1.31 0.86
+  rotation 0 0 1 4.71239
   name "worktop(1)"
-  size 0.43 0.06 0.7
+  size 0.7 0.43 0.06
 }
 Worktop {
-  translation -1.531 0.86 -0.78
-  rotation 0 1 0 4.71239
+  translation 0.78 1.531 0.86
+  rotation 0 0 1 4.71239
   name "worktop(2)"
-  size 0.44 0.06 0.237
+  size 0.237 0.44 0.06
 }
 Worktop {
-  translation -1.003 0.86 -0.780001
-  rotation 0 1 0 4.71239
+  translation 0.780001 1.003 0.86
+  rotation 0 0 1 4.71239
   name "worktop(3)"
-  size 0.442 0.06 0.085
+  size 0.085 0.442 0.06
 }
 Worktop {
-  translation -1.306 0.86 -1.22
-  rotation 0 -1 0 1.5708
+  translation 1.22 1.306 0.86
+  rotation 0 0 -1 1.5708
   name "worktop(4)"
-  size 0.44 0.06 0.69
+  size 0.69 0.44 0.06
 }
 Worktop {
-  translation -0.435 0.86 -1.79
-  size 2.43 0.06 0.7
+  translation 1.79 0.435 0.86
+  size 0.7 2.43 0.06
 }
 Sink {
-  translation -1.33 0.87 -0.78
-  rotation 0 1 0 4.71239
+  translation 0.78 1.33 0.87
+  rotation 0 0 1 4.71239
 }
 HotPlate {
-  translation -1.14971 0.86 -1.62912
-  rotation 0 -1 0 5.49779
+  translation 1.62912 1.14971 0.86
+  rotation 0 0 -1 5.49779
 }
 Oven {
-  translation -1.24 0.51 0.11
+  translation -0.11 1.24 0.17
+  rotation 0 0 1 -1.5707953071795862
 }
 Solid {
-  translation -1.48 2.09 -2.01
-  rotation 0 1 0 0.785398
+  translation 2.01 1.48 2.09
+  rotation 0 0 1 0.785398
   children [
     Shape {
       appearance PBRAppearance {
@@ -491,15 +495,15 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 0.35 0.61 0.45
+        size 0.45 0.35 0.61
       }
     }
   ]
   name "solid(1)"
 }
 Solid {
-  translation -1.3 1.742 -1.8
-  rotation 0 -1 0 5.89049
+  translation 1.8 1.3 1.742
+  rotation 0 0 -1 5.89049
   children [
     Shape {
       appearance PBRAppearance {
@@ -522,8 +526,8 @@ Solid {
   name "solid(2)"
 }
 Solid {
-  translation -1.3 1.692 -1.8
-  rotation 0 1 0 0.261799
+  translation 1.8 1.3 1.692
+  rotation 0 0 1 0.261799
   children [
     Shape {
       appearance PBRAppearance {
@@ -545,236 +549,235 @@ Solid {
   ]
 }
 Table {
-  translation -1.31 0 1.21
-  rotation 0 1 0 3.14159
+  translation -1.21 1.31 0
+  rotation 0 0 1 3.14159
   name "table(1)"
-  size 0.6 0.8 1.7
+  size 1.7 0.6 0.8
 }
 Table {
-  translation 1.43 0 0.65
-  rotation 0 1 0 6.28319
+  translation -0.65 -1.43 0
+  rotation 0 0 1 6.28319
 }
 CeilingLight {
-  translation 1.5 2.4 0.7
+  translation -0.7 -1.5 2.4
   pointLightColor 1 0.9764705882352941 0.9058823529411765
   pointLightIntensity 4
 }
 Chair {
-  translation 0.5 0 0.64
+  translation -0.64 -0.5 0
+  rotation 0 0 1 -1.5707953071795862
   name "chair(1)"
 }
 Chair {
-  translation 2.33 0 0.64
-  rotation 0 1 0 3.14159
+  translation -0.64 -2.33 0
+  rotation 0 0 -1 -1.5707953071795862
   name "chair(2)"
 }
 Chair {
-  translation 1.87 0.01 0.18
-  rotation 0 1 0 4.71239
+  translation -0.18 -1.87 0.01
+  rotation 0 0 -1 3.14159
   name "chair(3)"
 }
 Chair {
-  translation 1.05 0 1.09
-  rotation 0 -1 0 4.71239
+  translation -1.09 -1.05 0
   name "chair(4)"
 }
 Chair {
-  translation 1.05 0 0.18
-  rotation 0 1 0 4.71239
+  translation -0.18 -1.05 0
+  rotation 0 0 -1 3.14159
   name "chair(5)"
 }
 Chair {
-  translation 1.87 0 1.12
-  rotation 0 -1 0 4.71239
+  translation -1.12 -1.87 0
 }
 Carafe {
-  translation 0.734801 0.738809 0.630027
-  rotation 0 1 0 -2.34578
+  translation -0.630027 -0.734801 0.738809
+  rotation 0 0 1 -2.34578
 }
 WaterBottle {
-  translation 1.38728 0.583373 -2.03231
-  rotation -0.11131105390957045 0.6903893343656462 0.7148233461993952 -2.72186
+  translation 2.03231 -1.38728 0.583373
+  rotation -0.7148233461993952 0.11131105390957045 0.6903893343656462 -2.72186
   name "water bottle(1)"
 }
 WaterBottle {
-  translation 1.15603 0.737804 0.480933
+  translation -0.480933 -1.15603 0.737804
   name "water bottle(2)"
 }
 WaterBottle {
-  translation 1.64506 0.583373 -2.04154
-  rotation 0.8562248874518146 -0.39980494744684253 -0.327161956995545 1.76379
+  translation 2.04154 -1.64506 0.583373
+  rotation 0.327161956995545 -0.8562248874518146 -0.39980494744684253 1.76379
   name "water bottle(3)"
 }
 WaterBottle {
-  translation 1.73192 0.583373 -2.02614
-  rotation -0.9947242883375433 0.07555602190118206 0.06938932011365996 -1.57784
+  translation 2.02614 -1.73192 0.583373
+  rotation -0.06938932011365996 0.9947242883375433 0.07555602190118206 -1.57784
   name "water bottle(4)"
 }
 WaterBottle {
-  translation 1.82544 0.583373 -2.04731
-  rotation 0.28733899401487245 -0.6765869859070315 -0.6779869858778702 2.58041
+  translation 2.04731 -1.82544 0.583373
+  rotation 0.6779869858778702 -0.28733899401487245 -0.6765869859070315 2.58041
 }
 BeerBottle {
-  translation 1.61124 0.297922 -2.04128
-  rotation 0 1 0 -0.261799
+  translation 2.04128 -1.61124 0.297922
+  rotation 0 0 1 -0.261799
   name "beer bottle(1)"
 }
 Can {
-  translation 1.53737 0.361031 -1.94171
-  rotation 0 1 0 -0.0888515
+  translation 1.94171 -1.53737 0.361031
+  rotation 0 0 1 -0.0888515
   name "can(1)"
 }
 Can {
-  translation 1.51734 0.361031 -1.7218
-  rotation 0 1 0 -2.87917
+  translation 1.7218 -1.51734 0.361031
+  rotation 0 0 1 -2.87917
 }
 BeerBottle {
-  translation 1.71215 0.297922 -1.88725
-  rotation 0 1 0 0.785398
+  translation 1.88725 -1.71215 0.297922
+  rotation 0 0 1 0.785398
   name "beer bottle(2)"
 }
 BeerBottle {
-  translation 1.38446 0.297922 -1.8952
-  rotation 0 1 0 -2.87979
+  translation 1.8952 -1.38446 0.297922
+  rotation 0 0 1 -2.87979
 }
 FruitBowl {
-  translation 1.62734 0.0494506 -1.7718
-  rotation 0.9877540431727349 0.019289800843118245 0.1548220067669573 0.000129934
+  translation 1.7718 -1.62734 0.0494506
+  rotation -0.1548220067669573 -0.9877540431727349 0.019289800843118245 0.000129934
   name "fruit bowl(1)"
 }
 FruitBowl {
-  translation 1.754 0.739509 0.685501
-  rotation 0.08937491950191119 0.9958842173053211 0.015058203285751137 0.00208587
+  translation -0.685501 -1.754 0.739509
+  rotation -0.015058203285751137 -0.08937491950191119 0.9958842173053211 0.00208587
 }
 Apple {
-  translation 1.69768 0.799176 0.742825
-  rotation 0.3262478957786582 0.8599057252992903 -0.39258687458637637 3.033
+  translation -0.742825 -1.69768 0.799176
+  rotation 0.39258687458637637 -0.3262478957786582 0.8599057252992903 3.033
   name "apple(1)"
 }
 Apple {
-  translation 1.80756 0.79923 0.742608
-  rotation 0.47425294851652544 0.5233879431825781 0.7079189231504496 -1.98321
+  translation -0.742608 -1.80756 0.79923
+  rotation -0.7079189231504496 -0.47425294851652544 0.5233879431825781 -1.98321
   name "apple(2)"
 }
 Apple {
-  translation 1.81032 0.799203 0.642646
-  rotation -0.913958172315387 -0.39916107525683037 0.07314981379148286 1.9388
+  translation -0.642646 -1.81032 0.799203
+  rotation -0.07314981379148286 0.913958172315387 -0.39916107525683037 1.9388
 }
 Orange {
-  translation 1.75244 0.864743 0.691001
-  rotation -0.5452778412527399 0.5704728339176975 -0.6141928211894558 1.95096
+  translation -0.691001 -1.75244 0.864743
+  rotation 0.6141928211894558 0.5452778412527399 0.5704728339176975 1.95096
   name "orange(1)"
 }
 Orange {
-  translation 1.56974 0.10921 -1.71437
-  rotation -0.07361643713365086 0.8266574169830693 -0.557869281400784 -2.296
+  translation 1.71437 -1.56974 0.10921
+  rotation 0.557869281400784 0.07361643713365086 0.8266574169830693 -2.296
   name "orange(2)"
 }
 Orange {
-  translation 1.6967 0.799241 0.640069
-  rotation 0.8371741961750524 -0.30864207232410534 -0.4515301058070621 2.32063
+  translation -0.640069 -1.6967 0.799241
+  rotation 0.4515301058070621 -0.8371741961750524 -0.30864207232410534 2.32063
   name "orange(3)"
 }
 Orange {
-  translation 1.68487 0.109193 -1.71796
-  rotation -0.9418642243257126 -0.31775807568108533 0.10918602600505727 3.05418
+  translation 1.71796 -1.68487 0.109193
+  rotation -0.10918602600505727 0.9418642243257126 -0.31775807568108533 3.05418
   name "orange(4)"
 }
 Orange {
-  translation 1.69977 0.154967 -1.84408
-  rotation -0.2557241289738577 0.9589254836317924 0.12274806190769377 1.90522
+  translation 1.84408 -1.69977 0.154967
+  rotation -0.12274806190769377 0.2557241289738577 0.9589254836317924 1.90522
   name "orange(5)"
 }
 Orange {
-  translation 1.62817 0.186255 -1.68945
-  rotation 0.2790219013734484 0.6883247566961703 -0.6695937633170603 -2.62709
+  translation 1.68945 -1.62817 0.186255
+  rotation 0.6695937633170603 -0.2790219013734484 0.6883247566961703 -2.62709
   name "orange(6)"
 }
 Orange {
-  translation 1.55346 0.159653 -1.84559
-  rotation -0.6931561509070421 -0.17926203902714277 -0.698140151992109 -1.00307
+  translation 1.84559 -1.55346 0.159653
+  rotation 0.698140151992109 0.6931561509070421 -0.17926203902714277 -1.00307
   name "orange(7)"
 }
 Orange {
-  translation 1.62462 0.109011 -1.79757
-  rotation -0.8244358575387327 0.5341949076919292 0.18692596769947598 0.645473
+  translation 1.79757 -1.62462 0.109011
+  rotation -0.18692596769947598 0.8244358575387327 0.5341949076919292 0.645473
 }
 Cookware {
-  translation -1.32016 0.889978 -1.66736
-  rotation 0.0003169679813120423 0.9999999410415005 0.00013209199221205387 2.35812
+  translation 1.66736 1.32016 0.889978
+  rotation -0.00013209197663616574 -0.0003169679439361368 0.9999999410415142 2.35812
 }
 Lid {
-  translation -1.31968 0.960471 -1.66658
-  rotation 0.7083611653994737 6.470801510906041e-05 -0.7058501648131651 0.000636256
+  translation 1.66658 1.31968 0.960471
+  rotation 0.7058501662909072 -0.7083611668824727 0 0.000636256
 }
 WoodenSpoon {
-  translation -1.37605 0.889212 -1.24856
-  rotation 0 0.9999999516544303 0.0003109519849668484 -2.9108
+  translation 1.24856 1.37605 0.889212
+  rotation 0 -0.0026826514244551996 0.9999964016841935 0.230793
 }
 Fork {
-  translation 0.900931 0.741142 0.970173
-  rotation 0 0.9999939648451662 0.0034742298778632887 3.11873
+  translation -0.970173 -0.900931 0.741142
+  rotation 0 0.2907751281873712 0.9567914217987209 -0.02389530717958621
 }
 Spoon {
-  translation 1.2214 0.742841 0.969982
-  rotation -0.018517800597359444 0.9996570322475968 0.018517800597359444 -1.57114
+  translation -0.969982 -1.2214 0.742841
+  rotation 0 -1 0 0.0370441
   name "spoon(1)"
 }
 Spoon {
-  translation 1.02146 0.742 0.849274
-  rotation 0.0038457108633018003 -0.20571104617890498 -0.9786052196815304 0.0379603
+  translation -0.849274 -1.02146 0.742
+  rotation 0.018569307231111266 -0.01871580728816015 0.9996523892766468 1.56334
   type "tea"
 }
 Knife {
-  translation 1.15121 0.739111 0.989983
-  rotation -0.0050474185608289125 0.999974714877084 -0.005009308571695219 1.57097
+  translation -0.989983 -1.15121 0.739111
+  rotation 0.9999873652176937 0 -0.005026868306876098 3.14156
 }
 Plate {
-  translation 1.03 0.739941 0.970012
-  rotation 0 1 0 -3.14159
+  translation -0.970012 -1.03 0.739941
+  rotation 0 0 1 -3.14159
 }
 Glass {
-  translation 0.999902 0.738967 0.800252
+  translation -0.800252 -1 0.738967
 }
 Wineglass {
-  translation 1.0978 0.739561 0.787671
+  translation -0.787671 -1.0978 0.739561
 }
 HoneyJar {
-  translation -0.70423 0.889402 -1.71438
+  translation 1.71438 0.70423 0.889402
 }
 JamJar {
-  translation 0.301797 0.889402 -1.7123
-  rotation 0 1 0 2.62768
+  translation 1.7123 -0.301797 0.889402
+  rotation 0 0 1 2.62768
   name "jam jar(1)"
   textureLidUrl [
     "webots://projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
   ]
 }
 JamJar {
-  translation -0.493697 0.889402 -1.92638
-  rotation 0 1 0 3.14159
+  translation 1.92638 0.493697 0.889402
+  rotation 0 0 1 3.14159
 }
 CerealBox {
-  translation -0.333777 0.889608 -2.02479
-  rotation 0 1 0 2.09348
+  translation 2.02479 0.333777 0.889608
+  rotation 0 0 1 -2.618905307179586
   name "cereal box(1)"
 }
 CerealBox {
-  translation -0.0376474 0.889608 -2.05319
-  rotation 0 1 0 1.30836
+  translation 2.05319 0.0376474 0.889608
+  rotation 0 0 1 2.87916
   name "cereal box(2)"
   textureUrl [
     "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
   ]
 }
 CerealBox {
-  translation 0.607243 0.889608 -1.85996
-  rotation 0 -1 0 -1.30892
+  translation 1.85996 -0.607243 0.889608
+  rotation 0 0 1 2.87972
   textureUrl [
     "webots://projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
   ]
 }
 BiscuitBox {
-  translation 1.41 0.739843 0.339933
-  rotation 0 1 0 -0.262068
+  translation -0.339933 -1.41 0.739843
+  rotation 0 0 1 -0.262068
 }

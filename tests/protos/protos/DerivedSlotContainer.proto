@@ -1,20 +1,25 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO DerivedSlotContainer [
 ]
 {
   SlotContainer {
     slot [
-      Shape {
-        appearance Appearance {
-          material Material {
-            diffuseColor 0.8 0.8 0.8
+      Transform {
+        rotation 1 0 0 -1.5708
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.8 0.8 0.8
+              }
+            }
+            geometry Cylinder {
+              height 0.3
+              radius 0.015
+            }
           }
-        }
-        geometry Cylinder {
-          height 0.3
-          radius 0.015
-        }
+        ]
       }
     ]
   }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot, comparison between the implementation using HingeJoints and Hinge2Joints."
@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.5773502691896258 -0.5773502691896258 -0.5773502691896257 2.0943951023931953
-  position -2.1662069725255897 0.2655544555546841 0.3354822431309262
+  orientation 0 1 0 0
+  position -2.204845602261474 0.24014567184095253 0.3374593544138923
 }
 TexturedBackground {
 }
@@ -30,7 +30,6 @@ RobotisOp2Hinge2 {
   selfCollision TRUE
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   size 1000 1000
   tileSize 1 1
   appearance Parquetry {

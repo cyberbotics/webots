@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Create a web component scene foreach robot of the robots.json file."""
+"""Create a web component scene foreach robot in the components.json file."""
 
 from controller import Supervisor
 import json
@@ -86,7 +86,7 @@ with open(targetMetaFile) as f:
     # - sort the device list per interesting category type.
     robotData['devices'] = sorted(robotData['devices'], key=cmp_to_key(_compareDevice))
     # - rewrite the json file.
-    with open(targetMetaFile, 'w') as f:
+    with open(targetMetaFile, 'w', newline='\n') as f:
         json.dump(robotData, f, indent=2)
         f.write('\n')
 

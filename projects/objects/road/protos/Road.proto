@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A fully customizable road, the number of lanes, the dimensions and the path of the road is configurable.
@@ -10,7 +10,7 @@
 
 PROTO Road [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                  # Optionally defines the street name.
   field        SFString             id                        ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        SFString             startJunction             ""                      # Optionally defines a reference to the Crossroad connected at the first Road waypoint. Setting correctly this field is required to use the SUMO exporter.
@@ -28,7 +28,7 @@ PROTO Road [
   field        SFBool               rightBarrier              FALSE                   # Defines whether the road should have a right barrier.
   field        SFBool               leftBarrier               FALSE                   # Defines whether the road should have a left barrier.
   field        SFBool               bottom                    FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
-  field        MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]        # Defines the path of the road.
+  field        MFVec3f              wayPoints                 [ 0 0 0, 1 0 0 ]        # Defines the path of the road.
   field        MFFloat              roadTilt                  [ 0, 0]                 # Defines the tilting angle corresponding to each way-point (if there are less values than way-points, 0 is used for the last remaining way-points).
   field        MFFloat              startingAngle             []                      # Optionally defines the angle of the road at the first way-point.
   field        MFFloat              endingAngle               []                      # Optionally defines the angle of the road at the lasst way-point.
@@ -167,15 +167,15 @@ PROTO Road [
           ratio = Math.pow(((nbWayPoint - 1 - i)  / splineSubdivision), 3);
 
         if (i === 0)
-          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].z, y: wayPoints[i+1].x}, {x: wayPoints[i].z, y: wayPoints[i].x}) * ratio;
+          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i].x, y: wayPoints[i].y}) * ratio;
         else
-          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].z, y: wayPoints[i].x}, {x: wayPoints[i-1].z, y: wayPoints[i-1].x}) * ratio;
+          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y}) * ratio;
       } else if (i > 0 && i > splineSubdivision) {
         // all the segments except first
         if (i === nbWayPoint - 1)
-          angle[i] = -wbvector2.angle({x: wayPoints[i].z, y: wayPoints[i].x}, {x: wayPoints[i-1].z, y: wayPoints[i-1].x});
+          angle[i] = -wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
         else
-          angle[i] = -wbvector2.angle({x: wayPoints[i+1].z, y: wayPoints[i+1].x}, {x: wayPoints[i-1].z, y: wayPoints[i-1].x});
+          angle[i] = -wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
       } else if (startingAngle[0] !== undefined) {
         // first segment with starting angle set
         let ratio = 0;
@@ -183,15 +183,15 @@ PROTO Road [
           ratio = Math.pow((i / splineSubdivision), 3);
 
         if (i === nbWayPoint - 1)
-          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].z, y: wayPoints[i].x}, {x: wayPoints[i-1].z, y: wayPoints[i-1].x}) * ratio;
+          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y}) * ratio;
         else
-          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].z, y: wayPoints[i+1].x}, {x: wayPoints[i].z, y: wayPoints[i].x}) * ratio;
+          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i].x, y: wayPoints[i].y}) * ratio;
       } else {
         // first segment if starting angle is not set
         if (i === nbWayPoint - 1)
-          angle[i] = -wbvector2.angle({x: wayPoints[i].z, y: wayPoints[i].x}, {x: wayPoints[i-1].z, y: wayPoints[i-1].x});
+          angle[i] = -wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
         else
-          angle[i] = -wbvector2.angle({x: wayPoints[i+1].z, y: wayPoints[i+1].x }, {x: wayPoints[i].z, y: wayPoints[i].x});
+          angle[i] = -wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y }, {x: wayPoints[i].x, y: wayPoints[i].y});
       }
 
       // compute distance (from beginning of road) for each way-points
@@ -218,8 +218,8 @@ PROTO Road [
                 coord Coordinate {
                   point [
                     %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
-                      %<= wayPoints[i].x - 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].y - 0.5 * Math.sin(tilt[i]) * width >% %<= wayPoints[i].z - 0.5 * Math.sin(angle[i]) * width >%
-                      %<= wayPoints[i].x + 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].y + 0.5 * Math.sin(tilt[i]) * width >% %<= wayPoints[i].z + 0.5 * Math.sin(angle[i]) * width >%
+                      %<= wayPoints[i].x - 0.5 * Math.sin(angle[i]) * width >% %<= wayPoints[i].y - 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].z - 0.5 * Math.sin(tilt[i]) * width >%
+                      %<= wayPoints[i].x + 0.5 * Math.sin(angle[i]) * width >% %<= wayPoints[i].y + 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].z + 0.5 * Math.sin(tilt[i]) * width >%
                     %< } >%
                   ]
                 }
@@ -292,11 +292,11 @@ PROTO Road [
               geometry DEF START_ROAD_LINES_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %< let heightDiff = 0.4 * (wayPoints[1].y - wayPoints[0].y) /  wbvector2.distance({x: wayPoints[0].x, y: wayPoints[0].z }, {x: wayPoints[1].x, y: wayPoints[1].z }); >%
-                    %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].x >%                             %<= wayPoints[0].y + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset >%              %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].z >%
-                    %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].x >%                             %<= wayPoints[0].y + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset >%              %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].z >%
-                    %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].x + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].y + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset + heightDiff >% %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].z + 0.4 * Math.cos(angle[0]) >%
-                    %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].x + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].y + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset + heightDiff >% %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].z + 0.4 * Math.cos(angle[0]) >%
+                    %< let heightDiff = 0.4 * (wayPoints[1].z - wayPoints[0].z) /  wbvector2.distance({x: wayPoints[0].y, y: wayPoints[0].x }, {x: wayPoints[1].y, y: wayPoints[1].x }); >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].x >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].y >%                             %<= wayPoints[0].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].x >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].y >%                             %<= wayPoints[0].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].x + 0.4 * Math.cos(angle[0]) >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].y + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset + heightDiff >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].x + 0.4 * Math.cos(angle[0]) >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].y + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset + heightDiff >%
                   ]
                 }
                 texCoord TextureCoordinate {
@@ -355,11 +355,11 @@ PROTO Road [
               geometry DEF END_ROAD_LINES_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %< let heightDiff = 0.4 * (wayPoints[nbWayPoint-2].y - wayPoints[nbWayPoint-1].y) /  wbvector2.distance({x: wayPoints[nbWayPoint-2].x, y: wayPoints[nbWayPoint-2].z}, {x: wayPoints[nbWayPoint-1].x, y: wayPoints[nbWayPoint-1].z }); >%
-                    %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                        %<= wayPoints[nbWayPoint-1].y + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%              %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].z >%
-                    %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                        %<= wayPoints[nbWayPoint-1].y + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%              %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].z >%
-                    %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].y + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >% %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].z - 0.4 * Math.cos(angle[nbWayPoint-2]) >%
-                    %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].y + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >% %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].z - 0.4 * Math.cos(angle[nbWayPoint-2]) >%
+                    %< let heightDiff = 0.4 * (wayPoints[nbWayPoint-2].z - wayPoints[nbWayPoint-1].z) /  wbvector2.distance({x: wayPoints[nbWayPoint-2].y, y: wayPoints[nbWayPoint-2].x}, {x: wayPoints[nbWayPoint-1].y, y: wayPoints[nbWayPoint-1].x }); >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                       %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y >%                                        %<= wayPoints[nbWayPoint-1].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                       %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y >%                                        %<= wayPoints[nbWayPoint-1].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.cos(angle[nbWayPoint-2]) >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.cos(angle[nbWayPoint-2]) >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >%
                   ]
                 }
                 texCoord TextureCoordinate {
@@ -433,8 +433,8 @@ PROTO Road [
                         >%
                         %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
                           %< let offset = width * ((j+1) / numberOfLanes - 0.5); >%
-                          %<= wayPoints[i].x + Math.cos(angle[i]) * (offset - lineWidth) >% %<= wayPoints[i].y + Math.sin(tilt[i]) * (offset - lineWidth) + heightOffset >% %<= wayPoints[i].z + Math.sin(angle[i]) * (offset - lineWidth) >%
-                          %<= wayPoints[i].x + Math.cos(angle[i]) * (offset + lineWidth) >% %<= wayPoints[i].y + Math.sin(tilt[i]) * (offset + lineWidth) + heightOffset >% %<= wayPoints[i].z + Math.sin(angle[i]) * (offset + lineWidth) >%
+                          %<= wayPoints[i].x + Math.sin(angle[i]) * (offset - lineWidth) >% %<= wayPoints[i].y + Math.cos(angle[i]) * (offset - lineWidth) >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (offset - lineWidth) + heightOffset >%
+                          %<= wayPoints[i].x + Math.sin(angle[i]) * (offset + lineWidth) >% %<= wayPoints[i].y + Math.cos(angle[i]) * (offset + lineWidth) >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (offset + lineWidth) + heightOffset >%
                         %< } >%
                       ]
                     }
@@ -483,11 +483,11 @@ PROTO Road [
                   point [
                     %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
                       %< if (nbBorderWidthPoint > 0) { >%
-                        %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y - Math.sin(tilt[i]) * halfWidth  >%   %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >% # lower exterior right street border
-                        %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].x >% %<= borderHeight + wayPoints[i].y - Math.sin(tilt[i]) * halfWidth >%   %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >% # higher exterior right street border
+                        %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth  >% # lower exterior right street border
+                        %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # higher exterior right street border
                       %< } >%
-                      %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= borderHeight + wayPoints[i].y - Math.sin(tilt[i]) * halfWidth >%   %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].z >% # higher interior right street border
-                      %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y - Math.sin(tilt[i]) * halfWidth >%   %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].z >% # lower interior right street border
+                      %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # higher interior right street border
+                      %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # lower interior right street border
                     %< } >%
                   ]
                 }
@@ -561,11 +561,11 @@ PROTO Road [
                   point [
                     %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
                       %< if (leftBorder) { >%
-                        %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y + Math.sin(tilt[i]) * halfWidth >%   %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].z >% # lower interior left street border
-                        %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= borderHeight + wayPoints[i].y + Math.sin(tilt[i]) * halfWidth >%   %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].z >% # higher interior left street border
+                        %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # lower interior left street border
+                        %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # higher interior left street border
                         %< if (nbBorderWidthPoint > 0) { >%
-                          %<= (halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].x >% %<= borderHeight + wayPoints[i].y + Math.sin(tilt[i]) * halfWidth >%   %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >% # higher exterior left street border
-                          %<= (halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y + Math.sin(tilt[i]) * halfWidth >%   %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >% # lower exterior left street border
+                          %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # higher exterior left street border
+                          %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # lower exterior left street border
                         %< } >%
                       %< } >%
                     %< } >%
@@ -641,14 +641,14 @@ PROTO Road [
               geometry DEF START_END_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].x >% %<= wayPoints[0].y + Math.sin(tilt[0]) * halfWidth >%                  %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].z >% # lower interior left street border (start)
-                    %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].x >% %<= borderHeight + wayPoints[0].y + Math.sin(tilt[0]) * halfWidth >%   %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].z >% # higher interior left street border (start)
-                    %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].x >% %<= borderHeight + wayPoints[0].y - Math.sin(tilt[0]) * halfWidth >%   %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].z >% # higher interior right street border (start)
-                    %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].x >% %<= wayPoints[0].y - Math.sin(tilt[0]) * halfWidth >%                  %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].z >% # lower interior right street border (start)
-                    %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= wayPoints[nbWayPoint-1].y + Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                  %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].z >% # lower interior left street border (end)
-                    %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= borderHeight + wayPoints[nbWayPoint-1].y + Math.sin(tilt[nbWayPoint-1]) * halfWidth >%   %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].z >% # higher interior left street border (end)
-                    %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= borderHeight + wayPoints[nbWayPoint-1].y - Math.sin(tilt[nbWayPoint-1]) * halfWidth >%   %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].z >% # higher interior right street border (end)
-                    %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= wayPoints[nbWayPoint-1].y - Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                  %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].z >% # lower interior right street border (end)
+                    %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= wayPoints[0].z + Math.sin(tilt[0]) * halfWidth >%                # lower interior left street border (start)
+                    %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= borderHeight + wayPoints[0].z + Math.sin(tilt[0]) * halfWidth >% # higher interior left street border (start)
+                    %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= borderHeight + wayPoints[0].z - Math.sin(tilt[0]) * halfWidth >% # higher interior right street border (start)
+                    %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= wayPoints[0].z - Math.sin(tilt[0]) * halfWidth >%                # lower interior right street border (start)
+                    %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z + Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                # lower interior left street border (end)
+                    %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= borderHeight + wayPoints[nbWayPoint-1].z + Math.sin(tilt[nbWayPoint-1]) * halfWidth >% # higher interior left street border (end)
+                    %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= borderHeight + wayPoints[nbWayPoint-1].z - Math.sin(tilt[nbWayPoint-1]) * halfWidth >% # higher interior right street border (end)
+                    %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z - Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                # lower interior right street border (end)
                   ]
                 }
                 texCoord TextureCoordinate {
@@ -690,7 +690,7 @@ PROTO Road [
           barrierOnRightSide FALSE
           path [
           %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
-            %<= -(halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y - Math.sin(tilt[i]) * (halfWidth + barrierOffset) >% %<= -(halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].z >%
+            %<= -(halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * (halfWidth + barrierOffset) >%
           %< } >%
           ]
         }
@@ -703,7 +703,7 @@ PROTO Road [
           barrierOnRightSide TRUE
           path [
           %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
-            %<= (halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y + Math.sin(tilt[i]) * (halfWidth + barrierOffset) >% %<= (halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].z >%
+            %<= (halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (halfWidth + barrierOffset) >%
           %< } >%
           ]
         }
@@ -732,14 +732,14 @@ PROTO Road [
                 >%
                 %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
                   %< if (leftBorder && nbBorderWidthPoint > 0) { >%
-                    %<= (halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y + Math.sin(tilt[i]) * halfWidth >% %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >%
+                    %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >%
                   %< } else { >%
-                    %<= halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y + Math.sin(tilt[i]) * halfWidth + leftHeightOffset >% %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].z >%
+                    %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth + leftHeightOffset >%
                   %< } >%
                   %< if (rightBorder && nbBorderWidthPoint > 0) { >%
-                    %<= -(halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y - Math.sin(tilt[i]) * halfWidth >% %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].z >%
+                    %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >%
                   %< } else { >%
-                    %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].x >% %<= wayPoints[i].y - Math.sin(tilt[i]) * halfWidth + rightHeightOffset >% %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].z >%
+                    %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth + rightHeightOffset >%
                   %< } >%
                 %< } >%
               ]
@@ -783,7 +783,7 @@ PROTO Road [
       # turn lanes (forward)
       %< if (nbWayPoint > 2 && fields.turnLanesForward.value !== '') { >%
         Transform {
-          translation %<= wayPoints[nbWayPoint-1].x >% %<= wayPoints[nbWayPoint-1].y + heightOffset >% %<= wayPoints[nbWayPoint-1].z >%
+          translation %<= wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z + heightOffset >% %<= wayPoints[nbWayPoint-1].x >%
           rotation 0 1 0 %<= Math.PI - angle[nbWayPoint - 1] >%
           children [
           %<
@@ -848,7 +848,7 @@ PROTO Road [
       # turn lanes (backward)
       %< if (nbWayPoint > 2 && fields.turnLanesBackward.value !== '') { >%
         Transform {
-          translation %<= wayPoints[0].x >% %<= wayPoints[0].y + heightOffset >% %<= wayPoints[0].z >%
+          translation %<= wayPoints[0].y >% %<= wayPoints[0].z + heightOffset >% %<= wayPoints[0].x >%
           rotation 0 1 0 %<= - angle[2] >%
           children [
           %<

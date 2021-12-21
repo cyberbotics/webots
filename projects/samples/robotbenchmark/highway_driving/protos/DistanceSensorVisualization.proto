@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO DistanceSensorVisualization [
-  field SFVec3f    translation  0 0.4 0
-  field SFRotation rotation     0 1 0 0
+  field SFVec3f    translation  0.4 0 0
+  field SFRotation rotation     0 0 1 0
   field SFFloat    range        5
   field SFFloat    aperture     0.1
   field SFColor    diffuseColor 0 0 1
@@ -37,7 +37,7 @@ PROTO DistanceSensorVisualization [
               0 0 0
               %< for (let i = 0; i <= subdivision - 1; ++i) { >%
                 %< let angle = aperture * 0.5 - i * aperture / (subdivision - 1); >%
-                %<= range * Math.cos(angle) >% 0 %<= range * Math.sin(angle) >%
+                %<= -range * Math.sin(angle) >% %<= -range * Math.cos(angle) >% 0
               %< } >%
             ]
           }

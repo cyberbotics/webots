@@ -25,13 +25,14 @@ jobs:
             JAVA_VERSION: "11"
             ROS_DISTRO: "melodic"
           - os: ubuntu-20.04
-            JAVA_VERSION: "14"
+            JAVA_VERSION: "16"
             ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         fetch-depth: 15
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
@@ -118,11 +119,14 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
+        os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-18.04
             ROS_DISTRO: melodic
             python: 2.7
+          - os: ubuntu-20.04
+            ROS_DISTRO: noetic
+            python: 3.6
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2

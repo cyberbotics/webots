@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.1105092011553471 0.9520813815669851 0.28518197582159355 3.8272062323666414
-  position -0.3386315347698087 0.4468751437193188 -0.509387912557796
+  orientation -0.3484392205251928 -0.14715423176917067 0.9257082378763954 3.8869512987935053
+  position 0.4493794052706602 0.3499887426014677 0.4947588549615757
   near 0.001
   exposure 2
   follow "Tinkerbots"
@@ -33,7 +32,8 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.12 0
+  translation 0 0 0.12
+  rotation 0 1 0 -1.5708
   name "grabber_base"
   controller "grabber_base"
   downSlot TinkerbotsDistanceSensor {
@@ -107,7 +107,8 @@ TinkerbotsBase {
   }
 }
 DEF OBJECT Solid {
-  translation 0 0.12 -0.21
+  translation 0.21 0 0.12
+  rotation 0 1 0 -1.5708
   children [
     Slot {
       endPoint TinkerbotsCubieFemaleCube {

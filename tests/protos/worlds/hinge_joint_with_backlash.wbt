@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Test world for HingeJointWithBacklash PROTO."
@@ -9,7 +9,7 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 0
+  orientation 0 0 1 0
   position -0.001946948025796533 -0.1940202612037421 1.103779867296235
 }
 TexturedBackground {
@@ -31,7 +31,6 @@ DEF PENDULUM_ROBOT Robot {
       ]
       startPoint [
         Transform {
-          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -63,7 +62,6 @@ DEF PENDULUM_ROBOT Robot {
           }
           DEF PENDULUM_BOB Transform {
             translation 0 -0.2 0
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {

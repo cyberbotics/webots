@@ -93,6 +93,7 @@ public slots:
   void unleashAndClean();
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   void renderNow(bool culling = true) override;
 
 protected:
@@ -252,7 +253,7 @@ private slots:
   void updateShadowState();
   void unleashPhysicsDrags();
   void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
-  void handleWorldModificationFromSupervior();
+  void handleWorldModificationFromSupervisor();
 };
 
 #endif

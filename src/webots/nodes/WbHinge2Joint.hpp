@@ -19,6 +19,10 @@
 
 #include "WbHingeJoint.hpp"
 
+#include <QtCore/QMap>
+
+class QString;
+
 class WbHinge2Joint : public WbHingeJoint {
   Q_OBJECT
 

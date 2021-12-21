@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot controller from Matlab"
@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.7350120343090103 -0.36874938824884285 -0.5690177484815694 1.445201851486331
-  position -1.211531900609356 -1.1076770715141124 0.8375879682849127
+  orientation 0.1576624392910305 -0.5181244971509813 -0.8406482978563894 5.588559832663608
+  position -1.320563464074251 -1.0447318020401892 0.7766626861538176
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -25,7 +25,6 @@ RobotisOp2 {
   cameraHeight 240
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance Parquetry {
   }

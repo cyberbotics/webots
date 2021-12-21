@@ -56,7 +56,9 @@ private:
     SOUND,
     TEXTURE_URL,
     HDR_TEXTURE_URL,
-    MESH_URL
+    MESH_URL,
+    COLLADA_URL,
+    SKIN_URL
   };
   StringType mStringType;
 

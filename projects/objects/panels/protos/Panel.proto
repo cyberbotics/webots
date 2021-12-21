@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable simple panel.
@@ -6,9 +6,9 @@
 
 PROTO Panel [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "panel"
-  field SFVec3f    size             1.2 1.5 0.05                                                       # Defines the size of the panel.
+  field SFVec3f    size             0.05 1.2 1.5                                                       # Defines the size of the panel.
   field SFFloat    borderHeight     0.05                                                               # Defines the height of the border.
   field SFFloat    internalWidth    0.02                                                               # Defines the width of the panel (without border).
   field SFInt32    panelsCount      2                                                                  # Defines the number of panels.
@@ -42,27 +42,27 @@ PROTO Panel [
       console.error('\'panelsCount\' should be greater than 0. Value reset to ' + panelsCount + '.');
     }
 
-    if (size.x <= borderHeight * (panelsCount + 1)) {
+    if (size.y <= borderHeight * (panelsCount + 1)) {
       panelsCount = 1
       console.error('cumulative size of separators exceeds total size: reset to single panel.');
     }
 
-    const halfSizeX = 0.5 * size.x;
     const halfSizeY = 0.5 * size.y;
+    const halfSizeZ = 0.5 * size.z;
     const nSeparations = panelsCount - 1;
-    const panelSizeX = (size.x - borderHeight * (1 + panelsCount)) / panelsCount;
+    const panelSizeY = (size.y - borderHeight * (1 + panelsCount)) / panelsCount;
   >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation %<= halfSizeX >% %<= halfSizeY >% 0
+        translation 0 %<= halfSizeY >% %<= halfSizeZ >%
         children [
           Shape {
             appearance IS appearance
             geometry Box {
-              size %<= size.x - 2 * borderHeight >% %<= size.y - 2 * borderHeight >% %<= internalWidth >%
+              size %<= internalWidth >% %<= size.y - 2 * borderHeight >% %<= size.z - 2 * borderHeight >%
             }
           }
         ]
@@ -74,35 +74,35 @@ PROTO Panel [
             coord Coordinate {
               point [
                 # external frame
-                %< for (let dz = 0.5; dz >= -0.5; --dz) {
-                    let z = dz * size.z;
+                %< for (let dx = 0.5; dx >= -0.5; --dx) {
+                    let x = dx * size.x;
                 >%
-                    %<= 0 >% %<= 0 >% %<= z >%
-                    %<= size.x >% %<= 0 >% %<= z >%
-                    %<= size.x >% %<= size.y >% %<= z >%
-                    %<= 0 >% %<= size.y >% %<= z >%
-                    %<= borderHeight >% %<= borderHeight >% %<= z >%
-                    %<= size.x - borderHeight >% %<= borderHeight >% %<= z >%
-                    %<= size.x - borderHeight >% %<= size.y - borderHeight >% %<= z >%
-                    %<= borderHeight >% %<= size.y - borderHeight >% %<= z >%
+                    %<= x >% %<= 0 >% %<= 0 >%
+                    %<= x >% %<= size.y >% %<= 0 >%
+                    %<= x >% %<= size.y >% %<= size.z >%
+                    %<= x >% %<= 0 >% %<= size.z >%
+                    %<= x >% %<= borderHeight >% %<= borderHeight >%
+                    %<= x >% %<= size.y - borderHeight >% %<= borderHeight >%
+                    %<= x >% %<= size.y - borderHeight >% %<= size.z - borderHeight >%
+                    %<= x >% %<= borderHeight >% %<= size.z - borderHeight >%
                 %< } >%
                 # internal panel separations
                 %<
                   if (nSeparations > 0) {
-                    let offsetX = 1.5 * borderHeight + panelSizeX; // halfSizeX
+                    let offsetY = 1.5 * borderHeight + panelSizeY; // halfSizeY
                     for (let i = 1; i <= nSeparations; ++i) {
-                      for (let dz = -0.5; dz <= 0.5; ++dz) {
-                        let z = dz * size.z;
-                        for (let dy = -0.5; dy <= 0.5; ++dy) {
-                          const y = halfSizeY + dy * (size.y - 2 * borderHeight);
-                          for (let dx = -0.5; dx <= 0.5; ++dx) {
+                      for (let dx = -0.5; dx <= 0.5; ++dx) {
+                        let x = dx * size.x;
+                        for (let dz = -0.5; dz <= 0.5; ++dz) {
+                          const z = halfSizeZ + dz * (size.z - 2 * borderHeight);
+                          for (let dy = -0.5; dy <= 0.5; ++dy) {
                   >%
-                            %<= offsetX + dx * borderHeight >% %<= y >% %<= z >%
+                            %<= x >% %<= offsetY + dy * borderHeight >% %<= z >%
                   %<
                           }
                         }
                       }
-                      offsetX = offsetX + panelSizeX + borderHeight;
+                      offsetY = offsetY + panelSizeY + borderHeight;
                     }
                   }
                 >%
@@ -111,29 +111,29 @@ PROTO Panel [
             texCoord TextureCoordinate {
               point [
               %<
-                const borderX = borderHeight / size.x;
                 const borderY = borderHeight / size.y;
+                const borderZ = borderHeight / size.z;
               >%
                 0.0 0.0
                 1.0 0.0
                 0.0 1.0
                 1.0 1.0
-                %<= borderX >% %<= borderY >%
-                %<= 1 - borderX >% %<= borderY >%
-                %<= borderX >% %<= 1 - borderY >%
-                %<= 1- borderX >% %<= 1 - borderY >%
+                %<= borderY >% %<= borderZ >%
+                %<= 1 - borderY >% %<= borderZ >%
+                %<= borderY >% %<= 1 - borderZ >%
+                %<= 1- borderY >% %<= 1 - borderZ >%
               %<
-                let x = panelSizeX + borderHeight;
+                let y = panelSizeY + borderHeight;
                 for (let i = 1; i <= nSeparations; i++) {
-                  const texU1 = x / size.x;
-                  const texU2 = (x + borderHeight) / size.x;
+                  const texU1 = y / size.y;
+                  const texU2 = (y + borderHeight) / size.y;
               >%
-                  %<= texU1 >% %<= borderY >%
-                  %<= texU2 >% %<= borderY >%
-                  %<= texU1 >% %<= 1 - borderY >%
-                  %<= texU2 >% %<= 1 - borderY >%
+                  %<= texU1 >% %<= borderZ >%
+                  %<= texU2 >% %<= borderZ >%
+                  %<= texU1 >% %<= 1 - borderZ >%
+                  %<= texU2 >% %<= 1 - borderZ >%
               %<
-                  x = x + panelSizeX + borderHeight;
+                  y = y + panelSizeY + borderHeight;
                 }
               >%
               ]
@@ -217,7 +217,7 @@ PROTO Panel [
     name IS name
     model "panel"
     boundingObject Transform {
-      translation %<= halfSizeX >% %<= halfSizeY >% 0
+      translation 0 %<= halfSizeY >% %<= halfSizeZ >%
       children [
         Box {
           size IS size

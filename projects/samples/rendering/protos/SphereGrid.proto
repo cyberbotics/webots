@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # A grid of spheres for testing material properties.
 # template language: javascript
 
 PROTO SphereGrid [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "sphere grid"
   field SFColor    color          1 0 0
   field SFNode     normalMap      ImageTexture {}
@@ -25,7 +25,7 @@ PROTO SphereGrid [
       %< for (let i = 0; i <= dimensions - 1; ++i) { >%
         %< for (let j = 0; j <= dimensions - 1; ++j) { >%
           Solid {
-            translation %<= j / 3 >% %<= (1 - i) / 3 >% 0
+            translation 0 %<= j / 3 >% %<= (1 - i) / 3 >%
             children [
               Shape {
                 appearance PBRAppearance {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of use of a custom ODE plugin"
@@ -6,11 +6,10 @@ WorldInfo {
   title "Physics"
   physics "flying_mybot"
   basicTimeStep 64
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.997511393271538 0.06728942652903659 -0.021051208299495243 5.54169
-  position -0.0777383 1.03052 1.18579
+  orientation 0.007858911978497975 -0.9995834396646446 -0.027770211571250626 5.816500905133365
+  position -2.087411552660437 0.08188584433490534 1.4082311497604962
 }
 TexturedBackground {
 }
@@ -19,7 +18,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Solid {
-  translation -0.05 0.1 -0.25
+  translation 0.25 0.05 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -28,7 +27,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.2 0.1
+        size 0.1 0.23 0.2
       }
     }
   ]
@@ -42,8 +41,8 @@ Solid {
   }
 }
 Solid {
-  translation 0.2 0.1 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.1
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -52,7 +51,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX1 Box {
-        size 0.1 0.2 0.1
+        size 0.1 0.1 0.2
       }
     }
   ]
@@ -66,8 +65,8 @@ Solid {
   }
 }
 Solid {
-  translation -0.2 0.1 0.15
-  rotation 0 1 0 0.4
+  translation -0.15 0.2 0.1
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -76,7 +75,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.2 0.3
+        size 0.3 0.05 0.2
       }
     }
   ]
@@ -90,7 +89,7 @@ Solid {
   }
 }
 Solid {
-  translation 0.42 0.1 -0.1
+  translation 0.1 -0.42 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -99,7 +98,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.2 0.08
+        size 0.08 0.15 0.2
       }
     }
   ]
@@ -113,11 +112,11 @@ Solid {
   }
 }
 DEF ROBOT Robot {
-  rotation 0 1 0 1
+  rotation 0 0 1 1
   children [
     LED {
-      translation 0 -0.009999999999999998 -0.19999999999999998
-      rotation 1 0 0 4.712388966
+      translation 0.2 0 -0.01
+      rotation 0 -1 0 4.712388966
       children [
         Shape {
           appearance PBRAppearance {
@@ -136,7 +135,8 @@ DEF ROBOT Robot {
       gradual TRUE
     }
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance DEF BODY_COLOR PBRAppearance {
@@ -153,8 +153,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -165,11 +165,9 @@ DEF ROBOT Robot {
         }
       ]
       endPoint DEF LEFT_WING Solid {
-        translation -0.045 0.025 0
-        rotation -1 0 0 0
+        translation 0 0.045 0.025
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 0
             children [
               Shape {
                 appearance DEF WHEEL_COLOR PBRAppearance {
@@ -195,8 +193,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -207,8 +205,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint DEF RIGHT_WING Solid {
-        translation 0.045 0.025 0
-        rotation -1 0 0 0
+        translation 0 -0.045 0.025
         children [
           USE WHEEL
         ]
@@ -218,11 +215,11 @@ DEF ROBOT Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -246,8 +243,8 @@ DEF ROBOT Robot {
       ]
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]
@@ -272,12 +269,12 @@ DEF ROBOT Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.015 0.038 -0.041
-            0.015 0.023 -0.041
-            0 0.023 -0.0455
-            -0.015 0.023 -0.041
-            -0.015 0.038 -0.041
-            0 0.038 -0.0455
+            0.041 -0.015 0.038
+            0.041 -0.015 0.023
+            0.0455 0 0.023
+            0.041 0.015 0.023
+            0.041 0.015 0.038
+            0.0455 0 0.038
           ]
         }
         texCoord TextureCoordinate {
@@ -300,7 +297,7 @@ DEF ROBOT Robot {
       }
     }
     Transform {
-      translation 0 0.095 0
+      translation 0 0 0.095
       children [
         Shape {
           appearance USE BODY_COLOR
@@ -313,8 +310,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0.1 0
+        axis 0 0 1
+        anchor 0 0 0.1
       }
       device [
         RotationalMotor {
@@ -322,12 +319,12 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.1 0
+        translation 0 0 0.1
         children [
           DEF ROTOR Shape {
             appearance USE WHEEL_COLOR
             geometry DEF BOUNDING_ROTOR Box {
-              size 0.1 0.002 0.01
+              size 0.01 0.1 0.002
             }
           }
         ]
@@ -340,7 +337,7 @@ DEF ROBOT Robot {
             0 0 0
           ]
           inertiaMatrix [
-            4e-05 0.0004 0.0004
+            0.0004 4e-05 0.0004
             0 0 0
           ]
         }
@@ -348,8 +345,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0.11 0
+        axis 0 0 1
+        anchor 0 0 0.11
       }
       device [
         RotationalMotor {
@@ -357,7 +354,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.11 0
+        translation 0 0 0.11
         children [
           USE ROTOR
         ]
@@ -381,15 +378,15 @@ DEF ROBOT Robot {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.0045 0
+        translation 0 0 0.0045
         children [
           Box {
-            size 0.09 0.01 0.09
+            size 0.09 0.09 0.01
           }
         ]
       }
       Transform {
-        translation 0 0.0415 0
+        translation 0 0 0.0415
         children [
           USE BODY
         ]
@@ -403,7 +400,7 @@ DEF ROBOT Robot {
       0 0 0
     ]
     inertiaMatrix [
-      0.00124 0.000529 0.00124
+      0.00124 0.00124 0.000529
       0 0 0
     ]
   }

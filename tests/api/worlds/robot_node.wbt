@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,23 +17,29 @@ PointLight {
   location 0 0.3 0
 }
 DEF FLOOR Solid {
-  translation -0.5 0 -0.5
+  translation 0 0 0
   children [
-    Shape {
-      geometry ElevationGrid {
-        xDimension 11
-        xSpacing 0.1
-        zDimension 11
-        zSpacing 0.1
-      }
+    Transform {
+      translation -0.5 0 0.5
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry ElevationGrid {
+            xDimension 11
+            xSpacing 0.1
+            yDimension 11
+            ySpacing 0.1
+          }
+        }
+      ]
     }
   ]
   boundingObject Transform {
-    translation 0.5 0 0.5
     children [
       Plane {
       }
     ]
+    rotation 1 0 0 -1.57079632679
   }
 }
 DEF ROBOT Robot {
@@ -69,16 +75,21 @@ DEF ROBOT Robot {
 DEF CAPSULE Solid {
   translation 0.3 0.2 0.1
   children [
-    DEF CAPSULE_SHAPE Shape {
-      appearance Appearance {
-        material DEF CAPSULE_MATERIAL Material {
-          diffuseColor 0 0.666667 0
+    DEF CAPSULE_SHAPE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material DEF CAPSULE_MATERIAL Material {
+              diffuseColor 0 0.666667 0
+            }
+          }
+          geometry Capsule {
+            height 0.06
+            radius 0.05
+          }
         }
-      }
-      geometry DEF CAPSULE_GEOMETRY Capsule {
-        height 0.06
-        radius 0.05
-      }
+      ]
     }
   ]
   name "solid(1)"
@@ -87,13 +98,18 @@ DEF CONE Solid {
   translation 0.00810817 0.1 0.371074
   rotation 0.7662608905622442 0.5746959179216474 0.2873479589608237 1.5708
   children [
-    DEF CONE_SHAPE Shape {
-      appearance Appearance {
-      }
-      geometry DEF CONE_GEOMETRY Cone {
-        bottomRadius 0.06
-        height 0.3
-      }
+    DEF CONE_SHAPE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+          }
+          geometry Cone {
+            bottomRadius 0.06
+            height 0.3
+          }
+        }
+      ]
     }
   ]
   name "solid(2)"

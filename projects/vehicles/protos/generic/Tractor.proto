@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # A simple tractor.
 
 PROTO Tractor [
-  field     SFVec3f    translation       0 0.6 0
-  field     SFRotation rotation          1 0 0 0.13
+  field     SFVec3f    translation       0 0 0.6
+  field     SFRotation rotation          0 1 0 0.13
   field     SFColor    color             0.24 0.53 0.79
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
@@ -36,12 +36,12 @@ Car {
   suspensionRearDampingConstant 2000
   extensionSlot [
     DEF FRONT_AXLE_CYL Transform {
-      translation 0 0.07 0.05
-      rotation 0 0.99678935 -0.080068673 3.14159
+      translation 0.05 0 0.07
+      rotation -0.605815 0.605817 0.515727 -2.189295
       children [
         Solid {
-          translation 0 -0.25 -1.7
-          rotation 0 0 1 1.5708
+          translation 0 -0.34 -1.68
+          rotation -0.577349 -0.577351 0.577351 2.094397
           children [
             Shape {
               appearance DEF FRAME_APP PBRAppearance {
@@ -57,7 +57,7 @@ Car {
               }
             }
             Transform {
-              translation -0.05 0.56 0
+              translation 0.280006 -1.74 0.43
               rotation 0 0 1 1.5708
               children [
                 DEF FRONT_AXLE_DIR_SHAPE Shape {
@@ -70,7 +70,27 @@ Car {
               ]
             }
             Transform {
-              translation -0.05 -0.56 0
+              translation 0.05 0 0.52
+              rotation 0 -1 0 1.5708
+              children [
+                USE FRONT_AXLE_DIR_SHAPE
+              ]
+            }
+            Transform {
+              translation 0.05 0 -0.52
+              rotation 0 -1 0 1.5708
+              children [
+                DEF FRONT_AXLE_DIR_SHAPE Shape {
+                  appearance USE FRAME_APP
+                  geometry Cylinder {
+                    height 0.35
+                    radius 0.05
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0.280006 -1.74 -0.43
               rotation 0 0 1 1.5708
               children [
                 USE FRONT_AXLE_DIR_SHAPE
@@ -81,15 +101,27 @@ Car {
             children [
               USE FRONT_AXLE_CYL
               Transform {
-                translation -0.05 0.56 0
-                rotation 0 0 1 1.5708
+                translation 0.280006 -1.74 -0.43
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
               }
               Transform {
-                translation -0.05 -0.56 0
-                rotation 0 0 1 1.5708
+                translation 0.05 0 0.52
+                rotation 0 -1 0 1.5708
+                children [
+                  USE FRONT_AXLE_DIR_SHAPE
+                ]
+              }
+              Transform {
+                translation 0.05 0 -0.52
+                rotation 0 -1 0 1.5708
+                children [
+                  USE FRONT_AXLE_DIR_SHAPE
+                ]
+              }
+              Transform {
+                translation 0.280006 -1.74 0.43
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
@@ -102,8 +134,8 @@ Car {
       ]
     }
     Transform {
-      translation 0 0.07 0.05
-      rotation 0 0.99678935 -0.080068673 3.14159
+      translation 0.05 0 0.07
+      rotation -0.605815 0.605817 0.515727 -2.189295
       children [
         DEF FRAME Shape {
           appearance USE FRAME_APP
@@ -700,7 +732,7 @@ Car {
           children [
             DEF ROPS_TOP_BAR Transform {
               translation 0 1.7 0
-              rotation 0 0 1 1.5708
+              rotation -0.577349 -0.577351 0.577351 2.094397
               children [
                 Shape {
                   appearance DEF ROPS_APPEARANCE PBRAppearance {
@@ -717,6 +749,7 @@ Car {
             }
             DEF ROPS_RIGHT_BAR Transform {
               translation 0.58 1.2 0
+              rotation 1 0 0 -1.570796
               children [
                 Shape {
                   appearance USE ROPS_APPEARANCE
@@ -730,6 +763,7 @@ Car {
             }
             DEF ROPS_LEFT_BAR Transform {
               translation -0.58 1.2 0
+              rotation 1 0 0 -1.570796
               children [
                 Shape {
                   appearance USE ROPS_APPEARANCE
@@ -743,6 +777,7 @@ Car {
             }
             DEF ROPS_LEFT_LIGHT_HOLDER Transform {
               translation -0.66 0.95 0
+              rotation 1 0 0 -3.141592
               children [
                 Shape {
                   appearance USE ROPS_APPEARANCE
@@ -754,6 +789,7 @@ Car {
             }
             DEF ROPS_LEFT_RIGHT_HOLDER Transform {
               translation 0.66 0.95 0
+              rotation 1 0 0 -3.141592
               children [
                 Shape {
                   appearance USE ROPS_APPEARANCE
@@ -1022,7 +1058,7 @@ Car {
         }
         DEF STEERING_WHEEL Transform {
           translation 0 0.71 -0.8
-          rotation 1 0 0 0.4
+          rotation 1 0 0 -1.170796
           children [
             DEF AXIS Shape {
               appearance PBRAppearance {
@@ -1038,7 +1074,7 @@ Car {
               }
             }
             Transform {
-              translation 0 0.139 0
+              translation 0 -0.008 0.14
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1084,8 +1120,8 @@ Car {
   boundingObject Group {
     children [
       DEF BONNET_MAIN_BO Transform {
-        translation 0 0.52 1.35
-        rotation 1 0 0 -0.15
+        translation 1.35 0 0.52
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.8 0.81 1
@@ -1093,8 +1129,8 @@ Car {
         ]
       }
       DEF BONNET_FRONT_BO Transform {
-        translation 0 0.57 1.79
-        rotation 1 0 0 -2.35
+        translation 1.79 0 0.57
+        rotation -0.355071 -0.355071 0.864783 1.715565
         children [
           Box {
             size 0.8 0.6 0.6
@@ -1102,8 +1138,8 @@ Car {
         ]
       }
       DEF SEAT_BO Transform {
-        translation 0 0.36 0.14
-        rotation 1 0 0 -0.15
+        translation 0.14 0 0.36
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.8 0.88 0.7
@@ -1111,8 +1147,8 @@ Car {
         ]
       }
       DEF FRONT_BRACKET_BO Transform {
-        translation 0 0.41 2.11
-        rotation 1 0 0 -0.15
+        translation 2.11 0 0.41
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.6 0.1 0.5
@@ -1120,8 +1156,8 @@ Car {
         ]
       }
       DEF BOTTOM_FRONT_BO Transform {
-        translation 0 0.01 1.7
-        rotation 1 0 0 -0.15
+        translation 1.7 0 0.01
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.32 0.25 0.28
@@ -1129,8 +1165,8 @@ Car {
         ]
       }
       DEF BOTTOM_REAR_BO Transform {
-        translation 0 -0.23 0.1
-        rotation 1 0 0 -0.15
+        translation 0.1 0 -0.23
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.32 0.25 0.48
@@ -1138,8 +1174,8 @@ Car {
         ]
       }
       DEF CABIN_FLOOR_BO Transform {
-        translation 0 0.186 0.65
-        rotation 1 0 0 -0.15
+        translation 0.65 0 0.186
+        rotation 0.546245 0.546245 0.635006 2.010069
         children [
           Box {
             size 0.8 0.36 0.49
@@ -1147,8 +1183,8 @@ Car {
         ]
       }
       DEF ROPS_BO Transform {
-        translation 0 1.25 -0.26
-        rotation 1 0 0 -0.32
+        translation -0.26 0 1.25
+        rotation 0.505214 0.505214 0.699655 1.920604
         children [
           Box {
             size 1.2 1 0.06
@@ -1161,11 +1197,11 @@ Car {
     density -1
     mass 1000
     centerOfMass [
-      0 0.46081786 0.94506902
+      0.94506902 0 0.46081786
     ]
     inertiaMatrix [
-      3004.5628 2557.88 634.25855
-      0 0 -792.28908
+      634.25855 3004.5628 2557.88
+      0 -792.28908 0
     ]
   }
   wheelFrontRight TractorFrontWheel {
@@ -1173,12 +1209,14 @@ Car {
   }
   wheelFrontLeft TractorFrontWheel {
     name "front left wheel"
+    wheelSide TRUE
   }
   wheelRearRight TractorRearWheel {
     name "rear right wheel"
   }
   wheelRearLeft TractorRearWheel {
     name "rear left wheel"
+    wheelSide TRUE
   }
   type "4x4"
   time0To100 20

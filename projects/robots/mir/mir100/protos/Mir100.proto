@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/mir100
@@ -111,12 +111,12 @@ PROTO Mir100 [
       }
       Transform {
         translation 0.4288 0.2358 0.188
-        rotation -0.2811 -0.6786 0.6786 2.5936
+        rotation 0.382683 -0.92388 0 -3.14159
         children IS frontLidarSlot
       }
       Transform {
         translation -0.3548 -0.2352 0.188
-        rotation 0.8629 -0.3574 0.3574 -1.7178
+        rotation -0.92388 -0.382683 0 -3.14159
         children IS backLidarSlot
       }
       Transform {
@@ -208,7 +208,6 @@ PROTO Mir100 [
       }
       RangeFinder {
         translation 0.464 0 0.18
-        rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
         name "depth_camera"
         fieldOfView 2.05949
         minRange 0.18
@@ -289,6 +288,7 @@ PROTO Mir100 [
         ]
         endPoint DEF LEFT_WHEEL_LINK Solid {
           translation 0 0.222604 0.0625
+          rotation 1 0 0 -1.5708
           children [
             Group {
               children [
@@ -349,6 +349,7 @@ PROTO Mir100 [
         ]
         endPoint DEF RIGHT_WHEEL_LINK Solid {
           translation 0 -0.222604 0.0625
+          rotation 1 0 0 -1.5708
           children [
             Group {
               children [
@@ -417,6 +418,7 @@ PROTO Mir100 [
               ]
               endPoint DEF FL_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
+                rotation 1 0 0 -1.5708
                 children [
                   Group {
                     children [
@@ -450,7 +452,6 @@ PROTO Mir100 [
           name "fl_caster_rotation_link"
           boundingObject Transform {
             translation 0 0 -0.028
-            rotation 1 0 0 1.5708003061004252
             children [
               DEF SWIVEL Cylinder {
                 height 0.055
@@ -499,6 +500,7 @@ PROTO Mir100 [
               ]
               endPoint DEF FR_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
+                rotation 1 0 0 -1.5708
                 children [
                   Group {
                     children [
@@ -532,7 +534,6 @@ PROTO Mir100 [
           name "fr_caster_rotation_link"
           boundingObject Transform {
             translation 0 0 -0.028
-            rotation 1 0 0 1.5707996938995747
             children [
               USE SWIVEL
             ]
@@ -578,6 +579,7 @@ PROTO Mir100 [
               ]
               endPoint DEF BL_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
+                rotation 1 0 0 -1.5708
                 children [
                   Group {
                     children [
@@ -611,7 +613,6 @@ PROTO Mir100 [
           name "bl_caster_rotation_link"
           boundingObject Transform {
             translation 0 0 -0.028
-            rotation 1 0 0 1.5707996938995747
             children [
               USE SWIVEL
             ]
@@ -657,6 +658,7 @@ PROTO Mir100 [
               ]
               endPoint DEF BR_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
+                rotation 1 0 0 -1.5708
                 children [
                   Group {
                     children [
@@ -690,7 +692,6 @@ PROTO Mir100 [
           name "br_caster_rotation_link"
           boundingObject Transform {
             translation 0 0 -0.028
-            rotation 1 0 0 1.5707996938995747
             children [
               USE SWIVEL
             ]
@@ -749,7 +750,6 @@ PROTO Mir100 [
         }
         DEF CYL_BR Transform {
           translation -0.3555 -0.2353 0.262
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.096
@@ -759,7 +759,6 @@ PROTO Mir100 [
         }
         DEF CYL_FL Transform {
           translation 0.4306 0.2364 0.262
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.096
@@ -769,7 +768,6 @@ PROTO Mir100 [
         }
         DEF CYL_FR Transform {
           translation 0.415 -0.221 0.262
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.096
@@ -779,7 +777,6 @@ PROTO Mir100 [
         }
         DEF CYL_BL Transform {
           translation -0.341 0.222 0.262
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.096

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple bus stop with customizable appearance and an optional bench.
@@ -8,7 +8,7 @@
 
 PROTO BusStop [
   field SFVec3f     translation                 0 0 0
-  field SFRotation  rotation                    0 1 0 0
+  field SFRotation  rotation                    0 0 1 0
   field SFString    name                        "bus stop"
   field SFBool      bench                       TRUE                                                                  # Defines whether the bust stop should include a bench.
   field SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }  # Defines the appearance of the bench.
@@ -29,7 +29,8 @@ Solid {
   %< } >%
   children [
     Transform {
-      translation 0 1.572 0
+      translation 0 0 1.572
+      rotation 0.57735 0.57735 0.57735 2.094395
       scale 0.8 0.6 0.8
       children [
         BusStopMesh {
@@ -43,6 +44,7 @@ Solid {
         %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF INTERNAL_ADVERTISING Transform {
             translation 3.7 0.33 0.02
+            rotation 1 0 0 -1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -66,6 +68,7 @@ Solid {
         %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF EXTERNAL_ADVERTISING Transform {
             translation 4.07 0.33 0.02
+            rotation 1 0 0 -1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -94,7 +97,8 @@ Solid {
   boundingObject Group {
     children [
       DEF ROOF Transform {
-        translation 0 3.03 -0.136
+        translation -0.136 0 3.03
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 7.04 0.06 3.36
@@ -102,7 +106,8 @@ Solid {
         ]
       }
       DEF RIGHT Transform {
-        translation 3.104 1.5 -0.08
+        translation -0.08 3.104 1.5
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 0.32 3 2.72
@@ -110,7 +115,8 @@ Solid {
         ]
       }
       DEF LEFT Transform {
-        translation -3.136 1.5 -0.736
+        translation -0.736 -3.136 1.5
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 0.2 3 1.36
@@ -118,7 +124,8 @@ Solid {
         ]
       }
       DEF REAR Transform {
-        translation 0 1.6 -1.256
+        translation -1.256 0 1.6
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 6.16 2.88 0.24

@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 PROTO TeslaModel3Simple [
-  field       SFVec3f    translation                    0 0.4 0
-  field       SFRotation rotation                       0 1 0 0
+  field       SFVec3f    translation                    0 0 0.4
+  field       SFRotation rotation                       0 0 1 0
   field       SFColor    color                          1 0 0
   field       MFColor    recognitionColors              [ 1 0 0 ]
   field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
@@ -29,30 +29,27 @@ PROTO TeslaModel3Simple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform {
-        translation 0 0.142 3.79
+        translation 3.79 0 0.142
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 0.2 -1.05
-        rotation 0 1 0 3.14159
+        translation -1.05 0 0.2
+        rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 1.16 1.11
-        rotation 0 1 0 3.14159
+        translation 1.11 0 1.16
         children IS sensorsSlotTop
       }
       Transform {
-        translation 0 0 0
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       DEF FRONT_RIGHT_WHEEL Slot {
         type "vehicle wheel"
         endPoint TeslaModel3Wheel {
           angularVelocity IS frontRightWheelAngularVelocity
-          translation -0.86 0.03 2.94
-          rotation 0 0.9999999999999999 0 4.712388966000001
+          translation 2.94 -0.86 0.03
+          rotation 1 0 0 1.570796
           name "front right wheel"
           boundingObject IS wheelBoundingObject
         }
@@ -61,8 +58,8 @@ PROTO TeslaModel3Simple [
         type "vehicle wheel"
         endPoint TeslaModel3Wheel {
           angularVelocity IS frontLeftWheelAngularVelocity
-          translation 0.86 0.03 2.94
-          rotation 0 1 0 1.5707963220000003
+          translation 2.94 0.86 0.03
+          rotation 0 -0.707107 -0.707107 -3.141593
           name "front left wheel"
           boundingObject IS wheelBoundingObject
         }
@@ -71,8 +68,8 @@ PROTO TeslaModel3Simple [
         type "vehicle wheel"
         endPoint TeslaModel3Wheel {
           angularVelocity IS rearRightWheelAngularVelocity
-          translation -0.86 0.02 0
-          rotation 0 0.9999999999999999 0 4.712388966000001
+          translation 0 -0.86 0.02
+          rotation 1 0 0 1.570796
           name "rear right wheel"
           boundingObject IS wheelBoundingObject
         }
@@ -81,15 +78,15 @@ PROTO TeslaModel3Simple [
         type "vehicle wheel"
         endPoint TeslaModel3Wheel {
           angularVelocity IS rearLeftWheelAngularVelocity
-          translation 0.86 0.02 0
-          rotation 0 1 0 1.5707963219999999
+          translation 0 0.86 0.02
+          rotation 0 0.707107 0.707107 3.141593
           name "rear left wheel"
           boundingObject IS wheelBoundingObject
         }
       }
       Transform {
-        translation 0 -0.36 1.39
-        rotation 0 1 0 1.5707896938995747
+        translation 1.39 0 -0.36
+        rotation 0 -0.707107 -0.707107 -3.141588
         children [
           TeslaModel3Coachwork {
             color IS color
@@ -102,7 +99,7 @@ PROTO TeslaModel3Simple [
           }
           DEF FRONT_PLATE Transform {
             translation -2.335 0.5199999997602552 7.192344581019582e-10
-            rotation -0.5773502627301781 0.577350273803517 -0.5773502710351822 4.188790199249722
+            rotation 0 1 0 -1.570796
             children [
               DEF PLATES Shape {
                 appearance PBRAppearance {
@@ -120,7 +117,7 @@ PROTO TeslaModel3Simple [
           }
           DEF REAR_PLATE Transform {
             translation 2.299835640686857 0.773269651734629 7.434408060502636e-8
-            rotation -0.5199879403136037 -0.6776614836699748 0.5199879378203156 4.332744305786689
+            rotation -0.129428 0.983106 0.129428 1.587834
             children [
               DEF PLATES Shape {
                 appearance PBRAppearance {
@@ -146,8 +143,8 @@ PROTO TeslaModel3Simple [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.2099999999999999 1.3699999820191329
-          rotation 0 -0.9999999999999999 0 1.5707963411795867
+          translation 1.37 0 0.21
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 4.5 0.7 1.7999999999999998
@@ -155,8 +152,8 @@ PROTO TeslaModel3Simple [
           ]
         }
         Transform {
-          translation -1.0069283031148894e-8 0.7600000000000002 0.6799999999999999
-          rotation 0 -0.9999999999999999 0 1.5707963411795867
+          translation 0.68 0 0.76
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 2.9 0.7 1.5

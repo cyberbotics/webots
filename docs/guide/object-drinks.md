@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BeerBottle {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "beer bottle"
   SFFloat    mass        0.4
 }
@@ -28,7 +28,7 @@ BeerBottle {
 
 ## Can
 
-A can (0.03175 x 0.1222 x 0.03175 m).
+A can (0.03175 x 0.03175 x 0.1222 m).
 
 %figure
 
@@ -40,11 +40,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Can {
-  SFVec3f translation 0 0.06 0
-  SFRotation rotation 0 1 0 0
+  SFVec3f translation 0 0 0.06
+  SFRotation rotation 0 0 1 0
   SFString name "can"
   SFColor color 1 1 1
-  MFString textureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/drinks/protos/textures/can_base_color.jpg"
+  MFString textureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/drinks/protos/textures/can_base_color.jpg"
   SFFloat mass 0.35
 }
 ```
@@ -69,9 +69,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 WaterBottle {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "water bottle"
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/drinks/protos/textures/evian.png"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/drinks/protos/textures/evian.png"
   SFFloat    mass        1
 }
 ```

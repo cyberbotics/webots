@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
   contactProperties [
@@ -20,15 +20,20 @@ DirectionalLight {
 }
 DEF FLOOR Solid {
   children [
-    DEF FLOOR_SHAPE Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.8 0.5 0.5
+    DEF FLOOR_SHAPE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.8 0.5 0.5
+            }
+          }
+          geometry Plane {
+            size 2 2
+          }
         }
-      }
-      geometry Plane {
-        size 2 2
-      }
+      ]
     }
   ]
   boundingObject USE FLOOR_SHAPE

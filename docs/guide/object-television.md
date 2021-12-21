@@ -15,10 +15,10 @@ Derived from [Robot](../reference/robot.md).
 ```
 Television {
   SFVec3f    translation   0 0.3 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "television"
   SFColor    color         1 1 1
-  MFString   textureUrl    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/television/protos/textures/television.jpg"
+  MFString   textureUrl    "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/television/protos/textures/television.jpg"
   SFInt32    displayWidth  128
   SFInt32    displayHeight 64
   SFString   controller    "television_switch_on"

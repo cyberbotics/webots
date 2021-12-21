@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-s300
@@ -15,7 +15,7 @@
 
 PROTO SickS300 [
 field SFVec3f    translation    0 0 0
-field SFRotation rotation       0 1 0 0
+field SFRotation rotation       0 0 1 0
 field SFString   name           "Sick S300"  # Is `Lidar.fieldOfView`.
 field SFFloat    noise          0.0          # Is `Lidar.fieldOfView`.
 field SFInt32    resolution     540          # Is `Lidar.horizontalResolution`.
@@ -68,7 +68,8 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
     boundingObject Group {
       children [
         Transform {
-          translation 0 -0.0712 0.0315
+          translation 0.0315 0 -0.0712
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Shape {
               geometry Box {
@@ -78,7 +79,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
           ]
         }
         Transform {
-          translation 0 -0.06712 0
+          translation 0 0 -0.0671
           children [
             Shape {
               geometry Cylinder {

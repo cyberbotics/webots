@@ -102,22 +102,26 @@ class Vehicle:
 
     def __init__(self, node):
         """Initialize and get the required fields from the vehicle node."""
+        if node.getTypeName() in ['Solid']:
+            self.car_node = node.getField('children').getMFNode(0)
+        else:
+            self.car_node = node
         self.node = node
         self.translation = self.node.getField("translation")
         self.rotation = self.node.getField("rotation")
         self.name = self.node.getField("name")
         self.inUse = False
         self.currentID = ""
-        self.currentPos = [hiddenPosition, 0.5, 0]
-        self.currentRot = [0, 1, 0, 0]
+        self.currentPos = [hiddenPosition, 0, 0.5]
+        self.currentRot = [0, 0, 1, 0]
         self.currentAngles = [0, 0, 0]
-        self.targetPos = [hiddenPosition, 0.5, 0]
-        self.targetRot = [0, 1, 0, 0]
+        self.targetPos = [hiddenPosition, 0, 0.5]
+        self.targetRot = [0, 0, 1, 0]
         self.currentAngles = [0, 0, 0]
         self.roll = 0
         self.pitch = 0
         self.speed = 0
-        self.type = self.node.getTypeName()
+        self.type = self.car_node.getTypeName()
         self.currentLane = None
         self.currentRoad = None
         self.laneChangeStartTime = None
@@ -128,7 +132,7 @@ class Vehicle:
         elif self.type in BUS_MODEL:
             self.vehicleClass = 'bus'
         elif self.type in TRUCK_MODEL:
-            if self.node.getField("trailer").getSFNode() is None:
+            if self.car_node.getField("trailer").getSFNode() is None:
                 self.vehicleClass = 'truck'
             else:
                 self.vehicleClass = 'trailer'
@@ -138,15 +142,15 @@ class Vehicle:
             print("Vehicle type not supported: " + self.type)
         self.wheelsAngularVelocity = []
         if self.type in MOTORCYCLE_MODEL:
-            self.wheelsAngularVelocity.append(self.node.getField("frontWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("rearWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("frontWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("rearWheelAngularVelocity"))
         else:
-            self.wheelsAngularVelocity.append(self.node.getField("frontRightWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("frontLeftWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("rearRightWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("rearLeftWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("frontRightWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("frontLeftWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("rearRightWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(self.car_node.getField("rearLeftWheelAngularVelocity"))
         if self.vehicleClass == 'trailer':
-            trailerNode = self.node.getField("trailer").getSFNode()
+            trailerNode = self.car_node.getField("trailer").getSFNode()
             self.wheelsAngularVelocity.append(trailerNode.getField("frontLeftWheelAngularVelocity"))
             self.wheelsAngularVelocity.append(trailerNode.getField("frontRightWheelAngularVelocity"))
             self.wheelsAngularVelocity.append(trailerNode.getField("centerLeftWheelAngularVelocity"))
@@ -160,21 +164,25 @@ class Vehicle:
         # randomly select the model
         if vehicleClass == 'bus':
             model = BUS_MODEL[0]
+            vehicleLength = -4.6
         elif vehicleClass == 'truck' or vehicleClass == 'trailer':
             model = TRUCK_MODEL[0]
+            vehicleLength = -5.2
         elif vehicleClass == 'motorcycle':
             modelIndex = math.trunc(random.uniform(0, len(MOTORCYCLE_MODEL)))
             model = MOTORCYCLE_MODEL[modelIndex]
             colorPairs = random.choice(COLOR_PAIRS)
             colorPedestrian = random.choice(PEDESTRIAN_COLORS)
+            vehicleLength = -1.7
         else:
             modelIndex = math.trunc(random.uniform(0, len(CAR_MODEL)))
             model = CAR_MODEL[modelIndex]
+            vehicleLength = -2.85
         color = random.choice(VEHICLE_COLORS)
-
         defName = "SUMO_VEHICLE%d" % index
-        vehicleString = "DEF " + defName + " " + model + " {\n"
-        vehicleString += "  translation 10000 0.5 0\n"
+        vehicleString = "DEF " + defName + " Solid" + " {\n"
+        vehicleString += "  translation 10000 0 0.5\n children [\n" + model + "{\n"
+        vehicleString += "  translation " + str(vehicleLength) + " 0 0\n"
         if vehicleClass == 'motorcycle':
             vehicleString += "  primaryColor " + colorPairs[0] + "\n"
             vehicleString += "  secondaryColor " + colorPairs[1] + "\n"
@@ -203,7 +211,7 @@ class Vehicle:
                 vehicleString += "  }\n"
             elif vehicleClass == 'truck':
                 vehicleString += "  trailer NULL\n"
-        vehicleString += "}\n"
+        vehicleString += "  }\n ]\n}\n"
         return vehicleString, defName
 
     @staticmethod

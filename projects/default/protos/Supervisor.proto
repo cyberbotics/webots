@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,7 +7,7 @@
 
 PROTO Supervisor [
   vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 1 0 0
+  vrmlField SFRotation rotation            0 0 1 0
   vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []
   field     SFString   name                "supervisor"

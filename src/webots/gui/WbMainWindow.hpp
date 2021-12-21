@@ -51,7 +51,7 @@ public:
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
-  void savePerspective(bool reloading, bool saveToFile);
+  bool savePerspective(bool reloading, bool saveToFile);
   void restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory);
 
   const QString &enabledIconPath() const { return mEnabledIconPath; }
@@ -75,6 +75,7 @@ public slots:
   bool loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
+  void showUpdatedDialog();
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();

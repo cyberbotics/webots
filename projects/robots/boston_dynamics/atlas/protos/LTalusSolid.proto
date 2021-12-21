@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,7 +7,7 @@
 
 PROTO LTalusSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
 Solid {
@@ -21,8 +21,7 @@ Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0 0
-        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        rotation -0.0004 1 0.0004 1.5708
         children [
           Cylinder {
             radius 0.010181
@@ -31,8 +30,7 @@ Solid {
         ]
       }
       Transform {
-        translation 0 0 0
-        rotation 1.0 0.0 0.0 3.14079632679
+        rotation 1 0 0 1.5708
         children [
           Cylinder {
             radius 0.010348

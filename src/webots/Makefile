@@ -125,7 +125,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
@@ -377,6 +377,7 @@ QT_SOURCES += \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbQjsFile.cpp \
+  WbQjsCollada.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \
@@ -445,6 +446,7 @@ QT_SOURCES += \
   WbTreeView.cpp \
   WbTriangleMeshGeometry.cpp \
   WbUndoStack.cpp \
+  WbUpdatedDialog.cpp \
   WbValue.cpp \
   WbValueEditor.cpp \
   WbVariant.cpp \
@@ -639,11 +641,11 @@ launcher/launcher.o: launcher/launcher.rc
 
 $(LAUNCHERW): launcher/launcher.c launcher/launcher.o
 	@echo "# compiling webotsw.exe launcher"
-	@gcc $(CFLAGS) -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -o $@
+	@gcc $(CFLAGS) -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -lshlwapi -o $@
 
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"
-	@gcc $(CFLAGS) launcher/launcher.c -o $@
+	@gcc $(CFLAGS) launcher/launcher.c -lshlwapi -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@

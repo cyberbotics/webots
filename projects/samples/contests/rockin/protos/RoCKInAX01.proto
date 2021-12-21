@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 
 PROTO RoCKInAX01 [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "RoCKIn AX01"
   field SFColor    color       0.2 0.8 0.2
 ]
@@ -20,7 +20,7 @@ PROTO RoCKInAX01 [
           roughness 0.4
         }
         geometry Box {
-          size 0.05 0.04 0.05
+          size 0.05 0.05 0.04
         }
       }
     ]

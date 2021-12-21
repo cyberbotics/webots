@@ -94,7 +94,7 @@ private slots:
   void updateCommandsAfterNodeDeletion(QObject *);
   void addChangedCommandToList(WbAnimationCommand *command);
   void addChangedLabelToList(const QString &label);
-  void handleNodeVisibilityChange(WbNode *node, bool visibility);
+  void handleNodeVisibilityChange(const WbNode *node, bool visibility);
 
 private:
   static WbAnimationRecorder *cInstance;

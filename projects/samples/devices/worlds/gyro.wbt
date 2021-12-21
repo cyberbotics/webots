@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world for testing/demonstrating the Gyro device."
   ]
   title "Gyro"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.6235639078943174 0.7267648926506559 0.2880639574505081 0.910026
-  position 0.223411 0.342275 0.289936
+  orientation 0.31866933044163714 0.27780002890931904 -0.9062433457818382 1.755665947792053
+  position 0.009706541215105216 0.3717658195457598 0.4506359623963661
 }
 TexturedBackground {
 }
@@ -18,11 +17,11 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GYROBOT Robot {
-  translation 0 0.05 0
+  translation 0 0 0.05
   children [
     DEF HINGE_JOINT_X HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.1 0
+        anchor 0 0 0.1
       }
       device [
         RotationalMotor {
@@ -31,8 +30,8 @@ DEF GYROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.1 0
-        rotation 1 0 0 0
+        translation 0 0 0.1
+        rotation 0 1 0 0
         children [
           DEF HINGE_JOINT_Y_Z Hinge2Joint {
             jointParameters HingeJointParameters {
@@ -53,10 +52,9 @@ DEF GYROBOT Robot {
               }
             ]
             endPoint Gyro {
-              rotation 0 0 1 0
               children [
                 DEF RED_CYL Transform {
-                  rotation 0 0 1 1.5708
+                  rotation -0.5773488553887604 -0.5773509760887603 0.5773509760887603 2.0943972231
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -73,6 +71,7 @@ DEF GYROBOT Robot {
                   ]
                 }
                 DEF GREEN_CYL Transform {
+                  rotation 1 0 0 -1.57079
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -89,7 +88,6 @@ DEF GYROBOT Robot {
                   ]
                 }
                 DEF BLUE_CYL Transform {
-                  rotation 1 0 0 1.5708
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -136,7 +134,7 @@ DEF GYROBOT Robot {
         metalness 0
       }
       geometry Box {
-        size 0.2 0.1 0.2
+        size 0.2 0.2 0.1
       }
     }
   ]

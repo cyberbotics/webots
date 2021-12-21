@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This example shows a Shrimp III robot (BlueBotics SA)."
@@ -7,11 +7,10 @@ WorldInfo {
   ]
   title "Shrimp III"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5163327763784002 -0.8563497272590935 -0.008099917323578426 0.39463537377233604
-  position -0.7103984254609599 0.6119494874292382 6.018668516895889
+  orientation 0.1499338502286827 0.7102778106784027 -0.6877683274282832 0.4345554644974116
+  position -6.440098130352666 0.4504467779462048 0.8865303236960416
   follow "Shrimp"
   followSmoothness 0
 }
@@ -33,7 +32,8 @@ Floor {
   }
 }
 DEF STAIRS Solid {
-  translation 0 0 -4.5
+  translation 4.5 0 0
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
     DEF STAIRS Group {
       children [
@@ -92,7 +92,8 @@ DEF STAIRS Solid {
   boundingObject USE STAIRS
 }
 DEF RAMP Solid {
-  translation 5 0 0
+  translation 0 -5 0
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
     DEF RAMPE Group {
       children [
@@ -150,8 +151,8 @@ DEF RAMP Solid {
   boundingObject USE RAMPE
 }
 DEF CAPS Solid {
-  translation -2 -0.1 0
-  rotation 1 0 0 1.5708
+  translation 0 2 -0.1
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
     DEF BUMPS Group {
       children [
@@ -209,7 +210,8 @@ DEF CAPS Solid {
   boundingObject USE BUMPS
 }
 DEF SPHERES Solid {
-  translation 0 -0.05 3.5
+  translation -3.5 0 -0.05
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
     DEF BALLS Group {
       children [
@@ -352,5 +354,5 @@ DEF SPHERES Solid {
   boundingObject USE BALLS
 }
 Shrimp {
-  translation 0.02 0 4.5
+  translation -4.5 -0.02 0
 }

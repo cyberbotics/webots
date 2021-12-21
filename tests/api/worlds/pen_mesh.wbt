@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -54,9 +54,7 @@ DEF WRITER Robot {
               volume 0.0001
               endOffset 0 0.06 0
               color [
-                0 1 0
-                1 0 0
-                0 0 1
+                0 1 0                1 0 0                0 0 1
               ]
             }
           ]
@@ -66,10 +64,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0.015 0.09 -0.014
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
           Transform {
-            translation 0 0.03 0
+            translation 0 0 0.03
             children [
               Shape {
                 appearance PBRAppearance {
@@ -82,16 +80,22 @@ DEF WRITER Robot {
             ]
           }
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 1
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0 1
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -107,16 +111,21 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.0103622 0.270768 -0.0676753
-          rotation -0.0349562042320703 -0.9908391199586999 0.13044501579268944 -1.038025307179586
+          rotation -0.15143645398649866 0.7228594690484919 0.674196698605776 2.6785969974991106
           children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.33 0.66 1
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.33 0.66 1
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.01
+                  }
+                }
+              ]
             }
           ]
           fieldOfView 0.56

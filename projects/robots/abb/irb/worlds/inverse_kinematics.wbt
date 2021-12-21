@@ -1,12 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation -0.13622657415385275 0.9621806663584627 0.23590397576193894 2.1272867344043545
-  position 4.346352901316498 4.1279446383556495 3.283932116526418
+  orientation 0.2388738248349724 -0.10012515278982625 -0.9658748622816129 4.1946806176625975
+  position -2.7985930224409015 -5.3261261914100135 4.57120567946142
   follow "robot:IRB 4600/40:solid:solid:solid:solid:solid:solid:pen"
   followType "Pan and Tilt Shot"
 }
@@ -16,33 +15,33 @@ TexturedBackground {
 PointLight {
   attenuation 0 0 1
   intensity 10
-  location -4 6 5
+  location -5 4 6
   castShadows TRUE
 }
 PointLight {
   attenuation 0 0 1
   intensity 10
-  location 5 6 5
+  location -5 -5 6
 }
 Floor {
-  translation 0 0 4.3
+  translation -4.3 0 0
   name "floor(1)"
-  size 20 16.4
+  size 16.4 20
   tileSize 1 1
   appearance ThreadMetalPlate {
   }
 }
 Irb4600-40 {
-  translation 0 0.74 4.84
-  rotation 1 0 0 4.712388966
+  translation -4.84 0 0.74
+  rotation 0 0 1 -1.5708
   supervisor TRUE
   handSlot [
     Pen {
       translation 0 0 0.02
-      rotation 1 0 0 -1.5708
+      rotation 0 1 0 3.14159
       children [
         Transform {
-          translation 0 0.05 0
+          translation 0 0 0.05
           children [
             Shape {
               appearance BrushedAluminium {
@@ -57,7 +56,7 @@ Irb4600-40 {
           ]
         }
         Transform {
-          translation 0 0.04 0
+          translation 0 0 0.04
           children [
             Shape {
               appearance BrushedAluminium {
@@ -79,8 +78,8 @@ Irb4600-40 {
   staticBase TRUE
 }
 Table {
-  translation -1 0 4.84
-  size 3 0.74 3
+  translation -4.84 1 0
+  size 3 3 0.74
   feetPadding 0.05
   frameThickness 0.1
   trayAppearance OldSteel {
@@ -92,10 +91,10 @@ Table {
   }
 }
 DEF TABLE_WITH_PAPER_SHEET Transform {
-  translation 1.1 0 5.8
+  translation -5.8 -1.1 0
   children [
     DEF PAPER Transform {
-      translation 0 0.741 0
+      translation 0 0 0.741
       children [
         Shape {
           appearance Appearance {
@@ -115,14 +114,14 @@ DEF TABLE_WITH_PAPER_SHEET Transform {
     }
     Table {
       name "table with paper"
-      size 1 0.74 1
+      size 1 1 0.74
       feetPadding 0.05
       frameThickness 0.1
     }
   ]
 }
 DEF TARGET Solid {
-  translation 1.14 1.64 5.869999999999994
+  translation -5.87 -1.14 1.64
   children [
     Shape {
       appearance PBRAppearance {
@@ -158,8 +157,8 @@ DEF TARGET Solid {
   ]
 }
 Door {
-  translation 10.04 3.27 4
-  rotation 0 1 0 4.7123889
+  translation -4 -10.04 3.2699
+  rotation 0 0 1 1.5708
   name "door(1)"
   doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
@@ -169,22 +168,22 @@ Door {
   }
 }
 OilBarrel {
-  translation 9.337425 0.44 -2.8961435
-  rotation 0 1 0 2.8732483
+  translation 2.8961 -9.3374 0.4399
+  rotation 0 0 -1 -1.302455307179586
   name "oil barrel(1)"
 }
 OilBarrel {
-  translation 8.4218847 0.44 -2.1373536
-  rotation 0 1 0 2.8732483
+  translation 2.1373 -8.4219 0.4399
+  rotation 0 0 -1 -1.302455307179586
   name "oil barrel(2)"
 }
 OilBarrel {
-  translation 8.2750954 0.44 -3.0222101
-  rotation 0 -1 0 0.3403392
+  translation 3.0222 -8.2751 0.4399
+  rotation 0 0 1 -1.9111353071795865
 }
 Door {
-  translation -10.05 0.02 0
-  rotation 0 1 0 1.5707963
+  translation 0 10.05 0.0201
+  rotation 0 0 1 -1.5707953071795862
   doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
   }
@@ -193,9 +192,9 @@ Door {
   }
 }
 Floor {
-  translation 0 7 4.22
-  rotation 0 0 1 3.1415926
-  size 20 16.4
+  translation -4.22 0 7
+  rotation 1 0 0 3.1415926
+  size 16.4 20
   tileSize 1 1
   appearance PBRAppearance {
     baseColorMap ImageTexture {
@@ -208,132 +207,141 @@ Floor {
   }
 }
 LJoint {
-  translation -7.571 0.712 -3.19
+  translation 3.19 7.571 0.7121
   rotation 0 1 0 1.5707963
   name "L joint pipe(1)"
 }
 LJoint {
-  translation -7.571 2.422 -3.277
-  rotation 0.7071067761865476 0 0.7071067861865474 3.1415926
+  translation 3.277 7.571 2.4221
+  rotation 0 1 0 1.5708
 }
 WoodenPallet {
-  translation -3.05 0.52 12.1
-  rotation 1 0 0 5.2359877
+  translation -12.1 3.05 0.52
+  rotation 0 -1 0 -1.0471976071795863
 }
 CardboardBox {
-  translation 2.2324987 0.31 11.807743
+  translation -11.8078 -2.2325 0.3099
+  rotation 0 0 1 3.14159
 }
 WoodenPalletStack {
-  translation -6.8424942 0 11.754332
-  rotation 0 1 0 1.5707963
+  translation -11.7543 6.8425 0
+  rotation 0 0 1 1.5707963
   name "wooden pallet stack(1)"
   palletNumber 6
 }
 WoodenPalletStack {
-  translation -5.2560137 0 11.74814
-  rotation 0 1 0 1.5707963
+  translation -11.7481 5.2561 0
+  rotation 0 0 1 1.5708
   palletNumber 20
 }
 WoodenBox {
-  translation 0.070787217 0.3 11.12746
-  rotation 0 1 0 5.7595865
+  translation -11.1275 -0.0708 0.3
+  rotation 0 0 1 1.0472
   name "wooden box(1)"
 }
 WoodenBox {
-  translation 0.14546116 0.3 11.909219
+  translation -11.9092 -0.1454 0.3
+  rotation 0 0 1 1.5708
   name "wooden box(2)"
 }
 WoodenBox {
-  translation -1.1321262 0.3 11.1489
-  rotation 0 1 0 0.78539816
+  translation -11.1489 1.1322 0.3
+  rotation 0 0 1 2.35619
   name "wooden box(3)"
 }
 WoodenBox {
-  translation 1.5463886 0.3 11.768592
+  translation -11.7686 -1.5463 0.2999
+  rotation 0 0 1 1.5708
   name "wooden box(4)"
 }
 WoodenBox {
-  translation -0.49883855 0.3 11.765703
+  translation -11.7657 0.4989 0.3
+  rotation 0 0 1 1.5708
   name "wooden box(5)"
 }
 WoodenBox {
-  translation 0.95220994 0.3 10.946614
-  rotation 0 1 0 4.9741884
+  translation -10.9466 -0.9522 0.3
+  rotation 0 0 1 -2.8797953071795863
   name "wooden box(6)"
 }
 WoodenBox {
-  translation 0.91693757 0.3 11.921006
+  translation -11.921 -0.9169 0.2999
+  rotation 0 0 1 1.5708
   name "wooden box(7)"
 }
 WoodenBox {
-  translation 0.74212598 0.9 12.012516
+  translation -12.0125 -0.7421 0.8999
+  rotation 0 0 1 1.5708
   name "wooden box(8)"
 }
 WoodenBox {
-  translation -0.5072975 1.52 11.706525
+  translation -11.7065 0.5073 1.52
+  rotation 0 0 1 1.5708
   name "wooden box(9)"
 }
 WoodenBox {
-  translation -0.48872581 0.93 11.691652
+  translation -11.6917 0.4888 0.93
+  rotation 0 0 1 1.5708
 }
 LeverValve {
-  translation -7.5791585 0.692 -3
-  rotation 0 1 0 1.5707963
+  translation 3 7.5791 0.6921
+  rotation 0 0 1 3.14159
 }
 LargeValve {
-  translation -5.7149744 0.706 -2.9726835
-  rotation 0 1 0 1.5707963
+  translation 2.9727 5.715 0.7061
+  rotation 0 1 0 3.14159
 }
 PipeSection {
-  translation -7.5740452 0.18 -3
+  translation 3 7.574 0.1801
   rotation 0 0 -1 6.2831816
   name "pipe section(1)"
   height 1.2
 }
 PipeSection {
-  translation -5.2940471 0.7 -3
-  rotation 0 0 -1 1.5707926
+  translation 3 5.294 0.7001
+  rotation 0.5773496025226483 0.5773516025212714 0.5773496025226483 -2.094395307179586
   name "pipe section(2)"
   height 0.9
   radius 0.02
 }
 PipeSection {
-  translation -7.5720026 1.56 -3.234
+  translation 3.234 7.572 1.5601
   rotation 0 0 -1 6.2831816
   name "pipe section(3)"
   height 1.6
 }
 PipeSection {
-  translation -4.8579962 0.35 -3
+  translation 3 4.858 0.3501
   rotation 0 0 -1 6.2831816
   name "pipe section(4)"
   height 0.7
   radius 0.02
 }
 PipeSection {
-  translation -6.6249962 0.706 -3
+  translation 3 6.625 0.7061
+  rotation 1 0 0 -1.5707953071795862
   name "pipe section(5)"
   height 1.7
 }
 PipeSection {
-  translation -7.572 2.4659975 -3.74
+  translation 3.74 7.572 2.4661
   rotation 0.5773488491887547 0.5773509791887517 0.5773509791887517 2.0943972
   name "pipe section(6)"
   height 0.8
 }
 PipeSection {
-  translation -5.714996 0.65600436 -3.37
+  translation 3.37 5.715 0.6561
   rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
   height 0.8
 }
 SmallValve {
-  translation -4.8638332 0.707 -3
-  rotation 0 1 0 1.5707963
+  translation 3 4.8638 0.7071
+  rotation 0 1 0 3.14159
 }
 Wall {
-  translation 0 0 -3.82
+  translation 3.82 0 0
   name "wall(1)"
-  size 20 7 0.2
+  size 0.2 20 7
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 5 1.725
@@ -341,7 +349,8 @@ Wall {
   }
 }
 Cabinet {
-  translation -0.46 0 -3.84
+  translation 3.84 0.46 0
+  rotation 0 0 1 3.14159
   name "cabinet(1)"
   columnsWidths [
     1.3, 0.17, 0.17
@@ -354,7 +363,8 @@ Cabinet {
   ]
 }
 Cabinet {
-  translation 1.49 0 -3.84
+  translation 3.84 -1.49 0
+  rotation 0 0 1 3.14159
   columnsWidths [
     1, 1
   ]
@@ -364,9 +374,9 @@ Cabinet {
   ]
 }
 Wall {
-  translation 0 0 12.5
+  translation -12.5 0 0
   name "wall(2)"
-  size 20 7 0.2
+  size 0.2 20 7
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 5 1.725
@@ -374,10 +384,10 @@ Wall {
   }
 }
 Wall {
-  translation -10 0 4.3
-  rotation 0 1 0 1.57085
+  translation -4.3 10 0
+  rotation 0 0 1 1.5708
   name "wall(3)"
-  size 16.5 7 0.2
+  size 0.2 16.5 7
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 4.125 1.725
@@ -385,9 +395,9 @@ Wall {
   }
 }
 Wall {
-  translation 10 0 4.3
-  rotation 0 -1 0 4.7123353
-  size 16.5 7 0.2
+  translation -4.3 -10 0
+  rotation 0 0 1 -1.5707953071795862
+  size 0.2 16.5 7
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 4.125 1.725
@@ -395,8 +405,8 @@ Wall {
   }
 }
 Solid {
-  translation -9.87 4.13 6.36
-  rotation 0.7071067911865474 0.7071067711865474 0 3.1415926
+  translation -6.36 9.87 4.1301
+  rotation 0.5773509358554485 -0.5773509358554485 0.5773489358556708 2.0944
   children [
     Shape {
       appearance PBRAppearance {
@@ -419,10 +429,10 @@ Solid {
       }
     }
   ]
-  name "stair platform"
+  name "ladybug"
 }
 Solid {
-  translation 9.25 3.21 3.95
+  translation -3.95 -9.25 3.2099
   children [
     Shape {
       appearance PBRAppearance {
@@ -439,15 +449,15 @@ Solid {
         }
       }
       geometry Box {
-        size 1.5 0.12 2.6
+        size 2.6 1.5 0.12
       }
     }
   ]
-  name "ladybug"
+  name "stair platform"
 }
 StraightStairsRail {
-  translation 8.52 3.27 2.73
-  rotation 0 1 0 4.712389
+  translation -2.73 -8.52 3.2699
+  rotation 0 0 1 3.14159
   name "straight stairs rail(1)"
   run 2.5
   rise 0
@@ -464,8 +474,8 @@ StraightStairsRail {
   }
 }
 StraightStairsRail {
-  translation 8.57 3.27 5.23
-  rotation 0 -1 0 6.2831853
+  translation -5.23 -8.57 3.2699
+  rotation 0 0 1 -1.5707953071795862
   run 1.3
   rise 0
   newelHeight 0.89
@@ -481,9 +491,9 @@ StraightStairsRail {
   }
 }
 StraightStairs {
-  translation 9.201 0 -0.17
-  rotation 0 1 0 -1.5707997
-  stepSize 0.3 0.01 1.34
+  translation 0.17 -9.201 -0.0001
+  rotation 0 0 1 3.14159
+  stepSize 0.3 1.34 0.01
   stepRise 0.297
   nSteps 10
   stepAppearance PBRAppearance {

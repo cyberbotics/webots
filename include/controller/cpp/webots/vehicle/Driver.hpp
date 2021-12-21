@@ -33,7 +33,10 @@ namespace webots {
     typedef enum { DOWN, SLOW, NORMAL, FAST } WiperMode;
 
     Driver();
+    static Driver *getDriverInstance();
     virtual ~Driver();
+
+    static bool isInitialisationPossible();
 
     virtual int step();
 
@@ -81,6 +84,7 @@ namespace webots {
 
   private:
     virtual int step(int t) { return Supervisor::step(t); }
+    static Driver *dInstance;
   };
 }  // namespace webots
 

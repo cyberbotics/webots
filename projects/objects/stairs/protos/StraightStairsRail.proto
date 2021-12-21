@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Default stairs handrail.
@@ -6,7 +6,7 @@
 
 PROTO StraightStairsRail [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "straight stairs rail"
   field SFFloat    run              2.0                                                                # Defines the horizontal lenght of the rail.
   field SFFloat    rise             0.75                                                               # Defines the vertical lenght of the rail.
@@ -68,11 +68,11 @@ PROTO StraightStairsRail [
     children [
     %<
       let deltaX = balusterRun;
-      let deltaY = balusterRise + 0.5 * newelHeight;
+      let deltaZ = balusterRise + 0.5 * newelHeight;
       for (let n = 0; n < nBalusters; ++n) {
     >%
       Solid {
-        translation %<= deltaX >% %<= deltaY + newelOffset >% 0.0
+        translation %<= deltaX >% 0.0 %<= deltaZ + newelOffset >%
         children [
           Shape {
             appearance IS appearance
@@ -88,16 +88,16 @@ PROTO StraightStairsRail [
       }
     %<
       deltaX = deltaX + balusterRun
-      deltaY = deltaY + balusterRise
+      deltaZ = deltaZ + balusterRise
     }
     >%
       Solid {
-        translation 0 %<= newelHeight * 0.5 >% 0
+        translation 0 0 %<= newelHeight * 0.5 >%
         children [
           DEF NEWEL Shape {
             appearance IS appearance
             geometry Box {
-              size %<= width >% %<= newelHeight >% %<= width >%
+              size %<= width >% %<= width >% %<= newelHeight >%
             }
           }
         ]
@@ -106,7 +106,7 @@ PROTO StraightStairsRail [
         boundingObject USE NEWEL
       }
       Solid {
-        translation %<= deltaX >% %<= deltaY >% 0
+        translation %<= deltaX >% 0 %<= deltaZ >%
         children [
           USE NEWEL
         ]
@@ -116,14 +116,13 @@ PROTO StraightStairsRail [
       }
       %< let pAngle = Math.atan2(rise, run); >%
       Solid {
-        translation %<= 0.5 * run >% %<= 2 * newelOffset + 0.5 * rise - 0.25 * width >% 0
-        rotation 0 1 0 1.5708
+        translation %<= 0.5 * run >% 0 %<= 2 * newelOffset + 0.5 * rise - 0.25 * width >%
         children [
           Shape {
             appearance IS appearance
             geometry DEF GEOM TexturedParallelepiped {
-              size %<= width * 0.98 >% %<= width * 0.5 >% %<= Math.sqrt(run * run + rise * rise) >%
-              angles 1.5708 %<= pAngle >% 0
+              size %<= Math.sqrt(run * run + rise * rise) >% %<= width * 0.5 >% %<= width * 0.98 >%
+              angles 0 1.5708 %<= pAngle >%
               mapping "metric"
             }
           }
@@ -137,14 +136,13 @@ PROTO StraightStairsRail [
           let boxRun = run + 2 * width;
           let boxRise = rise + width;
         >%
-        translation %<= 0.5 * run >% %<= newelOffset + (balusterHeight + newelHeight + rise) * 0.5 >% 0
-        rotation 0 1 0 1.5708
+        translation %<= 0.5 * run >% 0  %<= newelOffset + (balusterHeight + newelHeight + rise) * 0.5 >%
         children [
           Shape {
             appearance IS appearance
             geometry DEF GEOM TexturedParallelepiped {
-              size %<= width * 1.2 >% %<= width >% %<= Math.sqrt(boxRun * boxRun + boxRise * boxRise) >%
-              angles 1.5708 %<= pAngle >% 0
+              size %<= Math.sqrt(boxRun * boxRun + boxRise * boxRise) >% %<= width * 1.2 >% %<= width >%
+              angles 0 1.5708 %<= pAngle >%
               mapping "metric"
             }
           }

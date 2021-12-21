@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -22,8 +22,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -32,8 +31,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -42,8 +40,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -52,8 +49,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -62,8 +58,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -72,8 +67,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -82,8 +76,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -92,8 +85,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -102,8 +94,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -112,8 +103,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -122,8 +112,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -132,8 +121,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -142,8 +130,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -152,8 +139,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -162,8 +148,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -172,8 +157,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -182,8 +166,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -192,8 +175,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -202,8 +184,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -212,8 +193,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds0-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -222,8 +202,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -232,8 +211,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -242,8 +220,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -252,8 +229,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -262,8 +238,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -272,8 +247,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -282,8 +256,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -292,8 +265,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -302,8 +274,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -312,8 +283,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -322,8 +292,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -332,8 +301,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -342,8 +310,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -352,8 +319,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -362,8 +328,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -372,8 +337,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -382,8 +346,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -392,8 +355,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -402,8 +364,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -412,8 +373,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds1-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -422,8 +382,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -432,8 +391,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -442,8 +400,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -452,8 +409,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -462,8 +418,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -472,8 +427,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -482,8 +436,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -492,8 +445,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -502,8 +454,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -512,8 +463,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -522,8 +472,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -532,8 +481,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -542,8 +490,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -552,8 +499,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -562,8 +508,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -572,8 +517,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -582,8 +526,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -592,8 +535,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -602,8 +544,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -612,8 +553,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds2-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -622,8 +562,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -632,8 +571,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -642,8 +580,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -652,8 +589,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -662,8 +598,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -672,8 +607,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -682,8 +616,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -692,8 +625,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -702,8 +634,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -712,8 +643,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -722,8 +652,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -732,8 +661,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -742,8 +670,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -752,8 +679,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -762,8 +688,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -772,8 +697,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -782,8 +706,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -792,8 +715,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -802,8 +724,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -812,8 +733,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -822,8 +742,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -832,8 +751,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -842,8 +760,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -852,8 +769,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -862,8 +778,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -872,8 +787,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -882,8 +796,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -892,8 +805,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -902,8 +814,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -912,8 +823,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -922,8 +832,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -932,8 +841,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -942,8 +850,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -952,8 +859,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -962,8 +868,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -972,8 +877,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -982,8 +886,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -992,8 +895,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1002,8 +904,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1012,8 +913,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds4-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1022,8 +922,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1032,8 +931,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1042,8 +940,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1052,8 +949,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1062,8 +958,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1072,8 +967,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1082,8 +976,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1092,8 +985,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1102,8 +994,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1112,8 +1003,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1122,8 +1012,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1132,8 +1021,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1142,8 +1030,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1152,8 +1039,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1162,8 +1048,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1172,8 +1057,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1182,8 +1066,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1192,8 +1075,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1202,8 +1084,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1212,8 +1093,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds5-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1222,8 +1102,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1232,8 +1111,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1242,8 +1120,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1252,8 +1129,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1262,8 +1138,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1272,8 +1147,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1282,8 +1156,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1292,8 +1165,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1302,8 +1174,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1312,8 +1183,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1322,8 +1192,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1332,8 +1201,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1342,8 +1210,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1352,8 +1219,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1362,8 +1228,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1372,8 +1237,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1382,8 +1246,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1392,8 +1255,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1402,8 +1264,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1412,8 +1273,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds6-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1422,8 +1282,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1432,8 +1291,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1442,8 +1300,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1452,8 +1309,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1462,8 +1318,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1472,8 +1327,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1482,8 +1336,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1492,8 +1345,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1502,8 +1354,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1512,8 +1363,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1522,8 +1372,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1532,8 +1381,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1542,8 +1390,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1552,8 +1399,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1562,8 +1408,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1572,8 +1417,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1582,8 +1426,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1592,8 +1435,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1602,8 +1444,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1612,8 +1453,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds7-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1622,8 +1462,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1632,8 +1471,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1642,8 +1480,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1652,8 +1489,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1662,8 +1498,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1672,8 +1507,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1682,8 +1516,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1692,8 +1525,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1702,8 +1534,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1712,8 +1543,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1722,8 +1552,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1732,8 +1561,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1742,8 +1570,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1752,8 +1579,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1762,8 +1588,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1772,8 +1597,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1782,8 +1606,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1792,8 +1615,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1802,8 +1624,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1812,8 +1633,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds8-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1822,8 +1642,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1832,8 +1651,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1842,8 +1660,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1852,8 +1669,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1862,8 +1678,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1872,8 +1687,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1882,8 +1696,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1892,8 +1705,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1902,8 +1714,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1912,8 +1723,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1922,8 +1732,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1932,8 +1741,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1942,8 +1750,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1952,8 +1759,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1962,8 +1768,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1972,8 +1777,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1982,8 +1786,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -1992,8 +1795,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2002,8 +1804,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2012,8 +1813,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds9-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2022,8 +1822,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2032,8 +1831,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2042,8 +1840,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2052,8 +1849,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2062,8 +1858,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2072,8 +1867,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2082,8 +1876,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2092,8 +1885,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2102,8 +1894,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2112,8 +1903,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2122,8 +1912,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2132,8 +1921,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2142,8 +1930,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2152,8 +1939,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2162,8 +1948,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2172,8 +1957,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2182,8 +1966,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2192,8 +1975,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2202,8 +1984,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2212,8 +1993,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds10-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2222,8 +2002,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2232,8 +2011,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2242,8 +2020,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2252,8 +2029,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2262,8 +2038,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2272,8 +2047,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2282,8 +2056,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2292,8 +2065,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2302,8 +2074,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2312,8 +2083,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2322,8 +2092,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2332,8 +2101,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2342,8 +2110,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2352,8 +2119,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2362,8 +2128,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2372,8 +2137,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2382,8 +2146,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2392,8 +2155,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2402,8 +2164,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2412,8 +2173,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds11-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2422,8 +2182,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2432,8 +2191,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2442,8 +2200,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2452,8 +2209,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2462,8 +2218,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2472,8 +2227,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2482,8 +2236,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2492,8 +2245,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2502,8 +2254,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2512,8 +2263,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2522,8 +2272,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2532,8 +2281,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2542,8 +2290,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2552,8 +2299,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2562,8 +2308,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2572,8 +2317,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2582,8 +2326,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2592,8 +2335,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2602,8 +2344,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2612,8 +2353,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds12-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2622,8 +2362,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2632,8 +2371,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2642,8 +2380,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2652,8 +2389,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2662,8 +2398,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2672,8 +2407,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2682,8 +2416,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2692,8 +2425,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2702,8 +2434,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2712,8 +2443,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2722,8 +2452,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2732,8 +2461,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2742,8 +2470,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2752,8 +2479,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2762,8 +2488,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2772,8 +2497,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2782,8 +2506,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2792,8 +2515,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2802,8 +2524,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2812,8 +2533,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds13-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2822,8 +2542,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2832,8 +2551,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2842,8 +2560,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2852,8 +2569,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2862,8 +2578,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2872,8 +2587,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2882,8 +2596,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2892,8 +2605,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2902,8 +2614,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2912,8 +2623,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2922,8 +2632,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2932,8 +2641,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2942,8 +2650,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2952,8 +2659,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2962,8 +2668,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2972,8 +2677,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2982,8 +2686,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -2992,8 +2695,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3002,8 +2704,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3012,8 +2713,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds14-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3022,8 +2722,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3032,8 +2731,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3042,8 +2740,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3052,8 +2749,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3062,8 +2758,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3072,8 +2767,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3082,8 +2776,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3092,8 +2785,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3102,8 +2794,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3112,8 +2803,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3122,8 +2812,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3132,8 +2821,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3142,8 +2830,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3152,8 +2839,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3162,8 +2848,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3172,8 +2857,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3182,8 +2866,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3192,8 +2875,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3202,8 +2884,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3212,8 +2893,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds15-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3222,8 +2902,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3232,8 +2911,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3242,8 +2920,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3252,8 +2929,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3262,8 +2938,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3272,8 +2947,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3282,8 +2956,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3292,8 +2965,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3302,8 +2974,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3312,8 +2983,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3322,8 +2992,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3332,8 +3001,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3342,8 +3010,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3352,8 +3019,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3362,8 +3028,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3372,8 +3037,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3382,8 +3046,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3392,8 +3055,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3402,8 +3064,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3412,8 +3073,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds16-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3422,8 +3082,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3432,8 +3091,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3442,8 +3100,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3452,8 +3109,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3462,8 +3118,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3472,8 +3127,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3482,8 +3136,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3492,8 +3145,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3502,8 +3154,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3512,8 +3163,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3522,8 +3172,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3532,8 +3181,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3542,8 +3190,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3552,8 +3199,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3562,8 +3208,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3572,8 +3217,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3582,8 +3226,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3592,8 +3235,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3602,8 +3244,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3612,8 +3253,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds17-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3622,8 +3262,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3632,8 +3271,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3642,8 +3280,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3652,8 +3289,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3662,8 +3298,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3672,8 +3307,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3682,8 +3316,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3692,8 +3325,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3702,8 +3334,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3712,8 +3343,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3722,8 +3352,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3732,8 +3361,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3742,8 +3370,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3752,8 +3379,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3762,8 +3388,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3772,8 +3397,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3782,8 +3406,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3792,8 +3415,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3802,8 +3424,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3812,8 +3433,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds18-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3822,8 +3442,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-0"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3832,8 +3451,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-1"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3842,8 +3460,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-2"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3852,8 +3469,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-3"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3862,8 +3478,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-4"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3872,8 +3487,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-5"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3882,8 +3496,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-6"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3892,8 +3505,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-7"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3902,8 +3514,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-8"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3912,8 +3523,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-9"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3922,8 +3532,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-10"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3932,8 +3541,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-11"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3942,8 +3550,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-12"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3952,8 +3559,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-13"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3962,8 +3568,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-14"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3972,8 +3577,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-15"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3982,8 +3586,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-16"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -3992,8 +3595,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-17"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -4002,8 +3604,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-18"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -4012,8 +3613,7 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds19-19"
       lookupTable [
-        0 0 0
-        2 2 0
+        0 0 0        2 2 0
       ]
       type "infra-red"
     }
@@ -4021,19 +3621,24 @@ Robot {
       translation 0 0 -1
       rotation 1 0 0 1.57
       children [
-        Shape {
-          appearance Appearance {
-            material Material {
-              ambientIntensity 1
-              diffuseColor 1 1 1
+        Transform {
+          rotation 1 0 0 -1.57079632679
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                }
+                texture ImageTexture {
+                  filtering 0
+                }
+              }
+              geometry Plane {
+                size 2 2
+              }
             }
-            texture ImageTexture {
-              filtering 0
-            }
-          }
-          geometry Plane {
-            size 2 2
-          }
+          ]
         }
       ]
       width 20

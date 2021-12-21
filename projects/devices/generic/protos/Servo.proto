@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A Servo represents a servomotor which adds one active degree of freedom (DOF) in a mechanical simulation.
@@ -10,7 +10,7 @@
 
 PROTO Servo [
   field     SFVec3f    translation         0 0 0
-  field     SFRotation rotation            0 1 0 0
+  field     SFRotation rotation            0 0 1 0
   field     SFVec3f    scale               1 1 1
   field     MFNode     children            []
   field     SFString   name                "servo"         # Defines the name of the motor, the position sensor is called: name + ' sensor'.

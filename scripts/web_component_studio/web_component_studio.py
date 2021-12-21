@@ -16,9 +16,8 @@
 
 """Create a web component scene foreach component of the components.json file."""
 
-import fileinput
-import json  # noqa
-import os  # noqa
+import json
+import os
 import sys
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
@@ -41,13 +40,14 @@ def search_and_replace(filename, fromString, toString):
     with open(filename, 'r') as file:
         data = file.read()
     data = data.replace(fromString, toString)
-    with open(filename, 'w') as file:
+    with open(filename, 'w', newline='\n') as file:
         file.write(data)
 
 
 def run_webots():
     """Run Webots on WORLD with right flags."""
-    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize %s' % WORLD)
+    command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
+    os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
 
 # Script logics.
@@ -71,14 +71,13 @@ with open(ROBOTS) as f:
         run_webots()
 
         branch = ''
-        with open(WEBOTS_HOME + '/resources/branch.txt', 'r') as file:
-            branch = file.read()
+        with open(os.path.join(WEBOTS_HOME, 'resources', 'branch.txt'), 'r') as file:
+            branch = file.read().strip()
 
         repo = ''
-        with open(WEBOTS_HOME + '/resources/repo.txt', 'r') as file:
-            repo = file.read()
+        with open(os.path.join(WEBOTS_HOME, 'resources', 'repo.txt'), 'r') as file:
+            repo = file.read().strip()
 
-        for line in fileinput.FileInput(WEBOTS_HOME + '/docs/guide/scenes/' + component['name'] + '/' + component['name'] +
-                                        '.x3d', inplace=True):
-            line = line.replace('https://raw.githubusercontent.com/' + repo.strip() + '/' + branch.strip(), 'webots:/')
-            sys.stdout.write(line)
+        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                           'https://raw.githubusercontent.com/' + repo + '/' + branch,
+                           'webots:/')

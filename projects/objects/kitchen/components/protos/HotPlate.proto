@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An hot plate.
 
 PROTO HotPlate [
-  field SFVec3f    translation 0 0.71 0
-  field SFRotation rotation    0 1 0 0
+  field SFVec3f    translation 0 0 0.71
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "hot plate"
   field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the hot plate.
 ]
@@ -29,15 +29,7 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0 0 0
-            0.208 0.0327 0.0728
-            0.208 0.0327 -0.296
-            -0.208 0.0327 0.0728
-            -0.208 0.0327 -0.296
-            0.208 0.03 0.0728
-            -0.208 0.03 0.0728
-            -0.208 0.03 -0.296
-            0.208 0.03 -0.296
+            0 0 0 -0.0728009 -0.2080001 0.0326976 0.2959991 -0.2080014 0.0326989 -0.0727994 0.2079999 0.0327019 0.2960006 0.2079986 0.0327032 -0.0728009 -0.2080001 0.0299976 -0.0727994 0.2079999 0.0300019 0.2960006 0.2079986 0.0300032 0.2959991 -0.2080014 0.0299989
           ]
         }
         texCoord TextureCoordinate {
@@ -100,11 +92,11 @@ Solid {
   name IS name
   model "hot plate"
   boundingObject Transform {
-    translation 0 0.031 -0.112
+    translation 0.112 0 0.031
     children [
       Shape {
         geometry Box {
-          size 0.416 0.0027 0.37
+          size 0.37 0.416 0.0027
         }
       }
     ]

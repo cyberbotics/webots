@@ -48,6 +48,7 @@ public:
   void detachResizeManipulator() const override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   bool hasEndpoint() const { return mEndPoint->value() != NULL; }

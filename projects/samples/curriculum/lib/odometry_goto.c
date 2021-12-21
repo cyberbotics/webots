@@ -53,30 +53,30 @@ void odometry_goto_set_goal(struct sOdometryGoto *og, float goal_x, float goal_y
 
 void odometry_goto_step(struct sOdometryGoto *og) {
   // get current position
-  float curPos[3] = {og->track->result.x, og->track->result.y, og->track->result.theta};
-  float goalPos[3] = {og->state.goal_x, og->state.goal_y, og->state.goal_theta};
+  const float curPos[3] = {og->track->result.x, og->track->result.y, og->track->result.theta};
+  const float goalPos[3] = {og->state.goal_x, og->state.goal_y, og->state.goal_theta};
 
-  float dx = goalPos[0] - curPos[0];
-  float dy = goalPos[1] - curPos[1];
+  const float dx = goalPos[0] - curPos[0];
+  const float dy = goalPos[1] - curPos[1];
 
   // controller parameters, an initial choice for the values is given but might be changed
-  float k_rho = 1.2;
-  float k_alpha = 1.5;
-  float k_beta = -0.35;
+  const float k_rho = 1.2;
+  const float k_alpha = 1.5;
+  const float k_beta = -0.35;
 
   // "v_c" is the robot's velocity in its longitudinal direction
   // the values range from -1000 to +1000
   // which corresponds approx. to max. 130mm/s
-  float v_adapt = 1000 / 0.13;  // conversion-factor for speed in [m/s] to e-Puck speed units
+  const float v_adapt = 1000 / 0.13;  // conversion-factor for speed in [m/s] to e-Puck speed units
 
   // "omega_c" is the robot's rotational speed around the vertical axis
   // (positiv for turns in counter-clockwise direction)
   // the value is defined to range from -2000 to 2000
   // representing turn rates of max. 270°/s
-  float omega_adapt = 2000 / (270 * PI / 180);  // conversion-factor for turn rate in [rad/s] to e-Puck speed units
+  const float omega_adapt = 2000 / (270 * PI / 180);  // conversion-factor for turn rate in [rad/s] to e-Puck speed units
 
   // calculate current distance and angles to goal position
-  float rho_c = sqrt(dx * dx + dy * dy);
+  const float rho_c = sqrt(dx * dx + dy * dy);
 
   float alpha_c = atan2(dy, dx) - curPos[2];
   while (alpha_c > PI)  // to prevent alpha from getting too big

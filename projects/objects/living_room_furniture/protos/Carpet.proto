@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A carpet (2.4 x 0.02 x 1.6 m).
+# A carpet (2.4 x 1.6 x 0.02 m).
 
 PROTO Carpet [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "carpet"
   field SFColor    color       1 1 1                  # Defines the color of the carpet.
 ]
@@ -24,26 +24,26 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            1.19297 0.0199999 0.79297
-            1.19297 0.0200001 -0.79297
-            -1.19297 0.02 -0.79297
-            -1.19297 0.02 0.79297
-            -1.2 2.36585e-07 0.79297
-            -1.2 0.0129702 0.79297
-            -1.2 0.0129702 -0.79297
-            -1.2 -1.76981e-07 -0.79297
-            1.19297 1.77766e-07 -0.8
-            1.2 1.76981e-07 -0.79297
-            1.2 -2.36585e-07 0.79297
-            1.19297 -2.37022e-07 0.8
-            1.2 0.0129702 0.79297
-            1.2 0.0129703 -0.79297
-            1.19297 0.0129702 0.8
-            -1.19297 0.0129702 0.8
-            -1.19297 0.0129702 -0.8
-            1.19297 0.0129703 -0.8
-            -1.19297 0 0.8
-            -1.19297 0 -0.8
+            1.19297 -0.79297 0.0199999
+            1.19297 0.79297 0.0200001
+            -1.19297 0.79297 0.02
+            -1.19297 -0.79297 0.02
+            -1.2 -0.79297 2.36585e-07
+            -1.2 -0.79297 0.0129702
+            -1.2 0.79297 0.0129702
+            -1.2 0.79297 -1.76981e-07
+            1.19297 0.8 1.77766e-07
+            1.2 0.79297 1.76981e-07
+            1.2 -0.79297 -2.36585e-07
+            1.19297 -0.8 -2.37022e-07
+            1.2 -0.79297 0.0129702
+            1.2 0.79297 0.0129703
+            1.19297 -0.8 0.0129702
+            -1.19297 -0.8 0.0129702
+            -1.19297 0.8 0.0129702
+            1.19297 0.8 0.0129703
+            -1.19297 -0.8 0
+            -1.19297 0.8 0
           ]
         }
         texCoord TextureCoordinate {
@@ -199,10 +199,10 @@ Solid {
   name IS name
   model "carpet"
   boundingObject Transform {
-    translation 0 0.01 0
+    translation 0 0 0.01
     children [
       Box {
-        size 2.4 0.02 1.6
+        size 2.4 1.6 0.02
       }
     ]
   }

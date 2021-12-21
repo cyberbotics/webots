@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden, nonDeterministic
@@ -7,7 +7,7 @@
 
 PROTO LinkedWalls [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFFloat length 1
   field SFFloat height 0.5
   field MFInt32 angles []
@@ -75,7 +75,7 @@ PROTO LinkedWalls [
 
     dataString += '"';
 
-    let currentWall = {x: 0, z: 0, angleIncrement: 0, orientation: 0};
+    let currentWall = {x: 0, y: 0, angleIncrement: 0, orientation: 0};
 
     function computeNextWall (currentWall, angleIncrement) {
       let nextWall = {};
@@ -87,7 +87,7 @@ PROTO LinkedWalls [
 
       // sin and cos are reversed because the orientation is perpendicular to the direction in which the wall is "moving"
       nextWall.x = currentWall.x + 0.5 * fields.length.value * (Math.sin(currentWall.orientation) + Math.sin(nextWall.orientation));
-      nextWall.z = currentWall.z + 0.5 * fields.length.value * (Math.cos(currentWall.orientation) + Math.cos(nextWall.orientation));
+      nextWall.y = currentWall.y + 0.5 * fields.length.value * (Math.cos(currentWall.orientation) + Math.cos(nextWall.orientation));
 
       return nextWall;
     };
@@ -104,7 +104,7 @@ PROTO LinkedWalls [
           DEF SHAPE_WALL_LINKED_WALL Shape {
             appearance IS appearance
             geometry Box {
-              size 0.01 %<= fields.height.value >% %<= fields.length.value >%
+              size 0.01 %<= fields.length.value >% %<= fields.height.value >% 
             }
           }
         ]
@@ -113,8 +113,8 @@ PROTO LinkedWalls [
       %< for (let i = 0; i < angles.length; ++i) { >%
         %< currentWall = computeNextWall(currentWall, angles[i]); >%
           Solid {
-            translation %<= currentWall.x >% 0 %<= currentWall.z >%
-            rotation 0 1 0 %<= currentWall.orientation >%
+            translation %<= currentWall.x >% %<= currentWall.y >% 0 
+            rotation 0 0 -1 %<= currentWall.orientation >%
             name "wall %<=i>%"
             children [
               USE SHAPE_WALL_LINKED_WALL

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "A Star Wars inspired scout RX28 walking robot"
@@ -10,11 +10,10 @@ WorldInfo {
   FPS 50
   defaultDamping Damping {
   }
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2507087455358656 0.9348870996710782 0.25125929988844664 0.6807068797882645
-  position 0.6306967380708725 0.36415500942140094 0.8138775144579378
+  orientation -0.290899064100266 0.6665006139322486 0.6864070702822962 0.7139140486433699
+  position -1.3040846152715202 -0.7412961252957033 0.8959146079773536
   follow "robot"
 }
 Fog {
@@ -27,699 +26,710 @@ TexturedBackground {
 }
 DirectionalLight {
   ambientIntensity 1
-  direction -0.6 -1 0.55
+  direction -0.55 0.6 -1
   intensity 2.7
   castShadows TRUE
 }
 DirectionalLight {
   ambientIntensity 1
-  direction -0.5 -2 -0.5
+  direction 0.5 0.5 -2
   intensity 0.7
 }
 Floor {
-  translation 0 -0.0001 0
+  translation 0 0 -0.0001
   size 20 20
   tileSize 2 2
   appearance SandyGround {
   }
 }
 DEF WALKER Robot {
-  translation 0 0.173064 0
-  rotation 0 0 1 1.57
+  translation 0 0 0.173064
+  rotation 1 0 0 0.000796322
   children [
-    DEF L_HIP_YAW HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0 -0.042 0
-      }
-      device [
-        RotationalMotor {
-          name "L_HIP_YAW"
-          maxTorque 6
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.042 0
-        rotation 0 0 1 1.57
-        children [
-          DEF JOINT Shape {
-            appearance Appearance {
-              material Material {
-                diffuseColor 0.333333 0.666667 0
-              }
-            }
-            geometry Cylinder {
-              height 0.041
-              radius 0.01
-            }
+    Transform {
+      rotation 0 0.7071067811865477 -0.7071067811865477 3.1415926536
+      children [
+        DEF L_HIP_YAW HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 -1 0
+            anchor 0 0 -0.042
           }
-          DEF L_HIP_YAW_SHAPE Transform {
-            translation 0.008 0.041 0
-            rotation 0 0 1 1.57
+          device [
+            RotationalMotor {
+              name "L_HIP_YAW"
+              maxTorque 6
+            }
+          ]
+          endPoint Solid {
+            translation 0 0 -0.042
+            rotation -1 0 0 1.57
             children [
-              DEF RX28 Shape {
+              DEF JOINT Shape {
                 appearance Appearance {
                   material Material {
-                    diffuseColor 1 0 1
+                    diffuseColor 0.333333 0.666667 0
                   }
                 }
-                geometry Box {
-                  size 0.035 0.05 0.035
+                geometry Cylinder {
+                  height 0.041
+                  radius 0.01
                 }
               }
-            ]
-          }
-          HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 0.041 0
-            }
-            device [
-              RotationalMotor {
-                name "L_HIP_ROLL"
-                maxTorque 6
+              DEF L_HIP_YAW_SHAPE Transform {
+                translation 0 -0.008 0.041
+                rotation -1 0 0 1.57
+                children [
+                  DEF RX28 Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Box {
+                      size 0.035 0.035 0.05
+                    }
+                  }
+                ]
               }
-            ]
-            endPoint Solid {
-              translation 0 0.041 0
-              rotation 1 0 0 1.57
-              children [
-                USE JOINT
-                DEF L_HIP_ROLL_SHAPE Transform {
-                  translation -0.01 0 0
-                  rotation 0 0 1 1.57
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis -1 0 0
+                  anchor 0 0 0.041
+                }
+                device [
+                  RotationalMotor {
+                    name "L_HIP_ROLL"
+                    maxTorque 6
+                  }
+                ]
+                endPoint Solid {
+                  translation 0 0 0.041
+                  rotation 0 -1 0 1.57
                   children [
-                    Shape {
-                      appearance DEF ALUMINIUM Appearance {
-                        material Material {
-                          diffuseColor 0.737255 0.737255 0.737255
+                    USE JOINT
+                    DEF L_HIP_ROLL_SHAPE Transform {
+                      translation 0 0.01 0
+                      rotation -1 0 0 1.57
+                      children [
+                        Shape {
+                          appearance DEF ALUMINIUM Appearance {
+                            material Material {
+                              diffuseColor 0.737255 0.737255 0.737255
+                            }
+                          }
+                          geometry Cylinder {
+                            height 0.05
+                            radius 0.01
+                          }
                         }
-                      }
-                      geometry Cylinder {
-                        height 0.05
-                        radius 0.01
-                      }
+                      ]
                     }
-                  ]
-                }
-                HingeJoint {
-                  jointParameters HingeJointParameters {
-                    anchor -0.046 0 0
-                  }
-                  device [
-                    RotationalMotor {
-                      name "L_HIP_PITCH"
-                      maxTorque 6
-                    }
-                  ]
-                  endPoint Solid {
-                    translation -0.046 0 0
-                    rotation 0 0 1 1.57
-                    children [
-                      USE JOINT
-                      DEF L_FEMUR_SHAPE_1 Transform {
-                        translation -0.013 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          DEF RX28 Shape {
-                            appearance Appearance {
-                              material Material {
-                                diffuseColor 1 0 1
-                              }
-                            }
-                            geometry Box {
-                              size 0.035 0.05 0.035
-                            }
-                          }
-                        ]
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 -1 0
+                        anchor 0 0.046 0
                       }
-                      DEF L_FEMUR_SHAPE Transform {
-                        translation -0.07 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          DEF RX28 Shape {
-                            appearance Appearance {
-                              material Material {
-                                diffuseColor 1 0 1
-                              }
-                            }
-                            geometry Box {
-                              size 0.035 0.05 0.035
-                            }
-                          }
-                        ]
-                      }
-                      DEF L_FEMUR_SHAPE2 Transform {
-                        translation -0.05 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          Shape {
-                            appearance USE ALUMINIUM
-                            geometry Cylinder {
-                              height 0.05
-                              radius 0.01
-                            }
-                          }
-                        ]
-                      }
-                      HingeJoint {
-                        jointParameters HingeJointParameters {
-                          axis 0 1 0
-                          anchor -0.083 0 0
+                      device [
+                        RotationalMotor {
+                          name "L_HIP_PITCH"
+                          maxTorque 6
                         }
-                        device [
-                          RotationalMotor {
-                            name "L_KNEE_PITCH"
-                            maxTorque 6
-                          }
-                        ]
-                        endPoint Solid {
-                          translation -0.083 0 0
-                          children [
-                            USE JOINT
-                            DEF L_TIBIA_2 Transform {
-                              translation -0.02 0 0
-                              rotation 0 0 1 1.57
-                              children [
-                                Shape {
-                                  appearance USE ALUMINIUM
-                                  geometry Cylinder {
-                                    height 0.03
-                                    radius 0.01
+                      ]
+                      endPoint Solid {
+                        translation 0 0.046 0
+                        rotation -1 0 0 1.57
+                        children [
+                          USE JOINT
+                          DEF L_FEMUR_SHAPE_1 Transform {
+                            translation 0 0.013 0
+                            rotation -1 0 0 1.57
+                            children [
+                              DEF RX28 Shape {
+                                appearance Appearance {
+                                  material Material {
+                                    diffuseColor 1 0 1
                                   }
                                 }
-                              ]
-                            }
-                            DEF L_TIBIA Transform {
-                              translation -0.025 0 -0.033
-                              rotation 1 0 0 1.57
-                              children [
-                                Shape {
-                                  appearance USE ALUMINIUM
-                                  geometry Cylinder {
-                                    height 0.065
-                                    radius 0.01
+                                geometry Box {
+                                  size 0.035 0.035 0.05
+                                }
+                              }
+                            ]
+                          }
+                          DEF L_FEMUR_SHAPE Transform {
+                            translation 0 0.07 0
+                            rotation -1 0 0 1.57
+                            children [
+                              DEF RX28 Shape {
+                                appearance Appearance {
+                                  material Material {
+                                    diffuseColor 1 0 1
                                   }
                                 }
-                              ]
+                                geometry Box {
+                                  size 0.035 0.035 0.05
+                                }
+                              }
+                            ]
+                          }
+                          DEF L_FEMUR_SHAPE2 Transform {
+                            translation 0 0.05 0
+                            rotation -1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance USE ALUMINIUM
+                                geometry Cylinder {
+                                  height 0.05
+                                  radius 0.01
+                                }
+                              }
+                            ]
+                          }
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 0 1
+                              anchor 0 0.083 0
                             }
-                            DEF L_ANKLE_SERVO Transform {
-                              translation -0.007 0 -0.071
-                              rotation 0 0 1 1.57
+                            device [
+                              RotationalMotor {
+                                name "L_KNEE_PITCH"
+                                maxTorque 6
+                              }
+                            ]
+                            endPoint Solid {
+                              translation 0 0.083 0
                               children [
-                                DEF L_ANKLE_PITCH_SERVO_SHAPE Transform {
-                                  rotation 1 0 0 0.785
+                                USE JOINT
+                                DEF L_TIBIA_2 Transform {
+                                  translation 0 0.02 0
+                                  rotation -1 0 0 1.57
                                   children [
-                                    DEF RX28 Shape {
-                                      appearance Appearance {
-                                        material Material {
-                                          diffuseColor 1 0 1
-                                        }
-                                      }
-                                      geometry Box {
-                                        size 0.035 0.05 0.035
+                                    Shape {
+                                      appearance USE ALUMINIUM
+                                      geometry Cylinder {
+                                        height 0.03
+                                        radius 0.01
                                       }
                                     }
                                   ]
                                 }
-                              ]
-                            }
-                            HingeJoint {
-                              jointParameters HingeJointParameters {
-                                axis 0 1 0
-                                anchor 0 0 -0.08
-                              }
-                              device [
-                                RotationalMotor {
-                                  name "L_ANKLE_PITCH"
-                                  maxTorque 6
-                                }
-                              ]
-                              endPoint Solid {
-                                translation 0 0 -0.08
-                                children [
-                                  USE JOINT
-                                  DEF L_ANKLE_BEAM Transform {
-                                    translation 0.02 0 0
-                                    rotation 0 0 1 1.57
-                                    children [
-                                      Shape {
-                                        appearance USE ALUMINIUM
-                                        geometry Cylinder {
-                                          height 0.05
-                                          radius 0.01
-                                        }
-                                      }
-                                    ]
-                                  }
-                                  DEF ANKLE HingeJoint {
-                                    jointParameters HingeJointParameters {
-                                      anchor 0.047 0 0
-                                    }
-                                    device [
-                                      RotationalMotor {
-                                        name "L_ANKLE_ROLL"
-                                        maxTorque 6
-                                      }
-                                    ]
-                                    endPoint Solid {
-                                      translation 0.047 0 0
-                                      rotation 0 0 1 1.57
-                                      children [
-                                        USE JOINT
-                                        DEF L_ANKLE_ROLL_SHAPE Transform {
-                                          translation 0 0 -0.013
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            DEF RX28 Shape {
-                                              appearance Appearance {
-                                                material Material {
-                                                  diffuseColor 1 0 1
-                                                }
-                                              }
-                                              geometry Box {
-                                                size 0.035 0.05 0.035
-                                              }
-                                            }
-                                          ]
-                                        }
-                                        DEF FOOT_SHAPE Transform {
-                                          translation 0 0 -0.047
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            Shape {
-                                              appearance USE ALUMINIUM
-                                              geometry Cylinder {
-                                                height 0.005
-                                                radius 0.05
-                                              }
-                                            }
-                                          ]
-                                        }
-                                        DEF FOOT_CONE Transform {
-                                          translation 0 0 -0.02
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            Shape {
-                                              appearance USE ALUMINIUM
-                                              geometry Cone {
-                                                bottomRadius 0.045
-                                                height 0.05
-                                              }
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                      contactMaterial "rubber"
-                                      boundingObject USE FOOT_SHAPE
-                                      physics Physics {
-                                        density -1
-                                        mass 0.17
-                                      }
-                                    }
-                                  }
-                                ]
-                                boundingObject USE L_ANKLE_BEAM
-                                physics Physics {
-                                  density -1
-                                  mass 0.005
-                                }
-                              }
-                            }
-                          ]
-                          boundingObject USE L_TIBIA
-                          physics Physics {
-                            density -1
-                            mass 0.1
-                          }
-                        }
-                      }
-                    ]
-                    boundingObject USE L_FEMUR_SHAPE2
-                    physics Physics {
-                      density -1
-                      mass 0.15
-                    }
-                  }
-                }
-              ]
-              boundingObject USE L_HIP_ROLL_SHAPE
-              physics Physics {
-                density -1
-                mass 0.005
-              }
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE L_HIP_YAW_SHAPE
-        physics Physics {
-          density -1
-          mass 0.075
-        }
-      }
-    }
-    DEF R_HIP_YAW HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0 0.042 0
-      }
-      device [
-        RotationalMotor {
-          name "R_HIP_YAW"
-          maxTorque 6
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.042 0
-        rotation 0 0 1 1.57
-        children [
-          DEF JOINT Shape {
-            appearance Appearance {
-              material Material {
-                diffuseColor 0.333333 0.666667 0
-              }
-            }
-            geometry Cylinder {
-              height 0.041
-              radius 0.01
-            }
-          }
-          DEF R_HIP_YAW_SHAPE Transform {
-            translation -0.008 0.041 0
-            rotation 0 0 1 1.57
-            children [
-              DEF RX28 Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
-                  }
-                }
-                geometry Box {
-                  size 0.035 0.05 0.035
-                }
-              }
-            ]
-          }
-          HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 0.041 0
-            }
-            device [
-              RotationalMotor {
-                name "R_HIP_ROLL"
-                maxTorque 6
-              }
-            ]
-            endPoint Solid {
-              translation 0 0.041 0
-              rotation 1 0 0 1.57
-              children [
-                USE JOINT
-                DEF R_HIP_ROLL_SHAPE Transform {
-                  translation 0.01 0 0
-                  rotation 0 0 1 1.57
-                  children [
-                    Shape {
-                      appearance USE ALUMINIUM
-                      geometry Cylinder {
-                        height 0.05
-                        radius 0.01
-                      }
-                    }
-                  ]
-                }
-                HingeJoint {
-                  jointParameters HingeJointParameters {
-                    anchor 0.046 0 0
-                  }
-                  device [
-                    RotationalMotor {
-                      name "R_HIP_PITCH"
-                      maxTorque 6
-                    }
-                  ]
-                  endPoint Solid {
-                    translation 0.046 0 0
-                    rotation 0 0 1 1.57
-                    children [
-                      USE JOINT
-                      DEF R_FEMUR_SHAPE_1 Transform {
-                        translation -0.013 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          DEF RX28 Shape {
-                            appearance Appearance {
-                              material Material {
-                                diffuseColor 1 0 1
-                              }
-                            }
-                            geometry Box {
-                              size 0.035 0.05 0.035
-                            }
-                          }
-                        ]
-                      }
-                      DEF R_FEMUR_SHAPE Transform {
-                        translation -0.07 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          DEF RX28 Shape {
-                            appearance Appearance {
-                              material Material {
-                                diffuseColor 1 0 1
-                              }
-                            }
-                            geometry Box {
-                              size 0.035 0.05 0.035
-                            }
-                          }
-                        ]
-                      }
-                      DEF R_FEMUR_SHAPE2 Transform {
-                        translation -0.05 0 0
-                        rotation 0 0 1 1.57
-                        children [
-                          Shape {
-                            appearance USE ALUMINIUM
-                            geometry Cylinder {
-                              height 0.05
-                              radius 0.01
-                            }
-                          }
-                        ]
-                      }
-                      HingeJoint {
-                        jointParameters HingeJointParameters {
-                          axis 0 1 0
-                          anchor -0.083 0 0
-                        }
-                        device [
-                          RotationalMotor {
-                            name "R_KNEE_PITCH"
-                            maxTorque 6
-                          }
-                        ]
-                        endPoint Solid {
-                          translation -0.083 0 0
-                          children [
-                            USE JOINT
-                            DEF R_TIBIA_2 Transform {
-                              translation -0.02 0 0
-                              rotation 0 0 1 1.57
-                              children [
-                                Shape {
-                                  appearance USE ALUMINIUM
-                                  geometry Cylinder {
-                                    height 0.03
-                                    radius 0.01
-                                  }
-                                }
-                              ]
-                            }
-                            DEF R_TIBIA Transform {
-                              translation -0.025 0 -0.033
-                              rotation 1 0 0 1.57
-                              children [
-                                Shape {
-                                  appearance USE ALUMINIUM
-                                  geometry Cylinder {
-                                    height 0.065
-                                    radius 0.01
-                                  }
-                                }
-                              ]
-                            }
-                            DEF R_ANKLE_SERVO Transform {
-                              translation -0.007 0 -0.071
-                              rotation 0 0 1 1.57
-                              children [
-                                DEF R_ANKLE_PITCH_SERVO_SHAPE Transform {
-                                  rotation 1 0 0 0.785
+                                DEF L_TIBIA Transform {
+                                  translation 0.033 0.025 0
+                                  rotation 0 -1 0 1.57
                                   children [
-                                    DEF RX28 Shape {
-                                      appearance Appearance {
-                                        material Material {
-                                          diffuseColor 1 0 1
-                                        }
-                                      }
-                                      geometry Box {
-                                        size 0.035 0.05 0.035
+                                    Shape {
+                                      appearance USE ALUMINIUM
+                                      geometry Cylinder {
+                                        height 0.065
+                                        radius 0.01
                                       }
                                     }
                                   ]
                                 }
-                              ]
-                            }
-                            HingeJoint {
-                              jointParameters HingeJointParameters {
-                                axis 0 1 0
-                                anchor 0 0 -0.08
-                              }
-                              device [
-                                RotationalMotor {
-                                  name "R_ANKLE_PITCH"
-                                  maxTorque 6
-                                }
-                              ]
-                              endPoint Solid {
-                                translation 0 0 -0.08
-                                children [
-                                  USE JOINT
-                                  DEF R_ANKLE_BEAM Transform {
-                                    translation 0.02 0 0
-                                    rotation 0 0 1 1.57
-                                    children [
-                                      Shape {
-                                        appearance USE ALUMINIUM
-                                        geometry Cylinder {
-                                          height 0.05
-                                          radius 0.01
-                                        }
-                                      }
-                                    ]
-                                  }
-                                  DEF ANKLE HingeJoint {
-                                    jointParameters HingeJointParameters {
-                                      anchor 0.047 0 0
-                                    }
-                                    device [
-                                      RotationalMotor {
-                                        name "R_ANKLE_ROLL"
-                                        maxTorque 6
-                                      }
-                                    ]
-                                    endPoint Solid {
-                                      translation 0.047 0 0
-                                      rotation 0 0 1 1.57
+                                DEF L_ANKLE_SERVO Transform {
+                                  translation 0.071 0.007 0
+                                  rotation -1 0 0 1.57
+                                  children [
+                                    DEF L_ANKLE_PITCH_SERVO_SHAPE Transform {
+                                      rotation 0 -1 0 0.785
                                       children [
-                                        USE JOINT
-                                        DEF R_ANKLE_ROLL_SHAPE Transform {
-                                          translation 0 0 -0.013
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            DEF RX28 Shape {
-                                              appearance Appearance {
-                                                material Material {
-                                                  diffuseColor 1 0 1
-                                                }
-                                              }
-                                              geometry Box {
-                                                size 0.035 0.05 0.035
-                                              }
+                                        DEF RX28 Shape {
+                                          appearance Appearance {
+                                            material Material {
+                                              diffuseColor 1 0 1
                                             }
-                                          ]
-                                        }
-                                        DEF FOOT_SHAPE Transform {
-                                          translation 0 0 -0.047
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            Shape {
-                                              appearance USE ALUMINIUM
-                                              geometry Cylinder {
-                                                height 0.005
-                                                radius 0.05
-                                              }
-                                            }
-                                          ]
-                                        }
-                                        DEF FOOT_CONE Transform {
-                                          translation 0 0 -0.02
-                                          rotation 1 0 0 1.57
-                                          children [
-                                            Shape {
-                                              appearance USE ALUMINIUM
-                                              geometry Cone {
-                                                bottomRadius 0.045
-                                                height 0.05
-                                              }
-                                            }
-                                          ]
+                                          }
+                                          geometry Box {
+                                            size 0.035 0.035 0.05
+                                          }
                                         }
                                       ]
-                                      contactMaterial "rubber"
-                                      boundingObject USE FOOT_SHAPE
-                                      physics Physics {
-                                        density -1
-                                        mass 0.17
+                                    }
+                                  ]
+                                }
+                                HingeJoint {
+                                  jointParameters HingeJointParameters {
+                                    axis 0 0 1
+                                    anchor 0.08 0 0
+                                  }
+                                  device [
+                                    RotationalMotor {
+                                      name "L_ANKLE_PITCH"
+                                      maxTorque 6
+                                    }
+                                  ]
+                                  endPoint Solid {
+                                    translation 0.08 0 0
+                                    children [
+                                      USE JOINT
+                                      DEF L_ANKLE_BEAM Transform {
+                                        translation 0 -0.02 0
+                                        rotation -1 0 0 1.57
+                                        children [
+                                          Shape {
+                                            appearance USE ALUMINIUM
+                                            geometry Cylinder {
+                                              height 0.05
+                                              radius 0.01
+                                            }
+                                          }
+                                        ]
                                       }
+                                      DEF ANKLE HingeJoint {
+                                        jointParameters HingeJointParameters {
+                                          axis 0 -1 0
+                                          anchor 0 -0.047 0
+                                        }
+                                        device [
+                                          RotationalMotor {
+                                            name "L_ANKLE_ROLL"
+                                            maxTorque 6
+                                          }
+                                        ]
+                                        endPoint Solid {
+                                          translation 0 -0.047 0
+                                          rotation -1 0 0 1.57
+                                          children [
+                                            USE JOINT
+                                            DEF L_ANKLE_ROLL_SHAPE Transform {
+                                              translation 0.013 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                DEF RX28 Shape {
+                                                  appearance Appearance {
+                                                    material Material {
+                                                      diffuseColor 1 0 1
+                                                    }
+                                                  }
+                                                  geometry Box {
+                                                    size 0.035 0.035 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                            DEF FOOT_SHAPE Transform {
+                                              translation 0.047 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                Shape {
+                                                  appearance USE ALUMINIUM
+                                                  geometry Cylinder {
+                                                    height 0.005
+                                                    radius 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                            DEF FOOT_CONE Transform {
+                                              translation 0.02 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                Shape {
+                                                  appearance USE ALUMINIUM
+                                                  geometry Cone {
+                                                    bottomRadius 0.045
+                                                    height 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                          contactMaterial "rubber"
+                                          boundingObject USE FOOT_SHAPE
+                                          physics Physics {
+                                            density -1
+                                            mass 0.17
+                                          }
+                                        }
+                                      }
+                                    ]
+                                    boundingObject USE L_ANKLE_BEAM
+                                    physics Physics {
+                                      density -1
+                                      mass 0.005
                                     }
                                   }
-                                ]
-                                boundingObject USE R_ANKLE_BEAM
-                                physics Physics {
-                                  density -1
-                                  mass 0.005
                                 }
+                              ]
+                              boundingObject USE L_TIBIA
+                              physics Physics {
+                                density -1
+                                mass 0.1
                               }
                             }
-                          ]
-                          boundingObject USE R_TIBIA
-                          physics Physics {
-                            density -1
-                            mass 0.1
                           }
+                        ]
+                        boundingObject USE L_FEMUR_SHAPE2
+                        physics Physics {
+                          density -1
+                          mass 0.15
                         }
                       }
-                    ]
-                    boundingObject USE R_FEMUR_SHAPE2
-                    physics Physics {
-                      density -1
-                      mass 0.15
                     }
+                  ]
+                  boundingObject USE L_HIP_ROLL_SHAPE
+                  physics Physics {
+                    density -1
+                    mass 0.005
                   }
                 }
-              ]
-              boundingObject USE R_HIP_ROLL_SHAPE
-              physics Physics {
-                density -1
-                mass 0.005
               }
+            ]
+            name "solid(1)"
+            boundingObject USE L_HIP_YAW_SHAPE
+            physics Physics {
+              density -1
+              mass 0.075
             }
           }
-        ]
-        boundingObject USE R_HIP_YAW_SHAPE
-        physics Physics {
-          density -1
-          mass 0.075
         }
-      }
+        DEF R_HIP_YAW HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 -1 0
+            anchor 0 0 0.042
+          }
+          device [
+            RotationalMotor {
+              name "R_HIP_YAW"
+              maxTorque 6
+            }
+          ]
+          endPoint Solid {
+            translation 0 0 0.042
+            rotation -1 0 0 1.57
+            children [
+              DEF JOINT Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0.333333 0.666667 0
+                  }
+                }
+                geometry Cylinder {
+                  height 0.041
+                  radius 0.01
+                }
+              }
+              DEF R_HIP_YAW_SHAPE Transform {
+                translation 0 0.008 0.041
+                rotation -1 0 0 1.57
+                children [
+                  DEF RX28 Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Box {
+                      size 0.035 0.035 0.05
+                    }
+                  }
+                ]
+              }
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis -1 0 0
+                  anchor 0 0 0.041
+                }
+                device [
+                  RotationalMotor {
+                    name "R_HIP_ROLL"
+                    maxTorque 6
+                  }
+                ]
+                endPoint Solid {
+                  translation 0 0 0.041
+                  rotation 0 -1 0 1.57
+                  children [
+                    USE JOINT
+                    DEF R_HIP_ROLL_SHAPE Transform {
+                      translation 0 -0.01 0
+                      rotation -1 0 0 1.57
+                      children [
+                        Shape {
+                          appearance USE ALUMINIUM
+                          geometry Cylinder {
+                            height 0.05
+                            radius 0.01
+                          }
+                        }
+                      ]
+                    }
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 -1 0
+                        anchor 0 -0.046 0
+                      }
+                      device [
+                        RotationalMotor {
+                          name "R_HIP_PITCH"
+                          maxTorque 6
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0 -0.046 0
+                        rotation -1 0 0 1.57
+                        children [
+                          USE JOINT
+                          DEF R_FEMUR_SHAPE_1 Transform {
+                            translation 0 0.013 0
+                            rotation -1 0 0 1.57
+                            children [
+                              DEF RX28 Shape {
+                                appearance Appearance {
+                                  material Material {
+                                    diffuseColor 1 0 1
+                                  }
+                                }
+                                geometry Box {
+                                  size 0.035 0.035 0.05
+                                }
+                              }
+                            ]
+                          }
+                          DEF R_FEMUR_SHAPE Transform {
+                            translation 0 0.07 0
+                            rotation -1 0 0 1.57
+                            children [
+                              DEF RX28 Shape {
+                                appearance Appearance {
+                                  material Material {
+                                    diffuseColor 1 0 1
+                                  }
+                                }
+                                geometry Box {
+                                  size 0.035 0.035 0.05
+                                }
+                              }
+                            ]
+                          }
+                          DEF R_FEMUR_SHAPE2 Transform {
+                            translation 0 0.05 0
+                            rotation -1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance USE ALUMINIUM
+                                geometry Cylinder {
+                                  height 0.05
+                                  radius 0.01
+                                }
+                              }
+                            ]
+                          }
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 0 1
+                              anchor 0 0.083 0
+                            }
+                            device [
+                              RotationalMotor {
+                                name "R_KNEE_PITCH"
+                                maxTorque 6
+                              }
+                            ]
+                            endPoint Solid {
+                              translation 0 0.083 0
+                              children [
+                                USE JOINT
+                                DEF R_TIBIA_2 Transform {
+                                  translation 0 0.02 0
+                                  rotation -1 0 0 1.57
+                                  children [
+                                    Shape {
+                                      appearance USE ALUMINIUM
+                                      geometry Cylinder {
+                                        height 0.03
+                                        radius 0.01
+                                      }
+                                    }
+                                  ]
+                                }
+                                DEF R_TIBIA Transform {
+                                  translation 0.033 0.025 0
+                                  rotation 0 -1 0 1.57
+                                  children [
+                                    Shape {
+                                      appearance USE ALUMINIUM
+                                      geometry Cylinder {
+                                        height 0.065
+                                        radius 0.01
+                                      }
+                                    }
+                                  ]
+                                }
+                                DEF R_ANKLE_SERVO Transform {
+                                  translation 0.071 0.007 0
+                                  rotation -1 0 0 1.57
+                                  children [
+                                    DEF R_ANKLE_PITCH_SERVO_SHAPE Transform {
+                                      rotation 0 -1 0 0.785
+                                      children [
+                                        DEF RX28 Shape {
+                                          appearance Appearance {
+                                            material Material {
+                                              diffuseColor 1 0 1
+                                            }
+                                          }
+                                          geometry Box {
+                                            size 0.035 0.035 0.05
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                                HingeJoint {
+                                  jointParameters HingeJointParameters {
+                                    axis 0 0 1
+                                    anchor 0.08 0 0
+                                  }
+                                  device [
+                                    RotationalMotor {
+                                      name "R_ANKLE_PITCH"
+                                      maxTorque 6
+                                    }
+                                  ]
+                                  endPoint Solid {
+                                    translation 0.08 0 0
+                                    children [
+                                      USE JOINT
+                                      DEF R_ANKLE_BEAM Transform {
+                                        translation 0 -0.02 0
+                                        rotation -1 0 0 1.57
+                                        children [
+                                          Shape {
+                                            appearance USE ALUMINIUM
+                                            geometry Cylinder {
+                                              height 0.05
+                                              radius 0.01
+                                            }
+                                          }
+                                        ]
+                                      }
+                                      DEF ANKLE HingeJoint {
+                                        jointParameters HingeJointParameters {
+                                          axis 0 -1 0
+                                          anchor 0 -0.047 0
+                                        }
+                                        device [
+                                          RotationalMotor {
+                                            name "R_ANKLE_ROLL"
+                                            maxTorque 6
+                                          }
+                                        ]
+                                        endPoint Solid {
+                                          translation 0 -0.047 0
+                                          rotation -1 0 0 1.57
+                                          children [
+                                            USE JOINT
+                                            DEF R_ANKLE_ROLL_SHAPE Transform {
+                                              translation 0.013 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                DEF RX28 Shape {
+                                                  appearance Appearance {
+                                                    material Material {
+                                                      diffuseColor 1 0 1
+                                                    }
+                                                  }
+                                                  geometry Box {
+                                                    size 0.035 0.035 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                            DEF FOOT_SHAPE Transform {
+                                              translation 0.047 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                Shape {
+                                                  appearance USE ALUMINIUM
+                                                  geometry Cylinder {
+                                                    height 0.005
+                                                    radius 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                            DEF FOOT_CONE Transform {
+                                              translation 0.02 0 0
+                                              rotation 0 -1 0 1.57
+                                              children [
+                                                Shape {
+                                                  appearance USE ALUMINIUM
+                                                  geometry Cone {
+                                                    bottomRadius 0.045
+                                                    height 0.05
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                          contactMaterial "rubber"
+                                          boundingObject USE FOOT_SHAPE
+                                          physics Physics {
+                                            density -1
+                                            mass 0.17
+                                          }
+                                        }
+                                      }
+                                    ]
+                                    boundingObject USE R_ANKLE_BEAM
+                                    physics Physics {
+                                      density -1
+                                      mass 0.005
+                                    }
+                                  }
+                                }
+                              ]
+                              boundingObject USE R_TIBIA
+                              physics Physics {
+                                density -1
+                                mass 0.1
+                              }
+                            }
+                          }
+                        ]
+                        boundingObject USE R_FEMUR_SHAPE2
+                        physics Physics {
+                          density -1
+                          mass 0.15
+                        }
+                      }
+                    }
+                  ]
+                  boundingObject USE R_HIP_ROLL_SHAPE
+                  physics Physics {
+                    density -1
+                    mass 0.005
+                  }
+                }
+              }
+            ]
+            boundingObject USE R_HIP_YAW_SHAPE
+            physics Physics {
+              density -1
+              mass 0.075
+            }
+          }
+        }
+      ]
     }
     DEF BODY_GRP Group {
       children [
         Transform {
-          translation 0.02 0 -0.05
+          translation -0.05 0 0.02
           children [
             Shape {
               appearance USE ALUMINIUM
               geometry Box {
-                size 0.06 0.04 0.11
+                size 0.11 0.04 0.06
               }
             }
           ]
         }
         Transform {
-          translation 0.02 0 -0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0.02
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance Appearance {
@@ -735,8 +745,8 @@ DEF WALKER Robot {
           ]
         }
         DEF CANNON1 Transform {
-          translation 0.06 -0.06 0.02
-          rotation 1 0 0 1.57
+          translation 0.02 0.06 0.06
+          rotation 0 -1 0 1.57
           children [
             DEF CANNON Shape {
               appearance Appearance {
@@ -752,14 +762,15 @@ DEF WALKER Robot {
           ]
         }
         DEF CANNON2 Transform {
-          translation 0.06 0.06 0.02
-          rotation 1 0 0 1.57
+          translation 0.02 -0.06 0.06
+          rotation 0 -1 0 1.57
           children [
             USE CANNON
           ]
         }
         DEF BODY_SIDES Transform {
-          translation 0.06 0 0
+          translation 0 0 0.06
+          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance Appearance {
@@ -775,7 +786,7 @@ DEF WALKER Robot {
           ]
         }
         DEF BODY_SHAPE Transform {
-          translation 0.06 0 -2.07523e-19
+          translation 0 0 0.06
           children [
             DEF BODY Shape {
               appearance Appearance {
@@ -791,7 +802,7 @@ DEF WALKER Robot {
           ]
         }
         DEF L_YAW Transform {
-          translation 0 -0.032 0
+          translation 0 0.032 0
           children [
             DEF RX28 Shape {
               appearance Appearance {
@@ -806,7 +817,7 @@ DEF WALKER Robot {
           ]
         }
         DEF R_YAW Transform {
-          translation 0 0.032 0
+          translation 0 -0.032 0
           children [
             USE RX28
           ]

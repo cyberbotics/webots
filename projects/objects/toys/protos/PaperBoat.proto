@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A paper boat (42.8 x 14.2 x 10.6 cm).
+# A paper boat (42.8 x 10.6 x 14.2 cm).
 # template language: javascript
 
 PROTO PaperBoat [
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "paper boat"
   field SFFloat    scale               1            # Defines the global scaling factor.
   field MFString   textureUrl          "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg" # Defines the texture used for the paper boat.
@@ -51,7 +51,7 @@ PROTO PaperBoat [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.01 0
+          translation 0 0 0.01
           children [
             Box {
               size 0.3 0.02 0.02
@@ -59,8 +59,8 @@ PROTO PaperBoat [
           ]
         }
         Transform {
-          translation 0 0.034 0
-          rotation 0 0 1 1.5707997
+          translation 0 0 0.034
+          rotation 0 1 0 1.5707997
           children [
             Capsule {
               height 0.342
@@ -69,8 +69,8 @@ PROTO PaperBoat [
           ]
         }
         Transform {
-          translation 0 0.038 0.0308
-          rotation 0.27209603 -0.27209511 0.92299946 1.6508407
+          translation 0 -0.0308 0.038
+          rotation -0.659864 0.659862 -0.359392 -2.45157
           children [
             Box {
               size 0.06 0.24 0.008
@@ -78,8 +78,8 @@ PROTO PaperBoat [
           ]
         }
         Transform {
-          translation 0 0.038 -0.032
-          rotation 0.24017032 -0.24016993 -0.94055123 4.6511353
+          translation 0 0.032 0.038
+          rotation 0.454451 -0.45445 0.766126 1.83411
           children [
             Box {
               size 0.06 0.24 0.008
@@ -87,17 +87,17 @@ PROTO PaperBoat [
           ]
         }
         Transform {
-          translation 0 0.086 0
-          rotation 0 0 1 0.78540031
+          translation 0 0 0.086
+          rotation 0 0.5 0 0.78540031
           children [
             Box {
-              size 0.08 0.08 0.012
+              size 0.08 0.012 0.08
             }
           ]
         }
         Transform {
-          translation 0.184 0.052 0
-          rotation 0 0 1 5.754342
+          translation -0.184 0 0.052
+          rotation 0 1 0 5.754342
           children [
             Capsule {
               height 0.032
@@ -106,8 +106,8 @@ PROTO PaperBoat [
           ]
         }
         Transform {
-          translation -0.184 0.052 0
-          rotation 0 0 1 -5.75434
+          translation 0.184 0 0.052
+          rotation 0 1 0 -5.75434
           children [
             Capsule {
               height 0.032
@@ -120,7 +120,7 @@ PROTO PaperBoat [
     physics Physics {
       density -1
       mass IS mass
-      centerOfMass 0 -0.0256 0
+      centerOfMass 0 0 -0.0256
       damping Damping {
         linear 0.95
         angular 0.95

@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of \"laser\" DistanceSensors used together with a Camera."
   ]
   title "Laser Pointers"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16135401412388223 0.8844160774160381 0.43791903833258783 2.46207
-  position 0.410655 0.638243 -0.395912
+  orientation -0.2978318379123601 0.007400890661101693 0.954589662181174 2.9637245380012422
+  position 1.5296342684385094 -0.3432604029015913 1.1866899225845335
 }
 TexturedBackground {
 }
@@ -18,8 +17,8 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.0698237 0.05 -0.236526
-  rotation 0 1 0 0.683463
+  translation 0.236526 0.069824 0.05
+  rotation 0 0 1 0.683463
   children [
     Shape {
       appearance PBRAppearance {
@@ -28,7 +27,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -42,8 +41,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.144097 0.05 0.171792
-  rotation 0 -1 0 1.60957
+  translation -0.171792 -0.144097 0.05
+  rotation 0 0 -1 1.60957
   children [
     Shape {
       appearance PBRAppearance {
@@ -66,8 +65,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF GRAY_BOX Solid {
-  translation -0.326905 0.05 0.0135074
-  rotation 0 -1 0 2.36098
+  translation -0.013507 0.326905 0.05
+  rotation 0 0 -1 2.36098
   children [
     Shape {
       appearance PBRAppearance {
@@ -76,7 +75,7 @@ DEF GRAY_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -90,8 +89,8 @@ DEF GRAY_BOX Solid {
   }
 }
 DEF SPHERE Solid {
-  translation -0.125915 0.05 0.262077
-  rotation 0 -1 0 2.36098
+  translation -0.262077 0.125915 0.05
+  rotation 0 0 -1 2.36098
   children [
     Shape {
       appearance PBRAppearance {
@@ -109,8 +108,8 @@ DEF SPHERE Solid {
   boundingObject USE SPHERE
 }
 DEF PINK_BOX Solid {
-  translation 0.246966 0.05 -0.277033
-  rotation 0 -1 0 0.856706
+  translation 0.277033 -0.246966 0.05
+  rotation 0 0 -1 0.856706
   children [
     Shape {
       appearance PBRAppearance {
@@ -119,7 +118,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -133,8 +132,7 @@ DEF PINK_BOX Solid {
   }
 }
 DEF GRAY_CYLINDER Solid {
-  translation 0.335524 0.05 -0.0200903
-  rotation 0 -1 0 0.856706
+  translation 0.02009 -0.335524 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -155,7 +153,8 @@ DEF GRAY_CYLINDER Solid {
 DEF ROBOT Robot {
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -172,8 +171,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -185,11 +184,11 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -215,8 +214,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -228,8 +227,8 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -239,11 +238,10 @@ DEF ROBOT Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 1.5708
+      translation 0.042 0.02 0.063
       children [
         DEF LASER_SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -268,8 +266,7 @@ DEF ROBOT Robot {
       aperture 0.005
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.5708
+      translation 0.042 -0.02 0.063
       children [
         USE LASER_SENSOR
       ]
@@ -282,8 +279,8 @@ DEF ROBOT Robot {
       aperture 0.005
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -300,12 +297,11 @@ DEF ROBOT Robot {
       ]
     }
     Camera {
-      translation 0 0.0615 -0.05
-      rotation 0 0 -1 0
+      translation 0.05 0 0.0615
       children [
         Transform {
-          translation 0 0 0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation 0 1 0 -1.570795
           children [
             Shape {
               appearance PBRAppearance {
@@ -329,7 +325,8 @@ DEF ROBOT Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]

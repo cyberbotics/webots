@@ -19,6 +19,7 @@
 #include "WbHingeJoint.hpp"
 #include "WbJoint.hpp"
 #include "WbMFColor.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMotor.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
@@ -260,7 +261,7 @@ void WbMuscle::computeStretchedDimensions() {
   if (fabs(1 - dotProduct) > 1e-06) {
     WbVector3 w = y.cross(t);
     w.normalize();
-    double angle = acos(dotProduct);
+    double angle = WbMathsUtilities::clampedAcos(dotProduct);
     assert(!std::isnan(angle));
     mMatrix.setRotation(w.x(), w.y(), w.z(), angle);
   }
@@ -310,6 +311,7 @@ void WbMuscle::createWrenObjects() {
   mTransform = wr_transform_new();
   wr_transform_attach_child(mTransform, WR_NODE(mRenderable));
   wr_transform_attach_child(wrenNode(), WR_NODE(mTransform));
+  setWrenNode(mTransform);
 
   WbWrenPicker::setPickable(mRenderable, uniqueId(), true);
 }

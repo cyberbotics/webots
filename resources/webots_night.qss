@@ -81,13 +81,8 @@ QSplitter::handle {
 
 /* menus */
 
-QMenuBar {
-  background: white;
-}
-
 QMenuBar::item {
   background: transparent;
-  color: black;
 }
 
 QMenuBar::item:disabled {
@@ -101,7 +96,8 @@ QMenuBar::item:selected {
 }
 
 QMenu::item {
-  padding: 4px 20px 4px 20px;
+  padding: 4px 10px 4px 10px;
+  min-width: 110px;
   border: 1px solid transparent;
 }
 
@@ -118,6 +114,10 @@ QMenu::item:disabled {
 QMenu::separator {
   background: #555;
   height: 1px;
+}
+
+QMenu::icon {
+  padding-left: 12px;
 }
 
 /* network tab */
@@ -280,6 +280,8 @@ QPushButton:hover {
 QPushButton:focus {
   border: 1px solid #9b93ff;
   outline: 1px solid transparent;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 QPushButton:pressed  {
@@ -477,11 +479,11 @@ QInputDialog QAbstractItemView::item:selected {
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
-  color: rgb(40,40,220);
+  color: rgb(40,150,180);
 }
 
 QLabel#inertiaMatrixPrimaryCoefficientLabel {
-  color: rgb(40,160,160);
+  color: rgb(40,160,120);
 }
 
 QLabel#inertiaMatrixSecondaryCoefficientLabel {

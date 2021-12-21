@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BigSassafras {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "sassafras tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -45,7 +45,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Cypress {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "cypress tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -90,13 +90,13 @@ Derived from [Transform](../reference/transform.md).
 ```
 Forest {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   MFString   treesFiles           []
   MFVec2f    shape                [-20 -10, 20 -10, 0 25]
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
+  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/dry_leaf.jpg"]
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -149,7 +149,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Oak {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "oak tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -179,7 +179,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PalmTree {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "palm tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -209,7 +209,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Pine {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "pine tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -239,8 +239,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Sassafras {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "sassafras tree"
+  SFBool     burnt                 FALSE
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -252,6 +253,7 @@ Sassafras {
 
 ### Sassafras Field Summary
 
+- `burnt`: Defines whether the tree is burnt (after a wildfire).
 - `enableBoundingObject`: Defines whether the tree should have a bounding object.
 
 ## SimpleTree
@@ -281,7 +283,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleTree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
   SFString   type                 "cherry tree"
   SFBool     withSnow             FALSE
@@ -331,10 +333,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 Tree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
   SFVec3f    scale                1 4 1
-  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/cherry_tree.png"
+  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE
@@ -353,4 +355,3 @@ Tree {
 - `scale`: The first and last components of the scale define the radius of the tree and the middle one defines it's height.
 
 - `texture`: Defines the texture used for the tree.
-

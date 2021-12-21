@@ -1,23 +1,23 @@
 {
   "devices": [
     {
-      "anchor": "0 -0.014 0.006176",
-      "axis": "-1 0 0",
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
       "position": 0,
-      "transformID": "n25",
+      "transformID": "n44",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.014 0.006176",
-      "axis": "-1 0 0",
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
       "position": 0,
-      "transformID": "n44",
+      "transformID": "n25",
       "type": "RotationalMotor"
     },
     {
@@ -69,41 +69,41 @@
     {
       "name": "cliff_front_left",
       "transformID": "n10",
-      "transformOffset": "-0.04 0 -0.15",
+      "transformOffset": "0.15 0.04 0",
       "type": "DistanceSensor"
     },
     {
       "name": "cliff_front_right",
       "transformID": "n10",
-      "transformOffset": "0.04 0 -0.15",
+      "transformOffset": "0.15 -0.04 0",
       "type": "DistanceSensor"
     },
     {
       "name": "cliff_left",
       "transformID": "n10",
-      "transformOffset": "-0.15 0 -0.07",
+      "transformOffset": "0.07 0.15 0",
       "type": "DistanceSensor"
     },
     {
       "name": "cliff_right",
       "transformID": "n10",
-      "transformOffset": "0.15 0 -0.07",
+      "transformOffset": "0.07 -0.15 0",
       "type": "DistanceSensor"
     },
     {
       "name": "left wheel sensor",
-      "transformID": "n25",
+      "transformID": "n44",
       "type": "PositionSensor"
     },
     {
       "name": "receiver",
       "transformID": "n10",
-      "transformOffset": "0 0.037 -0.152",
+      "transformOffset": "0.152 0 0.037",
       "type": "Receiver"
     },
     {
       "name": "right wheel sensor",
-      "transformID": "n44",
+      "transformID": "n25",
       "type": "PositionSensor"
     }
   ],

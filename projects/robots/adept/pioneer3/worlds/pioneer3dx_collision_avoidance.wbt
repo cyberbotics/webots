@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pioneer 3DX (Adept Mobile Robots)"
@@ -7,12 +7,11 @@ WorldInfo {
   ]
   title "Pioneer 3-DX with blinking LEDs moving according to a Braitenberg rule"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation -0.35740379605526057 -0.8701214457283707 -0.33933935263812226 1.7257581886625526
-  position -17.928106801610685 16.519918436116555 -0.9032733328738459
+  orientation -0.32964274424003737 0.2281440021928477 0.9161255238412076 2.0114460027829653
+  position 6.287875204167227 -16.009297042287056 13.300130492103024
 }
 TexturedBackground {
 }
@@ -22,34 +21,34 @@ RectangleArena {
   wallHeight 0.4
 }
 DEF PIONEER_3DX Pioneer3dx {
-  translation -0.613659 0.0975 0.0464224
-  rotation 0 -1 0 5.12323
+  translation -0.613659 -0.0464224 0.0975
+  rotation 0 0 -1 5.12323
 }
 CardboardBox {
-  translation -0.201269 0.3 -4.94642
+  translation -0.201269 4.94642 0.3
 }
 CardboardBox {
-  translation 0.225428 0.3 5.08162
+  translation 0.225428 -5.08162 0.3
   name "cardboard box(1)"
 }
 FloorLight {
-  translation 0.351337 0 0.184194
+  translation 0.351337 -0.184194 0
   pointLightIntensity 10
   pointLightCastShadows TRUE
 }
 WoodenBox {
-  translation 4.01933 0.3 3.31136
+  translation 4.01933 -3.31136 0.3
 }
 WoodenBox {
-  translation 3.98789 0.3 -3.08066
+  translation 3.98789 3.08066 0.3
   name "wooden box(1)"
 }
 WoodenBox {
-  translation -4.22157 0.3 3.54663
+  translation -4.22157 -3.54663 0.3
   name "wooden box(2)"
 }
 WoodenBox {
-  translation -4.21065 0.3 -2.89465
+  translation -4.21065 2.89465 0.3
   name "wooden box(3)"
 }
 TexturedBackgroundLight {

@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Hemisson robot which controller can be cross-compiled for the real robot"
   ]
   title "Hemisson Cross Compilation"
   inkEvaporation 0.1
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.15069064640395755 0.9495132141971846 0.2751671949039148 2.326742101257792
-  position 1.250543858777666 1.0213451955145507 -1.0422686787980247
+  orientation -0.22761116140735696 0.10906197436180878 0.9676252605999383 2.2955212500637225
+  position 1.061692211377418 -1.3272480430547184 0.9167109235222394
 }
 TexturedBackground {
 }
@@ -28,7 +27,7 @@ RectangleArena {
   }
 }
 DEF RED_BRICK Solid {
-  translation -0.3 0.03 0.15
+  translation -0.15 0.3 0.03
   children [
     Shape {
       appearance PBRAppearance {
@@ -37,7 +36,7 @@ DEF RED_BRICK Solid {
         metalness 0
       }
       geometry DEF BOXO Box {
-        size 0.23 0.06 0.1
+        size 0.1 0.23 0.06
       }
     }
   ]
@@ -45,8 +44,8 @@ DEF RED_BRICK Solid {
   boundingObject USE BOXO
 }
 DEF WHITE_BRICK Solid {
-  translation 0.25 0.03 0
-  rotation 0 1 0 2
+  translation 0 -0.25 0.03
+  rotation 0 0 1 2
   children [
     Shape {
       appearance PBRAppearance {
@@ -60,6 +59,6 @@ DEF WHITE_BRICK Solid {
   boundingObject USE BOXO
 }
 Hemisson {
-  translation -0.0230131 0.003 -0.131228
-  rotation 0 1 0 6.27016
+  translation 0.131228 -0.0230131 0.003
+  rotation 0 0 1 -0.013025307179586498
 }

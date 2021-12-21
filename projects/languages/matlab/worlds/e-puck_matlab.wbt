@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the E-puck robot"
   ]
   title "E-puck"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9998257014248486 0.018579294451717288 -0.0018375494512577494 5.49005
-  position -0.0367852 1.81212 1.98295
+  orientation 0.014151359595739838 -0.9964114978256653 -0.08344978144013417 5.459335285203997
+  position -2.6123157251228366 -0.09779875210238949 2.6846603199569716
 }
 TexturedBackground {
 }
@@ -18,8 +17,8 @@ RectangleArena {
   floorSize 2 2
 }
 DEF BOX1 Solid {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation 0.35 0.75 0.05
+  rotation 0 0 1 4.96782
   children [
     Shape {
       appearance PBRAppearance {
@@ -28,7 +27,7 @@ DEF BOX1 Solid {
         metalness 0
       }
       geometry DEF GEOM1 Box {
-        size 0.2 0.1 0.2
+        size 0.2 0.2 0.1
       }
     }
   ]
@@ -36,8 +35,8 @@ DEF BOX1 Solid {
   boundingObject USE GEOM1
 }
 DEF BOX2 Solid {
-  translation 0.491998 0.1 0.305367
-  rotation 0 1 0 5.36782
+  translation -0.305367 -0.491998 0.1
+  rotation 0 0 1 5.36782
   children [
     Shape {
       appearance PBRAppearance {
@@ -54,8 +53,8 @@ DEF BOX2 Solid {
   boundingObject USE GEOM2
 }
 DEF BOX3 Solid {
-  translation 0.223274 0.2 -0.501591
-  rotation 0 1 0 5.36782
+  translation 0.501591 -0.223274 0.2
+  rotation 0 0 1 5.36782
   children [
     Shape {
       appearance PBRAppearance {
@@ -76,8 +75,8 @@ DEF BOX3 Solid {
   boundingObject USE GEOM4
 }
 DEF CYLINDER Solid {
-  translation -0.3 0.1 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.1
+  rotation 0 0 1 5.36782
   children [
     Shape {
       appearance PBRAppearance {
@@ -94,8 +93,8 @@ DEF CYLINDER Solid {
   boundingObject USE CYL_GEOM
 }
 DEF E_PUCK E-puck {
-  translation -0.463251 0 0.616022
-  rotation 0 1 0 5.85439
+  translation -0.616022 0.463251 0
+  rotation 0 0 1 5.85439
   name "e-puck camera"
   controller "matlab"
   turretSlot [

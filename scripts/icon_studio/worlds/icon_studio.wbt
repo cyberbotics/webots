@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   gravity 0
-  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
-  position 54.32519512629353 36.85193472314329 -3.1707126958688465
+  orientation -0.22829072045121848 0.2455838697244722 0.9421103491030215 1.70306075886739
+  position 3.1707126958688465 -54.32519512629353 36.85193472314329
   near 0.2
   bloomThreshold 2100
 }
@@ -49,7 +48,7 @@ Background {
 }
 DEF LIGHT DirectionalLight {
   ambientIntensity 1
-  direction -0.6 -1 0.55
+  direction -0.55 0.6 -1
   intensity 2.7
   castShadows TRUE
 }

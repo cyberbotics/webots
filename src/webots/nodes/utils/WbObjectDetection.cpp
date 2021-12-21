@@ -56,7 +56,7 @@ WbObjectDetection::~WbObjectDetection() {
 }
 
 bool WbObjectDetection::hasCollided() const {
-  return mCollisionDepth > 0.5 * mObjectSize.z();
+  return mCollisionDepth > 0.5 * mObjectSize.x();
 }
 
 void WbObjectDetection::deleteRay() {
@@ -200,12 +200,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       case WB_NODE_ELEVATION_GRID: {
         const WbElevationGrid *elevationGrid = static_cast<const WbElevationGrid *>(boundingObject);
         double xSpacing = elevationGrid->xSpacing();
-        double zSpacing = elevationGrid->zSpacing();
+        double ySpacing = elevationGrid->ySpacing();
         int xDimension = elevationGrid->xDimension();
-        int zDimension = elevationGrid->zDimension();
+        int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
-          for (int j = 0; j < zDimension; ++j)
-            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), zSpacing * j) *
+          for (int j = 0; j < yDimension; ++j)
+            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
                                             mObject->absoluteScale()) +
                           objectPosition);
         }
@@ -308,28 +308,32 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           assert(false);
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
-        WbMatrix3 rotation = deviceInverseRotation * objectRotation;
-        double xRange = fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
-        double yRange = fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
-        double zRange = fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
+        const WbMatrix3 rotation = deviceInverseRotation * objectRotation;
+        const double xRange =
+          fabs(rotation(0, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 2) * rotation(0, 2)));
+        const double yRange =
+          fabs(rotation(1, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 2) * rotation(1, 2)));
+        const double zRange =
+          fabs(rotation(2, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 2) * rotation(2, 2)));
         objectSize = WbVector3(xRange, yRange, zRange);
       }
     }
     // check distance between center and frustum planes
-    double distances[4];
-    for (int j = 0; j < 4; ++j)
-      distances[j] = frustumPlanes[j].distance(objectPosition);
+    // Note: this sort of detection is only adapted for a field of view smaller than PI. If a larger FoV is desirable, the logic
+    // should be changed by having two separate frustums, more details here: https://github.com/cyberbotics/webots/pull/3960
     for (int j = 0; j < 4; ++j) {
-      if (distances[j] < -objectSize[j % 2] / 2.0)  // the object is completely outside
+      const double distance = frustumPlanes[j].distance(objectPosition);
+      const int objectAxis = j % 2 + 1;
+      if (distance < -objectSize[objectAxis] / 2.0)  // the object is completely outside
         return false;
-      else if (distances[j] < objectSize[j % 2] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[j % 2] / 2.0 - distances[j];
+      else if (distance < objectSize[objectAxis] / 2.0)  // a part of the object is outside
+        outsidePart[j] = objectSize[objectAxis] / 2.0 - distance;
     }
-    objectSize.setX(objectSize.x() - outsidePart[RIGHT] - outsidePart[LEFT]);
-    objectSize.setY(objectSize.y() - outsidePart[BOTTOM] - outsidePart[TOP]);
+    objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
+    objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
     objectRelativePosition +=
-      0.5 * WbVector3(outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP], 0);
+      0.5 * WbVector3(0, outsidePart[RIGHT] - outsidePart[LEFT], outsidePart[BOTTOM] - outsidePart[TOP]);
   }
   return true;
 }
@@ -358,7 +362,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   if (!recursivelyComputeBounds(mObject, false, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
   // check distance
-  if (distance() > (mMaxRange + mObjectSize.z() / 2.0))
+  if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
     return false;
 
   return true;
@@ -367,20 +371,20 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
-  // construct the 4 planes defining the sides of the frustrum
-  double x = maxRange * tan(horizontalFieldOfView / 2.0);
-  double z = -maxRange;
-  double y = maxRange * tan(verticalFieldOfView / 2.0);
-  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
-  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(-x, y, z);
-  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
-  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(-x, -y, z);
+  // construct the 4 planes defining the sides of the frustum
+  const double z = maxRange * tan(verticalFieldOfView / 2.0);
+  const double y = maxRange * tan(horizontalFieldOfView / 2.0);
+  const double x = maxRange;
+  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
+  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
+  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
+  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, -z);
   WbAffinePlane *planes = new WbAffinePlane[PLANE_NUMBER];
   planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);       // right plane
   planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
   planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);          // left plane
   planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);             // top plane
-  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(0, 0, z), devicePosition);  // device plane
+  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(x, 0, 0), devicePosition);  // device plane
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;

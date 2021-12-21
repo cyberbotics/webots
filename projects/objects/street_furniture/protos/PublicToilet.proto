@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable public toilet with two different displays.
@@ -6,11 +6,11 @@
 
 PROTO PublicToilet [
   field SFVec3f     translation         0 0 0
-  field SFRotation  rotation            0 1 0 0
+  field SFRotation  rotation            0 0 1 0
   field SFString    name                "public toilet"
   field SFFloat     height              3.2                              # Defines the height of the toilet.
-  field SFFloat     length              3.5                              # Defines the lenght of the toilet.
-  field SFFloat     width               2.1                              # Defines the wdith of the toilet.
+  field SFFloat     length              2.1                              # Defines the length of the toilet.
+  field SFFloat     width               3.5                              # Defines the width of the toilet.
   field MFString    backDisplayTexture  "webots://projects/default/worlds/textures/webots_billboard.jpg"  # Defines the texture used on the back display.
   field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
   field MFNode      frontDisplay        [                                # Defines the content of the front display.
@@ -35,21 +35,21 @@ PROTO PublicToilet [
       height = fields.height.defaultValue;
       console.error('\'height\' should be smaller than or equal to 3.5. Value reset to ' + height + '.');
     }
-    let length = fields.length.value;
-    if (length < 3.2) {
-      length = fields.length.defaultValue;
-      console.error('\'length\' should be greater than or equal to 3.2. Value reset to ' + length + '.');
-    } else if (length > 5) {
-      length = fields.length.defaultValue;
-      console.error('\'length\' should be smaller than or equal to 5. Value reset to ' + length + '.');
-    }
     let width = fields.width.value;
-    if (width < 1.7) {
+    if (width < 3.2) {
       width = fields.width.defaultValue;
-      console.error('\'width\' should be greater than or equal to 1.7. Value reset to ' + width + '.');
-    } else if (width > 4.5) {
+      console.error('\'width\' should be greater than or equal to 3.2. Value reset to ' + width + '.');
+    } else if (width > 5) {
       width = fields.width.defaultValue;
-      console.error('\'width\' should be smaller than or equal to 4.5. Value reset to ' + width + '.');
+      console.error('\'width\' should be smaller than or equal to 5. Value reset to ' + width + '.');
+    }
+    let length = fields.length.value;
+    if (length < 1.7) {
+      length = fields.length.defaultValue;
+      console.error('\'length\' should be greater than or equal to 1.7. Value reset to ' + length + '.');
+    } else if (length > 4.5) {
+      length = fields.length.defaultValue;
+      console.error('\'length\' should be smaller than or equal to 4.5. Value reset to ' + length + '.');
     }
   >%
   Solid {
@@ -63,8 +63,8 @@ PROTO PublicToilet [
       DEF OBJECT Solid {
         children [
           Transform {
-            translation %<= - 0.113 * width >% 0 %<= 0.278 * length >%
-            scale %<= 0.33 * width >% %<= 0.2 * height >% %<= 0.2 * length >%
+            translation %<= 0.113 * length >% %<= 0.278 * width >% 0
+            scale %<= 0.33 * length >% %<= 0.2 * width >% %<= 0.2 * height >%
             children [
               Shape {
                 appearance PBRAppearance {
@@ -81,17 +81,17 @@ PROTO PublicToilet [
           }
         ]
         boundingObject Transform {
-          translation 0 %<= height / 2 >% 0
+          translation 0 0 %<= height / 2 >%
           children [
             Box {
-              size %<= width >% %<= height >% %<= length >%
+              size %<= length >% %<= width >% %<= height >%
             }
           ]
         }
       }
       DEF TEXT Transform {
-        translation %<= - 0.392 * width >% %<=  0.828 * height >% %<= 0.168 * length >%
-        rotation -0.57735 0.57735 -0.57735 4.1888
+        translation %<= 0.392 * length >% %<= 0.168 * width >% %<=  0.828 * height >%
+        rotation 0.57735 0.57735 0.577351 2.094398
         children [
           Shape {
             appearance PBRAppearance {
@@ -102,19 +102,18 @@ PROTO PublicToilet [
               }
             }
             geometry Plane {
-              size %<= 0.3 * length >% %<= 0.089 * height >%
+              size %<= 0.3 * width >% %<= 0.089 * height >%
             }
           }
         ]
       }
       DEF FRONT_DISPLAY Transform {
-        translation %<= - 0.51 * width >% %<=  0.437 * height >% %<= -0.17 * length >%
-        rotation 0 -1 0 1.5708
+        translation %<= 0.51 * length >% %<= - 0.22 * width >% %<=  0.437 * height >%
         children IS frontDisplay
       }
       DEF BACK_DISPLAY Transform {
-        translation %<= 0.498 * width >% %<=  0.437 * height >% %<=  0.015 * length >%
-        rotation 0.57735 0.57735 -0.57735 2.09439
+        translation %<= - 0.498 * length >% %<= 0.015 * width >% %<=  0.437 * height >%
+        rotation -0.57735 0.57735 0.57735 -2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -129,7 +128,7 @@ PROTO PublicToilet [
               roughness 0.4
             }
             geometry Plane {
-              size %<= 0.44 * length >% %<= 0.44 * height >%
+              size %<= 0.44 * width >% %<= 0.44 * height >%
             }
           }
         ]

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.019387905034541224 0.877364227828967 0.4794331244964748 3.21238
-  position -0.0524161 1.90111 -1.21268
+  orientation -0.4426620781113644 0.02660688774524821 0.8962936785042278 3.1442537737937157
+  position 1.4559161996003063 0.05245991987246734 1.8117077595776534
 }
 TexturedBackground {
 }
@@ -38,28 +37,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.75 0 0.75
-            0.75 0 -0.75
-            -0.75 0 -0.75
-            -0.75 0 0.75
-            -0.74 0 0.75
-            -0.74 0 -0.74
-            0.74 0 -0.74
-            0.74 0 0.74
-            -0.74 0 0.74
-            -0.74 0 0.75
-            0.75 0 0.75
-            0.75 0.05 0.75
-            0.75 0.05 -0.75
-            -0.75 0.05 -0.75
-            -0.75 0.05 0.75
-            -0.74 0.05 0.75
-            -0.74 0.05 -0.74
-            0.74 0.05 -0.74
-            0.74 0.05 0.74
-            -0.74 0.05 0.74
-            -0.74 0.05 0.75
-            0.75 0.05 0.75
+            -0.75 -0.75 0
+            0.75 -0.75 0
+            0.75 0.75 0
+            -0.75 0.75 0
+            -0.75 0.74 0
+            0.74 0.74 0
+            0.74 -0.74 0
+            -0.74 -0.74 0
+            -0.74 0.74 0
+            -0.75 0.74 0
+            -0.75 -0.75 0
+            -0.75 -0.75 0.05
+            0.75 -0.75 0.05
+            0.75 0.75 0.05
+            -0.75 0.75 0.05
+            -0.75 0.74 0.05
+            0.74 0.74 0.05
+            0.74 -0.74 0.05
+            -0.74 -0.74 0.05
+            -0.74 0.74 0.05
+            -0.75 0.74 0.05
+            -0.75 -0.75 0.05
           ]
         }
         coordIndex [
@@ -72,32 +71,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.745 0.025 0
+        translation 0 -0.745 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 2
+              size 2 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.745 0.025 0
+        translation 0 0.745 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.745
-        rotation 0 1 0 1.57
+        translation -0.745 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.745
-        rotation 0 1 0 1.57
+        translation 0.745 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -107,61 +106,61 @@ DEF WALL Solid {
   locked TRUE
 }
 DEF epuck0 E-puck {
-  translation 0 0 -0.5
+  translation 0.5 0 0
   name "epuck0"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck1 E-puck {
-  translation -0.2939 0 -0.4045
-  rotation 0 1 0 0.6283
+  translation 0.4045 0.2939 0
+  rotation 0 0 1 0.6283
   name "epuck1"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck2 E-puck {
-  translation -0.4755 0 -0.1545
-  rotation 0 1 0 1.2566
+  translation 0.1545 0.4755 0
+  rotation 0 0 1 1.2566
   name "epuck2"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck3 E-puck {
-  translation -0.4755 0 0.1545
-  rotation 0 1 0 1.885
+  translation -0.1545 0.4755 0
+  rotation 0 0 1 1.885
   name "epuck3"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck4 E-puck {
-  translation -0.2939 0 0.4045
-  rotation 0 1 0 2.5133
+  translation -0.4045 0.2939 0
+  rotation 0 0 1 2.5133
   name "epuck4"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck5 E-puck {
-  translation 0 0 0.5
-  rotation 0 1 0 3.1415
+  translation -0.5 0 0
+  rotation 0 0 1 3.1415
   name "epuck5"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck6 E-puck {
-  translation 0.2939 0 0.4045
-  rotation 0 1 0 -2.51
+  translation -0.4045 -0.2939 0
+  rotation 0 0 1 -2.51
   name "epuck6"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck7 E-puck {
-  translation 0.4755 0 0.1545
-  rotation 0 1 0 -1.885
+  translation -0.1545 -0.4755 0
+  rotation 0 0 1 -1.885
   name "epuck7"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck8 E-puck {
-  translation 0.4755 0 -0.1545
-  rotation 0 1 0 -1.2566
+  translation 0.1545 -0.4755 0
+  rotation 0 0 1 -1.2566
   name "epuck8"
   controller "advanced_particle_swarm_optimization"
 }
 DEF epuck9 E-puck {
-  translation 0.2939 0 -0.4045
-  rotation 0 1 0 -0.6283
+  translation 0.4045 -0.2939 0
+  rotation 0 0 1 -0.6283
   name "epuck9"
   controller "advanced_particle_swarm_optimization"
 }

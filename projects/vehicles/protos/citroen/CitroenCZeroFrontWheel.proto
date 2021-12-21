@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of the Citroën C-Zero front wheels using the generic VehicleWheel proto
@@ -11,6 +11,7 @@ PROTO CitroenCZeroFrontWheel [
   field       SFString name           "Citroen C-Zero front wheel"
   field       SFNode   physics        NULL
   field       SFBool   boundingObject TRUE
+  field SFBool     wheelSide          FALSE
   hiddenField SFFloat  tireRadius     0.28475                       # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
@@ -27,30 +28,37 @@ PROTO CitroenCZeroFrontWheel [
     centralOuterRadius 0.11
     rimBeamThickness 0.1
     rimBeamOffset 0.022
+    wheelSide IS wheelSide
     contactMaterial "CitroenCZeroWheels"
     physics IS physics
     boundingObject IS boundingObject
     logoSlot [
-      Shape {
-        appearance PBRAppearance {
-          roughness 0.1
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
-            ]
+      Transform{
+        translation 0.006 0 0
+        rotation -0.707 0 0.707 -3.14
+        children [
+          Shape {
+            appearance PBRAppearance {
+              roughness 0.1
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                ]
+              }
+            }
+            geometry Cylinder {
+              bottom FALSE
+              height 0.142
+              radius 0.05
+              side FALSE
+            }
           }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
-            ]
-          }
-        }
-        geometry Cylinder {
-          bottom FALSE
-          height 0.142
-          radius 0.05
-          side FALSE
-        }
+        ]
       }
     ]
   }

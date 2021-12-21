@@ -1,10 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO TemplateSolidCylinderLua [
   field SFFloat height 0.4
 ]
 {
   DEF PARAMETER Solid {
+    rotation 1 0 0 -1.5708
     children [
       Shape {
         geometry DEF GEOM Cylinder {

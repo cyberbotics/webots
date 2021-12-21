@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.6
-  orientation 0.2703180051796985 -0.9569520183366363 -0.10569300202523647 5.50743
-  position 3.62892 1.19028 3.43562
+  orientation 0.1697937917870578 -0.07858105422963266 -0.9823416341511403 4.084399371064676
+  position 2.2378337920185483 -3.038541244328786 1.2893832044432054
 }
 TexturedBackground {
 }
@@ -78,7 +77,7 @@ DEF METRIC Solid {
     Shape {
       appearance USE APP
       geometry TexturedBox {
-        size 0.4 0.2 0.1
+        size 0.4 0.1 0.2
         mapping "metric"
       }
     }

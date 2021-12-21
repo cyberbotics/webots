@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "iRobot Create simulation"
@@ -6,98 +6,94 @@ WorldInfo {
     "The robot can be stopped by the virtual walls emitting IR light."
   ]
   title "iRobot Create"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.3251268673134766 -0.7444466961861541 -0.5831737620027541 2.40689
-  position -0.802259 5.98923 2.88325
+  orientation 0.33249414699184565 0.641565784217505 -0.6912604333661393 1.2383453671825142
+  position -4.757889379270686 7.671295556320952 13.48597636236832
   near 0.1
   follow "Create"
 }
 TexturedBackground {
 }
 CeilingLight {
-  translation 1.29685 2.4 -1.82639
+  translation 1.82639 -1.29685 2.4
   pointLightColor 1 1 0.9372549019607843
   pointLightIntensity 7
 }
 CeilingLight {
-  translation -1.9443400000000004 2.4 3.25511
+  translation -3.25511 1.9443400000000004 2.4
   name "ceiling light(2)"
   pointLightIntensity 6
 }
 FloorLight {
-  translation 4.2693419342918375 0 4.528276895458201
+  translation -4.528276895458201 -4.2693419342918375 0
   pointLightIntensity 2
 }
 Wall {
-  translation 0 0 -5
-  size 10.3 2.4 0.3
+  translation 5 0 0
+  size 0.3 10.3 2.4
+}
+Wall {
+  translation 0 5 0
+  rotation 0 0 1 1.5708
+  name "wall(2)"
+  size 0.3 9.7 2.4
 }
 Wall {
   translation -5 0 0
-  rotation 0 1 0 1.5708
-  name "wall(2)"
-  size 9.7 2.4 0.3
-}
-Wall {
-  translation 0 0 5
   name "wall(3)"
-  size 10.3 2.4 0.3
+  size 0.3 10.3 2.4
 }
 Wall {
-  translation 5 0 0
-  rotation 0 1 0 1.5708
+  translation 0 -5 0
+  rotation 0 0 1 1.5708
   name "wall(4)"
-  size 9.7 2.4 0.3
+  size 0.3 9.7 2.4
 }
 Wall {
-  translation -2.675 0 1.65
+  translation -1.65 2.675 0
   name "wall(5)"
-  size 4.35 2.4 0.3
+  size 0.3 4.35 2.4
 }
 Wall {
-  translation 1.15 0 1.65
+  translation -1.65 -1.15 0
   name "wall(6)"
-  size 1.3 2.4 0.3
+  size 0.3 1.3 2.4
 }
 Door {
-  translation 0 0 1.65
-  rotation 0 1 0 3.14159
-  size 1 2.4 0.3
+  translation -1.65 0 0
+  size 0.3 1 2.4
 }
 Bed {
-  translation -3.2800000002397445 0 -3.75
-  rotation 0 1 0 1.5707963220000003
+  translation 3.75 3.2800000002397445 0
+  rotation 0 0 1 3.1415
 }
 Table {
-  translation 3.86254 0 3.28632
+  translation -3.28632 -3.86254 0
 }
 Chair {
-  translation 3.47751 0 3.72164
-  rotation 0 1 0 1.71314
+  translation -3.72164 -3.47751 0
+  rotation 0 0 -1 -0.11945530717958608
 }
 Table {
-  translation 0.476732 0 -2.2745
-  rotation 0 1 0 0.534482
+  translation 2.2745 -0.476732 0
+  rotation 0 0 1 0.534482
   name "table(2)"
-  size 1.2 0.53 0.8
+  size 0.8 1.2 0.53
 }
 Armchair {
-  translation -0.323101 0 -3.5894
-  rotation 0 -1 0 1.01872
+  translation 3.5894 0.323101 0
+  rotation 0 0 1 -2.5895153071795862
 }
 LandscapePainting {
-  translation 4.77308 1.5 -0.292736
-  rotation 0 1 0 -1.5708
+  translation 0.292736 -4.77308 1.5
+  rotation 0 0 1 1.5708
 }
 CreateWall {
-  translation -3.16665 -3.11701e-05 4.72729
-  rotation 0 1 0 1.5708
+  translation -4.72729 3.16665 0
 }
 DEF IROBOT_CREATE Create {
-  translation -0.0193578 0.0899546 3.69248
-  rotation -5.2210090015212816e-09 0.6964978668000195 0.7175588627722623 0
+  translation -3.69248 0.0193578 0.0899546
 }
 Robot {
   children [
@@ -112,7 +108,7 @@ Robot {
       }
     }
     Display {
-      translation 0 0.01 0
+      translation 0 0 0.01
       children [
         Shape {
           appearance PBRAppearance {

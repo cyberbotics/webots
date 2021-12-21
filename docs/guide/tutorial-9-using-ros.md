@@ -2,15 +2,15 @@
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
-These examples were tested with ROS `noetic` and `melodic` on Linux.
+These examples were tested with ROS Noetic Ninjemys on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
 ### Check Compatibility of Webots ROS API
 
-The Webots packages contain a precompiled ROS API built using the latest ROS distributions:
+The Webots packages contain a precompiled ROS API built using the latest ROS distribution:
 - The Ubuntu 20.04 tarball package is compatible with ROS Noetic.
-- The snap, Debian and Ubuntu 18.04 tarball packages are compatible with ROS Melodic.
 If you plan to use a different ROS distribution then it is recommended to install the tarball package and recompile the ROS API:
+
 ```sh
 export ROS_DISTRO=noetic  # or ROS_DISTRO=melodic, etc.
 cd ${WEBOTS_HOME}/projects/default/controllers/ros
@@ -21,11 +21,6 @@ make
 
 In order to use these nodes, you will first need to install the ROS framework.
 To install the latest version of ROS on Ubuntu use the following commands:
-
-%tab-component "ros"
-
-%tab "noetic"
-
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -38,28 +33,8 @@ rosdep update
 sudo apt-get install ros-noetic-webots-ros
 ```
 
-%tab-end
-
-%tab "melodic"
-
-```sh
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-sudo apt-get update
-sudo apt-get install ros-melodic-desktop-full ros-melodic-moveit # takes time, get a coffee :)
-sudo apt-get install python-rosdep
-sudo rosdep init
-rosdep update
-sudo apt-get install ros-melodic-webots-ros
-```
-
-%tab-end
-
-
-%end
-
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
-Unless you need older version for some other application, you should choose a recent distribution (Noetic Ninjemys or Melodic Morenia).
+Unless you need older version for some other application, you should choose the most recent distribution (Noetic Ninjemys).
 
 The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
@@ -99,9 +74,9 @@ export WEBOTS_HOME=/snap/webots/current/usr/share/webots
 source /opt/ros/noetic/local_setup.bash
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
 ```
-  
+
 This is specific to the Webots snap package and ROS Noetic.
-  
+
 </details>
 
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.

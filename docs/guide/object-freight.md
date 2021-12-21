@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 IntermodalContainer {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "container"
   SFColor    color        0.9 0.1 0.1
 }
@@ -46,7 +46,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 IntermodalOfficeContainer {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "office"
   SFColor    primaryColor   0.9 0.1 0.1
   SFColor    secondaryColor 0.6 0.6 0.6

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Simulation of the Robocup Standard Platform League"
@@ -17,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.9940553217200266 0.05175668933605023 0.09578759037091378 1.2282173864277228
-  position 1.6952388381228976 -10.500611202883436 3.353451936156124
+  orientation -0.1676899818622638 0.14868672735186755 0.9745626337452227 1.7163386311511077
+  position 1.7121616170708769 -10.86328923949494 3.333390541631566
   follow "ball"
 }
 TexturedBackground {
@@ -28,16 +28,13 @@ TexturedBackgroundLight {
   texture "stadium"
 }
 RobotstadiumSoccerField {
-  rotation 1 0 0 1.5707963267948966
   frame1Color 0.9 0.8 0.2
   frame2Color 0.2 0.4 0.8
 }
 DEF BALL Ball {
   translation 0 0.0325 0.03
-  rotation 1 0 0 1.5707963267948966
 }
 Robot {
-  rotation 1 0 0 1.5707963267948966
   children [
     Emitter {
       channel -1

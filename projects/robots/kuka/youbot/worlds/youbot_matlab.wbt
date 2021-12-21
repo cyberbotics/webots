@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Simulation of the KUKA youBot robot."
@@ -7,7 +7,6 @@ WorldInfo {
   ]
   title "KUKA youBot"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "InteriorWheelMat"
@@ -34,8 +33,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05110129288548202 0.9828348631659609 0.17726897531993338 3.71169
-  position -0.668662 0.789395 -1.09725
+  orientation -0.2578108236408437 -0.6746280379929408 0.6916723137204678 5.345687080917723
+  position -3.6036305787770964 3.619405930561686 4.660673730052731
   follow "youBot"
 }
 TexturedBackground {
@@ -46,13 +45,15 @@ Floor {
   size 100 100
 }
 WoodenBox {
-  translation 0.605448 0.2 -0.00121984
-  size 0.6 0.4 0.6
+  translation 0.605448 0.00121984 0.2
+  rotation 0 0 1 -1.5707963267948966
+  size 0.6 0.6 0.4
 }
 KukaBox {
-  translation 0.472629 0.41876 -0.00710068
+  translation 0.472629 0.00710068 0.41876
+  rotation 0 0 1 -1.5707963267948966
 }
 Youbot {
-  translation 0 0.102838 0
+  translation 0 0 0.102838
   controller "youbot_matlab"
 }

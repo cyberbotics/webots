@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "KHR3-HV demo"
   ]
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation 0.7804458453854987 -0.5866368837810851 -0.21624395715980577 5.6836
-  position 0.892061 1.54657 2.01331
+  orientation 0.18647977681302036 0.039175512455475306 -0.9816774277040382 2.8586313035918356
+  position 2.2178719520145 0.8672168479382402 1.2360295670704982
 }
 TexturedBackground {
 }
@@ -19,5 +18,4 @@ Floor {
   tileSize 1 1
 }
 Khr3hv {
-  translation 0 0.68 0
 }

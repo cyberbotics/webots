@@ -1,7 +1,6 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -12,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4763769087372267 -0.8450938477598371 -0.24265495935677361 5.16919
-  position 0.71984788 0.57664489 0.50735329
+  orientation 0.21752271602471446 0.10007385193918365 -0.9709114749405764 2.3014019856912595
+  position 0.6265186357733588 0.8641592396238201 0.5326430835911365
   follow "Thymio II"
 }
 TexturedBackground {

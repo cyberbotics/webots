@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Static distance sensor rays"
   coordinateSystem "NUE"
@@ -17,6 +17,7 @@ PointLight {
   location 0 0.3 0
 }
 Solid {
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {

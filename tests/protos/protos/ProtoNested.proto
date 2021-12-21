@@ -1,17 +1,22 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO ProtoNested [
   field SFBool nestedParameter TRUE
 ]
 {
-  Shape {
-    appearance Appearance {
-      material Material {
+  Transform {
+    rotation 1 0 0 -1.5708
+    children [
+      Shape {
+        appearance Appearance {
+          material Material {
+          }
+        }
+        geometry Capsule {
+          top IS nestedParameter
+          bottom IS nestedParameter
+        }
       }
-    }
-    geometry Capsule {
-      top IS nestedParameter
-      bottom IS nestedParameter
-    }
+    ]
   }
 }

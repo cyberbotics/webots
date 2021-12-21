@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A black and white soccer ball with customizable radius and mass.
@@ -72,7 +72,7 @@ PROTO RobocupSoccerBall [
     physics Physics {
       mass %<= mass >%
       density -1
-      centerOfMass [ 0 0 0.0001 ]  # to introduce some randomness in motion
+      centerOfMass [ -0.0001 0 0 ]  # to introduce some randomness in motion
       damping Damping {
         linear 0.77
         angular 0.77

@@ -70,6 +70,10 @@ public:
   virtual void setWrenMaterial(WrMaterial *material, bool castShadows);
   void destroyWrenObjects();
 
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
+
   // Create ODE dGeom (for a WbGeometry lying into a boundingObject)
   virtual dGeomID createOdeGeom(dSpaceID space);
   void destroyOdeObjects();
@@ -123,6 +127,10 @@ public:
   static int maxIndexNumberToCastShadows();
   int triangleCount() const;
 
+  // visibility
+  void setTransparent(bool isTransparent);
+  bool isTransparent() const { return mIsTransparent; }
+
 signals:
   void changed();
   void wrenObjectsCreated();
@@ -165,8 +173,8 @@ protected:
 
   // ODE objects for a WbGeometry lying into a boundingObject
   // Scaling
+  bool mIs90DegreesRotated;  // rotate ElevationGrid by 90 degrees: ODE to FLU rotation
   dGeomID mOdeGeom;          // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
-  bool mIs90DegreesRotated;  // rotate Capsule and Cylinder by 90 degrees: ODE to VRML rotation
   WbVector3 mLocalOdeGeomOffsetPosition;
   dMass *mOdeMass;        // needed to correct the WbSolid parent mass after the destruction of a bounding WbGeometry
   void applyToOdeMass();  // modifies the ODE dMass when the dimensions change
@@ -203,6 +211,7 @@ private:
   WbMatrix3 mOdeOffsetRotation;
 
   bool mPickable;
+  bool mIsTransparent;
 
 private slots:
   virtual void updateBoundingObjectVisibility(int optionalRendering);

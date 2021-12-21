@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # tags: hidden
 
 PROTO C3dGroundReactionForce [
   field SFVec3f     translation          0 0 0
-  field SFRotation  rotation             0 1 0 0
-  field SFVec3f     coneTranslation      0 0.1 0
+  field SFRotation  rotation             0 0 1 0
+  field SFVec3f     coneTranslation      0 0 0.1
   field SFVec3f     cylinderTranslation  0 0 0
   field SFColor     color                1 1 0
   field SFFloat     height               0.2

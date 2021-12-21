@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera1
@@ -7,7 +7,7 @@
 
 PROTO Khepera1 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0       # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString   name            "Khepera"     # Is `Solid.name`.
   field SFString   controller      "braitenberg" # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -43,7 +43,7 @@ PROTO Khepera1 [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0.0276 0.0025 -0.009, 0.0215 0.0025 -0.0194, 0.0118 0.0025 -0.0265, 0 0.0025 -0.029, -0.0118 0.0025 -0.0265, -0.0215 0.0025 -0.0194, -0.0276 0.0025 -0.009, -0.0236 0.02 -0.009, -0.0236 0.02 0.009, 0.0236 0.02 0.009, 0.0236 0.02 -0.009, -0.0276 0.0025 0.009, -0.0215 0.0025 0.0194, -0.0118 0.0025 0.0265, 0 0.0025 0.029, 0.0118 0.0025 0.0265, 0.0215 0.0025 0.0194, 0.0276 0.0025 0.009, 0.0276 0.001 -0.009, 0.0215 0.001 -0.0194, 0.0118 0.001 -0.0265, 0 0.001 -0.029, -0.0118 0.001 -0.0265, -0.0215 0.001 -0.0194, -0.0276 0.001 -0.009, -0.0236 0.001 -0.009, -0.0236 0.001 0.009, 0.0236 0.001 0.009, 0.0236 0.001 -0.009, -0.0276 0.001 0.009, -0.0215 0.001 0.0194, -0.0118 0.001 0.0265, 0 0.001 0.029, 0.0118 0.001 0.0265, 0.0215 0.001 0.0194, 0.0276 0.001 0.009
+              0.009 -0.0276 0.0025 0.0194 -0.0215 0.0025 0.0265 -0.0118 0.0025 0.029 0 0.0025 0.0265 0.0118 0.0025 0.0194 0.0215 0.0025 0.009 0.0276 0.0025 0.009 0.0236 0.02 -0.009 0.0236 0.02 -0.009 -0.0236 0.02 0.009 -0.0236 0.02 -0.009 0.0276 0.0025 -0.0194 0.0215 0.0025 -0.0265 0.0118 0.0025 -0.029 0 0.0025 -0.0265 -0.0118 0.0025 -0.0194 -0.0215 0.0025 -0.009 -0.0276 0.0025 0.009 -0.0276 0.001 0.0194 -0.0215 0.001 0.0265 -0.0118 0.001 0.029 0 0.001 0.0265 0.0118 0.001 0.0194 0.0215 0.001 0.009 0.0276 0.001 0.009 0.0236 0.001 -0.009 0.0236 0.001 -0.009 -0.0236 0.001 0.009 -0.0236 0.001 -0.009 0.0276 0.001 -0.0194 0.0215 0.001 -0.0265 0.0118 0.001 -0.029 0 0.001 -0.0265 -0.0118 0.001 -0.0194 -0.0215 0.001 -0.009 -0.0276 0.001
             ]
           }
           coordIndex [
@@ -54,8 +54,8 @@ PROTO Khepera1 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 0.0075 0
+          axis 0 1 0
+          anchor 0 0 0.0075
         }
         device [
           RotationalMotor {
@@ -67,11 +67,11 @@ PROTO Khepera1 [
           }
         ]
         endPoint Solid {
-          translation -0.026 0.0075 0
-          rotation 1 0 0 2.65778
+          translation 0 0.026 0.0075
+          rotation 0.65025 -0.65025 0.392872 -2.392899
           children [
             DEF WHEEL Transform {
-              rotation 0 0 1 -1.5707
+              rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -97,8 +97,8 @@ PROTO Khepera1 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 0.0075 0
+          axis 0 1 0
+          anchor 0 0 0.0075
         }
         device [
           RotationalMotor {
@@ -110,8 +110,8 @@ PROTO Khepera1 [
           }
         ]
         endPoint Solid {
-          translation 0.026 0.0075 0
-          rotation 1 0 0 2.71599
+          translation 0 -0.026 0.0075
+          rotation 0.643415 -0.643415 0.41477 -2.355245
           children [
             USE WHEEL
           ]
@@ -124,7 +124,8 @@ PROTO Khepera1 [
         }
       }
       Transform {
-        translation 0 0.02 0
+        translation 0 0 0.02
+        rotation 0 0 1 -1.570796
         children [
           Shape {
             appearance PBRAppearance {
@@ -140,8 +141,8 @@ PROTO Khepera1 [
         ]
       }
       DEF DS0 DistanceSensor {
-        translation -0.0245 0.0145 -0.012
-        rotation 0 1 0 3.0543
+        translation 0.012 0.0245 0.0145
+        rotation 0.610934 0.559803 0.559803 2.044752
         children [
           DEF SFH900 Group {
             children [
@@ -190,8 +191,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS1 DistanceSensor {
-        translation -0.0185 0.0145 -0.021
-        rotation 0 1 0 2.3562
+        translation 0.021 0.0185 0.0145
+        rotation 0.862854 0.357409 0.357409 1.717773
         children [
           USE SFH900
         ]
@@ -205,8 +206,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS2 DistanceSensor {
-        translation -0.0075 0.0145 -0.027
-        rotation 0 1 0 1.5708
+        translation 0.027 0.0075 0.0145
+        rotation -1 0 0 -1.570796
         children [
           USE SFH900
         ]
@@ -218,8 +219,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS3 DistanceSensor {
-        translation 0.0075 0.0145 -0.027
-        rotation 0 1 0 1.5708
+        translation 0.027 -0.0075 0.0145
+        rotation -1 0 0 -1.570796
         children [
           USE SFH900
         ]
@@ -231,8 +232,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS4 DistanceSensor {
-        translation 0.0185 0.0145 -0.021
-        rotation 0 1 0 0.7854
+        translation 0.021 -0.0185 0.0145
+        rotation 0.862857 -0.357406 -0.357406 1.717771
         children [
           USE SFH900
         ]
@@ -244,8 +245,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS5 DistanceSensor {
-        translation 0.0245 0.0145 -0.012
-        rotation 0 1 0 0.0873
+        translation 0.012 -0.0245 0.0145
+        rotation 0.610937 -0.559802 -0.559802 2.044747
         children [
           USE SFH900
         ]
@@ -257,8 +258,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS6 DistanceSensor {
-        translation 0.009 0.0145 0.026
-        rotation 0 1 0 -1.5708
+        translation -0.026 -0.009 0.0145
+        rotation 0 -0.707107 -0.707107 -3.14159
         children [
           USE SFH900
         ]
@@ -270,8 +271,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF DS7 DistanceSensor {
-        translation -0.009 0.0145 0.026
-        rotation 0 1 0 -1.5708
+        translation -0.026 0.009 0.0145
+        rotation 0 -0.707107 -0.707107 -3.14159
         children [
           USE SFH900
         ]
@@ -283,8 +284,8 @@ PROTO Khepera1 [
         type "infra-red"
       }
       DEF LS0 LightSensor {
-        translation -0.0245 0.0144 -0.012
-        rotation 0 1 0 3.0543
+        translation 0.012 0.0245 0.0144
+        rotation 0.610934 0.559803 0.559803 2.044752
         name "ls0"
         lookupTable [
           0 500 0.1
@@ -292,8 +293,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS1 LightSensor {
-        translation -0.0185 0.0144 -0.021
-        rotation 0 1 0 2.3562
+        translation 0.021 0.0185 0.0144
+        rotation 0.862854 0.357409 0.357409 1.717773
         name "ls1"
         lookupTable [
           0 500 0.1
@@ -301,8 +302,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS2 LightSensor {
-        translation -0.0075 0.0144 -0.027
-        rotation 0 1 0 1.5708
+        translation 0.027 0.0075 0.0144
+        rotation -1 0 0 -1.570796
         name "ls2"
         lookupTable [
           0 500 0.1
@@ -310,8 +311,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS3 LightSensor {
-        translation 0.0075 0.0144 -0.027
-        rotation 0 1 0 1.5708
+        translation 0.027 -0.0075 0.0144
+        rotation -1 0 0 -1.570796
         name "ls3"
         lookupTable [
           0 500 0.1
@@ -319,8 +320,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS4 LightSensor {
-        translation 0.0185 0.0144 -0.021
-        rotation 0 1 0 0.7854
+        translation 0.021 -0.0185 0.0144
+        rotation 0.862857 -0.357406 -0.357406 1.717771
         name "ls4"
         lookupTable [
           0 500 0.1
@@ -328,8 +329,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS5 LightSensor {
-        translation 0.0245 0.0144 -0.012
-        rotation 0 1 0 0.0873
+        translation 0.012 -0.0245 0.0144
+        rotation 0.610937 -0.559802 -0.559802 2.044747
         name "ls5"
         lookupTable [
           0 500 0.1
@@ -337,8 +338,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS6 LightSensor {
-        translation 0.009 0.0144 0.026
-        rotation 0 1 0 -1.5708
+        translation -0.026 -0.009 0.0144
+        rotation 0 -0.707107 -0.707107 -3.14159
         name "ls6"
         lookupTable [
           0 500 0.1
@@ -346,8 +347,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LS7 LightSensor {
-        translation -0.009 0.0144 0.026
-        rotation 0 1 0 -1.5708
+        translation -0.026 0.009 0.0144
+        rotation 0 -0.707107 -0.707107 -3.14159
         name "ls7"
         lookupTable [
           0 500 0.1
@@ -355,7 +356,8 @@ PROTO Khepera1 [
         ]
       }
       DEF LED0 LED {
-        translation 0.013 0.021 -0.022
+        translation 0.022 -0.013 0.021
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -370,7 +372,8 @@ PROTO Khepera1 [
         name "led0"
       }
       DEF LED1 LED {
-        translation 0.01 0.021 -0.024
+        translation 0.024 -0.01 0.021
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -400,7 +403,8 @@ PROTO Khepera1 [
     description "A mini mobile robot by K-Team SA"
     contactMaterial "khepera"
     boundingObject Transform {
-      translation 0 0.012 0
+      translation 0 0 0.012
+      rotation 0 0 1 -1.570796
       children [
         Cylinder {
           height 0.02
@@ -411,7 +415,7 @@ PROTO Khepera1 [
     %< if (!kinematic) { >%
       physics Physics {
         centerOfMass [
-          0 0.005 0
+          0 0 0.005
         ]
       }
     %< } >%

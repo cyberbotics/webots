@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -7,7 +7,6 @@ WorldInfo {
   title "Pick and Place"
   window "pick_and_place"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "box"
@@ -40,8 +39,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.07398746518993696 0.9910244125441088 0.11133943028582508 4.3838106
-  position -6.8845226 1.8985127 -1.6465338
+  orientation -0.049873692006054064 0.8801183656218324 -0.47212739524501207 0.36604708299982824
+  position -7.59905521344036 1.1022023790656814 2.888974815543479
   exposure 1.5
 }
 TexturedBackground {
@@ -54,12 +53,12 @@ TexturedBackgroundLight {
 SpotLight {
   attenuation 0 0 1
   beamWidth 0.7
-  direction 0 -1 0
   intensity 10
-  location 0 4 0
+  location 0 0 4
   castShadows TRUE
 }
 Floor {
+  rotation 0 0 1 -1.5707963267948966
   size 12 12
   tileSize 1 1
   appearance PBRAppearance {
@@ -73,8 +72,8 @@ Floor {
   }
 }
 DEF WALL Solid {
-  translation 0 2.5 -6
-  rotation 1 0 0 1.5707997
+  translation 0 6 2.5
+  rotation 1 0 0 1.5708
   children [
     DEF WALL_SHAPE Shape {
       appearance CorrugatedMetal {
@@ -91,8 +90,8 @@ DEF WALL Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL Solid {
-  translation 0 2.5 6
-  rotation 3.3905101056836537e-09 -0.7071080811853548 0.7071054811853503 3.1415926
+  translation 6 0 2.5
+  rotation -0.5773509358508296 0.5773469358512743 0.5773529358506075 -2.094395307179586
   children [
     USE WALL_SHAPE
   ]
@@ -100,8 +99,8 @@ DEF WALL Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL Solid {
-  translation -6 2.5 0
-  rotation -0.5773509091889044 -0.5773509191889044 0.577348979188907 4.1887883
+  translation 0 -6 2.5
+  rotation 3.808301514364728e-06 0.7071082811804253 0.7071052811792324 3.14159
   children [
     USE WALL_SHAPE
   ]
@@ -109,8 +108,8 @@ DEF WALL Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL Solid {
-  translation 6 2.5 0
-  rotation -0.5773509191889153 0.5773508991889154 -0.577348989188918 4.1887883
+  translation -6 0 2.5
+  rotation -0.5773509358554485 -0.5773489358556708 -0.5773509358554485 -2.094395307179586
   children [
     USE WALL_SHAPE
   ]
@@ -118,135 +117,138 @@ DEF WALL Solid {
   boundingObject USE WALL_SHAPE
 }
 Ceiling {
-  translation 0 5 0
+  translation 0 0 5
   size 12 12
   castShadows FALSE
 }
 Door {
-  translation -2.44 0 -5.99
-  size 1.2 2 0.01
+  translation -2.45 5.96 0
+  rotation 0 0 -1 1.5708
+  size 0.01 1.2 2
   canBeOpen FALSE
   doorHandle DoorLever {
-    translation 0 0.045 0
+    translation 0 0 0.045
     mass 0
     hasStaticParent TRUE
     castShadows FALSE
   }
   castShadows FALSE
 }
-DEF PIPES Group {
+DEF PIPES Transform {
+  rotation 0 0 1 -1.57
   children [
     LeverValve {
-      translation -5.83 1 0.50999991
-      rotation 0 1 0 3.1415926
+      translation 0.50999991 -5.83 1
+      rotation 0 0 1 1.5708
       scale 1 1 1
     }
     PipeSection {
-      translation -5.86 0.96000003 2.11
-      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      translation 2.11 -5.86 0.96000003
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       height 3
       radius 0.07
     }
     PipeSection {
-      translation -5.86 0.9600001 -2.81
-      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      translation -2.81 -5.86 0.9600001
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(1)"
       height 6.4
       radius 0.07
     }
     PipeSection {
-      translation -5.87 3.83 -4.39
-      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      translation -4.39 -5.87 3.83
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(2)"
       height 3.3
       radius 0.07
     }
     PipeSection {
-      translation -5.86 0.65 -1.63
-      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      translation -1.63 -5.86 0.65
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(3)"
       height 8.8
       radius 0.07
     }
     PipeSection {
-      translation -5.86 0.34 3.857
-      rotation 0 0 1 0
+      translation 3.857 -5.86 0.34
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(4)"
       height 0.7
       radius 0.07
     }
     PipeSection {
-      translation -5.86 0.19 3.037
-      rotation 0 0 1 0
+      translation 3.037 -5.86 0.19
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(5)"
       height 0.4
       radius 0.07
     }
     PipeSection {
-      translation -5.84 2.37 -2.443
-      rotation 0 0 1 0
+      translation -2.443 -5.84 2.37
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(6)"
       height 2.4
       radius 0.07
     }
     LJoint {
-      translation -5.8610001 0.85599996 3.74
-      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      translation 3.74 -5.8610001 0.85599996
+      rotation 0 1 0 3.14159
       scale 2.4 2.4 2.4
     }
     LJoint {
-      translation -5.8610001 0.54599994 2.93
-      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      translation 2.93 -5.8610001 0.54599994
+      rotation 0 1 0 3.14159
       name "L joint pipe(1)"
       scale 2.4 2.4 2.4
     }
     LJoint {
-      translation -5.845 3.7259999 -2.55
-      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      translation -2.55 -5.845 3.7259999
+      rotation 0 1 0 3.14159
       name "L joint pipe(2)"
       scale 2.4 2.4 2.4
     }
     TJoint {
-      translation -5.843 1.0259999 -2.44
-      rotation -0.7071067761865476 3.3905038817148895e-09 0.7071067861865474 3.1415927
+      translation -2.44 -5.843 1.0259999
+      rotation 0 1 0 3.14159
       scale 2.4 2.4 2.4
     }
   ]
 }
 WoodenPalletStack {
-  translation 3.5182364 -1.0658141e-14 -5.0539949
-  rotation 0 1 0 1.4089997
+  translation 3.51824 5.0701 0.0986936
+  rotation 0 0 1 -0.523595307179586
 }
 WoodenPalletStack {
-  translation 5.0506856 -1.0658141e-14 -4.3236115
-  rotation 0 -1 0 6.0213859
+  translation 5.0506856 4.3236115 0
+  rotation 0 0 -1 1.0472
   name "wooden pallet stack(1)"
   palletNumber 2
 }
 WoodenBox {
-  translation 5.0461957 0.3 2.6920662
+  translation 5.0461957 -2.6920662 0.3
+  rotation 0 0 1 -1.5707963267948966
 }
 WoodenBox {
-  translation 5.0297142 0.3 3.3127088
+  translation 5.0297142 -3.3127088 0.3
+  rotation 0 0 1 -1.5707963267948966
   name "wooden box(1)"
 }
 WoodenBox {
-  translation 5.0890438 0.3 2.0668732
-  rotation 0 1 0 -0.05
+  translation 5.0890438 -2.0668732 0.3
+  rotation 0 0 -1 1.571421196638078
   name "wooden box(2)"
 }
 WoodenBox {
-  translation 5.0324568 0.9 3.0679729
-  rotation 0 1 0 0.01
+  translation 5.0324568 -3.0679729 0.9
+  rotation 0.004999875004687304 0.004999875004687304 -0.9999750009374608 1.570821326586566
   name "wooden box(3)"
 }
 DEF CONVEYOR_BELT Robot {
-  translation 1.0799988 0.15 0.66500175
-  rotation 0 1 0 1.5707997
+  translation 1.0799988 -0.66500175 0.15
   children [
     Track {
-      translation -0.6 0 0
-      rotation 1 0 0 3.141592644
+      translation 0 -0.6 0
+      rotation 0 0 1 1.5708
       children [
         DEF BELT Shape {
           appearance PBRAppearance {
@@ -263,7 +265,7 @@ DEF CONVEYOR_BELT Robot {
             }
           }
           geometry Box {
-            size 3.7 0.05 0.5
+            size 3.7 0.5 0.05
           }
         }
       ]
@@ -275,11 +277,11 @@ DEF CONVEYOR_BELT Robot {
           name "belt motor"
         }
       ]
-      textureAnimation -0.27 0
+      textureAnimation 0.27 0
     }
     DEF CYL1 Transform {
-      translation 1.28 0 0
-      rotation 1 0 0 1.5707997
+      translation 0 1.28 0
+      rotation 0 1 0 -1.570796
       children [
         DEF CYL Shape {
           appearance BrushedAluminium {
@@ -292,86 +294,86 @@ DEF CONVEYOR_BELT Robot {
       ]
     }
     DEF CYL2 Transform {
-      translation 1.34 0 0
-      rotation 1 0 0 1.5707997
+      translation 0 1.34 0
+      rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
     DEF CYL3 Transform {
-      translation 1.4 0 0
-      rotation 1 0 0 1.5707997
+      translation 0 1.4 0
+      rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
     DEF CYL4 Transform {
-      translation 1.46 0 0
-      rotation 1 0 0 1.5707997
+      translation 0 1.46 0
+      rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
     DEF CYL5 Transform {
-      translation 1.52 0 0
-      rotation 1 0 0 1.5707997
+      translation 0 1.52 0
+      rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
     DEF LEFT Transform {
-      translation 0.31 0.01 0.26
+      translation -0.26 0.31 0.01
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 3.1 0.1 0.02
+            size 0.02 3.1 0.1
           }
         }
       ]
     }
     DEF RIGHT Transform {
-      translation 0.31 0.01 -0.26
+      translation 0.26 0.31 0.01
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 3.1 0.1 0.02
+            size 0.02 3.1 0.1
           }
         }
       ]
     }
     DEF BACK Transform {
-      translation 1.87 0.01 0
-      rotation 0 1 0 1.5707997
+      translation 0 1.87 0.01
+      rotation 0 0 1 1.57079
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 0.54 0.1 0.02
+            size 0.02 0.54 0.1
           }
         }
       ]
     }
     DEF BOTTOM Transform {
-      translation 1.69 -0.01 6.0717692e-07
-      rotation 0 1 0 1.5707997
+      translation 0 1.69 -0.01
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 0.54 0.01 0.34
+            size 0.34 0.54 0.01
           }
         }
       ]
     }
     DEF FOOT1 Transform {
-      translation 1.7799993 -0.1 -0.2199997
-      rotation 0 1 0 1.5707997
+      translation 0.22 1.78 -0.1
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -384,8 +386,8 @@ DEF CONVEYOR_BELT Robot {
       ]
     }
     DEF FOOT2 Transform {
-      translation 1.7799993 -0.1 0.22
-      rotation 0 1 0 1.5707997
+      translation -0.22 1.78 -0.1
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -398,8 +400,8 @@ DEF CONVEYOR_BELT Robot {
       ]
     }
     DEF FOOT3 Transform {
-      translation 0.1599993 -0.1 0.22000546
-      rotation 0 1 0 1.5707997
+      translation -0.220005 0.159999 -0.1
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -412,8 +414,8 @@ DEF CONVEYOR_BELT Robot {
       ]
     }
     DEF FOOT4 Transform {
-      translation 0.1599993 -0.1 -0.220005
-      rotation 0 1 0 1.5707997
+      translation 0.220005 0.159999 -0.1
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -447,61 +449,62 @@ DEF CONVEYOR_BELT Robot {
   controller "move_conveyor_belt"
 }
 DEF MACHINERY Solid {
-  translation 1.3026953 0.1 2.6462761
-  rotation 0 1 0 1.5707997
+  translation 1.3026953 -2.6462761 0.1
   children [
     DEF BOTTOM Transform {
+      rotation 0 0 -1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 1.5 0.1 1.5
+            size 1.5 1.5 0.1
           }
         }
       ]
     }
     DEF BACK Transform {
-      translation -0.65 0.685 5.2041704e-18
+      translation 0 -0.65 0.685
+      rotation 0 0 1 3.14159
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 0.2 1.27 1.5
+            size 1.5 0.2 1.27
           }
         }
       ]
     }
     DEF RIGHT Transform {
-      translation 0.099999998 0.685 0.40000002
-      rotation 0 1 0 1.5707963
+      translation 0.4 0.1 0.685
+      rotation 0 0 -1 -1.5707953071795862
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 0.7 1.27 1.3
+            size 1.3 0.7 1.27
           }
         }
       ]
     }
     DEF LEFT Transform {
-      translation 0.10000001 0.685 -0.61599991
-      rotation 0 1 0 1.5707963
+      translation -0.616 0.1 0.685
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 0.268 1.27 1.3
+            size 1.3 0.268 1.27
           }
         }
       ]
     }
     DEF LOGO Transform {
-      translation -0.21 0.79 -0.76
-      rotation 0 -0.7071067811865476 0.7071067811865476 3.14159
+      translation -0.76 -0.21 0.79
+      rotation 0.577349935856137 -0.577349935856137 -0.5773509358560258 2.09439
       children [
         Shape {
           appearance PBRAppearance {
@@ -517,21 +520,21 @@ DEF MACHINERY Solid {
       ]
     }
     DEF TOP Transform {
-      translation 6.9666728e-09 1.33 8.8423158e-08
-      rotation 0 1 0 1.5707963
+      translation 0 0 1.33
+      rotation 0 0 1 -3.1415853071795863
       children [
         Shape {
           appearance BrushedAluminium {
           }
           geometry Box {
-            size 1.5 0.02 1.5
+            size 1.5 1.5 0.02
           }
         }
       ]
     }
     DEF HOLE Transform {
-      translation 0.10100001 0.97 -0.21699991
-      rotation 0 1 0 1.5707963
+      translation -0.21699991 0.10100001 0.97
+      rotation 0 0 -1 1.57079
       children [
         Shape {
           appearance PBRAppearance {
@@ -540,13 +543,13 @@ DEF MACHINERY Solid {
             metalness 0
           }
           geometry Box {
-            size 0.53 0.7 1.3
+            size 1.3 0.53 0.7
           }
         }
       ]
     }
     DEF FOOT1 Transform {
-      translation 0.63999798 -0.07 -0.60000216
+      translation -0.60000216 0.63999798 -0.07
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -560,7 +563,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF FOOT2 Transform {
-      translation -0.639998 -0.07 -0.60000216
+      translation -0.6 -0.639998 -0.07
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -574,7 +577,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF FOOT3 Transform {
-      translation -0.639998 -0.07 0.600002
+      translation -0.639998 -0.07 0.6
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -588,7 +591,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF FOOT4 Transform {
-      translation 0.63999798 -0.07 0.600002
+      translation 0.600002 0.63999798 -0.07
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -606,7 +609,8 @@ DEF MACHINERY Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.646 0
+        translation 0 0 0.646
+        rotation 1 0 0 1.5708
         children [
           Box {
             size 1.5 1.39 1.5
@@ -621,11 +625,12 @@ DEF MACHINERY Solid {
   }
 }
 PlatformCart {
-  translation -2.3649928 0 -1.0055135
-  rotation 0 1 0 4.712389
+  translation -2.3649928 1.0055135 0
+  rotation 0 0 -1 1.5708
   slot [
     DEF TARGET_SLOTS Solid {
-      translation 0.1 0.11 -0.14
+      translation 0.1 0.14 0.11
+      rotation 1 0 0 1.5708
       children [
         DEF SLOTS Group {
           children [
@@ -802,8 +807,8 @@ PlatformCart {
   physics NULL
 }
 DEF PRODUCT KukaBox {
-  translation 1 0.20492526 0.75
-  rotation 1.2109709e-12 6.3279436e-13 -1 6.5312811e-05
+  translation 1 -0.75 0.20492526
+  rotation 0 0 1 1.5708
   color 0 1 0
   size 0.05 0.05 0.05
   contactMaterial "box"
@@ -811,7 +816,7 @@ DEF PRODUCT KukaBox {
 PickAndPlaceBenchmark {
 }
 Youbot {
-  translation -2.4 0.10761028 0
-  rotation 0.9999989099264929 -0.0009911354799271444 0.0010944387999195508 -1.5708392
+  translation -2.4 0 0.10761028
+  rotation 0.04953177831291063 -0.02003589122744673 0.9985715627835006 -0.0020853071795858824
   controller "pick_and_place"
 }

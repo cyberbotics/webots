@@ -22,7 +22,8 @@ body {
 
 #view3d {
  display: flex;
- position: relative
+ position: relative;
+ height: 100%;
 }
 
 .webots-label {
@@ -62,6 +63,8 @@ body {
   display: inline-block;
   padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
+  font-family: 'verdana';
+  font-size: 14px;
   text-shadow: 1px 1px 1px rgb(0,0,0);
   user-select: none;
   -webkit-user-select: none;
@@ -73,7 +76,7 @@ body {
 
 /* Buttons */
 
-button:first-of-type { margin-right: 6px; }
+webots-view button:first-of-type { margin-right: 6px; }
 
 .player-btn {
   float: left;
@@ -172,18 +175,17 @@ button:first-of-type { margin-right: 6px; }
   border-radius: 2px;
 }
 
-ul {
+webots-view ul {
   padding-left: 0px;
 }
 
-li {
+webots-view li {
   display: block;
   clear: both;
   padding: 1px 8px 1px 8px;
   position: relative;
 }
-
-li:hover {
+webots-view li:hover {
   background: #222;
   cursor: pointer;
 }
@@ -288,17 +290,17 @@ li:hover {
   pointer-events: none;
 }
 
-input:checked + .slider {
+webots-view input:checked + .slider {
   background-color: red;
   pointer-events: none;
 }
 
-input:focus + .slider {
+webots-view input:focus + .slider {
   box-shadow: 0 0 1px red;
   pointer-events: none;
 }
 
-input:checked + .slider:before {
+webots-view input:checked + .slider:before {
   -webkit-transform: translateX(23px);
   -ms-transform: translateX(23px);
   transform: translateX(23px);

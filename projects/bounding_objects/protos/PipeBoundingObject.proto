@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # This bounding object with a pipe shape is formed by a group of boxes.
@@ -49,17 +49,17 @@ PROTO PipeBoundingObject [
     const beta = 2.0 * Math.PI / subdivision;
     const alpha = beta * 0.5;
     const innerRadius = radius - thickness;
-    let su = radius * Math.cos(alpha) - innerRadius;
-    if (su < 0) {
+    const su = radius * Math.sin(alpha) * 2.0;
+    let sv = radius * Math.cos(alpha) - innerRadius;
+    if (sv < 0) {
       // fixed edge case:
       //   There are 2 inner radius, depending if we measure it along the center or along the edge of the boxes.
       //   If the thickness is below the difference of these two radius, then the algorithm can not achieve.
-      su = Math.abs(su);
+      sv = Math.abs(sv);
       console.error('Either \'thickness\' or \'subdivision\' are too small for the box subdivision algorithm. Value reset to ' + su + '.');
     }
-    const sv = height;
-    const sw = radius * Math.sin(alpha) * 2.0;
-    const boxRadius = innerRadius + su * 0.5;
+    const sw = height;
+    const boxRadius = innerRadius + sv * 0.5;
   >%
   Group { # set of boxes
     children [
@@ -68,19 +68,25 @@ PROTO PipeBoundingObject [
           for (let i = 0; i <= subdivision - 1; ++i) {
             // position of an internal box
             gamma = beta * i + beta * 0.5 + (subdivision % 2) * Math.PI / subdivision;
-            ax = boxRadius * Math.sin(gamma);
-            ay = 0;
-            az = boxRadius * Math.cos(gamma);
+            ax = boxRadius * Math.cos(gamma);
+            ay = boxRadius * Math.sin(gamma);
+            az = 0;
             angle = gamma + 0.5 * Math.PI;
-            // add small offset to boxes y translation to reduce constraints on the top and bottom face due to co-planarity
+            // add small offset to boxes z translation to reduce constraints on the top and bottom face due to co-planarity
             offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
         >%
         Transform {
-          translation %<= ax >% %<= ay + offset >% %<= az >%
-          rotation 0 1 0 %<= angle >%
+          translation %<= ax >% %<= ay >% %<= az + offset >%
+          rotation 0 0 1 %<= angle >%
           children [
-            Box {
+            Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
               size %<= su >% %<= sv >% %<= sw >%
+            }
             }
           ]
         }

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.07433695577634357 -0.9881596870269396 -0.13421791959618065 2.1400646
-  position -6.7820192 2.8581056 -4.7824838
+  orientation 0.4388423438897405 0.31384164191444824 -0.8419743588790587 1.7782267196258432
+  position -0.31775633948105764 18.83344524613117 21.958596773242544
 }
 TexturedBackground {
 }
@@ -20,14 +19,14 @@ Robot {
   supervisor TRUE
 }
 WoodenPalletStack {
-  translation 0.20506096 0 2.655061
-  rotation 0 1 0 5.4977871
+  translation -2.655061 -0.20506096 0
+  rotation 0 0 1 5.4977871
   name "wooden pallet stack(1)"
 }
 WoodenPalletStack {
   name "wooden pallet stack(2)"
 }
 WoodenPalletStack {
-  translation -0.97942604 0 -2.3829498
-  rotation 0 1 0 0.78539816
+  translation 2.3829498 0.97942604 0
+  rotation 0 0 1 0.78539816
 }

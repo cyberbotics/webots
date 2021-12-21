@@ -59,14 +59,15 @@ void WbGeometry::init() {
   mWrenScaleTransform = NULL;
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
-  mOdeGeom = NULL;
   mIs90DegreesRotated = false;
+  mOdeGeom = NULL;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
   mResizeManipulatorInitialized = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
   mBoundingSphere = NULL;
   mPickable = false;
+  mIsTransparent = false;
 }
 
 WbGeometry::WbGeometry(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(modelName, tokenizer) {
@@ -158,9 +159,9 @@ dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
-  const WbVector3 &yAxis = m.column(1);
+  const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = yAxis.angle(-g);
+  const double alpha = zAxis.angle(g);
 
   static const double ZERO_THRESHOLD = 1e-3;
 
@@ -222,6 +223,9 @@ void WbGeometry::applyVisibilityFlagToWren(bool selected) {
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
     } else if (wr_node_get_parent(WR_NODE(mWrenScaleTransform)))
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);
+  } else if (mIsTransparent) {
+    wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+    wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);
   } else if (WbNodeUtilities::isDescendantOfBillboard(this)) {
     wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
@@ -388,6 +392,13 @@ void WbGeometry::setWrenMaterial(WrMaterial *material, bool castShadows) {
   if (mWrenRenderable) {
     wr_renderable_set_material(mWrenRenderable, material, NULL);
     computeCastShadows(castShadows);
+  }
+}
+
+void WbGeometry::setTransparent(bool isTransparent) {
+  if (mIsTransparent != isTransparent) {
+    mIsTransparent = isTransparent;
+    applyVisibilityFlagToWren(isSelected());
   }
 }
 
@@ -612,7 +623,8 @@ int WbGeometry::constraintType() const {
 void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
   assert(isInBoundingObject());
-  assert(mWrenMesh);
+  if (!mWrenMesh)
+    return;
 
   const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
   const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
@@ -620,6 +632,7 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   unsigned int indices[indexCount];
   wr_static_mesh_read_data(mWrenMesh, vertices, NULL, NULL, indices);
 
+  writer << "<Shape>";
   writer << "<Appearance sortType='transparent'><Material emissiveColor='1 1 1'></Material></Appearance>";
   writer << "<IndexedLineSet coordIndex='";
 
@@ -641,10 +654,12 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
 
   for (int i = 0; i < vertexCount; ++i) {
     const int index = 3 * i;
-    WbVector3 coord = WbVector3(vertices[index], vertices[index + 1], vertices[index + 2]) * scale;
-    writer << coord.toString(WbPrecision::DOUBLE_MAX) << " ";
+    const WbVector3 coord = WbVector3(vertices[index], vertices[index + 1], vertices[index + 2]) * scale;
+    if (i > 0)
+      writer << ", ";
+    writer << coord.toString(WbPrecision::FLOAT_MAX);
   }
   writer << "'></Coordinate>";
-
   writer << "</IndexedLineSet>";
+  writer << "</Shape>";
 }

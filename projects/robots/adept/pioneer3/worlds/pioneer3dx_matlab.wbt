@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pioneer 3DX (Adept Mobile Robots)"
@@ -7,12 +7,11 @@ WorldInfo {
   ]
   title "Pioneer 3-DX with a Matlab programming interface"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation -0.43097805068883993 0.8957671053543106 0.1089000128081124 0.562701
-  position 0.663146 1.11377 2.59365
+  orientation -0.23037310883324436 0.15605677242931534 0.9605074255337389 1.9879321794916982
+  position -0.12108986538649054 -2.7726815815182917 1.4974318743217743
   follow "Pioneer 3-DX"
 }
 TexturedBackground {
@@ -38,11 +37,11 @@ RectangleArena {
   }
 }
 CardboardBox {
-  translation -1.48831 0.15 0.352735
-  size 0.3 0.3 0.6
+  translation -1.48831 -0.352735 0.15
+  size 0.3 0.6 0.3
 }
 DEF PIONEER_3DX Pioneer3dx {
-  translation -0.613659 0.0975 0.0464224
-  rotation 0 1 0 2.73075
+  translation -0.613659 -0.0464224 0.0975
+  rotation 0 0 -1 1.71984
   controller "pioneer3dx_matlab"
 }

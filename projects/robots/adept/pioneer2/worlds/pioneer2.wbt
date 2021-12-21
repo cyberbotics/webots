@@ -1,21 +1,20 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Pioneer 2 robot"
   ]
   title "Pioneer 2"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.07270819057857361 0.9877188720127599 0.1382929820801874 4.03347
-  position -1.73033 1.07102 -2.0735
+  orientation -0.20222087853706938 0.5993741365684199 0.7745045904941797 0.8216703247731995
+  position -5.532579375745221 -4.044025328364862 4.094157148836094
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Solid {
-  rotation 0 1 0 0.0375736
+  rotation 0.999647159914986 0.018782381024536 0.018782381024536 1.571149229135294
   children [
     Shape {
       appearance PBRAppearance {
@@ -210,7 +209,8 @@ Solid {
   }
 }
 Solid {
-  translation 0 0.15 0
+  translation 0 0 0.15
+  rotation 1 0 0 4.692820414042842e-06
   children [
     Shape {
       appearance PBRAppearance {
@@ -234,6 +234,6 @@ Solid {
 }
 Pioneer2 {
   translation 1 0 0
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.5716
   name "pioneer2"
 }

@@ -75,7 +75,7 @@ static void cleanup() {
   closesocket(fd);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
   int rc;

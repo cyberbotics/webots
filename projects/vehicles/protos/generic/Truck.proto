@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO Truck [
-  field     SFVec3f    translation       0 0.5 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFVec3f    translation       0 0 0.5
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.39 0 0          # Defines the main color of the truck.
   field     SFNode     trailer           TruckTrailer { }  # Defines an optional trailer.
   field     SFFloat    wheelbase         5.25              # Defines the distance between the front and rear wheels.
@@ -61,21 +61,21 @@ PROTO Truck [
         children IS sensorsSlotCenter
       }
       Transform {
-        translation 0 1.1 6.75
-        rotation 0 1 0 3.14159
+        translation 6.75 0 1.1
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 4.15 4.3
-        rotation 0 1 0 3.14159
+        translation 4.3 0 4.15
         children IS sensorsSlotTop
       }
       Transform {
-        translation 0 2.7 -7.3
+        translation -7.3 0 2.7
+        rotation 0 0 1 3.14157
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 0 %<= 0.998 * (wheelbase - 5.25) >%
+        translation %<= 0.998 * (wheelbase - 5.25) >% 0 0
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
             children [
@@ -88,7 +88,8 @@ PROTO Truck [
         ]
       }
       Transform {
-        translation 0 0 %<= fields.kingPinDistance.value >%
+        translation %<= fields.kingPinDistance.value >% 0 0
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF TRAILER_JOINT HingeJoint {
             jointParameters HingeJointParameters {
@@ -108,9 +109,14 @@ PROTO Truck [
           }
         ]
       }
-      TruckCab {
-        color IS color
-        sizeRatio %<= 1 + 0.239 * (wheelbase - 5.25) >%
+      Transform {
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          TruckCab {
+            color IS color
+            sizeRatio %<= 1 + 0.239 * (wheelbase - 5.25) >%
+          }
+        ]
       }
     ]
     radarCrossSection 200
@@ -120,18 +126,18 @@ PROTO Truck [
     boundingObject Group {
       children [
         Transform {
-          translation 0 2 %<= wheelbase + 0.15 >%
+          translation %<= wheelbase + 0.15 >% 0 2
           children [
             Box {
-              size 2.8 4.1 3.2
+              size 3.2 2.8 4.1
             }
           ]
         }
         Transform {
-          translation 0 0.35 %<= 0.5 * wheelbase - 1.075 >%
+          translation %<= 0.5 * wheelbase - 1.075 >% 0 0.35
           children [
             Box {
-              size 2.8 0.8 %<= wheelbase - 0.75 >%
+              size %<= wheelbase - 0.75 >% 2.8 0.8
             }
           ]
         }
@@ -141,11 +147,12 @@ PROTO Truck [
       density -1
       mass IS mass
       centerOfMass [
-        0 0.1 %<= wheelbase - 0.75 >%
+        %<= wheelbase - 0.75 >% 0 0.1
       ]
     }
     wheelFrontLeft TruckWheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 100
@@ -161,6 +168,7 @@ PROTO Truck [
     }
     wheelRearLeft TruckWheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     brakeCoefficient 5000

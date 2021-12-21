@@ -1291,6 +1291,8 @@ void WbSolid::updatePhysics() {
     delete mSolidMerger.data();
   }
 
+  if (mOdeMass && mPhysics->value())
+    dMassSetZero(mOdeMass);  // force recomputing the ODE mass
   setupSolidMergers();
   setBodiesAndJointsToParents();
   setJointChildrenWithReferencedEndpoint();
@@ -2913,7 +2915,7 @@ void WbSolid::enable(bool enabled, bool ode) {
 }
 
 void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
-                              bool correctOrientation, const WbVector3 &offset) const {
+                              const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
   for (int j = 0; j < element.size(); ++j) {
@@ -2921,17 +2923,11 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
     writer.indent();
     writer << QString("<%1>\n").arg(element[j]);
     writer.increaseIndent();
-    if (transform != this || correctOrientation || !offset.isNull()) {
+    if (transform != this || !offset.isNull()) {
       WbVector3 translation = transform->translation() + offset;
       WbRotation rotation = transform->rotation();
       writer.indent();
-      if (correctOrientation) {
-        if (transform == this) {
-          translation = offset;
-          rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
-        } else
-          rotation = WbRotation(rotation.toMatrix3() * WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3());
-      } else if (transform == this) {
+      if (transform == this) {
         rotation = WbRotation(0.0, 1.0, 0.0, 0.0);
         translation = offset;
       }
@@ -2999,8 +2995,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule,
-                              geometries[j].second + writer.jointOffset());
+              exportURDFShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
           }
         }
       }
@@ -3023,15 +3018,7 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
 void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d() && boundingObject()) {
     writer << "<Switch whichChoice='-1' class='selector'>";
-    const WbGeometry *geom = dynamic_cast<const WbGeometry *>(boundingObject());
-    if (geom)
-      writer << "<Shape>";
-
     boundingObject()->exportBoundingObjectToX3D(writer);
-
-    if (geom)
-      writer << "</Shape>";
-
     writer << "</Switch>";
   }
 

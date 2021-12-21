@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,7 +7,7 @@
 
 PROTO UtorsoSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
 Solid {
@@ -22,7 +22,7 @@ Solid {
     children [
       Transform {
         translation 0.0446 0 0.1869
-        rotation 0.0 1.0 0.0 0.0
+        rotation 0 1 0 0
         children [
           Box {
             size 0.3188 0.24 0.3162
@@ -31,7 +31,7 @@ Solid {
       }
       Transform {
         translation 0.024 0.16 0.18
-        rotation 1.0 0.0 0.0 1.0464
+        rotation 1 0 0 -0.5244
         children [
           Cylinder {
             radius 0.0363
@@ -41,7 +41,7 @@ Solid {
       }
       Transform {
         translation 0.024 -0.16 0.18
-        rotation 1.0 0.0 0.0 2.0936
+        rotation 1 0 0 0.5228
         children [
           Cylinder {
             radius 0.0363

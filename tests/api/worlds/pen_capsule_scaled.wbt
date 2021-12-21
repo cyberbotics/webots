@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -20,22 +20,27 @@ DEF BOARD Solid {
   rotation 0.903644221406416 0.41615510196425476 0.10120302479626216 10.9956
   scale 0.65 0.65 0.65
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+            texture ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 0.1
+            radius 0.05
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
-        }
-      }
-      geometry Capsule {
-        height 0.1
-        radius 0.05
-      }
+      ]
     }
   ]
   locked TRUE
@@ -54,10 +59,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation -0.019 0.075 -0.02
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
           Transform {
-            translation 0 0.03 0
+            translation 0 0 0.03
             children [
               Shape {
                 geometry Box {
@@ -67,18 +72,24 @@ DEF WRITER Robot {
             ]
           }
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -93,7 +104,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.07 0.12 0.06
-          rotation 1 0 0 -0.3927
+          rotation 0.6393405784183476 -0.6393374365646827 -0.42718996593388425 -2.3341455005842997
           children [
             Shape {
               geometry Cylinder {

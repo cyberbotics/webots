@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5116088877461156 0.8265608186414176 0.23463494851793038 5.27006
-  position -0.412432 0.381804 0.42369
+  orientation -0.23073457932330044 -0.779411949727556 0.5824762368769983 5.299480491300913
+  position -0.31749786704519223 0.3229694955635826 0.48291763303825636
 }
 TexturedBackground {
 }
@@ -34,10 +33,10 @@ RectangleArena {
   }
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.57
   controller "beginner_blinking_e-puck"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

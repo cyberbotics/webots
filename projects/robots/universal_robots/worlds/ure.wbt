@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Universal Robot UR3e, UR5e and UR10e grasping cans using Robotiq 3F grippers."
@@ -6,7 +6,6 @@ WorldInfo {
   title "Universal Robot"
   basicTimeStep 8
   physicsDisableAngularThreshold 0.1
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       bounce 0.1
@@ -20,8 +19,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.5593874959277706 0.7906420655431335 0.24893925683456522 5.245024193194764
-  position -3.003149059091924 3.6046653693919106 2.350193890222295
+  orientation -0.15057085537249637 0.7746188825940333 0.6142426265256801 0.6129878674589708
+  position -5.670715537973679 -2.010226364491933 4.297022314254167
   exposure 1.7
 }
 TexturedBackground {
@@ -33,11 +32,11 @@ Floor {
   }
 }
 SquareManhole {
-  translation 0.560459 -0.03 1.782
-  rotation 0 1 0 -1.5707963071795863
+  translation 0.560459 -1.782 -0.03
+  rotation 0 0 1 -1.5707963071795863
 }
 Table {
-  translation 3.097723 0 -2.013972
+  translation 3.097723 2.013972 0
   size 1.8 0.7 0.8
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
@@ -50,29 +49,33 @@ Table {
   }
 }
 WoodenChair {
-  translation 2.921084 0 -1.648051
-  rotation 0 1 0 -2.8797933071795865
+  translation 2.921084 1.648051 0
+  rotation 0 0 1 2.0944
 }
-Monitor {
-  translation 2.520237 0.7 -2.108887
-  rotation 0 1 0 -2.8797933071795865
+Transform {
+  translation 2.52024 2.10889 0.796
+  rotation 0 0 1 -1.3089953071795861
+  children [
+    Monitor {
+    }
+  ]
 }
 Keyboard {
-  translation 2.594212 0.7 -1.8802
-  rotation 0 1 0 -2.8797933071795865
+  translation 2.59421 1.8802 0.8
+  rotation 0 0 1 1.8326
 }
 DesktopComputer {
-  translation 2.331033 0 -2.125086
-  rotation 0 1 0 -3.1415923071795864
+  translation 2.331033 2.125086 0
+  rotation 0 0 -1 1.5708
 }
 ComputerMouse {
-  translation 2.94663 0.7 -1.914183
-  rotation 0 1 0 2.879793
+  translation 2.90217 1.90622 0.81
+  rotation 0 0 -1 -1.5707953071795862
   mass 0
 }
 Table {
-  translation -1.419911 0 0.81333
-  rotation 0 1 0 -1.5707963071795863
+  translation -1.419911 -0.81333 0
+  rotation 0 0 1 -1.5707963071795863
   name "table(1)"
   size 1.8 0.7 0.8
   feetSize 0.05 0.05
@@ -86,36 +89,40 @@ Table {
   }
 }
 OfficeTelephone {
-  translation -1.343811 0.7 0.209288
-  rotation 0 1 0 -0.7853983071795865
+  translation -1.34381 -0.209288 0.8
+  rotation 0 0 1 -2.3561953071795863
+  enablePhysics FALSE
 }
 Wrench {
-  translation -1.238859 0.71 0.5886
-  rotation 0 1 0 2.094395
+  translation -1.23886 -0.5886 0.8
+  rotation 0 0 1 -2.6179953071795863
 }
 Hammer {
-  translation -1.60381 0.71 0.359288
+  translation -1.60381 -0.359288 0.81
+  rotation 0 0 1 1.5708
 }
 PlatformCart {
-  translation 0.927687 0 -1.793317
-  rotation 0 1 0 -2.8797933071795865
+  translation 0.927687 1.793317 0
+  rotation 0 0 1 -2.8797933071795865
 }
 LeverValve {
-  translation -0.73 0.502 0.83
+  translation -0.73 -0.83 0.502
+  rotation 0 0 1 3.14159
 }
 Radiator {
-  translation 0.528902 0.33 -2.341308
-  rotation 0 1 0 -1.5707963071795863
+  translation 0.528902 2.341308 0.33
+  rotation 0 0 1 -1.5707963071795863
   numberOfFins 16
 }
 WoodenPalletStack {
-  translation 2.8 0 0.23
-  rotation 0 -1 0 1.5708
+  translation 2.8 -0.23 0
+  rotation 0 0 1 -1.5707953071795862
   palletNumber 5
-  palletSize 0.8 0.11 1
+  palletSize 0.8 1 0.11
 }
 Cabinet {
-  translation -0.4 0 -2.47
+  translation -0.41 2.47 0
+  rotation 0 0 1 -1.5707953071795862
   name "cabinet(1)"
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
@@ -129,17 +136,18 @@ Cabinet {
   }
 }
 CardboardBox {
-  translation -1.21 0.3 -2.18
+  translation -1.21 2.18 0.3
 }
 CardboardBox {
-  translation -1.198389 0.75 -2.100678
-  rotation 0 1 0 2.094395
+  translation -1.198389 2.100678 0.75
+  rotation 0 0 1 2.094395
   name "cardboard box(1)"
-  size 0.4 0.3 0.6
+  size 0.4 0.6 0.3
 }
 Wall {
-  translation -2.835 0 -2.58
-  size 9 2.4 0.2
+  translation -2.835 2.58 0
+  rotation 0 1 0 0
+  size 9 0.2 2.4
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 2 1
@@ -147,9 +155,9 @@ Wall {
   }
 }
 Wall {
-  translation 4.375 0 -2.58
+  translation 4.375 2.58 0
   name "wall(2)"
-  size 5 2.4 0.2
+  size 5 0.2 2.4
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 2 1
@@ -157,9 +165,9 @@ Wall {
   }
 }
 Wall {
-  translation 1.77 1.2 -2.58
+  translation 1.77 2.58 1.2
   name "wall(3)"
-  size 0.21 1.2 0.2
+  size 0.21 0.2 1.2
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 0.1 0.7
@@ -167,9 +175,9 @@ Wall {
   }
 }
 Wall {
-  translation 0 0 2.42
+  translation 0 -2.42 0
   name "wall(1)"
-  size 15 2.4 0.2
+  size 15 0.2 2.4
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 2 1
@@ -177,7 +185,8 @@ Wall {
   }
 }
 Transform {
-  translation 1.77 1.05 -2.68
+  translation 1.77 2.67 1.05
+  rotation 1 0 0 1.5707996938995747
   children [
     Shape {
       appearance PBRAppearance {
@@ -192,21 +201,21 @@ Transform {
   ]
 }
 SolidBox {
-  translation -0.135 0.305 0.0323
-  size 1.5 0.61 0.4
+  translation -0.135 -0.0323 0.305
+  size 1.5 0.4 0.61
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 1.015 0.45 0.0323
+  translation 1.015 -0.0323 0.45
   name "box(5)"
-  size 0.8 0.91 0.4
+  size 0.8 0.4 0.91
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 0.8 0.819996 -0.329556
-  rotation 1 0 0 1.047197
+  translation 0.8 0.3324 0.8246
+  rotation 1 0 0 2.61799
   name "box(6)"
   size 0.3 0.5 0.02
   contactMaterial "slope"
@@ -214,42 +223,42 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 0.96 0.837316 -0.339556
-  rotation -0.4472131236215756 0.7745972141192264 0.4472131236215756 -1.823476307179586
+  translation 0.96 0.339556 0.837316
+  rotation -0.4472131236215756 -0.4472131236215756 0.7745972141192264 -1.823476307179586
   name "box(7)"
-  size 0.05 0.5 0.02
+  size 0.05 0.02 0.5
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 0.64 0.837316 -0.339556
-  rotation -0.4472131236215756 0.7745972141192264 0.4472131236215756 -1.823476307179586
+  translation 0.64 0.339556 0.837316
+  rotation -0.4472131236215756 -0.4472131236215756 0.7745972141192264 -1.823476307179586
   name "box(8)"
-  size 0.05 0.5 0.02
+  size 0.05 0.02 0.5
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 0.64 0.583496 -0.239196
-  rotation 0.6947470600351803 -0.1861570160863869 -0.6947460600350939 2.773492
+  translation 0.64 0.239196 0.583496
+  rotation 0.6947470600351803 0.6947460600350939 -0.1861570160863869 2.773492
   name "box(9)"
-  size 0.05 0.5 0.02
+  size 0.05 0.02 0.5
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 0.96 0.583496 -0.239196
-  rotation 0.6947470600351803 -0.1861570160863869 -0.6947460600350939 2.773492
+  translation 0.96 0.239196 0.583496
+  rotation 0.6947470600351803 0.6947460600350939 -0.1861570160863869 2.773492
   name "box(10)"
-  size 0.05 0.5 0.02
+  size 0.05 0.02 0.5
   appearance GalvanizedMetal {
   }
 }
 SolidBox {
-  translation 1.77 0.375 0.11
-  rotation 0 1 0 3.1415919999999997
+  translation 1.77 -0.11 0.375
+  rotation 0 0 1 3.1415919999999997
   name "box(2)"
-  size 0.2 0.75 0.18
+  size 0.2 0.18 0.75
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 0.7 0.7
@@ -257,10 +266,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.77 0.375 2.28
-  rotation 0 1 0 3.1415919999999997
+  translation 1.77 -2.28 0.375
+  rotation 0 0 1 3.1415919999999997
   name "box(4)"
-  size 0.2 0.75 0.18
+  size 0.2 0.18 0.75
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 0.7 0.7
@@ -268,10 +277,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.77 0.375 -2.43
-  rotation 0 1 0 3.1415919999999997
+  translation 1.77 2.43 0.375
+  rotation 0 0 1 3.1415919999999997
   name "box(3)"
-  size 0.2 0.75 0.18
+  size 0.2 0.18 0.75
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 0.7 0.7
@@ -279,12 +288,12 @@ SolidBox {
   }
 }
 FireExtinguisher {
-  translation -0.75771 0 -1.79
-  rotation 0 1 0 -2.8797933071795865
+  translation -0.75771 1.79 0
+  rotation 0 0 -1 1.5708
 }
 UR3e {
-  translation 1.30296 0.91 -0.079391
-  rotation 1 0 0 -1.5707963071795863
+  translation 1.30296 0.079391 0.91
+  rotation 0 1 0 0
   controller "ure_can_grasper"
   controllerArgs [
     "3"
@@ -300,8 +309,8 @@ UR3e {
   ]
 }
 UR5e {
-  translation 0 0.61 0
-  rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
+  translation 0 0 0.61
+  rotation 5.67193e-08 2.39745e-09 -1 1.5708
   controller "ure_can_grasper"
   selfCollision FALSE
   toolSlot [
@@ -314,8 +323,8 @@ UR5e {
   ]
 }
 UR10e {
-  translation -0.56 0.61 0.1
-  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
+  translation -0.56 -0.1 0.61
+  rotation 4.66309e-07 -7.19235e-09 1 -1.5707953071795862
   controller "ure_can_grasper"
   selfCollision FALSE
   toolSlot [
@@ -328,9 +337,9 @@ UR10e {
   ]
 }
 ConveyorBelt {
-  translation 3.18 0 1.05
-  rotation 0 1 0 3.141592
-  size 8 0.6 0.7
+  translation 3.18 -1.05 0
+  rotation 0 0 1 3.141592
+  size 8 0.7 0.6
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 6 3.1
@@ -340,8 +349,8 @@ ConveyorBelt {
   speed 0.2
 }
 ConveyorBelt {
-  translation 1.77 0.75 -2.55
-  rotation 0 1 0 -1.5707973071795864
+  translation 1.77 2.55 0.75
+  rotation 0 0 1 -1.5707973071795864
   name "conveyor belt(2)"
   size 10 0.15 0.15
   appearance CorrugatedMetal {
@@ -353,9 +362,10 @@ ConveyorBelt {
   speed 0.2
 }
 ConveyorBelt {
-  translation 0 0 -0.69
+  translation 0 0.69 0
+  rotation 0 1 0 0
   name "conveyor belt(1)"
-  size 13 0.25 0.5
+  size 13 0.5 0.25
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 6 3.1
@@ -367,91 +377,91 @@ ConveyorBelt {
   timer 90
 }
 PlasticCrate {
-  translation 0.22 0.25 -0.68
-  size 0.6 0.4 0.45
+  translation 0.22 0.68 0.25
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
-  translation -0.41 0.25 -0.68
+  translation -0.41 0.68 0.25
   name "plastic crate(1)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
-  translation -1.04 0.26 -0.68
+  translation -1.04 0.68 0.26
   name "plastic crate(2)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
-  translation -1.67 0.26 -0.68
+  translation -1.67 0.68 0.26
   name "plastic crate(3)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
-  translation -2.31 0.26 -0.68
+  translation -2.31 0.68 0.26
   name "plastic crate(4)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 Can {
-  translation 1.77 0.96 -2.67
+  translation 1.77 2.67 0.96
   name "can(14)"
 }
 Can {
-  translation 1.77 0.96 -3.8
+  translation 1.77 3.8 0.96
   name "can(15)"
 }
 Can {
-  translation 1.77 0.96 -4.7
+  translation 1.77 4.7 0.96
   name "can(16)"
 }
 Can {
-  translation 1.77 0.96 -5.6
+  translation 1.77 5.6 0.96
   name "can(17)"
 }
 Can {
-  translation 1.77 0.96 -6.5
+  translation 1.77 6.5 0.96
   name "can(18)"
 }
 Can {
-  translation 1.77 0.96 -7.4
+  translation 1.77 7.4 0.96
   name "can(19)"
 }
 Can {
-  translation 0.7 0.66 0.83
+  translation 0.7 -0.83 0.66
   name "can(13)"
 }
 Can {
-  translation 1.4 0.66 1.285
+  translation 1.4 -1.285 0.66
   name "can(4)"
 }
 Can {
-  translation 2.1 0.66 0.83
+  translation 2.1 -0.83 0.66
   name "can(1)"
 }
 Can {
-  translation 2.49 0.66 1.285
+  translation 2.49 -1.285 0.66
   name "can(5)"
 }
 Can {
-  translation 3.5 0.66 0.83
+  translation 3.5 -0.83 0.66
   name "can(2)"
 }
 Can {
-  translation 3.9 0.66 1.285
+  translation 3.9 -1.285 0.66
   name "can(6)"
 }
 Can {
-  translation 4.9 0.66 0.83
+  translation 4.9 -0.83 0.66
   name "can(3)"
 }
 Can {
-  translation 5.4 0.66 1.285
+  translation 5.4 -1.285 0.66
   name "can(7)"
 }
 Can {
-  translation 6.3 0.66 0.83
+  translation 6.3 -0.83 0.66
   name "can(8)"
 }

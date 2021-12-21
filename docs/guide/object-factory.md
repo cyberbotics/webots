@@ -17,7 +17,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CardboardBox {
   SFVec3f    translation 0 0.3 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "cardboard box"
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
@@ -77,7 +77,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PlasticCrate {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "plastic crate"
   SFVec3f    size        0.6 0.6 0.6
   SFColor    color       0.9 0.2 0.2
@@ -106,7 +106,7 @@ Derived from [Solid](../reference/solid.md).
 PlasticFruitBox {
   SFString   name        "plastic fruit box"
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFColor    color       0 1 0.5
   SFFloat    mass        0
 }
@@ -132,7 +132,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenBox {
   SFVec3f    translation         0 0.3 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "wooden box"
   SFVec3f    size                0.6 0.6 0.6
   SFFloat    mass                0
@@ -169,9 +169,9 @@ Derived from [Robot](../reference/robot.md).
 ```
 ConveyorBelt {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "conveyor belt"
-  SFVec3f    size             1.5 0.6 0.5
+  SFVec3f    size             1.5 0.5 0.6
   SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }
   SFFloat    borderThickness  0.03
   SFFloat    borderHeight     0.01
@@ -218,7 +218,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 ConveyorPlatform {
    SFVec3f     translation      0 0 0
-   SFRotation  rotation         0 1 0 0
+   SFRotation  rotation         0 0 1 0
    SFString    name             "Conveyor platform"
    SFString    model            "Conveyor platform"
    SFString    controller       "conveyor_belt"
@@ -261,7 +261,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FireExtinguisher {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "fire extinguisher"
   SFBool     enablePhysics   TRUE
 }
@@ -293,9 +293,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 SquareManhole {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "manhole"
-  SFVec3f    size                  1 0.1 1
+  SFVec3f    size                  1 1 0.1
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -328,9 +328,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenPallet {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "wooden pallet"
-  SFVec3f    size           0.8 0.14 1.2
+  SFVec3f    size           1.2 0.8 0.14
   SFInt32    lathNumber     6
   SFFloat    lathWidth      0.08
   SFFloat    mass           0
@@ -371,10 +371,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenPalletStack {
   SFVec3f    translation              0 0 0
-  SFRotation rotation                 0 1 0 0
+  SFRotation rotation                 0 0 1 0
   SFString   name                     "wooden pallet stack"
   SFInt32    palletNumber             8
-  SFVec3f    palletSize               0.8 0.14 1.2
+  SFVec3f    palletSize               1.2 0.8 0.14
   SFInt32    palletLathNumber         6
   SFFloat    palletLathWidth          0.08
   SFFloat    lateralMisalignment      0.1
@@ -424,8 +424,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LJoint {
-  SFVec3f    translation 0 0.104 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0.08
+  SFRotation rotation    0 0 1 0
   SFString   name        "L joint pipe"
   SFVec3f    scale       1 1 1
   SFNode     appearance  OldSteel { textureTransform TextureTransform { rotation 0.78 scale 2 2 } }
@@ -455,8 +455,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PipeSection {
-  SFVec3f    translation   0 0.03 0
-  SFRotation rotation      0 0 1 1.5708
+  SFVec3f    translation   0 0 0.25
+  SFRotation rotation      1 0 0 1.5708
   SFString   name          "pipe section"
   SFFloat    height        0.5
   SFFloat    radius        0.03
@@ -494,8 +494,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 TJoint {
-  SFVec3f    translation 0 0.95 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0.07
+  SFRotation rotation    0 0 1 0
   SFString   name        "T joint pipe"
   SFVec3f    scale       1 1 1
   SFNode     appearance  OldSteel { textureTransform TextureTransform { scale 3 3 } }
@@ -527,8 +527,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation      0 0.0131 0
-  SFRotation rotation         0 1 0 0
+  SFVec3f    translation      0 0 0.027
+  SFRotation rotation         0 0 1 0
   SFString   name             "bolt"
   SFNode     appearance       OldSteel {}
   SFFloat    screwRadius      0.0055
@@ -564,7 +564,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
-  SFVec3f    translation           0 0 0
+  SFVec3f    translation           0 0 0.012
   SFRotation rotation              0 0 1 0
   SFString   name                  "cap screw"
   SFNode     appearance            OldSteel {}
@@ -612,7 +612,7 @@ ElectricalPlug {
   SFRotation rotation              0 0 1 0
   SFString   name                  "electrical plug"
   SFColor    color                 1 1 1
-  MFVec3f    cablePath             [0 0 0, 0 0.03 0, 0 0.03 0.1]
+  MFVec3f    cablePath             [0 0 0, 0 0 -0.03, 0.1 0 -0.03]
   SFBool     enablePhysics         TRUE
   SFBool     enableBoundingObject  TRUE
 }
@@ -677,7 +677,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 EyeScrew {
-  SFVec3f    translation      0 0 0
+  SFVec3f    translation      0 0 0.036
   SFRotation rotation         0 0 1 0
   SFString   name             "eye screw"
   SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }
@@ -714,8 +714,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Hammer {
-  SFVec3f    translation     0 0.014 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0.014
+  SFRotation rotation        0 0 1 0
   SFString   name            "hammer"
   SFString   contactMaterial "default"
 }
@@ -740,8 +740,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Nut {
-  SFVec3f    translation     0 0.004 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0.004
+  SFRotation rotation        0 0 1 0
   SFString   name            "nut"
   SFNode     appearance      OldSteel {}
   SFFloat    innerRadius     0.006
@@ -778,7 +778,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PaintBucket {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "paint bucket"
   SFString   contactMaterial "default"
 }
@@ -804,7 +804,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PlatformCart {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "platform cart"
   MFNode     slot        []
   SFNode     physics     Physics {}
@@ -835,7 +835,7 @@ Derived from [Transform](../reference/transform.md).
 ```
 ScrewHole {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFFloat    radius          0.06
   SFFloat    depth           0.1
   SFNode     appearance      OldSteel {}
@@ -861,8 +861,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Screwdriver {
-  SFVec3f    translation     0 0.012 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0.012
+  SFRotation rotation        0 0 1 0
   SFString   name            "screwdriver"
   SFString   contactMaterial "default"
 }
@@ -887,8 +887,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Washer {
-  SFVec3f    translation     0 0.004 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0.001
+  SFRotation rotation        0 0 1 0
   SFString   name            "washer"
   SFNode     appearance       OldSteel {}
   SFFloat    innerRadius      0.006
@@ -925,7 +925,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wrench {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "wrench"
   SFNode     appearance       OldSteel {}
   SFString   contactMaterial "default"
@@ -957,8 +957,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 LargeValve {
-  SFVec3f    translation     0 0.106 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0.106
+  SFRotation rotation        0 0 1 0
   SFString   name            "large valve"
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
@@ -995,8 +995,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LeverValve {
-  SFVec3f    translation   0 0.142 0
-  SFRotation rotation      0 1 0 0
+  SFVec3f    translation   0 0 0.142
+  SFRotation rotation      0 0 1 0
   SFString   name          "lever valve"
   SFFloat    jointFriction 1
   SFVec3f    scale         0.7 0.7 0.7
@@ -1026,8 +1026,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 SmallValve {
-  SFVec3f    translation   0 0.077 0
-  SFRotation rotation      0 1 0 0
+  SFVec3f    translation   0 0 0.077
+  SFRotation rotation      0 0 1 0
   SFString   name          "small valve"
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
@@ -1048,4 +1048,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-

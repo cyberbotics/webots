@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of force control"
@@ -6,11 +6,10 @@ WorldInfo {
   title "Force control example"
   gravity 0
   basicTimeStep 4
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.4651670259530646 0.7555660421552973 0.4612370257337981 4.4566
-  position -0.950806 1.7677 0.022193
+  orientation -0.4102543149026958 -0.44760129013820765 0.7945718860935943 4.572910088361569
+  position -0.1725679703260921 1.6772711064588912 2.5500283356290763
 }
 TexturedBackground {
 }
@@ -19,8 +18,8 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF ROBOT Robot {
-  translation 0.138023 0.1 -0.122829
-  rotation 0 1 0 11.6321
+  translation 0.122829 -0.138023 0.1
+  rotation 0 0 1 11.6321
   children [
     DEF RED_BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -34,6 +33,7 @@ DEF ROBOT Robot {
     }
     DEF SLIDER_JOINT SliderJoint {
       jointParameters JointParameters {
+        axis -1 0 0
       }
       device [
         LinearMotor {
@@ -44,7 +44,8 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0 0.4
+        translation -0.4 0 0
+        rotation 0 0 1 -5.307179586466759e-06
         children [
           DEF BLUE_BOX_SHAPE Shape {
             appearance PBRAppearance {
@@ -53,7 +54,7 @@ DEF ROBOT Robot {
               metalness 0
             }
             geometry Box {
-              size 0.1 0.095 0.1
+              size 0.1 0.1 0.095
             }
           }
         ]

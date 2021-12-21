@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pioneer 3DX with its gripper (Adept Mobile Robots)"
@@ -6,12 +6,11 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on the values sensed by its 16 sonars"
   ]
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation -0.03335558634190153 -0.9914415940348108 -0.12621794831758765 2.81354
-  position -0.408731 0.90769 -2.30036
+  orientation -0.1518423833163365 -0.19379580761370085 0.9692198283053066 4.923519947333201
+  position -0.3267083061211752 2.3740872483977755 1.0212817170396962
   follow "Pioneer 3-DX"
 }
 TexturedBackground {
@@ -19,26 +18,28 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 0
   floorSize 4 4
   floorTileSize 1 1
   wallHeight 0.4
 }
 DEF PIONEER_3DX Pioneer3dx {
-  translation 0.48905 0.0975 0.1983
-  rotation 0 -1 0 5.08581
+  translation 0.48905 -0.1983 0.0975
+  rotation 0 0 -1 -2.768175307179586
   controller "pioneer3dx_gripper"
   extensionSlot [
     DEF GRIPPER_BASE Pioneer3Gripper {
-      translation 0 0.026 -0.135
+      translation 0.135 0 0.026
     }
   ]
 }
 Ball {
-  translation 0 0.082 0
+  translation 0 0 0.0802
   color 0.0784314 0.137255 1
 }
 DEF RED_TEE Solid {
-  translation -0.0376035 0 -0.618808
+  translation -0.0376035 0.618808 0
+  rotation 1 0 0 1.5708
   children [
     Group {
       children [
@@ -59,6 +60,7 @@ DEF RED_TEE Solid {
         }
         Transform {
           translation 0 0.02 0
+          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance DEF PITCH_APPEARANCE PBRAppearance {
@@ -75,7 +77,7 @@ DEF RED_TEE Solid {
         }
         Transform {
           translation 0 0.028 0
-          rotation 0 0 1 3.14159
+          rotation 9.381857096790023e-07 0.7071067811862364 -0.7071067811862364 3.14159
           children [
             Shape {
               appearance USE PITCH_APPEARANCE
@@ -93,6 +95,7 @@ DEF RED_TEE Solid {
   boundingObject USE PITCH_PLATE
 }
 DEF BLUE_TEE Solid {
+  rotation 1 0 0 1.568
   children [
     Group {
       children [
@@ -113,6 +116,7 @@ DEF BLUE_TEE Solid {
         }
         Transform {
           translation 0 0.02 0
+          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance DEF PITCH_APPEARANCE PBRAppearance {
@@ -129,7 +133,7 @@ DEF BLUE_TEE Solid {
         }
         Transform {
           translation 0 0.028 0
-          rotation 0 0 1 3.14159
+          rotation 0 0.7071067811862364 -0.7071067811862364 3.14159
           children [
             Shape {
               appearance USE PITCH_APPEARANCE

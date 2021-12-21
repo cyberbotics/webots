@@ -333,11 +333,11 @@ void WbDistanceSensor::polarTo3d(double alpha, double theta, int i) {
 
   // first rotate around x-axis which is the sensors central ray axis
   const double x = cos(theta);
-  double z = -sin(theta);
+  double y = -sin(theta);
 
-  // then rotate around y-axis
-  const double y = -z * sin(alpha);
-  z *= cos(alpha);
+  // then rotate around z-axis
+  const double z = -y * sin(alpha);
+  y *= cos(alpha);
 
   mRays[i].setDirection(x, y, z);
 }
@@ -572,6 +572,11 @@ void WbDistanceSensor::postPhysicsStep() {
 void WbDistanceSensor::rayCollisionCallback(WbGeometry *object, dGeomID rayGeom, const dContactGeom *contact) {
   if (!mSensor->isEnabled())
     return;
+
+  if (object->isTransparent()) {
+    if (mRayType == LASER || mRayType == INFRA_RED)
+      return;
+  }
 
   for (int i = 0; i < mNRays; i++)
     if (rayGeom == mRays[i].geom()) {

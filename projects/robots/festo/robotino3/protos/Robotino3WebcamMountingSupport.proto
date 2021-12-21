@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a webcam.
@@ -7,7 +7,7 @@
 
 PROTO Robotino3WebcamMountingSupport [
   field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
+  field  SFRotation  rotation       0 0 1 0
   field  SFString    name           "Webcam mounting support for Robotino 3"
   field  SFString    model          "Festo - Webcam mounting support"
   field  MFNode      extensionSlot  []  # Extends the mounting support with an object.
@@ -45,7 +45,7 @@ PROTO Robotino3WebcamMountingSupport [
       }
       DEF SCREW_1 Transform {
         translation 0.0003 -0.033 0.268
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(7)"
@@ -56,7 +56,7 @@ PROTO Robotino3WebcamMountingSupport [
       }
       DEF SCREW_2 Transform {
         translation 0.0003 -0.033 0.22
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(8)"

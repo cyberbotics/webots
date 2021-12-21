@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -41,15 +41,20 @@ Solid {
   translation 0.05 0 0
   rotation 0 0 1 1.5708
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
+    DEF PLANE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+          }
+          geometry Plane {
+          }
         }
-      }
-      geometry DEF PLANE Plane {
-      }
+      ]
     }
   ]
   boundingObject USE PLANE

@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of the Hokuyo devices."
   ]
   title "Hokuyo"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "body"
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.5967781452790758 -0.7796262246313995 -0.18983886636897263 0.9853660974676877
-  position -0.3666491993133274 0.5851948652789826 0.43415705217447054
+  orientation -0.16684935347099145 0.8430119806280636 0.5113629765282793 0.7385942664010073
+  position -0.7284052257752637 -0.18304459867501638 0.6761560768893428
 }
 TexturedBackground {
 }
@@ -36,7 +35,8 @@ RectangleArena {
   wallHeight 0.30000000000000004
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.1 -0.25
+  translation -0.05 0.25 0.1
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -45,7 +45,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.2 0.1
+        size 0.1 0.23 0.2
       }
     }
   ]
@@ -59,8 +59,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.1 0.27
-  rotation 0 1 0 0.31
+  translation 0.2 -0.27 0.1
+  rotation 0 0 -1 -1.880795
   children [
     Shape {
       appearance PBRAppearance {
@@ -69,7 +69,7 @@ DEF BLUE_BOX Solid {
         metalness 0
       }
       geometry DEF BOX1 Box {
-        size 0.1 0.2 0.1
+        size 0.1 0.1 0.2
       }
     }
   ]
@@ -83,8 +83,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF WHITE_BOX Solid {
-  translation -0.2 0.1 0.15
-  rotation 0 1 0 0.4
+  translation -0.2 -0.15 0.1
+  rotation 0 0 -1 -1.970795
   children [
     Shape {
       appearance PBRAppearance {
@@ -93,7 +93,7 @@ DEF WHITE_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.2 0.3
+        size 0.3 0.05 0.2
       }
     }
   ]
@@ -107,7 +107,8 @@ DEF WHITE_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.1 -0.1
+  translation 0.42 0.1 0.1
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -116,7 +117,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.2 0.08
+        size 0.08 0.15 0.2
       }
     }
   ]
@@ -131,12 +132,12 @@ DEF PINK_BOX Solid {
 }
 Robot {
   translation 0.15 0 0
-  rotation 0 1 0 1
+  rotation -0.023594990791903275 -0.006321997532799852 0.9997016098600249 2.61814
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -148,11 +149,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -178,8 +179,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -191,8 +192,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -202,7 +203,8 @@ Robot {
       }
     }
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -219,20 +221,20 @@ Robot {
       ]
     }
     HokuyoUtm30lx {
-      translation 0 0.136 0
+      translation 0 0 0.136
       noise 0.01
     }
     HokuyoUrg04lx {
-      translation 0 0.05 0.089
-      rotation 1 0 0 1.5708
+      translation -0.089 0 0.05
+      rotation 0 1 0 -1.570805
       noise 0.01
     }
     Transform {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -250,15 +252,15 @@ Robot {
       ]
     }
     Transform {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE INFRARED
       ]
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -288,7 +290,8 @@ Robot {
   name "MyBot"
   contactMaterial "body"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       DEF BODY Cylinder {
         height 0.08
@@ -301,7 +304,7 @@ Robot {
     density -1
     mass 0.5
     centerOfMass [
-      0 0.04 0
+      0 0 -0.04
     ]
   }
   controller "hokuyo"

@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Khepera III robot equipped with its gripper"
   ]
   title "Khepera III"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel"
@@ -23,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.010375173565955154 0.9881546100079622 0.15311049112810118 3.390766842814564
-  position -0.3619521972641332 0.35555303289553575 -1.118924537226051
+  orientation 0.20022020315551092 0.3500108693031503 -0.9150979519253767 1.1173475389874992
+  position -0.9048449902243705 0.9353685043387764 0.5474274271199836
   follow "Khepera III"
 }
 TexturedBackground {
@@ -35,35 +34,36 @@ RectangleArena {
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.4
-  rotation 0 1 0 0.5
+  translation -0.2 -0.4 0.05
+  rotation 0.940554832051147 0.240163077829669 0.240163077829669 1.632043330248321
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation -0.532388 -0.0479323 0.05
+  rotation -9.3117e-09 7.19235e-09 -1 1.31537
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation 0.441018 0.230632 0.05
+  rotation -1.46018e-08 7.19235e-09 -1 0.915365
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.21 0.05 -0.41
-  rotation 0 1 0 5.636164372494129
+  translation 0.0494778 0.304776 0.05
+  rotation -3.37599e-08 1.6492e-08 -1 0.385228
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.65 -0.66 0.05
+  rotation -0.820542997539208 0.404171491566001 0.404171491566001 4.515877143482041
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 Khepera3 {
+  rotation 0 0 1 2.87979
   controller "khepera3_gripper"
   wheelMaterial "wheel"
   bodyMaterial "body"
@@ -73,7 +73,7 @@ Khepera3 {
   ]
 }
 DEF CYLINDER_LOAD Solid {
-  translation 0 0.05 -0.48
+  translation -0.47 0.115 0.05
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {

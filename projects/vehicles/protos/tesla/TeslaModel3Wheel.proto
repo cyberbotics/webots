@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -6,7 +6,7 @@
 
 PROTO TeslaModel3Wheel [
   field       SFVec3f    translation     0 0 0
-  field       SFRotation rotation        0 1 0 0
+  field       SFRotation rotation        0 0 1 0
   field       SFString   name            "wheel"
   field       SFFloat    tireRadius      0.36
   field       SFBool     boundingObject  TRUE
@@ -74,7 +74,6 @@ PROTO TeslaModel3Wheel [
       %< if (fields.boundingObject.value) { >%
       boundingObject Transform {
         translation 0 0 -0.04
-        rotation 1 0 0 1.5707963220000003
         children [
           Cylinder {
             height 0.23

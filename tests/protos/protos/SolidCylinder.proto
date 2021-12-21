@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO SolidCylinder [
   field SFVec3f translation 0.0 0.0 0.0
@@ -7,6 +7,7 @@ PROTO SolidCylinder [
 {
   DEF PARAMETER Solid {
     translation IS translation
+    rotation 1 0 0 -1.5708
     children [
       Shape {
         appearance PBRAppearance {

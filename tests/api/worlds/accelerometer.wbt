@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -50,14 +50,6 @@ Robot {
           Solid {
             translation 0.1 0.05 0
             children [
-              Shape {
-                appearance RustyMetal {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.1
-                }
-              }
               Accelerometer {
                 name "center offset"
               }
@@ -73,10 +65,28 @@ Robot {
                 translation 0 0 0.1
                 name "tZ offset"
               }
+              Transform {
+                rotation 1 0 0 -1.57
+                children [
+                  Shape {
+                    appearance RustyMetal {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.1
+                    }
+                  }
+                ]
+              }
             ]
-            boundingObject Cylinder {
-              height 0.01
-              radius 0.1
+            boundingObject Transform {
+              rotation 1 0 0 -1.57
+              children [
+                Cylinder {
+                  height 0.01
+                  radius 0.1
+                }
+              ]
             }
             physics Physics {
             }
@@ -97,6 +107,7 @@ Robot {
                     }
                   }
                 ]
+                rotation 1 0 0 -1.57
               }
               Transform {
                 translation 0 0.063 0
@@ -112,6 +123,7 @@ Robot {
                     }
                   }
                 ]
+                rotation 1 0 0 -1.57
               }
             ]
           }
@@ -137,6 +149,7 @@ Robot {
               }
             }
           ]
+          rotation 1 0 0 -1.57
         }
         Transform {
           translation 0 0.04 0
@@ -152,6 +165,7 @@ Robot {
               }
             }
           ]
+          rotation 1 0 0 -1.57
         }
       ]
     }

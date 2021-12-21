@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 PROTO LegoInterval [
-  field SFVec3f translation 0 0.025 0
-  field SFRotation rotation 0 1 0 0
+  field SFVec3f translation 0 0 0.025
+  field SFRotation rotation 0 0 1 0
   field SFString name "LEGO interval"
   field MFString textureUrl "webots://projects/samples/contests/ratslife/protos/textures/lego_wall_template.png"
 ]
@@ -24,7 +24,7 @@ PROTO LegoInterval [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0.008 0.025 -0.008 0.008 0.025 0.008 0.008 -0.025 -0.008 0.008 -0.025 0.008 -0.008 -0.025 -0.008 -0.008 -0.025 0.008 -0.008 0.025 -0.008 -0.008 0.025 0.008 -0.024 -0.025 0.024 -0.024 -0.025 -0.024 0.0238839 -0.025 0.024 0.0241161 -0.025 -0.024
+              0.008 -0.008 0.025 -0.008 -0.008 0.025 0.008 -0.008 -0.025 -0.008 -0.008 -0.025 0.008 0.008 -0.025 -0.008 0.008 -0.025 0.008 0.008 0.025 -0.008 0.008 0.025 -0.024 0.024 -0.025 0.024 0.024 -0.025 -0.024 -0.0238839 -0.025 0.024 -0.0241161 -0.025
             ]
           }
           texCoord TextureCoordinate {
@@ -44,7 +44,7 @@ PROTO LegoInterval [
     name IS name
     model "LEGO interval"
     boundingObject Box {
-      size 0.016 0.05 0.016
+      size 0.016 0.016 0.05
     }
   }
 }

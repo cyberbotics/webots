@@ -34,6 +34,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
+#include <wren/camera.h>
 #include <wren/gl_state.h>
 #include <wren/material.h>
 #include <wren/node.h>
@@ -235,6 +236,7 @@ void WbBackground::activate() {
 
   connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
+  connect(WbWorld::instance()->viewpoint(), &WbViewpoint::cameraModeChanged, this, &WbBackground::updateCubemap);
   for (int i = 0; i < 6; ++i) {
     connect(mUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
     connect(mIrradianceUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
@@ -616,7 +618,9 @@ void WbBackground::applySkyBoxToWren() {
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-    wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+
+    if (WbWorld::instance()->viewpoint()->projectionMode() != WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC)
+      wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
 
   // 2. Load the irradiance map
@@ -689,9 +693,9 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
     if (mUrlFields[i]->size() == 0)
       continue;
     QString imagePath = mUrlFields[i]->value()[0];
-    if (imagePath.indexOf("http") == 0)
+    if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
-    else if (imagePath.indexOf("webots://") == 0)
+    else if (WbUrl::isLocalUrl(imagePath))
       backgroundFileNames[i] = imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() +
                                                                 "/" + WbApplicationInfo::branch() + "/");
     else {
@@ -712,9 +716,9 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
       continue;
 
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
-    if (irradiancePath.indexOf("http") == 0)
+    if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
-    else if (irradiancePath.indexOf("webots://") == 0)
+    else if (WbUrl::isLocalUrl(irradiancePath))
       irradianceFileNames[i] =
         irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                               WbApplicationInfo::branch() + "/");

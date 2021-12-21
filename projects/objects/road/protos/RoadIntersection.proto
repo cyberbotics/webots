@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple and customizable roads intersection, all the road are crossing at the same point and equally separated in orientation.
@@ -6,7 +6,7 @@
 
 PROTO RoadIntersection [
   field        SFVec3f              translation                    0 0 0
-  field        SFRotation           rotation                       0 1 0 0
+  field        SFRotation           rotation                       0 0 1 0
   field        SFString             name                           "road intersection"                   # Defines the intersection name.
   field        SFString             id                             ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs               []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -105,7 +105,7 @@ PROTO RoadIntersection [
             point [
               0 0 0
               %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
-                %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) >% 0 %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) >%
+                %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) >% %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) >% 0
               %< } >%
             ]
           }
@@ -152,15 +152,15 @@ PROTO RoadIntersection [
           %< if (roadLength > 0) { >%
             # only for borders
             Road {
-              translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
-              rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              translation %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0
+              rotation 0 0 1 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
               name "border %<=i>%"
               wayPoints [
                 0 0 0
                 %< if (roadMinimalLength < roadLength) { >%
-                  0 0 %<= roadMinimalLength >%
+                  %<= roadMinimalLength >% 0 0
                 %< } >%
-                0 0 %<= roadLength >%
+                %<= roadLength >% 0 0
               ]
               leftBorderBoundingObject IS startRoadBorderboundingObject
               rightBorderBoundingObject IS startRoadBorderboundingObject
@@ -187,12 +187,12 @@ PROTO RoadIntersection [
           # only for the road
           %< if (roadLength > 0) { >%
             Road {
-              translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
-              rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              translation %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0
+              rotation 0 0 1 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
               name "road %<= i >%"
               wayPoints [
                 0 0 0
-                0 0 %<= roadLength >%
+                %<= roadLength >% 0 0
               ]
               width %<= roadsWidth >%
               roadBoundingObject IS boundingObject

@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Simulation of Boston Dynamics' Spot robot in a simple industrial environment."
     "The robot is saying hello with its right leg."
   ]
   title "Spot Robot demo"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.04913336943686446 0.9890217998641079 0.13936208738871841 3.9883527459468486
-  position -3.230808173247196 1.8626407583870415 -3.0139666380149723
+  orientation 0.10546854927206291 0.2892797222676174 -0.9514166423808323 0.7318671511343318
+  position -3.2010156855930436 2.959132176255074 1.6412046932616362
   followType "None"
   followSmoothness 0
 }
@@ -37,12 +36,12 @@ RectangleArena {
   }
 }
 Spot {
-  rotation 0 1 0 0.261799
+  rotation 0 0 1 1.832596
 }
 StraightStairs {
-  translation -1.8 0 -4.36
+  translation -1.8 4.36 0
   name "straight stairs(2)"
-  stepSize 0.3 0.03 1.2
+  stepSize 0.3 1.2 0.03
   stepRise 0.1667
   nSteps 14
   stepAppearance GalvanizedMetal {
@@ -85,100 +84,101 @@ StraightStairs {
   ]
 }
 WoodenBox {
-  translation 0.821339 0.3 -4.12919
-  rotation 0 -1 0 0.19635
+  translation 0.821339 4.12919 0.3
+  rotation 0 0 -1 0.19635
 }
 WoodenBox {
-  translation 1.70404 0.3 -3.95367
-  rotation 0 1 0 0.0654494
+  translation 1.70404 3.95367 0.3
+  rotation 0 0 1 0.0654494
   name "wooden box(1)"
 }
 WoodenBox {
-  translation 1.16604 0.9 -4.05875
-  rotation 0 1 0 0.0654494
+  translation 1.16604 4.05875 0.9
+  rotation 0 0 1 0.0654494
   name "wooden box(2)"
 }
 PlasticCrate {
-  translation -0.276141 0 3.89221
-  rotation 0 -1 0 0.916294
-  size 0.3 0.2 0.5
+  translation -0.276141 -3.89221 0
+  rotation 0 0 -1 0.916294
+  size 0.3 0.5 0.2
 }
 TrafficCone {
-  translation 4.63526 0.228719 3.89768
-  rotation 0.0003109999849598856 0 0.9999999516395034 1.997414
+  translation 4.63526 -3.89768 0.228719
+  rotation 0.0003109999849598856 -0.9999999516395034 0 1.997414
 }
 TrafficCone {
-  translation 3.38354 0 3.49778
-  rotation 0 -1 0 1.0472
+  translation 3.38354 -3.49778 0
+  rotation 0 0 -1 1.0472
   name "traffic cone(1)"
 }
 TrafficCone {
-  translation 4.09265 0 3.13193
-  rotation 0 1 0 -1.047195307179586
+  translation 4.09265 -3.13193 0
+  rotation 0 0 1 -1.047195307179586
   name "traffic cone(2)"
 }
 TrafficCone {
-  translation 3.98473 0 4.41983
-  rotation 0 1 0 -1.047195307179586
+  translation 3.98473 -4.41983 0
+  rotation 0 0 1 -1.047195307179586
   name "traffic cone(3)"
 }
 OilBarrel {
-  translation 4.67 0.44 0
+  translation 4.67 0 0.44
 }
 OilBarrel {
-  translation 4.69 0.44 0.68
+  translation 4.69 -0.68 0.44
   name "oil barrel(1)"
 }
 OilBarrel {
-  translation 4.53 0.44 1.34
+  translation 4.53 -1.34 0.44
   name "oil barrel(2)"
 }
 OilBarrel {
-  translation 4.05 0.44 0.22
+  translation 4.05 -0.22 0.44
   name "oil barrel(3)"
 }
 OilBarrel {
-  translation 3.89 0.44 1.04
+  translation 3.89 -1.04 0.44
   name "oil barrel(4)"
 }
 OilBarrel {
-  translation 4.36 1.32 1.04
+  translation 4.36 -1.04 1.32
   name "oil barrel(5)"
 }
 OilBarrel {
-  translation 4.25 1.32 0.27
+  translation 4.25 -0.27 1.32
   name "oil barrel(6)"
 }
 CardboardBox {
-  translation 1.71781 0.28 4.16794
-  rotation 0 1 0 -0.785395307179586
+  translation 1.71781 -4.16794 0.28
+  rotation 0 0 1 -0.785395307179586
   name "cardboard box(4)"
   size 0.3 0.3 0.3
 }
 CardboardBox {
-  translation 1.47741 0.28 4.40834
-  rotation 0 1 0 -0.785395307179586
+  translation 1.47741 -4.40834 0.28
+  rotation 0 0 1 -0.785395307179586
   name "cardboard box(5)"
   size 0.3 0.3 0.3
 }
 PlatformCart {
-  translation 1.64 0 4.33
-  rotation 0 1 0 -2.3561953071795863
+  translation 1.64 -4.33 0
+  rotation 0 0 1 -2.3561953071795863
 }
 WoodenPalletStack {
-  translation 4.33683 0 -1.57306
-  rotation 0 1 0 -1.5707953071795862
+  translation 4.33683 1.57306 0
 }
 WoodenPalletStack {
-  translation 4.45255 0 -2.90052
+  translation 4.45255 2.90052 0
+  rotation 0 0 1 -1.5707953071795862
   name "wooden pallet stack(1)"
 }
 WoodenPalletStack {
-  translation 4.32255 0 -4.33052
+  translation 4.32255 4.33052 0
+  rotation 0 0 1 -1.5707953071795862
   name "wooden pallet stack(2)"
 }
 RubberDuck {
-  translation -0.318088 0.059884 1.732082
-  rotation 0 1 0 2.356178
+  translation -0.318088 -1.732082 0.059884
+  rotation 0 0 1 0.785382
   scale 3
 }

@@ -1,21 +1,20 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Koala robot"
   ]
   title "Koala"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0958218041718304 0.9415770409937982 0.3228790140573067 3.66461
-  position -1.81299 2.93323 -2.79299
+  orientation 0.23632090551755422 0.42591411239013643 -0.8733553678098541 1.3611854841386557
+  position -0.9737604507086761 3.4988143356102874 2.9271117900955725
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Solid {
-  rotation 0 1 0 0.0375736
+  rotation 0.9996471590895996 0.018782402989139663 0.018782402989139663 1.57115
   children [
     Shape {
       appearance PBRAppearance {
@@ -210,7 +209,7 @@ Solid {
   }
 }
 Solid {
-  translation 0 0.15 0
+  translation 0 0 0.15
   children [
     Shape {
       appearance PBRAppearance {
@@ -228,7 +227,7 @@ Solid {
 }
 Koala {
   translation 1 0 0
-  rotation 0 1 0 1.57
+  rotation 0 0 1 3.14159
   name "koala"
   controller "braitenberg"
 }

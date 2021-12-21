@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Double sided and adjustable advertising board with the possibility of adding up to four poles.
@@ -7,7 +7,7 @@
 
 PROTO AdvertisingBoard [
   field SFVec3f     translation       0 0 0
-  field SFRotation  rotation          0 1 0 0
+  field SFRotation  rotation          0 0 1 0
   field SFString    name              "advertising board"                   # Defines the name of the advertising board.
   field MFString    frontTexture      "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the front display texture.
   field MFString    backTexture       "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the back display texture.
@@ -45,7 +45,7 @@ PROTO AdvertisingBoard [
     let poleNumber = fields.poleNumber.value;
     if (poleNumber < 0 || poleNumber >= 5) {
       poleNumber = fields.poleNumber.defaultValue;
-      console.error('\'poleNumber\' should be strictly positive. Value reset to ' + poleNumber + '.');
+      console.error('\'poleNumber\' should be strictly positive and less than 5. Value reset to ' + poleNumber + '.');
     }
     const poleType = fields.poleType.value;
     let poleHeight = fields.poleHeight.value;
@@ -77,7 +77,7 @@ PROTO AdvertisingBoard [
       baseRatio = fields.baseRatio.defaultValue;
       console.error('\'baseRatio\' should be strictly positive. Value reset to ' + baseRatio + '.');
     }
-    let xPosition = [[0], [-displayWidth / 4, displayWidth / 4], [-displayWidth / 3, 0, displayWidth / 3],
+    let yPosition = [[0], [-displayWidth / 4, displayWidth / 4], [-displayWidth / 3, 0, displayWidth / 3],
                     [-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness]];
 
     let displayElevation = 0;
@@ -91,11 +91,11 @@ PROTO AdvertisingBoard [
     recognitionColors IS recognitionColors
     children [
       DEF BOARD Solid {
-        translation 0 %<= displayElevation >% 0
+        translation 0 0 %<= displayElevation >%
         name "board"
         children [
           DEF LEFT_SIDE Transform {
-            translation %<= -0.05 - displayWidth / 2 >% 0 0
+            translation 0 %<= -0.05 - displayWidth / 2 >% 0
             children [
               DEF SHORT_SIDE Shape {
                 appearance DEF COLOR_SIDE PBRAppearance {
@@ -104,30 +104,30 @@ PROTO AdvertisingBoard [
                   roughness 0.6
                 }
                 geometry Box {
-                  size 0.1 %<= 0.2 + displayHeight >% %<= frameThickness >%
+                  size %<= frameThickness >% 0.1 %<= 0.2 + displayHeight >%
                 }
               }
             ]
           }
           DEF RIGHT_SIDE Transform {
-            translation %<= 0.05 + displayWidth / 2 >% 0 0
+            translation 0 %<= 0.05 + displayWidth / 2 >% 0
             children [
               USE SHORT_SIDE
             ]
           }
           DEF TOP_SIDE Transform {
-            translation 0 %<= 0.05 + displayHeight / 2 >% 0
+            translation 0 0 %<= 0.05 + displayHeight / 2 >%
             children [
               DEF LONG_SIDE Shape {
                 appearance USE COLOR_SIDE
                 geometry Box {
-                  size %<= displayWidth >% 0.1 %<= frameThickness >%
+                  size %<= frameThickness >% %<= displayWidth >% 0.1
                 }
               }
             ]
           }
           DEF BOTTOM_SIDE Transform {
-            translation 0 %<= -0.05 - displayHeight / 2 >% 0
+            translation 0 0 %<= -0.05 - displayHeight / 2 >%
             children [
               USE LONG_SIDE
             ]
@@ -140,8 +140,8 @@ PROTO AdvertisingBoard [
             }
           >%
           DEF FRONT_SIDE Transform {
-            translation 0 0 %<= frameThickness/2 - offsetFront >%
-            rotation 1 0 0 1.5708
+            translation %<= frameThickness/2 - offsetFront >% 0 0
+            rotation 0.577351 0.577351 0.577349 2.0944
             children [
               DEF FRONT_PLANE Shape {
                 appearance PBRAppearance {
@@ -173,8 +173,8 @@ PROTO AdvertisingBoard [
             }
           >%
           DEF BACK_SIDE Transform {
-            translation 0 0 %<= -frameThickness/2 + offsetBack >%
-            rotation 0 -0.709375 0.709375 3.14159
+            translation %<= -frameThickness/2 + offsetBack >% 0 0
+            rotation 0.577351 -0.577351 -0.577349 2.0944
             children [
               DEF BACK_PLANE Shape {
                   appearance PBRAppearance {
@@ -199,7 +199,7 @@ PROTO AdvertisingBoard [
           }
         ]
         boundingObject Box {
-          size %<= displayWidth + 0.2 >% %<= displayHeight + 0.2 >% %<= frameThickness >%
+          size %<= frameThickness >% %<= displayWidth + 0.2 >% %<= displayHeight + 0.2 >%
         }
       }
       %< for (let i = 0; i < poleNumber; ++i) { >%
@@ -210,7 +210,7 @@ PROTO AdvertisingBoard [
               offsetPole = - 0.82 * frameThickness;
           >%
           DEF %<= 'POLE_' + i >% Solid {
-            translation %<= xPosition[poleNumber - 1][i] >% %<= poleHeight / 2 >% %<= offsetPole >%
+            translation  %<= offsetPole >% %<= yPosition[poleNumber - 1][i] >% %<= poleHeight / 2 >%
             name "pole %<= i >%"
             children [
               Shape {
@@ -227,7 +227,7 @@ PROTO AdvertisingBoard [
                     }
                 %< } else if (poleType === 'box') { >%
                     geometry DEF SQUARE_POLE Box {
-                      size %<= poleThickness >% %<= poleHeight >% %<= poleThickness >%
+                      size %<= poleThickness >% %<= poleThickness >% %<= poleHeight >%
                     }
                 %< } else if (poleType === 'H-shape') { >%
                     geometry Extrusion {
@@ -247,8 +247,8 @@ PROTO AdvertisingBoard [
                         %<= -halfPoleThickness >% %<= halfPoleThickness >%
                       ]
                       spine [
-                        0 %<= (poleHeight / 2) >% 0
-                        0 %<= -(poleHeight / 2) >% 0
+                        0 0 %<= (poleHeight / 2) >%
+                        0 0 %<= -(poleHeight / 2) >%
                       ]
                     }
                 %< } >%
@@ -262,14 +262,14 @@ PROTO AdvertisingBoard [
             %< } else if (poleType === 'H-shape') { >%
                 # SQUARE_POLE not defined in case of H-shaped pole
                 boundingObject DEF SQUARE_POLE Box {
-                  size %<= poleThickness >% %<= poleHeight >% %<= poleThickness >%
+                  size %<= poleThickness >% %<= poleThickness >% %<= poleHeight >%
                 }
             %< } >%
           }
           # Choose the type/geometry of the poles' bases
           %< if (poleType === 'cylinder' && baseRatio > 1) { >%
             DEF %<= 'CYLINDER_BASE_' + i  >% Transform {
-              translation %<= xPosition[poleNumber - 1][i] >% 0.01 0
+              translation 0 %<= yPosition[poleNumber - 1][i] >% 0.01
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -287,7 +287,7 @@ PROTO AdvertisingBoard [
             }
           %< } else if (poleType === 'box' && baseRatio > 1) { >%
             DEF %<= 'BOX_BASE' + i  >% Transform {
-              translation %<= xPosition[poleNumber - 1 ][i] >% 0.01 0
+              translation 0 %<= yPosition[poleNumber - 1 ][i] >% 0.01
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -296,7 +296,7 @@ PROTO AdvertisingBoard [
                     roughness 0.6
                   }
                   geometry Box {
-                    size %<= baseRatio * poleThickness >% 0.02 %<= baseRatio * poleThickness >%
+                    size %<= baseRatio * poleThickness >% %<= baseRatio * poleThickness >% 0.02
                   }
                 }
               ]

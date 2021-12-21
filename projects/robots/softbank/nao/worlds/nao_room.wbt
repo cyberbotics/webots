@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "An Aldebaran's Nao H25 V5.0 robot in a living room"
@@ -8,7 +8,6 @@ WorldInfo {
   ]
   title "NAO room"
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "key"
@@ -28,8 +27,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.43209770329176495 -0.8928973972132869 -0.12659309957386913 0.7102648241567285
-  position -2.041436096766924 1.7744066889805785 3.19073822161501
+  orientation -0.12003397117585744 0.03522026573151634 0.9921448375340944 2.575046275756999
+  position 2.2110584056853018 -1.798351998275922 1.1018607429444633
 }
 Background {
   backUrl [
@@ -52,15 +51,15 @@ Background {
   ]
 }
 CeilingLight {
-  translation 0 2 0
+  translation 0 0 2
   pointLightIntensity 2
   pointLightCastShadows TRUE
 }
 NaoRoom {
 }
 Cabinet {
-  translation 1.99 0 -0.200002
-  rotation 0 1 0 -1.5707953071795862
+  translation -0.2 1.99 0
+  rotation 0 0 1 -1.5707953071795862
   primaryAppearance PaintedWood {
     colorOverride 0.666667 0.333333 0
   }
@@ -69,76 +68,75 @@ Cabinet {
   }
 }
 DEF PAINTING_BIG VisualArmature {
-  translation -0.6 1.3 -2
-  dimension 0.6 0.4 0.02
+  translation -2 -0.6 1.3
+  dimension 0.02 0.6 0.4
   textureUrl [
     "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_5.jpg"
   ]
 }
 DEF PAINTING_TOP VisualArmature {
-  translation -2 1.3 -0.4
-  rotation 0 1 0 1.5708
-  dimension 0.6 0.4 0.02
+  translation -0.4 -2 1.3
+  rotation 0 0 1 1.5708
+  dimension 0.02 0.6 0.4
   textureUrl [
     "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_1.jpg"
   ]
 }
 DEF PAINTING_MIDDLE VisualArmature {
-  translation -2 1.3 0.4
-  rotation 0 1 0 1.5708
-  dimension 0.6 0.4 0.02
+  translation 0.4 -2 1.3
+  rotation 0 0 1 1.5708
+  dimension 0.02 0.6 0.4
   textureUrl [
     "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_3.jpg"
   ]
 }
 DEF PAINTING_VERTICAL VisualArmature {
-  translation 2 1.2 0.7
-  rotation 0 1 0 -1.5708
-  dimension 0.675 0.9 0.02
+  translation 0.7 2 1.2
+  rotation 0 0 1 -1.5708
+  dimension 0.02 0.675 0.9
   textureUrl [
     "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_2.jpg"
   ]
 }
 Key {
-  translation 1.56 0.3 -0.375001
-  rotation 1 0 0 1.5708
+  translation -0.375001 1.56 0.3
+  rotation 0 1 0 1.5708
   contactMaterial "key"
 }
 KeyPot {
-  translation 0.2 0.3 0.12
+  translation 0.12 0.2 0.3
 }
 Book {
-  translation -0.16992 0.31 -0.19
-  rotation 0.4768691440655283 0.6215281877680446 0.6215291877683468 -2.2516453071795866
+  translation -0.19 -0.16992 0.31
+  rotation 0.6215291877683468 0.4768691440655283 0.6215281877680446 -2.2516453071795866
   name "book(1)"
 }
 BunchOfSunFlowers {
-  translation -1.39292 1.94289e-16 -1.50435
-  rotation 0 -1 0 3.07714
+  translation -1.50435 -1.39292 0
   name "bunch of sunflowers(1)"
 }
 BunchOfSunFlowers {
-  translation 1.70659 1.86517e-14 -1.02404
-  rotation 0 1 0 1.88257
+  translation -1.02404 1.70659 0
+  rotation 0 0 1 -1.3118
 }
 Table {
-  size 0.6 0.3 0.8
+  rotation 0 0 1 1.5708
+  size 0.6 0.8 0.3
 }
 Chair {
-  translation 0 0 -1.69
-  rotation 0 1 0 -1.5707953071795862
+  translation -1.69 0 0
   color 0.25098 0.756863 0.368627
 }
 Sofa {
-  translation -1.44 0 0
+  translation 0 -1.44 0
+  rotation 0 0 1 1.5708
 }
 WoodenChair {
-  translation 0.259722 5.32907e-15 1.70118
-  rotation 0 -1 0 2.8798
+  translation 1.70118 0.259722 0
+  rotation 0 0 1 -2.8798
 }
 Nao {
-  translation 0.997971 0.34 -1.74563
-  rotation 0.57735126918836 0.57735126918836 0.5773482691869614 -2.094395307179586
+  translation -1.74563 0.997971 0.34
   cameraWidth 320
   cameraHeight 240
 }

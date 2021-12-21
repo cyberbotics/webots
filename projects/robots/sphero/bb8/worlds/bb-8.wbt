@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Sphero's BB-8 simulation"
   basicTimeStep 16
@@ -6,11 +6,10 @@ WorldInfo {
     linear 0.8
     angular 0.8
   }
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.6662454307991633 -0.7405006354472371 -0.08818069426737012 6.023202791469208
-  position -15.88883685614111 37.31092615658389 -2.0985416640189527
+  orientation -0.4613075465278447 0.837401343388863 -0.2931797019013903 0.15010464094665493
+  position 2.095941079632912 16.5016189312646 37.40095082193897
   follow "BB-8"
 }
 TexturedBackground {
@@ -20,9 +19,10 @@ TexturedBackgroundLight {
   texture "mars"
 }
 UnevenTerrain {
-  size 500 60 500
+  rotation 0 0 -1 1.5708
+  size 500 500 60
   xDimension 100
-  zDimension 100
+  yDimension 100
   appearance SandyGround {
     textureTransform TextureTransform {
       scale 500 500
@@ -31,12 +31,11 @@ UnevenTerrain {
   perlinNOctaves 6
 }
 BB-8 {
-  translation -16.19 36.68 -4.36
-  rotation 0 1 0 5.75959
+  translation 4.36 16.19 36.68
+  rotation 0 0 1 2.618
   headSlot [
     Camera {
-      translation 0 0.07 0.15
-      rotation 0 1 0 3.1415
+      translation 0.15 0 0.07
       fieldOfView 1.3
       width 256
       height 256
@@ -45,7 +44,7 @@ BB-8 {
   ]
 }
 DEF SECOND_SUN Transform {
-  translation -150 150 700
+  translation -700 150 150
   children [
     Shape {
       appearance PBRAppearance {

@@ -1,17 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.6755971113975279 0.6934301143379673 0.250446041295425 5.3013
-  position -0.918018 1.15474 1.20612
+  orientation -0.23877530670287425 -0.6936186317360679 0.6796172059457688 5.281724819710405
+  position -1.3724046901611708 1.1045445459785155 1.5504612969130682
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
-  translation 0 -0.001 0
+  translation 0 0 -0.001
+  rotation 0 0 1 -1.57079
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
@@ -43,28 +43,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.45 0 0.45
-            0.45 0 -0.45
-            -0.45 0 -0.45
-            -0.45 0 0.45
-            -0.44 0 0.45
-            -0.44 0 -0.44
-            0.44 0 -0.44
-            0.44 0 0.44
-            -0.44 0 0.44
-            -0.44 0 0.45
-            0.45 0 0.45
-            0.45 0.05 0.45
-            0.45 0.05 -0.45
-            -0.45 0.05 -0.45
-            -0.45 0.05 0.45
-            -0.44 0.05 0.45
-            -0.44 0.05 -0.44
-            0.44 0.05 -0.44
-            0.44 0.05 0.44
-            -0.44 0.05 0.44
-            -0.44 0.05 0.45
-            0.45 0.05 0.45
+            -0.45 -0.45 0
+            0.45 -0.45 0
+            0.45 0.45 0
+            -0.45 0.45 0
+            -0.45 0.44 0
+            0.44 0.44 0
+            0.44 -0.44 0
+            -0.44 -0.44 0
+            -0.44 0.44 0
+            -0.45 0.44 0
+            -0.45 -0.45 0
+            -0.45 -0.45 0.05
+            0.45 -0.45 0.05
+            0.45 0.45 0.05
+            -0.45 0.45 0.05
+            -0.45 0.44 0.05
+            0.44 0.44 0.05
+            0.44 -0.44 0.05
+            -0.44 -0.44 0.05
+            -0.44 0.44 0.05
+            -0.45 0.44 0.05
+            -0.45 -0.45 0.05
           ]
         }
         coordIndex [
@@ -77,32 +77,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.445 0.025 0
+        translation 0 -0.445 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.9
+              size 0.9 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.445 0.025 0
+        translation 0 0.445 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.445
-        rotation 0 1 0 1.57
+        translation -0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.445
-        rotation 0 1 0 1.57
+        translation 0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -112,10 +112,10 @@ DEF WALL Solid {
   locked TRUE
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.57
   controller "beginner_e-puck_dance"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

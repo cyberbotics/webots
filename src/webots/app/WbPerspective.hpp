@@ -123,6 +123,7 @@ public:
   // load/save perspective
   bool load(bool reloading = false);
   bool save() const;
+  const QString fileName() const { return mBaseName + ".wbproj"; }
 
 private:
   QString mBaseName;

@@ -22,7 +22,6 @@
 const QString WbSolidReference::STATIC_ENVIRONMENT = QString("<static environment>");
 
 void WbSolidReference::init() {
-  mSolid = NULL;
   mName = findSFString("solidName");
 }
 
@@ -60,20 +59,16 @@ void WbSolidReference::updateName() {
   const bool linkToStaticEnvironment = name == STATIC_ENVIRONMENT;
   if (!linkToStaticEnvironment)
     mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
+  else
+    mSolid.clear();
   if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
     parsingWarn(
       tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
 }
 
-bool WbSolidReference::isClosedLoop() const {
-  if (!mSolid)
-    return false;
-
-  WbNode *parent = parentNode();
-  while (parent && !parent->isWorldRoot()) {
-    if (parent == mSolid)
-      return true;
-    parent = parent->parentNode();
-  }
-  return false;
+QList<const WbBaseNode *> WbSolidReference::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  if (mSolid)
+    list << mSolid;
+  return list;
 }

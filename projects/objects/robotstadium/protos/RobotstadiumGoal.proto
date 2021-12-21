@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
@@ -6,7 +6,7 @@
 
 PROTO RobotstadiumGoal [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "robotstadium goal"
   field SFFloat    postRadius  0.05                 # Defines the radius of the goal posts.
   field SFColor    frameColor  1 1 1                # Defines the color of the goal frame.
@@ -17,8 +17,8 @@ Solid {
   rotation IS rotation
   children [
     DEF HORIZONTAL_POST_TRANS Transform {
-      translation 0 0.85 0
-      rotation 1 0 0 1.5708
+      translation 0 0 0.85
+      rotation 1 0 0 -1.570793
       children [
         Shape {
           appearance DEF POST_APP PBRAppearance {
@@ -34,7 +34,7 @@ Solid {
       ]
     }
     DEF RIGHT_POST_TRANS Transform {
-      translation 0 0.425 -0.8
+      translation 0 0.8 0.425
       children [
         Shape {
           appearance USE POST_APP
@@ -48,7 +48,7 @@ Solid {
       ]
     }
     DEF LEFT_POST_TRANS Transform {
-      translation 0 0.425 0.8
+      translation 0 -0.8 0.425
       children [
         Shape {
           appearance USE POST_APP
@@ -73,14 +73,7 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.5  0   -0.8
-            0.5  0    0.8
-            0.5  0.85  0.8
-            0.5  0.85 -0.8
-            0.05 0    0.8
-            0.05 0   -0.8
-            0.05 0.85  0.8
-            0.05 0.85 -0.8
+            0.5 0.8 0 0.5 -0.8 0 0.5 -0.8 0.85 0.5 0.8 0.85 0.05 -0.8 0 0.05 0.8 0 0.05 -0.8 0.85 0.05 0.8 0.85
           ]
         }
         texCoord TextureCoordinate {
@@ -120,8 +113,8 @@ Solid {
       }
     }
     Transform {
-      translation 0.5 0.85 0
-      rotation 1 0 0 1.5708
+      translation 0.5 0 0.85
+      rotation 1 0 0 -1.570793
       children [
         DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
           appearance USE POST_APP
@@ -133,14 +126,14 @@ Solid {
       ]
     }
     Transform {
-      translation 0.5 0.007 0
-      rotation 1 0 0 1.5708
+      translation 0.5 0 0
+      rotation 1 0 0 -1.5708
       children [
         USE SMALL_HORIZONTAL_POST_SHAPE
       ]
     }
     Transform {
-      translation 0.5 0.425 0.8
+      translation 0.5 -0.8 0.425
       children [
         DEF SMALL_POST_SHAPE Shape {
           appearance USE POST_APP
@@ -154,14 +147,14 @@ Solid {
       ]
     }
     Transform {
-      translation 0.5 0.425 -0.8
+      translation 0.5 0.8 0.425
       children [
         USE SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation 0.25 0.85 0.8
-      rotation 0 0 1 1.5708
+      translation 0.25 -0.8 0.85
+      rotation 0.577351 0.577349 0.577351 2.094397
       children [
         DEF OTHER_SMALL_POST_SHAPE Shape {
           appearance USE POST_APP
@@ -175,22 +168,22 @@ Solid {
       ]
     }
     Transform {
-      translation 0.25 0.85 -0.8
-      rotation 0 0 1 1.5708
+      translation 0.25 0.8 0.85
+      rotation 0.577351 0.577349 0.577351 2.094397
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation 0.25 0.007 0.8
-      rotation 0 0 1 1.5708
+      translation 0.25 -0.8 0
+      rotation 0.577351 0.577349 0.577351 2.094397
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
     }
     Transform {
-      translation 0.25 0.007 -0.8
-      rotation 0 0 1 1.5708
+      translation 0.25 0.8 0
+      rotation 0.577351 0.577349 0.577351 2.094397
       children [
         USE OTHER_SMALL_POST_SHAPE
       ]
@@ -204,24 +197,24 @@ Solid {
       USE RIGHT_POST_TRANS
       USE LEFT_POST_TRANS
       Transform {
-        translation 0.275 0.425 -0.8
+        translation 0.275 0.8 0.425
         children [
           DEF GOAL_SIDE_BOX Box {
-            size 0.45 0.85 0.04
+            size 0.45 0.04 0.85 
           }
         ]
       }
       Transform {
-        translation 0.275 0.425 0.8
+        translation 0.275 -0.8 0.425
         children [
           USE GOAL_SIDE_BOX
         ]
       }
       Transform {
-        translation 0.6 0.425 0
+        translation 0.6 0 0.425
         children [
           Box {
-            size 0.2 0.85 1.64
+            size 0.2 1.64 0.85 
           }
         ]
       }

@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # a flag
 
 PROTO YoubotFlag [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFString name "youBot flag"
   field MFString textureURL "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_start.png"
   field SFBool locked FALSE
@@ -18,7 +18,7 @@ Solid {
     DEF FLAG_SHAPE Group {
       children [
         Transform {
-          translation 0 0.015 0
+          translation 0 0 0.015
           children [
             Shape {
               appearance MetalAppearance {
@@ -32,7 +32,7 @@ Solid {
           ]
         }
         Transform {
-          translation 0 0.27 0
+          translation 0 0 0.27
           children [
             Shape {
               appearance MetalAppearance {
@@ -58,9 +58,7 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0 0.5 0
-            0 0.4 0.3
-            0 0.3 0
+            0 0 0.5 0 0.3 0.4 0 0 0.3
           ]
         }
         texCoord TextureCoordinate {

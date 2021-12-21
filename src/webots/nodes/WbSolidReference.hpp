@@ -48,8 +48,7 @@ public:
   bool pointsToStaticEnvironment() const { return mName->value() == STATIC_ENVIRONMENT; }
   static const QString STATIC_ENVIRONMENT;
 
-  // check if mSolid is a parent of this SolidReference instance
-  bool isClosedLoop() const;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
 signals:
   void changed();

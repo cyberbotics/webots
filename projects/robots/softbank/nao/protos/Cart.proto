@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 PROTO Cart [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFString name "cart"
 ]
 {
@@ -12,7 +12,8 @@ Solid {
   rotation IS rotation
   children [
     Solid {
-      translation 0 0.032 0.116
+      translation 0 0.116 0.032
+      rotation 0 0.707107 0.707107 -3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -83,7 +84,8 @@ Solid {
       name "left side"
     }
     Solid {
-      translation 0 0.032 -0.116
+      translation 0 -0.116 0.032
+      rotation 0 0.707107 0.707107 -3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -97,7 +99,8 @@ Solid {
       name "right side"
     }
     Solid {
-      translation -0.0175 0.0625 0
+      translation 0.0175 0 0.0625
+      rotation 0 0.707107 0.707107 -3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -117,7 +120,8 @@ Solid {
       name "floor"
     }
     Solid {
-      translation 0.0945 0.089 0
+      translation -0.0945 0 0.089
+      rotation 0 0.707107 0.707107 -3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -137,7 +141,8 @@ Solid {
       name "back side"
     }
     Solid {
-      translation 0.1385 0.1443 0.105
+      translation -0.1385 0.105 0.1443
+      rotation 0 1 0 3.1415
       children [
         Shape {
           appearance PBRAppearance {
@@ -157,7 +162,8 @@ Solid {
       name "lower handle left side"
     }
     Solid {
-      translation 0.1385 0.1443 -0.105
+      translation -0.1385 -0.105 0.1443
+      rotation 0 1 0 3.1415
       children [
         Shape {
           appearance PBRAppearance {
@@ -174,8 +180,8 @@ Solid {
       name "lower handle right side"
     }
     Solid {
-      translation 0.2125 0.3493 0.105
-      rotation 0 0 1 -0.593412
+      translation -0.2125 0.105 0.3493
+      rotation 0 1 0 2.54818
       children [
         Shape {
           appearance PBRAppearance {
@@ -195,8 +201,8 @@ Solid {
       name "upper handle left side"
     }
     Solid {
-      translation 0.2125 0.3493 -0.105
-      rotation 0 0 1 -0.593412
+      translation -0.2125 -0.105 0.3493
+      rotation 0 1 0 2.54818
       children [
         Shape {
           appearance PBRAppearance {
@@ -213,8 +219,8 @@ Solid {
       name "upper handle right side"
     }
     Solid {
-      translation 0.2865 0.459 0
-      rotation 1 0 0 1.5708
+      translation -0.2865 0 0.459
+      rotation 0 -0.707104 0.707109 3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -234,8 +240,8 @@ Solid {
       name "handle top"
     }
     Solid {
-      translation -0.1515 0.049 0
-      rotation 1 0 0 1.5708
+      translation 0.1515 0 0.049
+      rotation 1 0 0 -3.141586
       children [
         DEF WHEEL1 HingeJoint {
           jointParameters HingeJointParameters {
@@ -244,6 +250,7 @@ Solid {
           }
           endPoint Solid {
             translation 0 0.14 0
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -275,6 +282,7 @@ Solid {
           }
           endPoint Solid {
             translation 0 -0.14 0
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -296,6 +304,7 @@ Solid {
           }
         }
         Solid {
+          rotation 1 0 0 -1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -316,13 +325,18 @@ Solid {
         }
       ]
       name "front wheels"
-      boundingObject USE TIE_ROD
+      boundingObject Transform {
+        rotation 1 0 0 -1.5708
+        children [
+          USE TIE_ROD
+        ]
+      }
       physics Physics {
       }
     }
     Solid {
-      translation 0.1385 0.049 0
-      rotation 1 0 0 1.5708
+      translation -0.1385 0 0.049
+      rotation 0 1 0 3.141592
       children [
         DEF WHEEL3 HingeJoint {
           jointParameters HingeJointParameters {
@@ -331,6 +345,7 @@ Solid {
           }
           endPoint Solid {
             translation 0 0.14 0
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -358,6 +373,7 @@ Solid {
           }
           endPoint Solid {
             translation 0 -0.14 0
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -382,6 +398,7 @@ Solid {
           children [
             Transform {
               translation 0 0.122 0
+              rotation 1 0 0 -1.5708
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -402,6 +419,7 @@ Solid {
             }
             Transform {
               translation 0 -0.122 0
+              rotation 1 0 0 -1.5708
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -434,60 +452,66 @@ Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.087 0.116
+        translation 0 0.116 0.087
+        rotation 0 0.707107 0.707107 -3.141593
         children [
-          DEF SIDE_HITBOX Box { 
+          DEF SIDE_HITBOX Box {
             size 0.349 0.11  0.01
           }
         ]
       }
       Transform {
-        translation 0 0.087 -0.116
+        translation 0 -0.116 0.087
+        rotation 0 0.707107 0.707107 -3.141593
         children [
           USE SIDE_HITBOX
         ]
       }
       Transform {
-        translation -0.0175 0.0625 0
+        translation 0.0175 0 0.0625
+        rotation 0 0.707107 0.707107 -3.141593
         children [
           USE CART_FLOOR
         ]
       }
       Transform {
-        translation 0.0945 0.089 0
+        translation -0.0945 0 0.089
+        rotation 0 0.707107 0.707107 -3.141593
         children [
           USE BACK
         ]
       }
       Transform {
-        translation 0.1385 0.1443 0.105
+        translation -0.1385 0.105 0.1443
+        rotation 0 0 1 3.141592
         children [
           USE LOWER_HANDLE_SIDE
         ]
       }
       Transform {
-        translation 0.1385 0.1443 -0.105
+        translation -0.1385 -0.105 0.1443
+        rotation 0 0 1 3.141592
         children [
           USE LOWER_HANDLE_SIDE
         ]
       }
       Transform {
-        translation 0.2125 0.3493 0.105
-        rotation 0 0 1 -0.593412
+        translation -0.2125 0.105 0.3493
+        rotation 0 1 0 2.54818
         children [
           USE UPPER_HANDLE_SIDE
         ]
       }
       Transform {
-        translation 0.2125 0.3493 -0.105
-        rotation 0 0 1 -0.593412
+        translation -0.2125 -0.105 0.3493
+        rotation 0 1 0 2.54818
         children [
           USE UPPER_HANDLE_SIDE
         ]
       }
       Transform {
-        translation 0.2865 0.459 0
-        rotation 1 0 0 1.5708
+        translation -0.2865 0 0.459
+        rotation 0 0.707107 0.707107 -3.141593
         children [
           USE HANDLE_TOP
         ]

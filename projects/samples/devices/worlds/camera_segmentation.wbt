@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with recognition capability."
   ]
   title "Camera Image Recognition"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.021463168085729945 -0.8906247857295742 -0.45423212508570304 3.188205650395308
-  position 0.029244403639071485 1.783690170573626 -1.2321933387076835
+  orientation 0.4230646872725633 -0.029951437962670063 -0.9056043185337272 3.0485443866044966
+  position 1.457257424142112 0.1382764770695935 1.5513929722001025
 }
 TexturedBackground {
 }
@@ -18,24 +17,24 @@ RectangleArena {
   floorSize 1.5 1.5
 }
 Can {
-  translation -0.29020133 0.06 -0.26762583
+  translation 0.267626 0.290201 0.06
 }
 Can {
-  translation 0.341474 0.06 0.326272
+  translation -0.326272 -0.341474 0.06
   name "can(1)"
 }
 Apple {
-  translation -0.22946 0.05 0.260886
+  translation -0.260886 0.22946 0.05
 }
 Apple {
-  translation -0.56252 0.05 0.621889
+  translation -0.621889 0.56252 0.05
   name "apple(1)"
 }
 DEF ORANGE Solid {
-  translation 0.063045 -4.44089e-16 0.00218798
+  translation -0.002188 -0.063045 0
   children [
     Orange {
-      translation -0.182317 0.05 0.187654
+      translation -0.187654 0.182317 0.05
     }
   ]
   name "orange"
@@ -44,10 +43,10 @@ DEF ORANGE Solid {
   ]
 }
 DEF ORANGE Solid {
-  translation 0.503005 1.11022e-15 -0.0858069
+  translation 0.085807 -0.503005 0
   children [
     Orange {
-      translation -0.182317 0.05 0.187654
+      translation -0.187654 0.182317 0.05
     }
   ]
   name "orange(1)"
@@ -56,56 +55,58 @@ DEF ORANGE Solid {
   ]
 }
 JamJar {
-  translation -0.0787751 -1.77636e-15 0.33681
-  rotation 0 1 0 4.692820414042842e-06
+  translation -0.33681 0.078775 0
   mass 0
 }
 JamJar {
-  translation 0.28829817 0 -0.31403324
-  rotation 0 1 0 2.0943951
+  translation 0.314033 -0.288298 0
+  rotation 0 0 1 2.094395
   name "jam jar(1)"
   mass 0
 }
 CerealBox {
-  translation -0.194464 -1.11022e-15 0.43865
-  rotation 0 1 0 -2.094395307179586
+  translation -0.43865 0.194464 0
+  rotation 0 0 -1 0.523599
 }
 CerealBox {
-  translation -0.4153 0 0.450259
-  rotation 0 1 0 -2.3561953071795863
+  translation -0.450259 0.4153 0
+  rotation 0 0 -1 0.785399
   name "cereal box(1)"
 }
 OilBarrel {
-  translation 0.211927 0.07 0.28712
+  translation -0.28712 -0.211927 0.07
+  rotation 0 0 1 -1.5707953071795862
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.485864 0.07 0.240466
+  translation -0.240466 -0.485864 0.07
+  rotation 0 0 1 -1.5707953071795862
   name "oil barrel(1)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.437183 0.07 0.464787
+  translation -0.464787 -0.437183 0.07
+  rotation 0 0 1 -1.5707953071795862
   name "oil barrel(2)"
   height 0.14
   radius 0.06
 }
 BiscuitBox {
-  translation 0.274668 0.04 -0.538412
-  rotation 0.9351132545462786 -0.25056206820525934 0.25056306820553154 1.63784
+  translation 0.538412 -0.274668 0.04
+  rotation 0.6947480600338772 -0.18615701608601462 -0.6947450600336179 -2.7734953071795863
 }
 RubberDuck {
-  translation -0.384468 0.01 0.243817
-  rotation 0 -1 0 -0.785395307179586
+  translation -0.243817 0.384468 0.01
+  rotation 0 0 1 -2.3561953071795863
 }
 Robot {
-  translation -0.000516413 -4.44089e-16 -0.0851798
-  rotation 0 1 0 2
+  translation 0.08518 0.000516 0
+  rotation 0 0 1 2
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -122,8 +123,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -135,11 +136,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -165,8 +166,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -178,8 +179,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           USE WHEEL
         ]
@@ -189,11 +190,11 @@ Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -219,8 +220,8 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -247,12 +248,12 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.015 0.038 -0.041
-            0.015 0.023 -0.041
-            0 0.023 -0.0455
-            -0.015 0.023 -0.041
-            -0.015 0.038 -0.041
-            0 0.038 -0.0455
+            0.041 -0.015 0.038
+            0.041 -0.015 0.023
+            0.0455 0 0.023
+            0.041 0.015 0.023
+            0.041 0.015 0.038
+            0.0455 0 0.038
           ]
         }
         texCoord TextureCoordinate {
@@ -275,12 +276,11 @@ Robot {
       }
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      translation 0.04 0 0.0915
       children [
         Transform {
-          translation 0 0 0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -313,7 +313,7 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.46589586239301833 0.7821997689695103 0.4136478778249808 4.58603
-  position -0.91835 1.31468 0.101856
+  orientation 0.35838233351491067 0.3514584724690079 -0.8648925049705072 1.70996763062255
+  position -0.0638249796887764 1.8706501754959173 1.8886034993943719
 }
 TexturedBackground {
 }
@@ -34,17 +33,17 @@ RectangleArena {
   }
 }
 Obstacle {
-  translation -0.1 0.025 0.2
+  translation -0.2 0.1 0.025
   name "obstacle(1)"
 }
 Obstacle {
-  translation 0.1 0.025 -0.2
+  translation 0.2 -0.1 0.025
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.57
   controller "beginner_better_collision_avoidance_algorithm"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

@@ -19,6 +19,7 @@
 // Description: quaternion representing a 3D rotation
 //
 
+#include "WbMathsUtilities.hpp"
 #include "WbPrecision.hpp"
 #include "WbVector3.hpp"
 
@@ -155,6 +156,7 @@ inline void WbQuaternion::fromBasisVectors(const WbVector3 &vx, const WbVector3 
     mX = 0.0;
     mY = 0.0;
     mZ = 0.0;
+    return;
   }
   double s = 2.0;
   double invS = 1.0;
@@ -243,7 +245,7 @@ inline WbQuaternion WbQuaternion::slerp(const WbQuaternion &a, const WbQuaternio
     beta = 1.0 - slerpAmount;
     alpha = flag ? -slerpAmount : slerpAmount;
   } else {
-    double theta = acos(dotProduct);
+    double theta = WbMathsUtilities::clampedAcos(dotProduct);
     double cosecant = (1.0 / sin(theta));
     beta = (sin(((1.0 - slerpAmount) * theta))) * cosecant;
     alpha = flag ? ((-sin((slerpAmount * theta))) * cosecant) : ((sin((slerpAmount * theta))) * cosecant);

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable direction panel with two customizable sides.
@@ -6,7 +6,7 @@
 
 PROTO DirectionPanel [
   field SFVec3f     translation          0 0 0
-  field SFRotation  rotation             0 1 0 0
+  field SFRotation  rotation             0 0 1 0
   field SFString    name                 "direction panel"
   field SFFloat     width                1.3                           # Defines the width of the panel.
   field SFFloat     height               0.4                           # Defines the height of the panel.
@@ -42,7 +42,8 @@ PROTO DirectionPanel [
     children [
       Transform {
         # precise percentage for translation because of imported shape scales
-        translation %<= -0.287 * width >% %<= -1.816 * height >% 0
+        translation 0 %<= 0.287 * width >% %<= -1.816 * height >%
+        rotation -0.577350 0.577350 0.577352 -2.094399
         scale %<= 0.387 * width >% %<= height >% %<= 11.37 * thickness >%
         children [
           DEF FRONT_SIDE Shape {
@@ -264,7 +265,8 @@ PROTO DirectionPanel [
     name IS name
     model "direction panel"
     boundingObject Transform {
-      translation %<= - (0.8 * width) / 2 >% 0 0
+      translation 0 %<= (0.8 * width) / 2 >% 0
+      rotation -0.577350 0.577350 0.577352 -2.094399
       children [
         Box {
           size %<= width >% %<= height >% %<= thickness >%

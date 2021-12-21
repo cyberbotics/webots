@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Static radar rays"
   coordinateSystem "NUE"
@@ -17,6 +17,7 @@ PointLight {
   location 0 0.3 0
 }
 Solid {
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {
@@ -86,21 +87,21 @@ DEF STATIC_ROBOT Robot {
     }
     DEF STATIC Radar {
       translation -0.05 0 0.001
-      rotation 0 1 0 1.5708
+      rotation 0.0 0.7071078227087467 0.7071057396616217 3.141591084855258
       name "radar static"
       minRange 0.02
       maxRange 0.2
     }
     DEF DYNAMIC Radar {
       translation 0.05 0 0
-      rotation 0 1 0 -1.5708
+      rotation -1 0.0 0.0 1.5707933809453447
       name "radar dynamic"
       minRange 0.01
       maxRange 0.2
     }
     DEF STATIC_OCCLUSION Radar {
       translation -0.05 0 0.001
-      rotation 0 1 0 1.5708
+      rotation 0.0 0.7071078227087467 0.7071057396616217 3.141591084855258
       name "radar occlusion static"
       minRange 0.02
       maxRange 0.2
@@ -108,7 +109,7 @@ DEF STATIC_ROBOT Robot {
     }
     DEF DYNAMIC_OCCLUSION Radar {
       translation 0.05 0 0
-      rotation 0 1 0 -1.5708
+      rotation -1 0.0 0.0 1.5707933809453447
       name "radar occlusion dynamic"
       minRange 0.01
       maxRange 0.2

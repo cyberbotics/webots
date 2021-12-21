@@ -72,6 +72,7 @@ protected:
   QToolBar *toolBar() const { return mToolBar; }
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   virtual void updateGui();
   void tabChanged(int);
   void preview();
@@ -88,8 +89,6 @@ private slots:
   void deleteFindDialog();
   void goToLine();
   void toggleLineComment();
-  void duplicateSelection();
-  void transposeCurrentLine();
   void print();
   void printPreview();
   void modificationChanged(bool changed);

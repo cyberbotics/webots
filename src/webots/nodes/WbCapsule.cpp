@@ -37,10 +37,6 @@
 #include <cmath>
 
 void WbCapsule::init() {
-  // rotate capsule by 90 degrees around the x-axis because ODE capsules
-  // are z-aligned but Webots needs the Caspules to be y-aligned
-  mIs90DegreesRotated = true;
-
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
   mHeight = findSFDouble("height");
@@ -332,11 +328,11 @@ void WbCapsule::applyToOdeData(bool correctSolidMass) {
 
 double WbCapsule::scaledRadius() const {
   const WbVector3 &scale = absoluteScale();
-  return fabs(mRadius->value() * std::max(scale.x(), scale.z()));
+  return fabs(mRadius->value() * std::max(scale.x(), scale.y()));
 }
 
 double WbCapsule::scaledHeight() const {
-  return fabs(mHeight->value() * absoluteScale().y());
+  return fabs(mHeight->value() * absoluteScale().z());
 }
 
 bool WbCapsule::isSuitableForInsertionInBoundingObject(bool warning) const {
@@ -367,7 +363,7 @@ bool WbCapsule::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoo
   if (collisionDistance < 0)
     return false;
 
-  const double theta = atan2(localCollisionPoint.x(), localCollisionPoint.z()) + M_PI;
+  const double theta = atan2(localCollisionPoint.x(), -localCollisionPoint.y()) + M_PI;
   const double u = 0.5 * theta / M_PI;
 
   // default: offset of the top half sphere
@@ -375,16 +371,16 @@ bool WbCapsule::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoo
   const double h = scaledHeight();
   const double h2 = 0.5 * h;
   const double r = scaledRadius();
-  const double absY = fabs(localCollisionPoint.y());
-  if (absY <= h2) {
+  const double absZ = fabs(localCollisionPoint.z());
+  if (absZ <= h2) {
     // body
-    v = (2.0 - (localCollisionPoint.y() + h2) / h) / 3.0;
+    v = (2.0 - (localCollisionPoint.z() + h2) / h) / 3.0;
 
   } else {
     // top and bottom half sphere
 
-    double yIi;
-    const double yI = absY - h2;
+    double zIi;
+    const double zI = absZ - h2;
     const int sub4 = 0.25 * mSubdivision->value();
     const int sub5 = sub4 + 1;
     double prevD = 0;
@@ -393,9 +389,9 @@ bool WbCapsule::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoo
     for (int i = 1; i < sub5; i++) {
       double alpha = factor4 * i;
       double d = r * sin(alpha);
-      if (yI < d) {
-        yIi = yI - prevD;
-        v = (double)(i - 1 + 2 * sub4) / p + yIi / (p * (d - prevD));
+      if (zI < d) {
+        zIi = zI - prevD;
+        v = (double)(i - 1 + 2 * sub4) / p + zIi / (p * (d - prevD));
         break;
       }
 
@@ -403,7 +399,7 @@ bool WbCapsule::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoo
     }
 
     // if top half sphere
-    if (localCollisionPoint.y() > 0)
+    if (localCollisionPoint.z() > 0)
       v = 1.0 - v;
   }
 
@@ -434,9 +430,9 @@ double WbCapsule::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray)
 
   // distance from cylinder body
   if (mSide->value()) {
-    const double a = direction.x() * direction.x() + direction.z() * direction.z();
-    const double b = 2.0 * (origin.x() * direction.x() + origin.z() * direction.z());
-    const double c = origin.x() * origin.x() + origin.z() * origin.z() - r * r;
+    const double a = direction.x() * direction.x() + direction.y() * direction.y();
+    const double b = 2.0 * (origin.x() * direction.x() + origin.y() * direction.y());
+    const double c = origin.x() * origin.x() + origin.y() * origin.y() - r * r;
     double discriminant = b * b - 4.0 * a * c;
 
     // if c < 0: ray origin is inside the cylinder body
@@ -444,31 +440,31 @@ double WbCapsule::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray)
       discriminant = sqrt(discriminant);
       const double t1 = (-b - discriminant) / (2 * a);
       const double t2 = (-b + discriminant) / (2 * a);
-      const double y1 = origin.y() + t1 * direction.y();
-      const double y2 = origin.y() + t2 * direction.y();
-      if (t1 > 0.0 && y1 >= -halfH && y1 <= halfH)
+      const double z1 = origin.z() + t1 * direction.z();
+      const double z2 = origin.z() + t2 * direction.z();
+      if (t1 > 0.0 && z1 >= -halfH && z1 <= halfH)
         d = t1;
-      else if (t2 > 0.0 && y2 >= -halfH && y2 <= halfH)
+      else if (t2 > 0.0 && z2 >= -halfH && z2 <= halfH)
         d = t2;
     }
   }
 
   // distance with top half sphere
   if (mTop->value()) {
-    std::pair<bool, double> intersection = WbRay(origin, direction).intersects(WbVector3(0, halfH, 0), r, true);
+    std::pair<bool, double> intersection = WbRay(origin, direction).intersects(WbVector3(0, 0, halfH), r, true);
     if (intersection.first && intersection.second > 0 && intersection.second < d) {
-      double y = origin.y() + intersection.second * direction.y();
-      if (y >= halfH)
+      double z = origin.z() + intersection.second * direction.z();
+      if (z >= halfH)
         d = intersection.second;
     }
   }
 
   // distance with bottom half spheres
   if (mBottom->value()) {
-    std::pair<bool, double> intersection = WbRay(origin, direction).intersects(WbVector3(0, -halfH, 0), r, true);
+    std::pair<bool, double> intersection = WbRay(origin, direction).intersects(WbVector3(0, 0, -halfH), r, true);
     if (intersection.first && intersection.second > 0 && intersection.second < d) {
-      double y = origin.y() + intersection.second * direction.y();
-      if (y <= -halfH)
+      double z = origin.z() + intersection.second * direction.z();
+      if (z <= -halfH)
         d = intersection.second;
     }
   }
@@ -495,16 +491,16 @@ void WbCapsule::recomputeBoundingSphere() const {
 
   if (top + side + bottom == 1) {
     if (top || bottom)
-      mBoundingSphere->set(WbVector3(0, top ? halfHeight : -halfHeight, 0), radius);
+      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), radius);
     else  // side
-      mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
+      mBoundingSphere->set(WbVector3(), WbVector3(radius, 0, halfHeight).length());
   } else if (top != bottom) {  // we have 'top and side' or 'side and bottom'
-    const double maxY = top ? halfHeight + radius : halfHeight;
-    const double minY = bottom ? -halfHeight - radius : -halfHeight;
-    const double totalHeight = (maxY - minY);
+    const double maxZ = top ? halfHeight + radius : halfHeight;
+    const double minZ = bottom ? -halfHeight - radius : -halfHeight;
+    const double totalHeight = (maxZ - minZ);
     const double newRadius = totalHeight / 2.0 + radius * radius / (2 * totalHeight);
-    const double offsetY = top ? (maxY - newRadius) : (minY + newRadius);
-    mBoundingSphere->set(WbVector3(0, offsetY, 0), newRadius);
+    const double offsetZ = top ? (maxZ - newRadius) : (minZ + newRadius);
+    mBoundingSphere->set(WbVector3(0, 0, offsetZ), newRadius);
   } else  // complete capsule
     mBoundingSphere->set(WbVector3(), halfHeight + radius);
 }

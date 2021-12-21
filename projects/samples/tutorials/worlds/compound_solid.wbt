@@ -1,7 +1,6 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "dumbbell"
@@ -9,8 +8,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.5112230187570285 0.843269030939963 0.16597700608977947 5.42515
-  position -0.378361 0.390215 0.420816
+  orientation 0.1837096726596878 0.38069486957789267 -0.906268267373597 0.9785757670498106
+  position -0.40223110196480394 0.5283703907269377 0.3792221611091652
 }
 TexturedBackground {
 }
@@ -23,7 +22,7 @@ E-puck {
   controller "epuck_avoid_collision"
 }
 DEF BALL Solid {
-  translation 0 0.1 -0.2
+  translation 0.2 0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -48,7 +47,7 @@ DEF BALL Solid {
   }
 }
 DEF WALL_1 Solid {
-  translation 0.5 0.05 0
+  translation 0.5 0 0.05
   children [
     DEF WALL_SHAPE Shape {
       appearance PBRAppearance {
@@ -57,7 +56,7 @@ DEF WALL_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 0.1 0.98
+        size 0.02 0.98 0.1
       }
     }
   ]
@@ -65,7 +64,7 @@ DEF WALL_1 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_2 Solid {
-  translation -0.5 0.05 0
+  translation -0.5 0 0.05
   children [
     USE WALL_SHAPE
   ]
@@ -73,8 +72,8 @@ DEF WALL_2 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_3 Solid {
-  translation 0 0.05 -0.5
-  rotation 0 1 0 1.5708
+  translation 0 -0.5 0.05
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]
@@ -82,8 +81,8 @@ DEF WALL_3 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_4 Solid {
-  translation 0 0.05 0.5
-  rotation 0 1 0 1.5708
+  translation 0 0.5 0.05
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]
@@ -91,8 +90,8 @@ DEF WALL_4 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF DUMBBELL Solid {
-  translation 0.2 0.1 -0.1
-  rotation 1 0 0 1.5708
+  translation 0.1 -0.2 0.1
+  rotation 0 1 0 1.5708
   children [
     DEF G0 Group {
       children [
@@ -108,7 +107,7 @@ DEF DUMBBELL Solid {
           }
         }
         Transform {
-          translation 0 0.05 0
+          translation 0 0 0.05
           children [
             Shape {
               appearance PBRAppearance {
@@ -124,7 +123,7 @@ DEF DUMBBELL Solid {
           ]
         }
         Transform {
-          translation 0 -0.05 0
+          translation 0 0 -0.05
           children [
             Shape {
               appearance PBRAppearance {
@@ -149,7 +148,7 @@ DEF DUMBBELL Solid {
     density -1
     mass 2
     centerOfMass [
-      0 0.02 0
+      0 0 -0.02
     ]
   }
 }

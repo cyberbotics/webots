@@ -15,12 +15,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Bed {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "bed"
   SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }
   SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }
   SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }
-  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
+  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
 }
 ```
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -50,7 +50,7 @@ Robot {
       children [
         DEF DS_SHAPE Transform {
           translation -0.026 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -76,7 +76,7 @@ Robot {
       children [
         DEF DS_SHAPE Transform {
           translation -0.026 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {

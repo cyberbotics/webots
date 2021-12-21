@@ -981,10 +981,6 @@ To fix the problem, you should:
         <translation type="unfinished">Alternar comentario de las líneas seleccionadas.</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">&amp;Duplicar la línea o selección</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">Duplicar la línea actual o el texto seleccionado.</translation>
     </message>
@@ -1714,7 +1710,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix 
+        <source>Insert the identity matrix
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2545,7 +2541,7 @@ Please close any running instances of the controller and reload the world.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid &apos;zDimension&apos; (should be greater than 1) for use in boundingObject.</source>
+        <source>Invalid &apos;yDimension&apos; (should be greater than 1) for use in boundingObject.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3643,7 +3639,7 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Export HTML5 Model...</source>
+        <source>&amp;Export HTML5 Scene...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3659,7 +3655,7 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export HTML5 Model</source>
+        <source>Export HTML5 Scene</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3920,7 +3916,7 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The HTML5 model has been created:&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Do you want to view it locally now?&lt;br&gt;&lt;br&gt;Note: please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/web-scene#remarks-on-the-used-technologies-and-their-limitations&apos;&gt;User Guide&lt;/a&gt; if your browser prevents local files CORS requests.</source>
+        <source>The HTML5 scene has been created:&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Do you want to view it locally now?&lt;br&gt;&lt;br&gt;Note: please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/web-scene#remarks-on-the-used-technologies-and-their-limitations&apos;&gt;User Guide&lt;/a&gt; if your browser prevents local files CORS requests.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4438,7 +4434,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>

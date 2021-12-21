@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Four roads crossing traffic light.
@@ -6,7 +6,7 @@
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "cross road traffic light"
   field SFString   controller  "crossroads_traffic_lights"  # Is `Robot.controller`.
   field SFBool     supervisor  FALSE                        # Is `Robot.supervisor`.
@@ -21,7 +21,8 @@ PROTO CrossRoadsTrafficLight [
     rotation IS rotation
     children [
       TrafficLightBigPole {
-        translation %<= - size.x * 0.5 >% 0 %<= - size.y * 0.5 >%
+        translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0
+        rotation 0 0 1 3.14156
         name "pole 1"
         slot1 [
           TrafficLight {
@@ -55,8 +56,8 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %<= size.x * 0.5 >% 0 %<= - size.y * 0.5 >%
-        rotation 0 -1 0 1.5708
+        translation %<= size.x * 0.5 >% %<= - size.y * 0.5 >% 0
+        rotation 0 0 1 -1.5708
         name "pole 2"
         slot1 [
           TrafficLight {
@@ -90,8 +91,7 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
-        rotation 0 1 0 3.14159
+        translation %<= size.x * 0.5 >% %<= size.y * 0.5 >% 0
         name "pole 3"
         slot1 [
           TrafficLight {
@@ -125,8 +125,8 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %<= - size.x * 0.5 >% 0 %<= size.y * 0.5 >%
-        rotation 0 1 0 1.5708
+        translation %<= - size.x * 0.5 >% %<= size.y * 0.5 >% 0
+        rotation 0 0 1 1.5708
         name "pole 4"
         slot1 [
           TrafficLight {

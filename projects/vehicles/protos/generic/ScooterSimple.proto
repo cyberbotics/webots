@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO ScooterSimple [
-  field       SFVec3f    translation                0 0.23 0
-  field       SFRotation rotation                   0 1 0 0
+  field       SFVec3f    translation                0 0 0.23
+  field       SFRotation rotation                   0 0 1 0
   field       SFColor    primaryColor               0.43 0.11 0.1
   field       SFColor    secondaryColor             0.69 0.43 0.43
   field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]
@@ -23,63 +23,68 @@ PROTO ScooterSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      DEF DRIVER Slot {
-        type "scooter driver"
-        endPoint IS driver
-      }
-      ScooterMesh {
-        primaryColor IS primaryColor
-        secondaryColor IS secondaryColor
-      }
-      ScooterFrontLight {
-      }
-      ScooterBackwardsLight {
-      }
-      ScooterRightIndicator {
-      }
-      ScooterLeftIndicator {
-      }
-      DEF FRONT_WHEEL Solid {
-        angularVelocity IS frontWheelAngularVelocity
-        translation 0 0 1.484
-        rotation 0 0 1 1.5708
+      Transform {
+        rotation 0.5773502063 0.5773502063 0.577350395 2.0943949137
         children [
-          Slot {
-            type "vehicle wheel"
-            endPoint ScooterWheel {
-              boundingObject IS wheelBoundingObject
-            }
+          DEF DRIVER Slot {
+            type "scooter driver"
+            endPoint IS driver
+          }
+          ScooterMesh {
+            primaryColor IS primaryColor
+            secondaryColor IS secondaryColor
+          }
+          ScooterFrontLight {
+          }
+          ScooterBackwardsLight {
+          }
+          ScooterRightIndicator {
+          }
+          ScooterLeftIndicator {
+          }
+          DEF FRONT_WHEEL Solid {
+            angularVelocity IS frontWheelAngularVelocity
+            translation 0 0 1.484
+            children [
+              Slot {
+                type "vehicle wheel"
+                endPoint ScooterWheel {
+                  boundingObject IS wheelBoundingObject
+                }
+              }
+            ]
+            name "front wheel"
+          }
+          DEF REAR_WHEEL Solid {
+            angularVelocity IS rearWheelAngularVelocity
+            children [
+              Slot {
+                type "vehicle wheel"
+                endPoint ScooterWheel {
+                  boundingObject IS wheelBoundingObject
+                }
+              }
+            ]
+            name "rear wheel"
           }
         ]
-        name "front wheel"
-      }
-      DEF REAR_WHEEL Solid {
-        angularVelocity IS rearWheelAngularVelocity
-        rotation 0 0 1 1.5708
-        children [
-          Slot {
-            type "vehicle wheel"
-            endPoint ScooterWheel {
-              boundingObject IS wheelBoundingObject
-            }
-          }
-        ]
-        name "rear wheel"
-      }
+      } 
     ]
     name IS name
     model "ScooterSimple"
     radarCrossSection 10
     boundingObject Transform { # changing the bounding box to fit the driver if present
       %< if (fields.driver.value) { >%
-        translation 0 0.7 0.624
+        translation 0.624 0 0.7
+        rotation 0.5773509761 0.5773509761 -0.5773488554 -2.0943972231
         children [
           Box {
             size 0.66 1.52 1.95
           }
         ]
       %< } else { >%
-        translation 0 0.5 0.624
+        translation 0.624 0 0.5 
+        rotation 0.5773509761 0.5773509761 -0.5773488554 -2.0943972231
         children [
           Box {
             size 0.66 1.12 1.95

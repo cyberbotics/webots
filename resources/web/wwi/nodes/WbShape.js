@@ -35,7 +35,7 @@ export default class WbShape extends WbBaseNode {
     }
   }
 
-  async clone(customID) {
+  clone(customID) {
     let geometry, appearance;
     if (typeof this.geometry !== 'undefined') {
       geometry = this.geometry.clone(getAnId());
@@ -44,7 +44,7 @@ export default class WbShape extends WbBaseNode {
     }
 
     if (typeof this.appearance !== 'undefined') {
-      appearance = await this.appearance.clone(getAnId());
+      appearance = this.appearance.clone(getAnId());
       appearance.parent = customID;
       WbWorld.instance.nodes.set(appearance.id, appearance);
     }

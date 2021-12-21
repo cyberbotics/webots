@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
@@ -6,7 +6,7 @@
 
 PROTO SurveyorSrv1 [
   field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0        # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
   field SFString   name            "SurveyorSrv1" # Is `Solid.name`.
   field SFString   controller      "surveyor"     # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
@@ -32,14 +32,13 @@ PROTO SurveyorSrv1 [
       DEF BODY Group {
         children [
           DEF LEFT_TRACK Transform {
-            translation -0.0295 0.014 0
-            rotation 0 0 1 1.57
+            translation 0 0.0295 0.014
+            rotation 1 0 0 -1.57
             children [
               DEF TRACK Group {
                 children [
                   Transform {
-                    translation 0 0 0.049
-                    rotation 0 0 1 0
+                    translation -0.049 0 0
                     children [
                       DEF TRACK_EXTRUSION Shape {
                         appearance DEF BLACK PBRAppearance {
@@ -50,22 +49,7 @@ PROTO SurveyorSrv1 [
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              -0.014 0 0
-                              -0.01212 0 0.007
-                              -0.007 0 0.01212
-                              0 0 0.014
-                              0.007 0 0.01212
-                              0.01212 0 0.007
-                              0.014 0 0
-                              -0.014 0 0
-                              -0.014 0.0198 0
-                              -0.01212 0.0198 0.007
-                              -0.007 0.0198 0.01212
-                              0 0.0198 0.014
-                              0.007 0.0198 0.01212
-                              0.01212 0.0198 0.007
-                              0.014 0.0198 0
-                              -0.014 0.0198 0
+                              0 0.014 0 -0.007 0.01212 0 -0.01212 0.007 0 -0.014 0 0 -0.01212 -0.007 0 -0.007 -0.01212 0 0 -0.014 0 0 0.014 0 0 0.014 0.0198 -0.007 0.01212 0.0198 -0.01212 0.007 0.0198 -0.014 0 0.0198 -0.01212 -0.007 0.0198 -0.007 -0.01212 0.0198 0 -0.014 0.0198 0 0.014 0.0198
                             ]
                           }
                           coordIndex [
@@ -76,30 +60,15 @@ PROTO SurveyorSrv1 [
                     ]
                   }
                   Transform {
-                    translation 0 0 -0.049
-                    rotation 0 1 0 3.14
+                    translation 0.049 0 0
+                    rotation 0 0 1 3.14
                     children [
                       DEF TRACK_EXTRUSION Shape {
                         appearance USE BLACK
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              -0.014 0 0
-                              -0.01212 0 0.007
-                              -0.007 0 0.01212
-                              0 0 0.014
-                              0.007 0 0.01212
-                              0.01212 0 0.007
-                              0.014 0 0
-                              -0.014 0 0
-                              -0.014 0.0198 0
-                              -0.01212 0.0198 0.007
-                              -0.007 0.0198 0.01212
-                              0 0.0198 0.014
-                              0.007 0.0198 0.01212
-                              0.01212 0.0198 0.007
-                              0.014 0.0198 0
-                              -0.014 0.0198 0
+                              0 0.014 0 -0.007 0.01212 0 -0.01212 0.007 0 -0.014 0 0 -0.01212 -0.007 0 -0.007 -0.01212 0 0 -0.014 0 0 0.014 0 0 0.014 0.0198 -0.007 0.01212 0.0198 -0.01212 0.007 0.0198 -0.014 0 0.0198 -0.01212 -0.007 0.0198 -0.007 -0.01212 0.0198 0 -0.014 0.0198 0 0.014 0.0198
                             ]
                           }
                           coordIndex [
@@ -110,8 +79,7 @@ PROTO SurveyorSrv1 [
                     ]
                   }
                   Transform {
-                    translation 0 0.0101 -0.049
-                    rotation 0 0 1 0
+                    translation 0.049 0 0.0101
                     children [
                       DEF TRACK_WHEEL Shape {
                         appearance DEF GRAY PBRAppearance {
@@ -125,27 +93,24 @@ PROTO SurveyorSrv1 [
                     ]
                   }
                   Transform {
-                    translation 0 0.0101 0.049
-                    rotation 0 0 1 0
+                    translation -0.049 0 0.0101
                     children [
                       USE TRACK_WHEEL
                     ]
                   }
                   Transform {
-                    translation 0.0125 0.0099 0
-                    rotation 0 0 1 0
+                    translation 0 -0.0125 0.0099
                     children [
                       DEF TRACK_BOX Shape {
                         appearance USE BLACK
                         geometry Box {
-                          size 0.003 0.0198 0.098
+                          size 0.098 0.003 0.0198
                         }
                       }
                     ]
                   }
                   Transform {
-                    translation -0.0125 0.0099 0
-                    rotation 0 0 1 0
+                    translation 0 0.0125 0.0099
                     children [
                       USE TRACK_BOX
                     ]
@@ -155,17 +120,17 @@ PROTO SurveyorSrv1 [
             ]
           }
           DEF RIGHT_TRACK Transform {
-            translation 0.0295 0.014 0
-            rotation 0 0 1 -1.57
+            translation 0 -0.0295 0.014
+            rotation 1 0 0 1.57
             children [
               USE TRACK
             ]
           }
           DEF BASE Transform {
-            translation 0 0.014 0
+            translation 0 0 0.014
             children [
               Transform {
-                translation 0 0 0.047
+                translation -0.047 0 0
                 children [
                   Shape {
                     appearance USE GRAY
@@ -176,30 +141,30 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 0 -0.048
+                translation 0.048 0 0
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.056 0.014 0.016
+                      size 0.016 0.056 0.014
                     }
                   }
                 ]
               }
               Transform {
-                translation 0 0 -0.002
+                translation 0.002 0 0
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.043 0.014 0.0765
+                      size 0.0765 0.043 0.014
                     }
                   }
                 ]
               }
               Transform {
-                translation 0 0 0.049
-                rotation 0 0 1 1.57
+                translation -0.049 0 0
+                rotation 1 0 0 1.57
                 children [
                   DEF WHEEL_AXE Shape {
                     appearance USE GRAY
@@ -211,8 +176,8 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 0 -0.049
-                rotation 0 0 1 1.57
+                translation 0.049 0 0
+                rotation 1 0 0 1.57
                 children [
                   USE WHEEL_AXE
                 ]
@@ -220,12 +185,12 @@ PROTO SurveyorSrv1 [
             ]
           }
           DEF FRONT_SUPPORT Transform {
-            translation 0 0.021 -0.0254
+            translation 0.0254 0 0.021
             children [
               DEF SUPPORT Group {
                 children [
                   Transform {
-                    translation 0.0127 0.0165 0
+                    translation 0 -0.0127 0.0165
                     children [
                       DEF STICK Shape {
                         appearance USE GRAY
@@ -237,25 +202,25 @@ PROTO SurveyorSrv1 [
                     ]
                   }
                   Transform {
-                    translation -0.0127 0.0165 0
+                    translation 0 0.0127 0.0165
                     children [
                       USE STICK
                     ]
                   }
                   Transform {
-                    translation 0 0.026 -0.0076
+                    translation 0.0076 0 0.026
                     children [
                       Shape {
                         appearance USE GRAY
                         geometry Box {
-                          size 0.03175 0.0012 0.0215
+                          size 0.0215 0.03175 0.0012
                         }
                       }
                     ]
                   }
                   Transform {
-                    translation 0 0.01685 -0.0195
-                    rotation 1 0 0 1.745
+                    translation 0.0195 0 0.0169
+                    rotation -0.705761 0.705764 -0.061627 3.01848
                     children [
                       Shape {
                         appearance USE GRAY
@@ -270,8 +235,8 @@ PROTO SurveyorSrv1 [
             ]
           }
           DEF BACK_SUPPORT Transform {
-            translation 0 0.021 0.0254
-            rotation 0 1 0 3.142
+            translation -0.0254 0 0.021
+            rotation 0 0 1 3.142
             children [
               USE SUPPORT
             ]
@@ -279,19 +244,18 @@ PROTO SurveyorSrv1 [
           DEF TOP_PLATE Group {
             children [
               Transform {
-                translation 0 0.05425 0
+                translation 0 0 0.0542
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.076 0.0015 0.076
+                      size 0.076 0.076 0.0015
                     }
                   }
                 ]
               }
               DEF TOP Transform {
-                translation 0 0.0551 0
-                rotation 1 0 0 0
+                translation 0 0 0.0551
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -319,10 +283,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.038 0 -0.038
-                          0.038 0 0.038
-                          -0.038 0 0.038
-                          -0.038 0 -0.038
+                          0.038 -0.038 0 -0.038 -0.038 0 -0.038 0.038 0 0.038 0.038 0
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -344,8 +305,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               DEF XBEE Transform {
-                translation -0.013 0.0631 -0.011
-                rotation 1 0 0 0
+                translation 0.011 0.013 0.0631
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -373,10 +333,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.012 0 -0.0165
-                          0.012 0 0.0165
-                          -0.012 0 0.0165
-                          -0.012 0 -0.0165
+                          0.0165 -0.012 0 -0.0165 -0.012 0 -0.0165 0.012 0 0.0165 0.012 0
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -400,20 +357,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.005 -0.008 0.0165
-                          0.012 -0.008 0.01
-                          0.012 -0.008 -0.0165
-                          -0.012 -0.008 -0.0165
-                          -0.012 -0.008 0.01
-                          -0.005 -0.008 0.0165
-                          0.005 -0.008 0.0165
-                          0.005 -0.0001 0.0165
-                          0.012 -0.0001 0.01
-                          0.012 -0.0001 -0.0165
-                          -0.012 -0.0001 -0.0165
-                          -0.012 -0.0001 0.01
-                          -0.005 -0.0001 0.0165
-                          0.005 -0.0001 0.0165
+                          -0.0165 -0.005 -0.008 -0.01 -0.012 -0.008 0.0165 -0.012 -0.008 0.0165 0.012 -0.008 -0.01 0.012 -0.008 -0.0165 0.005 -0.008 -0.0165 -0.005 -0.008 -0.0165 -0.005 -0.0001 -0.01 -0.012 -0.0001 0.0165 -0.012 -0.0001 0.0165 0.012 0 -0.01 0.012 0 -0.0165 0.005 -0.0001 -0.0165 -0.005 -0.0001
                         ]
                       }
                       coordIndex [
@@ -424,8 +368,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               DEF SERIAL Transform {
-                translation 0.0158 0.0611 0.0044
-                rotation 1 0 0 0
+                translation -0.0044 -0.0158 0.0611
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -453,10 +396,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.015 0.0061 -0.0335
-                          0.015 0.0061 0.0335
-                          -0.015 0.0061 0.0335
-                          -0.015 0.0061 -0.0335
+                          0.0335 -0.015 0.0061 -0.0335 -0.015 0.0061 -0.0335 0.015 0.0061 0.0335 0.0145 0.0061
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -478,30 +418,21 @@ PROTO SurveyorSrv1 [
                   Shape {
                     appearance USE BLACK
                     geometry Box {
-                      size 0.03 0.012 0.067
+                      size 0.067 0.03 0.012
                     }
                   }
                 ]
               }
               DEF SERIAL_PORT Transform {
-                translation 0.0158 0.0665 0.0375
-                rotation 1 0 0 1.57
+                translation -0.0375 -0.0158 0.0665
+                rotation 0 1 0 -1.57
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.006 0 0.003
-                          0.0075 0 -0.003
-                          -0.0075 0 -0.003
-                          -0.006 0 0.003
-                          0.006 0 0.003
-                          0.006 0.01 0.003
-                          0.0075 0.01 -0.003
-                          -0.0075 0.01 -0.003
-                          -0.006 0.01 0.003
-                          0.006 0.01 0.003
+                          -0.003 -0.006 0 0.003 -0.0075 0 0.003 0.0075 0 -0.003 0.006 0 -0.003 -0.006 0 -0.003 -0.006 0.01 0.003 -0.0075 0.01 0.003 0.0075 0.01 -0.003 0.006 0.01 -0.003 -0.006 0.01
                         ]
                       }
                       coordIndex [
@@ -522,10 +453,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.0068 0.0101 -0.0025
-                          0.0068 0.0101 0.0025
-                          -0.0068 0.0101 0.0025
-                          -0.0068 0.0101 -0.0025
+                          0.0025 -0.006 0.0101 -0.0025 -0.0068 0.0101 -0.0025 0.0068 0.0101 0.0025 0.0068 0.0101
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -545,12 +473,12 @@ PROTO SurveyorSrv1 [
                     }
                   }
                   Transform {
-                    translation 0 0.004 0
+                    translation 0 0 0.004
                     children [
                       Shape {
                         appearance USE GRAY
                         geometry Box {
-                          size 0.03 0.001 0.012
+                          size 0.012 0.03 0.001
                         }
                       }
                     ]
@@ -562,8 +490,8 @@ PROTO SurveyorSrv1 [
           DEF BATTERIES Group {
             children [
               Transform {
-                translation 0 0.037 -0.008
-                rotation 1 0 0 1.57
+                translation 0.008 0 0.037
+                rotation 0 1 0 -1.57
                 children [
                   DEF BATTERY Shape {
                     appearance USE GRAY
@@ -575,8 +503,8 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 0.019 -0.008
-                rotation 1 0 0 1.57
+                translation 0.008 0 0.019
+                rotation 0 1 0 -1.57
                 children [
                   USE BATTERY
                 ]
@@ -584,11 +512,11 @@ PROTO SurveyorSrv1 [
             ]
           }
           DEF BUTTONS Transform {
-            translation 0 0.037 0.0455
-            rotation 1 0 0 -1.745
+            translation -0.0455 0 0.037
+            rotation 0 1 0 1.745
             children [
               Transform {
-                translation -0.00575 0 0
+                translation 0 0.0057 0
                 children [
                   Shape {
                     appearance USE GRAY
@@ -600,7 +528,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0.00575 0 0
+                translation 0 -0.0057 0
                 children [
                   Shape {
                     appearance USE GRAY
@@ -612,13 +540,13 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0.00575 -0.0075 -0.0015
-                rotation 1 0 0 0.3
+                translation 0.0015 -0.0057 -0.0075
+                rotation 0 1 0 -0.3
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.004 0.015 0.002
+                      size 0.002 0.004 0.015
                     }
                   }
                 ]
@@ -626,22 +554,21 @@ PROTO SurveyorSrv1 [
             ]
           }
           DEF FRONT_PLATE Transform {
-            translation 0 0.041 -0.047
-            rotation 1 0 0 -1.395
+            translation 0.047 0 0.041
+            rotation 0 1 0 1.395
             children [
               Transform {
                 children [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.02 0.0012 0.0265
+                      size 0.0265 0.02 0.0012
                     }
                   }
                 ]
               }
               DEF FRONT Transform {
-                translation 0 0.0007 0
-                rotation 1 0 0 0
+                translation 0 0 0.0007
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -669,10 +596,7 @@ PROTO SurveyorSrv1 [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0.01 0 -0.01325
-                          0.01 0 0.01325
-                          -0.01 0 0.01325
-                          -0.01 0 -0.01325
+                          0.01325 -0.01 0 -0.01325 -0.01 0 -0.01325 0.01 0 0.01325 0.01 0
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -694,12 +618,12 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 -0.001 -0.002
+                translation 0.002 0 -0.001
                 children [
                   Shape {
                     appearance USE BLACK
                     geometry Box {
-                      size 0.01 0.0025 0.015
+                      size 0.015 0.01 0.0025
                     }
                   }
                 ]
@@ -709,10 +633,10 @@ PROTO SurveyorSrv1 [
         ]
       }
       DEF ANTENNA_EMITTER Emitter {
-        translation -0.017 0.08 -0.002
+        translation 0.002 0.017 0.08
         children [
           Transform {
-            translation 0 -0.008 0
+            translation 0 0 -0.008
             children [
               Shape {
                 appearance USE BLACK
@@ -737,26 +661,26 @@ PROTO SurveyorSrv1 [
         ]
       }
       DEF ANTENNA_RECEIVER Receiver {
-        translation -0.017 0.08 -0.002
+        translation 0.002 0.017 0.08
       }
       DEF CAMERA Camera {
-        translation 0 0.037 -0.058
-        rotation 1 0 0 0.1742
+        translation 0.058 0 0.037
+        rotation 0 1 0 -0.1742
         children [
           Transform {
-            translation 0 0 0.0075
+            translation -0.0075 0 0
             children [
               Shape {
                 appearance USE BLACK
                 geometry Box {
-                  size 0.014 0.014 0.005
+                  size 0.005 0.014 0.014
                 }
               }
             ]
           }
           Transform {
-            translation 0 0 0.0025
-            rotation 1 0 0 1.57
+            translation -0.0025 0 0
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance USE BLACK
@@ -775,7 +699,8 @@ PROTO SurveyorSrv1 [
       }
       DEF FIRST_LEFT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.0394 0.014 -0.049
+          anchor 0.049 0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -787,12 +712,11 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation -0.0394 0.014 -0.049
-          rotation 1 0 0 0
+          translation 0.049 0.0394 0.014
           name "first left wheel"
           contactMaterial "wheel"
           boundingObject DEF BOUNDING_WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 1 0 0 -1.57
             children [
               Cylinder {
                 height 0.0198
@@ -808,7 +732,8 @@ PROTO SurveyorSrv1 [
       }
       DEF SECOND_LEFT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.0394 0.014 -0.0245
+          anchor 0.0245 0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -820,8 +745,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation -0.0394 0.014 -0.0245
-          rotation 1 0 0 0
+          translation 0.0245 0.0394 0.014
           name "second left wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -830,7 +754,8 @@ PROTO SurveyorSrv1 [
       }
       DEF THIRD_LEFT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.0394 0.014 0
+          anchor 0 0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -842,8 +767,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation -0.0394 0.014 0
-          rotation 1 0 0 0
+          translation 0 0.0394 0.014
           name "third left wheel"
           contactMaterial "center_wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -855,7 +779,8 @@ PROTO SurveyorSrv1 [
       }
       DEF FOURTH_LEFT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.0394 0.014 0.0245
+          anchor -0.0245 0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -867,8 +792,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation -0.0394 0.014 0.0245
-          rotation 1 0 0 0
+          translation -0.0245 0.0394 0.014
           name "fourth left wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -877,7 +801,8 @@ PROTO SurveyorSrv1 [
       }
       DEF LAST_LEFT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor -0.0394 0.014 0.049
+          anchor -0.049 0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -889,7 +814,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation -0.0394 0.014 0.049
+          translation -0.049 0.0394 0.014
           rotation 1 0 0 0
           name "last left wheel"
           contactMaterial "wheel"
@@ -899,7 +824,8 @@ PROTO SurveyorSrv1 [
       }
       DEF FIRST_RIGHT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0394 0.014 -0.049
+          anchor 0.049 -0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -911,8 +837,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation 0.0394 0.014 -0.049
-          rotation 1 0 0 0
+          translation 0.049 -0.0394 0.014
           name "first right wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -921,7 +846,8 @@ PROTO SurveyorSrv1 [
       }
       DEF SECOND_RIGHT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0394 0.014 -0.0245
+          anchor 0.0245 -0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -933,8 +859,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation 0.0394 0.014 -0.0245
-          rotation 1 0 0 0
+          translation 0.0245 -0.0394 0.014
           name "second right wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -943,7 +868,8 @@ PROTO SurveyorSrv1 [
       }
       DEF THIRD_RIGHT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0394 0.014 0
+          anchor 0 -0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -955,8 +881,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation 0.0394 0.014 0
-          rotation 1 0 0 0
+          translation 0 -0.0394 0.014
           name "third right wheel"
           contactMaterial "center_wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -965,7 +890,8 @@ PROTO SurveyorSrv1 [
       }
       DEF FOURTH_RIGHT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0394 0.014 0.0245
+          anchor -0.0245 -0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -977,8 +903,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation 0.0394 0.014 0.0245
-          rotation 1 0 0 0
+          translation -0.0245 -0.0394 0.014
           name "forth right wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -987,7 +912,8 @@ PROTO SurveyorSrv1 [
       }
       DEF LAST_RIGHT_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0394 0.014 0.049
+          anchor -0.049 -0.0394 0.014
+          axis 0 -1 0
         }
         device [
           RotationalMotor {
@@ -999,8 +925,7 @@ PROTO SurveyorSrv1 [
           }
         ]
         endPoint Solid {
-          translation 0.0394 0.014 0.049
-          rotation 1 0 0 0
+          translation -0.049 -0.0394 0.014
           name "last right wheel"
           contactMaterial "wheel"
           boundingObject USE BOUNDING_WHEEL
@@ -1008,14 +933,14 @@ PROTO SurveyorSrv1 [
         }
       }
       DEF FRONT DistanceSensor {
-        translation -0.0168 0.0585 -0.0356
-        rotation 0 1 0 1.57
+        translation 0.0356 0.0168 0.0585
+        rotation 1 0 0 -0.000795307179585869
         children [
           DEF RIGHT_SENSOR Group {
             children [
               Transform {
-                translation 0.00425 0 0
-                rotation 0 0 1 1.57
+                translation 0.0042 0 0
+                rotation 0 1 0 1.57
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -1032,7 +957,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 -0.0025 0.001
+                translation 0 -0.001 -0.0025
                 children [
                   Shape {
                     appearance USE GRAY
@@ -1044,7 +969,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 -0.0025 -0.001
+                translation 0 0.001 -0.0025
                 children [
                   Shape {
                     appearance USE GRAY
@@ -1056,18 +981,18 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 0.0025 0.01
+                translation 0 0.01 0.0025
                 children [
                   Shape {
                     appearance USE BLACK
                     geometry Box {
-                      size 0.005 0.013 0.01
+                      size 0.005 0.01 0.013
                     }
                   }
                 ]
               }
               Transform {
-                translation 0.0025 0.0025 0.01
+                translation 0.0025 0.01 0.0025
                 children [
                   Shape {
                     appearance USE BLACK
@@ -1095,14 +1020,14 @@ PROTO SurveyorSrv1 [
         aperture 0.523599
       }
       DEF LEFT DistanceSensor {
-        translation -0.0355 0.0585 -0.0082
-        rotation 0 1 0 3.14
+        translation 0.0082 0.0355 0.0585
+        rotation 0 0 1 1.5708
         children [
           DEF LEFT_SENSOR Group {
             children [
               Transform {
-                translation 0.00425 0 0
-                rotation 0 0 1 1.57
+                translation 0.0042 0 0
+                rotation 0 1 0 -1.57
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -1119,7 +1044,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 -0.0025 0.001
+                translation 0 -0.001 -0.0025
                 children [
                   Shape {
                     appearance USE GRAY
@@ -1131,7 +1056,7 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 -0.0025 -0.001
+                translation 0 0.001 -0.0025
                 children [
                   Shape {
                     appearance USE GRAY
@@ -1143,18 +1068,18 @@ PROTO SurveyorSrv1 [
                 ]
               }
               Transform {
-                translation 0 0.0025 -0.01
+                translation 0 0.01 0.0025
                 children [
                   Shape {
                     appearance USE BLACK
                     geometry Box {
-                      size 0.005 0.013 0.01
+                      size 0.005 0.01 0.013
                     }
                   }
                 ]
               }
               Transform {
-                translation 0.0025 0.0025 -0.01
+                translation 0.0025 0.01 0.0025
                 children [
                   Shape {
                     appearance USE BLACK
@@ -1182,8 +1107,8 @@ PROTO SurveyorSrv1 [
         aperture 0.523599
       }
       DEF REAR DistanceSensor {
-        translation -0.0168 0.0585 0.0356
-        rotation 0 1 0 -1.57
+        translation -0.0356 0.0168 0.0585
+        rotation 0 0 1 3.14159
         children [
           USE LEFT_SENSOR
         ]
@@ -1201,7 +1126,8 @@ PROTO SurveyorSrv1 [
         aperture 0.523599
       }
       DEF RIGHT DistanceSensor {
-        translation 0.0355 0.0585 -0.0082
+        translation 0.0082 -0.0355 0.0585
+        rotation 0 0 1 -1.5707953071795862
         children [
           USE RIGHT_SENSOR
         ]
@@ -1223,20 +1149,18 @@ PROTO SurveyorSrv1 [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.03 0
-          rotation 0 0 1 0
+          translation 0 0 0.03
           children [
             Box {
-              size 0.0535 0.045 0.114
+              size 0.114 0.0535 0.045
             }
           ]
         }
         Transform {
-          translation 0 0.063 0.0039
-          rotation 0 0 1 0
+          translation -0.0039 0 0.063
           children [
             Box {
-              size 0.08 0.017 0.087
+              size 0.087 0.08 0.017
             }
           ]
         }
@@ -1246,11 +1170,11 @@ PROTO SurveyorSrv1 [
       density -1
       mass 0.324
       centerOfMass [
-        0 0.028 0.005
+        -0.005 0 0.028
       ]
       inertiaMatrix [
-        0.000473553 0.000418585 0.000267079
-        0 0 6.02166e-6
+        0.000267079 0.000473553 0.000418585
+        0 -6.02166e-6 0
       ]
     }
   }

@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3979508487578138 0.8936096603814792 0.20759792110190609 5.08557
-  position -0.562565 0.437831 0.174514
+  orientation -0.19848337736886706 0.4566708842966275 0.8672116537178132 0.9291859728079841
+  position -0.31179145440206374 -0.4909533805845714 0.3315760210320914
 }
 TexturedBackground {
 }
@@ -18,7 +17,7 @@ E-puck {
   controller "epuck_go_forward"
 }
 DEF BALL Solid {
-  translation 0 0.1 -0.2
+  translation 0.2 0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -42,7 +41,7 @@ DEF BALL Solid {
   }
 }
 DEF WALL_1 Solid {
-  translation 0.5 0.05 0
+  translation 0.5 0 0.05
   children [
     DEF WALL_SHAPE Shape {
       appearance PBRAppearance {
@@ -51,7 +50,7 @@ DEF WALL_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 0.1 0.98
+        size 0.02 0.98 0.1
       }
     }
   ]
@@ -59,7 +58,7 @@ DEF WALL_1 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_2 Solid {
-  translation -0.5 0.05 0
+  translation -0.5 0 0.05
   children [
     USE WALL_SHAPE
   ]
@@ -67,8 +66,8 @@ DEF WALL_2 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_3 Solid {
-  translation 0 0.05 -0.5
-  rotation 0 1 0 1.5708
+  translation 0 -0.5 0.05
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]
@@ -76,8 +75,8 @@ DEF WALL_3 Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF WALL_4 Solid {
-  translation 0 0.05 0.5
-  rotation 0 1 0 1.5708
+  translation 0 0.5 0.05
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]

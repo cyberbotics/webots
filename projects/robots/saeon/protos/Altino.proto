@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
 # The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
 
 PROTO Altino [
-  field SFVec3f    translation     0 0.016 0               # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 1.5708            # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.022               # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0                 # Is `Transform.rotation`.
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
   field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
@@ -38,13 +38,12 @@ PROTO Altino [
         type "infra-red"
         aperture 0.1
         numberOfRays 3
-        translation 0.03 0 0.14
-        rotation 0 1 0 -1.3708
+        translation 0.138 0.026 -0.005
+        rotation 0 0 1 0.2
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       DistanceSensor {
-        translation 0 0 0.14
-        rotation 0 1 0 -1.5708
+        translation 0.14 0 -0.005
         aperture 0.1
         numberOfRays 3
         name "front_center_sensor"
@@ -52,8 +51,8 @@ PROTO Altino [
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       DistanceSensor {
-        translation -0.03 0 0.14
-        rotation 0 1 0 -1.7708
+        translation 0.138 -0.026 -0.005
+        rotation 0 0 1 -0.2
         aperture 0.1
         numberOfRays 3
         name "front_right_sensor"
@@ -61,8 +60,8 @@ PROTO Altino [
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       DistanceSensor {
-        translation 0.04 -0.005 0.05
-        rotation 0 1 0 0
+        translation 0.05 0.04 -0.005
+        rotation 0 0 1 1.5708
         aperture 0.1
         numberOfRays 3
         name "side_left_sensor"
@@ -70,8 +69,8 @@ PROTO Altino [
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       DistanceSensor {
-        translation -0.04 -0.005 0.05
-        rotation 0 1 0 3.1415926
+        translation 0.05 -0.04 -0.005
+        rotation 0 0 1 -1.5708
         aperture 0.1
         numberOfRays 3
         name "side_right_sensor"
@@ -79,8 +78,8 @@ PROTO Altino [
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       DistanceSensor {
-        translation 0 -0.005 -0.037
-        rotation 0 1 0 1.5708
+        translation  -0.038 0 -0.005
+        rotation 0 0 1 3.1415926
         aperture 0.1
         numberOfRays 3
         name "back_sensor"
@@ -88,8 +87,8 @@ PROTO Altino [
         lookupTable [ 0 1023 0, 0.6 0 0.04 ]
       }
       LightSensor {
-        translation -0.01 0.042 0.055
-        rotation 0 0 1 1.5708
+        translation 0.055 -0.01 0.042
+        rotation 0 1 0 -1.5708
         name "light_sensor"
         occlusion TRUE
       }
@@ -112,8 +111,8 @@ PROTO Altino [
           Group {
             children [
               Transform {
-                rotation 0 1 0 3.1415926
-                translation 0 0.024 0.071
+                rotation -0.5773 0.5773 0.5773 -2.0944
+                translation 0.071 0 0.024
                 children [
                   SpotLight {
                     attenuation 0 0 1
@@ -169,8 +168,8 @@ PROTO Altino [
           Group {
             children [
               Transform {
-                rotation 0 1 0 3.1415926
-                translation 0 0.024 0.071
+                rotation -0.5773 0.5773 0.5773 -2.0944
+                translation 0.071 0 0.024
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -206,7 +205,6 @@ PROTO Altino [
                       ]
                     }
                   }
-
                 ]
               }
             ]
@@ -214,8 +212,8 @@ PROTO Altino [
         ]
       }
       Transform {
-        translation 0 0.024 0.071
-        rotation 0 1 0 3.1415926
+        translation 0.071 0 0.024
+        rotation -0.57735 0.57735 0.57735 -2.09439
         children [
           DEF ALTINO_BODY Shape {
             appearance PBRAppearance {
@@ -231,26 +229,26 @@ PROTO Altino [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.017 0.03
+          translation 0.03 0 0.017
           children [
             Box {
-              size 0.063 0.05 0.097
+              size 0.097 0.063 0.05
             }
           ]
         }
         Transform {
-          translation 0 0.015 0.052
+          translation 0.052 0 0.015
           children [
             Box {
-              size 0.09 0.04 0.16
+              size 0.16 0.09 0.04
             }
           ]
         }
         Transform {
-          translation 0 0.015 0.052
+          translation 0.052 0 0.015
           children [
             Box {
-              size 0.07 0.04 0.18
+              size 0.18 0.07 0.04
             }
           ]
         }

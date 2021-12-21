@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable table.
@@ -6,9 +6,9 @@
 
 PROTO Table [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "table"
-  field SFVec3f    size           1.8 0.74 1                                                           # Defines the size of the table.
+  field SFVec3f    size           1 1.8 0.74                                                           # Defines the size of the table.
   field SFVec2f    feetSize       0.1 0.1                                                              # Defines the size of the feet.
   field SFFloat    feetPadding    0                                                                    # Defines the padding of the feet.
   field SFFloat    frameThickness 0.05                                                                 # Defines the thickness of the frame.
@@ -42,9 +42,9 @@ PROTO Table [
       frameThickness = fields.frameThickness.defaultValue;
     }
 
-    const mainFrameSize = {x: size.x, y: frameThickness, z: size.z};
-    const feetTextureFactor = Math.max(feetSize.x, feetSize.y);
-    const feetTranslation = {x: 0.5 * size.x - feetPadding - 0.5 * feetSize.x, y: 0.5 * (size.y - frameThickness), z: 0.5 * size.z - feetPadding - 0.5 * feetSize.y};
+    const mainFrameSize = {x: size.x, y: size.y, z: frameThickness};
+    const feetTextureFactor = Math.max(feetSize.y, feetSize.z);
+    const feetTranslation = {x: 0.5 * size.x - feetPadding - 0.5 * feetSize.x, y: 0.5 * size.y - feetPadding - 0.5 * feetSize.y, z: 0.5 * (size.z - frameThickness)};
   >%
   Solid {
     translation IS translation
@@ -52,7 +52,7 @@ PROTO Table [
     children [
       # Main frame
       SolidBox {
-        translation 0 %<= size.y - 0.5 * frameThickness >% 0
+        translation 0 0 %<= size.z - 0.5 * frameThickness >%
         name "main frame"
         size %<= mainFrameSize.x >% %<= mainFrameSize.y >% %<= mainFrameSize.z >%
         appearance IS trayAppearance
@@ -62,28 +62,28 @@ PROTO Table [
         SolidBox {
           translation %<= feetTranslation.x >% %<= feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 1"
-          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
+          size %<= feetSize.x >% %<= feetSize.y >% %<= size.z - frameThickness >%
           appearance IS legAppearance
         }
         # Foot 2
         SolidBox {
           translation %<= -feetTranslation.x >% %<= feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 2"
-          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
+          size %<= feetSize.x >% %<= feetSize.y >% %<= size.z - frameThickness >%
           appearance IS legAppearance
         }
         # Foot 3
         SolidBox {
-          translation %<= feetTranslation.x >% %<= feetTranslation.y >% %<= -feetTranslation.z >%
+          translation %<= feetTranslation.x >% %<= -feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 3"
-          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
+          size %<= feetSize.x >% %<= feetSize.y >% %<= size.z - frameThickness >%
           appearance IS legAppearance
         }
         # Foot 4
         SolidBox {
-          translation %<= -feetTranslation.x >% %<= feetTranslation.y >% %<= -feetTranslation.z >%
+          translation %<= -feetTranslation.x >% %<= -feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 4"
-          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
+          size %<= feetSize.x >% %<= feetSize.y >% %<= size.z - frameThickness >%
           appearance IS legAppearance
         }
       %< } >%

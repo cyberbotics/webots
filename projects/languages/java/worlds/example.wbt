@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The user drives a Supervisor by the Keyboard which drives slaves robots by using an emitter device."
   ]
   title "Omniscience"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.012296901349470573 0.9387131030150339 0.3444800378034808 3.03945
-  position 0.355825 2.19322 -2.66436
+  orientation -0.4098665355957605 -0.04227766441925145 0.9111652002189188 3.3484022267442812
+  position 2.026401920512766 0.4564399088628348 2.2673134582967687
 }
 TexturedBackground {
 }
@@ -17,40 +16,40 @@ TexturedBackgroundLight {
 CircleArena {
 }
 WoodenBox {
-  translation -0.06339 0.05 0.372612
-  rotation 0 1 0 0.5
+  translation -0.372612 0.06339 0.05
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.449512 0.05 -0.488552
-  rotation 0 1 0 4.96782
+  translation 0.421524 -0.431299 0.05
+  rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation -0.35471 -0.5 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.645944 0.05 0.192254
-  rotation 0 1 0 5.36782
+  translation -0.166689 0.612227 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 DEF ROBOT1 Robot {
-  translation -0.362306 0 0.140251
-  rotation 0 -1 0 0.221754
+  translation -0.140251 0.362306 0
+  rotation 0 0 -1 0.221754
   children [
     DEF MAIN_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -67,8 +66,8 @@ DEF ROBOT1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -79,11 +78,11 @@ DEF ROBOT1 Robot {
         }
       ]
       endPoint DEF LEFT_WHEEL Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -101,7 +100,7 @@ DEF ROBOT1 Robot {
         ]
         name "left wheel"
         boundingObject DEF WHEEL Transform {
-          rotation 0 0 1 1.57
+          rotation -1 0 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -124,8 +123,8 @@ DEF ROBOT1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -136,11 +135,11 @@ DEF ROBOT1 Robot {
         }
       ]
       endPoint DEF RIGHT_WHEEL Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -165,11 +164,11 @@ DEF ROBOT1 Robot {
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -195,11 +194,11 @@ DEF ROBOT1 Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -227,10 +226,10 @@ DEF ROBOT1 Robot {
     Receiver {
     }
     Camera {
-      translation 0 0.045 -0.045
+      translation 0.045 0 0.045
       children [
         Transform {
-          rotation 1 0 0 1.57
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -250,7 +249,7 @@ DEF ROBOT1 Robot {
   ]
   name "robot1"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       DEF BODY Cylinder {
         height 0.08
@@ -265,11 +264,11 @@ DEF ROBOT1 Robot {
   controller "Slave"
 }
 DEF ROBOT2 Robot {
-  translation 0.288898 0 0.511288
-  rotation 0 -1 0 2.67372
+  translation -0.511288 -0.288898 0
+  rotation 0 0 -1 2.67372
   children [
     DEF MAIN_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -286,8 +285,8 @@ DEF ROBOT2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -298,11 +297,11 @@ DEF ROBOT2 Robot {
         }
       ]
       endPoint DEF LEFT_WHEEL Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -320,7 +319,7 @@ DEF ROBOT2 Robot {
         ]
         name "left wheel"
         boundingObject DEF WHEEL Transform {
-          rotation 0 0 1 1.57
+          rotation -1 0 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -343,8 +342,8 @@ DEF ROBOT2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -355,11 +354,11 @@ DEF ROBOT2 Robot {
         }
       ]
       endPoint DEF RIGHT_WHEEL Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -384,11 +383,11 @@ DEF ROBOT2 Robot {
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -414,11 +413,11 @@ DEF ROBOT2 Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -446,10 +445,10 @@ DEF ROBOT2 Robot {
     Receiver {
     }
     Camera {
-      translation 0 0.045 -0.045
+      translation 0.045 0 0.045
       children [
         Transform {
-          rotation 1 0 0 1.57
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -469,7 +468,7 @@ DEF ROBOT2 Robot {
   ]
   name "robot2"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       DEF BODY Cylinder {
         height 0.08
@@ -484,11 +483,11 @@ DEF ROBOT2 Robot {
   controller "Slave"
 }
 DEF ROBOT3 Robot {
-  translation 0.15 0 0
-  rotation 0 1 0 2.54759
+  translation 0 -0.15 0
+  rotation 0 0 1 2.54759
   children [
     DEF MAIN_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -505,8 +504,8 @@ DEF ROBOT3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -517,11 +516,11 @@ DEF ROBOT3 Robot {
         }
       ]
       endPoint DEF LEFT_WHEEL Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -539,7 +538,7 @@ DEF ROBOT3 Robot {
         ]
         name "left wheel"
         boundingObject DEF WHEEL Transform {
-          rotation 0 0 1 1.57
+          rotation -1 0 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -562,8 +561,8 @@ DEF ROBOT3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -574,11 +573,11 @@ DEF ROBOT3 Robot {
         }
       ]
       endPoint DEF RIGHT_WHEEL Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -603,11 +602,11 @@ DEF ROBOT3 Robot {
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -633,11 +632,11 @@ DEF ROBOT3 Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -665,10 +664,10 @@ DEF ROBOT3 Robot {
     Receiver {
     }
     Camera {
-      translation 0 0.045 -0.045
+      translation 0.045 0 0.045
       children [
         Transform {
-          rotation 1 0 0 1.57
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -688,7 +687,7 @@ DEF ROBOT3 Robot {
   ]
   name "robot3"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       DEF BODY Cylinder {
         height 0.08

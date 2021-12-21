@@ -92,8 +92,7 @@ void WbTransform::postFinalize() {
   if (!isInBoundingObject())
     connect(this, &WbTransform::translationOrRotationChangedByUser, this, &WbTransform::notifyJerk);
   connect(mRotation, &WbSFRotation::changed, this, &WbTransform::updateRotation);
-  // The following connection may be interesting to add in the future, but it is not used yet.
-  // connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
+  connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
@@ -412,15 +411,7 @@ void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   WbMFNode::Iterator it(children());
   while (it.hasNext()) {
     const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
-
-    if (childGeom)
-      writer << "<Shape>";
-
     childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
   }
 
   writer << "</Transform>";

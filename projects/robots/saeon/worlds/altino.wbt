@@ -1,18 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.033482463855000345 0.9266502759870344 0.3744304883784857 3.0126198
-  position 0.52238686 6.2010547 -6.460434
+  orientation 0.288518030933914 -0.3457365347682704 -0.8928737841108595 4.934632449405043
+  position -1.711396296916839 -1.2279055391770919 0.5934737912697113
   follow "vehicle"
 }
 TexturedBackgroundLight {
 }
 Solid {
-  translation 1.4071558 0.05 1.210173
-  rotation 0 1 0 5.4977871
+  translation 0.234703 1.45571 0.05
   children [
     DEF BARRIER_SHAPE Shape {
       appearance PBRAppearance {
@@ -21,7 +19,7 @@ Solid {
         metalness 0
       }
       geometry DEF BARRIER_GEOMETRY Box {
-        size 0.1 0.1 0.9
+        size 0.1 0.9 0.1
       }
     }
   ]
@@ -30,8 +28,8 @@ Solid {
   }
 }
 Solid {
-  translation 0.69969149 0.05 0.61109255
-  rotation 0 -1 0 0.7853982
+  translation 0.773009 0.370894 0.05
+  rotation 0 0 1 -2.3561953071795863
   children [
     USE BARRIER_SHAPE
   ]
@@ -41,8 +39,8 @@ Solid {
   }
 }
 Solid {
-  translation -1.0636828 0.05 0.24446328
-  rotation 0 -1 0 4.9741883
+  translation -1.06368 0.244463 0.05
+  rotation 0 0 -1 -1.3089970071795864
   children [
     USE BARRIER_SHAPE
   ]
@@ -52,8 +50,8 @@ Solid {
   }
 }
 Solid {
-  translation 0.33726529 0.05 -1.1432889
-  rotation 0 1 0 6.0213859
+  translation 0.891174 -0.810386 0.05
+  rotation 0 0 1 -0.26179940717958594
   children [
     USE BARRIER_SHAPE
   ]
@@ -63,8 +61,8 @@ Solid {
   }
 }
 Solid {
-  translation -0.69100779 0.050000023 0.99750394
-  rotation 9.589793e-09 1 -7.3585069e-09 4.4505896
+  translation -0.691008 0.997504 0.05
+  rotation 0 0 1 -1.8325957071795864
   children [
     USE BARRIER_SHAPE
   ]
@@ -74,8 +72,8 @@ Solid {
   }
 }
 Solid {
-  translation -0.81226777 0.049999986 -1.0227178
-  rotation 9.589793e-09 1 -7.3585069e-09 4.4505896
+  translation 0.0251741 -1.20004 0.05
+  rotation 0 0 1 -2.6179953071795863
   children [
     USE BARRIER_SHAPE
   ]
@@ -87,8 +85,8 @@ Solid {
 TexturedBackground {
 }
 Altino {
-  translation -1.4707961 0.022 -0.5207904
-  rotation 0 1 0 0
+  translation -1.4708 -0.52079 0.022
+  rotation 0 0 1 0.785398
   color 0 0.666667 1
 }
 CircleArena {

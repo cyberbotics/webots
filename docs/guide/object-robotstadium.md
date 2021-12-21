@@ -16,7 +16,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RobotstadiumGoal {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "robotstadium goal"
   SFFloat    postRadius  0.05
   SFColor    frameColor  1 1 1
@@ -51,7 +51,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RobotstadiumSoccerField {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "robotstadium soccer field"
   SFString   contactMaterial "default"
   SFColor    frame1Color     1 1 1

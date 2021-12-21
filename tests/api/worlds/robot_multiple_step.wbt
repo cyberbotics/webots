@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,6 +17,7 @@ PointLight {
   location 0 0.5 0
 }
 Floor {
+  rotation 1 0 0 -1.57079632679
   size 1 1
 }
 Robot {
@@ -40,7 +41,6 @@ DEF ROBOT Robot {
   translation 0.1 0.0295 0.1
   children [
     DEF BODY Transform {
-      rotation 0 0 1 -1.5708
       children [
         Shape {
           geometry Cone {
@@ -49,9 +49,10 @@ DEF ROBOT Robot {
           }
         }
       ]
+      rotation 0 1 0 1.57079632679
     }
     Camera {
-      rotation 0 1 0 -1.5708
+      rotation 1 0 0 -1.5708011490495657
       fieldOfView 0.1
       width 1
       height 1
@@ -64,6 +65,7 @@ DEF ROBOT Robot {
     }
     TouchSensor {
       translation 0.067 0 0.01
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       children [
         Shape {
           appearance Appearance {
