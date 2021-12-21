@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Physics-based model of the Surveyor SRV-1 robot (Surveyor Corp.). The track system is emulated with a series of 5 wheels for each of the two tracks."
   ]
   title "Surveyor SRV-1"
   basicTimeStep 16
-  coordinateSystem "NUE"
   lineScale 0.05
   contactProperties [
     ContactProperties {
@@ -23,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.7488602454700634 0.61616920197506 0.24401607998641 5.31029
-  position -0.405125 0.707895 0.57836
+  orientation -0.3094455046063131 -0.7567280012554422 0.5758525955441097 5.194021880121971
+  position -0.24111353199507385 0.37310534224205527 0.5132680671692622
   follow "SurveyorSrv1"
 }
 Background {
@@ -38,31 +37,31 @@ RectangleArena {
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.683174
-  rotation 0 1 0 0.5
+  translation -0.6832 0.2 0.05
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation 0.35 0.75 0.05
+  rotation 0 0 1 4.96782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation -0.3547 -0.5 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.66 0.65 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(5)"
   size 0.1 0.1 0.1
 }

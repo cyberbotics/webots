@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Model for the course: Models of Biological Sensory-Motor Systems"
@@ -8,7 +8,6 @@ WorldInfo {
   title "GhostDog"
   CFM 0.0001
   basicTimeStep 4
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"
@@ -19,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.001486959879162737 0.9990069188160597 0.04453049638124513 3.16888
-  position -0.0834002 0.3156 -1.4536
+  orientation -0.06320518225735398 -0.06733959069981979 0.9957261091586358 4.707348490951778
+  position -0.0574442413133885 1.4853403941561059 0.5437998267083117
   follow "GhostDog"
   followSmoothness 0
 }
@@ -29,7 +28,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 GhostDog {
-  translation 0 0.3 0
+  translation 0 0 0.3
 }
 Floor {
   size 100 100

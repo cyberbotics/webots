@@ -149,12 +149,14 @@ protected:
   int mCoordinate;
   const WbQuaternion mInitialQuaternionRotation;
   WbMatrix4 mInitialMatrix;
+  WbVector3 mInitialPosition;
   double mZEye;
   double mStepSize;
   int mStepFractionNumerator;
   int mStepFractionDenominator;
   double mPreviousAngle;
   double mInitialAngle;
+  WbVector2 mObjectScreenPosition;
   static const double RAD_TO_DEG;
 };
 

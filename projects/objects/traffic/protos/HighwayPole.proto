@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable highway pole with the possibility of adding another stand and more signs along the vertical or horizontal parts of the pole.
@@ -7,7 +7,7 @@
 
 PROTO HighwayPole [
   field SFVec3f       translation           0 0 0
-  field SFRotation    rotation              0 1 0 0
+  field SFRotation    rotation              0 0 1 0
   field SFString      name                  "highway pole"
   field SFString{"cylinder", "box", "H-shape"}
                       type                  "cylinder"                                                                                                      # Defines the shape of the pole.
@@ -58,6 +58,7 @@ PROTO HighwayPole [
     rotation IS rotation
     children [
       DEF CURVED_POLE Solid {
+        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -172,21 +173,21 @@ PROTO HighwayPole [
         }
       }
       DEF RIGHT_HORIZONTAL_SIGNS Transform {
-        translation %<= 0.95 * halfThickness >% %<= height + curveRadius >% 3
+        translation %<= 0.95 * halfThickness >% -3 %<= height + curveRadius >%
         children IS rightHorizontalSigns
       }
       DEF RIGHT_VERTICAL_SIGNS Transform {
-        translation %<= 0.95 * halfThickness >% 3 0
+        translation %<= 0.95 * halfThickness >% 0 3
         children IS rightVerticalSigns
       }
       DEF LEFT_HORIZONTAL_SIGNS Transform {
-        rotation 0 1 0 3.14159
-        translation %<= - 0.95 * halfThickness >% %<= height + curveRadius >% 6
+        rotation 0 0 1 3.1415
+        translation %<= - 0.95 * halfThickness >% -6 %<= height + curveRadius >%
         children IS leftHorizontalSigns
       }
       DEF LEFT_VERTICAL_SIGNS Transform {
-        rotation 0 1 0 3.14159
-        translation %<= - 0.95 * halfThickness >% 3 %<= length + 2 * thickness + curveRadius >%
+        rotation 0 0 1 3.14159
+        translation %<= - 0.95 * halfThickness >% %<= -(length + 2 * thickness + curveRadius) >% 3
         children IS leftVerticalSigns
       }
     ]

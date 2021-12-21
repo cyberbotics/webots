@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#lds-01
@@ -7,8 +7,8 @@
 # template language: javascript
 
 PROTO RobotisLds01 [
-  field SFVec3f    translation       0 0.02 0
-  field SFRotation rotation          0 1 0 0
+  field SFVec3f    translation       0 0 0.02
+  field SFRotation rotation          0 0 1 0
   field SFString   name              "LDS-01"
   field SFFloat    noise             0.0043
   field SFBool     enablePhysics     TRUE
@@ -19,7 +19,7 @@ PROTO RobotisLds01 [
     rotation IS rotation
     children [
       Transform {
-        rotation 0 1 0 -1.5707996938995747
+        rotation 0 0.707103 0.70711 3.141585
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
@@ -180,32 +180,32 @@ PROTO RobotisLds01 [
         ]
       }
       CapScrew {
-        translation -0.0245 -0.0105 -0.035
-        rotation 1 0 0 1.5708
+        translation 0.035 0.0245 -0.0105
+        rotation 0 -1 0 -1.570787
         name "screw0"
         screwRadius 0.0015
         screwLength 0.02
         enablePhysics IS enablePhysics
       }
       CapScrew {
-        translation -0.0245 -0.0105 -0.035
-        rotation 1 0 0 1.5708
+        translation 0.035 0.0245 -0.0105
+        rotation 0 -1 0 -1.570787
         name "screw1"
         screwRadius 0.0015
         screwLength 0.02
         enablePhysics IS enablePhysics
       }
       CapScrew {
-        translation -0.0245 -0.0105 -0.035
-        rotation 1 0 0 1.5708
+        translation 0.035 0.0245 -0.0105
+        rotation 0 -1 0 -1.570787
         name "screw2"
         screwRadius 0.0015
         screwLength 0.02
         enablePhysics IS enablePhysics
       }
       CapScrew {
-        translation -0.0245 -0.0105 -0.035
-        rotation 1 0 0 1.5708
+        translation 0.035 0.0245 -0.0105
+        rotation 0 -1 0 -1.570787
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
@@ -216,7 +216,8 @@ PROTO RobotisLds01 [
     boundingObject Group {
       children [
         Transform {
-          translation 0 -0.014 -0.014
+          translation 0.014 0 -0.014
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 0.07 0.01 0.1

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot performing a Shiko dance (sumo)."
@@ -8,7 +8,6 @@ WorldInfo {
   ]
   title "Fujistu HOAP-2 sumo"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softERP 0.5
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.21348050800411925 0.9764841314513594 0.030080121774811865 5.996528320257578
-  position -0.5274364870903565 0.4729169463510434 1.015598565956147
+  orientation 0.03294340486736208 -0.034613111686385784 -0.9988576798398914 3.6980981449309778
+  position 0.8999124589976423 -0.8048040609595374 0.5514191146225772
   near 0.1
   follow "HOAP-2"
 }
@@ -41,7 +40,8 @@ DEF GROUND Solid {
   boundingObject USE PLANE
 }
 DEF TATAMI Solid {
-  translation 0 0.2 0
+  translation 0 0 0.2
+  rotation 0 0 1 1.5708
   children [
     DEF WHITE_CENTER Shape {
       appearance PBRAppearance {
@@ -66,18 +66,18 @@ DEF TATAMI Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            1.1 0 1.1
-            1.1 0 1
-            -1.1 0 1
-            -1.1 0 1.1
-            1.1 0 -1.1
-            -1.1 0 -1.1
-            -1.1 0 -1
-            1.1 0 -1
-            1 0 -1
-            1 0 1
-            -1 0 1
-            -1 0 -1
+            1.1 1.1 0
+            1 1.1 0
+            1 -1.1 0
+            1.1 -1.1 0
+            -1.1 1.1 1
+            -1.1 -1.1 0
+            -1 -1.1 0
+            -1 1.1 0
+            -1 1 0
+            1 1 0
+            1 -1 0
+            -1 -1 0
           ]
         }
         coordIndex [
@@ -91,16 +91,16 @@ DEF TATAMI Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            1.1 -0.2 1.1
-            1.1 -0.2 -1.1
-            -1.1 -0.2 -1.1
-            -1.1 -0.2 1.1
-            1.1 -0.2 1.1
-            1.1 0 1.1
-            1.1 0 -1.1
-            -1.1 0 -1.1
-            -1.1 0 1.1
-            1.1 0 1.1
+            1.1 1.1 -0.2
+            -1.1 1.1 -0.2
+            -1.1 -1.1 -0.2
+            1.1 -1.1 -0.2
+            1.1 1.1 -0.2
+            1.1 1.1 0
+            -1.1 1.1 0
+            -1.1 -1.1 0
+            1.1 -1.1 0
+            1.1 1.1 0
           ]
         }
         coordIndex [
@@ -112,16 +112,16 @@ DEF TATAMI Solid {
   ]
   name "ground"
   boundingObject Transform {
-    translation 0 -0.1 0
+    translation 0 0 -0.1
     children [
       Box {
-        size 2.2 0.2 2.2
+        size 2.2 2.2 0.2
       }
     ]
   }
 }
 Hoap2 {
-  translation 0 0.495 -0.5
+  translation -0.5 0 0.495
   controllerArgs [
     "sumo"
   ]

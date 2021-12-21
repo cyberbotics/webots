@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A residential building.
 
 PROTO ResidentialBuilding [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "residential building"
 ]
 {
@@ -31,7 +31,7 @@ PROTO ResidentialBuilding [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              -28.6874 0.00047 -7.17377 28.6603 0.00047 -7.17381 28.6603 0.00047 7.13479 -28.6874 0.00047 7.13483 -28.6874 20.1924 -7.17377 28.6603 20.1924 -7.17381 28.6603 20.1924 7.13479 -28.6874 20.1924 7.13483
+              7.17377 28.6874 0.00047 7.17381 -28.6603 0.00047 -7.13479 -28.6603 0.00047 -7.13483 28.6874 0.00047 7.17377 28.6874 20.1924 7.17381 -28.6603 20.1924 -7.13479 -28.6603 20.1924 -7.13483 28.6874 20.1924
             ]
           }
           texCoord TextureCoordinate {
@@ -51,7 +51,8 @@ PROTO ResidentialBuilding [
     name IS name
     model "residential building"
     boundingObject Transform {
-      translation 0 10.1 0
+      translation 0 0 10.1
+      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         Box {
           size 57.4 20.2 14.4

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.8639317934183355 -0.30075289908716074 -0.4039425082999393 1.4226194492376472
-  position -0.8998906260596103 -1.1437627349167612 0.6028563267624886
+  orientation -0.13844359560996208 0.2863089121509679 0.9480825795559766 0.9432715080942802
+  position -0.9417230580953095 -1.1876099595611727 0.5987084684473415
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -23,7 +23,6 @@ RobotisOp2 {
   selfCollision TRUE
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   size 1000 1000
   tileSize 1 1
   appearance Parquetry {

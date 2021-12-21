@@ -30,12 +30,12 @@ export default class WbTransform extends WbGroup {
     _wr_transform_set_position(this.wrenNode, translation);
   }
 
-  async clone(customID) {
+  clone(customID) {
     const transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone(getAnId());
+      const cloned = this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       transform.children.push(cloned);

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -13,9 +13,14 @@ Background {
 }
 Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE
@@ -56,7 +61,7 @@ DEF ROBOT Robot {
       rotation 0 0 1 3.1415
       children [
         DEF SENSOR_TRANSFROM Transform {
-          rotation 0 0 1 1.57
+          rotation -0.577656775504144 0.577196954994953 0.57719695499778 2.09393540393697
           children [
             Shape {
               geometry Cylinder {
@@ -69,8 +74,7 @@ DEF ROBOT Robot {
       ]
       name "ls0"
       lookupTable [
-        0 0 0
-        10 1024 0
+        0 0 0        10 1024 0
       ]
     }
     LightSensor {
@@ -80,8 +84,7 @@ DEF ROBOT Robot {
       ]
       name "ls1"
       lookupTable [
-        0 0 0
-        10 1024 0
+        0 0 0        10 1024 0
       ]
     }
     TestSuiteEmitter {

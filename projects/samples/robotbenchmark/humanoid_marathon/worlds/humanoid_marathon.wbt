@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Humanoid Marathon"
   window "humanoid_marathon"
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.8303043007972142 0.3030847291712353 0.46769051200644235 1.3254636763590986
-  position 1.542515003527241 -1.4403729049083505 1.0695941462660132
+  orientation 0.1882669682608518 -0.06253189797785252 -0.9801251503747646 3.7710394309644553
+  position 1.901924727455864 -1.1740952400297704 1.2749886631599967
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -44,7 +44,6 @@ SpotLight {
 }
 DEF BATTERYOP2 RobotisOp2 {
   translation 0 0 0.277
-  rotation 0 1 0 0.09
   controller "marathon"
   selfCollision TRUE
   battery [
@@ -57,7 +56,6 @@ Fog {
   visibilityRange 600
 }
 DEF GROUND Solid {
-  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance DryMud {
@@ -83,6 +81,7 @@ DEF ENVIRONMENT Solid {
   children [
     Tree {
       translation 23.79 0.07 -9
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       texture [
         "webots://projects/objects/trees/protos/textures/birch_tree.png"
       ]
@@ -90,6 +89,7 @@ DEF ENVIRONMENT Solid {
     }
     Tree {
       translation 23.79 0.07 -35.302721
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "tree(1)"
       texture [
         "webots://projects/objects/trees/protos/textures/birch_tree.png"
@@ -98,6 +98,7 @@ DEF ENVIRONMENT Solid {
     }
     Tree {
       translation 23.79 0.07 -19.790649
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "tree(2)"
       texture [
         "webots://projects/objects/trees/protos/textures/birch_tree.png"
@@ -105,8 +106,8 @@ DEF ENVIRONMENT Solid {
       isPickable FALSE
     }
     RoadIntersection {
-      translation 30.38 0.11000000000000001 -2
-      rotation 0 1 0 0.7853981610000004
+      translation 30.38 0.11 -2
+      rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 -1.7177753071795863
       roadsWidth 7.2
       startRoadsLength [
         60.5, 45.5, 100.4, 45.5
@@ -116,6 +117,7 @@ DEF ENVIRONMENT Solid {
     }
     SimpleBuilding {
       translation -0.53 0 -22.03
+      rotation 1 0 0 -1.5707953071795862
       floorNumber 5
       corners [
         20 10
@@ -127,16 +129,17 @@ DEF ENVIRONMENT Solid {
     }
     SimpleBuilding {
       translation 50.5 0 -22.05
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "building(1)"
     }
     FastFoodRestaurant {
       translation 16.23 0 11.34
-      rotation 0 1 0 1.5707962
+      rotation -0.5771968951617173 0.5771968951617173 0.577656895078166 2.09394
       brand "momo"
     }
     BungalowStyleHouse {
       translation 48.49 0 16.48
-      rotation 0 1 0 1.5707963
+      rotation 1 0 0 -1.5707953071795862
       appearance PBRAppearance {
         baseColor 0.988235 0.913725 0.309804
         roughness 1
@@ -145,6 +148,7 @@ DEF ENVIRONMENT Solid {
     }
     SimpleTwoFloorsHouse {
       translation -34.96 0 -16.6
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       appearance PBRAppearance {
         baseColor 0.966674 0.95494 0.660563
         roughness 1
@@ -153,12 +157,12 @@ DEF ENVIRONMENT Solid {
     }
     BungalowStyleHouse {
       translation -6.95 0 13.19
-      rotation 0 1 0 1.5707963
+      rotation 1 0 0 -1.5707953071795862
       name "bungalow style house(1)"
     }
     Tree {
       translation 65.147 0 6.104
-      rotation 0 1 0 1.0471975
+      rotation -0.18615680629802073 0.6947465881416478 0.694746588141648 2.7734925352884496
       name "tree(3)"
       texture [
         "webots://projects/objects/trees/protos/textures/crab_apple_tree.png"
@@ -170,33 +174,16 @@ DEF ENVIRONMENT Solid {
       rotation 0 1 0 0.49269969
       children [
         Tree {
-          scale 0.30000000000000004 1 0.3
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
+          scale 0.3 0.3 1
           texture [
             "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
-        DEF PLANT_GROUND Shape {
-          appearance PBRAppearance {
-            baseColor 0.319997 0.157382 0.040528
-            baseColorMap ImageTexture {
-              url [
-                "webots://projects/default/worlds/textures/sand.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
-            textureTransform TextureTransform {
-              scale 3 3
-            }
-          }
-          geometry Cylinder {
-            height 0.1
-            radius 0.52
-          }
-        }
         SolidPipe {
           translation 0 -0.11 0
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           height 0.5
           radius 0.6
           appearance DEF POT_APPEARANCE PBRAppearance {
@@ -211,6 +198,30 @@ DEF ENVIRONMENT Solid {
               scale 1 0.3
             }
           }
+        }
+        Transform {
+          rotation -1 0 0 1.5707963267948966
+          children [
+            DEF PLANT_GROUND Shape {
+              appearance PBRAppearance {
+                baseColor 0.319997 0.157382 0.040528
+                baseColorMap ImageTexture {
+                  url [
+                    "webots://projects/default/worlds/textures/sand.jpg"
+                  ]
+                }
+                roughness 1
+                metalness 0
+                textureTransform TextureTransform {
+                  scale 3 3
+                }
+              }
+              geometry Cylinder {
+                height 0.1
+                radius 0.52
+              }
+            }
+          ]
         }
       ]
       name "solid(12)"
@@ -220,7 +231,8 @@ DEF ENVIRONMENT Solid {
       rotation 0 1 0 0.49269969
       children [
         Tree {
-          scale 0.30000000000000004 1 0.3
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
+          scale 0.3 0.3 1
           texture [
             "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
@@ -228,6 +240,7 @@ DEF ENVIRONMENT Solid {
         }
         SolidPipe {
           translation 0 -0.11 0
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           height 0.5
           radius 0.6
           appearance DEF POT_APPEARANCE PBRAppearance {
@@ -243,7 +256,12 @@ DEF ENVIRONMENT Solid {
             }
           }
         }
-        USE PLANT_GROUND
+        Transform {
+          rotation -1 0 0 1.5707963267948966
+          children [
+            USE PLANT_GROUND
+          ]
+        }
       ]
       name "solid(13)"
     }
@@ -251,7 +269,8 @@ DEF ENVIRONMENT Solid {
       translation -7.27 0.34 -8.334
       children [
         Tree {
-          scale 0.30000000000000004 1 0.3
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
+          scale 0.3 0.3 1
           texture [
             "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
@@ -259,6 +278,7 @@ DEF ENVIRONMENT Solid {
         }
         SolidPipe {
           translation 0 -0.11 0
+          rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           height 0.5
           radius 0.6
           appearance DEF POT_APPEARANCE PBRAppearance {
@@ -274,20 +294,27 @@ DEF ENVIRONMENT Solid {
             }
           }
         }
-        USE PLANT_GROUND
+        Transform {
+          rotation -1 0 0 1.5707963267948966
+          children [
+            USE PLANT_GROUND
+          ]
+        }
       ]
       name "solid(14)"
     }
     FireHydrant {
       translation 23.107 0 3.59
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
     }
     FireHydrant {
       translation -5.04 0 -7
-      rotation 0 -1 0 1.5707963
+      rotation -1 0 0 1.5707963267948968
       name "fire hydrant(1)"
     }
     BusStop {
       translation 1.618 0 -8.171
+      rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
       internalAdvertisingTexture [
         "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_right.jpg"
       ]
@@ -298,80 +325,81 @@ DEF ENVIRONMENT Solid {
     }
     PedestrianCrossing {
       translation 43.33 0.03 -2
-      rotation 0 1 0 1.5707997
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       size 7.2 3
     }
     PedestrianCrossing {
       translation -10.26 0.03 -2
-      rotation 0 1 0 1.5707997
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.09
       name "pedestrian crossing(1)"
       size 7.2 3
     }
     StreetLight {
       translation 9.07 0 2.69
-      rotation 0 1 0 6.2831853
+      rotation -0.5773502719530497 0.5773502678079138 0.5773502678079138 2.0943950982480595
       on FALSE
     }
     StreetLight {
       translation -40.27 0 2.69
-      rotation 0 1 0 6.2831853
+      rotation -0.5773502719530497 0.5773502678079138 0.5773502678079138 2.0943950982480595
       name "street light(1)"
       on FALSE
     }
     StreetLight {
       translation 25.3 0 -6.6
-      rotation 0 1 0 3.1415926
+      rotation -0.5773502485629047 -0.577350279502986 -0.577350279502986 2.0943951333332773
       name "street light(2)"
       on FALSE
     }
     StreetLight {
       translation 35.2 0 2.69
-      rotation 0 1 0 6.2831852
+      rotation -0.5773503104430677 0.5773502485629036 0.5773502485629037 2.0943950405130334
       name "street light(3)"
       on FALSE
     }
     StreetLight {
       translation 61.3 0 -6.6
-      rotation 0 1 0 3.1415926
+      rotation -0.5773502485629047 -0.577350279502986 -0.577350279502986 2.0943951333332773
       name "street light(4)"
       on FALSE
     }
     StreetLight {
       translation -13.38 0 -6.6
-      rotation 0 1 0 3.1415926
+      rotation -0.5773502485629047 -0.577350279502986 -0.577350279502986 2.0943951333332773
       name "street light(5)"
       on FALSE
     }
     YieldSign {
       translation 24.29 0 2.45
-      rotation 0 1 0 1.5707963
+      rotation 0 0.7071067811865475 0.7071067811865475 3.1415926325163688
     }
     YieldSign {
       translation 35.13 0 3.78
-      rotation 0 1 0 3.141589
+      rotation -0.5773488629222587 -0.5773509723220248 -0.5773509723220248 2.0943972117955307
       name "yield sign(1)"
     }
     YieldSign {
       translation 25.95 0 -7.36
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "yield sign(2)"
     }
     YieldSign {
       translation 35.132752 0 -6.3
-      rotation 0 1 0 -1.5708
+      rotation -1 0 0 1.5707963267982699
       name "yield sign(3)"
     }
     SpeedLimitSign {
       translation -22.64 0 -6.32
-      rotation 0 -1 0 1.5707963
+      rotation -1 0 0 1.5707963267948968
     }
     SpeedLimitSign {
       translation 57.869588 0 2.2339776
-      rotation 0 -1 0 4.9741884
+      rotation -0.0926916100200855 0.7040625914760292 0.7040625914760292 2.956737634454398
       name "speed limit(1)"
     }
     SignPole {
       translation 34.21 0 -6.07
-      rotation 0 1 0 4.71
+      rotation -0.9999985731989484 -0.0011944873518438051 -0.001194487351843744 1.5707977536010376
       signBoards [
         DirectionPanel {
           frontTextTexture [
@@ -382,27 +410,31 @@ DEF ENVIRONMENT Solid {
     }
     TrafficCone {
       translation 31.7 0.1 1.64
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
     }
     TrafficCone {
       translation 28.51 0.1 -5.61
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "traffic cone(1)"
     }
     TrafficCone {
       translation 28.54 0.1 1.57
-      rotation 0 1 0 5.236
+      rotation -0.9351102512168398 0.2505681724293597 0.25056817242935975 1.6378368929279423
       name "traffic cone(2)"
     }
     TrafficCone {
       translation 31.65 0.1 -5.599
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "traffic cone(3)"
     }
     TrafficCone {
       translation -16.65 0.1 -0.42
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "traffic cone(4)"
     }
     TrafficCone {
       translation -17.02 0.1 -4.18
-      rotation 0 1 0 6.021
+      rotation -0.677807889762643 0.5198925199382622 0.5198925199382622 1.950240356693679
       name "traffic cone(5)"
     }
   ]
@@ -488,6 +520,7 @@ DEF START Solid {
   children [
     Transform {
       translation 0 0.52 1.2
+      rotation -1 0 0 1.5707963267948966
       children [
         DEF POLE_SHAPE Shape {
           appearance DEF POLE_APPEARANCE PBRAppearance {
@@ -512,13 +545,13 @@ DEF START Solid {
     }
     Transform {
       translation 0 0.53 -1.2
+      rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
     Transform {
       translation 0 1 0
-      rotation 1 0 0 1.5707997
       children [
         Shape {
           appearance USE POLE_APPEARANCE
@@ -531,10 +564,10 @@ DEF START Solid {
     }
     DEF START_PANEL Transform {
       translation 0 0.84 0
-      rotation 0 1 0 3.1415927
+      rotation 0.6215149473343795 0.4769049595882678 0.6215149473343795 -2.251585307179586
       children [
         TexturedBoxShape {
-          size 0.01 0.3 2
+          size 2 0.01 0.3
           textureUrl [
             "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/start.jpg"
           ]
@@ -572,19 +605,20 @@ DEF FINISH Solid {
   children [
     Transform {
       translation 0 0.52 1.2
+      rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
     Transform {
       translation 0 0.53 -1.2
+      rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
     Transform {
       translation 0 1 0
-      rotation 1 0 0 1.5707997
       children [
         Shape {
           appearance USE POLE_APPEARANCE
@@ -597,10 +631,10 @@ DEF FINISH Solid {
     }
     DEF FINISH_PANEL Transform {
       translation 0 0.84 0
-      rotation 0 1 0 3.1415927
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.0944
       children [
         TexturedBoxShape {
-          size 0.01 0.3 2
+          size 2 0.01 0.3
           textureUrl [
             "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/finish.jpg"
           ]

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple rectangular traffic pannel.
@@ -6,7 +6,7 @@
 
 PROTO RectangularPanel [
   field SFVec3f     translation        0 0 0
-  field SFRotation  rotation           0 1 0 0
+  field SFRotation  rotation           0 0 1 0
   field SFString    name               "rectangular panel"
   field MFString    signImage          "webots://projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"  # Defines the texture used for the sign.
   field SFColor     color              0.8 0.8 0.8                       # Defines the color of the panel.
@@ -20,8 +20,8 @@ PROTO RectangularPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation 0 0 -0.015
-        rotation 0 0.707 -0.707 3.1415
+        translation 0.015 0 0
+        rotation 0.577366 0.577358 0.577328 2.094321
         children [
           Shape {
             appearance PBRAppearance {
@@ -43,15 +43,15 @@ PROTO RectangularPanel [
           roughness 0.6
         }
         geometry TexturedBox {
-          size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
-          back FALSE
+          size 0.03 %<= fields.size.value.x >% %<= fields.size.value.y >%
+          front FALSE
         }
       }
     ]
     name IS name
     model "rectangular panel"
     boundingObject Box {
-      size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
+      size 0.03 %<= fields.size.value.x >% %<= fields.size.value.y >%
     }
   }
 }

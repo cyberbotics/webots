@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a Bumper TouchSensor device."
   ]
   title "Bumper"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9999582989790481 0.00493413149496228 -0.007684702292153962 5.35231
-  position -0.00334548 1.11883 0.872295
+  orientation 0.41758200321886785 -0.4244526691091079 -0.803408490292374 4.749745160696491
+  position -0.29681687499609444 -0.9865552924538142 1.340719634526745
 }
 TexturedBackground {
 }
@@ -17,7 +16,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.25
+  translation -0.05 0.25 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -40,8 +39,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation 0.2 -0.27 0.05
+  rotation 0 0 -1 -1.880795
   children [
     Shape {
       appearance PBRAppearance {
@@ -64,8 +63,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF YELLOW_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.2 -0.15 0.05
+  rotation -0.9612795880715977 -0.19486091649802306 -0.19486091649802306 -1.6102753071795863
   children [
     Shape {
       appearance PBRAppearance {
@@ -88,7 +87,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.42 0.1 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -112,10 +111,11 @@ DEF PINK_BOX Solid {
 }
 Robot {
   translation 0.15 0 0
-  rotation 0 1 0 1
+  rotation 0 0 1 2.5708
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -132,8 +132,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -145,11 +145,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -175,8 +175,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -188,8 +188,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -199,8 +199,8 @@ Robot {
       }
     }
     Transform {
-      translation 0.02 0.063 -0.0385
-      rotation 0 1 0 2.7489
+      translation 0.0385 -0.02 0.063
+      rotation -0.726828171413359 -0.4856551145357015 -0.48565411453546564 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
@@ -240,8 +240,8 @@ Robot {
       ]
     }
     Transform {
-      translation -0.02 0.063 -0.0385
-      rotation 0 1 0 0.3927
+      translation 0.0385 0.02 0.063
+      rotation -0.7268306455324123 0.4856527631523045 0.4856527631523045 -1.884578
       children [
         USE UNUSED_EYE
       ]
@@ -288,8 +288,8 @@ Robot {
       }
     }
     TouchSensor {
-      translation 0 0.02 -0.045
-      rotation 0 1 0 3.1415
+      translation 0.045 0 0.02
+      rotation 1 0 0 3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -298,7 +298,7 @@ Robot {
             metalness 0
           }
           geometry DEF BUMPER Box {
-            size 0.09 0.02 0.02
+            size 0.02 0.09 0.02
           }
         }
       ]
@@ -316,7 +316,8 @@ Robot {
   ]
   name "mybot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Aldebaran's Nao H25 V5.0"
@@ -9,7 +9,6 @@ WorldInfo {
   title "Aldebaran's Nao"
   basicTimeStep 20
   FPS 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -22,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.23226100856508938 0.9658260356167674 0.11504300424244096 0.836541
-  position 1.26589 0.649745 1.15773
+  orientation 0.11004914683657648 0.04798567379584391 -0.9927671229401689 2.3245067278144345
+  position 1.096078850513378 1.2204553552091344 0.6497795716524872
   follow "NAO"
 }
 TexturedBackground {
@@ -31,8 +30,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Floor {
+  rotation 0 0 1 1.57079632679
   size 25 25
   tileSize 0.8 0.8
 }
 Nao {
+  rotation 0 0 1 1.57079632679
 }

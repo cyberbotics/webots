@@ -12,7 +12,7 @@ source devel/setup.bash
 ```
 
 You need to install the `universal_robots` package too in order to get the URDF definitions of the robots (used for example for RVIZ visualization and MoveIt).
-Until Kinetic, you can install it using the package manager (`apt install ros-$ROS_DISTRO-universal-robot`), but from Melodic, you need to compile it from [sources](https://github.com/ros-industrial/universal_robot/tree/melodic-devel).
+Until Kinetic, you can install it using the package manager (`apt install ros-$ROS_DISTRO-universal-robot`), but from Melodic, you need to compile it from [sources](https://github.com/ros-industrial/universal_robot/tree/melodic-devel-staging).
 
 ## Usage
 
@@ -45,11 +45,11 @@ If your simulation uses more than one robot running the `universal_robots_ros` c
        alt="rosin_logo" height="60" >
 </a></br>
 
-Supported by ROSIN - ROS-Industrial Quality-Assured Robot Software Components.  
+Supported by ROSIN - ROS-Industrial Quality-Assured Robot Software Components.
 More information: <a href="http://rosin-project.eu">rosin-project.eu</a>
 
 <img src="http://rosin-project.eu/wp-content/uploads/rosin_eu_flag.jpg"
-     alt="eu_flag" height="45" align="left" >  
+     alt="eu_flag" height="45" align="left" >
 
-This project has received funding from the European Union’s Horizon 2020  
+This project has received funding from the European Union’s Horizon 2020
 research and innovation programme under grant agreement no. 732287.

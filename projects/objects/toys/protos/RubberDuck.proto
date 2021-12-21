@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
@@ -6,7 +6,7 @@
 
 PROTO RubberDuck [
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "rubber duck"
   field SFFloat    scale               1                          # Defines the global scaling factor.
   field SFColor    bodyColor           0.87451 0.756863 0.113725  # Defines the color of the rubber duck.
@@ -34,7 +34,7 @@ PROTO RubberDuck [
     recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
       DEF BEAK Transform {
-        translation 0 0.05868 0.0394
+        translation 0.0394 0 0.05868
         children [
           Shape {
             appearance PBRAppearance {
@@ -63,8 +63,8 @@ PROTO RubberDuck [
         ]
       }
       DEF EYE Transform {
-        translation 0.012248128 0.069200846 0.026677002
-        rotation 0.2243469404613964 0.8684495417860707 0.4421129309092583 3.6008355
+        translation 0.026677002 0.012248128 0.069200846
+        rotation -0.181173 0.491896 0.851596 -1.18424
         children [
           DEF EYE_GEOM Shape {
             appearance PBRAppearance {
@@ -83,8 +83,8 @@ PROTO RubberDuck [
         ]
       }
       DEF EYE Transform {
-        translation -0.012243724 0.069238147 0.026708849
-        rotation 0.25259601984259955 -0.8762724294539674 -0.4102948697443325 3.3023367
+        translation 0.026708849 -0.012243724 0.069238147
+        rotation -0.230567 0.188914 0.954542 -2.20978
         children [
           USE EYE_GEOM
         ]
@@ -96,23 +96,23 @@ PROTO RubberDuck [
     boundingObject Group {
       children [
         Transform {
-          translation 0 -0.018 0
+          translation 0 0 -0.018
           children [
             Box {
-              size 0.05 0.005 0.06
+              size 0.06 0.05 0.005
             }
           ]
         }
         Transform {
-          translation 0 0.06 0.037
+          translation 0.037 0 0.06
           children [
             Box {
-              size 0.025 0.015 0.014
+              size 0.014 0.025 0.015
             }
           ]
         }
         Transform {
-          translation 0 0.059 0.01
+          translation 0.01 0 0.059
           children [
             Sphere {
               radius 0.025
@@ -120,8 +120,8 @@ PROTO RubberDuck [
           ]
         }
         Transform {
-          translation 0 0.013 -0.042
-          rotation 1 0 0 -0.13089969
+          translation -0.042 0 0.013
+          rotation -0.065264 -0.065264 0.995732 1.575074
           children [
             Capsule {
               height 0.04
@@ -130,8 +130,8 @@ PROTO RubberDuck [
           ]
         }
         Transform {
-          translation 0 0.005 0
-          rotation 1 0 0 1.5707997
+          translation 0 0 0.005
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
               height 0.05
@@ -140,7 +140,7 @@ PROTO RubberDuck [
           ]
         }
         Transform {
-          translation 0 0.034 0.013
+          translation 0.013 0 0.034
           children [
             Cylinder {
               height 0.013
@@ -149,8 +149,8 @@ PROTO RubberDuck [
           ]
         }
         Transform {
-          translation 0.02 0 0
-          rotation 1 0 0 1.5707997
+          translation 0 0.02 0
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
               height 0.036
@@ -159,8 +159,8 @@ PROTO RubberDuck [
           ]
         }
         Transform {
-          translation -0.02 0 0
-          rotation 1 0 0 1.5707997
+          translation 0 -0.02 0
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
               height 0.036

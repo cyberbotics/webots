@@ -15,10 +15,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 BunchOfSunFlowers {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "bunch of sunflowers"
-  MFString   flowerTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/bunch_of_sun_flowers_flower.png"
-  MFString   leavesTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/bunch_of_sun_flowers_leaves.png"
+  MFString   flowerTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/plants/protos/textures/bunch_of_sun_flowers_flower.png"
+  MFString   leavesTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/plants/protos/textures/bunch_of_sun_flowers_leaves.png"
   SFNode     physics                NULL
 }
 ```
@@ -49,12 +49,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 PottedTree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "potted tree"
   SFColor    potAndTreeColor      1 1 1
-  MFString   potAndTreeTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/potted_tree_pot_and_tree.jpg"
+  MFString   potAndTreeTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/plants/protos/textures/potted_tree_pot_and_tree.jpg"
   SFColor    leavesColor          1 1 1
-  MFString   leavesTextureUrl     "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/potted_tree_leaves.png"
+  MFString   leavesTextureUrl     "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/plants/protos/textures/potted_tree_leaves.png"
   SFNode     physics              NULL
 }
 ```

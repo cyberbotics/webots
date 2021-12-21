@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/radar-sensors#smartmicro-umrr-0a
@@ -7,49 +7,50 @@
 
 PROTO SmsUmrr-0a30 [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Sms UMRR 0a30"
   field   SFBool     occlusion      FALSE
   field   SFFloat    cellDistance   0.0
   field   SFFloat    angularNoise   0.0
 ]
 {
-Radar {
-  translation IS translation
-  rotation IS rotation
-  model "Smartmicro UMR-A0 type 30"
-  name IS name
-  occlusion IS occlusion
-  minRange 1
-  maxRange 90
-  horizontalFieldOfView 1.22  # 70 deg
-  verticalFieldOfView 0.1745  # 10 deg
-  rangeNoise 0.25
-  speedNoise 0.28
-  cellSpeed 0.25
-  cellDistance IS cellDistance
-  angularNoise IS angularNoise
-  minRadialSpeed -70
-  maxRadialSpeed 70
-  antennaGain 20 # not found in datasheet (=> use typical value)
-  frequency 24
-  transmittedPower 20
-  minDetectableSignal -75 # computed based on antennaGain and maxRange
-  children [
-    SmsUmrrShape {
-    }
-  ]
-  boundingObject Transform {
-    translation 0 0 0.015
+  Radar {
+    translation IS translation
+    rotation IS rotation
+    model "Smartmicro UMR-A0 type 30"
+    name IS name
+    occlusion IS occlusion
+    minRange 1
+    maxRange 90
+    horizontalFieldOfView 1.22
+    verticalFieldOfView 0.1745
+    rangeNoise 0.25
+    speedNoise 0.28
+    cellSpeed 0.25
+    cellDistance IS cellDistance
+    angularNoise IS angularNoise
+    minRadialSpeed -70
+    maxRadialSpeed 70
+    antennaGain 20
+    frequency 24
+    transmittedPower 20
+    minDetectableSignal -75
     children [
-      Box {
-        size 0.211 0.155 0.03
+      SmsUmrrShape {
       }
     ]
+    boundingObject Transform {
+      rotation -0.5774 0.5773 0.5774 -2.0944
+      translation -0.015 0 0
+      children [
+        Box {
+          size 0.211 0.155 0.03
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.295
+    }
   }
-  physics Physics {
-    density -1
-    mass 0.295
-  }
-}
 }

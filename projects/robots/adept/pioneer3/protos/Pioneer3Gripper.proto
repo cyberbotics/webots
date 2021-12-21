@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Physics-based model of the Pioneer gripper (Adept Mobile Robotics)
@@ -13,7 +13,7 @@ DEF GRIPPER_BASE Solid {
   children [
     DEF LIFT_SLIDER SliderJoint {
       jointParameters JointParameters {
-        axis 0 -1 0
+        axis 0 0 -1
       }
       device LinearMotor {
         name "lift motor"
@@ -21,7 +21,8 @@ DEF GRIPPER_BASE Solid {
         maxPosition 0.05
       }
       endPoint DEF LIFT Solid {
-        translation 0 0 -0.0425
+        translation 0.0425 0 0
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF LEFT_FINGER_SLIDER SliderJoint {
             jointParameters JointParameters {
@@ -173,7 +174,7 @@ DEF GRIPPER_BASE Solid {
                   }
                   Transform {
                     translation 0 0.132 -0.154
-                    rotation 0 0 1 1.5708
+                    rotation -0.577349 -0.577351 0.577351 2.094397
                     children [
                       DEF UPPER_CYLINDER Shape {
                         appearance USE METAL_APPEARANCE
@@ -186,7 +187,7 @@ DEF GRIPPER_BASE Solid {
                   }
                   Transform {
                     translation 0 0.118 -0.154
-                    rotation 0 0 1 1.5708
+                    rotation -0.577349 -0.577351 0.577351 2.094397
                     children [
                       Shape {
                         appearance USE METAL_APPEARANCE
@@ -262,7 +263,8 @@ DEF GRIPPER_BASE Solid {
       }
     }
     Transform {
-      translation 0 -0.126 0.135
+      translation -0.135 0 -0.126
+      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         DEF BASE_SHAPE_GROUP Group {
           children [
@@ -313,6 +315,7 @@ DEF GRIPPER_BASE Solid {
             }
             Transform {
               translation -0.037 0.126 -0.158
+              rotation 1 0 0 -1.570796
               children [
                 DEF LEFT_CYLINDER Shape {
                   appearance USE METAL_APPEARANCE
@@ -325,6 +328,7 @@ DEF GRIPPER_BASE Solid {
             }
             Transform {
               translation 0.037 0.126 -0.158
+              rotation 1 0 0 -1.570796
               children [
                 USE LEFT_CYLINDER
               ]
@@ -337,10 +341,10 @@ DEF GRIPPER_BASE Solid {
   name IS name
   model "Pioneer3 gripper"
   boundingObject Transform {
-    translation 0 0 -0.019
+    translation 0.019 0 0
     children [
       Box {
-        size 0.141 0.117 0.043
+        size 0.043 0.141 0.117
       }
     ]
   }

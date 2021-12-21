@@ -1,17 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.6250087195802133 0.7465346650557264 0.2281448976392784 5.37363
-  position -0.841045 0.914791 1.01094
+  orientation -0.28325242257255673 -0.4264361330708188 0.859022869031078 5.154139491029036
+  position -0.7296740326768391 1.0511198432125624 0.8483934815581001
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF FLOOR_BORDER Solid {
-  translation 0 -0.001 0
+  translation 0 0 -0.001
   children [
     DEF FLOOR_BORDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -32,7 +31,7 @@ DEF FLOOR_BORDER Solid {
   locked TRUE
 }
 DEF OTHERWALL1 Solid {
-  translation 0 0.025 0.25
+  translation -0.25 0 0.025
   children [
     Shape {
       appearance PBRAppearance {
@@ -41,7 +40,7 @@ DEF OTHERWALL1 Solid {
         metalness 0
       }
       geometry DEF OTHERWALL1 Box {
-        size 0.01 0.05 0.4
+        size 0.4 0.01 0.05
       }
     }
   ]
@@ -49,7 +48,7 @@ DEF OTHERWALL1 Solid {
   boundingObject USE OTHERWALL1
 }
 DEF OTHERWALL2 Solid {
-  translation 0.22 0.025 -0.2
+  translation 0.2 -0.22 0.025
   children [
     Shape {
       appearance PBRAppearance {
@@ -58,7 +57,7 @@ DEF OTHERWALL2 Solid {
         metalness 0
       }
       geometry DEF OTHERWALL2 Box {
-        size 0.44 0.05 0.01
+        size 0.01 0.44 0.05
       }
     }
   ]
@@ -76,28 +75,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.45 0 0.45
-            0.45 0 -0.45
-            -0.45 0 -0.45
-            -0.45 0 0.45
-            -0.44 0 0.45
-            -0.44 0 -0.44
-            0.44 0 -0.44
-            0.44 0 0.44
-            -0.44 0 0.44
-            -0.44 0 0.45
-            0.45 0 0.45
-            0.45 0.05 0.45
-            0.45 0.05 -0.45
-            -0.45 0.05 -0.45
-            -0.45 0.05 0.45
-            -0.44 0.05 0.45
-            -0.44 0.05 -0.44
-            0.44 0.05 -0.44
-            0.44 0.05 0.44
-            -0.44 0.05 0.44
-            -0.44 0.05 0.45
-            0.45 0.05 0.45
+            -0.45 -0.45 0
+            0.45 -0.45 0
+            0.45 0.45 0
+            -0.45 0.45 0
+            -0.45 0.44 0
+            0.44 0.44 0
+            0.44 -0.44 0
+            -0.44 -0.44 0
+            -0.44 0.44 0
+            -0.45 0.44 0
+            -0.45 -0.45 0
+            -0.45 -0.45 0.05
+            0.45 -0.45 0.05
+            0.45 0.45 0.05
+            -0.45 0.45 0.05
+            -0.45 0.44 0.05
+            0.44 0.44 0.05
+            0.44 -0.44 0.05
+            -0.44 -0.44 0.05
+            -0.44 0.44 0.05
+            -0.45 0.44 0.05
+            -0.45 -0.45 0.05
           ]
         }
         coordIndex [
@@ -110,32 +109,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.445 0.025 0
+        translation 0 -0.445 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.9
+              size 0.9 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.445 0.025 0
+        translation 0 0.445 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.445
-        rotation 0 1 0 1.57
+        translation -0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.445
-        rotation 0 1 0 1.57
+        translation 0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -145,6 +144,6 @@ DEF WALL Solid {
   locked TRUE
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.57
   controller "intermediate_lawn_mower"
 }

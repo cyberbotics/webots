@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to perform a square shaped loop."
@@ -8,11 +8,10 @@ WorldInfo {
   title "Square Path"
   window "square_path"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2180899997432351 -0.9159779289215875 -0.3367806196034965 2.1285942
-  position -2.6337698 3.736315 -1.7895911
+  orientation 0.2858863483928464 0.6382603144311352 -0.7147676313494286 0.8921435730436342
+  position -3.4468077693222243 2.591928294356006 3.5114209011259305
 }
 TexturedBackgroundLight {
   luminosity 0.7
@@ -20,8 +19,7 @@ TexturedBackgroundLight {
 TexturedBackground {
 }
 DEF PIONEER SquarePathPioneer3dx {
-  translation 0 0.0943896 0
-  rotation 0 1 0 4.7123889
+  translation 0 0 0.09439
   controller "square_path"
   controllerArgs [
     "2"
@@ -36,7 +34,7 @@ DEF PIONEER SquarePathPioneer3dx {
 SquarePathBenchmark {
 }
 RectangleArena {
-  translation 1 0 1
+  translation 1 -1 0
   floorSize 5 5
   floorTileSize 5 5
   floorAppearance PBRAppearance {

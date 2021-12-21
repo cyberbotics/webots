@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable crossroad which can contain optionally references to its connected roads and a shape.
@@ -6,11 +6,11 @@
 
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "crossroad"             # Defines the the crossroad name.
   field SFString   id               ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field SFFloat    speedLimit       -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
-  field MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]  # Defines the shape of the crossroad.
+  field MFVec3f    shape            [ 0 0 0, 0 1 0, 1 0 0 ] # Defines the shape of the crossroad.
   field MFString   connectedRoadIDs []                      # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
   field SFBool     boundingObject   FALSE                   # Defines whether the road should have a bounding object.
   field SFBool     bottom           FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
@@ -30,51 +30,56 @@ PROTO Crossroad [
     rotation IS rotation
     %< if (nShape > 0) { >%
       children [
-        Shape {
-          appearance IS appearance
-          geometry DEF CROSSROAD_GEOMETRY IndexedFaceSet {
-            coord Coordinate {
-              point IS shape
-            }
-            texCoord TextureCoordinate {
-              point [
-                %< for (let i = 0; i < nShape; ++i) { >%
-                  %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].z * textureCoordinateRatio >%
-                %< } >%
-              ]
-            }
-            coordIndex [
-              %< for (let i = 0; i <= nShape - 1; ++i) { >%
-                %<= i >%
-              %< } >%
-              -1
-            ]
-            texCoordIndex [
-              %< for (let i = 0; i <= nShape - 1; ++i) { >%
-                %<= i >%
-              %< } >%
-              -1
-            ]
-          }
-          castShadows IS castShadows
-        }
-        %< if (fields.bottom.value) { >%
-          Shape {
-            appearance IS appearance
-            geometry IndexedFaceSet {
-              coord Coordinate {
-                point IS shape
+        Transform {
+          rotation 0.707107 -0.707107 0 3.14157
+          children [
+            Shape {
+              appearance IS appearance
+              geometry DEF CROSSROAD_GEOMETRY IndexedFaceSet {
+                coord Coordinate {
+                  point IS shape
+                }
+                texCoord TextureCoordinate {
+                  point [
+                    %< for (let i = 0; i < nShape; ++i) { >%
+                      %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].y * textureCoordinateRatio >%
+                    %< } >%
+                  ]
+                }
+                coordIndex [
+                  %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                    %<= i >%
+                  %< } >%
+                  -1
+                ]
+                texCoordIndex [
+                  %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                    %<= i >%
+                  %< } >%
+                  -1
+                ]
               }
-              coordIndex [
-                %< for (i = nShape - 1; i >= 0; i -= 1) { >%
-                  %<= i >%
-                %< } >%
-                -1
-              ]
+              castShadows IS castShadows
             }
-            castShadows IS castShadows
-          }
-        %< } >%
+            %< if (fields.bottom.value) { >%
+              Shape {
+                appearance IS appearance
+                geometry IndexedFaceSet {
+                  coord Coordinate {
+                    point IS shape
+                  }
+                  coordIndex [
+                %< for (let i = nShape - 1; i >= 0; i -= 1) { >%
+                  %<= i >%
+                    %< } >%
+                    -1
+                  ]
+                }
+                castShadows IS castShadows
+              }
+            %< } >%
+          ]
+        }
       ]
     %< } >%
     name IS name
@@ -83,7 +88,12 @@ PROTO Crossroad [
     recognitionColors [ 0.2 0.2 0.2 ]
     %< if (fields.boundingObject.value && nShape > 0) { >%
       contactMaterial IS contactMaterial
-      boundingObject USE CROSSROAD_GEOMETRY
+      boundingObject Transform {
+          rotation 0.707107 -0.707107 0 3.14157
+          children [
+              USE CROSSROAD_GEOMETRY
+          ]
+      }
     %< } >%
   }
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -8,8 +8,8 @@
 
 PROTO Car [
 #fields inherited from AckermannVehicle
-  field SFVec3f    translation                    0 0.4 0
-  field SFRotation rotation                       0 1 0 0.0
+  field SFVec3f    translation                    0 0 0.4
+  field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
   field SFString   model                          "car"
   field SFString   controller                     "void"
@@ -33,9 +33,9 @@ PROTO Car [
   field SFFloat    radarCrossSection              100
   field MFColor    recognitionColors              [ ]
   field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
-  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" }
+  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" wheelSide TRUE}
   field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }
-  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" }
+  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" wheelSide TRUE}
 #fields specific to Car
   field SFString{"traction", "propulsion", "4x4"}
                    type                           "traction"

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Demonstration of the alternate tripod gait using linear and rotational motors."
@@ -8,7 +8,6 @@ WorldInfo {
   CFM 0.0001
   ERP 0.6
   basicTimeStep 8
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "floor"
@@ -19,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.12746694855058965 0.9691026088416774 0.2111689147660137 2.15894
-  position 3.29251 1.93125 -2.05293
+  orientation -0.24417638785947632 -0.07602983516356082 0.966745755499811 3.8807643497915727
+  position 2.2141299999999995 1.8881397005560983 1.4792659725751076
   follow "hexapod"
 }
 TexturedBackground {
@@ -31,23 +30,23 @@ Floor {
   tileSize 3 3
 }
 DEF HEXAPOD Robot {
-  translation 0 0.06 0
+  translation 0 0 0.06
   children [
-    DEF HIP_HINGE_JOINT_R0 HingeJoint {
+    DEF HIP_HINGE_JOINT_L0 HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0.2 0 0.05
+        axis 0 0 1
+        anchor 0.2 0.05 0
       }
       device [
         RotationalMotor {
-          name "hip_motor_r0"
+          name "hip_motor_l0"
           maxVelocity 5
           minPosition -0.7
           maxPosition 0.7
         }
       ]
       endPoint Solid {
-        translation 0.2 0 0.05
+        translation 0.2 0.05 0
         children [
           DEF HIP_SHAPE Shape {
             appearance DEF HIP_APPEARANCE PBRAppearance {
@@ -61,7 +60,7 @@ DEF HEXAPOD Robot {
             }
           }
           DEF FEMUR_TRANS Transform {
-            translation 0 0 0.06
+            translation 0 0.06 0
             children [
               DEF FEMUR_SHAPE Shape {
                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -70,13 +69,13 @@ DEF HEXAPOD Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.02 0.02 0.1
+                  size 0.02 0.1 0.02
                 }
               }
             ]
           }
           DEF KNEE_TRANS Transform {
-            translation 0 0 0.11
+            translation 0 0.11 0
             children [
               DEF KNEE_SHAPE Shape {
                 appearance DEF KNEE_APPEARANCE PBRAppearance {
@@ -91,22 +90,22 @@ DEF HEXAPOD Robot {
               }
             ]
           }
-          DEF KNEE_SLIDER_JOINT_R0 SliderJoint {
+          DEF KNEE_SLIDER_JOINT_L0 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
               minStop -0.02
               maxStop 0.02
             }
             device [
               LinearMotor {
-                name "knee_motor_r0"
+                name "knee_motor_l0"
                 minPosition -0.02
                 maxPosition 0.02
                 maxForce 25
               }
             ]
             endPoint Solid {
-              translation 0 -0.03 0.11
+              translation 0 0.11 -0.03
               rotation 1 0 0 1.5708
               children [
                 DEF TIBIA_TRANS Transform {
@@ -128,172 +127,15 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "r0"
-        boundingObject USE KNEE_TRANS
-        physics USE STANDARD_PHYSICS
-      }
-    }
-    DEF HIP_HINGE_JOINT_R1 HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0 0.05
-      }
-      device [
-        RotationalMotor {
-          name "hip_motor_r1"
-          maxVelocity 5
-          minPosition -0.7
-          maxPosition 0.7
-        }
-      ]
-      endPoint Solid {
-        translation 0 0 0.05
-        children [
-          USE HIP_SHAPE
-          USE FEMUR_TRANS
-          USE KNEE_TRANS
-          DEF KNEE_SLIDER_JOINT_R1 SliderJoint {
-            jointParameters JointParameters {
-              axis 0 -1 0
-              minStop -0.02
-              maxStop 0.02
-            }
-            device [
-              LinearMotor {
-                name "knee_motor_r1"
-                minPosition -0.02
-                maxPosition 0.02
-                maxForce 25
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.03 0.11
-              rotation 1 0 0 1.5708
-              children [
-                USE TIBIA_TRANS
-              ]
-              boundingObject USE TIBIA_TRANS
-              physics USE STANDARD_PHYSICS
-            }
-          }
-        ]
-        name "r1"
-        boundingObject USE KNEE_TRANS
-        physics USE STANDARD_PHYSICS
-      }
-    }
-    DEF HIP_HINGE_JOINT_R2 HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor -0.2 0 0.05
-      }
-      device [
-        RotationalMotor {
-          name "hip_motor_r2"
-          maxVelocity 5
-          minPosition -0.7
-          maxPosition 0.7
-        }
-      ]
-      endPoint Solid {
-        translation -0.2 0 0.05
-        children [
-          USE HIP_SHAPE
-          USE FEMUR_TRANS
-          USE KNEE_TRANS
-          DEF KNEE_SLIDER_JOINT_R2 SliderJoint {
-            jointParameters JointParameters {
-              axis 0 -1 0
-              minStop -0.02
-              maxStop 0.02
-            }
-            device [
-              LinearMotor {
-                name "knee_motor_r2"
-                minPosition -0.02
-                maxPosition 0.02
-                maxForce 25
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.03 0.11
-              rotation 1 0 0 1.5708
-              children [
-                USE TIBIA_TRANS
-              ]
-              boundingObject USE TIBIA_TRANS
-              physics USE STANDARD_PHYSICS
-            }
-          }
-        ]
-        name "r2"
-        boundingObject USE KNEE_TRANS
-        physics USE STANDARD_PHYSICS
-      }
-    }
-    DEF HIP_HINGE_JOINT_L0 HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0.2 0 -0.05
-      }
-      device [
-        RotationalMotor {
-          name "hip_motor_l0"
-          maxVelocity 5
-          minPosition -0.7
-          maxPosition 0.7
-        }
-      ]
-      endPoint Solid {
-        translation 0.2 0 -0.05
-        children [
-          USE HIP_SHAPE
-          DEF LEFT_FEMUR_TRANS Transform {
-            translation 0 0 -0.06
-            children [
-              USE FEMUR_SHAPE
-            ]
-          }
-          DEF LEFT_KNEE_TRANS Transform {
-            translation 0 0 -0.11
-            children [
-              USE KNEE_SHAPE
-            ]
-          }
-          DEF KNEE_SLIDER_JOINT_L0 SliderJoint {
-            jointParameters JointParameters {
-              axis 0 -1 0
-              minStop -0.02
-              maxStop 0.02
-            }
-            device [
-              LinearMotor {
-                name "knee_motor_l0"
-                minPosition -0.02
-                maxPosition 0.02
-                maxForce 25
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.03 -0.11
-              rotation 1 0 0 1.5708
-              children [
-                USE TIBIA_TRANS
-              ]
-              boundingObject USE TIBIA_TRANS
-              physics USE STANDARD_PHYSICS
-            }
-          }
-        ]
         name "l0"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
     DEF HIP_HINGE_JOINT_L1 HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0 -0.05
+        axis 0 0 1
+        anchor 0 0.05 0
       }
       device [
         RotationalMotor {
@@ -304,14 +146,14 @@ DEF HEXAPOD Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0 -0.05
+        translation 0 0.05 0
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE FEMUR_TRANS
+          USE KNEE_TRANS
           DEF KNEE_SLIDER_JOINT_L1 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
               minStop -0.02
               maxStop 0.02
             }
@@ -324,7 +166,7 @@ DEF HEXAPOD Robot {
               }
             ]
             endPoint Solid {
-              translation 0 -0.03 -0.11
+              translation 0 0.11 -0.03
               rotation 1 0 0 1.5708
               children [
                 USE TIBIA_TRANS
@@ -335,14 +177,14 @@ DEF HEXAPOD Robot {
           }
         ]
         name "l1"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
     DEF HIP_HINGE_JOINT_L2 HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor -0.2 0 -0.05
+        axis 0 0 1
+        anchor -0.2 0.05 0
       }
       device [
         RotationalMotor {
@@ -353,14 +195,14 @@ DEF HEXAPOD Robot {
         }
       ]
       endPoint Solid {
-        translation -0.2 0 -0.05
+        translation -0.2 0.05 0
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE FEMUR_TRANS
+          USE KNEE_TRANS
           DEF KNEE_SLIDER_JOINT_L2 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
               minStop -0.02
               maxStop 0.02
             }
@@ -373,7 +215,7 @@ DEF HEXAPOD Robot {
               }
             ]
             endPoint Solid {
-              translation 0 -0.03 -0.11
+              translation 0 0.11 -0.03
               rotation 1 0 0 1.5708
               children [
                 USE TIBIA_TRANS
@@ -384,28 +226,181 @@ DEF HEXAPOD Robot {
           }
         ]
         name "l2"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
-    DEF BODY_GROUP Group {
-      children [
-        DEF BODY_SHAPE Shape {
-          appearance USE METAL_APPEARANCE
-          geometry Box {
-            size 0.48 0.05 0.1
-          }
+    DEF HIP_HINGE_JOINT_R0 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.2 -0.05 0
+      }
+      device [
+        RotationalMotor {
+          name "hip_motor_r0"
+          maxVelocity 5
+          minPosition -0.7
+          maxPosition 0.7
         }
       ]
+      endPoint Solid {
+        translation 0.2 -0.05 0
+        children [
+          USE HIP_SHAPE
+          DEF RIGHT_FEMUR_TRANS Transform {
+            translation 0 -0.06 0
+            children [
+              USE FEMUR_SHAPE
+            ]
+          }
+          DEF RIGHT_KNEE_TRANS Transform {
+            translation 0 -0.11 0
+            children [
+              USE KNEE_SHAPE
+            ]
+          }
+          DEF KNEE_SLIDER_JOINT_R0 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 0 -1
+              minStop -0.02
+              maxStop 0.02
+            }
+            device [
+              LinearMotor {
+                name "knee_motor_r0"
+                minPosition -0.02
+                maxPosition 0.02
+                maxForce 25
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.11 -0.03
+              rotation 1 0 0 1.5708
+              children [
+                USE TIBIA_TRANS
+              ]
+              boundingObject USE TIBIA_TRANS
+              physics USE STANDARD_PHYSICS
+            }
+          }
+        ]
+        name "r0"
+        boundingObject USE RIGHT_KNEE_TRANS
+        physics USE STANDARD_PHYSICS
+      }
+    }
+    DEF HIP_HINGE_JOINT_R1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0 -0.05 0
+      }
+      device [
+        RotationalMotor {
+          name "hip_motor_r1"
+          maxVelocity 5
+          minPosition -0.7
+          maxPosition 0.7
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.05 0
+        children [
+          USE HIP_SHAPE
+          USE RIGHT_FEMUR_TRANS
+          USE RIGHT_KNEE_TRANS
+          DEF KNEE_SLIDER_JOINT_R1 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 0 -1
+              minStop -0.02
+              maxStop 0.02
+            }
+            device [
+              LinearMotor {
+                name "knee_motor_r1"
+                minPosition -0.02
+                maxPosition 0.02
+                maxForce 25
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.11 -0.03
+              rotation 1 0 0 1.5708
+              children [
+                USE TIBIA_TRANS
+              ]
+              boundingObject USE TIBIA_TRANS
+              physics USE STANDARD_PHYSICS
+            }
+          }
+        ]
+        name "r1"
+        boundingObject USE RIGHT_KNEE_TRANS
+        physics USE STANDARD_PHYSICS
+      }
+    }
+    DEF HIP_HINGE_JOINT_R2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.2 -0.05 0
+      }
+      device [
+        RotationalMotor {
+          name "hip_motor_r2"
+          maxVelocity 5
+          minPosition -0.7
+          maxPosition 0.7
+        }
+      ]
+      endPoint Solid {
+        translation -0.2 -0.05 0
+        children [
+          USE HIP_SHAPE
+          USE RIGHT_FEMUR_TRANS
+          USE RIGHT_KNEE_TRANS
+          DEF KNEE_SLIDER_JOINT_R2 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 0 -1
+              minStop -0.02
+              maxStop 0.02
+            }
+            device [
+              LinearMotor {
+                name "knee_motor_r2"
+                minPosition -0.02
+                maxPosition 0.02
+                maxForce 25
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.11 -0.03
+              rotation 1 0 0 1.5708
+              children [
+                USE TIBIA_TRANS
+              ]
+              boundingObject USE TIBIA_TRANS
+              physics USE STANDARD_PHYSICS
+            }
+          }
+        ]
+        name "r2"
+        boundingObject USE RIGHT_KNEE_TRANS
+        physics USE STANDARD_PHYSICS
+      }
+    }
+    DEF BODY_SHAPE Shape {
+      appearance USE METAL_APPEARANCE
+      geometry Box {
+        size 0.48 0.1 0.05
+      }
     }
     PointLight {
       attenuation 0 0 0.1
-      location 0 3.5 0
+      location 0 0 3.5
       castShadows TRUE
     }
     PointLight {
       attenuation 0 0 0.1
-      location 1 3.5 -1
+      location -1 -1 3.5
     }
   ]
   name "hexapod"

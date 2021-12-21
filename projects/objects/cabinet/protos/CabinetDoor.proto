@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -8,7 +8,7 @@
 PROTO CabinetDoor [
   field SFVec3f  translation         0 0 0
   field SFString name                "cabinet door"
-  field SFVec3f  size                0.3 0.2 0.2       # Defines the size of the door.
+  field SFVec3f  size                0.2 0.3 0.2       # Defines the size of the door.
   field SFBool   rightSided          TRUE              # Defines on which side the door is connected.
   field SFFloat  thickness           0.03              # Defines the thickness of the door.
   field SFFloat  mass                1.5               # Defines the mass of the door.
@@ -42,8 +42,8 @@ PROTO CabinetDoor [
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
-          anchor %<= rightSided * 0.5 * size.x >% 0 0
-          axis 0 1 0
+          anchor 0 %<= rightSided * 0.5 * size.y >% 0
+          axis 0 0 1
           %< if (rightSided > 0) { >%
             minStop -0.01
             maxStop 1.57
@@ -56,8 +56,8 @@ PROTO CabinetDoor [
         endPoint Solid {
           children [
             SolidBox {
-              translation 0 0 %<= -0.5 * thickness >%
-              size %<= size.x >% %<= size.y >% %<= thickness >%
+              translation %<= -0.5 * thickness >% 0 0
+              size %<= thickness >% %<= size.y >% %<= size.z >%
               appearance IS secondaryAppearance
               physics Physics {
                 density -1
@@ -65,8 +65,8 @@ PROTO CabinetDoor [
               }
             }
             Transform {
-              translation  %<= -rightSided * 0.4 * size.x >% 0 0
-              rotation 0 0 1 1.57
+              translation 0 %<= -rightSided * 0.4 * size.y >% 0
+              rotation 1 0 0 1.57
               children [
                 Slot {
                    endPoint IS handle
@@ -79,7 +79,7 @@ PROTO CabinetDoor [
             mass 0.01
           }
           boundingObject Transform {
-            translation 0 0 %<= - 0.5 * thickness >%
+            translation %<= - 0.5 * thickness >% 0 0
             children [
               Sphere {
                 radius %<= 0.5 * thickness >%

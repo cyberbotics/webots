@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable crash barrier.
@@ -6,7 +6,7 @@
 
 PROTO CrashBarrier [
   field SFVec3f      translation             0 0 0
-  field SFRotation   rotation                0 1 0 0
+  field SFRotation   rotation                0 0 1 0
   field SFString     name                    "crash barrier"
   field SFFloat      poleGap                 2                                     # Defines the gap between two consecutive poles.
   field SFNode       poleAppearance          PBRAppearance { roughness 0.7 }       # Defines the appearance of the poles.
@@ -97,7 +97,7 @@ PROTO CrashBarrier [
     ]
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %<= 0.5 * height >% 0
+        translation 0 0 %<= 0.5 * height >%
         children [
           Extrusion {
             spine [

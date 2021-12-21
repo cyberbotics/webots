@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.21254233658173552 0.9584996876628747 0.1900107994576834 1.468477722323009
-  position 0.7867288350924427 0.4055097783474205 0.10645968912830617
+  orientation -0.1675265060648007 -0.13956669578582184 0.9759385263392096 4.506896004861782
+  position 0.11845466103916552 0.7580686297303807 0.3190746667218087
   near 0.001
   exposure 2
   follow "vision car"
@@ -42,8 +41,8 @@ DEF WALLS SolidPipe {
   }
 }
 TinkerbotsBase {
-  translation 0 0.03 0
-  rotation 0 1 0 3.141592644
+  translation 0 0 0.03
+  rotation 0 1 0 -1.5708
   name "vision car"
   controller "vision_car"
   upASlot TinkerbotsCubieBoxWithRoundSlots {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple non-controllable truck trailer model without physics properties.
@@ -6,7 +6,7 @@
 PROTO TruckTrailerSimple [
   field SFString   name                 "truck trailer"
   field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFBool     wheelBoundingObject  FALSE
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity     0 0 0
@@ -19,17 +19,12 @@ PROTO TruckTrailerSimple [
   Slot {
     type "truck trailer simple"
     endPoint Solid {
-      translation 0 0 1.35
-      rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
+      translation 1.35 0 0
+      rotation IS rotation # Only the rotation in Z should be used (Lua is not used for efficiency reasons)
       children [
-        TruckRearLight {
-        }
-        TruckTrailerMesh {
-          appearance IS appearance
-        }
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity
-          translation -1 0 -5.45
+          translation -5.45 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -43,7 +38,7 @@ PROTO TruckTrailerSimple [
         }
         DEF FRONT_LEFT_WHEEL Solid {
           angularVelocity IS frontLeftWheelAngularVelocity
-          translation 1 0 -5.45
+          translation -5.45 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -53,11 +48,11 @@ PROTO TruckTrailerSimple [
               }
             }
           ]
-         name "front left wheel"
+        name "front left wheel"
         }
         DEF CENTER_RIGHT_WHEEL Solid {
           angularVelocity IS centerRightWheelAngularVelocity
-          translation -1 0 -6.55
+          translation -6.55 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -71,7 +66,7 @@ PROTO TruckTrailerSimple [
         }
         DEF CENTER_LEFT_WHEEL Solid {
           angularVelocity IS centerLeftWheelAngularVelocity
-          translation 1 0 -6.55
+          translation -6.55 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -85,7 +80,7 @@ PROTO TruckTrailerSimple [
         }
         DEF REAR_RIGHT_WHEEL Solid {
           angularVelocity IS rearRightWheelAngularVelocity
-          translation -1 0 -7.65
+          translation -7.65 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -99,7 +94,7 @@ PROTO TruckTrailerSimple [
         }
         DEF REAR_LEFT_WHEEL Solid {
           angularVelocity IS rearLeftWheelAngularVelocity
-          translation 1 0 -7.65
+          translation -7.65 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -111,24 +106,34 @@ PROTO TruckTrailerSimple [
           ]
           name "rear left wheel"
         }
+        Transform {
+          rotation 0.57735 0.57735 0.57735 2.094395
+          children[
+            TruckRearLight {
+            }
+            TruckTrailerMesh {
+              appearance IS appearance
+            }
+          ]
+        }
       ]
       name IS name
       model "truck trailer"
       boundingObject Group {
         children [
           Transform {
-            translation 0 2.21 -3.1
+            translation -3.1 0 2.21
             children [
               Box {
-                size 2.5 3.05 11.15
+                size 11.15 2.5 3.05
               }
             ]
           }
           Transform {
-            translation 0 0.27 -6.33
+            translation -6.33 0 0.27
             children [
               Box {
-                size 2.5 0.87 4.5
+                size 4.5 2.5 0.87
               }
             ]
           }

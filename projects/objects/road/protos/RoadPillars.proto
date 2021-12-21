@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic and customizable road pillars which can be used for easily creating bridges or elevated roads.
@@ -8,7 +8,7 @@
 
 PROTO RoadPillars [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "road pillar"
   field SFFloat    height             5                                                                 # Defines the height of the pillar.
   field SFFloat    width              8                                                                 # Defines the width of the pillar.
@@ -53,50 +53,55 @@ PROTO RoadPillars [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LOWER_PART Transform {
-        translation 0 0.25 0
+      Transform {
+        rotation 0 0 1 1.5708
         children [
-          Shape {
-            appearance IS appearance
-            geometry DEF BOX Box {
-              size %<= width >% 0.5 %<= depth >%
-            }
+          DEF LOWER_PART Transform {
+            translation 0 0 0.25
+            children [
+              Shape {
+                appearance IS appearance
+                geometry DEF BOX Box {
+                  size %<= width >% %<= depth >% 0.5
+                }
+              }
+            ]
           }
-        ]
-      }
-      DEF UPPER_PART Transform {
-        translation 0 %<= height - 0.25 >% 0
-        rotation 0 0 1 %<= tilt >%
-        children [
-          Shape {
-            appearance IS appearance
-            geometry USE BOX
+          DEF UPPER_PART Transform {
+            translation 0 0 %<= height - 0.25 >%
+            rotation 0 1 0 %<= -tilt >%
+            children [
+              Shape {
+                appearance IS appearance
+                geometry USE BOX
+              }
+            ]
           }
-        ]
-      }
-      DEF CYLINDER_1 Transform {
-        translation %<= pylonsDistance * 0.5 >% %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >% 0
-        rotation 0 0 1 %<= pylonsInclination >%
-        children [
-          Shape {
-            appearance IS appearance
-            geometry Cylinder {
-              height %<= height - 0.25 + Math.sin(tilt) * pylonsDistance * 0.5 >%
-              radius IS pylonsRadius
-            }
+          DEF CYLINDER_1 Transform {
+            translation %<= pylonsDistance * 0.5 >% 0 %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >%
+            rotation 0 1 0 %<= -pylonsInclination >%
+            children [
+              Shape {
+                appearance IS appearance
+                geometry Cylinder {
+                  height %<= height - 0.25 + Math.sin(tilt) * pylonsDistance * 0.5 >%
+                  radius IS pylonsRadius
+                }
+              }
+            ]
           }
-        ]
-      }
-      DEF CYLINDER_1 Transform {
-        translation %<= -pylonsDistance * 0.5 >% %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >% 0
-        rotation 0 0 1 %<= -pylonsInclination >%
-        children [
-          Shape {
-            appearance IS appearance
-            geometry Cylinder {
-              height %<= height - 0.25 - Math.sin(tilt) * pylonsDistance * 0.5 >%
-              radius IS pylonsRadius
-            }
+          DEF CYLINDER_1 Transform {
+            translation %<= -pylonsDistance * 0.5 >% 0 %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >%
+            rotation 0 1 0 %<= +pylonsInclination >%
+            children [
+              Shape {
+                appearance IS appearance
+                geometry Cylinder {
+                  height %<= height - 0.25 - Math.sin(tilt) * pylonsDistance * 0.5 >%
+                  radius IS pylonsRadius
+                }
+              }
+            ]
           }
         ]
       }
@@ -105,10 +110,11 @@ PROTO RoadPillars [
     model "road pillar"
     %< if (boundingObject) { >%
       boundingObject Transform {
-        translation 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >% 0
+        translation 0 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >%
+        rotation 0 0 1 1.5708
         children [
           Box {
-            size %<= width >% %<= height - width * Math.abs(Math.sin(tilt)) * 0.5 >% %<= depth >%
+            size %<= width >% %<= depth >% %<= height - width * Math.abs(Math.sin(tilt)) * 0.5 >%
           }
         ]
       }

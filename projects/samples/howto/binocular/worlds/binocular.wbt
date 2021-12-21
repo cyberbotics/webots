@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of use of two Camera devices to produce stereoscopy"
   ]
   title "Binocular"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.997991773315356 0.05140398832405727 -0.03701419159256712 5.52984
-  position -0.0113298 0.829916 0.929914
+  orientation -0.11477244375548117 0.9135801842761898 0.3901263039738257 0.8960019929532147
+  position -1.2483149754765932 -0.42813393424581014 1.4583182175109854
 }
 TexturedBackground {
 }
@@ -18,7 +17,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.25
+  translation 0.25 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -27,7 +26,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -41,8 +40,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -65,8 +64,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF WOOD_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.15 0.2 0.05
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -80,7 +79,7 @@ DEF WOOD_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -94,7 +93,7 @@ DEF WOOD_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.1 -0.42 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -103,7 +102,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -117,11 +116,11 @@ DEF PINK_BOX Solid {
   }
 }
 Robot {
-  translation 0.15 0 0
-  rotation 0 1 0 1
+  translation 0 -0.15 0
+  rotation 0 0 1 1
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -138,8 +137,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -150,11 +149,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -180,8 +179,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -192,8 +191,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           USE WHEEL
         ]
@@ -203,11 +202,11 @@ Robot {
       }
     }
     DEF LEFT_SENSOR DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -233,16 +232,16 @@ Robot {
       aperture 1
     }
     DEF LEFT_CAMERA Camera {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 0.5
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.49920530717958655
       name "camera0"
       fieldOfView 1.047
       width 80
       height 60
     }
     DEF RIGHT_SENSOR DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -256,8 +255,8 @@ Robot {
       aperture 1
     }
     DEF RIGHT_CAMERA Camera {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 -0.5
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.5
       name "camera1"
       fieldOfView 1.047
       width 80
@@ -277,12 +276,12 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.015 0.038 -0.041
-            0.015 0.023 -0.041
-            0 0.023 -0.0455
-            -0.015 0.023 -0.041
-            -0.015 0.038 -0.041
-            0 0.038 -0.0455
+            0.041 -0.015 0.038
+            0.041 -0.015 0.023
+            0.0455 0 0.023
+            0.041 0.015 0.023
+            0.041 0.015 0.038
+            0.0455 0 0.038
           ]
         }
         texCoord TextureCoordinate {
@@ -307,7 +306,7 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]

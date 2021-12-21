@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A commercial building.
 
 PROTO CommercialBuilding [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "commercial building"
 ]
 {
@@ -31,7 +31,7 @@ PROTO CommercialBuilding [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              11 0.001252 -11 11 0.001252 11 -11 0.001252 11 -11 0.001252 -11 11 41.4339 -11 11 41.4339 11 -11 41.4339 11 -11 41.4339 -11 -11 48.8816 -11 -11 48.8816 0.097663 11 48.8816 0.097663 11 48.8816 -11 -11 41.4323 -11 -11 41.4323 0.097663 11 41.4323 0.097663 11 41.4323 -11
+              11.0 -11.0 0.001252 -11.0 -11.0 0.001252 -11.0 11.0 0.001252 11.0 11.0 0.001252 11.0 -11.0 41.4339 -11.0 -11.0 41.4339 -11.0 11.0 41.4339 11.0 11.0 41.4339 11.0 11.0 48.8816 -0.097663 11.0 48.8816 -0.097663 -11.0 48.8816 11.0 -11.0 48.8816 11.0 11.0 41.4323 -0.097663 11.0 41.4323 -0.097663 -11.0 41.4323 11.0 -11.0 41.4323
             ]
           }
           texCoord TextureCoordinate {
@@ -56,7 +56,7 @@ PROTO CommercialBuilding [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              11 41.4339 -11 11 41.4339 11 -11 41.4339 11 -11 41.4339 -11 -11 48.8816 -11 -11 48.8816 0.097663 11 48.8816 0.097663 11 48.8816 -11
+              11.0 -11.0 41.4339 -11.0 -11.0 41.4339 -11.0 11.0 41.4339 11.0 11.0 41.4339 11.0 11.0 48.8816 -0.097663 11.0 48.8816 -0.097663 -11.0 48.8816 11.0 -11.0 48.8816
             ]
           }
           coordIndex [
@@ -70,7 +70,8 @@ PROTO CommercialBuilding [
     boundingObject Group {
       children [
         Transform {
-          translation 0 20.7 0
+          translation 0 0 20.7
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             Box {
               size 22 41.5 22
@@ -78,7 +79,8 @@ PROTO CommercialBuilding [
           ]
         }
         Transform {
-          translation 0 45.2 -5.45
+          translation 5.45 0 45.2
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             Box {
               size 22 7.5 11.1

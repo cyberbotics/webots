@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Parking lines for several consecutive cars.
@@ -6,7 +6,7 @@
 
 PROTO ParkingLines [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFInt32    numberOfCarParks 5                             # Defines the number of parks.
   field SFFloat    carParkLength    4.8                           # Defines the length of one park.
   field SFFloat    carParkWidth     2.4                           # Defines the width of one park.
@@ -22,7 +22,7 @@ PROTO ParkingLines [
     rotation IS rotation
     children [
       Transform {
-        translation %<= 0.5 * width >% 0 %<= 0.5 * length >%
+        translation %<= 0.5 * width >% %<= 0.5 * length >% 0 
         children [
           Shape {
             appearance PBRAppearance {

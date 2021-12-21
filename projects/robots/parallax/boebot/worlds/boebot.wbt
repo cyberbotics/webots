@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Boebot robot"
   ]
   title "Boebot"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.07354999840617155 -0.9583779792319493 -0.275865994021984 2.67286
-  position -0.246553 0.361307 -0.420323
+  orientation 0.2758099363567196 0.1769297712027157 -0.944788195877286 1.9426554984272717
+  position 0.14072546683751275 0.4390341900310359 0.299388634857251
   follow "BoeBot"
 }
 TexturedBackground {
@@ -16,31 +15,31 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 WoodenBox {
-  translation -0.2 0.05 0.683174
-  rotation 0 1 0 0.5
+  translation -0.683174 0.2 0.05
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation 0.35 0.75 0.05
+  rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation -0.35471 -0.5 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.66 0.65 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
@@ -48,6 +47,6 @@ RectangleArena {
   floorSize 2 2
 }
 BoeBot {
-  translation 0 0.038 0
-  rotation 0 1 0 1.57
+  translation 0 0 0.038
+  rotation 0 0 1 1.8318
 }

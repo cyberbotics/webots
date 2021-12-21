@@ -1,21 +1,20 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a Supervisor to manipulate the world."
   ]
   title "Supervisor Programming"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9102483501120762 0.39662715255611924 0.11889004572910321 5.38226
-  position -0.458348 1.10552 1.13051
+  orientation 0.39581945410397407 0.00021891964180710538 -0.9183283246350527 3.117795217025975
+  position 2.567340762916253 0.3282715317139616 2.8174955656884015
 }
 TexturedBackground {
 }
 PointLight {
   attenuation 0 0 4
   intensity 3
-  location 0 0.3 0
+  location 0 0 0.3
 }
 RectangleArena {
 }

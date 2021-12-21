@@ -75,11 +75,12 @@ static void cleanup() {
 }
 
 static void init() {
-  if (gDefaultDevice)  // init was already done
-    return;
-  qAddPostRoutine(cleanup);
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
+
+  if (gDefaultDevice || gMute)  // init was already done or sound is mute
+    return;
+  qAddPostRoutine(cleanup);
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)

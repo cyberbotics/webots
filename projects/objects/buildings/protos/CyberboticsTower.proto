@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # The Cyberbotics tower.
 
 PROTO CyberboticsTower [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "Cyberbotics tower"
 ]
 {
@@ -23,7 +23,7 @@ PROTO CyberboticsTower [
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            10 46.8322 -10.1353 10 46.8322 9.86466 -10 46.8322 9.86466 -10 46.8322 -10.1353
+            10.1353 -10.0 46.8322 -9.86466 -10.0 46.8322 -9.86466 10.0 46.8322 10.1353 10.0 46.8322
           ]
         }
         coordIndex [
@@ -48,7 +48,7 @@ PROTO CyberboticsTower [
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            10 0.000382 -10.1353 10 0.000382 9.86466 -10 0.000382 9.86466 -10 0.000382 -10.1353 10 46.8322 -10.1353 10 46.8322 9.86466 -10 46.8322 9.86466 -10 46.8322 -10.1353
+            10.1353 -10.0 0.000382 -9.86466 -10.0 0.000382 -9.86466 10.0 0.000382 10.1353 10.0 0.000382 10.1353 -10.0 46.8322 -9.86466 -10.0 46.8322 -9.86466 10.0 46.8322 10.1353 10.0 46.8322
           ]
         }
         texCoord TextureCoordinate {
@@ -68,7 +68,8 @@ PROTO CyberboticsTower [
   name IS name
   model "Cyberbotics tower"
   boundingObject Transform {
-    translation 0 23.48 -0.13
+    translation 0.13 0 23.48
+    rotation 0.57735 -0.57735 -0.57735 2.094395
     children [
       Box {
         size 20 46.8 20

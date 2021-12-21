@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # Right version of the Hey5 hand end-effector for the TIAGo robot from PAL Robotics.
@@ -257,7 +257,6 @@ PROTO TiagoRightHey5 [
                                       }
                                       Transform {
                                         translation 0.0139 0.0036 0
-                                        rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
                                             height 0.0142
@@ -301,7 +300,6 @@ PROTO TiagoRightHey5 [
                                       }
                                       Transform {
                                         translation 0.0046 0.0068 0
-                                        rotation -1 0 0 -1.574
                                         children [
                                           Cylinder {
                                             height 0.0142
@@ -313,7 +311,6 @@ PROTO TiagoRightHey5 [
                                       }
                                       Transform {
                                         translation 0.0159 0.0008 0
-                                        rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
                                             height 0.0142
@@ -324,7 +321,6 @@ PROTO TiagoRightHey5 [
                                       }
                                       Transform {
                                         translation -0.0002 0 0
-                                        rotation 1 0 0 1.572
                                         children [
                                           Cylinder {
                                             height 0.0142
@@ -387,7 +383,6 @@ PROTO TiagoRightHey5 [
                           }
                           Transform {
                             translation 0.0046 0.0068 0
-                            rotation -1 0 0 -1.574
                             children [
                               Cylinder {
                                 height 0.0142
@@ -399,7 +394,6 @@ PROTO TiagoRightHey5 [
                           }
                           Transform {
                             translation 0.0093 0 0
-                            rotation 1 0 0 1.57
                             children [
                               Cylinder {
                                 height 0.0142
@@ -410,7 +404,6 @@ PROTO TiagoRightHey5 [
                           }
                           Transform {
                             translation -0.0002 0 0
-                            rotation 1 0 0 1.572
                             children [
                               Cylinder {
                                 height 0.0142
@@ -494,7 +487,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation 0.01812 0.00613 -0.00615
-                rotation 1 0 0 0.427
+                rotation 1 0 0 1.997796
                 children [
                   Cylinder {
                     height 0.0142
@@ -505,7 +498,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation 0.0236 0.003391 -0.000259
-                rotation 1 0 0 0.427
+                rotation 1 0 0 1.997796
                 children [
                   Cylinder {
                     height 0.0142
@@ -516,7 +509,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation 0.0133 0.0032727 0
-                rotation 1 0 0 0.427
+                rotation 1 0 0 1.997796
                 children [
                   Cylinder {
                     height 0.0142
@@ -786,7 +779,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation 0.0045 0 0.0068
-                rotation 0 1 0 -1.572
+                rotation 1 0 0 -1.572
                 children [
                   Cylinder {
                     height 0.0142
@@ -798,7 +791,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation 0.0093 0 0
-                rotation 0.0016 -1 -0.0016 -1.572
+                rotation -1 -0.0016 0.0016 -1.572
                 children [
                   Cylinder {
                     height 0.0142
@@ -810,7 +803,7 @@ PROTO TiagoRightHey5 [
               }
               Transform {
                 translation -0.0002 0 0
-                rotation 0 1 0 1.572
+                rotation 1 0 0 1.572
                 children [
                   Cylinder {
                     height 0.0142
@@ -1111,7 +1104,7 @@ PROTO TiagoRightHey5 [
                           ]
                           endPoint DEF HAND_RIGHT_RING_CONNECTOR_2 Solid {
                             translation 0.009 0 0
-                            rotation 0 1 0 0
+                            rotation 0 0 1 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_RING_PHALANX_3_JOINT HingeJoint {
@@ -1374,7 +1367,7 @@ PROTO TiagoRightHey5 [
                                             ]
                                             endPoint DEF HAND_RIGHT_LITTLE_TIP Solid {
                                               translation 0.013 0 0
-                                              rotation 0 1 0 0
+                                              rotation 0 0 1 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
@@ -1425,7 +1418,7 @@ PROTO TiagoRightHey5 [
       children [
         DEF CYL_1 Transform {
           translation 0.0211 -0.0249 0
-          rotation 0 0 1 1.5708
+          rotation 0 1 0 1.5708
           children [
             DEF CYLINDER_SHAPE Cylinder {
               height 0.015
@@ -1435,14 +1428,14 @@ PROTO TiagoRightHey5 [
         }
         DEF CYL_2 Transform {
           translation 0.0211 0.0126 0.025
-          rotation 0 0 1 1.5708
+          rotation 0 1 0 1.5708
           children [
             USE CYLINDER_SHAPE
           ]
         }
         DEF CYL_3 Transform {
           translation 0.0211 0.0124 -0.025
-          rotation 0 0 1 1.5708
+          rotation 0 1 0 1.5708
           children [
             USE CYLINDER_SHAPE
           ]

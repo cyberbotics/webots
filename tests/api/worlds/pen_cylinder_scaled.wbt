@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -21,7 +21,7 @@ DEF BOARD Solid {
   scale 1.44 1.44 1.44
   children [
     Transform {
-      rotation 0 0 1 3.1415
+      rotation -0.000032757990828 0.707106780805423 0.707106780808886 3.141527137608161
       children [
         Shape {
           appearance Appearance {
@@ -59,10 +59,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0 0.09 0
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
           Transform {
-            translation 0 0.03 0
+            translation 0 0 0.03
             children [
               Shape {
                 geometry Box {
@@ -72,18 +72,24 @@ DEF WRITER Robot {
             ]
           }
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -97,7 +103,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation -0.049 0.09 0.088
-          rotation 0.5773498921773197 0 -0.8164968475155537 6.02139
+          rotation -0.6415942676512423 0.5250452713191736 0.5591817761537312 2.308166184909474
           children [
             Shape {
               geometry Cylinder {

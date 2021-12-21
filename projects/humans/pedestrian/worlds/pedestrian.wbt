@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pedestrian Simulation"
@@ -6,7 +6,6 @@ WorldInfo {
   title "Autonomous Vehicle"
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -15,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.056791464063295376 0.9659535410765772 0.25240540028131153 2.3968598
-  position 11.910063 7.2731442 -10.132491
+  orientation 0.30689270390532825 -0.2902331601799681 -0.9064113751612043 4.648170330709373
+  position 0.005197140878764703 -22.232530148048017 16.570466173724824
   near 1
 }
 TexturedBackground {
@@ -32,25 +31,22 @@ CircleArena {
   wallHeight 1
 }
 Pedestrian {
-  translation 0 1.26 3
-  rotation 0 1 0 3.14159
+  translation -3 0 1.26
   controllerArgs [
-    "--trajectory=0 3, 0 -3"
+    "--trajectory= -3 0, 3 0"
     "--speed=2.5"
   ]
 }
 Pedestrian {
-  translation 5 1.27 1
-  rotation 0 1 0 3.14159
+  translation -1 -5 1.27
   name "pedestrian(1)"
   controllerArgs [
-    "--trajectory=5 1, 5 -1, 1 -5, -1 -5, -5 -1, -5 1, -1 5, 1 5"
+    "--trajectory=-1 -5, 1 -5, 5 -1, 5 1,  1 5, -1 5, -5 1, -5 -1"
   ]
   shirtColor 0.466667 0.0980392 0.458824
 }
 Pedestrian {
-  translation 6 1.27 2
-  rotation 0 1 0 3.14159
+  translation -2 -6 1.27
   name "pedestrian(2)"
   shirtColor 0.6 0.4 0.35
   pantsColor 0.18 0.18 0.23

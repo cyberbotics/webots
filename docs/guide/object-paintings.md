@@ -2,7 +2,7 @@
 
 ## LandscapePainting
 
-A painting (1.5 x 1 x 0.05 m).
+A painting (0.05 x 1.5 x 1 m).
 
 %figure
 
@@ -14,11 +14,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LandscapePainting {
-  SFVec3f    translation 0 0.5 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0.5
+  SFRotation rotation    0 0 1 0
   SFString   name        "landscape painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/landscape_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/paintings/protos/textures/landscape_painting.jpg"
 }
 ```
 
@@ -35,7 +35,7 @@ LandscapePainting {
 
 ## PortraitPainting
 
-A painting (0.82 x 1.01 x 0.05 m).
+A painting (0.05 x 0.82 x 1.01 m).
 
 %figure
 
@@ -47,11 +47,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PortraitPainting {
-  SFVec3f    translation 0 0.505 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0.505
+  SFRotation rotation    0 0 1 0
   SFString   name        "portrait painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/portrait_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/paintings/protos/textures/portrait_painting.jpg"
 }
 ```
 

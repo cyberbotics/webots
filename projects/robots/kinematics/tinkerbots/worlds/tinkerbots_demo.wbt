@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "In this example, two robots work collaboratively in a fictitious factory."
@@ -7,7 +7,6 @@ WorldInfo {
   ]
   title "Tinkerbots demo"
   basicTimeStep 8
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "object"
@@ -19,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.02018389405723603 -0.9616950427435295 -0.27337749575121834 3.022105622967992
-  position -0.07093936442889338 0.43098751541690444 -0.7007632023028608
+  orientation 0.1571260573015898 0.1653172874298546 -0.9736434648235937 1.5466905710457228
+  position -0.004692196189844249 0.7609259077003012 0.3081107629673636
   near 0.001
   exposure 2
   follow "object"
@@ -49,44 +48,45 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 ConveyorBelt {
-  translation 0.05 0 0.16
-  rotation 0 1 0 3.1415
+  translation 0.05 -0.16 0
+  rotation 0 0 1 3.14159
   name "big conveyor belt"
-  size 0.6 0.06 0.15
+  size 0.6 0.15 0.06
   borderThickness 0.005
   borderHeight -0.004
   speed 0.15
 }
 ConveyorBelt {
-  translation -0.326 0 0.105
-  rotation 0 -1 0 4.7124
+  translation -0.326 -0.105 0
+  rotation 0 0 1 1.57079
   name "small conveyor belt"
-  size 0.268 0.04 0.14
+  size 0.268 0.14 0.04
   borderThickness 0.001
   borderHeight -0.005
   speed 0.15
 }
 WoodenBox {
-  translation 0.02 0.07 0.29
-  size 0.37 0.15 0.1
+  translation 0.02 -0.29 0.07
+  size 0.37 0.1 0.15
 }
 WoodenBox {
-  translation -0.27 0.05 0.29
+  translation -0.27 -0.29 0.05
   name "wooden box b"
   size 0.2 0.1 0.1
 }
 CardboardBox {
-  translation -0.27 0.02 -0.208
-  size 0.2 0.04 0.1
+  translation -0.27 0.208 0.02
+  rotation 0 0 1 -1.5708
+  size 0.1 0.2 0.04
 }
 WoodenBox {
-  translation -0.45 0.05 0.17
-  rotation 0 1 0 4.71
+  translation -0.45 -0.17 0.05
+  rotation 0 0 1 -1.5708
   name "wooden box c"
   size 0.2 0.1 0.1
 }
 DEF CRANE TinkerbotsBase {
-  translation 0.005 0.121 -0.006
+  translation 0.005 -0.006 0.121
   rotation 0 1 0 -1.5708
   name "crane"
   controller "crane"
@@ -142,8 +142,8 @@ DEF CRANE TinkerbotsBase {
   }
 }
 DEF VEHICLE TinkerbotsBase {
-  translation -0.445 0.03 -0.112
-  rotation 0 1 0 4.71
+  translation -0.445 0.112 0.03
+  rotation 0 1 0 -1.5708
   name "vehicle"
   controller "vehicle"
   upASlot TinkerbotsCubieBoxWithCrossSlots {
@@ -238,8 +238,8 @@ DEF VEHICLE TinkerbotsBase {
   }
 }
 DEF OBJECT Solid {
-  translation 0.045 0.026 -0.089
-  rotation -1 0 0 4.712388985179587
+  translation 0.045 0.089 0.026
+  rotation 0 1 0 3.14159
   children [
     Shape {
       appearance TinkerbotsPlasticAppearance {

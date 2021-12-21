@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of the BMW X5 wheels using the generic VehicleWheel proto
@@ -9,6 +9,7 @@ PROTO BmwX5Wheel [
   field       SFString name           "BMW X5 wheel"
   field       SFNode   physics        NULL
   field       SFBool   boundingObject TRUE
+  field SFBool     wheelSide          FALSE
   hiddenField SFFloat  tireRadius     0.374           # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
@@ -22,6 +23,7 @@ PROTO BmwX5Wheel [
     centralOuterRadius 0.12
     rimBeamThickness 0.08
     rimBeamOffset 0.065
+    wheelSide IS wheelSide
     tireAppearance GenericTireAppearance {
     }
     rimAppearance PBRAppearance {
@@ -31,37 +33,43 @@ PROTO BmwX5Wheel [
     physics IS physics
     boundingObject IS boundingObject
     logoSlot [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_base_color.jpg"
-            ]
+      Transform{
+        translation 0.035 0 0
+        rotation 0 1 0 -1.570796
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_base_color.jpg"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_normal.jpg"
+                ]
+              }
+            }
+            geometry Cylinder {
+              bottom FALSE
+              height 0.21
+              radius 0.036
+              side FALSE
+              subdivision 24
+            }
           }
-          roughnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_normal.jpg"
-            ]
-          }
-        }
-        geometry Cylinder {
-          bottom FALSE
-          height 0.21
-          radius 0.036
-          side FALSE
-          subdivision 24
-        }
+        ]
       }
     ]
   }

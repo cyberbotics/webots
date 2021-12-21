@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
   lineScale 0.3
@@ -18,22 +18,28 @@ PointLight {
   location 0 0.345 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF BLUE_ROBOT Robot {
   translation -0.25 0.025 0
   children [
-    DEF BASE_SHAPE Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.113725 0.113725 0.854902
-          specularColor 0.984314 0.909804 0.909804
+    DEF BASE_SHAPE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.113725 0.113725 0.854902
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
         }
-      }
-      geometry Cylinder {
-        height 0.05
-        radius 0.05
-        subdivision 24
-      }
+      ]
     }
     Hinge2Joint {
       jointParameters HingeJointParameters {
@@ -64,17 +70,22 @@ DEF BLUE_ROBOT Robot {
       endPoint Solid {
         translation 0 0.06 0
         children [
-          DEF THICK_CYLINDER_SHAPE Shape {
-            appearance DEF GRAY_APPEARANCE Appearance {
-              material Material {
-                specularColor 1 1 1
+          DEF THICK_CYLINDER_SHAPE Transform {
+            rotation 1 0 0 -1.57079632679
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE Appearance {
+                  material Material {
+                    specularColor 1 1 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
               }
-            }
-            geometry Cylinder {
-              height 0.05
-              radius 0.02
-              subdivision 24
-            }
+            ]
           }
         ]
         boundingObject Group {
@@ -89,8 +100,7 @@ DEF BLUE_ROBOT Robot {
             0 0 0
           ]
           inertiaMatrix [
-            1 1 1
-            0 0 0
+            1 1 1            0 0 0
           ]
         }
       }

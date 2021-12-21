@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -7,11 +7,11 @@
 
 PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "uneven terrain"
-  field SFVec3f    size           50 5 50                                                            # Defines the size of the terrain.
+  field SFVec3f    size           50 50 5                                                           # Defines the size of the terrain.
   field SFInt32    xDimension     50                                                                 # Defines the number of points in the grid height array in the x direction.
-  field SFInt32    zDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
+  field SFInt32    yDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
   field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }  # Defines the appearance of the terrain.
   field SFInt32    randomSeed     1                                                                  # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
   field SFBool     flatCenter     FALSE                                                              # Defines whether the center of the terrain should be flat.
@@ -91,10 +91,10 @@ PROTO UnevenTerrain [
       console.error('\'xDimension\' must be bigger than 2. Value reset to ' + xDimension + '.');
     }
 
-    let zDimension = fields.zDimension.value;
-    if (zDimension < 2) {
-      zDimension = fields.zDimension.defaultValue;
-      console.error('\'zDimension\' must be bigger than 2. Value reset to ' + zDimension + '.');
+    let yDimension = fields.yDimension.value;
+    if (yDimension < 2) {
+      yDimension = fields.yDimension.defaultValue;
+      console.error('\'yDimension\' must be bigger than 2. Value reset to ' + yDimension + '.');
     }
   >%
   Solid {
@@ -102,34 +102,34 @@ PROTO UnevenTerrain [
     rotation IS rotation
     children [
       DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
-        translation %<= - size.x * 0.5 >% 0 %<= - size.z * 0.5 >%
+        translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %< if (xDimension > 2 && zDimension > 2) { >%
+              %< if (xDimension > 2 && yDimension > 2) { >%
                 xDimension IS xDimension
                 xSpacing %<= size.x / (xDimension - 1) >%
-                zDimension IS zDimension
-                zSpacing %<= size.z / (zDimension - 1) >%
+                yDimension IS yDimension
+                ySpacing %<= size.y / (yDimension - 1) >%
 
                 height [
-                  %< for (let i = 0; i <= xDimension - 1; ++i) { >%
-                    %< for (let j = 0; j <= zDimension - 1; ++j) { >%
+                  %< for (let i = xDimension - 1; i >= 0; --i) { >%
+                    %< for (let j = 0; j <= yDimension - 1; ++j) { >%
                       %<
                         let height = 1.0;
                         const x = i / xDimension;
-                        const z = j / zDimension;
+                        const y = j / yDimension;
                         if (nOctave > 0)
-                          height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave, dirs, perm));
+                          height = 0.5 * (1.0 + fBm(x, y, perlinSize, nOctave, dirs, perm));
 
                         if (fields.flatCenter.value)
-                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2));
+                          height = height * (1.0 - gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2));
 
                         if (fields.flatBounds.value)
-                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2);
+                          height = height * gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2);
 
-                        height = height * size.y
+                        height = height * size.z
                       >%
                       %<= height >%
                     %< } >%

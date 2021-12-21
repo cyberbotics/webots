@@ -1,14 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable worktop.
 # template language: javascript
 
 PROTO Worktop [
-  field SFVec3f    translation  0 0.71 0
-  field SFRotation rotation     0 1 0 0
+  field SFVec3f    translation  0 0 0.71
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "worktop"
-  field SFVec3f    size         0.44 0.06 0.7  # Defines the size of the worktop.
+  field SFVec3f    size         0.7 0.44 0.06  # Defines the size of the worktop.
   field SFNode     appearance   Marble { }     # Defines the appearance.
 ]
 {

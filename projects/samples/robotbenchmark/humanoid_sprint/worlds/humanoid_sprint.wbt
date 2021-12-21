@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "
@@ -10,7 +10,6 @@ WorldInfo {
   window "humanoid_sprint"
   basicTimeStep 20
   FPS 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -23,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4229511610638218 -0.8985389522600371 -0.11721803029483097 5.5889281
-  position -3.2842069 1.4798389 2.2429662
+  orientation -0.19809720573301803 0.09824664160653288 0.9752461712274535 2.240601920132737
+  position -3.394050354491887 -2.056443249426749 1.713569843128571
   follow "NAO"
 }
 TexturedBackground {
@@ -39,31 +38,28 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 0.2
   cutOffAngle 0.7
-  direction 0 -1 0
   intensity 10
-  location -5 4 0.5
+  location -5 -0.5 4
   castShadows TRUE
 }
 SpotLight {
   attenuation 0 0 1
   beamWidth 0.2
   cutOffAngle 0.7
-  direction 0 -1 0
   intensity 10
-  location 0 4 0.5
+  location 0 -0.5 4
   castShadows TRUE
 }
 SpotLight {
   attenuation 0 0 1
   beamWidth 0.2
   cutOffAngle 0.7
-  direction 0 -1 0
   intensity 10
-  location 5 4 0.5
+  location 5 -0.5 4
   castShadows TRUE
 }
 DEF TRACK Floor {
-  translation 0 0 0.39
+  translation 0 -0.39 0
   size 11 3
   tileSize 11 3
   appearance PBRAppearance {
@@ -87,7 +83,7 @@ DEF TRACK Floor {
   }
 }
 DEF GRASS Solid {
-  translation 0 -0.005 0
+  translation 0 0 -0.005
   children [
     Shape {
       appearance Grass {
@@ -109,11 +105,11 @@ DEF GRASS Solid {
   locked TRUE
 }
 DEF NAO Nao {
-  translation -5.345 0.334 -0.65
+  translation -5.345 0.65 0.334
   controller "sprinter"
 }
 RaceStopwatch {
-  translation 4.73 0 -1.19623
-  rotation 0 -1 0 -1.57
+  translation 4.73 1.19623 0
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   window "humanoid_sprint"
 }

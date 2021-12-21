@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,15 +17,20 @@ PointLight {
   location 0 0.3 0
 }
 DEF FLOOR Solid {
-  translation -1 0 -1
+  translation -1 0 1.1
   children [
-    Shape {
-      geometry ElevationGrid {
-        xDimension 20
-        xSpacing 0.12
-        zDimension 20
-        zSpacing 0.12
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry ElevationGrid {
+            xDimension 20
+            xSpacing 0.12
+            yDimension 20
+            ySpacing 0.12
+          }
+        }
+      ]
     }
   ]
   boundingObject Transform {
@@ -34,6 +39,7 @@ DEF FLOOR Solid {
       Plane {
       }
     ]
+    rotation 1 0 0 -1.57079632679
   }
 }
 DEF TEST Robot {
@@ -45,32 +51,28 @@ DEF TEST Robot {
       translation -0.61 0.366 -0.4
       name "slider sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation 0.87 0.3 -0.84
       name "hinge sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation 0.69 0.29 1
       name "hinge2 sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation -0.82 0.29 0.99
       name "ball joint sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
   ]
@@ -193,6 +195,7 @@ Robot {
   controller ""
 }
 UR5e {
+  rotation 1 0 0 4.712388966
   controller "supervisor_node_set_joint_position_ur5e"
   supervisor TRUE
   toolSlot [

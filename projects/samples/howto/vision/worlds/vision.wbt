@@ -1,23 +1,23 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of how to use OpenCV to process the robot's camera image"
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.737851013050371 0.651691011526459 0.17571200310781823 5.42559
-  position -2.58204 3.47428 3.00641
+  orientation -0.2813235919252613 -0.7254935654643314 0.6281051847390854 5.226473578087092
+  position -4.393757706844999 4.410312464240999 6.555637865489229
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 0 1 1.5708
   floorSize 3 4
 }
 E-puck {
-  translation 0 0 1.9
+  translation -1.9 0 0
   controller "vision"
   camera_width 240
   camera_height 180
@@ -31,7 +31,7 @@ E-puck {
   ]
 }
 DEF RED_CONE Solid {
-  translation -0.17 0.3 -0.4
+  translation 0.4 0.17 0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -49,7 +49,7 @@ DEF RED_CONE Solid {
   name "red cone"
 }
 DEF RED_SPHERE Solid {
-  translation 1 0.3 -0.7
+  translation 0.7 -1 0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -66,7 +66,7 @@ DEF RED_SPHERE Solid {
   name "red sphere"
 }
 DEF BLUE_BOX Solid {
-  translation -0.4 0.1 0.5
+  translation -0.5 0.4 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -82,8 +82,8 @@ DEF BLUE_BOX Solid {
   name "blue box"
 }
 DEF BLUE_CROSS Solid {
-  translation 0.5 0.25 0
-  rotation 0 0 1 0.785398
+  translation 0 -0.5 0.25
+  rotation -1 0 0 0.785398
   children [
     Shape {
       appearance PBRAppearance {
@@ -92,11 +92,11 @@ DEF BLUE_CROSS Solid {
         metalness 0
       }
       geometry Box {
-        size 0.15 0.5 0.01
+        size 0.01 0.15 0.5
       }
     }
     Transform {
-      translation -0.1625 0 0
+      translation 0 0.1625 0
       children [
         Shape {
           appearance PBRAppearance {
@@ -105,13 +105,13 @@ DEF BLUE_CROSS Solid {
             metalness 0
           }
           geometry Box {
-            size 0.175 0.15 0.01
+            size 0.01 0.175 0.15
           }
         }
       ]
     }
     Transform {
-      translation 0.1625 0 0
+      translation 0 -0.1625 0
       children [
         Shape {
           appearance PBRAppearance {
@@ -120,7 +120,7 @@ DEF BLUE_CROSS Solid {
             metalness 0
           }
           geometry Box {
-            size 0.175 0.15 0.01
+            size 0.01 0.175 0.15
           }
         }
       ]
@@ -129,7 +129,7 @@ DEF BLUE_CROSS Solid {
   name "blue cross"
 }
 DEF YELLOW_CAPSULE Solid {
-  translation 0.6 0.3 -1.2
+  translation 1.2 -0.6 0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -148,7 +148,7 @@ DEF YELLOW_CAPSULE Solid {
   name "yellow capsule"
 }
 DEF YELLOW_WALL Solid {
-  translation 0 0.3 -1.9
+  translation 1.9 0 0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -157,14 +157,14 @@ DEF YELLOW_WALL Solid {
         metalness 0
       }
       geometry Box {
-        size 3 0.6 0.01
+        size 0.01 3 0.6
       }
     }
   ]
   name "yellow wall"
 }
 DEF GREEN_CYLINDER Solid {
-  translation 0.2 0.5 -1.5
+  translation 1.5 -0.2 0.5
   children [
     Shape {
       appearance PBRAppearance {
@@ -182,7 +182,7 @@ DEF GREEN_CYLINDER Solid {
   name "green cylinder"
 }
 DEF GREEN_WALL Solid {
-  translation 0 0.045 0.3
+  translation -0.3 0 0.045
   children [
     Shape {
       appearance PBRAppearance {
@@ -191,14 +191,14 @@ DEF GREEN_WALL Solid {
         metalness 0
       }
       geometry Box {
-        size 3 0.09 0.01
+        size 0.01 3 0.09
       }
     }
   ]
   name "green wall"
 }
 DEF PURPLE_CONE Solid {
-  translation 0.7 0.06 0.8
+  translation -0.8 -0.7 0.06
   children [
     Shape {
       appearance PBRAppearance {
@@ -216,7 +216,7 @@ DEF PURPLE_CONE Solid {
   name "purple cone"
 }
 DEF PURPLE_PLUS Solid {
-  translation -0.6 0.35 -1.89
+  translation 1.89 0.6 0.35
   children [
     Shape {
       appearance PBRAppearance {
@@ -225,11 +225,11 @@ DEF PURPLE_PLUS Solid {
         metalness 0
       }
       geometry Box {
-        size 0.1 0.3 0.01
+        size 0.01 0.1 0.3
       }
     }
     Transform {
-      translation -0.1 0 0
+      translation 0 0.1 0
       children [
         Shape {
           appearance PBRAppearance {
@@ -238,13 +238,13 @@ DEF PURPLE_PLUS Solid {
             metalness 0
           }
           geometry Box {
-            size 0.1 0.1 0.01
+            size 0.01 0.1 0.1
           }
         }
       ]
     }
     Transform {
-      translation 0.1 0 0
+      translation 0 -0.1 0
       children [
         Shape {
           appearance PBRAppearance {
@@ -253,7 +253,7 @@ DEF PURPLE_PLUS Solid {
             metalness 0
           }
           geometry Box {
-            size 0.1 0.1 0.01
+            size 0.01 0.1 0.1
           }
         }
       ]
@@ -262,7 +262,7 @@ DEF PURPLE_PLUS Solid {
   name "purple plus"
 }
 DEF WHITE_SPHERE Solid {
-  translation -0.85 0.15 -0.5
+  translation 0.5 0.85 0.15
   children [
     Shape {
       appearance PBRAppearance {

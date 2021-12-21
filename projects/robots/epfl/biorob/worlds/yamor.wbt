@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Simulation of the YAMOR modular robot."
@@ -12,7 +12,6 @@ WorldInfo {
   ]
   title "Modular Robot"
   basicTimeStep 8
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       coulombFriction [
@@ -22,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09509263635092964 0.971964363586935 0.2150410807935871 3.95723
-  position -1.3380984 0.89625281 -1.0200788
+  orientation -0.26465797399846597 -0.16578955685654895 0.9499841996772033 3.981934064305251
+  position 0.9437668698116497 1.3708230115673345 1.372904261153073
   follow "module_4"
   followSmoothness 1
 }
@@ -35,42 +34,42 @@ Floor {
   size 100 100
 }
 DEF MODULE_1 Yamor {
-  translation 0 0.03 0
-  rotation 0 0 1 1.5708
+  translation 0 0 0.03
+  rotation 1 0 0 1.5708
   name "module_1"
 }
 DEF MODULE_2 Yamor {
-  translation 0 0.03 0.097
-  rotation 0 0 1 1.5708
+  translation -0.097 0 0.03
+  rotation 1 0 0 1.5708
   name "module_2"
 }
 DEF MODULE_3 Yamor {
-  translation 0 0.03 0.194
-  rotation 0 0 1 1.5708
+  translation -0.194 0 0.03
+  rotation 1 0 0 1.5708
   name "module_3"
 }
 DEF MODULE_4 Yamor {
-  translation 0 0.03 0.291
-  rotation 0 0 1 1.5708
+  translation -0.291 0 0.03
+  rotation 1 0 0 1.5708
   name "module_4"
 }
 DEF MODULE_5 Yamor {
-  translation 0 0.03 0.388
-  rotation 0 0 1 1.5708
+  translation -0.388 0 0.03
+  rotation 1 0 0 1.5708
   name "module_5"
 }
 DEF MODULE_6 Yamor {
-  translation 0 0.03 0.485
-  rotation 0 0 1 1.5708
+  translation -0.485 0 0.03
+  rotation 1 0 0 1.5708
   name "module_6"
 }
 DEF MODULE_7 Yamor {
-  translation 0 0.03 0.582
-  rotation 0 0 1 1.5708
+  translation -0.582 0 0.03
+  rotation 1 0 0 1.5708
   name "module_7"
 }
 DEF MODULE_8 Yamor {
-  translation 0 0.03 0.679
-  rotation 0 0 1 1.5708
+  translation -0.679 0 0.03
+  rotation 1 0 0 1.5708
   name "module_8"
 }

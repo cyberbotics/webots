@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Model of the 16 DOF Bioloid Dog Robot (Tribotix Pty Ltd)"
@@ -13,7 +13,6 @@ WorldInfo {
   basicTimeStep 16
   defaultDamping Damping {
   }
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "rubber"
@@ -22,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09502029875768925 0.9847429874888122 0.14578199962824212 4.20022
-  position -0.93098166 0.38481892 -0.50438455
+  orientation 0.07762036424948356 0.00100407011902148 -0.9969824827432896 3.821344213226958
+  position 0.8398121041562099 -0.6401367083301763 0.2538144790737468
   follow "BioloidDog"
 }
 TexturedBackground {
@@ -33,7 +32,7 @@ TexturedBackgroundLight {
 Floor {
 }
 DEF BALL1 Solid {
-  translation 0.46 0.0324215 0
+  translation 0.46 0 0.0324
   children [
     DEF BALL_SHAPE Shape {
       appearance PBRAppearance {
@@ -55,7 +54,7 @@ DEF BALL1 Solid {
   }
 }
 DEF BALL2 Solid {
-  translation 0 0.0324215 0.46
+  translation 0 -0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -64,7 +63,7 @@ DEF BALL2 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL3 Solid {
-  translation -0.46 0.0324215 0.46
+  translation -0.46 -0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -73,7 +72,7 @@ DEF BALL3 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL4 Solid {
-  translation 0.46 0.0324215 0.46
+  translation 0.46 -0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -82,7 +81,7 @@ DEF BALL4 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL5 Solid {
-  translation -0.46 0.0324215 -0.46
+  translation -0.46 0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -91,7 +90,7 @@ DEF BALL5 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL6 Solid {
-  translation 0.46 0.0324215 -0.46
+  translation 0.46 0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -100,7 +99,7 @@ DEF BALL6 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL7 Solid {
-  translation 0 0.0324215 -0.46
+  translation 0 0.46 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -109,7 +108,7 @@ DEF BALL7 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL8 Solid {
-  translation -0.46 0.0324215 0
+  translation -0.46 0 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -118,7 +117,7 @@ DEF BALL8 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL9 Solid {
-  translation -0.3 0.0324215 0
+  translation 0.3 0 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -127,7 +126,7 @@ DEF BALL9 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL10 Solid {
-  translation -0.23 0.0324215 0.23
+  translation -0.23 -0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -136,7 +135,7 @@ DEF BALL10 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL11 Solid {
-  translation -0.23 0.0324215 -0.23
+  translation -0.23 0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -145,7 +144,7 @@ DEF BALL11 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL12 Solid {
-  translation -0.23 0.0324215 0
+  translation -0.23 0 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -154,7 +153,7 @@ DEF BALL12 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL13 Solid {
-  translation 0 0.0324215 -0.23
+  translation 0 0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -163,7 +162,7 @@ DEF BALL13 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL14 Solid {
-  translation 0 0.0324215 0.23
+  translation 0 -0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -172,7 +171,7 @@ DEF BALL14 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL15 Solid {
-  translation 0.23 0.0324215 0
+  translation 0.23 0 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -181,7 +180,7 @@ DEF BALL15 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL16 Solid {
-  translation 0.23 0.0324215 -0.23
+  translation 0.23 0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -190,7 +189,7 @@ DEF BALL16 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BALL17 Solid {
-  translation 0.23 0.0324215 0.23
+  translation 0.23 -0.23 0.0324
   children [
     USE BALL_SHAPE
   ]
@@ -199,5 +198,5 @@ DEF BALL17 Solid {
   physics USE BALL_PHYSICS
 }
 DEF BIOLOID BioloidDog {
-  translation 0 0.1 0
+  translation 0 0 0.1
 }

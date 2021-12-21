@@ -1,8 +1,7 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   ERP 0.6
   basicTimeStep 20
-  coordinateSystem "NUE"
   lineScale 5
   contactProperties [
     ContactProperties {
@@ -67,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.07532360014319665 -0.9793801536931227 -0.1874589816826687 2.6141829750202468
-  position -29.96218259938476 20.65977580622409 -43.51420987510049
+  orientation 0.11015907930922193 0.07047934347072773 -0.9914119423275473 2.1951353489200374
+  position 25.200672946686517 32.910299050438226 16.67164940359611
   near 0.5
   far 2000
 }
@@ -81,15 +80,16 @@ Fog {
   visibilityRange 700
 }
 SumoInterface {
+  useNetconvert TRUE
   enableWheelsRotation TRUE
   children [
     DEF TRAFFIC_LIGHT_NORTH Pole {
-      translation 3.9 0 3.9
-      rotation 0 1 0 6.28319
+      translation -3.9 3.9 0
+      rotation 0 0 -1 1.57079
       name "north pole"
       slot [
         DEF TLS_0_0 TrafficLight {
-          rotation 0 1 0 3.14159
+          rotation 0 0 1 3.14159
           red_light "0_0_r"
           orange_light "0_0_y"
           green_light "0_0_g"
@@ -99,12 +99,12 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_RIGHT Pole {
-      translation -3.9 0 3.9
-      rotation 0 -1 0 1.57079
+      translation -3.9 -3.9 0
+      rotation 0 0 1 6.28319
       name "right pole"
       slot [
         DEF TLS_0_1 TrafficLight {
-          rotation 0 1 0 3.14159
+          rotation 0 0 1 3.14159
           red_light "0_1_r"
           orange_light "0_1_y"
           green_light "0_1_g"
@@ -114,11 +114,12 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_SOUTH Pole {
-      translation -3.9 0 -3.9
-      rotation 0 -1 0 6.28318
+      translation 3.9 -3.9 0
+      rotation 0 0 1 5.49778
       name "south pole"
       slot [
         DEF TLS_0_2 TrafficLight {
+          rotation 0 0 1 5.49778
           red_light "0_2_r"
           orange_light "0_2_y"
           green_light "0_2_g"
@@ -128,12 +129,11 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_LEFT Pole {
-      translation 3.9 0 -3.9
-      rotation 0 1 0 5.49778
+      translation 3.9 3.9 0
+      rotation 0 0 -1 6.28318
       name "left pole"
       slot [
         DEF TLS_0_3 TrafficLight {
-          rotation 0 1 0 5.49779
           red_light "0_3_r"
           orange_light "0_3_y"
           green_light "0_3_g"
@@ -145,14 +145,14 @@ SumoInterface {
   ]
 }
 RoadIntersection {
-  rotation 0 1 0 0.7854
+  rotation 0 0 1 0.7854
   roadsWidth 8
   startRoadsLength [
     500
   ]
 }
 Floor {
-  translation 0 -0.01 0
+  translation 0 0 -0.01
   size 1000 1000
   tileSize 2 2
   appearance PBRAppearance {
@@ -166,8 +166,8 @@ Floor {
   }
 }
 DEF SUMO_VEHICLE0 RangeRoverSportSVRSimple {
-  translation -10000 0.358 -10000
-  rotation 0 1 0 1.5707963267948968
+  translation 10000 10000 0.358
+  rotation 0 0 1 1.5707963267948968
   color 0.43 0.11 0.1
   recognitionColors [
     0.43 0.11 0.1
@@ -175,7 +175,7 @@ DEF SUMO_VEHICLE0 RangeRoverSportSVRSimple {
   controller "enable_all_lidars"
   sensorsSlotFront [
     SickLms291 {
-      translation 0 0 -0.09999999999999996
+      translation 0.09999999999999996 0 0
       noise 0.5
     }
   ]

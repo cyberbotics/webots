@@ -31,7 +31,7 @@
 
 enum { INTRO, DIRECTORY, WORLD, CONCLUSION };
 
-QString WbNewProjectWizard::poposeNewProjectPath() const {
+QString WbNewProjectWizard::proposeNewProjectPath() const {
   QString path;
 
   // if current project is in Webots installation dir
@@ -65,7 +65,7 @@ WbNewProjectWizard::WbNewProjectWizard(QWidget *parent) : QWizard(parent) {
   addPage(createWorldPage());
   addPage(createConclusionPage());
 
-  QString path = poposeNewProjectPath();
+  QString path = proposeNewProjectPath();
   mDirEdit->setText(QDir::toNativeSeparators(path));
   mWorldEdit->setText(WbProject::newWorldFileName());
   mBackgroundCheckBox->setChecked(true);
@@ -108,8 +108,8 @@ void WbNewProjectWizard::accept() {
 
     if (mViewPointCheckBox->isChecked())
       worldContent.replace(QByteArray("Viewpoint {"), QByteArray("Viewpoint {\n"
-                                                                 "  orientation -0.7 0.7 0.2 0.75\n"
-                                                                 "  position 1.2 1.6 2.3\n"));
+                                                                 "  orientation -0.5773 0.5773 0.5773 2.0944\n"
+                                                                 "  position 0 0 10\n"));
 
     if (mDirectionalLightCheckBox->isChecked()) {
       if (mBackgroundCheckBox->isChecked())
@@ -155,7 +155,7 @@ void WbNewProjectWizard::updateUI() {
 
 bool WbNewProjectWizard::validateCurrentPage() {
   if (currentId() == WORLD && mWorldEdit->text().isEmpty()) {
-    WbMessageBox::warning(tr("Please sepecify a world name."), this, tr("Invalid new world name"));
+    WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
     return false;
   }
 
@@ -165,10 +165,7 @@ bool WbNewProjectWizard::validateCurrentPage() {
     if (mDirEdit->text().isEmpty())
       return false;
 
-    if (!qgetenv("WEBOTS_ALLOW_MODIFY_INSTALLATION").isEmpty())
-      return true;
-
-    if (WbFileUtil::isLocatedInDirectory(mDirEdit->text(), WbStandardPaths::webotsHomePath())) {
+    if (WbFileUtil::isLocatedInInstallationDirectory(mDirEdit->text())) {
       WbMessageBox::warning(tr("It is not allowed to create a new project inside the Webots installation directory.") + "\n" +
                               tr("Please select another directory."),
                             this, tr("Invalid new project directory"));

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.19067905803098734 0.8583592612318098 0.47629914495618936 2.47962
-  position 0.496306 1.31504 -0.672125
+  orientation -0.43451445712862496 -0.21377418658880476 0.8749273019482883 3.931719456629416
+  position 0.6361013482620813 0.7808349923164932 1.3578817133746695
 }
 TexturedBackground {
 }
@@ -28,7 +27,7 @@ DEF FLOOR Solid {
   locked TRUE
 }
 DEF FLOOR_BORDER Solid {
-  translation 0 -0.001 0
+  translation 0 0 -0.001
   children [
     DEF FLOOR_BORDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -53,28 +52,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.45 0 0.45
-            0.45 0 -0.45
-            -0.45 0 -0.45
-            -0.45 0 0.45
-            -0.44 0 0.45
-            -0.44 0 -0.44
-            0.44 0 -0.44
-            0.44 0 0.44
-            -0.44 0 0.44
-            -0.44 0 0.45
-            0.45 0 0.45
-            0.45 0.05 0.45
-            0.45 0.05 -0.45
-            -0.45 0.05 -0.45
-            -0.45 0.05 0.45
-            -0.44 0.05 0.45
-            -0.44 0.05 -0.44
-            0.44 0.05 -0.44
-            0.44 0.05 0.44
-            -0.44 0.05 0.44
-            -0.44 0.05 0.45
-            0.45 0.05 0.45
+            -0.45 -0.45 0
+            0.45 -0.45 0
+            0.45 0.45 0
+            -0.45 0.45 0
+            -0.45 0.44 0
+            0.44 0.44 0
+            0.44 -0.44 0
+            -0.44 -0.44 0
+            -0.44 0.44 0
+            -0.45 0.44 0
+            -0.45 -0.45 0
+            -0.45 -0.45 0.05
+            0.45 -0.45 0.05
+            0.45 0.45 0.05
+            -0.45 0.45 0.05
+            -0.45 0.44 0.05
+            0.44 0.44 0.05
+            0.44 -0.44 0.05
+            -0.44 -0.44 0.05
+            -0.44 0.44 0.05
+            -0.45 0.44 0.05
+            -0.45 -0.45 0.05
           ]
         }
         coordIndex [
@@ -87,32 +86,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.445 0.025 0
+        translation 0 -0.445 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.9
+              size 0.9 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.445 0.025 0
+        translation 0 0.445 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.445
-        rotation 0 1 0 1.57
+        translation -0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.445
-        rotation 0 1 0 1.57
+        translation 0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -132,28 +131,28 @@ DEF WALL2 Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.6 0 0.6
-            0.6 0 -0.6
-            -0.6 0 -0.6
-            -0.6 0 0.6
-            -0.59 0 0.6
-            -0.59 0 -0.59
-            0.59 0 -0.59
-            0.59 0 0.59
-            -0.59 0 0.59
-            -0.59 0 0.6
-            0.6 0 0.6
-            0.6 0.05 0.6
-            0.6 0.05 -0.6
-            -0.6 0.05 -0.6
-            -0.6 0.05 0.6
-            -0.59 0.05 0.6
-            -0.59 0.05 -0.59
-            0.59 0.05 -0.59
-            0.59 0.05 0.59
-            -0.59 0.05 0.59
-            -0.59 0.05 0.6
-            0.6 0.05 0.6
+            -0.6 -0.6 0
+            0.6 -0.6 0
+            0.6 0.6 0
+            -0.6 0.6 0
+            -0.6 0.59 0
+            0.59 0.59 0
+            0.59 -0.59 0
+            -0.59 -0.59 0
+            -0.59 0.59 0
+            -0.6 0.59 0
+            -0.6 -0.6 0
+            -0.6 -0.6 0.05
+            0.6 -0.6 0.05
+            0.6 0.6 0.05
+            -0.6 0.6 0.05
+            -0.6 0.59 0.05
+            0.59 0.59 0.05
+            0.59 -0.59 0.05
+            -0.59 -0.59 0.05
+            -0.59 0.59 0.05
+            -0.6 0.59 0.05
+            -0.6 -0.6 0.05
           ]
         }
         coordIndex [
@@ -166,32 +165,32 @@ DEF WALL2 Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.59 0.025 0
+        translation 0 -0.59 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 1.2
+              size 1.2 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.59 0.025 0
+        translation 0 0.59 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.59
-        rotation 0 1 0 1.57
+        translation -0.59 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.59
-        rotation 0 1 0 1.57
+        translation 0.59 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -201,26 +200,26 @@ DEF WALL2 Solid {
   locked TRUE
 }
 Obstacle {
-  translation -0.28 0.025 -0.28
+  translation 0.28 0.28 0.025
   name "obstacle(1)"
 }
 Obstacle {
-  translation 0.28 0.025 0.28
+  translation -0.28 -0.28 0.025
   name "obstacle(2)"
 }
 Obstacle {
-  translation -0.28 0.025 0.28
+  translation -0.28 0.28 0.025
   name "obstacle(3)"
 }
 Obstacle {
-  translation 0.28 0.025 -0.28
+  translation 0.28 -0.28 0.025
 }
 E-puck {
-  translation -0.0458252 -6.39603e-05 0.074235
-  rotation -0.0004088399307476833 0.9999998306126683 0.00041427592982689373 1.57
+  translation -0.074235 0.0458252 -6.39603e-05
+  rotation -0.0004142759000052585 0.0004088399000051895 0.9999998306126932 1.57
   controller "novice_remain_in_shadow"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

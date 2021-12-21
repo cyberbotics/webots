@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
@@ -582,7 +582,7 @@ PROTO TiagoRightArm [
                                                   ]
                                                   name "wrist_right_ft_tool_link"
                                                   boundingObject Transform {
-                                                    rotation 0 0 -1 -1.57
+                                                    rotation 0 -1 0 -1.57
                                                     children [
                                                       Cylinder {
                                                         height 0.011
@@ -598,7 +598,6 @@ PROTO TiagoRightArm [
                                               ]
                                               name "arm_right_7_link"
                                               boundingObject Transform {
-                                                rotation 1 0 0 1.5708
                                                 children [
                                                   Cylinder {
                                                     height 0.0157
@@ -617,7 +616,7 @@ PROTO TiagoRightArm [
                                         name "arm_right_6_link"
                                         boundingObject Transform {
                                           translation -0.0409 0 0
-                                          rotation 0 0 -1 1.5708
+                                          rotation 0 -1 0 1.5708
                                           children [
                                             Cylinder {
                                               height 0.013
@@ -637,7 +636,6 @@ PROTO TiagoRightArm [
                                     children [
                                       Transform {
                                         translation 0 0 0.04
-                                        rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
                                             height 0.062
@@ -647,7 +645,6 @@ PROTO TiagoRightArm [
                                       }
                                       Transform {
                                         translation 0 0 0.099
-                                        rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
                                             height 0.06
@@ -657,7 +654,6 @@ PROTO TiagoRightArm [
                                       }
                                       Transform {
                                         translation 0 0 0.156
-                                        rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
                                             height 0.06
@@ -679,7 +675,6 @@ PROTO TiagoRightArm [
                               children [
                                 Transform {
                                   translation 0 0.001 -0.002
-                                  rotation 1 0 0 1.5708
                                   children [
                                     Cylinder {
                                       height 0.056
@@ -689,7 +684,7 @@ PROTO TiagoRightArm [
                                 }
                                 Transform {
                                   translation 0.093 0.019 0.027
-                                  rotation 0 0 -1 1.5708
+                                  rotation 0 -1 0 1.5708
                                   children [
                                     Cylinder {
                                       height 0.191
@@ -711,7 +706,6 @@ PROTO TiagoRightArm [
                         children [
                           Transform {
                             translation 0 0 -0.106
-                            rotation 1 0 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.23
@@ -721,6 +715,7 @@ PROTO TiagoRightArm [
                           }
                           Transform {
                             translation 0.0169 0.03 -0.221
+                            rotation 1 0 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.056
@@ -743,7 +738,7 @@ PROTO TiagoRightArm [
                   children [
                     Transform {
                       translation -0.056 0 -0.002
-                      rotation 0 0 1 -1.5708
+                      rotation 0 1 0 -1.5708
                       children [
                         Cylinder {
                           height 0.048
@@ -753,7 +748,6 @@ PROTO TiagoRightArm [
                     }
                     Transform {
                       translation 0 0 0.028
-                      rotation 1 0 0 -1.5708
                       children [
                         Cylinder {
                           height 0.057
@@ -775,7 +769,6 @@ PROTO TiagoRightArm [
             children [
               Transform {
                 translation 0 0 0.013
-                rotation 1 0 0 1.5708
                 children [
                   Cylinder {
                     height 0.052
@@ -801,6 +794,7 @@ PROTO TiagoRightArm [
               }
               Transform {
                 translation -0.125 0.053 -0.031
+                rotation 1 0 0 -1.5708
                 children [
                   Cylinder {
                     height 0.069
@@ -831,7 +825,7 @@ PROTO TiagoRightArm [
         }
         DEF SHOULDER_RIGHT_SH2 Transform {
           translation 0.0256 -0.1917 -0.2641
-          rotation -0.6215 -0.4769 0.6215 2.2516
+          rotation -0.129432138924676 0.129421993300392 0.983105929726566 1.587844223950545
           children [
             Cylinder {
               height 0.016
@@ -842,7 +836,6 @@ PROTO TiagoRightArm [
         }
         DEF SHOULDER_RIGHT_SH3 Transform {
           translation 0.026 -0.189 -0.221
-          rotation 1 0 0 -1.5708
           children [
             Cylinder {
               height 0.075

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -8,7 +8,7 @@
 PROTO CabinetDrawer [
   field SFVec3f  translation         0 0 0
   field SFString name                "cabinet drawer"
-  field SFVec3f  size                0.3 0.2 0.2       # Defines the size of the drawer.
+  field SFVec3f  size                0.2 0.3 0.2       # Defines the size of the drawer.
   field SFFloat  thickness           0.03              # Defines the thickness of the drawer.
   field SFFloat  mass                1.5               # Defines the mass of the drawer.
   field SFNode   handle              CabinetHandle {}  # Defines the drawer handle.
@@ -40,6 +40,7 @@ PROTO CabinetDrawer [
     children [
       SliderJoint {
         jointParameters JointParameters {
+          axis 1 0 0
           minStop -0.01
           maxStop %<= size.z >%
           dampingConstant 5
@@ -47,9 +48,9 @@ PROTO CabinetDrawer [
         endPoint Solid {
           children [
             SolidBox { # back of the Drawer
-              translation 0 0 %<= - size.z + 0.5 * thickness >%
+              translation %<= - size.x + 0.5 * thickness >% 0 0
               name "back box"
-              size %<= size.x - thickness >% %<= size.y - thickness >% %<= thickness >%
+              size %<= thickness >% %<= size.y - thickness >% %<= size.z - thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -57,9 +58,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # bottom side of the Drawer
-              translation 0 %<= -0.5 * size.y + thickness >% %<= - 0.5 * size.z >%
+              translation %<= -0.5 * size.x >% 0 %<= - 0.5 * size.z + thickness >%
               name "bottom box"
-              size %<= size.x - thickness >% %<= thickness >% %<= size.z - 2 * thickness >%
+              size %<= size.x - 2 * thickness >%  %<= size.y - thickness >% %<= thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -67,9 +68,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # front of the Drawer
-              translation 0 0 %<= - 0.5 * thickness >%
+              translation %<= - 0.5 * thickness >% 0 0
               name "front box"
-              size %<= size.x >% %<= size.y >% %<= thickness >%
+              size %<= thickness >% %<= size.y >% %<= size.z >%
               appearance IS secondaryAppearance
               physics Physics {
                 density -1
@@ -77,9 +78,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # right side of the Drawer
-              translation %<= -0.5 * size.x + thickness >% %<= 0.5 * thickness >% %<= - 0.5 * size.z >%
+              translation %<= - 0.5 * size.x >% %<= -0.5 * size.y + thickness >% %<= 0.5 * thickness >%
               name "right box"
-              size %<= thickness >% %<= size.y - 2 * thickness >% %<= size.z - 2 * thickness >%
+              size %<= size.x - 2 * thickness >% %<= thickness >% %<= size.z - 2 * thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -87,9 +88,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # left side of the Drawer
-              translation %<= 0.5 * size.x - thickness >% %<= 0.5 * thickness >% %<= - 0.5 * size.z >%
+              translation %<= - 0.5 * size.x >% %<= 0.5 * size.y - thickness >% %<= 0.5 * thickness >%
               name "left box"
-              size %<= thickness >% %<= size.y - 2 * thickness >% %<= size.z - 2 * thickness >%
+              size %<= size.x - 2 * thickness >% %<= thickness >% %<= size.z - 2 * thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -105,7 +106,7 @@ PROTO CabinetDrawer [
             mass %<= mass >%
           }
           boundingObject Transform {
-            translation 0 0 %<= - 0.5 * thickness >%
+            translation %<= - 0.5 * thickness >% 0 0
             children [
               Sphere {
                 radius %<= 0.5 * thickness >%

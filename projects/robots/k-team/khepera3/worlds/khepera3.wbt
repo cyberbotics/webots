@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Khepera III robot"
   ]
   title "Khepera III"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel"
@@ -22,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09399659673718923 0.9624279673090894 0.2547489892877319 3.81359
-  position -0.3781185 0.3595762 -0.44663386
+  orientation -0.21771968982028306 -0.09066692493701968 0.9717909473683239 3.910693993385101
+  position 0.37860626971029915 0.3613715390202574 0.3045056050360299
   follow "Khepera III"
   followSmoothness 0
 }
@@ -32,38 +31,40 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 0
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.683174
-  rotation 0 1 0 0.5
+  translation -0.2 -0.683174 0.05
+  rotation 0.940554832051147 0.240163077829669 0.240163077829669 1.632043330248321
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation -0.75 0.35 0.05
+  rotation -0.675244449310683 0.521557731068725 0.521557731068725 4.329427817464676
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation 0.5 -0.35471 0.05
+  rotation -0.820542997539208 0.404171491566001 0.404171491566001 4.515877143482041
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation -0.3 0.36 0.05
+  rotation -0.820542997539208 0.404171491566001 0.404171491566001 4.515877143482041
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.65 -0.66 0.05
+  rotation -0.820542997539208 0.404171491566001 0.404171491566001 4.515877143482041
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 Khepera3 {
+  rotation 1 0 0 4.692820414042842e-06
   wheelMaterial "wheel"
   bodyMaterial "body"
 }

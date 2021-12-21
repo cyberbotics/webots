@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
@@ -68,9 +68,14 @@ Transform {
             ]
             name %<= '"wheel' + fields.number.value + '_link"' >%
             contactMaterial "WheelMat"
-            boundingObject Cylinder {
-              height 0.01
-              radius 0.063
+            boundingObject Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Cylinder {
+                  height 0.01
+                  radius 0.063
+                }
+              ]
             }
             physics Physics {
               density -1

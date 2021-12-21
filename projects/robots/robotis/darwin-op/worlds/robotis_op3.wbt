@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "ROBOTIS OP3 robot."
@@ -6,11 +6,10 @@ WorldInfo {
   ]
   title "ROBOTIS OP3"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.032982498723691224 -0.9989166385801559 -0.03282840150942451 5.067909531391036
-  position 0.7805504230902163 0.3314203064910574 0.19279062130199384
+  orientation 0.029988305275456616 0.02190151189563749 -0.9993102748012708 1.8806571734508641
+  position -0.10383981060395964 1.078601020859127 0.33806439053012954
   follow "ROBOTIS OP3"
 }
 TexturedBackground {
@@ -18,10 +17,12 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Floor {
+  rotation 0 0 1 1.57079632679
   size 100 100
 }
 RobotisOp3 {
-  translation -0.5478073202027488 0.28266467546024465 -0.30175708497569004
+  translation -0.5478073202027488 -0.30175708497569004 0.28266467546024465
+  rotation 0 0 1 1.57079632679
   controller "op3_motion_player"
   cameraWidth 320
   cameraHeight 180

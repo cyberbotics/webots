@@ -1,13 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An outline textured armature without back
 # Typically useful to create a wall painting invisible from backward
 
 PROTO VisualArmature [
-  field SFVec3f translation 0 0.5 0
-  field SFRotation rotation 0 1 0 0
-  field SFVec3f dimension 1 1 0.05
+  field SFVec3f translation 0 0 0.5
+  field SFRotation rotation 0 0 1 0
+  field SFVec3f dimension 0.05 1 1
   field SFColor outlineColor 1 1 1
   field MFString textureUrl "webots://projects/robots/softbank/nao/protos/textures/webots.jpg"
 ]
@@ -29,10 +29,7 @@ Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.5 0.5 0.5
-            -0.5 -0.5 0.5
-            0.5 -0.5 0.5
-            0.5 0.5 0.5
+            0.5 -0.5 0.5 0.5 -0.5 -0.5 0.5 0.5 -0.5 0.5 0.5 0.5
           ]
         }
         texCoord TextureCoordinate {
@@ -60,14 +57,7 @@ Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.5 0.5 0.5
-            -0.5 -0.5 0.5
-            0.5 -0.5 0.5
-            0.5 0.5 0.5
-            -0.5 0.5 0
-            -0.5 -0.5 0
-            0.5 -0.5 0
-            0.5 0.5 0
+            0.5 -0.5 0.5 0.5 -0.5 -0.5 0.5 0.5 -0.5 0.5 0.5 0.5 0 -0.5 0.5 0 -0.5 -0.5 0 0.5 -0.5 0 0.5 0.5
           ]
         }
         coordIndex [

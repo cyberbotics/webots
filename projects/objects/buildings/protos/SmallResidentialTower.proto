@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A small residential tower with variable number of floor and optional boundingObject.
@@ -6,7 +6,7 @@
 
 PROTO SmallResidentialTower [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "residential tower"
   field SFInt32    numberOfFloors        3                    # Defines the number of floors of the tower.
   field SFBool     enableBoundingObject  TRUE                 # Defines whether the tower should have a bounding object.
@@ -33,16 +33,16 @@ PROTO SmallResidentialTower [
       }
       %< for (let i = 0; i <= addedFloors - 1; ++i) { >%
         SmallResidentialTowerFloor {
-          translation 0 %<= 2.574 * i >% 0
+          translation 0 0 %<= 2.574 * i >%
         }
       %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %<= 3.088 + 1.287 * addedFloors >% 0.28
+        translation -0.28 0 %<= 3.088 + 1.287 * addedFloors >%
         children [
           Box {
-            size 5.4 %<= 6.176 + 2.574 * addedFloors >% 7.2
+            size 7.2 5.4 %<= 6.176 + 2.574 * addedFloors >%
           }
         ]
       }

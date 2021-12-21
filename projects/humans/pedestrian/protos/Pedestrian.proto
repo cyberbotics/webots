@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple model of a pedestrian
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO Pedestrian [
-  field       SFVec3f    translation           0 1.27 0
-  field       SFRotation rotation              0 1 0 0
+  field       SFVec3f    translation           0 0 1.27
+  field       SFRotation rotation              0 0 1 0
   field       SFString   name                  "pedestrian"
   field       SFString   controller            "pedestrian"
   field       MFString   controllerArgs        []
@@ -66,13 +66,14 @@ Robot {
         DEF LEFT_ARM HingeJoint {
           jointParameters HingeJointParameters {
             position IS leftArmAngle
-            anchor 0.28 0.19 -0.01
+            anchor -0.01 0.28 0.19
+            axis 0 1 0
           }
           endPoint DEF LEFT_UPPER_ARM Solid {
         %< } else { >%
           DEF LEFT_UPPER_ARM Solid {
         %< } >%
-            rotation 1 0 0 0
+            rotation 0 1 0 0
             children [
               Shape {
                 appearance USE SHIRT_APP
@@ -83,13 +84,14 @@ Robot {
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS leftLowerArmAngle
-                  anchor 0.25 -0.09 -0.04
+                  anchor -0.04 0.25 -0.09
+                  axis 0 1 0
                 }
                 endPoint DEF LEFT_LOWER_ARM Solid {
               %< } else { >%
                 DEF LEFT_LOWER_ARM Solid {
               %< } >%
-                  rotation 1 0 0 0
+                  rotation 0 1 0 0
                   children [
                     Shape {
                       appearance USE SKIN_APP
@@ -100,16 +102,17 @@ Robot {
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS leftHandAngle
-                        anchor 0.25 -0.37 -0.035
+                        anchor -0.035 0.25 -0.37
+                        axis 0 1 0
                       }
                       endPoint DEF LEFT_HAND Solid {
                     %< } else { >%
                       DEF LEFT_HAND Solid {
                     %< } >%
-                        rotation 1 0 0 0
+                        rotation 0 1 0 0
                         children [
                           Transform {
-                            translation 0.25 -0.45 0
+                            translation 0 0.25 -0.45
                             children IS leftHandSlot
                           }
                           Shape {
@@ -120,7 +123,8 @@ Robot {
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
-                          translation 0.253 -0.44 -0.02
+                          translation -0.02 0.253 -0.44
+                          rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
                             Box {
                               size 0.05 0.17 0.14
@@ -135,7 +139,7 @@ Robot {
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
-                    translation 0.254 -0.23 -0.04
+                    translation -0.04 0.254 -0.23
                     children [
                       Capsule {
                         height 0.19
@@ -154,7 +158,8 @@ Robot {
             boundingObject Group {
               children [
                 Transform {
-                  translation 0.23 0.2 -0.01
+                  translation 0 0.23 0.2
+                  rotation 1 0 0 1.5708
                   children [
                     Box {
                       size 0.13 0.15 0.15
@@ -162,7 +167,7 @@ Robot {
                   ]
                 }
                 Transform {
-                  translation 0.25 0.03 -0.03
+                  translation -0.03 0.25 0.03
                   rotation 1 0 0 0.1409
                   children [
                     Capsule {
@@ -180,13 +185,14 @@ Robot {
         DEF RIGHT_ARM HingeJoint {
           jointParameters HingeJointParameters {
             position IS rightArmAngle
-            anchor -0.28 0.19 -0.01
+            anchor -0.01 -0.28 0.19
+            axis 0 1 0
           }
           endPoint DEF RIGHT_UPPER_ARM Solid {
         %< } else { >%
           DEF RIGHT_UPPER_ARM Solid {
         %< } >%
-            rotation 1 0 0 0
+            rotation 0 1 0 0
             children [
               Shape {
                 appearance USE SHIRT_APP
@@ -197,13 +203,14 @@ Robot {
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS rightLowerArmAngle
-                  anchor -0.25 -0.09 -0.04
+                  anchor -0.04 -0.25 -0.09
+                  axis 0 1 0
                 }
                 endPoint DEF RIGHT_LOWER_ARM Solid {
               %< } else { >%
                 DEF RIGHT_LOWER_ARM Solid {
               %< } >%
-                  rotation 1 0 0 0
+                  rotation 0 1 0 0
                   children [
                     Shape {
                       appearance USE SKIN_APP
@@ -214,16 +221,19 @@ Robot {
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS rightHandAngle
-                        anchor -0.25 -0.37 -0.035
+                        anchor -0.035 -0.25 -0.37
+                        axis 0 1 0
                       }
                       endPoint DEF RIGHT_HAND Solid {
                     %< } else { >%
                       DEF RIGHT_HAND Solid {
                     %< } >%
-                        rotation 1 0 0 0
+                        rotation 0 1 0 0
                         children [
                           Transform {
-                            translation -0.26 -0.45 0.02
+                            translation 0.02 -0.26 -0.45
+                            rotation 1 0 0 1.5708
+
                             children IS rightHandSlot
                           }
                           Shape {
@@ -234,7 +244,8 @@ Robot {
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
-                          translation -0.253 -0.44 0.02
+                          translation 0.02 -0.253 -0.44
+                          rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
                             Box {
                               size 0.05 0.17 0.14
@@ -249,7 +260,7 @@ Robot {
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
-                    translation -0.254 -0.23 -0.025
+                    translation -0.025 -0.254 -0.23
                     children [
                       Capsule {
                         height 0.19
@@ -268,7 +279,8 @@ Robot {
             boundingObject Group {
               children [
                 Transform {
-                  translation -0.23 0.2 0
+                  translation 0 -0.23 0.2
+                  rotation 1 0 0 1.5708
                   children [
                     Box {
                       size 0.13 0.15 0.15
@@ -276,7 +288,7 @@ Robot {
                   ]
                 }
                 Transform {
-                  translation -0.25 0.03 -0.02
+                  translation -0.02 -0.25 0.03
                   rotation 1 0 0 0.1409
                   children [
                     Capsule {
@@ -294,7 +306,8 @@ Robot {
         DEF LEFT_LEG HingeJoint {
           jointParameters HingeJointParameters {
             position IS leftLegAngle
-            anchor 0.17 -0.3 -0.04
+            anchor -0.04 0.17 -0.3
+            axis 0 1 0
           }
           endPoint DEF LEFT_UPPER_LEG Solid {
         %< } else { >%
@@ -314,7 +327,8 @@ Robot {
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS leftLowerLegAngle
-                  anchor 0.17 -0.76 -0.03
+                  anchor -0.03 0.17 -0.76
+                  axis 0 1 0
                 }
                 endPoint DEF LEFT_LOWER_LEG Solid {
               %< } else { >%
@@ -330,7 +344,8 @@ Robot {
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS leftFootAngle
-                        anchor 0.17 -1.165 -0.092
+                        anchor -0.092 0.17 -1.165
+                        axis 0 1 0
                       }
                       endPoint DEF LEFT_FOOT Solid {
                     %< } else { >%
@@ -349,7 +364,8 @@ Robot {
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
-                          translation 0.115 -1.21 0
+                          translation 0 0.115 -1.21
+                          rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
                             Box {
                               size 0.1 0.1 0.27
@@ -364,7 +380,7 @@ Robot {
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
-                    translation 0.116 -0.965 -0.056
+                    translation -0.056 0.116 -0.965
                     rotation 1 0 0 0.1
                     children [
                       Capsule {
@@ -382,7 +398,8 @@ Robot {
             name "left leg"
           %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
-              translation 0.116 -0.5 -0.033
+              translation -0.033 0.116 -0.5
+              rotation 1 0 0 1.5708
               children [
                 Box {
                   size 0.15 0.6 0.19
@@ -396,7 +413,8 @@ Robot {
         DEF RIGHT_LEG HingeJoint {
           jointParameters HingeJointParameters {
             position IS rightLegAngle
-            anchor -0.17 -0.3 -0.04
+            anchor -0.04 -0.17 -0.3
+            axis 0 1 0
           }
           endPoint DEF RIGHT_UPPER_LEG Solid {
         %< } else { >%
@@ -412,7 +430,8 @@ Robot {
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS rightLowerLegAngle
-                  anchor -0.17 -0.76 -0.03
+                  anchor -0.03 -0.17 -0.76
+                  axis 0 1 0
                 }
                 endPoint DEF RIGHT_LOWER_LEG Solid {
               %< } else { >%
@@ -428,7 +447,8 @@ Robot {
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS rightFootAngle
-                        anchor -0.17 -1.165 -0.092
+                        anchor -0.092 -0.17 -1.165
+                        axis 0 1 0
                       }
                       endPoint DEF RIGHT_FEET Solid {
                     %< } else { >%
@@ -443,7 +463,8 @@ Robot {
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
-                          translation -0.115 -1.21 0.031
+                          translation 0.031 -0.115 -1.21
+                          rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
                             Box {
                               size 0.1 0.1 0.27
@@ -458,8 +479,9 @@ Robot {
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
-                    translation -0.116 -0.965 -0.044
+                    translation -0.044 -0.116 -0.965
                     rotation 1 0 0 0.1
+
                     children [
                       Capsule {
                         height 0.335
@@ -476,7 +498,8 @@ Robot {
             name "right leg"
           %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
-              translation -0.116 -0.5 -0.033
+              translation -0.033 -0.116 -0.5
+              rotation 1 0 0 1.5708
               children [
                 Box {
                   size 0.15 0.6 0.19
@@ -490,7 +513,8 @@ Robot {
         DEF HEAD HingeJoint {
           jointParameters HingeJointParameters {
             position IS headAngle
-            anchor 0 0.37 0.01
+            anchor 0.01 0 0.37
+            axis 0 1 0
           }
           endPoint DEF HEAD Solid {
         %< } else { >%
@@ -506,8 +530,8 @@ Robot {
             name "head"
           %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
-              translation 0 0.436 0.04
-              rotation 1 0 0 -0.5236
+              translation 0.04 0 0.436
+              rotation 0 1 0 -0.5236
               children [
                 Capsule {
                   height 0.02
@@ -525,10 +549,10 @@ Robot {
       boundingObject Group {
         children [
           DEF TORSO_BO Box {
-            size 0.35 0.6 0.24
+            size 0.24 0.35 0.6
           }
           DEF NECK_BO Transform {
-            translation 0 0.3 0.01
+            translation 0.01 0 0.3
             children [
               Capsule {
                 height 0.1

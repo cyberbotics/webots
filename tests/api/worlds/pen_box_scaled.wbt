@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -53,10 +53,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0.0156 0.09 -0.015
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.2928359363695398 -0.31028593257782183 -0.9044168034788418 -2.749615307179586
         children [
           Transform {
-            translation 0 0.03 0
+            translation 0 0 0.03
             children [
               Shape {
                 geometry Box {
@@ -66,18 +66,24 @@ DEF WRITER Robot {
             ]
           }
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -93,13 +99,17 @@ DEF WRITER Robot {
       children [
         Camera {
           translation -0.065 0.284 -0.016
-          rotation 1 0 0 -0.2618
+          rotation 0.6215152437378164 -0.6215152437378164 -0.476904187026121 -2.2515953071795867
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
+            Transform {
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.01
+                  }
+                }
+              ]
             }
           ]
           fieldOfView 0.56

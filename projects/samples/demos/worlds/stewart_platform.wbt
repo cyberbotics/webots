@@ -1,16 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of Stewart platform demonstrating the combination of misc Joints and Motors nodes"
   ]
   title "Stewart Platform"
   basicTimeStep 4
-  coordinateSystem "NUE"
   lineScale 1
 }
 Viewpoint {
-  orientation 0.058407373367857035 0.9648525600539822 0.2562188831712927 3.57459
-  position -5.5123 8.76435 -11.644
+  orientation 0.2880940676987638 0.04820484887274245 -0.9563880492258027 3.040568865714224
+  position 22.479136058968265 2.826037539813577 15.867026372599199
   near 0.5
 }
 TexturedBackground {
@@ -24,7 +23,7 @@ CircleArena {
   wallHeight 1
 }
 DEF STEWART_PLATFORM Robot {
-  translation 0 0.05 0
+  translation 0 0 0.05
   children [
     DEF CYLINDER_BODY Shape {
       appearance PBRAppearance {
@@ -40,17 +39,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_0 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor -1.57453 0.120577 1.20951
+        anchor -1.20951 1.57453 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_0 Solid {
-        translation -1.13137 0.9 1.13137
-        rotation -0.2587530497952834 -0.9656781992359885 0.022637904982089663 2.97302
+        translation -1.13137 1.13137 0.9
+        rotation -0.022637904982089653 0.2587530497952834 -0.9656781992359885 2.97302
         children [
           DEF UPPER_PISTON_SLIDER_0 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -61,13 +61,13 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_0 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 DEF TWO_CYLS_GROUP Group {
                   children [
                     DEF SHORT_CYL_TRANS Transform {
-                      rotation 1 0 0 1.5708
+                      rotation 0 -1 0 1.5708
                       children [
                         Shape {
                           appearance DEF PISTON_APPEARANCE BrushedAluminium {
@@ -85,8 +85,8 @@ DEF STEWART_PLATFORM Robot {
                       ]
                     }
                     DEF THIN_CYL_TRANS Transform {
-                      translation 0 0 0.7
-                      rotation 1 0 0 1.5708
+                      translation -0.7 0 0
+                      rotation 0 -1 0 1.5708
                       children [
                         Shape {
                           appearance USE PISTON_APPEARANCE
@@ -101,7 +101,7 @@ DEF STEWART_PLATFORM Robot {
                   ]
                 }
                 DEF UPPER_BALL_TRANS Transform {
-                  translation 0 0 -0.2
+                  translation 0.2 0 0
                   children [
                     Shape {
                       appearance USE PISTON_APPEARANCE
@@ -114,11 +114,11 @@ DEF STEWART_PLATFORM Robot {
                 }
                 DEF UPPER_BALL_JOINT_0 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint DEF UPPER_PLATFORM Solid {
-                    translation -0.235049 0.917719 -0.514172
-                    rotation 0.12654500989810896 0.6847900794486231 -0.7176690794221497 2.65306
+                    translation 0.514172 0.235049 0.917719
+                    rotation 0.7176690794221499 -0.12654500989810902 0.6847900794486234 2.65306
                     children [
                       DEF UPPER_PLATFORM_SHAPE Shape {
                         appearance PBRAppearance {
@@ -149,7 +149,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -164,7 +164,7 @@ DEF STEWART_PLATFORM Robot {
             }
           }
           DEF LOWER_BALL Transform {
-            translation 0 -0.9 0
+            translation 0 0 -0.9
             children [
               Shape {
                 appearance USE PISTON_APPEARANCE
@@ -185,17 +185,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_1 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 1.57453 0.120577 1.20951
+        anchor -1.20951 -1.57453 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_1 Solid {
-        translation 1.13137 0.9 1.13137
-        rotation -0.08288149802673905 -0.3093179900997915 0.9473399803056288 0.551288
+        translation -1.13137 -1.13137 0.9
+        rotation -0.9473399803056285 0.08288149802673903 -0.3093179900997915 0.551288
         children [
           DEF UPPER_PISTON_SLIDER_1 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -206,14 +207,14 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_1 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 USE TWO_CYLS_GROUP
                 USE UPPER_BALL_TRANS
                 DEF UPPER_BALL_JOINT_1 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint SolidReference {
                     solidName "upper_platform"
@@ -228,7 +229,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -246,17 +247,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_2 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 1.83473 0.120577 0.75883
+        anchor -0.75883 -1.83473 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_2 Solid {
-        translation 1.54548 0.9 0.41411
-        rotation -0.22629802870231044 -0.8445560951569546 0.4852980572170936 1.00896
+        translation -0.41411 -1.54548 0.9
+        rotation -0.4852980572170937 0.22629802870231042 -0.8445560951569544 1.00896
         children [
           DEF UPPER_PISTON_SLIDER_2 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -267,14 +269,14 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_2 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 USE TWO_CYLS_GROUP
                 USE UPPER_BALL_TRANS
                 DEF UPPER_BALL_JOINT_2 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint SolidReference {
                     solidName "upper_platform"
@@ -289,7 +291,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -307,17 +309,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_3 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 0.260201 0.120577 -1.96834
+        anchor 1.96834 -0.260201 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_3 Solid {
-        translation 0.41411 0.9 -1.54548
-        rotation 0.25467102027040395 0.95044407100916 0.17832201018933827 1.96719
+        translation 1.54548 -0.41411 0.9
+        rotation -0.17832201018933827 -0.25467102027040395 0.95044407100916 1.96719
         children [
           DEF UPPER_PISTON_SLIDER_3 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -328,14 +331,14 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_3 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 USE TWO_CYLS_GROUP
                 USE UPPER_BALL_TRANS
                 DEF UPPER_BALL_JOINT_3 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint SolidReference {
                     solidName "upper_platform"
@@ -350,7 +353,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -368,17 +371,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_4 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor -0.260201 0.120577 -1.96834
+        anchor 1.96834 0.260201 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_4 Solid {
-        translation -0.41411 0.9 -1.54548
-        rotation 0.24276609074284478 0.9060133427723283 0.3467051310608899 1.31592
+        translation 1.54548 0.41411 0.9
+        rotation -0.3467051310608898 -0.24276609074284478 0.9060133427723281 1.3159200000000002
         children [
           DEF UPPER_PISTON_SLIDER_4 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -389,14 +393,14 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_4 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 USE TWO_CYLS_GROUP
                 USE UPPER_BALL_TRANS
                 DEF UPPER_BALL_JOINT_4 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint SolidReference {
                     solidName "upper_platform"
@@ -411,7 +415,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -429,17 +433,18 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_5 Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor -1.83473 0.120577 0.75883
+        anchor -0.75883 1.83473 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_5 Solid {
-        translation -1.54548 0.9 0.41411
-        rotation 0.2569540098667459 0.958967049502688 -0.11982000993786238 3.98259
+        translation -0.41411 1.54548 0.9
+        rotation 0.11982000993786239 -0.25695400986674594 0.958967049502688 3.9825900000000005
         children [
           DEF UPPER_PISTON_SLIDER_5 SliderJoint {
             jointParameters JointParameters {
-              axis 0 -1 0
+              axis 0 0 -1
             }
             device [
               LinearMotor {
@@ -450,14 +455,14 @@ DEF STEWART_PLATFORM Robot {
               }
             ]
             endPoint DEF UPPER_PISTON_5 Solid {
-              translation 0 1.7 0
-              rotation 1 0 0 1.5708
+              translation 0 0 1.7
+              rotation 0 -1 0 1.5708
               children [
                 USE TWO_CYLS_GROUP
                 USE UPPER_BALL_TRANS
                 DEF UPPER_BALL_JOINT_5 BallJoint {
                   jointParameters BallJointParameters {
-                    anchor 0 0 -0.2
+                    anchor 0.2 0 0
                   }
                   endPoint SolidReference {
                     solidName "upper_platform"
@@ -472,7 +477,7 @@ DEF STEWART_PLATFORM Robot {
                   0 0 0
                 ]
                 inertiaMatrix [
-                  0.141433 0.141433 0.000842
+                  0.000842 0.141433 0.141433
                   0 0 0
                 ]
               }
@@ -496,30 +501,30 @@ DEF STEWART_PLATFORM Robot {
   controller "stewart_platform"
 }
 CardboardBox {
-  translation 0 3 0
+  translation 0 0 3
   size 0.4 0.4 0.4
   mass 6.4
 }
 CardboardBox {
-  translation 0 3.5 0
+  translation 0 0 3.5
   name "cardboard box(1)"
   size 0.4 0.4 0.4
   mass 6.4
 }
 CardboardBox {
-  translation 0 4 0
+  translation 0 0 4
   name "cardboard box(2)"
   size 0.4 0.4 0.4
   mass 6.4
 }
 CardboardBox {
-  translation 0 4.5 0
+  translation 0 0 4.5
   name "cardboard box(3)"
   size 0.4 0.4 0.4
   mass 6.4
 }
 CardboardBox {
-  translation 0 5 0
+  translation 0 0 5
   name "cardboard box(4)"
   size 0.4 0.4 0.4
   mass 6.4

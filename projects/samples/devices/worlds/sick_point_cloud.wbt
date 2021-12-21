@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Soda cans are transported on a conveyor belt."
@@ -6,11 +6,10 @@ WorldInfo {
   ]
   title "LD-MRS"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.15251328614725776 0.9459688428203066 0.2861514388602211 3.9752500922548824
-  position -2.7729714098231755 4.17365036481807 -4.77191736801791
+  orientation -0.21580858948651072 -0.0757979283590747 0.9734892535412578 3.7739994843300813
+  position 4.872473489992152 2.541667025916265 3.216423150928269
 }
 TexturedBackground {
   texture "factory"
@@ -19,8 +18,8 @@ TexturedBackgroundLight {
   texture "factory"
 }
 RectangleArena {
-  translation 0 0 -0.9
-  floorSize 13 8
+  translation 0.9 0 0
+  floorSize 8 13
   floorAppearance BakelitePlastic {
   }
   wallThickness 0.05
@@ -32,10 +31,9 @@ RectangleArena {
   }
 }
 Door {
-  translation 1.41477 0 3.22167
-  rotation 0 -1 0 3.14159
+  translation -3.2217 -1.4148 0
   name "door(1)"
-  size 1 2 0.2
+  size 0.2 1 2
   doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
   }
@@ -44,27 +42,28 @@ Door {
   }
 }
 ConveyorBelt {
-  translation 0 0 -1.6
-  size 10 1.15 0.5
+  translation 1.6 0 0
+  rotation 0 0 1 -1.570795
+  size 10 0.5 1.15
   borderThickness 0.01
   borderHeight -0.01
 }
 Robot {
   children [
     SickLdMrs {
-      translation 0 1.2 -0.25
+      translation 0.25 0 1.2
       name "sick"
       type "800001S01"
     }
     DEF BODY_SHAPE Transform {
-      translation 0 0.7 0
+      translation 0 0 0.7
       children [
         Shape {
           appearance GlossyPaint {
             baseColor 0.188296 0.131777 0.922316
           }
           geometry Box {
-            size 0.2 1.4 0.3
+            size 0.3 0.2 1.4
           }
         }
       ]
@@ -74,72 +73,73 @@ Robot {
   controller "sick_point_cloud"
 }
 PlasticCrate {
-  translation 5.33203 0 -1.55893
-  size 0.6 0.5 0.6
+  translation 1.5589 -5.332 0
+  size 0.6 0.6 0.5
 }
 PlasticCrate {
-  translation 5.33203 0.51 -1.55893
+  translation 1.5589 -5.332 0.51
   name "plastic crate(1)"
-  size 0.6 0.5 0.6
+  size 0.6 0.6 0.5
   color 0.2 0.2 0.9
 }
 FireExtinguisher {
-  translation 6.25524 -1.77636e-15 0.82666
-  rotation 0 1 0 -1.3089953071795861
+  translation -0.8267 -6.2552 0
+  rotation 0 0 1 -1.308995
 }
 PlatformCart {
-  translation 5.58013 -7.10543e-15 -2.24819
+  translation 2.2482 -5.5801 0
+  rotation 0 0 1 -1.570795
 }
 WoodenPalletStack {
-  translation 4.48143 3.1606e-21 2.69937
-  rotation 0 1 0 -1.5707953071795862
+  translation -2.6994 -4.4814 0
+  rotation 0 0 1 -1.570795
 }
 WoodenPalletStack {
-  translation 3.04071 1.77636e-15 2.61741
-  rotation 0 1 0 -1.5707953071795862
+  translation -2.6174 -3.0407 0
+  rotation 0 0 1 -1.570795
   name "wooden pallet stack(1)"
 }
 Can {
-  translation 0 1.22 -1.59
+  translation 1.59 0 1.22
   name "can(0)"
 }
 Can {
-  translation -0.3 1.22 -1.59
+  translation 1.59 0.3 1.22
   name "can(1)"
 }
 Can {
-  translation -0.7 1.22 -1.59
+  translation 1.59 0.7 1.22
   name "can(2)"
 }
 Can {
-  translation -1.2 1.22 -1.59
+  translation 1.59 1.2 1.22
   name "can(3)"
 }
 Can {
-  translation -1.3 1.22 -1.59
+  translation 1.59 1.3 1.22
   name "can(4)"
 }
 Can {
-  translation -1.9 1.22 -1.59
+  translation 1.59 1.9 1.22
   name "can(5)"
 }
 Can {
-  translation -2.4 1.22 -1.59
+  translation 1.59 2.4 1.22
   name "can(6)"
 }
 Can {
-  translation -2.5 1.22 -1.59
+  translation 1.59 2.5 1.22
   name "can(7)"
 }
 Can {
-  translation -3.2 1.22 -1.59
+  translation 1.59 3.2 1.22
   name "can(8)"
 }
 Can {
-  translation -3.3 1.22 -1.59
+  translation 1.59 3.3 1.22
   name "can(9)"
 }
 Can {
-  translation -3.8 1.22 -1.59
+  translation 1.59 3.8 1.22
   name "can(10)"
 }

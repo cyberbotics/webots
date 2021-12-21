@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of change of a texture by the Supervisor"
   ]
   title "Texture Change"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9882217061414686 0.14323795740662693 -0.05385858398456106 5.75439
-  position -0.106123 0.777432 1.29381
+  orientation 0.1801671987198353 -0.7547246342172025 -0.630817332522781 5.526605631501243
+  position -1.4306354245486692 -0.7031991410385743 1.0303727842739792
 }
 TexturedBackground {
 }
@@ -17,7 +16,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Solid {
-  translation -0.05 0.05 -0.25
+  translation 0.25 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -26,7 +25,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -40,8 +39,8 @@ Solid {
   }
 }
 Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -64,8 +63,8 @@ Solid {
   }
 }
 Solid {
-  translation -0.19 0.05 0.25
-  rotation 0 1 0 1.13
+  translation -0.25 0.19 0.05
+  rotation 0 0 1 1.13
   children [
     Shape {
       appearance PBRAppearance {
@@ -74,7 +73,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -88,7 +87,7 @@ Solid {
   }
 }
 Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.1 -0.42 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -97,7 +96,7 @@ Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -111,8 +110,8 @@ Solid {
   }
 }
 DEF PANEL Transform {
-  translation -0.49 0 0.2
-  rotation 0 1 0 1.57
+  translation -0.2 0.49 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -128,9 +127,9 @@ DEF PANEL Transform {
         coord Coordinate {
           point [
             0 0 0
-            0.5 0 0
-            0.5 0.5 0
-            0 0.5 0
+            0 -0.5 0
+            0 -0.5 0.5
+            0 0 0.5
           ]
         }
         texCoord TextureCoordinate {
@@ -152,11 +151,11 @@ DEF PANEL Transform {
   ]
 }
 Robot {
-  translation 0.3 0 0
-  rotation 0 1 0 1.57
+  translation 0 -0.3 0
+  rotation 0 0 1 1.57
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -173,8 +172,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -185,11 +184,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -215,8 +214,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -227,8 +226,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation 0 -1 0 4.58735
         children [
           USE WHEEL
         ]
@@ -238,11 +237,11 @@ Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -268,8 +267,8 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -296,12 +295,12 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.015 0.038 -0.041
-            0.015 0.023 -0.041
-            0 0.023 -0.0455
-            -0.015 0.023 -0.041
-            -0.015 0.038 -0.041
-            0 0.038 -0.0455
+            0.041 -0.015 0.038
+            0.041 -0.015 0.023
+            0.0455 0 0.023
+            0.041 0.015 0.023
+            0.041 0.015 0.038
+            0.0455 0 0.038
           ]
         }
         texCoord TextureCoordinate {
@@ -324,12 +323,11 @@ Robot {
       }
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      translation 0.04 0 0.0915
       children [
         Transform {
-          translation 0 0 0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -351,7 +349,7 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]

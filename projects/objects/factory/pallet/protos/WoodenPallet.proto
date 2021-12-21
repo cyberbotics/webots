@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple and configurable wooden pallet.
@@ -6,9 +6,9 @@
 
 PROTO WoodenPallet [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "wooden pallet"
-  field SFVec3f    size           0.8 0.14 1.2     # Defines the size of the pallet.
+  field SFVec3f    size           1.2 0.8 0.14     # Defines the size of the pallet.
   field SFInt32    lathNumber     6                # Defines the number of lath of the pallet.
   field SFFloat    lathWidth      0.08             # Defines the width of one lath.
   field SFFloat    mass           0                # Defines the mass of the pallet in kg. A value smaller or equal to 0 remove the physics of the pallet.
@@ -48,16 +48,16 @@ Solid {
     %< for (let i = -1; i <= 1; ++i) { >%
       %< for (let j = -1; j <= 1; ++j) { >%
         Transform {
-          translation %<= size.x * i * 0.45 >% %<= 0.45 * size.y >% %<= size.z * j * 0.45 >%
+          translation %<= size.x * j * 0.45 >% %<= 0.45 * size.y * i >% %<= size.z * 0.45 >%
           children [
             Shape {
               appearance RoughPine {
                 textureTransform TextureTransform {
-                  scale %<= 2 * size.x * 0.1 >% %<= 2 * size.z * 0.1 >%
+                  scale %<= 2 * size.x * 0.1 >% %<= 2 * size.y * 0.1 >%
                 }
               }
               geometry Box {
-                size %<= size.x * 0.1 >% %<= 0.7 * size.y >% %<= size.z * 0.1 >%
+                size %<= size.x * 0.1 >% %<= 0.1 * size.y >% %<= size.z * 0.7 >%
               }
             }
           ]
@@ -67,17 +67,16 @@ Solid {
     # Length boards
     %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation %<= size.x * i * 0.45 >% %<= 0.05 * size.y >% 0
+        translation 0 %<= size.y * i * 0.45 >% %<= 0.05 * size.z >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %<= 2 * size.z >% %<= 2 * size.y >%
-                rotation 1.5708
+                scale %<= 2 * size.x >% %<= 2 * size.z >%
               }
             }
             geometry Box {
-              size %<= size.x * 0.1 >% %<= 0.1 * size.y >% %<= size.z >%
+              size %<= size.x >% %<= 0.1 * size.y >% %<= size.z * 0.1>%
             }
           }
         ]
@@ -86,17 +85,16 @@ Solid {
     # width boards
     %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation 0 %<= 0.85 * size.y >% %<= size.z * i * 0.45 >%
+        translation %<= size.x * i * 0.45 >% 0 %<= 0.85 * size.z >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %<= 2 * size.x >% %<= 2 * size.z * 0.1 >%
-                rotation 1.5708
+                scale %<= 2 * size.y >% %<= 2 * size.x * 0.1 >%
               }
             }
             geometry Box {
-              size %<= size.x >% %<= 0.1 * size.y >% %<= size.z * 0.1 >%
+              size %<= 0.1 * size.x >% %<= size.y >% %<= size.z * 0.1 >%
             }
           }
         ]
@@ -105,17 +103,16 @@ Solid {
     # Lath lathNumber
     %< for (let i = 0; i < lathNumber; ++i) { >%
       Transform {
-        translation %<= (size.x - lathWidth) * (i / (lathNumber - 1) - 0.5) >% %<= 0.95 * size.y >% %<= 0 >%
+        translation %<= 0 >% %<= (size.y - lathWidth) * (i / (lathNumber - 1) - 0.5) >% %<= 0.95 * size.z >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %<= 2 * size.z >% %<= 2 * lathWidth >%
-                rotation 1.5708
+                scale %<= 2 * size.x >% %<= 2 * lathWidth >%
               }
             }
             geometry Box {
-              size %<= lathWidth >% %<= 0.1 * size.y >% %<= size.z >%
+              size %<= size.x >% %<= lathWidth >% %<= 0.1 * size.z >%
             }
           }
         ]
@@ -129,21 +126,21 @@ Solid {
     children [
       %< for (let i = -1; i <= 1; ++i) { >%
         Transform {
-          translation %<= 0.45 * i * size.x >% %<= 0.4 * size.y >% 0
+          translation 0 %<= 0.45 * i * size.y >% %<= 0.4 * size.z >%
           children
           [
             Box {
-              size %<= 0.1 * size.x >% %<= 0.8 * size.y >% %<= size.z >%
+              size %<=size.x >% %<= 0.1 * size.y >% %<= 0.8 * size.z >%
             }
           ]
         }
       %< } >%
       Transform {
-        translation 0 %<= 0.9 * size.y >% 0
+        translation 0 0 %<= 0.9 * size.z >%
         children
         [
           Box {
-            size %<= size.x >% %<= 0.2 * size.y >% %<= size.z >%
+            size %<= size.x >% %<= size.y >% %<= 0.2 * size.z >%
           }
         ]
       }

@@ -33,6 +33,27 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website).
 
+### Programming Interface
+
+The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
+
+The following attributes are available:
+* `data-scene`: the name of the .x3d file containing the 3d scene.
+* `data-animation`: the name of the .json file containing the animation sequence.
+* `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
+* `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
+
+For more complex interaction with the web component, the following functions are available:
+* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
+  * `scene`: name of the .x3d file.
+  * `animation`: name of the .json file.
+  * `play`: if false, the animation will be paused, otherwise it will be played.
+  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+
 ### Limitations
 
 The animation file contains only modifications over the following fields:  - `LED.color`  - `Material.diffuseColor`  - `Material.emissiveColor`  - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)  - `Transform.rotation`  - `Transform.translation` The other VRML97 fields are not recorded in the animation file.

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Willow Garage PR2 robot."
@@ -6,7 +6,6 @@ WorldInfo {
   ]
   title "PR2"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "pr2_material"
@@ -15,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.06091631601174338 0.9680772544573537 0.24313706390813708 2.64476
-  position 1.58483 2.33481 -2.32756
+  orientation -0.2968884487192745 -0.1582037998684911 0.9417158842900724 4.071799041641934
+  position 1.90023198434827 2.667100394887336 2.7815776733661295
   follow "PR2"
 }
 TexturedBackground {
@@ -24,6 +23,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Pr2 {
+  rotation 1 0 0 4.692820414042842e-06
 }
 Floor {
   tileSize 1 1
@@ -32,17 +32,18 @@ Floor {
 }
 Table {
   translation 1.5 0 0
-  rotation 0 1 0 1.5708
+  rotation -2.9110807192479472e-08 0.013910303436853236 0.9999032470485799 -5.307179586466759e-06
 }
 Table {
   translation -1.5 0 0
-  rotation 0 1 0 1.5708
+  rotation -2.9110807192479472e-08 0.013910303436853236 0.9999032470485799 -5.307179586466759e-06
   name "table 2"
 }
 Can {
-  translation 1.25 0.805 0.19
+  translation 1.25 -0.19 0.805
+  rotation 1 0 0 4.692820414042842e-06
 }
 BiscuitBox {
-  translation 1.27 0.86 -0.17
-  rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 4.18879
+  translation 1.27 0.21 0.86
+  rotation 0.9999999999944997 -2.830029999984434e-06 1.7296499999904866e-06 1.5708
 }

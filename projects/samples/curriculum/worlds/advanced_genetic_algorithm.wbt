@@ -1,6 +1,5 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "load"
@@ -12,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.9999649479917812 0.008039999581839286 0.0023369198784566995 5.71599
-  position -0.00620952 0.868051 0.882617
+  orientation 0.04267117005799466 -0.9990488920039641 -0.008971211263466155 5.727399467494953
+  position -0.9257334615349945 -0.009289067905033258 0.9504010597403693
 }
 TexturedBackground {
 }
@@ -34,10 +33,10 @@ DEF FLOOR Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -10 0 -10
-            -10 0 10
-            10 0 10
-            10 0 -10
+            10 10 0
+            -10 10 0
+            -10 -10 0
+            10 -10 0
           ]
         }
         texCoord TextureCoordinate {
@@ -65,7 +64,7 @@ DEF FLOOR Solid {
             metalness 0
           }
           geometry Box {
-            size 0.5 0.001 0.5
+            size 0.5 0.5 0.001
           }
         }
       ]
@@ -74,17 +73,17 @@ DEF FLOOR Solid {
   name "ground"
   contactMaterial "floor"
   boundingObject Transform {
-    translation 0 -1 0
+    translation 0 0 -1
     children [
       Box {
-        size 20 2 20
+        size 20 20 2
       }
     ]
   }
   locked TRUE
 }
 DEF OBSTACLE Solid {
-  translation 0 0.03 -1
+  translation 1 0 0.03
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -102,7 +101,7 @@ DEF OBSTACLE Solid {
   boundingObject USE BOX_SHAPE
 }
 DEF LOAD Solid {
-  translation 0 0.025 0
+  translation 0 0 0.025
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -122,7 +121,7 @@ DEF LOAD Solid {
   }
 }
 DEF ROBOT E-puck {
-  translation 0 0 0.1
+  translation -0.1 0 0
   controller "advanced_genetic_algorithm"
 }
 DEF GA Robot {

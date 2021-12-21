@@ -1,17 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.4795668490589956 0.7347317687472532 0.479775848993214 4.40805
-  position -0.726689 1.46338 -0.0026152
+  orientation -0.47676030342044834 -0.5063474781826457 0.7185484287231564 4.41516125476627
+  position -0.02393829182139753 0.5822445222808772 1.525958755189279
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 0
   floorSize 0.88 0.88
   floorTileSize 0.88 0.88
   floorAppearance PBRAppearance {
@@ -35,7 +35,8 @@ RectangleArena {
   }
 }
 Transform {
-  translation -0.14 0 0
+  translation 0 0.14 0
+  rotation 0 0 1 0.523599
   children [
     Shape {
       appearance PBRAppearance {
@@ -52,7 +53,8 @@ Transform {
   ]
 }
 Transform {
-  translation 0.18 0.001 0
+  translation 0 -0.18 0.001
+  rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
   scale 0.2 1 0.5
   children [
     DEF GROUNDBORDER_SHAPE Shape {
@@ -99,28 +101,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.45 0 0.45
-            0.45 0 -0.45
-            -0.45 0 -0.45
-            -0.45 0 0.45
-            -0.44 0 0.45
-            -0.44 0 -0.44
-            0.44 0 -0.44
-            0.44 0 0.44
-            -0.44 0 0.44
-            -0.44 0 0.45
-            0.45 0 0.45
-            0.45 0.05 0.45
-            0.45 0.05 -0.45
-            -0.45 0.05 -0.45
-            -0.45 0.05 0.45
-            -0.44 0.05 0.45
-            -0.44 0.05 -0.44
-            0.44 0.05 -0.44
-            0.44 0.05 0.44
-            -0.44 0.05 0.44
-            -0.44 0.05 0.45
-            0.45 0.05 0.45
+            -0.45 -0.45 0
+            0.45 -0.45 0
+            0.45 0.45 0
+            -0.45 0.45 0
+            -0.45 0.44 0
+            0.44 0.44 0
+            0.44 -0.44 0
+            -0.44 -0.44 0
+            -0.44 0.44 0
+            -0.45 0.44 0
+            -0.45 -0.45 0
+            -0.45 -0.45 0.05
+            0.45 -0.45 0.05
+            0.45 0.45 0.05
+            -0.45 0.45 0.05
+            -0.45 0.44 0.05
+            0.44 0.44 0.05
+            0.44 -0.44 0.05
+            -0.44 -0.44 0.05
+            -0.44 0.44 0.05
+            -0.45 0.44 0.05
+            -0.45 -0.45 0.05
           ]
         }
         coordIndex [
@@ -133,32 +135,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.445 0.025 0
+        translation 0 -0.445 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.9
+              size 0.9 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.445 0.025 0
+        translation 0 0.445 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.445
-        rotation 0 1 0 1.57
+        translation -0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.445
-        rotation 0 1 0 1.57
+        translation 0.445 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -168,6 +170,6 @@ DEF WALL Solid {
   locked TRUE
 }
 E-puck {
-  rotation 0 1 0 -1.5708
+  rotation 0 0 1 -1.5708
   controller "advanced_odometry"
 }

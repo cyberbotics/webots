@@ -18,13 +18,20 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
-SUMO_VERSION=0.30
+SUMO_VERSION=1.10.0
+VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
+ VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
+ifeq ($(VER_UBUNTU),18.04)
+ SUMO_VERSION=1.11
+ SUMO_MD5SUM="aee08d40dfa26ea1167e6a6fd99b5ced"
+else
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
+endif
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
- SUMO_MD5SUM="c01bf4299603e965cfe2b1753ecac66c"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -35,7 +42,7 @@ endif
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
- SUMO_MD5SUM="c3cb346833b50487a74f7a648af5b28f"
+ SUMO_MD5SUM="a8900ed025fb930cb78609f08b6cd204"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -46,7 +53,7 @@ endif
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
- SUMO_MD5SUM="545904bc1d9f936f4f0f8d02e782e7cf"
+ SUMO_MD5SUM="2fd97eeb01fb11d4e95c3e95fd2bb4a3"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
  # remove .zip

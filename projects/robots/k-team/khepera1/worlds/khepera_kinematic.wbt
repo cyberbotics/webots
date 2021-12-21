@@ -1,22 +1,23 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Demo for the kinematic simulation mode"
   ]
   title "Khepera kinematic example"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.42902017872984366 0.7930163303706721 0.4325121801846118 1.78202
-  position 0.977632 1.38209 -0.0765189
+  orientation 0.5015538247661436 -0.004417065324225833 -0.8651151659729323 3.1568244482961783
+  position 0.9127999240776365 -0.012154870677282022 1.5181642558524457
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 0
 }
 DEF CYLINDER Solid {
+  rotation 1 0 0 4.692820414042842e-06
   children [
     Shape {
       appearance DEF OBSTACLE_APPEARANCE PBRAppearance {
@@ -34,7 +35,8 @@ DEF CYLINDER Solid {
   boundingObject USE CYLINDER_GEOM
 }
 DEF RECTANGLE Solid {
-  translation 0 0 -0.35
+  translation 0 0.35 0
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance USE OBSTACLE_APPEARANCE
@@ -47,14 +49,14 @@ DEF RECTANGLE Solid {
   boundingObject USE BOX_GEOM
 }
 Khepera1 {
-  translation 0.425571 0 -0.341915
-  rotation 0 1 0 -40.6625
+  translation 0.425571 0.341915 0
+  rotation 6.42555e-10 -7.19234e-09 1 -2.9633853071795864
   name "khepera"
   kinematic TRUE
 }
 Khepera1 {
-  translation -0.441747 0 -0.329789
-  rotation 0 1 0 -0.0328268
+  translation -0.441747 0.329789 0
+  rotation 4.3816e-07 -7.19235e-09 1 -0.03282530717958654
   name "khepera(1)"
   kinematic TRUE
 }

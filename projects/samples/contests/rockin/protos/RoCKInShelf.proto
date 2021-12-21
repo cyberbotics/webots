@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 
 PROTO RoCKInShelf [
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "RoCKIn shelf"
 ]
 {
@@ -13,35 +13,39 @@ PROTO RoCKInShelf [
     rotation IS rotation
     children [
       SolidBox {
-        translation 0 0.51 0
+        translation 0 0 0.51
+        rotation 1 0 0 1.570796
         name "shelf 1"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
         }
       }
       SolidBox {
-        translation 0 0.35 0
+        translation 0 0 0.35
+        rotation 1 0 0 1.570796
         name "shelf 2"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
         }
       }
       SolidBox {
-        translation 0 0.18 0
+        translation 0 0 0.18
+        rotation 1 0 0 1.570796
         name "shelf 3"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
         }
       }
       SolidBox {
-        translation 0 0.01 0
+        translation 0 0 0.01
+        rotation 1 0 0 1.570796
         name "shelf 4"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
         }
       }
       Solid {
-        translation 0.15 0.26 0.3
+        translation 0.15 -0.3 0.26
         children [
           DEF SHELF_PILLAR_SHAPE Shape {
             appearance VarnishedPine {
@@ -59,7 +63,7 @@ PROTO RoCKInShelf [
         boundingObject USE SHELF_PILLAR_SHAPE
       }
       Solid {
-        translation -0.15 0.26 0.3
+        translation -0.15 -0.3 0.26
         children [
           USE SHELF_PILLAR_SHAPE
         ]
@@ -67,7 +71,7 @@ PROTO RoCKInShelf [
         boundingObject USE SHELF_PILLAR_SHAPE
       }
       Solid {
-        translation -0.15 0.26 -0.3
+        translation -0.15 0.3 0.26
         children [
           USE SHELF_PILLAR_SHAPE
         ]
@@ -75,7 +79,7 @@ PROTO RoCKInShelf [
         boundingObject USE SHELF_PILLAR_SHAPE
       }
       Solid {
-        translation 0.15 0.26 -0.3
+        translation 0.15 0.3 0.26
         children [
           USE SHELF_PILLAR_SHAPE
         ]

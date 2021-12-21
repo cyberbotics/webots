@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a Connector device."
   ]
   title "Connector"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.004183020337560718 0.9260620747312119 0.37734803045117216 3.1315
-  position 0.00913356 0.867352 -0.957029
+  orientation -0.31839107274552725 -0.1128527872395881 0.9412180263935709 3.729172966528765
+  position 1.275001830173748 0.7898828324006901 1.1626925306508054
 }
 TexturedBackground {
 }
@@ -17,7 +16,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.35
+  translation 0.35 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -26,7 +25,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -40,8 +39,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -64,8 +63,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF YELLOW_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.15 0.2 0.05
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -74,7 +73,7 @@ DEF YELLOW_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -88,7 +87,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.35
+  translation 0.35 -0.42 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -97,7 +96,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -111,11 +110,12 @@ DEF PINK_BOX Solid {
   }
 }
 DEF LIGHT_MYBOT Robot {
-  translation 0.42 0 -0.1
-  rotation 0 1 0 1.57
+  translation 0.1 -0.42 0
+  rotation 0 0 1 1.5708
   children [
     DEF LIGHT_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -132,8 +132,8 @@ DEF LIGHT_MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -146,11 +146,11 @@ DEF LIGHT_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -176,8 +176,8 @@ DEF LIGHT_MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -190,8 +190,8 @@ DEF LIGHT_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -201,13 +201,13 @@ DEF LIGHT_MYBOT Robot {
       }
     }
     DEF RIGHT_EYE Transform {
-      translation 0.02 0.063 -0.0385
-      rotation 0 1 0 2.7489
+      translation 0.0385 -0.02 0.063
+      rotation -0.7268278184260777 -0.4856548786751704 -0.4856548786751704 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
             Transform {
-              translation 0 0 -1e-05
+              translation 0 0 1e-05
               rotation 0 0 1 0.8
               children [
                 Shape {
@@ -242,8 +242,8 @@ DEF LIGHT_MYBOT Robot {
       ]
     }
     DEF LEFT_EYE Transform {
-      translation -0.02 0.063 -0.0385
-      rotation 0 1 0 0.3927
+      translation 0.0385 0.02 0.063
+      rotation -0.7268313515069925 0.4856522348690052 0.4856522348690052 -1.884578
       children [
         DEF UNUSED_EYE Group {
           children [
@@ -283,8 +283,8 @@ DEF LIGHT_MYBOT Robot {
       ]
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -302,7 +302,8 @@ DEF LIGHT_MYBOT Robot {
     }
     DEF HINGE_JOINT_DEVICE HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.06 0
+        axis 0 -1 0
+        anchor 0 0 0.06
       }
       device [
         RotationalMotor {
@@ -316,13 +317,12 @@ DEF LIGHT_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.06 0
-        rotation 1 0 0 0
+        translation 0 0 0.06
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
               Transform {
-                translation 0.049 0.025 0
+                translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
                     appearance PBRAppearance {
@@ -331,19 +331,19 @@ DEF LIGHT_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.008 0.05 0.015
+                      size 0.015 0.008 0.05
                     }
                   }
                 ]
               }
               Transform {
-                translation -0.049 0.025 0
+                translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
               Transform {
-                translation 0 0.05 0
+                translation 0 0 0.05
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -352,7 +352,7 @@ DEF LIGHT_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.12 0.01 0.04
+                      size 0.04 0.12 0.01
                     }
                   }
                 ]
@@ -360,8 +360,8 @@ DEF LIGHT_MYBOT Robot {
             ]
           }
           DEF CONNECTOR_DEVICE Connector {
-            translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            translation 0 0 0.055
+            rotation 0.0003979999369552231 -0.9999998415960378 -0.0003979999369552231 1.570796
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14
@@ -378,7 +378,8 @@ DEF LIGHT_MYBOT Robot {
   ]
   name "MyBot 1"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]
@@ -390,11 +391,12 @@ DEF LIGHT_MYBOT Robot {
   controller "connector"
 }
 DEF HEAVY_MYBOT Robot {
-  translation 0.15 0 -0.1
-  rotation 0 1 0 -1.57
+  translation 0.1 -0.15 0
+  rotation 0 0 1 -1.57
   children [
     DEF MAIN_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -408,8 +410,8 @@ DEF HEAVY_MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -422,11 +424,11 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -452,8 +454,8 @@ DEF HEAVY_MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -466,8 +468,8 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -481,7 +483,8 @@ DEF HEAVY_MYBOT Robot {
     USE SMILE
     DEF HINGE_JOINT_DEVICE HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.06 0
+        axis 0 -1 0
+        anchor 0 0 0.06
       }
       device [
         RotationalMotor {
@@ -495,13 +498,12 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.06 0
-        rotation 1 0 0 0
+        translation 0 0 0.06
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
               Transform {
-                translation 0.049 0.025 0
+                translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
                     appearance PBRAppearance {
@@ -510,19 +512,19 @@ DEF HEAVY_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.008 0.05 0.015
+                      size 0.015 0.008 0.05
                     }
                   }
                 ]
               }
               Transform {
-                translation -0.049 0.025 0
+                translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
               Transform {
-                translation 0 0.05 0
+                translation 0 0 0.05
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -531,7 +533,7 @@ DEF HEAVY_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.12 0.01 0.04
+                      size 0.04 0.12 0.01
                     }
                   }
                 ]
@@ -539,8 +541,8 @@ DEF HEAVY_MYBOT Robot {
             ]
           }
           DEF CONNECTOR_DEVICE Connector {
-            translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            translation 0 0 0.055
+            rotation 0.0003979999369552231 -0.9999998415960378 -0.0003979999369552231 1.570796
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14
@@ -564,14 +566,14 @@ DEF HEAVY_MYBOT Robot {
   controller "connector"
 }
 DEF HEAVY_MYBOT Robot {
-  translation -0.2 0 -0.1
-  rotation 0 1 0 -1.57
+  translation 0.1 0.2 0
+  rotation 0 0 1 -1.57
   children [
     USE MAIN_BODY
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -584,11 +586,11 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -614,8 +616,8 @@ DEF HEAVY_MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -628,8 +630,8 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -643,7 +645,8 @@ DEF HEAVY_MYBOT Robot {
     USE SMILE
     DEF HINGE_JOINT_DEVICE HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.06 0
+        axis 0 -1 0
+        anchor 0 0 0.06
       }
       device [
         RotationalMotor {
@@ -657,13 +660,12 @@ DEF HEAVY_MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.06 0
-        rotation 1 0 0 0
+        translation 0 0 0.06
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
               Transform {
-                translation 0.049 0.025 0
+                translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
                     appearance PBRAppearance {
@@ -672,19 +674,19 @@ DEF HEAVY_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.008 0.05 0.015
+                      size 0.015 0.008 0.05
                     }
                   }
                 ]
               }
               Transform {
-                translation -0.049 0.025 0
+                translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
               Transform {
-                translation 0 0.05 0
+                translation 0 0 0.05
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -693,7 +695,7 @@ DEF HEAVY_MYBOT Robot {
                       metalness 0
                     }
                     geometry Box {
-                      size 0.12 0.01 0.04
+                      size 0.04 0.12 0.01
                     }
                   }
                 ]
@@ -701,8 +703,8 @@ DEF HEAVY_MYBOT Robot {
             ]
           }
           DEF CONNECTOR_DEVICE Connector {
-            translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            translation 0 0 0.055
+            rotation 0.0003979999369552231 -0.9999998415960378 -0.0003979999369552231 1.570796
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14

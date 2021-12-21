@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # A ping pong ball 4 times bigger than a real one.
 
 PROTO PingPongBallScaled [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFString name "ping pong ball"
 ]
 {

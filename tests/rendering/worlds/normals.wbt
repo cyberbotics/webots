@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,49 +17,49 @@ Robot {
   children [
     Camera {
       translation 0 1.3 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 1"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 2"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 -3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 3"
       width 256
       height 256
     }
     Camera {
       translation 0 1.3 -3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 4"
       width 256
       height 256
     }
     Camera {
       translation 0 1.3 3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 5"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 6"
       width 256
       height 256
     }
     Camera {
       translation 0 -0.7 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 7"
       width 256
       height 256

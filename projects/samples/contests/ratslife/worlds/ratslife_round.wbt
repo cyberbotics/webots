@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Rat's life pattern"
   ]
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 0.755398
-  orientation 0.06924491658634037 0.9612802302569182 0.2667310638904981 3.89326
-  position -0.721543 0.880107 -0.700621
+  orientation 0.14788969225688775 -0.6269411626846972 -0.7649009200254128 5.344997586991213
+  position -0.9766936520818976 -1.2931058162556992 1.5318496425124724
   near 0.01
 }
 TexturedBackground {
@@ -17,988 +16,1235 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF W000 LegoWall {
-  translation 0 0.025 -0.2
+  translation 0 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(1)"
 }
 DEF W001 LegoWall {
-  translation 0.05 0.025 -0.2
+  translation 0.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(2)"
 }
 DEF W002 LegoWall {
-  translation 0.1 0.025 -0.2
+  translation 0.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(3)"
 }
 DEF W003 LegoWall {
-  translation 0.15 0.025 -0.2
+  translation 0.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(4)"
 }
 DEF W004 LegoWall {
-  translation 0.2 0.025 -0.2
+  translation 0.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(5)"
 }
 DEF W005 LegoWall {
-  translation 0.25 0.025 -0.2
+  translation 0.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(6)"
 }
 DEF W006 LegoWall {
-  translation 0.3 0.025 -0.2
+  translation 0.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(7)"
 }
 DEF W007 LegoWall {
-  translation 0.35 0.025 -0.2
+  translation 0.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(8)"
 }
 DEF W008 LegoWall {
-  translation 0.4 0.025 -0.2
+  translation 0.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(9)"
 }
 DEF W009 LegoWall {
-  translation 0.45 0.025 -0.2
+  translation 0.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(10)"
 }
 DEF W010 LegoWall {
-  translation 0.5 0.025 -0.2
+  translation 0.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(11)"
 }
 DEF W011 LegoWall {
-  translation 0.55 0.025 -0.2
+  translation 0.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(12)"
 }
 DEF W012 LegoWall {
-  translation 0.6 0.025 -0.2
+  translation 0.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(13)"
 }
 DEF W013 LegoWall {
-  translation 0.65 0.025 -0.2
+  translation 0.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(14)"
 }
 DEF W014 LegoWall {
-  translation 0.7 0.025 -0.2
+  translation 0.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(15)"
 }
 DEF W015 LegoWall {
-  translation 0.75 0.025 -0.2
+  translation 0.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(16)"
 }
 DEF W016 LegoWall {
-  translation 0.8 0.025 -0.2
+  translation 0.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(17)"
 }
 DEF W017 LegoWall {
-  translation 0.85 0.025 -0.2
+  translation 0.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(18)"
 }
 DEF W018 LegoWall {
-  translation 0.9 0.025 -0.2
+  translation 0.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(19)"
 }
 DEF W019 LegoWall {
-  translation 0.95 0.025 -0.2
+  translation 0.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(20)"
 }
 DEF W020 LegoWall {
-  translation 1 0.025 -0.2
+  translation 1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(21)"
 }
 DEF W021 LegoWall {
-  translation 1.05 0.025 -0.2
+  translation 1.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(22)"
 }
 DEF W022 LegoWall {
-  translation 1.1 0.025 -0.2
+  translation 1.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(23)"
 }
 DEF W023 LegoWall {
-  translation 1.15 0.025 -0.2
+  translation 1.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(24)"
 }
 DEF W024 LegoWall {
-  translation 1.2 0.025 -0.2
+  translation 1.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(25)"
 }
 DEF W025 LegoWall {
-  translation 1.25 0.025 -0.2
+  translation 1.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(26)"
 }
 DEF W026 LegoWall {
-  translation 1.3 0.025 -0.2
+  translation 1.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(27)"
 }
 DEF W027 LegoWall {
-  translation 1.35 0.025 -0.2
+  translation 1.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(28)"
 }
 DEF W028 LegoWall {
-  translation 1.4 0.025 -0.2
+  translation 1.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(29)"
 }
 DEF W029 LegoWall {
-  translation 1.45 0.025 -0.2
+  translation 1.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(30)"
 }
 DEF W030 LegoWall {
-  translation 1.5 0.025 -0.2
+  translation 1.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(31)"
 }
 DEF W031 LegoWall {
-  translation 1.55 0.025 -0.2
+  translation 1.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(32)"
 }
 DEF W032 LegoWall {
-  translation 1.6 0.025 -0.2
+  translation 1.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(33)"
 }
 DEF W033 LegoWall {
-  translation 1.65 0.025 -0.2
+  translation 1.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(34)"
 }
 DEF W034 LegoWall {
-  translation 1.7 0.025 -0.2
+  translation 1.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(35)"
 }
 DEF W035 LegoWall {
-  translation 1.75 0.025 -0.2
+  translation 1.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(36)"
 }
 DEF W036 LegoWall {
-  translation 1.8 0.025 -0.2
+  translation 1.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(37)"
 }
 DEF W037 LegoWall {
-  translation 1.85 0.025 -0.2
+  translation 1.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(38)"
 }
 DEF W038 LegoWall {
-  translation 1.9 0.025 -0.2
+  translation 1.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(39)"
 }
 DEF W039 LegoWall {
-  translation 1.95 0.025 -0.2
+  translation 1.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(40)"
 }
 DEF W040 LegoWall {
-  translation 2 0.025 -0.2
+  translation 2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(41)"
 }
 DEF W041 LegoWall {
-  translation 2.05 0.025 -0.2
+  translation 2.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(42)"
 }
 DEF W042 LegoWall {
-  translation 2.1 0.025 -0.2
+  translation 2.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(43)"
 }
 DEF W043 LegoWall {
-  translation 2.15 0.025 -0.2
+  translation 2.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(44)"
 }
 DEF W044 LegoWall {
-  translation 2.2 0.025 -0.2
+  translation 2.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(45)"
 }
 DEF W045 LegoWall {
-  translation 2.25 0.025 -0.2
+  translation 2.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(46)"
 }
 DEF W046 LegoWall {
-  translation 2.3 0.025 -0.2
+  translation 2.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(47)"
 }
 DEF W047 LegoWall {
-  translation 2.35 0.025 -0.2
+  translation 2.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(48)"
 }
 DEF W048 LegoWall {
-  translation 2.4 0.025 -0.2
+  translation 2.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(49)"
 }
 DEF W049 LegoWall {
-  translation 2.45 0.025 -0.2
+  translation 2.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(50)"
 }
 DEF W050 LegoWall {
-  translation 2.5 0.025 -0.2
+  translation 2.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(51)"
 }
 DEF W051 LegoWall {
-  translation 2.55 0.025 -0.2
+  translation 2.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(52)"
 }
 DEF W052 LegoWall {
-  translation 2.6 0.025 -0.2
+  translation 2.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(53)"
 }
 DEF W053 LegoWall {
-  translation 2.65 0.025 -0.2
+  translation 2.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(54)"
 }
 DEF W054 LegoWall {
-  translation 2.7 0.025 -0.2
+  translation 2.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(55)"
 }
 DEF W055 LegoWall {
-  translation 2.75 0.025 -0.2
+  translation 2.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(56)"
 }
 DEF W056 LegoWall {
-  translation 2.8 0.025 -0.2
+  translation 2.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(57)"
 }
 DEF W057 LegoWall {
-  translation 2.85 0.025 -0.2
+  translation 2.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(58)"
 }
 DEF W058 LegoWall {
-  translation 2.9 0.025 -0.2
+  translation 2.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(59)"
 }
 DEF W059 LegoWall {
-  translation 2.95 0.025 -0.2
+  translation 2.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(60)"
 }
 DEF W060 LegoWall {
-  translation 3 0.025 -0.2
+  translation 3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(61)"
 }
 DEF W061 LegoWall {
-  translation 3.05 0.025 -0.2
+  translation 3.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(62)"
 }
 DEF W062 LegoWall {
-  translation 3.1 0.025 -0.2
+  translation 3.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(63)"
 }
 DEF W063 LegoWall {
-  translation 3.15 0.025 -0.2
+  translation 3.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(64)"
 }
 DEF W064 LegoWall {
-  translation 3.2 0.025 -0.2
+  translation 3.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(65)"
 }
 DEF W065 LegoWall {
-  translation 3.25 0.025 -0.2
+  translation 3.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(66)"
 }
 DEF W066 LegoWall {
-  translation 3.3 0.025 -0.2
+  translation 3.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(67)"
 }
 DEF W067 LegoWall {
-  translation 3.35 0.025 -0.2
+  translation 3.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(68)"
 }
 DEF W068 LegoWall {
-  translation 3.4 0.025 -0.2
+  translation 3.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(69)"
 }
 DEF W069 LegoWall {
-  translation 3.45 0.025 -0.2
+  translation 3.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(70)"
 }
 DEF W070 LegoWall {
-  translation 3.5 0.025 -0.2
+  translation 3.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(71)"
 }
 DEF W071 LegoWall {
-  translation 3.55 0.025 -0.2
+  translation 3.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(72)"
 }
 DEF W072 LegoWall {
-  translation 3.6 0.025 -0.2
+  translation 3.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(73)"
 }
 DEF W073 LegoWall {
-  translation 3.65 0.025 -0.2
+  translation 3.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(74)"
 }
 DEF W074 LegoWall {
-  translation 3.7 0.025 -0.2
+  translation 3.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(75)"
 }
 DEF W075 LegoWall {
-  translation 3.75 0.025 -0.2
+  translation 3.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(76)"
 }
 DEF W076 LegoWall {
-  translation 3.8 0.025 -0.2
+  translation 3.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(77)"
 }
 DEF W077 LegoWall {
-  translation 3.85 0.025 -0.2
+  translation 3.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(78)"
 }
 DEF W078 LegoWall {
-  translation 3.9 0.025 -0.2
+  translation 3.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(79)"
 }
 DEF W079 LegoWall {
-  translation 3.95 0.025 -0.2
+  translation 3.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(80)"
 }
 DEF W080 LegoWall {
-  translation 4 0.025 -0.2
+  translation 4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(81)"
 }
 DEF W081 LegoWall {
-  translation 4.05 0.025 -0.2
+  translation 4.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(82)"
 }
 DEF W082 LegoWall {
-  translation 4.1 0.025 -0.2
+  translation 4.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(83)"
 }
 DEF W083 LegoWall {
-  translation 4.15 0.025 -0.2
+  translation 4.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(84)"
 }
 DEF W084 LegoWall {
-  translation 4.2 0.025 -0.2
+  translation 4.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(85)"
 }
 DEF W085 LegoWall {
-  translation 4.25 0.025 -0.2
+  translation 4.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(86)"
 }
 DEF W086 LegoWall {
-  translation 4.3 0.025 -0.2
+  translation 4.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(87)"
 }
 DEF W087 LegoWall {
-  translation 4.35 0.025 -0.2
+  translation 4.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(88)"
 }
 DEF W088 LegoWall {
-  translation 4.4 0.025 -0.2
+  translation 4.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(89)"
 }
 DEF W089 LegoWall {
-  translation 4.45 0.025 -0.2
+  translation 4.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(90)"
 }
 DEF W090 LegoWall {
-  translation 4.5 0.025 -0.2
+  translation 4.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(91)"
 }
 DEF W091 LegoWall {
-  translation 4.55 0.025 -0.2
+  translation 4.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(92)"
 }
 DEF W092 LegoWall {
-  translation 4.6 0.025 -0.2
+  translation 4.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(93)"
 }
 DEF W093 LegoWall {
-  translation 4.65 0.025 -0.2
+  translation 4.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(94)"
 }
 DEF W094 LegoWall {
-  translation 4.7 0.025 -0.2
+  translation 4.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(95)"
 }
 DEF W095 LegoWall {
-  translation 4.75 0.025 -0.2
+  translation 4.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(96)"
 }
 DEF W096 LegoWall {
-  translation 4.8 0.025 -0.2
+  translation 4.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(97)"
 }
 DEF W097 LegoWall {
-  translation 4.85 0.025 -0.2
+  translation 4.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(98)"
 }
 DEF W098 LegoWall {
-  translation 4.9 0.025 -0.2
+  translation 4.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(99)"
 }
 DEF W099 LegoWall {
-  translation 4.95 0.025 -0.2
+  translation 4.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(100)"
 }
 DEF W100 LegoWall {
-  translation 5 0.025 -0.2
+  translation 5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(101)"
 }
 DEF W101 LegoWall {
-  translation 5.05 0.025 -0.2
+  translation 5.05 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(102)"
 }
 DEF W102 LegoWall {
-  translation 5.1 0.025 -0.2
+  translation 5.1 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(103)"
 }
 DEF W103 LegoWall {
-  translation 5.15 0.025 -0.2
+  translation 5.15 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(104)"
 }
 DEF W104 LegoWall {
-  translation 5.2 0.025 -0.2
+  translation 5.2 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(105)"
 }
 DEF W105 LegoWall {
-  translation 5.25 0.025 -0.2
+  translation 5.25 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(106)"
 }
 DEF W106 LegoWall {
-  translation 5.3 0.025 -0.2
+  translation 5.3 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(107)"
 }
 DEF W107 LegoWall {
-  translation 5.35 0.025 -0.2
+  translation 5.35 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(108)"
 }
 DEF W108 LegoWall {
-  translation 5.4 0.025 -0.2
+  translation 5.4 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(109)"
 }
 DEF W109 LegoWall {
-  translation 5.45 0.025 -0.2
+  translation 5.45 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(110)"
 }
 DEF W110 LegoWall {
-  translation 5.5 0.025 -0.2
+  translation 5.5 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(111)"
 }
 DEF W111 LegoWall {
-  translation 5.55 0.025 -0.2
+  translation 5.55 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(112)"
 }
 DEF W112 LegoWall {
-  translation 5.6 0.025 -0.2
+  translation 5.6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(113)"
 }
 DEF W113 LegoWall {
-  translation 5.65 0.025 -0.2
+  translation 5.65 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(114)"
 }
 DEF W114 LegoWall {
-  translation 5.7 0.025 -0.2
+  translation 5.7 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(115)"
 }
 DEF W115 LegoWall {
-  translation 5.75 0.025 -0.2
+  translation 5.75 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(116)"
 }
 DEF W116 LegoWall {
-  translation 5.8 0.025 -0.2
+  translation 5.8 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(117)"
 }
 DEF W117 LegoWall {
-  translation 5.85 0.025 -0.2
+  translation 5.85 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(118)"
 }
 DEF W118 LegoWall {
-  translation 5.9 0.025 -0.2
+  translation 5.9 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(119)"
 }
 DEF W119 LegoWall {
-  translation 5.95 0.025 -0.2
+  translation 5.95 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO wall(120)"
 }
 DEF W120 LegoWall {
-  translation 6 0.025 -0.2
+  translation 6 0.2 0.025
+  rotation 0 0 1 -1.5707963267948966
 }
 DEF I000 LegoInterval {
-  translation 0 0.025 -0.3
+  translation 0 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(1)"
 }
 DEF I001 LegoInterval {
-  translation 0.05 0.025 -0.3
+  translation 0.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(2)"
 }
 DEF I002 LegoInterval {
-  translation 0.1 0.025 -0.3
+  translation 0.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(3)"
 }
 DEF I003 LegoInterval {
-  translation 0.15 0.025 -0.3
+  translation 0.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(4)"
 }
 DEF I004 LegoInterval {
-  translation 0.2 0.025 -0.3
+  translation 0.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(5)"
 }
 DEF I005 LegoInterval {
-  translation 0.25 0.025 -0.3
+  translation 0.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(6)"
 }
 DEF I006 LegoInterval {
-  translation 0.3 0.025 -0.3
+  translation 0.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(7)"
 }
 DEF I007 LegoInterval {
-  translation 0.35 0.025 -0.3
+  translation 0.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(8)"
 }
 DEF I008 LegoInterval {
-  translation 0.4 0.025 -0.3
+  translation 0.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(9)"
 }
 DEF I009 LegoInterval {
-  translation 0.45 0.025 -0.3
+  translation 0.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(10)"
 }
 DEF I010 LegoInterval {
-  translation 0.5 0.025 -0.3
+  translation 0.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(11)"
 }
 DEF I011 LegoInterval {
-  translation 0.55 0.025 -0.3
+  translation 0.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(12)"
 }
 DEF I012 LegoInterval {
-  translation 0.6 0.025 -0.3
+  translation 0.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(13)"
 }
 DEF I013 LegoInterval {
-  translation 0.65 0.025 -0.3
+  translation 0.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(14)"
 }
 DEF I014 LegoInterval {
-  translation 0.7 0.025 -0.3
+  translation 0.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(15)"
 }
 DEF I015 LegoInterval {
-  translation 0.75 0.025 -0.3
+  translation 0.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(16)"
 }
 DEF I016 LegoInterval {
-  translation 0.8 0.025 -0.3
+  translation 0.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(17)"
 }
 DEF I017 LegoInterval {
-  translation 0.85 0.025 -0.3
+  translation 0.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(18)"
 }
 DEF I018 LegoInterval {
-  translation 0.9 0.025 -0.3
+  translation 0.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(19)"
 }
 DEF I019 LegoInterval {
-  translation 0.95 0.025 -0.3
+  translation 0.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(20)"
 }
 DEF I020 LegoInterval {
-  translation 1 0.025 -0.3
+  translation 1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(21)"
 }
 DEF I021 LegoInterval {
-  translation 1.05 0.025 -0.3
+  translation 1.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(22)"
 }
 DEF I022 LegoInterval {
-  translation 1.1 0.025 -0.3
+  translation 1.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(23)"
 }
 DEF I023 LegoInterval {
-  translation 1.15 0.025 -0.3
+  translation 1.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(24)"
 }
 DEF I024 LegoInterval {
-  translation 1.2 0.025 -0.3
+  translation 1.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(25)"
 }
 DEF I025 LegoInterval {
-  translation 1.25 0.025 -0.3
+  translation 1.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(26)"
 }
 DEF I026 LegoInterval {
-  translation 1.3 0.025 -0.3
+  translation 1.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(27)"
 }
 DEF I027 LegoInterval {
-  translation 1.35 0.025 -0.3
+  translation 1.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(28)"
 }
 DEF I028 LegoInterval {
-  translation 1.4 0.025 -0.3
+  translation 1.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(29)"
 }
 DEF I029 LegoInterval {
-  translation 1.45 0.025 -0.3
+  translation 1.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(30)"
 }
 DEF I030 LegoInterval {
-  translation 1.5 0.025 -0.3
+  translation 1.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(31)"
 }
 DEF I031 LegoInterval {
-  translation 1.55 0.025 -0.3
+  translation 1.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(32)"
 }
 DEF I032 LegoInterval {
-  translation 1.6 0.025 -0.3
+  translation 1.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(33)"
 }
 DEF I033 LegoInterval {
-  translation 1.65 0.025 -0.3
+  translation 1.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(34)"
 }
 DEF I034 LegoInterval {
-  translation 1.7 0.025 -0.3
+  translation 1.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(35)"
 }
 DEF I035 LegoInterval {
-  translation 1.75 0.025 -0.3
+  translation 1.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(36)"
 }
 DEF I036 LegoInterval {
-  translation 1.8 0.025 -0.3
+  translation 1.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(37)"
 }
 DEF I037 LegoInterval {
-  translation 1.85 0.025 -0.3
+  translation 1.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(38)"
 }
 DEF I038 LegoInterval {
-  translation 1.9 0.025 -0.3
+  translation 1.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(39)"
 }
 DEF I039 LegoInterval {
-  translation 1.95 0.025 -0.3
+  translation 1.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(40)"
 }
 DEF I040 LegoInterval {
-  translation 2 0.025 -0.3
+  translation 2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(41)"
 }
 DEF I041 LegoInterval {
-  translation 2.05 0.025 -0.3
+  translation 2.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(42)"
 }
 DEF I042 LegoInterval {
-  translation 2.1 0.025 -0.3
+  translation 2.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(43)"
 }
 DEF I043 LegoInterval {
-  translation 2.15 0.025 -0.3
+  translation 2.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(44)"
 }
 DEF I044 LegoInterval {
-  translation 2.2 0.025 -0.3
+  translation 2.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(45)"
 }
 DEF I045 LegoInterval {
-  translation 2.25 0.025 -0.3
+  translation 2.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(46)"
 }
 DEF I046 LegoInterval {
-  translation 2.3 0.025 -0.3
+  translation 2.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(47)"
 }
 DEF I047 LegoInterval {
-  translation 2.35 0.025 -0.3
+  translation 2.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(48)"
 }
 DEF I048 LegoInterval {
-  translation 2.4 0.025 -0.3
+  translation 2.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(49)"
 }
 DEF I049 LegoInterval {
-  translation 2.45 0.025 -0.3
+  translation 2.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(50)"
 }
 DEF I050 LegoInterval {
-  translation 2.5 0.025 -0.3
+  translation 2.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(51)"
 }
 DEF I051 LegoInterval {
-  translation 2.55 0.025 -0.3
+  translation 2.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(52)"
 }
 DEF I052 LegoInterval {
-  translation 2.6 0.025 -0.3
+  translation 2.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(53)"
 }
 DEF I053 LegoInterval {
-  translation 2.65 0.025 -0.3
+  translation 2.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(54)"
 }
 DEF I054 LegoInterval {
-  translation 2.7 0.025 -0.3
+  translation 2.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(55)"
 }
 DEF I055 LegoInterval {
-  translation 2.75 0.025 -0.3
+  translation 2.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(56)"
 }
 DEF I056 LegoInterval {
-  translation 2.8 0.025 -0.3
+  translation 2.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(57)"
 }
 DEF I057 LegoInterval {
-  translation 2.85 0.025 -0.3
+  translation 2.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(58)"
 }
 DEF I058 LegoInterval {
-  translation 2.9 0.025 -0.3
+  translation 2.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(59)"
 }
 DEF I059 LegoInterval {
-  translation 2.95 0.025 -0.3
+  translation 2.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(60)"
 }
 DEF I060 LegoInterval {
-  translation 3 0.025 -0.3
+  translation 3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(61)"
 }
 DEF I061 LegoInterval {
-  translation 3.05 0.025 -0.3
+  translation 3.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(62)"
 }
 DEF I062 LegoInterval {
-  translation 3.1 0.025 -0.3
+  translation 3.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(63)"
 }
 DEF I063 LegoInterval {
-  translation 3.15 0.025 -0.3
+  translation 3.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(64)"
 }
 DEF I064 LegoInterval {
-  translation 3.2 0.025 -0.3
+  translation 3.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(65)"
 }
 DEF I065 LegoInterval {
-  translation 3.25 0.025 -0.3
+  translation 3.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(66)"
 }
 DEF I066 LegoInterval {
-  translation 3.3 0.025 -0.3
+  translation 3.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(67)"
 }
 DEF I067 LegoInterval {
-  translation 3.35 0.025 -0.3
+  translation 3.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(68)"
 }
 DEF I068 LegoInterval {
-  translation 3.4 0.025 -0.3
+  translation 3.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(69)"
 }
 DEF I069 LegoInterval {
-  translation 3.45 0.025 -0.3
+  translation 3.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(70)"
 }
 DEF I070 LegoInterval {
-  translation 3.5 0.025 -0.3
+  translation 3.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(71)"
 }
 DEF I071 LegoInterval {
-  translation 3.55 0.025 -0.3
+  translation 3.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(72)"
 }
 DEF I072 LegoInterval {
-  translation 3.6 0.025 -0.3
+  translation 3.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(73)"
 }
 DEF I073 LegoInterval {
-  translation 3.65 0.025 -0.3
+  translation 3.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(74)"
 }
 DEF I074 LegoInterval {
-  translation 3.7 0.025 -0.3
+  translation 3.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(75)"
 }
 DEF I075 LegoInterval {
-  translation 3.75 0.025 -0.3
+  translation 3.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(76)"
 }
 DEF I076 LegoInterval {
-  translation 3.8 0.025 -0.3
+  translation 3.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(77)"
 }
 DEF I077 LegoInterval {
-  translation 3.85 0.025 -0.3
+  translation 3.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(78)"
 }
 DEF I078 LegoInterval {
-  translation 3.9 0.025 -0.3
+  translation 3.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(79)"
 }
 DEF I079 LegoInterval {
-  translation 3.95 0.025 -0.3
+  translation 3.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(80)"
 }
 DEF I080 LegoInterval {
-  translation 4 0.025 -0.3
+  translation 4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(81)"
 }
 DEF I081 LegoInterval {
-  translation 4.05 0.025 -0.3
+  translation 4.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(82)"
 }
 DEF I082 LegoInterval {
-  translation 4.1 0.025 -0.3
+  translation 4.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(83)"
 }
 DEF I083 LegoInterval {
-  translation 4.15 0.025 -0.3
+  translation 4.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(84)"
 }
 DEF I084 LegoInterval {
-  translation 4.2 0.025 -0.3
+  translation 4.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(85)"
 }
 DEF I085 LegoInterval {
-  translation 4.25 0.025 -0.3
+  translation 4.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(86)"
 }
 DEF I086 LegoInterval {
-  translation 4.3 0.025 -0.3
+  translation 4.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(87)"
 }
 DEF I087 LegoInterval {
-  translation 4.35 0.025 -0.3
+  translation 4.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(88)"
 }
 DEF I088 LegoInterval {
-  translation 4.4 0.025 -0.3
+  translation 4.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(89)"
 }
 DEF I089 LegoInterval {
-  translation 4.45 0.025 -0.3
+  translation 4.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(90)"
 }
 DEF I090 LegoInterval {
-  translation 4.5 0.025 -0.3
+  translation 4.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(91)"
 }
 DEF I091 LegoInterval {
-  translation 4.55 0.025 -0.3
+  translation 4.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(92)"
 }
 DEF I092 LegoInterval {
-  translation 4.6 0.025 -0.3
+  translation 4.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(93)"
 }
 DEF I093 LegoInterval {
-  translation 4.65 0.025 -0.3
+  translation 4.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(94)"
 }
 DEF I094 LegoInterval {
-  translation 4.7 0.025 -0.3
+  translation 4.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(95)"
 }
 DEF I095 LegoInterval {
-  translation 4.75 0.025 -0.3
+  translation 4.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(96)"
 }
 DEF I096 LegoInterval {
-  translation 4.8 0.025 -0.3
+  translation 4.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(97)"
 }
 DEF I097 LegoInterval {
-  translation 4.85 0.025 -0.3
+  translation 4.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(98)"
 }
 DEF I098 LegoInterval {
-  translation 4.9 0.025 -0.3
+  translation 4.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(99)"
 }
 DEF I099 LegoInterval {
-  translation 4.95 0.025 -0.3
+  translation 4.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(100)"
 }
 DEF I100 LegoInterval {
-  translation 5 0.025 -0.3
+  translation 5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(101)"
 }
 DEF I101 LegoInterval {
-  translation 5.05 0.025 -0.3
+  translation 5.05 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(102)"
 }
 DEF I102 LegoInterval {
-  translation 5.1 0.025 -0.3
+  translation 5.1 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(103)"
 }
 DEF I103 LegoInterval {
-  translation 5.15 0.025 -0.3
+  translation 5.15 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(104)"
 }
 DEF I104 LegoInterval {
-  translation 5.2 0.025 -0.3
+  translation 5.2 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(105)"
 }
 DEF I105 LegoInterval {
-  translation 5.25 0.025 -0.3
+  translation 5.25 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(106)"
 }
 DEF I106 LegoInterval {
-  translation 5.3 0.025 -0.3
+  translation 5.3 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(107)"
 }
 DEF I107 LegoInterval {
-  translation 5.35 0.025 -0.3
+  translation 5.35 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(108)"
 }
 DEF I108 LegoInterval {
-  translation 5.4 0.025 -0.3
+  translation 5.4 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(109)"
 }
 DEF I109 LegoInterval {
-  translation 5.45 0.025 -0.3
+  translation 5.45 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(110)"
 }
 DEF I110 LegoInterval {
-  translation 5.5 0.025 -0.3
+  translation 5.5 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(111)"
 }
 DEF I111 LegoInterval {
-  translation 5.55 0.025 -0.3
+  translation 5.55 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(112)"
 }
 DEF I112 LegoInterval {
-  translation 5.6 0.025 -0.3
+  translation 5.6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(113)"
 }
 DEF I113 LegoInterval {
-  translation 5.65 0.025 -0.3
+  translation 5.65 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(114)"
 }
 DEF I114 LegoInterval {
-  translation 5.7 0.025 -0.3
+  translation 5.7 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(115)"
 }
 DEF I115 LegoInterval {
-  translation 5.75 0.025 -0.3
+  translation 5.75 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(116)"
 }
 DEF I116 LegoInterval {
-  translation 5.8 0.025 -0.3
+  translation 5.8 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(117)"
 }
 DEF I117 LegoInterval {
-  translation 5.85 0.025 -0.3
+  translation 5.85 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(118)"
 }
 DEF I118 LegoInterval {
-  translation 5.9 0.025 -0.3
+  translation 5.9 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(119)"
 }
 DEF I119 LegoInterval {
-  translation 5.95 0.025 -0.3
+  translation 5.95 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
   name "LEGO interval(120)"
 }
 DEF I120 LegoInterval {
-  translation 6 0.025 -0.3
+  translation 6 0.3 0.025
+  rotation 0 0 1 -1.5707963267948966
 }
 DEF F0 NXTFeeder {
-  translation 0 0 -0.4
+  translation 0 0.4 0
+  rotation 0 0 1 -1.5707963267948966
   name "NXT feeder(1)"
 }
 DEF F1 NXTFeeder {
-  translation 0.2 0 -0.4
+  translation 0.2 0.4 0
+  rotation 0 0 1 -1.5707963267948966
   name "NXT feeder(2)"
 }
 DEF F2 NXTFeeder {
-  translation 0.4 0 -0.4
+  translation 0.4 0.4 0
+  rotation 0 0 1 -1.5707963267948966
   name "NXT feeder(3)"
 }
 DEF F3 NXTFeeder {
-  translation 0.6 0 -0.4
+  translation 0.6 0.4 0
+  rotation 0 0 1 -1.5707963267948966
 }
 DEF R0 E-puck {
-  translation 0 0 -0.6
+  translation 0 0.6 0
+  rotation 0 0 1 -1.5707963267948966
   name "Rat0"
   controller "R0"
   battery [
@@ -1010,7 +1256,8 @@ DEF R0 E-puck {
   ]
 }
 DEF R1 E-puck {
-  translation 0.2 0 -0.6
+  translation 0.2 0.6 0
+  rotation 0 0 1 -1.5707963267948966
   name "Rat1"
   controller "R1"
   battery [
@@ -1025,7 +1272,8 @@ DEF R1 E-puck {
   ]
 }
 Robot {
-  translation 0.504 -0.0001 0.504
+  translation 0.504 0.504 -0.0001
+  rotation 0 0 1 -1.5707963267948966
   children [
     DEF GROUND_SHAPE Shape {
       appearance PBRAppearance {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,35 +7,34 @@
 
 PROTO RFootSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
-Solid {
-  translation IS translation
-  rotation IS rotation
-  children [
-    RFootMesh {
-    }
-  ]
-  name "RFoot"
-  boundingObject Group {
+  Solid {
+    translation IS translation
+    rotation IS rotation
     children [
-      Transform {
-        translation 0.048 0 -0.076119
-        rotation 0.0 1.0 0.0 0.0
-        children [
-          Box {
-            size 0.26 0.124887 0.01
-          }
-        ]
+      RFootMesh {
       }
     ]
+    name "RFoot"
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.048 0 -0.076119
+          children [
+            Box {
+              size 0.26 0.124887 0.01
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.817
+      centerOfMass 0.027 0 -0.067
+      inertiaMatrix [0.001 0.0035 0.004, 0 0 0 ]
+    }
   }
-  physics Physics {
-    density -1
-    mass 0.817
-    centerOfMass 0.027 0 -0.067
-    inertiaMatrix [0.001 0.0035 0.004, 0 0 0 ]
-  }
-}
 }

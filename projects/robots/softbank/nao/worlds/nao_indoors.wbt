@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Aldebaran's Nao H25 V5.0"
@@ -6,7 +6,6 @@ WorldInfo {
   title "Nao Indoors"
   basicTimeStep 20
   FPS 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "Nao foot material"
@@ -19,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.06784940012364316 -0.9855478736987582 -0.15521548747054348 2.4330084686142914
-  position -4.307780136604419 1.0632616765459961 -3.903964765437792
+  orientation 0.12654649571263807 -0.34797518890190293 -0.9289237064105622 5.536863781881793
+  position -3.979504573891731 -4.340331329462491 0.9583153344189272
   follow "NAO"
 }
 Background {
@@ -44,69 +43,69 @@ Background {
   ]
 }
 Floor {
-  translation -1.7 0 -1.4
+  translation -1.4 -1.7 0
   size 6.6 6.6
   tileSize 1 1
   appearance Parquetry {
   }
 }
 Ceiling {
-  translation -1.7 2.4 -1.4
+  translation -1.4 -1.7 2.4
   size 6.6 6.6
 }
 Nao {
-  translation -2.61026 0.334 -2.31678
-  rotation 0 0.7071067811865476 0.7071067811865476 3.1415
+  translation -2.31678 -2.61026 0.334
+  rotation 0 0 1 -1.5708
 }
 Wall {
-  translation 1 0 2
-  size 1.2 2.4 0.2
+  translation 2 1 0
+  size 0.2 1.2 2.4
 }
 Wall {
-  translation -2.8 0 2
+  translation 2 -2.8 0
   name "wall(1)"
-  size 4.4 2.4 0.2
+  size 0.2 4.4 2.4
 }
 Wall {
-  translation 1.7 0 -2.55
-  rotation 0 1 0 4.71239
+  translation -2.55 1.7 0
+  rotation 0 0 1 4.71239
   name "wall(2)"
-  size 4.7 2.4 0.2
+  size 0.2 4.7 2.4
 }
 Wall {
-  translation -1.7 0 -4.8
+  translation -4.8 -1.7 0
   name "wall(3)"
-  size 6.6 2.4 0.2
+  size 0.2 6.6 2.4
 }
 Wall {
-  translation -5.1 0 1.4
-  rotation 0 1 0 1.5708
+  translation 1.4 -5.1 0
+  rotation 0 0 1 1.5708
   name "wall(4)"
-  size 1.4 2.4 0.2
+  size 0.2 1.4 2.4
 }
 Wall {
-  translation -5.10002 0 -3.1
-  rotation 0 1 0 1.5708
+  translation -3.1 -5.1 0
+  rotation 0 0 1 1.5708
   name "wall(5)"
-  size 3.6 2.4 0.2
+  size 0.2 3.6 2.4
 }
 Wall {
-  translation 1.7 0 1.45
-  rotation 0 1 0 1.5708
+  translation 1.45 1.7 0
+  rotation 0 0 1 1.5708
   name "wall(6)"
-  size 1.3 2.4 0.2
+  size 0.2 1.3 2.4
 }
 Door {
-  translation -0.1 0 2
-  rotation 0 1 0 3.14159
+  translation 2 -0.1 0
+  rotation 0 0 1 3.14159
   canBeOpen FALSE
   doorHandle DoorLever {
     hasStaticParent TRUE
   }
 }
 Door {
-  translation 1.7 0 0.3
-  rotation 0 1 0 4.71239
+  translation 0.3 1.7 0
+  rotation 0 0 1 4.71239
   name "door(1)"
   canBeOpen FALSE
   doorHandle DoorLever {
@@ -114,71 +113,75 @@ Door {
   }
 }
 Window {
-  translation -5.1 0 -0.3
-  rotation 0 1 0 1.5708
-  size 2 2.4 0.2
+  translation -0.3 -5.1 0
+  rotation 0 0 1 1.5708
+  size 0.2 2 2.4
 }
 CeilingLight {
-  translation -2.5 2.4 -1
+  translation -1 -2.5 2.4
   pointLightColor 1 1 0.9411764705882353
   pointLightIntensity 2
 }
 FloorLight {
-  translation -4.3 0 -4
+  translation -4 -4.3 0
   pointLightIntensity 6
 }
 Desk {
-  translation -4.5 0 -3
-  rotation 0 1 0 1.5708
+  translation -3 -4.5 0
+  rotation 0 0 1 1.5708
 }
 WoodenChair {
-  translation -4.1 0 -2.85
-  rotation 0 1 0 4.71239
+  translation -2.85 -4.1 0
+  rotation 0 0 1 4.71239
   physics Physics {
     centerOfMass [
-      0 0.45 0
+      0 0 0.45
     ]
   }
 }
 Book {
-  translation -4.5 0.722909 -3.2
-  rotation -0.7372206774951444 0.4783317907487814 0.47718379125098576 1.8584
+  translation -3.2 -4.5 0.722909
+  rotation 0.47718379125098576 -0.7372206774951444 0.4783317907487814 1.8584
 }
 Table {
-  translation -2.5 0.02 -0.8
-  size 1.2 0.53 0.8
+  translation -0.8 -2.5 0.02
+  size 0.8 1.2 0.53
 }
 Armchair {
-  translation -1.2 0 -2.2
-  rotation 0 -1 0 2.30591
+  translation -2.2 -1.2 0
+  rotation 0 0 -1 0.73511
 }
 Sofa {
-  translation -4.2 0 -1
+  translation -1 -4.2 0
+  rotation 0 0 1 1.5708
 }
 Sofa {
-  translation -2.5 0 1
-  rotation 0 1 0 1.5708
+  translation 1 -2.5 0
+  rotation 0 0 1 3.14159
   name "sofa(1)"
 }
 Carpet {
-  translation -2.5 -0.015 -0.9
+  translation -0.9 -2.5 -0.015
+  rotation 0 0 1 1.5708
 }
 BunchOfSunFlowers {
-  translation -1.1 0 1
+  translation 1 -1.1 0
+  rotation 0 0 1 3.14159
 }
 Book {
-  translation -4.61 0.72292 -2.7
-  rotation -0.9362003879268816 0.2507851039160895 0.24624310203405161 1.62618
+  translation -2.7 -4.61 0.72292
+  rotation 0.24624310203405161 -0.9362003879268816 0.2507851039160895 1.62618
   name "book(1)"
 }
 Can {
-  translation -2.3 0.61335 -0.78
-  rotation 0 -1 0 1.29491
+  translation -0.78 -2.3 0.61335
+  rotation 0 0 1 1.84668
 }
 PottedTree {
-  translation 1 0 -3.5
+  translation -3.5 1 0
+  rotation 0 0 1 3.14159
 }
 PortraitPainting {
-  translation -2.53 1.6 1.73
-  rotation 0 1 0 3.14159
+  translation 1.73 -2.53 1.6
+  rotation 0 0 1 3.14159
 }

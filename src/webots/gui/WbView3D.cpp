@@ -645,11 +645,13 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
       WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
       if (mWorld) {
         mWorld->viewpoint()->updateOrthographicViewHeight();
+        wr_config_enable_shadows(false);  // No shadows in orthographic mode
         if (updatePerspective)
           mWorld->perspective()->setProjectionMode("ORTHOGRAPHIC");
       }
       break;
     default:
+      updateShadowState();
       if (updatePerspective && mWorld)
         mWorld->perspective()->setProjectionMode("PERSPECTIVE");
       WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
@@ -984,7 +986,8 @@ void WbView3D::updateViewport() {
 }
 
 void WbView3D::updateShadowState() {
-  if (WbPreferences::instance()->value("OpenGL/disableShadows").toBool() == wr_config_are_shadows_enabled()) {
+  if (WbPreferences::instance()->value("OpenGL/disableShadows").toBool() == wr_config_are_shadows_enabled() &&
+      mWorld->viewpoint()->projectionMode() != WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
     wr_config_enable_shadows(!WbPreferences::instance()->value("OpenGL/disableShadows").toBool());
     renderLater();
   }
@@ -2294,7 +2297,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
         distanceToPickPosition = 0.001;
     }
 
-    const double scaleFactor = -0.02 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const double scaleFactor = 0.1 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
     const WbVector3 zDisplacement(scaleFactor * viewpoint->orientation()->value().direction());
     WbSFVector3 *const position = viewpoint->position();
     position->setValue(position->value() + zDisplacement);

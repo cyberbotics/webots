@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
   lineScale 2
@@ -45,6 +45,7 @@ DEF BOX_FALLING_OBJECT Solid {
 }
 DEF CYLINDER Solid {
   translation 0 0 5
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       geometry DEF BO_CYLINDER Cylinder {
@@ -122,7 +123,7 @@ DEF SPHERE_FALLING_OBJECT Solid {
 }
 DEF CAPUSLE_1 Solid {
   translation 5.5 0 4.95
-  rotation 0 0 1 1.5708
+  rotation -0.57735 -0.57735 0.57735 2.09440
   children [
     Shape {
       geometry DEF BO_CAPSULE Capsule {
@@ -136,7 +137,7 @@ DEF CAPUSLE_1 Solid {
 }
 DEF CAPUSLE_2 Solid {
   translation 5.5 0 5.05
-  rotation 0 0 1 1.5708
+  rotation -0.57735 -0.57735 0.57735 2.09440
   children [
     Shape {
       geometry USE BO_CAPSULE

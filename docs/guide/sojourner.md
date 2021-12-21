@@ -6,7 +6,7 @@
 
 ### Movie Presentation
 
-![youtube video](https://www.youtube.com/watch?v=_9d_vukS0Qg)
+![youtube video](https://www.youtube.com/watch?v=oRss4eWYQaw)
 
 ### Sojourner PROTO
 
@@ -15,7 +15,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Sojourner {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Sojourner"
   SFString   controller      "sojourner"
   MFString   controllerArgs  []

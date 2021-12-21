@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a spherical Camera device."
   ]
   title "Spherical Camera"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.008893302370377151 0.8521192271196752 0.523272139470387 3.12414
-  position 0.0548659 1.50531 -0.74197
+  orientation 0.008391408959148356 0.9996317362366726 0.025806513986507032 1.2174840005390608
+  position -0.6106801720011082 0.015262585987470403 1.8202934524582195
 }
 TexturedBackground {
 }
@@ -17,8 +16,8 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_OBJECT Solid {
-  translation -0.43026667 0.05 -0.21473646
-  rotation 0 -1 0 1.576179
+  translation -0.21473646 -0.43026667 0.05
+  rotation 0.0026909805133862965 -0.0026909805133862965 -0.9999927585976576 1.5708
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -27,7 +26,7 @@ DEF GREEN_OBJECT Solid {
         metalness 0
       }
       geometry Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -35,8 +34,8 @@ DEF GREEN_OBJECT Solid {
   boundingObject USE BOX_SHAPE
 }
 DEF BLUE_OBJECT Solid {
-  translation -0.199452 0.07 0.393343
-  rotation 0 1 0 0.31
+  translation 0.393343 -0.199452 0.07
+  rotation -0.45854819001874086 -0.6283842603974643 -0.6283842603974643 -2.281714
   children [
     DEF SPHERE_SHAPE Shape {
       appearance PBRAppearance {
@@ -54,7 +53,8 @@ DEF BLUE_OBJECT Solid {
   boundingObject USE SPHERE_SHAPE
 }
 DEF PINK_OBJECT Solid {
-  translation 0.210413 0.05 0.0630102
+  translation 0.0630102 0.210413 0.05
+  rotation 0.7071067811865476 0.7071067811865476 0 3.14159
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -73,10 +73,12 @@ DEF PINK_OBJECT Solid {
   boundingObject USE CYLINDER_SHAPE
 }
 Robot {
-  translation 0.0262634 0 -0.0266461
+  translation -0.0266461 0.0262634 0
+  rotation 0 0 1 3.14159
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -93,8 +95,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -106,11 +108,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -136,8 +138,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -149,8 +151,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -160,11 +162,11 @@ Robot {
       }
     }
     DEF US0 DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SONAR_SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -189,8 +191,8 @@ Robot {
       numberOfRays 20
     }
     DEF US1 DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SONAR_SENSOR
       ]
@@ -203,8 +205,8 @@ Robot {
       numberOfRays 20
     }
     DEF SPHERICAL_CAMERA Camera {
-      translation 0 0.15 0
-      rotation 1 0 0 -1.5708
+      translation 0 0 0.15
+      rotation 0 1 0 1.5708
       children [
         DEF LENS Shape {
           appearance PBRAppearance {
@@ -226,11 +228,11 @@ Robot {
           geometry IndexedLineSet {
             coord Coordinate {
               point [
-                0 0 0.01
-                0.01 0 -0.08
-                -0.01 0 -0.08
-                0 0.01 -0.08
-                0 -0.01 -0.08
+                -0.01 0 0
+                0.08 -0.01 0
+                0.08 0.01 0
+                0.08 0 0.01
+                0.08 0 -0.01
               ]
             }
             coordIndex [
@@ -239,8 +241,8 @@ Robot {
           }
         }
         DEF CAMERA_SHAPE Transform {
-          translation 0 0 0.01
-          rotation 1 0 0 1.57
+          translation -0.01 0 0
+          rotation 0 1 0 1.5708
           children [
             DEF CAMERA_OUTLINE Shape {
               appearance PBRAppearance {
@@ -263,8 +265,8 @@ Robot {
       antiAliasing TRUE
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -283,7 +285,8 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]
@@ -292,7 +295,7 @@ Robot {
     density -1
     mass 0.5
     centerOfMass [
-      0 0.05 0
+      0 0 0.05
     ]
   }
   controller "spherical_camera"

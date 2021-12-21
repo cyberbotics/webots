@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/single-board-computers#nvidia-jetson-nano
@@ -7,7 +7,7 @@
 
 PROTO JetsonNano [
   field SFVec3f            translation           0 0 0                    # Is `Robot.translation`.
-  field SFRotation         rotation              0 1 0 0                  # Is `Robot.rotation`.
+  field SFRotation         rotation              0 0 1 0                  # Is `Robot.rotation`.
   field SFString           name                  "NVIDIA Jetson Nano"     # Is `Robot.name`.
   field SFNode             physics               NULL                     # Is `Robot.physics`.
   field SFString           controller            ""                       # Is `Robot.controller`.
@@ -20,14 +20,19 @@ PROTO JetsonNano [
     rotation IS rotation
     children [
       DEF BOARD_DOWN Transform {
-        rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.09439
+        rotation 0.57735 0.57735 0.57735 2.0944
         children [
-          Shape {
-            appearance Pcb {
-            }
-            geometry Box {
-              size 0.079 0.0012 0.1
-            }
+          Transform {
+            rotation 0 1 0 3.14159
+            children [
+              Shape {
+                appearance Pcb {
+                }
+                geometry Box {
+                  size 0.079 0.0012 0.1 
+                }
+              }
+            ]
           }
           DEF PINS_A Transform {
             translation -0.0069 0.002 -0.04
@@ -519,7 +524,7 @@ PROTO JetsonNano [
               }
               Transform {
                 translation 0.0003 0.004 0
-                rotation 0 0 1 1.5707996938995747
+                rotation -0.57735 -0.57735 0.57735 2.09439
                 children [
                   Shape {
                     appearance USE BLACK_APPEARANCE
@@ -552,14 +557,15 @@ PROTO JetsonNano [
           }
           DEF VIDEO_PORT Transform {
             translation 0.0319 0.0105 0.0262
+            rotation -0.57735 -0.57735 0.57735 2.09439
             children [
               Shape {
                 appearance BrushedAluminium {
                 }
                 geometry TexturedBox {
-                  size 0.0173 0.019 0.0165
+                  size 0.019 0.0173 0.0165
                   mapping "default"
-                  right FALSE
+                  bottom FALSE
                 }
               }
               Shape {
@@ -583,27 +589,28 @@ PROTO JetsonNano [
                   }
                 }
                 geometry TexturedBox {
-                  size 0.0173 0.019 0.0165
+                  size 0.019 0.0173 0.0165
                   mapping "default"
                   front FALSE
                   back FALSE
                   left FALSE
+                  right FALSE
                   top FALSE
-                  bottom FALSE
                 }
               }
             ]
           }
           DEF USB1_PORT Transform {
             translation 0.032 0.009 -0.0095
+            rotation -0.57735 -0.57735 0.57735 2.09439
             children [
               DEF USB_SHAPE Shape {
                 appearance BrushedAluminium {
                 }
                 geometry TexturedBox {
-                  size 0.017 0.016 0.0152
+                  size 0.016 0.0152 0.017
                   mapping "default"
-                  right FALSE
+                  bottom FALSE
                 }
               }
               DEF USB_FRONT_SHAPE Shape {
@@ -628,19 +635,20 @@ PROTO JetsonNano [
                   }
                 }
                 geometry TexturedBox {
-                  size 0.017 0.016 0.0152
+                  size 0.016 0.0152 0.017
                   mapping "default"
                   front FALSE
                   back FALSE
                   left FALSE
+                  right FALSE
                   top FALSE
-                  bottom FALSE
                 }
               }
             ]
           }
           DEF USB2_PORT Transform {
             translation 0.032 0.009 0.0073
+            rotation -0.57735 -0.57735 0.57735 2.09439
             children [
               USE USB_SHAPE
               USE USB_FRONT_SHAPE
@@ -648,14 +656,15 @@ PROTO JetsonNano [
           }
           DEF ETHERNET_PORT Transform {
             translation 0.03 0.0065 -0.027
+            rotation -0.57735 -0.57735 0.57735 2.09439
             children [
               Shape {
                 appearance BrushedAluminium {
                 }
                 geometry TexturedBox {
-                  size 0.021 0.011 0.0155
+                  size 0.011 0.0155 0.021
                   mapping "default"
-                  right FALSE
+                  bottom FALSE
                 }
               }
               Shape {
@@ -676,31 +685,30 @@ PROTO JetsonNano [
                       "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
                     ]
                   }
-                  textureTransform TextureTransform {
-                  }
                 }
                 geometry TexturedBox {
-                  size 0.021 0.011 0.0155
+                  size 0.011 0.0155 0.021
                   mapping "default"
                   front FALSE
                   back FALSE
                   left FALSE
+                  right FALSE
                   top FALSE
-                  bottom FALSE
                 }
               }
             ]
           }
           DEF MICRO_PORT Transform {
             translation 0.036 0.002 -0.042
+            rotation -0.57735 -0.57735 0.57735 2.09439
             children [
               Shape {
                 appearance BrushedAluminium {
                 }
                 geometry TexturedBox {
-                  size 0.0073 0.0034 0.008
+                  size 0.0034 0.008 0.0073 
                   mapping "default"
-                  right FALSE
+                  bottom FALSE
                 }
               }
               Shape {
@@ -725,13 +733,13 @@ PROTO JetsonNano [
                   }
                 }
                 geometry TexturedBox {
-                  size 0.0073 0.0034 0.008
+                  size 0.0034 0.008 0.0073 
                   mapping "default"
                   front FALSE
                   back FALSE
                   left FALSE
+                  right FALSE
                   top FALSE
-                  bottom FALSE
                 }
               }
             ]
@@ -744,6 +752,7 @@ PROTO JetsonNano [
         children [
           DEF SCREW Transform {
             translation 0.02 -0.004 0.032
+            rotation 1 0 0 -1.57079
             children [
               DEF SCREW_SHAPE Shape {
                 appearance DEF LIGHT_YELLOW_APPEARANCE PBRAppearance {
@@ -761,18 +770,21 @@ PROTO JetsonNano [
           }
           DEF SCREW Transform {
             translation -0.018 -0.004 0.032
+            rotation 1 0 0 -1.57079
             children [
               USE SCREW_SHAPE
             ]
           }
           DEF SCREW Transform {
             translation -0.018 -0.004 -0.032
+            rotation 1 0 0 -1.57079
             children [
               USE SCREW_SHAPE
             ]
           }
           DEF SCREW Transform {
             translation 0.02 -0.004 -0.032
+            rotation 1 0 0 -1.57079
             children [
               USE SCREW_SHAPE
             ]

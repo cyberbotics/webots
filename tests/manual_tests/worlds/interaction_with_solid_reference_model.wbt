@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Aim:"
@@ -22,8 +22,8 @@ DirectionalLight {
 DEF FLOOR Floor {
 }
 DEF Leg_test Robot {
-  translation 2.7330911128024204e-09 0.2800000000000001 0.04999999999999963
-  rotation 0 0 0.9999999999999999 4.712388966
+  translation 0 0.28 0.05
+  rotation 0 0 1 4.712388966
   children [
     DEF Hip_SEA HingeJoint {
       jointParameters HingeJointParameters {
@@ -39,7 +39,7 @@ DEF Leg_test Robot {
         }
       ]
       endPoint DEF Link_1 Solid {
-        translation 0.08000000000000002 0.03 0
+        translation 0.08 0.03 0
         rotation 0 0 1 0
         children [
           DEF Joint_Knee HingeJoint {
@@ -57,7 +57,7 @@ DEF Leg_test Robot {
               }
             ]
             endPoint DEF Link_2 Solid {
-              translation 0.08003170614276169 -0.07999999371700295 0
+              translation 0.08 -0.08 0
               rotation 0 0 -1 1.5704
               children [
                 DEF Pris_base HingeJoint {
@@ -96,16 +96,21 @@ DEF Leg_test Robot {
                                 solidName "Link_1"
                               }
                             }
-                            DEF Pris_head Shape {
-                              appearance Appearance {
-                                material Material {
-                                  diffuseColor 0 0 1
+                            DEF Pris_head Transform {
+                              rotation 1 0 0 -1.5708
+                              children [
+                                Shape {
+                                  appearance Appearance {
+                                    material Material {
+                                      diffuseColor 0 0 1
+                                    }
+                                  }
+                                  geometry Cylinder {
+                                    height 0.05
+                                    radius 0.005
+                                  }
                                 }
-                              }
-                              geometry Cylinder {
-                                height 0.05
-                                radius 0.005
-                              }
+                              ]
                             }
                           ]
                           name "Pris_head"
@@ -123,16 +128,21 @@ DEF Leg_test Robot {
                           }
                         }
                       }
-                      DEF Pris_base Shape {
-                        appearance Appearance {
-                          material Material {
-                            diffuseColor 0 0 1
+                      DEF Pris_base Transform {
+                        rotation 1 0 0 -1.5708
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 0 1
+                              }
+                            }
+                            geometry Cylinder {
+                              height 0.05
+                              radius 0.005
+                            }
                           }
-                        }
-                        geometry Cylinder {
-                          height 0.05
-                          radius 0.005
-                        }
+                        ]
                       }
                     ]
                     name "Pris_base"

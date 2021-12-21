@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,7 +7,6 @@ WorldInfo {
   title "Robot Programming"
   window "robot_programming"
   basicTimeStep 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -18,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.3650235088419984 -0.9018337571390201 -0.2312005892665386 5.0279702
-  position 0.85252477 0.55969193 0.54871339
+  orientation 0.3650235088419984 -0.2312005892665386 -0.9018337571390201 5.0279702
+  position -0.54871339 -0.85252477 0.55969193
   follow "Thymio II"
 }
 TexturedBackground {
@@ -30,14 +29,14 @@ CircleArena {
   wallThickness 0.05
 }
 DEF THYMIO2 Thymio2 {
-  rotation 1 0 0 0
+  rotation 0 0 1 3.14159
   controller "move"
   controllerArgs []
 }
 RobotProgrammingBenchmark {
 }
 Transform {
-  translation 0 0 0.25
+  translation -0.25 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -53,10 +52,10 @@ Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.125 0.0001 0.125
-            0.125 0.0001 -0.125
-            -0.125 0.0001 -0.125
-            -0.125 0.0001 0.125
+            -0.125 -0.125 0.0001
+            0.125 -0.125 0.0001
+            0.125 0.125 0.0001
+            -0.125 0.125 0.0001
           ]
         }
         coordIndex [

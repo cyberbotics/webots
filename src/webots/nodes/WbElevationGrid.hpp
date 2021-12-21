@@ -38,14 +38,14 @@ public:
   // field accessors
   // getters
   double xSpacing() const { return mXSpacing->value(); }
-  double zSpacing() const { return mZSpacing->value(); }
+  double ySpacing() const { return mYSpacing->value(); }
   int xDimension() const { return mXDimension->value(); }
-  int zDimension() const { return mZDimension->value(); }
+  int yDimension() const { return mYDimension->value(); }
   int height(int index) const { return mHeight->item(index); }
   double heightRange() const { return mMaxHeight - mMinHeight; }
   // setters
   void setXspacing(double x) { mXSpacing->setValue(x); }
-  void setZspacing(double z) { mZSpacing->setValue(z); }
+  void setYspacing(double y) { mYSpacing->setValue(y); }
   void setHeightScaleFactor(double ratio) { mHeight->multiplyAllItems(ratio); }
 
   // reimplemented public functions
@@ -86,8 +86,8 @@ private:
   WbMFDouble *mHeight;
   WbSFInt *mXDimension;
   WbSFDouble *mXSpacing;
-  WbSFInt *mZDimension;
-  WbSFDouble *mZSpacing;
+  WbSFInt *mYDimension;
+  WbSFDouble *mYSpacing;
   WbSFDouble *mThickness;
 
   // other variables
@@ -97,7 +97,7 @@ private:
   double *mData;
   void checkHeight();
   double width() const { return mXSpacing->value() * (mXDimension->value() - 1); }
-  double depth() const { return mZSpacing->value() * (mZDimension->value() - 1); }
+  double depth() const { return mYSpacing->value() * (mYDimension->value() - 1); }
   double height() const { return mMaxHeight - mMinHeight; }
 
   bool sanitizeFields();
@@ -121,8 +121,8 @@ private slots:
   void updateHeight();
   void updateXDimension();
   void updateXSpacing();
-  void updateZDimension();
-  void updateZSpacing();
+  void updateYDimension();
+  void updateYSpacing();
   void updateThickness();
   void updateLineScale();
 };

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.49087490958453156 0.7792778564628767 0.3895739282434108 1.58904
-  position 0.999838 1.31886 0.225967
+  orientation 0.25919326044567215 -0.13241664389581334 -0.9567051197515938 4.125195456925318
+  position 0.5275302870801045 -0.8831519227779809 0.62403624914824
 }
 TexturedBackground {
 }
@@ -34,6 +33,6 @@ RectangleArena {
   }
 }
 E-puck {
-  rotation 0 1 0 -1.57
+  rotation 0 0 1 -1.57
   controller "beginner_robot_controller"
 }

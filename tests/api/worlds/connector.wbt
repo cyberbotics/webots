@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Modular Robot"
   basicTimeStep 8
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 4.6416
-  position -0.65 0.239 -0.007
+  orientation 1 0 0 4.71238898038469
+  position -1.203970125113415 0.22999999999999976 -0.03789804543275264
 }
 Background {
   skyColor [
@@ -14,11 +14,12 @@ Background {
   ]
 }
 Floor {
+  rotation 1 0 0 -1.5708
   size 2 2
 }
 Yamor {
   translation -3.67321e-08 0.23 -0.02
-  rotation 0 0 1 1.5708
+  rotation 0 1 0 1.5708
   name "module_1"
   controller "connector"
   extensionSlot [
@@ -28,7 +29,7 @@ Yamor {
 }
 Yamor {
   translation -7.3464e-07 0.23 0.077
-  rotation 0 0 1 1.5708
+  rotation 0 1 0 1.5708
   name "module_2"
   controller ""
 }

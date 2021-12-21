@@ -49,30 +49,32 @@ def convert_to_enu(filename):
             for field in node['fields']:
                 if field['name'] in ['orientation']:
                     orientation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+                    field['value'] = rotation(field['value'], [0, 0, 1, -0.5 * math.pi])
                 elif field['name'] in ['position']:
                     position_found = True
                     field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
             if not orientation_found:
                 node['fields'].append({'name': 'orientation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
+                                       'value': ['0', '0', '1', str(-0.5 * math.pi)],
                                        'type': 'SFRotation'})
             if not position_found:
                 node['fields'].append({'name': 'position',
                                        'value': ['0', '-10', '0'],
                                        'type': 'SFVec3f'})
-        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
+        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight', 'SpotLight', 'Group']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:
                 if field['name'] in ['rotation']:
                     rotation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+                    field['value'] = rotation(field['value'], [0, 0, 1, -0.5 * math.pi])
                 elif field['name'] in ['translation']:
                     field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
+                elif field['name'] in ['size'] and len(field['value']) == 3:
+                    field['value'] = [field['value'][0], field['value'][2], field['value'][1]]
             if not rotation_found:
                 node['fields'].append({'name': 'rotation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
+                                       'value': ['0', '0', '1', str(-0.5 * math.pi)],
                                        'type': 'SFRotation'})
     world.save(filename)
 

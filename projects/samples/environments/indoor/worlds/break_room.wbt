@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "An office break room, surrounded by office desks."
@@ -7,11 +7,10 @@ WorldInfo {
     "This means that a robot could open a drawer, leave an object inside it, and close it."
   ]
   title "Break Room"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5278451084358184 0.8291023496586816 0.18430636258912056 5.404163177844073
-  position -9.004955229768372 7.6584422165727934 10.196268121687902
+  orientation 0.05609989985112882 0.5454480302194509 -0.8362650582000987 0.989720646915047
+  position -8.62944061379169 10.375427587526874 8.819498421557848
 }
 TexturedBackground {
   texture "entrance_hall"
@@ -22,7 +21,8 @@ TexturedBackgroundLight {
   texture "entrance_hall"
 }
 Floor {
-  translation -0.93 0 -0.243
+  translation 0.243 0.93 0
+  rotation 0 0 1 1.5708
   size 7.7 12.86
   appearance Parquetry {
     type "light strip"
@@ -33,14 +33,14 @@ Floor {
   }
 }
 CeilingSpotLight {
-  translation 2.27 2 1.82
+  translation -1.82 -2.27 2
   name "ceiling spot light"
   spotLightColor 0.913725 0.72549 0.431373
   spotLightIntensity 4
   spotLightCastShadows TRUE
 }
 CeilingLight {
-  translation 0.87 2.5 -4.78
+  translation 4.78 -0.87 2.5
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
   pointLightColor 0.913725 0.72549 0.431373
@@ -48,7 +48,7 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation -2.74 2.5 -4.78
+  translation 4.78 2.74 2.5
   name "ceiling light(5)"
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
@@ -57,7 +57,7 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation 0.87 2.5 -0.31
+  translation 0.31 -0.87 2.5
   name "ceiling light(1)"
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
@@ -66,7 +66,7 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation -2.74 2.5 -0.31
+  translation 0.31 2.74 2.5
   name "ceiling light(4)"
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
@@ -75,7 +75,7 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation 0.87 2.5 3.52
+  translation -3.52 -0.87 2.5
   name "ceiling light(2)"
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
@@ -84,7 +84,7 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation -2.74 2.5 3.52
+  translation -3.52 2.74 2.5
   name "ceiling light(3)"
   bulbColor 0.913725 0.72549 0.431373
   supportColor 0.533333 0.541176 0.521569
@@ -93,8 +93,8 @@ CeilingLight {
   pointLightCastShadows TRUE
 }
 Wall {
-  translation 0 0 2.65
-  size 5 0.62 0.05
+  translation -2.65 0 0
+  size 0.05 5 0.62
   appearance DEF SMALL_WALLS Roughcast {
     colorOverride 0.890196 0.803922 1
     textureTransform TextureTransform {
@@ -103,57 +103,57 @@ Wall {
   }
 }
 Wall {
-  translation 0.77 0 -2.65
+  translation 2.65 -0.77 0
   name "wall(1)"
-  size 3.55 0.62 0.05
+  size 0.05 3.55 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation 2.52 0 0
-  rotation 0 1 0 1.5708
+  translation 0 -2.52 0
+  rotation 0 0 1 1.5708
   name "wall(2)"
-  size 5.35 0.62 0.05
+  size 0.05 5.35 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -2.524 0 1.65
-  rotation 0 1 0 1.5708
+  translation -1.65 2.524 0
+  rotation 0 0 1 1.5708
   name "wall(3)"
-  size 2.05 0.62 0.05
+  size 0.05 2.05 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -3.05 0 0.65
-  rotation 0 1 0 -3.14159
+  translation -0.65 3.05 0
+  rotation 0 0 1 -3.14159
   name "wall(4)"
-  size 1 0.62 0.05
+  size 0.05 1 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -3.05 0 -0.4
-  rotation 0 1 0 -3.14159
+  translation 0.4 3.05 0
+  rotation 0 0 1 -3.14159
   name "wall(5)"
-  size 1 0.62 0.05
+  size 0.05 1 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -2.524 0 -1.876
-  rotation 0 1 0 1.5708
+  translation 1.876 2.524 0
+  rotation 0 0 1 1.5708
   name "wall(6)"
-  size 3 0.62 0.05
+  size 0.05 3 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -0.979 0 -3.026
-  rotation 0 1 0 1.5708
+  translation 3.026 0.979 0
+  rotation 0 0 1 1.5708
   name "wall(7)"
-  size 0.7 0.62 0.05
+  size 0.05 0.7 0.62
   appearance USE SMALL_WALLS
 }
 Wall {
-  translation -0.92 0 6.17
+  translation -6.17 0.92 0
   name "wall(A)"
-  size 7.7 2.5 0.06
+  size 0.06 7.7 2.5
   appearance DEF SIDE_WALLS Roughcast {
     textureTransform TextureTransform {
       scale 3 3
@@ -161,10 +161,10 @@ Wall {
   }
 }
 Wall {
-  translation 2.9 0 5.94
-  rotation 0 1 0 -1.5708003061004252
+  translation -5.94 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(B)1"
-  size 0.4 2.5 0.06
+  size 0.06 0.4 2.5
   appearance DEF INTER_WALLS Roughcast {
     textureTransform TextureTransform {
       scale 0.3 2.2
@@ -172,10 +172,10 @@ Wall {
   }
 }
 Window {
-  translation 2.9 0 5.19
-  rotation 0 1 0 -1.5708003061004252
+  translation -5.19 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)2"
-  size 1.1 2.5 0.06
+  size 0.06 1.1 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
@@ -184,148 +184,148 @@ Window {
   }
 }
 Window {
-  translation 2.9 0 3.84
-  rotation 0 1 0 -1.5708003061004252
+  translation -3.84 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)3"
-  size 1.6 2.5 0.06
+  size 0.06 1.6 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Wall {
-  translation 2.9 0 2.84
-  rotation 0 1 0 -1.5708003061004252
+  translation -2.84 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(B)4"
-  size 0.4 2.5 0.06
+  size 0.06 0.4 2.5
   appearance USE INTER_WALLS
 }
 Window {
-  translation 2.9 0 2.09
-  rotation 0 1 0 -1.5708003061004252
+  translation -2.09 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)5"
-  size 1.1 2.5 0.06
+  size 0.06 1.1 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Window {
-  translation 2.9 0 0.74
-  rotation 0 1 0 -1.5708003061004252
+  translation -0.74 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)6"
-  size 1.6 2.5 0.06
+  size 0.06 1.6 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Wall {
-  translation 2.9 0 -0.26
-  rotation 0 1 0 -1.5708003061004252
+  translation 0.26 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(B)7"
-  size 0.4 2.5 0.06
+  size 0.06 0.4 2.5
   appearance USE INTER_WALLS
 }
 Window {
-  translation 2.9 0 -1
-  rotation 0 1 0 -1.5708003061004252
+  translation 1 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)8"
-  size 1.1 2.5 0.06
+  size 0.06 1.1 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Window {
-  translation 2.9 0 -2.35
-  rotation 0 1 0 -1.5708003061004252
+  translation 2.35 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)9"
-  size 1.6 2.5 0.06
+  size 0.06 1.6 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Wall {
-  translation 2.9 0 -3.35
-  rotation 0 1 0 -1.5708003061004252
+  translation 3.35 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(B)10"
-  size 0.4 2.5 0.06
+  size 0.06 0.4 2.5
   appearance USE INTER_WALLS
 }
 Window {
-  translation 2.9 0 -4.1
-  rotation 0 1 0 -1.5708003061004252
+  translation 4.1 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)11"
-  size 1.1 2.5 0.06
+  size 0.06 1.1 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Window {
-  translation 2.9 0 -5.45
-  rotation 0 1 0 -1.5708003061004252
+  translation 5.45 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "window(B)12"
-  size 1.6 2.5 0.06
+  size 0.06 1.6 2.5
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
   frameAppearance USE WINDOWS_WOOD
 }
 Wall {
-  translation 2.9 0 -6.45
-  rotation 0 1 0 -1.5708003061004252
+  translation 6.45 -2.9 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(B)13"
-  size 0.4 2.5 0.06
+  size 0.06 0.4 2.5
   appearance USE INTER_WALLS
 }
 Wall {
-  translation -0.92 0 -6.68
+  translation 6.68 0.92 0
   name "wall(C)"
-  size 7.7 2.5 0.06
+  size 0.06 7.7 2.5
   appearance USE SIDE_WALLS
 }
 Wall {
-  translation -4.8 0 -3.6
-  rotation 0 1 0 -1.5708003061004252
+  translation 3.6 4.8 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(D)1"
-  size 6.2 2.5 0.06
+  size 0.06 6.2 2.5
 }
 Door {
-  translation -4.8 0 0
-  rotation 0 1 0 -4.712389693899574
-  size 1 2.5 0.06
-  frameSize 0.05 0.05 0.01
+  translation 0 4.8 0
+  rotation 0 0 -1 1.5708
+  size 0.06 1 2.5
+  frameSize 0.01 0.05 0.05
   frameAppearance MattePaint {
     baseColor 0.133333 0.0666667 0
   }
 }
 Wall {
-  translation -4.8 0 3.35
-  rotation 0 1 0 -1.5708003061004252
+  translation -3.35 4.8 0
+  rotation 0 0 1 -1.5708003061004252
   name "wall(D)2"
-  size 5.7 2.5 0.06
+  size 0.06 5.7 2.5
 }
 Sofa {
-  translation 2 0 -1.22999
-  rotation 0 1 0 3.14159
+  translation 1.22999 -2 0
+  rotation 0 0 -1 -1.5707953071795862
 }
 PottedTree {
-  translation 2.15 0 -2.38
+  translation 2.38 -2.15 0
 }
 PottedTree {
-  translation -1.42 0 -6.23
+  translation 6.23 1.42 0
   name "potted tree(1)"
 }
 PottedTree {
-  translation 2.17 0 5.78
+  translation -5.78 -2.17 0
   name "potted tree(2)"
 }
 Cabinet {
-  translation 2.49 0 0.01
-  rotation 0 -1 0 1.5708
+  translation -0.01 -2.49 0
+  rotation 0 0 1 1.57079
   outerThickness 0.02
   rowsHeights [
     0.3, 0.4, 0.3, 0.3
@@ -351,7 +351,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -0.22 0 -2.62
+  translation 2.62 0.22 0
+  rotation 0 0 1 3.14159
   name "cabinet(1)"
   outerThickness 0.02
   rowsHeights [
@@ -379,7 +380,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 0.7 1.6 -6.65
+  translation 6.65 -0.7 1.6
+  rotation 0 0 1 3.14159
   name "cabinet(2)"
   outerThickness 0.02
   rowsHeights [
@@ -408,8 +410,7 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 0.7 1.6 6.14
-  rotation 0 1 0 3.141592653589793
+  translation -6.14 -0.7 1.6
   name "cabinet(3)"
   outerThickness 0.02
   rowsHeights [
@@ -438,8 +439,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -2.5 0 -1.4
-  rotation 0 1 0 1.5708
+  translation 1.4 2.5 0
+  rotation 0 0 1 -1.5707953071795862
   name "cabinet(4)"
   outerThickness 0.02
   rowsHeights [
@@ -467,8 +468,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 2.49 0 0.66
-  rotation 0 -1 0 1.5708
+  translation -0.66 -2.49 0
+  rotation 0 0 1 1.57079
   name "cabinet(5)"
   outerThickness 0.02
   rowsHeights [
@@ -494,8 +495,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 2.5 0.1 1.52
-  rotation 0 -1 0 1.5708
+  translation -1.52 -2.5 0.1
+  rotation 0 0 -1 -1.5707853071795865
   name "cabinet(6)"
   outerThickness 0.02
   rowsHeights [
@@ -511,7 +512,7 @@ Cabinet {
     "Shelf (2, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.26 0.02 0
+    translation 0 0.26 -0.02
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -524,8 +525,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 2.5 0.1 2.31
-  rotation 0 1 0 -1.5708
+  translation -2.31 -2.5 0.1
+  rotation 0 0 1 1.57079
   name "cabinet(7)"
   outerThickness 0.02
   rowsHeights [
@@ -541,7 +542,7 @@ Cabinet {
     "Shelf (1, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.02 0.01 0
+    translation -0.01 0 0.02
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -554,9 +555,9 @@ Cabinet {
   }
 }
 SolidBox {
-  translation 2.25 0.05 1.79
-  rotation 0 1 0 1.5708
-  size 1.58 0.1 0.5
+  translation -1.79 -2.25 0.05
+  rotation 0 0 1 1.5708
+  size 0.5 1.58 0.1
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -567,8 +568,8 @@ SolidBox {
   }
 }
 Solid {
-  translation 2.25 0.83 1.525
-  rotation 0 -1 0 3.14159
+  translation -1.525 -2.25 0.83
+  rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
   children [
     Shape {
       appearance PBRAppearance {
@@ -593,30 +594,30 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.25 0.03 0.525
-            0.25 0.03 0.525
-            0.25 0.03 -0.525
-            -0.25 0.03 -0.525
-            -0.25 -0.03 -0.525
-            0.25 -0.03 -0.525
             0.25 -0.03 0.525
             -0.25 -0.03 0.525
-            -0.25 -0.03 0.525
-            0.25 -0.03 0.525
-            0.25 0.03 0.525
-            -0.25 0.03 0.525
-            0.25 -0.03 -0.525
             -0.25 -0.03 -0.525
-            -0.25 0.03 -0.525
-            0.25 0.03 -0.525
-            -0.25 -0.03 -0.525
-            -0.25 -0.03 0.525
-            -0.25 0.03 0.525
-            -0.25 0.03 -0.525
-            0.25 -0.03 0.525
             0.25 -0.03 -0.525
             0.25 0.03 -0.525
+            -0.25 0.03 -0.525
+            -0.25 0.03 0.525
             0.25 0.03 0.525
+            0.25 0.03 0.525
+            -0.25 0.03 0.525
+            -0.25 -0.03 0.525
+            0.25 -0.03 0.525
+            -0.25 0.03 -0.525
+            0.25 0.03 -0.525
+            0.25 -0.03 -0.525
+            -0.25 -0.03 -0.525
+            0.25 0.03 -0.525
+            0.25 0.03 0.525
+            0.25 -0.03 0.525
+            0.25 -0.03 -0.525
+            -0.25 0.03 0.525
+            -0.25 0.03 -0.525
+            -0.25 -0.03 -0.525
+            -0.25 -0.03 0.525
           ]
         }
         texCoord TextureCoordinate {
@@ -660,8 +661,8 @@ Solid {
   }
 }
 Solid {
-  translation 2.021 0.83 2.35
-  rotation 0 -1 0 3.14159
+  translation -2.35 -2.021 0.83
+  rotation 0.5773509358560258 -0.577349935856137 -0.577349935856137 2.09439
   children [
     Shape {
       appearance PBRAppearance {
@@ -686,30 +687,30 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.02 0.03 0.3
-            0.02 0.03 0.3
-            0.02 0.03 -0.3
-            -0.02 0.03 -0.3
-            -0.02 -0.03 -0.3
-            0.02 -0.03 -0.3
             0.02 -0.03 0.3
             -0.02 -0.03 0.3
-            -0.02 -0.03 0.3
-            0.02 -0.03 0.3
-            0.02 0.03 0.3
-            -0.02 0.03 0.3
-            0.02 -0.03 -0.3
             -0.02 -0.03 -0.3
-            -0.02 0.03 -0.3
-            0.02 0.03 -0.3
-            -0.02 -0.03 -0.3
-            -0.02 -0.03 0.3
-            -0.02 0.03 0.3
-            -0.02 0.03 -0.3
-            0.02 -0.03 0.3
             0.02 -0.03 -0.3
             0.02 0.03 -0.3
+            -0.02 0.03 -0.3
+            -0.02 0.03 0.3
             0.02 0.03 0.3
+            0.02 0.03 0.3
+            -0.02 0.03 0.3
+            -0.02 -0.03 0.3
+            0.02 -0.03 0.3
+            -0.02 0.03 -0.3
+            0.02 0.03 -0.3
+            0.02 -0.03 -0.3
+            -0.02 -0.03 -0.3
+            0.02 0.03 -0.3
+            0.02 0.03 0.3
+            0.02 -0.03 0.3
+            0.02 -0.03 -0.3
+            -0.02 0.03 0.3
+            -0.02 0.03 -0.3
+            -0.02 -0.03 -0.3
+            -0.02 -0.03 0.3
           ]
         }
         texCoord TextureCoordinate {
@@ -754,8 +755,8 @@ Solid {
   }
 }
 Solid {
-  translation 2.45 0.83 2.35
-  rotation 0 -1 0 3.14159
+  translation -2.35 -2.45 0.83
+  rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
   children [
     Shape {
       appearance PBRAppearance {
@@ -780,30 +781,30 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.05 0.03 0.3
-            0.05 0.03 0.3
-            0.05 0.03 -0.3
-            -0.05 0.03 -0.3
-            -0.05 -0.03 -0.3
-            0.05 -0.03 -0.3
             0.05 -0.03 0.3
             -0.05 -0.03 0.3
-            -0.05 -0.03 0.3
-            0.05 -0.03 0.3
-            0.05 0.03 0.3
-            -0.05 0.03 0.3
-            0.05 -0.03 -0.3
             -0.05 -0.03 -0.3
-            -0.05 0.03 -0.3
-            0.05 0.03 -0.3
-            -0.05 -0.03 -0.3
-            -0.05 -0.03 0.3
-            -0.05 0.03 0.3
-            -0.05 0.03 -0.3
-            0.05 -0.03 0.3
             0.05 -0.03 -0.3
             0.05 0.03 -0.3
+            -0.05 0.03 -0.3
+            -0.05 0.03 0.3
             0.05 0.03 0.3
+            0.05 0.03 0.3
+            -0.05 0.03 0.3
+            -0.05 -0.03 0.3
+            0.05 -0.03 0.3
+            -0.05 0.03 -0.3
+            0.05 0.03 -0.3
+            0.05 -0.03 -0.3
+            -0.05 -0.03 -0.3
+            0.05 0.03 -0.3
+            0.05 0.03 0.3
+            0.05 -0.03 0.3
+            0.05 -0.03 -0.3
+            -0.05 0.03 0.3
+            -0.05 0.03 -0.3
+            -0.05 -0.03 -0.3
+            -0.05 -0.03 0.3
           ]
         }
         texCoord TextureCoordinate {
@@ -848,8 +849,8 @@ Solid {
   }
 }
 Solid {
-  translation 2.22 0.83 2.565
-  rotation 0 -1 0 3.14159
+  translation -2.565 -2.22 0.83
+  rotation 0.5773529358529169 -0.5773489358533613 -0.5773489358533613 2.09439
   children [
     Shape {
       appearance PBRAppearance {
@@ -878,30 +879,30 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.18 0.03 0.085
-            0.18 0.03 0.085
-            0.18 0.03 -0.085
-            -0.18 0.03 -0.085
-            -0.18 -0.03 -0.085
-            0.18 -0.03 -0.085
             0.18 -0.03 0.085
             -0.18 -0.03 0.085
-            -0.18 -0.03 0.085
-            0.18 -0.03 0.085
-            0.18 0.03 0.085
-            -0.18 0.03 0.085
-            0.18 -0.03 -0.085
             -0.18 -0.03 -0.085
-            -0.18 0.03 -0.085
-            0.18 0.03 -0.085
-            -0.18 -0.03 -0.085
-            -0.18 -0.03 0.085
-            -0.18 0.03 0.085
-            -0.18 0.03 -0.085
-            0.18 -0.03 0.085
             0.18 -0.03 -0.085
             0.18 0.03 -0.085
+            -0.18 0.03 -0.085
+            -0.18 0.03 0.085
             0.18 0.03 0.085
+            0.18 0.03 0.085
+            -0.18 0.03 0.085
+            -0.18 -0.03 0.085
+            0.18 -0.03 0.085
+            -0.18 0.03 -0.085
+            0.18 0.03 -0.085
+            0.18 -0.03 -0.085
+            -0.18 -0.03 -0.085
+            0.18 0.03 -0.085
+            0.18 0.03 0.085
+            0.18 -0.03 0.085
+            0.18 -0.03 -0.085
+            -0.18 0.03 0.085
+            -0.18 0.03 -0.085
+            -0.18 -0.03 -0.085
+            -0.18 -0.03 0.085
           ]
         }
         texCoord TextureCoordinate {
@@ -946,12 +947,12 @@ Solid {
   }
 }
 Sink {
-  translation 2.32 0.835 2.27
-  rotation 0 -1 0 -1.5708
+  translation -2.27 -2.32 0.835
+  rotation 0 0 -1 -1.5708
 }
 Table {
-  translation 1.66 0 -3.18
-  size 1.6 0.74 1
+  translation 3.18 -1.66 0
+  size 1 1.6 0.74
   feetSize 0.05 0.05
   trayAppearance DEF TABLE_WOOD VarnishedPine {
     textureTransform TextureTransform {
@@ -963,25 +964,25 @@ Table {
   }
 }
 Table {
-  translation 1.66 0 -6.14
+  translation 6.14 -1.66 0
   name "table(1)"
-  size 1.6 0.74 1
+  size 1 1.6 0.74
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
   }
 }
 Table {
-  translation 1.66 0 3.18
+  translation -3.18 -1.66 0
   name "table(2)"
-  size 1.6 0.74 1
+  size 1 1.6 0.74
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
   }
 }
 Table {
-  translation -0.05 0 -3.18
+  translation 3.18 0.05 0
   name "table(3)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -989,7 +990,7 @@ Table {
   }
 }
 Table {
-  translation -0.05 0 -6.14
+  translation 6.14 0.05 0
   name "table(4)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -997,7 +998,7 @@ Table {
   }
 }
 Table {
-  translation -0.05 0 3.18
+  translation -3.18 0.05 0
   name "table(5)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1005,7 +1006,7 @@ Table {
   }
 }
 Table {
-  translation -1.86 0 3.18
+  translation -3.18 1.86 0
   name "table(6)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1013,8 +1014,8 @@ Table {
   }
 }
 Table {
-  translation -3.27 0 1.77
-  rotation 0 1 0 1.5707996938995747
+  translation -1.77 3.27 0
+  rotation 0 0 1 1.5707996938995747
   name "table(7)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1022,126 +1023,126 @@ Table {
   }
 }
 Table {
-  translation -3.27 0 3.18
-  rotation 0 1 0 1.5707996938995747
+  translation -3.18 3.27 0
+  rotation 0 0 1 1.5707996938995747
   name "table(8)"
-  size 1 0.74 1
+  size 1 1 0.74
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
   }
 }
 Monitor {
-  translation 1.79048 0.76 2.84072
-  rotation 0 1 0 2.8797996938995745
+  translation -2.84072 -1.79048 0.76
+  rotation 0 0 1 2.8797996938995745
 }
 Monitor {
-  translation 1.79048 0.76 -6.47928
-  rotation 0 1 0 -3.2724903061004254
+  translation 6.47928 -1.79048 0.76
+  rotation 0 0 1 -3.2724903061004254
   name "monitor(1)"
 }
 Monitor {
-  translation 1.29031 0.76 2.84277
-  rotation 0 1 0 -2.8797996938995745
+  translation -2.84277 -1.29031 0.76
+  rotation 0 0 1 -2.8797996938995745
   name "monitor(2)"
 }
 Monitor {
-  translation 1.29031 0.76 -6.47723
-  rotation 0 1 0 -3.0106903061004253
+  translation 6.47723 -1.29031 0.76
+  rotation 0 0 1 -3.0106903061004253
   name "monitor(3)"
 }
 Monitor {
-  translation 0.32031 0.76 2.84277
-  rotation 0 1 0 3.0106903061004253
+  translation -2.84277 -0.32031 0.76
+  rotation 0 0 1 3.0106903061004253
   name "monitor(4)"
 }
 Monitor {
-  translation -0.16969 0.76 2.84277
-  rotation 0 1 0 -3.0106903061004253
+  translation -2.84277 0.16969 0.76
+  rotation 0 0 1 -3.0106903061004253
   name "monitor(5)"
 }
 Monitor {
-  translation -1.65969 0.76 2.84277
-  rotation 0 1 0 3.0106996938995745
+  translation -2.84277 1.65969 0.76
+  rotation 0 0 1 3.0106996938995745
   name "monitor(6)"
 }
 Monitor {
-  translation -2.14969 0.76 2.84277
-  rotation 0 1 0 -3.0106903061004253
+  translation -2.84277 2.14969 0.76
+  rotation 0 0 1 -3.0106903061004253
   name "monitor(7)"
 }
 Monitor {
-  translation 1.79048 0.76 -2.87928
-  rotation 0 1 0 0.1308996938995747
+  translation 2.87928 -1.79048 0.76
+  rotation 0 0 1 0.1308996938995747
   name "monitor(8)"
 }
 Monitor {
-  translation 1.29031 0.76 -2.87723
-  rotation 0 1 0 -0.1308996938995747
+  translation 2.87723 -1.29031 0.76
+  rotation 0 0 1 -0.1308996938995747
   name "monitor(9)"
 }
 Monitor {
-  translation 0.18031 0.76 -2.87723
-  rotation 0 1 0 0.1308996938995747
+  translation 2.87723 -0.18031 0.76
+  rotation 0 0 1 0.1308996938995747
   name "monitor(10)"
 }
 Monitor {
-  translation -0.35969 0.76 -2.87723
-  rotation 0 1 0 -0.1308996938995747
+  translation 2.87723 0.35969 0.76
+  rotation 0 0 1 -0.1308996938995747
   name "monitor(11)"
 }
 Keyboard {
-  translation 1.73097 0.74 3.22303
-  rotation 0 1 0 3.0106996938995745
+  translation -3.22303 -1.73097 0.74
+  rotation 0 0 1 3.0106996938995745
 }
 Keyboard {
-  translation 1.57 0.74 -6.05
+  translation 6.05 -1.57 0.74
   name "keyboard(1)"
 }
 Keyboard {
-  translation 0.0404275 0.74 2.99655
-  rotation 0 1 0 -3.0106993877991495
+  translation -2.99655 -0.0404275 0.74
+  rotation 0 0 1 -3.0106993877991495
   name "keyboard(2)"
 }
 Keyboard {
-  translation -1.91 0.74 3.26
-  rotation 0 1 0 -3.141592653589793
+  translation -3.26 1.91 0.74
+  rotation 0 0 1 -3.141592653589793
   name "keyboard(3)"
 }
 Keyboard {
-  translation 1.5267 0.74 -2.98306
-  rotation 0 1 0 -0.2617916122008506
+  translation 2.98306 -1.5267 0.74
+  rotation 0 0 1 -0.2617916122008506
   name "keyboard(4)"
 }
 Keyboard {
-  translation -0.1 0.74 -3.07
+  translation 3.07 0.1 0.74
   name "keyboard(5)"
 }
 OfficeChair {
-  translation 0.0449998 0 -4.01794
-  rotation 0 1 0 -0.523595307179586
+  translation 4.01794 -0.0449998 0
+  rotation 0 0 1 2.618
 }
 OfficeChair {
-  translation 1.53 0 -3.94
+  translation 3.94 -1.53 0
+  rotation 0 0 1 3.14159
   name "office chair(1)"
 }
 OfficeChair {
-  translation 1.48338 0 -5.36388
-  rotation 0 1 0 -2.8797953071795863
+  translation 5.36388 -1.48338 0
+  rotation 0 0 1 0.261797
   name "office chair(2)"
 }
 OfficeChair {
-  translation 1.98104 0 4.16876
-  rotation 0 1 0 -2.3561953071795863
+  translation -4.16876 -1.98104 0
+  rotation 0 0 1 0.785397
   name "office chair(3)"
 }
 OfficeChair {
-  translation -0.0700003 0 4
-  rotation 0 1 0 3.14159
+  translation -4 0.0700003 0
   name "office chair(4)"
 }
 OfficeChair {
-  translation -1.85 0 4.07
-  rotation 0 1 0 -2.3561953071795863
+  translation -4.07 1.85 0
+  rotation 0 0 1 0.785397
   name "office chair(5)"
 }

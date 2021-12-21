@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable sign with front texture option.
@@ -6,7 +6,7 @@
 
 PROTO HighwaySign [
   field SFVec3f     translation        0 0 0
-  field SFRotation  rotation           0 1 0 0
+  field SFRotation  rotation           0 0 1 0
   field SFString    name               "highway sign"
   field SFFloat     height             3                                     # Defines the height of the sign.
   field SFFloat     length             4.5                                   # Defines the lenght of the sign.
@@ -44,13 +44,13 @@ PROTO HighwaySign [
         translation %<= thickness * 0.5 >% 0 0
         children [
           TexturedBoxShape {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
             textureUrl IS texture
             textureMapping "default"
             faceColor IS color
-            frontFace FALSE
             backFace FALSE
             leftFace FALSE
+            rightFace FALSE
             topFace FALSE
             bottomFace FALSE
           }
@@ -64,7 +64,7 @@ PROTO HighwaySign [
       children [
         Shape {
           geometry Box {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
           }
         }
       ]

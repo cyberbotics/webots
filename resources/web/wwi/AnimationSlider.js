@@ -1,7 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2021b/css/animation_slider.css">
+<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2022a/css/animation_slider.css">
 
 <div class="range" id="range">
   <div class="slider" id="slider">
@@ -18,19 +18,20 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     this._shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
-    document.addEventListener('mousemove', _ => this._mouseMove(_));
-    document.addEventListener('mouseup', () => this._mouseUp());
+    document.addEventListener('mousemove', this.mousemoveRef = _ => this._mouseMove(_));
+    document.addEventListener('mouseup', this.mouseupRef = () => this._mouseUp());
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
+    this._shadowRoot.getElementById('slider').style.width = '0%'
   }
 
   _mouseDown(e) {
-    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
-    let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
+    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    const x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.width = x + '%';
 
-    let event = new Event('slider_input', {
+    const event = new Event('sliderchange', {
       bubbles: true,
       cancelable: true
     });
@@ -46,7 +47,7 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseUp() {
     if (this._isSelected) {
-      let event = new Event('slider_input', {
+      const event = new Event('sliderchange', {
         bubbles: true,
         cancelable: true
       });
@@ -64,7 +65,7 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseMove(e) {
     if (this._isSelected) {
-      let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+      const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
       if (x > 100)
         x = 100;
@@ -75,7 +76,7 @@ export default class AnimationSlider extends HTMLElement {
 
       this.setFloatingTimePosition(e.clientX);
 
-      let event = new Event('slider_input', {
+      const event = new Event('sliderchange', {
         bubbles: true,
         cancelable: true
       });
@@ -99,12 +100,13 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   setFloatingTimePosition(position) {
-    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
-    let x = (position - bounds.left);
-    if (x - this._offset < bounds.left)
-      x = bounds.left + this._offset;
-    else if (x + this._offset + 20 > bounds.right)
-      x = bounds.right - this._offset - 20;
+    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    let x = position - bounds.left;
+    if (x - this._offset < 0)
+      x = this._offset;
+    else if (position + this._offset + 20 > bounds.right)
+      x = bounds.right - bounds.left - this._offset - 20;
+
     document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.left = x - this._offset + 'px';
   }
 
@@ -114,5 +116,12 @@ export default class AnimationSlider extends HTMLElement {
 
   selected() {
     return this._isSelected;
+  }
+
+  removeEventListeners() {
+    document.removeEventListener('mousemove', this.mousemoveRef);
+    this.mousemoveRef = undefined;
+    document.removeEventListener('mouseup', this.mouseupRef);
+    this.mouseupRef = undefined;
   }
 }

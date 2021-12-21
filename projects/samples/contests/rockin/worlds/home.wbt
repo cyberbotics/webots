@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "RoCKIn@Home"
@@ -6,12 +6,11 @@ WorldInfo {
   title "RoCKIn@Home"
   basicTimeStep 20
   optimalThreadCount 8
-  coordinateSystem "NUE"
   lineScale 1
 }
 Viewpoint {
-  orientation -0.6079160800683282 -0.7358630969201669 -0.29823403928025877 1.14597
-  position -7.24941 13.9389 14.715
+  orientation -0.32177270627060534 -0.11254796160789993 0.9401038675791081 3.776975840756047
+  position 21.581041625726872 17.14798673351841 17.960375966889274
   near 0.5
 }
 TexturedBackground {
@@ -19,12 +18,12 @@ TexturedBackground {
 PointLight {
   attenuation 0 0 1
   intensity 5
-  location 2.5 1.8 6
+  location 6 2.5 1.8
 }
 PointLight {
   attenuation 0 0 1
   intensity 5
-  location 7 1.8 2.7
+  location 2.7 7 1.8
   castShadows TRUE
 }
 DEF GROUND Solid {
@@ -47,13 +46,13 @@ DEF GROUND Solid {
         coord DEF GROUND_COORDINATES Coordinate {
           point [
             0 0 0
-            0 0 8.4
-            4.2 0 8.4
-            4.2 0 9.6
-            7.2 0 9.6
-            7.2 0 3.6
-            9.4 0 3.6
-            9.4 0 0
+            8.4 0 0
+            8.4 4.2 0
+            9.6 4.2 0
+            9.6 7.2 0
+            3.6 7.2 0
+            3.6 9.4 0
+            0 9.4 0
           ]
         }
         coordIndex [
@@ -62,7 +61,8 @@ DEF GROUND Solid {
       }
     }
     Transform {
-      translation 2 0 9.6
+      translation 9.6 2 0
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance PBRAppearance {
@@ -87,7 +87,7 @@ DEF GROUND Solid {
   ]
   name "solid(1)"
   boundingObject Transform {
-    translation 4.7 0 4.8
+    translation 4.8 4.7 0
     children [
       Plane {
         size 9.4 9.6
@@ -114,14 +114,14 @@ DEF CEIL Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0 2.4 0
-            0 2.4 8.4
-            4.2 2.4 8.4
-            4.2 2.4 9.6
-            7.2 2.4 9.6
-            7.2 2.4 3.6
-            9.4 2.4 3.6
-            9.4 2.4 0
+            0 0 2.4
+            8.4 0 2.4
+            8.4 4.2 2.4
+            9.6 4.2 2.4
+            9.6 7.2 2.4
+            3.6 7.2 2.4
+            3.6 9.4 2.4
+            0 9.4 2.4
           ]
         }
         coordIndex [
@@ -131,7 +131,7 @@ DEF CEIL Solid {
     }
   ]
   boundingObject Transform {
-    translation 4.7 0 4.8
+    translation 4.8 4.7 0
     children [
       Plane {
         size 9.4 9.6
@@ -156,18 +156,18 @@ DEF BATHROOM_STICKER Shape {
   geometry IndexedFaceSet {
     coord Coordinate {
       point [
-        5.199 0.001 0.001
-        5.199 0.001 2.399
-        1.801 0.001 2.399
-        1.801 0.001 0.001
-        5.199 2.399 0.001
-        5.199 2.399 2.399
-        1.801 2.399 2.399
-        1.801 2.399 0.001
-        3.801 0.001 2.399
-        2.799 0.001 2.399
-        3.801 2.001 2.399
-        2.799 2.001 2.399
+        0.001 5.199 0.001
+        2.399 5.199 0.001
+        2.399 1.801 0.001
+        0.001 1.801 0.001
+        0.001 5.199 2.399
+        2.399 5.199 2.399
+        2.399 1.801 2.399
+        0.001 1.801 2.399
+        2.399 3.801 0.001
+        2.399 2.799 0.001
+        2.399 3.801 2.001
+        2.399 2.799 2.001
       ]
     }
     texCoord TextureCoordinate {
@@ -193,116 +193,116 @@ DEF BATHROOM_STICKER Shape {
   }
 }
 Wall {
-  translation -0.1 0 2.6
-  rotation 0 1 0 1.5708
+  translation 2.6 -0.1 0
+  rotation 0 0 1 1.5708
   name "wall(1)"
-  size 5.6 2.4 0.2
+  size 0.2 5.6 2.4
 }
 Wall {
-  translation -0.1 0 8.5
-  rotation 0 1 0 1.5708
+  translation 8.5 -0.1 0
+  rotation 0 0 1 1.5708
   name "wall(2)"
-  size 0.2 2.4 0.2
+  size 0.2 0.2 2.4
 }
 Wall {
-  translation 4.1 0 8.5
+  translation 8.5 4.1 0
   name "wall(3)"
-  size 0.2 2.4 0.2
+  size 0.2 0.2 2.4
 }
 Wall {
-  translation 5.6 0 9.7
+  translation 9.7 5.6 0
   name "wall(4)"
-  size 3.2 2.4 0.2
+  size 0.2 3.2 2.4
 }
 Wall {
-  translation 7.3 0 9.1
-  rotation 0 1 0 -1.5708
+  translation 9.1 7.3 0
+  rotation 0 0 1 -1.570796
   name "wall(5)"
-  size 1.4 2.4 0.2
+  size 0.2 1.4 2.4
 }
 Wall {
-  translation 7.3 0 6.15
-  rotation 0 1 0 -1.5708
+  translation 6.15 7.3 0
+  rotation 0 0 1 -1.570796
   name "wall(6)"
-  size 1.3 2.4 0.2
+  size 0.2 1.3 2.4
 }
 Wall {
-  translation 7.3 0 4.15
-  rotation 0 1 0 -1.5708
+  translation 4.15 7.3 0
+  rotation 0 0 1 -1.570796
   name "wall(7)"
-  size 1.1 2.4 0.2
+  size 0.2 1.1 2.4
 }
 Wall {
-  translation 9.5 0 1.8
-  rotation 0 1 0 -1.5708
+  translation 1.8 9.5 0
+  rotation 0 0 1 -1.570796
   name "wall(8)"
-  size 4 2.4 0.2
+  size 0.2 4 2.4
 }
 Wall {
-  translation 5.2 0 -0.1
-  rotation 0 1 0 3.14159
+  translation -0.1 5.2 0
+  rotation 0 0 1 3.14159
   name "wall(9)"
-  size 8.4 2.4 0.2
+  size 0.2 8.4 2.4
 }
 Wall {
-  translation 5.3 0 1.3
-  rotation 0 1 0 1.5708
+  translation 1.3 5.3 0
+  rotation 0 0 1 1.5708
   name "wall(10)"
-  size 2.6 2.4 0.2
+  size 0.2 2.6 2.4
 }
 Wall {
-  translation 4.5 0 2.5
-  rotation 0 1 0 3.14159
+  translation 2.5 4.5 0
+  rotation 0 0 1 3.14159
   name "wall(11)"
-  size 1.4 2.4 0.2
+  size 0.2 1.4 2.4
 }
 Wall {
-  translation 2.1 0 2.5
-  rotation 0 1 0 3.14159
+  translation 2.5 2.1 0
+  rotation 0 0 1 3.14159
   name "wall(12)"
-  size 1.4 2.4 0.2
+  size 0.2 1.4 2.4
 }
 Wall {
-  translation 1.7 0 1.2
-  rotation 0 1 0 -1.5708
+  translation 1.2 1.7 0
+  rotation 0 0 1 -1.5707953071795862
   name "wall(13)"
-  size 2.4 2.4 0.2
+  size 0.2 2.4 2.4
 }
 Wall {
-  translation 0.1 0 2.5
-  rotation 0 1 0 3.14159
+  translation 2.5 0.1 0
+  rotation 0 0 1 3.14159
   name "wall(14)"
-  size 0.2 2.4 0.2
+  size 0.2 0.2 2.4
 }
 Wall {
-  translation 4.1 0 3.9
-  rotation 0 1 0 -1.5708
+  translation 3.9 4.1 0
+  rotation 0 0 1 -1.570796
   name "wall(15)"
-  size 0.6 2.4 0.2
+  size 0.2 0.6 2.4
 }
 Wall {
-  translation 5.7 0 3.7
+  translation 3.7 5.7 0
   name "wall(16)"
-  size 3 2.4 0.2
+  size 0.2 3 2.4
 }
 Wall {
-  translation -0.1 0 9.6
-  rotation 0 1 0 1.5708
+  translation 9.6 -0.1 0
+  rotation 0 0 1 1.5708
   name "wall(17)"
-  size 2 0.8 0.2
+  size 0.2 2 0.8
 }
 Wall {
-  translation 1.9 0 10.7
+  translation 10.7 1.9 0
   name "wall(18)"
-  size 4.2 0.8 0.2
+  size 0.2 4.2 0.8
 }
 Wall {
-  translation 4.1 0 10.3
-  rotation 0 1 0 1.57
-  size 1 0.8 0.2
+  translation 10.3 4.1 0
+  rotation 0 0 1 1.57
+  size 0.2 1 0.8
 }
 Door {
-  translation 0.5 0 -0.1
+  translation -0.1 0.5 0
   name "door(1)"
   canBeOpen FALSE
   jointAtLeft FALSE
@@ -313,12 +313,12 @@ Door {
   }
 }
 Door {
-  translation 3.3 0 2.5
+  translation 2.5 3.3 0
   name "door(2)"
 }
 Door {
-  translation 5.3 0 3.1
-  rotation 0 1 0 -1.57
+  translation 3.1 5.3 0
+  rotation 0 0 1 -1.570796
   name "door(3)"
   jointAtLeft FALSE
   doorHandle DoorLever {
@@ -326,105 +326,99 @@ Door {
   }
 }
 Door {
-  translation 4.1 0 9.1
-  rotation 0 1 0 1.57
+  translation 9.1 4.1 0
+  rotation 0 0 1 1.5708
 }
 Window {
-  translation 8.4 0 3.7
+  translation 3.7 8.4 0
   name "window(1)"
-  size 2 2.4 0.2
+  size 0.2 2 2.4
   bottomWallHeight 0
   windowHeight 2
 }
 Window {
-  translation 7.3 0 5.1
-  rotation 0 1 0 1.57
+  translation 5.1 7.3 0
+  rotation 0 0 1 1.57
   name "window(2)"
 }
 Window {
-  translation 7.3 0 7.6
-  rotation 0 1 0 1.57
+  translation 7.6 7.3 0
+  rotation 0 0 1 1.57
   name "window(3)"
-  size 1.6 2.4 0.2
+  size 0.2 1.6 2.4
 }
 Window {
-  translation 2 0 8.5
+  translation 8.5 2 0
   name "window(4)"
-  size 4 2.4 0.2
+  size 0.2 4 2.4
   bottomWallHeight 0
   windowHeight 2
 }
 Window {
-  translation -0.1 0 6.9
-  rotation 0 1 0 1.57
-  size 3 2.4 0.2
+  translation 6.9 -0.1 0
+  rotation 0 0 1 1.57
+  size 0.2 3 2.4
   bottomWallHeight 0
   windowHeight 2
 }
 Table {
-  translation 6 0 7.9
+  translation 7.9 6 0
   name "table(1)"
   feetPadding 0.05
 }
 Chair {
-  translation 6.4 0 7.5
-  rotation 0 1 0 -1.5708
+  translation 7.5 6.4 0
   name "chair(1)"
   physics Physics {
     density 500
   }
 }
 Chair {
-  translation 5.6 0 7.5
-  rotation 0 1 0 -1.5708
+  translation 7.5 5.6 0
   name "chair(2)"
   physics Physics {
     density 500
   }
 }
 Chair {
-  translation 6.4 0 8.3
-  rotation 0 1 0 1.5708
+  translation 8.3 6.4 0
+  rotation 0 0 1 3.14157
   name "chair(3)"
   physics Physics {
     density 500
   }
 }
 Chair {
-  translation 5.6 0 8.3
-  rotation 0 1 0 1.5708
+  translation 8.3 5.6 0
+  rotation 0 0 1 3.14157
   physics Physics {
     density 500
   }
 }
 Carpet {
-  translation 1.4 0 6.1
-  rotation 0 1 0 1.5708
+  translation 6.1 1.4 0
 }
 Table {
-  translation 1.4 0 6.1
-  rotation 0 1 0 4.71239
-  size 1.2 0.56 0.8
+  translation 6.1 1.4 0
+  size 1.2 0.8 0.56
 }
 Sofa {
-  translation 2.8 0 6.1
-  rotation 0 1 0 3.14159
+  translation 6.1 2.8 0
+  rotation 0 0 1 -1.5707953071795862
 }
 Armchair {
-  translation 1.4 0 4.7
-  rotation 0 1 0 -1.5708
+  translation 4.7 1.4 0
   name "armchair(1)"
 }
 Armchair {
-  translation 1.4 0 7.6
-  rotation 0 1 0 1.57079
+  translation 7.6 1.4 0
+  rotation 0 0 1 3.14157
 }
 Fridge {
-  translation 6.85 0 4.15
-  rotation 0 1 0 4.71239
+  translation 4.15 6.85 0
 }
 Cabinet {
-  translation 5.84 0 3.8
+  translation 3.8 5.84 0
   name "cabinet(1)"
   outerThickness 0.02
   rowsHeights [
@@ -443,13 +437,13 @@ Cabinet {
     "Shelf (1, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.2 0 0
+    translation 0 0.2 0
     handleLength 0.09
     handleRadius 0.008
   }
 }
 Cabinet {
-  translation 4.96 0 3.8
+  translation 3.8 4.96 0
   name "cabinet(2)"
   outerThickness 0.02
   rowsHeights [
@@ -471,8 +465,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 9.35298 0 3.14824
-  rotation 0 1 0 4.71239
+  translation 3.14824 9.35298 0
+  rotation 0 0 1 -1.5708153071795863
   name "cabinet(3)"
   outerThickness 0.02
   rowsHeights [
@@ -491,8 +485,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 9.35298 0 1.04824
-  rotation 0 1 0 4.71239
+  translation 1.04824 9.35298 0
+  rotation 0 0 1 -1.5708153071795863
   name "cabinet(4)"
   outerThickness 0.02
   rowsHeights [
@@ -511,8 +505,8 @@ Cabinet {
   }
 }
 Cabinet {
-  translation 1.6 0 1.1
-  rotation 0 1 0 4.71239
+  translation 1.1 1.6 0
+  rotation 0 0 1 -1.5708153071795863
   name "cabinet(5)"
   depth 0.4
   outerThickness 0.02
@@ -530,8 +524,8 @@ Cabinet {
   ]
 }
 Cabinet {
-  translation 5.4 0 1.098
-  rotation 0 1 0 1.5708
+  translation 1.098 5.4 0
+  rotation 0 0 1 1.5708
   depth 0.4
   outerThickness 0.02
   rowsHeights [
@@ -548,80 +542,79 @@ Cabinet {
   ]
 }
 Oven {
-  translation 4.52 0.34 4.05
-  rotation 0 1 0 -1.5708
+  translation 4.05 4.52 0
+  rotation 0 1 0 0
 }
 Sink {
-  translation 5.841 0.715 3.97
-  rotation 0 1 0 3.14159
+  translation 3.97 5.841 0.715
 }
 HotPlate {
-  translation 4.52 0.71 4.16
-  rotation 1 0 0 6.28319
+  translation 3.99 4.52 0.71
+  rotation 0 1 0 6.28319
 }
 Worktop {
-  translation 4.96 0.71 4.056
+  translation 4.056 4.96 0.71
   name "worktop(1)"
-  size 1.32 0.06 0.51
+  size 0.51 1.32 0.06
 }
 Worktop {
-  translation 6.28 0.71 4.056
+  translation 4.056 6.28 0.71
   name "worktop(2)"
-  size 0.44 0.06 0.51
+  size 0.51 0.44 0.06
 }
 Worktop {
-  translation 5.84 0.71 4.282
+  translation 4.282 5.84 0.71
   name "worktop(3)"
-  size 0.44 0.06 0.0575
+  size 0.0575 0.44 0.06
 }
 Worktop {
-  translation 5.84 0.71 3.843
-  size 0.44 0.06 0.09
+  translation 3.843 5.84 0.71
+  size 0.09 0.44 0.06
 }
 Bed {
-  translation 8.5 0 2.1
-  rotation 0 -1 0 1.5708
+  translation 2.1 8.5 0
+  rotation 0 0 -1 1.5708
 }
 Can {
-  translation 5.38054 0.801057 7.9949
-  rotation 0 1 0 -2.8798
+  translation 7.9949 5.38054 0.801057
+  rotation 0 0 1 -2.8798
   name "can(1)"
 }
 Can {
-  translation 5.23272 0.801057 7.90539
-  rotation 0 1 0 2.35619
+  translation 7.90539 5.23272 0.801057
+  rotation 0 0 1 2.35619
   name "can(2)"
 }
 Can {
-  translation 5.36361 0.801057 7.81824
+  translation 7.81824 5.36361 0.801057
 }
 BunchOfSunFlowers {
-  translation 9 0 0.4
-  rotation 0 0 1 6.28319
+  translation 0.4 9 0
+  rotation 1 0 0 6.28319
 }
 PottedTree {
-  translation 3.6 0 3.9
+  translation 3.9 3.6 0
 }
 FloorLight {
-  translation 4 0 8
+  translation 8 4 0
   name "floor light(1)"
   pointLightIntensity 0.1
 }
 FloorLight {
-  translation 0.3 0 5
+  translation 5 0.3 0
   pointLightIntensity 0.1
 }
 LandscapePainting {
-  translation 9.375 1.5 2.1
-  rotation 0 -1 0 1.5708
+  translation 2.1 9.375 1.5
+  rotation 0 0 -1 1.5708
 }
 PortraitPainting {
-  translation 2 1.5 2.625
+  translation 2.625 2 1.5
 }
 DEF COUNTER_BOTTOM SolidBox {
-  translation 6.2 0.5 6.1
+  translation 6.1 6.2 0.5
   name "box(1)"
-  size 2 1 0.6
+  size 0.6 2 1
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -629,8 +622,8 @@ DEF COUNTER_BOTTOM SolidBox {
   }
 }
 DEF COUNTER_TOP SolidBox {
-  translation 6.2 1.025 6.1
-  size 2.1 0.05 0.7
+  translation 6.1 6.2 1.025
+  size 0.7 2.1 0.05
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5

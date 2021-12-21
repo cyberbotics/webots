@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -14,6 +14,7 @@ PointLight {
   location 0 0.345 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 Robot {
   translation 0 0.114 0
@@ -61,7 +62,6 @@ Robot {
           color 0 0 0
           direction 0 -1 0
           intensity 3
-          on FALSE
         }
       ]
       name "light"
@@ -70,7 +70,7 @@ Robot {
     }
     Camera {
       translation 0 1.7300000000000009 -2.488551381655889e-08
-      rotation 0.5773502738035172 -0.5773502710351824 -0.5773502627301779 4.188790199249721
+      rotation 0.5773509358560258 -0.577349935856137 -0.577349935856137 2.09439
       width 128
       height 128
     }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,7 +17,7 @@ PointLight {
 }
 Transform {
   translation 0 0 -2
-  rotation 0.0005628640900625162 0.7073881131874542 0.70682511309737 3.14047
+  rotation 0 0 -1 3.14047
   children [
     Shape {
       geometry Plane {
@@ -27,7 +27,7 @@ Transform {
 }
 Transform {
   translation 0 0 2
-  rotation 1 0 0 -1.57
+  rotation 1 0 0 -3.14
   children [
     Shape {
       geometry Plane {
@@ -38,6 +38,7 @@ Transform {
 Robot {
   children [
     RangeFinder {
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       fieldOfView 6.28
       width 256
       height 128

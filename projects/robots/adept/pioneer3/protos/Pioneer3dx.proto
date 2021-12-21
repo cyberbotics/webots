@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3dx
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
 PROTO Pioneer3dx [
-  field SFVec3f    translation     0 0.0975 0                       # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -21,7 +21,7 @@ PROTO Pioneer3dx [
     rotation IS rotation
     children [
       DEF BODY Transform {
-        rotation 1 0 0 0
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF BAR Transform {
             translation 0.0001812 0.0403308 0.231994
@@ -419,13 +419,13 @@ PROTO Pioneer3dx [
       }
       DEF CASTER_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 -0.0011939 0.191844
+          axis 0 0 1
+          anchor -0.1918 0 0
           staticFriction 0.05
         }
         endPoint Solid {
-          translation 0 -0.0011939 0.191844
-          rotation 0 1 0 0
+          translation -0.1918 0 0
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             DEF casterWheelRim HingeJoint {
               jointParameters HingeJointParameters {
@@ -501,7 +501,7 @@ PROTO Pioneer3dx [
                   }
                 ]
                 boundingObject Transform {
-                  rotation 0 0 1 1.5708
+                  rotation -0.577349 -0.577351 0.577351 2.094397
                   children [
                     Cylinder {
                       height 0.025
@@ -565,8 +565,8 @@ PROTO Pioneer3dx [
         }
       }
       DEF GREEN_LED LED {
-        translation -0.130323 0.0802227 0.0823476
-        rotation 1 0 0 0
+        translation -0.0823 0.1303 0.0802
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -597,12 +597,12 @@ PROTO Pioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor -0.165 -0.0001156 0
+          axis 0 1 0
+          anchor 0 0.165 0
         }
         endPoint Solid {
-          translation -0.165 -0.0001156 0
-          rotation -1 0 0 0
+          translation 0 0.165 0
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             DEF BLACK_CYLINDER_SHAPE Shape {
               appearance PBRAppearance {
@@ -707,7 +707,7 @@ PROTO Pioneer3dx [
           boundingObject DEF BOUNDING_WHEEL Group {
             children [
               Transform {
-                rotation 0 0 1 1.5708
+                rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
                     height 0.01
@@ -717,7 +717,7 @@ PROTO Pioneer3dx [
                 ]
               }
               Transform {
-                rotation 0 0 1 1.5708
+                rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
                     height 0.048
@@ -733,8 +733,8 @@ PROTO Pioneer3dx [
         }
       }
       DEF LOWER_YELLOW_LED LED {
-        translation -0.130063 0.0922878 0.0531755
-        rotation 1 0 0 0
+        translation -0.0532 0.1301 0.0923
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF YELLOW_LED_SHAPE Shape {
             appearance PBRAppearance {
@@ -752,8 +752,8 @@ PROTO Pioneer3dx [
         ]
       }
       DEF RED_LED_1 LED {
-        translation -0.130137 0.0802345 0.0924989
-        rotation 1 0 0 0
+        translation -0.0925 0.1301 0.0802
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF RED_LED_SHAPE Group {
             children [
@@ -781,8 +781,8 @@ PROTO Pioneer3dx [
         ]
       }
       DEF RED_LED_2 LED {
-        translation -0.130137 0.0802345 0.0635791
-        rotation 1 0 0 0
+        translation -0.0636 0.1301 0.0802
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF RED_LED_SHAPE Group {
             children [
@@ -804,8 +804,8 @@ PROTO Pioneer3dx [
         ]
       }
       DEF RED_LED_3 LED {
-        translation -0.130097 0.0802345 0.0531009
-        rotation 1 0 0 0
+        translation -0.0531 0.1301 0.0802
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF RED_LED_SHAPE Group {
             children [
@@ -837,12 +837,12 @@ PROTO Pioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0.165032 -0.0001156 0
+          axis 0 1 0
+          anchor 0 -0.165 0
         }
         endPoint Solid {
-          translation 0.165032 -0.0001156 0
-          rotation -1 0 0 0
+          translation 0 -0.165 0
+          rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             DEF RIGHT_BLACK_CYLINDER_SHAPE Shape {
               appearance PBRAppearance {
@@ -889,86 +889,88 @@ PROTO Pioneer3dx [
         }
       }
       DEF SO_0 Pioneer3DistanceSensor {
-        translation -0.140208 0.114 -0.0610447
-        rotation 0 1 0 3.14159
+        translation 0.061 0.1402 0.114
+        rotation -0.577351 -0.57735 -0.57735 -2.094394
         name "so0"
       }
       DEF SO_1 Pioneer3DistanceSensor {
-        translation -0.122255 0.114 -0.110288
-        rotation 0 1 0 2.44346
+        translation 0.1103 0.1223 0.114
+        rotation 0.834817 0.389281 0.389281 1.750366
         name "so1"
       }
       DEF SO_10 Pioneer3DistanceSensor {
-        translation 0.07738 0.114 0.239181
-        rotation 0 -1 0 1.0472
+        translation -0.2392 -0.0774 0.114
+        rotation -0.186156 0.694747 0.694747 -2.773494
         name "so10"
       }
       DEF SO_11 Pioneer3DistanceSensor {
-        translation 0.0258761 0.114 0.257812
-        rotation 0 -1 0 1.39626
+        translation -0.2578 -0.0259 0.114
+        rotation -0.061747 0.705758 0.705758 -3.018255
         name "so11"
       }
       DEF SO_12 Pioneer3DistanceSensor {
-        translation -0.0289131 0.114 0.257812
-        rotation 0 -1 0 1.74533
+        translation -0.2578 0.0289 0.114
+        rotation -0.061746 -0.705758 -0.705758 -3.018257
         name "so12"
       }
       DEF SO_13 Pioneer3DistanceSensor {
-        translation -0.0803968 0.114 0.239181
-        rotation 0 -1 0 2.0944
+        translation -0.2392 0.0804 0.114
+        rotation -0.186159 -0.694746 -0.694746 -2.773489
         name "so13"
       }
       DEF SO_14 Pioneer3DistanceSensor {
-        translation -0.122403 0.114 0.204065
-        rotation 0 -1 0 2.44346
+        translation -0.2041 0.1224 0.114
+        rotation 0.313145 0.671543 0.671543 2.534647
         name "so14"
       }
       DEF SO_15 Pioneer3DistanceSensor {
-        translation -0.140311 0.114 0.154945
-        rotation 0 -1 0 3.14159
+        translation -0.1549 0.1403 0.114
+        rotation -0.577349 -0.577351 -0.577351 -2.094397
         name "so15"
       }
       DEF SO_2 Pioneer3DistanceSensor {
-        translation -0.0801434 0.114 -0.145492
-        rotation 0 1 0 2.0944
+        translation 0.1455 0.0801 0.114
+        rotation 0.935112 0.250565 0.250565 1.637835
         name "so2"
       }
       DEF SO_3 Pioneer3DistanceSensor {
-        translation -0.0285304 0.114 -0.16417
-        rotation 0 1 0 1.74533
+        translation 0.1642 0.0285 0.114
+        rotation -0.992432 -0.086827 -0.086827 -1.578393
         name "so3"
       }
       DEF SO_4 Pioneer3DistanceSensor {
-        translation 0.026383 0.114 -0.16417
-        rotation 0 1 0 1.39626
+        translation 0.1642 -0.0264 0.114
+        rotation -0.992432 0.086828 0.086828 -1.578393
         name "so4"
       }
       DEF SO_5 Pioneer3DistanceSensor {
-        translation 0.0780296 0.114 -0.145492
-        rotation 0 1 0 1.0472
+        translation 0.1455 -0.078 0.114
+        rotation 0.935114 -0.250562 -0.250562 1.637833
         name "so5"
       }
       DEF SO_6 Pioneer3DistanceSensor {
-        translation 0.120142 0.114 -0.110288
-        rotation 0 1 0 0.698132
+        translation 0.1103 -0.1201 0.114
+        rotation 0.834817 -0.389282 -0.389282 1.750366
         name "so6"
       }
       DEF SO_7 Pioneer3DistanceSensor {
-        translation 0.138094 0.114 -0.0610446
+        translation 0.061 -0.1381 0.114
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "so7"
       }
       DEF SO_8 Pioneer3DistanceSensor {
-        translation 0.137294 0.114 0.154945
+        translation -0.1549 -0.1373 0.114
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         name "so8"
       }
       DEF SO_9 Pioneer3DistanceSensor {
-        translation 0.119387 0.114 0.204065
-        rotation 0 -1 0 0.698132
+        translation -0.2041 -0.1194 0.114
+        rotation -0.313146 0.671543 0.671543 -2.534647
         name "so9"
       }
       DEF UPPER_YELLOW_LED LED {
-        translation -0.130135 0.105728 0.0530564
-        rotation 1 0 0 0
+        translation -0.0531 0.1301 0.1057
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           USE YELLOW_LED_SHAPE
         ]
@@ -978,8 +980,8 @@ PROTO Pioneer3dx [
         ]
       }
       DEF WHITE_LED LED {
-        translation -0.130106 0.0802345 0.072656
-        rotation 1 0 0 0
+        translation -0.0727 0.1301 0.0802
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF WHITE_LED_SHAPE Shape {
             appearance PBRAppearance {
@@ -1004,7 +1006,8 @@ PROTO Pioneer3dx [
     boundingObject Group {
       children [
         DEF TOP_FRONT_CYLINDER Transform {
-          translation 0 0.142 0.021
+          translation -0.021 0 0.142
+          rotation 0 0 1 -1.570796
           children [
             Cylinder {
               height 0.007
@@ -1014,7 +1017,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF TOP_BACK_CYLINDER Transform {
-          translation 0 0.142 0.087
+          translation -0.087 0 0.142
+          rotation 0 0 1 -1.570796
           children [
             Cylinder {
               height 0.007
@@ -1024,7 +1028,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF FRONT_RING Transform {
-          translation 0 0.112 0.114
+          translation -0.114 0 0.112
+          rotation 0 0 1 -1.570796
           children [
             Cylinder {
               height 0.05
@@ -1034,7 +1039,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF BACK_RING Transform {
-          translation 0 0.112 -0.023
+          translation 0.023 0 0.112
+          rotation 0 0 1 -1.570796
           children [
             Cylinder {
               height 0.05
@@ -1044,32 +1050,32 @@ PROTO Pioneer3dx [
           ]
         }
         DEF LARGE_BOX Transform {
-          translation 0 0.0285 0.04
+          translation -0.04 0 0.0285
           children [
             Box {
-              size 0.2 0.115 0.341
+              size 0.341 0.2 0.115
             }
           ]
         }
         DEF BAR_BOX Transform {
-          translation 0 0.0415 0.234
+          translation -0.234 0 0.0415
           children [
             Box {
-              size 0.1356 0.007 0.039
+              size 0.039 0.1356 0.007
             }
           ]
         }
         DEF SIDES Transform {
-          translation 0 0.0285 0.0427
+          translation -0.0427 0 0.0285
           children [
             Box {
-              size 0.261 0.115 0.274
+              size 0.274 0.261 0.115
             }
           ]
         }
         DEF BACK_LEFT_CORNER Transform {
-          translation -0.1029 0.0285 0.1825
-          rotation 0 1 0 0.79
+          translation -0.1825 0.1029 0.0285
+          rotation 0.864288 -0.355672 -0.355672 1.716131
           children [
             Box {
               size 0.037 0.115 0.044
@@ -1077,8 +1083,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF BACK_RIGHT_CORNER Transform {
-          translation 0.1029 0.0285 0.1825
-          rotation 0 1 0 -0.79
+          translation -0.1825 -0.1029 0.0285
+          rotation -0.2794 0.678946 0.678946 -2.596688
           children [
             Box {
               size 0.037 0.115 0.044
@@ -1086,8 +1092,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF FRONT_LEFT_CORNER Transform {
-          translation -0.1019 0.0285 -0.1005
-          rotation 0 1 0 -0.7
+          translation 0.1005 0.1019 0.0285
+          rotation -0.312457 0.671703 0.671703 -2.535902
           children [
             Box {
               size 0.037 0.115 0.047
@@ -1095,8 +1101,8 @@ PROTO Pioneer3dx [
           ]
         }
         DEF FRONT_RIGHT_CORNER Transform {
-          translation 0.1019 0.0285 -0.1005
-          rotation 0 1 0 0.7
+          translation 0.1005 -0.1019 0.0285
+          rotation 0.835434 -0.38862 -0.38862 1.749639
           children [
             Box {
               size 0.037 0.115 0.047
@@ -1109,7 +1115,7 @@ PROTO Pioneer3dx [
       density -1
       mass 6.73
       centerOfMass [
-        0 0.06 0.06
+        -0.06 0 0.06
       ]
     }
     controller IS controller

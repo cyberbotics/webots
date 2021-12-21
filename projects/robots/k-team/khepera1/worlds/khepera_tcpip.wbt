@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "A simple park in which a Khepera robot move and avoid bumping into the walls."
   ]
   title "Khepera example"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.34042705524212397 0.9055531469468378 0.2531460410787708 4.84222
-  position -0.135108 0.109553 -0.000200651
+  orientation -0.2673981941991463 -0.3954156443055411 0.8787176304009551 4.9713625332181675
+  position -0.02009002516866904 0.17937740398724356 0.10792419180188181
 }
 TexturedBackground {
 }
@@ -18,7 +17,7 @@ RectangleArena {
   floorSize 2 2
 }
 Khepera1 {
-  translation 0.0335522 0 -0.0335217
-  rotation 0 1 0 3.18897
+  translation 0.0335522 0.0335217 0
+  rotation -1.70409e-10 7.19235e-09 -1 3.09422
   controller "tcpip"
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Mantis Hexapod Robot"
@@ -7,7 +7,6 @@ WorldInfo {
   title "Mantis Hexapod"
   ERP 0.62
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       coulombFriction [
@@ -18,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.21696542654194298 0.960317981551545 0.17525803260974765 4.8751533541414345
-  position -34.66134443342866 64.89750524382097 -4.262118864510947
+  orientation -0.16008548792470778 -0.21116864801874996 0.9642512321225426 4.776819620849644
+  position 4.119088341628296 35.47173289554773 65.34501786165993
   follow "Mantis"
 }
 TexturedBackground {
@@ -27,9 +26,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 UnevenTerrain {
-  size 1000 100 1000
+  rotation 0 0 1 -1.5708
+  size 1000 1000 100
   xDimension 100
-  zDimension 100
+  yDimension 100
   appearance SandyGround {
     textureTransform TextureTransform {
       scale 1000 1000
@@ -38,6 +38,6 @@ UnevenTerrain {
   perlinNOctaves 8
 }
 Mantis {
-  translation -24.12 61.42 -6.15
-  rotation 0 1 0 1.3
+  translation 6.15 24.12 61.42
+  rotation 0 0 1 1.3
 }

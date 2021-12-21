@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world showing the effect of backlash."
   ]
   title "Hinge Joint With Backlash"
   gravity 0
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5229000929419013 0.8437541499167371 0.12105547199377206 0.5355762867055323
-  position 0.21862933289421269 0.13255359904058345 0.33300810012457005
+  orientation -0.20134192243199933 0.2095096386723931 0.9568527272128925 1.4948407957226588
+  position -0.009388757209153845 -0.4731552561623688 0.23724470357855784
 }
 TexturedBackgroundLight {
 }
@@ -22,7 +21,7 @@ Robot {
       children [
         SolidPipe {
           translation 0.07 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
           height 0.01
           radius 0.04
           thickness 0.015
@@ -94,7 +93,7 @@ Robot {
       children [
         SolidPipe {
           translation 0.07 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
           name "pipe back bearing"
           height 0.01
           radius 0.04
@@ -157,7 +156,7 @@ Robot {
     }
     DEF BLACK_BOX Transform {
       translation 0.145 0 0
-      rotation 0 0 1 -1.5708
+      rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
       children [
         Shape {
           appearance PBRAppearance {
@@ -273,7 +272,7 @@ Robot {
             }
             DEF ROTOR_CENTER SolidPipe {
               translation -0.02 0 0
-              rotation 0 0 1 -1.5708
+              rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               height 0.13
               radius 0.015
               thickness 0.01
@@ -284,7 +283,7 @@ Robot {
             }
             DEF CORE Transform {
               translation -0.02 0 0
-              rotation 0 0 1 -1.5708
+              rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -299,7 +298,7 @@ Robot {
             }
             DEF SHAFT Transform {
               translation 0.025 0 0
-              rotation 0 0 1 -1.5708
+              rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -313,7 +312,8 @@ Robot {
               ]
             }
             DEF INPUT_MARKER Transform {
-              translation 0.095 0.0075 0
+              translation 0.095 0 0.0075
+              rotation 0 0.7071067811865476 0.7071067811865476 -3.141593
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -327,7 +327,7 @@ Robot {
             }
             DEF FRONT_INNER_BEARING Transform {
               translation 0.07 0 0
-              rotation 0 0 1 -1.5708
+              rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -348,7 +348,7 @@ Robot {
             }
             DEF BACK_INNER_BEARING Transform {
               translation -0.11 0 0
-              rotation 0 0 1 -1.5708
+              rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -371,11 +371,10 @@ Robot {
         }
       ]
       endPoint Solid {
-        rotation 1 0 0 0
         children [
           DEF OUTPUT_SHAFT Transform {
             translation 0.185 0 0
-            rotation 0 0 1 -1.5708
+            rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
             children [
               Shape {
                 appearance PBRAppearance {
@@ -389,7 +388,8 @@ Robot {
             ]
           }
           DEF OUTPUT_MARKER Transform {
-            translation 0.195 0.0075 0
+            translation 0.195 0 0.0075
+            rotation 0 0.7071067811865476 0.7071067811865476 -3.141593
             children [
               Shape {
                 appearance PBRAppearance {

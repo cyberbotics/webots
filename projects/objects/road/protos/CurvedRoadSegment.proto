@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple curved road, the number of lanes, the curvature and the dimensions are configurable, an optional border can be enable.
@@ -7,7 +7,7 @@
 
 PROTO CurvedRoadSegment [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                  # Defines the road name.
   field        SFString             id                        ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        SFString             startJunction             ""                      # Optionally defines a reference to the Crossroad connected at the first Road waypoint. Setting correctly this field is required to use the SUMO exporter.
@@ -87,7 +87,7 @@ PROTO CurvedRoadSegment [
     endingAngle %<= angle >%
     wayPoints [
       %< for (let i = 0; i <= subdivision; ++i) { >%
-        %<= radius * Math.cos(i * angle / subdivision) >% 0 %<= radius * Math.sin(i * angle / subdivision) >%
+        %<= radius * Math.sin(i * angle / subdivision) >% %<= radius * Math.cos(i * angle / subdivision) >% 0
       %< } >%
     ]
     roadTilt [

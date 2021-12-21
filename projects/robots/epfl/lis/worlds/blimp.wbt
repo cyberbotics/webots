@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "A blimp robot model demonstrating custom physics."
@@ -10,7 +10,6 @@ WorldInfo {
   ]
   title "LIS-EPFL Blimp"
   physics "blimp_physics"
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "blimp"
@@ -23,40 +22,40 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05183724120983727 0.9912974151353603 0.12100551710441193 4.246832297580772
-  position -4.829595346803776 2.2974812497740222 0.21129896678536753
+  orientation 0.12886696059458586 0.060173610492208145 -0.9898345533812433 1.921830125849391
+  position -0.7158540273007847 5.211143316155065 2.1781063902672084
   bloomThreshold 100
 }
 TexturedBackground {
 }
 DEF blimp_lis Blimp {
-  translation 1.27672 1.19599 3.59047
-  rotation -0.023760697188772353 -0.9996779791206752 0.008908834396613568 2.4247010340014534
+  translation -3.5905 -1.2767 1.196
+  rotation 0.008908834396613568 -0.023760697188772353 0.9996779791206752 2.4247010340014534
 }
 FloorLight {
-  translation -5.3289884184332035 0 -5.198742668282387
+  translation 5.1988 5.329 0.0001
   pointLightIntensity 5
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation -0.778416458889009 3.0199999999999996 -2.5637438670646664
+  translation 2.5637 0.7784 3.02
   pointLightIntensity 8
   pointLightCastShadows TRUE
 }
 CeilingLight {
-  translation 3.5035561583815937 3.010000000000003 4.758051372254145
+  translation -4.7581 -3.5036 3.01
   name "ceiling light(1)"
   pointLightIntensity 6
   pointLightCastShadows TRUE
 }
 Floor {
   size 12 12
-  tileSize 0.7999999999999999 0.7999999999999999
+  tileSize 0.8 0.8
   appearance Parquetry {
   }
 }
 DEF CEILING Solid {
-  translation 0 3 0
+  translation 0 0 3
   rotation 1 0 0 3.14159
   children [
     Shape {
@@ -68,10 +67,10 @@ DEF CEILING Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            6 0 6
-            6 0 -6
-            -6 0 -6
-            -6 0 6
+            -6 -6 0
+            6 -6 0
+            6 6 0
+            -6 6 0
           ]
         }
         coordIndex [
@@ -81,11 +80,11 @@ DEF CEILING Solid {
     }
   ]
   boundingObject Box {
-    size 12 0.001 12
+    size 12 12 0.001
   }
 }
 DEF OUTSIDE_WEST_WALL Solid {
-  translation 0 0 -6
+  translation 6 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -100,10 +99,10 @@ DEF OUTSIDE_WEST_WALL Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -6 0 0
-            3 0 0
-            3 3 0
-            -6 3 0
+            0 6 0
+            0 -3 0
+            0 -3 3
+            0 6 3
           ]
         }
         texCoord TextureCoordinate {
@@ -126,16 +125,16 @@ DEF OUTSIDE_WEST_WALL Solid {
   name "outside west wall 1"
   description "designed by jcz"
   boundingObject Transform {
-    translation 0 1.5 0
+    translation 0 0 1.5
     children [
       Box {
-        size 12 3 0.01
+        size 0.01 12 3
       }
     ]
   }
 }
 DEF OUTSIDE_WEST_WALL_2 Solid {
-  translation 0 0 -6
+  translation 6 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -150,10 +149,10 @@ DEF OUTSIDE_WEST_WALL_2 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            3 0 0
-            6 0 0
-            6 3 0
-            3 3 0
+            0 -3 0
+            0 -6 0
+            0 -6 3
+            0 -3 3
           ]
         }
         texCoord TextureCoordinate {
@@ -177,8 +176,8 @@ DEF OUTSIDE_WEST_WALL_2 Solid {
   description "designed by jcz"
 }
 DEF OUTSIDE_SOUTH_WALL Solid {
-  translation -6 0 0
-  rotation 0 1 0 1.5708
+  translation 0 6 0
+  rotation 0 0 1 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -193,10 +192,10 @@ DEF OUTSIDE_SOUTH_WALL Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -6 0 0
-            6 0 0
-            6 3 0
-            -6 3 0
+            0 6 0
+            0 -6 0
+            0 -6 3
+            0 6 3
           ]
         }
         texCoord TextureCoordinate {
@@ -218,17 +217,17 @@ DEF OUTSIDE_SOUTH_WALL Solid {
   ]
   name "outside south wall"
   boundingObject Transform {
-    translation 0 1.5 0
+    translation 0 0 1.5
     children [
       Box {
-        size 12 3 0.01
+        size 0.01 12 3
       }
     ]
   }
 }
 DEF OUTSIDE_EAST_WALL Solid {
-  translation 0 0 6
-  rotation 0 1 0 3.14159
+  translation -6 0 0
+  rotation 0 0 1 3.14159
   children [
     Shape {
       appearance PBRAppearance {
@@ -243,10 +242,10 @@ DEF OUTSIDE_EAST_WALL Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -6 0 0
-            1.4 0 0
-            1.4 3 0
-            -6 3 0
+            0 6 0
+            0 -1.4 0
+            0 -1.4 3
+            0 6 3
           ]
         }
         texCoord TextureCoordinate {
@@ -268,17 +267,17 @@ DEF OUTSIDE_EAST_WALL Solid {
   ]
   name "outside east wall 1"
   boundingObject Transform {
-    translation 0 1.5 0
+    translation 0 0 1.5
     children [
       Box {
-        size 12 3 0.01
+        size 0.01 12 3
       }
     ]
   }
 }
 DEF OUTSIDE_EAST_WALL_2 Solid {
-  translation 0 0 6
-  rotation 0 1 0 3.14159
+  translation -6 0 0
+  rotation 0 0 1 3.14159
   children [
     Shape {
       appearance PBRAppearance {
@@ -293,10 +292,10 @@ DEF OUTSIDE_EAST_WALL_2 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            1.4 0 0
-            6 0 0
-            6 3 0
-            1.4 3 0
+            0 -1.4 0
+            0 -6 0
+            0 -6 3
+            0 -1.4 3
           ]
         }
         texCoord TextureCoordinate {
@@ -319,8 +318,8 @@ DEF OUTSIDE_EAST_WALL_2 Solid {
   name "outside east wall 2"
 }
 DEF OUTSIDE_NORTH_WALL Solid {
-  translation 6 0 0
-  rotation 0 1 0 -1.5708
+  translation 0 -6 0
+  rotation 0 0 1 -1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -335,10 +334,10 @@ DEF OUTSIDE_NORTH_WALL Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -6 0 0
-            6 0 0
-            6 3 0
-            -6 3 0
+            0 6 0
+            0 -6 0
+            0 -6 3
+            0 6 3
           ]
         }
         texCoord TextureCoordinate {
@@ -360,17 +359,17 @@ DEF OUTSIDE_NORTH_WALL Solid {
   ]
   name "outside north wall"
   boundingObject Transform {
-    translation 0 1.5 0
+    translation 0 0 1.5
     children [
       Box {
-        size 12 3 0.01
+        size 0.01 12 3
       }
     ]
   }
 }
 DEF INSIDE_SMALL_WALL Solid {
-  translation 3.04732 1.5 -2.73749
-  rotation 0 1 0 -1.5708
+  translation 2.7375 -2.9473 1.5
+  rotation 0 0 1 -1.5708
   children [
     DEF SMALL_WALL Shape {
       appearance PBRAppearance {
@@ -378,7 +377,7 @@ DEF INSIDE_SMALL_WALL Solid {
         metalness 0
       }
       geometry Box {
-        size 6.5 3 0.5
+        size 0.5 6.5 3
       }
     }
   ]
@@ -390,12 +389,12 @@ DEF INSIDE_SMALL_WALL Solid {
       metalness 0
     }
     geometry Box {
-      size 6.5 3 0.5
+      size 0.5 6.5 3
     }
   }
 }
 DEF INSIDE_SMALL_WALL_TEX Solid {
-  translation 3.31 0 -6
+  translation 6 -3.22 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -410,10 +409,10 @@ DEF INSIDE_SMALL_WALL_TEX Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0 0 6.65
+            -6.65 0 0
             0 0 0
-            0 3 0
-            0 3 6.65
+            0 0 3
+            -6.65 0 3
           ]
         }
         texCoord TextureCoordinate {
@@ -436,8 +435,8 @@ DEF INSIDE_SMALL_WALL_TEX Solid {
   name "inside small wall 2"
 }
 DEF INSIDE_SMALL_WALL_TEX_2 Solid {
-  translation 2.79 0 0.64
-  rotation 0 1 0 3.14159
+  translation -0.64 -2.69 0
+  rotation 0 0 1 3.14159
   children [
     Shape {
       appearance PBRAppearance {
@@ -452,10 +451,10 @@ DEF INSIDE_SMALL_WALL_TEX_2 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0 0 6.65
+            -6.65 0 0
             0 0 0
-            0 3 0
-            0 3 6.65
+            0 0 3
+            -6.65 0 3
           ]
         }
         texCoord TextureCoordinate {
@@ -478,8 +477,8 @@ DEF INSIDE_SMALL_WALL_TEX_2 Solid {
   name "inside small wall 3"
 }
 DEF INSIDE_CENTER_WALL_1 Solid {
-  translation 0.19237 1.5 0.38524
-  rotation 0 1 0 6.27781
+  translation -0.3852 -0.1924 1.5
+  rotation 0 0 1 6.27781
   children [
     DEF CENTER_WALL_1 Shape {
       appearance DEF CENTER_WALL_APP PBRAppearance {
@@ -488,7 +487,7 @@ DEF INSIDE_CENTER_WALL_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 2.35 3 0.5
+        size 0.5 2.35 3
       }
     }
   ]
@@ -496,13 +495,13 @@ DEF INSIDE_CENTER_WALL_1 Solid {
   boundingObject USE CENTER_WALL_1
 }
 DEF INSIDE_CENTER_WALL_2 Solid {
-  translation 1.82171 2.7 0.394515
-  rotation 0 1 0 6.27781
+  translation -0.3945 -1.8217 2.7
+  rotation 0 0 1 6.27781
   children [
     DEF CENTER_WALL_2 Shape {
       appearance USE CENTER_WALL_APP
       geometry Box {
-        size 1 0.6 0.5
+        size 0.5 1 0.6
       }
     }
   ]
@@ -510,13 +509,13 @@ DEF INSIDE_CENTER_WALL_2 Solid {
   boundingObject USE CENTER_WALL_2
 }
 DEF INSIDE_CENTER_WALL_3 Solid {
-  translation 1.82171 0.3 0.394515
-  rotation 0 1 0 6.27781
+  translation -0.3945 -1.8217 0.3
+  rotation 0 0 1 6.27781
   children [
     DEF CENTER_WALL_3 Shape {
       appearance USE CENTER_WALL_APP
       geometry Box {
-        size 1 0.6 0.5
+        size 0.5 1 0.6
       }
     }
   ]
@@ -524,12 +523,12 @@ DEF INSIDE_CENTER_WALL_3 Solid {
   boundingObject USE CENTER_WALL_3
 }
 DEF INSIDE_CENTER_WALL_4 Solid {
-  translation 2.7 1.49 0.4
+  translation -0.4 -2.7 1.49
   children [
     DEF CENTER_WALL_4 Shape {
       appearance USE CENTER_WALL_APP
       geometry Box {
-        size 1 3 0.5
+        size 0.5 1 3
       }
     }
   ]
@@ -537,8 +536,7 @@ DEF INSIDE_CENTER_WALL_4 Solid {
   boundingObject USE CENTER_WALL_4
 }
 DEF EPFL_LOGO_1 Solid {
-  translation 0.281906 1.8 6
-  rotation 0 -1 0 -0.001240307179586786
+  translation -6 -0.2819 1.8
   children [
     DEF EPFL_LOGO Shape {
       appearance PBRAppearance {
@@ -551,23 +549,23 @@ DEF EPFL_LOGO_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 1.5 1.5 0.01
+        size 0.01 1.5 1.5
       }
     }
   ]
   name "epfl logo 1"
 }
 DEF EPFL_LOGO_2 Solid {
-  translation 3.315 1.5 -2.5
-  rotation 0 1 0 -1.5708
+  translation 2.5 -3.225 1.5
+  rotation 0 0 1 -1.5708
   children [
     USE EPFL_LOGO
   ]
   name "epfl logo 2"
 }
 DEF LIS_LOGO Solid {
-  translation 6 1.5 0.873895
-  rotation 0 1 0 1.5708
+  translation -0.8739 -6 1.5
+  rotation 0 0 1 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -580,107 +578,108 @@ DEF LIS_LOGO Solid {
         metalness 0
       }
       geometry Box {
-        size 3 1.5 0.01
+        size 0.01 3 1.5
       }
     }
   ]
   name "lis logo"
 }
 Chair {
-  translation 0.490773 0 -3.27998
+  translation 3.28 -0.4908 0
+  rotation 0 0 1 -1.5707953071795862
 }
 Chair {
-  translation 1.51562 0 -3.43906
-  rotation 0 1 0 0.200872
+  translation 3.4391 -1.5156 0
+  rotation 0 0 1 -1.369925307179586
   name "chair(1)"
 }
 Chair {
-  translation 1.69055 0 -2.77177
-  rotation 0 1 0 0.0403698
+  translation 2.7718 -1.6906 0
+  rotation 0 0 1 -1.530425307179586
   name "chair(2)"
 }
 Chair {
-  translation -0.270254 0 2.50844
-  rotation 0 1 0 1.65549
+  translation -2.5084 0.2703 0
+  rotation 0 0 -1 -0.08469530717958662
   name "chair(3)"
 }
 Chair {
-  translation -5.39791 0 3.18983
-  rotation 0 -1 0 0.786062
+  translation -3.1898 5.3979 0
+  rotation 0 0 1 -2.356855307179586
   name "chair(4)"
 }
 Chair {
-  translation -5.43406 0 -1.95653
-  rotation 0 1 0 2.31073
+  translation 1.9565 5.4341 0.0001
+  rotation 0 0 -1 -0.7399353071795867
   name "chair(5)"
 }
 Chair {
-  translation -4.07525 0 3.04224
-  rotation 0 -1 0 2.28741
+  translation -3.0422 4.0753 0
+  rotation 0 0 1 2.42498
   name "chair(6)"
 }
 Chair {
-  translation -5.42041 0 -0.755915
-  rotation 0 1 0 5.79869
+  translation 0.7559 5.4204 0.0001
+  rotation 0 0 -1 2.05529
   name "chair(7)"
 }
 Chair {
-  translation -3.72668 0 0.425059
-  rotation 0 1 0 2.14982
+  translation -0.425 3.7267 0
+  rotation 0 0 -1 -0.5790253071795863
   name "chair(8)"
 }
 Chair {
-  translation -5.10104 0 0.484452
-  rotation 0 -1 0 4.87992
+  translation -0.4844 5.101 0.0001
+  rotation 0 0 -1 0.167531
   name "chair(9)"
 }
 Chair {
-  translation 2.13455 0 4.45918
-  rotation 0 1 0 4.00456
+  translation -4.4592 -2.1345 0
+  rotation 0 0 -1 -2.4337653071795864
   name "chair(10)"
 }
 Chair {
-  translation -3.67442 0 5.15692
-  rotation 0 1 0 4.00456
+  translation -5.1569 3.6744 0
+  rotation 0 0 -1 -2.4337653071795864
   name "chair(11)"
 }
 Chair {
-  translation -3.51194 0 -3.06349
-  rotation 0 -1 0 3.26456
+  translation 3.0635 3.5119 0
+  rotation 0 0 1 1.44783
   name "chair(12)"
 }
 Chair {
-  translation 0.232576 0 4.52469
-  rotation 0 1 0 2.45555
+  translation -4.5247 -0.2326 0
+  rotation 0 0 -1 -0.884755307179586
   name "chair(13)"
 }
 Chair {
-  translation -5.63015 0 5.27482
-  rotation 0 -1 0 5.82071
+  translation -5.2748 5.6302 0
+  rotation 0 0 -1 1.10832
   name "chair(14)"
 }
 Chair {
-  translation -3.6307 0 -1.51246
-  rotation 0 -1 0 2.23375
+  translation 1.5125 3.6307 0
+  rotation 0 0 1 2.47864
   name "chair(15)"
 }
 Chair {
-  translation -5.17973 0 -4.35753
-  rotation 0 1 0 0.407765
+  translation 4.3575 5.1797 0.0001
+  rotation 0 0 1 -1.1630353071795865
   name "chair(16)"
 }
 RoundTable {
-  translation -4.36743 0 -0.575897
+  translation 0.5759 4.3674 0
 }
 RoundTable {
-  translation -4.69509 0 -2.94547
+  translation 2.9455 4.6951 0.0001
   name "round table(1)"
 }
 RoundTable {
-  translation 1.31334 0 3.39362
+  translation -3.3936 -1.3133 0
   name "round table(2)"
 }
 RoundTable {
-  translation -4.50987 0 4.17092
+  translation -4.1709 4.5099 0
   name "round table(3)"
 }

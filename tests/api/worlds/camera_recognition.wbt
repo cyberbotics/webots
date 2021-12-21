@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -142,8 +142,7 @@ Solid {
   model "occluded box"
   boundingObject USE BOX
   recognitionColors [
-    0 1 0
-    1 0 1
+    0 1 0    1 0 1
   ]
 }
 Solid {
@@ -189,16 +188,21 @@ Solid {
   translation -3.7763137 0.23806185 -1.2091656
   rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.756863 0.207843 0.207843
+    DEF CAPSULE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.756863 0.207843 0.207843
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 0.05
+          }
         }
-      }
-      geometry DEF CAPSULE Capsule {
-        height 1
-        radius 0.05
-      }
+      ]
     }
   ]
   name "solid(7)"
@@ -255,16 +259,21 @@ Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation -0.6457879227325559 -0.5398879322844559 -0.5398879322844559 4.91351
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0 1
+    DEF CAPSULE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 1
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 0.05
+          }
         }
-      }
-      geometry DEF CAPSULE Capsule {
-        height 1
-        radius 0.05
-      }
+      ]
     }
   ]
   name "solid(9)"
@@ -279,6 +288,7 @@ Robot {
   rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Camera {
+      rotation -0.5773502691896256 0.5773502691896261 0.5773502691896256 2.09439
       width 256
       height 256
       recognition DEF RECOGNITION Recognition {

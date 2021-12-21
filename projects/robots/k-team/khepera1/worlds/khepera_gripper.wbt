@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "A Khepera robot equipped with a gripper"
@@ -7,7 +7,6 @@ WorldInfo {
   CFM 0.001
   ERP 0.4
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "gripper"
@@ -25,52 +24,56 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.22724793707732743 0.9603897340777234 0.16127595534430691 4.89882
-  position -0.281467 0.163949 0.167035
+  orientation -0.2030372675232497 0.09489690946461751 0.9745616679157644 2.2867747435132095
+  position 0.13400930504421202 -0.26830630174774955 0.16734545094800604
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 4.692820414042842e-06
   floorSize 2 2
 }
 DEF RED_STICK Solid {
-  translation 0.00613218 0.03 0.120228
-  rotation 0 -1 0 3.53867
+  translation -0.0198 -0.0261 0.03
   children [
-    DEF STICK_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 1 0.155604 0.246125
-        roughness 0.783569247
-        metalness 0
-      }
-      geometry Cylinder {
-        height 0.06
-        radius 0.008
-      }
+    Transform {
+      rotation 1 0 0 3.14159
+      children [
+        DEF STICK_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.155604 0.246125
+            roughness 0.783569247
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.06
+            radius 0.008
+          }
+        }
+      ]
     }
   ]
   name "red stick"
   contactMaterial "stick"
   boundingObject Box {
-    size 0.013 0.06 0.013
+    size 0.013 0.013 0.06
   }
   physics Physics {
     density 100
   }
 }
 Khepera1 {
-  translation 0.0245671 0 0.0745528
-  rotation 0 1 0 -28.6581
+  translation -0.0746 -0.0246 0
   name "khepera"
   controller "khepera_gripper"
   extensionSlot [
     DEF LIFT_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
         position -1.4
-        axis -1 0 0
-        anchor 0 0.022 0.01
+        axis 0 1 0
+        anchor -0.01 0 0.022
       }
       device [
         RotationalMotor {
@@ -78,8 +81,8 @@ Khepera1 {
         }
       ]
       endPoint Solid {
-        translation 0 0.022 0.01
-        rotation 1 0 0 1.4
+        translation -0.01 0 0.022
+        rotation 0.705814842414855 -0.7058148424148553 -0.06042198650976584 3.020895
         children [
           DEF RIGHT_GRIP SliderJoint {
             jointParameters JointParameters {
@@ -269,7 +272,8 @@ Khepera1 {
       }
     }
     DEF GRIPPER_BASE Transform {
-      translation 0 0.023 0.01
+      translation -0.01 0 0.023
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [
         Shape {
           appearance PBRAppearance {
@@ -284,8 +288,8 @@ Khepera1 {
       ]
     }
     Camera {
-      translation 0 0.035 0.01
-      rotation 1 0 0 0
+      translation -0.01 0 0.035
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [
         Shape {
           appearance PBRAppearance {

@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The BB-8 robot has to climb out of the pit."
   ]
   title "Pit Escape"
   window "pit_escape"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.033692242186570645 0.995861522966379 0.0844077004278979 2.1665993209762484
-  position 6.002781727260681 2.413334548520888 -4.013202495503281
+  orientation 0.16302088391248715 0.274889731435117 -0.9475546564499173 1.206964932897147
+  position -1.8296622964272937 7.085017724079113 3.220796628344865
 }
 TexturedBackground {
   texture "mars"
@@ -27,7 +26,7 @@ SpotLight {
 DEF GROUND Solid {
   children [
     Transform {
-      translation -0.3 0 115
+      translation 115 0.3 0
       children [
         Shape {
           appearance SandyGround {
@@ -36,14 +35,14 @@ DEF GROUND Solid {
             }
           }
           geometry Plane {
-            size 500 210
+            size 210 500
           }
           castShadows FALSE
         }
       ]
     }
     Transform {
-      translation -0.3 0 -115
+      translation -115 0.3 0
       children [
         Shape {
           appearance SandyGround {
@@ -52,14 +51,14 @@ DEF GROUND Solid {
             }
           }
           geometry Plane {
-            size 500 210
+            size 210 500
           }
           castShadows FALSE
         }
       ]
     }
     Transform {
-      translation 130 0 0
+      translation 0 -130 0
       children [
         Shape {
           appearance SandyGround {
@@ -68,14 +67,14 @@ DEF GROUND Solid {
             }
           }
           geometry Plane {
-            size 240 20
+            size 20 240
           }
           castShadows FALSE
         }
       ]
     }
     Transform {
-      translation -130 0 0
+      translation 0 130 0
       children [
         Shape {
           appearance SandyGround {
@@ -84,7 +83,7 @@ DEF GROUND Solid {
             }
           }
           geometry Plane {
-            size 240 20
+            size 20 240
           }
           castShadows FALSE
         }
@@ -93,7 +92,7 @@ DEF GROUND Solid {
   ]
 }
 DEF PIT Pit {
-  size 20 4 20
+  size 20 20 4
   appearance SandyGround {
     textureTransform TextureTransform {
       scale 30 30

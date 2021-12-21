@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -8,8 +8,8 @@
 # template language: javascript
 
 PROTO ToyotaPrius [
-  field     SFVec3f    translation       0 0.4 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFVec3f    translation       0 0 0.4
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.1 0.15 0.18
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
@@ -47,6 +47,7 @@ PROTO ToyotaPrius [
     hybridPowerSplitRPM 3000
     wheelFrontLeft ToyotaPriusWheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 8
@@ -62,78 +63,82 @@ PROTO ToyotaPrius [
     }
     wheelRearLeft ToyotaPriusWheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     extensionSlot [
       # Sensors slots
       Transform {
-        rotation 0 1 0 3.14159
-        translation 0 0.4 3.635
+        translation 3.635 0 0.4
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 0.3 -0.85
+        translation -0.85 0 0.3
+        rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
       Transform {
-        rotation 0 1 0 3.14159
-        translation 0 1.3 1.1
+        translation 1.1 0 1.3
         children IS sensorsSlotTop
       }
       Transform {
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       # lights
-      VehicleLights {
-        front [
-          Group {
-            children [
-              %< if (frontSpotLights) { >%
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction -0.2 -1 1
-                  location 0.7 0.6 3.4
-                  radius 20
-                }
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 0.2 -1 1
-                  location -0.7 0.6 3.4
-                  radius 20
-                }
-              %< } >%
-              ToyotaPriusFrontLight {
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          VehicleLights {
+            front [
+              Group {
+                children [
+                  %< if (frontSpotLights) { >%
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction -0.2 -1 1
+                      location 0.7 0.6 3.4
+                      radius 20
+                    }
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction 0.2 -1 1
+                      location -0.7 0.6 3.4
+                      radius 20
+                    }
+                  %< } >%
+                  ToyotaPriusFrontLight {
+                  }
+                ]
+              }
+            ]
+            rightIndicator [
+              ToyotaPriusRightIndicator {
+              }
+            ]
+            leftIndicator [
+              ToyotaPriusLeftIndicator {
+              }
+            ]
+            antifog [
+              ToyotaPriusAntiFogLight {
+              }
+            ]
+            rear [
+              ToyotaPriusRearLight {
               }
             ]
           }
-        ]
-        rightIndicator [
-          ToyotaPriusRightIndicator {
+          ToyotaPriusMesh {
+            color IS color
+            plate IS plate
           }
         ]
-        leftIndicator [
-          ToyotaPriusLeftIndicator {
-          }
-        ]
-        antifog [
-          ToyotaPriusAntiFogLight {
-          }
-        ]
-        rear [
-          ToyotaPriusRearLight {
-          }
-        ]
-      }
-      ToyotaPriusMesh {
-        color IS color
-        plate IS plate
       }
     ]
     name IS name
@@ -145,8 +150,8 @@ PROTO ToyotaPrius [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.3 1.435
-          rotation 1 0 0 0.03
+          translation 1.435 0 0.3
+          rotation -0.583038 -0.583038 -0.565804 -2.111801
           children [
             Box {
               size 1.7 0.7 4.3
@@ -154,8 +159,8 @@ PROTO ToyotaPrius [
           ]
         }
         Transform {
-          translation 0 0.77 0.125
-          rotation 1 0 0 -0.192699
+          translation 0.125 0 0.77
+          rotation 0.536539 0.536539 0.651346 1.98695
           children [
             Box {
               size 1.65 0.7 1.5
@@ -163,8 +168,8 @@ PROTO ToyotaPrius [
           ]
         }
         Transform {
-          translation 0 0.59 2.335
-          rotation 1 0 0 0.454499
+          translation 2.335 0 0.59
+          rotation 0.646868 0.646868 0.403887 2.373887
           children [
             Box {
               size 1.65 0.7 1.5
@@ -172,7 +177,8 @@ PROTO ToyotaPrius [
           ]
         }
         Transform {
-          translation 0 0.89 1.235
+          translation 1.235 0 0.89
+          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
               size 1.63 0.7 1.2
@@ -189,11 +195,11 @@ PROTO ToyotaPrius [
       density -1
       mass 1805
       centerOfMass [
-        0 0.1 1.2975
+        1.2975 0 0.1
       ]
       inertiaMatrix [
-        4473.54 4346.1 1125.07
-        0 0 -300
+        1125.07 4473.54 4346.1
+        -300.0 0 0
       ]
     }
     window IS window

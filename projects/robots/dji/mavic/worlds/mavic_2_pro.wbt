@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This demonstration shows a DJI Mavic 2 PRO flying over a rural area."
@@ -10,11 +10,10 @@ WorldInfo {
     linear 0.5
     angular 0.5
   }
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.07050665473376751 -0.9955409361549733 -0.06266622757062013 4.81348648259329
-  position 3.097238269380304 0.6132726075362769 0.5611797778962901
+  orientation -0.03132509357312057 -0.004229724205027985 0.9995002991224087 2.901671340011777
+  position 3.392036511082617 -0.9278446049316036 0.7513423909480075
   near 0.2
   follow "Mavic 2 PRO"
   followSmoothness 0.2
@@ -31,16 +30,16 @@ Floor {
   }
 }
 Road {
-  translation -43.8 0.01 -9.2
-  rotation 0 1 0 1.1781
+  translation -43.8 9.2 0.01
+  rotation 0 0 1 -0.3926996938995747
   width 3
   numberOfLanes 1
   rightBorder FALSE
   leftBorder FALSE
   wayPoints [
     0 0 0
-    0 0 100
-    200 0 200
+    100 0 0
+    200 200 0
   ]
   splineSubdivision 8
   appearance Pavement {
@@ -48,71 +47,70 @@ Road {
   }
 }
 Windmill {
-  translation -43.8656 0 19.8433
-  rotation 0 1 0 -1.0472
+  translation -43.8656 -19.8433 0
+  rotation -7.19228e-09 2.6842e-08 1 0.523601
 }
 Windmill {
-  translation -44.258 0 27.3356
-  rotation 0 1 0 -1.0472
+  translation -44.258 -27.3356 0
+  rotation -7.19228e-09 2.6842e-08 1 0.523601
   name "windmill(1)"
 }
 Windmill {
-  translation -46.2448 0 -30.573
-  rotation 0 1 0 -1.0472
+  translation -46.2448 30.573 0
+  rotation -7.19228e-09 2.6842e-08 1 0.523601
   name "windmill(2)"
 }
 Windmill {
-  translation -38.75 0 -23.4
-  rotation 0 1 0 -1.5708
+  translation -38.75 23.4 0
   name "windmill(3)"
 }
 SmallManor {
-  translation -50.35 0 -11.25
-  rotation 0 1 0 4.32
+  translation -50.35 11.25 0
+  rotation 0 0 -1 0.392394
 }
 SquareManhole {
-  translation 0 -0.03 0
+  translation 0 0 -0.03
 }
 CardboardBox {
-  translation -0.730157 0.3 1.22891
-  rotation 0 1 0 -0.261795307179586
+  translation -0.730157 -1.22891 0.3
+  rotation 0 0 1 -1.8325953071795862
 }
 TeslaModel3Simple {
-  translation -41.5139 0.31 -4.34169
-  rotation 0 -1 0 -1.309
+  translation -41.5139 4.34169 0.31
+  rotation 0 0 1 -0.2618053071795865
 }
 Pine {
-  translation -14.0083 0 14.4828
-  rotation 0 1 0 3.14159
+  translation -14.0083 -14.4828 0
+  rotation 0 0 1 2.61799
 }
 Pine {
-  translation -19.6195 0 24.3783
-  rotation 0 1 0 2.87979
+  translation -19.6195 -24.3783 0
+  rotation 0 0 1 2.87979
   name "pine tree(1)"
 }
 Pine {
-  translation -22.0129 0 -6.20205
+  translation -22.0129 6.20205 0
   name "pine tree(3)"
 }
 Pine {
-  translation -10.6926 0 25.1339
+  translation -10.6926 -25.1339 0
   name "pine tree(4)"
 }
 Pine {
-  translation -14.3441 0 -14.5621
+  translation -14.3441 14.5621 0
   name "pine tree(5)"
 }
 Pine {
-  translation -26.6328 0 7.1707
+  translation -26.6328 -7.1707 0
   name "pine tree(6)"
 }
 Pine {
-  translation -9.37029 0 -14.0209
-  rotation 0 1 0 -2.618
+  translation -9.37029 14.0209 0
+  rotation 0 0 1 -2.6179953071795863
   name "pine tree(2)"
 }
 Forest {
-  translation 0 -0.01 0
+  translation 0 0 -0.01
   shape [
     200 200
     200 0
@@ -136,8 +134,8 @@ Forest {
   minRadius 3
 }
 Mavic2Pro {
-  translation 0 0.1 0
-  rotation 0 -0.7071067811865475 -0.7071067811865475 -3.14159
+  translation 0 0 0.1
+  rotation 0 0 1 3.141590777218456
   cameraSlot [
     Camera {
       width 400

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a Hokuyo's lidar.
@@ -7,7 +7,7 @@
 
 PROTO Robotino3HokuyoMountingSupport [
   field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
+  field  SFRotation  rotation       0 0 1 0
   field  SFString    name           "Hokuyo mounting support for Robotino 3"
   field  SFString    model          "Festo - Hokuyo mounting support"
   field  MFNode      extensionSlot  []  # Extends the mounting support with an object.
@@ -40,7 +40,6 @@ PROTO Robotino3HokuyoMountingSupport [
       }
       Transform {
         translation -0.028 0.03 0.16
-        rotation 0.57704 -0.5775 -0.5775 2.09486
         children IS extensionSlot
       }
     ]

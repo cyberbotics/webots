@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO TemplateTexture [
 ]
@@ -22,13 +22,18 @@ PROTO TemplateTexture [
     gd.fontCacheShutdown()
   }%
 
-  Shape {
-    appearance Appearance {
-      texture ImageTexture {
-        url [ %{= '"' .. context.temporary_files_path .. name .. i .. '.png"' }% ]
+  Transform {
+    rotation 1 0 0 -1.5708
+    children [
+      Shape {
+        appearance Appearance {
+          texture ImageTexture {
+            url [ %{= '"' .. context.temporary_files_path .. name .. i .. '.png"' }% ]
+          }
+        }
+        geometry Plane {
+        }
       }
-    }
-    geometry Plane {
-    }
+    ]
   }
 }

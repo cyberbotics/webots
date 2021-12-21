@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic and customizable stairs model.
@@ -6,9 +6,9 @@
 
 PROTO StraightStairs [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "straight stairs"
-  field SFVec3f    stepSize           0.4 0.03 1.27                                                      # Defines the size of one step.
+  field SFVec3f    stepSize           0.4 1.27 0.03                                                      # Defines the size of one step.
   field SFFloat    stepRise           0.15                                                               # Defines the height difference between two consecutives steps.
   field SFInt32    nSteps             5                                                                  # Defines the number of steps.
   field SFFloat    stringerWidth      0.02                                                               # Defines the width of the stringers.
@@ -71,19 +71,19 @@ PROTO StraightStairs [
           coord Coordinate {
             point [
             %<
-            let delta = {x: 0.0, y: stepRise - 0.5 * stepSize.y};
+            let delta = {x: 0.0, z: stepRise - 0.5 * stepSize.z};
             for (let n = 1; n <= nSteps; ++n) {
               for (let z = -0.5*stepSize.z; z <= 0.6*stepSize.z; z += stepSize.z) {
                 for (let y = -0.5*stepSize.y; y <= 0.6*stepSize.y; y += stepSize.y) {
                   for (let x = -0.5*stepSize.x; x <= 0.6*stepSize.x; x += stepSize.x) {
             >%
-                    %<= x + delta.x >% %<= y + delta.y >% %<= z >%
+                    %<= x + delta.x >% %<= y >% %<= z + delta.z >%
             %<
                   }
                 }
               }
               delta.x += stepSize.x;
-              delta.y += stepRise;
+              delta.z += stepRise;
             }
             >%
             ]
@@ -111,19 +111,19 @@ PROTO StraightStairs [
           ]
           texCoordIndex [
             %< for (let n = 1; n <= nSteps; ++n) { >%
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
             %< } >%
           ]
         }
       }
     %< if (fields.startingStairs.value) { >%
       Solid {
-        translation %<= -stepSize.x * 0.5 >% 0.0 %<= (stepSize.z + stringerWidth) * 0.5 >%
+        translation %<= -stepSize.x * 0.5 >% %<= (stepSize.y + stringerWidth) * -0.5 >% 0.0
         children [
           DEF GEOM Shape {
             appearance IS stringerAppearance
@@ -138,10 +138,10 @@ PROTO StraightStairs [
                   coords[2] = [stairsRun, stringerRise];
                   coords[3] = [stairsRun, stringerRise + 2 * stepRise];
                   coords[4] = [0, stepRise];
-                  for (let z = 1; z >= -1; z -= 2) {
+                  for (let y = -1; y <= 1; y += 2) {
                     for (let ci = 0; ci < 5; ++ci) {
                 >%
-                      %<= coords[ci][0]>% %<=coords[ci][1]>% %<= z * stringerWidth * 0.5 >%
+                      %<= coords[ci][0]>% %<= y * stringerWidth * 0.5 >% %<=coords[ci][1]>%
                 %<
                     }
                   }
@@ -166,7 +166,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
       Solid {
-        translation %<= -stepSize.x * 0.5 >% 0.0 %<= (stepSize.z + stringerWidth) * -0.5 >%
+        translation %<= -stepSize.x * 0.5 >% %<= (stepSize.y + stringerWidth) * 0.5 >% 0.0
         children [
           USE GEOM
         ]
@@ -178,14 +178,13 @@ PROTO StraightStairs [
          const pAngle = Math.atan2(stairsRise, stairsRun);
     >%
       Solid {
-        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= stairsRise * 0.5 >% %<= (stepSize.z + stringerWidth) * 0.5 >%
-        rotation 0 1 0 1.5708
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * -0.5 >% %<= stairsRise * 0.5 >%
         children [
           DEF GEOM Shape {
             appearance IS stringerAppearance
             geometry TexturedParallelepiped {
-              size %<= stringerWidth >% %<= 2 * stepRise >% %<= Math.sqrt(stairsRun * stairsRun + stairsRise * stairsRise) >%
-              angles 1.5708 %<= pAngle >% 0
+              size %<= Math.sqrt(stairsRun * stairsRun + stairsRise * stairsRise) >% %<= stringerWidth >% %<= 2 * stepRise >%
+              angles 0 1.5708 %<= pAngle >%
               mapping "metric"
             }
           }
@@ -195,8 +194,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
       Solid {
-        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= stairsRise * 0.5 >% %<= (stepSize.z + stringerWidth) * -0.5 >%
-        rotation 0 1 0 1.5708
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * 0.5 >% %<= stairsRise * 0.5 >%
         children [
           USE GEOM
         ]
@@ -206,12 +204,12 @@ PROTO StraightStairs [
       }
     %< } >%
       Solid {
-        translation %<= -stepSize.x * 0.5 >% %<= stepRise >% %<= (-stepSize.z - stringerWidth) * 0.5 >%
+        translation %<= -stepSize.x * 0.5 >% %<= (stepSize.y + stringerWidth) * 0.5 >% %<= stepRise >%
         children IS leftRail
         name "left rail"
       }
       Solid {
-        translation %<= -stepSize.x * 0.5 >% %<= stepRise >% %<= (stepSize.z + stringerWidth) * 0.5 >%
+        translation %<= -stepSize.x * 0.5 >% %<= (-stepSize.y - stringerWidth) * 0.5 >% %<= stepRise >%
         children IS rightRail
         name "right rail"
       }
@@ -222,11 +220,11 @@ PROTO StraightStairs [
     boundingObject Group {
       children [
       %<
-        delta = {x: 0.0, y: stepRise * 0.5};
+        delta = {x: 0.0, z: stepRise * 0.5};
         for (let n = 1; n <= nSteps; ++n) {
       >%
           Transform {
-            translation %<= delta.x >% %<= delta.y + stepRise * 0.5 - stepSize.y * 0.5 >% 0.0
+            translation %<= delta.x >% 0.0 %<= delta.z + stepRise * 0.5 - stepSize.z * 0.5 >%
             children [
               Box {
                 size %<= stepSize.x >% %<= stepSize.y >% %<= stepSize.z >%
@@ -235,7 +233,7 @@ PROTO StraightStairs [
           }
       %<
           delta.x += stepSize.x;
-          delta.y += stepRise;
+          delta.z += stepRise;
         }
       >%
       ]

@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "An example of how to build your own Robot and the result of the motor_set_motor_force() command"
   ]
   title "Biped"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.053568198562683564 0.9979409732237222 0.035274099053542146 4.72798
-  position -0.78186 0.22511 -0.190565
+  orientation -0.0919850954997842 -0.502724422737929 0.8595387699160009 5.328547334470731
+  position -0.30686270407570204 0.4484143547270655 0.4435081369668526
 }
 TexturedBackground {
 }
@@ -29,7 +28,7 @@ DEF FLOOR Solid {
   boundingObject USE PLANE
 }
 DEF BIPED Robot {
-  translation 0.1 0.18 -0.2
+  translation 0.2 -0.1 0.18
   children [
     DEF ROBOT_SHAPE Shape {
       appearance PBRAppearance {
@@ -43,8 +42,8 @@ DEF BIPED Robot {
     }
     DEF LEFT_HIP HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0 -0.0275 0.061
+        axis -1 0 0
+        anchor -0.061 0 -0.0275
       }
       device [
         RotationalMotor {
@@ -53,11 +52,11 @@ DEF BIPED Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.0275 0.061
-        rotation 0 0 1 0
+        translation -0.061 0 -0.0275
+        rotation -1 0 0 0
         children [
           DEF THIGH_BB Transform {
-            translation 0 -0.025 0
+            translation 0 0 -0.025
             children [
               Shape {
                 appearance PBRAppearance {
@@ -66,15 +65,15 @@ DEF BIPED Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.05 0.1 0.02
+                  size 0.02 0.05 0.1
                 }
               }
             ]
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 -0.05 0.021
+              axis -1 0 0
+              anchor -0.021 0 -0.05
             }
             device [
               RotationalMotor {
@@ -82,11 +81,11 @@ DEF BIPED Robot {
               }
             ]
             endPoint Solid {
-              translation 0 -0.05 0.021
-              rotation 0 0 1 0
+              translation -0.021 0 -0.05
+              rotation -1 0 0 0
               children [
                 DEF KNEE_BB Transform {
-                  translation 0 -0.025 0
+                  translation 0 0 -0.025
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -95,15 +94,15 @@ DEF BIPED Robot {
                         metalness 0
                       }
                       geometry Box {
-                        size 0.05 0.1 0.02
+                        size 0.02 0.05 0.1
                       }
                     }
                   ]
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 0 1
-                    anchor 0 -0.075 -0.036
+                    axis -1 0 0
+                    anchor 0.036 0 -0.075
                   }
                   device [
                     RotationalMotor {
@@ -111,8 +110,8 @@ DEF BIPED Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0 -0.075 -0.036
-                    rotation 0 0 1 0
+                    translation 0.036 0 -0.075
+                    rotation -1 0 0 0
                     children [
                       DEF ANKLE_BB Transform {
                         children [
@@ -123,7 +122,7 @@ DEF BIPED Robot {
                               metalness 0
                             }
                             geometry Box {
-                              size 0.2 0.05 0.05
+                              size 0.05 0.2 0.05
                             }
                           }
                         ]
@@ -155,8 +154,8 @@ DEF BIPED Robot {
     }
     DEF RIGHT_HIP HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0 -0.0275 -0.061
+        axis -1 0 0
+        anchor 0.061 0 -0.0275
       }
       device [
         RotationalMotor {
@@ -164,14 +163,14 @@ DEF BIPED Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.0275 -0.061
-        rotation 0 0 1 0
+        translation 0.061 0 -0.0275
+        rotation -1 0 0 0
         children [
           USE THIGH_BB
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 -0.05 -0.021
+              axis -1 0 0
+              anchor 0.021 0 -0.05
             }
             device [
               RotationalMotor {
@@ -179,14 +178,14 @@ DEF BIPED Robot {
               }
             ]
             endPoint Solid {
-              translation 0 -0.05 -0.021
-              rotation 0 0 1 0
+              translation 0.021 0 -0.05
+              rotation -1 0 0 0
               children [
                 USE KNEE_BB
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 0 1
-                    anchor 0 -0.075 0.036
+                    axis -1 0 0
+                    anchor -0.036 0 -0.075
                   }
                   device [
                     RotationalMotor {
@@ -194,8 +193,8 @@ DEF BIPED Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0 -0.075 0.036
-                    rotation 0 0 1 0
+                    translation -0.036 0 -0.075
+                    rotation -1 0 0 0
                     children [
                       USE ANKLE_BB
                     ]
@@ -225,8 +224,8 @@ DEF BIPED Robot {
     }
     DEF HEAD HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0.0775 0
+        axis 0 0 1
+        anchor 0 0 0.0775
       }
       device [
         RotationalMotor {
@@ -236,7 +235,7 @@ DEF BIPED Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.0775 0
+        translation 0 0 0.0775
         children [
           DEF HEAD_SHAPE Shape {
             appearance PBRAppearance {

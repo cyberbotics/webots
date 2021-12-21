@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Description: example of fully asymetric friction contact"
@@ -6,7 +6,7 @@ WorldInfo {
   contactProperties [
     ContactProperties {
       coulombFriction [
-        0.01, 0.23
+        0.01 0.23
       ]
       frictionRotation 0.1 0
     }
@@ -29,7 +29,7 @@ DirectionalLight {
 }
 DEF BOX1 Solid {
   translation 0.121931 -0.9 1.17269
-  rotation 0.18007204322882017 0.9803922353569098 -0.08003201921280896 -0.73
+  rotation -0.8570712869942254 0.38584912920333886 0.3413931143170397 1.86553
   children [
     Shape {
       geometry DEF BOX Box {
@@ -43,7 +43,7 @@ DEF BOX1 Solid {
 }
 DEF BOX2 Solid {
   translation -0.8 -0.9 0.7
-  rotation -0.15667697224959964 0.9858098253947791 -0.06026038932676636 0.864729
+  rotation -0.27484395543776663 0.7249438824601457 0.6315988975947736 2.68309
   children [
     Shape {
       geometry DEF BOX Box {
@@ -58,12 +58,16 @@ DEF BOX2 Solid {
 }
 DEF PLANE Solid {
   translation 0 -1.16 0
-  rotation 0.2371269169977198 0.9693986606783392 -0.06353787775963689 5.74384
+  rotation -0.7931261333066688 0.45791307696489164 0.40158006749657943 1.92612
   children [
-    Shape {
-      geometry DEF PLANE Plane {
-        size 4 4
-      }
+    DEF PLANE Transform {
+      children [
+        Shape {
+          geometry Plane {
+            size 4 4
+          }
+        }
+      ]
     }
   ]
   name "solid(3)"

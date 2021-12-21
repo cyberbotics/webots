@@ -45,6 +45,7 @@ private:
 
   GPS *mGPS;
   ros::Publisher mSpeedPublisher;
+  ros::Publisher mSpeedVectorPublisher;
   ros::ServiceServer mCoordinateTypeServer;
   ros::ServiceServer mConvertServer;
 };

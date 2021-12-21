@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/firebird6
@@ -6,8 +6,8 @@
 # More information on this robot: http://www.nex-robotics.com/products/fire-bird-vi-robot/fire-bird-vi-robotic-research-platform.html
 
 PROTO FireBird6 [
-  field SFVec3f    translation     0 0 0                            # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.125                            # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Fire Bird 6"                    # Is `Solid.name`.
   field SFString   controller      "fire_bird_6_obstacle_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -24,7 +24,7 @@ Robot {
   rotation IS rotation
   children [
     Transform {
-      translation 0 0.095 0
+      translation 0 0 0.095
       children [
         Shape {
           appearance DEF DARK_GRAY PBRAppearance {
@@ -41,8 +41,8 @@ Robot {
       ]
     }
     Transform {
-      translation 0 -0.109 0
-      rotation 1 0 0 -1.5714
+      translation 0 0 -0.109
+      rotation 0.000295 -0.000305 1 -1.5708
       scale 0.105 0.105 0.105
       children [
         DEF BottomPlate Shape {
@@ -61,8 +61,8 @@ Robot {
       ]
     }
     Transform {
-      translation 0 -0.064 0
-      rotation 1 0 0 -1.5714
+      translation 0 0 -0.064
+      rotation 0.000295 -0.000305 1 -1.5708
       scale 0.105 0.105 0.105
       children [
         DEF BottomPlate Shape {
@@ -100,12 +100,12 @@ Robot {
       ]
     }
     DEF FB6_Sonar_0 DistanceSensor {
-      translation -0.15 0.05 0
-      rotation 0 1 0 3.1428
+      translation 0 0.15 0.05
+      rotation -0.576888 -0.577577 -0.577585 -2.095094
       children [
         Transform {
           translation -0.007 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             DEF FB6_Sonar_shape Shape {
               appearance USE DARK_GRAY
@@ -124,12 +124,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_1 DistanceSensor {
-      translation -0.1 0.05 -0.1
-      rotation 0 1 0 2.3571
+      translation 0.1 0.1 0.05
+      rotation 0.862576 0.357741 0.357748 1.718102
       children [
         Transform {
           translation 0.003 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -142,12 +142,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_2 DistanceSensor {
-      translation 0 0.05 -0.15
-      rotation 0 1 0 1.5714
+      translation 0.15 -0.0 0.05
+      rotation 1 0.000298 0.000302 1.570807
       children [
         Transform {
           translation -0.007 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -160,12 +160,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_3 DistanceSensor {
-      translation 0.1 0.05 -0.1
-      rotation 0 1 0 0.7857
+      translation 0.1 -0.1 0.05
+      rotation 0.862951 -0.357293 -0.357293 1.717675
       children [
         Transform {
           translation 0.003 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -178,11 +178,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_4 DistanceSensor {
-      translation 0.15 0.05 0
+      translation 0 -0.15 0.05
+      rotation -0.577352 0.577348 0.577352 -2.094405
       children [
         Transform {
           translation -0.007 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -195,12 +196,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_5 DistanceSensor {
-      translation 0.1 0.05 0.1
-      rotation 0 1 0 -0.7857
+      translation -0.1 -0.1 0.05
+      rotation 0.280975 -0.678618 -0.678624 2.593777
       children [
         Transform {
           translation 0.003 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -213,12 +214,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_6 DistanceSensor {
-      translation 0 0.05 0.15
-      rotation 0 1 0 -1.5714
+      translation -0.15 0 0.05
+      rotation 0.000213 0.707103 0.70711 3.141161
       children [
         Transform {
           translation -0.007 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -231,12 +232,12 @@ Robot {
       type "sonar"
     }
     DEF FB6_Sonar_7 DistanceSensor {
-      translation -0.1 0.05 0.1
-      rotation 0 1 0 -2.3571
+      translation -0.1 0.1 0.05
+      rotation 0.281418 0.678525 0.678533 2.592948
       children [
         Transform {
           translation 0.003 0 0
-          rotation 0 0 1 1.57143
+          rotation 0 1 0 1.57143
           children [
             USE FB6_Sonar_shape
           ]
@@ -249,8 +250,8 @@ Robot {
       type "sonar"
     }
     DEF FB6_IRSensor_0 DistanceSensor {
-      translation -0.143 -0.02 0
-      rotation 0 1 0 3.1428
+      translation 0 0.143 -0.02
+      rotation -0.576888 -0.577577 -0.577585 -2.095094
       children [
         DEF FB6_Sonar_Shape Shape {
           appearance USE DARK_GRAY
@@ -266,8 +267,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_1 DistanceSensor {
-      translation -0.1 -0.02 -0.1
-      rotation 0 1 0 2.3471
+      translation 0.1 0.1 -0.02
+      rotation 0.865684 0.353968 0.353975 1.714543
       children [
         USE FB6_Sonar_Shape
       ]
@@ -278,8 +279,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_2 DistanceSensor {
-      translation 0 -0.02 -0.143
-      rotation 0 1 0 1.5714
+      translation 0.143 0 -0.02
+      rotation 1 0.000298 0.000302 1.570807
       children [
         USE FB6_Sonar_Shape
       ]
@@ -289,8 +290,8 @@ Robot {
       ]
     }
     DEF FB6_IRSensor_3 DistanceSensor {
-      translation 0.1 -0.02 -0.1
-      rotation 0 1 0 0.7857
+      translation 0.1 -0.1 -0.02
+      rotation 0.862951 -0.357293 -0.357293 1.717675
       children [
         USE FB6_Sonar_Shape
       ]
@@ -301,7 +302,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_4 DistanceSensor {
-      translation 0.143 -0.02 0
+      translation 0 -0.143 -0.02
+      rotation -0.577352 0.577348 0.577352 -2.094405
       children [
         USE FB6_Sonar_Shape
       ]
@@ -312,8 +314,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_5 DistanceSensor {
-      translation 0.1 -0.02 0.1
-      rotation 0 1 0 -0.7857
+      translation -0.1 -0.1 -0.02
+      rotation 0.280975 -0.678618 -0.678624 2.593777
       children [
         USE FB6_Sonar_Shape
       ]
@@ -324,8 +326,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_6 DistanceSensor {
-      translation 0 -0.02 0.143
-      rotation 0 1 0 -1.5714
+      translation -0.143 0 -0.02
+      rotation 0.000213 0.707103 0.70711 3.141161
       children [
         USE FB6_Sonar_Shape
       ]
@@ -336,8 +338,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_IRSensor_7 DistanceSensor {
-      translation -0.1 -0.02 0.1
-      rotation 0 1 0 -2.3571
+      translation -0.1 0.1 -0.02
+      rotation 0.281418 0.678525 0.678533 2.592948
       children [
         USE FB6_Sonar_Shape
       ]
@@ -348,8 +350,8 @@ Robot {
       type "infra-red"
     }
     DEF FB6_Robot Transform {
-      translation 0 -0.007 0
-      rotation 0 1 0 0.3927
+      translation 0 0 -0.007
+      rotation 0 0 1 0.3927
       children [
         DEF FB6_SHAPE Shape {
           appearance PBRAppearance {
@@ -366,10 +368,10 @@ Robot {
       ]
     }
     DEF FB6_Castor Solid {
-      translation 0 -0.115 0.14
+      translation -0.14 0.0 -0.115
       children [
         Transform {
-          translation 0 0.005 0
+          translation 0 0 0.005
           children [
             Shape {
               appearance USE DARK_GRAY
@@ -399,8 +401,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 -0.0799895 -0.0700054
+        axis 0.0 1 0.0
+        anchor 0.07 0 -0.08
       }
       device [
         RotationalMotor {
@@ -415,8 +417,8 @@ Robot {
         }
       ]
       endPoint DEF FB6_RightWheel Solid {
-        translation 0.15 -0.0799895 -0.0700053
-        rotation 1 0 0 -0.788199
+        translation 0.07 -0.15 -0.08
+        rotation -0.356356 0.356348 0.863728 -1.71678
         children [
           DEF FB6_WHEEL_SHAPE_Outer Transform {
             rotation 0 1 0 1.5708
@@ -463,7 +465,7 @@ Robot {
         ]
         name "right wheel"
         boundingObject DEF FB6_Wheel_Bound Transform {
-          rotation 0 0 1 1.5708
+          rotation 0 1 0 1.5708
           children [
             Cylinder {
               height 0.01
@@ -480,8 +482,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 -0.0799895 -0.0700053
+        axis 0 1 0
+        anchor 0.07 0 -0.08
       }
       device [
         RotationalMotor {
@@ -496,8 +498,8 @@ Robot {
         }
       ]
       endPoint DEF FB6_LeftWheel Solid {
-        translation -0.15 -0.0799895 -0.0700054
-        rotation 1 0 0 0
+        translation 0.07 0.15 -0.08
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF FB6_WHEEL_SHAPE_Inner Transform {
             rotation 0 1 0 1.5708
@@ -548,8 +550,8 @@ Robot {
       }
     }
     Transform {
-      translation 0 -0.0797 -0.07
-      rotation 0 0 1 1.5708
+      translation 0.07 0 -0.0797
+      rotation 1 0 0 1.5708
       children [
         Shape {
           appearance USE DARK_GRAY
@@ -567,8 +569,8 @@ Robot {
   name IS name
   model "NEX Robotics Fire Bird 6"
   boundingObject Transform {
-    translation 0 -0.007 0
-    rotation 0 1 0 0.39283
+    translation 0 0 -0.007
+    rotation 0 0 1 0.39283
     children [
       USE FB6_SHAPE
     ]

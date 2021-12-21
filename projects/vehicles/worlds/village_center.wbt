@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Village Center"
   ERP 0.6
   basicTimeStep 10
   FPS 40
-  coordinateSystem "NUE"
   gpsReference 46.5156 6.56525 0
   lineScale 5
   contactProperties [
@@ -71,8 +70,8 @@ WorldInfo {
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 1
-  orientation -0.024488909854159923 -0.9850929736703341 -0.17027074475520798 2.691569790639924
-  position -153.37410590342432 31.10687778845827 -104.88212194957107
+  orientation 0.16365261164670228 0.04853784793365313 -0.9853232464623899 2.8859217325893547
+  position 111.60196800187663 152.82356311567005 20.721136581046594
   near 4
 }
 TexturedBackground {
@@ -82,13 +81,12 @@ TexturedBackgroundLight {
 }
 SumoInterface {
   gui FALSE
-  useNetconvert FALSE
   maxVehicles 10
   radius 250
   children [
     Pole {
-      translation -111.43544579025536 -0.009999999999758416 56.648586398418324
-      rotation 0 1 0 0.3
+      translation -56.648586398418324 111.43544579025536 -0.009999999999758416
+      rotation 0 0 1 0.3
       name "pole(0)"
       slot [
         TrafficLight {
@@ -101,8 +99,8 @@ SumoInterface {
       ]
     }
     Pole {
-      translation -97.80933130035707 -0.00999985442669943 60.2007256132104
-      rotation 0 -0.9999999999999998 0 2.8415926631795867
+      translation -60.2007256132104 97.80933130035707 -0.00999985442669943
+      rotation 0 0 -1 2.8415926631795867
       name "pole(1)"
       slot [
         TrafficLight {
@@ -115,8 +113,8 @@ SumoInterface {
       ]
     }
     Pole {
-      translation -136.60190027550982 -0.00999994222282936 149.52720938923315
-      rotation -1.91795850419863e-08 0.9999999999999994 2.6009203179285244e-08 5.012388927640826
+      translation -149.52720938923315 136.60190027550982 -0.00999994222282936
+      rotation 0 0 1 5.012388927640826
       name "pole(2)"
       slot [
         TrafficLight {
@@ -129,8 +127,8 @@ SumoInterface {
       ]
     }
     Pole {
-      translation -134.6481874520221 -0.01000070734290327 161.98727874919553
-      rotation -1.5785122457788864e-08 -0.9999999999999997 -1.5193352059996544e-08 4.150589617359173
+      translation -161.98727874919553 134.6481874520221 -0.01000070734290327
+      rotation 0 0 -1 4.150589617359173
       name "pole(3)"
       slot [
         TrafficLight {
@@ -143,8 +141,8 @@ SumoInterface {
       ]
     }
     Pole {
-      translation -17.540418991057173 -0.00999991292892807 142.5610859691786
-      rotation 5.382702478230388e-09 -0.9999999999999997 -2.174132741567837e-08 2.0561945597183473
+      translation -142.5610859691786 17.540418991057173 -0.00999991292892807
+      rotation 0 0 -1 2.0561945597183473
       name "pole(4)"
       slot [
         TrafficLight {
@@ -157,8 +155,8 @@ SumoInterface {
       ]
     }
     TrafficLightBigPole {
-      translation -32.25682928110518 -0.009999937457020498 154.52152342878657
-      rotation 3.604902626728487e-08 0.9999999999999993 8.92499226603845e-09 1.23
+      translation -154.52152342878657 32.25682928110518 -0.009999937457020498
+      rotation 0 0 1 1.23
       slot2 [
         TrafficLightHorizontal {
           red_light "gneJ3_0_r"
@@ -182,7 +180,7 @@ SumoInterface {
   ]
 }
 Solid {
-  translation 0 -0.1 0
+  translation 0 0 -0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -207,8 +205,8 @@ Solid {
   }
 }
 Solid {
-  translation 152.58007323140689 -0.9399999999992041 189.84001580198273
-  rotation 0 1 0 2.8797932569999998
+  translation -189.84001580198273 -152.58007323140689 -0.9399999999992041
+  rotation -0.6776608267946584 -0.5199888670945025 -0.5199878670947581 -1.950445307179586
   children [
     Shape {
       appearance Soil {
@@ -237,8 +235,8 @@ Solid {
   name "solid(31)"
 }
 Solid {
-  translation 435.12257297692366 -0.9400000000104307 125.91130031650209
-  rotation 0 -1 0 5.497787165359172
+  translation -125.91130031650209 -435.12257297692366 -0.9400000000104307
+  rotation -0.8628565621288802 0.3574058186283875 0.35740681862788 -1.71778
   children [
     Shape {
       appearance Soil {
@@ -269,8 +267,8 @@ Solid {
 DEF FLOOR_SEGMENTS Group {
   children [
     DEF DELIMITER Transform {
-      translation -169.8650665423377 -3.8457531244891956e-13 196.03483368562823
-      rotation 0 1 0 0.5235987739999998
+      translation -196.03483368562823 169.8650665423377 0
+      rotation 0 0 1 0.5235987739999998
       children [
         Shape {
           appearance PBRAppearance {
@@ -287,14 +285,14 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 23.6
+            size 23.6 0.15 0.1
           }
         }
       ]
     }
     DEF DELIMITER Transform {
-      translation -187.78666903342278 -3.8457531244891956e-13 165.19370750399287
-      rotation 0 1 0 0.5235987739999998
+      translation -165.19370750399287 187.78666903342278 0
+      rotation 0 0 1 0.5235987739999998
       children [
         Shape {
           appearance PBRAppearance {
@@ -311,14 +309,14 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 27.3
+            size 27.3 0.15 0.1
           }
         }
       ]
     }
     DEF DELIMITER Transform {
-      translation -97.51724076624232 -3.8457531244891956e-13 18.31083787972897
-      rotation 0 1 0 1.865
+      translation -18.31083787972897 97.51724076624232 0
+      rotation 0 0 1 1.865
       children [
         Shape {
           appearance PBRAppearance {
@@ -335,14 +333,14 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 27.3
+            size 27.3 0.15 0.1
           }
         }
       ]
     }
     DEF DELIMITER Transform {
-      translation -132.46809917781823 -3.8457531244891956e-13 28.900828261877027
-      rotation 0 1 0 1.865
+      translation -28.900828261877027 132.46809917781823 0
+      rotation 0 0 1 1.865
       children [
         Shape {
           appearance PBRAppearance {
@@ -359,14 +357,14 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 27.3
+            size 27.3 0.15 0.1
           }
         }
       ]
     }
     DEF DELIMITER Transform {
-      translation 18.72109046202589 -3.8457531244891956e-13 187.79379548029206
-      rotation 0 0.9999999999999999 0 2.81
+      translation -187.79379548029206 -18.72109046202589 0
+      rotation 0 0 1 2.81
       children [
         Shape {
           appearance PBRAppearance {
@@ -383,14 +381,14 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 27.3
+            size 27.3 0.15 0.1
           }
         }
       ]
     }
     DEF DELIMITER Transform {
-      translation 32.1858109376722 -3.8457531244891956e-13 148.68687918006853
-      rotation 0 0.9999999999999999 0 2.81
+      translation -148.68687918006853 -32.1858109376722 0
+      rotation 0 0 1 2.81
       children [
         Shape {
           appearance PBRAppearance {
@@ -407,13 +405,13 @@ DEF FLOOR_SEGMENTS Group {
             }
           }
           geometry Box {
-            size 0.15 0.1 27.3
+            size 27.3 0.15 0.1
           }
         }
       ]
     }
     DEF CENTER Transform {
-      translation -44.051607 0 2.113228
+      translation -2.113228 44.051607 0
       children [
         Shape {
           appearance Pavement {
@@ -426,18 +424,18 @@ DEF FLOOR_SEGMENTS Group {
             coord Coordinate {
               point [
                 0 0 0
-                -103.38 0 31.29
-                -143.08 0 43.31
-                -131.88 0 83.5
-                -124.62 0 106.88
-                -160.55 0 134.09
-                -108.85 0 223.17
-                -73.1 0 257.75
-                -26.53 0 278.53
-                56.33 0 246.25
-                61.5 0 189.51
-                83.56 0 124.51
-                112.92 0 55.24
+                -31.29 103.38 0
+                -43.31 143.08 0
+                -83.5 131.88 0
+                -106.88 124.62 0
+                -134.09 160.55 0
+                -223.17 108.85 0
+                -257.75 73.1 0
+                -278.53 26.53 0
+                -246.25 -56.33 0
+                -189.51 -61.5 0
+                -124.51 -83.56 0
+                -55.24 -112.92 0
                 0 0 0
               ]
             }
@@ -451,7 +449,7 @@ DEF FLOOR_SEGMENTS Group {
       ]
     }
     DEF CENTER_INPUT Transform {
-      translation -147.427064 0 33.404572
+      translation -33.404572 147.427064 0
       children [
         Shape {
           appearance Soil {
@@ -464,16 +462,16 @@ DEF FLOOR_SEGMENTS Group {
             coord Coordinate {
               point [
                 0 0 0
-                -62.91 0 -203.21
-                -100.48 0 -294.19
-                -131.89 0 -323.98
-                -127.03 0 -403.7
-                -80.33 0 -430.2
-                21.75 0 -269.84
-                71 0 -126
-                19.619999999999997 0 -111.32
-                47.5 0 -17.200000000000003
-                50.38 0 -15.26
+                203.21 62.91 0
+                294.19 100.48 0
+                323.98 131.89 0
+                403.7 127.03 0
+                430.2 80.33 0
+                269.84 -21.75 0
+                126 -71 0
+                111.32 -19.62 0
+                17.2 -47.5 0
+                15.26 -50.38 0
                 0 0 0
               ]
             }
@@ -488,7 +486,7 @@ DEF FLOOR_SEGMENTS Group {
       ]
     }
     DEF LEFT Transform {
-      translation -431.430211 0 268.294945
+      translation -268.294945 431.430211 0
       children [
         Shape {
           appearance Soil {
@@ -501,25 +499,25 @@ DEF FLOOR_SEGMENTS Group {
             coord Coordinate {
               point [
                 0 0 0
-                32.33 0 169.41
-                363.83 0 194.6
-                800.64 0 213.7
-                894.38 0 -146.44
-                849.22 0 -628.81
-                431.1 0 -647.33
-                203.68 0 -665.09
-                305.75 0 -504.73
-                387.38 0 -266.18
-                500.3 0 -210.94
-                470.94 0 -141.67
-                448.87 0 -76.68
-                443.71 0 -19.93
-                360.85 0 12.35
-                314.28 0 -8.43
-                278.53 0 -43.01
-                226.83 0 -132.09
-                72.6 0 -145.33
-                -12.72 0 -26.32
+                -169.41 -32.33 0
+                -194.6 -363.83 0
+                -213.7 -800.64 0
+                146.44 -894.38 0
+                628.81 -849.22 0
+                647.33 -431.1 0
+                665.09 -203.68 0
+                504.73 -305.75 0
+                266.18 -387.38 0
+                210.94 -500.3 0
+                141.67 -470.94 0
+                76.68 -448.87 0
+                19.93 -443.71 0
+                -12.35 -360.85 0
+                8.43 -314.28 0
+                43.01 -278.53 0
+                132.09 -226.83 0
+                145.33 -72.6 0
+                26.32 12.72 0
                 0 0 0
               ]
             }
@@ -534,7 +532,7 @@ DEF FLOOR_SEGMENTS Group {
       ]
     }
     DEF LOWER_RIGHT Transform {
-      translation -0.328764 0 -379.039915
+      translation 379.039915 0.328764 0
       children [
         Shape {
           appearance Soil {
@@ -546,18 +544,18 @@ DEF FLOOR_SEGMENTS Group {
             coord Coordinate {
               point [
                 0 0 0
-                -309.42 0 -100.04
-                -513.77 0 -110.99
-                -552.37 0 820.42
-                -398.77 0 816.75
-                -431.1 0 647.33
-                -443.83 0 621.01
-                -358.5 0 502
-                -358.17 0 234.18
-                -327.15 0 119.75
-                -278.99 0 88.47
-                -274.13 0 8.74
-                -227.43 0 -17.75
+                100.04 309.42 0
+                110.99 513.77 0
+                -820.42 552.37 0
+                -816.75 398.77 0
+                -647.33 431.1 0
+                -621.01 443.83 0
+                -502 358.5 0
+                -234.18 358.17 0
+                -119.75 327.15 0
+                -88.47 278.99 0
+                -8.74 274.13 0
+                17.75 227.43 0
                 0 0 0
               ]
             }
@@ -573,17 +571,17 @@ DEF FLOOR_SEGMENTS Group {
   ]
 }
 BusStop {
-  translation 337.5767537349105 -1.2789769243681803e-13 263.1937379360513
-  rotation 0 -0.9999999999999999 0 2.8797932953591725
+  translation -263.1937379360513 -337.5767537349105 0
+  rotation 0 0 1 0.26179935823062067
 }
 BusStop {
-  translation 2.8934259818372237 -1.0658141036401503e-13 168.48859321867945
-  rotation 0 1 0 2.8
+  translation -168.48859321867945 -2.8934259818372237 0
+  rotation 0 0 1 -0.34159265358979357
   name "bus stop(4)"
 }
 BusSimple {
-  translation 3.2928030901499294 0.5 164.11587119377918
-  rotation 0 -1 0 5.07
+  translation -164.11587119377918 -3.2928030901499294 0.5
+  rotation 0 0 1 -1.9284073464102072
   color 0.8274509803921568 0.7607843137254902 0
   recognitionColors [
     0.8274509803921568 0.7607843137254902 0
@@ -591,8 +589,8 @@ BusSimple {
   name "vehicle(7)"
 }
 DEF BUS_LINE Transform {
-  translation 4.945366667154786 0.05 164.44663601648415
-  rotation 0 -1 0 5.07
+  translation -164.44663601648415 -4.945366667154786 0.05
+  rotation 0 0 -1 0.357611
   children [
     Shape {
       appearance PBRAppearance {
@@ -611,18 +609,18 @@ DEF BUS_LINE Transform {
   ]
 }
 BusStop {
-  translation -35.37332987584835 3.126388037344441e-13 133.75806495349048
-  rotation 0 -1 0 0.261799425359172
+  translation -133.75806495349048 35.37332987584835 0
+  rotation 0 0 1 2.879793228230621
   name "bus stop(3)"
 }
 BusStop {
-  translation -254.2792089393675 -9.947598300641403e-14 -316.31615450357526
-  rotation 0 -1 0 3.4033920693591724
+  translation 316.31615450357526 254.2792089393675 0
+  rotation 0 0 1 -0.2617994157693792
   name "bus stop(2)"
 }
 DEF BUS_LINE Transform {
-  translation -255.77839778674345 0.1 -321.50083702036505
-  rotation 0 1 0 1.308996896640827
+  translation 321.50083702036505 255.77839778674345 0.1
+  rotation 0 0 1 -0.261795307179586
   children [
     Shape {
       appearance PBRAppearance {
@@ -641,13 +639,13 @@ DEF BUS_LINE Transform {
   ]
 }
 BusStop {
-  translation -225.94969245384527 -7.105427357601002e-15 -314.2093073242951
-  rotation 0 -1 0 0.7853981993591734
+  translation 314.2093073242951 225.94969245384527 0
+  rotation 0 0 1 2.3561944542306197
   name "bus stop(1)"
 }
 DEF BUS_LINE Transform {
-  translation -229.44712744130402 0.1 -311.340476859859
-  rotation 0 -1 0 2.3561945597183462
+  translation 311.340476859859 229.44712744130402 0.1
+  rotation 0 0 1 2.35619
   children [
     Shape {
       appearance PBRAppearance {
@@ -666,179 +664,179 @@ DEF BUS_LINE Transform {
   ]
 }
 Carwash {
-  translation 195.28285327332063 -1.5631940186722204e-12 331.94533775047415
-  rotation 0 1 0 4.601124226984511
+  translation -331.94533775047415 -195.28285327332063 0
+  rotation 0 0 1 -0.11126530717958616
 }
 GasStation {
-  translation 208.37912614662818 -1.8189894035458565e-12 300.9148634734115
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -300.9148634734115 -208.37912614662818 0
+  rotation 0 0 1 4.712388966
 }
 Carwash {
-  translation 186.48648907700633 -1.7053025658242404e-12 269.15619739380696
-  rotation 0 1 0 4.450589579
+  translation -269.15619739380696 -186.48648907700633 0
+  rotation 0 0 1 -0.261795307179586
   name "carwash(1)"
 }
 StreetLight {
-  translation -214.13019543670688 -1.5631940186722204e-13 -266.74123801697937
-  rotation 1.2246467991473532e-16 1 1.5959907246392112e-16 4.974188333820413
+  translation 266.74123801697937 214.13019543670688 0
+  rotation 0 0 1 4.974188333820413
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -154.74792849658905 -1.95042372218683e-13 -86.69715038195812
-  rotation 1.2246467991473532e-16 1 1.59599066125869e-16 4.97418829546124
+  translation 86.69715038195812 154.74792849658905 0
+  rotation 0 0 1 4.97418829546124
   name "street light(3)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -109.65400369239401 -3.132844552740238e-13 63.29495876346886
-  rotation 1.2246467991473532e-16 1 1.59599066125869e-16 4.97418829546124
+  translation -63.29495876346886 109.65400369239401 0
+  rotation 0 0 1 4.97418829546124
   name "street light(4)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -403.6332092462595 -2.7417675302673623e-12 143.50006446135683
-  rotation -1.2246467991473535e-16 -1 -7.070500860754795e-17 2.094395191897933
+  translation -143.50006446135683 403.6332092462595 0
+  rotation 0 0 -1 2.094395191897933
   name "street light(20)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -397.6344026254745 -2.7417675302673623e-12 155.113522301285
-  rotation 1.2246467991473552e-16 1 9.302113232677263e-16 6.02138584346124
+  translation -155.113522301285 397.6344026254745 0
+  rotation 0 0 1 6.02138584346124
   name "street light(21)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 93.28615592022688 -3.8457531244891956e-13 184.1334922664908
-  rotation -6.147620201140568e-18 -1 -1.2513751971216778e-16 3.5670167874264718
+  translation -184.1334922664908 -93.28615592022688 0
+  rotation 0 0 -1 3.5670167874264718
   name "street light(5)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 211.38985759770725 1.1786187062233007e-12 247.1416715374557
-  rotation -5.793956769525269e-16 0.9999999999999999 2.8463930096635583e-17 5.857761144573528
+  translation -247.1416715374557 -211.38985759770725 0
+  rotation 0 0 1 5.857761144573528
   name "street light(11)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 254.61963848645547 1.1825814812602546e-12 257.7935078553447
-  rotation 1.674511394466348e-16 1 1.517688385213518e-16 1.145372140214355
+  translation -257.7935078553447 -254.61963848645547 0
+  rotation 0 0 1 1.145372140214355
   name "street light(14)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 188.9098823220085 -3.6126585179776716e-13 372.60388809077335
-  rotation 2.5884875632615094e-17 -1 -1.198489332461511e-16 3.0434180901448182
+  translation -372.60388809077335 -188.9098823220085 0
+  rotation 0 0 -1 3.0434180901448182
   name "street light(17)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 126.23879212703677 -3.058455908366203e-13 386.4789871267081
-  rotation 1.493554834508609e-15 -1 1.2246435764988932e-16 0.1636248331448189
+  translation -386.4789871267081 -126.23879212703677 0
+  rotation 0 0 -1 0.1636248331448189
   name "street light(19)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 250.55968892509392 1.0751252554181768e-12 309.9109588783599
-  rotation -1.224646599864672e-16 1 1.0390354631547184e-16 4.548764171214355
+  translation -309.9109588783599 -250.55968892509392 0
+  rotation 0 0 1 4.548764171214355
   name "street light(18)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 218.30270274887263 1.1825814812602546e-12 231.88470355833186
-  rotation -6.147622626692298e-18 -1 -1.2513752011262814e-16 3.5670168257856445
+  translation -231.88470355833186 -218.30270274887263 0
+  rotation 0 0 -1 3.5670168257856445
   name "street light(16)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 146.9445706729474 -3.8457531244891956e-13 222.50473912130286
-  rotation -5.793956769525269e-16 0.9999999999999999 2.8463930096635583e-17 5.857761144573528
+  translation -222.50473912130286 -146.9445706729474 0
+  rotation 0 0 1 5.857761144573528
   name "street light(13)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 153.71709538522342 -3.806929758306269e-13 207.55746482056125
-  rotation -6.147622626692298e-18 -1 -1.2513752011262814e-16 3.5670168257856445
+  translation -207.55746482056125 -153.71709538522342 0
+  rotation 0 0 -1 3.5670168257856445
   name "street light(15)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 85.71787388392279 -3.8457531244891956e-13 200.40245850137487
-  rotation -5.793956769525269e-16 0.9999999999999999 2.8463930096635583e-17 5.857761144573528
+  translation -200.40245850137487 -85.71787388392279 0
+  rotation 0 0 1 5.857761144573528
   name "street light(12)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 36.15942082755429 -3.8457531244891956e-13 162.90516044114875
-  rotation -1.2320570815768763e-16 1 1.3357234307463059e-17 2.8339782586474223
+  translation -162.90516044114875 -36.15942082755429 0
+  rotation 0 0 1 2.8339782586474223
   name "street light(10)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation 30.459400891065577 -3.8457778628320227e-13 178.79554556502129
-  rotation 8.615811679482895e-17 -1 7.947133383974974e-16 0.30761438535257796
+  translation -178.79554556502129 -30.459400891065577 0
+  rotation 0 0 -1 0.30761438535257796
   name "street light(9)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -25.770680469105628 -3.8457531244891956e-13 139.543948598391
-  rotation 1.232057081026081e-16 -1 -1.3357233106087288e-17 3.4492070293525776
+  translation -139.543948598391 25.770680469105628 0
+  rotation 0 0 -1 3.4492070293525776
   name "street light(8)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -141.39668143179554 -3.3839003462451305e-13 152.2652584810121
-  rotation -1.2097020765659686e-16 0.9999999999999999 -3.540280929444204e-17 3.6193764580065957
+  translation -152.2652584810121 141.39668143179554 0
+  rotation 0 0 1 3.6193764580065957
   name "street light(7)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -83.20007454443376 -3.7036445773371756e-13 136.20915420960185
-  rotation 1.2246467991473552e-16 1 9.302113232677263e-16 6.02138584346124
+  translation -136.20915420960185 83.20007454443376 0
+  rotation 0 0 1 6.02138584346124
   name "street light(6)"
   cutOffAngle 1.32
   on FALSE
 }
 StreetLight {
-  translation -243.91545070673868 -1.1368683772161603e-13 -312.5230278494126
-  rotation -1.224646799147353e-16 -1 -4.570443915035939e-16 0.5235987931795869
+  translation 312.5230278494126 243.91545070673868 0
+  rotation 0 0 -1 0.5235987931795869
   name "street light(1)"
   cutOffAngle 1.32
   on FALSE
 }
 PedestrianCrossing {
-  translation -24.649502333127764 -0.08 148.29604660190586
-  rotation 0 1 0 1.22
+  translation -148.29604660190586 24.649502333127764 -0.08
+  rotation 0 0 1 2.7907963267948968
   size 14 4.5
   enableBoundingObject FALSE
 }
 PedestrianCrossing {
-  translation -24.649502333127764 -0.19 148.29604660190586
-  rotation 0 1 0 1.22
+  translation -148.29604660190586 24.649502333127764 -0.19
+  rotation 0 0 1 2.7907963267948968
   name "pedestrian crossing(3)"
   size 14 4.5
 }
 Transform {
-  translation -22.02941512899757 0.03 149.25481823412758
-  rotation 0 1 0 1.22
+  translation -149.25481823412758 22.02941512899757 0.03
+  rotation 0 0 1 -0.3507953071795864
   children [
     Shape {
       appearance PBRAppearance {
@@ -861,8 +859,8 @@ Transform {
   ]
 }
 Transform {
-  translation -27.297762513234968 0.03 147.32696558441623
-  rotation 0 0.9999999999999999 0 4.361592644
+  translation -147.32696558441623 27.297762513234968 0.03
+  rotation 0 0 -1 -2.7907953071795863
   children [
     Shape {
       appearance PBRAppearance {
@@ -885,15 +883,15 @@ Transform {
   ]
 }
 PedestrianCrossing {
-  translation -135.368787621197 -0.08 155.92114807153536
-  rotation 0 1 0 5.23598774
+  translation -155.92114807153536 135.368787621197 -0.08
+  rotation 0 0 1 0.5235987596153098
   name "pedestrian crossing(2)"
   size 9 3
   enableBoundingObject FALSE
 }
 Transform {
-  translation -137.28270376314492 0.03 157.02614807225504
-  rotation 0 1 0 5.23598774
+  translation -157.02614807225504 137.28270376314492 0.03
+  rotation 0 0 -1 2.61799
   children [
     Shape {
       appearance PBRAppearance {
@@ -916,8 +914,8 @@ Transform {
   ]
 }
 Transform {
-  translation -133.54147398417712 0.03 154.8661481322172
-  rotation 0 -1 0 4.188790230359173
+  translation -154.8661481322172 133.54147398417712 0.03
+  rotation 0 0 1 0.523599
   children [
     Shape {
       appearance PBRAppearance {
@@ -940,21 +938,21 @@ Transform {
   ]
 }
 PedestrianCrossing {
-  translation -135.368787621197 -0.19 155.92114807153536
-  rotation 0 1 0 5.23598774
+  translation -155.92114807153536 135.368787621197 -0.19
+  rotation 0 0 1 0.5235987596153098
   name "pedestrian crossing(4)"
   size 9 3
 }
 PedestrianCrossing {
-  translation -104.5661576512462 -0.07999999999999999 58.721140490177056
-  rotation 0 1 0 0.3
+  translation -58.721140490177056 104.5661576512462 -0.07999999999999999
+  rotation 0 0 1 1.8707963267948966
   name "pedestrian crossing(1)"
   size 9 3
   enableBoundingObject FALSE
 }
 Transform {
-  translation -103.86391565268548 0.030000000000000002 60.75442752733078
-  rotation 0 1 0 0.3
+  translation -60.75442752733078 103.86391565268548 0.030000000000000002
+  rotation 0 0 1 -1.2707953071795863
   children [
     Shape {
       appearance PBRAppearance {
@@ -977,8 +975,8 @@ Transform {
   ]
 }
 Transform {
-  translation -105.15116017903867 0.030000000000000002 56.67284742982963
-  rotation 0 0.9999999999999999 0 3.46
+  translation -56.67284742982963 105.15116017903867 0.030000000000000002
+  rotation 0 0 -1 -1.8892053071795862
   children [
     Shape {
       appearance PBRAppearance {
@@ -1001,17 +999,17 @@ Transform {
   ]
 }
 PedestrianCrossing {
-  translation -104.5661576512462 -0.19 58.721140490177056
-  rotation 0 1 0 0.3
+  translation -58.721140490177056 104.5661576512462 -0.19
+  rotation 0 0 1 1.8707963267948966
   name "pedestrian crossing(5)"
   size 9 3
 }
 OrderSign {
-  translation -119.91802087370827 -0.09999999999997158 23.653958523875843
-  rotation 0 -1 0 6.021385939359172
+  translation -23.653958523875843 119.91802087370827 -0.09999999999997158
+  rotation 0 0 -1 6.021385939359172
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
@@ -1019,12 +1017,12 @@ OrderSign {
   ]
 }
 OrderSign {
-  translation -108.31901029538759 -0.009999999999999112 22.308802690610918
-  rotation 0 -0.9999999999999999 0 2.879793295359172
+  translation -22.308802690610918 108.31901029538759 -0.009999999999999112
+  rotation 0 0 -1 2.879793295359172
   name "order sign(2)"
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
@@ -1032,12 +1030,12 @@ OrderSign {
   ]
 }
 OrderSign {
-  translation 22.856298002247726 -0.009999999999999112 175.18344828029612
-  rotation 0 1 0 1.0471975096408286
+  translation -175.18344828029612 -22.856298002247726 -0.009999999999999112
+  rotation 0 0 1 1.0471975096408286
   name "order sign(3)"
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
@@ -1045,12 +1043,12 @@ OrderSign {
   ]
 }
 OrderSign {
-  translation -181.82192902749122 -0.010000000000002665 361.41492632953464
-  rotation 0 -1 0 1.8325957857183452
+  translation -361.41492632953464 181.82192902749122 -0.010000000000002665
+  rotation 0 0 -1 1.8325957857183452
   name "order sign(5)"
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/end_limit_50.png"
       ]
@@ -1058,12 +1056,12 @@ OrderSign {
   ]
 }
 OrderSign {
-  translation 28.301230105997053 -0.010000000000016876 160.8386122175776
-  rotation 0 0.9999999999999999 0 4.188790153640827
+  translation -160.8386122175776 -28.301230105997053 -0.010000000000016876
+  rotation 0 0 1 4.188790153640827
   name "order sign(4)"
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
@@ -1071,12 +1069,12 @@ OrderSign {
   ]
 }
 OrderSign {
-  translation -303.89077138719455 -0.09999999999989875 -322.97072471062864
-  rotation 0 -1 0 4.7123890043591725
+  translation 322.97072471062864 303.89077138719455 -0.09999999999989875
+  rotation 0 0 -1 4.7123890043591725
   name "order sign(1)"
   signBoards [
     OrderPanel {
-      translation 0 -0.175 -0.026
+      translation 0.026 0 -0.175
       signImage [
         "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
@@ -1084,26 +1082,26 @@ OrderSign {
   ]
 }
 Crossroad {
-  translation 246.534298 0.01 251.236032
+  translation -251.236032 -246.534298 0.01
   name "crossroad(1)"
   id "-1093"
   shape [
-    -1.449419 0 -7.510631
-    -1.461006 0 -7.511387
-    -1.47106 0 -7.505578
-    -6.050434 0 4.66933
-    -6.051162 0 4.681035
-    -6.045203 0 4.691135
-    -2.455994 0 7.969901
-    -2.447131 0 7.974592
-    -2.437104 0 7.974392
-    6.228527 0 5.543993
-    6.238063 0 5.538035
-    6.242878 0 5.527873
-    7.490744 0 -2.328017
-    7.489058 0 -2.339734
-    2.299357 0 -6.100339
-    -1.449419 0 -7.510631
+    -1.449419 -7.510631 0
+    -1.461006 -7.511387 0
+    -1.47106 -7.505578 0
+    -6.050434 4.66933 0
+    -6.051162 4.681035 0
+    -6.045203 4.691135 0
+    -2.455994 7.969901 0
+    -2.447131 7.974592 0
+    -2.437104 7.974392 0
+    6.228527 5.543993 0
+    6.238063 5.538035 0
+    6.242878 5.527873 0
+    7.490744 -2.328017 0
+    7.489058 -2.339734 0
+    2.299357 -6.100339 0
+    -1.449419 -7.510631 0
   ]
   connectedRoadIDs [
     "-1083"
@@ -1112,7 +1110,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -170.449322 0.01 367.921353
+  translation -367.921353 170.449322 0.01
   name "crossroad(2)"
   id "-1119"
   shape []
@@ -1122,26 +1120,26 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -396.352939 0.01 145.723353
+  translation -145.723353 396.352939 0.01
   name "crossroad(3)"
   id "-1244"
   shape [
-    3.959742 0 -4.560071
-    3.952999 0 -4.567608
-    3.943431 0 -4.570883
-    -4.984311 0 -3.401035
-    -4.994397 0 -3.396667
-    -8.317076 0 0.562337
-    -8.321601 0 0.572711
-    -8.319771 0 0.583879
-    -2.939333 0 7.803251
-    -2.930003 0 7.810141
-    0.557158 0 8.322578
-    0.568629 0 8.320863
-    7.797881 0 2.953548
-    7.804883 0 2.943959
-    7.805216 0 2.932091
-    3.959742 0 -4.560071
+    3.959742 -4.560071 0
+    3.952999 -4.567608 0
+    3.943431 -4.570883 0
+    -4.984311 -3.401035 0
+    -4.994397 -3.396667 0
+    -8.317076 0.562337 0
+    -8.321601 0.572711 0
+    -8.319771 0.583879 0
+    -2.939333 7.803251 0
+    -2.930003 7.810141 0
+    0.557158 8.322578 0
+    0.568629 8.320863 0
+    7.797881 2.953548 0
+    7.804883 2.943959 0
+    7.805216 2.932091 0
+    3.959742 -4.560071 0
   ]
   connectedRoadIDs [
     "-1381"
@@ -1150,7 +1148,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -405.059244 0.01 -119.578509
+  translation 119.578509 405.059244 0.01
   name "crossroad(4)"
   id "-1248"
   shape []
@@ -1160,7 +1158,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -368.317667 0.01 -295.172321
+  translation 295.172321 368.317667 0.01
   name "crossroad(5)"
   id "-1250"
   shape []
@@ -1170,7 +1168,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -303.966694 0.01 -328.672292
+  translation 328.672292 303.966694 0.01
   name "crossroad(6)"
   id "-1540"
   shape []
@@ -1180,7 +1178,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 122.358241 0.01 380.265853
+  translation -380.265853 -122.358241 0.01
   name "crossroad(7)"
   id "-2169"
   shape []
@@ -1190,16 +1188,16 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -82.104325 0.01 127.668375
+  translation -127.668375 82.104325 0.01
   name "crossroad(8)"
   id "-38"
   shape [
-    4.5 0 7.5
-    9.2 0 -4.6000000000000005
-    -1.8 0 -16.3
-    -10 0 -12.5
-    -9.799999999999999 0 -2
-    -6.3 0 6.35
+    4.5 7.5 0
+    9.2 -4.6 0
+    -1.8 -16.3 0
+    -10 -12.5 0
+    -9.8 -2 0
+    -6.3 6.35 0
   ]
   connectedRoadIDs [
     "-1083"
@@ -1208,7 +1206,8 @@ Crossroad {
   ]
 }
 DEF ROAD_6 Road {
-  translation -396.875392 0.01 141.737658
+  translation -141.737658 396.875392 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(1)"
   id "-618"
   startJunction "-1244"
@@ -1220,8 +1219,8 @@ DEF ROAD_6 Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    -19.99267 0 -152.520135
-    -8.183852 0 -261.316166
+    -152.520135 -19.99267 0
+    -261.316166 -8.183852 0
   ]
   startingAngle [
     3.0113
@@ -1236,7 +1235,8 @@ DEF ROAD_6 Road {
   splineSubdivision 3
 }
 DEF ROAD_2 Road {
-  translation -78.342231 0.01 129.082917
+  translation -129.082917 78.342231 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(2)"
   id "-1083"
   startJunction "-38"
@@ -1253,8 +1253,8 @@ DEF ROAD_2 Road {
     }
   ]
   wayPoints [
-    3 0 0
-    321.114435 0 120.738573
+    0 3 0
+    120.738573 321.114435 0
   ]
   startingAngle [
     -1.211033
@@ -1279,15 +1279,16 @@ DEF ROAD_2 Road {
   castShadows TRUE
 }
 Road {
-  translation -86.052723 0.01 129.876194
+  translation -129.876194 86.052723 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(3)"
   id "-1085"
   startJunction "-38"
   width 9
   speedLimit 22.222222
   wayPoints [
-    -4 0 0
-    -156 0 87
+    0 -4 0
+    87 -156 0
   ]
   startingAngle [
     1.170758
@@ -1302,18 +1303,19 @@ Road {
   castShadows TRUE
 }
 Road {
-  translation 253.475955 0.01 252.364774
+  translation -252.364774 -253.475955 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(4)"
   id "-1126"
   startJunction "-1093"
   speedLimit 22.222222
   wayPoints [
     0 0 0
-    43.120222 0 7.011525
-    85.377686 0 6.446171
-    124.317585 0 -8.256692
-    155.036098 0 -60.64114
-    163.911293 0 -168.359829
+    7.011525 43.120222 0
+    6.446171 85.377686 0
+    -8.256692 124.317585 0
+    -60.64114 155.036098 0
+    -168.359829 163.911293 0
   ]
   startingAngle [
     -1.413268
@@ -1328,7 +1330,8 @@ Road {
   castShadows TRUE
 }
 Road {
-  translation -401.981355 0.01 149.918442
+  translation -149.918442 401.981355 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(5)"
   id "-1381"
   startJunction "-1244"
@@ -1340,9 +1343,9 @@ Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    -117.341729 0 87.459596
-    -124.521405 0 137.764787
-    -100.507662 0 211.485067
+    87.459596 -117.341729 0
+    137.764787 -124.521405 0
+    211.485067 -100.507662 0
   ]
   startingAngle [
     0.930324
@@ -1354,7 +1357,8 @@ Road {
   splineSubdivision 8
 }
 DEF ROAD_3 Road {
-  translation 248.430009 0.01 257.995224
+  translation -257.995224 -248.430009 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(6)"
   id "-2028"
   startJunction "-1093"
@@ -1363,10 +1367,10 @@ DEF ROAD_3 Road {
   speedLimit 22.222222
   wayPoints [
     0 0 0
-    14.910342 0 53.163093
-    -9.788778 0 100.698047
-    -53.110779 0 124.955162
-    -126.071769 0 122.270628
+    53.163093 14.910342 0
+    100.698047 -9.788778 0
+    124.955162 -53.110779 0
+    122.270628 -126.071769 0
   ]
   startingAngle [
     -0.273439
@@ -1384,7 +1388,8 @@ DEF ROAD_3 Road {
   castShadows TRUE
 }
 DEF ROAD_1 Road {
-  translation -303.966694 0.01 -328.672292
+  translation 328.672292 303.966694 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(7)"
   id "-2144"
   startJunction "-1540"
@@ -1393,10 +1398,10 @@ DEF ROAD_1 Road {
   speedLimit 22.222222
   wayPoints [
     0 0 0
-    47.993379 0 0.563253
-    78.878785 0 18.826359
-    104.066195 0 72.540336
-    216 0 442
+    0.563253 47.993379 0
+    18.826359 78.878785 0
+    72.540336 104.066195 0
+    442 216 0
   ]
   startingAngle [
     -1.559061
@@ -1414,7 +1419,8 @@ DEF ROAD_1 Road {
   castShadows TRUE
 }
 DEF ROAD_5 Road {
-  translation -170.449322 0.01 367.921353
+  translation -367.921353 170.449322 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(8)"
   id "-2172"
   startJunction "-1119"
@@ -1426,9 +1432,9 @@ DEF ROAD_5 Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    -34 0 -4
-    -97.922167 0 -49.83477
-    -221.718797 0 -216.561956
+    -4 -34 0
+    -49.83477 -97.922167 0
+    -216.561956 -221.718797 0
   ]
   startingAngle [
     1.61293
@@ -1443,7 +1449,8 @@ DEF ROAD_5 Road {
   splineSubdivision 8
 }
 DEF ROAD_0 Road {
-  translation -368.317667 0.01 -295.172321
+  translation 295.172321 368.317667 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(9)"
   id "-2191"
   startJunction "-1250"
@@ -1454,10 +1461,10 @@ DEF ROAD_0 Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    4 0 -14
-    22.512476 0 -41
-    51 0 -33
-    64.350973 0 -33.499971
+    -14 4 0
+    -41 22.512476 0
+    -33 51 0
+    -33.499971 64.350973 0
   ]
   startingAngle [
     -2.935
@@ -1470,7 +1477,8 @@ DEF ROAD_0 Road {
   castShadows TRUE
 }
 DEF ROAD_7 Road {
-  translation -405.059244 0.01 -119.578509
+  translation 119.578509 405.059244 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(10)"
   id "-2197"
   startJunction "-1248"
@@ -1482,12 +1490,13 @@ DEF ROAD_7 Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    36.741577 0 -175.593813
+    -175.593813 36.741577 0
   ]
   splineSubdivision -1
 }
 DEF PARKING_LANE_0 Road {
-  translation -399.42516840872895 0.0075 -118.40414194707469
+  translation 118.40414194707469 399.42516840872895 0.0075
+  rotation 0 0 1 3.141592653589793
   name "parking lane(0)"
   id "parking_lane_0"
   width 2.5
@@ -1496,17 +1505,17 @@ DEF PARKING_LANE_0 Road {
   leftBorder FALSE
   wayPoints [
     0 0 0
-    36.741577 0 -175.593813
+    -175.593813 36.741577 0
   ]
   splineSubdivision -1
   rightBorderBoundingObject TRUE
   castShadows TRUE
 }
 SolidBox {
-  translation -361.8304407001711 0.007499999999102051 -294.17692321995133
-  rotation 0 1 0 4.51
+  translation 294.17692321995133 361.8304407001711 0.007499999999102051
+  rotation 0 0 1 4.51
   name "box(2)"
-  size 0.7 0.29 2.5
+  size 2.5 0.7 0.29
   appearance Pavement {
     textureTransform TextureTransform {
       scale 2.5 2.5
@@ -1514,10 +1523,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -399.0988748201037 0.007500000000000888 -117.98811416561907
-  rotation 0 1 0 1.37
+  translation 117.98811416561907 399.0988748201037 0.007500000000000888
+  rotation 0 0 1 1.37
   name "box(3)"
-  size 0.7 0.29 3.3
+  size 3.3 0.7 0.29
   appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
@@ -1525,29 +1534,31 @@ SolidBox {
   }
 }
 LincolnMKZSimple {
-  translation -376.18284411660915 0.30000000000000004 -229.59281148623717
-  rotation -9.589793082194575e-09 0.9999999999999944 1.0440750155811425e-07 6.099999980820414
+  translation 229.59281148623717 376.18284411660915 0.30000000000000004
+  rotation 0 0 -1 -2.958405307179586
   color 0.3653315022507057 0.4955825131609064 0.8
 }
 LincolnMKZSimple {
-  translation -180.32826614579383 0.2999999999999823 -178.7575248088473
-  rotation -1.9593444597551918e-08 -0.9999999999999983 5.311642788099511e-08 5.942771859538759
+  translation 178.7575248088473 180.32826614579383 0.2999999999999823
+  rotation 0 0 -1 2.80118
   color 0.3653315022507057 0.4955825131609064 0.8
   name "vehicle(6)"
 }
 TrafficCone {
-  translation -182.30109139953942 1.7763568394002505e-15 -181.7211900918744
+  translation 181.7211900918744 182.30109139953942 0
 }
 TrafficCone {
-  translation -179.34232180541824 0 -180.25775861902216
+  translation 180.25775861902216 179.34232180541824 0
   name "traffic cone(1)"
 }
 DEF WEBOTS_VEHICLE2 TrafficCone {
-  translation -180.80273734082778 0 -181.58287972559302
+  translation 181.58287972559302 180.80273734082778 0
+  rotation 0 1 0 0
   name "traffic cone(2)"
 }
 DEF ROAD_4 Road {
-  translation 122.358241 0.01 380.265853
+  translation -380.265853 -122.358241 0.01
+  rotation 0 0 1 3.141592653589793
   name "road(11)"
   id "-2219"
   startJunction "-2169"
@@ -1559,13 +1570,14 @@ DEF ROAD_4 Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    -292.807562 0 -12.344499
+    -12.344499 -292.807562 0
   ]
   splineSubdivision -1
   castShadows TRUE
 }
 DEF PARKING_LANE_1 Road {
-  translation 122.5970617517921 0.01000000000001954 374.5212274290452
+  translation -374.5212274290452 -122.5970617517921 0.01000000000001954
+  rotation 0 0 1 3.141592653589793
   name "parking lane"
   id "parking_lane_1"
   width 2.5
@@ -1574,7 +1586,7 @@ DEF PARKING_LANE_1 Road {
   leftBorder FALSE
   wayPoints [
     0 0 0
-    -292.807562 0 -12.344499
+    -12.344499 -292.807562 0
   ]
   splineSubdivision -1
   locked FALSE
@@ -1582,10 +1594,10 @@ DEF PARKING_LANE_1 Road {
   castShadows TRUE
 }
 SolidBox {
-  translation -170.50592524534844 0.010000000000511591 361.7699319688233
-  rotation 0 1 0 -0.042
+  translation -361.7699319688233 170.50592524534844 0.010000000000511591
+  rotation 0 0 1 -0.042
   name "box(4)"
-  size 0.7 0.29 3.3
+  size 3.3 0.7 0.29
   appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
@@ -1593,10 +1605,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 122.985210886418 0.01000000000001954 373.73782771989806
-  rotation 0 1 0 -0.042
+  translation -373.73782771989806 -122.985210886418 0.01000000000001954
+  rotation 0 0 1 -0.042
   name "box(1)"
-  size 0.7 0.29 2.5
+  size 2.5 0.7 0.29
   appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
@@ -1604,687 +1616,699 @@ SolidBox {
   }
 }
 CitroenCZeroSimple {
-  translation 88.98242850828841 0.30000000000000004 373.0745008300196
-  rotation 0 -1 0 4.75
+  translation -373.0745008300196 -88.98242850828841 0.30000000000000004
+  rotation 0 0 1 -1.6084073464102069
   name "vehicle(1)"
 }
 TruckSimple {
-  translation 13.854680401464735 0.5 370.030547785575
-  rotation 0 -1 0 4.75
+  translation -370.030547785575 -13.854680401464735 0.5
+  rotation 0 0 1 -1.6084073464102069
   trailer TruckTankSimple {
   }
   name "vehicle(2)"
 }
 TruckSimple {
-  translation -226.66448719016094 0.4999999999999716 -348.2594019489185
-  rotation 0 -1 0 2.393805517
+  translation 348.2594019489185 226.66448719016094 0.4999999999999716
+  rotation 0 0 1 0.747787136589793
   name "vehicle(5)"
 }
 WoodenPallet {
-  translation -230.92533833979448 0.6744228613861719 -343.1088586703913
-  rotation -0.6546536627683744 0.6546536772667793 -0.3779644754008437 4.837716803182097
-  size 1 0.16 1.6
+  translation 343.1088586703913 230.92533833979448 0.6744228613861719
+  rotation 0.3779644754008437 0.6546536627683744 0.6546536772667793 4.837716803182097
+  size 1.6 1 0.16
 }
 WoodenPalletStack {
-  translation -230.07769519730587 0 -346.2883898171719
-  rotation 0 1 0 4.974188353
+  translation 346.2883898171719 230.07769519730587 0
+  rotation 0 0 1 4.974188353
   palletNumber 10
-  palletSize 1 0.16 1.6
+  palletSize 1.6 1 0.16
 }
 WoodenPalletStack {
-  translation -229.86793942207026 0 -343.8052112324912
+  translation 343.8052112324912 229.86793942207026 0
+  rotation 0 1 0 0
   name "wooden pallet stack(1)"
-  palletSize 1 0.16 1.6
+  palletSize 1.6 1 0.16
 }
 WoodenPalletStack {
-  translation -231.36582015355214 0 -347.75922164752063
+  translation 347.75922164752063 231.36582015355214 0
   name "wooden pallet stack(2)"
-  palletSize 1 0.16 1.6
+  palletSize 1.6 1 0.16
 }
 OilBarrel {
-  translation -231.55309750876287 0.43999999999998934 -344.5602515904525
+  translation 344.5602515904525 231.55309750876287 0.43999999999998934
+  rotation 0 0 1 -1.5707953071795862
 }
 OilBarrel {
-  translation -232.48173487694177 0.3399999999999823 -345.8055068219254
-  rotation 0 0 0.9999999999999999 4.712388966
+  translation 345.8055068219254 232.48173487694177 0.3399999999999823
+  rotation 0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.0944
   name "oil barrel(2)"
 }
 OilBarrel {
-  translation -232.80579687939198 0.44000000000001777 -348.61670511583634
+  translation 348.61670511583634 232.80579687939198 0.44000000000001777
+  rotation 0 0 1 -1.5707953071795862
   name "oil barrel(1)"
 }
 ToyotaPriusSimple {
-  translation -101.83634738431124 0.3400000000000142 365.0910225838075
-  rotation 0 -1 0 1.608407356
+  translation -365.0910225838075 101.83634738431124 0.3400000000000142
+  rotation 0 0 1 -1.608405307179586
   color 0.746669718471046 0.13191424429694057 0.13191424429694057
   name "vehicle(3)"
 }
 SimpleBuilding {
-  translation -181.46 0 101.16
+  translation -101.16 181.46 0
+  rotation 0 0 1 3.141592653589793
   name "building(2)"
   corners [
     0 0
-    17 35.24
-    -57.32 77.94
-    -77.32 37.62
+    35.24 17
+    77.94 -57.32
+    37.62 -77.32
   ]
   wallType "highrise"
 }
 SimpleBuilding {
-  translation -190.6 0 300.11
+  translation -300.11 190.6 0
+  rotation 0 0 1 3.141592653589793
   name "building(8)"
   floorNumber 5
   corners [
     0 0
-    -50.33 9.49
-    -97.26 -51.37
-    -135.99 -104.49
-    -68.18 -161.33
-    -48.19 -121.01
-    -83.79 -92.59
-    -58.85 -48.78
-    -39.76 -65.32
+    9.49 -50.33
+    -51.37 -97.26
+    -104.49 -135.99
+    -161.33 -68.18
+    -121.01 -48.19
+    -92.59 -83.79
+    -48.78 -58.85
+    -65.32 -39.76
   ]
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation -90.79 0 311.75
+  translation -311.75 90.79 0
+  rotation 0 0 1 3.141592653589793
   name "building(10)"
   corners [
     0 0
-    -99.8 -11.65
-    -150.13 -2.15
-    -77.42 35.32
-    13.3 42.09
-    42.28 6.6
+    -11.65 -99.8
+    -2.15 -150.13
+    35.32 -77.42
+    42.09 13.3
+    6.6 42.28
   ]
   wallType "stone wall"
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation 104.38 0 318.39
+  translation -318.39 -104.38 0
+  rotation 0 0 1 3.141592653589793
   name "building(13)"
   corners [
     0 0
-    -39.8 42.75
-    -181.87 35.45
-    -152.9 -0.04
-    -102.72 -13.05
+    42.75 -39.8
+    35.45 -181.87
+    -0.04 -152.9
+    -13.05 -102.72
   ]
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation -368.42 0 -187.61
+  translation 187.61 368.42 0
+  rotation 0 0 1 3.141592653589793
   name "building(34)"
   corners [
     0 0
-    -13.3 83.7
-    23.25 85.76
-    42.32 5.27
+    83.7 -13.3
+    85.76 23.25
+    5.27 42.32
   ]
   wallType "residential building"
 }
 SimpleBuilding {
-  translation -381.72 0 -103.9
+  translation 103.9 381.72 0
+  rotation 0 0 1 3.141592653589793
   name "building(35)"
   floorNumber 11
   corners [
     0 0
-    -2.46 34.08
-    42.89 34.82
-    95.12 35.68
-    94.55 8.53
-    36.55 2.06
+    34.08 -2.46
+    34.82 42.89
+    35.68 95.12
+    8.53 94.55
+    2.06 36.55
   ]
   wallType "stone brick"
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation -384.18 0 -69.83
+  translation 69.83 384.18 0
+  rotation 0 0 1 3.141592653589793
   name "building(36)"
   corners [
     0 0
-    -6.02 52.46
-    38.26 58.79
-    45.35 0.74
+    52.46 -6.02
+    58.79 38.26
+    0.74 45.35
   ]
   wallType "glass building"
 }
 SimpleBuilding {
-  translation -326.58 0 195.62
+  translation -195.62 326.58 0
+  rotation 0 0 1 3.141592653589793
   name "building(37)"
   floorHeight 5
   corners [
     0 0
-    -45.18 -55.44
-    -46.77 -111.73
-    -13.99 -119.98
-    67.8 -56.84
+    -55.44 -45.18
+    -111.73 -46.77
+    -119.98 -13.99
+    -56.84 67.8
   ]
   wallType "old building"
   roofShape "flat roof"
 }
 SimpleBuilding {
-  translation -373.35 0 83.89
+  translation -83.89 373.35 0
+  rotation 0 0 1 3.141592653589793
   name "building(38)"
   corners [
     0 0
-    -16.85 -101.25
-    27.43 -94.93
-    32.78 -8.25
+    -101.25 -16.85
+    -94.93 27.43
+    -8.25 32.78
   ]
   wallType "red and white building"
 }
 Church {
-  translation -86.22361019581533 1.0658141036401503e-13 183.897744093561
-  rotation 0 1 0 6.021385901
+  translation -183.897744093561 86.22361019581533 0
+  rotation 0 0 1 6.021385901
 }
 ComposedHouse {
-  translation -138.41864143659825 0 234.55994472601103
-  rotation 0 1 0 5.7595865139999995
+  translation -234.55994472601103 138.41864143659825 0
+  rotation 0 0 1 5.7595865139999995
 }
 HouseWithGarage {
-  translation -82.79827097684856 -2.2737367544323206e-13 252.47414638078823
+  translation -252.47414638078823 82.79827097684856 0
 }
 ModernSuburbanHouse {
-  translation -160.71335358119143 -4.973799150320701e-14 187.31687350924628
-  rotation 0 1 0 6.021385901
+  translation -187.31687350924628 160.71335358119143 0
+  rotation 0 0 1 6.021385901
 }
 SmallManor {
-  translation -124.84566334159042 2.2737367544323206e-13 250.03930255699376
+  translation -250.03930255699376 124.84566334159042 0
 }
 SuburbanHouse {
-  translation -64.14572330958173 8.526512829121202e-14 274.9253700388613
+  translation -274.9253700388613 64.14572330958173 0
   name "suburban house(1)"
 }
 Windmill {
-  translation 194.3021576061351 1.1368683772161603e-13 214.13164366175988
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -214.13164366175988 -194.3021576061351 0
+  rotation 0 0 1 1.832595709
 }
 Windmill {
-  translation 353.9552607774532 5.900000000000088 277.60661751970787
-  rotation 0 -1 0 4.974188391359173
+  translation -277.60661751970787 -353.9552607774532 5.900000000000088
+  rotation 0 0 -1 4.974188391359173
   name "windmill(1)"
 }
 Windmill {
-  translation 232.31232516190963 1.1368683772161603e-13 226.9789224199363
-  rotation 0 1 0 2.094395096
+  translation -226.9789224199363 -232.31232516190963 0
+  rotation 0 0 1 2.094395096
   name "windmill(2)"
 }
 Windmill {
-  translation -320.7596122462959 1.5631940186722204e-13 -358.9839279688144
-  rotation 0 1 0 3.1415926439999997
+  translation 358.9839279688144 320.7596122462959 0
+  rotation 0 0 1 3.1415926439999997
   name "windmill(3)"
 }
 Warehouse {
-  translation 267.33621346280137 3.410605131648481e-13 222.48288371701884
-  rotation 0 1 0 5.7595865139999995
+  translation -222.48288371701884 -267.33621346280137 0
+  rotation 0 0 1 5.7595865139999995
 }
 Warehouse {
-  translation -234.9003007648172 6.252776074688882e-13 -380.83329060684963
-  rotation 0 1 0 6.28318525556045
+  translation 380.83329060684963 234.9003007648172 0
+  rotation 0 0 1 6.28318525556045
   name "warehouse(5)"
 }
 Warehouse {
-  translation -269.4551941923579 3.694822225952521e-13 -369.1432476585135
-  rotation 0 -1 0 5.497787197798723
+  translation 369.1432476585135 269.4551941923579 0
+  rotation 0 0 -1 5.497787197798723
   name "warehouse(6)"
 }
 Warehouse {
-  translation -371.1249735408521 -6.821210263296962e-13 -343.7851114541884
-  rotation 0 1 0 0.5235987032012763
+  translation 343.7851114541884 371.1249735408521 0
+  rotation 0 0 1 0.5235987032012763
   name "warehouse(7)"
 }
 Warehouse {
-  translation 242.4147224328423 3.410605131648481e-13 199.75614625138775
-  rotation 0 -1 0 4.974188391359173
+  translation -199.75614625138775 -242.4147224328423 0
+  rotation 0 0 -1 4.974188391359173
   name "warehouse(1)"
 }
 Warehouse {
-  translation -201.32540208344486 1.3926637620897964e-12 -360.5954573621425
-  rotation 0 1 0 5.235987701640827
+  translation 360.5954573621425 201.32540208344486 0
+  rotation 0 0 1 5.235987701640827
   name "warehouse(4)"
 }
 Warehouse {
-  translation 205.86809211134405 3.410605131648481e-13 198.9436683950472
-  rotation 0 -0.9999999999999999 0 3.5
+  translation -198.9436683950472 -205.86809211134405 0
+  rotation 0 0 -1 3.5
   name "warehouse(2)"
 }
 Warehouse {
-  translation -189.33523084374295 -2.842170943040401e-14 -326.70895157558584
-  rotation 0 0.9999999999999999 0 2.5213859009999995
+  translation 326.70895157558584 189.33523084374295 0
+  rotation 0 0 1 2.5213859009999995
   name "warehouse(3)"
 }
 PicketFence {
-  translation -127.80701556509126 -3.552713578896301e-15 -77.86828348146132
-  rotation 0 1 0 0.287610995640826
+  translation 77.86828348146132 127.80701556509126 0
+  rotation 0 0 1 0.287610995640826
   numberOfSegments 7
 }
 PicketFence {
-  translation -126.83121774199934 -3.552713578896301e-15 -74.56958394854698
-  rotation 0 1 0 1.8584073176408265
+  translation 74.56958394854698 126.83121774199934 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(2)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -124.03430886534615 -3.552713578896301e-15 -65.1145905199032
-  rotation 0 1 0 1.8584073176408265
+  translation 65.1145905199032 124.03430886534615 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(4)"
 }
 PicketFence {
-  translation -121.23456336711426 -3.552713578896301e-15 -55.65000784843106
-  rotation 0 1 0 1.8584073176408265
+  translation 55.65000784843106 121.23456336711426 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(8)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -118.42347138256731 -3.552713578896301e-15 -46.14706820564597
-  rotation 0 1 0 1.8584073176408265
+  translation 46.14706820564597 118.42347138256731 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(16)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -111.43160070363164 -3.552713578896301e-15 -22.40518234101762
-  rotation 0 1 0 1.8584073176408265
+  translation 22.40518234101762 111.43160070363164 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(20)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -108.66873128592354 -3.552713578896301e-15 -13.065259826312605
-  rotation 0 1 0 1.8584073176408265
+  translation 13.065259826312605 108.66873128592354 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(22)"
 }
 PicketFence {
-  translation -115.1216438648956 -3.552713578896301e-15 -34.9851895535755
-  rotation 0 1 0 1.8584073176408265
+  translation 34.9851895535755 115.1216438648956 0
+  rotation 0 0 1 1.8584073176408265
   name "picket fence(18)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -122.72946292707198 -3.552713578896301e-15 -60.703538822476666
-  rotation 0 1 0 4.999999961640826
+  translation 60.703538822476666 122.72946292707198 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(6)"
 }
 PicketFence {
-  translation -119.91837103365638 -3.552713578896301e-15 -51.200599152733766
-  rotation 0 1 0 4.999999961640826
+  translation 51.200599152733766 119.91837103365638 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(9)"
 }
 PicketFence {
-  translation -117.10444251875393 -3.552713578896301e-15 -41.68807024013541
-  rotation 0 1 0 4.999999961640826
+  translation 41.68807024013541 117.10444251875393 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(17)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -110.10082406785261 -3.552713578896301e-15 -18.012229630049493
-  rotation 0 1 0 4.999999961640826
+  translation 18.012229630049493 110.10082406785261 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(21)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -107.31809838930496 -3.552713578896301e-15 -8.605182388861044
-  rotation 0 1 0 4.999999961640826
+  translation 8.605182388861044 107.31809838930496 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(23)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -104.06165694618763 -3.552713578896301e-15 2.4032684162044733
-  rotation 0 -1 0 4.424778008718347
+  translation -2.4032684162044733 104.06165694618763 0
+  rotation 0 0 -1 4.424778008718347
   name "picket fence(24)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -102.74830120791611 -3.552713578896301e-15 6.843087861266342
-  rotation 0 -1 0 1.2831853647183464
+  translation -6.843087861266342 102.74830120791611 0
+  rotation 0 0 -1 1.2831853647183464
   name "picket fence(26)"
   numberOfSegments 3
 }
 PicketFence {
-  translation -99.98826868021477 -3.552713578896301e-15 16.173421212547535
-  rotation 0 -0.9999999999999999 0 0.6
+  translation -16.173421212547535 99.98826868021477 0
+  rotation 0 0 -1 0.6
   name "picket fence(27)"
   numberOfSegments 2
 }
 PicketFence {
-  translation -113.8253080800168 -3.552713578896301e-15 -30.602905499244635
-  rotation 0 1 0 4.999999961640826
+  translation 30.602905499244635 113.8253080800168 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(19)"
   numberOfSegments 3
 }
 PicketFence {
-  translation -125.52069853960101 -3.552713578896301e-15 -70.13935377166594
-  rotation 0 1 0 4.999999961640826
+  translation 70.13935377166594 125.52069853960101 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence(3)"
   numberOfSegments 2
 }
 PicketFenceWithDoor {
-  translation -126.81136133673843 -3.552713578896301e-15 -74.50245926478524
-  rotation 0 1 0 1.8584073176408265
+  translation 74.50245926478524 126.81136133673843 0
+  rotation 0 0 1 1.8584073176408265
 }
 PicketFenceWithDoor {
-  translation -122.73229951467202 -3.552713578896301e-15 -60.71312807535621
-  rotation 0 1 0 4.999999961640826
+  translation 60.71312807535621 122.73229951467202 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence with door(1)"
 }
 PicketFenceWithDoor {
-  translation -119.92971748571674 -3.552713578896301e-15 -51.238956134179666
-  rotation 0 1 0 4.999999961640826
+  translation 51.238956134179666 119.92971748571674 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence with door(2)"
 }
 PicketFenceWithDoor {
-  translation -117.11578897081426 -3.552713578896301e-15 -41.72642722158135
-  rotation 0 1 0 4.999999961640826
+  translation 41.72642722158135 117.11578897081426 0
+  rotation 0 0 1 4.999999961640826
   name "picket fence with door(3)"
 }
 PicketFenceWithDoor {
-  translation -115.1188073972102 -3.552713578896301e-15 -34.975600265223704
-  rotation 0 -1 0 4.424778008718347
+  translation 34.975600265223704 115.1188073972102 0
+  rotation 0 0 -1 4.424778008718347
   name "picket fence with door(4)"
 }
 PicketFenceWithDoor {
-  translation -110.1064974390627 -3.552713578896301e-15 -18.03140807782646
-  rotation 0 -1 0 1.2831853647183464
+  translation 18.03140807782646 110.1064974390627 0
+  rotation 0 0 -1 1.2831853647183464
   name "picket fence with door(5)"
 }
 PicketFenceWithDoor {
-  translation -107.32377194093827 -3.552713578896301e-15 -8.624360783266477
-  rotation 0 -1 0 1.2831853647183464
+  translation 8.624360783266477 107.32377194093827 0
+  rotation 0 0 -1 1.2831853647183464
   name "picket fence with door(6)"
 }
 PicketFenceWithDoor {
-  translation -105.05731151993785 -3.552713578896301e-15 -0.9625556982986664
-  rotation 0 -1 0 1.2831853647183464
+  translation 0.9625556982986664 105.05731151993785 0
+  rotation 0 0 -1 1.2831853647183464
   name "picket fence with door(7)"
 }
 PicketFenceWithDoor {
-  translation -102.75397502199996 -3.552713578896301e-15 6.8239095444971545
-  rotation 0 -1 0 1.2831853647183464
+  translation -6.8239095444971545 102.75397502199996 0
+  rotation 0 0 -1 1.2831853647183464
   name "picket fence with door(10)"
 }
 PicketFenceWithDoor {
-  translation -101.27893189548875 -3.552713578896301e-15 11.810315843118632
-  rotation 0 1 0 1.858407279281654
+  translation -11.810315843118632 101.27893189548875 0
+  rotation 0 0 1 1.858407279281654
   name "picket fence with door(9)"
 }
 PicketFence {
-  translation -124.5363908317718 -3.552713578896301e-15 -66.8118865161838
-  rotation 0 1 0 0.287610995640826
+  translation 66.8118865161838 124.5363908317718 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(1)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -122.22738082923749 -3.552713578896301e-15 -59.00624286506852
-  rotation 0 1 0 0.287610995640826
+  translation 59.00624286506852 122.22738082923749 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(5)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -119.42763528562392 -3.552713578896301e-15 -49.541660207020875
-  rotation 0 1 0 0.287610995640826
+  translation 49.541660207020875 119.42763528562392 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(7)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -116.11162460630865 -3.552713578896301e-15 -38.3318353567091
-  rotation 0 1 0 0.287610995640826
+  translation 38.3318353567091 116.11162460630865 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(10)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -112.5800306835134 -3.552713578896301e-15 -26.39322805248488
-  rotation 0 1 0 0.287610995640826
+  translation 26.39322805248488 112.5800306835134 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(11)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -109.24132703120006 -3.552713578896301e-15 -15.106689259656017
-  rotation 0 1 0 0.287610995640826
+  translation 15.106689259656017 109.24132703120006 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(12)"
   numberOfSegments 8
 }
 PicketFence {
-  translation -106.53519000120276 -3.552713578896301e-15 -5.95855161449145
-  rotation 0 1 0 0.287610995640826
+  translation 5.95855161449145 106.53519000120276 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(13)"
   numberOfSegments 7
 }
 PicketFence {
-  translation -105.04596364821685 -3.552713578896301e-15 -0.9241991368065388
-  rotation 0 1 0 0.287610995640826
+  translation 0.9241991368065388 105.04596364821685 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(14)"
   numberOfSegments 8
 }
 PicketFence {
-  translation -101.3214794549395 -3.552713578896301e-15 11.666476678813051
-  rotation 0 1 0 0.287610995640826
+  translation -11.666476678813051 101.3214794549395 0
+  rotation 0 0 1 0.287610995640826
   name "picket fence(15)"
   numberOfSegments 8
 }
 Pergolas {
-  translation -98.90945119413313 -3.552713578896301e-15 7.54946353463421
-  rotation 0 1 0 0.287610995640826
+  translation -7.54946353463421 98.90945119413313 0
+  rotation 0 0 1 0.287610995640826
 }
 Pergolas {
-  translation -102.41386379235665 -3.552713578896301e-15 -27.017621910020193
-  rotation 0 1 0 0.287610995640826
+  translation 27.017621910020193 102.41386379235665 0
+  rotation 0 0 1 0.287610995640826
   name "pergola(1)"
 }
 Pergolas {
-  translation -123.88838626162811 -3.552713578896301e-15 -75.88022425738298
-  rotation 0 1 0 0.287610995640826
+  translation 75.88022425738298 123.88838626162811 0
+  rotation 0 0 1 0.287610995640826
   name "pergola(2)"
 }
 PalmTree {
-  translation -100.05708889025695 -3.552713578896301e-15 12.57117999193556
+  translation -12.57117999193556 100.05708889025695 0
 }
 PalmTree {
-  translation -105.63545053978501 -3.552713578896301e-15 -7.334546976112431
+  translation 7.334546976112431 105.63545053978501 0
   name "palm tree(1)"
 }
 PalmTree {
-  translation -115.18979275328695 -2.1316281972898805e-14 -39.6584039875585
+  translation 39.6584039875585 115.18979275328695 0
   name "palm tree(2)"
 }
 Cypress {
-  translation -97.0100111698651 -3.552713578896301e-15 17.93677888243451
+  translation -17.93677888243451 97.0100111698651 0
 }
 Cypress {
-  translation -96.51474731676956 -3.552713578896301e-15 17.777041343370332
+  translation -17.777041343370332 96.51474731676956 0
   name "cypress tree(1)"
 }
 Cypress {
-  translation -96.02032158231114 -3.552713578896301e-15 17.599345053716974
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -17.599345053716974 96.02032158231114 0
+  rotation 0 0 1 1.832595709
   name "cypress tree(2)"
 }
 Cypress {
-  translation -95.44228942006661 -3.552713578896301e-15 17.403149653289862
+  translation -17.403149653289862 95.44228942006661 0
   name "cypress tree(3)"
 }
 Cypress {
-  translation -94.73444853472587 -3.552713578896301e-15 17.205502418978394
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -17.205502418978394 94.73444853472587 0
+  rotation 0 0 1 1.832595709
   name "cypress tree(4)"
 }
 Cypress {
-  translation -94.20647381298805 -3.552713578896301e-15 17.010233165885307
+  translation -17.010233165885307 94.20647381298805 0
   name "cypress tree(5)"
 }
 Cypress {
-  translation -93.02476135196001 -3.552713578896301e-15 16.646855515136124
+  translation -16.646855515136124 93.02476135196001 0
   name "cypress tree(6)"
 }
 Cypress {
-  translation -92.3433785300743 -3.552713578896301e-15 16.436637962300587
-  rotation 0 1 0 6.021385901
+  translation -16.436637962300587 92.3433785300743 0
+  rotation 0 0 1 6.021385901
   name "cypress tree(8)"
 }
 Cypress {
-  translation -91.6714239214467 -3.552713578896301e-15 16.228336423036083
-  rotation 0 1 0 6.021385901
+  translation -16.228336423036083 91.6714239214467 0
+  rotation 0 0 1 6.021385901
   name "cypress tree(9)"
 }
 Cypress {
-  translation -91.1339277759279 -3.552713578896301e-15 16.022018714719323
-  rotation 0 1 0 0.7853981610000004
+  translation -16.022018714719323 91.1339277759279 0
+  rotation 0 0 1 0.7853981610000004
   name "cypress tree(10)"
 }
 Cypress {
-  translation -87.70780226627409 -3.552713578896301e-15 14.999116003038555
+  translation -14.999116003038555 87.70780226627409 0
   name "cypress tree(11)"
 }
 Cypress {
-  translation -86.23934483092442 -3.552713578896301e-15 14.58965908805091
-  rotation 0 1 0 6.021385901
+  translation -14.58965908805091 86.23934483092442 0
+  rotation 0 0 1 6.021385901
   name "cypress tree(17)"
 }
 Cypress {
-  translation -86.82957781541622 -3.552713578896301e-15 14.754058686657396
+  translation -14.754058686657396 86.82957781541622 0
   name "cypress tree(19)"
 }
 Cypress {
-  translation -87.29110283293731 -3.552713578896301e-15 14.900038707768248
-  rotation 0 1 0 2.356194483
+  translation -14.900038707768248 87.29110283293731 0
+  rotation 0 0 1 2.356194483
   name "cypress tree(18)"
 }
 Cypress {
-  translation -88.23156201498665 -3.552713578896301e-15 15.149184050906982
-  rotation 0 1 0 0.5235987739999998
+  translation -15.149184050906982 88.23156201498665 0
+  rotation 0 0 1 0.5235987739999998
   name "cypress tree(16)"
 }
 Cypress {
-  translation -88.80003029496977 -3.552713578896301e-15 15.336575915787192
+  translation -15.336575915787192 88.80003029496977 0
   name "cypress tree(15)"
 }
 Cypress {
-  translation -89.40885319336816 -3.552713578896301e-15 15.513789700666305
-  rotation 0 1 0 6.021385901
+  translation -15.513789700666305 89.40885319336816 0
+  rotation 0 0 1 6.021385901
   name "cypress tree(14)"
 }
 Cypress {
-  translation -89.99631916155126 -3.552713578896301e-15 15.69529967383832
+  translation -15.69529967383832 89.99631916155126 0
   name "cypress tree(13)"
 }
 Cypress {
-  translation -90.57152976382739 -3.552713578896301e-15 15.873693886765095
-  rotation 0 1 0 1.0471975479999998
+  translation -15.873693886765095 90.57152976382739 0
+  rotation 0 0 1 1.0471975479999998
   name "cypress tree(12)"
 }
 Cypress {
-  translation -93.6948520564276 -3.552713578896301e-15 16.845133074506833
-  rotation 0 1 0 0.7853981610000004
+  translation -16.845133074506833 93.6948520564276 0
+  rotation 0 0 1 0.7853981610000004
   name "cypress tree(7)"
 }
 BigSassafras {
-  translation -117.75650971244532 -3.552713578896301e-15 -52.47092839936579
+  translation 52.47092839936579 117.75650971244532 0
   name "sassafras tree(7)"
 }
 SwingCouch {
-  translation -111.95806937374844 -7.105427257696802e-15 -59.953063202176935
-  rotation 0 -1 0 5.235987778359173
+  translation 59.953063202176935 111.95806937374844 0
+  rotation 0 0 1 2.61799385561531
 }
 SwingCouch {
-  translation -107.38096655139078 -7.105427257696802e-15 -17.575971911702396
-  rotation 0 -1 0 2.094395134359173
+  translation 17.575971911702396 107.38096655139078 0
+  rotation 0 0 1 -0.5235988075642765
   name "swing couch(1)"
 }
 StoneBench {
-  translation -135.76685674458253 -1.2434497775897553e-14 -73.94467575643291
-  rotation 0 1 0 1.8584073176408265
+  translation 73.94467575643291 135.76685674458253 0
+  rotation 0 0 1 1.8584073176408265
 }
 StoneBench {
-  translation -130.42266169020664 -1.2434497775897553e-14 -55.878542268030124
-  rotation 0 1 0 1.8584073176408265
+  translation 55.878542268030124 130.42266169020664 0
+  rotation 0 0 1 1.8584073176408265
   name "stone bench(1)"
 }
 StoneBench {
-  translation -125.75358257157467 -1.2434497775897553e-14 -40.09464857274835
-  rotation 0 1 0 1.8584073176408265
+  translation 40.09464857274835 125.75358257157467 0
+  rotation 0 0 1 1.8584073176408265
   name "stone bench(2)"
 }
 StoneBench {
-  translation -120.90863291505997 -1.2434497775897553e-14 -23.716221822115724
-  rotation 0 1 0 1.8584073176408265
+  translation 23.716221822115724 120.90863291505997 0
+  rotation 0 0 1 1.8584073176408265
   name "stone bench(3)"
 }
 StoneBench {
-  translation -115.0424994901932 -1.2434497775897553e-14 -3.8856676533169923
-  rotation 0 1 0 1.8584073176408265
+  translation 3.8856676533169923 115.0424994901932 0
+  rotation 0 0 1 1.8584073176408265
   name "stone bench(4)"
 }
 StoneBench {
-  translation -110.13514415894579 -1.2434497775897553e-14 12.703722439536893
-  rotation 0 1 0 1.8584073176408265
+  translation -12.703722439536893 110.13514415894579 0
+  rotation 0 0 1 1.8584073176408265
   name "stone bench(5)"
 }
 PublicBin {
-  translation -117.5273799931831 -1.2434497775897553e-14 -12.285844370854551
-  rotation 0 1 0 1.8584073176408265
+  translation 12.285844370854551 117.5273799931831 0
+  rotation 0 0 1 1.8584073176408265
   name "public bin(1)"
 }
 PublicBin {
-  translation -128.5051055029676 -1.2434497775897553e-14 -49.39621411614038
-  rotation 0 1 0 1.8584073176408265
+  translation 49.39621411614038 128.5051055029676 0
+  rotation 0 0 1 1.8584073176408265
   name "public bin(2)"
 }
 PublicBin {
-  translation -136.81073348556419 -1.2434497775897553e-14 -77.4735171172249
-  rotation 0 1 0 1.8584073176408265
+  translation 77.4735171172249 136.81073348556419 0
+  rotation 0 0 1 1.8584073176408265
   name "public bin(3)"
 }
 MetallicTrash {
-  translation -101.68082638493875 -6.927791663670557e-14 12.520830031366446
+  translation -12.520830031366446 101.68082638493875 0
 }
 MetallicTrash {
-  translation -103.68873696100212 2.04281036630933e-13 5.808750317857296
+  translation -5.808750317857296 103.68873696100212 0
   name "metallic trash(1)"
 }
 MetallicTrash {
-  translation -108.82608306322938 2.2026824818553526e-13 -12.072737713518904
+  translation 12.072737713518904 108.82608306322938 0
   name "metallic trash(3)"
 }
 MetallicTrash {
-  translation -120.92564316416565 2.1316282082793425e-13 -52.305405455204124
+  translation 52.305405455204124 120.92564316416565 0
   name "metallic trash(4)"
 }
 MetallicTrash {
-  translation -126.21173164186966 2.1316282082793425e-13 -70.88468425536499
+  translation 70.88468425536499 126.21173164186966 0
   name "metallic trash(6)"
 }
 MetallicTrash {
-  translation -120.52578547104781 2.1316282082793425e-13 -51.535756398860805
+  translation 51.535756398860805 120.52578547104781 0
   name "metallic trash(5)"
 }
 MetallicTrash {
-  translation -104.00410660308832 0.23943700492162637 6.374543822982272
-  rotation 0.977404744183932 -0.12867777532826905 0.16769614242226935 1.3311362425500912
+  translation -6.374543822982272 104.00410660308832 0.23943700492162637
+  rotation -0.16769614242226935 -0.977404744183932 -0.12867777532826905 1.3311362425500912
   name "metallic trash(2)"
   enablePhysics TRUE
 }
 TrashBin {
-  translation -104.81236373789534 0 -2.1776558812287767
-  rotation 0 1 0 1.832595670640826
+  translation 2.1776558812287767 104.81236373789534 0
+  rotation 0 0 1 -1.3089969829489674
   name "trash bin(1)"
 }
 TrashBin {
-  translation -126.15105662266505 0 -69.99640985877748
-  rotation 0 -1 0 1.308996973359174
+  translation 69.99640985877748 126.15105662266505 0
+  rotation 0 0 1 1.8325956802306191
   name "trash bin(2)"
 }
 TrashBin {
-  translation -114.65522470844294 0 -31.133897608418465
-  rotation 0 -1 0 1.308996973359174
+  translation 31.133897608418465 114.65522470844294 0
+  rotation 0 0 1 1.8325956802306191
   name "trash bin(4)"
 }
 TrashBin {
-  translation -103.45147629070085 0 6.699343631329283
-  rotation 0 -1 0 1.308996973359174
+  translation -6.699343631329283 103.45147629070085 0
+  rotation 0 0 1 1.8325956802306191
   name "trash bin(3)"
 }
 DEF TREE Transform {
-  translation -137.63619036498253 -1.2434497775897553e-14 -80.26398678024258
-  rotation 0 1 0 1.8584073176408265
+  translation 80.26398678024258 137.63619036498253 0
+  rotation 0 0 1 1.8584073176408265
   children [
     SolidPipe {
       height 0.2
@@ -2316,8 +2340,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -132.972784489508 -1.2434497775897553e-14 -64.49927157061725
-  rotation 0 1 0 2.6438054786408265
+  translation 64.49927157061725 132.972784489508 0
+  rotation 0 0 1 2.6438054786408265
   children [
     SolidPipe {
       name "pipe(1)"
@@ -2351,8 +2375,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -127.92643470090151 -1.2434497775897553e-14 -47.44000857917959
-  rotation 0 1 0 5.785398122640827
+  translation 47.44000857917959 127.92643470090151 0
+  rotation 0 0 1 5.785398122640827
   children [
     SolidPipe {
       name "pipe(2)"
@@ -2386,8 +2410,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -123.05595545017793 -1.2434497775897553e-14 -30.975278643092814
-  rotation 0 0.9999999999999999 0 3.6910030266408267
+  translation 30.975278643092814 123.05595545017793 0
+  rotation 0 0 1 3.6910030266408267
   children [
     SolidPipe {
       name "pipe(3)"
@@ -2421,8 +2445,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -118.08903106577674 -1.2434497775897553e-14 -14.184514450845919
-  rotation 0 -1 0 6.257373717718359
+  translation 14.184514450845919 118.08903106577674 0
+  rotation 0 0 -1 6.257373717718359
   children [
     SolidPipe {
       name "pipe(4)"
@@ -2456,8 +2480,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -112.3789118277416 -1.2434497775897553e-14 5.118631362399662
-  rotation 0 1 0 3.1674042526408264
+  translation -5.118631362399662 112.3789118277416 0
+  rotation 0 0 1 3.1674042526408264
   children [
     SolidPipe {
       name "pipe(5)"
@@ -2491,8 +2515,8 @@ DEF TREE Transform {
   ]
 }
 DEF TREE Transform {
-  translation -108.59202202010262 -1.2434497775897553e-14 17.92027053809902
-  rotation 0 -1 0 5.9955743307183464
+  translation -17.92027053809902 108.59202202010262 0
+  rotation 0 0 -1 5.9955743307183464
   children [
     SolidPipe {
       name "pipe(6)"
@@ -2526,317 +2550,317 @@ DEF TREE Transform {
   ]
 }
 Sassafras {
-  translation -344.6011255770742 -3.907985046680551e-14 -351.0712433139634
+  translation 351.0712433139634 344.6011255770742 0
   name "sassafras tree(8)"
 }
 Sassafras {
-  translation -391.1589057072444 -5.1514348342607263e-14 -314.53758752102743
-  rotation 0 1 0 1.3089969349999997
+  translation 314.53758752102743 391.1589057072444 0
+  rotation 0 0 1 1.3089969349999997
   name "sassafras tree(10)"
 }
 Sassafras {
-  translation -356.57136783141215 -1.4210854715202004e-14 -279.17477077598437
+  translation 279.17477077598437 356.57136783141215 0
   name "sassafras tree(9)"
 }
 ResidentialBuildingWithRoundFront {
-  translation -93.046472754138 9.99042e-23 -40.788687816113345
-  rotation 0 -1 0 4.424777970359173
+  translation 40.788687816113345 93.046472754138 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(19)"
 }
 ResidentialBuildingWithRoundFront {
-  translation -79.90777757452396 9.99042e-23 -3.9525684632663136
-  rotation 0 -1 0 4.424777970359173
+  translation 3.9525684632663136 79.90777757452396 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(5)"
   type "orange"
 }
 ResidentialTower {
-  translation 168.69539329829252 -1.6200374374331242e-12 248.5801729795863
-  rotation 0 -1 0 1.9349816483591737
+  translation -248.5801729795863 -168.69539329829252 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(24)"
   numberOfFloors 1
 }
 ResidentialTower {
-  translation -224.44200257364767 -1.6200374374331242e-12 -268.430264937676
-  rotation 0 -1 0 0.8877841003591741
+  translation 268.430264937676 224.44200257364767 0
+  rotation 0 0 -1 0.8877841003591741
   name "residential tower(7)"
   numberOfFloors 1
 }
 ResidentialTower {
-  translation -227.17140688891783 -1.6200374374331242e-12 -276.66487798770976
-  rotation 0 -1 0 0.8877841003591741
+  translation 276.66487798770976 227.17140688891783 0
+  rotation 0 0 -1 0.8877841003591741
   name "residential tower(25)"
   numberOfFloors 2
 }
 ResidentialTower {
-  translation -234.70435869853054 -1.6200374374331242e-12 -281.2488977339644
-  rotation 0 -1 0 0.8877841003591741
+  translation 281.2488977339644 234.70435869853054 0
+  rotation 0 0 -1 0.8877841003591741
   name "residential tower(26)"
 }
 ResidentialTower {
-  translation -241.3832954720309 -1.6200374374331242e-12 -286.81141547106733
-  rotation 0 -1 0 0.8877841003591741
+  translation 286.81141547106733 241.3832954720309 0
+  rotation 0 0 -1 0.8877841003591741
   name "residential tower(27)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation -249.35156241985007 -1.6200374374331242e-12 -291.4614883264665
-  rotation 0 -1 0 0.6259847133591744
+  translation 291.4614883264665 249.35156241985007 0
+  rotation 0 0 -1 0.6259847133591744
   name "residential tower(28)"
   numberOfFloors 2
 }
 ResidentialTower {
-  translation -255.19531359998032 -1.6200374374331242e-12 -297.5620679829195
-  rotation 0 -1 0 0.6259847133591744
+  translation 297.5620679829195 255.19531359998032 0
+  rotation 0 0 -1 0.6259847133591744
   name "residential tower(29)"
 }
 ResidentialTower {
-  translation -263.6895576005002 -1.6200374374331242e-12 -300.0136631492625
-  rotation 0 -1 0 0.6259847133591744
+  translation 300.0136631492625 263.6895576005002 0
+  rotation 0 0 -1 0.6259847133591744
   name "residential tower(30)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation -271.96740266031406 -1.6200374374331242e-12 -302.9011155152267
-  rotation 0 -1 0 0.6259847133591744
+  translation 302.9011155152267 271.96740266031406 0
+  rotation 0 0 -1 0.6259847133591744
   name "residential tower(31)"
 }
 ResidentialTower {
-  translation -281.4435177790122 -1.250555214837872e-12 -306.805569562767
-  rotation 0 -1 0 0.10238593935917248
+  translation 306.805569562767 281.4435177790122 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(32)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation -289.5010832514054 -1.250555214837872e-12 -310.5688179811013
-  rotation 0 -1 0 0.10238593935917248
+  translation 310.5688179811013 289.5010832514054 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(33)"
   numberOfFloors 7
 }
 ResidentialTower {
-  translation -297.60819202821136 -1.250555214837872e-12 -312.5779439803932
-  rotation 0 -1 0 0.10238593935917248
+  translation 312.5779439803932 297.60819202821136 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(34)"
   numberOfFloors 8
 }
 ResidentialTower {
-  translation -306.3112930780212 -1.250555214837872e-12 -310.93887957750997
-  rotation 0 -1 0 0.10238593935917248
+  translation 310.93887957750997 306.3112930780212 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(35)"
   numberOfFloors 5
 }
 ResidentialTower {
-  translation -314.93781699663856 -1.250555214837872e-12 -308.18615636557524
-  rotation 0 -1 0 0.10238593935917248
+  translation 308.18615636557524 314.93781699663856 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(36)"
 }
 ResidentialTower {
-  translation -323.51207474292164 -1.250555214837872e-12 -306.72485417222026
-  rotation 0 -1 0 0.10238593935917248
+  translation 306.72485417222026 323.51207474292164 0
+  rotation 0 0 -1 0.10238593935917248
   name "residential tower(37)"
 }
 ResidentialTower {
-  translation -333.15780774090297 -1.278976924268276e-12 -304.125824403221
-  rotation 0 1 0 0.42121283464082737
+  translation 304.125824403221 333.15780774090297 0
+  rotation 0 0 1 0.42121283464082737
   name "residential tower(38)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation -340.1127540922684 -1.278976924268276e-12 -299.3003999400646
-  rotation 0 1 0 0.42121283464082737
+  translation 299.3003999400646 340.1127540922684 0
+  rotation 0 0 1 0.42121283464082737
   name "residential tower(39)"
 }
 ResidentialTower {
-  translation -346.4085728469679 -1.293187778983478e-12 -292.49678313174417
-  rotation 0 1 0 0.6830122216408276
+  translation 292.49678313174417 346.4085728469679 0
+  rotation 0 0 1 0.6830122216408276
   name "residential tower(40)"
   numberOfFloors 2
 }
 ResidentialTower {
-  translation -350.3324368790869 -1.293187778983478e-12 -283.9337367359094
-  rotation 0 1 0 0.9448116086408281
+  translation 283.9337367359094 350.3324368790869 0
+  rotation 0 0 1 0.9448116086408281
   name "residential tower(41)"
   numberOfFloors 1
 }
 ResidentialTower {
-  translation 168.47779052772668 -1.6200374374331242e-12 257.20856501021655
-  rotation 0 -1 0 1.9349816483591737
+  translation -257.20856501021655 -168.47779052772668 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(1)"
   numberOfFloors 2
 }
 ResidentialTower {
-  translation 162.9108974885789 -1.6200374374331242e-12 263.75506040017075
-  rotation 0 -1 0 1.9349816483591737
+  translation -263.75506040017075 -162.9108974885789 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(2)"
 }
 ResidentialTower {
-  translation 157.6158634586607 -1.6200374374331242e-12 270.45869483396916
-  rotation 0 -1 0 1.9349816483591737
+  translation -270.45869483396916 -157.6158634586607 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(3)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation 150.72968857352302 -1.6200374374331242e-12 276.39527595876626
-  rotation 0 -1 0 1.9349816483591737
+  translation -276.39527595876626 -150.72968857352302 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(4)"
   numberOfFloors 6
 }
 ResidentialTower {
-  translation 150.25401169460324 -1.6200374374331242e-12 284.91459116052147
-  rotation 0 -1 0 1.9349816483591737
+  translation -284.91459116052147 -150.25401169460324 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(8)"
   numberOfFloors 9
 }
 ResidentialTower {
-  translation 150.14719713157302 -1.6200374374331242e-12 293.6173200801834
-  rotation 0 -1 0 1.9349816483591737
+  translation -293.6173200801834 -150.14719713157302 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(9)"
   numberOfFloors 5
 }
 ResidentialTower {
-  translation 144.20251388500589 -1.6200374374331242e-12 300.1161231313601
-  rotation 0 -1 0 1.9349816483591737
+  translation -300.1161231313601 -144.20251388500589 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(10)"
   numberOfFloors 6
 }
 ResidentialTower {
-  translation 134.33065415812894 -1.6200374374331242e-12 304.9574024594779
-  rotation 0 -1 0 1.9349816483591737
+  translation -304.9574024594779 -134.33065415812894 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(11)"
   numberOfFloors 7
 }
 ResidentialTower {
-  translation 135.39449403780264 -1.6200374374331242e-12 314.26690001361067
-  rotation 0 -1 0 1.9349816483591737
+  translation -314.26690001361067 -135.39449403780264 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(12)"
   numberOfFloors 5
 }
 ResidentialTower {
-  translation 136.59720092729142 -1.6200374374331242e-12 323.43669805598734
-  rotation 0 -1 0 1.9349816483591737
+  translation -323.43669805598734 -136.59720092729142 0
+  rotation 0 0 -1 1.9349816483591737
   name "residential tower(13)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation 128.0989873457474 -1.6200374374331242e-12 327.2765761160844
-  rotation 0 1 0 3.8246048656408256
+  translation -327.2765761160844 -128.0989873457474 0
+  rotation 0 0 1 3.8246048656408256
   name "residential tower(14)"
   numberOfFloors 5
 }
 ResidentialTower {
-  translation 124.57040399618374 -1.6200374374331242e-12 336.09083726181836
-  rotation 0 1 0 3.8246048656408256
+  translation -336.09083726181836 -124.57040399618374 0
+  rotation 0 0 1 3.8246048656408256
   name "residential tower(15)"
   numberOfFloors 7
 }
 ResidentialTower {
-  translation 119.88410094633743 -1.6200374374331242e-12 343.71990429029603
-  rotation 0 1 0 3.8246048656408256
+  translation -343.71990429029603 -119.88410094633743 0
+  rotation 0 0 1 3.8246048656408256
   name "residential tower(16)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation 111.22373830618935 -1.6200374374331242e-12 345.9577422963028
-  rotation 0 1 0 3.8246048656408256
+  translation -345.9577422963028 -111.22373830618935 0
+  rotation 0 0 1 3.8246048656408256
   name "residential tower(17)"
   numberOfFloors 5
 }
 ResidentialTower {
-  translation 103.18491966862295 -1.6200374374331242e-12 349.1337610167004
-  rotation 0 1 0 3.8246048656408256
+  translation -349.1337610167004 -103.18491966862295 0
+  rotation 0 0 1 3.8246048656408256
   name "residential tower(18)"
   numberOfFloors 7
 }
 ResidentialTower {
-  translation 94.51208485162715 -1.6200374374331242e-12 353.22231967884414
-  rotation 0 -1 0 2.982179234718348
+  translation -353.22231967884414 -94.51208485162715 0
+  rotation 0 0 -1 2.982179234718348
   name "residential tower(19)"
   numberOfFloors 10
 }
 ResidentialTower {
-  translation 86.90853128556516 -1.6200374374331242e-12 358.09103338659327
-  rotation 0 -1 0 2.982179234718348
+  translation -358.09103338659327 -86.90853128556516 0
+  rotation 0 0 -1 2.982179234718348
   name "residential tower(20)"
   numberOfFloors 7
 }
 ResidentialTower {
-  translation 79.32596266149318 -1.6200374374331242e-12 363.0272721430997
-  rotation 0 -1 0 2.982179234718348
+  translation -363.0272721430997 -79.32596266149318 0
+  rotation 0 0 -1 2.982179234718348
   name "residential tower(21)"
   numberOfFloors 4
 }
 ResidentialTower {
-  translation 71.09170913619593 -1.6200374374331242e-12 364.3511561565732
-  rotation 0 -1 0 2.982179234718348
+  translation -364.3511561565732 -71.09170913619593 0
+  rotation 0 0 -1 2.982179234718348
   name "residential tower(22)"
   numberOfFloors 2
 }
 ResidentialTower {
-  translation -107.49947602749582 9.974076e-23 -67.28163196920528
-  rotation 0 -1 0 4.424777970359173
+  translation 67.28163196920528 107.49947602749582 0
+  rotation 0 0 -1 4.424777970359173
   name "residential tower(5)"
 }
 ResidentialTower {
-  translation -82.56163884724486 9.974076e-23 9.758944201870223
-  rotation 0 -1 0 4.424777970359173
+  translation -9.758944201870223 82.56163884724486 0
+  rotation 0 0 -1 4.424777970359173
   name "residential tower(23)"
 }
 SmallResidentialTower {
-  translation -90.38541470526604 9.99042e-23 -7.715003865568371
-  rotation 0 -1 0 4.424777970359173
+  translation 7.715003865568371 90.38541470526604 0
+  rotation 0 0 -1 4.424777970359173
   name "residential tower(6)"
   numberOfFloors 5
 }
 StripBuilding {
-  translation -218.15836028453174 0 -268.2408122650182
-  rotation 0 1 0 5
+  translation 268.240812265 218.1583602845 0
+  rotation 0 0 1 5
   name "street facade(4)"
   length 307
   randomSeed 5
 }
 StripBuilding {
-  translation -57.07772093619584 0 154.58657072177866
-  rotation 0 1 0 5.919
+  translation -154.5865707218 57.0777209362 0
+  rotation 0 0 1 5.919
   name "street facade(2)"
   length 230
 }
 StripBuilding {
-  translation 175.79710990211916 0 206.15605147692565
-  rotation 0 -1 0 3.505777970359173
+  translation -206.1560514769 -175.7971099021 0
+  rotation 0 0 -1 3.505777970359173
   name "street facade(1)"
   length 230
 }
 StripBuilding {
-  translation -59.812974849196806 2.4868995751603507e-14 100.88664055973908
-  rotation 0 -1 0 4.424777970359173
+  translation -100.8866405597 59.8129748492 0
+  rotation 0 0 -1 4.424777970359173
   name "street facade(3)"
   length 80
   randomSeed 17
 }
 OldResidentialBuilding {
-  translation -101.29692388423639 0 -79.53900193987131
-  rotation 0 -1 0 4.424777970359173
+  translation 79.53900193987131 101.29692388423639 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(28)"
   type "light grey"
 }
 OldResidentialBuilding {
-  translation -85.35214097907965 9.99042e-23 -28.350365640862794
-  rotation 0 -1 0 4.424777970359173
+  translation 28.350365640862794 85.35214097907965 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(16)"
   type "light grey"
 }
 OldResidentialBuilding {
-  translation -92.57374524278742 9.989e-23 -51.14282171101078
-  rotation 0 -1 0 4.424777970359173
+  translation 51.14282171101078 92.57374524278742 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(10)"
 }
 SmallResidentialBuilding {
-  translation -96.10290109603663 0 -61.34571481413598
-  rotation 0 1 0 1.858407317640826
+  translation 61.34571481413598 96.10290109603663 0
+  rotation 0 0 1 1.858407317640826
   name "residential building(17)"
 }
 Solid {
-  translation -139.84128526237498 0 31.3763380862876
-  rotation 0 -1 0 2.8797932953591734
+  translation -31.3763380862876 139.84128526237498 0
+  rotation 0.47690495958779083 0.6215159473336731 0.6215139473338426 2.25159
   children [
     DEF SHAPE Shape {
       appearance RedBricks {
@@ -2866,163 +2890,162 @@ Solid {
   boundingObject USE SHAPE
 }
 SmallResidentialBuilding {
-  translation -82.8284236924897 9.99042e-23 -17.844721869186195
-  rotation 0 -1 0 4.424777970359173
+  translation 17.844721869186195 82.8284236924897 0
+  rotation 0 0 -1 4.424777970359173
   name "residential building(21)"
   type "white"
 }
 Bench {
-  translation -184.92134616770755 3.907985056669191e-14 -158.01544479447116
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 158.01544479447116 184.92134616770755 0
+  rotation 0 0 1 -1.3089969445897933
 }
 Bench {
-  translation -165.12096581731427 -3.552713668811861e-14 -90.39108697555778
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 90.39108697555778 165.12096581731427 0
+  rotation 0 0 1 -1.3089969445897933
   name "bench(6)"
 }
 Bench {
-  translation -129.5444882867761 -4.263256404571961e-14 20.736901053375316
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -20.736901053375316 129.5444882867761 0
+  rotation 0 0 1 -1.3089969445897933
   name "bench(8)"
 }
 Bench {
-  translation -149.52973529594766 -3.552713668811861e-14 -37.612713101226525
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 37.612713101226525 149.52973529594766 0
+  rotation 0 0 1 -1.3089969445897933
   name "bench(9)"
 }
 Bench {
-  translation -172.09101449694342 9.988640006733952e-23 -114.940344942386
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 114.940344942386 172.09101449694342 0
+  rotation 0 0 1 -1.3089969445897933
   name "bench(7)"
 }
 ElectricalCabinet {
-  translation -190.53552031900935 -1.4921397440973464e-13 -175.6736989706011
-  rotation 0 1 0 4.974188353
+  translation 175.6736989706011 190.53552031900935 0
+  rotation 0 0 1 4.974188353
 }
 ElectricalCabinet {
-  translation -167.97380244581618 -2.3803181637974716e-13 -100.04681122170454
-  rotation 0 1 0 4.974188353
+  translation 100.04681122170454 167.97380244581618 0
+  rotation 0 0 1 4.974188353
   name "electrical cabinet(1)"
 }
 ElectricalCabinet {
-  translation -162.17925292725008 -1.5631940176733564e-13 -79.50812482294984
-  rotation 0 1 0 4.974188353
+  translation 79.50812482294984 162.17925292725008 0
+  rotation 0 0 1 4.974188353
   name "electrical cabinet(2)"
 }
 ElectricalCabinet {
-  translation -155.99408159206686 3.339550859071335e-13 -59.08722814094757
-  rotation 0 1 0 4.974188353
+  translation 59.08722814094757 155.99408159206686 0
+  rotation 0 0 1 4.974188353
   name "electrical cabinet(3)"
 }
 ElectricalCabinet {
-  translation -147.67339190747268 8.455458556544056e-13 -30.44310973582461
-  rotation 0 1 0 4.974188353
+  translation 30.44310973582461 147.67339190747268 0
+  rotation 0 0 1 4.974188353
   name "electrical cabinet(4)"
 }
 ElectricalCabinet {
-  translation -134.7446921756324 1.1652900867464508e-12 6.9994783608631295
-  rotation 0 1 0 4.974188353
+  translation -6.9994783608631295 134.7446921756324 0
+  rotation 0 0 1 4.974188353
   name "electrical cabinet(5)"
 }
 Mailbox {
-  translation -171.6057847402151 7.105427457487401e-15 -142.24845787275294
-  rotation 0 1 0 4.974188353
+  translation 142.24845787275294 171.6057847402151 0
+  rotation 0 0 1 4.974188353
 }
 Mailbox {
-  translation -128.6183305209165 -7.105427347612362e-14 -1.7814997188552653
-  rotation 0 1 0 4.974188353
+  translation 1.7814997188552653 128.6183305209165 0
+  rotation 0 0 1 4.974188353
   name "mailbox(1)"
 }
 MetallicTrash {
-  translation -178.02189033359363 -3.765876498529667e-13 -134.79555267057913
+  translation 134.79555267057913 178.02189033359363 0
   name "metallic trash(7)"
 }
 MetallicTrash {
-  translation -152.04684154315262 -1.4921397440973464e-13 -46.21765130319687
+  translation 46.21765130319687 152.04684154315262 0
   name "metallic trash(9)"
 }
 MetallicTrash {
-  translation -144.17308753996014 1.2079226517910343e-13 -20.416955596814965
+  translation 20.416955596814965 144.17308753996014 0
   name "metallic trash(11)"
 }
 MetallicTrash {
-  translation -135.70212212946996 -5.258016243625877e-13 -0.5332229930694474
+  translation 0.5332229930694474 135.70212212946996 0
   name "metallic trash(12)"
 }
 MetallicTrash {
-  translation -171.3944203511594 -2.4868995741614866e-13 -112.71604237906108
+  translation 112.71604237906108 171.3944203511594 0
   name "metallic trash(10)"
 }
 MetallicTrash {
-  translation -188.0217964838749 -3.481659404225627e-13 -172.02112214293888
+  translation 172.02112214293888 188.0217964838749 0
   name "metallic trash(8)"
 }
 TrashBin {
-  translation -174.90913231211087 2.842170953029041e-14 -128.4823332649845
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 128.4823332649845 174.90913231211087 0
+  rotation 0 0 1 -1.3089969445897933
 }
 TrashBin {
-  translation -169.8864524897677 2.1316282172689406e-14 -106.93402527297448
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 106.93402527297448 169.8864524897677 0
+  rotation 0 0 1 -1.3089969445897933
   name "trash bin(6)"
 }
 TrashBin {
-  translation -129.61149511639886 9.379164113032187e-13 24.330610423709402
-  rotation 0 1 0 3.1415926439999997
+  translation -24.330610423709402 129.61149511639886 0
   name "trash bin(7)"
 }
 TrashBin {
-  translation -145.77473231905932 -5.6843418760921614e-14 -25.183427670435517
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 25.183427670435517 145.77473231905932 0
+  rotation 0 0 1 -1.3089969445897933
   name "trash bin(9)"
 }
 TrashBin {
-  translation -154.13276826629198 -3.623767951377647e-13 -53.94080066082118
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 53.94080066082118 154.13276826629198 0
+  rotation 0 0 1 -1.3089969445897933
   name "trash bin(8)"
 }
 TrashBin {
-  translation -185.58260831263476 -1.0658140936515102e-14 -164.40281024891163
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 164.40281024891163 185.58260831263476 0
+  rotation 0 0 1 -1.3089969445897933
   name "trash bin(5)"
 }
 TrashContainer {
-  translation -198.18344173209914 3.907985056669191e-14 -202.19713771730713
-  rotation 0 1 0 5.497787127
+  translation 202.876 197.504 0
+  rotation 0 0 1 5.497787127
 }
 TrashContainer {
-  translation -132.8389425917848 1.3145040621550494e-13 15.674060232917014
-  rotation 0 1 0 4.974188353
+  translation -15.4219 131.891 0
+  rotation 0 0 1 4.974188353
   name "trash container(3)"
 }
 TrashContainer {
-  translation -142.27535650338032 1.2434497885790393e-13 -11.550031561898532
-  rotation 0 1 0 4.974188353
+  translation 11.8022 141.33 0
+  rotation 0 0 1 4.974188353
   name "trash container(5)"
 }
 TrashContainer {
-  translation -158.99754550821874 8.526512839109842e-14 -67.2378930485095
-  rotation 0 1 0 4.974188353
+  translation 67.4901 158.054 0
+  rotation 0 0 1 4.974188353
   name "trash container(4)"
 }
 TrashContainer {
-  translation -193.2868322894816 2.3447910290071946e-13 -183.9073929749028
-  rotation 0 1 0 4.974188353
+  translation 184.175 192.341 0
+  rotation 0 0 1 4.974188353
   name "trash container(2)"
 }
 TrashContainer {
-  translation -181.8162514187728 7.105427457487401e-15 -145.55839961439574
-  rotation 0 1 0 4.974188353
+  translation 145.823 180.873 0
+  rotation 0 0 1 4.974188353
   name "trash container(1)"
 }
 BusStop {
-  translation -140.43361596598368 -3.623767951377647e-13 -38.94307751193683
-  rotation 0 -1 0 4.4292036779999995
+  translation 38.94307751193683 140.43361596598368 0
+  rotation 0 0 1 -1.2876110244102064
   name "bus stop(5)"
 }
 DEF BUS_LINE Transform {
-  translation -136.7897942999489 0.1 -39.94622663085551
-  rotation 0 -1 0 6
+  translation 39.94622663085551 136.7897942999489 0.1
+  rotation 0 0 -1 1.28761
   children [
     Shape {
       appearance PBRAppearance {
@@ -3041,360 +3064,362 @@ DEF BUS_LINE Transform {
   ]
 }
 UrbanFence {
-  translation -92.09519231115581 0.01 116.13388217127653
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -116.13388217127653 92.09519231115581 0.01
+  rotation 0 0 1 4.712388966
 }
 UrbanFence {
-  translation -92.07519233776762 0.01 117.98388217156403
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -117.98388217156403 92.07519233776762 0.01
+  rotation 0 0 1 4.712388966
   name "urban fence(1)"
 }
 UrbanFence {
-  translation -92.04519236581763 0.01 119.93388217199563
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -119.93388217199563 92.04519236581763 0.01
+  rotation 0 0 1 4.712388966
   name "urban fence(2)"
 }
 UrbanFence {
-  translation -92.01519239329245 0.01 121.84388217242712
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -121.84388217242712 92.01519239329245 0.01
+  rotation 0 0 1 4.712388966
   name "urban fence(3)"
 }
 UrbanFence {
-  translation -91.95519242335632 0.01 123.93388217329031
-  rotation 0 0.9999999999999999 0 4.712388966
+  translation -123.93388217329031 91.95519242335632 0.01
+  rotation 0 0 1 4.712388966
   name "urban fence(4)"
 }
 UrbanFence {
-  translation -87.09873582971942 0.00999999999992184 134.1888688781169
-  rotation 0 -0.9999999999999999 0 3.248
+  translation -134.1888688781169 87.09873582971942 0.00999999999992184
+  rotation 0 0 -1 3.248
   name "urban fence(5)"
 }
 UrbanFence {
-  translation -85.06033046992876 0.00999999999992184 134.40659253134902
-  rotation 0 -0.9999999999999999 0 3.248
+  translation -134.40659253134902 85.06033046992876 0.00999999999992184
+  rotation 0 0 -1 3.248
   name "urban fence(6)"
 }
 UrbanFence {
-  translation -83.1014726363739 0.00999999999992184 134.6158196517722
-  rotation 0 -0.9999999999999999 0 3.248
+  translation -134.6158196517722 83.1014726363739 0.00999999999992184
+  rotation 0 0 -1 3.248
   name "urban fence(7)"
 }
 UrbanFence {
-  translation -81.03323695424493 0.00999999999992184 134.83672950480783
-  rotation 0 -0.9999999999999999 0 3.248
+  translation -134.83672950480783 81.03323695424493 0.00999999999992184
+  rotation 0 0 -1 3.248
   name "urban fence(8)"
 }
 UrbanFence {
-  translation -79.0644356799106 0.00999999999992184 135.04701869183216
-  rotation 0 -0.9999999999999999 0 3.248
+  translation -135.04701869183216 79.0644356799106 0.00999999999992184
+  rotation 0 0 -1 3.248
   name "urban fence(9)"
 }
 UrbanFence {
-  translation -73.61623385997771 0.00999999999992184 122.32591457215119
-  rotation 0 1 0 2.32
+  translation -122.32591457215119 73.61623385997771 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(10)"
 }
 UrbanFence {
-  translation -74.95791394457677 0.00999999999992184 120.8834186274117
-  rotation 0 1 0 2.32
+  translation -120.8834186274117 74.95791394457677 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(11)"
 }
 UrbanFence {
-  translation -76.30010578481111 0.00999999999992184 119.45505555591751
-  rotation 0 1 0 2.32
+  translation -119.45505555591751 76.30010578481111 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(12)"
 }
 UrbanFence {
-  translation -77.67583866343553 0.00999999999992184 117.97594803897647
-  rotation 0 1 0 2.32
+  translation -117.97594803897647 77.67583866343553 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(13)"
 }
 UrbanFence {
-  translation -79.0379504244498 0.00999999999992184 116.51148515091604
-  rotation 0 1 0 2.32
+  translation -116.51148515091604 79.0379504244498 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(14)"
 }
 UrbanFence {
-  translation -80.38065402031934 0.00999999999992184 115.09725495266723
-  rotation 0 1 0 2.32
+  translation -115.09725495266723 80.38065402031934 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(15)"
 }
 UrbanFence {
-  translation -81.72233410491839 0.00999999999992184 113.65475900792767
-  rotation 0 1 0 2.32
+  translation -113.65475900792767 81.72233410491839 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(16)"
 }
 UrbanFence {
-  translation -83.05039307190731 0.00999999999992184 112.2269076920687
-  rotation 0 1 0 2.32
+  translation -112.2269076920687 83.05039307190731 0.00999999999992184
+  rotation 0 0 1 2.32
   name "urban fence(17)"
 }
 StoneFountain {
-  translation -83.48661620151744 -3.6681174405491706e-13 156.4231547139748
+  translation -156.4231547139748 83.48661620151744 0
 }
 TableWithUmbrella {
-  translation -95.73473045116478 -3.7391717141251806e-13 149.16055894217607
+  translation -149.16055894217607 95.73473045116478 0
 }
 TableWithUmbrella {
-  translation -90.94067299969124 -3.7391717141251806e-13 149.33512138359532
-  rotation 0 1 0 1.3089969349999997
+  translation -149.33512138359532 90.94067299969124 0
+  rotation 0 0 1 1.3089969349999997
   name "table with umbrella(3)"
 }
 TableWithUmbrella {
-  translation -94.43858000727386 -3.7391717141251806e-13 154.8063451550912
-  rotation 0 1 0 0.7853981610000004
+  translation -154.8063451550912 94.43858000727386 0
+  rotation 0 0 1 0.7853981610000004
   name "table with umbrella(2)"
 }
 TableWithUmbrella {
-  translation -87.55720089679022 -3.7391717141251806e-13 161.87954477662225
+  translation -161.87954477662225 87.55720089679022 0
   name "table with umbrella(1)"
 }
 TableWithUmbrella {
-  translation -81.29159985203347 -3.7391717141251806e-13 162.69268554627493
-  rotation 0 1 0 5.497787127
+  translation -162.69268554627493 81.29159985203347 0
+  rotation 0 0 1 5.497787127
   name "table with umbrella(6)"
 }
 TableWithUmbrella {
-  translation -82.90959991504332 -3.7391717141251806e-13 168.80459131504995
-  rotation 0 1 0 1.3089969349999997
+  translation -168.80459131504995 82.90959991504332 0
+  rotation 0 0 1 1.3089969349999997
   name "table with umbrella(7)"
 }
 TableWithUmbrella {
-  translation -77.94611367051081 -3.7746988509131856e-13 154.11059936521693
-  rotation 0 1 0 2.61799387
+  translation -154.11059936521693 77.94611367051081 0
+  rotation 0 0 1 2.61799387
   name "table with umbrella(9)"
 }
 TableWithUmbrella {
-  translation -73.24369781487297 -3.7391717141251806e-13 157.51799057929935
-  rotation 0 1 0 0.5235987739999998
+  translation -157.51799057929935 73.24369781487297 0
+  rotation 0 0 1 0.5235987739999998
   name "table with umbrella(13)"
 }
 TableWithUmbrella {
-  translation -72.9041812318047 -3.7391717141251806e-13 164.97500869574736
+  translation -164.97500869574736 72.9041812318047 0
   name "table with umbrella(12)"
 }
 TableWithUmbrella {
-  translation -77.30608200178784 -3.7391717141251806e-13 160.83928085533094
+  translation -160.83928085533094 77.30608200178784 0
   name "table with umbrella(11)"
 }
 TableWithUmbrella {
-  translation -76.20790740702746 -3.7391717141251806e-13 168.30444978511719
-  rotation 0 1 0 5.23598774
+  translation -168.30444978511719 76.20790740702746 0
+  rotation 0 0 1 5.23598774
   name "table with umbrella(10)"
 }
 TableWithUmbrella {
-  translation -88.23128741869033 -3.7391717141251806e-13 168.76769026793957
+  translation -168.76769026793957 88.23128741869033 0
   name "table with umbrella(8)"
 }
 TableWithUmbrella {
-  translation -92.82455281769242 -3.7391717141251806e-13 161.68120527328676
+  translation -161.68120527328676 92.82455281769242 0
   name "table with umbrella(5)"
 }
 TableWithUmbrella {
-  translation -89.55589673264613 -3.7391717141251806e-13 156.10160322706236
-  rotation 0 1 0 5.23598774
+  translation -156.10160322706236 89.55589673264613 0
+  rotation 0 0 1 5.23598774
   name "table with umbrella(4)"
 }
 Chair {
-  translation -93.54820266660212 -3.6681174405491706e-13 154.30056301502682
-  rotation 0 1 0 3.665191418
+  translation -154.30056301502682 93.54820266660212 0
+  rotation 0 0 1 2.0943950912051035
 }
 Chair {
-  translation -95.62050474358858 -3.7036445773371756e-13 155.2254358869906
+  translation -155.2254358869906 95.62050474358858 0
+  rotation 0 0 1 -1.5707963267948966
   name "chair(13)"
 }
 Chair {
-  translation -90.6757952178318 -3.7036445773371756e-13 156.15965757801513
+  translation -156.15965757801513 90.6757952178318 0
+  rotation 0 0 1 -1.5707963267948966
   name "chair(12)"
 }
 Chair {
-  translation -88.98153099648806 -3.685881008943173e-13 155.3200126803247
-  rotation 0 1 0 4.188790192
+  translation -155.3200126803247 88.98153099648806 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(1)"
 }
 Chair {
-  translation -93.27478037481114 -3.6681174405491706e-13 160.5420830829372
-  rotation 0 1 0 4.974188353
+  translation -160.5420830829372 93.27478037481114 0
+  rotation 0 0 1 -2.8797932809744835
   name "chair(2)"
 }
 Chair {
-  translation -86.69033484892984 -3.6681174405491706e-13 162.8782756387009
-  rotation 0 -1 0 4.188790230359173
+  translation -162.8782756387009 86.69033484892984 0
+  rotation 0 0 1 0.5235987500255173
   name "chair(14)"
 }
 Chair {
-  translation -88.72909935148002 -3.6681174405491706e-13 162.33001722231822
-  rotation 0 -1 0 6.021385939359172
+  translation -162.33001722231822 88.72909935148002 0
+  rotation 0 0 1 -1.3089969589744823
   name "chair(17)"
 }
 Chair {
-  translation -86.92822985144846 -3.6681174405491706e-13 161.0321389004077
-  rotation 0 1 0 4.188790192
+  translation -161.0321389004077 86.92822985144846 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(16)"
 }
 Chair {
-  translation -87.69124792092242 -3.756935282519183e-13 167.9507514229712
-  rotation 0 1 0 4.188790192
+  translation -167.9507514229712 87.69124792092242 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(18)"
 }
 Chair {
-  translation -82.38858332904873 -3.7391717141251806e-13 167.8394375031436
-  rotation 0 1 0 4.188790192
+  translation -167.8394375031436 82.38858332904873 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(19)"
 }
 Chair {
-  translation -82.18748683590218 -3.783580635110187e-13 162.04808281195938
-  rotation 0 1 0 5.7595865139999995
+  translation -162.04808281195938 82.18748683590218 0
+  rotation 0 0 1 -2.0943951199744837
   name "chair(20)"
 }
 Chair {
-  translation -73.68092958923557 -3.6681174405491706e-13 165.50008821546191
-  rotation 0 -1 0 5.759586552359173
+  translation -165.50008821546191 73.68092958923557 0
+  rotation 0 0 1 -1.0471975719744833
   name "chair(21)"
 }
 Chair {
-  translation -72.30079804434513 -3.970098103247213e-13 157.13895978713327
-  rotation 0 -1 0 2.3561945213591735
+  translation -157.13895978713327 72.30079804434513 0
+  rotation 0 0 1 2.356194459025516
   name "chair(29)"
 }
 Chair {
-  translation -73.84543692573678 -3.010865409971078e-13 156.78520317490288
-  rotation 0 1 0 5.23598774
+  translation -156.78520317490288 73.84543692573678 0
+  rotation 0 0 1 -2.6179938939744836
   name "chair(30)"
 }
 Chair {
-  translation -73.49905593956228 -3.543772461791153e-13 158.56084277344132
-  rotation 0 -1 0 5.235987778359172
+  translation -158.56084277344132 73.49905593956228 0
+  rotation 0 0 1 -0.5235987979744825
   name "chair(28)"
 }
 Chair {
-  translation -76.39931217432171 -3.685881008943173e-13 161.37145481510308
-  rotation 0 -1 0 3.665191456359173
+  translation -161.37145481510308 76.39931217432171 0
+  rotation 0 0 1 1.0471975240255167
   name "chair(27)"
 }
 Chair {
-  translation -76.90703683880197 -3.685881008943173e-13 159.82169621253533
-  rotation 0 1 0 4.188790192
+  translation -159.82169621253533 76.90703683880197 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(26)"
 }
 Chair {
-  translation -77.40245390192165 -4.698404407401316e-13 153.22704059656826
-  rotation 0 1 0 4.188790192
+  translation -153.22704059656826 77.40245390192165 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(25)"
 }
 Chair {
-  translation -77.96371328219034 -4.0145070242322194e-13 154.9691692629249
-  rotation 0 -1 0 4.450589617359173
+  translation -154.9691692629249 77.96371328219034 0
+  rotation 0 0 1 0.2617993630255174
   name "chair(32)"
 }
 Chair {
-  translation -78.93144594862122 -3.4549546198211405e-13 154.21220778249224
-  rotation 0 -1 0 2.9802322387695313e-08
+  translation -154.21220778249224 78.93144594862122 0
+  rotation 0 0 1 -1.570796356597219
   name "chair(33)"
 }
 Chair {
-  translation -78.345979585819 -3.7746988509131856e-13 160.9562638484022
-  rotation 0 -1 0 5.759586552359173
+  translation -160.9562638484022 78.345979585819 0
+  rotation 0 0 1 -1.0471975719744833
   name "chair(31)"
 }
 Chair {
-  translation -75.68242037160638 -3.8102259877011906e-13 167.386615453542
-  rotation 0 1 0 4.188790192
+  translation -167.386615453542 75.68242037160638 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(22)"
 }
 Chair {
-  translation -81.74151774999812 -3.756935282519183e-13 163.66786434333142
-  rotation 0 -1 0 5.235987778359172
+  translation -163.66786434333142 81.74151774999812 0
+  rotation 0 0 1 -0.5235987979744825
   name "chair(24)"
 }
 Chair {
-  translation -80.47243729747503 -3.721408145731178e-13 162.42589572294762
-  rotation 0 -1 0 3.1415926823591733
+  translation -162.42589572294762 80.47243729747503 0
+  rotation 0 0 1 1.5707962980255166
   name "chair(23)"
 }
 Chair {
-  translation -92.23662696680442 -3.6681174405491706e-13 160.6570359493338
-  rotation 0 1 0 4.188790192
+  translation -160.6570359493338 92.23662696680442 0
+  rotation 0 0 1 2.6179938652051034
   name "chair(15)"
 }
 Chair {
-  translation -88.7726227917834 -3.7036445773371756e-13 157.11574351230107
-  rotation 0 -1 0 4.188790230359173
+  translation -157.11574351230107 88.7726227917834 0
+  rotation 0 0 1 0.5235987500255173
   name "chair(3)"
 }
 Chair {
-  translation -91.43604663187122 -3.7036445773371756e-13 148.47173251912315
-  rotation 0 1 0 5.235987701640827
+  translation -148.47173251912315 91.43604663187122 0
+  rotation 0 0 1 -2.6179939323336563
   name "chair(9)"
 }
 Chair {
-  translation -90.20469124463298 -3.7036445773371756e-13 148.56233850330898
-  rotation 0 -1 0 2.3561945213591726
+  translation -148.56233850330898 90.20469124463298 0
+  rotation 0 0 1 2.356194459025517
   name "chair(10)"
 }
 Chair {
-  translation -89.59081548567129 -3.7036445773371756e-13 149.6870782087531
-  rotation 0 -1 0 3.141592682359173
+  translation -149.6870782087531 89.59081548567129 0
+  rotation 0 0 1 1.570796298025517
   name "chair(11)"
 }
 Chair {
-  translation -91.72030408507007 -3.7036445773371756e-13 149.80219206057933
-  rotation 0 1 0 0.26179934864082727
+  translation -149.80219206057933 91.72030408507007 0
+  rotation 0 0 1 -1.3089969781540693
   name "chair(4)"
 }
 Chair {
-  translation -90.52583055613287 -3.7036445773371756e-13 150.3276357627818
-  rotation 0 -1 0 4.188790230359173
+  translation -150.3276357627818 90.52583055613287 0
+  rotation 0 0 1 0.5235987500255173
   name "chair(8)"
 }
 Chair {
-  translation -95.08767819678556 -3.6681174405491706e-13 149.94948853541715
-  rotation 0 -1 0 4.188790230359173
+  translation -149.94948853541715 95.08767819678556 0
+  rotation 0 0 1 0.5235987500255173
   name "chair(5)"
 }
 Chair {
-  translation -96.72994380860999 -3.614826735367163e-13 148.80112695977672
-  rotation 0 -0.9999999999999999 0 4.2146848510894035e-08
+  translation -148.80112695977672 96.72994380860999 0
+  rotation 0 0 1 -1.570796368941745
   name "chair(6)"
 }
 Chair {
-  translation -95.14674370535613 -3.5260088933971505e-13 148.30799352590336
-  rotation 0 -1 0 1.8325957895060225
+  translation -148.30799352590336 95.14674370535613 0
+  rotation 0 0 1 2.8797931908786674
   name "chair(7)"
 }
 FastFoodRestaurant {
-  translation -60.988687821745266 -3.6681174405491706e-13 158.5215983865573
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -158.935 62.5247 0
+  rotation 0 0 1 0.2617993822051034
   numberOfSides 2
 }
 FastFoodRestaurant {
-  translation -49.74197387691352 -3.5615360301851555e-13 108.30426419099511
-  rotation 0 -0.9999999999999999 0 2.617993908359174
+  translation -108.30426419099511 49.74197387691352 0
+  rotation 0 0 1 2.0943950720255162
   name "fast food restaurant(1)"
   width 23
   brand "subway"
 }
 NewsStand {
-  translation -71.2647218493118 -3.8102259877011906e-13 176.1685216385053
-  rotation 0 1 0 0.5235987739999998
+  translation -176.1685216385053 71.2647218493118 0
+  rotation 0 0 1 0.5235987739999998
 }
 SnackStand {
-  translation -101.11331263826773 -3.7391717141251806e-13 150.91955777084715
-  rotation 0 1 0 5.497787127
+  translation -150.91955777084715 101.11331263826773 0
+  rotation 0 0 1 5.497787127
 }
 SnackStand {
-  translation -98.1406341890193 -3.7036445773371756e-13 160.8990364407815
-  rotation 0 1 0 5.23598774
+  translation -160.8990364407815 98.1406341890193 0
+  rotation 0 0 1 5.23598774
   name "snack stand(1)"
   color "green"
 }
 SmallKiosk {
-  translation -94.70626349153568 -3.7391717141251806e-13 168.85651270335563
-  rotation 0 -1 0 0.5235988123591725
+  translation -168.85651270335563 94.70626349153568 0
+  rotation 0 0 -1 0.5235988123591725
 }
 DEF HEDGES Transform {
-  translation -61.60892314942201 1.0099999999996263 165.94038744812838
-  rotation -0.621514866372912 0.6215148753132107 0.4769051589591639 4.031595896425581
+  translation -165.94038744812838 61.60892314942201 1.0099999999996263
+  rotation 0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.9504353071795864
   children [
     Shape {
       appearance PBRAppearance {
@@ -3431,8 +3456,8 @@ DEF HEDGES Transform {
   ]
 }
 DEF HEDGES Transform {
-  translation 285.0052996046019 1.0099950140614613 275.2496341653279
-  rotation 0.5199879211833542 -0.5199879286632193 -0.6776615053756179 1.95044098945728
+  translation -275.2496341653279 -285.0052996046019 1.0099950140614613
+  rotation 0.6215149473343795 -0.4769049595882678 -0.6215149473343795 -2.251585307179586
   children [
     Shape {
       appearance PBRAppearance {
@@ -3471,100 +3496,98 @@ DEF HEDGES Transform {
   ]
 }
 DEF PLAY_AREA Solid {
-  translation -118.26931050056744 -3.4259434312412795e-13 93.15813221311062
-  rotation 0 -1 0 1.3089969733591733
+  translation -93.15813221311062 118.26931050056744 0
+  rotation 0 0 -1 1.3089969733591733
   children [
     Pine {
-      translation -12.870000000000001 0 19.039999999999996
-      rotation 0 1 0 1.5707963220000003
+      translation -19.039999999999996 12.870000000000001 0
+      rotation 0 0 1 1.5707963220000003
     }
     Pine {
-      translation -4.869999964517768 0 11.640000038359167
-      rotation 0 1 0 1.5707963220000003
+      translation -11.640000038359167 4.869999964517768 0
+      rotation 0 0 1 1.5707963220000003
       name "pine tree(2)"
     }
     Pine {
-      translation 3.5699999999999994 0 19.039999999999996
+      translation -19.039999999999996 -3.5699999999999994 0
       name "pine tree(1)"
     }
     Sassafras {
-      translation -25.329999999999988 0 15.75
+      translation -15.75 25.329999999999988 0
     }
     BigSassafras {
-      translation 16.9 0 8.16
+      translation -8.16 -16.9 0
       name "sassafras tree(1)"
     }
     PalmTree {
-      translation -27.18000000000002 0 -10.36
-      rotation 0 1 0 0.2617993870000007
+      translation 10.36 27.18000000000002 0
+      rotation 0 0 1 0.2617993870000007
     }
     PalmTree {
-      translation -17.11000000000003 0 -10.36
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation 10.36 17.11000000000003 0
+      rotation 0 0 1 4.712388966
       name "palm tree(1)"
     }
     PalmTree {
-      translation -4.770000000000028 0 -10.36
-      rotation 0 1 0 2.356194483
+      translation 10.36 4.770000000000028 0
+      rotation 0 0 1 2.356194483
       name "palm tree(2)"
     }
     PalmTree {
-      translation 6.959999999999971 0 -10.36
+      translation 10.36 -6.959999999999971 0
       name "palm tree(3)"
     }
     PalmTree {
-      translation 17.539999999999974 0 -10.36
-      rotation 0 1 0 5.7595865139999995
+      translation 10.36 -17.539999999999974 0
+      rotation 0 0 1 5.7595865139999995
       name "palm tree(4)"
     }
     PalmTree {
-      translation 28.029999999999973 0 -10.36
-      rotation 9.396735103804304e-17 -0.9999999999999999 1.224606353822377e-16 4.450589598179587
+      translation 10.36 -28.029999999999973 0
+      rotation 0 0 -1 4.450589598179587
       name "palm tree(5)"
     }
     PalmTree {
-      translation 28.029999999999973 0 5.230000000000002
+      translation -5.230000000000002 -28.029999999999973 0
       name "palm tree(6)"
     }
     PalmTree {
-      translation 28.029999999999973 0 18.2
+      translation -18.2 -28.029999999999973 0
       name "palm tree(7)"
     }
     SwingCouch {
-      translation -3.250000053223353 0 18.50999995324974
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation -18.50999995324974 3.250000053223353 0
     }
     SwingCouch {
-      translation 22.935267429505167 0 14.488910811959313
-      rotation 0 -1 0 1.0471975863591734
+      translation -14.488910811959313 -22.935267429505167 0
+      rotation 0 0 1 0.5235987404357232
       name "swing couch(1)"
     }
     SwingCouch {
-      translation -20.21363452427017 0 18.224999700554385
-      rotation 0 -1 0 2.0943951343591736
+      translation -18.224999700554385 20.21363452427017 0
+      rotation 0 0 1 -0.5235988075642769
       name "swing couch(2)"
     }
     OldBench {
-      translation -13.509999999999994 0 0
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation 0 13.509999999999994 0
+      rotation 0 0 1 4.712388966
     }
     OldBench {
-      translation 13.609999999999998 0 3.901127946272124e-07
-      rotation 0 -1 0 4.712389004359173
+      translation 0 -13.609999999999998 0
+      rotation 0 0 -1 4.712389004359173
       name "old bench(1)"
     }
     OldBench {
-      translation 5.519999811483799 0 9.220000168900672
-      rotation 0 -0.9999999999999999 0 4.2146848510894035e-08
+      translation -9.220000168900672 -5.519999811483799 0
       name "old bench(2)"
     }
     OldBench {
-      translation -4.650000188516192 0 9.219999740267221
-      rotation 0 -0.9999999999999999 0 4.2146848510894035e-08
+      translation -9.219999740267221 4.650000188516192 0
       name "old bench(3)"
     }
     Transform {
-      translation 0 0.05 5.220000000000001
+      translation -5.220000000000001 0 0.05
+      rotation 0 0 1 -1.5707953071795862
       children [
         Shape {
           appearance Grass {
@@ -3581,7 +3604,7 @@ DEF PLAY_AREA Solid {
       ]
     }
     Fence {
-      translation 0 0.05 5.220000000000001
+      translation -5.220000000000001 0 0.05
       name "fence(1)"
       height 1.3
       poleGap 0.7000000000000001
@@ -3590,12 +3613,12 @@ DEF PLAY_AREA Solid {
       poleAppearance RoughOak {
       }
       path [
-        -30 0 0
-        -30 0 -17.5
-        30 0 -17.5
-        30 0 17.5
-        -30 0 17.5
-        -30 0 5
+        0 30 0
+        17.5 30 0
+        17.5 -30 0
+        -17.5 -30 0
+        -17.5 30 0
+        -5 30 0
       ]
       horizontalBarsNumber 3
       horizontalBarAppearance RoughOak {
@@ -3608,16 +3631,17 @@ DEF PLAY_AREA Solid {
       poleAppearance RoughOak {
       }
       path [
-        -12 0 -8
-        12 0 -8
-        12 0 8
-        -12 0 8
-        -12 0 -8
+        8 12 0
+        8 -12 0
+        -8 -12 0
+        -8 12 0
+        8 12 0
       ]
       horizontalBarsNumber 0
     }
     Transform {
-      translation 0 0.1 0
+      translation 0 0 0.1
+      rotation 0 1 0 0
       children [
         Shape {
           appearance Sand {
@@ -3626,134 +3650,132 @@ DEF PLAY_AREA Solid {
             }
           }
           geometry Plane {
-            size 24 16
+            size 16 24
           }
           castShadows FALSE
         }
       ]
     }
     Swing {
-      translation 6.982114312085835 0 3.0933767525094957
-      rotation 0 1 0 0.5235987739999998
+      translation -3.0933767525094957 -6.982114312085835 0
+      rotation 0 0 1 0.5235987739999998
     }
     Swing {
-      translation -6.98211 0 3.0933767525094957
-      rotation 0 1 0 -0.523599
+      translation -3.0933767525094957 6.98211 0
+      rotation 0 0 1 -0.523599
       name "swing(1)"
     }
     Slide {
-      translation 1.7100000000000006 0 2.9099999999999993
+      translation -2.9099999999999993 -1.7100000000000006 0
     }
     Slide {
-      translation -4.276060120386479 0 -2.157521734050078
-      rotation 0 1 0 4.974188353
+      translation 2.157521734050078 4.276060120386479 0
+      rotation 0 0 1 4.974188353
       name "slide(1)"
     }
     WateringCan {
-      translation 6.64 0 -4.120000000000001
-      rotation 0 1 0 0.5235987739999998
+      translation 4.120000000000001 -6.64 0
+      rotation 0 0 1 0.5235987739999998
     }
     SoccerBall {
-      translation 5.080000000000001 0.2 -4.579999999999999
+      translation 4.579999999999999 -5.080000000000001 0.2
     }
   ]
   name "solid(0)"
 }
 DEF PLAY_AREA Solid {
-  translation -151.0818639645115 -1.0673479335994301e-12 -230.3267389476139
-  rotation 0 1 0 4.974188314640827
+  translation 230.3267389476139 151.0818639645115 0
+  rotation 0 0 1 4.974188314640827
   children [
     Pine {
-      translation -12.870000000000001 0 19.039999999999996
-      rotation 0 1 0 1.5707963220000003
+      translation -19.039999999999996 12.870000000000001 0
+      rotation 0 0 1 1.5707963220000003
     }
     Pine {
-      translation -4.869999964517768 0 11.640000038359167
-      rotation 0 1 0 1.5707963220000003
+      translation -11.640000038359167 4.869999964517768 0
+      rotation 0 0 1 1.5707963220000003
       name "pine tree(2)"
     }
     Pine {
-      translation 3.5699999999999994 0 19.039999999999996
+      translation -19.039999999999996 -3.5699999999999994 0
       name "pine tree(1)"
     }
     Sassafras {
-      translation -25.329999999999988 0 15.75
+      translation -15.75 25.329999999999988 0
     }
     BigSassafras {
-      translation 16.9 0 8.16
+      translation -8.16 -16.9 0
       name "sassafras tree(1)"
     }
     PalmTree {
-      translation -27.18000000000002 0 -10.36
-      rotation 0 1 0 0.2617993870000007
+      translation 10.36 27.18000000000002 0
+      rotation 0 0 1 0.2617993870000007
     }
     PalmTree {
-      translation -17.11000000000003 0 -10.36
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation 10.36 17.11000000000003 0
+      rotation 0 0 1 4.712388966
       name "palm tree(1)"
     }
     PalmTree {
-      translation -4.770000000000028 0 -10.36
-      rotation 0 1 0 2.356194483
+      translation 10.36 4.770000000000028 0
+      rotation 0 0 1 2.356194483
       name "palm tree(2)"
     }
     PalmTree {
-      translation 6.959999999999971 0 -10.36
+      translation 10.36 -6.959999999999971 0
       name "palm tree(3)"
     }
     PalmTree {
-      translation 17.539999999999974 0 -10.36
-      rotation 0 1 0 5.7595865139999995
+      translation 10.36 -17.539999999999974 0
+      rotation 0 0 1 5.7595865139999995
       name "palm tree(4)"
     }
     PalmTree {
-      translation 28.029999999999973 0 -10.36
-      rotation 9.396735103804304e-17 -0.9999999999999999 1.224606353822377e-16 4.450589598179587
+      translation 10.36 -28.029999999999973 0
+      rotation 0 0 -1 4.450589598179587
       name "palm tree(5)"
     }
     PalmTree {
-      translation 28.029999999999973 0 5.230000000000002
+      translation -5.230000000000002 -28.029999999999973 0
       name "palm tree(6)"
     }
     PalmTree {
-      translation 28.029999999999973 0 18.2
+      translation -18.2 -28.029999999999973 0
       name "palm tree(7)"
     }
     SwingCouch {
-      translation -3.250000053223353 0 18.50999995324974
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation -18.50999995324974 3.250000053223353 0
     }
     SwingCouch {
-      translation 22.935267429505167 0 14.488910811959313
-      rotation 0 -1 0 1.0471975863591734
+      translation -14.488910811959313 -22.935267429505167 0
+      rotation 0 0 1 0.5235987404357232
       name "swing couch(1)"
     }
     SwingCouch {
-      translation -20.21363452427017 0 18.224999700554385
-      rotation 0 -1 0 2.0943951343591736
+      translation -18.224999700554385 20.21363452427017 0
+      rotation 0 0 1 -0.5235988075642769
       name "swing couch(2)"
     }
     OldBench {
-      translation -13.509999999999994 0 0
-      rotation 0 0.9999999999999999 0 4.712388966
+      translation 0 13.509999999999994 0
+      rotation 0 0 1 4.712388966
     }
     OldBench {
-      translation 13.609999999999998 0 3.901127946272124e-07
-      rotation 0 -1 0 4.712389004359173
+      translation 0 -13.609999999999998 0
+      rotation 0 0 -1 4.712389004359173
       name "old bench(1)"
     }
     OldBench {
-      translation 5.519999811483799 0 9.220000168900672
-      rotation 0 -0.9999999999999999 0 4.2146848510894035e-08
+      translation -9.220000168900672 -5.519999811483799 0
       name "old bench(2)"
     }
     OldBench {
-      translation -4.650000188516192 0 9.219999740267221
-      rotation 0 -0.9999999999999999 0 4.2146848510894035e-08
+      translation -9.219999740267221 4.650000188516192 0
       name "old bench(3)"
     }
     Transform {
-      translation 0 0.05 5.220000000000001
+      translation -5.220000000000001 0 0.05
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance Grass {
@@ -3770,7 +3792,7 @@ DEF PLAY_AREA Solid {
       ]
     }
     Fence {
-      translation 0 0.05 5.220000000000001
+      translation -5.220000000000001 0 0.05
       name "fence(1)"
       height 1.3
       poleGap 0.7000000000000001
@@ -3779,12 +3801,12 @@ DEF PLAY_AREA Solid {
       poleAppearance RoughOak {
       }
       path [
-        -30 0 0
-        -30 0 -17.5
-        30 0 -17.5
-        30 0 17.5
-        -30 0 17.5
-        -30 0 5
+        0 30 0
+        17.5 30 0
+        17.5 -30 0
+        -17.5 -30 0
+        -17.5 30 0
+        -5 30 0
       ]
       horizontalBarsNumber 3
       horizontalBarAppearance RoughOak {
@@ -3797,16 +3819,17 @@ DEF PLAY_AREA Solid {
       poleAppearance RoughOak {
       }
       path [
-        -12 0 -8
-        12 0 -8
-        12 0 8
-        -12 0 8
-        -12 0 -8
+        8 12 0
+        8 -12 0
+        -8 -12 0
+        -8 12 0
+        8 12 0
       ]
       horizontalBarsNumber 0
     }
     Transform {
-      translation 0 0.1 0
+      translation 0 0 0.1
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance Sand {
@@ -3822,35 +3845,35 @@ DEF PLAY_AREA Solid {
       ]
     }
     Swing {
-      translation 6.982114312085835 0 3.0933767525094957
-      rotation 0 1 0 0.5235987739999998
+      translation -3.0933767525094957 -6.982114312085835 0
+      rotation 0 0 1 0.5235987739999998
     }
     Swing {
-      translation -6.98211 0 3.0933767525094957
-      rotation 0 1 0 -0.523599
+      translation -3.0933767525094957 6.98211 0
+      rotation 0 0 1 -0.523599
       name "swing(1)"
     }
     Slide {
-      translation 1.7100000000000006 0 2.9099999999999993
+      translation -2.9099999999999993 -1.7100000000000006 0
     }
     Slide {
-      translation -4.276060120386479 0 -2.157521734050078
-      rotation 0 1 0 4.974188353
+      translation 2.157521734050078 4.276060120386479 0
+      rotation 0 0 1 4.974188353
       name "slide(1)"
     }
     WateringCan {
-      translation 6.64 0 -4.120000000000001
-      rotation 0 1 0 0.5235987739999998
+      translation 4.120000000000001 -6.64 0
+      rotation 0 0 1 0.5235987739999998
     }
     SoccerBall {
-      translation 5.080000000000001 0.2 -4.579999999999999
+      translation 4.579999999999999 -5.080000000000001 0.2
     }
   ]
   name "play area"
 }
 Solid {
-  translation 171.3632233557707 1.2043699371133698e-12 400.71847245991796
-  rotation 0 -1 0 6.021385939359171
+  translation -400.71847245991796 -171.3632233557707 0
+  rotation 0 0 -1 6.021385939359171
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -3859,8 +3882,8 @@ Solid {
   name "solid(1)"
 }
 Solid {
-  translation -102.70683421710193 1.2434497875801753e-13 -131.1970578644882
-  rotation 0 -1 0 6.021385939359171
+  translation 131.1970578644882 102.70683421710193 0
+  rotation 0 0 -1 6.021385939359171
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -3869,126 +3892,126 @@ Solid {
   name "solid(15)"
 }
 Solid {
-  translation -108.99507038543886 -3.552713678800501e-15 -185.00436163282163
-  rotation 0 -1 0 5.235987778359173
+  translation 185.00436163282163 108.99507038543886 0
+  rotation 0 0 -1 5.235987778359173
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 1 0 6.283185307179586
+      rotation 0 0 1 6.283185307179586
       numberOfFloors 6
     }
   ]
   name "solid(2)"
 }
 Solid {
-  translation 230.63426449720103 -4.298783551348606e-13 389.33883670582753
-  rotation 0 -1 0 0.261799425359172
+  translation -389.33883670582753 -230.63426449720103 0
+  rotation 0 0 -1 0.261799425359172
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 1 0 6.283185307179586
+      rotation 0 0 1 6.283185307179586
       numberOfFloors 6
     }
   ]
   name "solid(13)"
 }
 Solid {
-  translation 260.4620749560929 -1.0835776720341528e-12 367.4069901455794
-  rotation 0 -1 0 5.235987778359173
+  translation -367.4069901455794 -260.4620749560929 0
+  rotation 0 0 -1 5.235987778359173
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.759586533179586
+      rotation 0 0 -1 5.759586533179586
       numberOfFloors 5
     }
   ]
   name "solid(5)"
 }
 Solid {
-  translation -98.922813945356 -3.552713678800501e-15 -222.1946245412187
-  rotation 0 -1 0 5.235987778359173
+  translation 222.1946245412187 98.922813945356 0
+  rotation 0 0 -1 5.235987778359173
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.759586533179586
+      rotation 0 0 -1 5.759586533179586
       numberOfFloors 5
     }
   ]
   name "solid(12)"
 }
 Solid {
-  translation 273.35253545799316 -4.583000645652646e-13 277.09143744270017
-  rotation 0 1 0 1.3089968966408263
+  translation -277.09143744270017 -273.35253545799316 0
+  rotation 0 0 1 1.3089968966408263
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 1 0 0.5235987548204127
+      rotation 0 0 1 0.5235987548204127
       numberOfFloors 3
     }
   ]
   name "solid(6)"
 }
 Solid {
-  translation -158.47904750226257 -3.552713678800501e-15 -304.94755765527304
-  rotation 0 1 0 1.3089968966408263
+  translation 304.94755765527304 158.47904750226257 0
+  rotation 0 0 1 1.3089968966408263
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.2359877591795865
+      rotation 0 0 -1 5.2359877591795865
       numberOfFloors 3
     }
   ]
   name "solid(9)"
 }
 Solid {
-  translation 277.1962354655826 9.627854069549358e-13 312.29549856102045
-  rotation 0 -0.9999999999999999 0 2.6179939083591734
+  translation -312.29549856102045 -277.1962354655826 0
+  rotation 0 0 -1 2.6179939083591734
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.2359877591795865
+      rotation 0 0 -1 5.2359877591795865
     }
   ]
   name "solid(8)"
 }
 Solid {
-  translation -133.93753566104644 -3.552713678800501e-15 -283.7656778259336
-  rotation 0 -1 0 4.712389004359173
+  translation 283.7656778259336 133.93753566104644 0
+  rotation 0 0 -1 4.712389004359173
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.2359877591795865
+      rotation 0 0 -1 5.2359877591795865
     }
   ]
   name "solid(10)"
 }
 Solid {
-  translation -109.36312532669966 -3.552713678800501e-15 -258.2466832436322
-  rotation 0 -1 0 2.3561945213591735
+  translation 258.2466832436322 109.36312532669966 0
+  rotation 0 0 -1 2.3561945213591735
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 -1 0 5.2359877591795865
+      rotation 0 0 -1 5.2359877591795865
       numberOfFloors 6
     }
   ]
   name "solid(7)"
 }
 Solid {
-  translation 275.0680981900928 2.4868995751603507e-14 339.00741617611516
-  rotation 0 -1 0 0.7853981993591734
+  translation -339.00741617611516 -275.0680981900928 0
+  rotation 0 0 -1 0.7853981993591734
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
-      rotation 0 1 0 0.7853981418204125
+      rotation 0 0 1 0.7853981418204125
       numberOfFloors 6
     }
   ]
   name "solid(11)"
 }
 Solid {
-  translation 143.46425155112206 -8.881784197001252e-14 408.41594628022665
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -408.41594628022665 -143.46425155112206 0
+  rotation 0 0 1 1.832595709
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -3997,8 +4020,8 @@ Solid {
   name "solid(4)"
 }
 Solid {
-  translation -110.23943283977299 -3.552713678800501e-15 -100.82608241723368
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 100.82608241723368 110.23943283977299 0
+  rotation 0 0 1 1.832595709
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -4007,8 +4030,8 @@ Solid {
   name "solid(16)"
 }
 Solid {
-  translation 201.83826866346698 3.907985046680551e-14 398.87602645731187
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation -398.87602645731187 -201.83826866346698 0
+  rotation 0 0 1 1.832595709
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -4017,8 +4040,8 @@ Solid {
   name "solid(3)"
 }
 Solid {
-  translation -124.0733761821126 1.0658141036401503e-14 -160.63700064758143
-  rotation 0 0.9999999999999999 0 1.832595709
+  translation 160.63700064758143 124.0733761821126 0
+  rotation 0 0 1 1.832595709
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
@@ -4027,7 +4050,8 @@ Solid {
   name "solid(14)"
 }
 DEF WALL Solid {
-  translation 0 0.75 0
+  translation 0 0 0.75
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
     DEF SHAPE Shape {
       appearance RedBricks {

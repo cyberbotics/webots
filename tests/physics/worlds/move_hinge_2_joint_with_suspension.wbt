@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   ERP 0.6
   coordinateSystem "NUE"
@@ -19,6 +19,7 @@ DirectionalLight {
   castShadows TRUE
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
   floorSize 10 10
 }
 DEF ROBOT Robot {
@@ -53,7 +54,6 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 0 1
-        rotation 1 0 0 1.5708003
         children [
           DEF CYLINDER Shape {
             appearance Appearance {

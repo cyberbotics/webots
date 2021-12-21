@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.04411599689624797 0.9860425100846277 0.16054266449718863 3.633051030363406
-  position -0.2915391895891853 0.2213877996600895 -0.5075852310309379
+  orientation -0.10955717469278883 0.40306515268286686 0.9085899560121006 0.5813645071972064
+  position -0.5635449077003628 -0.3432851565720494 0.20438945578019982
   near 0.001
   exposure 2
   follow "racer"
@@ -34,8 +33,8 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.03 0
-  rotation 0 1 0 3.141592644
+  translation 0 0 0.03
+  rotation 0 1 0 -1.5708
   name "racer"
   controller "four_wheels_vehicle"
   upSlot TinkerbotsPivot {

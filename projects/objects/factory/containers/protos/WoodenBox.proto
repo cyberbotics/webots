@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A wooden box.
 # template language: javascript
 
 PROTO WoodenBox [
-  field SFVec3f    translation         0 0.3 0
-  field SFRotation rotation            0 1 0 0
+  field SFVec3f    translation         0 0 0.3
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "wooden box"
   field SFVec3f    size                0.6 0.6 0.6  # Defines the size of the wooden box.
   field SFFloat    mass                0            # Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
@@ -62,7 +62,7 @@ Solid {
   translation IS translation
   rotation IS rotation
   children [
-    Shape {
+    DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
@@ -94,9 +94,7 @@ Solid {
   name IS name
   model "wooden box"
   immersionProperties IS immersionProperties
-  boundingObject Box {
-    size %<= size.x >% %<= size.y >% %<= size.z >%
-  }
+  boundingObject USE BOX_SHAPE
   %< if (mass > 0) { >%
   physics Physics {
     density -1

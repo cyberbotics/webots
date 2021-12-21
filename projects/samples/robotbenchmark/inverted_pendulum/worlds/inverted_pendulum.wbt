@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -10,12 +10,11 @@ WorldInfo {
   window "inverted_pendulum"
   physics "inverted_pendulum_perturbation"
   basicTimeStep 4
-  coordinateSystem "NUE"
   lineScale 0.01
 }
 Viewpoint {
-  orientation -0.0035314798860618924 -0.9991060060567106 -0.042127393833730854 3.118668
-  position -0.021064378 0.11611695 -1.7670965
+  orientation 0.14531676566957988 0.00568264232883965 -0.9893688620486774 3.1670920620286416
+  position 2.246643201853611 0.17220873656899566 0.4957618929695692
   follow "e-puck"
 }
 TexturedBackground {
@@ -26,9 +25,8 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 0.33
   cutOffAngle 0.56
-  direction 0 -1 0
   intensity 16
-  location 0 6.5 0.3
+  location -0.3 0 6.5
   radius 8
   castShadows TRUE
 }
@@ -36,9 +34,8 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 0.58
   cutOffAngle 0.757
-  direction 0 -1 0
   intensity 16
-  location 11 8 0.3
+  location -0.3 -11 8
   radius 20
   castShadows TRUE
 }
@@ -46,14 +43,13 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 0.5
   cutOffAngle 0.72
-  direction 0 -1 0
   intensity 16
-  location -8 6 0.3
+  location -0.3 8 6
   radius 8
   castShadows TRUE
 }
 Floor {
-  size 40 5
+  size 5 40
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -65,8 +61,8 @@ Floor {
   }
 }
 Wall {
-  translation 0 0 2.52
-  size 40 2.4 0.2
+  translation -2.52 0 0
+  size 0.2 40 2.4
   appearance Roughcast {
     textureTransform TextureTransform {
       scale 20 1.2
@@ -74,14 +70,14 @@ Wall {
   }
 }
 E-puck {
-  translation 0 0 -0.98
-  rotation 0 1 0 1.5707963
+  translation 0.98 0 0
+  rotation 0 0 1 1.5707963000000003
   controller "inverted_pendulum"
   window ""
   turretSlot [
     Transform {
-      translation 0 0 -0.01
-      rotation 0 0 1 1.5707997
+      translation 0.01 0 0
+      rotation -1 0 0 1.5707997
       children [
         Shape {
           appearance PBRAppearance {
@@ -101,7 +97,8 @@ E-puck {
     HingeJoint {
       jointParameters DEF PENDULUM_PARAMETERS HingeJointParameters {
         position -0.05
-        anchor 0 0 -0.01
+        axis 0 -1 0
+        anchor 0.01 0 0
         minStop -1.6
         maxStop 1.6
       }
@@ -112,12 +109,12 @@ E-puck {
         }
       ]
       endPoint DEF PENDULUM Solid {
-        translation 0 0.079900021 -0.013998333
-        rotation -1 0 0 1.6208
+        translation 0.013998333000000002 8.673617379884035e-19 0.07990002100000006
+        rotation 0 0.9999999999999999 0 1.6207999999999998
         children [
           DEF POLE Transform {
-            translation 0 0 -0.04
-            rotation 1 0 0 1.5707997
+            translation 0.04 0 0
+            rotation 0 -1 0 1.5707997
             children [
               Shape {
                 appearance PBRAppearance {
@@ -140,7 +137,7 @@ E-puck {
             ]
           }
           DEF BALL Transform {
-            rotation 1 0 0 4.712389
+            rotation 0 -1 0 4.712389
             children [
               Shape {
                 appearance PBRAppearance {
@@ -173,39 +170,37 @@ E-puck {
   ]
 }
 PottedTree {
-  translation 2.3590843 2.3314684e-15 1.5713239
-  rotation 0 -1 0 3.1415927
+  translation -1.5713239 -2.3590843 2.3314684e-15
+  rotation 0 0 -1 3.1415927
 }
 PottedTree {
-  translation -8.1991063 2.3314684e-15 1.7283871
-  rotation 0 -1 0 4.712389
+  translation -1.7283871 8.1991063 2.3314684e-15
+  rotation 0 0 -1 4.712389
   name "potted tree(1)"
 }
 PottedTree {
-  translation 6.9386009 2.3314684e-15 1.6952438
-  rotation 0 -1 0 4.712389
+  translation -1.6952438 -6.9386009 2.3314684e-15
+  rotation 0 0 -1 4.712389
   name "potted tree(2)"
 }
 LandscapePainting {
-  translation 4.93 1.41 2.4
-  rotation 0 -1 0 3.1415927
+  translation -2.4 -4.93 1.41
 }
 DEF PAINTING PortraitPainting {
-  translation -4.09 1.515 2.4
-  rotation 0 -1 0 3.1415927
+  translation -2.4 4.09 1.515
 }
 Chair {
-  translation -6.7892764 0 1.6094394
-  rotation 0 1 0 1.5707963
+  translation -1.6094394 6.7892764 0
+  rotation 0 0 1 4.692820414042842e-06
 }
 Chair {
-  translation -5.8129552 0 1.6194171
-  rotation 0 1 0 1.5707963
+  translation -1.6194171 5.8129552 0
+  rotation 0 0 1 4.692820414042842e-06
   name "chair(1)"
 }
 Sofa {
-  translation 0.46911152 -4.5519144e-14 1.5328805
-  rotation 0 1 0 1.5707963
+  translation -1.5328805 -0.46911152 -4.5519144e-14
+  rotation 0 0 1 4.692820414042842e-06
 }
 InvertedPendulumBenchmark {
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
@@ -6,7 +6,7 @@
 
 PROTO Robotiq3fGripper [
   field   SFVec3f    translation    0 0.04 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "ROBOTIQ 3f Gripper"
 ]
 {

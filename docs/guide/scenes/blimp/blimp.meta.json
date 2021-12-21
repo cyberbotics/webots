@@ -14,7 +14,7 @@
     {
       "name": "ds6",
       "transformID": "n10",
-      "transformOffset": "0 0 -0.26",
+      "transformOffset": "0 0.26 0",
       "type": "DistanceSensor"
     },
     {

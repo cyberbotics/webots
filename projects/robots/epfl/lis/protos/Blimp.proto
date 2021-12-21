@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/blimp
@@ -6,7 +6,7 @@
 
 PROTO Blimp [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            "Blimp" # Is `Solid.name`.
   field SFString   controller      "blimp" # Is `Robot.controller`.
   field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
@@ -39,8 +39,8 @@ PROTO Blimp [
         ]
       }
       DEF DS6 DistanceSensor {
-        translation 0 0 -0.26
-        rotation 0 1 0 1.57
+        translation 0 0.26 0
+        rotation 0 0 1 1.57
         name "ds6"
         lookupTable [
           0 255 0
@@ -50,8 +50,8 @@ PROTO Blimp [
       DEF SUPPORT Transform {
         children [
           DEF Support1 Transform {
-            translation 0 -0.33 0
-            rotation 0 0 1 1.5707
+            translation 0 0 -0.33
+            rotation 0 1 0 1.5707
             children [
               Shape {
                 appearance PBRAppearance {
@@ -67,7 +67,7 @@ PROTO Blimp [
             ]
           }
           DEF Support2 Transform {
-            translation -0.49 -0.18 0
+            translation -0.49 0 -0.18
             children [
               Shape {
                 appearance PBRAppearance {
@@ -83,7 +83,7 @@ PROTO Blimp [
             ]
           }
           DEF Support3 Transform {
-            translation 0.01 -0.34 0
+            translation 0.01 0 -0.34
             children [
               Shape {
                 appearance PBRAppearance {
@@ -99,7 +99,7 @@ PROTO Blimp [
             ]
           }
           DEF Support4 Transform {
-            translation -0.49 -0.2 -0.005
+            translation -0.49 0.005 -0.2
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -116,7 +116,7 @@ PROTO Blimp [
             ]
           }
           DEF Support5 Transform {
-            translation 0.48 -0.18 -0.07
+            translation 0.48 0.07 -0.18
             rotation 1 0 0 -0.25
             children [
               Shape {
@@ -133,7 +133,7 @@ PROTO Blimp [
             ]
           }
           DEF Support6 Transform {
-            translation 0.48 -0.18 0.07
+            translation 0.48 -0.07 -0.18
             rotation 1 0 0 0.25
             children [
               Shape {
@@ -150,7 +150,7 @@ PROTO Blimp [
             ]
           }
           DEF Support7 Transform {
-            translation 0.48 -0.33 0
+            translation 0.48 0 -0.33
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -167,7 +167,7 @@ PROTO Blimp [
             ]
           }
           DEF Support8 Transform {
-            translation 0.48 -0.26 0
+            translation 0.48 0 -0.26
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -184,8 +184,8 @@ PROTO Blimp [
             ]
           }
           DEF Support9 Transform {
-            translation 0.495 -0.26 0
-            rotation 0 0 1 1.57
+            translation 0.495 0 -0.26
+            rotation 0 1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -201,8 +201,8 @@ PROTO Blimp [
             ]
           }
           DEF Support10 Transform {
-            translation 0.3815 -0.366 0
-            rotation 0 1 0 1.57
+            translation 0.3815 0 -0.366
+            rotation 0 0 1 1.57
             children [
               Transform {
                 rotation 1 0 0 -0.2
@@ -223,8 +223,8 @@ PROTO Blimp [
             ]
           }
           DEF Support11 Transform {
-            translation 0.4 -0.4 0
-            rotation 0 0 1 1.57
+            translation 0.4 0 -0.4
+            rotation 0 1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -242,7 +242,7 @@ PROTO Blimp [
         ]
       }
       DEF PROCESSOR Transform {
-        translation 0.14 -0.337 0
+        translation 0.14 0 -0.337
         children [
           Shape {
             appearance PBRAppearance {
@@ -250,13 +250,13 @@ PROTO Blimp [
               roughness 0.6
             }
             geometry Box {
-              size 0.05 0.01 0.05
+              size 0.05 0.05 0.01
             }
           }
         ]
       }
       DEF BATTERY Transform {
-        translation -0.18 -0.337 0
+        translation -0.18 0 -0.337
         children [
           Shape {
             appearance PBRAppearance {
@@ -264,14 +264,14 @@ PROTO Blimp [
               roughness 0.6
             }
             geometry Box {
-              size 0.05 0.01 0.025
+              size 0.05 0.025 0.01
             }
           }
         ]
       }
       DEF CAMERA Camera {
-        translation 0.5 -0.33 0
-        rotation 0 1 0 -1.57
+        translation 0.5 0 -0.33
+        rotation 1 0 0 0.000796322
         children [
           Shape {
             appearance PBRAppearance {
@@ -312,8 +312,8 @@ PROTO Blimp [
           DEF Motor1 Transform {
             children [
               Transform {
-                translation 0.51 -0.26 0
-                rotation 0 0 1 1.57
+                translation 0.51 0 -0.26
+                rotation 0 1 0 1.57
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -334,7 +334,7 @@ PROTO Blimp [
           DEF Motor2 Transform {
             children [
               Transform {
-                translation -0.49 -0.2 -0.01
+                translation -0.49 0.01 -0.2
                 rotation 1 0 0 1.57
                 children [
                   Shape {
@@ -356,8 +356,7 @@ PROTO Blimp [
           DEF Motor3 Transform {
             children [
               DEF PROPELLER3 Transform {
-                translation 0.01 -0.355 0
-                rotation 0 0 1 0
+                translation 0.01 0 -0.355
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -407,18 +406,18 @@ PROTO Blimp [
           ]
         }
         DEF MiddleBox Transform {
-          translation -0.1 -0.2 0
+          translation -0.1 0 -0.2
           children [
             Box {
-              size 0.8 0.3 0.02
+              size 0.8 0.02 0.3
             }
           ]
         }
         DEF ForwardBox Transform {
-          translation 0.38 -0.25 0
+          translation 0.38 0 -0.25
           children [
             Box {
-              size 0.16 0.4 0.02
+              size 0.16 0.02 0.4
             }
           ]
         }

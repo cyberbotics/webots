@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable circle arena composed of floor surrounded by wall.
@@ -6,7 +6,7 @@
 
 PROTO CircleArena [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "circle arena"
   field SFFloat    radius          1.0                             # Defines the radius of the arena.
   field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
@@ -75,7 +75,7 @@ PROTO CircleArena [
     rotation IS rotation
     children [
       SolidPipe {
-        translation 0 %<= wallHeight / 2 >% 0
+        translation 0 0 %<= wallHeight / 2 >%
         height %<= wallHeight >%
         radius %<= radius + wallThickness >%
         thickness %<= wallThickness >%
@@ -90,7 +90,7 @@ PROTO CircleArena [
           coord Coordinate {
             point [
               %< for (let i = 0; i < circle.length; ++i) { >%
-                %<= circle[i].x >% %<= 0 >% %<= circle[i].y >%
+                %<= circle[i].x >% %<= circle[i].y >% %<= 0 >%
               %< } >%
             ]
           }
@@ -103,12 +103,12 @@ PROTO CircleArena [
           }
           coordIndex [
             %< for (let j = 0; j < subdivision; ++j) { >%
-               0 %<= j + 1 >% %<= j >% -1
+               0 %<= j >% %<= j + 1 >% -1
             %< } >%
           ]
           texCoordIndex [
             %< for (let j = 0; j < subdivision; ++j) { >%
-               0 %<= j + 1 >% %<= j >% -1
+               0 %<= j >% %<= j + 1 >% -1
             %< } >%
           ]
         }

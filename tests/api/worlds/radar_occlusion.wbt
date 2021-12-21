@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -78,11 +78,13 @@ DEF OCCLUDED_TARGET2 Solid {
 Robot {
   children [
     DEF RADAR_WITH_OCCLUSION Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar_with_occlusion"
       maxRange 5
       occlusion TRUE
     }
     DEF RADAR_WITHOUT_OCCLUSION Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar_without_occlusion"
       maxRange 5
     }

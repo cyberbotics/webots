@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Test world setting the visibility of nodes"
@@ -47,13 +47,13 @@ DEF Test Robot {
     TestSuiteEmitter {
     }
     DEF CAMERA0 Camera {
-      translation 0 0.84 0
-      rotation 1 0 0 4.71239
+      translation 0 0.3 0
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera0"
     }
     DEF CAMERA1 Camera {
-      translation 0 0.84 0
-      rotation 1 0 0 4.71239
+      translation 0 0.3 0
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera1"
     }
   ]

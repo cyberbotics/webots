@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Description: Example uses of PositionSensors."
   ]
   title "Position Sensor"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.39405389207180624 -0.8833177580663658 -0.2539119304555631 5.1002
-  position 1.33745 0.777355 0.674996
+  orientation -0.21397817683086606 -0.15902735139231344 0.9638068485694031 4.185588167965458
+  position 0.641966026332509 1.1358725019203149 0.799424612837207
 }
 TexturedBackground {
 }
@@ -18,11 +17,12 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Robot {
-  translation 0 0.003 0
-  rotation 0 1 0 4.00425
+  translation 0 0 0.003
+  rotation 0 0 1 1
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -39,8 +39,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -53,11 +53,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -83,8 +83,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -97,8 +97,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -108,11 +108,11 @@ Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -138,8 +138,8 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -153,8 +153,8 @@ Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -170,43 +170,49 @@ Robot {
         }
       ]
     }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0 0.085 0
-        minStop -1.5708
-        maxStop 1.5708
-      }
-      device [
-        PositionSensor {
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.1625 0
-        rotation 0 1 0 1.5708
-        children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 1 0 0
-              roughness 0.3707939685999999
-              metalness 0
+    Transform {
+      rotation 0 0 1 -1.571595
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor 0 0 0.085
+            minStop -1.5708
+            maxStop 1.5708
+          }
+          device [
+            PositionSensor {
             }
-            geometry DEF CAPSULE Capsule {
-              height 0.15
-              radius 0.005
+          ]
+          endPoint Solid {
+            translation 0 0 0.1625
+            rotation 0 0 -1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 0.3707939685999999
+                  metalness 0
+                }
+                geometry DEF CAPSULE Capsule {
+                  height 0.15
+                  radius 0.005
+                }
+              }
+            ]
+            boundingObject USE CAPSULE
+            physics Physics {
+              density -1
+              mass 1
             }
           }
-        ]
-        boundingObject USE CAPSULE
-        physics Physics {
-          density -1
-          mass 1
         }
-      }
+      ]
     }
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]

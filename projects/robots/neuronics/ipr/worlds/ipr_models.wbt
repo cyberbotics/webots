@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "All the models of IPR"
   ]
   title "IPR Models"
   basicTimeStep 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "gripper"
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.000752671143887165 0.9723701858867455 0.23344304462700366 3.13306
-  position 0.52085 3.03403 -4.2195
+  orientation -0.2579622395122457 -0.0027984617859430493 0.9661509465903656 3.1285645532499657
+  position 4.500385833111506 -0.5255755935839647 3.2091878567153618
 }
 TexturedBackground {
 }
@@ -43,12 +42,12 @@ DEF FLOOR Solid {
   locked TRUE
 }
 IprHd6ms180 {
-  translation 2 0.61 0
+  translation 0 -2 0.61
   tableSlot [
     DEF TABLE Solid {
       children [
         DEF PLANE Transform {
-          translation -0.08 -0.01 0.01
+          translation -0.01 0.08 -0.01
           children [
             Shape {
               appearance DEF WOOD PBRAppearance {
@@ -57,36 +56,36 @@ IprHd6ms180 {
                 metalness 0
               }
               geometry Box {
-                size 0.6 0.02 1.2
+                size 1.2 0.6 0.02
               }
             }
           ]
         }
         DEF LEG1 Transform {
-          translation 0.15 -0.31 0.4
+          translation -0.4 -0.15 -0.31
           children [
             DEF LEG Shape {
               appearance USE WOOD
               geometry Box {
-                size 0.05 0.58 0.05
+                size 0.05 0.05 0.58
               }
             }
           ]
         }
         DEF LEG2 Transform {
-          translation -0.31 -0.31 0.4
+          translation -0.4 0.31 -0.31
           children [
             USE LEG
           ]
         }
         DEF LEG3 Transform {
-          translation 0.15 -0.31 -0.4
+          translation 0.4 -0.15 -0.31
           children [
             USE LEG
           ]
         }
         DEF LEG4 Transform {
-          translation -0.31 -0.31 -0.4
+          translation 0.4 0.31 -0.31
           children [
             USE LEG
           ]
@@ -105,7 +104,7 @@ IprHd6ms180 {
   ]
 }
 IprHd6m180 {
-  translation 1 0.61 0
+  translation 0 -1 0.61
   name "IPR2"
   tableSlot [
     DEF TABLE Solid {
@@ -121,7 +120,7 @@ IprHd6m180 {
   ]
 }
 IprHd6m90 {
-  translation 0 0.61 0
+  translation 0 0 0.61
   name "IPR3"
   tableSlot [
     DEF TABLE Solid {
@@ -137,7 +136,7 @@ IprHd6m90 {
   ]
 }
 IprHd6ms90 {
-  translation -1 0.61 0
+  translation 0 1 0.61
   name "IPR4"
   tableSlot [
     DEF TABLE Solid {

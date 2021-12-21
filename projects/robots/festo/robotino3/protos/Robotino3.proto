@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
@@ -8,7 +8,7 @@
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
-  field  SFRotation  rotation          1 0 0 -1.5708
+  field  SFRotation  rotation          0 0 1 0
   field  SFString    name              "Robotino 3"
   field  SFString    model             "Festo - Robotino 3"
   field  SFString    controller        "robotino3"
@@ -85,47 +85,47 @@ PROTO Robotino3 [
       }
       DEF IR1 %<= IRname >% {
         translation 0 -0.2264 0.0566
-        rotation 0 0 -1 1.57092
+        rotation -0.577303 0.577374 0.577374 -2.094467
         name "ir1"
       }
       DEF IR2 %<= IRname >% {
         translation 0.1454 -0.1736 0.0566
-        rotation 0 0 1 -0.81451
+        rotation 0.853684 -0.368255 -0.368255 1.728335
         name "ir2"
       }
       DEF IR3 %<= IRname >% {
         translation 0.223 -0.0394 0.0566
-        rotation 0 0 1 6.16681
+        rotation -0.996624 0.058057 0.058057 -1.574178
         name "ir3"
       }
       DEF IR4 %<= IRname >% {
         translation 0.1963 0.114 0.0566
-        rotation 0 0 1 0.58176
+        rotation 0.920869 0.275682 0.275682 1.653141
         name "ir4"
       }
       DEF IR5 %<= IRname >% {
         translation 0.0777 0.2131 0.0566
-        rotation 0 0 1 1.27989
+        rotation -0.688684 -0.512696 -0.512696 -1.935411
         name "ir5"
       }
       DEF IR6 %<= IRname >% {
         translation -0.0772 0.2133 0.0566
-        rotation 0 0 1 1.97802
+        rotation 0.421705 0.641157 0.641157 2.343440
         name "ir6"
       }
       DEF IR7 %<= IRname >% {
         translation -0.196 0.1133 0.0566
-        rotation 0 0 1 2.67616
+        rotation 0.165287 0.697381 0.697381 2.813982
         name "ir7"
       }
       DEF IR8 %<= IRname >% {
         translation -0.2229 -0.0394 0.0566
-        rotation 0 0 1 3.37429
+        rotation -0.082363 0.704704 0.704704 -2.977237
         name "ir8"
       }
       DEF IR9 %<= IRname >% {
         translation -0.1455 -0.1735 0.0566
-        rotation 0 0 -1 2.21077
+        rotation -0.334640 0.666339 0.666339 -2.495740
         name "ir9"
       }
       DEF base_bottom_support Transform {
@@ -502,7 +502,7 @@ PROTO Robotino3 [
           }
           Transform {
             translation 0.0984 0.0081 0.2146
-            rotation -0.99264 -0.08585 -0.08537 -1.57814
+            rotation 0 0 1 -1.398736
             children [
               Shape {
                 appearance MattePaint {
@@ -542,7 +542,7 @@ PROTO Robotino3 [
       }
       DEF head_connector_A Transform {
         translation 0.17674 0.021483 0.2147
-        rotation -0.99264 -0.08561 -0.08561 -1.57818
+        rotation 0 0 1 -1.398732
         children [
           Shape {
             appearance PBRAppearance {
@@ -562,7 +562,7 @@ PROTO Robotino3 [
       }
       DEF head_connector_B Transform {
         translation 0.0984 0.0081 0.2146
-        rotation -0.99264 -0.08585 -0.08537 -1.57814
+        rotation 0 0 1 -1.398736
         children [
           Shape {
             appearance PBRAppearance {
@@ -582,7 +582,7 @@ PROTO Robotino3 [
       }
       DEF head_ethernet_port Transform {
         translation 0.14137 0.01534 0.2099
-        rotation -0.99264 -0.08561 -0.08561 -1.57818
+        rotation 0 0 1 -1.398732
         children [
           Shape {
             appearance PBRAppearance {
@@ -611,7 +611,7 @@ PROTO Robotino3 [
       }
       DEF head_USB_port Transform {
         translation -0.172 0.02067 0.2196
-        rotation 0.99264 -0.08561 0.08561 -1.57818
+        rotation 0.765250 0.643733 0 3.141592
         children [
           Shape {
             appearance PBRAppearance {
@@ -679,7 +679,7 @@ PROTO Robotino3 [
       }
       DEF head_USB_and_RJ45_port Transform {
         translation -0.1952 0.02476 0.2179
-        rotation 0.0628 0.70554 0.70588 3.0239
+        rotation 0 0 1 1.398760
         children [
           Shape {
             appearance PBRAppearance {
@@ -730,7 +730,7 @@ PROTO Robotino3 [
           }
           Transform {
             translation 0 -0.0275 0.207
-            rotation 1 0 0 1.5708
+            rotation 0 0 1 -1.570796
             children [
               Shape {
                 appearance MattePaint {
@@ -810,7 +810,7 @@ PROTO Robotino3 [
           }
           Transform {
             translation -0.10242 0.00965 0.2199
-            rotation 0.99264 -0.08561 0.08561 -1.57818
+            rotation 0.765250 0.643733 -0.000000 3.141592
             children [
               Shape {
                 appearance MattePaint {
@@ -904,66 +904,61 @@ PROTO Robotino3 [
         ]
       }
       CapScrew {
-        translation -0.08 0.194 0.213
-        rotation -0.09269 0.70406 -0.70406 2.82584
+        translation -0.080000 0.194000 0.213000
+        rotation -0.697336 0.476873 -0.535084 1.847509
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation 0.08 0.194 0.213
-        rotation -0.09269 -0.70406 0.70406 2.82584
+        translation 0.080000 0.194000 0.213000
+        rotation 0.461652 -0.651855 0.601633 -2.360952
         name "cap screw(1)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation 0 0.2183 0.092
-        rotation 1 0 0 1.5708
+        translation 0.000000 0.218300 0.092000
+        rotation -0.577350 0.577350 0.577352 -2.094399
         name "cap screw(2)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation 0.207 0.0372 0.213
-        rotation 0 -1 0 1.5708
+        translation 0.207000 0.037200 0.213000
+        rotation 0.000000 1.000000 0.000000 3.141585
         name "cap screw(3)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation -0.207 0.0372 0.213
-        rotation 0 1 0 1.5708
+        translation -0.207000 0.037200 0.213000
+        rotation 0.000000 1.000000 0.000000 -0.000000
         name "cap screw(4)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation -0.189 -0.1097 0.092
-        rotation 0.25056 -0.93511 -0.25056 -1.63784
+        translation -0.189000 -0.109700 0.092000
+        rotation 0.000002 0.000007 1.000000 0.523597
         name "cap screw(5)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
-        translation 0.189 -0.1097 0.092
-        rotation 0.69475 -0.18616 -0.69475 -2.7735
+        translation 0.189000 -0.109700 0.092000
+        rotation 0.000002 0.000004 1.000000 2.617996
         name "cap screw(6)"
         screwRadius 0.0018
         screwLength 0.01
       }
       ]} # end transform & rotate whole body
     ]
-    boundingObject Group {
+    boundingObject Transform {
+      translation 0 0 0.153
       children [
-        Transform {
-          translation 0 0 0.153
-          rotation 1 0 0 1.5708
-          children [
-            Cylinder {
-              height 0.276
-              radius 0.2266
-            }
-          ]
+        Cylinder {
+          height 0.276
+          radius 0.2266
         }
       ]
     }

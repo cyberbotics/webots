@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple segment of road allowing to add (or remove) one lane to the road.
@@ -8,7 +8,7 @@
 
 PROTO AddLaneRoadSegment [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                             # Defines the junction name.
   field        SFString             id                        ""                                 # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs          []                                 # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -167,13 +167,13 @@ PROTO AddLaneRoadSegment [
               coord Coordinate {
                 point [
                   %< if (newLaneleft) { >%
-                    %<= halfWidth >%                      %<= 0 >% %<= 0 >%
-                    %<= halfWidth >%                      %<= 0 >% %<= length >%
-                    %<= halfWidth + outputAddedWidth >%   %<= 0 >% %<= length >%
+                    %<= 0 >%      %<= halfWidth >%                      %<= 0 >%
+                    %<= length >% %<= halfWidth >%                      %<= 0 >%
+                    %<= length >% %<= halfWidth + outputAddedWidth >%   %<= 0 >%
                   %< } else { >%
-                    %<= -halfWidth >%                      %<= 0 >% %<= 0 >%
-                    %<= -(halfWidth + outputAddedWidth) >% %<= 0 >% %<= length >%
-                    %<= -halfWidth >%                      %<= 0 >% %<= length >%
+                    %<= 0 >%      %<= -halfWidth >%                      %<= 0 >%
+                    %<= length >% %<= -(halfWidth + outputAddedWidth) >% %<= 0 >%
+                    %<= length >% %<= -halfWidth >%                      %<= 0 >%
                   %< } >%
                 ]
               }
@@ -252,15 +252,15 @@ PROTO AddLaneRoadSegment [
                       }
                       if (newLaneleft) {
                     >%
-                      %<= halfWidth + lineWidth >% %<= heightOffset >% 0
-                      %<= halfWidth - lineWidth >% %<= heightOffset >% 0
-                      %<= halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
-                      %<= halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                      0 %<= halfWidth + lineWidth >% %<= heightOffset >%
+                      0 %<= halfWidth - lineWidth >% %<= heightOffset >%
+                      %<= length >% %<= halfWidth - lineWidth >% %<= heightOffset >%
+                      %<= length >% %<= halfWidth + lineWidth >% %<= heightOffset >%
                     %< } else { >%
-                      %<= -halfWidth + lineWidth >% %<= heightOffset >% 0
-                      %<= -halfWidth - lineWidth >% %<= heightOffset >% 0
-                      %<= -halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
-                      %<= -halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                      0 %<= -halfWidth + lineWidth >% %<= heightOffset >%
+                      0 %<= -halfWidth - lineWidth >% %<= heightOffset >%
+                      %<= length >% %<= -halfWidth - lineWidth >% %<= heightOffset >%
+                      %<= length >% %<= -halfWidth + lineWidth >% %<= heightOffset >%
                     %< } >%
                   ]
                 }
@@ -313,15 +313,15 @@ PROTO AddLaneRoadSegment [
             coord Coordinate {
               point [
                 %< if (newLaneleft) { >%
-                  %<= halfWidth + outputAddedWidth >%   %<= 0.002 >% %<= length >%
-                  %<= halfWidth >%                      %<= 0.002 >% %<= length >%
-                  %<= halfWidth >%                      %<= 0.002 >% %<= length - 0.4 >%
-                  %<= halfWidth + outputAddedWidth >%   %<= 0.002 >% %<= length - 0.4 >%
+                  %<= length >%       %<= halfWidth + outputAddedWidth >% %<= 0.002 >%
+                  %<= length >%       %<= halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= halfWidth + outputAddedWidth >% %<= 0.002 >%
                 %< } else { >%
-                  %<= -halfWidth - outputAddedWidth>%    %<= 0.002 >% %<= length >%
-                  %<= -halfWidth >%                      %<= 0.002 >% %<= length >%
-                  %<= -halfWidth >%                      %<= 0.002 >% %<= length - 0.4 >%
-                  %<= -halfWidth - outputAddedWidth >%   %<= 0.002 >% %<= length - 0.4 >%
+                  %<= length >%       %<= -halfWidth - outputAddedWidth>%  %<= 0.002 >%
+                  %<= length >%       %<= -halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= -halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= -halfWidth - outputAddedWidth >% %<= 0.002 >%
                 %< } >%
               ]
             }
@@ -364,15 +364,15 @@ PROTO AddLaneRoadSegment [
                     %< for (let i = 0; i <= 1; ++i) { >%
                       %< let offset = halfWidth + outputAddedWidth * i; >%
                       %< if (newLaneleft) { >%
-                        %<= offset >%                  %<= 0 >%            %<= i * length >% # lower interior
-                        %<= offset >%                  %<= borderHeight >% %<= i * length >% # higher interior
-                        %<= offset + borderWidth >%    %<= borderHeight >% %<= i * length >% # higher exterior
-                        %<= offset + borderWidth >%    %<= 0 >%            %<= i * length >% # lower exterior
+                        %<= i * length >% %<= offset >%                  %<= 0 >%            # lower interior
+                        %<= i * length >% %<= offset >%                  %<= borderHeight >% # higher interior
+                        %<= i * length >% %<= offset + borderWidth >%    %<= borderHeight >% # higher exterior
+                        %<= i * length >% %<= offset + borderWidth >%    %<= 0 >%            # lower exterior
                       %< } else { >%
-                        %<= -(offset + borderWidth) >% %<= 0 >%            %<= i * length >% # lower exterior
-                        %<= -(offset + borderWidth) >% %<= borderHeight >% %<= i * length >% # higher exterior
-                        %<= -offset >%                 %<= borderHeight >% %<= i * length >% # higher interior
-                        %<= -offset >%                 %<= 0 >%            %<= i * length >% # lower interior
+                        %<= i * length >% %<= -(offset + borderWidth) >% %<= 0 >%            # lower exterior
+                        %<= i * length >% %<= -(offset + borderWidth) >% %<= borderHeight >% # higher exterior
+                        %<= i * length >% %<= -offset >%                 %<= borderHeight >% # higher interior
+                        %<= i * length >% %<= -offset >%                 %<= 0 >%            # lower interior
                       %< } >%
                     %< } >%
                   ]
@@ -420,15 +420,15 @@ PROTO AddLaneRoadSegment [
             enableBoundingObject IS leftBarrierBoundingObject
             barrierOnRightSide FALSE
             path [
-              %<= halfWidth + outputAddedWidth + barrierOffset >% %<= 0 >% %<= length >%
-              %<= halfWidth + barrierOffset >% 0 0
+              %<= length >% %<= halfWidth + outputAddedWidth + barrierOffset >% %<= 0 >%
+              0 %<= halfWidth + barrierOffset >% 0
             ]
           %< } else { >%
             enableBoundingObject IS rightBarrierBoundingObject
             barrierOnRightSide TRUE
             path [
-              %<= -(halfWidth + outputAddedWidth + barrierOffset) >% %<= 0 >% %<= length >%
-              %<= -halfWidth - barrierOffset >% 0 0
+              %<= length >% %<= -(halfWidth + outputAddedWidth + barrierOffset) >% %<= 0 >%
+              0 %<= -halfWidth - barrierOffset >% 0
             ]
           %< } >%
         }
@@ -444,24 +444,24 @@ PROTO AddLaneRoadSegment [
             coord Coordinate {
               point [
                 %< if (newLaneleft) { >%
-                  %<= halfWidth >% 0 0
-                  %<= halfWidth >% 0 %<= length >%
+                  0 %<= halfWidth >% 0
+                  %<= length >% %<= halfWidth >% 0
                   %< if (leftBorder) { >%
-                    %<= halfWidth + outputAddedWidth + borderWidth >% %<= 0 >% %<= length >%
-                    %<= halfWidth + borderWidth >% 0 0
+                    %<= length >% %<= halfWidth + outputAddedWidth + borderWidth >% %<= 0 >%
+                    0 %<= halfWidth + borderWidth >% 0
                   %< } else { >%
-                    %<= halfWidth + outputAddedWidth >% %<= 0 >% %<= length >%
-                    %<= halfWidth >% 0 0
+                    %<= length >% %<= halfWidth + outputAddedWidth >% %<= 0 >%
+                    0 %<= halfWidth >% 0
                   %< } >%
                 %< } else { >%
-                  %<= -halfWidth >% 0 0
-                  %<= -halfWidth >% 0 %<= length >%
+                  0 %<= -halfWidth >% 0
+                  %<= length >% %<= -halfWidth >% 0
                   %< if (rightBorder) { >%
-                    %<= -halfWidth - outputAddedWidth - borderWidth >% %<= 0 >% %<= length >%
-                    %<= -halfWidth -borderWidth >% 0 0
+                    %<= length >% %<= -halfWidth - outputAddedWidth - borderWidth >% %<= 0 >%
+                    0 %<= -halfWidth -borderWidth >% 0
                   %< } else { >%
-                    %<= -halfWidth - outputAddedWidth >% %<= 0 >% %<= length >%
-                    %<= -halfWidth >% %<= 0 >% %<= length >%
+                    %<= length >% %<= -halfWidth - outputAddedWidth >% %<= 0 >%
+                    %<= length >% %<= -halfWidth >% %<= 0 >%
                   %< } >%
                 %< } >%
               ]

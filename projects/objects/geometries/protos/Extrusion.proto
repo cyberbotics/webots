@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic extrusion geometry.
@@ -7,7 +7,7 @@
 
 PROTO Extrusion [
   field MFVec2f    crossSection              [1 1, 1 -1, -1 -1, -1 1, 1 1]   # Defines the 2D cross-section of the extrusion.
-  field MFVec3f    spine                     [0 0 0, 0 1 0]                  # Defines the 3D extrusion path.
+  field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
   field MFVec2f    scale                     [1.0 1.0]                       # Defines the scale at each point of the spine.
   field MFRotation orientation               [0 0 1 0]                       # Defines the orientation of the cross-section at each point of the spine.
   field SFBool     beginCap                  TRUE                            # Defines whether the extrusion should have a cap at the begining.
@@ -35,6 +35,7 @@ PROTO Extrusion [
     const orientation = fields.orientation.value;
     const nbOrientation = orientation.length;
 
+////////////////////////////// 1. Scale the cross Section + Spine Subdivision //////////////////////////////
     // check and complement the scale array
     let scale = fields.scale.value;
     let nbScale = scale.length;
@@ -72,13 +73,19 @@ PROTO Extrusion [
     // recompute orientation array after subdivision (if any)
     if (splineSubdivision > 1) {
       let orientationOriginal = [];
-      for (let i = 0; i < nbOrientation; ++i)
-        orientationOriginal[i] = orientation[i];
+      let effectiveNbOrientation = nbOrientation;
+      if (effectiveNbOrientation === 1) {
+        effectiveNbOrientation = nbSpinePoints;
+        orientationOriginal = new Array(nbSpinePoints).fill(orientation[0]);
+      } else {
+        for (let i = 0; i < effectiveNbOrientation; ++i)
+          orientationOriginal[i] = orientation[i];
+      }
 
       orientationOriginal.push({x: 0, y: 1, z: 0, a: 0});
       orientationOriginal.push({x: 0, y: 1, z: 0, a: 0});
 
-      for (let j = 0; j < nbOrientation * splineSubdivision; ++j) {
+      for (let j = 0; j < effectiveNbOrientation * splineSubdivision; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
         let index = Math.floor(j / splineSubdivision);
         orientation[j] = {x: orientationOriginal[index].x * (1 - ratio) + orientationOriginal[index+1].x * ratio,
@@ -87,6 +94,8 @@ PROTO Extrusion [
                           a: orientationOriginal[index].a * (1 - ratio) + orientationOriginal[index+1].a * ratio};
       }
     }
+////////////////////////////// 2. automatic cross-section orientation //////////////////////////////
+
     // compute the X, Y and Z axes at each spine point (Y = tangent)
     let X = [];
     let Y = [];
@@ -96,69 +105,83 @@ PROTO Extrusion [
       Y.push({x: 0, y: 0, z: 0});
       Z.push({x: 0, y: 0, z: 0});
       if (i === 0 || i === nbSpinePoints - 1) {
-        if (wbvector3.equal(spine[0], spine[nbSpinePoints - 1])) {
+        if (wbvector3.equal(spine[0], spine[nbSpinePoints - 1])) { // closed spine
           Y[i].x = spine[1].x - spine[nbSpinePoints-2].x;
           Y[i].y = spine[1].y - spine[nbSpinePoints-2].y;
           Y[i].z = spine[1].z - spine[nbSpinePoints-2].z;
           Z[i] = wbvector3.cross(wbvector3.minus(spine[1], spine[0]), wbvector3.minus(spine[nbSpinePoints-2], spine[0]));
-        } else if (i === 0) {
+        } else if (i === 0) { // open spine and first spine
           Y[i].x = spine[1].x - spine[0].x;
           Y[i].y = spine[1].y - spine[0].y;
           Y[i].z = spine[1].z - spine[0].z;
+
+          // the Z-axis used for the first spine point is the same as the Z-axis for spine[1] => Z[0] = Z[1]
           if (nbSpinePoints > 2)
             Z[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
 
+          // If the Z-axis of the first point is undefined (because the spine is not closed and the first two spine segments are collinear) then the Z-axis for the first spine point with a defined Z-axis is used.
           if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
-            let vector = wbvector3.minus(spine[0], spine[1]);
-            // find an arbitrary perpendicular vector
-            let x = -1;
-            let y = 0;
-            let z = 1;
-            if (vector.z !== 0)
-              z = vector.x / vector.z;
-            else if (vector.x !== 0)
-              x = vector.z / vector.x;
-            else if (vector.y !== 0) {
-              y = vector.z / vector.y;
-              x = 0;
-              z = 1;
+            for (let k = 1; k < nbSpinePoints - 1; ++k) {
+              Z[k] = wbvector3.cross(wbvector3.minus(spine[k+1], spine[k]), wbvector3.minus(spine[k-1], spine[k]));
+              if (Z[k].x !== 0 || Z[k].y !== 0 || Z[k].z !== 0) {
+                Z[i] = Z[k];
+                break;
+              }
             }
-            Z[i] = wbvector3.cross({x: x, y: y, z: z}, vector);
           }
-          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
+
+          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) { // if Z still colinear, it means that the entire spine is collinear.
+            // If the entire spine is collinear, the SCP is computed by finding the rotation of a vector along the positive Y-axis (v1)
+            // to the vector formed by the spine points (v2). The Y=0 plane is then rotated by this value.
+            // v2 is actually just our Y variable. }
+
+            // implementation taken from https://github.com/bradenmcd/openvrml/blob/45877f95a713cdfd8736a41073ed9a349db4c495/src/libopenvrml-gl/openvrml/gl/viewer.cpp#L2436
             Z[i].x = 0;
             Z[i].y = 0;
             Z[i].z = 1;
-            console.info('Warning: orientation of the crossSection at the first spine point is undefined.');
+            if (!(Y[i].x === 0 && Y[i].y !== 0 && Y[i].z === 0)) {
+              let vec = {x: 0, y: 1, z: 0}
+              let axis = wbvector3.normalize({x: (vec.y * Y[i].z - vec.z * Y[i].y), y: (vec.z * Y[i].x - vec.x * Y[i].z), z: (vec.x * Y[i].y - vec.y * Y[i].x)});
+              let angle = Math.acos(wbvector3.dot(vec, Y[i]) / (wbvector3.norm(vec) * wbvector3.norm(Y[i])));
+              Z[i] = wbrotation.rotateVector3ByRotation({x: axis.x, y: axis.y, z: axis.z, a: angle}, Z[i]);
+            }
           }
+
           // make sure to always select the clockwise version of the perpendicular
           if (Z[i].x > 0 || Z[i].y > 0 || Z[i].z > 0) {
             Z[i].x = -Z[i].x;
             Z[i].y = -Z[i].y;
             Z[i].z = -Z[i].z;
           }
-        } else {
+        } else { // last spine
           Y[i].x = spine[nbSpinePoints-1].x - spine[nbSpinePoints-2].x;
           Y[i].y = spine[nbSpinePoints-1].y - spine[nbSpinePoints-2].y;
           Y[i].z = spine[nbSpinePoints-1].z - spine[nbSpinePoints-2].z;
           Z[i] = Z[i-1];
         }
-      } else {
+      } else { // all other spines
         Y[i].x = spine[i+1].x - spine[i-1].x;
         Y[i].y = spine[i+1].y - spine[i-1].y;
         Y[i].z = spine[i+1].z - spine[i-1].z;
         Z[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
+
+        // if colinear the value from the previous point is used instead.
         if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
           Z[i].x = Z[i-1].x;
           Z[i].y = Z[i-1].y;
           Z[i].z = Z[i-1].z;
         }
       }
+
       if (i !== 0) {
+        // after determining the Z-axis, its dot product with the Z-axis of the previous spine point is computed. If this value is negative, the Z-axis is flipped (multiplied by -1).
         if (wbvector3.dot(Z[i], Z[i-1]) < 0)
           Z[i] = wbvector3.multiply(Z[i], -1);
       }
-      X[i] = wbvector3.cross(Y[i], Z[i]);
+      X[i] = wbvector3.cross(Y[i], Z[i]); // positive area of the parallelogram having Y and Z as sides
+
+////////////////////////////// 3. Normalize + Compute distances //////////////////////////////
+
       // normalize axes
       if (wbvector3.norm(X[i]) !== 0)
         X[i] = wbvector3.normalize(X[i]);
@@ -179,6 +202,7 @@ PROTO Extrusion [
     let crossSectionDistance = [0];
     for (let i = 1; i < nbCrossSectionPoint; ++i)
       crossSectionDistance.push(crossSectionDistance[i-1] + wbvector2.distance(crossSection[i-1], crossSection[i]));
+////////////////////////////// 4. Create IndexedFaceSet //////////////////////////////
   >%
   IndexedFaceSet {
     coord Coordinate {

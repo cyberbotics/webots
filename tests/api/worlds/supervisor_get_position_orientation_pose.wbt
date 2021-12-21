@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -40,7 +40,7 @@ DEF ROBOT Robot {
         children [
           DEF NODE Transform {
             translation 0 0 0.3
-            rotation 0 0 1 3.14159
+            rotation -0.000000938185669 0.707106781184505 -0.707106781187968 3.141590777218456
             children [
               Shape {
                 geometry Cone {
@@ -67,6 +67,7 @@ Transform {
       }
     }
   ]
+  rotation 1 0 0 -1.57079632679
 }
 TestSuiteSupervisor {
 }

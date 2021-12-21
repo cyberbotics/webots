@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Puma 560 Robot"
@@ -7,11 +7,10 @@ WorldInfo {
   title "Unimate Puma 560"
   ERP 0.4
   basicTimeStep 20
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.25251790393551593 0.9621396339766561 0.10257696097701317 5.64803
-  position -1.63355 1.12609 2.37522
+  orientation 0.09942684326609766 -0.012450701723379577 -0.9949669757658965 3.8372840116493747
+  position 2.3254559078077293 -1.464259835184318 1.278794934818991
 }
 TexturedBackground {
 }

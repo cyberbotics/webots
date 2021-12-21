@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A cutomizable openable door.
@@ -6,9 +6,9 @@
 
 PROTO Door [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "door"
-  field SFVec3f    size                   1 2.4 0.2                 # Defines the width, height and thickness of the door wall frame.
+  field SFVec3f    size                   0.2 1 2.4                 # Defines the width, height and thickness of the door wall frame.
   field SFBool     canBeOpen              TRUE                      # Defines whether the door is connected to the frame throught a hinge-joint.
   field SFFloat    position               0                         # Defines the position (aperture) of the door.
   field SFBool     jointAtLeft            TRUE                      # Defines on which side the door is connected to the frame.
@@ -42,9 +42,9 @@ PROTO Door [
     if (frameHeight <= 0.0) {
       frameHeight = fields.frameHeight.defaultValue;
       console.error('\'frameHeight\' must be strictly positive. Value reset to ' + frameHeight + '.');
-    } else if (frameHeight > size.y) {
-      frameHeight = size.y;
-      console.error('\'frameHeight\' must be less than or equal to \'size.y\'. Value reset to ' + frameHeight + '.');
+    } else if (frameHeight > size.z) {
+      frameHeight = size.z;
+      console.error('\'frameHeight\' must be less than or equal to \'size.z\'. Value reset to ' + frameHeight + '.');
     }
 
     let frameSize = fields.frameSize.value;
@@ -69,44 +69,44 @@ PROTO Door [
     rotation IS rotation
     children [
       %<
-       const topWallHeight = size.y - frameHeight;
+       const topWallHeight = size.z - frameHeight;
        if (topWallHeight > 0) {
       >%
         Solid {
-          translation 0 %<= size.y - 0.5 * topWallHeight >% 0
+          translation 0 0 %<= size.z - 0.5 * topWallHeight >%
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= topWallHeight >% %<= size.z >%
+                size %<= size.x >% %<= size.y >% %<= topWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "mobile part"
           boundingObject Box {
-            size %<= size.x >% %<= topWallHeight >% %<= size.z >%
+            size %<= size.x >% %<= size.y >% %<= topWallHeight >%
           }
         }
       %< } >%
       SolidBox { # top frame
-        translation 0 %<= frameHeight - 0.5 * frameSize.y >% 0
+        translation 0 0 %<= frameHeight - 0.5 * frameSize.z >%
         name "top frame"
-        size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= 2 * frameSize.z + size.z >%
+        size %<= 2 * frameSize.x + size.x >% %<= size.y - 2 * frameSize.y >% %<= frameSize.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # left frame
-        translation %<= -0.5 * size.x + 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
+        translation 0 %<= -0.5 * size.y + 0.5 * frameSize.y >% %<= 0.5 * frameHeight >%
         name "left frame"
-        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
+        size %<= 2 * frameSize.x + size.x >% %<= frameSize.y >% %<= frameHeight >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # right frame
-        translation %<= 0.5 * size.x - 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
+        translation 0 %<= 0.5 * size.y - 0.5 * frameSize.y >% %<= 0.5 * frameHeight >%
         name "right frame"
-        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
+        size %<= 2 * frameSize.x + size.x >% %<= frameSize.y >% %<= frameHeight >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
@@ -114,8 +114,8 @@ PROTO Door [
         HingeJoint {
           jointParameters HingeJointParameters {
             position IS position
-            anchor %<= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z >%
-            axis 0 1 0
+            anchor %<= 0.5 * size.x + frameSize.x >% %<= mirrorFactor * (0.5 * size.y - 0.5 * frameSize.y) >% %<= 0.5 * frameHeight >%
+            axis 0 0 1
             %< if (mirrorFactor > 0) { >%
               minStop -0.01
               maxStop 1.57
@@ -131,23 +131,22 @@ PROTO Door [
           endPoint
       %< } >%
           Solid {
-            translation 0 0 0.001 # small offset to not generates collisions
+            translation 0.001 0 0 # small offset to not generates collisions
             children [
               Transform { # door
-                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
-                rotation 0 1 0 -1.5708
+                translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children [
                   Shape {
                     appearance IS doorAppearance
                     geometry TexturedBox { # texture is mirrored on the back face of the door
-                      size %<= doorThickness >% %<= frameHeight - 0.5 * frameSize.y >% %<= size.x - frameSize.x >%
+                      size %<= doorThickness >% %<= size.y - frameSize.y >% %<= frameHeight - 0.5 * frameSize.z >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
               Transform { # handle
-                translation %<= - mirrorFactor * 0.4 * size.x >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
+                translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% %<= - mirrorFactor * 0.4 * size.y >% %<= 0.5 * frameHeight >%
                 children [
                   Slot {
                     type "door handle"
@@ -156,15 +155,15 @@ PROTO Door [
                 ]
               }
               Transform {
-                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
+                translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children IS doorSlot
               }
             ]
             boundingObject Transform {
-              translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
+              translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
               children [
                 Box {
-                  size %<= size.x - frameSize.x >% %<= frameHeight - 0.5 * frameSize.y >% %<= doorThickness >%
+                  size %<= doorThickness >% %<= size.y - frameSize.y >% %<= frameHeight - 0.5 * frameSize.z >%
                 }
               ]
             }

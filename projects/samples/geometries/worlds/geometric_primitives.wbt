@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This world shows all the base graphical geometries."
   ]
   title "Base graphical geometries"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.08742646544963854 0.9871664543756572 0.13363758638338366 3.8410697195465167
-  position -6.655348826933393 3.047211123704163 -4.13710092336658
+  orientation -0.23674316105654722 0.37604581719708124 0.8958472074307833 0.8159212167832349
+  position -4.6231480588817755 -7.229125308755432 3.898680798921188
 }
 TexturedBackground {
 }
@@ -23,13 +22,13 @@ DEF BOX Transform {
         metalness 0
       }
       geometry Box {
-        size 0.3 0.4 0.5
+        size 0.5 0.3 0.4
       }
     }
   ]
 }
 DEF CONE Transform {
-  translation 0 0 1
+  translation 1 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -46,7 +45,7 @@ DEF CONE Transform {
   ]
 }
 DEF CAPSULE Transform {
-  translation 0 0 2
+  translation 2 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -63,7 +62,7 @@ DEF CAPSULE Transform {
   ]
 }
 DEF CYLINDER Transform {
-  translation 0 0 3
+  translation 3 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -79,7 +78,7 @@ DEF CYLINDER Transform {
   ]
 }
 DEF ELEVATION_GRID Transform {
-  translation -0.25 0 3.75
+  translation 3.75 -0.25 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -93,14 +92,14 @@ DEF ELEVATION_GRID Transform {
         ]
         xDimension 10
         xSpacing 0.05
-        zDimension 10
-        zSpacing 0.05
+        yDimension 10
+        ySpacing 0.05
       }
     }
   ]
 }
 DEF INDEXED_LINE_SET Transform {
-  translation 0 0 5
+  translation 5 0 0
   children [
     Shape {
       appearance Appearance {
@@ -112,14 +111,14 @@ DEF INDEXED_LINE_SET Transform {
       geometry IndexedLineSet {
         coord Coordinate {
           point [
-            -0.2 0 0.2
-            0.2 0 0.2
-            0.2 0 -0.2
-            -0.2 0 -0.2
-            -0.1 0.1 0.1
+            0.2 -0.2 0
+            0.2 0.2 0
+            -0.2 0.2 0
+            -0.2 -0.2 0
+            0.1 -0.1 0.1
             0.1 0.1 0.1
-            0.1 0.1 -0.1
-            -0.1 0.1 -0.1
+            -0.1 0.1 0.1
+            -0.1 -0.1 0.1
           ]
         }
         coordIndex [
@@ -130,7 +129,7 @@ DEF INDEXED_LINE_SET Transform {
   ]
 }
 DEF INDEXED_FACE_SET Transform {
-  translation 0 0 6
+  translation 6 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -141,14 +140,14 @@ DEF INDEXED_FACE_SET Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.2 0 0.2
-            0.2 0 0.2
-            0.2 0 -0.2
-            -0.2 0 -0.2
-            -0.1 0.1 -0.1
-            -0.1 0.1 0.1
+            0.2 -0.2 0
+            0.2 0.2 0
+            -0.2 0.2 0
+            -0.2 -0.2 0
+            -0.1 -0.1 0.1
+            0.1 -0.1 0.1
             0.1 0.1 0.1
-            0.1 0.1 -0.1
+            -0.1 0.1 0.1
           ]
         }
         coordIndex [
@@ -159,7 +158,7 @@ DEF INDEXED_FACE_SET Transform {
   ]
 }
 DEF PLANE Transform {
-  translation 0 0 7
+  translation 7 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -174,7 +173,7 @@ DEF PLANE Transform {
   ]
 }
 DEF SPHERE Transform {
-  translation 0 0 8
+  translation 8 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -190,7 +189,7 @@ DEF SPHERE Transform {
   ]
 }
 DEF POINT_SET Transform {
-  translation 0 0 9
+  translation 9 0 0
   children [
     Shape {
       geometry PointSet {
@@ -205,11 +204,11 @@ DEF POINT_SET Transform {
         }
         coord Coordinate {
           point [
-            0 0.4 0
-            0 0.19999999999999998 0.5
-            0.5 0 0.7
-            0.5 0.19999999999999998 0.5
-            0.5 0.1 1.2000000000000002
+            0 0 0.4
+            0.5 0 0.2
+            0.7 0.5 0
+            0.5 0.5 0.2
+            1.2 0.5 0.1
           ]
         }
       }
@@ -217,8 +216,8 @@ DEF POINT_SET Transform {
   ]
 }
 DEF MESH Transform {
-  translation 0.378007 0 10.9864
-  rotation 0 1 0 -1.3089953071795861
+  translation 11 0 0
+  rotation 1 0 0 1.5708
   scale 0.3 0.3 0.3
   children [
     Shape {

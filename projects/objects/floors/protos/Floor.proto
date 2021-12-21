@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Configurable standard flat floor.
@@ -6,7 +6,7 @@
 
 PROTO Floor [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "floor"
   field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
   field SFVec2f    size            10 10                           # Defines the size of the floor.
@@ -44,10 +44,10 @@ PROTO Floor [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %<= -(size.x * 0.5) >% 0 %<= -(size.y * 0.5) >%
-              %<= size.x * 0.5 >% 0 %<= -(size.y * 0.5) >%
-              %<= -(size.x * 0.5) >% 0 %<= size.y * 0.5 >%
-              %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
+              %<= -(size.x * 0.5) >% %<= -(size.y * 0.5) >% 0
+              %<= size.x * 0.5 >% %<= -(size.y * 0.5) >% 0
+              %<= -(size.x * 0.5) >% %<= size.y * 0.5 >% 0
+              %<= size.x * 0.5 >% %<= size.y * 0.5 >% 0
             ]
           }
           texCoord TextureCoordinate {
@@ -59,7 +59,7 @@ PROTO Floor [
             ]
           }
           coordIndex [
-            0 2 3 1 -1
+            2 0 1 3 -1
           ]
           texCoordIndex [
             2 0 1 3 -1

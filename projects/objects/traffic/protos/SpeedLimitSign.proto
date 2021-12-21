@@ -1,16 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Speed limit sign (5mph to 80mph) or one way sign.
 
 PROTO SpeedLimitSign [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "speed limit"
   field SFFloat    height       2                                               # Defines the height of the sign.
   field SFFloat    radius       0.03                                            # Defines the radius of the sign pole.
   field SFColor    color        0.576471 0.576471 0.576471                      # Defines the color of the sign.
-  field MFNode     signBoards   [ SpeedLimitPanel { translation 0 0 -0.023 } ]  # Defines the boards.
+  field MFNode     signBoards   [ SpeedLimitPanel { translation 0.023 0 0 } ]  # Defines the boards.
 ]
 {
   SignPole {

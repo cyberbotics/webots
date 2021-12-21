@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -11,6 +11,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
   translation 0 -3.469446951953614e-18 0
 }
 DEF BALL_JOINT_ROBOT Robot {
@@ -80,8 +81,8 @@ DEF BALL_JOINT_ROBOT Robot {
         translation 0 0.15 0
         children [
           DEF BALL_JOINT_MARKER Solid {
-            translation 0.029999999999999985 0.06999999899307167 0
-            rotation 0 0 -1 1.5707963603591737
+            translation 0.03 0.07 0
+            rotation -0.57735 0.57735 -0.57735 2.09440
             children [
               Shape {
                 appearance PBRAppearance {
@@ -94,15 +95,20 @@ DEF BALL_JOINT_ROBOT Robot {
               }
             ]
           }
-          DEF CYLINDER Shape {
-            appearance PBRAppearance {
-              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
-              transparency 0.1
-            }
-            geometry Cylinder {
-              height 0.2
-              radius 0.019999999999999997
-            }
+          DEF CYLINDER Transform {
+            rotation 1 0 0 -1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                  transparency 0.1
+                }
+                geometry Cylinder {
+                  height 0.2
+                  radius 0.02
+                }
+              }
+            ]
           }
         ]
         boundingObject USE CYLINDER
@@ -184,8 +190,8 @@ DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
         translation 0 0.15 0
         children [
           DEF BALL_JOINT_MARKER_KINEMATIC Solid {
-            translation 0.029999999999999985 0.06999999899307167 0
-            rotation 0 0 -1 1.5707963603591737
+            translation 0.03 0.07 0
+            rotation -0.57735 0.57735 -0.57735 2.09440
             children [
               Shape {
                 appearance PBRAppearance {
@@ -198,15 +204,20 @@ DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
               }
             ]
           }
-          DEF CYLINDER Shape {
-            appearance PBRAppearance {
-              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
-              transparency 0.1
-            }
-            geometry Cylinder {
-              height 0.2
-              radius 0.019999999999999997
-            }
+          DEF CYLINDER Transform {
+            rotation 1 0 0 -1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                  transparency 0.1
+                }
+                geometry Cylinder {
+                  height 0.2
+                  radius 0.02
+                }
+              }
+            ]
           }
         ]
         boundingObject USE CYLINDER
@@ -290,8 +301,8 @@ DEF HINGE_JOINT_ROBOT Robot {
                   endPoint Solid {
                     children [
                       DEF HINGE_JOINT_MARKER Solid {
-                        translation 0.029999999999999985 0.06999999899307167 0
-                        rotation 0 0 -1 1.5707963603591737
+                        translation 0.03 0.07 0
+                        rotation -0.57735 0.57735 -0.57735 2.09440
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -304,15 +315,20 @@ DEF HINGE_JOINT_ROBOT Robot {
                           }
                         ]
                       }
-                      DEF CYLINDER Shape {
-                        appearance PBRAppearance {
-                          baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
-                          transparency 0.1
-                        }
-                        geometry Cylinder {
-                          height 0.2
-                          radius 0.019999999999999997
-                        }
+                      DEF CYLINDER Transform {
+                        rotation 1 0 0 -1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                              transparency 0.1
+                            }
+                            geometry Cylinder {
+                              height 0.2
+                              radius 0.02
+                            }
+                          }
+                        ]
                       }
                     ]
                     boundingObject USE CYLINDER
@@ -416,8 +432,8 @@ DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
                   endPoint Solid {
                     children [
                       DEF HINGE_JOINT_MARKER_KINEMATIC Solid {
-                        translation 0.029999999999999985 0.06999999899307167 0
-                        rotation 0 0 -1 1.5707963603591737
+                        translation 0.03 0.07 0.0
+                        rotation -0.57735 0.57735 -0.57735 2.09440
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -430,15 +446,20 @@ DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
                           }
                         ]
                       }
-                      DEF CYLINDER Shape {
-                        appearance PBRAppearance {
-                          baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
-                          transparency 0.1
-                        }
-                        geometry Cylinder {
-                          height 0.2
-                          radius 0.019999999999999997
-                        }
+                      DEF CYLINDER Transform {
+                        rotation 1 0 0 -1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                              transparency 0.1
+                            }
+                            geometry Cylinder {
+                              height 0.2
+                              radius 0.02
+                            }
+                          }
+                        ]
                       }
                     ]
                     boundingObject USE CYLINDER

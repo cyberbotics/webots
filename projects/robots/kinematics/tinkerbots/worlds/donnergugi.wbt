@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.06566865168977364 0.9700981555773884 0.23366043039119055 3.6479586797586365
-  position -0.17418025050340902 0.22385283670631914 -0.3392926265291295
+  orientation 0.2989171994624025 0.0956201871783711 -0.9494763228588313 2.551848305052641
+  position 0.3424196186413713 0.2212134647841604 0.2996415564249366
   near 0.001
   exposure 2
   follow "donnergugi"
@@ -34,8 +33,8 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.06 0
-  rotation 1 0 0 6.280796321999866
+  translation 0 0 0.06
+  rotation 0 1 0 -1.5708
   name "donnergugi"
   upSlot TinkerbotsPivot {
     rotation 0 0 1 -1.5708
