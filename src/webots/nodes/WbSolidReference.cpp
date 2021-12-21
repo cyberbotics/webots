@@ -22,7 +22,6 @@
 const QString WbSolidReference::STATIC_ENVIRONMENT = QString("<static environment>");
 
 void WbSolidReference::init() {
-  mSolid = NULL;
   mName = findSFString("solidName");
 }
 
@@ -68,7 +67,7 @@ void WbSolidReference::updateName() {
 }
 
 bool WbSolidReference::isClosedLoop() const {
-  if (!mSolid)
+  if (mSolid.isNull())
     return false;
 
   WbNode *parent = parentNode();
