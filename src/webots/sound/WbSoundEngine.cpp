@@ -78,7 +78,7 @@ static void init() {
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
 
-  if (gDefaultDevice)  // init was already done or sound is mute
+  if (gDefaultDevice || !WbPreferences::instance()->value("Sound/OpenAL", true).toBool())  // init was already done or sound is mute
     return;
   qAddPostRoutine(cleanup);
   try {

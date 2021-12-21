@@ -69,6 +69,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/disableSaveWarning", false);
   setDefault("Sound/mute", true);
   setDefault("Sound/volume", 80);
+  setDefault("Sound/OpenAL", true);
   setDefault("OpenGL/disableShadows", false);
   setDefault("OpenGL/disableAntiAliasing", false);
   setDefault("OpenGL/GTAO", 2);
