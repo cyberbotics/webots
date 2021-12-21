@@ -66,19 +66,6 @@ void WbSolidReference::updateName() {
       tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
 }
 
-bool WbSolidReference::isClosedLoop() const {
-  if (mSolid.isNull())
-    return false;
-
-  WbNode *parent = parentNode();
-  while (parent && !parent->isWorldRoot()) {
-    if (parent == mSolid)
-      return true;
-    parent = parent->parentNode();
-  }
-  return false;
-}
-
 QList<const WbBaseNode *> WbSolidReference::findClosestDescendantNodesWithDedicatedWrenNode() const {
   QList<const WbBaseNode *> list;
   if (mSolid)
