@@ -61,7 +61,7 @@ void WbSolidReference::updateName() {
   if (!linkToStaticEnvironment)
     mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
   else
-    mSolid = NULL;
+    mSolid.clear();
   if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
     parsingWarn(
       tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
