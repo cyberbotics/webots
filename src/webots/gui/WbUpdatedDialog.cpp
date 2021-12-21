@@ -51,8 +51,8 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
        "If your previous world or PROTO files include devices, geometries, or Webots PROTOs, "
        "then Webots will try to preserve the old behavior by rotating them. However, you may have to rotate some objects, "
        "fix bounding objects or adjust your controller by yourself. <br />Refer to the < a style = 'color: #5DADE2;' "
-       "href='https://github.com/cyberbotics/webots/wiki/"
-       "FLU-and-ENU-conversion-guide'>wiki</a> for more information. </p>"));
+       "href='https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a'>wiki</a> for more "
+       "information. </p>"));
   label->setOpenExternalLinks(true);
   label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   label->setStyleSheet("border: none");

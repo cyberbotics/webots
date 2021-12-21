@@ -1099,10 +1099,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return;
+    return false;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1114,7 +1114,8 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
+  const bool saveScreenPerspective =
+    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
   if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
   if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
@@ -1172,9 +1173,11 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
   }
 
+  if (!saveToFile)
+    return false;
+
   // save our new perspective in the file
-  if (saveToFile)
-    perspective->save();
+  return perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1471,9 +1474,12 @@ void WbMainWindow::saveWorld() {
   }
 
   mSimulationView->applyChanges();
-  world->save();
-  savePerspective(false, true);
-  updateWindowTitle();
+  if (world->save()) {
+    if (!savePerspective(false, true))
+      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    updateWindowTitle();
+  } else
+    WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
   simulationState->resumeSimulation();
 }
 
@@ -1503,9 +1509,12 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
-    world->saveAs(fileName);
-    savePerspective(false, true);
-    updateWindowTitle();
+    if (world->saveAs(fileName)) {
+      if (!savePerspective(false, true))
+        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      updateWindowTitle();
+    } else
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
 
   simulationState->resumeSimulation();

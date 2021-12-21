@@ -553,9 +553,10 @@ bool WbTextEditor::saveBuffer(WbTextBuffer *buffer, bool saveAs) {
     return false;
   }
   fileName = QFileInfo(fileName).path() + "/" + QFileInfo(fileName).fileName();
-  if (saveAs || buffer->isModified() || !QFile::exists(fileName))
-    buffer->saveAs(fileName);
-
+  if (saveAs || buffer->isModified() || !QFile::exists(fileName)) {
+    if (!buffer->saveAs(fileName))
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
+  }
   return true;
 }
 

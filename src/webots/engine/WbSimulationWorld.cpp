@@ -16,6 +16,7 @@
 
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
+#include "WbLog.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
@@ -34,6 +35,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbTokenizer.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -138,6 +140,11 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   connect(this, &WbSimulationWorld::cameraRenderingStarted, s, &WbSimulationState::cameraRenderingStarted);
   connect(worldInfo(), &WbWorldInfo::optimalThreadCountChanged, this, &WbSimulationWorld::updateNumberOfThreads);
   connect(worldInfo(), &WbWorldInfo::randomSeedChanged, this, &WbSimulationWorld::updateRandomSeed);
+
+  if (WbTokenizer::worldFileVersion() < WbVersion(2021, 1, 1))
+    WbLog::info(tr("You are using a world from an old version of Webots. The backwards compability algorithm will try to "
+                   "convert it. Refer to the wiki for more information: "
+                   "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a"));
 
   WbNodeUtilities::fixBackwardCompatibility(WbWorld::instance()->root());
 }

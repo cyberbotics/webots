@@ -57,6 +57,7 @@ For more complex interaction with the web component, the following functions are
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
 
 - The `Skin` node is not supported.
+- The [Pen](../reference/pen.md) device is not supported.
 
 - It is not possible to have more than one `webots-view` element on one page.
 
