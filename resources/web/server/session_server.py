@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         """Write the web page content."""
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>\n")
-        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022a/css/monitor.css'></head>\n")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022b/css/monitor.css'></head>\n")
         self.write("<body><h1>Webots session server</h1>\n")
         nServer = len(config['simulationServers'])
         self.write("<p>Started on " + start_time + "</p>\n")
