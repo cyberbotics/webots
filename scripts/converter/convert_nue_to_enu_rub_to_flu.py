@@ -79,7 +79,7 @@ geometry IndexedFaceSet {
 
 **Conversion process**
     Here is a list of the conversion process that the script performs automatically:
-        - replace `R2021b` by `R2022a`
+        - replace `R2021b` by `R2022b`
         - remove the `coordinateSystem ENU` line
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
         - convert the vector of the keyword 'translation', 'axis', 'anchor',
@@ -222,9 +222,9 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 miss_rotation = False
 
             if 'R2021b' in line:
-                line = '#VRML_SIM R2022a utf8 \r\n'
-            elif 'R2022a' in line:
-                warning_verbose += 'The version of the file was already 2022a. '
+                line = '#VRML_SIM R2022b utf8 \r\n'
+            elif 'R2022b' in line:
+                warning_verbose += 'The version of the file was already R2022b. '
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['position'] and len(vector) == 3:
