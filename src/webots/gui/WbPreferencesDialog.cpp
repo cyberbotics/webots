@@ -188,6 +188,8 @@ void WbPreferencesDialog::accept() {
     WbNetwork::instance()->setProxy();
   if (!mCacheSize->text().isEmpty())
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+  if (!mUploadUrl->text().isEmpty())
+    prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -348,6 +350,10 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   QWidget *widget = new QWidget(this);
   QGridLayout *layout = new QGridLayout(widget);
 
+  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  layout->setSpacing(40);
+  layout->setContentsMargins(20, 50, 0, 0);
+
   // row 0
   mAmbientOcclusionCombo = new QComboBox(this);
   mAmbientOcclusionCombo->addItem(tr("Disabled"));
@@ -356,7 +362,7 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mAmbientOcclusionCombo->addItem(tr("High"));
   mAmbientOcclusionCombo->addItem(tr("Ultra"));
   layout->addWidget(new QLabel(tr("Ambient Occlusion:"), this), 0, 0);
-  layout->addWidget(mAmbientOcclusionCombo, 0, 1, Qt::AlignLeft);
+  layout->addWidget(mAmbientOcclusionCombo, 0, 1);
 
   // row 1
   mTextureQualityCombo = new QComboBox(this);
@@ -364,23 +370,23 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mTextureQualityCombo->addItem(tr("Medium"));
   mTextureQualityCombo->addItem(tr("High"));
   layout->addWidget(new QLabel(tr("Texture Quality:"), this), 1, 0);
-  layout->addWidget(mTextureQualityCombo, 1, 1, Qt::AlignLeft);
+  layout->addWidget(mTextureQualityCombo, 1, 1);
 
   // row 2
   mTextureFilteringCombo = new QComboBox(this);
   for (int i = 0; i < 6; ++i)
     mTextureFilteringCombo->addItem(QString::number(i));
   layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
-  layout->addWidget(mTextureFilteringCombo, 2, 1, Qt::AlignLeft);
+  layout->addWidget(mTextureFilteringCombo, 2, 1);
 
   // row 3
   layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
   mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
-  layout->addWidget(mDisableShadowsCheckBox, 3, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableShadowsCheckBox, 3, 1);
 
   // row 4
   mDisableAntiAliasingCheckBox = new QCheckBox(tr("Disable anti-aliasing"), this);
-  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1);
 
   return widget;
 }
@@ -390,11 +396,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
+  QGroupBox *upload = new QGroupBox(tr("Simulation upload service"), this);
+  upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
-  network->addWidget(cache, 1, 1);
+  network->addWidget(upload, 1, 1);
+  network->addWidget(cache, 2, 1);
 
   // Proxy
   QGridLayout *layout = new QGridLayout(proxy);
@@ -426,6 +435,15 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   mHttpProxyPassword->setEchoMode(QLineEdit::PasswordEchoOnEdit);
   layout->addWidget(new QLabel(tr("Password:"), this), 4, 0);
   layout->addWidget(mHttpProxyPassword, 4, 1);
+
+  // Upload
+  layout = new QGridLayout(upload);
+
+  // row 0
+  mUploadUrl = new WbLineEdit(this);
+  mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
+  layout->addWidget(new QLabel(tr("URL:"), this), 0, 0);
+  layout->addWidget(mUploadUrl, 0, 1);
 
   // Cache
   layout = new QGridLayout(cache);

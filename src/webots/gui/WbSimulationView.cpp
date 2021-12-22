@@ -245,15 +245,15 @@ QToolBar *WbSimulationView::createToolBar() {
 
   mToolBar->addSeparator();
 
+  mToolBar->addAction(mTakeScreenshotAction);
+  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
+
   mToolBar->addAction(mMovieAction);
   mToolBar->widgetForAction(mMovieAction)->setObjectName("menuButton");
 
   action = manager->action(WbAction::ANIMATION);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
-
-  mToolBar->addAction(mTakeScreenshotAction);
-  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
 
   mToolBar->addSeparator();
 

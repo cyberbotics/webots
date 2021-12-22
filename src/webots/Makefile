@@ -408,6 +408,7 @@ QT_SOURCES += \
   WbSFVector2.cpp \
   WbSFVector3.cpp \
   WbShape.cpp \
+  WbShareWindow.cpp \
   WbSimulationState.cpp \
   WbSimulationStateIndicator.cpp \
   WbSimulationView.cpp \
