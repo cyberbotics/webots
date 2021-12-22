@@ -844,7 +844,7 @@ The description of the ball provided below.
 It must be named `custom_ball.wbo` and saved in the controller's directory.
 
 ```
-#VRML_OBJ R2022a
+#VRML_OBJ {{ webots.version.major }}
 
 DEF BALL Solid {
   translation 0 1 1
