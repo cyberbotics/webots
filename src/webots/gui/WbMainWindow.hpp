@@ -144,7 +144,7 @@ private slots:
   void disableAnimationAction();
 
   void ShareMenu();
-  void upload();
+  void upload(char type);
   void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
   void uploadFinished();
 

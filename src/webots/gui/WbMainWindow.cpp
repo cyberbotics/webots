@@ -204,7 +204,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, &WbMainWindow::upload);
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this]() { this->upload('A'); });
 
   WbJoystickInterface::setWindowHandle(winId());
 
@@ -1648,14 +1648,13 @@ void WbMainWindow::ShareMenu() {
 void WbMainWindow::uploadScene() {
   WbWorld *world = WbWorld::instance();
   world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "export_cloud.html", false);
-  upload();
+  upload('S');
 }
 
-void WbMainWindow::upload() {
+void WbMainWindow::upload(char type) {
   const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-  bool animation = false;
 
   QStringList filenames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
                             .entryList(QStringList() << "*.jpg"
@@ -1667,10 +1666,8 @@ void WbMainWindow::upload() {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists()) {
+  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists() && type == 'A')
     filenames << "export_cloud.json";
-    animation = true;
-  }
   filenames << "export_cloud.x3d";
 
   // add files content
@@ -1702,10 +1699,7 @@ void WbMainWindow::upload() {
   }
   // add other information
   QMap<QString, QString> uploadInfo;
-  uploadInfo["type"] = "S";
-  if (animation) {
-    uploadInfo["type"] = "A";
-  }
+  uploadInfo["type"] = type;
   uploadInfo["user"] = "null";
   uploadInfo["password"] = "null";
 
