@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
