@@ -1,4 +1,4 @@
-#VRML_OBJ R2022a
+#VRML_OBJ R2022b
 DEF FLOOR Solid {
   translation -0.5 0 0.5
   rotation 1 0 0 -1.57079632679
