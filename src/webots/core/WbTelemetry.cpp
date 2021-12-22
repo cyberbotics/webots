@@ -90,11 +90,14 @@ void WbTelemetry::requestReplyFinished() {
   assert(reply);
   if (!reply)
     return;
-  if (reply->error())
+  if (reply->error()) {
+    reply->deleteLater();
     return;
+  }
   disconnect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished);
   const QString answer = QString::fromUtf8(reply->readAll()).trimmed();
   QStringList answers = answer.split(" ");
   WbPreferences::instance()->setValue("General/telemetryId", answers[0]);
   WbPreferences::instance()->setValue("General/telemetryPassword", answers[1]);  // stored for later use
+  reply->deleteLater();
 }
