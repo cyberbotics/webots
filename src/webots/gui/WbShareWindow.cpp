@@ -67,13 +67,13 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Share your simulation"));
 
-  groupBoxLink = new QGroupBox(this);
-  groupBoxLink->setTitle(tr("Upload successful"));
-  groupBoxLink->setStyleSheet(groupBoxStyleSheet);
-  groupBoxLink->setGeometry(QRect(10, 20, 291, 61));
+  mGroupBoxLink = new QGroupBox(this);
+  mGroupBoxLink->setTitle(tr("Upload successful"));
+  mGroupBoxLink->setStyleSheet(groupBoxStyleSheet);
+  mGroupBoxLink->setGeometry(QRect(10, 20, 291, 61));
 
-  QGridLayout *layout = new QGridLayout(groupBoxLink);
-  mLabelLink = new QLabel(groupBoxLink);
+  QGridLayout *layout = new QGridLayout(mGroupBoxLink);
+  mLabelLink = new QLabel(mGroupBoxLink);
   mLabelLink->setAlignment(Qt::AlignCenter);
   mLabelLink->setStyleSheet("border: none;");
   mLabelLink->setOpenExternalLinks(true);
@@ -107,5 +107,5 @@ void WbLinkWindow::fileSaved() {
 
 void WbLinkWindow::setLabelLink(QString url) {
   mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
-  groupBoxLink->adjustSize();
+  mGroupBoxLink->adjustSize();
 }
