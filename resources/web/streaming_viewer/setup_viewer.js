@@ -10,7 +10,7 @@ if (mobileDevice) {
   let mobileCss = document.createElement('link');
   mobileCss.setAttribute('rel', 'stylesheet');
   mobileCss.setAttribute('type', 'text/css');
-  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2022a/css/wwi_mobile.css');
+  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2022b/css/wwi_mobile.css');
   head.appendChild(mobileCss);
 }
 
