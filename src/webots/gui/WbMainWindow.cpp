@@ -1757,7 +1757,7 @@ void WbMainWindow::uploadFinished() {
     mLinkWindow->setLabelLink(url);
     mLinkWindow->exec();
   }
-  delete reply;
+  reply->deleteLater();
 }
 
 void WbMainWindow::showAboutBox() {
