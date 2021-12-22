@@ -41,7 +41,7 @@ public:
   void setLabelLink(QString url);
 
 private:
-  QGroupBox *groupBoxLink;
+  QGroupBox *mGroupBoxLink;
   QLabel *mLabelLink;
   QPushButton *mPushButtonSave;
   void reject() override;

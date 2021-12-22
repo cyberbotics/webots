@@ -94,7 +94,7 @@ void WbLinkWindow::reject() {
   dir.removeRecursively();
   const QStringList extensions = {".html", ".x3d", ".json"};
   foreach (QString extension, extensions)
-    QFile::remove(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension);
+    QFile::remove(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension);
 
   QDialog::reject();
 }

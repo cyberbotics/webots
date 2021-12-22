@@ -1602,7 +1602,7 @@ void WbMainWindow::exportVrml() {
 void WbMainWindow::exportHtmlFiles() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
-  QString fileName = findHtmlFileName("Export HTML file");
+  QString fileName = findHtmlFileName("Export HTML File");
   if (fileName.isEmpty()) {
     WbSimulationState::instance()->setMode(currentMode);
     return;
@@ -1611,7 +1611,7 @@ void WbMainWindow::exportHtmlFiles() {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     const QFileInfo info(fileName);
     QStringList extensions = {".html", ".x3d"};
-    if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists())
+    if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists())
       extensions << ".json";
 
     const QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
@@ -1619,10 +1619,9 @@ void WbMainWindow::exportHtmlFiles() {
     if (dir.exists())
       dir.rename(textureFolder, info.path() + "/textures");
 
-    foreach (const QString extension, extensions) {
-      QFile::rename(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension,
+    foreach (const QString extension, extensions)
+      QFile::rename(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension,
                     info.path() + "/" + info.completeBaseName() + extension);
-    }
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
@@ -1647,7 +1646,7 @@ void WbMainWindow::ShareMenu() {
 
 void WbMainWindow::uploadScene() {
   WbWorld *world = WbWorld::instance();
-  world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "export_cloud.html", false);
+  world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "cloud_export.html", false);
   upload('S');
 }
 
@@ -1666,9 +1665,9 @@ void WbMainWindow::upload(char type) {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists() && type == 'A')
-    filenames << "export_cloud.json";
-  filenames << "export_cloud.x3d";
+  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && type == 'A')
+    filenames << "cloud_export.json";
+  filenames << "cloud_export.x3d";
 
   // add files content
   QMap<QString, QString> map;
@@ -1758,6 +1757,7 @@ void WbMainWindow::uploadFinished() {
     mLinkWindow->setLabelLink(url);
     mLinkWindow->exec();
   }
+  delete reply;
 }
 
 void WbMainWindow::showAboutBox() {
@@ -2345,7 +2345,7 @@ void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
-  WbAnimationRecorder::instance()->start(WbStandardPaths::webotsTmpPath() + "export_cloud.html");
+  WbAnimationRecorder::instance()->start(WbStandardPaths::webotsTmpPath() + "cloud_export.html");
   toggleAnimationAction(true);
 
   WbSimulationState::instance()->setMode(currentMode);
