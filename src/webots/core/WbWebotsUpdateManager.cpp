@@ -60,12 +60,13 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
   if (!reply)
     return;
 
+  disconnect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished);
+
   if (reply->error()) {
     mError = tr("Cannot get the Webots current version due to: \"%1\"").arg(reply->errorString());
+    reply->deleteLater();
     return;
   }
-
-  disconnect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished);
 
   bool success = false;
   QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
@@ -77,6 +78,8 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
     }
   }
 
+  reply->deleteLater();
+
   if (!success) {
     mError = tr("Invalid answer from the GitHub REST API.");
     return;
@@ -85,5 +88,4 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
   mError = "";
   mTargetVersionAvailable = true;
   emit targetVersionAvailable();
-  reply->deleteLater();
 }
