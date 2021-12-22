@@ -85,4 +85,5 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
   mError = "";
   mTargetVersionAvailable = true;
   emit targetVersionAvailable();
+  reply->deleteLater();
 }
