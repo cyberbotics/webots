@@ -479,7 +479,7 @@ void WbAnimationRecorder::stopRecording() {
   // write initial state
   out << "{\"time\":0,\"poses\":[";
   if (commandsChangedFromStart.isEmpty()) {
-    WbLog::info(tr("Error: No animation content because the simulation did not start."));
+    WbLog::info(tr("Error: No animation content is available because the simulation did not start."));
     return;
   }
   foreach (WbAnimationCommand *command, commandsChangedFromStart) {
