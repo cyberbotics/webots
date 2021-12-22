@@ -38,7 +38,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   QGroupBox *groupBox = new QGroupBox(this);
   groupBox->setGeometry(QRect(35, 65, 365, 240));
-  groupBox->setTitle(tr("Important Note for Users of Previous Versions"));
+  groupBox->setTitle(tr("Important Note for Users of Versions Lower than R2022a"));
   groupBox->setStyleSheet("QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } "
                           "QGroupBox::title {subcontrol-origin:  margin; subcontrol-position: top center; }");
 
