@@ -129,7 +129,7 @@ class MonitorHandler(tornado.web.RequestHandler):
                 self.write("</font>")
             self.write("</td></tr>\n")
         if average_count == 0:
-            average_load == 1000
+            average_load = 1000
         else:
             average_load /= average_count
         self.write("<tr><td></td><td style='text-align:right'>average:</td><td><b>")
