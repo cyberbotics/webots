@@ -7,7 +7,7 @@ import WbGroup from './nodes/WbGroup.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbMaterial from './nodes/WbMaterial.js';
-import WbPose from './nodes/WbPose.js';
+import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class X3dScene {
@@ -179,7 +179,7 @@ export default class X3dScene {
       if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
-        if (object instanceof WbPose) {
+        if (object instanceof WbTransform) {
           if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
 

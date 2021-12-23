@@ -12,7 +12,7 @@ import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
-import WbPose from './nodes/WbPose.js';
+import WbTransform from './nodes/WbTransform.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -905,7 +905,7 @@ function highlightX3DElement(robot, deviceElement) {
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
       pbr.parent = shape.id;
-      pointer = new WbPose(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbTransform(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
