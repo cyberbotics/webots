@@ -598,12 +598,8 @@ def update_snapshot():
     snapshot.data['Network sent'] = network_sent_rate
     snapshot.data['Network received'] = network_received_rate
     snapshot.write()
-    current_load = 0
-    for key, value in snapshot.data.items():
-        if key == 'Timestamp':
-            continue
-        if value > current_load:
-            current_load = value
+    # current_load reflects the maximum of CPU/swap/GPU/VRAM usage in percent
+    current_load = max(cpu_load, swap.percent, gpu_load_compute, gpu_ram_usage)
     snapshots.append(snapshot)
     if len(snapshots) > 600:  # display data for the last 10 minutes
         del snapshots[0]
