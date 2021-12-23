@@ -73,15 +73,15 @@ void WbSkin::init() {
   mCastShadows = findSFBool("castShadows");
 }
 
-WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractPose(this), WbDevice() {
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice(other) {
+WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice(other) {
   init();
 }
 
-WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice() {
   init();
 }
 
@@ -133,7 +133,7 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  WbAbstractTransform::checkScale();
+  WbAbstractPose::checkScale();
 }
 
 void WbSkin::postFinalize() {
@@ -162,25 +162,25 @@ void WbSkin::postFinalize() {
 }
 
 void WbSkin::updateTranslation() {
-  WbAbstractTransform::updateTranslation();
+  WbAbstractPose::updateTranslation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::updateRotation() {
-  WbAbstractTransform::updateRotation();
+  WbAbstractPose::updateRotation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::updateScale(bool warning) {
-  WbAbstractTransform::updateScale(warning);
+  WbAbstractPose::updateScale(warning);
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::applyToScale() {
-  WbAbstractTransform::applyToScale();
+  WbAbstractPose::applyToScale();
 }
 
 int WbSkin::constraintType() const {
@@ -194,7 +194,7 @@ void WbSkin::showResizeManipulator(bool enabled) {
     return;
   }
 
-  WbAbstractTransform::showResizeManipulator(enabled);
+  WbAbstractPose::showResizeManipulator(enabled);
 
   emit visibleHandlesChanged(enabled);
 }

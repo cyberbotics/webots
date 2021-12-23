@@ -479,7 +479,7 @@ QT_SOURCES += \
 # objects that don't inherit from QObject (alphabetical order)
 OTHER_SOURCES = \
   main.cpp \
-  WbAbstractTransform.cpp \
+  WbAbstractPose.cpp \
   WbAddItemCommand.cpp \
   WbAffinePlane.cpp \
   WbApplicationInfo.cpp \

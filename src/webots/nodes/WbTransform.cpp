@@ -36,21 +36,21 @@ void WbTransform::init() {
   }
 }
 
-WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractTransform(this) {
+WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractPose(this) {
   init();
 }
 
-WbTransform::WbTransform(const WbTransform &other) : WbGroup(other), WbAbstractTransform(this) {
+WbTransform::WbTransform(const WbTransform &other) : WbGroup(other), WbAbstractPose(this) {
   init();
 }
 
-WbTransform::WbTransform(const WbNode &other) : WbGroup(other), WbAbstractTransform(this) {
+WbTransform::WbTransform(const WbNode &other) : WbGroup(other), WbAbstractPose(this) {
   init();
 }
 
 WbTransform::WbTransform(const QString &modelName, WbTokenizer *tokenizer) :
   WbGroup(modelName, tokenizer),
-  WbAbstractTransform(this) {
+  WbAbstractPose(this) {
   init();
 }
 
@@ -81,7 +81,7 @@ void WbTransform::save(const QString &id) {
 void WbTransform::preFinalize() {
   WbGroup::preFinalize();
 
-  WbAbstractTransform::checkScale(0, true);
+  WbAbstractPose::checkScale(0, true);
 }
 
 void WbTransform::postFinalize() {
@@ -97,7 +97,7 @@ void WbTransform::postFinalize() {
 }
 
 void WbTransform::updateTranslation() {
-  WbAbstractTransform::updateTranslation();
+  WbAbstractPose::updateTranslation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomPosition();
@@ -110,7 +110,7 @@ void WbTransform::updateTranslation() {
 }
 
 void WbTransform::updateRotation() {
-  WbAbstractTransform::updateRotation();
+  WbAbstractPose::updateRotation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomRotation();
@@ -123,7 +123,7 @@ void WbTransform::updateRotation() {
 }
 
 void WbTransform::updateTranslationAndRotation() {
-  WbAbstractTransform::updateTranslationAndRotation();
+  WbAbstractPose::updateTranslationAndRotation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomRotation();
@@ -136,14 +136,14 @@ void WbTransform::updateTranslationAndRotation() {
 }
 
 void WbTransform::applyToScale() {
-  WbAbstractTransform::applyToScale();
+  WbAbstractPose::applyToScale();
 
   if (isInBoundingObject() && isAValidBoundingObject())
     applyToOdeScale();
 }
 
 void WbTransform::updateScale(bool warning) {
-  WbAbstractTransform::updateScale(warning);
+  WbAbstractPose::updateScale(warning);
 
   if (mPoseChangedSignalEnabled)
     emit poseChanged();
@@ -153,7 +153,7 @@ void WbTransform::updateScale(bool warning) {
 }
 
 void WbTransform::updateConstrainedHandleMaterials() {
-  WbAbstractTransform::updateConstrainedHandleMaterials();
+  WbAbstractPose::updateConstrainedHandleMaterials();
 }
 
 void WbTransform::notifyJerk() {
@@ -209,12 +209,12 @@ int WbTransform::constraintType() const {
 }
 
 void WbTransform::setScaleNeedUpdate() {
-  WbAbstractTransform::setScaleNeedUpdateFlag();
+  WbAbstractPose::setScaleNeedUpdateFlag();
   WbGroup::setScaleNeedUpdate();
 }
 
 void WbTransform::setMatrixNeedUpdate() {
-  WbAbstractTransform::setMatrixNeedUpdateFlag();
+  WbAbstractPose::setMatrixNeedUpdateFlag();
   WbGroup::setMatrixNeedUpdate();
 }
 
@@ -393,7 +393,7 @@ WbShape *WbTransform::shape() const {
 ///////////////////////////////////////////////////////
 
 void WbTransform::showResizeManipulator(bool enabled) {
-  WbAbstractTransform::showResizeManipulator(enabled);
+  WbAbstractPose::showResizeManipulator(enabled);
   emit visibleHandlesChanged(enabled);
 }
 

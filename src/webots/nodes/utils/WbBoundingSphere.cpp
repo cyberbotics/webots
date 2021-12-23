@@ -84,7 +84,7 @@ WbBoundingSphere::~WbBoundingSphere() {
 
 void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mOwner = owner;
-  mTransformOwner = dynamic_cast<const WbAbstractTransform *>(mOwner);
+  mTransformOwner = dynamic_cast<const WbAbstractPose *>(mOwner);
   mGeomOwner = dynamic_cast<const WbGeometry *>(mOwner);
   mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
@@ -244,7 +244,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 }
 
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbAbstractTransform *upperTransform = dynamic_cast<const WbAbstractTransform *>(mTransformOwner);
+  const WbAbstractPose *upperTransform = dynamic_cast<const WbAbstractPose *>(mTransformOwner);
   if (upperTransform == NULL)
     upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
   if (upperTransform) {

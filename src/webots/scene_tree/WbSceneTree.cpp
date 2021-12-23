@@ -14,7 +14,7 @@
 
 #include "WbSceneTree.hpp"
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbAddInertiaMatrixDialog.hpp"
 #include "WbAddItemCommand.hpp"
 #include "WbAddNodeDialog.hpp"
@@ -1160,7 +1160,7 @@ void WbSceneTree::handleRowRemoval(const QModelIndex &parentIndex, int start, in
   updateToolbar();
 }
 
-void WbSceneTree::selectTransform(WbAbstractTransform *t) {
+void WbSceneTree::selectTransform(WbAbstractPose *t) {
   if (t == NULL) {
     clearSelection();
     return;
@@ -1173,7 +1173,7 @@ void WbSceneTree::selectTransform(WbAbstractTransform *t) {
     mTreeView->scrollToModelIndex(newIndex);
   } else if (t->baseNode()->protoParameterNode())
     // if m is proto parameter node instance, select the corresponding parameter node in the scene tree
-    selectTransform(dynamic_cast<WbAbstractTransform *>(t->baseNode()->protoParameterNode()));
+    selectTransform(dynamic_cast<WbAbstractPose *>(t->baseNode()->protoParameterNode()));
 }
 
 // for the translation and rotation fields of Solid node we need to set

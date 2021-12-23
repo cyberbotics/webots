@@ -15,7 +15,7 @@
 #ifndef WB_SKIN_HPP
 #define WB_SKIN_HPP
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
@@ -30,7 +30,7 @@ struct WrRenderable;
 struct WrSkeleton;
 struct WrStaticMesh;
 
-class WbSkin : public WbBaseNode, public WbAbstractTransform, public WbDevice {
+class WbSkin : public WbBaseNode, public WbAbstractPose, public WbDevice {
   Q_OBJECT
 
 public:
@@ -54,24 +54,24 @@ public:
   int deviceNodeType() const override { return nodeType(); }
   void reset(const QString &id) override;
 
-  void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
-  void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }
+  void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
+  void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
   int constraintType() const override;
 
   // resize/scale manipulator
   bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  virtual void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
+  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
   void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
+    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
   }
 
   // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
+  void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
+  void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
+  void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
 
   void emitTranslationOrRotationChangedByUser() override {}
 

@@ -24,7 +24,7 @@
 #include <cstddef>
 #include "WbNode.hpp"
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbBaseNode;
 class WbBoundingSphere;
 class WbField;
@@ -139,7 +139,7 @@ namespace WbNodeUtilities {
   // is the target field or the target parameter field a template regenerator field
   bool isTemplateRegeneratorField(const WbField *field);
 
-  WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
+  WbAbstractPose *abstractTransformCast(WbBaseNode *node);
 
   //////////////////////////////
   // Non-permanent properties //

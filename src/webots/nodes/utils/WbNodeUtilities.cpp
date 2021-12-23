@@ -1372,8 +1372,8 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   return false;
 }
 
-WbAbstractTransform *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
-  WbAbstractTransform *abstractTransform = dynamic_cast<WbTransform *>(node);
+WbAbstractPose *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
+  WbAbstractPose *abstractTransform = dynamic_cast<WbTransform *>(node);
   if (abstractTransform)
     return abstractTransform;
 

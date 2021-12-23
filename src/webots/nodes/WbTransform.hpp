@@ -21,11 +21,11 @@
 // Inherited by: WbSolid
 //
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbGroup.hpp"
 #include "WbShape.hpp"
 
-class WbTransform : public WbGroup, public WbAbstractTransform {
+class WbTransform : public WbGroup, public WbAbstractPose {
   Q_OBJECT
 
 public:
@@ -71,19 +71,19 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
 
   // resize/scale manipulator
-  bool hasResizeManipulator() const override { return WbAbstractTransform::hasResizeManipulator(); }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
+  bool hasResizeManipulator() const override { return WbAbstractPose::hasResizeManipulator(); }
+  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
   void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
+    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
   }
 
   // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
+  void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
+  void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
+  void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
 
   void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
   void emitTranslationOrRotationChangedByUser() override;

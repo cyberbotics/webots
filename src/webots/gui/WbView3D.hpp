@@ -28,7 +28,7 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QPoint>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbCamera;
 class WbDragKinematicsEvent;
 class WbDragForceEvent;
@@ -252,7 +252,7 @@ private slots:
   void updateViewport();
   void updateShadowState();
   void unleashPhysicsDrags();
-  void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
+  void onSelectionChanged(WbAbstractPose *selectedAbstractTransform);
   void handleWorldModificationFromSupervisor();
 };
 

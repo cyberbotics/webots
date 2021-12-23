@@ -34,9 +34,9 @@ class WbBaseNode;
 class WbScaleManipulator;
 class WbTranslateRotateManipulator;
 
-class WbAbstractTransform {
+class WbAbstractPose {
 public:
-  virtual ~WbAbstractTransform();
+  virtual ~WbAbstractPose();
 
   virtual WbBaseNode *baseNode() const { return mBaseNode; }
 
@@ -124,7 +124,7 @@ protected:
   void init(WbBaseNode *node);
 
   // all constructors are reserved for derived classes only
-  WbAbstractTransform(WbBaseNode *node) { init(node); }
+  WbAbstractPose(WbBaseNode *node) { init(node); }
 
   // in WbTrackWheel fields are created instead of loading them
   WbSFVector3 *mTranslation;
@@ -194,8 +194,8 @@ private:
   void deleteWrenObjects();
 };
 
-void inline WbAbstractTransform::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry,
-                                                                  double rz, double angle) {
+void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,
+                                                             double angle) {
   mTranslation->setValueFromOde(tx, ty, tz);
   mRotation->setValueFromOde(rx, ry, rz, angle);
 }
