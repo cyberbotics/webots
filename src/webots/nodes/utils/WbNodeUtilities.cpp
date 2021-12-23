@@ -306,7 +306,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (nodeName == "Billboard")
           return true;
@@ -512,7 +512,7 @@ namespace {
       return nodeName == "Muscle";
 
     } else if (fieldName == "animatedGeometry" && parentModelName == "Track") {
-      return nodeName == "Shape" || nodeName == "Transform" || nodeName == "Group" || nodeName == "Slot";
+      return nodeName == "Shape" || nodeName == "Pose" || nodeName == "Group" || nodeName == "Slot";
 
     } else if (fieldName == "bones" && parentModelName == "Skin") {
       return nodeName == "SolidReference";
@@ -521,7 +521,7 @@ namespace {
       if (fieldName == "children") {
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (nodeName == "Shape")
           return true;
@@ -597,7 +597,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
@@ -605,7 +605,7 @@ namespace {
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;
-        if ((nodeName == "Transform") && (parentModelName != "Transform"))
+        if ((nodeName == "Pose") && (parentModelName != "Pose"))
           return true;
         // if the node is also used outside a boundingObject geometries cannot be inserted directly in the children field
         if (!(nodeUse & WbNode::STRUCTURE_USE) && WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
@@ -1752,16 +1752,16 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
 
   WbNode::NodeUse nodeUse = WbNodeUtilities::checkNodeUse(srcNode);
   if (nodeUse & WbNode::BOUNDING_OBJECT_USE) {
-    if (srcModelName == "Group" && destModelName == "Transform")
+    if (srcModelName == "Group" && destModelName == "Pose")
       return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
+    if (srcModelName == "Pose" && destModelName == "Group")
       return LOOSING_INFO;
 
     return UNSUITABLE;
   }
 
   if (isRobotTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger" ||
+    if (destModelName == "Group" || destModelName == "Pose" || destModelName == "Solid" || destModelName == "Charger" ||
         destModelName == "Connector") {
       if (!hasSolidChildren(srcNode))
         return LOOSING_INFO;
@@ -1770,10 +1770,10 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
     }
   }
 
-  if (srcModelName == "Group" || srcModelName == "Transform") {
-    if (srcModelName == "Group" && destModelName == "Transform")
+  if (srcModelName == "Group" || srcModelName == "Pose") {
+    if (srcModelName == "Group" && destModelName == "Pose")
       return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
+    if (srcModelName == "Pose" && destModelName == "Group")
       return LOOSING_INFO;
 
     if (srcNode->isTopLevel()) {
@@ -1796,7 +1796,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (isSolidTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform") {
+    if (destModelName == "Group" || destModelName == "Pose") {
       if (!hasSolidChildren(srcNode))
         return LOOSING_INFO;
 
@@ -1823,7 +1823,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Charger") {
-    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" ||
+    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Pose" || destModelName == "Solid" ||
         destModelName == "Connector")
       return LOOSING_INFO;
 

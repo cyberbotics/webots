@@ -40,7 +40,7 @@ public:
   // backward compatibility
   static QString compatibleNodeName(const QString &modelName);
 
-  // node name, e.g. "Transform", "Solid" ...
+  // node name, e.g. "Pose", "Solid" ...
   const QString &name() const { return mName; }
 
   // the info comments (#) found at the beginning of the .wrl or .proto file

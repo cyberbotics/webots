@@ -367,6 +367,7 @@ QT_SOURCES += \
   WbPlugin.cpp \
   WbPointLight.cpp \
   WbPointSet.cpp \
+  WbPose.cpp \
   WbPositionSensor.cpp \
   WbPositionViewer.cpp \
   WbPreferences.cpp \
@@ -441,7 +442,6 @@ QT_SOURCES += \
   WbTouchSensor.cpp \
   WbTrack.cpp \
   WbTrackWheel.cpp \
-  WbPose.cpp \
   WbTranslateRotateManipulator.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \

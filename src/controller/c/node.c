@@ -132,10 +132,10 @@ const char *wb_node_get_name(WbNodeType t) {
       return "PointLight";
     case WB_NODE_POINT_SET:
       return "PointSet";
-    case WB_NODE_POSITION_SENSOR:
-      return "PositionSensor";
     case WB_NODE_POSE:
       return "Pose";
+    case WB_NODE_POSITION_SENSOR:
+      return "PositionSensor";
     case WB_NODE_PROPELLER:
       return "Propeller";
     case WB_NODE_RADAR:

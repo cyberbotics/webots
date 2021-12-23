@@ -55,7 +55,7 @@ signals:
 
 protected:
   const QString &vrmlName() const override {
-    static const QString name("Transform");
+    static const QString name("Pose");
     return name;
   }
 

@@ -97,7 +97,7 @@ protected:
   WbMatter(const QString &modelName, WbTokenizer *tokenizer);
 
   const QString &vrmlName() const override {
-    static const QString returnedName("Transform");
+    static const QString returnedName("Pose");
     return returnedName;
   }
 

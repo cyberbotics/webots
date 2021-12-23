@@ -227,6 +227,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbPointLight(tokenizer);
   if (modelName == "PointSet")
     return new WbPointSet(tokenizer);
+  if (modelName == "Pose")
+    return new WbPose(tokenizer);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(tokenizer);
   if (modelName == "Propeller")
@@ -273,8 +275,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbTrack(tokenizer);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(tokenizer);
-  if (modelName == "Transform")
-    return new WbPose(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")

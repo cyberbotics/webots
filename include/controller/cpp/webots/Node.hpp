@@ -56,12 +56,12 @@ namespace webots {
       PLANE,
       POINT_LIGHT,
       POINT_SET,
+      POSE,
       SHAPE,
       SPHERE,
       SPOT_LIGHT,
       TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM,
-      TRANSFORM,
       VIEWPOINT,
       // robots
       ROBOT,
