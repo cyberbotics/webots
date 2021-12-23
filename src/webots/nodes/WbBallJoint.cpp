@@ -507,7 +507,7 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   }
 
   // Handles scale
-  const WbPose *const ut = upperTransform();
+  const WbPose *const ut = upperPose();
   const double scale = ut->absoluteScale().x();
   double s4 = scale * scale;
   s4 *= scale;
@@ -528,7 +528,7 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorEuler);
 
   // Axis dependent settings
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
   const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
   dJointSetAMotorAxis(mSpringAndDamperMotor, 0, mIsReverseJoint ? 2 : 1, a1.x(), a1.y(), a1.z());
@@ -565,7 +565,7 @@ void WbBallJoint::prePhysicsStep(double ms) {
   WbJointParameters *const p3 = parameters3();
 
   if (isEnabled()) {
-    const double s = upperTransform()->absoluteScale().x();
+    const double s = upperPose()->absoluteScale().x();
     double s5 = s * s;
     s5 *= s5 * s;
 
@@ -718,7 +718,7 @@ void WbBallJoint::applyToOdeAxis() {
   if (!mSpringAndDamperMotor)
     return;
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
   const WbVector3 &a3 = m4.sub3x3MatrixDot(axis3());
   if (!a1.cross(a3).isNull()) {

@@ -221,8 +221,8 @@ void WbPropeller::prePhysicsStep(double ms) {
     }
 
     // Computes thrust and torque
-    const WbPose *const ut = upperTransform();
-    const WbVector3 &cot = ut->matrix() * mCenterOfThrust->value();
+    const WbPose *const up = upperPose();
+    const WbVector3 &cot = up->matrix() * mCenterOfThrust->value();
     double vp[4];
     dBodyGetPointVel(b, cot.x(), cot.y(), cot.z(), vp);
     const double V = dCalcVectorDot3(vp, mNormalizedAxis.ptr());
@@ -237,7 +237,7 @@ void WbPropeller::prePhysicsStep(double ms) {
     mCurrentThrust = fcs.x() * velocity * absoluteVelocity - fcs.y() * absoluteVelocity * V;
 
     // Applies thrust and torque
-    const WbMatrix3 &m3 = ut->rotationMatrix();
+    const WbMatrix3 &m3 = up->rotationMatrix();
     const WbVector3 &axis = m3 * mNormalizedAxis;
     const WbVector3 &thrustVector = mCurrentThrust * axis;
     const WbVector3 &torqueVector = -mCurrentTorque * axis;

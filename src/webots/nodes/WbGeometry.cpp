@@ -158,7 +158,7 @@ dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
 }
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
-  const WbMatrix3 &m = upperTransform()->rotationMatrix();
+  const WbMatrix3 &m = upperPose()->rotationMatrix();
   const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
   const double alpha = zAxis.angle(g);
@@ -486,18 +486,18 @@ void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
 
 WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbPose lying in the same boundingObject if it does
                                                  // exist, otherwise the WbGeometry itself
-  WbPose *const ut = upperTransform();
-  return ut->isInBoundingObject() ? static_cast<WbBaseNode *>(ut) : static_cast<WbBaseNode *>(this);
+  WbPose *const up = upperPose();
+  return up->isInBoundingObject() ? static_cast<WbBaseNode *>(up) : static_cast<WbBaseNode *>(this);
 }
 
 const WbVector3 WbGeometry::absoluteScale() const {
-  const WbPose *const ut = upperTransform();
-  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbPose *const up = upperPose();
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 WbVector3 WbGeometry::absolutePosition() const {
-  const WbPose *const ut = upperTransform();
-  return ut ? ut->position() : WbVector3();
+  const WbPose *const up = upperPose();
+  return up ? up->position() : WbVector3();
 }
 
 void WbGeometry::computeCastShadows(bool enabled) {
@@ -561,8 +561,8 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
   if (!isInBoundingObject())
     return false;
 
-  const WbPose *const ut = upperTransform();
-  if (ut && ut->isInBoundingObject() && ut->geometry() != this)
+  const WbPose *const up = upperPose();
+  if (up && up->isInBoundingObject() && up->geometry() != this)
     return false;
 
   if (checkOde && mOdeGeom == NULL)
@@ -589,15 +589,15 @@ bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
 ////////////////////////////////
 
 WbMatrix4 WbGeometry::matrix() const {
-  const WbPose *ut = upperTransform();
-  if (!ut)
+  const WbPose *up = upperPose();
+  if (!up)
     return WbMatrix4();
-  if (!ut->isInBoundingObject())
-    return ut->matrix();
+  if (!up->isInBoundingObject())
+    return up->matrix();
   else {
-    const WbMatrix4 &matrix = ut->vrmlMatrix();
-    ut = ut->upperTransform();
-    return ut->matrix() * matrix;
+    const WbMatrix4 &matrix = up->vrmlMatrix();
+    up = up->upperPose();
+    return up->matrix() * matrix;
   }
 }
 

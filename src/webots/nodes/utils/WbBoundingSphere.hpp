@@ -121,7 +121,7 @@ private:
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
   const WbSkin *mSkinOwner;
-  const WbAbstractPose *mTransformOwner;
+  const WbAbstractPose *mPoseOwner;
 
   // Cached values
   bool mBoundSpaceDirty;  // center and radius update required

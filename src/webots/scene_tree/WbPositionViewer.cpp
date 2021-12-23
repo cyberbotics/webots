@@ -110,7 +110,7 @@ void WbPositionViewer::update() {
     } else {
       WbPose *pose = mPose;
       for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i)
-        pose = pose->upperTransform();
+        pose = pose->upperPose();
       position = mPose->position() - pose->position();
       position = position * WbMatrix3(pose->rotation().toQuaternion());
       WbRotation currentRotation = WbRotation(mPose->rotationMatrix());
@@ -166,14 +166,14 @@ void WbPositionViewer::updateRelativeToComboBox() {
   if (mPose) {
     mRelativeToComboBox->insertItem(0, tr("Absolute"));
     int i = 0;
-    WbPose *pose = mPose->upperTransform();
+    WbPose *pose = mPose->upperPose();
     while (pose) {
       ++i;
       if (pose->nodeModelName() == pose->fullName())
         mRelativeToComboBox->insertItem(i, tr("Relative to %1 (depth level %2)").arg(pose->fullName()).arg(i));
       else
         mRelativeToComboBox->insertItem(i, tr("Relative to %1").arg(pose->fullName()));
-      pose = pose->upperTransform();
+      pose = pose->upperPose();
     }
   }
 }

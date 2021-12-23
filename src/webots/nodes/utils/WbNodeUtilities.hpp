@@ -48,7 +48,7 @@ namespace WbNodeUtilities {
   void fixBackwardCompatibility(WbNode *node);
 
   // find the closest WbPose ancestor
-  WbPose *findUpperTransform(const WbNode *node);
+  WbPose *findUpperPose(const WbNode *node);
 
   // find the closest template ancestor in which the modified node is contained in template field
   // which requires a template instance regeneration
@@ -77,7 +77,7 @@ namespace WbNodeUtilities {
   QList<WbNode *> findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive);
 
   // find the uppermost WbPose ancestor (may be the node itself)
-  WbPose *findUppermostTransform(const WbNode *node);
+  WbPose *findUppermostPose(const WbNode *node);
 
   // find the uppermost WbPose ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);
@@ -139,7 +139,7 @@ namespace WbNodeUtilities {
   // is the target field or the target parameter field a template regenerator field
   bool isTemplateRegeneratorField(const WbField *field);
 
-  WbAbstractPose *abstractTransformCast(WbBaseNode *node);
+  WbAbstractPose *abstractPoseCast(WbBaseNode *node);
 
   //////////////////////////////
   // Non-permanent properties //

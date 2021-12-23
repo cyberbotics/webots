@@ -78,8 +78,8 @@ private:
   void applyBillboardVisibilityToWren();
   void checkAmbientAndAttenuationExclusivity();
 
-  void attachToUpperTransform();
-  void detachFromUpperTransform();
+  void attachToUpperPose();
+  void detachFromUpperPose();
   void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private slots:

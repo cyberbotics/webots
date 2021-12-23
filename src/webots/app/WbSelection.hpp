@@ -35,8 +35,8 @@ public:
   WbSelection();
   virtual ~WbSelection();
 
-  // the currently selected transform in the scene tree
-  WbAbstractPose *selectedAbstractTransform() const { return mSelectedAbstractTransform; }
+  // the currently selected pose in the scene tree
+  WbAbstractPose *selectedAbstractPose() const { return mSelectedAbstractPose; }
 
   // the currently selected solid in the scene tree
   WbSolid *selectedSolid() const;
@@ -59,16 +59,16 @@ public:
 
   bool resizeManipulatorEnabledFromSceneTree() { return mResizeHandlesEnabledFromSceneTree; }
 
-  // the currently selected transform was reselected from the View 3D (we need to make sure the selection switches to the node
+  // the currently selected pose was reselected from the View 3D (we need to make sure the selection switches to the node
   // if a field is selected)
-  void confirmSelectedTransformFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractTransform); }
+  void confirmSelectedPoseFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractPose); }
 
 public slots:
   // select another node from the scene tree
   void selectNodeFromSceneTree(WbBaseNode *node);
 
   // select another matter from the 3D view
-  void selectTransformFromView3D(WbAbstractPose *t, bool handlesDisabled = false);
+  void selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled = false);
 
   // update handle size based on viewpoint camera distance
   void updateHandlesScale();
@@ -81,20 +81,20 @@ public slots:
 
 signals:
   // the selection has changed from the scene tree
-  void selectionChangedFromSceneTree(WbAbstractPose *t);
+  void selectionChangedFromSceneTree(WbAbstractPose *p);
 
   // the selection has changed from the 3D view
-  void selectionChangedFromView3D(WbAbstractPose *t);
+  void selectionChangedFromView3D(WbAbstractPose *p);
 
   // the same WbAbstractPose was selected from the 3D view
-  void selectionConfirmedFromView3D(WbAbstractPose *t);
+  void selectionConfirmedFromView3D(WbAbstractPose *p);
 
   // the visible handles of the selected node have changed
   void visibleHandlesChanged();
 
 private:
   static WbSelection *cInstance;
-  WbAbstractPose *mSelectedAbstractTransform;
+  WbAbstractPose *mSelectedAbstractPose;
   WbBaseNode *mSelectedNode;  // node selected in the scene tree
   bool mResizeHandlesEnabledFromSceneTree;
 

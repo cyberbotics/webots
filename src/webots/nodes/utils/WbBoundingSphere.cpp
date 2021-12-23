@@ -48,7 +48,7 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
   mOwner(NULL),
   mGeomOwner(NULL),
   mSkinOwner(NULL),
-  mTransformOwner(NULL),
+  mPoseOwner(NULL),
   mBoundSpaceDirty(false),
   mGeomSphereDirty(false),
   mParentCoordinatesDirty(true),
@@ -65,7 +65,7 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &cen
   mOwner(NULL),
   mGeomOwner(NULL),
   mSkinOwner(NULL),
-  mTransformOwner(NULL),
+  mPoseOwner(NULL),
   mBoundSpaceDirty(true),
   mGeomSphereDirty(true),
   mParentCoordinatesDirty(true),
@@ -84,7 +84,7 @@ WbBoundingSphere::~WbBoundingSphere() {
 
 void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mOwner = owner;
-  mTransformOwner = dynamic_cast<const WbAbstractPose *>(mOwner);
+  mPoseOwner = dynamic_cast<const WbAbstractPose *>(mOwner);
   mGeomOwner = dynamic_cast<const WbGeometry *>(mOwner);
   mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
@@ -232,10 +232,10 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
   if (!mParentCoordinatesDirty)
     return;
 
-  if (mTransformOwner != NULL) {
-    const WbVector3 &scale = mTransformOwner->scale();
+  if (mPoseOwner != NULL) {
+    const WbVector3 &scale = mPoseOwner->scale();
     mRadiusInParentCoordinates = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
-    mCenterInParentCoordinates = mTransformOwner->vrmlMatrix() * mCenter;
+    mCenterInParentCoordinates = mPoseOwner->vrmlMatrix() * mCenter;
   } else {
     mRadiusInParentCoordinates = mRadius;
     mCenterInParentCoordinates = mCenter;
@@ -244,13 +244,13 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 }
 
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbAbstractPose *upperTransform = dynamic_cast<const WbAbstractPose *>(mTransformOwner);
-  if (upperTransform == NULL)
-    upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
-  if (upperTransform) {
-    const WbVector3 &scale = upperTransform->absoluteScale();
+  const WbAbstractPose *upperPose = dynamic_cast<const WbAbstractPose *>(mPoseOwner);
+  if (upperPose == NULL)
+    upperPose = WbNodeUtilities::findUpperPose(mOwner);
+  if (upperPose) {
+    const WbVector3 &scale = upperPose->absoluteScale();
     radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
-    center = upperTransform->matrix() * mCenter;
+    center = upperPose->matrix() * mCenter;
   } else {
     radius = mRadius;
     center = mCenter;
@@ -314,7 +314,7 @@ void WbBoundingSphere::parentUpdateNotification() const {
 }
 
 void WbBoundingSphere::setOwnerMoved() {
-  assert(mTransformOwner);
+  assert(mPoseOwner);
   if (mParentBoundingSphere) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
@@ -323,7 +323,7 @@ void WbBoundingSphere::setOwnerMoved() {
 }
 
 void WbBoundingSphere::setOwnerSizeChanged() {
-  assert(mGeomOwner || mSkinOwner || mTransformOwner);
+  assert(mGeomOwner || mSkinOwner || mPoseOwner);
   if (mGeomOwner || mSkinOwner)
     mGeomSphereDirty = true;
   mBoundSpaceDirty = true;

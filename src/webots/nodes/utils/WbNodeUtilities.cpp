@@ -707,16 +707,16 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
   return dynamic_cast<WbSolid *>(upperMatter);
 }
 
-WbPose *WbNodeUtilities::findUppermostTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   const WbNode *n = node;
-  WbPose *uppermostTransform = NULL;
+  WbPose *uppermostPose = NULL;
   while (n) {
     const WbPose *pose = dynamic_cast<const WbPose *>(n);
     if (pose)
-      uppermostTransform = const_cast<WbPose *>(pose);
+      uppermostPose = const_cast<WbPose *>(pose);
     n = n->parentNode();
   };
-  return uppermostTransform;
+  return uppermostPose;
 }
 
 WbSolid *WbNodeUtilities::findUppermostSolid(const WbNode *node) {
@@ -761,7 +761,7 @@ WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
   return topSolid;
 }
 
-WbPose *WbNodeUtilities::findUpperTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUpperPose(const WbNode *node) {
   if (node == NULL)
     return NULL;
 
@@ -1372,13 +1372,13 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   return false;
 }
 
-WbAbstractPose *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
-  WbAbstractPose *abstractTransform = dynamic_cast<WbPose *>(node);
-  if (abstractTransform)
-    return abstractTransform;
+WbAbstractPose *WbNodeUtilities::abstractPoseCast(WbBaseNode *node) {
+  WbAbstractPose *abstractPose = dynamic_cast<WbPose *>(node);
+  if (abstractPose)
+    return abstractPose;
 
-  abstractTransform = dynamic_cast<WbSkin *>(node);
-  return abstractTransform;
+  abstractPose = dynamic_cast<WbSkin *>(node);
+  return abstractPose;
 }
 
 bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {

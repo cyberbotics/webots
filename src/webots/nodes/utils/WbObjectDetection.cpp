@@ -143,7 +143,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     referenceObject = rootObject;
   const WbPose *pose = dynamic_cast<const WbPose *>(referenceObject);
   if (!pose)
-    pose = referenceObject->upperTransform();
+    pose = referenceObject->upperPose();
   assert(pose);
   WbMatrix3 objectRotation = pose->rotationMatrix();
   WbVector3 objectPosition = pose->matrix().translation();

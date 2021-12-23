@@ -98,9 +98,9 @@ void WbCapsule::createWrenObjects() {
 void WbCapsule::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
+  WbPose *pose = upperPose();
+  if (pose)
+    scale *= pose->matrix().scale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -416,11 +416,11 @@ double WbCapsule::computeDistance(const WbRay &ray) const {
 double WbCapsule::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
-  WbPose *transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
+  WbPose *pose = upperPose();
+  if (pose) {
+    direction = ray.direction() * pose->matrix();
     direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
+    origin = pose->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

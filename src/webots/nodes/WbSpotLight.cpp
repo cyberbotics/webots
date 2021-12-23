@@ -87,7 +87,7 @@ void WbSpotLight::postFinalize() {
 
 WbSpotLight::~WbSpotLight() {
   if (areWrenObjectsInitialized()) {
-    detachFromUpperTransform();
+    detachFromUpperPose();
     wr_node_delete(WR_NODE(mWrenLight));
     delete mLightRepresentation;
   }
@@ -95,7 +95,7 @@ WbSpotLight::~WbSpotLight() {
 
 WbVector3 WbSpotLight::computeAbsoluteLocation() const {
   WbVector3 location = mLocation->value();
-  WbPose *up = upperTransform();
+  WbPose *up = upperPose();
   if (up)
     location = up->matrix() * location;
   return location;
@@ -104,7 +104,7 @@ WbVector3 WbSpotLight::computeAbsoluteLocation() const {
 void WbSpotLight::createWrenObjects() {
   mWrenLight = wr_spot_light_new();
   WbLight::createWrenObjects();
-  attachToUpperTransform();
+  attachToUpperPose();
 
   // Has to be done after WbLight::createWrenTransform (otherwise wrenNode() == NULL)
   mLightRepresentation =
@@ -211,13 +211,13 @@ void WbSpotLight::checkAmbientAndAttenuationExclusivity() {
   }
 }
 
-void WbSpotLight::attachToUpperTransform() {
-  WbPose *upperPose = WbNodeUtilities::findUpperTransform(this);
+void WbSpotLight::attachToUpperPose() {
+  WbPose *upperPose = WbNodeUtilities::findUpperPose(this);
   if (upperPose)
     wr_transform_attach_child(upperPose->wrenNode(), WR_NODE(mWrenLight));
 }
 
-void WbSpotLight::detachFromUpperTransform() {
+void WbSpotLight::detachFromUpperPose() {
   WrNode *node = WR_NODE(mWrenLight);
   WrTransform *parent = wr_node_get_parent(node);
   if (parent)

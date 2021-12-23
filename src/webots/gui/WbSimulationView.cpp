@@ -790,8 +790,8 @@ void WbSimulationView::prepareWorldLoading() {
   // solid selection
   disconnect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   disconnect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   disconnect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
 }
 
@@ -820,8 +820,8 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   // solid selection
   connect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   connect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
   connect(WbActionManager::instance()->action(WbAction::FRONT_VIEW), &QAction::triggered,
           WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::frontView);

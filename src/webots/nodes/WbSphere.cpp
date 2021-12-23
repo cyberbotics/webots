@@ -94,7 +94,7 @@ void WbSphere::createWrenObjects() {
 
 void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
-  WbPose *pose = upperTransform();
+  WbPose *pose = upperPose();
   if (pose)
     scale *= pose->matrix().scale();
 
@@ -365,7 +365,7 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
   if (!collisionExists)
     return false;
 
-  WbPose *pose = upperTransform();
+  WbPose *pose = upperPose();
   WbVector3 pointOnTexture(collisionPoint);
   if (pose) {
     pointOnTexture = pose->matrix().pseudoInversed(collisionPoint);
@@ -392,7 +392,7 @@ double WbSphere::computeDistance(const WbRay &ray) const {
 
 bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbVector3 center;
-  const WbPose *const pose = upperTransform();
+  const WbPose *const pose = upperPose();
   if (pose)
     center = pose->matrix().translation();
   double radius = scaledRadius();

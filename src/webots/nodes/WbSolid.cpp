@@ -1943,18 +1943,18 @@ void WbSolid::applyPhysicsTransform() {
     dBodyGetRelPointPos(b, -com.x(), -com.y(), -com.z(), result);
   assert(!std::isnan(result[0]));
   // printf("new body pos = %f, %f, %f (apply phy.)\n", result[0], result[1], result[2]);
-  const WbPose *const ut = upperTransform();
-  if (ut) {
-    const double invUtScale = 1.0 / ut->absoluteScale().x();
+  const WbPose *const up = upperPose();
+  if (up) {
+    const double invUtScale = 1.0 / up->absoluteScale().x();
     const double scaleFactor = invUtScale * invUtScale;
-    const WbMatrix4 &utm = ut->matrix();
-    const WbVector3 &prel = utm.pseudoInversed(WbVector3(result));
+    const WbMatrix4 &upm = up->matrix();
+    const WbVector3 &prel = upm.pseudoInversed(WbVector3(result));
     result[0] = scaleFactor * prel[0];
     result[1] = scaleFactor * prel[1];
     result[2] = scaleFactor * prel[2];
     // printf("result = %f, %f, %f (apply phy.))\n", result[0], result[1], result[2]);
     // find rotation difference between upper transform and solid child
-    const WbQuaternion &q = utm.extractedQuaternion(invUtScale);
+    const WbQuaternion &q = upm.extractedQuaternion(invUtScale);
     dQMultiply1(qr, q.ptr(), dBodyGetQuaternion(b));
   }
 
@@ -2963,7 +2963,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
           const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
           const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
           if (box || cylinder || sphere || capsule) {
-            const WbPose *pose = WbNodeUtilities::findUpperTransform(node);
+            const WbPose *pose = WbNodeUtilities::findUpperPose(node);
             QList<QPair<QString, WbVector3>> geometries;  // string of the geometry and its offset
 
             if (box) {

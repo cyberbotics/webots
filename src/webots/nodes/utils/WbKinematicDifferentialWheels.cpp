@@ -111,7 +111,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
     if (!leftWheelCylinder || leftWheelCylinder->radius() <= 0.0)
       continue;
     double leftWheelRadius = leftWheelCylinder->radius();
-    double leftWheelDistance = (robot->position() - leftWheelCylinder->upperTransform()->position()).length();
+    double leftWheelDistance = (robot->position() - leftWheelCylinder->upperPose()->position()).length();
     for (int j = i + 1; j < motorizedJoints.size(); ++j) {
       rightJoint = motorizedJoints.at(j);
       // make sure this joint has a cylinder bounding object
@@ -122,7 +122,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
       double rightWheelRadius = rightWheelCylinder->radius();
       if (leftWheelRadius != rightWheelRadius)
         continue;
-      double rightWheelDistance = (robot->position() - rightWheelCylinder->upperTransform()->position()).length();
+      double rightWheelDistance = (robot->position() - rightWheelCylinder->upperPose()->position()).length();
       // make sure the wheels are equally centered
       if (abs(leftWheelDistance - rightWheelDistance) > 1e-5)
         continue;
@@ -134,9 +134,9 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
       if (!leftJoint->axis().cross(anchorAxis).isNull())
         continue;
       WbVector3 globalLeftAnchor =
-        robot->rotationMatrix().transposed() * (robot->position() - leftWheelCylinder->upperTransform()->position());
+        robot->rotationMatrix().transposed() * (robot->position() - leftWheelCylinder->upperPose()->position());
       WbVector3 globalRightAnchor =
-        robot->rotationMatrix().transposed() * (robot->position() - rightWheelCylinder->upperTransform()->position());
+        robot->rotationMatrix().transposed() * (robot->position() - rightWheelCylinder->upperPose()->position());
       if (globalLeftAnchor.y() < globalRightAnchor.y())  // make sure the joint are not inverted
         return new WbKinematicDifferentialWheels(robot, leftWheelRadius, leftWheelDistance + rightWheelDistance, leftJoint,
                                                  rightJoint);

@@ -1160,20 +1160,20 @@ void WbSceneTree::handleRowRemoval(const QModelIndex &parentIndex, int start, in
   updateToolbar();
 }
 
-void WbSceneTree::selectTransform(WbAbstractPose *t) {
-  if (t == NULL) {
+void WbSceneTree::selectPose(WbAbstractPose *p) {
+  if (p == NULL) {
     clearSelection();
     return;
   }
 
-  QModelIndex newIndex = mModel->findModelIndexFromNode(t->baseNode());
+  QModelIndex newIndex = mModel->findModelIndexFromNode(p->baseNode());
   if (newIndex.isValid()) {
     mTreeView->clearSelection();
     mTreeView->setCurrentIndex(newIndex);
     mTreeView->scrollToModelIndex(newIndex);
-  } else if (t->baseNode()->protoParameterNode())
+  } else if (p->baseNode()->protoParameterNode())
     // if m is proto parameter node instance, select the corresponding parameter node in the scene tree
-    selectTransform(dynamic_cast<WbAbstractPose *>(t->baseNode()->protoParameterNode()));
+    selectPose(dynamic_cast<WbAbstractPose *>(p->baseNode()->protoParameterNode()));
 }
 
 // for the translation and rotation fields of Solid node we need to set

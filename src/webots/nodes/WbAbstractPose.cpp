@@ -382,9 +382,9 @@ void WbAbstractPose::updateMatrix() const {
                     mRotation->angle(), mScale->x(), mScale->y(), mScale->z());
 
   // multiply with upper matrix if any
-  WbAbstractPose *transform = mBaseNode->upperTransform();
-  if (transform)
-    *mMatrix = transform->matrix() * *mMatrix;
+  WbAbstractPose *pose = mBaseNode->upperPose();
+  if (pose)
+    *mMatrix = pose->matrix() * *mMatrix;
   mMatrixNeedUpdate = false;
 }
 
@@ -413,7 +413,7 @@ const WbVector3 &WbAbstractPose::absoluteScale() const {
 
 bool WbAbstractPose::isTopTransform() const {
   if (!mHasSearchedTopTransform) {
-    mIsTopTransform = mBaseNode->upperTransform() == NULL;
+    mIsTopTransform = mBaseNode->upperPose() == NULL;
     mHasSearchedTopTransform = true;
   }
   return mIsTopTransform;
@@ -422,9 +422,9 @@ bool WbAbstractPose::isTopTransform() const {
 void WbAbstractPose::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbPose *const ut = mBaseNode->upperTransform();
-  if (ut)
-    mAbsoluteScale *= ut->absoluteScale();
+  const WbPose *const up = mBaseNode->upperPose();
+  if (up)
+    mAbsoluteScale *= up->absoluteScale();
 
   mAbsoluteScaleNeedUpdate = false;
 }

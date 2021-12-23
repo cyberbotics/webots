@@ -164,7 +164,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   if (sfnode && sfnode->value() != NULL)
     // clear selection and set mSelectedItem to NULL
-    WbSelection::instance()->selectTransformFromView3D(NULL);
+    WbSelection::instance()->selectPoseFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParentNode(parentNode);

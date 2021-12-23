@@ -368,9 +368,9 @@ void WbElevationGrid::createResizeManipulator() {
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
+  WbPose *pose = upperPose();
+  if (pose)
+    scale *= pose->matrix().scale();
 
   if (isAValidBoundingObject())
     scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));
@@ -526,10 +526,10 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   mHeight->copyItemsTo(data, size);
 
   WbRay localRay(ray);
-  WbPose *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  WbPose *pose = upperPose();
+  if (pose) {
+    localRay.setDirection(ray.direction() * pose->matrix());
+    WbVector3 origin = pose->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

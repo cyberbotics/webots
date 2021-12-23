@@ -170,9 +170,9 @@ void WbPlane::createResizeManipulator() {
 
 void WbPlane::setResizeManipulatorDimensions() {
   WbVector3 scale(size().x(), 0.1f * std::min(mSize->value().x(), mSize->value().y()), size().y());
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
+  WbPose *pose = upperPose();
+  if (pose)
+    scale *= pose->matrix().scale();
 
   if (isAValidBoundingObject()) {
     float offset = 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -284,7 +284,7 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbPose *pose = upperTransform();
+  WbPose *pose = upperPose();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal
@@ -313,7 +313,7 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform intersection point to plane coordinates
   WbVector3 pointOnTexture(collisionPoint);
-  const WbPose *const pose = upperTransform();
+  const WbPose *const pose = upperPose();
   if (pose) {
     pointOnTexture = pose->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();
@@ -347,7 +347,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   // 1. Compute the 4 plane vertices in world coordinates.
   const double planeWidth = size().x();
   const double planeHeight = size().y();
-  const WbMatrix4 &upperMatrix = upperTransform()->matrix();
+  const WbMatrix4 &upperMatrix = upperPose()->matrix();
   const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, -0.5 * planeHeight, 0.0);
   const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.5 * planeHeight, 0.0);
   const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.5 * planeHeight, 0.0);

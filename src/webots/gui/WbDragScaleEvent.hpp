@@ -117,7 +117,7 @@ signals:
   void aborted();  // triggers drag destruction in WbView3D
 
 protected:
-  WbAbstractPose *mTransform;
+  WbAbstractPose *mPose;
   int mHandleNumber;
   WbScaleManipulator *mManipulator;
   WbVariant mInitialScale;

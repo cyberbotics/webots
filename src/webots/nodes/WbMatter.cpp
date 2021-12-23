@@ -364,7 +364,7 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
   assert(dynamic_cast<WbShape *>(sender()));
   WbShape *const shape = static_cast<WbShape *>(sender());
   WbGeometry *const geometry = shape->geometry();
-  WbPose *pose = shape->upperTransform();
+  WbPose *pose = shape->upperPose();
 
   dGeomID insertedGeom;
   if (pose && pose->isInBoundingObject()) {
@@ -581,7 +581,7 @@ void WbMatter::updateOdePlaceableGeomPosition(dGeomID g) {
   WbGeometry *geom = odeGeomData->geometry();
   assert(geom);
 
-  WbPose *pose = geom->upperTransform();
+  WbPose *pose = geom->upperPose();
   if (pose == NULL)
     return;
 

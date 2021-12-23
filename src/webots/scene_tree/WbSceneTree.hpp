@@ -67,7 +67,7 @@ public:
   void setHandleWidth(const int &handleWidth) { mHandleWidth = handleWidth; }
 
 public slots:
-  void selectTransform(WbAbstractPose *t);
+  void selectPose(WbAbstractPose *p);
   void updateValue();
   void updateApplicationActions();
   void updateSelection();

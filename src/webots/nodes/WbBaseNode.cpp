@@ -34,11 +34,11 @@ void WbBaseNode::init() {
   mOdeObjectsCreatedCalled = false;
   mWrenNode = NULL;
   mIsInBoundingObject = false;
-  mUpperTransform = NULL;
+  mUpperPose = NULL;
   mUpperSolid = NULL;
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
-  mUpperTransformFirstTimeSearch = true;
+  mUpperPoseFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
   mFinalizationCanceled = false;
@@ -181,14 +181,14 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
-WbPose *WbBaseNode::upperTransform() const {
-  if (mUpperTransformFirstTimeSearch) {
-    mUpperTransform = WbNodeUtilities::findUpperTransform(this);
+WbPose *WbBaseNode::upperPose() const {
+  if (mUpperPoseFirstTimeSearch) {
+    mUpperPose = WbNodeUtilities::findUpperPose(this);
     if (areWrenObjectsInitialized())
-      mUpperTransformFirstTimeSearch = false;
+      mUpperPoseFirstTimeSearch = false;
   }
 
-  return mUpperTransform;
+  return mUpperPose;
 }
 
 WbSolid *WbBaseNode::upperSolid() const {

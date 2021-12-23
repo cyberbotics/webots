@@ -85,9 +85,9 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
 
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
+  WbPose *pose = upperPose();
+  if (pose)
+    scale *= pose->matrix().scale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -316,11 +316,11 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
 
-  const WbPose *const transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
+  const WbPose *const pose = upperPose();
+  if (pose) {
+    direction = ray.direction() * pose->matrix();
     direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
+    origin = pose->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
   const double radius = scaledBottomRadius();

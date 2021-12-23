@@ -129,7 +129,7 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  WbPose *pose = upperTransform();
+  WbPose *pose = upperPose();
   if (pose)
     scale *= pose->matrix().scale();
 
@@ -379,7 +379,7 @@ bool WbTriangleMeshGeometry::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, i
   WbVector3 v1(mTriangleMesh->vertex(t, 1, 0), mTriangleMesh->vertex(t, 1, 1), mTriangleMesh->vertex(t, 1, 2));
   WbVector3 v2(mTriangleMesh->vertex(t, 2, 0), mTriangleMesh->vertex(t, 2, 1), mTriangleMesh->vertex(t, 2, 2));
 
-  const WbPose *const pose = upperTransform();
+  const WbPose *const pose = upperPose();
   if (pose) {
     const WbMatrix4 &m = pose->matrix();
     v0 = m * v0;
@@ -415,7 +415,7 @@ double WbTriangleMeshGeometry::computeLocalCollisionPoint(WbVector3 &point, int 
     return false;
 
   WbRay localRay(ray);
-  WbPose *pose = upperTransform();
+  WbPose *pose = upperPose();
   if (pose) {
     localRay.setDirection(ray.direction() * pose->matrix());
     WbVector3 origin = pose->matrix().pseudoInversed(ray.origin());

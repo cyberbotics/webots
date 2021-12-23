@@ -36,7 +36,7 @@ void WbPose::init() {
   }
 }
 
-WbPose::WbPose(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractPose(this) {
+WbPose::WbPose(WbTokenizer *tokenizer) : WbGroup("Pose", tokenizer), WbAbstractPose(this) {
   init();
 }
 
@@ -402,7 +402,7 @@ void WbPose::showResizeManipulator(bool enabled) {
 void WbPose::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << QString("<Transform translation='%1' rotation='%2'>")
+  writer << QString("<Pose translation='%1' rotation='%2'>")
               .arg(translation().toString(WbPrecision::DOUBLE_MAX))
               .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
 
@@ -412,7 +412,7 @@ void WbPose::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
     childNode->exportBoundingObjectToX3D(writer);
   }
 
-  writer << "</Transform>";
+  writer << "</Pose>";
 }
 
 QStringList WbPose::fieldsToSynchronizeWithX3D() const {
@@ -423,14 +423,14 @@ QStringList WbPose::fieldsToSynchronizeWithX3D() const {
 }
 
 WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
-  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *parentNode = WbNodeUtilities::findUpperPose(this);
   const WbPose *childNode = this;
   QList<const WbPose *> poseList;
 
   poseList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
-    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    parentNode = WbNodeUtilities::findUpperPose(parentNode);
     poseList.append(childNode);
     assert(parentNode);
   }
@@ -447,14 +447,14 @@ WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
 }
 
 WbMatrix3 WbPose::rotationMatrixFrom(const WbNode *fromNode) const {
-  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *parentNode = WbNodeUtilities::findUpperPose(this);
   const WbPose *childNode = this;
 
   QList<const WbPose *> poseList;
   poseList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
-    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    parentNode = WbNodeUtilities::findUpperPose(parentNode);
     poseList.append(childNode);
     assert(parentNode);
   }

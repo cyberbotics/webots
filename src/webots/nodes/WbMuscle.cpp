@@ -66,7 +66,7 @@ void WbMuscle::init() {
   mStatus = 0.0;
   mMaterialStatus = mStatus;
   mDirectionInverted = false;
-  mParentTransform = NULL;
+  mParentPose = NULL;
   mMatrix = WbMatrix4();
 
   // WREN
@@ -120,7 +120,7 @@ WbMuscle::~WbMuscle() {
 void WbMuscle::postFinalize() {
   WbBaseNode::postFinalize();
 
-  mParentTransform = WbNodeUtilities::findUpperTransform(this);
+  mParentPose = WbNodeUtilities::findUpperPose(this);
   const WbJoint *joint = dynamic_cast<WbJoint *>(parentNode()->parentNode());
   updateEndPoint(joint->solidEndPoint());
   WbWrenVertexArrayFrameListener::instance()->subscribeMuscle(this);

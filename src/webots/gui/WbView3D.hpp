@@ -252,7 +252,7 @@ private slots:
   void updateViewport();
   void updateShadowState();
   void unleashPhysicsDrags();
-  void onSelectionChanged(WbAbstractPose *selectedAbstractTransform);
+  void onSelectionChanged(WbAbstractPose *selectedAbstractPose);
   void handleWorldModificationFromSupervisor();
 };
 

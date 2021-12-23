@@ -99,7 +99,7 @@ public:
   bool isInBoundingObject() const;
   WbSolid *upperSolid() const;
   WbSolid *topSolid() const;
-  WbPose *upperTransform() const;
+  WbPose *upperPose() const;
   // Cached function that can change if new USE nodes are added
   // return if this node or any of its instances is used in boundingObject
   WbNode::NodeUse nodeUse() const;
@@ -172,8 +172,8 @@ private:
   //         -> migrate the search/cache code into not const functions called when setting the parent
   mutable bool mIsInBoundingObject;
   mutable bool mBoundingObjectFirstTimeSearch;
-  mutable WbPose *mUpperTransform;
-  mutable bool mUpperTransformFirstTimeSearch;
+  mutable WbPose *mUpperPose;
+  mutable bool mUpperPoseFirstTimeSearch;
   mutable WbSolid *mUpperSolid;
   mutable bool mUpperSolidFirstTimeSearch;
   mutable WbSolid *mTopSolid;
