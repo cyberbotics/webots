@@ -153,7 +153,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     boundingObject = shape->geometry();
     return computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, boundingObject, objectSize,
                          objectRelativePosition);
-  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
+  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_POSE) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {

@@ -36,7 +36,7 @@ public:
   virtual ~WbPose();
 
   // reimplemented functions
-  int nodeType() const override { return WB_NODE_TRANSFORM; }
+  int nodeType() const override { return WB_NODE_POSE; }
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;

@@ -20,7 +20,7 @@
 //              'scale' fields functionalities and keeping the WREN::SceneNode
 //              up-to-date
 //
-// Inherited by: WbTransform and WbSkin
+// Inherited by: WbPose and WbSkin
 //
 
 #include <cassert>

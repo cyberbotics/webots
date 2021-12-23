@@ -19,9 +19,9 @@
 #include "WbField.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 
 #include <wren/transform.h>
@@ -422,7 +422,7 @@ bool WbAbstractPose::isTopTransform() const {
 void WbAbstractPose::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbTransform *const ut = mBaseNode->upperTransform();
+  const WbPose *const ut = mBaseNode->upperTransform();
   if (ut)
     mAbsoluteScale *= ut->absoluteScale();
 
@@ -474,7 +474,7 @@ void WbAbstractPose::setRotation(const WbRotation &r) {
 }
 
 ///////////////////////////////////////////////////////
-//  WREN methods related to WbTransform manipulators //
+//  WREN methods related to WbPose manipulators //
 ///////////////////////////////////////////////////////
 
 void WbAbstractPose::showResizeManipulator(bool enabled) {
