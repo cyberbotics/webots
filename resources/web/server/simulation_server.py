@@ -122,9 +122,9 @@ class Snapshot:
 class Client:
     """This class represents an instance of connected client."""
 
-    def __init__(self, client_websocket=None):
+    def __init__(self, websocket=None):
         """Create an instance of client."""
-        self.client_websocket = client_websocket
+        self.websocket = websocket
         self.streaming_server_port = 0
         self.webots_process = None
         self.on_webots_quit = None
@@ -135,8 +135,8 @@ class Client:
 
     def __del__(self):
         """Destroy an instance of client."""
-        if self.client_websocket:
-            self.client_websocket.close()
+        if self.websocket:
+            self.websocket.close()
         self.kill_webots()
         self.cleanup_webots_instance()
 
@@ -260,14 +260,14 @@ class Client:
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
             if 'fullyQualifiedDomainName' not in config:
-                hostname = client.client_websocket.request.host.split(':')[0]
+                hostname = client.websocket.request.host.split(':')[0]
             else:
                 hostname = config['fullyQualifiedDomainName']
             protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
             message = 'webots:' + protocol + '//' + hostname + separator + str(port)
-            client.client_websocket.write_message(message)
+            client.websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 if client.webots_process is None:
                     break
@@ -277,7 +277,7 @@ class Client:
                 elif line == 'real-time' or line == 'step':
                     client.idle = False
                 elif line == '.':
-                    client.client_websocket.write_message('.')
+                    client.websocket.write_message('.')
             client.on_exit()
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
@@ -319,10 +319,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     @classmethod
-    def find_client_from_websocket(self, client_websocket):
+    def find_client_from_websocket(self, websocket):
         """Return client associated with a websocket."""
         for client in self.clients:
-            if client.client_websocket == client_websocket:
+            if client.websocket == websocket:
                 return client
         return None
 
@@ -363,7 +363,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         """Open a new connection for an incoming client."""
         self.set_nodelay(True)
         logging.info(self.request.host)
-        client = Client(client_websocket=self)
+        client = Client(websocket=self)
         ClientWebSocketHandler.clients.add(client)
         logging.info('[%d] New client' % (id(client),))
 
@@ -406,8 +406,8 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
     def on_webots_quit(self):
         """Cleanup websocket connection."""
         client = ClientWebSocketHandler.find_client_from_websocket(self)
-        if client and client.client_websocket:
-            client.client_websocket.close()
+        if client and client.websocket:
+            client.websocket.close()
 
     def start_client(self):
         """Start Webots."""
