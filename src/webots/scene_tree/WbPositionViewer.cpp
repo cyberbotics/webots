@@ -24,7 +24,7 @@
 
 WbPositionViewer::WbPositionViewer(QWidget *parent) :
   QWidget(parent),
-  mTransform(NULL),
+  mPose(NULL),
   mIsSelected(false),
   mRelativeToComboBox(new QComboBox(this)) {
   QVBoxLayout *vBoxLayout = new QVBoxLayout(this);
@@ -57,38 +57,37 @@ WbPositionViewer::WbPositionViewer(QWidget *parent) :
 }
 
 WbPositionViewer::~WbPositionViewer() {
-  mTransform = NULL;
+  mPose = NULL;
 }
 
 void WbPositionViewer::clean() {
-  if (mTransform)
-    disconnect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean);
-  mTransform = NULL;
+  if (mPose)
+    disconnect(mPose, &WbPose::destroyed, this, &WbPositionViewer::clean);
+  mPose = NULL;
 }
 
 void WbPositionViewer::stopUpdating() {
-  if (mTransform) {
-    disconnect(mTransform->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update);
-    disconnect(mTransform->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update);
+  if (mPose) {
+    disconnect(mPose->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update);
+    disconnect(mPose->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update);
     disconnect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshUpdated, this, &WbPositionViewer::requestUpdate);
   }
 }
 
-void WbPositionViewer::show(WbPose *transform) {
-  if (mTransform)
-    disconnect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean);
+void WbPositionViewer::show(WbPose *pose) {
+  if (mPose)
+    disconnect(mPose, &WbPose::destroyed, this, &WbPositionViewer::clean);
 
-  mTransform = transform;
+  mPose = pose;
 
   updateRelativeToComboBox();
 
-  if (mTransform) {
-    connect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean, Qt::UniqueConnection);
+  if (mPose) {
+    connect(mPose, &WbPose::destroyed, this, &WbPositionViewer::clean, Qt::UniqueConnection);
 
     if (mIsSelected) {
-      connect(mTransform->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update,
-              Qt::UniqueConnection);
-      connect(mTransform->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
+      connect(mPose->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
+      connect(mPose->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
       connect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshUpdated, this, &WbPositionViewer::requestUpdate,
               Qt::UniqueConnection);
     }
@@ -101,21 +100,21 @@ void WbPositionViewer::requestUpdate() {
 }
 
 void WbPositionViewer::update() {
-  if (mIsSelected && mTransform) {
+  if (mIsSelected && mPose) {
     WbVector3 position(0, 0, 0);
     WbRotation rotation(0, 0, 0, 0);
     if (mRelativeToComboBox->currentIndex() == 0) {
-      position = mTransform->position();
-      rotation = WbRotation(mTransform->rotationMatrix());
+      position = mPose->position();
+      rotation = WbRotation(mPose->rotationMatrix());
       rotation.normalize();
     } else {
-      WbPose *transform = mTransform;
+      WbPose *pose = mPose;
       for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i)
-        transform = transform->upperTransform();
-      position = mTransform->position() - transform->position();
-      position = position * WbMatrix3(transform->rotation().toQuaternion());
-      WbRotation currentRotation = WbRotation(mTransform->rotationMatrix());
-      WbRotation referenceRotation = WbRotation(transform->rotationMatrix());
+        pose = pose->upperTransform();
+      position = mPose->position() - pose->position();
+      position = position * WbMatrix3(pose->rotation().toQuaternion());
+      WbRotation currentRotation = WbRotation(mPose->rotationMatrix());
+      WbRotation referenceRotation = WbRotation(pose->rotationMatrix());
       currentRotation.normalize();
       referenceRotation.normalize();
       if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 0 1 0
@@ -146,35 +145,35 @@ void WbPositionViewer::setSelected(bool selected) {
 }
 
 void WbPositionViewer::triggerPhysicsUpdates() {
-  if (mTransform == NULL)
+  if (mPose == NULL)
     return;
 
   if (mIsSelected) {
-    connect(mTransform->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
-    connect(mTransform->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
+    connect(mPose->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
+    connect(mPose->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update, Qt::UniqueConnection);
     connect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshUpdated, this, &WbPositionViewer::requestUpdate,
             Qt::UniqueConnection);
     update();
   } else {
-    disconnect(mTransform->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update);
-    disconnect(mTransform->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update);
+    disconnect(mPose->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update);
+    disconnect(mPose->rotationFieldValue(), &WbSFRotation::changed, this, &WbPositionViewer::update);
     disconnect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshUpdated, this, &WbPositionViewer::requestUpdate);
   }
 }
 
 void WbPositionViewer::updateRelativeToComboBox() {
   mRelativeToComboBox->clear();
-  if (mTransform) {
+  if (mPose) {
     mRelativeToComboBox->insertItem(0, tr("Absolute"));
     int i = 0;
-    WbPose *transform = mTransform->upperTransform();
-    while (transform) {
+    WbPose *pose = mPose->upperTransform();
+    while (pose) {
       ++i;
-      if (transform->nodeModelName() == transform->fullName())
-        mRelativeToComboBox->insertItem(i, tr("Relative to %1 (depth level %2)").arg(transform->fullName()).arg(i));
+      if (pose->nodeModelName() == pose->fullName())
+        mRelativeToComboBox->insertItem(i, tr("Relative to %1 (depth level %2)").arg(pose->fullName()).arg(i));
       else
-        mRelativeToComboBox->insertItem(i, tr("Relative to %1").arg(transform->fullName()));
-      transform = transform->upperTransform();
+        mRelativeToComboBox->insertItem(i, tr("Relative to %1").arg(pose->fullName()));
+      pose = pose->upperTransform();
     }
   }
 }

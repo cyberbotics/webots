@@ -425,22 +425,22 @@ QStringList WbPose::fieldsToSynchronizeWithX3D() const {
 WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
   const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
   const WbPose *childNode = this;
-  QList<const WbPose *> transformList;
+  QList<const WbPose *> poseList;
 
-  transformList.append(childNode);
+  poseList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
-    transformList.append(childNode);
+    poseList.append(childNode);
     assert(parentNode);
   }
 
-  WbPose *previousTransform = const_cast<WbPose *>(transformList.takeLast());
-  WbVector3 translationResult = previousTransform->translation();
-  while (transformList.size() > 0) {
-    const WbPose *transform = transformList.takeLast();
-    translationResult += previousTransform->rotation().toMatrix3() * transform->translation();
-    previousTransform = const_cast<WbPose *>(transform);
+  WbPose *previousPose = const_cast<WbPose *>(poseList.takeLast());
+  WbVector3 translationResult = previousPose->translation();
+  while (poseList.size() > 0) {
+    const WbPose *pose = poseList.takeLast();
+    translationResult += previousPose->rotation().toMatrix3() * pose->translation();
+    previousPose = const_cast<WbPose *>(pose);
   }
 
   return translationResult;
@@ -450,18 +450,18 @@ WbMatrix3 WbPose::rotationMatrixFrom(const WbNode *fromNode) const {
   const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
   const WbPose *childNode = this;
 
-  QList<const WbPose *> transformList;
-  transformList.append(childNode);
+  QList<const WbPose *> poseList;
+  poseList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
-    transformList.append(childNode);
+    poseList.append(childNode);
     assert(parentNode);
   }
 
-  WbMatrix3 rotationResult = transformList.takeLast()->rotation().toMatrix3();
-  while (transformList.size() > 0)
-    rotationResult *= transformList.takeLast()->rotation().toMatrix3();
+  WbMatrix3 rotationResult = poseList.takeLast()->rotation().toMatrix3();
+  while (poseList.size() > 0)
+    rotationResult *= poseList.takeLast()->rotation().toMatrix3();
 
   return rotationResult;
 }

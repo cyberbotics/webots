@@ -297,7 +297,7 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
-  void exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbPose *transform, const WbVector3 &offset) const;
+  void exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbPose *pose, const WbVector3 &offset) const;
 
   // list of finalized solids
   static QList<const WbSolid *> cSolids;
@@ -328,7 +328,7 @@ private:
   bool mResetPhysicsInStep;  // used to completely reset physics when the solid is also moved in the same step
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
-  void computePlaneParams(WbPose *transform, WbVector3 &n, double &d) const;
+  void computePlaneParams(WbPose *pose, WbVector3 &n, double &d) const;
   void resetJoints();  // reset joint to any linked solid to this one or to one of its descendants
   void setBodiesAndJointsToParents();
   void setJointChildrenWithReferencedEndpoint();

@@ -108,7 +108,7 @@ class WbDragScaleHandleEvent : public WbDragView3DEvent {
 
 public:
   WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                         WbAbstractPose *selectedTransform);
+                         WbAbstractPose *selectedPose);
   virtual ~WbDragScaleHandleEvent();
   void apply(const QPoint &currentMousePosition) override;
   virtual void addActionInUndoStack();
@@ -139,7 +139,7 @@ protected:
 class WbUniformScaleEvent : public WbDragScaleHandleEvent {
 public:
   WbUniformScaleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                      WbAbstractPose *selectedTransform);
+                      WbAbstractPose *selectedPose);
   void apply(const QPoint &currentMousePosition) override;
 };
 

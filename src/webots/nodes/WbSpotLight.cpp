@@ -95,9 +95,9 @@ WbSpotLight::~WbSpotLight() {
 
 WbVector3 WbSpotLight::computeAbsoluteLocation() const {
   WbVector3 location = mLocation->value();
-  WbPose *ut = upperTransform();
-  if (ut)
-    location = ut->matrix() * location;
+  WbPose *up = upperTransform();
+  if (up)
+    location = up->matrix() * location;
   return location;
 }
 
@@ -212,9 +212,9 @@ void WbSpotLight::checkAmbientAndAttenuationExclusivity() {
 }
 
 void WbSpotLight::attachToUpperTransform() {
-  WbPose *upperTransform = WbNodeUtilities::findUpperTransform(this);
-  if (upperTransform)
-    wr_transform_attach_child(upperTransform->wrenNode(), WR_NODE(mWrenLight));
+  WbPose *upperPose = WbNodeUtilities::findUpperTransform(this);
+  if (upperPose)
+    wr_transform_attach_child(upperPose->wrenNode(), WR_NODE(mWrenLight));
 }
 
 void WbSpotLight::detachFromUpperTransform() {

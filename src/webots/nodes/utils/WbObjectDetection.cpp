@@ -141,12 +141,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
   const WbBaseNode *referenceObject = boundingObject;
   if (useBoundingSphere)
     referenceObject = rootObject;
-  const WbPose *transform = dynamic_cast<const WbPose *>(referenceObject);
-  if (!transform)
-    transform = referenceObject->upperTransform();
-  assert(transform);
-  WbMatrix3 objectRotation = transform->rotationMatrix();
-  WbVector3 objectPosition = transform->matrix().translation();
+  const WbPose *pose = dynamic_cast<const WbPose *>(referenceObject);
+  if (!pose)
+    pose = referenceObject->upperTransform();
+  assert(pose);
+  WbMatrix3 objectRotation = pose->rotationMatrix();
+  WbVector3 objectPosition = pose->matrix().translation();
 
   if (nodeType == WB_NODE_SHAPE) {
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);
@@ -275,7 +275,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
     if (useBoundingSphere) {
       WbBoundingSphere *boundingSphere = rootObject->boundingSphere();
-      const WbVector3 &scale = transform->absoluteScale();
+      const WbVector3 &scale = pose->absoluteScale();
       const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
       objectSize.setXyz(size, size, size);
       // correct the object center

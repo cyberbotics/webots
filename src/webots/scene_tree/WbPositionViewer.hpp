@@ -33,7 +33,7 @@ public:
   explicit WbPositionViewer(QWidget *parent = NULL);
   virtual ~WbPositionViewer();
 
-  void show(WbPose *transform);
+  void show(WbPose *pose);
 
   void stopUpdating();
   void setSelected(bool selected);
@@ -47,7 +47,7 @@ public slots:
 private:
   void updateRelativeToComboBox();
 
-  WbPose *mTransform;
+  WbPose *mPose;
   bool mIsSelected;
 
   // relative to boxes

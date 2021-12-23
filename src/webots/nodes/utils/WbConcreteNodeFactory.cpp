@@ -424,6 +424,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbPointSet(original);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(original);
+  if (modelName == "Pose")
+    return new WbPose(original);
   if (modelName == "Propeller")
     return new WbPropeller(original);
   if (modelName == "Radar")
@@ -468,8 +470,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbTrack(original);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(original);
-  if (modelName == "Transform")
-    return new WbPose(original);
   if (modelName == "Viewpoint")
     return new WbViewpoint(original);
   if (modelName == "WorldInfo")

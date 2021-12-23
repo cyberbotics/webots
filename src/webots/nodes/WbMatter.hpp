@@ -49,7 +49,7 @@ public:
 
   // ODE objects accessors
   dGeomID odeGeom() const;
-  dSpaceID upperSpace() const;  // the smallest ODE space containing the boudingObject, possibly itself
+  dSpaceID upperSpace() const;  // the smallest ODE space containing the boundingObject, possibly itself
   dSpaceID space() const;       // the largest space containing the boundingObject
   dSpaceID groupSpace() const;  // returns the ODE space associated to a Group if the bounding object is a group
 
@@ -160,7 +160,7 @@ private:
 
   dGeomID createOdeGeomFromGroup(dSpaceID space, WbGroup *group);
   dGeomID createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry, bool setOdeData = true);
-  dGeomID createOdeGeomFromTransform(dSpaceID space, WbPose *transform);
+  dGeomID createOdeGeomFromTransform(dSpaceID space, WbPose *pose);
   void disconnectFromBoundingObjectUpdates(const WbNode *node) const;
 
   virtual void createOdeGeoms() = 0;

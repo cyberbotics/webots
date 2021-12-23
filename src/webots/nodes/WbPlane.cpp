@@ -284,18 +284,18 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbPose *transform = upperTransform();
+  WbPose *pose = upperTransform();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal
 
-  if (transform) {
-    const WbMatrix3 &m3 = transform->rotationMatrix();
-    // Applies this transform's rotation to plane normal
+  if (pose) {
+    const WbMatrix3 &m3 = pose->rotationMatrix();
+    // Applies this pose's rotation to plane normal
     n = m3 * n;
 
     // Computes the d parameter in the plane equation
-    d = transform->position().dot(n);
+    d = pose->position().dot(n);
   } else
     d = 0.0;
 }
@@ -313,9 +313,9 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform intersection point to plane coordinates
   WbVector3 pointOnTexture(collisionPoint);
-  const WbPose *const transform = upperTransform();
-  if (transform) {
-    pointOnTexture = transform->matrix().pseudoInversed(collisionPoint);
+  const WbPose *const pose = upperTransform();
+  if (pose) {
+    pointOnTexture = pose->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();
   }
 

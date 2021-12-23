@@ -114,11 +114,11 @@ void WbNodePane::edit(bool copyOriginalValue) {
     mNodeEditor->edit(false);
     enableTab(NODE_TAB, mNodeEditor, true);
 
-    WbPose *t = dynamic_cast<WbPose *>(node);
+    WbPose *p = dynamic_cast<WbPose *>(node);
     WbSolid *s = dynamic_cast<WbSolid *>(node);
     mPhysicsViewer->show(s);
-    mPositionViewer->show(t);
-    enableTab(POSITION_TAB, mPositionViewer, t != NULL);
+    mPositionViewer->show(p);
+    enableTab(POSITION_TAB, mPositionViewer, p != NULL);
     mVelocityViewer->show(s);
     enableTab(VELOCITY_TAB, mVelocityViewer, s != NULL);
   }

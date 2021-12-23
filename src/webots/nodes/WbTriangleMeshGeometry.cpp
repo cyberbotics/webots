@@ -129,9 +129,9 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
+  WbPose *pose = upperTransform();
+  if (pose)
+    scale *= pose->matrix().scale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -379,9 +379,9 @@ bool WbTriangleMeshGeometry::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, i
   WbVector3 v1(mTriangleMesh->vertex(t, 1, 0), mTriangleMesh->vertex(t, 1, 1), mTriangleMesh->vertex(t, 1, 2));
   WbVector3 v2(mTriangleMesh->vertex(t, 2, 0), mTriangleMesh->vertex(t, 2, 1), mTriangleMesh->vertex(t, 2, 2));
 
-  const WbPose *const transform = upperTransform();
-  if (transform) {
-    const WbMatrix4 &m = transform->matrix();
+  const WbPose *const pose = upperTransform();
+  if (pose) {
+    const WbMatrix4 &m = pose->matrix();
     v0 = m * v0;
     v1 = m * v1;
     v2 = m * v2;
@@ -415,10 +415,10 @@ double WbTriangleMeshGeometry::computeLocalCollisionPoint(WbVector3 &point, int 
     return false;
 
   WbRay localRay(ray);
-  WbPose *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  WbPose *pose = upperTransform();
+  if (pose) {
+    localRay.setDirection(ray.direction() * pose->matrix());
+    WbVector3 origin = pose->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

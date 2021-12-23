@@ -38,18 +38,18 @@ class WbViewpoint;
 // WbDragTransformEvent class (abstract) : change the position or the orientation of a transform node
 class WbDragTransformEvent : public WbDragKinematicsEvent {
 public:
-  WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedTransform);
+  WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
   virtual ~WbDragTransformEvent();
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
-  WbAbstractPose *mSelectedTransform;
+  WbAbstractPose *mSelectedPose;
 };
 
 // another abstract layer:
 class WbTranslateEvent : public WbDragTransformEvent {
 public:
-  WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedTransform);
+  WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
   virtual ~WbTranslateEvent();
   void apply(const QPoint &currentMousePosition) override = 0;
 
@@ -67,7 +67,7 @@ protected:
 // WbDragHorizontalEvent class
 class WbDragHorizontalEvent : public WbTranslateEvent {
 public:
-  WbDragHorizontalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedTransform);
+  WbDragHorizontalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
   virtual ~WbDragHorizontalEvent();
   void apply(const QPoint &currentMousePosition) override;
 
@@ -80,7 +80,7 @@ private:
 // WbDragVerticalEvent class
 class WbDragVerticalEvent : public WbTranslateEvent {
 public:
-  WbDragVerticalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedTransform);
+  WbDragVerticalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
   virtual ~WbDragVerticalEvent();
   void apply(const QPoint &currentMousePosition) override;
 
@@ -95,7 +95,7 @@ class WbDragTranslateAlongAxisEvent : public WbDragTransformEvent {
 
 public:
   WbDragTranslateAlongAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize, WbViewpoint *viewpoint,
-                                int handleNumber, WbAbstractPose *selectedTransform);
+                                int handleNumber, WbAbstractPose *selectedPose);
   virtual ~WbDragTranslateAlongAxisEvent();
   void apply(const QPoint &currentMousePosition) override;
 
@@ -120,7 +120,7 @@ class WbDragRotateAroundWorldVerticalAxisEvent : public WbDragTransformEvent {
 
 public:
   WbDragRotateAroundWorldVerticalAxisEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint,
-                                           WbAbstractPose *selectedTransform);
+                                           WbAbstractPose *selectedPose);
   virtual ~WbDragRotateAroundWorldVerticalAxisEvent();
   void apply(const QPoint &currentMousePosition) override;
 
@@ -137,7 +137,7 @@ class WbDragRotateAroundAxisEvent : public WbDragTransformEvent {
 
 public:
   WbDragRotateAroundAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize, WbViewpoint *viewpoint,
-                              int handleNumber, WbAbstractPose *selectedTransform);
+                              int handleNumber, WbAbstractPose *selectedPose);
   virtual ~WbDragRotateAroundAxisEvent();
   void apply(const QPoint &currentMousePosition) override;
 
