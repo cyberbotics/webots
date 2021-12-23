@@ -6249,7 +6249,7 @@ Desideri salvarlo prima di chiudere?</translation>
     </message>
 </context>
 <context>
-    <name>WbTransform</name>
+    <name>WbPose</name>
     <message>
         <source>A Transform placed in &apos;boundingObject&apos; needs a Geometry or Shape as its first child to be valid.</source>
         <translation type="unfinished"></translation>

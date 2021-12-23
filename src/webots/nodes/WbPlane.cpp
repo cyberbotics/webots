@@ -19,11 +19,11 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbVrmlWriter.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -170,7 +170,7 @@ void WbPlane::createResizeManipulator() {
 
 void WbPlane::setResizeManipulatorDimensions() {
   WbVector3 scale(size().x(), 0.1f * std::min(mSize->value().x(), mSize->value().y()), size().y());
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
@@ -284,7 +284,7 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal
@@ -313,7 +313,7 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform intersection point to plane coordinates
   WbVector3 pointOnTexture(collisionPoint);
-  const WbTransform *const transform = upperTransform();
+  const WbPose *const transform = upperTransform();
   if (transform) {
     pointOnTexture = transform->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();

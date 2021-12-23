@@ -365,14 +365,14 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
   if (t) {
     if (backupPrevious)
       previousT = new WbVector3(translation());
-    WbTransform::setTranslation(*t);
+    WbPose::setTranslation(*t);
   }
 
   const WbRotation *const r = hkp->rotation();
   if (r) {
     if (backupPrevious)
       previousR = new WbRotation(rotation());
-    WbTransform::setRotation(*r);
+    WbPose::setRotation(*r);
   }
 
   const PositionMap *const m = hkp->positions();
@@ -830,7 +830,7 @@ void WbSolid::createOdeObjects() {
   }
 
   // Recurses through solid descendants
-  WbTransform::createOdeObjects();
+  WbPose::createOdeObjects();
 }
 
 // Sets recursively every ODE object which was not set during solid merger settings, i.e. bodies and joints to parents
@@ -993,7 +993,7 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
   emit massPropertiesChanged();
 }
 
-void WbSolid::addMassFromInsertedNode(WbBaseNode *node) {  // node is a WbGeometry or a WbTransform
+void WbSolid::addMassFromInsertedNode(WbBaseNode *node) {  // node is a WbGeometry or a WbPose
   assert(isDynamic() && mSolidMerger);
   addMass(node);
   adjustOdeMass();
@@ -1943,7 +1943,7 @@ void WbSolid::applyPhysicsTransform() {
     dBodyGetRelPointPos(b, -com.x(), -com.y(), -com.z(), result);
   assert(!std::isnan(result[0]));
   // printf("new body pos = %f, %f, %f (apply phy.)\n", result[0], result[1], result[2]);
-  const WbTransform *const ut = upperTransform();
+  const WbPose *const ut = upperTransform();
   if (ut) {
     const double invUtScale = 1.0 / ut->absoluteScale().x();
     const double scaleFactor = invUtScale * invUtScale;
@@ -1976,7 +1976,7 @@ void WbSolid::applyPhysicsTransform() {
   qr[2] *= normInv;
   qr[3] *= normInv;
 
-  // block signals from WbTransform (baseclass): we don't want to update the bodies and the geoms
+  // block signals from WbPose (baseclass): we don't want to update the bodies and the geoms
   // printf("pos = %f, %f, %f\n", result[0], result[1], result[2]);
   setTransformFromOde(result[0], result[1], result[2], qr[1], qr[2], qr[3], angle);
 }
@@ -2149,7 +2149,7 @@ void WbSolid::setMatrixNeedUpdate() {
   if (g)
     g->setMatrixNeedUpdate();
 
-  WbTransform::setMatrixNeedUpdate();
+  WbPose::setMatrixNeedUpdate();
 }
 
 void WbSolid::reset(const QString &id) {
@@ -2227,10 +2227,10 @@ void WbSolid::jerk(bool resetVelocities, bool rootJerk) {
     emit positionChangedArtificially();
 }
 
-void WbSolid::notifyChildJerk(WbTransform *childNode) {
+void WbSolid::notifyChildJerk(WbPose *childNode) {
   WbNode *node = childNode->parentNode();
   while (node != this && node != NULL) {
-    if (mMovedChildren.contains(dynamic_cast<WbTransform *>(node)))
+    if (mMovedChildren.contains(dynamic_cast<WbPose *>(node)))
       return;
     node = node->parentNode();
   }
@@ -2240,7 +2240,7 @@ void WbSolid::notifyChildJerk(WbTransform *childNode) {
 
 void WbSolid::childrenJerk() {
   updateOdeGeomPosition();
-  foreach (WbTransform *childNode, mMovedChildren) {
+  foreach (WbPose *childNode, mMovedChildren) {
     QVector<WbSolid *> solidChildren;
     QVector<WbBasicJoint *> jointChildren;
     QVector<WbPropeller *> propellerChildren;
@@ -2914,7 +2914,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbPose *transform,
                               const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
@@ -2963,7 +2963,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
           const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
           const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
           if (box || cylinder || sphere || capsule) {
-            const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
+            const WbPose *transform = WbNodeUtilities::findUpperTransform(node);
             QList<QPair<QString, WbVector3>> geometries;  // string of the geometry and its offset
 
             if (box) {

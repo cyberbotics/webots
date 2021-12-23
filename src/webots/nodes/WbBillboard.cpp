@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "WbBillboard.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 

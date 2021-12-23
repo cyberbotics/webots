@@ -258,10 +258,10 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
       for (int j = 0; j < g->childCount(); ++j)
         geometryNodes.append(g->child(j));
 
-      WbTransform *t = dynamic_cast<WbTransform *>(g);
+      WbPose *t = dynamic_cast<WbPose *>(g);
       if (t) {
         t->enablePoseChangedSignal();
-        connect(t, &WbTransform::poseChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
+        connect(t, &WbPose::poseChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
       }
 
       continue;

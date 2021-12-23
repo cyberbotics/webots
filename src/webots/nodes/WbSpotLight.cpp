@@ -18,12 +18,12 @@
 #include "WbFieldChecker.hpp"
 #include "WbMFColor.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSpotLightRepresentation.hpp"
-#include "WbTransform.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -95,7 +95,7 @@ WbSpotLight::~WbSpotLight() {
 
 WbVector3 WbSpotLight::computeAbsoluteLocation() const {
   WbVector3 location = mLocation->value();
-  WbTransform *ut = upperTransform();
+  WbPose *ut = upperTransform();
   if (ut)
     location = ut->matrix() * location;
   return location;
@@ -212,7 +212,7 @@ void WbSpotLight::checkAmbientAndAttenuationExclusivity() {
 }
 
 void WbSpotLight::attachToUpperTransform() {
-  WbTransform *upperTransform = WbNodeUtilities::findUpperTransform(this);
+  WbPose *upperTransform = WbNodeUtilities::findUpperTransform(this);
   if (upperTransform)
     wr_transform_attach_child(upperTransform->wrenNode(), WR_NODE(mWrenLight));
 }

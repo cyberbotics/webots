@@ -74,8 +74,8 @@ struct WbTrackedFieldInfo {
 };
 
 struct WbTrackedPoseInfo {
-  WbTransform *fromNode;
-  WbTransform *toNode;
+  WbPose *fromNode;
+  WbPose *toNode;
   int samplingPeriod;
   double lastUpdate;
 };
@@ -811,7 +811,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_position()");
-      WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+      WbPose *const transform = dynamic_cast<WbPose *>(node);
       mNodeGetPosition = transform;
       if (!transform)
         mRobot->warn(tr("wb_supervisor_node_get_position() can exclusively be used with Transform (or derived)."));
@@ -823,7 +823,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_orientation()");
-      WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+      WbPose *const transform = dynamic_cast<WbPose *>(node);
       mNodeGetOrientation = transform;
       if (!transform)
         mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."));
@@ -838,12 +838,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       if (idFrom) {
         WbNode *const fromNode = getProtoParameterNodeInstance(idFrom, "wb_supervisor_node_get_pose()");
-        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(fromNode);
+        WbPose *const transformFrom = dynamic_cast<WbPose *>(fromNode);
         mNodeGetPose.first = transformFrom;
       } else
         mNodeGetPose.first = NULL;
       WbNode *const toNode = getProtoParameterNodeInstance(idTo, "wb_supervisor_node_get_pose()");
-      WbTransform *const transformTo = dynamic_cast<WbTransform *>(toNode);
+      WbPose *const transformTo = dynamic_cast<WbPose *>(toNode);
       mNodeGetPose.second = transformTo;
 
       if (!transformTo)
@@ -1249,8 +1249,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       if (enable) {
         WbTrackedPoseInfo trackedPose;
-        trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
-        trackedPose.toNode = dynamic_cast<WbTransform *>(toNode);
+        trackedPose.fromNode = dynamic_cast<WbPose *>(fromNode);
+        trackedPose.toNode = dynamic_cast<WbPose *>(toNode);
         trackedPose.samplingPeriod = samplingPeriod;
         trackedPose.lastUpdate = -INFINITY;
         mTrackedPoses.append(trackedPose);
@@ -1739,7 +1739,7 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(QDataStream &stream, 
   }
 }
 
-void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
+void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbPose *fromNode, WbPose *toNode) {
   WbMatrix4 m;
 
   WbMatrix4 mTo(toNode->matrix());

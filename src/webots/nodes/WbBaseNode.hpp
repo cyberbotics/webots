@@ -25,8 +25,8 @@
 #include "../../../include/controller/c/webots/nodes.h"
 #include "WbNode.hpp"
 
-class WbTransform;  // TODO: remove this dependency: a class should not have a dependency on its subclass
-class WbSolid;      // TODO: remove this dependency: a class should not have a dependency on its subclass
+class WbPose;   // TODO: remove this dependency: a class should not have a dependency on its subclass
+class WbSolid;  // TODO: remove this dependency: a class should not have a dependency on its subclass
 class WbBoundingSphere;
 
 struct WrTransform;
@@ -56,7 +56,7 @@ public:
   virtual int nodeType() const = 0;
 
   // updates material of all WbGeometry descendants lying into a bounding object
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbShape and WbGeometry
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbShape and WbGeometry
   virtual void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) {}
   virtual void setSleepMaterial() {}
 
@@ -64,11 +64,11 @@ public:
   virtual void propagateSelection(bool selected) {}
 
   // Method used to cache absolute scale values
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbSolid, WbShape and WbIndexedFaceSet
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbSolid, WbShape and WbIndexedFaceSet
   virtual void setScaleNeedUpdate() {}
 
   // informs all children that their matrices need to be recomputed (inherited from WbGroup)
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbSolid, WbPropeller
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbSolid, WbPropeller
   virtual void setMatrixNeedUpdate() {}
 
   // update context of PROTO parameter node instances
@@ -81,7 +81,7 @@ public:
   void setWrenNode(WrTransform *n) { mWrenNode = n; }
 
   // return the closest descendant node(s) with dedicated Wren node (may be the node itself)
-  // only WbBillboard, WbGeometry, WbTransform, and WbMuscle have a dedicated Wren node
+  // only WbBillboard, WbGeometry, WbPose, and WbMuscle have a dedicated Wren node
   // used to properly apply Wren settings only to the current/descendant nodes and not to parent and sibling nodes
   virtual QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const {
     return QList<const WbBaseNode *>();
@@ -99,7 +99,7 @@ public:
   bool isInBoundingObject() const;
   WbSolid *upperSolid() const;
   WbSolid *topSolid() const;
-  WbTransform *upperTransform() const;
+  WbPose *upperTransform() const;
   // Cached function that can change if new USE nodes are added
   // return if this node or any of its instances is used in boundingObject
   WbNode::NodeUse nodeUse() const;
@@ -172,7 +172,7 @@ private:
   //         -> migrate the search/cache code into not const functions called when setting the parent
   mutable bool mIsInBoundingObject;
   mutable bool mBoundingObjectFirstTimeSearch;
-  mutable WbTransform *mUpperTransform;
+  mutable WbPose *mUpperTransform;
   mutable bool mUpperTransformFirstTimeSearch;
   mutable WbSolid *mUpperSolid;
   mutable bool mUpperSolidFirstTimeSearch;

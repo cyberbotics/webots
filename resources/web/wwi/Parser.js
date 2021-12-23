@@ -27,7 +27,7 @@ import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbTransform from './nodes/WbTransform.js';
+import WbPose from './nodes/WbPose.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
@@ -388,7 +388,7 @@ export default class Parser {
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
-    const transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    const transform = new WbPose(id, isSolid, translation, scale, rotation);
 
     WbWorld.instance.nodes.set(transform.id, transform);
 

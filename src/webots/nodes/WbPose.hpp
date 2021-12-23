@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_TRANSFORM_HPP
-#define WB_TRANSFORM_HPP
+#ifndef WB_POSE_HPP
+#define WB_POSE_HPP
 
 //
 // Description: a node that defines a 3D coordinate system transformation
@@ -25,15 +25,15 @@
 #include "WbGroup.hpp"
 #include "WbShape.hpp"
 
-class WbTransform : public WbGroup, public WbAbstractPose {
+class WbPose : public WbGroup, public WbAbstractPose {
   Q_OBJECT
 
 public:
   // constructors and destructor
-  explicit WbTransform(WbTokenizer *tokenizer = NULL);
-  WbTransform(const WbTransform &other);
-  explicit WbTransform(const WbNode &other);
-  virtual ~WbTransform();
+  explicit WbPose(WbTokenizer *tokenizer = NULL);
+  WbPose(const WbPose &other);
+  explicit WbPose(const WbNode &other);
+  virtual ~WbPose();
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
@@ -61,7 +61,7 @@ public:
   // Scaling
   int constraintType() const override;
 
-  // update of ODE data stored in geometry() for WbTransform lying into a boundingObject
+  // update of ODE data stored in geometry() for WbPose lying into a boundingObject
   void applyToOdeData(bool correctMass = true);
 
   // for a Transform lying into a boundingObject
@@ -107,7 +107,7 @@ signals:
 
 protected:
   // this constructor is reserved for derived classes only
-  WbTransform(const QString &modelName, WbTokenizer *tokenizer);
+  WbPose(const QString &modelName, WbTokenizer *tokenizer);
   void applyToScale() override;
 
   void createScaleManipulator() override;
@@ -117,8 +117,8 @@ protected slots:
   void updateConstrainedHandleMaterials();
 
 private:
-  WbTransform &operator=(const WbTransform &);  // non copyable
-  WbNode *clone() const override { return new WbTransform(*this); }
+  WbPose &operator=(const WbPose &);  // non copyable
+  WbNode *clone() const override { return new WbPose(*this); }
   void init();
 
   // Positions and orientations storage
@@ -140,7 +140,7 @@ private slots:
   void notifyJerk();
 };
 
-inline WbGeometry *WbTransform::geometry() const {
+inline WbGeometry *WbPose::geometry() const {
   if (childCount() == 0)
     return NULL;
 

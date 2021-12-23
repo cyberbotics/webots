@@ -19,12 +19,12 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbVector2.hpp"
 
 #include <wren/renderable.h>
@@ -85,7 +85,7 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
 
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
@@ -316,7 +316,7 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
 
-  const WbTransform *const transform = upperTransform();
+  const WbPose *const transform = upperTransform();
   if (transform) {
     direction = ray.direction() * transform->matrix();
     direction.normalize();

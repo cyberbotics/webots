@@ -507,7 +507,7 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   }
 
   // Handles scale
-  const WbTransform *const ut = upperTransform();
+  const WbPose *const ut = upperTransform();
   const double scale = ut->absoluteScale().x();
   double s4 = scale * scale;
   s4 *= scale;

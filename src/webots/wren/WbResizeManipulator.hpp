@@ -34,7 +34,7 @@ public:
   explicit WbPlaneResizeManipulator(int uniqueId);
 };
 
-// Scale manipulator for WbTransform
+// Scale manipulator for WbPose
 class WbScaleManipulator : public WbWrenAbstractResizeManipulator {
   Q_OBJECT
 

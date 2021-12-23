@@ -484,19 +484,19 @@ void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
 
 // Utility functions
 
-WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbTransform lying in the same boundingObject if it does
+WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbPose lying in the same boundingObject if it does
                                                  // exist, otherwise the WbGeometry itself
-  WbTransform *const ut = upperTransform();
+  WbPose *const ut = upperTransform();
   return ut->isInBoundingObject() ? static_cast<WbBaseNode *>(ut) : static_cast<WbBaseNode *>(this);
 }
 
 const WbVector3 WbGeometry::absoluteScale() const {
-  const WbTransform *const ut = upperTransform();
+  const WbPose *const ut = upperTransform();
   return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 WbVector3 WbGeometry::absolutePosition() const {
-  const WbTransform *const ut = upperTransform();
+  const WbPose *const ut = upperTransform();
   return ut ? ut->position() : WbVector3();
 }
 
@@ -561,7 +561,7 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
   if (!isInBoundingObject())
     return false;
 
-  const WbTransform *const ut = upperTransform();
+  const WbPose *const ut = upperTransform();
   if (ut && ut->isInBoundingObject() && ut->geometry() != this)
     return false;
 
@@ -589,7 +589,7 @@ bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
 ////////////////////////////////
 
 WbMatrix4 WbGeometry::matrix() const {
-  const WbTransform *ut = upperTransform();
+  const WbPose *ut = upperTransform();
   if (!ut)
     return WbMatrix4();
   if (!ut->isInBoundingObject())

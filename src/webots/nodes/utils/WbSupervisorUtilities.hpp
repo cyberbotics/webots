@@ -32,7 +32,7 @@ class WbFieldSetRequest;
 class WbBaseNode;
 class WbNode;
 class WbRobot;
-class WbTransform;
+class WbPose;
 class WbSolid;
 class WbWrenLabelOverlay;
 class WbField;
@@ -88,9 +88,9 @@ private:
   int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
-  WbTransform *mNodeGetPosition;
-  WbTransform *mNodeGetOrientation;
-  QPair<WbTransform *, WbTransform *> mNodeGetPose;
+  WbPose *mNodeGetPosition;
+  WbPose *mNodeGetOrientation;
+  QPair<WbPose *, WbPose *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
   int mNodeIdGetContactPoints;
@@ -123,7 +123,7 @@ private:
   struct WbFieldGetRequest *mFieldGetRequest;
 
   void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
-  void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
+  void pushRelativePoseToStream(QDataStream &stream, WbPose *fromNode, WbPose *toNode);
   void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();

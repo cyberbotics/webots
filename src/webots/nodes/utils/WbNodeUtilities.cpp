@@ -99,7 +99,7 @@ namespace {
         children += getNodeChildrenForBackwardCompatibility(child);
         children.removeOne(child);
       }
-    if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+    if (!dynamic_cast<WbPose *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
         !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
       children += boundingObject->subNodes(false, false);
     else if (boundingObject)
@@ -707,13 +707,13 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
   return dynamic_cast<WbSolid *>(upperMatter);
 }
 
-WbTransform *WbNodeUtilities::findUppermostTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUppermostTransform(const WbNode *node) {
   const WbNode *n = node;
-  WbTransform *uppermostTransform = NULL;
+  WbPose *uppermostTransform = NULL;
   while (n) {
-    const WbTransform *transform = dynamic_cast<const WbTransform *>(n);
+    const WbPose *transform = dynamic_cast<const WbPose *>(n);
     if (transform)
-      uppermostTransform = const_cast<WbTransform *>(transform);
+      uppermostTransform = const_cast<WbPose *>(transform);
     n = n->parentNode();
   };
   return uppermostTransform;
@@ -761,13 +761,13 @@ WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
   return topSolid;
 }
 
-WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUpperTransform(const WbNode *node) {
   if (node == NULL)
     return NULL;
 
   WbNode *n = node->parentNode();
   while (n) {
-    WbTransform *const transform = dynamic_cast<WbTransform *>(n);
+    WbPose *const transform = dynamic_cast<WbPose *>(n);
     if (transform)
       return transform;
     else
@@ -1140,7 +1140,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       // Rotate the device.
       if (candidate != node) {
-        WbTransform *const device = static_cast<WbTransform *>(candidate);
+        WbPose *const device = static_cast<WbPose *>(candidate);
         device->setRotation(WbRotation(device->rotation().toMatrix3() * rotationFix));
         device->save("__init__");
       }
@@ -1150,7 +1150,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         if (!getNodeChildrenAndBoundingForBackwardCompatibility(candidate).contains(child))
           continue;
 
-        WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
+        WbPose *childTransform = dynamic_cast<WbPose *>(child);
         if (childTransform) {
           // Squash transforms if possible.
           childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
@@ -1160,7 +1160,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
             child->info(message.arg("A2_1"));
-            WbTransform *const transform = new WbTransform();
+            WbPose *const transform = new WbPose();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
@@ -1170,7 +1170,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           } else {
             // Child is under the `children` field.
             child->info(message.arg("A2_2"));
-            WbTransform *const transform = new WbTransform();
+            WbPose *const transform = new WbPose();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
@@ -1189,7 +1189,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
-      WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
+      WbPose *const parentTransform = dynamic_cast<WbPose *>(parent);
       if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
         // Squash transforms if possible.
         candidate->info(message.arg("B1"));
@@ -1207,13 +1207,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     if (subProto->proto() &&
         (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
          subProto->proto()->fileName().contains("Bc21bCameraProto.proto")) &&
-        dynamic_cast<WbTransform *>(subProto)) {
+        dynamic_cast<WbPose *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
       // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
 
       subProto->info(message.arg("C"));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
-      WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
+      WbPose *const subProtoTransform = static_cast<WbPose *>(subProto);
       subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
       subProtoTransform->save("__init__");
     } else if (!node->isWorldRoot())
@@ -1373,7 +1373,7 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
 }
 
 WbAbstractPose *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
-  WbAbstractPose *abstractTransform = dynamic_cast<WbTransform *>(node);
+  WbAbstractPose *abstractTransform = dynamic_cast<WbPose *>(node);
   if (abstractTransform)
     return abstractTransform;
 

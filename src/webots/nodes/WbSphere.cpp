@@ -21,13 +21,13 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTokenizer.hpp"
-#include "WbTransform.hpp"
 #include "WbVersion.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -94,7 +94,7 @@ void WbSphere::createWrenObjects() {
 
 void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
@@ -365,7 +365,7 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
   if (!collisionExists)
     return false;
 
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   WbVector3 pointOnTexture(collisionPoint);
   if (transform) {
     pointOnTexture = transform->matrix().pseudoInversed(collisionPoint);
@@ -392,7 +392,7 @@ double WbSphere::computeDistance(const WbRay &ray) const {
 
 bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbVector3 center;
-  const WbTransform *const transform = upperTransform();
+  const WbPose *const transform = upperTransform();
   if (transform)
     center = transform->matrix().translation();
   double radius = scaledRadius();

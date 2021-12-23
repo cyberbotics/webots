@@ -15,8 +15,8 @@
 #include "WbPositionViewer.hpp"
 
 #include "WbGuiRefreshOracle.hpp"
+#include "WbPose.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLabel>
@@ -62,7 +62,7 @@ WbPositionViewer::~WbPositionViewer() {
 
 void WbPositionViewer::clean() {
   if (mTransform)
-    disconnect(mTransform, &WbTransform::destroyed, this, &WbPositionViewer::clean);
+    disconnect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean);
   mTransform = NULL;
 }
 
@@ -74,16 +74,16 @@ void WbPositionViewer::stopUpdating() {
   }
 }
 
-void WbPositionViewer::show(WbTransform *transform) {
+void WbPositionViewer::show(WbPose *transform) {
   if (mTransform)
-    disconnect(mTransform, &WbTransform::destroyed, this, &WbPositionViewer::clean);
+    disconnect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean);
 
   mTransform = transform;
 
   updateRelativeToComboBox();
 
   if (mTransform) {
-    connect(mTransform, &WbTransform::destroyed, this, &WbPositionViewer::clean, Qt::UniqueConnection);
+    connect(mTransform, &WbPose::destroyed, this, &WbPositionViewer::clean, Qt::UniqueConnection);
 
     if (mIsSelected) {
       connect(mTransform->translationFieldValue(), &WbSFVector3::changed, this, &WbPositionViewer::update,
@@ -109,7 +109,7 @@ void WbPositionViewer::update() {
       rotation = WbRotation(mTransform->rotationMatrix());
       rotation.normalize();
     } else {
-      WbTransform *transform = mTransform;
+      WbPose *transform = mTransform;
       for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i)
         transform = transform->upperTransform();
       position = mTransform->position() - transform->position();
@@ -167,7 +167,7 @@ void WbPositionViewer::updateRelativeToComboBox() {
   if (mTransform) {
     mRelativeToComboBox->insertItem(0, tr("Absolute"));
     int i = 0;
-    WbTransform *transform = mTransform->upperTransform();
+    WbPose *transform = mTransform->upperTransform();
     while (transform) {
       ++i;
       if (transform->nodeModelName() == transform->fullName())

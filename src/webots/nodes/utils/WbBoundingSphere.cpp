@@ -17,11 +17,11 @@
 #include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbRotation.hpp"
 #include "WbShape.hpp"
 #include "WbSkin.hpp"
-#include "WbTransform.hpp"
 
 #include <cassert>
 

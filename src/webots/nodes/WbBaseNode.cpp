@@ -181,7 +181,7 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
-WbTransform *WbBaseNode::upperTransform() const {
+WbPose *WbBaseNode::upperTransform() const {
   if (mUpperTransformFirstTimeSearch) {
     mUpperTransform = WbNodeUtilities::findUpperTransform(this);
     if (areWrenObjectsInitialized())
@@ -279,8 +279,8 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
     WbVector3 rotationEuler;
     const WbNode *const upperLinkRoot = findUrdfLinkRoot();
 
-    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
-      const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
+    if (dynamic_cast<const WbPose *>(this) && dynamic_cast<const WbPose *>(upperLinkRoot)) {
+      const WbPose *const upperLinkRootTransform = static_cast<const WbPose *>(this);
       translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
       rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
     }

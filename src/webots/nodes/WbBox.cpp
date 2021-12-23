@@ -21,10 +21,10 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -89,7 +89,7 @@ void WbBox::createWrenObjects() {
 
 void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
@@ -362,7 +362,7 @@ double WbBox::computeDistance(const WbRay &ray) const {
 
 double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbRay localRay(ray);
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform) {
     localRay.setDirection(ray.direction() * transform->matrix());
     WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());

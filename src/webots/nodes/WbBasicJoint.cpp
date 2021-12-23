@@ -420,7 +420,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   assert(s);
 
   if (solidReference()) {
-    const WbTransform *const ut = upperTransform();
+    const WbPose *const ut = upperTransform();
     WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
     double scale = 1.0 / ut->absoluteScale().x();
     scale *= scale;

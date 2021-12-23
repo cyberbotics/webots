@@ -19,11 +19,11 @@
 #include "WbMFColor.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPerspective.hpp"
+#include "WbPose.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
-#include "WbTransform.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 

@@ -485,7 +485,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
               deviceObject.insert("track", "true");
             break;
           } else {
-            const WbAbstractTransform *transform = dynamic_cast<const WbAbstractTransform *>(parent);
+            const WbAbstractPose *transform = dynamic_cast<const WbAbstractPose *>(parent);
             if (transform)
               m *= transform->vrmlMatrix();
           }

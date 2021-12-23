@@ -300,7 +300,7 @@ WbVector3 WbSliderJoint::anchor() const {
     return mEndPointZeroTranslation;
   else if (s) {
     const WbVector3 &a = s->position();
-    const WbTransform *const ut = upperTransform();
+    const WbPose *const ut = upperTransform();
     WbVector3 an = ut->matrix().pseudoInversed(a);
     double scale = ut->absoluteScale().x();
     an /= scale * scale;

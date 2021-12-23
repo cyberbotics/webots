@@ -1919,7 +1919,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       return;
 
     WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedAbstractTransform());
-    WbTransform *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
+    WbPose *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
     if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton)) {

@@ -20,8 +20,8 @@
 #include "WbElevationGrid.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMesh.hpp"
+#include "WbPose.hpp"
 #include "WbSphere.hpp"
-#include "WbTransform.hpp"
 
 #include <ode/ode.h>
 
@@ -68,8 +68,8 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   dMass m;
   dMassSetZero(&m);
 
-  // The WbTransform case must come before the WbGroup case
-  const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+  // The WbPose case must come before the WbGroup case
+  const WbPose *const transform = dynamic_cast<WbPose *>(node);
   if (transform) {
     WbGeometry *geometry = transform->geometry();
 
@@ -96,7 +96,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     return;
   }
 
-  // The case of a WbGroup which is NOT a WbTransform
+  // The case of a WbGroup which is NOT a WbPose
   const WbGroup *const group = dynamic_cast<WbGroup *>(node);
   if (group) {
     WbMFNode::Iterator it(group->children());
@@ -224,7 +224,7 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
   if (node == NULL)
     return false;
 
-  const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+  const WbPose *const transform = dynamic_cast<WbPose *>(node);
   // cppcheck-suppress knownConditionTrueFalse
   if (transform) {
     WbNode *child = transform->child(0);

@@ -6231,7 +6231,7 @@ Shouhaitez-vous le sauvegarder avant de fermer ?</translation>
     </message>
 </context>
 <context>
-    <name>WbTransform</name>
+    <name>WbPose</name>
     <message>
         <source>A Transform placed in &apos;boundingObject&apos; needs a Geometry or Shape as its first child to be valid.</source>
         <translation>Une Transform placée dans un &apos;boundingObject&apos; a besoin d&apos;une Geometry ou d&apos;une Shape comme premier enfant pour être valide.</translation>

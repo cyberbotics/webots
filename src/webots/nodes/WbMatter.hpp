@@ -15,9 +15,9 @@
 #ifndef WB_MATTER_HPP
 #define WB_MATTER_HPP
 
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
-#include "WbTransform.hpp"
 
 class WbGeometry;
 
@@ -26,7 +26,7 @@ struct WrTransform;
 struct WrMaterial;
 struct WrStaticMesh;
 
-class WbMatter : public WbTransform {
+class WbMatter : public WbPose {
   Q_OBJECT
 
 public:
@@ -160,7 +160,7 @@ private:
 
   dGeomID createOdeGeomFromGroup(dSpaceID space, WbGroup *group);
   dGeomID createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry, bool setOdeData = true);
-  dGeomID createOdeGeomFromTransform(dSpaceID space, WbTransform *transform);
+  dGeomID createOdeGeomFromTransform(dSpaceID space, WbPose *transform);
   void disconnectFromBoundingObjectUpdates(const WbNode *node) const;
 
   virtual void createOdeGeoms() = 0;

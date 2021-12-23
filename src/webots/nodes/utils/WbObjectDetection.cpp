@@ -141,7 +141,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
   const WbBaseNode *referenceObject = boundingObject;
   if (useBoundingSphere)
     referenceObject = rootObject;
-  const WbTransform *transform = dynamic_cast<const WbTransform *>(referenceObject);
+  const WbPose *transform = dynamic_cast<const WbPose *>(referenceObject);
   if (!transform)
     transform = referenceObject->upperTransform();
   assert(transform);
