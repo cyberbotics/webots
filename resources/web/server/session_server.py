@@ -74,6 +74,23 @@ class SessionHandler(tornado.web.RequestHandler):
         self.write('Error: no simulation server available at the moment.')
 
 
+class LoadHandler(tornado.web.RequestHandler):
+    """Provide the current load of the simulation servers managed by the session server."""
+
+    def get(self):
+        average_load = 0
+        average_count = 0
+        for i in range(len(config['simulationServers'])):
+            if simulation_server_loads[i] != 1000:
+                average_load += simulation_server_loads[i]
+                average_count += 1
+        if average_count == 0:
+            average_load = -1  # N/A
+        else:
+            average_load /= average_count
+        self.write(str(average_load))
+
+
 class MonitorHandler(tornado.web.RequestHandler):
     """Display the monitor web page."""
 
@@ -91,6 +108,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write(":</p>")
         self.write("<table class='bordered'><thead><tr><th>#</th><th>simulation server</th><th>load</th></tr></thead>\n")
         average_load = 0
+        average_count = 0
         for i in range(nServer):
             self.write("<tr><td>%d</td>" % (i + 1))
             url = "http"
@@ -104,13 +122,16 @@ class MonitorHandler(tornado.web.RequestHandler):
                 value = "N/A"
             else:
                 value = str(simulation_server_loads[i]) + "%"
+                average_load += simulation_server_loads[i]
+                average_count += 1
             self.write(value)
-            average_load += simulation_server_loads[i]
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("</font>")
             self.write("</td></tr>\n")
-        if nServer > 1:
-            average_load /= nServer
+        if average_count == 0:
+            average_load == 1000
+        else:
+            average_load /= average_count
         self.write("<tr><td></td><td style='text-align:right'>average:</td><td><b>")
         if average_load >= LOAD_THRESHOLD:
             self.write("<font color='red'>")
@@ -335,6 +356,7 @@ def main():
     handlers.append((r'/session', SessionHandler))
     handlers.append((r'/', ClientWebSocketHandler))
     handlers.append((r'/monitor', MonitorHandler))
+    handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
     if 'server' not in config:
         config['server'] = 'localhost'
