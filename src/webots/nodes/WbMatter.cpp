@@ -297,7 +297,7 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbPose *transform) 
 
   const int n = transform->childCount();
   if (n == 0) {
-    parsingInfo(tr("A child to the Transform placed in 'boundingObject' is expected."));
+    parsingInfo(tr("A child to the Pose placed in 'boundingObject' is expected."));
     return NULL;
   }
 

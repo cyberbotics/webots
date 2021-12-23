@@ -308,18 +308,18 @@ bool WbPose::isAValidBoundingObject(bool checkOde, bool warning) const {
 
   if (cc == 0) {
     if (warning)
-      parsingInfo(tr("A Transform placed in 'boundingObject' needs a Geometry or Shape as its first child to be valid."));
+      parsingInfo(tr("A Pose placed in 'boundingObject' needs a Geometry or Shape as its first child to be valid."));
     return false;
   }
 
   if (cc > 1 && warning)
-    parsingWarn(tr("A Transform placed inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
+    parsingWarn(tr("A Pose placed inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
 
   const WbGeometry *const g = geometry();
   if (g == NULL) {
     if (warning)
       parsingInfo(
-        tr("The first child of a Transform placed in 'boundingObject' must be a Geometry or a Shape filled with a Geometry."));
+        tr("The first child of a Pose placed in 'boundingObject' must be a Geometry or a Shape filled with a Geometry."));
     return false;
   }
 

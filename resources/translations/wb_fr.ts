@@ -3952,15 +3952,15 @@ The following file formats are supported:
 <context>
     <name>WbMatter</name>
     <message>
-        <source>A child to the Transform placed in &apos;boundingObject&apos; is expected.</source>
+        <source>A child to the Pose placed in &apos;boundingObject&apos; is expected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A Transform node inside a &apos;boundingObject&apos; can only contain one child. Remaining children are ignored.</source>
+        <source>A Pose node inside a &apos;boundingObject&apos; can only contain one child. Remaining children are ignored.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A Transform node inside a &apos;boundingObject&apos; can only contain one Shape or one Geometry node. The child node is ignored.</source>
+        <source>A Pose node inside a &apos;boundingObject&apos; can only contain one Shape or one Geometry node. The child node is ignored.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6233,15 +6233,15 @@ Shouhaitez-vous le sauvegarder avant de fermer ?</translation>
 <context>
     <name>WbPose</name>
     <message>
-        <source>A Transform placed in &apos;boundingObject&apos; needs a Geometry or Shape as its first child to be valid.</source>
+        <source>A Pose placed in &apos;boundingObject&apos; needs a Geometry or Shape as its first child to be valid.</source>
         <translation>Une Transform placée dans un &apos;boundingObject&apos; a besoin d&apos;une Geometry ou d&apos;une Shape comme premier enfant pour être valide.</translation>
     </message>
     <message>
-        <source>A Transform placed inside a &apos;boundingObject&apos; can only contain one child. Remaining children are ignored.</source>
+        <source>A Pose placed inside a &apos;boundingObject&apos; can only contain one child. Remaining children are ignored.</source>
         <translation>Une Transform placée à l&apos;intérieur d&apos;un &apos;boundingObject&apos; ne peut contenir qu&apos;un fils. Les enfants restants sont ignorés.</translation>
     </message>
     <message>
-        <source>The first child of a Transform placed in &apos;boundingObject&apos; must be a Geometry or a Shape filled with a Geometry.</source>
+        <source>The first child of a Pose placed in &apos;boundingObject&apos; must be a Geometry or a Shape filled with a Geometry.</source>
         <translation>Le premier enfant d&apos;une Transform placée dans &apos;boundingObject&apos; doit être une Geometry ou une Shape contenant une Geometry.</translation>
     </message>
 </context>
