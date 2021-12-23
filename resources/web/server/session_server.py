@@ -80,9 +80,9 @@ class MonitorHandler(tornado.web.RequestHandler):
     def get(self):
         """Write the web page content."""
         self.write("<!DOCTYPE html>\n")
-        self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>\n")
-        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022b/css/monitor.css'></head>\n")
-        self.write("<body><h1>Webots session server</h1>\n")
+        self.write("<html>\n<head><meta charset='utf-8'/><title>Webots simulation server</title>")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022b/css/monitor.css'>")
+        self.write("</head>\n<body><h1>Webots session server</h1>\n")
         nServer = len(config['simulationServers'])
         self.write("<p>Started on " + start_time + "</p>\n")
         self.write("<p>Managing %d simulation server" % nServer)
@@ -114,7 +114,10 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write("<tr><td></td><td style='text-align:right'>average:</td><td><b>")
         if average_load >= LOAD_THRESHOLD:
             self.write("<font color='red'>")
-        self.write("%g%%" % average_load)
+        if average_load == 1000:
+            self.write("N/A")
+        else:
+            self.write("%g%%" % average_load)
         if average_load >= LOAD_THRESHOLD:
             self.write("</font>")
         self.write("</b></td></tr>\n")
