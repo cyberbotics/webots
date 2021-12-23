@@ -180,6 +180,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Track";
     case WB_NODE_TRACK_WHEEL:
       return "TrackWheel";
+    case WB_NODE_TRANSFORM:
+      return "Transform";
     case WB_NODE_VIEWPOINT:
       return "Viewpoint";
     case WB_NODE_WORLD_INFO:

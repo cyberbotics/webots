@@ -443,6 +443,7 @@ QT_SOURCES += \
   WbTrack.cpp \
   WbTrackWheel.cpp \
   WbTranslateRotateManipulator.cpp \
+  WbTransform.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \
   WbTriangleMeshGeometry.cpp \

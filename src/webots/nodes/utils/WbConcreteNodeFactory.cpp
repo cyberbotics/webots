@@ -99,6 +99,7 @@
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
@@ -275,6 +276,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbTrack(tokenizer);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(tokenizer);
+  if (modelName == "Transform")
+    return new WbTransform(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")
@@ -470,6 +473,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbTrack(original);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(original);
+  if (modelName == "Transform")
+    return new WbTransform(original);
   if (modelName == "Viewpoint")
     return new WbViewpoint(original);
   if (modelName == "WorldInfo")

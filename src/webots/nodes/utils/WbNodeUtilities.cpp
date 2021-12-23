@@ -308,6 +308,8 @@ namespace {
           return true;
         if (nodeName == "Pose")
           return true;
+        if (nodeName == "Transform")
+          return true;
         if (nodeName == "Billboard")
           return true;
         if (nodeName == "Shape")
@@ -523,6 +525,8 @@ namespace {
           return true;
         if (nodeName == "Pose")
           return true;
+        if (nodeName == "Transform")  // TODO: should we allow Transform in bounding object?
+          return true;
         if (nodeName == "Shape")
           return true;
 
@@ -599,6 +603,8 @@ namespace {
           return true;
         if (nodeName == "Pose")
           return true;
+        if (nodeName == "Transform")
+          return true;
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
 
@@ -606,6 +612,8 @@ namespace {
         if (nodeName == "Shape")
           return true;
         if ((nodeName == "Pose") && (parentModelName != "Pose"))
+          return true;
+        if ((nodeName == "Transform") && (parentModelName != "Transform"))
           return true;
         // if the node is also used outside a boundingObject geometries cannot be inserted directly in the children field
         if (!(nodeUse & WbNode::STRUCTURE_USE) && WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
@@ -1755,6 +1763,10 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
     if (srcModelName == "Group" && destModelName == "Pose")
       return SUITABLE;
     if (srcModelName == "Pose" && destModelName == "Group")
+      return LOOSING_INFO;
+    if (srcModelName == "Pose" && destModelName == "Transform")
+      return SUITABLE;
+    if (srcModelName == "Transform" && destModelName == "Pose")
       return LOOSING_INFO;
 
     return UNSUITABLE;

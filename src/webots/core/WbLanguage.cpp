@@ -687,6 +687,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TOUCH_SENSOR "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
+                                     "WB_NODE_TRANSFORM "
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
@@ -708,7 +709,7 @@ static const char *WBT_OBJECTS =
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
   "Physics Plane PointLight Pose Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
-  "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
+  "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel Transform "
   "Viewpoint WorldInfo Zoom";
 
 static WbLanguage **gLanguages = NULL;

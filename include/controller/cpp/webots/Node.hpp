@@ -62,6 +62,7 @@ namespace webots {
       SPOT_LIGHT,
       TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM,
+      TRANSFORM,
       VIEWPOINT,
       // robots
       ROBOT,
