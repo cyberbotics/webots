@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Test world resetting the simulation"
@@ -106,14 +106,14 @@ NonDeterministicSupervisorLua {
     }
     DEF CAMERA0 Camera {
       translation 0 0.3 0
-      rotation 1 0 0 4.71239
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera0"
       width 1
       height 1
     }
     DEF CAMERA1 Camera {
       translation 1.3 0.3 0
-      rotation 1 0 0 4.71239
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera1"
       width 1
       height 1

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,6 +17,7 @@ PointLight {
   location 0 0.345 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 Robot {
   translation 0 0.025 0
@@ -53,10 +54,11 @@ Robot {
                 }
               }
             ]
+            rotation 1 0 0 -1.57079632679
           }
           DEF THIN_CYLINDER Transform {
             translation 0 0.05 -0.1
-            rotation 1 0 0 1.5708
+            rotation 1 0 0 0.000003673189128
             children [
               Shape {
                 appearance USE GRAY_APPEARANCE
@@ -70,7 +72,7 @@ Robot {
           }
           Transform {
             translation 0 0.05 -0.25
-            rotation 1 0 0 -1.5708
+            rotation -1 0 0 3.14159632679
             children [
               Shape {
                 appearance USE GRAY_APPEARANCE
@@ -95,20 +97,25 @@ Robot {
         }
       }
     }
-    DEF BASE_SHAPE Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.854902 0.113725 0.113725
-          specularColor 0.984314 0.909804 0.909804
-        }
-      }
-      geometry Cylinder {
-        height 0.05
-        radius 0.05
-        subdivision 24
-      }
-    }
     TestSuiteEmitter {
+    }
+    DEF BASE_SHAPE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.854902 0.113725 0.113725
+              specularColor 0.984314 0.909804 0.909804
+            }
+          }
+          geometry Cylinder {
+            height 0.05
+            radius 0.05
+            subdivision 24
+          }
+        }
+      ]
     }
   ]
   boundingObject USE BASE_SHAPE
@@ -118,7 +125,7 @@ Robot {
   }
   controller "battery"
   battery [
-    600, 36000, 5
+    600 36000 5
   ]
   cpuConsumption 5
 }

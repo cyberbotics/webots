@@ -49,7 +49,7 @@ static const double tmp = 1.0;
 #include <stdlib.h>
 #include <string.h>
 
-#define ACCELERATION_THRESHOLD 0.05  // maximum aceleration allowed for the wheels [rad/s2]
+#define ACCELERATION_THRESHOLD 50  // maximum acceleration allowed for the wheels [rad/s2]
 #define INDICATOR_AUTO_DISABLING_THRESHOLD 0.1
 #define BLINKER_SOUND_FILE "sounds/blinker.wav"
 
@@ -124,7 +124,7 @@ static double differential_ratio_central() {
 }
 
 static double compute_output_torque() {
-  // Compute available torque taking into acount the current gear ratio and engine model
+  // Compute available torque taking into account the current gear ratio and engine model
   double gear_ratio;
   if (instance->gear > 0)
     gear_ratio = instance->car->gear_ratio[instance->gear];
@@ -168,8 +168,8 @@ static double compute_output_torque() {
   if (real_rpm == instance->car->engine_max_rpm)  // maximum rotation speed of the motor, we don't want to increase it !
     output_torque = 0;
 
-  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarly
-  // do not touch the ground)
+  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarily
+  // does not touch the ground)
   if (fabs(instance->car->max_acceleration) > ACCELERATION_THRESHOLD)
     output_torque *= (ACCELERATION_THRESHOLD / fabs(instance->car->max_acceleration));
 
@@ -200,7 +200,7 @@ static void update_wheels_speed(int ms) {  // Warning speed is wrong the first t
   // Compute wheels speeds
   for (i = 0; i < 4; i++) {
     instance->car->speeds[i] = 1000 * (current_position[i] - previous_position[i]) / ms;
-    const double acceleration = (instance->car->speeds[i] - previous_speed[i]) / ms;
+    const double acceleration = 1000 * (instance->car->speeds[i] - previous_speed[i]) / ms;
     if (fabs(acceleration) > fabs(instance->car->max_acceleration))
       instance->car->max_acceleration = acceleration;
     previous_position[i] = current_position[i];
@@ -472,6 +472,26 @@ void wbu_driver_init() {
   }
 }
 
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
+}
+
 int wbu_driver_step() {
   if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_step()"))
     return 0;
@@ -568,7 +588,7 @@ void wbu_driver_set_steering_angle(double steering_angle) {
   wb_motor_set_position(instance->car->steering_motors[0], right_angle);  // right
   wb_motor_set_position(instance->car->steering_motors[1], left_angle);   // left
 
-  // the differential speeds need to be recomupte
+  // the differential speeds need to be recomputed
   if (instance->control_mode == SPEED)
     wbu_driver_set_cruising_speed(instance->cruising_speed);
 

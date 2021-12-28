@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of the Muscle node"
   ]
   title "Muscle"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.6999154352723786 0.693914825736349 0.16911711353606218 0.8662245442115495
-  position 0.4456853743003715 0.43603729983476724 0.5098978527052462
+  orientation -0.5223578251770465 0.09301806886713386 0.8476378597847877 2.7753819314893793
+  position 0.26745501991810305 -0.05987278174127601 0.44031085296688044
 }
 TexturedBackground {
 }
@@ -19,10 +18,10 @@ Floor {
   size 3 3
 }
 DEF HINGE Robot {
-  translation 0 0.035 0
+  translation 0 0 0.04
   children [
     DEF BOX Transform {
-      translation -0.025 -0.01 0
+      translation -0.025 0 -0.01
       children [
         Shape {
           appearance PBRAppearance {
@@ -31,7 +30,7 @@ DEF HINGE Robot {
             metalness 0
           }
           geometry Box {
-            size 0.05 0.06 0.08
+            size 0.05 0.08 0.06
           }
         }
       ]
@@ -48,8 +47,8 @@ DEF HINGE Robot {
       }
     }
     DEF BONE1 Transform {
-      translation 0.05 1.6835523e-07 0
-      rotation 0 0 1 1.5707997
+      translation 0.05 0 0
+      rotation 0 1 0 -1.5707953071795862
       children [
         Shape {
           appearance PBRAppearance {
@@ -66,9 +65,10 @@ DEF HINGE Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
+        axis 0 -1 0
         anchor 0.1 0 0
         dampingConstant 0.4
+        suspensionAxis 0 1 0
       }
       device [
         RotationalMotor {
@@ -90,8 +90,8 @@ DEF HINGE Robot {
             }
             Muscle {
               volume 6e-05
-              startOffset 0.106 -0.003 0
-              endOffset 0.003 0.05 0
+              startOffset 0.1 0 0
+              endOffset 0 0.05 0
             }
           ]
         }
@@ -100,11 +100,12 @@ DEF HINGE Robot {
       ]
       endPoint Solid {
         translation 0.1 0 0
-        rotation 0 0 1 4.9078177
+        rotation 0 0 1 -1.5707996938995747
         children [
           USE JOINT
           DEF BONE2 Transform {
             translation 0 0.0225 0
+            rotation 1 0 0 1.5707996938995747
             children [
               Shape {
                 appearance PBRAppearance {
@@ -145,16 +146,16 @@ DEF HINGE Robot {
     density -1
     mass 20
     centerOfMass [
-      -0.03 -0.015 0
+      -0.03 0 -0.015
     ]
   }
   controller "muscle"
 }
 DEF HINGE2 Robot {
-  translation 0.07 0.035 -0.17
+  translation 0.07 0.17 0.035
   children [
     DEF BOX Transform {
-      translation -0.025 -0.01 0
+      translation -0.025 0 -0.01
       children [
         Shape {
           appearance PBRAppearance {
@@ -163,7 +164,7 @@ DEF HINGE2 Robot {
             metalness 0
           }
           geometry Box {
-            size 0.05 0.06 0.08
+            size 0.05 0.08 0.06
           }
         }
       ]
@@ -181,7 +182,7 @@ DEF HINGE2 Robot {
     }
     DEF BONE1 Transform {
       translation 0.05 0 0
-      rotation 0 0 1 1.5707997
+      rotation 0 1 0 1.5707997
       children [
         Shape {
           appearance PBRAppearance {
@@ -198,12 +199,11 @@ DEF HINGE2 Robot {
     }
     Hinge2Joint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
+        axis 0 -1 0
         anchor 0.1 0 0
         dampingConstant 0.4
       }
       jointParameters2 JointParameters {
-        axis 0 1 0
         dampingConstant 0.4
       }
       device [
@@ -215,9 +215,9 @@ DEF HINGE2 Robot {
           maxTorque 0.5
           muscles [
             Muscle {
-              volume 2.9999999999999997e-05
-              startOffset 0 0.008 0
-              endOffset -0.01 0.05 0
+              volume 3e-05
+              startOffset 0 0 0.008
+              endOffset -0.01 0 0.05
               color [
                 1 0 0
                 1 1 0
@@ -239,8 +239,8 @@ DEF HINGE2 Robot {
           muscles [
             Muscle {
               volume 9.999999999999999e-05
-              startOffset 0.01 -0.0083 0
-              endOffset 0.01 0.05 0
+              startOffset 0.01 0 -0.0083
+              endOffset 0.01 0 0.05
               color [
                 1 0 0
                 1 1 0
@@ -255,11 +255,11 @@ DEF HINGE2 Robot {
       ]
       endPoint Solid {
         translation 0.1 0 0
-        rotation 0 0 1 4.9078177
+        rotation 0 -1 0 4.9078177
         children [
           USE JOINT
           DEF BONE2 Transform {
-            translation 0 0.0225 0
+            translation 0 0 0.0225
             children [
               Shape {
                 appearance PBRAppearance {
@@ -301,13 +301,13 @@ DEF HINGE2 Robot {
     density -1
     mass 20
     centerOfMass [
-      -0.03 -0.015 0
+      -0.03 0 -0.015
     ]
   }
   controller "muscle"
 }
 DEF SLIDER Robot {
-  translation -0.01 0.04 0.21
+  translation -0.01 -0.21 0.04
   children [
     DEF JOINT Shape {
       appearance PBRAppearance {

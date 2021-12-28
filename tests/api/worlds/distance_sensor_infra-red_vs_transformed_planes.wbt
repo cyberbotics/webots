@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -14,15 +14,20 @@ DEF REGULAR_OBSTACLE Transform {
   translation 0.05 0 -0.08
   rotation 0 0 1 1.5708
   children [
-    Shape {
-      appearance DEF APPEARANCE PBRAppearance {
-        baseColor 1 0.22 1
-        roughness 1
-        metalness 0
-      }
-      geometry Plane {
-        size 0.15 0.15
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance DEF APPEARANCE PBRAppearance {
+            baseColor 1 0.22 1
+            roughness 1
+            metalness 0
+          }
+          geometry Plane {
+            size 0.15 0.15
+          }
+        }
+      ]
     }
   ]
 }
@@ -30,11 +35,16 @@ DEF ROTATED_OBSTACLE Transform {
   translation 0.05 0 -0.26
   rotation -0.35740681862788 0.3574058186283875 -0.8628565621288802 -1.7177753071795863
   children [
-    Shape {
-      appearance USE APPEARANCE
-      geometry Plane {
-        size 0.13 0.07
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance USE APPEARANCE
+          geometry Plane {
+            size 0.13 0.07
+          }
+        }
+      ]
     }
   ]
 }
@@ -42,15 +52,20 @@ DEF FLIPPED_OBSTACLE Transform {
   translation 0.05 0 -0.39
   rotation 0.70710528118436 0.707108281185553 3.3905113482557537e-09 3.14159
   children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.65 0.22 1
-        roughness 1
-        metalness 0
-      }
-      geometry Plane {
-        size 0.1 0.1
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.65 0.22 1
+            roughness 1
+            metalness 0
+          }
+          geometry Plane {
+            size 0.1 0.1
+          }
+        }
+      ]
     }
   ]
 }
@@ -62,17 +77,22 @@ Robot {
           translation -0.026 0 0
           rotation 0 0 1 -1.5708
           children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.407507 0.848295 0.499062
-                roughness 0.2
-                metalness 0
-              }
-              geometry Cone {
-                bottomRadius 0.01
-                height 0.05
-                subdivision 24
-              }
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.407507 0.848295 0.499062
+                    roughness 0.2
+                    metalness 0
+                  }
+                  geometry Cone {
+                    bottomRadius 0.01
+                    height 0.05
+                    subdivision 24
+                  }
+                }
+              ]
             }
           ]
         }

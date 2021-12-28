@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO LincolnMKZ [
-  field     SFVec3f    translation       0 0.4 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFVec3f    translation       0 0 0.4
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.541 0.541 0.541
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
@@ -53,6 +53,7 @@ PROTO LincolnMKZ [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "LincolnMKZWheels"
     }
     wheelFrontRight VehicleWheel {
@@ -89,28 +90,26 @@ PROTO LincolnMKZ [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "LincolnMKZWheels"
     }
     extensionSlot [
       # Sensors slots
       Transform {
-        translation 0 0.142 3.944
-        rotation 0 1 0 0
+        translation 3.944 0 0.142
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 0.33 -1.06
-        rotation 0 1 0 3.14159
+        translation -1.06 0 0.33
+        rotation 0 0 1 3.14157
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 1.16 1.11
-        rotation 0 1 0 3.14159
+        translation 1.11 0 1.16
         children IS sensorsSlotTop
       }
       Transform {
         translation 0 0 0
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       # lights
@@ -124,8 +123,8 @@ PROTO LincolnMKZ [
                   intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
-                  direction -0.2 -1 1
-                  location 0.52 1 4
+                  direction 1 -0.2 -1
+                  location 4.0 0.52 1
                   radius 20
                   on TRUE
                 }
@@ -134,14 +133,14 @@ PROTO LincolnMKZ [
                   intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
-                  direction 0.2 -1 1
-                  location -0.52 1 4
+                  direction 1 0.2 -1
+                  location 4.0 -0.52 1
                   radius 20
                 }
               %< } >%
               Transform {
-                translation 0 -0.35 1.44
-                rotation 0 1 0 3.14159
+                translation 1.44 0 -0.35
+                rotation -0.577349 0.577351 0.577351 -2.094397
                 children [
                   DEF HEADLIGHT Shape {
                     appearance PBRAppearance {
@@ -159,8 +158,8 @@ PROTO LincolnMKZ [
         ]
         rightIndicator [
           Transform {
-            translation 0 -0.35 1.44
-            rotation 0 1 0 3.14159
+            translation 1.44 0 -0.35
+            rotation -0.577349 0.577351 0.577351 -2.094397
             children [
               DEF INDICATOR_RIGHT Shape {
                 appearance PBRAppearance {
@@ -194,8 +193,8 @@ PROTO LincolnMKZ [
         ]
         leftIndicator [
           Transform {
-            translation 0 -0.35 1.44
-            rotation 0 1 0 3.14159
+            translation 1.44 0 -0.35
+            rotation -0.577349 0.577351 0.577351 -2.094397
             children [
               DEF INDICATOR_LEFT Shape {
                 appearance PBRAppearance {
@@ -228,122 +227,142 @@ PROTO LincolnMKZ [
           }
         ]
         rear [
-          DEF TAIL_LIGHT Shape {
-            appearance PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
-              metalness 0
-              emissiveIntensity 10
-            }
-            geometry LincolnMKZTailLightsMesh {
-            }
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              DEF TAIL_LIGHT Shape {
+                appearance PBRAppearance {
+                  baseColor 0.560784 0.113725 0.113725
+                  metalness 0
+                  emissiveIntensity 10
+                }
+                geometry LincolnMKZTailLightsMesh {
+                }
+              }
+            ]
           }
         ]
         braking [
-          DEF BRAKING_LIGHTS Shape {
-            appearance PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
-              metalness 0
-              emissiveIntensity 30
-            }
-            geometry LincolnMKZBrakingLightsMesh {
-            }
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              DEF BRAKING_LIGHTS Shape {
+                appearance PBRAppearance {
+                  baseColor 0.560784 0.113725 0.113725
+                  metalness 0
+                  emissiveIntensity 30
+                }
+                geometry LincolnMKZBrakingLightsMesh {
+                }
+              }
+            ]
           }
         ]
         antifogColor [ 0.3 0 0 ]
         antifog [
-          DEF ANTIFOG_LIGHTS Shape {
-            appearance PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
-              metalness 0
-              emissiveIntensity 10
-            }
-            geometry LincolnMKZRearAntifogLightsMesh {
-            }
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              DEF ANTIFOG_LIGHTS Shape {
+                appearance PBRAppearance {
+                  baseColor 0.560784 0.113725 0.113725
+                  metalness 0
+                  emissiveIntensity 10
+                }
+                geometry LincolnMKZRearAntifogLightsMesh {
+                }
+              }
+            ]
           }
         ]
 
       }
       # vehicle shape
-      DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyPaint {
-          baseColor IS color
-        }
-        geometry LincolnMKZCoachworkMesh {
-        }
-      }
-      DEF WINDOWS Shape {
-        appearance DEF WINDOWS_APP PBRAppearance {
-          baseColor 0.2 0.2 0.2
-          metalness 0
-        }
-        geometry LincolnMKZWindowsMesh {
-        }
-      }
-      DEF DETAILS Shape {
-        appearance DEF DETAILS_APP PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
-            ]
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          DEF COACHWORK Shape {
+            appearance DEF VEHICLE_APP GlossyPaint {
+              baseColor IS color
+            }
+            geometry LincolnMKZCoachworkMesh {
+            }
           }
-          roughnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
-            ]
+          DEF WINDOWS Shape {
+            appearance DEF WINDOWS_APP PBRAppearance {
+              baseColor 0.2 0.2 0.2
+              metalness 0
+            }
+            geometry LincolnMKZWindowsMesh {
+            }
           }
-          metalnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
-            ]
+          DEF DETAILS Shape {
+            appearance DEF DETAILS_APP PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                ]
+              }
+            }
+            geometry LincolnMKZDetailsMesh {
+            }
           }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
-            ]
+          DEF LEFT_SIDE_MIRROR Shape {
+            appearance DEF MIRROR_APP PBRAppearance {
+              metalness 0
+              roughness 1
+            }
+            geometry LincolnMKZLeftSideMirrorMesh {
+            }
           }
-        }
-        geometry LincolnMKZDetailsMesh {
-        }
-      }
-      DEF LEFT_SIDE_MIRROR Shape {
-        appearance DEF MIRROR_APP PBRAppearance {
-          metalness 0
-          roughness 1
-        }
-        geometry LincolnMKZLeftSideMirrorMesh {
-        }
-      }
-      DEF RIGHT_SIDE_MIRROR Shape {
-        appearance USE MIRROR_APP
-        geometry LincolnMKZRightSideMirrorMesh {
-        }
-      }
-      DEF PLATES Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.4
-          baseColorMap ImageTexture {
-            url IS plate
+          DEF RIGHT_SIDE_MIRROR Shape {
+            appearance USE MIRROR_APP
+            geometry LincolnMKZRightSideMirrorMesh {
+            }
           }
-        }
-        geometry LincolnMKZPlatesMesh {
-        }
-      }
-      DEF REAR_LOGO Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
-            ]
+          DEF PLATES Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.4
+              baseColorMap ImageTexture {
+                url IS plate
+              }
+            }
+            geometry LincolnMKZPlatesMesh {
+            }
           }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
-            ]
+          DEF REAR_LOGO Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
+                ]
+              }
+            }
+            geometry LincolnMKZBackLogoMesh {
+            }
           }
-        }
-        geometry LincolnMKZBackLogoMesh {
-        }
+        ]
       }
     ]
     name IS name
@@ -355,20 +374,20 @@ PROTO LincolnMKZ [
     boundingObject Group {
       children [
         DEF LOWER_BOX Transform {
-          translation 0 0.3 1.44
-          rotation 0 0.9998 0.0199987 3.14159
+          translation 1.44 0 0.3
+          rotation 0.0199987 0 0.9998 3.14159
           children [
             Box {
-              size 1.8 0.8 4.9
+              size 4.9 1.8 0.8
             }
           ]
         }
         DEF CENTRAL_BOX Transform {
-          translation 0 0.85 1.44
-          rotation 0 1 0 3.14159
+          translation 1.44 0 0.85
+          rotation 0 0 1 3.14159
           children [
             Box {
-              size 1.6 0.5 2.0
+              size 2.0 1.6 0.5
             }
           ]
         }
@@ -382,7 +401,7 @@ PROTO LincolnMKZ [
       density -1
       mass 1950  # calibrated
       centerOfMass [
-        0 0.2 1.6 # estimated roughly
+        1.6 0 0.2 # estimated roughly
       ]
     }
     window IS window

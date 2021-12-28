@@ -453,7 +453,8 @@ void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
     paste();
     return;
   } else if (event->matches(QKeySequence::Save)) {
-    save();
+    if (!save())
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(mFileName));
     return;
   }
 
@@ -699,59 +700,6 @@ void WbTextBuffer::addNewLine() {
 
   setTextCursor(cursor);
   cursor.endEditBlock();
-}
-
-void WbTextBuffer::duplicateSelection() {
-  QTextCursor cursor = textCursor();
-  cursor.beginEditBlock();
-
-  if (cursor.hasSelection()) {
-    // duplicate selection
-    int selectionStart = cursor.anchor();
-    int selectionEnd = cursor.position();
-    QString text = cursor.selectedText();
-    cursor.setPosition(textCursor().selectionEnd());
-    cursor.insertText(text);
-
-    // reset selection
-    cursor.clearSelection();
-    cursor.setPosition(selectionStart);
-    cursor.setPosition(selectionEnd, QTextCursor::KeepAnchor);
-    setTextCursor(cursor);
-
-  } else {
-    // duplicate line
-    cursor.select(QTextCursor::LineUnderCursor);
-    cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-    QString lineContent = cursor.selectedText();
-    cursor.movePosition(QTextCursor::StartOfLine);
-    cursor.insertText(lineContent);
-  }
-
-  cursor.endEditBlock();
-}
-
-void WbTextBuffer::transposeCurrentLine() {
-  QTextCursor cursor = textCursor();
-  cursor.beginEditBlock();
-  if (cursor.hasSelection())
-    cursor.clearSelection();
-
-  // cut current line
-  cursor.movePosition(QTextCursor::StartOfLine);
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-  cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-  QString currentLineContent = cursor.selectedText();
-  cursor.removeSelectedText();
-
-  // insert current line before previous line
-  cursor.movePosition(QTextCursor::StartOfLine);
-  cursor.movePosition(QTextCursor::Up);
-  cursor.insertText(currentLineContent);
-
-  // reset cursor position
-  cursor.endEditBlock();
-  setTextCursor(cursor);
 }
 
 void WbTextBuffer::toggleLineComment() {

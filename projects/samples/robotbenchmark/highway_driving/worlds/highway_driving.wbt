@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -9,7 +9,6 @@ WorldInfo {
   window "highway_driving"
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -74,8 +73,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.03342290698167803 -0.9945867870527274 -0.09838715520344365 2.897760879502204
-  position -8.558292475700654 6.183690432249643 22.203059339408043
+  orientation -0.15601091707506387 0.12230051485156522 0.980154670355878 1.6048664481094255
+  position 2.3582741303366115 24.643664637688232 8.494737873510743
   near 1
   follow "vehicle"
   followSmoothness 0.01
@@ -98,7 +97,8 @@ DEF FLOOR Solid {
   }
 }
 DEF ROAD Road {
-  translation 0 0.01 0
+  translation 0 0 0.01
+  rotation 0 0 1 1.5708
   id "0"
   width 15
   numberOfLanes 4
@@ -114,19 +114,19 @@ DEF ROAD Road {
   leftBarrier TRUE
   wayPoints [
     0 0 0
-    0 0 1050
-    0 0 1070
-    20 0 1150
-    -50 0 1350
-    0 0 1450
-    0 0 1500
-    0 0 1501
-    0 0 1502
-    0 0 1550
-    41 0 1600
-    -41 0 1700
-    120 0 2000
-    250 0 1750
+    1050 0 0
+    1070 0 0
+    1150 20 0
+    1350 -50 0
+    1450 0 0
+    1500 0 0
+    1501 0 0
+    1502 0 0
+    1550 0 0
+    1600 41 0
+    1700 -41 0
+    2000 120 0
+    1750 250 0
   ]
   startingAngle [
     0
@@ -136,12 +136,12 @@ DEF ROAD Road {
 HighwayDrivingBenchmark {
 }
 DEF WEBOTS_VEHICLE0 LincolnMKZ {
-  translation -2.0006266 0.39999994 44.088365
+  translation 2.00063 44.0884 0.4
+  rotation 0 0 1 1.5708
   controller "highway_driving"
   sensorsSlotFront [
     DEF FRONT DistanceSensor {
-      translation 0 0.3 -0.05
-      rotation 0 1 0 4.712389
+      translation 0.05 0 0.3
       name "distance sensor front"
       lookupTable [
         0 0 0
@@ -151,8 +151,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_0 DistanceSensor {
-      translation -0.68 0.3 -0.03
-      rotation 0 1 0 4.5814897
+      translation 0.03 -0.68 0.3
+      rotation 0 0 -1 0.130899
       name "distance sensor front right 0"
       lookupTable [
         0 0 0
@@ -162,8 +162,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_1 DistanceSensor {
-      translation -0.709 0.3 -0.05
-      rotation 0 1 0 4.4505903
+      translation 0.05 -0.709 0.3
+      rotation 0 0 1 -0.261795307179586
       name "distance sensor front right 1"
       lookupTable [
         0 0 0
@@ -173,8 +173,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_2 DistanceSensor {
-      translation -0.75 0.3 -0.03
-      rotation 0 1 0 4.3196903
+      translation 0.03 -0.75 0.3
+      rotation 0 0 1 -0.39269530717958645
       name "distance sensor front right 2"
       lookupTable [
         0 0 0
@@ -184,8 +184,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_0 DistanceSensor {
-      translation 0.685 0.3 -0.04
-      rotation 0 1 0 4.8432897
+      translation 0.04 0.685 0.3
+      rotation 0 0 1 0.130905
       name "distance sensor front left 0"
       lookupTable [
         0 0 0
@@ -195,8 +195,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_1 DistanceSensor {
-      translation 0.72 0.3 -0.02
-      rotation 0 1 0 4.9741897
+      translation 0.02 0.72 0.3
+      rotation 0 0 -1 -0.2618053071795865
       name "distance sensor front left 1"
       lookupTable [
         0 0 0
@@ -206,8 +206,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_2 DistanceSensor {
-      translation 0.757 0.3 -0.03
-      rotation 0 1 0 5.1050897
+      translation 0.03 0.757 0.3
+      rotation 0 0 1 0.392705
       name "distance sensor front left 2"
       lookupTable [
         0 0 0
@@ -219,8 +219,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
   ]
   sensorsSlotRear [
     DEF REAR DistanceSensor {
-      translation 0 0.3 0
-      rotation 0 1 0 4.712389
+      translation 0 0 0.3
       name "distance sensor rear"
       lookupTable [
         0 0 0
@@ -230,8 +229,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.2
     }
     DEF REAR_LEFT DistanceSensor {
-      translation -0.775 0.3 -0.06
-      rotation 0 1 0 4.1887902
+      translation 0.06 -0.775 0.3
+      rotation 0 0 -1 0.523599
       name "distance sensor rear left"
       lookupTable [
         0 0 0
@@ -241,8 +240,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.2
     }
     DEF REAR_RIGHT DistanceSensor {
-      translation 0.78 0.3 -0.06
-      rotation 0 -1 0 1.0471975
+      translation 0.06 0.78 0.3
+      rotation 0 0 1 0.523599
       name "distance sensor rear right"
       lookupTable [
         0 0 0
@@ -254,7 +253,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
   ]
   sensorsSlotTop [
     DEF TOP_CAMERA Camera {
-      translation 0 0 -0.48
+      translation 0.48 0 0
       width 256
       height 128
       near 1
@@ -271,80 +270,81 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       attenuation 0 0 1
       beamWidth 0.2
       cutOffAngle 0.7
-      direction 0.6 -1 0
+      direction 0 -0.6 -1
       intensity 17
-      location -4 5.5 0
+      location 0 4 5.5
       radius 20
       castShadows TRUE
     }
     DEF SENSOR_VISUALIZATION Robot {
       children [
         DEF RIGHT_VISUALIZATION DistanceSensorVisualization {
-          translation 0.95 0.3 -1.32
+          translation 1.32 -0.95 0.3
           range 10
           aperture 0.9
         }
         DEF LEFT_VISUALIZATION DistanceSensorVisualization {
-          translation -0.95 0.3 -1.32
-          rotation 0 1 0 3.1415926
+          translation 1.32 0.95 0.3
+          rotation 0 0 1 3.1415926
           range 10
           aperture 0.9
         }
         DEF REAR_RIGHT_VISUALIZATION DistanceSensorVisualization {
-          translation 0.785 0.63 1.01
-          rotation 0 -1 0 1.0471975
+          translation -1.01 -0.785 0.63
+          rotation 0 0 -1 1.0471975
           range 10
           aperture 0.2
         }
         DEF REAR_LEFT_VISUALIZATION DistanceSensorVisualization {
-          translation -0.78 0.63 1.01
-          rotation 0 1 0 4.1887902
+          translation -1.01 0.78 0.63
+          rotation 0 0 1 4.1887902
           range 10
           aperture 0.2
         }
         DEF REAR_VISUALIZATION DistanceSensorVisualization {
-          translation 0 0.63 1.06
-          rotation 0 1 0 4.712389
+          translation -1.06 0 0.63
+          rotation 0 0 1 4.712389
           range 10
           aperture 0.2
         }
         DEF FRONT_VISUALIZATION DistanceSensorVisualization {
-          translation 0 0.442 -3.92
-          rotation 0 1 0 1.5708
+          translation 3.92 0 0.442
+          rotation 0 0 1 1.5708
           range 20
         }
         DEF FRONT_RIGHT_0_VISUALIZATION DistanceSensorVisualization {
-          translation 0.681 0.443 -3.92
-          rotation 0 -1 0 4.8439847
+          translation 3.92 -0.681 0.443
+          rotation 0 0 -1 4.8439847
           range 20
         }
         DEF FRONT_RIGHT_1_VISUALIZATION DistanceSensorVisualization {
-          translation 0.716 0.442 -3.92
-          rotation 0 -1 0 4.9741877
+          translation 3.92 -0.716 0.442
+          rotation 0 0 -1 4.9741877
           range 15
         }
         DEF FRONT_RIGHT_2_VISUALIZATION DistanceSensorVisualization {
-          translation 0.75 0.442 -3.91
-          rotation 0 -1 0 5.1050877
+          translation 3.91 -0.75 0.442
+          rotation 0 0 -1 5.1050877
           range 10
         }
         DEF FRONT_LEFT_0_VISUALIZATION DistanceSensorVisualization {
-          translation -0.685 0.442 -3.91
-          rotation 0 -1 0 4.5814883
+          translation 3.91 0.685 0.442
+          rotation 0 0 -1 4.5814883
           range 20
         }
         DEF FRONT_LEFT_1_VISUALIZATION DistanceSensorVisualization {
-          translation -0.72 0.442 -3.92
-          rotation 0 -1 0 4.4505883
+          translation 3.92 0.72 0.442
+          rotation 0 0 -1 4.4505883
           range 15
         }
         DEF FRONT_LEFT_2_VISUALIZATION DistanceSensorVisualization {
-          translation -0.76 0.442 -3.92
-          rotation 0 -1 0 4.3196883
+          translation 3.92 0.76 0.442
+          rotation 0 0 -1 4.3196883
           range 10
         }
         DEF RIGHT DistanceSensor {
-          translation 0.95 0.3 -1.32
+          translation 1.32 -0.95 0.3
+          rotation 0 0 1 -1.5707953071795862
           name "distance sensor right"
           lookupTable [
             0 0 0
@@ -354,8 +354,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.9
         }
         DEF LEFT DistanceSensor {
-          translation -0.95 0.3 -1.32
-          rotation 0 1 0 3.1415926
+          translation 1.32 0.95 0.3
+          rotation 0 0 -1 -1.5707953071795862
           name "distance sensor left"
           lookupTable [
             0 0 0
@@ -365,8 +365,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.9
         }
         DEF REAR_RIGHT DistanceSensor {
-          translation 0.785 0.63 1.01
-          rotation 0 -1 0 1.0471975
+          translation -1.01 -0.785 0.63
+          rotation 0 0 1 -2.6179953071795863
           name "distance sensor rear right"
           lookupTable [
             0 0 0
@@ -376,8 +376,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.2
         }
         DEF REAR_LEFT DistanceSensor {
-          translation -0.78 0.63 1.01
-          rotation 0 1 0 4.1887902
+          translation -1.01 0.78 0.63
+          rotation 0 0 -1 -2.6179953071795863
           name "distance sensor rear left"
           lookupTable [
             0 0 0
@@ -387,8 +387,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.2
         }
         DEF REAR DistanceSensor {
-          translation 0 0.63 1.06
-          rotation 0 1 0 4.712389
+          translation -1.06 0 0.63
+          rotation 0 0 -1 3.14159
           name "distance sensor rear"
           lookupTable [
             0 0 0
@@ -398,8 +398,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.2
         }
         DEF FRONT DistanceSensor {
-          translation 0 0.442 -3.92
-          rotation 0 1 0 1.5708
+          translation 3.92 0 0.442
           name "distance sensor front"
           lookupTable [
             0 0 0
@@ -409,8 +408,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_RIGHT_0 DistanceSensor {
-          translation 0.681 0.443 -3.92
-          rotation 0 -1 0 4.8439847
+          translation 3.92 -0.681 0.443
+          rotation 0 0 -1 0.131596
           name "distance sensor front right 0"
           lookupTable [
             0 0 0
@@ -420,8 +419,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_RIGHT_1 DistanceSensor {
-          translation 0.716 0.442 -3.92
-          rotation 0 -1 0 4.9741877
+          translation 3.92 -0.716 0.442
+          rotation 0 0 -1 0.261799
           name "distance sensor front right 1"
           lookupTable [
             0 0 0
@@ -431,8 +430,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_RIGHT_2 DistanceSensor {
-          translation 0.75 0.442 -3.91
-          rotation 0 -1 0 5.1050877
+          translation 3.91 -0.75 0.442
+          rotation 0 0 -1 0.392699
           name "distance sensor front right 2"
           lookupTable [
             0 0 0
@@ -442,8 +441,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_LEFT_0 DistanceSensor {
-          translation -0.685 0.442 -3.91
-          rotation 0 -1 0 4.5814883
+          translation 3.91 0.685 0.442
+          rotation 0 0 -1 -0.13090530717958604
           name "distance sensor front left 0"
           lookupTable [
             0 0 0
@@ -453,8 +452,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_LEFT_1 DistanceSensor {
-          translation -0.72 0.442 -3.92
-          rotation 0 -1 0 4.4505883
+          translation 3.92 0.72 0.442
+          rotation 0 0 1 0.261801
           name "distance sensor front left 1"
           lookupTable [
             0 0 0
@@ -464,8 +463,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
         DEF FRONT_LEFT_2 DistanceSensor {
-          translation -0.76 0.442 -3.92
-          rotation 0 -1 0 4.3196883
+          translation 3.92 0.76 0.442
+          rotation 0 0 -1 -0.39270530717958607
           name "distance sensor front left 2"
           lookupTable [
             0 0 0
@@ -479,7 +478,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       supervisor TRUE
     }
     DEF RIGHT DistanceSensor {
-      translation 0.95 0.3 -1.32
+      translation 1.32 -0.95 0.3
+      rotation 0 0 1 -1.5707953071795862
       name "distance sensor right"
       lookupTable [
         0 0 0
@@ -489,8 +489,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.9
     }
     DEF LEFT DistanceSensor {
-      translation -0.95 0.3 -1.32
-      rotation 0 1 0 3.1415926
+      translation 1.32 0.95 0.3
+      rotation 0 0 -1 -1.5707953071795862
       name "distance sensor left"
       lookupTable [
         0 0 0
@@ -500,36 +500,36 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.9
     }
     GPS {
-      translation 0 0 -5.03
+      translation 5.03 0 0
     }
   ]
 }
 DEF WEBOTS_VEHICLE1 RangeRoverSportSVRSimple {
-  translation 1.2970343 0.4 701.32547
-  rotation 0 1 0 0.26179939
+  translation -1.29703 701.325 0.4
+  rotation 0 0 1 1.831799
   name "vehicle(1)"
 }
 TrafficCone {
-  translation 0.64016831 0 699.56549
-  rotation -3.589793e-09 -1 4.6783094e-09 4.9741884
+  translation -0.640168 699.565 0
+  rotation 0 0 -1 4.9741884
 }
 TrafficCone {
-  translation 1.7931125 0 698.75249
-  rotation 0 1 0 5.7595865
+  translation -1.79311 698.752 0
+  rotation 0 0 1 5.7595865
   name "traffic cone(1)"
 }
 TrafficCone {
-  translation 2.9211248 0 699.58747
-  rotation 0 1 0 5.4977871
+  translation -2.92112 699.587 0
+  rotation 0 0 1 5.4977871
   name "traffic cone(2)"
 }
 DEF WEBOTS_VEHICLE2 Solid {
-  translation 1.9070343 0.4 694.60547
+  translation -694.60547 -1.9070343 0.4
   name "solid(1)"
 }
 HighwayPole {
-  translation -9.64 0 214.99998
-  rotation 0 1 0 1.5707997
+  translation 9.64 215 0
+  rotation 0 0 1 -1.5707953071795862
   stand 2
   height 7
   length 18
@@ -537,7 +537,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 7.23
+      translation 0 -7.23 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -545,7 +545,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -556,8 +556,8 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -9.64 0 600
-  rotation 0 1 0 1.5707997
+  translation 9.64 600 0
+  rotation 0 0 1 -1.5707953071795862
   name "highway pole(1)"
   stand 2
   height 7
@@ -566,7 +566,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 7.23
+      translation 0 -7.23 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -574,7 +574,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -585,8 +585,8 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -9.64 0 1000
-  rotation 0 1 0 1.5707997
+  translation 9.64 1000 0
+  rotation 0 0 1 -1.5707953071795862
   name "highway pole(2)"
   stand 2
   height 7
@@ -595,7 +595,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 7.23
+      translation 0 -7.23 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -603,7 +603,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -614,8 +614,8 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -30.608392 0 1406.7601
-  rotation 0 1 0 1.8325991
+  translation 30.6084 1406.76 0
+  rotation 0 0 1 -1.3089953071795861
   name "highway pole(3)"
   stand 2
   height 7
@@ -624,7 +624,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 7.23
+      translation 0 -7.23 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -632,7 +632,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -643,6 +643,7 @@ HighwayPole {
   ]
 }
 Solid {
+  rotation 0 0.70710528118436 0.707108281185553 3.14159
   children [
     Shape {
       appearance Grass {
@@ -685,6 +686,7 @@ Solid {
   name "solid(2)"
 }
 Forest {
+  rotation 0 0 1 3.14159
   treesFiles [
     "forest/highway_overtake/1.forest"
   ]
@@ -695,7 +697,7 @@ Forest {
   minRadius 1.5
 }
 DEF SUMO_VEHICLE0 BusSimple {
-  translation 10000 0.5 0
+  translation 0 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -703,7 +705,7 @@ DEF SUMO_VEHICLE0 BusSimple {
   name "vehicle(2)"
 }
 DEF SUMO_VEHICLE1 BmwX5Simple {
-  translation 10000 0.5 10
+  translation -10 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -711,7 +713,7 @@ DEF SUMO_VEHICLE1 BmwX5Simple {
   name "vehicle(3)"
 }
 DEF SUMO_VEHICLE2 BmwX5Simple {
-  translation 10000 0.5 20
+  translation -20 -10000 0.5
   color 0.62 0.62 0.62
   recognitionColors [
     0.62 0.62 0.62
@@ -719,7 +721,7 @@ DEF SUMO_VEHICLE2 BmwX5Simple {
   name "vehicle(4)"
 }
 DEF SUMO_VEHICLE3 LincolnMKZSimple {
-  translation 10000 0.5 30
+  translation -30 -10000 0.5
   color 0.43 0.11 0.1
   recognitionColors [
     0.43 0.11 0.1
@@ -727,7 +729,7 @@ DEF SUMO_VEHICLE3 LincolnMKZSimple {
   name "vehicle(5)"
 }
 DEF SUMO_VEHICLE4 BmwX5Simple {
-  translation 10000 0.5 40
+  translation -40 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64
@@ -735,7 +737,7 @@ DEF SUMO_VEHICLE4 BmwX5Simple {
   name "vehicle(6)"
 }
 DEF SUMO_VEHICLE5 RangeRoverSportSVRSimple {
-  translation 10000 0.5 50
+  translation -50 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -743,7 +745,7 @@ DEF SUMO_VEHICLE5 RangeRoverSportSVRSimple {
   name "vehicle(7)"
 }
 DEF SUMO_VEHICLE6 TruckSimple {
-  translation 10000 0.5 60
+  translation -60 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -751,7 +753,7 @@ DEF SUMO_VEHICLE6 TruckSimple {
   name "vehicle(8)"
 }
 DEF SUMO_VEHICLE7 ScooterSimple {
-  translation 10000 0.5 70
+  translation -70 -10000 0.5
   primaryColor 0.254902 0.0156863 0.105882
   secondaryColor 0.309804 0.2 0.235294
   recognitionColors [
@@ -767,7 +769,7 @@ DEF SUMO_VEHICLE7 ScooterSimple {
   name "vehicle(9)"
 }
 DEF SUMO_VEHICLE8 BmwX5Simple {
-  translation 10000 0.5 80
+  translation -80 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -775,11 +777,11 @@ DEF SUMO_VEHICLE8 BmwX5Simple {
   name "vehicle(10)"
 }
 DEF SUMO_VEHICLE9 CitroenCZeroSimple {
-  translation 10000 0.5 90
+  translation -90 -10000 0.5
   name "vehicle(11)"
 }
 DEF SUMO_VEHICLE10 LincolnMKZSimple {
-  translation 10000 0.5 100
+  translation -100 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -787,7 +789,7 @@ DEF SUMO_VEHICLE10 LincolnMKZSimple {
   name "vehicle(12)"
 }
 DEF SUMO_VEHICLE11 CitroenCZeroSimple {
-  translation 10000 0.5 110
+  translation -110 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64
@@ -795,7 +797,7 @@ DEF SUMO_VEHICLE11 CitroenCZeroSimple {
   name "vehicle(13)"
 }
 DEF SUMO_VEHICLE12 CitroenCZeroSimple {
-  translation 10000 0.5 120
+  translation -120 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -803,7 +805,7 @@ DEF SUMO_VEHICLE12 CitroenCZeroSimple {
   name "vehicle(14)"
 }
 DEF SUMO_VEHICLE13 ToyotaPriusSimple {
-  translation 10000 0.5 130
+  translation -130 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -811,7 +813,7 @@ DEF SUMO_VEHICLE13 ToyotaPriusSimple {
   name "vehicle(15)"
 }
 DEF SUMO_VEHICLE14 BmwX5Simple {
-  translation 10000 0.5 140
+  translation -140 -10000 0.5
   color 0.62 0.62 0.62
   recognitionColors [
     0.62 0.62 0.62
@@ -819,7 +821,7 @@ DEF SUMO_VEHICLE14 BmwX5Simple {
   name "vehicle(16)"
 }
 DEF SUMO_VEHICLE15 RangeRoverSportSVRSimple {
-  translation 10000 0.5 150
+  translation -150 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -827,7 +829,7 @@ DEF SUMO_VEHICLE15 RangeRoverSportSVRSimple {
   name "vehicle(17)"
 }
 DEF SUMO_VEHICLE16 RangeRoverSportSVRSimple {
-  translation 10000 0.5 160
+  translation -160 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -835,7 +837,7 @@ DEF SUMO_VEHICLE16 RangeRoverSportSVRSimple {
   name "vehicle(18)"
 }
 DEF SUMO_VEHICLE17 RangeRoverSportSVRSimple {
-  translation 10000 0.5 170
+  translation -170 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -843,7 +845,7 @@ DEF SUMO_VEHICLE17 RangeRoverSportSVRSimple {
   name "vehicle(19)"
 }
 DEF SUMO_VEHICLE18 ToyotaPriusSimple {
-  translation 10000 0.5 180
+  translation -180 -10000 0.5
   color 0.43 0.11 0.1
   recognitionColors [
     0.43 0.11 0.1
@@ -851,7 +853,7 @@ DEF SUMO_VEHICLE18 ToyotaPriusSimple {
   name "vehicle(20)"
 }
 DEF SUMO_VEHICLE19 RangeRoverSportSVRSimple {
-  translation 10000 0.5 190
+  translation -190 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -859,7 +861,7 @@ DEF SUMO_VEHICLE19 RangeRoverSportSVRSimple {
   name "vehicle(21)"
 }
 DEF SUMO_VEHICLE20 TruckSimple {
-  translation 10000 0.5 200
+  translation -200 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -868,7 +870,7 @@ DEF SUMO_VEHICLE20 TruckSimple {
   name "vehicle(22)"
 }
 DEF SUMO_VEHICLE21 ToyotaPriusSimple {
-  translation 10000 0.5 210
+  translation -210 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -876,11 +878,11 @@ DEF SUMO_VEHICLE21 ToyotaPriusSimple {
   name "vehicle(23)"
 }
 DEF SUMO_VEHICLE22 CitroenCZeroSimple {
-  translation 10000 0.5 220
+  translation -220 -10000 0.5
   name "vehicle(24)"
 }
 DEF SUMO_VEHICLE23 LincolnMKZSimple {
-  translation 10000 0.5 230
+  translation -230 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -888,7 +890,7 @@ DEF SUMO_VEHICLE23 LincolnMKZSimple {
   name "vehicle(25)"
 }
 DEF SUMO_VEHICLE24 CitroenCZeroSimple {
-  translation 10000 0.5 240
+  translation -240 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64

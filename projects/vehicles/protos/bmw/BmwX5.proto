@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -9,8 +9,8 @@
 # template language: javascript
 
 PROTO BmwX5 [
-  field SFVec3f      translation              0 0.4 0
-  field SFRotation   rotation                 0 1 0 0
+  field SFVec3f      translation              0 0 0.4
+  field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.43 0.11 0.1
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
@@ -76,6 +76,7 @@ PROTO BmwX5 [
     gearRatio   [-12.5 12.5 8 5.35 4.3 4]
     wheelFrontLeft BmwX5Wheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 30
@@ -91,27 +92,25 @@ PROTO BmwX5 [
     }
     wheelRearLeft BmwX5Wheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     extensionSlot [
       # Sensors slots
       Transform {
-        translation 0 0.3 -1
+        translation -1 0 0.3
+        rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 0.45 3.85
-        rotation 0 1 0 3.14159
+        translation 3.85 0 0.45
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 1.45 1
-        rotation 0 1 0 3.14159
+        translation 1 0 1.45
         children IS sensorsSlotTop
       }
       Transform {
-        translation 0 0 0
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       # lights
@@ -125,8 +124,8 @@ PROTO BmwX5 [
                   intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
-                  direction -0.2 -1 1
-                  location 0.65 0.45 3.95
+                  direction 1 -0.2 -1
+                  location 3.95 0.65 0.45
                   radius 20
                   castShadows TRUE
                 }
@@ -135,39 +134,74 @@ PROTO BmwX5 [
                   intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
-                  direction 0.2 -1 1
-                  location -0.65 0.45 3.95
+                  direction 1 0.2 -1
+                  location 3.95 -0.65 0.45
                   radius 20
                   castShadows TRUE
                 }
               %< } >%
-              BmwX5FrontLight {
+              Transform{
+                rotation 0.57735 0.57735 0.57735 2.094395
+                children [
+                  BmwX5FrontLight {
+                  }
+                ]
               }
             ]
           }
         ]
         rightIndicator [
-          BmwX5RightIndicator {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5RightIndicator {
+              }
+            ]
           }
         ]
         leftIndicator [
-          BmwX5LeftIndicator {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5LeftIndicator {
+              }
+            ]
           }
         ]
         antifog [
-          BmwX5AntiFogLight {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5AntiFogLight {
+              }
+            ]
           }
         ]
         rear [
-          BmwX5RearLight {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5RearLight {
+              }
+            ]
           }
         ]
         braking [
-          BmwX5BrakingLight {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5BrakingLight {
+              }
+            ]
           }
         ]
         backwards [
-          BmwX5BackwardsLight {
+          Transform{
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5BackwardsLight {
+              }
+            ]
           }
         ]
       }
@@ -183,13 +217,7 @@ PROTO BmwX5 [
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.414489 0.730049 2.176469
-                      0.410942 0.730049 2.176469
-                      0.414489 0.727043 2.173784
-                      0.410942 0.727043 2.173784
-                      0.410942 0.724502 2.171399
-                      0.410942 0.732554 2.178832
-                      0.406213 0.728528 2.175115
+                      2.176469 0.414489 0.730049 2.176469 0.410942 0.730049 2.173784 0.414489 0.727043 2.173784 0.410942 0.727043 2.171399 0.410942 0.724502 2.178832 0.410942 0.732554 2.175115 0.406213 0.728528
                     ]
                   }
                   coordIndex [
@@ -209,13 +237,7 @@ PROTO BmwX5 [
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.415657 0.727043 2.173784
-                      0.419204 0.727043 2.173784
-                      0.415657 0.730048 2.176469
-                      0.419204 0.730048 2.176469
-                      0.419204 0.732553 2.178832
-                      0.419204 0.724502 2.171399
-                      0.423934 0.728528 2.175115
+                      2.173784 0.415657 0.727043 2.173784 0.419204 0.727043 2.176469 0.415657 0.730048 2.176469 0.419204 0.730048 2.178832 0.419204 0.732553 2.171399 0.419204 0.724502 2.175115 0.423934 0.728528
                     ]
                   }
                   coordIndex [
@@ -233,8 +255,8 @@ PROTO BmwX5 [
       %< if (fields.windshieldWipers.value) { >%
       DEF RIGHT_WIPER HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.04 -2.19 -1.7
-          anchor 0.05 0.79 2.55
+          axis -1.7 0.04 -2.19
+          anchor 2.55 0.05 0.79
         }
         device [
           DEF RIGHT_WIPER_MOTOR RotationalMotor {
@@ -249,10 +271,15 @@ PROTO BmwX5 [
         ]
         endPoint Solid {
           children [
-            BmwX5RightWiper{
-              %< if (outerWindowTransparency !== 0) { >%
-                castShadows TRUE
-              %< } >%
+            Transform{
+              rotation 0.57735 0.57735 0.57735 2.094395
+              children [
+                BmwX5RightWiper{
+                  %< if (outerWindowTransparency !== 0) { >%
+                  castShadows TRUE
+                %< } >%
+                }
+              ]
             }
           ]
           name "right wiper"
@@ -260,8 +287,8 @@ PROTO BmwX5 [
       }
       DEF LEFT_WIPER HingeJoint {
         jointParameters HingeJointParameters {
-          axis -0.08 -1.85 -1.25
-          anchor 0.63 0.84 2.46
+          axis -1.25 -0.08 -1.85
+          anchor 2.46 0.63 0.84
         }
         device [
           DEF LEFT_WIPER_MOTOR RotationalMotor {
@@ -273,32 +300,52 @@ PROTO BmwX5 [
         ]
         endPoint Solid {
           children [
-            BmwX5LeftWiper {
-              %< if (outerWindowTransparency !== 0) { >%
-                castShadows TRUE
-              %< } >%
+            Transform{
+              rotation 0.57735 0.57735 0.57735 2.094395
+              children [
+                BmwX5LeftWiper{
+                  %< if (outerWindowTransparency !== 0) { >%
+                    castShadows TRUE
+                  %< } >%
+                }
+              ]
             }
           ]
           name "left wiper"
         }
       }
       %< } >%
-      BmwX5Mesh {
-        color IS color
-        outerWindowTransparency %<= outerWindowTransparency >%
+      Transform{
+          rotation 0.57735 0.57735 0.57735 2.094395
+          children [
+            BmwX5Mesh {
+              color IS color
+              outerWindowTransparency %<= outerWindowTransparency >%
+            }
+          ]
       }
       %< if (innerWindowTransparency !== 1) { >%
-          BmwX5InnerWindow {
-            innerWindowTransparency %<= innerWindowTransparency >%
-            innerWindowDust IS innerWindowDust
-          }
+        Transform{
+           rotation 0.57735 0.57735 0.57735 2.094395
+           children [
+             BmwX5InnerWindow {
+               innerWindowTransparency %<= innerWindowTransparency >%
+               innerWindowDust IS innerWindowDust
+             }
+          ]
+        }
       %< } >%
       %< if (fields.rightWingMirror.value) { >%
           DEF RIGHT_WING_DISPLAY Display {
             children [
       %< } >%
-      BmwX5RightWingMirror {
-      }
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          BmwX5RightWingMirror {
+          }
+        ]
+      }      
       %< if (fields.rightWingMirror.value) { >%
             ]
             name "right_wing_display"
@@ -310,7 +357,12 @@ PROTO BmwX5 [
           DEF LEFT_WING_DISPLAY Display {
             children [
       %< } >%
-      BmwX5LeftWingMirror {
+      Transform{
+      rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          BmwX5LeftWingMirror {
+          }
+        ]
       }
       %< if (fields.leftWingMirror.value) { >%
             ]
@@ -321,21 +373,26 @@ PROTO BmwX5 [
       %< } >%
       # vehicle interior
       %< if (interior) { >%
-              BmwX5Interior {
-                %< if (dynamicSpeedDisplay) { >%
-                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
-                %< } else { >%
-                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
-                %< } >%
-                indicatorLevers IS indicatorLevers
+              Transform{
+                rotation 0.57735 0.57735 0.57735 2.094395
+                children [
+                  BmwX5Interior {
+                    %< if (dynamicSpeedDisplay) { >%
+                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
+                    %< } else { >%
+                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+                    %< } >%
+                    indicatorLevers IS indicatorLevers
+                  }
+                ]
               }
               DEF REAR_MIRROR Hinge2Joint {
                 jointParameters HingeJointParameters {
-                  axis 0 1 0
-                  anchor -0.03 1.195 1.757
+                  axis 0 0 1
+                  anchor 1.757 -0.03 1.195
                 }
                 jointParameters2 JointParameters {
-                  axis 1 0 0
+                  axis 0 1 0
                 }
                 device [
                   DEF REAR_YAW_MOTOR RotationalMotor {
@@ -355,14 +412,24 @@ PROTO BmwX5 [
                 ]
                 endPoint Solid {
                   children [
-                    BmwX5CentralMirrorFrame {
+                    Transform{
+                      rotation 0.57735 0.57735 0.57735 2.094395
+                      children [
+                        BmwX5CentralMirrorFrame {
+                        }
+                      ]
                     }
                     # When active, the parameter changes REAR_DISPLAY Shape to a display
                     %< if (rearMirror) { >%
                       DEF REAR_DISPLAY Display {
                         children [
                     %< } >%
-                    BmwX5CentralMirror {
+                    Transform{
+                      rotation 0.57735 0.57735 0.57735 2.094395
+                      children [
+                        BmwX5CentralMirror {
+                        }
+                      ]
                     }
                     %< if (rearMirror) { >%
                         ]
@@ -376,12 +443,18 @@ PROTO BmwX5 [
                 }
               }
               %< if (completeInterior) { >%
-                  BmwX5RearInterior {
-                    shifter IS shifter
+                Transform{
+                    rotation 0.57735 0.57735 0.57735 2.094395
+                    children [
+                      BmwX5RearInterior {
+                        shifter IS shifter
+                      }
+                    ]
                   }
               %< } >%
               Transform {
-                translation 0.43 0.61 2.03
+                translation 2.03 0.43 0.61
+                rotation 0.57735 0.57735 0.57735 2.094395
                 children [
                   Slot {
                     type "vehicle steering wheel"
@@ -392,8 +465,8 @@ PROTO BmwX5 [
               %< if (dynamicSpeedDisplay) { >%
                   DEF SPEED_NEEDLE HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 -0.049 0.055
-                      anchor 0.5135 0.7308 2.16
+                      axis 0.055 0 -0.049
+                      anchor 2.16 0.5135 0.7308
                     }
                     device [
                       RotationalMotor {
@@ -415,15 +488,7 @@ PROTO BmwX5 [
                           geometry IndexedFaceSet {
                             coord Coordinate {
                               point [
-                                0.516675 0.719537 2.166991
-                                0.518099 0.721015 2.168242
-                                0.551327 0.70148 2.150175
-                                0.552352 0.701407 2.150081
-                                0.551936 0.702112 2.15071
-                                0.552172 0.701888 2.150507
-                                0.552397 0.701561 2.150215
-                                0.552171 0.701327 2.150017
-                                0.551686 0.701383 2.15008
+                                2.166991 0.516675 0.719537 2.168242 0.518099 0.721015 2.150175 0.551327 0.70148 2.150081 0.552352 0.701407 2.15071 0.551936 0.702112 2.150507 0.552172 0.701888 2.150215 0.552397 0.701561 2.150017 0.552171 0.701327 2.15008 0.551686 0.701383
                               ]
                             }
                             coordIndex [
@@ -439,8 +504,8 @@ PROTO BmwX5 [
                   }
                   DEF RPM_NEEDLE HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 -0.049 0.055
-                      anchor 0.3389 0.7319 2.16
+                      axis 0.055 0 -0.049
+                      anchor 2.16 0.3389 0.7319
                     }
                     device [
                       RotationalMotor {
@@ -457,15 +522,7 @@ PROTO BmwX5 [
                           geometry IndexedFaceSet {
                             coord Coordinate {
                               point [
-                                0.341341 0.720529 2.167793
-                                0.342776 0.722008 2.169029
-                                0.375846 0.702505 2.150643
-                                0.376871 0.702432 2.150539
-                                0.37646 0.703137 2.151172
-                                0.376694 0.702913 2.150967
-                                0.376916 0.702587 2.150672
-                                0.376689 0.702352 2.150476
-                                0.376204 0.702408 2.150545
+                                2.167793 0.341341 0.720529 2.169029 0.342776 0.722008 2.150643 0.375846 0.702505 2.150539 0.376871 0.702432 2.151172 0.37646 0.703137 2.150967 0.376694 0.702913 2.150672 0.376916 0.702587 2.150476 0.376689 0.702352 2.150545 0.376204 0.702408
                               ]
                             }
                             coordIndex [
@@ -485,11 +542,11 @@ PROTO BmwX5 [
       %< if (fields.leftWingMirror.value) { >%
           DEF LEFT_WING_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 0 0.3 0
-              anchor 1 0.9 2.08
+              axis 0 0 0.3
+              anchor 2.08 1 0.9
             }
             jointParameters2 JointParameters {
-              axis 0.3 0 0.061
+              axis 0.061 0.3 0
             }
             device [
               DEF LEFT_YAW_MOTOR RotationalMotor {
@@ -508,8 +565,8 @@ PROTO BmwX5 [
               }
             ]
             endPoint DEF LEFT_WING_CAMERA Camera {
-              translation 1 0.9 2.08
-              rotation 0 1 0 6.14
+              translation 2.08 1 0.9
+              rotation 0 0 1 3
               fieldOfView 0.5236
               name "left_wing_camera"
               width 512
@@ -521,11 +578,11 @@ PROTO BmwX5 [
       %< if (fields.rightWingMirror.value) { >%
           DEF RIGHT_WING_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 0 0.3 0
-              anchor -1 0.9 2.08
+              axis 0 0 0.3
+              anchor 2.08 -1 0.9
             }
             jointParameters2 JointParameters {
-              axis 0.3 0 -0.061
+              axis -0.061 0.3 0
             }
             device [
               DEF RIGHT_YAW_MOTOR RotationalMotor {
@@ -544,8 +601,8 @@ PROTO BmwX5 [
               }
             ]
             endPoint DEF RIGHT_WING_CAMERA Camera {
-              translation -1 0.9 2.08
-              rotation 0 1 0 0.14
+              translation 2.08 -1 0.9
+              rotation 0 0 1 3.28
               fieldOfView 0.5236
               name "right_wing_camera"
               width 512
@@ -557,11 +614,11 @@ PROTO BmwX5 [
       %< if (rearMirror) { >%
           DEF REAR_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 0 0.3 0
-              anchor 0 1.3 -0.7
+              axis 0 0 0.3
+              anchor -0.7 0 1.3
             }
             jointParameters2 JointParameters {
-              axis 0.3 0 0
+              axis 0 0.3 0
             }
             device [
               DEF REAR_YAW_MOTOR RotationalMotor {
@@ -580,7 +637,8 @@ PROTO BmwX5 [
               }
             ]
             endPoint DEF REAR_CAMERA Camera {
-              translation 0.8 1.3 -0.7
+              translation -0.7 0.8 1.3
+              rotation 0 0 1 3.14156
               name "rear_camera"
               width 256
               height 80
@@ -598,7 +656,8 @@ PROTO BmwX5 [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.29 2.6775
+          translation 2.6775 0 0.29
+          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
               size 1.73 0.76 2
@@ -606,7 +665,8 @@ PROTO BmwX5 [
           ]
         }
         Transform {
-          translation 0 0.63 0.5875
+          translation 0.5875 0 0.63
+          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
               size 1.73 1.44 2.14
@@ -614,7 +674,8 @@ PROTO BmwX5 [
           ]
         }
         Transform {
-          translation 0 0.53 -0.1725
+          translation -0.1725 0 0.53
+          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
               size 1.73 0.78 1.41
@@ -631,11 +692,11 @@ PROTO BmwX5 [
       density -1
       mass 2000
       centerOfMass [
-        0 0.1 1.2975
+        1.2975 0 0.1
       ]
       inertiaMatrix [
-        4473.54 4346.1 1125.07
-        0 0 -846.89
+        1125.07 4473.54 4346.1
+        0 846.89 0
       ]
     }
     window IS window

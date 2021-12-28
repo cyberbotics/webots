@@ -1762,7 +1762,7 @@ In general, Webots is compatible with ROS and ROS2, therefore you can use ROS pa
 ##### JSON Derulo 07/23/2020 08:57:35
 Awesome, thanks
 
-##### csnametala 07/27/2020 16:11:10
+##### samuel.nametala 07/27/2020 16:11:10
 Hello everyone!
 
 I have an e-puck robot in Webots simulations, and I wanted to detect when it hits a wall. How can I solve this?
@@ -7351,7 +7351,7 @@ Hello, I am learning Python, what courses or books do you advise me to continue 
 ##### DrakerDG 11/12/2020 05:25:52
 `@DrVoodoo` thanks a lot 😁👍🏼
 
-##### csnametala 11/12/2020 20:41:08
+##### samuel.nametala 11/12/2020 20:41:08
 Hello everyone!
 
 I am using more than one e-puck robot, and at some point some determined to stop for some reason while the others continue their process, so the problem is that when one is on hold, everyone else is stopping in the simulation.

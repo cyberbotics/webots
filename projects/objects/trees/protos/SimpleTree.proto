@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -19,7 +19,7 @@
 
 PROTO SimpleTree [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "tree"          # Defines the name of the tree.
   field SFString{"random", "oak tree", "crab apple tree", "cherry tree", "birch tree", "palm tree", "spruce", "white pine", "hackberry tree", "hazel tree"}
                    type                 "cherry tree"   # Defines the texture to be used. If set to `random`, a type will be randomly selected in the list.
@@ -109,11 +109,12 @@ Solid {
           point [
             # bottom cylinder
             %< for (let i = 0; i <= skip - 1; ++i) { >%
-              %<= circle[i].x >% %<= 0 >% %<= circle[i].y >%
+              %<= circle[i].x >% %<= circle[i].y >% %<= 0 >%
             %< } >%
+            
             # top cylinder
             %< for (let i = 0; i <= skip - 1; ++i) { >%
-              %<= circle[i].x >% %<= height >% %<= circle[i].y >%
+              %<= circle[i].x >% %<= circle[i].y >% %<= height >%
             %< } >%
           ]
         }
@@ -156,7 +157,7 @@ Solid {
   ]
   %< if (boundingObject) { >%
     boundingObject Transform {
-      translation 0 %<= height * 0.5 >% 0
+      translation 0 0 %<= height * 0.5 >% 
       children [
         Cylinder {
           height %<= height >%

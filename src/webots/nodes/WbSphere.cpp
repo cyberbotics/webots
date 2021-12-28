@@ -372,8 +372,8 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
     pointOnTexture /= absoluteScale();
   }
 
-  const double u = 0.5 + atan2(pointOnTexture.x(), pointOnTexture.z()) * 0.5 * M_1_PI;
-  const double v = 0.5 - WbMathsUtilities::clampedAsin(pointOnTexture.y() / scaledRadius()) * M_1_PI;
+  const double u = 0.5 + atan2(pointOnTexture.x(), -pointOnTexture.y()) * 0.5 * M_1_PI;
+  const double v = 0.5 - WbMathsUtilities::clampedAsin(pointOnTexture.z() / scaledRadius()) * M_1_PI;
 
   // result
   uv.setXy(u, v);

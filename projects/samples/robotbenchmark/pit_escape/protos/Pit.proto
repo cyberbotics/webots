@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -7,10 +7,10 @@
 
 PROTO Pit [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
-  field SFVec3f    size           20 5 20
+  field SFRotation rotation       0 0 1 0
+  field SFVec3f    size           20 20 5
   field SFInt32    xDimension     50
-  field SFInt32    zDimension     50
+  field SFInt32    yDimension     50
   field SFNode     appearance     SandyGround {}
   field SFInt32    randomSeed     1               # Defines the random seed, if seed <= 0 then set a random seed.
   field SFInt32    perlinNOctaves 3
@@ -86,39 +86,39 @@ PROTO Pit [
     rotation IS rotation
     children [
       DEF PIT_ELEVATION_GRID Transform {
-        translation %<= - fields.size.value.x * 0.5 >% 0 %<= - fields.size.value.z * 0.5 >%
+        translation %<= - fields.size.value.x * 0.5 >% %<= - fields.size.value.y * 0.5 >% 0
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %< if (fields.xDimension.value > 2 && fields.zDimension.value > 2) { >%
+              %< if (fields.xDimension.value > 2 && fields.yDimension.value > 2) { >%
                 xDimension IS xDimension
                 xSpacing %<= fields.size.value.x / (fields.xDimension.value - 1) >%
-                zDimension IS zDimension
-                zSpacing %<= fields.size.value.z / (fields.zDimension.value - 1) >%
+                yDimension IS yDimension
+                ySpacing %<= fields.size.value.y / (fields.yDimension.value - 1) >%
                 height [
                   %<
                     const xSigma = fields.pitRadius.value / fields.size.value.x;
-                    const zSigma = fields.pitRadius.value / fields.size.value.z;
+                    const ySigma = fields.pitRadius.value / fields.size.value.y;
                     const xMin = 0.5 - 3 * xSigma;
                     const xMax = 0.5 + 3 * xSigma;
-                    const zMin = 0.5 - 3 * zSigma;
-                    const zMax = 0.5 + 3 * zSigma;
+                    const yMin = 0.5 - 3 * ySigma;
+                    const yMax = 0.5 + 3 * ySigma;
                   >%
                   %< for (let i = 0; i <= fields.xDimension.value - 1; ++i) { >%
-                    %< for (let j = 0; j <= fields.zDimension.value - 1; ++j) { >%
+                    %< for (let j = 0; j <= fields.yDimension.value - 1; ++j) { >%
                       %<
                         let height = 1.0;
                         const x = i / fields.xDimension.value;
-                        const z = j / fields.zDimension.value;
-                        if (x > xMin && x < xMax && z > zMin && z < zMax) {
+                        const y = j / fields.yDimension.value;
+                        if (x > xMin && x < xMax && y > yMin && y < yMax) {
                           if (fields.perlinNOctaves.value > 0)
-                            height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z);
+                            height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, y);
 
-                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: zSigma}));
-                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: zSigma});
+                          height = height * (1.0 - gaussian2d(x - 0.5, y - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: ySigma}));
+                          height = height * gaussian2d(x - 0.5, y - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: ySigma});
 
-                          height = height * fields.size.value.y;
+                          height = height * fields.size.value.z;
                         } else
                           height = 0;
                       >%

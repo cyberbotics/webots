@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/epuck
@@ -9,6 +9,7 @@ PROTO Pi-puck [
 ]
 {
   Solid {
+    rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
     children [
       LED {
         translation -0.0301 0.0022 -0.0258
@@ -69,6 +70,7 @@ PROTO Pi-puck [
       }
       DEF CYLINDER_TRANSFORM Transform {
         translation 0 0.001 -0.0094
+        rotation 1 0 0 -1.5708
         children [
           DEF TOP Shape {
             appearance PBRAppearance {
@@ -295,7 +297,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation 0.02 0.002 -0.034
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         appearance PBRAppearance {
         }
         screwRadius 0.0008
@@ -303,7 +305,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.0005 0.002 0.0224
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(0)"
         appearance PBRAppearance {
         }
@@ -312,7 +314,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.02 0.002 -0.0347
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(1)"
         appearance PBRAppearance {
         }
@@ -377,6 +379,7 @@ PROTO Pi-puck [
     name "pi-puck"
     boundingObject DEF CYLINDER_TRANSFORM Transform {
       translation 0 0.001 -0.0094
+      rotation 1 0 0 -1.5708
       children [
         Cylinder {
           height 0.002

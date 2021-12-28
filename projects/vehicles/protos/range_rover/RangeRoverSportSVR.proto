@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO RangeRoverSportSVR [
-  field     SFVec3f    translation       0 0.4 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFVec3f    translation       0 0 0.4
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.0 0.25 0.65
   field     SFColor    secondaryColor    0.1 0.1 0.1
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
@@ -52,6 +52,7 @@ PROTO RangeRoverSportSVR [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "RangeRoverSportSVRWheels"
     }
     wheelFrontRight VehicleWheel {
@@ -88,275 +89,229 @@ PROTO RangeRoverSportSVR [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "RangeRoverSportSVRWheels"
     }
     extensionSlot [
       # Sensors slots
       Transform {
-        translation 0 0.5 3.5
-        rotation 0 1 0 3.1415
+        translation 3.5 0 0.5
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 0.33 -1.06
+        translation -1.06 0 0.33
+        rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 1.3 1.4
-        rotation 0 1 0 3.1415
+        translation 1.4 0 1.3
         children IS sensorsSlotTop
       }
       Transform {
-        rotation 0 1 0 3.1415
         children IS sensorsSlotCenter
       }
-      # lights
-      VehicleLights {
-        frontColor [
-          0.8 0.8 0.8
-        ]
-        front [
-          Group {
-            children [
-              %< if (frontSpotLights) { >%
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction -0.2 -1 1
-                  location 0.52 1 4
-                  radius 20
-                  on TRUE
-                }
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 0.2 -1 1
-                  location -0.52 1 4
-                  radius 20
-                }
-              %< } >%
-              DEF HEADLIGHT Shape {
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          # lights
+          VehicleLights {
+            frontColor [
+              0.8 0.8 0.8
+            ]
+            front [
+              Group {
+                children [
+                  %< if (frontSpotLights) { >%
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction -0.2 -1 1
+                      location 0.52 1 4
+                      radius 20
+                      on TRUE
+                    }
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction 0.2 -1 1
+                      location -0.52 1 4
+                      radius 20
+                    }
+                  %< } >%
+                  DEF HEADLIGHT Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.702 0.702 0.702
+                      metalness 0
+                      roughness 0.3
+                      emissiveIntensity 20
+                    }
+                    geometry RangeRoverSportSVRFrontLightsMesh {
+                    }
+                  }
+                ]
+              }
+            ]
+            rear [
+              Shape {
                 appearance PBRAppearance {
-                  baseColor 0.702 0.702 0.702
+                  baseColor 0.560784 0.113725 0.113725
                   metalness 0
-                  roughness 0.3
-                  emissiveIntensity 20
+                  roughness 0.35
+                  emissiveIntensity 10
                 }
-                geometry RangeRoverSportSVRFrontLightsMesh {
+                geometry RangeRoverSportSVRRearLightsMesh {
+                }
+              }
+            ]
+            rightIndicator [
+              DEF INDICATOR_RIGHT Shape {
+                appearance PBRAppearance {
+                  baseColor 0.870405 0.411917 0.147555
+                  metalness 0
+                  roughness 0.35
+                  emissiveIntensity 30
+                }
+                geometry RangeRoverSportSVRRightIndicatorMesh {
+                }
+              }
+            ]
+            leftIndicator [
+              DEF INDICATOR_LEFT Shape {
+                appearance PBRAppearance {
+                  baseColor 0.870405 0.411917 0.147555
+                  metalness 0
+                  roughness 0.35
+                  emissiveIntensity 30
+                }
+                geometry RangeRoverSportSVRLeftIndicatorMesh {
+                }
+              }
+            ]
+            braking [
+              DEF BRAKE_LIGHT Shape {
+                appearance DEF BREAKING_LIGHT_APP PBRAppearance {
+                  baseColor 0.560784 0.113725 0.113725
+                  metalness 0
+                  roughness 0.35
+                  emissiveIntensity 30
+                }
+                geometry RangeRoverSportSVRBrakingLightsMesh {
+                }
+              }
+            ]
+            antifogColor [ 0.3 0 0 ]
+            antifog [
+              DEF REAR_ANTIFOG_LIGHT Shape {
+                appearance DEF REAR_ANTIFOG_LIGHT_APP PBRAppearance {
+                  baseColor 0.560784 0.113725 0.113725
+                  metalness 0
+                  emissiveIntensity 10
+                }
+                geometry RangeRoverSportSVRAntifogLightsMesh {
                 }
               }
             ]
           }
-        ]
-        rear [
-          Shape {
+          # vehicle shape
+          DEF COACHWORK_PRIMARY Shape {
+            appearance GlossyPaint {
+              baseColor IS color
+            }
+            geometry RangeRoverSportSVRCoachworkPrimaryMesh {
+            }
+          }
+          DEF COACHWORK_SECONDARY Shape {
             appearance PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
+              baseColor IS secondaryColor
               metalness 0
-              roughness 0.35
-              emissiveIntensity 10
+              roughness 0.4
             }
-            geometry RangeRoverSportSVRRearLightsMesh {
+            geometry RangeRoverSportSVRCoachworkSecondaryMesh {
             }
           }
-        ]
-        rightIndicator [
-          DEF INDICATOR_RIGHT Shape {
+          DEF COACHWORK_DETAILS Shape {
             appearance PBRAppearance {
-              baseColor 0.870405 0.411917 0.147555
-              metalness 0
-              roughness 0.35
-              emissiveIntensity 30
-            }
-            geometry RangeRoverSportSVRRightIndicatorMesh {
-            }
-          }
-        ]
-        leftIndicator [
-          DEF INDICATOR_LEFT Shape {
-            appearance PBRAppearance {
-              baseColor 0.870405 0.411917 0.147555
-              metalness 0
-              roughness 0.35
-              emissiveIntensity 30
-            }
-            geometry RangeRoverSportSVRLeftIndicatorMesh {
-            }
-          }
-        ]
-        braking [
-          DEF BRAKE_LIGHT Shape {
-            appearance DEF BREAKING_LIGHT_APP PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
-              metalness 0
-              roughness 0.35
-              emissiveIntensity 30
-            }
-            geometry RangeRoverSportSVRBrakingLightsMesh {
-            }
-          }
-        ]
-        antifogColor [ 0.3 0 0 ]
-        antifog [
-          DEF REAR_ANTIFOG_LIGHT Shape {
-            appearance DEF REAR_ANTIFOG_LIGHT_APP PBRAppearance {
-              baseColor 0.560784 0.113725 0.113725
-              metalness 0
-              emissiveIntensity 10
-            }
-            geometry RangeRoverSportSVRAntifogLightsMesh {
-            }
-          }
-        ]
-      }
-      # vehicle shape
-      DEF COACHWORK_PRIMARY Shape {
-        appearance GlossyPaint {
-          baseColor IS color
-        }
-        geometry RangeRoverSportSVRCoachworkPrimaryMesh {
-        }
-      }
-      DEF COACHWORK_SECONDARY Shape {
-        appearance PBRAppearance {
-          baseColor IS secondaryColor
-          metalness 0
-          roughness 0.4
-        }
-        geometry RangeRoverSportSVRCoachworkSecondaryMesh {
-        }
-      }
-      DEF COACHWORK_DETAILS Shape {
-        appearance PBRAppearance {
-          baseColor 0.7 0.7 0.7
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
-            ]
-          }
-        }
-        geometry RangeRoverSportSVRCoachworkDetailsMesh {
-        }
-      }
-      DEF BOTTOM Shape {
-        appearance PBRAppearance {
-          baseColor 0.1 0.1 0.1
-          roughness 0.9
-          metalness 0
-        }
-        geometry RangeRoverSportSVRBottomMesh {
-        }
-      }
-      DEF WINDOWS Shape {
-        appearance PBRAppearance {
-          baseColor 0.2 0.2 0.2
-          metalness 0
-        }
-        geometry RangeRoverSportSVRWindowsMesh {
-        }
-      }
-      DEF LEFT_MIRROR Shape {
-        appearance DEF MIRROR_APP PBRAppearance {
-        }
-        geometry RangeRoverSportSVRLeftMirrorMesh {
-        }
-      }
-      DEF RIGHT_MIRROR Shape {
-        appearance USE MIRROR_APP
-        geometry RangeRoverSportSVRRightMirrorMesh {
-        }
-      }
-      DEF FRONT_PLATE Transform {
-        translation 0 0.28 3.51
-        rotation 0 1 0 3.1416
-        scale 1.2 1.2 3.1
-        children [
-          Shape {
-            appearance DEF PLATE_APPEARANCE PBRAppearance {
-              metalness 0
-              roughness 0.5
+              baseColor 0.7 0.7 0.7
               baseColorMap ImageTexture {
-                url IS plate
+                url [
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
+                ]
               }
             }
-            geometry IndexedFaceSet {
-              coord Coordinate {
-                point [
-                  0.24 0.068 -0.01
-                  0.24 0 -0.01
-                  -0.24 0 -0.01
-                  -0.24 0.068 -0.01
-                  0.24 0.068 0
-                  0.24 0 0
-                  -0.24 0 0
-                  -0.24 0.068 0
-                ]
-              }
-              texCoord TextureCoordinate {
-                point [
-                  0 0
-                  0 1
-                  1 1
-                  1 0
-                  0.5 0.5
-                ]
-              }
-              coordIndex [
-                3, 0, 1, 2, -1, 0, 3, 7, 4, -1
-                2, 6, 7, 3, -1, 0, 4, 5, 1, -1
-                6, 2, 1, 5, -1
-              ]
-              texCoordIndex [
-                2, 1, 0, 3, -1
-                4, 4, 4, 4, -1
-                4, 4, 4, 4, -1
-                4, 4, 4, 4, -1
-                4, 4, 4, 4, -1
-              ]
+            geometry RangeRoverSportSVRCoachworkDetailsMesh {
             }
           }
-        ]
-      }
-      DEF REAR_PLATE Transform {
-        translation 0 0.56 -0.96
-        rotation 0 1 0 3.1416
-        scale 0.8 0.8 1
-        children [
-          Transform {
-            rotation 1 0 0 -0.19
+          DEF BOTTOM Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              roughness 0.9
+              metalness 0
+            }
+            geometry RangeRoverSportSVRBottomMesh {
+            }
+          }
+          DEF WINDOWS Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.2
+              metalness 0
+            }
+            geometry RangeRoverSportSVRWindowsMesh {
+            }
+          }
+          DEF LEFT_MIRROR Shape {
+            appearance DEF MIRROR_APP PBRAppearance {
+            }
+            geometry RangeRoverSportSVRLeftMirrorMesh {
+            }
+          }
+          DEF RIGHT_MIRROR Shape {
+            appearance USE MIRROR_APP
+            geometry RangeRoverSportSVRRightMirrorMesh {
+            }
+          }
+          DEF FRONT_PLATE Transform {
+            translation 0 0.28 3.51
+            rotation 0 1 0 3.1416
+            scale 1.2 1.2 3.1
             children [
               Shape {
-                appearance USE PLATE_APPEARANCE
+                appearance DEF PLATE_APPEARANCE PBRAppearance {
+                  metalness 0
+                  roughness 0.5
+                  baseColorMap ImageTexture {
+                    url IS plate
+                  }
+                }
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.261 0.123 0.015
-                      0.261 0 0.015
-                      -0.261 0 0.015
-                      -0.261 0.123 0.015
-                      0.261 0.123 0
-                      0.261 0 0
-                      -0.261 0 0
-                      -0.261 0.123 0
+                      0.24 0.068 -0.01
+                      0.24 0 -0.01
+                      -0.24 0 -0.01
+                      -0.24 0.068 -0.01
+                      0.24 0.068 0
+                      0.24 0 0
+                      -0.24 0 0
+                      -0.24 0.068 0
                     ]
                   }
                   texCoord TextureCoordinate {
@@ -369,18 +324,68 @@ PROTO RangeRoverSportSVR [
                     ]
                   }
                   coordIndex [
-                    3, 2, 1, 0, -1, 0, 4, 7, 3, -1
-                    2, 3, 7, 6, -1, 0, 1, 5, 4, -1
-                    6, 5, 1, 2, -1
+                    3, 0, 1, 2, -1, 0, 3, 7, 4, -1
+                    2, 6, 7, 3, -1, 0, 4, 5, 1, -1
+                    6, 2, 1, 5, -1
                   ]
                   texCoordIndex [
-                    1, 0, 3, 2, -1
+                    2, 1, 0, 3, -1
                     4, 4, 4, 4, -1
                     4, 4, 4, 4, -1
                     4, 4, 4, 4, -1
                     4, 4, 4, 4, -1
                   ]
                 }
+              }
+            ]
+          }
+          DEF REAR_PLATE Transform {
+            translation 0 0.56 -0.96
+            rotation 0 1 0 3.1416
+            scale 0.8 0.8 1
+            children [
+              Transform {
+                rotation 1 0 0 -0.19
+                children [
+                  Shape {
+                    appearance USE PLATE_APPEARANCE
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.261 0.123 0.015
+                          0.261 0 0.015
+                          -0.261 0 0.015
+                          -0.261 0.123 0.015
+                          0.261 0.123 0
+                          0.261 0 0
+                          -0.261 0 0
+                          -0.261 0.123 0
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0
+                          0 1
+                          1 1
+                          1 0
+                          0.5 0.5
+                        ]
+                      }
+                      coordIndex [
+                        3, 2, 1, 0, -1, 0, 4, 7, 3, -1
+                        2, 3, 7, 6, -1, 0, 1, 5, 4, -1
+                        6, 5, 1, 2, -1
+                      ]
+                      texCoordIndex [
+                        1, 0, 3, 2, -1
+                        4, 4, 4, 4, -1
+                        4, 4, 4, 4, -1
+                        4, 4, 4, 4, -1
+                        4, 4, 4, 4, -1
+                      ]
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -400,19 +405,19 @@ PROTO RangeRoverSportSVR [
     boundingObject Group {
       children [
         DEF LOWER_BOX Transform {
-          translation 0 0.35 1.25
-          rotation 1 0 0 0.02
+          translation 1.25 0 0.35
+          rotation 0 1 0 0.02
           children [
             Box {
-              size 1.8 0.8 4.5
+              size 4.5 1.8 0.8
             }
           ]
         }
         DEF CENTRAL_BOX Transform {
-          translation 0 0.85 0.6
+          translation 0.6 0 0.85
           children [
             Box {
-              size 1.5 0.75 2.7
+              size 2.7 1.5 0.75
             }
           ]
         }
@@ -422,7 +427,7 @@ PROTO RangeRoverSportSVR [
       density -1
       mass 2700  # calibrated
       centerOfMass [
-        0 0.2 1.6 # estimated roughly
+        1.6 0 0.2 # estimated roughly
       ]
     }
     window IS window

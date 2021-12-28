@@ -148,7 +148,7 @@ void wbu_car_init() {
              &instance->gear_number, &engine_sound_length);
 
   if (i < 20) {
-    fprintf(stderr, "Error: Only nodes based on the 'Car' node can used the car library.\n");
+    fprintf(stderr, "Error: Only nodes based on the 'Car' node can use the car library.\n");
     exit(-1);
   }
 
@@ -416,6 +416,32 @@ double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index) {
     return 0.0;
   }
   return instance->speeds[wheel_index];
+}
+
+void wbu_car_set_right_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_right_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->right_angle = angle;
+  wb_motor_set_position(instance->steering_motors[0], angle);
+}
+
+void wbu_car_set_left_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_left_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->left_angle = angle;
+  wb_motor_set_position(instance->steering_motors[1], angle);
 }
 
 double wbu_car_get_right_steering_angle() {

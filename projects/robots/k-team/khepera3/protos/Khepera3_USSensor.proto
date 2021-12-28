@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Ultrasound sensor of a Khepera III robot.
@@ -6,7 +6,7 @@
 
 PROTO Khepera3_USSensor [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
   field SFString name "ds"
 ]
 {
@@ -35,7 +35,7 @@ PROTO Khepera3_USSensor [
           }
           Transform {
             translation -0.0025 0 0.007
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE BLACK
@@ -48,7 +48,7 @@ PROTO Khepera3_USSensor [
           }
           Transform {
             translation -0.0025 0 -0.007
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE BLACK
@@ -58,7 +58,7 @@ PROTO Khepera3_USSensor [
           }
           Transform {
             translation 0 0 0.0045
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance DEF GRAY PBRAppearance {
@@ -74,7 +74,7 @@ PROTO Khepera3_USSensor [
           }
           Transform {
             translation 0 0 -0.0045
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE GRAY

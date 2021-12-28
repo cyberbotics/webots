@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a \"force-3d\" TouchSensor."
@@ -9,12 +9,11 @@ WorldInfo {
   ]
   title "Force-3D TouchSensor"
   basicTimeStep 8
-  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {
-  orientation -0.3551789292574214 0.9071718193145244 0.22558195506983134 1.0689
-  position 1.00885 0.613627 0.690241
+  orientation 0.2580831455033969 -0.016547963294826135 -0.9659809806191143 3.118223592990756
+  position 2.1183192852410806 0.06444514568005394 1.471540128646534
 }
 TexturedBackground {
 }
@@ -23,7 +22,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Robot {
-  translation 0 0.25 0
+  translation 0 0 0.25
   children [
     DEF ROBOT_SHAPE Shape {
       appearance PBRAppearance {

@@ -1,0 +1,26 @@
+#VRML_SIM R2021b utf8
+
+PROTO Bc21bCameraProto [
+]
+{
+  DEF CAMERA_DEVICE Camera {
+    rotation 0.57735 0.577351 -0.57735 -2.0944
+    children [
+      DEF CYLINDER_TRANSFORM Transform {
+        translation 0 0 0.05
+        rotation 1 0 0 1.5708
+        children [
+          Shape {
+            appearance GalvanizedMetal {
+            }
+            geometry DEF CYLINDER_SHAPE Cylinder {
+              height 0.1
+              radius 0.02
+              subdivision 24
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

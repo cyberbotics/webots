@@ -77,7 +77,7 @@ inline double WbMathsUtilities::clampedAcos(double value) {
   if (value >= 1.0)
     return 0.0;
   if (value <= -1.0)
-    return 2.0 * M_PI;
+    return M_PI;
   return acos(value);
 }
 

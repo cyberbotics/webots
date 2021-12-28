@@ -1,18 +1,18 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.41573087622488036 0.8178207565110802 0.3979158815289201 4.46958
-  position -0.31537 0.625615 0.156083
+  orientation -0.41861452434951396 -0.4614807625269825 0.7821747795864712 4.565050731368961
+  position -0.29490883746897734 0.5027581913959289 0.9006058013256616
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
-  translation 0.15 0 0.205
+  translation -0.205 -0.15 0
+  rotation 0 0 1 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -36,12 +36,12 @@ Shape {
   geometry IndexedFaceSet {
     coord Coordinate {
       point [
-        0.21 0 0.07
-        0.09 0 0.22
-        0.25 0 0.26
-        0.21 0.0001 0.07
-        0.09 0.0001 0.22
-        0.25 0.0001 0.26
+        -0.07 -0.21 0
+        -0.22 -0.09 0
+        -0.26 -0.25 0
+        -0.07 -0.21 0.0001
+        -0.22 -0.09 0.0001
+        -0.26 -0.25 0.0001
       ]
     }
     coordIndex [
@@ -52,7 +52,7 @@ Shape {
   }
 }
 Transform {
-  translation 0.04 0 0.04
+  translation -0.04 -0.04 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -69,7 +69,7 @@ Transform {
   ]
 }
 Transform {
-  translation 0.245 0 0.36
+  translation -0.36 -0.245 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -96,28 +96,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.41 0 0.52
-            0.41 0 -0.11
-            -0.11 0 -0.11
-            -0.11 0 0.52
-            -0.1 0 0.52
-            -0.1 0 -0.1
-            0.4 0 -0.1
-            0.4 0 0.51
-            -0.1 0 0.51
-            -0.1 0 0.52
-            0.41 0 0.52
-            0.41 0.05 0.52
-            0.41 0.05 -0.11
-            -0.11 0.05 -0.11
-            -0.11 0.05 0.52
-            -0.1 0.05 0.52
-            -0.1 0.05 -0.1
-            0.4 0.05 -0.1
-            0.4 0.05 0.51
-            -0.1 0.05 0.51
-            -0.1 0.05 0.52
-            0.41 0.05 0.52
+            -0.52 -0.41 0
+            0.11 -0.41 0
+            0.11 0.11 0
+            -0.52 0.11 0
+            -0.52 0.1 0
+            0.1 0.1 0
+            0.1 -0.4 0
+            -0.51 -0.4 0
+            -0.51 0.1 0
+            -0.52 0.1 0
+            -0.52 -0.41 0
+            -0.52 -0.41 0.05
+            0.11 -0.41 0.05
+            0.11 0.11 0.05
+            -0.52 0.11 0.05
+            -0.52 0.1 0.05
+            0.1 0.1 0.05
+            0.1 -0.4 0.05
+            -0.51 -0.4 0.05
+            -0.51 0.1 0.05
+            -0.52 0.1 0.05
+            -0.52 -0.41 0.05
           ]
         }
         coordIndex [
@@ -130,24 +130,24 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.405 0.025 0.205
+        translation -0.205 -0.405 0.025
         children [
           DEF WALL_1 Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.63
+              size 0.63 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.105 0.025 0.205
+        translation -0.205 0.105 0.025
         children [
           USE WALL_1
         ]
       }
       Transform {
-        translation 0.15 0.025 0.515
+        translation -0.515 -0.15 0.025
         children [
           DEF WALL_2 Shape {
             appearance PBRAppearance {
@@ -156,13 +156,13 @@ DEF WALL Solid {
               metalness 0
             }
             geometry Box {
-              size 0.52 0.05 0.01
+              size 0.01 0.52 0.05
             }
           }
         ]
       }
       Transform {
-        translation 0.15 0.025 -0.105
+        translation 0.105 -0.15 0.025
         children [
           USE WALL_2
         ]
@@ -172,8 +172,8 @@ DEF WALL Solid {
   locked TRUE
 }
 E-puck {
-  translation 0.04 0 0.04
-  rotation 0 1 0 3.14159
+  translation -0.04 -0.04 0
+  rotation 0 0 1 3.14159
   controller "advanced_path_planning_potential_field"
   turretSlot [
     Display {

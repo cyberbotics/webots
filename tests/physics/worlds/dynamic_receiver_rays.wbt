@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Dynamic receiver rays"
 }
@@ -16,7 +16,6 @@ PointLight {
   location 0 0 0.3
 }
 Solid {
-  rotation 1 0 0 1.5707996938995747
   children [
     Shape {
       appearance PBRAppearance {
@@ -30,22 +29,29 @@ Solid {
 }
 DEF DYNAMIC_EMITTER Robot {
   translation 0 -0.1 0.15
-  rotation 1 0 0 -1.5707996938995747
+  rotation 1 0 0 -1.5708
   children [
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          translation 0 3.67321e-08 0.05
-          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance BrushedSteel {
-              }
-              geometry Cone {
-                bottomRadius 0.025
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance BrushedSteel {
+                  }
+                  geometry Cone {
+                    bottomRadius 0.025
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -55,19 +61,26 @@ DEF DYNAMIC_EMITTER Robot {
       aperture 0.4
     }
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          translation 0 3.67321e-08 0.05
-          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance BrushedSteel {
-              }
-              geometry Cone {
-                bottomRadius 0.025
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance BrushedSteel {
+                  }
+                  geometry Cone {
+                    bottomRadius 0.025
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -76,6 +89,8 @@ DEF DYNAMIC_EMITTER Robot {
       type "infra-red"
       range 0.1
       aperture 0.4
+    }
+    TestSuiteEmitter {
     }
   ]
   name "dynamic emitter"
@@ -92,19 +107,26 @@ DEF STATIC_EMITTER Robot {
   rotation 1 0 0 1.5708
   children [
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          translation 0 3.67321e-08 0.05
-          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance BrushedSteel {
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance BrushedSteel {
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -114,19 +136,26 @@ DEF STATIC_EMITTER Robot {
       aperture 0.4
     }
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance BrushedSteel {
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance BrushedSteel {
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -166,7 +195,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {
@@ -209,7 +238,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {
@@ -238,21 +267,27 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation 0 0.02 0
-      rotation 0 0.70710528118436 0.707108281185553 3.14159
+      rotation 0 0 -1 -1.5708
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108281185553 0.70710528118436 3.14159
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance GlossyPaint {
-                baseColor 0.960784 0.47451 0
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance GlossyPaint {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -262,21 +297,27 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0 -0.02 0
-      rotation 1 0 0 1.5708
+      rotation 0 0 1 -1.5708
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108281185553 0.70710528118436 3.14159
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance GlossyPaint {
-                baseColor 0.960784 0.47451 0
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance GlossyPaint {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -286,21 +327,27 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation 0 0.02 0
-      rotation -1.1001696595529861e-06 0.7071067811861197 0.7071067811861197 3.14159
+      rotation 0 0 -1 -1.5708
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108281185553 0.70710528118436 3.14159
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance GlossyPaint {
-                baseColor 0.960784 0.47451 0
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance GlossyPaint {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }
@@ -311,21 +358,27 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0 -0.02 0
-      rotation 1 0 0 1.57079
+      rotation 0 0 1 -1.5708
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108281185553 0.70710528118436 3.14159
+          rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance GlossyPaint {
-                baseColor 0.960784 0.47451 0
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance GlossyPaint {
+                    baseColor 0.960784 0.47451 0
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
+                }
+              ]
             }
           ]
         }

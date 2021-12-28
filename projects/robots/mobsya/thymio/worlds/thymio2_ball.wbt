@@ -1,7 +1,6 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -12,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4763769133017915 -0.8450938461971593 -0.2426549558380153 5.16919
-  position 2.40884 2.46245 1.5833
+  orientation -0.21750305649599408 -0.10096418946620052 0.9708236981349052 3.9883994864493637
+  position 1.7633463761980293 2.190420096700012 1.8438794657539856
   follow "thymio2"
 }
 TexturedBackground {
@@ -23,9 +22,10 @@ TexturedBackgroundLight {
 CircleArena {
 }
 Thymio2 {
-  translation 0 1 0
+  translation 0 0 1
   controller "thymio2_demo"
   window "thymio2"
 }
 Thymio2Ball {
+  rotation 1 0 0 1.5707963267948966
 }

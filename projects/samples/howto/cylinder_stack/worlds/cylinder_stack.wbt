@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Khepera III robot"
   ]
   title "Khepera III"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       forceDependentSlip [
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4017040785490224 0.8742441709492849 0.2726370533113183 4.95319
-  position -2.80575 2.02392 0.955991
+  orientation -0.2932054533952951 -0.4598064711493951 0.8382174963506788 4.863068294709866
+  position -1.3170245870108204 3.2443439290698604 3.042026038301424
 }
 TexturedBackground {
 }
@@ -27,8 +26,8 @@ RectangleArena {
   floorSize 2 2
 }
 DEF RED_CYLINDER Solid {
-  translation 0 0.273205 0
-  rotation 0 0 1 1.5708
+  translation 0 0 0.273205
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -49,8 +48,8 @@ DEF RED_CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.273205 -0.2
-  rotation 0 0 1 1.5708
+  translation 0.2 0 0.273205
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -70,8 +69,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.273205 0.2
-  rotation 0 0 1 1.5708
+  translation -0.2 0 0.273205
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -81,8 +80,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.44641 0.1
-  rotation 0 0 1 1.5708
+  translation -0.1 0 0.44641
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -92,8 +91,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.44641 -0.1
-  rotation 0 0 1 1.5708
+  translation 0.1 0 0.44641
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -103,8 +102,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.619615 0
-  rotation 0 0 1 1.5708
+  translation 0 0 0.619615
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -114,8 +113,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.1 0.1
-  rotation 0 0 1 1.5708
+  translation -0.1 0 0.1
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -125,8 +124,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.1 -0.1
-  rotation 0 0 1 1.5708
+  translation 0.1 0 0.1
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -136,8 +135,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.1 0.3
-  rotation 0 0 1 1.5708
+  translation -0.3 0 0.1
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -147,8 +146,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 0 0.1 -0.3
-  rotation 0 0 1 1.5708
+  translation 0.3 0 0.1
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
   children [
     USE CYLINDER_SHAPE
   ]
@@ -157,6 +156,7 @@ DEF CYLINDER Solid {
   }
 }
 Robot {
+  rotation 0 0 1 1.5708
   controller "contact_points_supervisor"
   supervisor TRUE
 }

@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Fire Bird 6 simulation"
   ]
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "firebird castor"
@@ -15,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.4318718054655483 -0.8760586053838703 -0.21449490338186497 1.22874
-  position -1.23028 0.976613 0.671657
+  orientation 0.1624391008834731 0.6067334164709609 -0.7781311585084125 0.8159308639640482
+  position -1.6998382810541428 0.9733078859466069 1.365620416962204
 }
 TexturedBackground {
 }
@@ -28,6 +27,6 @@ RectangleArena {
   wallHeight 0.2
 }
 FireBird6 {
-  translation 0 0.135 0
+  translation 0 0 0.135
   remoteControl "fire_bird_6_remote_control"
 }

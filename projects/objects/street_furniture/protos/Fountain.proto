@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable fountain.
@@ -6,7 +6,7 @@
 
 PROTO Fountain [
   field SFVec3f     translation            0 0 0
-  field SFRotation  rotation               0 1 0 0
+  field SFRotation  rotation               0 0 1 0
   field SFString    name                   "fountain"
   field SFFloat     height                 1.5         # Defines the height of the fountain.
   field SFFloat     radius                 1           # Defines the radius of the fountain.
@@ -67,7 +67,7 @@ PROTO Fountain [
           ]
           spine [
             %< for (let i = 0; i < heights.length; ++i) { >%
-              0 %<= heights[i] * height >% 0
+              0 0 %<= heights[i] * height >%
             %< } >%
           ]
           scale [
@@ -82,7 +82,7 @@ PROTO Fountain [
       }
       #contour pipe
       SolidPipe {
-        translation 0 %<= 0.075 * height >% 0
+        translation 0 0 %<= 0.075 * height >%
         name "bottom pipe"
         height %<= 0.13 * height >%
         radius %<= radius >%
@@ -102,7 +102,7 @@ PROTO Fountain [
         }
       }
       SolidPipe {
-        translation 0 %<= 0.53 * height >% 0
+        translation 0 0 %<= 0.53 * height >%
         name "middle pipe"
         height %<= 0.066 * height >%
         radius %<= 0.6 * radius >%
@@ -111,7 +111,7 @@ PROTO Fountain [
         appearance USE PIPE
       }
       SolidPipe {
-        translation 0 %<= 0.91 * height >% 0
+        translation 0 0 %<= 0.91 * height >%
         name "top pipe"
         height %<= 0.033 * height >%
         radius %<= 0.4 * radius >%
@@ -120,7 +120,7 @@ PROTO Fountain [
         appearance USE PIPE
       }
       Transform {
-        translation 0 %<= 0.0385 * height >% 0
+        translation 0 0 %<= 0.0385 * height >%
         children [
           Shape {
             appearance DEF SURFACES PBRAppearance {
@@ -144,7 +144,7 @@ PROTO Fountain [
         ]
       }
       Transform {
-        translation 0 %<= 0.504 * height >% 0
+        translation 0 0 %<= 0.504 * height >%
         children [
           Shape {
             appearance USE SURFACES
@@ -157,7 +157,7 @@ PROTO Fountain [
         ]
       }
       Transform {
-        translation 0 %<= 0.9 * height >% 0
+        translation 0 0 %<= 0.9 * height >%
         children [
           Shape {
             appearance USE SURFACES
@@ -171,7 +171,7 @@ PROTO Fountain [
       }
       # water
       Transform {
-        translation 0 %<= 0.066 * height >% 0
+        translation 0 0 %<= 0.066 * height >%
         children [
           Shape {
             appearance DEF WATER PBRAppearance {
@@ -191,7 +191,7 @@ PROTO Fountain [
         ]
       }
       Transform {
-        translation 0 %<= 0.52 * height >% 0
+        translation 0 0 %<= 0.52 * height >%
         children [
           Shape {
             appearance USE WATER
@@ -206,7 +206,7 @@ PROTO Fountain [
         ]
       }
       Transform {
-        translation 0 %<= 0.88 * height >% 0
+        translation 0 0 %<= 0.88 * height >%
         children [
           Shape {
             appearance USE WATER
@@ -224,7 +224,8 @@ PROTO Fountain [
     name IS name
     model "fountain"
     boundingObject Transform {
-      translation 0 %<= 0.45 * height >% 0
+      translation 0 0 %<= 0.45 * height >%
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           geometry Cylinder {

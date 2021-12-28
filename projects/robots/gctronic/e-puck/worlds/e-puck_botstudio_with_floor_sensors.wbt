@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 5.75
-  position -0.45 0.25 0.33
+  orientation 0.2398698445239827 0.003300244679703396 -0.9707994468854493 2.96565158641289
+  position 0.5303391753638793 0.5342225807635357 0.27329629919818754
   follow "e-puck"
 }
 TexturedBackground {
@@ -12,6 +11,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 0 1 -1.5707953071795862
   floorSize 1.2 1.8
   floorTileSize 1.2 1.8
   floorAppearance PBRAppearance {
@@ -25,8 +25,8 @@ RectangleArena {
   }
 }
 DEF E_PUCK E-puck {
-  translation -0.44 0 0
-  rotation 0 1 0 6.28319
+  translation 0 0.44 0
+  rotation 0 0 1 6.28319
   controller "line_follower"
   camera_width 40
   camera_height 1

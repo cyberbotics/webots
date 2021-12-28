@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,7 +7,7 @@
 
 PROTO LFootSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
 Solid {
@@ -22,7 +22,6 @@ Solid {
     children [
       Transform {
         translation 0.048 0 -0.076119
-        rotation 0.0 1.0 0.0 0.0
         children [
           Box {
             size 0.26 0.124887 0.01

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/koala
@@ -6,7 +6,7 @@
 
 PROTO Koala [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            "Koala" # Is `Solid.name`.
   field SFString   controller      "koala" # Is `Robot.controller`.
   field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
@@ -38,7 +38,7 @@ PROTO Koala [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0.14 0.085 0.083, 0.14 0.085 -0.106, 0.133 0.085 -0.127, 0.125 0.085 -0.139, 0.113 0.085 -0.149, 0.091 0.085 -0.158, 0.035 0.085 -0.17, 0 0.085 -0.175, -0.035 0.085 -0.17, -0.091 0.085 -0.158, -0.113 0.085 -0.149, -0.125 0.085 -0.139, -0.133 0.085 -0.127, -0.14 0.085 -0.106, -0.14 0.085 0.083, -0.133 0.085 0.104, -0.125 0.085 0.116, -0.113 0.085 0.126, -0.091 0.085 0.13, 0.091 0.085 0.13, 0.113 0.085 0.126, 0.125 0.085 0.116, 0.133 0.085 0.104, 0.14 0.085 0.083, 0.14 0.135 0.083, 0.14 0.135 -0.106, 0.133 0.135 -0.127, 0.125 0.135 -0.139, 0.113 0.135 -0.149, 0.091 0.135 -0.158, 0.035 0.135 -0.17, 0 0.135 -0.175, -0.035 0.135 -0.17, -0.091 0.135 -0.158, -0.113 0.135 -0.149, -0.125 0.135 -0.139, -0.133 0.135 -0.127, -0.14 0.135 -0.106, -0.14 0.135 0.083, -0.133 0.135 0.104, -0.125 0.135 0.116, -0.113 0.135 0.126, -0.091 0.135 0.13, 0.091 0.135 0.13, 0.113 0.135 0.126, 0.125 0.135 0.116, 0.133 0.135 0.104, 0.14 0.135 0.083
+              -0.0830008 -0.1400006 0.0849982 0.1059992 -0.1400013 0.0849989 0.1269992 -0.1330013 0.0849991 0.1389992 -0.1250014 0.0849992 0.1489993 -0.1130014 0.0849993 0.1579994 -0.0910015 0.0849996 0.1699996 -0.0350015 0.0850002 0.1749997 -1.5e-06 0.0850006 0.1699998 0.0349985 0.085001 0.158 0.0909985 0.0850015 0.1490001 0.1129986 0.0850017 0.1390001 0.1249986 0.0850018 0.1270002 0.1329987 0.0850019 0.1060002 0.1399987 0.0850019 -0.0829998 0.1399994 0.0850012 -0.1039998 0.1329995 0.085001 -0.1159999 0.1249995 0.0850009 -0.1259999 0.1129996 0.0850007 -0.13 0.0909996 0.0850005 -0.1300006 -0.0910004 0.0849986 -0.1260007 -0.1130004 0.0849984 -0.1160008 -0.1250005 0.0849983 -0.1040008 -0.1330005 0.0849982 -0.0830008 -0.1400006 0.0849982 -0.083001 -0.1400011 0.1349982 0.105999 -0.1400018 0.1349989 0.126999 -0.1330019 0.1349991 0.1389991 -0.1250019 0.1349992 0.1489991 -0.113002 0.1349993 0.1579992 -0.091002 0.1349996 0.1699994 -0.035002 0.1350002 0.1749995 -2e-06 0.1350006 0.1699996 0.034998 0.135001 0.1579998 0.090998 0.1350015 0.1489999 0.112998 0.1350017 0.139 0.1249981 0.1350018 0.127 0.1329981 0.1350019 0.106 0.1399982 0.1350019 -0.083 0.1399989 0.1350012 -0.104 0.132999 0.135001 -0.116 0.124999 0.1350009 -0.1260001 0.112999 0.1350007 -0.1300002 0.090999 0.1350005 -0.1300008 -0.091001 0.1349986 -0.1260009 -0.113001 0.1349984 -0.1160009 -0.125001 0.1349983 -0.104001 -0.133001 0.1349982 -0.083001 -0.1400011 0.1349982
             ]
           }
           coordIndex [
@@ -52,7 +52,7 @@ PROTO Koala [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0.12 0.06 -0.106, 0.14 0.06 -0.106, 0.133 0.06 -0.127, 0.125 0.06 -0.139, 0.113 0.06 -0.16, 0.091 0.06 -0.173, 0.035 0.06 -0.185, 0 0.06 -0.19, -0.035 0.06 -0.185, -0.091 0.06 -0.173, -0.113 0.06 -0.16, -0.125 0.06 -0.139, -0.133 0.06 -0.127, -0.14 0.06 -0.106, -0.12 0.06 -0.106, -0.12 0.06 0.13, 0.12 0.06 0.13, 0.12 0.0855 -0.106, 0.14 0.0855 -0.106, 0.133 0.0855 -0.127, 0.125 0.0855 -0.139, 0.113 0.0855 -0.16, 0.091 0.0855 -0.173, 0.035 0.0855 -0.185, 0 0.0855 -0.19, -0.035 0.0855 -0.185, -0.091 0.0855 -0.173, -0.113 0.0855 -0.16, -0.125 0.0855 -0.139, -0.133 0.0855 -0.127, -0.14 0.0855 -0.106, -0.12 0.0855 -0.106, -0.12 0.0855 0.13, 0.12 0.0855 0.13
+              0.1059994 -0.120001 0.0599991 0.1059993 -0.140001 0.0599989 0.1269993 -0.1330011 0.0599991 0.1389993 -0.1250011 0.0599992 0.1599994 -0.1130012 0.0599994 0.1729995 -0.0910013 0.0599997 0.1849997 -0.0350013 0.0600003 0.1899998 -1.3e-06 0.0600007 0.1849999 0.0349987 0.060001 0.1730001 0.0909987 0.0600016 0.1600002 0.1129988 0.0600018 0.1390002 0.1249989 0.0600018 0.1270003 0.1329989 0.0600019 0.1060003 0.139999 0.0600019 0.1060002 0.119999 0.0600016 -0.1299998 0.1199998 0.0600008 -0.1300006 -0.1200002 0.0599983 0.1059993 -0.1200013 0.0854991 0.1059992 -0.1400013 0.0854989 0.1269992 -0.1330014 0.0854991 0.1389992 -0.1250014 0.0854992 0.1599993 -0.1130015 0.0854994 0.1729994 -0.0910015 0.0854997 0.1849996 -0.0350016 0.0855003 0.1899997 -1.6e-06 0.0855007 0.1849998 0.0349984 0.085501 0.173 0.0909985 0.0855016 0.1600001 0.1129985 0.0855018 0.1390001 0.1249986 0.0855018 0.1270002 0.1329986 0.0855019 0.1060002 0.1399987 0.0855019 0.1060001 0.1199987 0.0855016 -0.1299999 0.1199996 0.0855008 -0.1300007 -0.1200004 0.0854983
             ]
           }
           coordIndex [
@@ -66,16 +66,7 @@ PROTO Koala [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0.0725 0.135 0.1185
-              0.0725 0.135 -0.035
-              -0.0725 0.135 -0.035
-              -0.0725 0.135 0.1185
-              0.0725 0.135 0.1185
-              0.0725 0.2 0.1185
-              0.0725 0.2 -0.035
-              -0.0725 0.2 -0.035
-              -0.0725 0.2 0.1185
-              0.0725 0.2 0.1185
+              -0.1185007 -0.072501 0.1349988 0.0349993 -0.0725015 0.1349994 0.0349998 0.0724985 0.1350009 -0.1185002 0.072499 0.1350003 -0.1185007 -0.072501 0.1349988 -0.118501 -0.0725017 0.1999988 0.034999 -0.0725022 0.1999994 0.0349995 0.0724978 0.2000009 -0.1185005 0.0724983 0.2000003 -0.118501 -0.0725017 0.1999988
             ]
           }
           coordIndex [
@@ -92,10 +83,7 @@ PROTO Koala [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              -0.055 0.135 -0.045
-              -0.055 0.185 -0.045
-              0.055 0.185 -0.045
-              0.055 0.135 -0.045
+              0.0449997 0.0549984 0.1350007 0.0449995 0.0549979 0.1850007 0.0449991 -0.0550021 0.1849996 0.0449993 -0.0550016 0.1349996
             ]
           }
           coordIndex [
@@ -112,10 +100,7 @@ PROTO Koala [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              -0.0875 0.145 -0.13
-              -0.0875 0.145 -0.035
-              0.0875 0.145 -0.035
-              0.0875 0.145 -0.13
+              0.1299998 0.087498 0.1450014 0.0349998 0.0874984 0.145001 0.0349992 -0.0875016 0.1449992 0.1299992 -0.087502 0.1449995
             ]
           }
           coordIndex [
@@ -124,11 +109,11 @@ PROTO Koala [
         }
       }
       Solid {
-        translation -0.1425 0.0425 -0.09
-        rotation 1 0 0 0
+        translation 0.09 0.1425 0.0425
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF LeftWheel Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -142,7 +127,7 @@ PROTO Koala [
                 }
               }
               Transform {
-                translation 0 0.02 0
+                translation 0 0 0.02
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -161,7 +146,7 @@ PROTO Koala [
                       roughness 0.4
                     }
                     geometry Box {
-                      size 0.01 0.005 0.01
+                      size 0.01 0.01 0.005
                     }
                   }
                 ]
@@ -171,7 +156,7 @@ PROTO Koala [
         ]
         name "wheel(1)"
         boundingObject DEF WHEEL_BOUNDING_OBJECT Transform {
-          rotation 0 0 1 1.57
+          rotation 0 1 0 1.57
           children [
             Cylinder {
               height 0.04
@@ -182,8 +167,8 @@ PROTO Koala [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 0.0425 0
+          axis 0.0 1 0.0
+          anchor 0 0 0.0425
         }
         device [
           RotationalMotor {
@@ -194,8 +179,8 @@ PROTO Koala [
           }
         ]
         endPoint Solid {
-          translation -0.1425 0.0425 0
-          rotation 1 0 0 4.5282446
+          translation 0 0.1425 0.0425
+          rotation 0.091549 -0.091559 0.991582 -1.579252
           children [
             USE LeftWheel
           ]
@@ -204,8 +189,8 @@ PROTO Koala [
         }
       }
       Solid {
-        translation -0.1425 0.0425 0.09
-        rotation 1 0 0 0
+        translation -0.09 0.1425 0.0425
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           USE LeftWheel
         ]
@@ -213,11 +198,11 @@ PROTO Koala [
         boundingObject USE WHEEL_BOUNDING_OBJECT
       }
       Solid {
-        translation 0.1425 0.0425 -0.09
-        rotation 1 0 0 0
+        translation 0.09 -0.1425 0.0425
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF RightWheel Transform {
-            rotation 0 0 1 1.57
+            rotation 0 -1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -231,7 +216,7 @@ PROTO Koala [
                 }
               }
               Transform {
-                translation 0 -0.02 0
+                translation 0 0 -0.02
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -250,7 +235,7 @@ PROTO Koala [
                       roughness 0.4
                     }
                     geometry Box {
-                      size 0.01 0.005 0.01
+                      size 0.01 0.01 0.005
                     }
                   }
                 ]
@@ -263,8 +248,8 @@ PROTO Koala [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 0.0425 0
+          axis 0 1 0
+          anchor 0 0 0.0425
         }
         device [
           RotationalMotor {
@@ -275,8 +260,8 @@ PROTO Koala [
           }
         ]
         endPoint Solid {
-          translation 0.1425 0.0425 0
-          rotation 1 0 0 3.6118637
+          translation 0 -0.1425 0.0425
+          rotation 0.463377 -0.463386 0.755351 -1.847756
           children [
             USE RightWheel
           ]
@@ -285,7 +270,8 @@ PROTO Koala [
         }
       }
       Solid {
-        translation 0.1425 0.0425 0.09
+        translation -0.09 -0.1425 0.0425
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           USE RightWheel
         ]
@@ -293,30 +279,30 @@ PROTO Koala [
         boundingObject USE WHEEL_BOUNDING_OBJECT
       }
       Transform {
-        translation 0.1075 0.045 0
+        translation 0 -0.1075 0.045
         children [
           Shape {
             appearance USE MID_GRAY
             geometry Box {
-              size 0.03 0.03 0.22
+              size 0.22 0.03 0.03
             }
           }
         ]
       }
       Transform {
-        translation -0.1075 0.045 0
+        translation 0 0.1075 0.045
         children [
           Shape {
             appearance USE MID_GRAY
             geometry Box {
-              size 0.03 0.03 0.22
+              size 0.22 0.03 0.03
             }
           }
         ]
       }
       DistanceSensor {
-        translation 0.015 0.102 -0.175
-        rotation 0 1 0 1.4708
+        translation 0.175 -0.015 0.102
+        rotation -0.997505 0.049918 0.049915 -1.573305
         children [
           DEF Sensor Shape {
             appearance PBRAppearance {
@@ -337,8 +323,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.04 0.102 -0.169
-        rotation 0 1 0 1.3708
+        translation 0.169 -0.04 0.102
+        rotation -0.990083 0.09934 0.099338 -1.580774
         children [
           USE Sensor
         ]
@@ -350,8 +336,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.07 0.102 -0.16
-        rotation 0 1 0 1.2708
+        translation 0.16 -0.07 0.102
+        rotation -0.977912 0.147797 0.147795 -1.593141
         children [
           USE Sensor
         ]
@@ -363,8 +349,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.12 0.102 -0.14
-        rotation 0 1 0 0.770796
+        translation 0.14 -0.12 0.102
+        rotation 0.85828 -0.362874 -0.362875 1.723042
         children [
           USE Sensor
         ]
@@ -376,7 +362,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.14 0.102 -0.055
+        translation 0.055 -0.14 0.102
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           USE Sensor
         ]
@@ -388,7 +375,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.14 0.102 0.05
+        translation -0.05 -0.14 0.102
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           USE Sensor
         ]
@@ -400,8 +388,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.125 0.102 0.12
-        rotation 0 1 0 -0.8524
+        translation -0.12 -0.125 0.102
+        rotation 0.25662 -0.683424 -0.683431 2.639204
         children [
           USE Sensor
         ]
@@ -413,8 +401,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation 0.0475 0.107 0.13
-        rotation 0 1 0 -1.5708
+        translation -0.13 -0.0475 0.107
+        rotation 0 0.707103 0.70711 3.141585
         children [
           USE Sensor
         ]
@@ -426,8 +414,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.0475 0.107 0.13
-        rotation 0 1 0 -1.5708
+        translation -0.13 0.0475 0.107
+        rotation 0 0.707103 0.70711 3.141585
         children [
           USE Sensor
         ]
@@ -439,8 +427,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.125 0.102 0.12
-        rotation 0 1 0 -2.36
+        translation -0.12 0.125 0.102
+        rotation 0.28248 0.678305 0.678313 2.59098
         children [
           USE Sensor
         ]
@@ -452,8 +440,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.14 0.102 0.05
-        rotation 0 1 0 3.14179
+        translation -0.05 0.14 0.102
+        rotation 0.577277 0.577383 0.577391 2.094511
         children [
           USE Sensor
         ]
@@ -465,8 +453,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.14 0.102 -0.055
-        rotation 0 1 0 3.14159
+        translation 0.055 0.14 0.102
+        rotation 0.577354 0.577344 0.577352 2.094396
         children [
           USE Sensor
         ]
@@ -478,8 +466,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.125 0.102 -0.14
-        rotation 0 1 0 2.3708
+        translation 0.14 0.125 0.102
+        rotation 0.858281 0.36287 0.362877 1.723038
         children [
           USE Sensor
         ]
@@ -491,8 +479,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.07 0.102 -0.16
-        rotation 0 1 0 1.8708
+        translation 0.16 0.07 0.102
+        rotation -0.977912 -0.147794 -0.147799 -1.59314
         children [
           USE Sensor
         ]
@@ -504,8 +492,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.04 0.102 -0.169
-        rotation 0 1 0 1.7708
+        translation 0.169 0.04 0.102
+        rotation -0.990083 -0.099337 -0.099341 -1.580773
         children [
           USE Sensor
         ]
@@ -517,8 +505,8 @@ PROTO Koala [
         type "infra-red"
       }
       DistanceSensor {
-        translation -0.015 0.102 -0.175
-        rotation 0 1 0 1.6708
+        translation 0.175 0.015 0.102
+        rotation -0.997505 -0.049915 -0.049919 -1.573305
         children [
           USE Sensor
         ]
@@ -535,23 +523,23 @@ PROTO Koala [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.105 -0.025
+          translation 0.025 -0.0 0.105
           children [
             Box {
-              size 0.15 0.2 0.3
+              size 0.3 0.15 0.2
             }
           ]
         }
         Transform {
-          translation 0 0.105 0.01
+          translation -0.01 -0.0 0.105
           children [
             Box {
-              size 0.28 0.2 0.23
+              size 0.23 0.28 0.2
             }
           ]
         }
         Transform {
-          translation 0.07 0.105 -0.105
+          translation 0.105 -0.07 0.105
           children [
             Cylinder {
               height 0.2
@@ -560,7 +548,7 @@ PROTO Koala [
           ]
         }
         Transform {
-          translation -0.07 0.105 -0.105
+          translation 0.105 0.07 0.105
           children [
             Cylinder {
               height 0.2

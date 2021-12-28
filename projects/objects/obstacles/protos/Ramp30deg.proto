@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple ramp made of two 30° slopes and a flat top.
@@ -6,7 +6,7 @@
 
 PROTO Ramp30deg [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "ramp 30 degrees"
   field SFColor    color        0.5 0.5 0.5        # Defines the color of the ramp.
 ]
@@ -18,8 +18,8 @@ PROTO Ramp30deg [
       DEF RAMP Group {
         children [
           Transform {
-            translation -1.841 0.45 0
-            rotation 0 0 1 0.5236
+            translation -1.841 0 0.45
+            rotation 0 -1 0 0.5236
             children [
               Shape {
                 appearance DEF APPEARANCE PBRAppearance {
@@ -28,30 +28,30 @@ PROTO Ramp30deg [
                   metalness 0
                 }
                 geometry Box {
-                  size 2 0.1 2
+                  size  2 2 0.1
                 }
               }
             ]
           }
           Transform {
-            translation 0 0.9434 0
+            translation 0 0 0.9434
             children [
               Shape {
                 appearance USE APPEARANCE
                 geometry Box {
-                  size 2 0.1 2
+                  size 2 2 0.1
                 }
               }
             ]
           }
           Transform {
-            translation 1.841 0.45 0
-            rotation 0 0 1 -0.5236
+            translation 1.841 0 0.45
+            rotation 0 -1 0 -0.5236
             children [
               Shape {
                 appearance USE APPEARANCE
                 geometry Box {
-                  size 2 0.1 2
+                  size 2 2 0.1
                 }
               }
             ]

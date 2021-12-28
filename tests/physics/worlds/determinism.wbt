@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   physics "ode_dif_exporter"
   basicTimeStep 16
@@ -22,8 +22,7 @@ Floor {
   size 50 50
 }
 DEF CAPSULE Solid {
-  translation 3.46945e-18 0.25 0.22
-  rotation 1 0 0 4.71239
+  translation 0 0.25 0.22
   children [
     DEF BO Shape {
       appearance DEF APP Appearance {
@@ -67,6 +66,7 @@ DEF BOX Solid {
 }
 DEF CYLINDER Solid {
   translation 0 0.5 0.4
+  rotation 1 0 0 -1.5708
   children [
     DEF CY Shape {
       appearance USE APP

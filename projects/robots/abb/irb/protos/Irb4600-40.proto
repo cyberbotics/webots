@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
@@ -8,7 +8,7 @@
 
 PROTO Irb4600-40 [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0               # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0               # Is `Transform.rotation`.
   field SFString   name            "IRB 4600/40"         # Is `Solid.name`.
   field SFString   controller      "inverse_kinematics"  # Is `Robot.controller`.
   field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.

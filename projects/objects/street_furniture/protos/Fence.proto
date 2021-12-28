@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable fence.
@@ -9,7 +9,7 @@
 
 PROTO Fence [
   field SFVec3f      translation             0 0 0
-  field SFRotation   rotation                0 1 0 0
+  field SFRotation   rotation                0 0 1 0
   field SFString     name                    "fence"
   field SFString     model                   "fence"
   field MFColor      recognitionColors       [0.8 0.8 0.8]
@@ -19,10 +19,10 @@ PROTO Fence [
   field SFString{"cylinder", "square", "diamond", "H"}
                      poleShape               "cylinder"                                                   # Defines the shape of the poles.
   field SFNode       poleAppearance          PBRAppearance {}                                             # Defines the appearance of the poles.
-  field MFVec3f      path                    [0 0 0, 5 0 0]                                               # Defines the 3D path of the fence.
+  field MFVec3f      path                    [0 0 0, 0 5 0]                                               # Defines the 3D path of the fence.
   field SFInt32      subdivision             -1                                                           # Defines the degree of interpolation using B-Splines (if the value is lower than 0, the interpolation is disabled).
   field SFInt32      horizontalBarsNumber    2                                                            # Defines the number of horizontal bars.
-  field MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]  # Defines the shape 2D of the horizontal bars.
+  field MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]  # Defines the shape 2D of the horizontal bars.
   field SFNode       horizontalBarAppearance PBRAppearance {}                                             # Defines the appearance of the horizontal bars.
   field SFNode       boundingObject          NULL                                                         # Is `Solid.boundingObject`.
   field SFFloat      creaseAngle             0.3                                                          # Defines the creaseAngle of the horizontal bar.
@@ -72,14 +72,13 @@ PROTO Fence [
     let polePositions = [];
     let offset = -poleRadius;
     for (let i = 0; i < nbPath - 1; ++i) {
-      const distance = wbvector2.distance({x: path[i].x, y: path[i].z}, {x: path[i+1].x, y: path[i+1].z});
+      const distance = wbvector2.distance({x: path[i].x, y: path[i].y}, {x: path[i+1].x, y: path[i+1].y});
       const distanceTotal = offset + distance;
       const poleNb = Math.floor(distanceTotal / poleGap);
       const start = (i === 0) ? 0 : 1; // make sure first pole starts at beginning
       for (let j = start; j <= poleNb; ++j) {
         const ratio = (poleGap * j - offset) / distance;
         let point = {x: (1 - ratio) * path[i].x + ratio * path[i+1].x, y: (1 - ratio) * path[i].y + ratio * path[i+1].y, z: (1 - ratio) * path[i].z + ratio * path[i+1].z};
-        point.y = point.y + height * 0.5;
         polePositions.push(point);
       }
       offset = distanceTotal - poleNb * poleGap;
@@ -119,7 +118,7 @@ PROTO Fence [
             horizontalBarsHeight = height * ((j / (horizontalBarsNumber - 1)) * 0.8 + 0.1);
         >%
         Transform {
-          translation 0 %<= horizontalBarsHeight >% 0
+          translation 0 0 %<= horizontalBarsHeight >%
           children [
             %< if (j === 0) { >%
               DEF HORIZONTALE_BAR Shape {
@@ -177,31 +176,31 @@ PROTO Fence [
                   if (i === 0) {
                     if (nbPoles > 2) {
                       dx = polePositions[1].x - polePositions[0].x;
-                      dy = polePositions[1].z - polePositions[0].z;
+                      dy = polePositions[1].y - polePositions[0].y;
                     } else {
                       dx = path[1].x - path[0].x;
-                      dy = path[1].z - path[0].z;
+                      dy = path[1].y - path[0].y;
                     }
                   } else if (i === nbPoles - 1) {
                     dx = polePositions[nbPoles - 1].x - polePositions[nbPoles - 2].x;
-                    dy = polePositions[nbPoles - 1].z - polePositions[nbPoles - 2].z;
+                    dy = polePositions[nbPoles - 1].y - polePositions[nbPoles - 2].y;
                   } else {
                     dx = polePositions[i + 1].x - polePositions[i - 1].x;
-                    dy = polePositions[i + 1].z - polePositions[i - 1].z;
+                    dy = polePositions[i + 1].y - polePositions[i - 1].y;
                   }
                   let angle = Math.atan2(dy, dx);
 
                   // Top part
                   for (let k = 0; k < circle.length; ++k) {
                     coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
-                    coordBuffer += polePositions[i].y + 0.5 * height + ' ';
-                    coordBuffer += polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + '\n';
+                    coordBuffer += polePositions[i].y + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + ' ';
+                    coordBuffer += polePositions[i].z + height + ' ';
                   }
                   // Bottom part
                   for (let k = 0; k < circle.length; ++k) {
                     coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
-                    coordBuffer += polePositions[i].y - 0.5 * height + ' ';
-                    coordBuffer += polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + '\n';
+                    coordBuffer += polePositions[i].y + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + ' ';
+                    coordBuffer += polePositions[i].z + ' ';
                   }
                 }
               >%
@@ -237,21 +236,19 @@ PROTO Fence [
               let coordIndexBuffer = '';
               for (let i = 0; i <= nbPoles - 1; ++i) {
                 // Top part
-                for (let j = 0; j <= circleSubdivision; ++j)
+                for (let j = circleSubdivision; j >= 0; --j)
                   coordIndexBuffer += i * skip + circleSubdivision - j + ' ';
                 coordIndexBuffer += ' -1\n';
 
                 // Bottom part
-                for (let j = 0; j <= circleSubdivision; ++j)
+                for (let j = circleSubdivision; j >= 0; --j)
                   coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' ';
                 coordIndexBuffer += ' -1\n';
 
                 // Sides
                 for (let j = 0; j <= circleSubdivision - 1; ++j) {
-                  coordIndexBuffer += i * skip + j + ' ';
-                  coordIndexBuffer += i * skip + j + 1 + ' ';
-                  coordIndexBuffer += i * skip + j + circleSubdivision + 2  + ' ';
-                  coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' -1\n';
+                  const start = i * skip + j;
+                  coordIndexBuffer += `${start + circleSubdivision + 1} ${start + circleSubdivision + 2} ${start + 1} ${start} -1\n`;
                 }
               }
             >%

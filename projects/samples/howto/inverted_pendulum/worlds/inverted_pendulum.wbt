@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "An example of hot to solve the Inverted Pendulum problem using a PID controller"
   ]
   title "Inverted Pendulum"
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "robot_basis"
@@ -16,14 +15,14 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05317585096836776 0.9887920240003923 0.1395086454202659 3.609723118221519
-  position -6.644331534525101 4.261264054273784 -9.7759672742021
+  orientation -0.0996069518072968 -0.03685053329082472 0.9943442529364971 3.666446119327704
+  position 10.735611636783911 9.264148536386676 3.6992721334967498
   follow "robot:solid"
 }
 TexturedBackground {
 }
 Floor {
-  size 2 1000
+  size 1000 2
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -35,9 +34,11 @@ Floor {
   }
 }
 Robot {
+  rotation 0 0 1 3.14159
   children [
     SliderJoint {
       jointParameters JointParameters {
+        axis 1 0 0
         dampingConstant 1.5
       }
       device [
@@ -50,8 +51,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.06 2.69072e-06
-        rotation 0 0 1 0
+        translation 0 0 0.06
         children [
           DEF ROBOT_SHAPE Shape {
             appearance PBRAppearance {
@@ -60,13 +60,14 @@ Robot {
               metalness 0
             }
             geometry Box {
-              size 0.1 0.1 0.3
+              size 0.3 0.1 0.1
             }
           }
           DEF HIP HingeJoint {
             jointParameters HingeJointParameters {
               position 0.000161402
-              anchor 0 0.03 0
+              axis 0 1 0
+              anchor 0 0 0.03
             }
             device [
               PositionSensor {
@@ -74,8 +75,8 @@ Robot {
               }
             ]
             endPoint DEF THIGH_BB Solid {
-              translation 0.061 0.33 0
-              rotation -1 0 0 0
+              translation 0 -0.061 0.33000000000000007
+              rotation 0 1 0 0
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -84,7 +85,7 @@ Robot {
                     metalness 0
                   }
                   geometry DEF THIGH_BOX Box {
-                    size 0.02 0.6 0.05
+                    size 0.05 0.02 0.6
                   }
                 }
               ]
@@ -93,7 +94,7 @@ Robot {
                 density -1
                 mass 0.05
                 centerOfMass [
-                  -0.061 -0.27 0
+                  0 0.061 -0.27
                 ]
               }
             }
@@ -101,7 +102,7 @@ Robot {
           PointLight {
             attenuation 0 0 1
             intensity 5
-            location 0 2 0
+            location 0 0 2
           }
         ]
         contactMaterial "robot_basis"
@@ -114,7 +115,7 @@ Robot {
     }
   ]
   boundingObject Box {
-    size 0.1 0.01 200
+    size 200 0.1 0.01
   }
   physics Physics {
     density -1

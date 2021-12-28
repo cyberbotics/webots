@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -9,7 +9,8 @@ PROTO LargeResidentialTowerBase [
 ]
 {
   Transform {
-    translation 0 -0.18 0
+    translation 0 0 -0.18
+    rotation -0.577352 0.577348 0.577352 -2.094405
     children [
       Shape {
         appearance PBRAppearance {

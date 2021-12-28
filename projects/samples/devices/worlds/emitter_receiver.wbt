@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of an Emitter and a Receiver device."
   ]
   title "Emitter - Receiver"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.999994899514001 0.00044670095511257927 0.0031624996822114393 4.80953
-  position 0.0228485 1.5349 0.163277
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0 0 2.856141484126244
 }
 TexturedBackground {
 }
@@ -17,7 +16,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.25
+  translation 0.25 0.05 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -26,7 +25,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -40,8 +39,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation -0.27 -0.2 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance PBRAppearance {
@@ -64,8 +63,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF YELLOW_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.15 0.2 0.05
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -74,7 +73,7 @@ DEF YELLOW_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -88,7 +87,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.1 -0.42 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -97,7 +96,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -111,11 +110,12 @@ DEF PINK_BOX Solid {
   }
 }
 DEF RECEIVER_BOT Robot {
-  translation 0.15 0 0
-  rotation 0 1 0 1
+  translation 0 -0.15 0
+  rotation 0 0 1 1
   children [
     DEF MAIN_BODY Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -132,8 +132,8 @@ DEF RECEIVER_BOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -146,11 +146,11 @@ DEF RECEIVER_BOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -176,8 +176,8 @@ DEF RECEIVER_BOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -190,8 +190,8 @@ DEF RECEIVER_BOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -201,11 +201,11 @@ DEF RECEIVER_BOT Robot {
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -231,8 +231,8 @@ DEF RECEIVER_BOT Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -246,8 +246,8 @@ DEF RECEIVER_BOT Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -264,15 +264,16 @@ DEF RECEIVER_BOT Robot {
       ]
     }
     DEF RECEIVER Receiver {
-      translation 0 0.06 0
-      rotation 0 1 0 3.1415
+      translation 0 0 -0.06
+      rotation 0 0.7071067811865476 0.7071067811865476 3.141527
       type "infra-red"
       channel 1
     }
   ]
   name "MyBot receiver"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]
@@ -284,14 +285,14 @@ DEF RECEIVER_BOT Robot {
   controller "emitter_receiver"
 }
 DEF EMITTER_BOT Robot {
-  translation 0.202947 0 0.128516
-  rotation 0 1 0 97.3742
+  translation -0.1285 -0.2029 0
+  rotation 0 0 1 3.12642
   children [
     USE MAIN_BODY
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -304,11 +305,11 @@ DEF EMITTER_BOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -334,8 +335,8 @@ DEF EMITTER_BOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -348,8 +349,8 @@ DEF EMITTER_BOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -359,11 +360,11 @@ DEF EMITTER_BOT Robot {
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -389,8 +390,8 @@ DEF EMITTER_BOT Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -405,8 +406,8 @@ DEF EMITTER_BOT Robot {
     }
     USE SMILE
     DEF EMITTER Emitter {
-      translation 0 0.06 0
-      rotation 0 1 0 3.1415
+      translation 0 0 -0.06
+      rotation 0 0.7071067811865476 0.7071067811865476 3.141527
       children [
         DEF RANGE Transform {
           translation 0 0.05 0

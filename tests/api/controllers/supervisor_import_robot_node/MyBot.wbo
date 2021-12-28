@@ -1,10 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_OBJ R2022a
 DEF MY_BOT Robot {
   translation 0 0 -0.104
   rotation -1 0 0 -0.027
   children [
     Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.57
       children [
         Shape {
           appearance Appearance {
@@ -37,7 +38,7 @@ DEF MY_BOT Robot {
         translation -0.045 0.025 0
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance Appearance {
@@ -91,7 +92,7 @@ DEF MY_BOT Robot {
       rotation 0 1 0 2.2253
       children [
         DEF SENSOR_TRANSFORM Transform {
-          rotation 0 0 1 1.57
+          rotation 0 1 0 -1.57
           children [
             Shape {
               appearance Appearance {
@@ -133,6 +134,7 @@ DEF MY_BOT Robot {
   name "MyBot"
   boundingObject DEF MYBOT_BOUNDING Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.57
     children [
       USE BODY
     ]

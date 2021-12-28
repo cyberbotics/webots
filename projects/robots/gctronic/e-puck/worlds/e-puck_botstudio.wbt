@@ -1,18 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "curriculum_beginner_linear_camera"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 5.75
-  position -0.45 0.25 0.33
-  follow "e-puck"
+  orientation -0.01328055753869593 0.9982670611064679 0.05732801672233807 0.54191956534439
+  position -0.3662641782238303 0.4358842815622112 0.26752510539349794
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 0 1 -1.5707953071795862
   floorSize 1.2 1.8
   floorTileSize 1.2 1.8
   floorAppearance PBRAppearance {
@@ -26,11 +25,10 @@ RectangleArena {
   }
 }
 DEF E_PUCK E-puck {
-  translation -0.44 0 0
-  rotation 0 1 0 6.28319
+  translation 0 0.44 0
   controller "obstacle"
   camera_width 40
   camera_height 1
-  camera_rotation 1 0 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

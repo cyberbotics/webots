@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pioneer 3DX robot (Adept Mobile Robots)"
@@ -6,12 +6,11 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on sensed values situated on a medium-height line of the kinect display"
   ]
   title "Pioneer 3DX equipped with a Microsoft kinect"
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation -0.5525376921081263 -0.7867145616172003 -0.2752858466018222 1.21012
-  position -9.14776 8.03821 5.12702
+  orientation -0.1619134252008754 0.8180751224685925 0.551848835042458 0.6887354808883986
+  position -9.897592073647651 -4.392777060806968 7.238407501422867
 }
 TexturedBackground {
 }
@@ -25,40 +24,40 @@ RectangleArena {
   wallHeight 0.4
 }
 DEF PIONEER_3DX Pioneer3dx {
-  translation -0.681137 0.0975 -0.0495909
-  rotation 0 -1 0 5.12323
+  translation -0.681137 0.0495909 0.0975
+  rotation 0 0 -1 -2.4689553071795864
   controller "pioneer3dx_obstacle_avoidance_with_kinect"
   extensionSlot [
     Kinect {
-      translation 0 0.15 0
+      translation 0 0 0.15
       width 150
       height 100
     }
   ]
 }
 CardboardBox {
-  translation -0.36307 0.3 -2.01063
+  translation -0.36307 2.01063 0.3
 }
 CardboardBox {
-  translation -0.382041 0.3 2.17641
+  translation -0.382041 -2.17641 0.3
   name "cardboard box(1)"
 }
 FloorLight {
-  translation 0.351337 0 0.184194
+  translation 0.351337 -0.184194 0
   pointLightCastShadows TRUE
 }
 WoodenBox {
-  translation 3.28359 0.3 3.08068
+  translation 3.28359 -3.08068 0.3
 }
 WoodenBox {
-  translation 1.87377 0.3 -3.11289
+  translation 1.87377 3.11289 0.3
   name "wooden box(1)"
 }
 WoodenBox {
-  translation 0.188964 0.3 1.55421
+  translation 0.188964 -1.55421 0.3
   name "wooden box(2)"
 }
 WoodenBox {
-  translation -2.77958 0.3 -3.05296
+  translation -2.77958 3.05296 0.3
   name "wooden box(3)"
 }

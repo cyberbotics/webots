@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -19,7 +19,6 @@ Robot {
   children [
     Transform {
       translation 0 0 -1.1
-      rotation 1 0 0 1.5707997
       children [
         Shape {
           appearance Appearance {
@@ -35,13 +34,14 @@ Robot {
       ]
     }
     Camera {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 1.5708
       width 80
       height 80
     }
     Camera {
       translation 0 0 -1
-      rotation 0 1 0 3.1415
+      rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
       name "mirror camera"
       width 80
       height 80
@@ -50,19 +50,24 @@ Robot {
       translation 0 0 -1
       rotation 1 0 0 1.57
       children [
-        Shape {
-          appearance Appearance {
-            material Material {
-              ambientIntensity 1
-              diffuseColor 1 1 1
+        Transform {
+          rotation 1 0 0 -1.57079632679
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  ambientIntensity 1
+                  diffuseColor 1 1 1
+                }
+                texture ImageTexture {
+                  filtering 0
+                }
+              }
+              geometry Plane {
+                size 2 2
+              }
             }
-            texture ImageTexture {
-              filtering 0
-            }
-          }
-          geometry Plane {
-            size 2 2
-          }
+          ]
         }
       ]
       width 80

@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic panel: Order panel.
 
 PROTO OrderPanel [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "order panel"
   field MFString   signImage          "webots://projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"   # Defines the texture used for the sign.
   field SFColor    color              0.8 0.8 0.8                         # Defines the color of the panel.
@@ -18,8 +18,7 @@ PROTO OrderPanel [
     recognitionColors IS recognitionColors
     children [
       DEF DISPLAY_PLANE Transform {
-        translation 0 0 0
-        rotation 0 -0.707107 0.707107 3.14159
+        rotation -0.57735 -0.57735 -0.57735 -2.09439
         children [
           Shape {
             appearance PBRAppearance {
@@ -40,8 +39,7 @@ PROTO OrderPanel [
         ]
       }
       DEF PANEL_BODY Transform {
-        translation 0 0 0
-        rotation 0 -0.707107 0.707107 3.14159
+        rotation -0.57735 -0.57735 -0.57735 -2.09439
         children [
           Shape {
             appearance PBRAppearance {
@@ -61,8 +59,7 @@ PROTO OrderPanel [
     name IS name
     model "order panel"
     boundingObject Transform {
-      translation 0 0 0
-      rotation 0 -0.707107 0.707107 3.14159
+      rotation -0.57735 -0.57735 -0.57735 -2.09439
       children [
         Cylinder {
           height 0.031

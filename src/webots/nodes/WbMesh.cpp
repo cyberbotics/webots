@@ -33,6 +33,7 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mName = findSFString("name");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
 }
@@ -85,10 +86,27 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
 }
 
 void WbMesh::createResizeManipulator() {
   mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
+}
+
+bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const {
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+  aiNode *node = NULL;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (name == mesh->mName.data)
+        return true;
+    }
+  }
+  return false;
 }
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
@@ -109,7 +127,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                                                         aiComponent_MATERIALS);
   const aiScene *scene;
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                       aiProcess_FlipUVs;
   if (WbUrl::isWeb(filePath)) {
     if (mDownloader == NULL)
       downloadAssets();
@@ -130,6 +149,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   } else if (!scene->HasMeshes()) {
     warn(tr("This file doesn't contain any mesh."));
+    return;
+  }
+
+  if (mName->value() != "" && !checkIfNameExists(scene, mName->value())) {
+    warn(tr("Geometry with the name \"%1\" doesn't exist in the mesh.").arg(mName->value()));
     return;
   }
 
@@ -171,6 +195,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (mName->value() != "" && mName->value() != mesh->mName.data)
+        continue;
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
@@ -466,6 +492,14 @@ void WbMesh::updateUrl() {
     if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateName() {
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();

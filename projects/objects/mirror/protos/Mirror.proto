@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple mirror made of a display attached to a camera.
@@ -7,7 +7,7 @@
 
 PROTO Mirror [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "mirror"
   field SFString   controller      "mirror"          # Defines the controller of the mirror. This controller should simply enable the camera and attach it to the display.
   field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
@@ -65,7 +65,7 @@ PROTO Mirror [
       %< const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); >%
       Camera {
         translation 0 %<= height * 0.5 + frameThickness >% %<= -camera_distance >%
-        rotation 0 1 0 3.14159
+        rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
         fieldOfView IS fieldOfView
         width %<= cameraWidth >%
         height %<= cameraHeight >%
@@ -74,7 +74,6 @@ PROTO Mirror [
       }
       DEF FRONT Display {
         translation 0 %<= height * 0.5 + frameThickness >% 0
-        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -97,7 +96,7 @@ PROTO Mirror [
       }
       DEF BACK Transform {
         translation 0 %<= height * 0.5 + frameThickness >% 0
-        rotation 0 -0.707108 0.707105 3.14159
+        rotation 0 1 0 -3.14159
         children [
           Shape {
             appearance PBRAppearance {

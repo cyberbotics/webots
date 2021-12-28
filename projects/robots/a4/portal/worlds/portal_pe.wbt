@@ -1,27 +1,25 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Portal"
   ]
   basicTimeStep 25
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.05498421078428415 -0.9620791886966313 -0.26717105240138045 4.03071
-  position 0.826121 0.541599 -0.498628
+  orientation -0.19282190828630993 -0.016761365774406727 0.9810906014748091 3.3812947945606218
+  position 0.7993582163388824 0.222424251538333 0.38275138840244943
 }
 TexturedBackground {
 }
 DirectionalLight {
-  direction -0.6 -1 0.55
+  direction -0.2 -0.3 -0.8
   intensity 1.5
   castShadows TRUE
 }
 Portal {
-  translation 0.0466329 0 0.0414059
   controller "portal_pe"
 }
 CardboardBox {
-  translation 0.328187 0.06 0.135353
-  size 0.05 0.1 0.05
+  translation 0.08 0.27 0.06
+  size 0.05 0.05 0.1
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/robotis-op2
@@ -13,7 +13,7 @@
 # template language: javascript
 
 PROTO Darwin-op [
-  field SFVec3f    translation     0 0 0                      # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.227                  # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                    # Is `Transform.rotation`.
   field SFString   name            "DARwIn-OP"                # Is `Solid.name`.
   field SFString   controller      "motion_player"            # Is `Robot.controller`.
@@ -323,7 +323,7 @@ PROTO Darwin-op [
                       }
                       Camera {
                         translation 0 0.0329074 0.0359816
-                        rotation 0 -1 0 3.14159
+                        rotation 0.577351 0.577352 0.577348 -2.094396
                         children [
                           DEF DCameraShape Shape {
                             appearance DEF DCameraAppearance PBRAppearance {
@@ -333,7 +333,7 @@ PROTO Darwin-op [
                             geometry IndexedFaceSet {
                               coord Coordinate {
                                 point [
-                                  0.0012902 0.0006454 -0.0016242 0.0012902 -0.0018532 -0.0009796 -0.0012902 -0.0018532 -0.0009796 -0.0012902 0.0006454 -0.0016242 0.0030927 0.0010956 0.0001212 0.0030927 -0.001403 0.0007657 0.0012902 -0.0031483 0.001216 -0.0012901 -0.0031484 0.001216 -0.0030927 -0.001403 0.0007657 -0.0030927 0.0010956 0.0001212 0.0012902 0.002841 -0.0003291 -0.0012902 0.002841 -0.0003291
+                                  0.0016242 -0.0012902 0.0006454 0.0009796 -0.0012902 -0.0018532 0.0009796 0.0012902 -0.0018532 0.0016242 0.0012902 0.0006454 -0.0001212 -0.0030927 0.0010956 -0.0007657 -0.0030927 -0.001403 -0.001216 -0.0012902 -0.0031483 -0.001216 0.0012901 -0.0031484 -0.0007657 0.0030927 -0.001403 -0.0001212 0.0030927 0.0010956 0.0003291 -0.0012902 0.002841 0.0003291 0.0012902 0.002841
                                 ]
                               }
                               coordIndex [
@@ -407,7 +407,6 @@ PROTO Darwin-op [
                     ]
                     boundingObject Transform {
                       translation 0 0.022 -0.012
-                      rotation 1 0 0 1.5708
                       children [
                         Capsule {
                           height 0.018

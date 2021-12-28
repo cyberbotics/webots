@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Detach locked connectors"
   physics "connector_apply_force"
@@ -25,6 +25,7 @@ DEF ACTIVE_ROBOT Robot {
     }
     DEF LIGHT_BODY Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -90,7 +91,7 @@ DEF ACTIVE_ROBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 9.5897933e-09 9.5974328e-09 4.7131853
+            rotation 0.70710678 0.70710678 0 -3.14159
             model "magnetic"
             type "active"
             autoLock TRUE
@@ -108,6 +109,7 @@ DEF ACTIVE_ROBOT Robot {
   name "MyBot 1"
   boundingObject DEF MYBOT_BOUNDING Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.5708
     children [
       USE BODY
     ]
@@ -125,6 +127,7 @@ DEF PASSIVE_ROBOT Solid {
   children [
     DEF MAIN_BODY Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -186,7 +189,7 @@ DEF PASSIVE_ROBOT Solid {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1.0167461001954058e-08 -0.706825180135843 -0.7073882701359512 3.1415927
+            rotation 0 0 -1 -1.5708
             model "magnetic"
             type "passive"
             tensileStrength 1
@@ -209,6 +212,7 @@ DEF PASSIVE_ROBOT Solid {
 }
 Solid {
   translation 0.28 0 0
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {

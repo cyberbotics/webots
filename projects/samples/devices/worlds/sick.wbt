@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Description: Sample of robot mounted by a Sick LMS 291."
   ]
   title "Sick LMS 291"
-  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {
-  orientation -0.10639501977774378 0.9680541479777618 0.2270490395257009 1.195
-  position 2.269059 1.0160229 0.99623413
+  orientation 0.134250392242919 -0.02107820888607042 -0.9907232415224635 3.5420110917172956
+  position 4.577594204918663 -2.0347783238337582 2.246365267945847
   follow "robot"
   followSmoothness 0
 }
@@ -33,7 +32,7 @@ RectangleArena {
   wallHeight 2
 }
 DEF OBSTACLE_1 Solid {
-  translation 15.7489 1 12.6243
+  translation 15.7489 -12.6243 1
   children [
     DEF OBSTACLE_SHAPE Shape {
       appearance PBRAppearance {
@@ -51,7 +50,7 @@ DEF OBSTACLE_1 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_2 Solid {
-  translation -34.6061 1 -40.1723
+  translation -34.6061 40.1723 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -59,7 +58,7 @@ DEF OBSTACLE_2 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_3 Solid {
-  translation 21.5945 1 -30.3883
+  translation 21.5945 30.3883 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -67,7 +66,7 @@ DEF OBSTACLE_3 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_4 Solid {
-  translation 27.5208 1 -6.81157
+  translation 27.5208 6.81157 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -75,7 +74,7 @@ DEF OBSTACLE_4 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_5 Solid {
-  translation -9.56429 1 -38.4751
+  translation -9.56429 38.4751 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -83,7 +82,7 @@ DEF OBSTACLE_5 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_6 Solid {
-  translation -9.60517 1 -23.2236
+  translation -9.60517 23.2236 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -91,7 +90,7 @@ DEF OBSTACLE_6 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_7 Solid {
-  translation 18.6698 1 2.60164
+  translation 18.6698 -2.60164 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -99,7 +98,7 @@ DEF OBSTACLE_7 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_8 Solid {
-  translation 39.3642 1 39.2094
+  translation 39.3642 -39.2094 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -107,7 +106,7 @@ DEF OBSTACLE_8 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_9 Solid {
-  translation -21.5071 1 19.6972
+  translation -21.5071 -19.6972 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -115,7 +114,7 @@ DEF OBSTACLE_9 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_10 Solid {
-  translation -4.27785 1 48.5003
+  translation -4.27785 -48.5003 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -123,7 +122,7 @@ DEF OBSTACLE_10 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_11 Solid {
-  translation -33.6898 1 -23.5403
+  translation -33.6898 23.5403 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -131,7 +130,7 @@ DEF OBSTACLE_11 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_12 Solid {
-  translation -41.2214 1 -16.8073
+  translation -41.2214 16.8073 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -139,7 +138,7 @@ DEF OBSTACLE_12 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_13 Solid {
-  translation -37.9358 1 16.9674
+  translation -37.9358 -16.9674 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -147,7 +146,7 @@ DEF OBSTACLE_13 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_14 Solid {
-  translation -14.6176 1 37.8329
+  translation -14.6176 -37.8329 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -155,7 +154,7 @@ DEF OBSTACLE_14 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_15 Solid {
-  translation 20.3623 1 45.3412
+  translation 20.3623 -45.3412 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -163,7 +162,7 @@ DEF OBSTACLE_15 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_16 Solid {
-  translation 29.3483 1 18.8565
+  translation 29.3483 -18.8565 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -171,7 +170,7 @@ DEF OBSTACLE_16 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_17 Solid {
-  translation 39.7762 1 7.66315
+  translation 39.7762 -7.66315 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -179,7 +178,7 @@ DEF OBSTACLE_17 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_18 Solid {
-  translation 35.098 1 -20.3285
+  translation 35.098 20.3285 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -187,7 +186,7 @@ DEF OBSTACLE_18 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_19 Solid {
-  translation 34.6685 1 -35.3054
+  translation 34.6685 35.3054 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -195,7 +194,7 @@ DEF OBSTACLE_19 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_20 Solid {
-  translation 10.1839 1 -44.3846
+  translation 10.1839 44.3846 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -203,7 +202,7 @@ DEF OBSTACLE_20 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_21 Solid {
-  translation -18.7385 1 -10.3187
+  translation -18.7385 10.3187 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -211,7 +210,7 @@ DEF OBSTACLE_21 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_22 Solid {
-  translation -31.7044 1 34.2097
+  translation -31.7044 -34.2097 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -219,7 +218,7 @@ DEF OBSTACLE_22 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_23 Solid {
-  translation -29.4344 1 1.27298
+  translation -29.4344 -1.27298 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -227,7 +226,7 @@ DEF OBSTACLE_23 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_24 Solid {
-  translation 22.2993 1 -17.8686
+  translation 22.2993 17.8686 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -235,7 +234,7 @@ DEF OBSTACLE_24 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_25 Solid {
-  translation 2.01148 1 -31.4765
+  translation 2.01148 31.4765 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -243,7 +242,7 @@ DEF OBSTACLE_25 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_26 Solid {
-  translation -1.07563 1 41.9155
+  translation -1.07563 -41.9155 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -251,7 +250,7 @@ DEF OBSTACLE_26 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_27 Solid {
-  translation 13.7977 1 31.39
+  translation 13.7977 -31.39 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -259,7 +258,7 @@ DEF OBSTACLE_27 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_28 Solid {
-  translation -11.9969 1 25.2891
+  translation -11.9969 -25.2891 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -267,7 +266,7 @@ DEF OBSTACLE_28 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_29 Solid {
-  translation -46.1252 1 28.9556
+  translation -46.1252 -28.9556 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -275,7 +274,7 @@ DEF OBSTACLE_29 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_30 Solid {
-  translation -41.1759 1 2.15042
+  translation -41.1759 -2.15042 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -283,7 +282,7 @@ DEF OBSTACLE_30 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_31 Solid {
-  translation -1.71767 1 7.68168
+  translation -1.71767 -7.68168 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -291,7 +290,7 @@ DEF OBSTACLE_31 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_32 Solid {
-  translation -25.1618 1 10.2537
+  translation -25.1618 -10.2537 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -299,7 +298,7 @@ DEF OBSTACLE_32 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_33 Solid {
-  translation 45.3906 1 -45.0979
+  translation 45.3906 45.0979 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -307,7 +306,7 @@ DEF OBSTACLE_33 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_34 Solid {
-  translation -8.6755 1 -4.50206
+  translation -8.6755 4.50206 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -315,7 +314,7 @@ DEF OBSTACLE_34 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_35 Solid {
-  translation -22.6311 1 46.3206
+  translation -22.6311 -46.3206 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -323,7 +322,7 @@ DEF OBSTACLE_35 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_36 Solid {
-  translation 27.3199 1 32.4912
+  translation 27.3199 -32.4912 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -331,7 +330,7 @@ DEF OBSTACLE_36 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_37 Solid {
-  translation 29.7965 1 7.52276
+  translation 29.7965 -7.52276 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -339,7 +338,7 @@ DEF OBSTACLE_37 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_38 Solid {
-  translation 42.7781 1 -9.19469
+  translation 42.7781 9.19469 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -347,7 +346,7 @@ DEF OBSTACLE_38 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_39 Solid {
-  translation 7.03998 1 6.59248
+  translation 7.03998 -6.59248 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -355,7 +354,7 @@ DEF OBSTACLE_39 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_40 Solid {
-  translation -21.5776 1 -47.2582
+  translation -21.5776 47.2582 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -363,7 +362,7 @@ DEF OBSTACLE_40 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_41 Solid {
-  translation -48.4807 1 -31.886
+  translation -48.4807 31.886 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -371,7 +370,7 @@ DEF OBSTACLE_41 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_42 Solid {
-  translation 0.918569 1 23.2265
+  translation 0.918569 -23.2265 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -379,7 +378,7 @@ DEF OBSTACLE_42 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_43 Solid {
-  translation 47.5682 1 19.6871
+  translation 47.5682 -19.6871 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -387,7 +386,7 @@ DEF OBSTACLE_43 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_44 Solid {
-  translation -0.0294536 1 -14.0603
+  translation -0.0294536 14.0603 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -395,7 +394,7 @@ DEF OBSTACLE_44 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_45 Solid {
-  translation -23.1081 1 -27.2096
+  translation -23.1081 27.2096 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -403,7 +402,7 @@ DEF OBSTACLE_45 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_46 Solid {
-  translation 11.2096 1 -20.8318
+  translation 11.2096 20.8318 1
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -411,7 +410,7 @@ DEF OBSTACLE_46 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 Robot {
-  translation 0 0.35 0
+  translation 0 0 0.35
   children [
     DEF BODY Shape {
       appearance PBRAppearance {
@@ -420,13 +419,13 @@ Robot {
         metalness 0
       }
       geometry Box {
-        size 0.8 0.3 0.6
+        size 0.8 0.6 0.3
       }
     }
     DEF DIRECTION HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0.4 -0.15 0
+        axis 0 0 1
+        anchor 0.4 0 -0.15
       }
       device [
         RotationalMotor {
@@ -437,11 +436,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.4 -0.15 0
+        translation 0.4 0 -0.15
+        rotation -0.5773509358554485 -0.5773509358554485 0.5773489358556708 2.094397
         children [
           DEF PASSIVEFRONT_WHEEL HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
             }
             device [
               RotationalMotor {
@@ -449,10 +448,9 @@ Robot {
               }
             ]
             endPoint Solid {
-              rotation 0 0 1 0
+              rotation -0.707104781184338 0 0.7071087811831002 3.141585
               children [
                 DEF WHEEL_TRANSFORM Transform {
-                  rotation 1 0 0 1.5708
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -487,8 +485,8 @@ Robot {
     }
     DEF BACK_RIGHT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor -0.4 -0.15 0.2
+        axis 0 1 0
+        anchor -0.4 -0.2 -0.15
       }
       device [
         RotationalMotor {
@@ -498,8 +496,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.4 -0.15 0.2
-        rotation 0 0 -1 0
+        translation -0.4 -0.2 -0.15
+        rotation 0 0.7071062811861719 0.7071072811865696 3.141593
         children [
           USE WHEEL_TRANSFORM
         ]
@@ -513,8 +511,8 @@ Robot {
     }
     DEF BACK_LEFT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor -0.4 -0.15 -0.2
+        axis 0 1 0
+        anchor -0.4 0.2 -0.15
       }
       device [
         RotationalMotor {
@@ -524,8 +522,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.4 -0.15 -0.2
-        rotation 0 0 -1 0
+        translation -0.4 0.2 -0.15
+        rotation 0 -0.7071062811861719 -0.7071072811865696 3.141592
         children [
           USE WHEEL_TRANSFORM
         ]
@@ -535,8 +533,7 @@ Robot {
       }
     }
     DEF LMS_291 SickLms291 {
-      translation 0 0.22 0
-      rotation 0 1 0 -1.5708
+      translation 0 0 0.22
     }
     DEF DISPLAY Display {
       width 200

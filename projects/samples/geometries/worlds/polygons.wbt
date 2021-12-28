@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This world shows the polygon tesselation feature."
   ]
   title "Base graphical geometries"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.15867339485053722 0.9497980224930243 0.269641373373869 3.9581880857397573
-  position -2.987417425135484 2.6655440407377253 -1.5528967157677525
+  orientation -0.16527257234246467 0.4845656529808303 0.8590000609910144 1.4794750243693777
+  position 0.7459631116959138 -4.772265543030392 3.6594651290397997
 }
 TexturedBackground {
 }
@@ -25,9 +24,9 @@ DEF TRIANGLE_POLYGON Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.3 0 -0.3
-            -0.3 0 -0.3
-            -0.3 0 0.3
+            -0.3 0.3 0
+            -0.3 -0.3 0
+            0.3 -0.3 0
           ]
         }
         coordIndex [
@@ -38,7 +37,7 @@ DEF TRIANGLE_POLYGON Transform {
   ]
 }
 DEF QUAD_POLYGON Transform {
-  translation 0 0 1
+  translation 1 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -49,10 +48,10 @@ DEF QUAD_POLYGON Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.3 0 -0.3
-            -0.3 0 -0.3
-            -0.3 0 0.3
-            0.3 0 0.3
+            -0.3 0.3 0
+            -0.3 -0.3 0
+            0.3 -0.3 0
+            0.3 0.3 0
           ]
         }
         coordIndex [
@@ -63,7 +62,7 @@ DEF QUAD_POLYGON Transform {
   ]
 }
 DEF CONVEX_POLYGON Transform {
-  translation 0 0 2
+  translation 2 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -74,12 +73,12 @@ DEF CONVEX_POLYGON Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.2 0 -0.3
-            -0.2 0 -0.3
-            -0.3 0 0
-            -0.2 0 0.3
-            0.2 0 0.3
-            0.3 0 0
+            -0.3 0.2 0
+            -0.3 -0.2 0
+            0 -0.3 0
+            0.3 -0.2 0
+            0.3 0.2 0
+            0 0.3 0
           ]
         }
         coordIndex [
@@ -90,7 +89,7 @@ DEF CONVEX_POLYGON Transform {
   ]
 }
 DEF NON_CONVEX_POLYGON Transform {
-  translation 0 0 3
+  translation 3 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -101,14 +100,14 @@ DEF NON_CONVEX_POLYGON Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.3 0 -0.3
-            -0.3 0 -0.3
-            -0.3 0 0.3
-            -0.1 0 0.3
-            -0.1 0 0.1
-            0.1 0 0.1
-            0.1 0 0.3
-            0.3 0 0.3
+            -0.3 0.3 0
+            -0.3 -0.3 0
+            0.3 -0.3 0
+            0.3 -0.1 0
+            0.1 -0.1 0
+            0.1 0.1 0
+            0.3 0.1 0
+            0.3 0.3 0
           ]
         }
         coordIndex [

@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # tags: hidden
 # template language: javascript
 
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.
-  field SFRotation  rotation     0 1 0 0     # Is `Transform.rotation`.
+  field SFRotation  rotation     0 0 1 0     # Is `Transform.rotation`.
   field SFString    name         "left leg"  # Is `Solid.name`.
 ]
 {
@@ -198,7 +198,7 @@ PROTO SpotLeftLeg [
                         children [
                           Transform {
                             translation -0.001038 -0.271321 -0.225038
-                            rotation 0 0 1 1.5708003061004252
+                            rotation -0.577349 -0.577352 0.577350 2.094400
                             children [
                               Cylinder {
                                 height 0.039623
@@ -280,7 +280,7 @@ PROTO SpotLeftLeg [
                           }
                           Transform {
                             translation -0.001038 -0.049721 -0.059227
-                            rotation -1 0 0 -2.5040453071795863
+                            rotation 1 0 0 0.933245
                             children [
                               Cylinder {
                                 height 0.030566
@@ -344,7 +344,7 @@ PROTO SpotLeftLeg [
                           }
                           Transform {
                             translation -0.001038 0.037459 0.024742
-                            rotation 0 0 1 1.5707996938995747
+                            rotation 0.577350 0.577352 -0.577350 -2.094399
                             children [
                               Cylinder {
                                 height 0.019736
@@ -361,8 +361,8 @@ PROTO SpotLeftLeg [
                           -0.0010379999999999999 -0.12989919535771882 -0.12095184442508211
                         ]
                         inertiaMatrix [
-                          0.026034033109202114 0.011480093961576602 0.014652279026458286
-                          -6.558961855121463e-05 -6.107196767681762e-05 -0.012746451515841613
+                          0.014652279026458286 0.026034033109202114 0.011480093961576602
+                          -6.107196767681762e-05 0.012746451515841613 6.558961855121463e-05
                         ]
                       }
                     }
@@ -484,7 +484,7 @@ PROTO SpotLeftLeg [
                   children [
                     Transform {
                       translation -0.117011 -0.32073 0.1829
-                      rotation 0 0 1 1.5707996938995747
+                      rotation 0.577350 0.577352 -0.577350 -2.094399
                       children [
                         Cylinder {
                           height 0.060377
@@ -548,7 +548,7 @@ PROTO SpotLeftLeg [
                     }
                     Transform {
                       translation -0.113238 -0.119427 0.086296
-                      rotation 1 0 0 -0.6563753071795864
+                      rotation 1 0 0 -2.227175
                       children [
                         Cylinder {
                           height 0.150943
@@ -558,7 +558,7 @@ PROTO SpotLeftLeg [
                     }
                     Transform {
                       translation -0.113238 -0.04459 0.028636
-                      rotation 1 0 0 -0.6563753071795864
+                      rotation 1 0 0 -2.227175
                       children [
                         Cylinder {
                           height 0.041509
@@ -577,7 +577,7 @@ PROTO SpotLeftLeg [
                     }
                     Transform {
                       translation -0.073615 -0.00019 -0.000689
-                      rotation 0 0 1 1.5707996938995747
+                      rotation 0.577350 0.577352 -0.577350 -2.094399
                       children [
                         Cylinder {
                           height 0.037736
@@ -587,7 +587,7 @@ PROTO SpotLeftLeg [
                     }
                     Transform {
                       translation -0.115879 0.008331 -0.011344
-                      rotation 1 0 0 -0.6563753071795864
+                      rotation 1 0 0 -2.227175
                       children [
                         Cylinder {
                           height 0.086792
@@ -640,8 +640,8 @@ PROTO SpotLeftLeg [
                     -0.11714932354424774 -0.12276425577719878 0.08285389390894864
                   ]
                   inertiaMatrix [
-                    0.09841956052568711 0.06647528278171203 0.1012996403729267
-                    -0.035418844860068285 0.0239185221429445 0.04470786622876792
+                    0.1012996403729267 0.09841956052568711 0.06647528278171203
+                    0.0239185221429445 -0.04470786622876792 0.035418844860068285
                   ]
                 }
               }
@@ -728,7 +728,7 @@ PROTO SpotLeftLeg [
               }
               Transform {
                 translation -0.058145 0.000873 -0.000643
-                rotation 0 0 1 1.5707996938995747
+                rotation 0.577350 0.577352 -0.577350 -2.094399
                 children [
                   Cylinder {
                     height 0.006038
@@ -742,11 +742,11 @@ PROTO SpotLeftLeg [
             density -1
             mass 2.131962264
             centerOfMass [
-              -0.000985966468486107 0.000873 -0.000643
+              0.000643 0.000985966468486107 0.000873
             ]
             inertiaMatrix [
-              0.004840458991120049 0.004164087201524784 0.0042655393382746935
-              1.9739042559750757e-06 -1.4537990385136328e-06 1.2872309568206006e-06
+              0.0042655393382746935 0.004840458991120049 0.004164087201524784
+              -1.4537990385136328e-06 -1.2872309568206006e-06 -1.9739042559750757e-06
             ]
           }
         }

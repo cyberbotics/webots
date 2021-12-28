@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example of a supervisor controller rotating the Viewpoint around a Robot, so that the Robot is always in the field of view."
@@ -6,8 +6,8 @@ WorldInfo {
   title "Rotating camera"
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0.009768180969561412 7.561942251919847 0.050926697278037295
+  orientation -0.06495418401115577 0.0012992569190987428 0.9978874014190695 3.1016771350717782
+  position 1.7956995798712072 -0.0458757479313561 0.6106297340510075
 }
 TexturedBackground {
   texture "factory"
@@ -18,11 +18,10 @@ RectangleArena {
   wallHeight 0.05
 }
 Robot {
-  translation 0.1 0 0.1
+  translation 0.1 0.1 0
   controller "rotating_camera"
   supervisor TRUE
 }
 Nao {
-  translation -1 0.334 -1
   controller "void"
 }

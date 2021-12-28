@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.04752838915311271 0.9842363802199339 0.17035198876465224 3.642006566220462
-  position -0.1827830895022971 0.1682163423110524 -0.28495810462128235
+  orientation -0.13448610634524047 -0.039343011196714205 0.9901341397356582 3.705474882119345
+  position 0.3141943764588547 0.20773456383594655 0.14931665298514266
   near 0.001
   exposure 2
   follow "android L30"
@@ -34,8 +33,7 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.07 0
-  rotation 1 0 0 4.71
+  translation 0 0 0.07
   name "android L30"
   upDSlot TinkerbotsBrickAdapter {
     name "top brick adapter"

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple non-controllable truck tank model without physics properties.
@@ -6,7 +6,7 @@
 PROTO TruckTankSimple [
   field SFString   name                 "truck tank"
   field SFColor    color                0.66 0.66 0.66
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFBool     wheelBoundingObject  FALSE
   hiddenField SFVec3f angularVelocity    0 0 0
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
@@ -21,17 +21,12 @@ PROTO TruckTankSimple [
     type "truck trailer simple"
     endPoint Solid {
       angularVelocity IS angularVelocity
-      translation 0 0 1.35
+      translation 1.35 0 0
       rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
       children [
-        TruckRearLight {
-        }
-        TruckTankMesh {
-          color IS color
-        }
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity
-          translation -1 0 -5.45
+          translation -5.45 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -45,7 +40,7 @@ PROTO TruckTankSimple [
         }
         DEF FRONT_LEFT_WHEEL Solid {
           angularVelocity IS frontLeftWheelAngularVelocity
-          translation 1 0 -5.45
+          translation -5.45 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -59,7 +54,7 @@ PROTO TruckTankSimple [
         }
         DEF CENTER_RIGHT_WHEEL Solid {
           angularVelocity IS centerRightWheelAngularVelocity
-          translation -1 0 -6.55
+          translation -6.55 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -73,7 +68,7 @@ PROTO TruckTankSimple [
         }
         DEF CENTER_LEFT_WHEEL Solid {
           angularVelocity IS centerLeftWheelAngularVelocity
-          translation 1 0 -6.55
+          translation -6.55 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -87,7 +82,7 @@ PROTO TruckTankSimple [
         }
         DEF REAR_RIGHT_WHEEL Solid {
           angularVelocity IS rearRightWheelAngularVelocity
-          translation -1 0 -7.65
+          translation -7.65 -1 0
           rotation 0 0 1 1.5708
           children [
             Slot {
@@ -101,7 +96,7 @@ PROTO TruckTankSimple [
         }
         DEF REAR_LEFT_WHEEL Solid {
           angularVelocity IS rearLeftWheelAngularVelocity
-          translation 1 0 -7.65
+          translation -7.65 1 0
           rotation 0 0 1 -1.5708
           children [
             Slot {
@@ -113,24 +108,34 @@ PROTO TruckTankSimple [
           ]
           name "rear left wheel"
         }
+        Transform{
+          rotation 0.57735 0.57735 0.57735 2.094395
+          children[
+            TruckRearLight {
+            }
+            TruckTankMesh {
+              color IS color
+            }
+          ]
+        }
       ]
       name IS name
       model "truck tank"
       boundingObject Group {
         children [
           Transform {
-            translation 0 2.21 -3.1
+            translation -3.1 0 2.21
             children [
               Box {
-                size 2.5 3.05 11.15
+                size 11.15 2.5 3.05
               }
             ]
           }
           Transform {
-            translation 0 0.27 -6.33
+            translation -6.33 0 0.27
             children [
               Box {
-                size 2.5 0.87 4.5
+                size 4.5 2.5 0.87
               }
             ]
           }

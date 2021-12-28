@@ -7,7 +7,6 @@ export default class Stream {
     this.wsServer = wsServer + '/';
     this._view = view;
     this._onready = onready;
-    this.socket = null;
   }
 
   connect() {
@@ -24,8 +23,10 @@ export default class Stream {
   }
 
   close() {
-    if (this.socket)
+    if (typeof this.socket !== 'undefined') {
       this.socket.close();
+      this.soclet = undefined;
+    }
   }
 
   _onSocketOpen(event) {
@@ -60,7 +61,7 @@ export default class Stream {
       return 0;
     } else if (data.startsWith('stderr:')) {
       this._view.onstderr(data.substring('stderr:'.length));
-      return 0
+      return 0;
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       let currentWorld = data.substring(0, data.indexOf(':')).trim();

@@ -1,4 +1,37 @@
 # needed to execute webots-bin.exe (64 bit binary)
+/mingw64/bin/libassimp.dll
+/mingw64/bin/libbrotlicommon.dll
+/mingw64/bin/libbrotlidec.dll
+/mingw64/bin/libbz2-1.dll
+/mingw64/bin/libcrypto-1_1-x64.dll
+/mingw64/bin/libdouble-conversion.dll
+/mingw64/bin/libfreetype-6.dll
+/mingw64/bin/libglib-2.0-0.dll
+/mingw64/bin/libgraphite2.dll
+/mingw64/bin/libharfbuzz-0.dll
+/mingw64/bin/libicudt??.dll
+/mingw64/bin/libicuin??.dll
+/mingw64/bin/libicuuc??.dll
+/mingw64/bin/libintl-8.dll
+/mingw64/bin/libjasper-4.dll
+/mingw64/bin/libjpeg-8.dll
+/mingw64/bin/liblcms2-2.dll
+/mingw64/bin/liblzma-5.dll
+/mingw64/bin/libmd4c.dll
+/mingw64/bin/libminizip-1.dll
+/mingw64/bin/libopenal-1.dll
+/mingw64/bin/libpcre-1.dll
+/mingw64/bin/libpcre2-16-0.dll
+/mingw64/bin/libpng16-16.dll
+/mingw64/bin/libsqlite3-0.dll
+/mingw64/bin/libssl-1_1-x64.dll
+/mingw64/bin/libwebp-7.dll
+/mingw64/bin/libwebpdecoder-3.dll
+/mingw64/bin/libwoff2common.dll
+/mingw64/bin/libwoff2dec.dll
+/mingw64/bin/libxml2-2.dll
+/mingw64/bin/libxslt-1.dll
+/mingw64/bin/libzzip.dll
 /mingw64/bin/Qt5Core.dll
 /mingw64/bin/Qt5Gui.dll
 /mingw64/bin/Qt5Multimedia.dll
@@ -7,9 +40,9 @@
 /mingw64/bin/Qt5OpenGL.dll
 /mingw64/bin/Qt5Positioning.dll
 /mingw64/bin/Qt5PrintSupport.dll
-/mingw64/bin/Qt5Quick.dll
 /mingw64/bin/Qt5Qml.dll
 /mingw64/bin/Qt5QmlModels.dll
+/mingw64/bin/Qt5Quick.dll
 /mingw64/bin/Qt5Sensors.dll
 /mingw64/bin/Qt5WebChannel.dll
 /mingw64/bin/Qt5WebKit.dll
@@ -17,38 +50,6 @@
 /mingw64/bin/Qt5WebSockets.dll
 /mingw64/bin/Qt5Widgets.dll
 /mingw64/bin/Qt5Xml.dll
-/mingw64/bin/libbrotlicommon.dll
-/mingw64/bin/libbrotlidec.dll
-/mingw64/bin/libicuuc??.dll
-/mingw64/bin/libicuin??.dll
-/mingw64/bin/libicudt??.dll
-/mingw64/bin/libminizip-1.dll
-/mingw64/bin/libbz2-1.dll
-/mingw64/bin/libsqlite3-0.dll
-/mingw64/bin/libxslt-1.dll
-/mingw64/bin/libdouble-conversion.dll
-/mingw64/bin/libjpeg-8.dll
-/mingw64/bin/libpng16-16.dll
-/mingw64/bin/libfreetype-6.dll
-/mingw64/bin/libglib-2.0-0.dll
-/mingw64/bin/libgraphite2.dll
-/mingw64/bin/libharfbuzz-0.dll
-/mingw64/bin/libintl-8.dll
-/mingw64/bin/libjasper-4.dll
-/mingw64/bin/liblcms2-2.dll
-/mingw64/bin/liblzma-5.dll
-/mingw64/bin/libpcre-1.dll
-/mingw64/bin/libpcre2-16-0.dll
-/mingw64/bin/libwebp-7.dll
-/mingw64/bin/libwebpdecoder-3.dll
-/mingw64/bin/libwoff2common.dll
-/mingw64/bin/libwoff2dec.dll
-/mingw64/bin/libxml2-2.dll
-/mingw64/bin/libzzip.dll
-/mingw64/bin/libopenal-1.dll
-/mingw64/bin/libassimp.dll
-/mingw64/bin/libssl-1_1-x64.dll
-/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/share/qt5/plugins/imageformats/qjpeg.dll
 /mingw64/share/qt5/plugins/platforms/qwindows.dll
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
@@ -72,19 +73,19 @@
 /mingw64/bin/rav1e.dll
 
 # needed run the darwin-op remote control library
-/mingw64/bin/Qt5Concurrent.dll
 /mingw64/bin/libssh.dll
 /mingw64/bin/libzip.dll
+/mingw64/bin/Qt5Concurrent.dll
 
 # needed to compile the darwin-op remote control library
+/mingw64/include/libssh/*.*
 /mingw64/include/zip.h
 /mingw64/include/zipconf.h
-/mingw64/include/libssh/*.*
 
 # needed to recompile the Qt-based robot windows (darwin-op or automobile)
 /mingw64/bin/moc.exe
 
 # needed to allow users to create translations in their own language
 /mingw64/bin/linguist.exe
-/mingw64/bin/lupdate.exe
 /mingw64/bin/lrelease.exe
+/mingw64/bin/lupdate.exe

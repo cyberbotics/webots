@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -19,21 +19,26 @@ DEF BOARD Solid {
   translation -0.05 0.022 -0.1
   rotation 0.5688797850655958 0.8224206892726625 0 0.7854
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+            texture ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Plane {
+            size 0.15 0.3
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 0.15 0.3
-      }
+      ]
     }
   ]
   locked TRUE
@@ -52,21 +57,27 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0.014 0.1 0.016
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
               Shape {
                 geometry Box {
                   size 0.01 0.01 0.01
                 }
               }
-              DEF BODY Shape {
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -78,7 +89,7 @@ DEF WRITER Robot {
     }
     Camera {
       translation -0.07 0.2 -0.13
-      rotation 1 0 0 -1.5708
+      rotation 0.7071078227023665 -0.7071057396656566 0 3.141584013594599
       children [
         Shape {
           geometry Cylinder {

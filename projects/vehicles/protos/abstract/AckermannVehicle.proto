@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/ackermannvehicle
@@ -8,8 +8,8 @@
 # template language: javascript
 
 PROTO AckermannVehicle [
-  field SFVec3f    translation                    0 0.4 0
-  field SFRotation rotation                       0 1 0 0.0
+  field SFVec3f    translation                    0 0 0.4
+  field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
   field SFString   model                          "Ackermann vehicle"
   field SFString   controller                     "void"
@@ -33,9 +33,9 @@ PROTO AckermannVehicle [
   field SFFloat    radarCrossSection              100
   field MFColor    recognitionColors              [ ]
   field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
-  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" }
+  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" wheelSide TRUE }
   field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }
-  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" }
+  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" wheelSide TRUE }
   field MFNode     axisDevicesFrontRight          [ ]
   field MFNode     axisDevicesFrontLeft           [ ]
   field MFNode     axisDevicesRearRight           [ ]
@@ -68,18 +68,18 @@ PROTO AckermannVehicle [
     rotation IS rotation
     children [
       Transform {
-        translation %<= frontTrack * 0.5 >% 0 %<= wheelbase >%
+        translation %<= wheelbase >% %<= frontTrack * 0.5 >% 0
         rotation 0 0 1 -1.5708
         children [
           DEF LEFT_STEER_HINGE2 Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis 0 0 -1
               suspensionSpringConstant IS suspensionFrontSpringConstant
               suspensionDampingConstant IS suspensionFrontDampingConstant
-              suspensionAxis 1 0 0
+              suspensionAxis 0 0 1
             }
             jointParameters2 JointParameters {
-              axis 0 1 0
+              axis -1 0 0
               dampingConstant IS wheelsDampingConstant
             }
             device [
@@ -103,18 +103,18 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %<= -frontTrack * 0.5 >% 0 %<= wheelbase >%
+        translation %<= wheelbase >% %<= -frontTrack * 0.5 >% 0
         rotation 0 0 1 1.5708
         children [
           DEF RIGHT_STEER_HINGE2 Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 0 -1
               suspensionSpringConstant IS suspensionFrontSpringConstant
               suspensionDampingConstant IS suspensionFrontDampingConstant
-              suspensionAxis 1 0 0
+              suspensionAxis 0 0 1
             }
             jointParameters2 JointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               dampingConstant IS wheelsDampingConstant
             }
             device [
@@ -138,16 +138,16 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %<= rearTrack * 0.5 >% 0 0
+        translation 0 %<= rearTrack * 0.5 >% 0
         rotation 0 0 1 -1.5708
         children [
           DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis -1 0 0
               dampingConstant IS wheelsDampingConstant
               suspensionSpringConstant IS suspensionRearSpringConstant
               suspensionDampingConstant IS suspensionRearDampingConstant
-              suspensionAxis 1 0 0
+              suspensionAxis 0 0 1
             }
             device IS axisDevicesRearLeft
             endPoint Slot {
@@ -158,16 +158,16 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %<= -rearTrack * 0.5 >% 0 0
+        translation 0 %<= -rearTrack * 0.5 >% 0
         rotation 0 0 1 1.5708
         children [
           DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               dampingConstant IS wheelsDampingConstant
               suspensionSpringConstant IS suspensionRearSpringConstant
               suspensionDampingConstant IS suspensionRearDampingConstant
-              suspensionAxis 1 0 0
+              suspensionAxis 0 0 1
             }
             device IS axisDevicesRearRight
             endPoint Slot {
@@ -178,7 +178,7 @@ PROTO AckermannVehicle [
         ]
       }
       Speaker {
-        translation 0 0 %<= wheelbase >%
+        translation %<= wheelbase >% 0 0
         name "engine_speaker"
       }
       Group {

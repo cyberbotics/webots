@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # tags: hidden
 # template language: javascript
 
@@ -63,7 +63,7 @@ Solid {
                 }
                 DEF PHALANX_TRANS Transform {
                   translation 0.006 0 0
-                  rotation 0 0 1 1.5708
+                  rotation -0.577350 -0.577352 0.577350 2.094399
                   children [
                     Shape {
                       appearance DEF MAIN_SKIN_APP PBRAppearance {
@@ -645,7 +645,7 @@ Solid {
           children [
             Transform {
               translation 0.057 0 0.014
-              rotation 0.994401 -0.0747202 0.07472 1.57641
+              rotation 0 1 0 -0.15
               children [
                 Cylinder {
                   height 0.02
@@ -829,7 +829,7 @@ Solid {
   contactMaterial IS contactMaterial
   boundingObject Transform {
     translation 0.03 0.003 0.005
-    rotation 0 0 1 -1.7
+    rotation -0.527663 0.600656 -0.600654 2.170531
     children [
       DEF WHIRST_BO Capsule {
         height 0.025

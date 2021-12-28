@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/ghostdog
@@ -6,7 +6,7 @@
 
 PROTO GhostDog [
   field SFVec3f    translation     0 0 0      # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0    # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0    # Is `Transform.rotation`.
   field SFString   name            "GhostDog" # Is `Solid.name`.
   field SFString   controller      "ghostdog" # Is `Robot.controller`.
   field MFString   controllerArgs  []         # Is `Robot.controllerArgs`.
@@ -35,12 +35,12 @@ PROTO GhostDog [
           roughness 1
         }
         geometry Box {
-          size 0.3 0.1 0.2
+          size 0.3 0.2 0.1
         }
       }
       DEF NECK0 HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 0 1
+          axis 0 -1 0
           anchor 0.15 0 0
         }
         device [
@@ -54,10 +54,9 @@ PROTO GhostDog [
         ]
         endPoint Solid {
           translation 0.15 0 0
-          rotation 0 0 1 2.3562
+          rotation 0.281083 -0.678599 0.678599 2.593568
           children [
             DEF NECK0_CYL_TRANS Transform {
-              rotation 1 0 0 1.5708
               children [
                 DEF NECK0_CYL_SHAPE Shape {
                   appearance DEF JOINT_APPEARANCE PBRAppearance {
@@ -102,7 +101,6 @@ PROTO GhostDog [
                 rotation 0 0 1 0.7854
                 children [
                   DEF NECK1_CYL_TRANS Transform {
-                    rotation 1 0 0 1.5708
                     children [
                       DEF NECK1_CYL_SHAPE Shape {
                         appearance USE JOINT_APPEARANCE
@@ -139,12 +137,17 @@ PROTO GhostDog [
                     endPoint Solid {
                       translation 0 -0.08 0
                       children [
-                        DEF HEAD_CYL_SHAPE Shape {
-                          appearance USE JOINT_APPEARANCE
-                          geometry Cylinder {
-                            height 0.04
-                            radius 0.04
-                          }
+                        Transform {
+                          rotation 1 0 0 1.5708
+                          children [
+                            DEF HEAD_CYL_SHAPE Shape {
+                              appearance USE JOINT_APPEARANCE
+                              geometry Cylinder {
+                                height 0.04
+                                radius 0.04
+                              }
+                            }
+                          ]
                         }
                         DEF HEAD_BOX_TRANS Transform {
                           translation -0.05 -0.04 0
@@ -159,10 +162,10 @@ PROTO GhostDog [
                         }
                         DEF LEFT_CAM Camera {
                           translation 0 -0.09 -0.09
-                          rotation 0.7071067811865476 4.32977866015453e-17 0.7071067811865476 3.14159
+                          rotation 0 -0.707107 0.707107 3.1415926535
                           children [
                             DEF CAM_TRANS Transform {
-                              rotation 1 0 0 1.5708
+                              rotation 0 1 0 1.5708
                               children [
                                 Shape {
                                   appearance DEF CAM_APPEARANCE PBRAppearance {
@@ -182,7 +185,7 @@ PROTO GhostDog [
                         }
                         DEF RIGHT_CAM Camera {
                           translation 0 -0.09 0.09
-                          rotation 0.7071067811865476 4.32977866015453e-17 0.7071067811865476 3.14159
+                          rotation 0 -0.707107 0.707107 3.1415926535
                           children [
                             USE CAM_TRANS
                           ]
@@ -197,8 +200,8 @@ PROTO GhostDog [
                           0 0 0
                         ]
                         inertiaMatrix [
-                          0.005845 0.008661 0.009045
-                          -0.00256 0 0
+                          0.005845 0.009045 0.008661
+                          0 -0.00256 0
                         ]
                       }
                     }
@@ -212,7 +215,7 @@ PROTO GhostDog [
                     0 0 0
                   ]
                   inertiaMatrix [
-                    0.000133 1.7e-5 0.000141
+                    0.000133 0.000141 1.7e-5
                     0 0 0
                   ]
                 }
@@ -228,7 +231,7 @@ PROTO GhostDog [
               0 0 0
             ]
             inertiaMatrix [
-              0.000256 2.1e-5 0.000266
+              0.000256 0.000266 2.1e-5
               0 0 0
             ]
           }
@@ -236,8 +239,8 @@ PROTO GhostDog [
       }
       DEF HIP0 HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 0 1
-          anchor 0.08 0 0.12
+          axis 0 -1 0
+          anchor 0.08 -0.12 0
         }
         device [
           RotationalMotor {
@@ -249,8 +252,7 @@ PROTO GhostDog [
           }
         ]
         endPoint Solid {
-          translation 0.08 0 0.12
-          rotation 0 0 1 0
+          translation 0.08 -0.12 0
           children [
             DEF HIP_TRANS Transform {
               rotation 1 0 0 1.5708
@@ -265,18 +267,18 @@ PROTO GhostDog [
               ]
             }
             DEF FEMUR_TRANS Transform {
-              translation 0 -0.07 0
+              translation 0 0 -0.07
               children [
                 Shape {
                   appearance USE BODY_APPEARANCE
                   geometry Box {
-                    size 0.05 0.14 0.03
+                    size 0.05 0.03 0.14
                   }
                 }
               ]
             }
             DEF KNEE_TRANS Transform {
-              translation 0 -0.14 0
+              translation 0 0 -0.14
               rotation 1 0 0 1.5708
               children [
                 DEF KNEE_SHAPE Shape {
@@ -290,8 +292,8 @@ PROTO GhostDog [
             }
             DEF KNEE0 HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
-                anchor 0 -0.14 0
+                axis 0 -1 0
+                anchor 0 0 -0.14
               }
               device [
                 RotationalMotor {
@@ -303,31 +305,30 @@ PROTO GhostDog [
                 }
               ]
               endPoint Solid {
-                translation 0 -0.14 0
-                rotation 0 0 1 0.7
+                translation 0 0 -0.14
+                rotation 0 -1 0 0.7
                 children [
                   DEF KNEE0SPRING HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 0 1
+                      axis 0 -1 0
                       springConstant 25
                       dampingConstant 0.1
                     }
                     endPoint Solid {
-                      rotation 0 0 1 0
                       children [
                         DEF TIBIA_TRANS Transform {
-                          translation 0 -0.07 0
+                          translation 0 0 -0.07
                           children [
                             Shape {
                               appearance USE BODY_APPEARANCE
                               geometry Box {
-                                size 0.05 0.14 0.03
+                                size 0.05 0.03 0.14
                               }
                             }
                           ]
                         }
                         DEF TOUCH0 TouchSensor {
-                          translation 0 -0.14 0
+                          translation 0 0 -0.14
                           rotation 1 0 0 1.5708
                           children [
                             DEF FOOT_SHAPE Shape {
@@ -378,10 +379,10 @@ PROTO GhostDog [
             density -1
             mass 0.201062
             centerOfMass [
-              0 -0.07 0
+              0 0 -0.07
             ]
             inertiaMatrix [
-              0.001092 0.000107 0.001146
+              0.001092 0.001146 0.000107
               0 0 0
             ]
           }
@@ -389,8 +390,8 @@ PROTO GhostDog [
       }
       DEF HIP2 HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 0 1
-          anchor 0.08 0 -0.12
+          axis 0 -1 0
+          anchor 0.08 0.12 0
         }
         device [
           RotationalMotor {
@@ -402,16 +403,15 @@ PROTO GhostDog [
           }
         ]
         endPoint Solid {
-          translation 0.08 0 -0.12
-          rotation 0 0 1 0
+          translation 0.08 0.12 0
           children [
             USE HIP_TRANS
             USE FEMUR_TRANS
             USE KNEE_TRANS
             DEF KNEE2 HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
-                anchor 0 -0.14 0
+                axis 0 -1 0
+                anchor 0 0 -0.14
               }
               device [
                 RotationalMotor {
@@ -423,21 +423,20 @@ PROTO GhostDog [
                 }
               ]
               endPoint Solid {
-                translation 0 -0.14 0
-                rotation 0 0 1 0.7
+                translation 0 0 -0.14
+                rotation 0 1 0 -0.7
                 children [
                   DEF KNEE2SPRING HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 0 1
+                      axis 0 -1 0
                       springConstant 25
                       dampingConstant 0.1
                     }
                     endPoint Solid {
-                      rotation 0 0 1 0
                       children [
                         USE TIBIA_TRANS
                         DEF TOUCH2 TouchSensor {
-                          translation 0 -0.14 0
+                          translation 0 0 -0.14
                           rotation 1 0 0 1.5708
                           children [
                             USE FOOT_SHAPE
@@ -471,7 +470,7 @@ PROTO GhostDog [
       }
       DEF PELVIS HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
+          axis 0 0 1
           anchor -0.18 0 0
         }
         device [
@@ -499,15 +498,15 @@ PROTO GhostDog [
                 Shape {
                   appearance USE BODY_APPEARANCE
                   geometry Box {
-                    size 0.2 0.1 0.2
+                    size 0.2 0.2 0.1
                   }
                 }
               ]
             }
             DEF HIP1 HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
-                anchor -0.16 0 0.12
+                axis 0 -1 0
+                anchor -0.16 -0.12 0
               }
               device [
                 RotationalMotor {
@@ -519,16 +518,15 @@ PROTO GhostDog [
                 }
               ]
               endPoint Solid {
-                translation -0.16 0 0.12
-                rotation 0 0 1 0
+                translation -0.16 -0.12 0
                 children [
                   USE HIP_TRANS
                   USE FEMUR_TRANS
                   USE KNEE_TRANS
                   DEF KNEE1 HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 0 1
-                      anchor 0 -0.14 0
+                      axis 0 -1 0
+                      anchor 0 0 -0.14
                     }
                     device [
                       RotationalMotor {
@@ -540,21 +538,20 @@ PROTO GhostDog [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.14 0
-                      rotation 0 0 1 0.7
+                      translation 0 0 -0.14
+                      rotation 0 1 0 -0.7
                       children [
                         DEF KNEE1SPRING HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 0 1
+                            axis 0 -1 0
                             springConstant 25
                             dampingConstant 0.1
                           }
                           endPoint Solid {
-                            rotation 0 0 1 0
                             children [
                               USE TIBIA_TRANS
                               DEF TOUCH1 TouchSensor {
-                                translation 0 -0.14 0
+                                translation 0 0 -0.14
                                 rotation 1 0 0 1.5708
                                 children [
                                   USE FOOT_SHAPE
@@ -588,8 +585,8 @@ PROTO GhostDog [
             }
             DEF HIP3 HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
-                anchor -0.16 0 -0.12
+                axis 0 -1 0
+                anchor -0.16 0.12 0
               }
               device [
                 RotationalMotor {
@@ -601,16 +598,15 @@ PROTO GhostDog [
                 }
               ]
               endPoint Solid {
-                translation -0.16 0 -0.12
-                rotation 0 0 1 0
+                translation -0.16 0.12 0
                 children [
                   USE HIP_TRANS
                   USE FEMUR_TRANS
                   USE KNEE_TRANS
                   DEF KNEE3 HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 0 1
-                      anchor 0 -0.14 0
+                      axis 0 -1 0
+                      anchor 0 0 -0.14
                     }
                     device [
                       RotationalMotor {
@@ -622,21 +618,20 @@ PROTO GhostDog [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.14 0
-                      rotation 0 0 1 0.7
+                      translation 0 0 -0.14
+                      rotation 0 1 0 -0.7
                       children [
                         DEF KNEE3SPRING HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 0 1
+                            axis 0 -1 0
                             springConstant 25
                             dampingConstant 0.1
                           }
                           endPoint Solid {
-                            rotation 0 0 1 0
                             children [
                               USE TIBIA_TRANS
                               DEF TOUCH3 TouchSensor {
-                                translation 0 -0.14 0
+                                translation 0 0 -0.14
                                 rotation 1 0 0 1.5708
                                 children [
                                   USE FOOT_SHAPE
@@ -678,7 +673,7 @@ PROTO GhostDog [
               -0.13 0 0
             ]
             inertiaMatrix [
-              0.016667 0.026667 0.016667
+              0.016667 0.016667 0.026667
               0 0 0
             ]
           }

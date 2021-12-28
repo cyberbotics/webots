@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable parallelepiped.
 # The `size` and `angles` fields specify the edges and angles of the parallelepiped:
-# - `angles.x`: angle between base and side edges of the parallelogram face
-# - `angles.y`: angle in y direction between front and back faces of the prism
-# - `angles.z`: angle in x direction between front and back faces of the prism
+# - `angles.x`: angle in y direction between front and back faces of the prism
+# - `angles.y`: angle between base and side edges of the parallelogram face
+# - `angles.z`: angle in z direction between front and back faces of the prism
 # Available texture mappings:
 # - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube_mapping.jpg
 # - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact_mapping.jpg
@@ -19,7 +19,7 @@
 
 PROTO TexturedParallelepiped [
   field SFVec3f  size    0.1 0.1 0.1     # Defines the size of the parallelepiped.
-  field SFVec3f  angles  0.7854 0.0 0.0  # Defines the angles of the parallelepiped.
+  field SFVec3f  angles  0.0 0.7854 0.0  # Defines the angles of the parallelepiped.
   field SFString{"cube", "compact", "flat", "metric", "default", "none"}
                  mapping "flat"          # Defines the texture mapping.
   field SFBool   front   TRUE            # Defines whether the front face should be included.
@@ -70,35 +70,35 @@ PROTO TexturedParallelepiped [
     let angles = fields.angles.value;
 
     // normalize angles
-    while (angles.x > Math.PI)
-      angles.x = angles.x - Math.PI;
-    while (angles.x < 0)
-      angles.x = angles.x + Math.PI;
+    while (angles.y > Math.PI)
+      angles.y = angles.y - Math.PI;
+    while (angles.y < 0)
+      angles.y = angles.y + Math.PI;
 
     const halfPi = 0.5 * Math.PI;
-    while (angles.y > halfPi)
-      angles.y = angles.y - Math.PI;
-    while (angles.y < -halfPi)
-      angles.y = angles.y + Math.PI;
+    while (angles.x > halfPi)
+      angles.x = angles.x - Math.PI;
+    while (angles.x < -halfPi)
+      angles.x = angles.x + Math.PI;
 
     while (angles.z > halfPi)
       angles.z = angles.z - Math.PI;
     while (angles.z < -halfPi)
       angles.z = angles.z + Math.PI;
 
-    if (angles.x < angleThreshold || angles.x > (Math.PI - angleThreshold)) {
+    if (angles.y < angleThreshold || angles.y > (Math.PI - angleThreshold)) {
       angles = fields.angles.defaultValue;
-      console.error('\'angles.x\' cannot be 0. Value reset to ' + angles + '.');
-    } else if (Math.abs(angles.y) > (halfPi - angleThreshold) || Math.abs(angles.z) > (halfPi - angleThreshold)) {
+      console.error('\'angles.y\' cannot be 0. Value reset to ' + angles + '.');
+    } else if (Math.abs(angles.x) > (halfPi - angleThreshold) || Math.abs(angles.z) > (halfPi - angleThreshold)) {
       angles = fields.angles.defaultValue
-      console.error('\'angles.y\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
+      console.error('\'angles.x\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
     }
 
-    const parallelogramHeight = halfSize.y * Math.sin(angles.x);
-    const parallelogramHalfOffsetX = halfSize.y * Math.cos(angles.x);
-    const prismHalfOffsetX = halfSize.z * Math.sin(angles.z) * Math.cos(angles.y);
-    const prismHalfOffsetY = halfSize.z * Math.sin(angles.y);
-    const prismHalfOffsetZ = halfSize.z * Math.cos(angles.z) * Math.cos(angles.y);
+    const parallelogramHeight = halfSize.z * Math.sin(angles.y);
+    const parallelogramHalfOffsetY = halfSize.z * Math.cos(angles.y);
+    const prismHalfOffsetX = halfSize.x * Math.cos(angles.x) * Math.cos(angles.z);
+    const prismHalfOffsetY = -halfSize.x * Math.sin(angles.x) * Math.cos(angles.z);
+    const prismHalfOffsetZ = halfSize.x * Math.sin(angles.z);
   >%
 
   IndexedFaceSet {
@@ -108,7 +108,7 @@ PROTO TexturedParallelepiped [
            for (let j = -1; j <= 1; j = j + 2) {
              for (let i = -1; i <= 1; i = i + 2) {
       >%
-        %<= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX >% %<= j * parallelogramHeight + k * prismHalfOffsetY >% %<= k * prismHalfOffsetZ >%
+        %<= k * prismHalfOffsetX >% %<= i * halfSize.y + j * parallelogramHalfOffsetY +  k * prismHalfOffsetY >% %<= j * parallelogramHeight + k * prismHalfOffsetZ>%
       %<     }
            }
          }
@@ -122,11 +122,11 @@ PROTO TexturedParallelepiped [
          if (front) { >%
       4 5 7 6 -1 # front
       %< }
-         if (fields.right.value) { >%
-      5 1 3 7 -1 # right
-      %< }
          if (fields.left.value) { >%
-      0 4 6 2 -1 # left
+      5 1 3 7 -1 # left
+      %< }
+         if (fields.right.value) { >%
+      0 4 6 2 -1 # right
       %< }
          if (fields.top.value) { >%
       7 3 2 6 -1 # top
@@ -142,14 +142,14 @@ PROTO TexturedParallelepiped [
         let u = [];
         let v = [];
         let ratio = {x: 1, y: 1, z: 1};
-        const maxEdge = Math.max(Math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z);
-        const offsetRatio = parallelogramHalfOffsetX / maxEdge;
+        const maxEdge = Math.max(Math.max(halfSize.y + parallelogramHalfOffsetY, parallelogramHeight), halfSize.x);
+        const offsetRatio = parallelogramHalfOffsetY / maxEdge;
         if (mapping === 'metric') {
-          ratio.x = halfSize.x / maxEdge + offsetRatio;
-          ratio.y = parallelogramHeight / maxEdge;
-          ratio.z = halfSize.z / maxEdge;
-          u = [0, ratio.x, ratio.z, offsetRatio];
-          v = [0, ratio.y, ratio.z];
+          ratio.x = halfSize.x / maxEdge;
+          ratio.y = halfSize.y / maxEdge + offsetRatio;
+          ratio.z = parallelogramHeight / maxEdge;
+          u = [0, ratio.y, ratio.x, offsetRatio];
+          v = [0, ratio.z, ratio.x];
         } else {
           for (let j = 0; j <= rows; ++j)
             v[j] = j/rows;
@@ -170,9 +170,9 @@ PROTO TexturedParallelepiped [
         if (mapping === 'metric') {
       >%
         %<= offsetRatio >% %<= 0 >%
-        %<= halfSize.x / maxEdge >% %<= 0 >%
-        %<= halfSize.x / maxEdge >% %<= ratio.y >%
-        %<= offsetRatio >% %<= ratio.y >%
+        %<= halfSize.y / maxEdge >% %<= 0 >%
+        %<= halfSize.y / maxEdge >% %<= ratio.z >%
+        %<= offsetRatio >% %<= ratio.z >%
       %< } >%
       ]
     }
@@ -184,10 +184,10 @@ PROTO TexturedParallelepiped [
            if (front) { >%
       6 7 12 11 -1
         %< }
-           if (fields.right.value) { >%
+           if (fields.left.value) { >%
       7 8 13 12 -1
         %< }
-           if (fields.left.value) { >%
+           if (fields.right.value) { >%
       5 6 11 10 -1
         %< }
            if (fields.top.value) { >%
@@ -203,10 +203,10 @@ PROTO TexturedParallelepiped [
            if (front) { >%
       1 2 6 5 -1
         %< }
-           if (fields.right.value) { >%
+           if (fields.left.value) { >%
       2 3 7 6 -1
         %< }
-           if (fields.left.value) { >%
+           if (fields.right.value) { >%
       0 1 5 4 -1
         %< }
            if (fields.top.value) { >%
@@ -222,10 +222,10 @@ PROTO TexturedParallelepiped [
            if (front) { >%
       0 1 3 2 -1
         %< }
-           if (fields.right.value) { >%
+           if (fields.left.value) { >%
       1 5 7 3 -1
         %< }
-           if (fields.left.value) { >%
+           if (fields.right.value) { >%
       0 4 6 2 -1
         %< }
            if (fields.top.value) { >%
@@ -241,10 +241,10 @@ PROTO TexturedParallelepiped [
            if (front) { >%
       0 10 4 12 -1
         %< }
-           if (fields.right.value) { >%
+           if (fields.left.value) { >%
       0 2 5 3 -1
         %< }
-           if (fields.left.value) { >%
+           if (fields.right.value) { >%
       0 2 5 3 -1
         %< }
            if (fields.top.value) { >%
@@ -260,10 +260,10 @@ PROTO TexturedParallelepiped [
            if (front) { >%
       0 1 3 2 -1
         %< }
-           if (fields.right.value) { >%
+           if (fields.left.value) { >%
       0 1 3 2 -1
         %< }
-           if (fields.left.value) { >%
+           if (fields.right.value) { >%
       0 1 3 2 -1
         %< }
            if (fields.top.value) { >%

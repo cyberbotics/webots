@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "A demo world using two IPR HD6Ms180"
   ]
   title "IPR Collaboration"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "cube"
@@ -17,8 +16,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.0018416599251240434 0.9662309607161634 0.2576709895239281 3.14287
-  position 0.37555 2.21322 -3.04347
+  orientation -0.3246566058773872 -0.029342121523048638 0.9453767123029324 3.0262080148072155
+  position 2.8181498658667823 -1.006264301320415 2.534683171764634
 }
 TexturedBackground {
 }
@@ -42,7 +41,7 @@ DEF FLOOR Solid {
   locked TRUE
 }
 DEF BIG_BOX Solid {
-  translation 1.4 0.235 0
+  translation 0 -1.4 0.235
   children [
     Shape {
       appearance PBRAppearance {
@@ -51,17 +50,17 @@ DEF BIG_BOX Solid {
         metalness 0
       }
       geometry Box {
-        size 0.4 0.45 0.7
+        size 0.7 0.4 0.46
       }
     }
   ]
   name "box"
   boundingObject Box {
-    size 0.4 0.45 0.7
+    size 0.7 0.4 0.46
   }
 }
 DEF CUBE0 Solid {
-  translation 1.35 0.485 -0.2
+  translation 0.2 -1.35 0.495
   children [
     DEF CUBE Shape {
       appearance PBRAppearance {
@@ -85,7 +84,7 @@ DEF CUBE0 Solid {
   }
 }
 DEF CUBE1 Solid {
-  translation 1.42 0.485 -0.055
+  translation 0.055 -1.42 0.495
   children [
     USE CUBE
   ]
@@ -95,7 +94,7 @@ DEF CUBE1 Solid {
   physics USE PHYSICS_CUBE
 }
 DEF CUBE2 Solid {
-  translation 1.349 0.485 0.17
+  translation -0.17 -1.349 0.495
   children [
     USE CUBE
   ]
@@ -105,10 +104,10 @@ DEF CUBE2 Solid {
   physics USE PHYSICS_CUBE
 }
 DEF CHAIR Solid {
-  translation -0.65 0.01 0.15
+  translation -0.15 0.65 0.01
   children [
     Transform {
-      translation 0.2 0.2 0.02
+      translation -0.02 -0.2 0.2
       children [
         DEF FACE Shape {
           appearance DEF VIOLET PBRAppearance {
@@ -117,39 +116,38 @@ DEF CHAIR Solid {
             metalness 0
           }
           geometry Box {
-            size 0.04 0.4 0.4
+            size 0.4 0.04 0.4
           }
         }
       ]
     }
     Transform {
-      translation -0.2 0.2 -0.02
-      rotation -0.196115942830544 0.9805807141524284 0 0
+      translation 0.02 0.2 0.2
       children [
         USE FACE
       ]
     }
     Transform {
-      translation -0.02 0.2 0.2
-      rotation 0 1 0 1.57
+      translation -0.2 0.02 0.2
+      rotation 0 0 1 1.57
       children [
         USE FACE
       ]
     }
     Transform {
-      translation 0.02 0.2 -0.2
-      rotation 0 1 0 1.57
+      translation 0.2 -0.02 0.2
+      rotation 0 0 1 1.57
       children [
         USE FACE
       ]
     }
     Transform {
-      translation 0 0.1 0
+      translation 0 0 0.1
       children [
         Shape {
           appearance USE VIOLET
           geometry Box {
-            size 0.4 0.2 0.4
+            size 0.4 0.4 0.2
           }
         }
       ]
@@ -159,7 +157,7 @@ DEF CHAIR Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.2 0.2 0
+        translation 0 -0.2 0.2
         children [
           DEF BOUNDING_FACE Shape {
             appearance PBRAppearance {
@@ -168,34 +166,33 @@ DEF CHAIR Solid {
               metalness 0
             }
             geometry Box {
-              size 0.04 0.4 0.44
+              size 0.44 0.04 0.4
             }
           }
         ]
       }
       Transform {
-        translation -0.2 0.2 0
-        rotation -0.196115942830544 0.9805807141524284 0 0
-        children [
-          USE BOUNDING_FACE
-        ]
-      }
-      Transform {
         translation 0 0.2 0.2
-        rotation 0 1 0 1.57
         children [
           USE BOUNDING_FACE
         ]
       }
       Transform {
-        translation 0 0.2 -0.2
-        rotation 0 1 0 1.57
+        translation -0.2 0 0.2
+        rotation 0 0 1 1.57
         children [
           USE BOUNDING_FACE
         ]
       }
       Transform {
-        translation 0 0.1 0
+        translation 0.2 0 0.2
+        rotation 0 0 1 1.57
+        children [
+          USE BOUNDING_FACE
+        ]
+      }
+      Transform {
+        translation 0 0 0.1
         children [
           Shape {
             appearance PBRAppearance {
@@ -204,7 +201,7 @@ DEF CHAIR Solid {
               metalness 0
             }
             geometry Box {
-              size 0.4 0.2 0.4
+              size 0.4 0.4 0.2
             }
           }
         ]
@@ -213,7 +210,7 @@ DEF CHAIR Solid {
   }
 }
 IprHd6ms180 {
-  translation 1 0.61 0
+  translation 0 -1 0.61
   controller "ipr1_collaboration"
   sensorsSlot [
     Emitter {
@@ -225,7 +222,7 @@ IprHd6ms180 {
     DEF TABLE Solid {
       children [
         DEF PLANE Transform {
-          translation -0.08 -0.01 0.01
+          translation -0.01 0.08 -0.01
           children [
             Shape {
               appearance DEF WOOD PBRAppearance {
@@ -234,36 +231,36 @@ IprHd6ms180 {
                 metalness 0
               }
               geometry Box {
-                size 0.6 0.02 1.2
+                size 1.2 0.6 0.02
               }
             }
           ]
         }
         DEF LEG1 Transform {
-          translation 0.15 -0.31 0.4
+          translation -0.4 -0.15 -0.31
           children [
             DEF LEG Shape {
               appearance USE WOOD
               geometry Box {
-                size 0.05 0.58 0.05
+                size 0.05 0.05 0.58
               }
             }
           ]
         }
         DEF LEG2 Transform {
-          translation -0.31 -0.31 0.4
+          translation -0.4 0.31 -0.31
           children [
             USE LEG
           ]
         }
         DEF LEG3 Transform {
-          translation 0.15 -0.31 -0.4
+          translation 0.4 -0.15 -0.31
           children [
             USE LEG
           ]
         }
         DEF LEG4 Transform {
-          translation -0.31 -0.31 -0.4
+          translation 0.4 0.31 -0.31
           children [
             USE LEG
           ]

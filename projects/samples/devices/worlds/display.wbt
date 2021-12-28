@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a Display device."
   ]
   title "Display"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.999954412713123 -0.008134763357476649 -0.004999812063582125 5.18094
-  position 0.00903084 1.44368 0.747339
+  orientation 0.1605143253533589 -0.9492629759207835 -0.27043474980551957 5.340547054169591
+  position -1.171691463245978 -0.34540764173121474 1.4121554253629047
 }
 TexturedBackground {
   texture "empty_office"
@@ -16,9 +15,9 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 SolidBox {
-  translation 0.505 0.05 0
+  translation 0 -0.505 0.05
   name "wall 1"
-  size 0.01 0.1 1
+  size 1 0.01 0.1
   appearance DEF SQUARE_ARENA_APPEARANCE_A PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -33,15 +32,15 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -0.505 0.05 0
+  translation 0 0.505 0.05
   name "wall 2"
-  size 0.01 0.1 1
+  size 1 0.01 0.1
   appearance USE SQUARE_ARENA_APPEARANCE_A
 }
 SolidBox {
-  translation 0 0.05 0.505
+  translation -0.505 0 0.05
   name "wall 3"
-  size 1.02 0.1 0.01
+  size 0.01 1.02 0.1
   appearance DEF SQUARE_ARENA_APPEARANCE_B PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -56,14 +55,14 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 0 0.05 -0.505
+  translation 0.505 0 0.05
   name "wall 4"
-  size 1.02 0.1 0.01
+  size 0.01 1.02 0.1
   appearance USE SQUARE_ARENA_APPEARANCE_B
 }
 DEF BOX1 Solid {
-  translation 0.264272 0.05 -0.217139
-  rotation 0 1 0 1.87071
+  translation 0.217139 -0.264272 0.05
+  rotation 0 0 1 1.87071
   children [
     Shape {
       appearance DEF YELLOW_APPEARANCE PBRAppearance {
@@ -72,7 +71,7 @@ DEF BOX1 Solid {
         metalness 0
       }
       geometry DEF GEOM1 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -86,8 +85,8 @@ DEF BOX1 Solid {
   }
 }
 DEF BOX2 Solid {
-  translation -0.273364 0.05 -0.257435
-  rotation 0 1 0 0.31
+  translation 0.257435 0.273364 0.05
+  rotation 0 0 1 0.31
   children [
     Shape {
       appearance USE YELLOW_APPEARANCE
@@ -106,13 +105,13 @@ DEF BOX2 Solid {
   }
 }
 DEF BOX3 Solid {
-  translation -0.27077 0.05 0.208561
-  rotation 0 -1 0 2.90528
+  translation -0.208561 0.27077 0.05
+  rotation 0 0 -1 2.90528
   children [
     Shape {
       appearance USE YELLOW_APPEARANCE
       geometry DEF GEOM2 Box {
-        size 0.05 0.1 0.3
+        size 0.3 0.05 0.1
       }
     }
   ]
@@ -126,12 +125,12 @@ DEF BOX3 Solid {
   }
 }
 DEF BOX4 Solid {
-  translation 0.253659 0.05 0.284296
+  translation -0.284296 -0.253659 0.05
   children [
     Shape {
       appearance USE YELLOW_APPEARANCE
       geometry DEF GEOM4 Box {
-        size 0.15 0.1 0.08
+        size 0.08 0.15 0.1
       }
     }
   ]
@@ -145,11 +144,12 @@ DEF BOX4 Solid {
   }
 }
 DEF MYBOT Robot {
-  translation -0.131552 0 -0.202001
-  rotation 0 1 0 3.63077
+  translation 0.202001 0.131552 0
+  rotation 0 0 1 3.63077
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -166,8 +166,8 @@ DEF MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -179,11 +179,11 @@ DEF MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -209,8 +209,8 @@ DEF MYBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -222,8 +222,8 @@ DEF MYBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -233,11 +233,11 @@ DEF MYBOT Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -263,8 +263,8 @@ DEF MYBOT Robot {
       aperture 1.3
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -278,12 +278,11 @@ DEF MYBOT Robot {
       aperture 1.3
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      translation 0.04 0 0.0915
       children [
         Transform {
-          translation 0 0 0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -303,7 +302,7 @@ DEF MYBOT Robot {
       height 128
     }
     DEF EMOTICONS Display {
-      translation 0 0.13 0
+      translation 0 0 0.13
       children [
         Shape {
           appearance PBRAppearance {
@@ -315,10 +314,10 @@ DEF MYBOT Robot {
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0.04 0.04 -0.011
-                0.04 -0.04 -0.011
-                -0.04 -0.04 -0.011
-                -0.04 0.04 -0.011
+                0.011 -0.04 0.04
+                0.011 -0.04 -0.04
+                0.011 0.04 -0.04
+                0.011 0.04 0.04
               ]
             }
             texCoord TextureCoordinate {
@@ -344,7 +343,7 @@ DEF MYBOT Robot {
             metalness 0
           }
           geometry Box {
-            size 0.1 0.1 0.02
+            size 0.02 0.1 0.1
           }
         }
       ]
@@ -360,7 +359,8 @@ DEF MYBOT Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]
@@ -372,6 +372,7 @@ DEF MYBOT Robot {
   controller "display"
 }
 Robot {
+  rotation 0 0 1 -1.570795
   children [
     DEF GROUND Display {
       children [

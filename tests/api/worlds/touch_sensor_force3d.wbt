@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
   physicsDisableTime 0
@@ -53,6 +53,7 @@ Robot {
   controller "touch_sensor_force3d"
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 TestSuiteSupervisor {
 }

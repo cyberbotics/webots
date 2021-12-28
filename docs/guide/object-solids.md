@@ -17,11 +17,11 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidBox {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "box"
   SFVec3f    size                  2 2 2
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
   SFBool     castShadows           TRUE
@@ -48,7 +48,7 @@ SolidBox {
 A pipe object implemented at the Solid-node level.
 Graphically, the SolidPipe is an IndexedFaceSet.
 Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
-The 'accuracy' field defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
+The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
 
 %figure
 
@@ -61,7 +61,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidPipe {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "pipe"
   SFFloat    height                2
   SFFloat    radius                1
@@ -69,7 +69,7 @@ SolidPipe {
   SFInt32    subdivision           24
   SFFloat    accuracy              0.0001
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -112,13 +112,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidRoundedBox {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "rounded box"
   SFVec3f    size                  2 2 2
   SFFloat    borderRadius          0.5
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -158,13 +158,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidTorus {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "torus"
   SFFloat    majorRadius           2
   SFFloat    minorRadius           1
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }

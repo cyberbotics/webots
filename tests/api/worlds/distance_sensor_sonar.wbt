@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -21,8 +21,7 @@ Robot {
       translation 0.05 0 0
       name "ds0"
       lookupTable [
-        0 0 0
-        1 1 0
+        0 0 0        1 1 0
       ]
       type "sonar"
       numberOfRays 20
@@ -32,8 +31,7 @@ Robot {
       rotation 0 1 0 3.1416
       name "ds1"
       lookupTable [
-        0 0 0
-        1 1 0
+        0 0 0        1 1 0
       ]
       type "sonar"
       numberOfRays 20
@@ -43,8 +41,7 @@ Robot {
       rotation 0 0 1 -1.5708
       name "ds2"
       lookupTable [
-        0 0 0
-        1 1 0
+        0 0 0        1 1 0
       ]
       type "sonar"
       numberOfRays 20
@@ -54,19 +51,23 @@ Robot {
       rotation 0 1 0 1.5708
       name "ds3"
       lookupTable [
-        0 0 0
-        1 1 0
+        0 0 0        1 1 0
       ]
       type "sonar"
       numberOfRays 20
     }
-    Shape {
-      geometry Cylinder {
-        height 0.1
-        radius 0.05
-      }
-    }
     TestSuiteEmitter {
+    }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.1
+            radius 0.05
+          }
+        }
+      ]
     }
   ]
   controller "distance_sensor_sonar"
@@ -110,6 +111,7 @@ Solid {
   boundingObject USE SHAPE
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 TestSuiteSupervisor {
 }

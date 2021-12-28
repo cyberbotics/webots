@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Demo of a gantry robot playing the Hanoi Towers."
@@ -9,12 +9,11 @@ WorldInfo {
   CFM 0.0001
   ERP 0.6
   basicTimeStep 4
-  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {
-  orientation 0.05493830068991821 0.9867940123922135 0.1523790019135839 3.78655
-  position -2.1419 1.79289 -2.26954
+  orientation -0.22160678643400702 -0.01277183340311088 0.9750524665257331 2.803068702034632
+  position 5.152898452463029 -1.9774784740257922 3.0253651882908335
 }
 TexturedBackground {
 }
@@ -33,7 +32,7 @@ Floor {
   }
 }
 DEF RAIL1 Solid {
-  translation 0.532 0.01 0
+  translation 0 -0.532 0.01
   children [
     DEF RAIL_SHAPE Shape {
       appearance DEF RAIL_APPEARANCE PBRAppearance {
@@ -41,7 +40,7 @@ DEF RAIL1 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 0.02 80
+        size 80 0.02 0.02
       }
     }
   ]
@@ -50,7 +49,7 @@ DEF RAIL1 Solid {
   locked TRUE
 }
 DEF RAIL2 Solid {
-  translation 0.468 0.01 0
+  translation 0 -0.468 0.01
   children [
     USE RAIL_SHAPE
   ]
@@ -59,7 +58,7 @@ DEF RAIL2 Solid {
   locked TRUE
 }
 DEF RAIL3 Solid {
-  translation -0.468 0.01 0
+  translation 0 0.468 0.01
   children [
     USE RAIL_SHAPE
   ]
@@ -68,7 +67,7 @@ DEF RAIL3 Solid {
   locked TRUE
 }
 DEF RAIL4 Solid {
-  translation -0.532 0.01 0
+  translation 0 0.532 0.01
   children [
     USE RAIL_SHAPE
   ]
@@ -77,12 +76,12 @@ DEF RAIL4 Solid {
   locked TRUE
 }
 DEF GANTRY Robot {
-  translation 0 0.98 0
+  translation 0 0 0.98
   children [
     DEF PILLARS_GROUP Group {
       children [
         DEF BRIDGE_TRANS Transform {
-          translation 0 0.11 0
+          translation 0 0 0.11
           children [
             Shape {
               appearance DEF YELLOW_APPEARANCE PBRAppearance {
@@ -91,53 +90,53 @@ DEF GANTRY Robot {
                 metalness 0
               }
               geometry Box {
-                size 2 0.12 0.2
+                size 0.2 2 0.12
               }
             }
           ]
         }
         DEF PILLAR1_TRANS Transform {
-          translation 0.5 -0.44 -0.4
+          translation 0.4 -0.5 -0.44
           children [
             DEF PILLAR_SHAPE Shape {
               appearance USE YELLOW_APPEARANCE
               geometry Box {
-                size 0.1 1 0.1
+                size 0.1 0.1 1
               }
             }
           ]
         }
         DEF PILLAR2_TRANS Transform {
-          translation -0.5 -0.44 -0.4
+          translation 0.4 0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
         DEF PILLAR3_TRANS Transform {
-          translation 0.5 -0.44 0.4
+          translation -0.4 -0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
         DEF PILLAR4_TRANS Transform {
-          translation -0.5 -0.44 0.4
+          translation -0.4 0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
         DEF TRANSVERSE1 Transform {
-          translation -0.5 0.11 0
+          translation 0 0.5 0.11
           children [
             DEF TRANSVERSE_SHAPE Shape {
               appearance USE YELLOW_APPEARANCE
               geometry Box {
-                size 0.1 0.1 0.9
+                size 0.9 0.1 0.1
               }
             }
           ]
         }
         DEF TRANSVERSE2 Transform {
-          translation 0.5 0.11 0
+          translation 0 -0.5 0.11
           children [
             USE TRANSVERSE_SHAPE
           ]
@@ -146,7 +145,8 @@ DEF GANTRY Robot {
     }
     DEF WHEEL1_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.5 -0.9 -0.4
+        axis 0 -1 0
+        anchor 0.4 -0.5 -0.9
       }
       device [
         RotationalMotor {
@@ -154,11 +154,10 @@ DEF GANTRY Robot {
         }
       ]
       endPoint Solid {
-        translation 0.5 -0.9 -0.4
-        rotation 1 0 0 0
+        translation 0.4 -0.5 -0.9
         children [
           DEF WHEEL1_TRANS Transform {
-            rotation 0 0 1 1.5708
+            rotation -1 0 0 1.5708
             children [
               DEF WHEEL_SHAPE Shape {
                 appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -182,7 +181,8 @@ DEF GANTRY Robot {
     }
     DEF WHEEL2_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        anchor -0.5 -0.9 -0.4
+        axis 0 -1 0
+        anchor 0.4 0.5 -0.9
       }
       device [
         RotationalMotor {
@@ -190,11 +190,10 @@ DEF GANTRY Robot {
         }
       ]
       endPoint Solid {
-        translation -0.5 -0.9 -0.4
-        rotation 1 0 0 0
+        translation 0.4 0.5 -0.9
         children [
           DEF WHEEL2_TRANS Transform {
-            rotation 0 0 1 1.5708
+            rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
             ]
@@ -207,7 +206,8 @@ DEF GANTRY Robot {
     }
     DEF WHEEL3_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.5 -0.9 0.4
+        axis 0 -1 0
+        anchor -0.4 -0.5 -0.9
       }
       device [
         RotationalMotor {
@@ -215,11 +215,10 @@ DEF GANTRY Robot {
         }
       ]
       endPoint Solid {
-        translation 0.5 -0.9 0.4
-        rotation 1 0 0 0
+        translation -0.4 -0.5 -0.9
         children [
           DEF WHEEL3_TRANS Transform {
-            rotation 0 0 1 1.5708
+            rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
             ]
@@ -232,7 +231,8 @@ DEF GANTRY Robot {
     }
     DEF WHEEL4_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        anchor -0.5 -0.9 0.4
+        axis 0 -1 0
+        anchor -0.4 0.5 -0.9
       }
       device [
         RotationalMotor {
@@ -240,11 +240,10 @@ DEF GANTRY Robot {
         }
       ]
       endPoint Solid {
-        translation -0.5 -0.9 0.4
-        rotation 1 0 0 0
+        translation -0.4 0.5 -0.9
         children [
           DEF WHEEL4_TRANS Transform {
-            rotation 0 0 1 1.5708
+            rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
             ]
@@ -257,7 +256,7 @@ DEF GANTRY Robot {
     }
     DEF BRIDGE_SLIDER_JOINT SliderJoint {
       jointParameters JointParameters {
-        axis 1 0 0
+        axis 0 -1 0
         minStop -0.9
         maxStop 0.9
       }
@@ -271,12 +270,12 @@ DEF GANTRY Robot {
         }
       ]
       endPoint Solid {
-        rotation 0 1 0 1.5708
+        rotation 0 0 1 1.5708
         children [
           DEF TURRET_HINGE_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor 0 0.11 0
+              axis 0 0 1
+              anchor 0 0 0.11
             }
             device [
               RotationalMotor {
@@ -286,8 +285,8 @@ DEF GANTRY Robot {
               }
             ]
             endPoint Solid {
-              translation 0 0.11 0
-              rotation 0 1 0 1.5708
+              translation 0 0 0.11
+              rotation 0 0 1 1.5708
               children [
                 DEF TURRET_SHAPE Shape {
                   appearance USE WHEEL_APPEARANCE
@@ -298,7 +297,7 @@ DEF GANTRY Robot {
                 }
                 DEF LIFT_SLIDER_JOINT SliderJoint {
                   jointParameters JointParameters {
-                    axis 0 -1 0
+                    axis 0 0 -1
                   }
                   device [
                     LinearMotor {
@@ -309,24 +308,24 @@ DEF GANTRY Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0 0.36 0
-                    rotation 1 0 0 1.5708
+                    translation 0 0 0.36
+                    rotation 0 -1 0 1.5708
                     children [
                       DEF PISTON_GROUP Group {
                         children [
                           Transform {
-                            translation 0 0 0.5
+                            translation -0.5 0 0
                             children [
                               Shape {
                                 appearance USE RAIL_APPEARANCE
                                 geometry Box {
-                                  size 0.2 0.4 0.04
+                                  size 0.04 0.2 0.4
                                 }
                               }
                             ]
                           }
                           Transform {
-                            rotation 1 0 0 1.5708
+                            rotation 0 -1 0 1.5708
                             children [
                               Shape {
                                 appearance USE RAIL_APPEARANCE
@@ -341,7 +340,6 @@ DEF GANTRY Robot {
                       }
                       DEF GRIPPER_SLIDER_JOINT1 SliderJoint {
                         jointParameters JointParameters {
-                          axis 0 1 0
                         }
                         device [
                           LinearMotor {
@@ -351,13 +349,13 @@ DEF GANTRY Robot {
                           }
                         ]
                         endPoint Solid {
-                          translation 0 -0.19 0.6
-                          rotation 1 0 0 -1.5708
+                          translation -0.6 0 -0.19
+                          rotation 0 -1 0 -1.5708
                           children [
                             DEF GRIPPER_SHAPE Shape {
                               appearance USE RAIL_APPEARANCE
                               geometry Box {
-                                size 0.2 0.16 0.02
+                                size 0.02 0.2 0.16
                               }
                             }
                           ]
@@ -369,7 +367,7 @@ DEF GANTRY Robot {
                       }
                       DEF GRIPPER_SLIDER_JOINT2 SliderJoint {
                         jointParameters JointParameters {
-                          axis 0 -1 0
+                          axis 0 0 -1
                         }
                         device [
                           LinearMotor {
@@ -379,8 +377,8 @@ DEF GANTRY Robot {
                           }
                         ]
                         endPoint Solid {
-                          translation 0 0.19 0.6
-                          rotation 1 0 0 1.5708
+                          translation -0.6 0 0.19
+                          rotation 0 -1 0 1.5708
                           children [
                             USE GRIPPER_SHAPE
                           ]
@@ -417,7 +415,7 @@ DEF GANTRY Robot {
   controller "gantry"
 }
 DEF BOX_A Solid {
-  translation 0.8 0.55 0
+  translation 0 -0.8 0.55
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -440,7 +438,7 @@ DEF BOX_A Solid {
   }
 }
 DEF BOX_B Solid {
-  translation 0.8 0.35 0
+  translation 0 -0.8 0.35
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -463,7 +461,7 @@ DEF BOX_B Solid {
   }
 }
 DEF BOX_C Solid {
-  translation 0.8 0.15 0
+  translation 0 -0.8 0.15
   children [
     DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
@@ -486,7 +484,8 @@ DEF BOX_C Solid {
   }
 }
 DEF PLATFORM_1 Solid {
-  translation 0.8 0.02 0
+  translation 0 -0.8 0.02
+  rotation 0 0 1 -1.5707953071795862
   children [
     DEF PLATFORM1_SHAPE Shape {
       appearance PBRAppearance {
@@ -499,7 +498,7 @@ DEF PLATFORM_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.4 0.04 0.4
+        size 0.4 0.4 0.04
       }
     }
   ]
@@ -507,7 +506,8 @@ DEF PLATFORM_1 Solid {
   boundingObject USE PLATFORM1_SHAPE
 }
 DEF PLATFORM_2 Solid {
-  translation -0.8 0.02 0.794
+  translation -0.794 0.8 0.02
+  rotation 0 0 1 -1.5707953071795862
   children [
     DEF PLATFORM2_SHAPE Shape {
       appearance PBRAppearance {
@@ -520,7 +520,7 @@ DEF PLATFORM_2 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.4 0.04 0.4
+        size 0.4 0.4 0.04
       }
     }
   ]

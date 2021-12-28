@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3burger
@@ -27,13 +27,13 @@ PROTO TurtleBot3Burger [
     synchronization IS synchronization
     children [
       Transform {
-        translation 0 0.153 0.03
+        translation -0.03 0 0.153
         children IS extensionSlot
       }
       DEF RIGHT_JOINT HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0.08 0.033 0
+          axis 0 1 0
+          anchor 0 -0.08 0.033
         }
         device [
           RotationalMotor {
@@ -47,8 +47,8 @@ PROTO TurtleBot3Burger [
           }
         ]
         endPoint Solid {
-          translation 0.08 0.033 0
-          rotation 0 0 1 1.5708
+          translation 0 -0.08 0.033
+          rotation 0 -1 0 1.570796
           children [
             DEF RIGHT_WHEEL Transform {
               rotation 1 0 0 -1.5708003061004252
@@ -140,9 +140,14 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "right wheel"
-          boundingObject Cylinder {
-            height 0.018
-            radius 0.033
+          boundingObject Transform {
+            rotation 1 0 0 -1.570796
+            children [
+              Cylinder {
+                height 0.018
+                radius 0.033
+              }
+            ]
           }
           physics Physics {
             density -1
@@ -155,8 +160,8 @@ PROTO TurtleBot3Burger [
       }
       DEF LEFT_JOINT HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor -0.08 0.033 0
+          axis 0 1 0
+          anchor 0 0.08 0.033
         }
         device [
           RotationalMotor {
@@ -170,8 +175,8 @@ PROTO TurtleBot3Burger [
           }
         ]
         endPoint Solid {
-          translation -0.08 0.033 0
-          rotation 0.7071072811864784 0.7071062811860807 0 -3.1415853071795863
+          translation 0 0.08 0.033
+          rotation 0.707105 0 0.707109 -3.141588
           children [
             DEF RIGHT_WHEEL Transform {
               rotation 1 0 0 -1.5708003061004252
@@ -181,9 +186,14 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "left wheel"
-          boundingObject Cylinder {
-            height 0.018
-            radius 0.033
+          boundingObject Transform {
+            rotation 1 0 0 -1.570796
+            children [
+              Cylinder {
+                height 0.018
+                radius 0.033
+              }
+            ]
           }
           physics Physics {
             density -1
@@ -196,10 +206,10 @@ PROTO TurtleBot3Burger [
       }
       DEF CASTER_JOINT BallJoint {
         jointParameters BallJointParameters {
-          anchor 0 0.004 0.081
+          anchor -0.081 0 0.004
         }
         endPoint Solid {
-          translation 0 0.004 0.081
+          translation -0.081 0 0.004
           children [
             Shape {
               appearance PBRAppearance {
@@ -216,8 +226,7 @@ PROTO TurtleBot3Burger [
         }
       }
       DEF BODY Transform {
-        translation 0 0.01 0
-        rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
+        translation 0 0 0.01
         children [
           DEF LEFT_MOTOR Shape {
             appearance DEF MOTOR_APPEARANCE PBRAppearance {
@@ -485,33 +494,30 @@ PROTO TurtleBot3Burger [
         ]
       }
       Accelerometer {
-        translation 0 0.078 0.032
-        rotation -0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+        translation -0.032 0 0.078
       }
       Gyro {
-        translation 0 0.078 0.032
-        rotation -0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+        translation -0.032 0 0.078
       }
       Compass {
-        translation 0 0.078 0.032
-        rotation -0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+        translation -0.032 0 0.078
       }
     ]
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.08 0.032
+          translation -0.032 0 0.08
           children [
             Box {
-              size 0.097 0.1425 0.137
+              size 0.097 0.137 0.1425
             }
           ]
         }
         Transform {
-          translation 0 0.08 0.032
+          translation -0.032 0 0.08
           children [
             Box {
-              size 0.135 0.143 0.095
+              size 0.135 0.095 0.143
             }
           ]
         }
@@ -521,7 +527,7 @@ PROTO TurtleBot3Burger [
       density -1
       mass 0.825735
       centerOfMass [
-        0 0.03 0.035
+        -0.035 0 0.03
       ]
     }
   }

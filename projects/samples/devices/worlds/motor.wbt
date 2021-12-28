@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of a simple Motor device."
   ]
   title "Motor"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.12721312999228063 -0.9897589099399406 -0.06476202399607019 5.2504127
-  position 0.20910846 0.11100923 0.083845121
+  orientation 0.3740524341195774 -0.07673420693532068 -0.9242275899448288 3.7308240112038495
+  position 0.2594167638671235 -0.15709216602775836 0.2913859589629595
 }
 TexturedBackground {
 }
@@ -22,7 +21,7 @@ DEF ROBOT Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         position 1.5708
-        axis 0 1 0
+        axis 0 0 1
         dampingConstant 1
       }
       device [
@@ -34,10 +33,9 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        rotation 0 1 0 1.5708
         children [
           Transform {
-            translation 0 0.063 0
+            translation 0 0 0.063
             children [
               Shape {
                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -54,7 +52,8 @@ DEF ROBOT Robot {
             ]
           }
           Transform {
-            translation 0 0.063 0
+            translation 0 0 0.063
+            rotation 0 0 1 0.523599
             children [
               Shape {
                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -72,8 +71,8 @@ DEF ROBOT Robot {
             ]
           }
           Transform {
-            translation 0 0.063 0.05
-            rotation 1 0 0 1.5708
+            translation 0.05 0 0.063
+            rotation 0 1 0 1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -93,7 +92,7 @@ DEF ROBOT Robot {
         boundingObject Group {
           children [
             Transform {
-              translation 0 0.063 0
+              translation 0 0 0.063
               children [
                 Shape {
                   geometry Cylinder {
@@ -106,8 +105,8 @@ DEF ROBOT Robot {
               ]
             }
             Transform {
-              translation 0 0.063 0.05
-              rotation 1 0 0 1.5708
+              translation 0.05 0 0.063
+              rotation 0 1 0 1.5708
               children [
                 Shape {
                   geometry Cylinder {
@@ -129,7 +128,7 @@ DEF ROBOT Robot {
     DEF BASIS_GROUP Group {
       children [
         Transform {
-          translation 0 0.019 0
+          translation 0 0 0.019
           children [
             Shape {
               appearance USE METAL_APPEARANCE
@@ -156,7 +155,7 @@ DEF ROBOT Robot {
   cpuConsumption 5
 }
 Solid {
-  translation 0 0.05 0
+  translation 0 0 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -198,8 +197,8 @@ Solid {
   }
 }
 SolidBox {
-  translation 0.04741181 0.0646 -0.019659258
-  rotation 0 1 0 0.26179939
+  translation 0.0474 0.0197 0.0646
+  rotation 0 0 -1 1.308995
   size 0.01 0.01 0.01
   appearance PBRAppearance {
     baseColorMap ImageTexture {

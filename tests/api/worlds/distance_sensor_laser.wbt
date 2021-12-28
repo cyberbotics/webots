@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -30,7 +30,7 @@ Robot {
       aperture 0.01
     }
     Camera {
-      rotation 0 1 0 -1.5708
+      rotation -1 0 0 1.57079
       fieldOfView 0.01
       width 1
       height 1
@@ -44,9 +44,14 @@ Solid {
   translation 0.05 0 0
   rotation 0 0 1 1.5708
   children [
-    Shape {
-      geometry DEF PLANE Plane {
-      }
+    DEF PLANE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   boundingObject USE PLANE

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -54,6 +54,7 @@ Solid {
 Robot {
   children [
     Camera {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       motionBlur 256
     }
     TestSuiteEmitter {

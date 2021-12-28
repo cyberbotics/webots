@@ -1,7 +1,8 @@
 ## Supervisor
 
-The [Supervisor](#supervisor) is not a node, it is a set of functions available for each [Robot](robot.md) node whose `supervisor` field is set to `TRUE`.
-The [Supervisor API](#supervisor) can be used to access to extra functions that are not available to a regular [Robot](robot.md).
+A [Supervisor](#supervisor) is a special type of [Robot](robot.md) which has additional powers.
+In fact, any [Robot](robot.md) can be turned into a supervisor when its field named `supervisor` is set to TRUE.
+A [Supervisor](#supervisor) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access it can be used to acquire measurements about the state of the simulation as well as track its evolution.
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
@@ -351,6 +352,7 @@ typedef enum {
   WB_NODE_RANGE_FINDER,
   WB_NODE_RECEIVER,
   WB_NODE_ROTATIONAL_MOTOR,
+  WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
   /* misc */
@@ -408,7 +410,7 @@ namespace webots {
       ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
       LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
       // misc
       BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
       DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -445,7 +447,7 @@ class Node:
     ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     # misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -480,7 +482,7 @@ public class Node {
     ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     // misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -518,7 +520,7 @@ WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,
 WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
 WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
 WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
 % misc
 WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
 WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
@@ -4013,6 +4015,10 @@ Note that a node can be imported into the scene tree by calling this function wi
 The `wb_supervisor_field_import_sf/mf_node_from_string` functions are very similar to the `wb_supervisor_field_import_sf/mf_node` function, except that the node is constructed from the `node_string` string.
 For example, if you want to create a new robot with a specific controller:
 
+%tab-component "language"
+
+%tab "C"
+
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -4029,6 +4035,27 @@ int main(int argc, char **argv) {
   ...
 }
 ```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Supervisor
+
+supervisor = Supervisor()
+
+rootNode = supervisor.getRoot()  # get root of the scene tree
+rootChildrenField = rootNode.getField('children')
+rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my_controller" }')
+
+...
+
+```
+
+%tab-end
+
+%end
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
 

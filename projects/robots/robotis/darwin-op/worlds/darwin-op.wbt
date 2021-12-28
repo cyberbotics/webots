@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "DARwIn-OP robot."
@@ -11,8 +11,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.8684331933270932 0.25915156917013055 0.42268694435050463 1.2294696887362797
-  position 2.6603209399698855 -3.9263719188845227 3.33003540108488
+  orientation -0.231443346246541 0.12356886520191933 0.9649687627228736 2.1901345037835167
+  position 2.8734626726093566 -4.124034609812311 3.4310221095939926
   follow "DARwIn-OP"
 }
 TexturedBackground {
@@ -20,7 +20,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Table {
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
 }
 Darwin-op {
   translation 0 0 0.976
@@ -30,7 +30,6 @@ Darwin-op {
   cameraHeight 240
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance PBRAppearance {
     baseColorMap ImageTexture {

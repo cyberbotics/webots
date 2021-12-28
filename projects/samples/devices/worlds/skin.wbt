@@ -1,0 +1,25 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the use of the Skin device."
+  ]
+  title "Skin"
+}
+Viewpoint {
+  orientation 0.09422758799227227 0.012515231063829511 -0.99547201399767 2.878682048621543
+  position 4.539757193264896 1.342167475925479 1.4810588512190805
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+}
+DEF ROBOT Robot {
+  children [
+    CharacterSkin {
+    }
+  ]
+  controller "skin"
+}

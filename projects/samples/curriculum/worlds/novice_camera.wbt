@@ -1,16 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9598953358618262 0.2722390952548849 0.0669837234372174 5.78056
-  position -0.261081 0.576946 1.46172
+  orientation 0.028429229238179764 -0.9971784811081337 0.06947557657046485 5.8450029292075225
+  position -1.5909946485329185 -0.014044484510132058 0.5723938103347997
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
+  rotation 0 0 1 -1.5708
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
@@ -38,28 +38,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.6 0 0.9
-            0.6 0 -0.9
-            -0.6 0 -0.9
-            -0.6 0 0.9
-            -0.59 0 0.9
-            -0.59 0 -0.89
-            0.59 0 -0.89
-            0.59 0 0.89
-            -0.59 0 0.89
-            -0.59 0 0.9
-            0.6 0 0.9
-            0.6 0.05 0.9
-            0.6 0.05 -0.9
-            -0.6 0.05 -0.9
-            -0.6 0.05 0.9
-            -0.59 0.05 0.9
-            -0.59 0.05 -0.89
-            0.59 0.05 -0.89
-            0.59 0.05 0.89
-            -0.59 0.05 0.89
-            -0.59 0.05 0.9
-            0.6 0.05 0.9
+            -0.9 -0.6 0
+            0.9 -0.6 0
+            0.9 0.6 0
+            -0.9 0.6 0
+            -0.9 0.59 0
+            0.89 0.59 0
+            0.89 -0.59 0
+            -0.89 -0.59 0
+            -0.89 0.59 0
+            -0.9 0.59 0
+            -0.9 -0.6 0
+            -0.9 -0.6 0.05
+            0.9 -0.6 0.05
+            0.9 0.6 0.05
+            -0.9 0.6 0.05
+            -0.9 0.59 0.05
+            0.89 0.59 0.05
+            0.89 -0.59 0.05
+            -0.89 -0.59 0.05
+            -0.89 0.59 0.05
+            -0.9 0.59 0.05
+            -0.9 -0.6 0.05
           ]
         }
         coordIndex [
@@ -72,37 +72,37 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.59 0.025 0
+        translation 0 -0.59 0.025
         children [
           DEF WALL_SHAPE1 Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 1.8
+              size 1.8 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.59 0.025 0
+        translation 0 0.59 0.025
         children [
           USE WALL_SHAPE1
         ]
       }
       Transform {
-        translation 0 0.025 0.89
-        rotation 0 1 0 1.57
+        translation -0.89 0 0.025
+        rotation 0 0 1 1.57
         children [
           DEF WALL_SHAPE2 Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 1.2
+              size 1.2 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation 0 0.025 -0.89
-        rotation 0 1 0 1.57
+        translation 0.89 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE2
         ]
@@ -112,7 +112,7 @@ DEF WALL Solid {
   locked TRUE
 }
 DEF BALL Transform {
-  translation 0 0.03 0
+  translation 0 0 0.03
   children [
     Shape {
       appearance PBRAppearance {
@@ -127,8 +127,8 @@ DEF BALL Transform {
   ]
 }
 E-puck {
-  translation -0.0299999 -0.0036008 0.7
-  rotation 0.9941136611859152 0.00021835892557885237 -0.10834196307486305 -0.000341486
+  translation -0.7 0.0299999 -0.0036008
+  rotation 0.10834196309818857 -0.9941136611833788 0.00021835889999634913 -0.000341486
   controller "novice_camera"
 }
 Robot {

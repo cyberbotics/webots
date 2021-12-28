@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A door lever.
@@ -7,7 +7,7 @@
 
 PROTO DoorLever [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "door lever"
   field SFBool     canTurn          FALSE                # Defines whether the lever is connected to the door using a hinge-joint.
   field SFBool     jointAtLeft      TRUE                 # Defines on which side is the lever.
@@ -49,8 +49,8 @@ PROTO DoorLever [
     const mirrorFactor = fields.jointAtLeft.value ? -1 : 1;
 
     const axisHeight = distanceFromDoor * 2 + doorThickness;
-    const handlePositionZ = axisHeight * 0.5;
-    const handlePositionX = handleLength * 0.5;
+    const handlePositionX = axisHeight * 0.5;
+    const handlePositionY = handleLength * 0.5;
   >%
   Slot {
     type "door handle"
@@ -59,7 +59,7 @@ PROTO DoorLever [
       rotation IS rotation
       children [
         DEF HANDLE_SUPPORT Transform { # handle support
-          rotation 1 0 0 1.57
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance IS appearance
@@ -76,9 +76,9 @@ PROTO DoorLever [
           jointParameters HingeJointParameters {
             position 0.02
           %< if (mirrorFactor > 0) { >%
-            axis 0 0 -1
+            axis -1 0 0
           %< } else { >%
-            axis 0 0 1
+            axis 1 0 0
           %< } >%
             minStop -0.03
             maxStop 0.6109
@@ -90,7 +90,7 @@ PROTO DoorLever [
             children [
       %< } >%
               DEF HANDLE_AXIS Transform { # handle axis
-                rotation 1 0 0 1.57
+                rotation 0 1 0 1.57
                 children [
                   Shape {
                     appearance IS appearance
@@ -103,8 +103,8 @@ PROTO DoorLever [
                 ]
               }
               DEF BACK_HANDLE Transform { # back handle
-                translation %<= mirrorFactor * handlePositionX >% 0 %<= -handlePositionZ >%
-                rotation 0 0 1 1.57
+                translation %<= -handlePositionX >% %<= mirrorFactor * handlePositionY >% 0
+                rotation 1 0 0 1.57
                 children [
                   Shape {
                     appearance IS appearance
@@ -117,8 +117,8 @@ PROTO DoorLever [
                 ]
               }
               DEF FRONT_HANDLE Transform { # front handle
-                translation %<= mirrorFactor * handlePositionX >% 0 %<= handlePositionZ >%
-                rotation 0 0 1 1.57
+                translation %<= handlePositionX >% %<= mirrorFactor * handlePositionY >% 0
+                rotation 1 0 0 1.57
                 children [
                   Shape {
                     appearance IS appearance

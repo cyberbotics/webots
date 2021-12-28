@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,7 +17,7 @@ PointLight {
 }
 DEF INCLINED_PLANE Transform {
   translation 1 0 -2
-  rotation 1 0 0 1
+  rotation -1 0 0 0.57079632679
   children [
     Shape {
       appearance Appearance {
@@ -47,6 +47,7 @@ DEF CYLINDER Transform {
       }
     }
   ]
+  rotation 1 0 0 -1.57079632679
 }
 DEF GROUND Transform {
   translation 0 -0.1 0
@@ -61,6 +62,7 @@ DEF GROUND Transform {
       }
     }
   ]
+  rotation 1 0 0 -1.57079632679
 }
 Robot {
   children [

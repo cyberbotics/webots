@@ -1,19 +1,19 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/qrio
 # QRIO ("Quest for cuRIOsity", originally named Sony Dream Robot or SDR) is a bipedal humanoid entertainment robot developed and marketed by Sony.
 
 PROTO QRIO [
-  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
-  field SFString   name            "QRIO"  # Is `Solid.name`.
-  field SFString   controller      "qrio"  # Is `Robot.controller`.
-  field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
-  field SFString   customData      ""      # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation     0 0 0.42  # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0   # Is `Transform.rotation`.
+  field SFString   name            "QRIO"    # Is `Solid.name`.
+  field SFString   controller      "qrio"    # Is `Robot.controller`.
+  field MFString   controllerArgs  []        # Is `Robot.controllerArgs`.
+  field SFString   customData      ""        # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE     # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE      # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []        # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
@@ -31,8 +31,8 @@ PROTO QRIO [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 -0.081 0
+          axis 0 -1.0 0
+          anchor 0 0 -0.081
         }
         device [
           RotationalMotor {
@@ -40,12 +40,11 @@ PROTO QRIO [
           }
         ]
         endPoint Solid {
-          translation 0 -0.081 0
-          rotation -1 0 0 0
+          translation 0 0 -0.081
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 -1
+                axis -1.0 0 0
               }
               device [
                 RotationalMotor {
@@ -53,10 +52,9 @@ PROTO QRIO [
                 }
               ]
               endPoint Solid {
-                rotation 0 0 -1 0
                 children [
                   Transform {
-                    scale 1.15 0.45 0.8
+                    scale 0.8 1.15 0.45
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -71,8 +69,8 @@ PROTO QRIO [
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 1 0
-                      anchor 0.048 -0.032 -0.013
+                      axis 0 0 1
+                      anchor -0.013 0.048 -0.032
                     }
                     device [
                       RotationalMotor {
@@ -80,7 +78,7 @@ PROTO QRIO [
                       }
                     ]
                     endPoint Solid {
-                      translation 0.048 -0.032 -0.013
+                      translation -0.013 0.048 -0.032
                       children [
                         DEF HIP Transform {
                           children [
@@ -100,8 +98,8 @@ PROTO QRIO [
                         }
                         HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis -1 0 0
-                            anchor 0 -0.024 0.013
+                            axis  0 -1.0 0
+                            anchor 0.013 0 -0.024
                           }
                           device [
                             RotationalMotor {
@@ -109,12 +107,11 @@ PROTO QRIO [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 -0.024 0.013
-                            rotation -1 0 0 0
+                            translation 0.013 0 -0.024
                             children [
                               HingeJoint {
                                 jointParameters HingeJointParameters {
-                                  axis 0 0 1
+                                  axis 1 0 0
                                 }
                                 device [
                                   RotationalMotor {
@@ -122,7 +119,6 @@ PROTO QRIO [
                                   }
                                 ]
                                 endPoint Solid {
-                                  rotation 0 0 1 0
                                   children [
                                     DEF FOOT_BOWL Shape {
                                       appearance PBRAppearance {
@@ -134,8 +130,7 @@ PROTO QRIO [
                                       }
                                     }
                                     DEF UPPER_LEG Transform {
-                                      translation 0.011 -0.056 0.01
-                                      rotation 0 0 1 0
+                                      translation 0 0.011 -0.056
                                       children [
                                         Shape {
                                           appearance PBRAppearance {
@@ -145,7 +140,7 @@ PROTO QRIO [
                                           geometry IndexedFaceSet {
                                             coord Coordinate {
                                               point [
-                                                -0.042516 -0.027521 0.026975, 0.022085 -0.027521 0.026975, -0.042516 0.023037 0.026525, 0.022085 0.023037 0.026525, -0.042516 0.040317 0.022287, 0.022085 0.040317 0.022287, -0.042516 0.053927 0.016258, 0.022085 0.053927 0.016258, -0.042516 0.061098 0.008931, 0.022085 0.061098 0.008931, -0.042516 0.06418 0.000883, 0.022085 0.06418 0.000883, -0.042516 0.064698 -0.007624, 0.022085 0.064698 -0.007624, -0.042516 0.062362 -0.015149, 0.022085 0.062362 -0.015149, -0.042516 0.057094 -0.019697, 0.022085 0.057094 -0.019697, -0.042516 0.042316 -0.024719, 0.022085 0.042316 -0.024719, -0.042516 0.013051 -0.027806, 0.022085 0.013051 -0.027806, -0.042516 -0.007049 -0.027525, 0.022085 -0.007049 -0.027525, -0.042516 -0.03769 -0.014383, 0.022085 -0.03769 -0.014383, -0.042516 -0.03904 -0.005405, 0.022085 -0.03904 -0.005405, -0.042516 -0.043391 0.002386, 0.022085 -0.043391 0.002386, -0.042516 -0.051414 0.00811, 0.022085 -0.051414 0.00811, -0.042516 -0.059802 0.010628, 0.022085 -0.059802 0.010628, -0.042516 -0.056589 0.022108, 0.022085 -0.056589 0.022108
+                                                0.0269747 -0.0425164 -0.0275206 0.026975 0.0220846 -0.0275213 0.0265249 -0.0425159 0.0230374 0.0265252 0.0220851 0.0230367 0.022287 -0.0425157 0.0403174 0.0222872 0.0220853 0.0403167 0.016258 -0.0425155 0.0539274 0.0162583 0.0220855 0.0539267 0.0089311 -0.0425154 0.0610984 0.0089313 0.0220856 0.0610977 0.0008831 -0.0425153 0.0641804 0.0008833 0.0220857 0.0641798 -0.0076239 -0.0425153 0.0646985 -0.0076237 0.0220857 0.0646978 -0.0151489 -0.0425153 0.0623625 -0.0151487 0.0220857 0.0623618 -0.0196969 -0.0425153 0.0570945 -0.0196967 0.0220857 0.0570938 -0.024719 -0.0425155 0.0423165 -0.0247188 0.0220855 0.0423159 -0.0278061 -0.0425158 0.0130515 -0.0278059 0.0220852 0.0130509 -0.0275252 -0.042516 -0.0070485 -0.0275249 0.022085 -0.0070491 -0.0143833 -0.0425163 -0.0376895 -0.0143831 0.0220847 -0.0376902 -0.0054053 -0.0425164 -0.0390395 -0.0054051 0.0220846 -0.0390402 0.0023857 -0.0425165 -0.0433906 0.0023859 0.0220845 -0.0433912 0.0081097 -0.0425166 -0.0514136 0.0081099 0.0220844 -0.0514143 0.0106276 -0.0425167 -0.0598016 0.0106279 0.0220843 -0.0598023 0.0221076 -0.0425167 -0.0565886 0.0221079 0.0220843 -0.0565893
                                               ]
                                             }
                                             coordIndex [
@@ -157,7 +152,8 @@ PROTO QRIO [
                                     }
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor 0 -0.116 0
+                                        anchor 0 0 -0.116
+                                        axis 0 1 0
                                       }
                                       device [
                                         RotationalMotor {
@@ -165,12 +161,10 @@ PROTO QRIO [
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 -0.116 0
-                                        rotation 1 0 0 0
+                                        translation 0 0 -0.116
                                         children [
                                           DEF LOWER_LEG Transform {
-                                            translation 0.002 -0.056 0.006
-                                            rotation 0 0 1 0
+                                            translation 0.006 0.002 -0.056
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
@@ -180,7 +174,7 @@ PROTO QRIO [
                                                 geometry IndexedFaceSet {
                                                   coord Coordinate {
                                                     point [
-                                                      0.031667 -0.069038 0.019098, -0.034333 -0.069038 0.019098, 0.031667 -0.073599 0.001484, -0.034333 -0.073599 0.001484, 0.031667 -0.069322 -0.010502, -0.034333 -0.069322 -0.010502, 0.031667 -0.062722 -0.018196, -0.034333 -0.062722 -0.018196, 0.031667 -0.041217 -0.029248, -0.034333 -0.041217 -0.029248, 0.031667 -0.023801 -0.030204, -0.034333 -0.023801 -0.030204, 0.031667 0.037628 -0.014112, -0.034333 0.037628 -0.014112, 0.031667 0.045545 -0.02347, -0.034333 0.045545 -0.02347, 0.031667 0.055355 -0.026852, -0.034333 0.055355 -0.026852, 0.031667 0.065935 -0.024173, -0.034333 0.065935 -0.024173, 0.031667 0.075445 -0.01332, -0.034333 0.075445 -0.01332, 0.031667 0.076118 0.000231, -0.034333 0.076118 0.000231, 0.031667 0.065837 0.011436, -0.034333 0.065837 0.011436, 0.031667 0.051419 0.015722, -0.034333 0.051419 0.015722, 0.031667 0.049031 0.026471, -0.034333 0.049031 0.026471, 0.031667 -0.032887 0.026386, -0.034333 -0.032887 0.026386, 0.031667 -0.054016 0.030204, -0.034333 -0.054016 0.030204, 0.031667 -0.061973 0.027379, -0.034333 -0.061973 0.027379
+                                                      0.0190979 0.0316662 -0.0690384 0.0190976 -0.0343338 -0.0690377 0.0014838 0.0316662 -0.0735993 0.0014836 -0.0343338 -0.0735986 -0.0105021 0.0316663 -0.0693223 -0.0105024 -0.0343337 -0.0693216 -0.0181961 0.0316664 -0.0627223 -0.0181963 -0.0343336 -0.0627216 -0.029248 0.0316667 -0.0412172 -0.0292483 -0.0343333 -0.0412165 -0.030204 0.0316669 -0.0238012 -0.0302042 -0.0343331 -0.0238005 -0.0141118 0.0316674 0.0376277 -0.014112 -0.0343326 0.0376284 -0.0234697 0.0316676 0.0455448 -0.02347 -0.0343324 0.0455454 -0.0268517 0.0316677 0.0553548 -0.0268519 -0.0343323 0.0553555 -0.0241727 0.0316678 0.0659348 -0.0241729 -0.0343322 0.0659354 -0.0133196 0.0316678 0.0754447 -0.0133199 -0.0343322 0.0754454 0.0002314 0.0316678 0.0761177 0.0002311 -0.0343322 0.0761184 0.0114363 0.0316677 0.0658366 0.0114361 -0.0343323 0.0658373 0.0157223 0.0316675 0.0514186 0.0157221 -0.0343325 0.0514193 0.0264713 0.0316674 0.0490306 0.0264711 -0.0343326 0.0490313 0.026386 0.0316666 -0.0328874 0.0263858 -0.0343334 -0.0328867 0.0302039 0.0316663 -0.0540164 0.0302037 -0.0343337 -0.0540157 0.0273789 0.0316663 -0.0619734 0.0273787 -0.0343337 -0.0619727
                                                     ]
                                                   }
                                                   coordIndex [
@@ -191,7 +185,7 @@ PROTO QRIO [
                                             ]
                                           }
                                           DEF KNEE_CYLINDER Transform {
-                                            rotation 0 0 1 1.57
+                                            rotation 0 0.706825 0.707388 3.141593
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
@@ -208,8 +202,8 @@ PROTO QRIO [
                                           }
                                           HingeJoint {
                                             jointParameters HingeJointParameters {
-                                              axis -1 0 0
-                                              anchor 0 -0.104 0.006
+                                              axis 0 -1.0 0
+                                              anchor 0.006 0 -0.104
                                             }
                                             device [
                                               RotationalMotor {
@@ -217,12 +211,11 @@ PROTO QRIO [
                                               }
                                             ]
                                             endPoint Solid {
-                                              translation 0 -0.104 0.006
-                                              rotation -1 0 0 0
+                                              translation 0.006 0 -0.104
                                               children [
                                                 HingeJoint {
                                                   jointParameters HingeJointParameters {
-                                                    axis 0 0 -1
+                                                    axis -1.0 0 0
                                                   }
                                                   device [
                                                     RotationalMotor {
@@ -230,10 +223,9 @@ PROTO QRIO [
                                                     }
                                                   ]
                                                   endPoint Solid {
-                                                    rotation 0 0 -1 0
                                                     children [
                                                       DEF FOOT_SENSOR Transform {
-                                                        translation 0 -0.048 0.01
+                                                        translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
                                                             appearance PBRAppearance {
@@ -242,15 +234,14 @@ PROTO QRIO [
                                                               metalness 0
                                                             }
                                                             geometry Box {
-                                                              size 0.066 0.008 0.124
+                                                              size 0.124 0.066 0.008
                                                             }
                                                           }
                                                         ]
                                                       }
                                                       USE FOOT_BOWL
                                                       DEF FOOT Transform {
-                                                        translation 0 -0.007 0.01
-                                                        rotation 0 0 1 0
+                                                        translation 0.01 0 -0.007
                                                         children [
                                                           Shape {
                                                             appearance PBRAppearance {
@@ -260,29 +251,7 @@ PROTO QRIO [
                                                             geometry IndexedFaceSet {
                                                               coord Coordinate {
                                                                 point [
-                                                                  0.028477 -0.029433 -0.015362
-                                                                  0.033819 -0.03635 -0.060874
-                                                                  -0.033403 -0.037877 -0.061706
-                                                                  -0.02806 -0.029433 -0.016062
-                                                                  0.015334 0.030684 -0.041803
-                                                                  0.015334 0.030684 -0.053221
-                                                                  -0.014918 0.030684 -0.053596
-                                                                  -0.014918 0.030684 -0.042178
-                                                                  0.000208 0.038684 -0.047699
-                                                                  0.000208 -0.027319 0.057563
-                                                                  0.033929 -0.036372 -0.060792
-                                                                  -0.033513 -0.037899 -0.061627
-                                                                  -0.033667 -0.038684 0.061706
-                                                                  0.029909 -0.028376 0.057491
-                                                                  -0.029493 -0.028376 0.057491
-                                                                  0.034083 -0.032042 0.061577
-                                                                  -0.033667 -0.032042 0.061577
-                                                                  0.034083 -0.037156 0.061706
-                                                                  0.000208 -0.025242 -0.013947
-                                                                  0.017154 -0.002949 -0.05714
-                                                                  -0.016738 -0.00348 -0.057559
-                                                                  -0.017748 -0.002162 -0.033951
-                                                                  0.018164 -0.002162 -0.033507
+                                                                  -0.015362 0.0284767 -0.0294332 -0.060874 0.0338188 -0.0363501 -0.0617063 -0.0334032 -0.0378764 -0.0160622 -0.0280603 -0.0294326 -0.0418028 0.0153345 0.030684 -0.0532208 0.0153345 0.030684 -0.0535959 -0.0149175 0.0306843 -0.0421779 -0.0149175 0.0306843 -0.0476989 0.0002086 0.0386842 0.0575629 0.0002075 -0.0273192 -0.060792 0.0339288 -0.0363721 -0.0616273 -0.0335132 -0.0378984 0.0617057 -0.0336676 -0.0386839 0.057491 0.0299085 -0.0283765 0.0574908 -0.0294935 -0.0283759 0.061577 0.0340824 -0.0320426 0.0615768 -0.0336676 -0.0320419 0.061706 0.0340824 -0.0371566 -0.0139471 0.0002078 -0.025242 -0.0571399 0.0171542 -0.002949 -0.0575591 -0.0167378 -0.0034796 -0.0339511 -0.0177479 -0.0021617 -0.0335069 0.0181641 -0.0021621
                                                                 ]
                                                               }
                                                               ccw FALSE
@@ -296,10 +265,10 @@ PROTO QRIO [
                                                     ]
                                                     contactMaterial "foot"
                                                     boundingObject DEF FOOT_BB Transform {
-                                                      translation 0 -0.0435 0.01
+                                                      translation 0.01 0 -0.0435
                                                       children [
                                                         Box {
-                                                          size 0.07 0.015 0.12
+                                                          size 0.12 0.07 0.015
                                                         }
                                                       ]
                                                     }
@@ -319,10 +288,10 @@ PROTO QRIO [
                                           }
                                         ]
                                         boundingObject DEF LOWER_LEG_BO Transform {
-                                          translation 0 -0.06 0
+                                          translation 0 0 -0.06
                                           children [
                                             Box {
-                                              size 0.06 0.12 0.06
+                                              size 0.06 0.06 0.12
                                             }
                                           ]
                                         }
@@ -333,7 +302,7 @@ PROTO QRIO [
                                     }
                                   ]
                                   boundingObject DEF UPPER_LEG_BO Transform {
-                                    translation 0 -0.052 0
+                                    translation 0 0 -0.052
                                     children [
                                       Shape {
                                         appearance PBRAppearance {
@@ -341,7 +310,7 @@ PROTO QRIO [
                                           roughness 0.3
                                         }
                                         geometry Box {
-                                          size 0.07 0.128 0.04
+                                          size 0.04 0.07 0.128
                                         }
                                       }
                                     ]
@@ -361,7 +330,7 @@ PROTO QRIO [
                       ]
                       name "left leg"
                       boundingObject DEF HIP_BO Transform {
-                        translation 0 -0.012 0
+                        translation 0 0 -0.012
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -369,7 +338,7 @@ PROTO QRIO [
                               roughness 0.3
                             }
                             geometry Box {
-                              size 0.02 0.024 0.02
+                              size 0.02 0.02 0.024
                             }
                           }
                         ]
@@ -381,8 +350,8 @@ PROTO QRIO [
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 -1 0
-                      anchor -0.048 -0.032 -0.013
+                      axis 0 0 -1.0
+                      anchor -0.013 -0.048 -0.032
                     }
                     device [
                       RotationalMotor {
@@ -390,14 +359,13 @@ PROTO QRIO [
                       }
                     ]
                     endPoint Solid {
-                      translation -0.048 -0.032 -0.013
-                      rotation 0 -1 0 0
+                      translation -0.013 -0.048 -0.032
                       children [
                         USE HIP
                         HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis -1 0 0
-                            anchor 0 -0.024 0.013
+                            axis 0 -1.0 0
+                            anchor 0.013 0 -0.024
                           }
                           device [
                             RotationalMotor {
@@ -405,12 +373,11 @@ PROTO QRIO [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 -0.024 0.013
-                            rotation -1 0 0 0
+                            translation 0.013 0 -0.024
                             children [
                               HingeJoint {
                                 jointParameters HingeJointParameters {
-                                  axis 0 0 -1
+                                  axis -1.0 0 0
                                 }
                                 device [
                                   RotationalMotor {
@@ -418,13 +385,13 @@ PROTO QRIO [
                                   }
                                 ]
                                 endPoint Solid {
-                                  rotation 0 0 -1 0
                                   children [
                                     USE FOOT_BOWL
                                     USE UPPER_LEG
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor 0 -0.116 0
+                                        anchor 0 0 -0.116
+                                        axis 0 1 0
                                       }
                                       device [
                                         RotationalMotor {
@@ -432,15 +399,14 @@ PROTO QRIO [
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 -0.116 0
-                                        rotation 1 0 0 0
+                                        translation 0 0 -0.116
                                         children [
                                           USE LOWER_LEG
                                           USE KNEE_CYLINDER
                                           HingeJoint {
                                             jointParameters HingeJointParameters {
-                                              axis -1 0 0
-                                              anchor 0 -0.104 0.006
+                                              axis 0 -1.0 0
+                                              anchor 0.006 0 -0.104
                                             }
                                             device [
                                               RotationalMotor {
@@ -448,12 +414,11 @@ PROTO QRIO [
                                               }
                                             ]
                                             endPoint Solid {
-                                              translation 0 -0.104 0.006
-                                              rotation -1 0 0 0
+                                              translation 0.006 0 -0.104
                                               children [
                                                 HingeJoint {
                                                   jointParameters HingeJointParameters {
-                                                    axis 0 0 1
+                                                    axis 1 0 0
                                                   }
                                                   device [
                                                     RotationalMotor {
@@ -461,10 +426,9 @@ PROTO QRIO [
                                                     }
                                                   ]
                                                   endPoint Solid {
-                                                    rotation 0 0 1 0
                                                     children [
                                                       DEF FOOT_SENSOR Transform {
-                                                        translation 0 -0.048 0.01
+                                                        translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
                                                             appearance PBRAppearance {
@@ -473,7 +437,7 @@ PROTO QRIO [
                                                               metalness 0
                                                             }
                                                             geometry Box {
-                                                              size 0.066 0.008 0.124
+                                                              size 0.124 0.066 0.008
                                                             }
                                                           }
                                                         ]
@@ -527,7 +491,7 @@ PROTO QRIO [
                   }
                 ]
                 boundingObject Transform {
-                  translation 0 -0.016 0
+                  translation 0 0 -0.016
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -535,7 +499,7 @@ PROTO QRIO [
                         roughness 0.3
                       }
                       geometry Box {
-                        size 0.14 0.032 0.08
+                        size 0.08 0.14 0.032
                       }
                     }
                   ]
@@ -555,8 +519,8 @@ PROTO QRIO [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0.105 0.048 0
+          axis 0 -1.0 0
+          anchor 0 0.105 0.048
         }
         device [
           RotationalMotor {
@@ -564,12 +528,11 @@ PROTO QRIO [
           }
         ]
         endPoint Solid {
-          translation 0.105 0.048 0
-          rotation -1 0 0 0
+          translation 0 0.105 0.048
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
+                axis 1 0 0
               }
               device [
                 RotationalMotor {
@@ -577,10 +540,9 @@ PROTO QRIO [
                 }
               ]
               endPoint Solid {
-                rotation 0 0 1 0
                 children [
                   DEF SHOULDER Transform {
-                    rotation 0 1 0 -1.57
+                    rotation 0 0 1 -1.5708
                     children [
                       DEF SHOULDER_WHITE_SHAPE Shape {
                         appearance PBRAppearance {
@@ -590,7 +552,7 @@ PROTO QRIO [
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              0.025456 0.039456 0, -0.025456 0.039456 0, 0 0.039456 -0.025456, 0.025456 0.014 0.025456, -0.025456 0.014 0.025456, 0.025456 0.014 -0.025456, -0.025456 0.014 -0.025456, 0.036 0.014 0, -0.036 0.014 0, 0 0.05 0, 0 0.014 -0.036, -0.029146 -0.002548 0, -0.020365 0.0032 0.020365, 0 -0.002548 0.029146, 0.029146 -0.002548 0, 0.020365 0.0032 0.020365, -0.020365 0.0032 -0.020365, 0 -0.002548 -0.029146, 0.020365 0.0032 -0.020365, 0.032 -0.05 0, 0.022627 -0.05 -0.022627, 0 -0.05 -0.032, -0.022627 -0.05 -0.022627, -0.032 -0.05 0, -0.022627 -0.05 0.022627, 0 -0.05 0.032, 0.022627 -0.05 0.022627
+                              0 0.0254564 0.0394557 0 -0.0254556 0.0394563 -0.0254559 0 0.0394561 0.0254561 0.0254561 0.0139996 0.025456 -0.0254559 0.0140002 -0.0254559 0.0254562 0.0139998 -0.025456 -0.0254558 0.0140004 0 0.0360001 0.0139996 0 -0.0359999 0.0140004 0 0 0.05 -0.0359999 0 0.0140001 0 -0.029146 -0.0025477 0.0203649 -0.020365 0.0032001 0.029146 0 -0.0025481 0 0.029146 -0.0025483 0.0203651 0.020365 0.0031997 -0.0203651 -0.0203649 0.0032003 -0.029146 0 -0.0025479 -0.0203649 0.0203651 0.0031999 0 0.0319995 -0.0500003 -0.0226271 0.0226266 -0.0500002 -0.0320002 0 -0.0499999 -0.0226273 -0.0226274 -0.0499997 0 -0.0320005 -0.0499997 0.0226267 -0.0226276 -0.0499998 0.0319998 0 -0.0500001 0.0226269 0.0226264 -0.0500003
                             ]
                           }
                           coordIndex [
@@ -608,16 +570,7 @@ PROTO QRIO [
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              0.025456 0.039456 0
-                              -0.025456 0.039456 0
-                              0 0.039456 0.025456
-                              0.025456 0.014 0.025456
-                              -0.025456 0.014 0.025456
-                              0 0.05 0
-                              0 0.014 0.036
-                              -0.020365 0.0032 0.020365
-                              0 -0.002548 0.029146
-                              0.020365 0.0032 0.020365
+                              0 0.0254564 0.0394557 0 -0.0254556 0.0394563 0.0254561 0 0.0394559 0.0254561 0.0254561 0.0139996 0.025456 -0.0254559 0.0140002 0 0 0.05 0.0360001 0 0.0139999 0.0203649 -0.020365 0.0032001 0.029146 0 -0.0025481 0.0203651 0.020365 0.0031997
                             ]
                           }
                           coordIndex [
@@ -629,8 +582,7 @@ PROTO QRIO [
                     ]
                   }
                   DEF UPPER_ARM Transform {
-                    translation 0 -0.07 0
-                    rotation 0 0 1 0
+                    translation 0 0 -0.07
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -640,7 +592,7 @@ PROTO QRIO [
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              0.032 -0.002432 0, 0.022627 -0.002432 -0.022627, 0 -0.002432 -0.032, -0.022627 -0.002432 -0.022627, -0.032 -0.002432 0, -0.022627 0.014368 0.022627, 0 0.013568 0.032, 0.022627 0.014368 0.022627, 0.032 0.020368 0, 0.022627 0.020368 -0.022627, 0 0.020368 -0.032, -0.022627 0.020368 -0.022627, -0.032 0.020368 0, -0.022627 0.020368 0.022627, 0 0.020368 0.032, 0.022627 0.020368 0.022627, 0.027358 -0.002432 -0.000263, 0.019793 -0.003968 -0.020062, -6e-6 -0.002432 -0.027627, -0.027369 -0.002432 -0.000263, -0.019805 -0.003968 0.019536, -6e-6 -0.002432 0.0195, 0.019793 -0.003968 0.019536, -0.019805 -0.003968 -0.020062, 0.019793 -0.026167 -0.000263, -0.019805 -0.026167 -0.000263, -6e-6 -0.026167 0.019536, -6e-6 -0.026167 -0.020062, -6e-6 -0.034368 -0.000263
+                              0 0.032 -0.0024323 -0.0226269 0.0226271 -0.0024322 -0.032 0 -0.0024319 -0.0226271 -0.0226269 -0.0024317 0 -0.032 -0.0024317 0.022627 -0.0226269 0.0143682 0.032 0 0.0135679 0.0226271 0.0226271 0.0143677 0 0.0320002 0.0203677 -0.0226268 0.0226273 0.0203678 -0.0319999 0 0.0203681 -0.022627 -0.0226267 0.0203683 0 -0.0319998 0.0203683 0.022627 -0.0226269 0.0203682 0.0320001 0 0.0203679 0.0226272 0.0226271 0.0203677 -0.0002629 0.027358 -0.0024323 -0.0200619 0.019793 -0.0039681 -0.027627 0 -0.0024319 -0.0002631 -0.027369 -0.0024317 0.0195359 -0.0198051 -0.0039679 0.0195 0 -0.0024321 0.0195361 0.0197929 -0.0039683 -0.0200621 -0.019805 -0.0039677 -0.000263 0.0197927 -0.0261672 -0.0002632 -0.0198053 -0.0261668 0.0195359 0 -0.0261671 -0.0200621 0 -0.0261669 -0.0002631 0 -0.034368
                             ]
                           }
                           coordIndex [
@@ -653,8 +605,8 @@ PROTO QRIO [
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis -1 0 0
-                      anchor 0 -0.082 0.012
+                      axis 0 -1.0 0
+                      anchor 0.012 0 -0.082
                     }
                     device [
                       RotationalMotor {
@@ -662,11 +614,10 @@ PROTO QRIO [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.082 0.012
-                      rotation -1 0 0 0
+                      translation 0.012 0 -0.082
                       children [
                         DEF ELBOW_CYLINDER Transform {
-                          rotation 0 0 1 1.57
+                          rotation 1 0 0 1.57
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -682,8 +633,8 @@ PROTO QRIO [
                           ]
                         }
                         DEF LOWER_ARM Transform {
-                          translation 0 -0.047 -0.012
-                          rotation 0 1 0 -1.57
+                          translation -0.012 0 -0.047
+                          rotation 0 0 1 -1.57
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -693,23 +644,7 @@ PROTO QRIO [
                               geometry IndexedFaceSet {
                                 coord Coordinate {
                                   point [
-                                    0.022627 0.018078 -0.023019
-                                    0.032 -0.000807 -0.000392
-                                    0.022627 0.018078 0.022236
-                                    0.004801 0.053997 -0.030403
-                                    0.000655 0.0545 0.032392
-                                    0.032 -0.0545 -0.000392
-                                    0.022627 -0.0545 -0.023019
-                                    0 -0.0545 -0.032392
-                                    -0.022627 -0.0545 -0.023019
-                                    -0.032 -0.0545 -0.000392
-                                    -0.022627 -0.0545 0.022236
-                                    0 -0.0545 0.031608
-                                    0.022627 -0.0545 0.022236
-                                    -0.022627 0.053997 -0.023019
-                                    -0.032 0.053997 -0.000392
-                                    -0.022627 0.053997 0.022236
-                                    -0.01436 0.054097 0.000163
+                                    -0.0230189 0.0226273 0.0180778 -0.0003919 0.032 -0.0008073 0.0222361 0.0226271 0.0180777 -0.0304028 0.0048017 0.0539971 0.0323922 0.0006555 0.0544999 -0.0003921 0.0319994 -0.0545003 -0.0230191 0.0226265 -0.0545002 -0.0323922 0 -0.0544999 -0.0230193 -0.0226275 -0.0544997 -0.0003923 -0.0320006 -0.0544997 0.0222357 -0.0226277 -0.0544998 0.0316078 0 -0.0545001 0.0222359 0.0226263 -0.0545003 -0.0230189 -0.0226263 0.0539973 -0.0003919 -0.0319994 0.0539973 0.0222361 -0.0226265 0.0539972 0.0001631 -0.0143594 0.0540972
                                   ]
                                 }
                                 coordIndex [
@@ -721,8 +656,7 @@ PROTO QRIO [
                           ]
                         }
                         Transform {
-                          translation 0 -0.142 -0.012
-                          rotation 0 0 1 0
+                          translation -0.012 0 -0.142
                           children [
                             DEF HAND_SHAPE Shape {
                               appearance PBRAppearance {
@@ -732,29 +666,7 @@ PROTO QRIO [
                               geometry IndexedFaceSet {
                                 coord Coordinate {
                                   point [
-                                    0.016427 0.0431 -0.02634
-                                    0.031666 0.0431 -0.000884
-                                    -0.02647 0.0431 0.016557
-                                    -0.033694 0.0431 -0.000884
-                                    0.024442 0.0431 0.016557
-                                    -0.018455 0.0431 -0.02634
-                                    -0.001014 0.0431 0.031796
-                                    -0.001014 0.0431 -0.033564
-                                    0.024442 -0.032734 -0.000884
-                                    0.024442 0.024941 -0.02634
-                                    0.024442 0.024941 0.024572
-                                    0.034986 0.024941 -0.000884
-                                    0.000719 0.019197 -0.035116
-                                    -0.001014 0.024941 0.035116
-                                    -0.023579 0.03149 -0.02634
-                                    0.011125 -0.0431 -0.000884
-                                    0.015006 -0.024732 -0.016806
-                                    -0.010634 0.024941 0.031131
-                                    0.013482 -0.034894 0.011876
-                                    -0.034986 0.036035 -0.000884
-                                    -0.023579 0.03149 0.024572
-                                    0.013482 -0.034894 -0.013644
-                                    0.009925 -0.00795 0.024572
+                                    -0.0263398 0.0164275 0.0430999 -0.0008837 0.0316665 0.0430997 0.0165571 -0.0264696 0.0431002 -0.000884 -0.0336935 0.0431004 0.0165572 0.0244424 0.0430997 -0.0263399 -0.0184545 0.0431003 0.0317962 -0.0010137 0.0430999 -0.0335638 -0.0010134 0.0431001 -0.000884 0.0244417 -0.0327343 -0.0263398 0.0244424 0.0249408 0.0245722 0.0244422 0.0249407 -0.0008838 0.0349863 0.0249406 -0.0351159 0.0007193 0.0191971 0.0351161 -0.0010139 0.0249409 -0.02634 -0.0235786 0.0314903 -0.0008841 0.0111246 -0.0431001 -0.016806 0.0150058 -0.0247321 0.0311311 -0.0106338 0.024941 0.0118759 0.0134816 -0.0348942 -0.000884 -0.0349856 0.0360354 0.024572 -0.0235788 0.0314902 -0.0136441 0.0134817 -0.0348941 0.024572 0.0099248 -0.0079502
                                   ]
                                 }
                                 coordIndex [
@@ -767,7 +679,7 @@ PROTO QRIO [
                         }
                       ]
                       boundingObject DEF LOWER_ARM_BO Transform {
-                        translation 0 -0.06 0
+                        translation 0 0 -0.06
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -775,7 +687,7 @@ PROTO QRIO [
                               roughness 0.3
                             }
                             geometry Box {
-                              size 0.042 0.12 0.0422
+                              size 0.0422 0.042 0.12
                             }
                           }
                         ]
@@ -787,7 +699,7 @@ PROTO QRIO [
                   }
                 ]
                 boundingObject Transform {
-                  translation 0 -0.039 0
+                  translation 0 0 -0.039
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -795,7 +707,7 @@ PROTO QRIO [
                         roughness 0.3
                       }
                       geometry Box {
-                        size 0.042 0.12 0.042
+                        size 0.042 0.042 0.12
                       }
                     }
                   ]
@@ -815,8 +727,8 @@ PROTO QRIO [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor -0.105 0.048 0
+          axis 0 -1.0 0
+          anchor 0 -0.105 0.048
         }
         device [
           RotationalMotor {
@@ -824,12 +736,11 @@ PROTO QRIO [
           }
         ]
         endPoint Solid {
-          translation -0.105 0.048 0
-          rotation -1 0 0 0
+          translation 0 -0.105 0.048
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 -1
+                axis -1.0 0 0
               }
               device [
                 RotationalMotor {
@@ -837,10 +748,9 @@ PROTO QRIO [
                 }
               ]
               endPoint Solid {
-                rotation 0 0 -1 0
                 children [
                   Transform {
-                    rotation 0 1 0 1.57
+                    rotation 0 0 1 1.57
                     children [
                       USE SHOULDER_WHITE_SHAPE
                       USE SHOULDER_BLACK_SHAPE
@@ -849,8 +759,8 @@ PROTO QRIO [
                   USE UPPER_ARM
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis -1 0 0
-                      anchor 0 -0.082 0.012
+                      axis 0 -1.0 0
+                      anchor 0.012 0 -0.082
                     }
                     device [
                       RotationalMotor {
@@ -858,14 +768,13 @@ PROTO QRIO [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.082 0.012
-                      rotation -1 0 0 0
+                      translation 0.012 0 -0.082
                       children [
                         USE ELBOW_CYLINDER
                         USE LOWER_ARM
                         Transform {
-                          translation 0 -0.142 -0.012
-                          rotation 0 1 0 3.1415
+                          translation -0.012 0 -0.142
+                          rotation 0 0 1 3.1415
                           children [
                             USE HAND_SHAPE
                           ]
@@ -880,7 +789,7 @@ PROTO QRIO [
                 ]
                 name "right arm"
                 boundingObject Transform {
-                  translation 0 -0.039 0
+                  translation 0 0 -0.039
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -888,7 +797,7 @@ PROTO QRIO [
                         roughness 0.3
                       }
                       geometry Box {
-                        size 0.042 0.12 0.042
+                        size 0.042 0.042 0.12
                       }
                     }
                   ]
@@ -907,8 +816,8 @@ PROTO QRIO [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 0.081 0
+          axis 0 0 1
+          anchor 0 0 0.081
         }
         device [
           RotationalMotor {
@@ -916,10 +825,10 @@ PROTO QRIO [
           }
         ]
         endPoint Solid {
-          translation 0 0.081 0
+          translation 0 0 0.081
           children [
             LED {
-              translation 0 0.07 0
+              translation 0 0 0.07
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -930,15 +839,7 @@ PROTO QRIO [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.042727 0.000691 0.035731
-                        0.039284 -0.009063 0.036905
-                        0.027761 -0.013957 0.038162
-                        0.015803 -0.008849 0.045034
-                        0.015803 0.010232 0.045034
-                        0.027099 0.015573 0.041682
-                        0.039123 0.010833 0.036916
-                        0.012519 0.000691 0.045034
-                        0.027515 0.000769 0.040562
+                        0.0357312 0.0427269 0.0006904 0.0369051 0.0392838 -0.0090635 0.038162 0.0277607 -0.0139574 0.045034 0.0158027 -0.0088493 0.0450341 0.0158029 0.0102317 0.0416822 0.027099 0.0155726 0.0369162 0.039123 0.0108325 0.045034 0.0125188 0.0006907 0.0405621 0.0275149 0.0007686
                       ]
                     }
                     solid FALSE
@@ -955,7 +856,7 @@ PROTO QRIO [
               ]
             }
             LED {
-              translation 0 0.07 0
+              translation 0 0 0.07
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -966,15 +867,7 @@ PROTO QRIO [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.01577 -0.008142 0.048126
-                        -0.027728 -0.01325 0.041253
-                        -0.039091 -0.008743 0.040008
-                        -0.043119 0.000691 0.035731
-                        -0.039642 0.010329 0.035953
-                        -0.028115 0.01531 0.043153
-                        -0.016195 0.010232 0.045034
-                        -0.012699 0.001045 0.04658
-                        -0.027795 0.000934 0.04198
+                        0.0481259 -0.0157703 -0.008142 0.0412529 -0.0277283 -0.0132499 0.0400078 -0.0390912 -0.0087427 0.0357308 -0.0431191 0.0006913 0.0359529 -0.039642 0.0103293 0.043153 -0.028115 0.0153101 0.045034 -0.0161951 0.010232 0.04658 -0.0126992 0.001045 0.0419799 -0.0277951 0.0009341
                       ]
                     }
                     solid FALSE
@@ -991,7 +884,7 @@ PROTO QRIO [
               ]
             }
             LED {
-              translation 0 0.07 0
+              translation 0 0 0.07
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1002,13 +895,7 @@ PROTO QRIO [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.006667 0.043055 0.032763
-                        0.007876 0.034804 0.036826
-                        -0.000843 0.029761 0.038855
-                        -0.008513 0.034539 0.036548
-                        -0.00691 0.043055 0.032763
-                        -0.000122 0.045867 0.032759
-                        -0.000307 0.038513 0.035086
+                        0.0327632 0.0066673 0.0430548 0.0368262 0.0078762 0.0348038 0.0388551 -0.0008428 0.0297609 0.0365481 -0.0085128 0.034539 0.0327631 -0.0069097 0.043055 0.0327592 -0.0001216 0.0458669 0.0350861 -0.0003067 0.0385129
                       ]
                     }
                     solid FALSE
@@ -1027,7 +914,7 @@ PROTO QRIO [
               ]
             }
             Transform {
-              translation 0 0.07 0
+              translation 0 0 0.07
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1037,7 +924,7 @@ PROTO QRIO [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.042727 0.000691 0.035731, 0.039284 -0.009063 0.036905, 0.027761 -0.013957 0.038162, 0.015803 -0.008849 0.045034, 0.015803 0.010232 0.045034, 0.027099 0.015573 0.041682, 0.039123 0.010833 0.036916, -0.01577 -0.008142 0.048126, -0.027728 -0.01325 0.041253, -0.039091 -0.008743 0.040008, -0.043119 0.000691 0.035731, -0.039642 0.010329 0.035953, -0.028115 0.01531 0.043153, -0.016195 0.010232 0.045034, 0.006667 0.043055 0.032763, 0.007876 0.034804 0.036826, -0.000843 0.029761 0.038855, -0.008513 0.034539 0.036548, -0.00691 0.043055 0.032763, -0.000122 0.045867 0.032759, 0.054149 -0.008435 0.032314, -0.053868 0.011852 0.032314, -0.053868 -0.008435 0.032314, 0.067305 0.011073 0.004601, -0.067024 0.011073 0.004601, 0.054149 0.029421 0.014745, -0.053868 0.029421 0.014745, -0.056799 -0.022267 0.004601, 0.057079 -0.022267 0.004601, 0.061109 0.02265 -0.004805, -0.060829 0.02265 -0.004805, 0.039677 0.026752 -0.048375, -0.053868 0.020412 -0.029396, -0.039397 0.026752 -0.048375, 0.039677 0.006285 -0.048375, 0.027848 0.044444 0.014626, -0.039397 0.039565 0.014745, 0.039677 0.041285 -0.005018, -0.039397 0.041285 -0.005018, 0.00014 -0.024283 -0.011727, 0.04394 0.022176 0.035302, -0.04366 -0.018759 0.035302, 0.04394 -0.018759 0.035302, -0.04366 -0.008138 -0.034739, 0.04394 -0.008138 -0.034739, 0.014442 0.049776 -0.013969, -0.014161 0.049776 -0.013969, -0.014331 -0.022477 0.042458, 0.014442 -0.022513 0.042537, 0.014612 -0.006875 -0.048375, -0.027568 0.006404 -0.0571, 0.00014 0.047335 0.02457, 0.014612 0.041831 -0.048375, 0.00014 0.042313 -0.053648, 0.00014 -0.014299 -0.040534, 0.00014 0.027053 -0.064865, 0.013489 0.005606 -0.068963, -0.000122 0.007062 -0.070774, -0.0005 0.000902 0.051679, -0.0005 -0.007976 0.051679, -0.012699 0.001045 0.04658, 0.012519 0.000691 0.045034
+                        0.0357312 0.0427269 0.0006904 0.0369051 0.0392838 -0.0090635 0.038162 0.0277607 -0.0139574 0.045034 0.0158027 -0.0088493 0.0450341 0.0158029 0.0102317 0.0416822 0.027099 0.0155726 0.0369162 0.039123 0.0108325 0.0481259 -0.0157703 -0.008142 0.0412529 -0.0277283 -0.0132499 0.0400078 -0.0390912 -0.0087427 0.0357308 -0.0431191 0.0006913 0.0359529 -0.039642 0.0103293 0.043153 -0.028115 0.0153101 0.045034 -0.0161951 0.010232 0.0327632 0.0066673 0.0430548 0.0368262 0.0078762 0.0348038 0.0388551 -0.0008428 0.0297609 0.0365481 -0.0085128 0.034539 0.0327631 -0.0069097 0.043055 0.0327592 -0.0001216 0.0458669 0.0323142 0.0541488 -0.0084357 0.0323138 -0.053868 0.0118525 0.0323138 -0.0538682 -0.0084345 0.0046013 0.0673051 0.0110723 0.0046008 -0.0670239 0.0110737 0.0147453 0.0541493 0.0294204 0.0147449 -0.0538677 0.0294215 0.0046007 -0.0567993 -0.0222664 0.0046011 0.0570787 -0.0222676 -0.0048047 0.0611093 0.0226494 -0.0048051 -0.0608287 0.0226507 -0.0483748 0.0396775 0.0267518 -0.0293961 -0.0538677 0.0204127 -0.048375 -0.0393965 0.0267526 -0.0483748 0.0396772 0.0062848 0.0146263 0.0278484 0.0444437 0.014745 -0.0393966 0.0395654 -0.0050177 0.0396775 0.0412846 -0.005018 -0.0393965 0.0412854 -0.0117271 0.0001398 -0.024283 0.0353022 0.0439401 0.0221754 0.0353018 -0.0436603 -0.0187587 0.0353021 0.0439397 -0.0187596 -0.0347392 -0.04366 -0.0081374 -0.0347389 0.04394 -0.0081383 -0.0139688 0.0144426 0.0497759 -0.0139689 -0.0141604 0.0497762 0.0424579 -0.0143314 -0.022477 0.042537 0.0144416 -0.0225133 -0.048375 0.0146121 -0.006875 -0.0571001 -0.0275677 0.0064045 0.0245702 0.0001404 0.0473349 -0.0483748 0.0146126 0.041831 -0.0536478 0.0001406 0.0423132 -0.0405341 0.00014 -0.0142989 -0.0648649 0.0001405 0.0270532 -0.0689629 0.0134893 0.0056061 -0.070774 -0.0001217 0.0070623 0.051679 -0.0005002 0.0009018 0.051679 -0.0005003 -0.0079762 0.04658 -0.0126992 0.001045 0.045034 0.0125188 0.0006907
                       ]
                     }
                     solid FALSE
@@ -1067,7 +954,7 @@ PROTO QRIO [
           ]
           name "head"
           boundingObject Transform {
-            translation 0 0.08 0
+            translation 0 0 0.08
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1075,7 +962,7 @@ PROTO QRIO [
                   roughness 0.3
                 }
                 geometry Box {
-                  size 0.11 0.06 0.07
+                  size 0.07 0.11 0.06
                 }
               }
             ]
@@ -1086,8 +973,8 @@ PROTO QRIO [
         }
       }
       LED {
-        translation 0 0.04 0.06
-        rotation 1 0 0 -0.2
+        translation 0.06 0 0.04
+        rotation -0.099833 0 0.995004 3.141593
         children [
           Shape {
             appearance PBRAppearance {
@@ -1098,10 +985,7 @@ PROTO QRIO [
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                  0.05 -0.05 0
-                  0.05 0.02 0
-                  -0.05 0.02 0
-                  -0.05 -0.05 0
+                  0 -0.0499995 -0.0500005 0 -0.0500002 0.0199995 0 0.0499998 0.0200005 0 0.0500005 -0.0499995
                 ]
               }
               coordIndex [
@@ -1115,8 +999,8 @@ PROTO QRIO [
         ]
       }
       Transform {
-        translation 0 0.02 -0.015
-        rotation 0 1 0 -1.57
+        translation -0.015 0 0.02
+        rotation 0 0 1 -1.57
         children [
           Shape {
             appearance PBRAppearance {
@@ -1126,7 +1010,7 @@ PROTO QRIO [
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                  0.022083 0.097249 -0.076008, -0.013356 0.111867 -0.054255, -0.044971 0.083799 -0.025879, -0.044964 0.084235 0.024117, -0.013377 0.112806 0.051913, -0.06032 0.129293 0.062448, 0.015522 0.098129 -0.054139, 0.026354 0.088262 -0.025929, 0.026361 0.088698 0.02407, 0.015538 0.099056 0.052107, 0.022106 0.098557 0.073986, 0.045455 0.078956 -0.075852, 0.053565 0.075899 -0.000824, 0.045478 0.080265 0.074142, 0.069154 0.05021 -0.075232, 0.080205 0.032761 -0.017822, 0.078745 0.040086 -0.000356, 0.080274 0.032996 0.016488, 0.069972 0.050263 0.07413, 0.089218 0.000873 0.016912, 0.089349 -0.019164 0.064092, 0.08758 -0.019064 -0.063383, 0.089213 0.000561 -0.017231, 0.089077 -0.007218 -9e-5, 0.082986 -0.053834 -0.05203, 0.084341 -0.084352 0.053697, 0.081248 -0.053808 0.053149, 0.071008 -0.076918 -0.074496, 0.083663 -0.085123 -0.052983, 0.071031 -0.075609 0.075498, 0.05467 -0.106014 -0.07424, 0.054693 -0.104705 0.075755, 0.023542 -0.120558 -0.074108, 0.023565 -0.119249 0.075886, -0.043362 -0.127862 -0.074034, -0.04334 -0.126553 0.07596, -0.058093 -0.131786 0.076008, -0.058116 -0.133095 -0.073986, -0.062746 -0.111682 -0.074172, -0.068658 -0.112496 -0.052288, -0.068631 -0.111635 0.053958, -0.062724 -0.110373 0.075822, -0.06208 -0.072446 -0.066163, -0.06377 -0.071303 0.066191, -0.079172 -0.001315 -0.075757, -0.073164 0.000163 0.074859, -0.076676 0.063414 -0.066787, -0.076653 0.064723 0.066871, -0.050565 0.069441 -0.075754, -0.050543 0.07075 0.07424, -0.079614 0.106878 -0.057552, -0.067445 0.089957 -0.054125, -0.067625 0.09055 0.052194, -0.078915 0.10922 0.053111, -0.089349 0.10716 -0.026076, -0.089342 0.107596 0.023922, -0.061334 0.129121 -0.066432, -0.079402 0.132581 -0.050824, -0.085384 0.132805 -0.001299, -0.079493 0.133095 0.049034, -0.051562 0.127188 -0.052269, -0.062987 0.128486 -0.026266, -0.062979 0.128923 0.023732, -0.051546 0.128115 0.049047, -0.052366 0.104396 -0.051183, -0.052351 0.10527 0.049055, -0.067099 0.106164 -0.02607, -0.067091 0.1066 0.023928, -0.038011 0.094884 -0.067912, -0.037893 0.096257 0.065481, 0.086709 -0.050806 -0.000184, 0.081248 -0.053807 0.053146, 0.085119 0.017102 0.022963, 0.084335 0.016494 -0.023789
+                  -0.0760076 0.0220843 0.097249 -0.0542546 -0.0133546 0.1118673 -0.0258789 -0.04497 0.0837996 0.0241171 -0.0449632 0.0842354 0.0519134 -0.013376 0.112806 0.0624482 -0.0603189 0.1292934 -0.0541386 0.0155232 0.098129 -0.0259286 0.026355 0.0882618 0.0240704 0.0263618 0.0886976 0.0521074 0.0155389 0.0990557 0.0739864 0.0221068 0.0985565 -0.0758516 0.0454561 0.0789558 -0.0008235 0.0535658 0.0758984 0.0741425 0.0454786 0.0802643 -0.0752316 0.0691548 0.0502095 -0.0178216 0.0802054 0.0327602 -0.0003556 0.0787454 0.0400852 0.0164884 0.0802743 0.0329951 0.0741304 0.0699723 0.050262 0.0169123 0.0892179 0.000872 0.0640923 0.0893486 -0.0191652 -0.0633828 0.08758 -0.0190647 -0.0172307 0.0892131 0.0005601 0 0.0890769 -0.0072189 -0.0520299 0.0829856 -0.0538347 0.053697 0.0843399 -0.0843531 0.0531491 0.0812472 -0.053809 -0.074496 0.0710075 -0.0769185 -0.052983 0.0836623 -0.0851237 0.075498 0.0710299 -0.07561 -0.0742402 0.0546692 -0.1060143 0.0757548 0.0546916 -0.1047058 -0.0741083 0.023541 -0.120558 0.0758857 0.0235635 -0.1192495 -0.0740346 -0.0433631 -0.1278613 0.0759594 -0.0433416 -0.1265528 0.0760073 -0.0580947 -0.1317857 -0.0739867 -0.0581171 -0.1330941 -0.0741726 -0.0627469 -0.1116811 -0.0522886 -0.068659 -0.1124951 0.0539574 -0.0686324 -0.1116345 0.0758214 -0.0627254 -0.1103726 -0.0661635 -0.0620805 -0.0724451 0.0661905 -0.063771 -0.0713026 -0.0757573 -0.0791717 -0.0013139 0.0748587 -0.0731643 0.0001635 -0.066787 -0.0766751 0.063415 0.066871 -0.0766526 0.0647236 -0.0757539 -0.050564 0.0694418 0.0742401 -0.0505425 0.0707503 -0.0575519 -0.0796127 0.106879 -0.0541249 -0.0674439 0.0899579 0.0521941 -0.0676242 0.0905505 0.0531111 -0.078914 0.1092206 -0.0260759 -0.0893478 0.107161 0.0239221 -0.089341 0.1075969 -0.0664318 -0.0613324 0.1291219 -0.0508238 -0.0794004 0.132582 -0.0012988 -0.0853826 0.1328059 0.0490342 -0.0794918 0.1330957 -0.0522687 -0.0515605 0.1271887 -0.0262658 -0.0629856 0.1284868 0.0237322 -0.0629777 0.1289236 0.0490473 -0.0515448 0.1281154 -0.0511828 -0.0523647 0.1043967 0.0490552 -0.0523501 0.1052704 -0.0260699 -0.0670978 0.1061648 0.0239281 -0.06709 0.1066006 -0.0679118 -0.0380098 0.0948846 0.0654812 -0.0378922 0.0962572 -0.0001839 0.0867085 -0.0508069 0.0531461 0.0812472 -0.053808 0.0229634 0.0851191 0.017101 -0.0237886 0.0843353 0.0164932
                 ]
               }
               coordIndex [
@@ -1140,7 +1024,7 @@ PROTO QRIO [
     ]
     description "Sony's biped robot modeled by Stephane Mojon and Olivier Michel"
     boundingObject Transform {
-      translation 0 0.01 0
+      translation 0 0 0.01
       children [
         Shape {
           appearance PBRAppearance {
@@ -1148,7 +1032,7 @@ PROTO QRIO [
             roughness 0.3
           }
           geometry Box {
-            size 0.14 0.162 0.15
+            size 0.15 0.14 0.162
           }
         }
       ]

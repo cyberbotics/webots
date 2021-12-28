@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable oil barrel.
 
 PROTO OilBarrel [
-  field SFVec3f    translation         0 0.44 0
-  field SFRotation rotation            0 1 0 0
+  field SFVec3f    translation         0 0 0.44
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "oil barrel"
   field SFFloat    height              0.88          # Defines the height of the barrel.
   field SFFloat    radius              0.305         # Defines the radius of the barrel.

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
@@ -6,7 +6,7 @@
 
 PROTO P-Grip [
   field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0             # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0             # Is `Transform.rotation`.
   field SFString   name            "link_base_tcp180"  # Is `Solid.name`.
   field SFString   model           "180 deg"           # Is `Solid.model`.
   field SFColor    mainColor       0.98 0.98 0.98      # Defines the main color of the robot.
@@ -189,21 +189,22 @@ PROTO P-Grip [
             }
             P-GripDistanceSensor {
               translation 0.013 0.02 0.118
+              rotation 1 0 0 0.523599
               name "right finger sensor 0"
             }
             P-GripDistanceSensor {
               translation -0.013 0.02 0.118
-              rotation 0 0 1 3.141592653589793
+              rotation 0 0.2588189595935602 0.9659258492010602 3.14159
               name "right finger sensor 1"
             }
             P-GripDistanceSensor {
               translation -7.548e-10 0.0214379 0.13449
-              rotation -0.4707840804897257 -0.47078208048938375 -0.7461411275673865 1.85954
+              rotation -0.2843081537207692 -0.7040203806523063 -0.6507873518700783 1.65885
               name "right finger sensor 2"
             }
             P-GripDistanceSensor {
               translation -6.75982e-08 0.0173238 0.0871813
-              rotation -0.1294279597735375 0.1294279597735375 0.9831056944488314 1.58784
+              rotation 0.1294270015850925 0.37946400464729574 0.9161090112195871 1.58784
               name "right finger sensor 3"
             }
           ]
@@ -307,21 +308,22 @@ PROTO P-Grip [
             USE FINGER_CONNECTOR_SHAPE
             P-GripDistanceSensor {
               translation 0.013 0.02 0.118
+              rotation 1 0 0 0.523602
               name "left finger sensor 0"
             }
             P-GripDistanceSensor {
               translation -0.013 0.02 0.118
-              rotation 0 0 1 3.141592653589793
+              rotation 0 0.2588189595935754 0.965925849201117 3.14159
               name "left finger sensor 1"
             }
             P-GripDistanceSensor {
               translation -7.548e-10 0.0214379 0.13449
-              rotation -0.4707840804897257 -0.47078208048938375 -0.7461411275673865 1.85954
+              rotation -0.2843081537207692 -0.7040203806523063 -0.6507873518700783 1.65885
               name "left finger sensor 2"
             }
             P-GripDistanceSensor {
               translation -6.75982e-08 0.0173238 0.0871813
-              rotation -0.1294279597735375 0.1294279597735375 0.9831056944488314 1.58784
+              rotation -0.1294270015850925 -0.37946400464729574 -0.9161090112195871 -1.5878453071795864
               name "left finger sensor 3"
             }
           ]
@@ -357,7 +359,6 @@ PROTO P-Grip [
         }
         Transform {
           translation 0 1.34683e-07 -0.014
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.07

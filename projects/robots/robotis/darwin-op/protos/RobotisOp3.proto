@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # ROBOTIS OP3 is an open platform, miniature humanoid robot used for research, education and outreach.
@@ -12,8 +12,8 @@
 # More info here: http://support.robotis.com/en/product/robotis-op3/introduction/what_is_robotis_op3.htm
 
 PROTO RobotisOp3 [
-  field SFVec3f    translation         0 0 0
-  field SFRotation rotation            1 0 0 -1.5708
+  field SFVec3f    translation         0 0 0.279
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "ROBOTIS OP3"                  # Is `Solid.name`.
   field SFString   controller          "void"                         # Is `Robot.controller`.
   field MFString   controllerArgs      []                             # Is `Robot.controllerArgs`.
@@ -1715,7 +1715,7 @@ PROTO RobotisOp3 [
                       }
                       Camera {
                         translation 0.015348 -0.019 0.04975
-                        rotation 0.577352 -0.57735 -0.57735 2.0944
+                        rotation -0.594812 0.757033 0.270369 -0.000011
                         name "Camera"
                         fieldOfView 1.3613
                         width IS cameraWidth

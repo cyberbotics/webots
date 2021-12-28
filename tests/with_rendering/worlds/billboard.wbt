@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 DEF VIEWPOINT Viewpoint {
@@ -16,7 +16,7 @@ TestSuiteSupervisor {
 Billboard {
   children [
     Transform {
-      translation 0 0 -2
+      translation 2 0 0
       children [
         Group {
           children [

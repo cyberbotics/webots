@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Humanoid robot freely inspired from the Sony QRIO. This robot has 21 motors and was used for a robot wrestling competition called Roboka."
   ]
   title "QRIO Robot"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"
@@ -17,8 +16,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.43264709809127555 0.8929382024500976 0.12441002820668025 0.62309
-  position 0.815952 0.728235 1.32731
+  orientation -0.18868700169249822 -0.04265568173871047 0.9811104464879075 3.5781172609766387
+  position 1.3077170649113956 0.5510005743526243 0.952132349332806
 }
 TexturedBackground {
 }
@@ -29,5 +28,5 @@ RectangleArena {
   wallHeight 0.3
 }
 QRIO {
-  translation 0 0.409 0
+  translation 0 0 0.409
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -165,20 +165,24 @@ Solid {
 Robot {
   children [
     Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar1"
       maxRange 5
       cellDistance 1
     }
     Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar2"
       maxRange 5
       cellDistance 0.2
     }
     Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar3"
       maxRange 5
     }
     Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar4"
       maxRange 5
       cellDistance 0.8

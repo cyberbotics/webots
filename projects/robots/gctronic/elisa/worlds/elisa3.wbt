@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the Elisa-3 robot"
   ]
   title "Elisa-3"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.19000603987410167 -0.9492991992171028 -0.25045705256017115 1.93021
-  position -2.30634 1.35908 -0.860155
+  orientation 0.2504570051945744 0.19000600394079747 -0.949299218905933 1.93021
+  position 0.860155 2.30634 1.35908
 }
 TexturedBackground {
 }
@@ -18,37 +17,37 @@ RectangleArena {
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.683174
-  rotation 0 1 0 0.5
+  translation -0.6832 0.2 0.05
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation 0.35 0.75 0.05
+  rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation -0.3547 -0.5 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation 0.36 0.3 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.66 0.65 0.05
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 DEF ELISA3-1 Elisa3 {
-  translation 0.0246925 -0.000414131 0.0742381
-  rotation 0.012710601172639037 0.9999030922478317 -0.005678620523891199 -2.30022
+  translation -0.0742 -0.0247 -0.0004
+  rotation 0 0 1 2.412169
   controllerArgs [
     "255"
     "255"
@@ -56,8 +55,8 @@ DEF ELISA3-1 Elisa3 {
   ]
 }
 DEF ELISA3-2 Elisa3 {
-  translation 0.345082 -0.00041403 -0.283637
-  rotation 0.012730197131487627 0.9989687749010278 -0.04358129017976951 -0.567472
+  translation 0.2836 -0.3451 -0.0004
+  rotation 0 0 1 -2.138268
   name "elisa3(1)"
   controllerArgs [
     "255"
@@ -66,8 +65,8 @@ DEF ELISA3-2 Elisa3 {
   ]
 }
 DEF ELISA3-3 Elisa3 {
-  translation -0.346646 -0.000414059 -0.241923
-  rotation 0.012721597724476567 0.9988238213395 -0.046788191630954795 -0.530425
+  translation 0.2419 0.3466 -0.0004
+  rotation 0 0 1 -2.101221
   name "elisa3(2)"
   controllerArgs [
     "0"
@@ -76,8 +75,8 @@ DEF ELISA3-3 Elisa3 {
   ]
 }
 DEF ELISA3-4 Elisa3 {
-  translation -0.321425 -0.000414069 0.125683
-  rotation 0.012672803791876571 0.9982912987024378 0.057042817067992614 0.438504
+  translation -0.1257 0.3214 -0.0004
+  rotation 0 0 1 -1.132292
   name "elisa3(3)"
   controllerArgs [
     "0"
@@ -86,8 +85,8 @@ DEF ELISA3-4 Elisa3 {
   ]
 }
 DEF ELISA3-5 Elisa3 {
-  translation 0.321178 -0.00041407 0.500225
-  rotation 0.012716896748289599 0.9989047445800646 -0.04502878848613913 -0.550141
+  translation -0.5002 -0.3212 -0.0004
+  rotation 0 0 1 -2.120937
   name "elisa3(4)"
   controllerArgs [
     "255"
@@ -96,8 +95,8 @@ DEF ELISA3-5 Elisa3 {
   ]
 }
 DEF ELISA3-6 Elisa3 {
-  translation 0.158396 -0.00041416 -0.0756374
-  rotation 0.012684303829292077 0.9996573017887175 0.022899506913181957 1.01365
+  translation 0.0756 -0.1584 -0.0004
+  rotation 0 0 1 -0.557146
   name "elisa3(5)"
   controllerArgs [
     "255"
@@ -106,8 +105,8 @@ DEF ELISA3-6 Elisa3 {
   ]
 }
 DEF ELISA3-7 Elisa3 {
-  translation -0.314326 -0.000414094 -0.830816
-  rotation 0.01269519667866499 0.9997007384569024 0.020910894529262692 1.09237
+  translation 0.8308 0.3143 -0.0004
+  rotation 0 0 1 -0.478426
   name "elisa3(6)"
   controllerArgs [
     "0"
@@ -116,8 +115,8 @@ DEF ELISA3-7 Elisa3 {
   ]
 }
 DEF ELISA3-8 Elisa3 {
-  translation 0.377286 -0.000414076 -0.526987
-  rotation 0.012710304898387538 0.9999043853502507 -0.005446862099150385 -2.33102
+  translation 0.527 -0.3773 -0.0004
+  rotation 0 0 1 2.381369
   name "elisa3(7)"
   controllerArgs [
     "0"
@@ -126,8 +125,8 @@ DEF ELISA3-8 Elisa3 {
   ]
 }
 DEF ELISA3-9 Elisa3 {
-  translation 0.693387 -0.000414059 0.0923512
-  rotation 0.012713805485063614 0.999833431353931 -0.013094605649350626 -1.54073
+  translation -0.0924 -0.6934 -0.0004
+  rotation 0 0 1 -3.111526
   name "elisa3(8)"
   controllerArgs [
     "255"
@@ -136,8 +135,8 @@ DEF ELISA3-9 Elisa3 {
   ]
 }
 DEF ELISA3-10 Elisa3 {
-  translation -0.646468 -0.000414055 0.482807
-  rotation 0.012722396398068974 0.9995017170237326 -0.028886991821591716 -0.828774
+  translation -0.4828 0.6465 -0.0004
+  rotation 0 0 1 -2.39957
   name "elisa3(9)"
   controllerArgs [
     "0"

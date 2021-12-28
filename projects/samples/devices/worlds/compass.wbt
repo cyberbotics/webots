@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of the Compass device."
   ]
   title "Compass"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.3789158794431957 -0.843261731705782 -0.38122487870855887 1.73166
-  position -0.931506 1.07918 0.00404461
+  orientation 0.019124938762317033 0.9974310423038564 0.06903298172598858 0.7675141975507517
+  position -1.2063291583679796 -0.07168629435099041 1.3121407376583043
 }
 TexturedBackground {
 }
@@ -18,7 +17,8 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation 0.0234781 0.05 -0.438565
+  translation 0.023478 0.438565 0.05
+  rotation 0 0 1 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -27,7 +27,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.23 0.1 0.1
+        size 0.1 0.23 0.1
       }
     }
   ]
@@ -41,7 +41,7 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.438027 0.05 0.148478
+  translation 0.438027 -0.148478 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -64,9 +64,11 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF COMPASS_ROBOT Robot {
+  rotation 0 0 1 1.5708
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -83,8 +85,8 @@ DEF COMPASS_ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -96,11 +98,11 @@ DEF COMPASS_ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -126,8 +128,8 @@ DEF COMPASS_ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -139,8 +141,8 @@ DEF COMPASS_ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -150,11 +152,11 @@ DEF COMPASS_ROBOT Robot {
       }
     }
     DEF LEFT_US DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.2253
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.6545053071795861
       children [
         DEF SENSOR_TRANSFORM Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -179,8 +181,8 @@ DEF COMPASS_ROBOT Robot {
       numberOfRays 15
     }
     DEF RIGHT_US DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 0.9163
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.6544953071795865
       children [
         USE SENSOR_TRANSFORM
       ]
@@ -193,11 +195,12 @@ DEF COMPASS_ROBOT Robot {
       numberOfRays 15
     }
     Compass {
-      translation 0 0.05 0
+      translation 0 0 0.05
+      rotation 0 0 1 -1.5708
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -214,7 +217,7 @@ DEF COMPASS_ROBOT Robot {
       ]
     }
     DEF PIVOT Transform {
-      translation 0 0.06 0
+      translation 0 0 0.06
       children [
         Shape {
           appearance PBRAppearance {
@@ -231,8 +234,8 @@ DEF COMPASS_ROBOT Robot {
     }
     DEF NEEDLE HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0.1 0
+        axis 0 0 1
+        anchor 0 0 0.1
       }
       device [
         RotationalMotor {
@@ -240,10 +243,11 @@ DEF COMPASS_ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.1 0
+        translation 0 0 0.1
+        rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.094395
         children [
           DEF NEEDLE_BODY Transform {
-            rotation 1 0 0 1.5708
+            rotation 0 0 -1 -1.570795
             children [
               Shape {
                 appearance DEF NEEDLE_APP PBRAppearance {
@@ -260,7 +264,7 @@ DEF COMPASS_ROBOT Robot {
           }
           DEF NEEDLE_HEAD Transform {
             translation 0 0 0.05
-            rotation 1 0 0 1.5708
+            rotation 0 0 -1 -1.570795
             children [
               Shape {
                 appearance USE NEEDLE_APP
@@ -277,7 +281,8 @@ DEF COMPASS_ROBOT Robot {
   ]
   name "MyBot"
   boundingObject DEF MYBOT_BOUNDING Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]

@@ -15,6 +15,8 @@
 #ifndef FILE_IMPORT_HPP
 #define FILE_IMPORT_HPP
 
+struct aiScene;
+
 namespace wren {
 
   class StaticMesh;
@@ -27,7 +29,11 @@ namespace wren {
     // Returns false in case of failure
     bool importStaticMeshFromObj(const char *fileName, StaticMesh *mesh);
 
-    const char *importRiggedMesh(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+    const char *importRiggedMeshFromFile(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+                                         const char ***materialNames, int *count);
+    const char *importRiggedMeshFromMemory(const char *data, int size, const char *hint, Skeleton **outputSkeleton,
+                                           DynamicMesh ***outputMeshes, const char ***materialNames, int *count);
+    const char *importRiggedMesh(const aiScene *scene, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
                                  const char ***materialNames, int *count);
   };  // namespace fileImport
 

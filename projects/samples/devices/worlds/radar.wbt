@@ -1,14 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a Radar device."
   ]
   title "Radar"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.8155772452921317 0.5766291734263675 0.04829651452560756 5.39295
-  position -1.43563 2.12234 2.25558
+  orientation -0.21683709015077432 -0.7909118738796145 0.5722238059458742 5.386974403099888
+  position -3.0238943018231947 1.8383735618635757 3.459497141268897
 }
 TexturedBackground {
 }
@@ -18,7 +17,7 @@ RectangleArena {
   floorSize 2 2
 }
 DEF GREEN_BOX Solid {
-  translation -0.286497 0.075 -0.491817
+  translation 0.4918 0.2865 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -27,7 +26,7 @@ DEF GREEN_BOX Solid {
         metalness 0
       }
       geometry DEF BOX0 Box {
-        size 0.67 0.15 0.1
+        size 0.1 0.67 0.15
       }
     }
   ]
@@ -41,8 +40,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF YELLOW_BOX Solid {
-  translation -0.362738 0.075 0.280292
-  rotation 0 1 0 0.4
+  translation -0.2803 0.3627 0.075
+  rotation 0 0 1 0.4
   children [
     Shape {
       appearance PBRAppearance {
@@ -51,7 +50,7 @@ DEF YELLOW_BOX Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 0.05 0.15 0.8
+        size 0.8 0.05 0.15
       }
     }
   ]
@@ -65,8 +64,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.350462 0.075 0.0300837
-  rotation 0 1 0 5.75959
+  translation -0.0301 -0.3505 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -75,7 +73,7 @@ DEF PINK_BOX Solid {
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.61 0.15 0.08
+        size 0.08 0.61 0.15
       }
     }
   ]
@@ -89,11 +87,12 @@ DEF PINK_BOX Solid {
   }
 }
 DEF MyBot1 Robot {
-  translation 0.421486 2.75335e-14 0.801376
-  rotation 0 -1 0 5.54498
+  translation -0.8014 -0.4215 0
+  rotation 0 0 -1 5.54498
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -110,8 +109,8 @@ DEF MyBot1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -123,11 +122,11 @@ DEF MyBot1 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -153,8 +152,8 @@ DEF MyBot1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -166,8 +165,8 @@ DEF MyBot1 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -177,11 +176,11 @@ DEF MyBot1 Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -207,8 +206,8 @@ DEF MyBot1 Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -222,8 +221,8 @@ DEF MyBot1 Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -240,7 +239,7 @@ DEF MyBot1 Robot {
       ]
     }
     Radar {
-      translation 0 0.1 0
+      translation 0 0 0.1
       children [
         Shape {
           appearance PBRAppearance {
@@ -262,7 +261,7 @@ DEF MyBot1 Robot {
   ]
   name "MyBot1"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]
@@ -274,11 +273,12 @@ DEF MyBot1 Robot {
   controller "radar"
 }
 DEF MyBot2 Robot {
-  translation -0.0602965 2.93099e-14 0.110597
-  rotation 0 1 0 1
+  translation -0.1106 0.0603 0
+  rotation 0 0 1 1
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -295,8 +295,8 @@ DEF MyBot2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -308,11 +308,11 @@ DEF MyBot2 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -338,8 +338,8 @@ DEF MyBot2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -351,8 +351,8 @@ DEF MyBot2 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -362,11 +362,11 @@ DEF MyBot2 Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -392,8 +392,8 @@ DEF MyBot2 Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -407,8 +407,8 @@ DEF MyBot2 Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -425,7 +425,8 @@ DEF MyBot2 Robot {
       ]
     }
     DEF RADAR_TARGET Solid {
-      translation 0 0.1 0
+      translation 0 0 0.1
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [
         Shape {
           appearance PBRAppearance {
@@ -444,7 +445,7 @@ DEF MyBot2 Robot {
   ]
   name "MyBot2"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]
@@ -456,11 +457,12 @@ DEF MyBot2 Robot {
   controller "radar"
 }
 DEF MyBot3 Robot {
-  translation 0.57314 2.75335e-14 -0.567738
-  rotation 0 1 0 3.35619
+  translation 0.5677 -0.5731 0
+  rotation 0 0 1 3.35619
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -477,8 +479,8 @@ DEF MyBot3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -490,11 +492,11 @@ DEF MyBot3 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -520,8 +522,8 @@ DEF MyBot3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -533,8 +535,8 @@ DEF MyBot3 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -544,11 +546,11 @@ DEF MyBot3 Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -574,8 +576,8 @@ DEF MyBot3 Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -589,8 +591,8 @@ DEF MyBot3 Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -607,7 +609,8 @@ DEF MyBot3 Robot {
       ]
     }
     DEF RADAR_TARGET Solid {
-      translation 0 0.1 0
+      translation 0 0 0.1
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [
         Shape {
           appearance PBRAppearance {
@@ -626,7 +629,7 @@ DEF MyBot3 Robot {
   ]
   name "MyBot3"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]
@@ -638,11 +641,12 @@ DEF MyBot3 Robot {
   controller "radar"
 }
 DEF MyBot4 Robot {
-  translation -0.671223 2.75335e-14 0.566039
-  rotation 0 -1 0 1.09439
+  translation -0.566 0.6712 0
+  rotation 0 0 -1 1.09439
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -659,8 +663,8 @@ DEF MyBot4 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -672,11 +676,11 @@ DEF MyBot4 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -702,8 +706,8 @@ DEF MyBot4 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -715,8 +719,8 @@ DEF MyBot4 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -726,11 +730,11 @@ DEF MyBot4 Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -756,8 +760,8 @@ DEF MyBot4 Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -771,8 +775,8 @@ DEF MyBot4 Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -789,7 +793,8 @@ DEF MyBot4 Robot {
       ]
     }
     DEF RADAR_TARGET Solid {
-      translation 0 0.1 0
+      translation 0 0 0.1
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [
         Shape {
           appearance PBRAppearance {
@@ -808,7 +813,7 @@ DEF MyBot4 Robot {
   ]
   name "MyBot4"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
     children [
       USE BODY
     ]

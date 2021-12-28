@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Pioneer 3AT robot (Adept MobileRobots)."
@@ -9,8 +9,8 @@ WorldInfo {
   lineScale 0.5
 }
 Viewpoint {
-  orientation 0.16883803772838368 -0.5442719021901463 -0.8217431554338307 2.6423997328205333
-  position -5.905240439680484 9.78972702519866 4.737729683563627
+  orientation 0.25011570391868265 0.5117484141638073 -0.8219219520453813 1.0729262046664012
+  position -1.2785622629581976 1.7546881635492606 1.8605831250220366
   follow "Pioneer 3-AT"
   followSmoothness 0
 }
@@ -19,7 +19,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 1 0 0 1.5707963267948966
   floorSize 60 60
   floorTileSize 3 3
   floorAppearance SandyGround {
@@ -41,7 +40,6 @@ RectangleArena {
 }
 DEF OBSTACLE_1 Solid {
   translation 15.7489 -12.6243 1
-  rotation 1 0 0 1.5707963267948966
   children [
     DEF OBSTACLE_SHAPE Shape {
       appearance PBRAppearance {
@@ -68,7 +66,6 @@ DEF OBSTACLE_1 Solid {
 }
 DEF OBSTACLE_2 Solid {
   translation -6.11857 18.7895 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -77,7 +74,6 @@ DEF OBSTACLE_2 Solid {
 }
 DEF OBSTACLE_3 Solid {
   translation 21.7282 24.6243 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -86,7 +82,6 @@ DEF OBSTACLE_3 Solid {
 }
 DEF OBSTACLE_4 Solid {
   translation 27.5208 6.81157 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -95,7 +90,6 @@ DEF OBSTACLE_4 Solid {
 }
 DEF OBSTACLE_5 Solid {
   translation -13.0666 5.54135 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -104,7 +98,6 @@ DEF OBSTACLE_5 Solid {
 }
 DEF OBSTACLE_6 Solid {
   translation -26.5756 20.8546 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -113,7 +106,6 @@ DEF OBSTACLE_6 Solid {
 }
 DEF OBSTACLE_7 Solid {
   translation 5.65869 4.7766 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -122,7 +114,6 @@ DEF OBSTACLE_7 Solid {
 }
 DEF OBSTACLE_8 Solid {
   translation 2.48883 -16.7941 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -131,7 +122,6 @@ DEF OBSTACLE_8 Solid {
 }
 DEF OBSTACLE_9 Solid {
   translation -21.5071 -19.6972 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -140,7 +130,6 @@ DEF OBSTACLE_9 Solid {
 }
 DEF OBSTACLE_10 Solid {
   translation -11.3252 -23.9583 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -149,7 +138,6 @@ DEF OBSTACLE_10 Solid {
 }
 DEF OBSTACLE_11 Solid {
   translation -27.9213 27.5921 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -158,7 +146,6 @@ DEF OBSTACLE_11 Solid {
 }
 DEF OBSTACLE_12 Solid {
   translation -20.3505 12.0943 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -167,7 +154,6 @@ DEF OBSTACLE_12 Solid {
 }
 DEF OBSTACLE_13 Solid {
   translation -20.1731 -14.1931 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -176,7 +162,6 @@ DEF OBSTACLE_13 Solid {
 }
 DEF OBSTACLE_14 Solid {
   translation -12.5078 26.5308 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -185,7 +170,6 @@ DEF OBSTACLE_14 Solid {
 }
 DEF OBSTACLE_15 Solid {
   translation 23.5136 -16.3913 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -194,7 +178,6 @@ DEF OBSTACLE_15 Solid {
 }
 DEF OBSTACLE_16 Solid {
   translation 11.2747 3.27308 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -203,7 +186,6 @@ DEF OBSTACLE_16 Solid {
 }
 DEF OBSTACLE_17 Solid {
   translation 22.197 3.21502 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -212,7 +194,6 @@ DEF OBSTACLE_17 Solid {
 }
 DEF OBSTACLE_18 Solid {
   translation 28.4213 -6.60283 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -221,7 +202,6 @@ DEF OBSTACLE_18 Solid {
 }
 DEF OBSTACLE_19 Solid {
   translation 19.4685 20.9128 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -230,7 +210,6 @@ DEF OBSTACLE_19 Solid {
 }
 DEF OBSTACLE_20 Solid {
   translation 4.81033 27.563 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -239,7 +218,6 @@ DEF OBSTACLE_20 Solid {
 }
 DEF OBSTACLE_21 Solid {
   translation -2.91762 -27.7484 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -248,7 +226,6 @@ DEF OBSTACLE_21 Solid {
 }
 DEF OBSTACLE_22 Solid {
   translation 5.15002 -24.9015 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -257,7 +234,6 @@ DEF OBSTACLE_22 Solid {
 }
 DEF OBSTACLE_23 Solid {
   translation -14.717 -6.97726 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -266,7 +242,6 @@ DEF OBSTACLE_23 Solid {
 }
 DEF OBSTACLE_24 Solid {
   translation 28.6207 21.1249 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -275,7 +250,6 @@ DEF OBSTACLE_24 Solid {
 }
 DEF OBSTACLE_25 Solid {
   translation 15.5754 12.0666 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -284,7 +258,6 @@ DEF OBSTACLE_25 Solid {
 }
 DEF OBSTACLE_26 Solid {
   translation 9.79035 -14.8888 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -293,7 +266,6 @@ DEF OBSTACLE_26 Solid {
 }
 DEF OBSTACLE_27 Solid {
   translation -3.93434 -16.4364 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -302,7 +274,6 @@ DEF OBSTACLE_27 Solid {
 }
 DEF OBSTACLE_28 Solid {
   translation -27.7733 -5.49227 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -311,7 +282,6 @@ DEF OBSTACLE_28 Solid {
 }
 DEF OBSTACLE_29 Solid {
   translation -2.7517 25.0956 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -320,7 +290,6 @@ DEF OBSTACLE_29 Solid {
 }
 DEF OBSTACLE_30 Solid {
   translation -23.7889 0.62109 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -329,7 +298,6 @@ DEF OBSTACLE_30 Solid {
 }
 DEF OBSTACLE_31 Solid {
   translation -1.71767 -7.68168 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -338,7 +306,6 @@ DEF OBSTACLE_31 Solid {
 }
 DEF OBSTACLE_32 Solid {
   translation -25.1618 -10.2537 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -347,7 +314,6 @@ DEF OBSTACLE_32 Solid {
 }
 DEF OBSTACLE_33 Solid {
   translation 23.4432 11.5598 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -356,7 +322,6 @@ DEF OBSTACLE_33 Solid {
 }
 DEF OBSTACLE_34 Solid {
   translation -7.22118 5.04018 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -365,7 +330,6 @@ DEF OBSTACLE_34 Solid {
 }
 DEF OBSTACLE_35 Solid {
   translation 19.1942 -23.0269 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -374,7 +338,6 @@ DEF OBSTACLE_35 Solid {
 }
 DEF OBSTACLE_36 Solid {
   translation 16.558 -2.8216 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -383,7 +346,6 @@ DEF OBSTACLE_36 Solid {
 }
 DEF OBSTACLE_37 Solid {
   translation 5.42691 15.3295 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -392,7 +354,6 @@ DEF OBSTACLE_37 Solid {
 }
 DEF OBSTACLE_38 Solid {
   translation -16.683 24.0153 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -401,7 +362,6 @@ DEF OBSTACLE_38 Solid {
 }
 DEF OBSTACLE_39 Solid {
   translation 7.03998 -6.59248 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -410,7 +370,6 @@ DEF OBSTACLE_39 Solid {
 }
 DEF OBSTACLE_40 Solid {
   translation -28.0377 9.77742 1
-  rotation 1 0 0 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -423,7 +382,6 @@ DEF PIONEER_3AT Pioneer3at {
   extensionSlot [
     SickLms291 {
       translation 0.136 0 0.35
-      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
     }
   ]
 }

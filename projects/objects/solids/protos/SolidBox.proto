@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A box object implemented at the Solid-node level.
@@ -8,7 +8,7 @@
 
 PROTO SolidBox [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "box"
   field SFVec3f    size                  2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
   field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
@@ -33,47 +33,47 @@ PROTO SolidBox [
     const halfSize = {x: size.x * 0.5, y: size.y * 0.5, z: size.z * 0.5};
 
     const quads = [
-      // quadTop
+      // quadLeft
       [
-        {x: -halfSize.x, y: halfSize.y, z:  halfSize.z, u: 0,       v: 0      }, // vertex A
-        {x:  halfSize.x, y: halfSize.y, z:  halfSize.z, u: ratio.x, v: 0      }, // vertex B
-        {x:  halfSize.x, y: halfSize.y, z: -halfSize.z, u: ratio.x, v: ratio.z}, // ...
-        {x: -halfSize.x, y: halfSize.y, z: -halfSize.z, u: 0,       v: ratio.z}
+        {x: -halfSize.x, y: halfSize.y, z:  halfSize.z, u: ratio.x, v: ratio.z }, // vertex A
+        {x:  halfSize.x, y: halfSize.y, z:  halfSize.z, u: 0,       v: ratio.z }, // vertex B
+        {x:  halfSize.x, y: halfSize.y, z: -halfSize.z, u: 0,       v: 0       }, // ...
+        {x: -halfSize.x, y: halfSize.y, z: -halfSize.z, u: ratio.x, v: 0       }
       ],
-      // quadBottom
+      // quadRight
       [
         {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: 0       },
         {x:  halfSize.x, y: -halfSize.y, z: -halfSize.z, u: ratio.x, v: 0       },
         {x:  halfSize.x, y: -halfSize.y, z:  halfSize.z, u: ratio.x, v: ratio.z },
         {x: -halfSize.x, y: -halfSize.y, z:  halfSize.z, u: 0,       v: ratio.z }
       ],
+      // quadTop
+      [
+        {x: -halfSize.x, y: -halfSize.y, z: halfSize.z, u: 0,       v: ratio.x },
+        {x:  halfSize.x, y: -halfSize.y, z: halfSize.z, u: 0,       v: 0       },
+        {x:  halfSize.x, y:  halfSize.y, z: halfSize.z, u: ratio.y, v: 0       },
+        {x: -halfSize.x, y:  halfSize.y, z: halfSize.z, u: ratio.y, v: ratio.x }
+      ],
+      // quadBottom
+      [
+        {x:  halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: ratio.x },
+        {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: 0       },
+        {x: -halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.y, v: 0       },
+        {x:  halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.y, v: ratio.x }
+      ],
+      // quadBack 
+      [
+        {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: ratio.y, v: 0       },
+        {x: -halfSize.x, y: -halfSize.y, z:  halfSize.z, u: ratio.y, v: ratio.z },
+        {x: -halfSize.x, y:  halfSize.y, z:  halfSize.z, u: 0,       v: ratio.z },
+        {x: -halfSize.x, y:  halfSize.y, z: -halfSize.z, u: 0,       v: 0       }
+      ],
       // quadFront
       [
-        {x: -halfSize.x, y: -halfSize.y, z: halfSize.z, u: 0,       v: 0       },
-        {x:  halfSize.x, y: -halfSize.y, z: halfSize.z, u: ratio.x, v: 0       },
-        {x:  halfSize.x, y:  halfSize.y, z: halfSize.z, u: ratio.x, v: ratio.y },
-        {x: -halfSize.x, y:  halfSize.y, z: halfSize.z, u: 0,       v: ratio.y }
-      ],
-      // quadBack
-      [
-        {x:  halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: 0       },
-        {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: ratio.x, v: 0       },
-        {x: -halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.x, v: ratio.y },
-        {x:  halfSize.x, y:  halfSize.y, z: -halfSize.z, u: 0,       v: ratio.y }
-      ],
-      // quadLeft
-      [
-        {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: 0 },
-        {x: -halfSize.x, y: -halfSize.y, z:  halfSize.z, u: ratio.z, v: 0 },
-        {x: -halfSize.x, y:  halfSize.y, z:  halfSize.z, u: ratio.z, v: ratio.y },
-        {x: -halfSize.x, y:  halfSize.y, z: -halfSize.z, u: 0,       v: ratio.y }
-      ],
-      // quadRight
-      [
-        {x: halfSize.x, y: -halfSize.y, z:  halfSize.z, u: 0,       v: 0       },
-        {x: halfSize.x, y: -halfSize.y, z: -halfSize.z, u: ratio.z, v: 0       },
-        {x: halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.z, v: ratio.y },
-        {x: halfSize.x, y:  halfSize.y, z:  halfSize.z, u: 0,       v: ratio.y }
+        {x: halfSize.x, y: -halfSize.y, z:  halfSize.z, u: 0,       v: ratio.z },
+        {x: halfSize.x, y: -halfSize.y, z: -halfSize.z, u: 0,       v: 0       },
+        {x: halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.y, v: 0       },
+        {x: halfSize.x, y:  halfSize.y, z:  halfSize.z, u: ratio.y, v: ratio.z }
       ]
     ];
 

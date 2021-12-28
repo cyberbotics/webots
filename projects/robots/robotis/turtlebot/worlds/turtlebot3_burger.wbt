@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 64
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3997983819956711 0.8905692950516011 0.21690455150811835 5.188871747341162
-  position -1.2985888613086023 0.8019966598476307 0.84451439831719
+  orientation 0.30472332270793473 0.6830874932044873 -0.6637282374778442 1.1835111768575177
+  position -1.5731172225512131 1.6462057351100228 2.506237334848655
   follow "TurtleBot3Burger"
   followType "Pan and Tilt Shot"
 }
@@ -18,51 +17,51 @@ CircleArena {
   wallHeight 0.4
 }
 WoodenBox {
-  translation 0.467367 0.15 0.545426
+  translation 0.467367 -0.545426 0.15
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 1.26618 0.15 -1.07342
+  translation 1.26618 1.07342 0.15
   name "wooden box(1)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -0.15697 0.15 -0.782967
+  translation -0.15697 0.782967 0.15
   name "wooden box(2)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.62271 0.15 -1.08968
+  translation -1.62271 1.08968 0.15
   name "wooden box(3)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.09887 0.15 0.301011
+  translation -1.09887 -0.301011 0.15
   name "wooden box(4)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -2.71307 0.15 0.22263
+  translation -2.71307 -0.22263 0.15
   name "wooden box(7)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -0.744103 0.15 -2.69736
+  translation -0.744103 2.69736 0.15
   name "wooden box(8)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 2.30103 0.15 -0.203241
+  translation 2.30103 0.203241 0.15
   name "wooden box(9)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 0.005323 0.15 1.57959
+  translation 0.005323 -1.57959 0.15
   name "wooden box(5)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.0974 0.15 1.8598
+  translation -1.0974 -1.8598 0.15
   name "wooden box(6)"
   size 0.3 0.3 0.3
 }

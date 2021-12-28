@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/youbot
@@ -6,8 +6,8 @@
 # template language: javascript
 
 PROTO Youbot [
-  field SFVec3f           translation     0 0.12 0      # Is `Transform.translation`.
-  field SFRotation        rotation        1 0 0 -1.5708 # Is `Transform.rotation`.
+  field SFVec3f           translation     0 0 0.12      # Is `Transform.translation`.
+  field SFRotation        rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString          name            "youBot"      # Is `Solid.name`.
   field SFString          controller      "youbot"      # Is `Robot.controller`.
   field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -269,6 +269,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -338,6 +339,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -362,7 +364,6 @@ Robot {
       name "arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08
@@ -621,6 +622,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -690,6 +692,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -714,7 +717,6 @@ Robot {
       name "front arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08

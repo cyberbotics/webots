@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/yamor
@@ -6,7 +6,7 @@
 
 PROTO Yamor [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            "Yamor" # Is `Solid.name`.
   field SFString   controller      "yamor" # Is `Robot.controller`.
   field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
@@ -38,11 +38,11 @@ PROTO Yamor [
               metalness 0
             }
             geometry Box {
-              size 0.054 0.0482 0.06
+              size 0.06 0.054 0.0482
             }
           }
           DEF CYLINDER_TRANS Transform {
-            translation 0 0 -0.03
+            translation 0.03 0 0
             children [
               Shape {
                 appearance USE PLASTIC
@@ -56,10 +56,11 @@ PROTO Yamor [
         ]
       }
       DEF REAR_CONNECTOR Connector {
-        translation 0 0 0.03
+        translation -0.03 0 0
+        rotation 0 0 1 -3.1415926535
         children [
           DEF ROUND_SHAPE Transform {
-            rotation 1 0 0 1.5708
+            rotation 0 1 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -82,8 +83,8 @@ PROTO Yamor [
       }
       DEF HINGE_JOINT HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 0 -0.03
+          axis 0 0 -1
+          anchor 0.03 0 0
         }
         device [
           RotationalMotor {
@@ -95,10 +96,10 @@ PROTO Yamor [
           }
         ]
         endPoint Solid {
-          translation 0 0 -0.03
+          translation 0.03 0 0
           children [
             DEF GRAY_BOX_TRANS Transform {
-              translation 0 0 -0.0135
+              translation 0.0135 0 0
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -107,14 +108,13 @@ PROTO Yamor [
                     roughness 0.2
                   }
                   geometry Box {
-                    size 0.015 0.0612 0.047
+                    size 0.047 0.015 0.0612
                   }
                 }
               ]
             }
             DEF FRONT_CONNECTOR Connector {
-              translation 0 0 -0.037
-              rotation 0 1 0 3.1416
+              translation 0.037 0 0
               children [
                 USE ROUND_SHAPE
               ]

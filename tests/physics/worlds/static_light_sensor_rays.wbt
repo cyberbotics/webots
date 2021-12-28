@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Static light sensor rays"
   coordinateSystem "NUE"
@@ -13,6 +13,7 @@ Background {
   ]
 }
 Solid {
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {

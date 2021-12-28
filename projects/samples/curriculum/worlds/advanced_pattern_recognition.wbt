@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5136141607774364 0.7885542468423574 0.33820510586886815 4.89166
-  position -0.833387 1.0197 0.325004
+  orientation -0.2780578896112951 -0.6785345422018895 0.6799078504207648 5.156436321767201
+  position -0.9246955612444119 0.853873181730022 1.4173015647213236
 }
 TexturedBackground {
 }
@@ -34,7 +33,7 @@ RectangleArena {
   }
 }
 DEF FLOOR_TRAINING_ROOM Solid {
-  translation 0.8 0 0
+  translation 0 -0.8 0
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
@@ -51,7 +50,7 @@ DEF FLOOR_TRAINING_ROOM Solid {
   locked TRUE
 }
 DEF FLOOR_BORDER_TRAINING_ROOM Solid {
-  translation 0.8 -0.001 0
+  translation 0 -0.8 -0.001
   children [
     DEF FLOOR_BORDER_SHAPE_TRAINING_ROOM Shape {
       appearance PBRAppearance {
@@ -67,7 +66,7 @@ DEF FLOOR_BORDER_TRAINING_ROOM Solid {
   name "ground"
 }
 DEF WALL_TRAINING_ROOM Solid {
-  translation 0.8 0 0
+  translation 0 -0.8 0
   children [
     Shape {
       appearance DEF WALL_APPEARANCE_TRAINING_ROOM PBRAppearance {
@@ -78,28 +77,28 @@ DEF WALL_TRAINING_ROOM Solid {
       geometry DEF WALL_GEOMETRY_TRAINING_ROOM IndexedFaceSet {
         coord Coordinate {
           point [
-            0.3 0 0.3
-            0.3 0 -0.3
-            -0.3 0 -0.3
-            -0.3 0 0.3
-            -0.29 0 0.3
-            -0.29 0 -0.29
-            0.29 0 -0.29
-            0.29 0 0.29
-            -0.29 0 0.29
-            -0.29 0 0.3
-            0.3 0 0.3
-            0.3 0.05 0.3
-            0.3 0.05 -0.3
-            -0.3 0.05 -0.3
-            -0.3 0.05 0.3
-            -0.29 0.05 0.3
-            -0.29 0.05 -0.29
-            0.29 0.05 -0.29
-            0.29 0.05 0.29
-            -0.29 0.05 0.29
-            -0.29 0.05 0.3
-            0.3 0.05 0.3
+            -0.3 -0.3 0
+            0.3 -0.3 0
+            0.3 0.3 0
+            -0.3 0.3 0
+            -0.3 0.29 0
+            0.29 0.29 0
+            0.29 -0.29 0
+            -0.29 -0.29 0
+            -0.29 0.29 0
+            -0.3 0.29 0
+            -0.3 -0.3 0
+            -0.3 -0.3 0.05
+            0.3 -0.3 0.05
+            0.3 0.3 0.05
+            -0.3 0.3 0.05
+            -0.3 0.29 0.05
+            0.29 0.29 0.05
+            0.29 -0.29 0.05
+            -0.29 -0.29 0.05
+            -0.29 0.29 0.05
+            -0.3 0.29 0.05
+            -0.3 -0.3 0.05
           ]
         }
         coordIndex [
@@ -112,32 +111,32 @@ DEF WALL_TRAINING_ROOM Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.295 0.025 0
+        translation 0 -0.295 0.025
         children [
           DEF WALL_SHAPE_TRAINING_ROOM Shape {
             appearance USE WALL_APPEARANCE_TRAINING_ROOM
             geometry Box {
-              size 0.01 0.05 0.6
+              size 0.6 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.295 0.025 0
+        translation 0 0.295 0.025
         children [
           USE WALL_SHAPE_TRAINING_ROOM
         ]
       }
       Transform {
-        translation 0 0.025 0.295
-        rotation 0 1 0 1.57
+        translation -0.295 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE_TRAINING_ROOM
         ]
       }
       Transform {
-        translation 0 0.025 -0.295
-        rotation 0 1 0 1.57
+        translation 0.295 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE_TRAINING_ROOM
         ]
@@ -147,7 +146,7 @@ DEF WALL_TRAINING_ROOM Solid {
   locked TRUE
 }
 DEF BLOCK1 Solid {
-  translation 0.2 0.025 0.2
+  translation -0.2 -0.2 0.025
   children [
     Shape {
       appearance PBRAppearance {
@@ -156,7 +155,7 @@ DEF BLOCK1 Solid {
         metalness 0
       }
       geometry DEF BOX1 Box {
-        size 0.2 0.05 0.2
+        size 0.2 0.2 0.05
       }
     }
   ]
@@ -164,7 +163,7 @@ DEF BLOCK1 Solid {
   boundingObject USE BOX1
 }
 DEF BLOCK2 Solid {
-  translation -0.2 0.025 -0.2
+  translation 0.2 0.2 0.025
   children [
     Shape {
       appearance PBRAppearance {
@@ -179,8 +178,8 @@ DEF BLOCK2 Solid {
   boundingObject USE BOX1
 }
 DEF LANDMARK1 Solid {
-  translation 0.8 0 0.2899
-  rotation 0 1 0 3.1415
+  translation -0.2899 -0.8 0
+  rotation 0 0 1 3.1415
   children [
     Shape {
       appearance PBRAppearance {
@@ -198,10 +197,10 @@ DEF LANDMARK1 Solid {
       geometry DEF LM_GEOM IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.015 0.01 0
-            0.015 0.01 0
-            0.015 0.04 0
-            -0.015 0.04 0
+            0 0.015 0.01
+            0 -0.015 0.01
+            0 -0.015 0.04
+            0 0.015 0.04
           ]
         }
         texCoord TextureCoordinate {
@@ -224,7 +223,7 @@ DEF LANDMARK1 Solid {
   name "solid(3)"
 }
 DEF LANDMARK2 Solid {
-  translation 0.8 0 -0.2899
+  translation 0.2899 -0.8 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -245,8 +244,8 @@ DEF LANDMARK2 Solid {
   name "solid(4)"
 }
 DEF LANDMARK3 Solid {
-  translation 0.5101 0 0
-  rotation 0 1 0 1.57
+  translation 0 -0.5101 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -267,8 +266,8 @@ DEF LANDMARK3 Solid {
   name "solid(5)"
 }
 DEF LANDMARK4 Solid {
-  translation 1.089 0 0
-  rotation 0 1 0 4.71
+  translation 0 -1.089 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -289,8 +288,8 @@ DEF LANDMARK4 Solid {
   name "solid(6)"
 }
 DEF LANDMARK5 Solid {
-  translation 0.439 0 0.3
-  rotation 0 1 0 4.71
+  translation -0.3 -0.439 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -311,8 +310,8 @@ DEF LANDMARK5 Solid {
   name "solid(7)"
 }
 DEF LANDMARK6 Solid {
-  translation 0.439 0 0
-  rotation 0 1 0 4.71
+  translation 0 -0.439 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -333,8 +332,8 @@ DEF LANDMARK6 Solid {
   name "solid(8)"
 }
 DEF LANDMARK7 Solid {
-  translation 0.439 0 -0.3
-  rotation 0 1 0 4.71
+  translation 0.3 -0.439 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -355,8 +354,8 @@ DEF LANDMARK7 Solid {
   name "solid(9)"
 }
 DEF LANDMARK8 Solid {
-  translation -0.439 0 0.3
-  rotation 0 1 0 1.57
+  translation -0.3 0.439 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -377,8 +376,8 @@ DEF LANDMARK8 Solid {
   name "solid(10)"
 }
 DEF LANDMARK9 Solid {
-  translation -0.439 0 0
-  rotation 0 1 0 1.57
+  translation 0 0.439 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -399,8 +398,8 @@ DEF LANDMARK9 Solid {
   name "solid(11)"
 }
 DEF LANDMARK10 Solid {
-  translation -0.439 0 -0.3
-  rotation 0 1 0 1.57
+  translation 0.3 0.439 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -421,7 +420,7 @@ DEF LANDMARK10 Solid {
   name "solid(12)"
 }
 DEF LANDMARK11 Solid {
-  translation 0.3 0 -0.439
+  translation 0.439 -0.3 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -442,7 +441,7 @@ DEF LANDMARK11 Solid {
   name "solid(13)"
 }
 DEF LANDMARK12 Solid {
-  translation 0 0 -0.439
+  translation 0.439 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -463,7 +462,7 @@ DEF LANDMARK12 Solid {
   name "solid(14)"
 }
 DEF LANDMARK13 Solid {
-  translation -0.3 0 -0.439
+  translation 0.439 0.3 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -484,8 +483,8 @@ DEF LANDMARK13 Solid {
   name "solid(15)"
 }
 DEF LANDMARK14 Solid {
-  translation 0.3 0 0.439
-  rotation 0 1 0 3.14
+  translation -0.439 -0.3 0
+  rotation 0 0 1 3.14
   children [
     Shape {
       appearance PBRAppearance {
@@ -507,7 +506,7 @@ DEF LANDMARK14 Solid {
 }
 DEF LANDMARK15 Solid {
   translation 0 0 0.439
-  rotation 0 1 0 3.14
+  rotation 0 0 1 3.14
   children [
     Shape {
       appearance PBRAppearance {
@@ -528,8 +527,8 @@ DEF LANDMARK15 Solid {
   name "solid(17)"
 }
 DEF LANDMARK16 Solid {
-  translation -0.3 0 0.439
-  rotation 0 1 0 3.14
+  translation -0.439 0.3 0
+  rotation 0 0 1 3.14
   children [
     Shape {
       appearance PBRAppearance {
@@ -550,8 +549,8 @@ DEF LANDMARK16 Solid {
   name "solid(18)"
 }
 DEF LANDMARK17 Solid {
-  translation 0.099 0 0.2
-  rotation 0 1 0 4.71
+  translation -0.2 -0.099 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -572,8 +571,8 @@ DEF LANDMARK17 Solid {
   name "solid(19)"
 }
 DEF LANDMARK18 Solid {
-  translation -0.301 0 -0.2
-  rotation 0 1 0 4.71
+  translation 0.2 0.301 0
+  rotation 0 0 1 4.71
   children [
     Shape {
       appearance PBRAppearance {
@@ -594,8 +593,8 @@ DEF LANDMARK18 Solid {
   name "solid(20)"
 }
 DEF LANDMARK19 Solid {
-  translation 0.301 0 0.2
-  rotation 0 1 0 1.57
+  translation -0.2 -0.301 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -616,8 +615,8 @@ DEF LANDMARK19 Solid {
   name "solid(21)"
 }
 DEF LANDMARK20 Solid {
-  translation -0.099 0 -0.2
-  rotation 0 1 0 1.57
+  translation 0.2 0.099 0
+  rotation 0 0 1 1.57
   children [
     Shape {
       appearance PBRAppearance {
@@ -638,7 +637,7 @@ DEF LANDMARK20 Solid {
   name "solid(22)"
 }
 DEF LANDMARK21 Solid {
-  translation -0.2 0 -0.099
+  translation 0.099 0.2 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -659,7 +658,7 @@ DEF LANDMARK21 Solid {
   name "solid(23)"
 }
 DEF LANDMARK22 Solid {
-  translation 0.2 0 0.301
+  translation -0.301 -0.2 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -680,8 +679,8 @@ DEF LANDMARK22 Solid {
   name "solid(24)"
 }
 DEF LANDMARK23 Solid {
-  translation 0.2 0 0.099
-  rotation 0 1 0 3.14
+  translation -0.099 -0.2 0
+  rotation 0 0 1 3.14
   children [
     Shape {
       appearance PBRAppearance {
@@ -702,8 +701,8 @@ DEF LANDMARK23 Solid {
   name "solid(25)"
 }
 DEF LANDMARK24 Solid {
-  translation -0.2 0 -0.301
-  rotation 0 1 0 3.14
+  translation 0.301 0.2 0
+  rotation 0 0 1 3.14
   children [
     Shape {
       appearance PBRAppearance {
@@ -727,8 +726,8 @@ Robot {
   supervisor TRUE
 }
 DEF EPUCK E-puck {
-  translation 0 0.01 0
-  rotation 0 1 0 -1.57
+  translation 0 0 0.01
+  rotation 0 0 1 -1.57
   controller "advanced_pattern_recognition"
   camera_antiAliasing TRUE
   camera_noise 0.024

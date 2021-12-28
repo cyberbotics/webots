@@ -1,26 +1,26 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Using a K213 linear vision turret"
   ]
   title "Khepera K213"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.44032317800090087 0.7899533193390889 0.42671917250147373 4.47315
-  position -0.89803 1.5901 0.00532658
+  orientation 0.014991075180469392 -0.9998142301519186 0.012114984550543438 5.416724318667641
+  position -1.1994119028491712 0.12517455394939833 1.6475559892383824
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 0 1 1.570796326794897
   floorSize 0.98 0.98
   wallHeight 0.02
 }
 DEF BOX Solid {
-  translation -0.2 0.02 0.4
-  rotation 0 1 0 1.57
+  translation -0.2 -0.4 0.02
+  rotation 0.577656775505086 0.577196954995895 0.577196954995895 2.093935403939799
   children [
     Shape {
       appearance PBRAppearance {
@@ -37,7 +37,8 @@ DEF BOX Solid {
   boundingObject USE BOXO
 }
 DEF BOX Solid {
-  translation 0.37 0.02 -0.44
+  translation 0.37 0.44 0.02
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -52,8 +53,8 @@ DEF BOX Solid {
   boundingObject USE BOXO
 }
 DEF BOX Solid {
-  translation -0.39 0.02 0.2
-  rotation 0 1 0 -0.2
+  translation -0.39 -0.2 0.02
+  rotation 0.990082465225964 -0.099339599486002 -0.099339599486002 1.580763202889407
   children [
     Shape {
       appearance PBRAppearance {
@@ -68,8 +69,8 @@ DEF BOX Solid {
   boundingObject USE BOXO
 }
 DEF BOX Solid {
-  translation 0.45 0.02 0.48
-  rotation 0 1 0 0.7
+  translation 0.45 -0.48 0.02
+  rotation 0.888584723211755 0.324358744043296 0.324358744043296 1.688647850036833
   children [
     Shape {
       appearance PBRAppearance {
@@ -84,8 +85,8 @@ DEF BOX Solid {
   boundingObject USE BOXO
 }
 DEF BOX Solid {
-  translation -0.45 0.02 -0.48
-  rotation 0 1 0 0.7
+  translation -0.45 0.48 0.02
+  rotation 0.888584723211755 0.324358744043296 0.324358744043296 1.688647850036833
   children [
     Shape {
       appearance PBRAppearance {
@@ -100,7 +101,8 @@ DEF BOX Solid {
   boundingObject USE BOXO
 }
 DEF PANEL Solid {
-  translation -0.5 0 -0.5
+  translation -0.5 0.5 0
+  rotation 1 0 0 1.5707963267948966
   children [
     DEF STRIPES Shape {
       appearance PBRAppearance {
@@ -140,8 +142,8 @@ DEF PANEL Solid {
   ]
 }
 DEF PANEL Solid {
-  translation 0.5 0 0.5
-  rotation 0 1 0 3.1415
+  translation 0.5 -0.5 0
+  rotation 3.2757990828e-05 0.707106780807154 0.707106780807154 3.141527137608161
   children [
     DEF STRIPES Shape {
       appearance PBRAppearance {
@@ -182,8 +184,8 @@ DEF PANEL Solid {
   name "solid(1)"
 }
 DEF PANEL Solid {
-  translation -0.5 0 0.5
-  rotation 0 1 0 1.57
+  translation -0.5 -0.5 0
+  rotation 0.577656775505086 0.577196954995895 0.577196954995895 2.093935403939799
   children [
     DEF STRIPES Shape {
       appearance PBRAppearance {
@@ -224,8 +226,8 @@ DEF PANEL Solid {
   name "solid(2)"
 }
 DEF PANEL Solid {
-  translation 0.5 0 -0.5
-  rotation 0 1 0 -1.57
+  translation 0.5 0.5 0
+  rotation 0.577656775505086 -0.577196954995895 -0.577196954995895 2.093935403939799
   children [
     DEF STRIPES Shape {
       appearance PBRAppearance {
@@ -266,13 +268,13 @@ DEF PANEL Solid {
   name "solid(3)"
 }
 Khepera1 {
-  translation -0.101226 0 0.218527
-  rotation 0 1 0 0.0158842
+  translation -0.101226 -0.218527 0
+  rotation 0 0 1 1.586680526794897
   name "khepera"
   controller "khepera_k213"
   extensionSlot [
     DEF K213 Camera {
-      translation 0 0.053 0
+      translation 0 0.013 0.04
       rotation 1 0 0 0
       children [
         DEF K213_GREEN_CYLINDER Transform {
@@ -292,6 +294,7 @@ Khepera1 {
           ]
         }
         Transform {
+          translation 0 -0.014 0.01
           children [
             Shape {
               appearance PBRAppearance {
@@ -300,7 +303,7 @@ Khepera1 {
                 metalness 0
               }
               geometry Box {
-                size 0.022 0.0125 0.022
+                size 0.022 0.022 0.0125
               }
             }
           ]

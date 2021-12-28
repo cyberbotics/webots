@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Building under construction with scaffolding.
 
 PROTO BuildingUnderConstruction [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "building under construction"
 ]
 {
@@ -31,7 +31,7 @@ PROTO BuildingUnderConstruction [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              -7.99999 0.002496 8.00001 -8.00001 0.002496 -7.99999 7.99999 0.002496 -8.00001 8.00001 0.002496 7.99999 -7.99999 32.7831 8.00001 -8.00001 38.5454 -7.99999 7.99999 38.5454 -8.00001 8.00001 30.834 7.99999 8.00081 33.007 -4.9079 -1.81085 30.7522 8 -8.00001 35.4823 -5.63982 -8 33.0108 -0.063092
+              -8.00001 7.99999 0.002496 7.99999 8.00001 0.002496 8.00001 -7.99999 0.002496 -7.99999 -8.00001 0.002496 -8.00001 7.99999 32.7831 7.99999 8.00001 38.5454 8.00001 -7.99999 38.5454 -7.99999 -8.00001 30.834 4.9079 -8.00081 33.007 -8.0 1.81085 30.7522 5.63982 8.00001 35.4823 0.063092 8.0 33.0108
             ]
           }
           texCoord TextureCoordinate {
@@ -51,7 +51,8 @@ PROTO BuildingUnderConstruction [
     name IS name
     model "building under construction"
     boundingObject Transform {
-      translation 0 19.3 0
+      translation 0 0 19.3
+      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         Box {
           size 16 38.6 16

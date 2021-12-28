@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple segment of road allowing to add (or remove) several lanes to the road.
@@ -8,7 +8,7 @@
 
 PROTO AddLanesRoadSegment [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                              # Defines the junction name.
   field        SFString             id                        ""                                  # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs          []                                  # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -100,9 +100,9 @@ PROTO AddLanesRoadSegment [
       %< for (let i = 0; i <= numberOfNewLanes - 1; ++i) { >%
         AddLaneRoadSegment {
           %< if (newLaneLeft) { >%
-            translation %<= (width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+            translation %<= i * length / numberOfNewLanes >% %<= (width / lanes) * (i * 0.5) >% 0
           %< } else { >%
-            translation %<= -(width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+            translation %<= i * length / numberOfNewLanes >% %<= -(width / lanes) * (i * 0.5) >% 0
           %< } >%
           name %<= '"road ' + i + '"' >%
           width %<= width + i * width / lanes >%
@@ -177,11 +177,11 @@ PROTO AddLanesRoadSegment [
           barrierOnRightSide FALSE
           path [
             %< if (newLaneLeft) { >%
-              %<= width * 0.5 + outputAddedWidth + barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= width * 0.5 + outputAddedWidth + barrierOffset >% %<= 0 >%
             %< } else { >%
-              %<= width * 0.5 + barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= width * 0.5 + barrierOffset >% %<= 0 >%
             %< } >%
-            %<= width * 0.5  + barrierOffset >% 0 0
+            0 %<= width * 0.5  + barrierOffset >% 0
           ]
         }
       %< } >%
@@ -194,11 +194,11 @@ PROTO AddLanesRoadSegment [
           barrierOnRightSide TRUE
           path [
             %< if (!newLaneLeft) { >%
-              %<= -width * 0.5 - outputAddedWidth - barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= -width * 0.5 - outputAddedWidth - barrierOffset >% %<= 0 >%
             %< } else { >%
-              %<= -width * 0.5 - barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= -width * 0.5 - barrierOffset >% %<= 0 >%
             %< } >%
-            %<= -width * 0.5 - barrierOffset >% 0 0
+            0 %<= -width * 0.5 - barrierOffset >% 0
           ]
         }
       %< } >%

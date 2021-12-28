@@ -1,17 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.15209307464402935 0.9521374672887127 0.2651451301275612 2.14181
-  position 1.02433 0.802766 -0.531904
+  orientation -0.2887572104201807 0.2125606576989884 0.9335080290114965 2.1871737465446532
+  position 0.5605653144492321 -0.8502933433993733 0.7568422212590132
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
-  translation 0 -0.001 0
+  translation 0 0 -0.001
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
@@ -39,28 +38,28 @@ DEF WALL Solid {
       geometry DEF WALL_GEOMETRY IndexedFaceSet {
         coord Coordinate {
           point [
-            0.4 0 0.4
-            0.4 0 -0.4
-            -0.4 0 -0.4
-            -0.4 0 0.4
-            -0.39 0 0.4
-            -0.39 0 -0.39
-            0.39 0 -0.39
-            0.39 0 0.39
-            -0.39 0 0.39
-            -0.39 0 0.4
-            0.4 0 0.4
-            0.4 0.05 0.4
-            0.4 0.05 -0.4
-            -0.4 0.05 -0.4
-            -0.4 0.05 0.4
-            -0.39 0.05 0.4
-            -0.39 0.05 -0.39
-            0.39 0.05 -0.39
-            0.39 0.05 0.39
-            -0.39 0.05 0.39
-            -0.39 0.05 0.4
-            0.4 0.05 0.4
+            -0.4 -0.4 0
+            0.4 -0.4 0
+            0.4 0.4 0
+            -0.4 0.4 0
+            -0.4 0.39 0
+            0.39 0.39 0
+            0.39 -0.39 0
+            -0.39 -0.39 0
+            -0.39 0.39 0
+            -0.4 0.39 0
+            -0.4 -0.4 0
+            -0.4 -0.4 0.05
+            0.4 -0.4 0.05
+            0.4 0.4 0.05
+            -0.4 0.4 0.05
+            -0.4 0.39 0.05
+            0.39 0.39 0.05
+            0.39 -0.39 0.05
+            -0.39 -0.39 0.05
+            -0.39 0.39 0.05
+            -0.4 0.39 0.05
+            -0.4 -0.4 0.05
           ]
         }
         coordIndex [
@@ -73,32 +72,32 @@ DEF WALL Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.39 0.025 0
+        translation 0 -0.39 0.025
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
             geometry Box {
-              size 0.01 0.05 0.8
+              size 0.8 0.01 0.05
             }
           }
         ]
       }
       Transform {
-        translation -0.39 0.025 0
+        translation 0 0.39 0.025
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 0.39
-        rotation 0 1 0 1.57
+        translation -0.39 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
-        translation 0 0.025 -0.39
-        rotation 0 1 0 1.57
+        translation 0.39 0 0.025
+        rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
@@ -108,73 +107,73 @@ DEF WALL Solid {
   locked TRUE
 }
 Obstacle {
-  translation -0.200487 0.025 0.0112397
+  translation -0.0112397 0.200487 0.025
   color 1 1 0.498039
   name "obstacle(1)"
 }
 Obstacle {
-  translation -0.348329 0.025 -0.0615604
+  translation 0.0615604 0.348329 0.025
   color 1 1 0.498039
   name "obstacle(2)"
 }
 Obstacle {
-  translation -0.159747 0.025 -0.355813
+  translation 0.355813 0.159747 0.025
   name "obstacle(3)"
 }
 Obstacle {
-  translation 0.1361 0.025 -0.317756
+  translation 0.317756 -0.1361 0.025
   name "obstacle(4)"
 }
 Obstacle {
-  translation 0.328905 0.025 -0.0977046
+  translation 0.0977046 -0.328905 0.025
   color 1 1 0.498039
   name "obstacle(5)"
 }
 Obstacle {
-  translation -0.0594361 0.025 -0.183163
+  translation 0.183163 0.0594361 0.025
   color 1 1 0.498039
   name "obstacle(6)"
 }
 Obstacle {
-  translation -0.258671 0.025 -0.199409
+  translation 0.199409 0.258671 0.025
   name "obstacle(7)"
 }
 Obstacle {
-  translation 0.128408 0.025 -0.12086
+  translation 0.12086 -0.128408 0.025
   name "obstacle(8)"
 }
 Obstacle {
-  translation -0.0702506 0.025 0.161529
+  translation -0.161529 0.0702506 0.025
   color 1 1 0.498039
   name "obstacle(9)"
 }
 Obstacle {
-  translation -0.0624001 0.025 0.318226
+  translation -0.318226 0.0624001 0.025
   color 1 1 0.498039
   name "obstacle(10)"
 }
 Obstacle {
-  translation 0.178467 0.025 0.0455252
+  translation -0.0455252 -0.178467 0.025
   name "obstacle(11)"
 }
 Obstacle {
-  translation 0.106572 0.025 0.252648
+  translation -0.252648 -0.106572 0.025
   name "obstacle(12)"
 }
 Obstacle {
-  translation 0.288567 0.025 0.243086
+  translation -0.243086 -0.288567 0.025
   color 1 1 0.498039
   name "obstacle(13)"
 }
 Obstacle {
-  translation -0.271466 0.025 0.232805
+  translation -0.232805 0.271466 0.025
   color 1 1 0.498039
   name "obstacle(14)"
 }
 Obstacle {
-  translation 0.284086 0.025 -0.245807
+  translation 0.245807 -0.284086 0.025
 }
 E-puck {
-  rotation 0 1 0 1.57
+  rotation 0 0 1 1.57
   controller "intermediate_oam"
 }

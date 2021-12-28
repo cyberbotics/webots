@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -8,9 +8,7 @@ Viewpoint {
 }
 DEF BACKGROUND Background {
   skyColor [
-    0.4 0.7 1
-    0.5 0.4 0.74
-    0.666667 1 0
+    0.4 0.7 1    0.5 0.4 0.74    0.666667 1 0
   ]
 }
 PointLight {
@@ -20,18 +18,23 @@ PointLight {
 }
 DEF FLOOR Solid {
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+              url [
+                "textures/checkered_parquetry.jpg"
+              ]
+            }
+          }
+          geometry DEF PLANE Plane {
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/checkered_parquetry.jpg"
-          ]
-        }
-      }
-      geometry DEF PLANE Plane {
-      }
+      ]
     }
   ]
   boundingObject Transform {
@@ -40,6 +43,7 @@ DEF FLOOR Solid {
       Plane {
       }
     ]
+    rotation 1 0 0 -1.57079632679
   }
 }
 DEF Test Robot {
@@ -85,20 +89,16 @@ DEF MF_FIELDS FieldTypesLua {
     FALSE
   ]
   mfVec2 [
-    0 0
-    1 1
+    0 0    1 1
   ]
   mfVec3 [
-    -0.2 0.2 -0.2
-    4 5 6
+    -0.2 0.2 -0.2    4 5 6
   ]
   mfRotation [
     0.70717411 0.49995239 -0.49995239 0.5708
   ]
   mfColor [
-    0.188 0.486 0.219
-    1 0 0
-    0.4 0.4 0.4
+    0.188 0.486 0.219    1 0 0    0.4 0.4 0.4
   ]
   mfString [
     "this"

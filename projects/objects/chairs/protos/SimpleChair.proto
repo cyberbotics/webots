@@ -1,12 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple two-colors chair with a customizable mass, but a fixed height of 1.25 meter.
 # This object is physics-enabled so it can be pushed.
 
 PROTO SimpleChair [
-  field SFVec3f    translation 0 0.91 0
-  field SFRotation rotation    0 1 0 0
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "simple chair"
   field SFColor    legColor    1 1 0           # Defines the color of the legs of the chair.
   field SFColor    seatColor   1 0.65 0        # Defines the color of the body of the chair.
@@ -18,7 +18,7 @@ PROTO SimpleChair [
     rotation IS rotation
     children [
       DEF CHAIRSEAT Transform {
-        translation 0 0 -0.27
+        translation -0.24625 0 0.9225
         children [
           Shape {
             appearance DEF SEAT_APPEARANCE PBRAppearance {
@@ -27,24 +27,24 @@ PROTO SimpleChair [
               metalness 0
             }
             geometry Box {
-              size 0.6 0.67 0.0275
+              size 0.0275 0.6 0.655
             }
           }
         ]
       }
       DEF CHAIRSEAT2 Transform {
-        translation 0 -0.35 0
+        translation 0 0 0.5575
         children [
           Shape {
             appearance USE SEAT_APPEARANCE
             geometry Box {
-              size 0.6 0.075 0.52
+              size 0.52 0.6 0.075
             }
           }
         ]
       }
       DEF LEG1 Transform {
-        translation 0.25 -0.65 -0.23
+        translation 0.2 0.25 0.26
         children [
           DEF LEG_SHAPE Shape {
             appearance DEF LEG_APPEARANCE PBRAppearance {
@@ -53,25 +53,25 @@ PROTO SimpleChair [
               metalness 0
             }
             geometry Box {
-              size 0.075 0.52 0.075
+              size 0.075 0.075 0.52
             }
           }
         ]
       }
       DEF LEG2 Transform {
-        translation -0.25 -0.65 -0.23
+        translation 0.2 -0.25 0.26
         children [
           USE LEG_SHAPE
         ]
       }
       DEF LEG3 Transform {
-        translation 0.25 -0.65 0.2
+        translation -0.2225 0.2625 0.26
         children [
           USE LEG_SHAPE
         ]
       }
       DEF LEG4 Transform {
-        translation -0.25 -0.65 0.2
+        translation -0.2225 -0.2625 0.26
         children [
           USE LEG_SHAPE
         ]

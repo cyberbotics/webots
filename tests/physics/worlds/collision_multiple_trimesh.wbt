@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 8
   physicsDisableTime 0
@@ -374,6 +374,7 @@ DEF BOX_GROUND Solid {
 }
 DEF CYLINDER_GROUND Solid {
   translation 0 0 -3.5
+  rotation 1 0 0 -1.5708
   children [
     DEF S Shape {
       geometry Cylinder {
@@ -400,6 +401,7 @@ DEF SPHERE_GROUND Solid {
 }
 DEF PLANE_GROUND Solid {
   translation 4 -1 0
+  rotation 1 0 0 -1.5708
   children [
     DEF S Shape {
       geometry Plane {

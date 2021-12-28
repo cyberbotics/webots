@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.33299795078140804 -0.7995588818216081 -0.4998179261246668 4.22224
-  position 0.882874 2.08463 -0.149395
+  orientation 0.5147634049669618 -0.29252112521850177 -0.8058846246254617 4.177201094996138
+  position 0.2788555476797704 -1.511973795794609 3.20745991000547
 }
 TexturedBackground {
 }
@@ -13,7 +12,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Robot {
-  translation 0 0.025 0
+  translation 0 0 0.025
   children [
     DEF POSITION_ERROR_GRAPH Display {
       width 512
@@ -21,7 +20,7 @@ Robot {
     }
     HingeJoint {
       jointParameters DEF HINGE_PARAMETERS HingeJointParameters {
-        axis 0 1 0
+        axis 0 0 1
       }
       device [
         RotationalMotor {
@@ -35,7 +34,7 @@ Robot {
       endPoint Solid {
         children [
           DEF THICK_CYLINDER Transform {
-            translation 0 0.05 0
+            translation 0 0 0.05
             children [
               Shape {
                 appearance DEF GRAY_APPEARANCE PBRAppearance {
@@ -52,8 +51,8 @@ Robot {
             ]
           }
           DEF THIN_CYLINDER Transform {
-            translation 0 0.05 -0.1
-            rotation 1 0 0 1.5708
+            translation 0.1 0 0.05
+            rotation 0 -1 0 1.5708
             children [
               Shape {
                 appearance USE GRAY_APPEARANCE
@@ -66,8 +65,8 @@ Robot {
             ]
           }
           Transform {
-            translation 0 0.05 -0.25
-            rotation 1 0 0 -1.5708
+            translation 0.25 0 0.05
+            rotation 0 -1 0 -1.5708
             children [
               Shape {
                 appearance USE GRAY_APPEARANCE
@@ -114,7 +113,7 @@ Robot {
   supervisor TRUE
 }
 DEF TARGET_POSITION Transform {
-  translation -0.3 0.01 0
+  translation 0 0.3 0.01
   children [
     Shape {
       appearance PBRAppearance {

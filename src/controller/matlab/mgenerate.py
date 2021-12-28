@@ -210,6 +210,7 @@ def main(args=None):
     gen(FUNC, "wb_gps_get_coordinate_system(tag)", "gps")
     gen(FUNC, "wb_gps_get_sampling_period(tag)", "gps")
     gen(FUNC, "wb_gps_get_speed(tag)", "gps")
+    # gen(FUNC, "wb_gps_get_speed_vector(tag)", "gps")
     # gen(FUNC, "wb_gps_get_values(tag)", "gps")
 
     # gyro.h
@@ -615,25 +616,26 @@ def main(args=None):
     gen_const("WB_KEYBOARD_NUMPAD_HOME",  "375")
     gen_const("WB_KEYBOARD_NUMPAD_END",   "382")
 
-    gen_const("WB_NO_FIELD",    "0")
-    gen_const("WB_SF_BOOL",     "1")
-    gen_const("WB_SF_INT32",    "2")
-    gen_const("WB_SF_FLOAT",    "3")
-    gen_const("WB_SF_VEC2F",    "4")
-    gen_const("WB_SF_VEC3F",    "5")
-    gen_const("WB_SF_ROTATION", "6")
-    gen_const("WB_SF_COLOR",    "7")
-    gen_const("WB_SF_STRING",   "8")
-    gen_const("WB_SF_NODE",     "9")
-    gen_const("WB_MF",         "16")
-    gen_const("WB_MF_BOOL",    "17")
-    gen_const("WB_MF_INT32",   "18")
-    gen_const("WB_MF_FLOAT",   "19")
-    gen_const("WB_MF_VEC2F",   "20")
-    gen_const("WB_MF_VEC3F",   "21")
-    gen_const("WB_MF_COLOR",   "23")
-    gen_const("WB_MF_STRING",  "24")
-    gen_const("WB_MF_NODE",    "25")
+    gen_const("WB_NO_FIELD",     "0")
+    gen_const("WB_SF_BOOL",      "1")
+    gen_const("WB_SF_INT32",     "2")
+    gen_const("WB_SF_FLOAT",     "3")
+    gen_const("WB_SF_VEC2F",     "4")
+    gen_const("WB_SF_VEC3F",     "5")
+    gen_const("WB_SF_ROTATION",  "6")
+    gen_const("WB_SF_COLOR",     "7")
+    gen_const("WB_SF_STRING",    "8")
+    gen_const("WB_SF_NODE",      "9")
+    gen_const("WB_MF",          "16")
+    gen_const("WB_MF_BOOL",     "17")
+    gen_const("WB_MF_INT32",    "18")
+    gen_const("WB_MF_FLOAT",    "19")
+    gen_const("WB_MF_VEC2F",    "20")
+    gen_const("WB_MF_VEC3F",    "21")
+    gen_const("WB_MF_ROTATION", "22")
+    gen_const("WB_MF_COLOR",    "23")
+    gen_const("WB_MF_STRING",   "24")
+    gen_const("WB_MF_NODE",     "25")
 
     gen_const("WB_EVENT_QUIT", "-1")
     gen_const("WB_EVENT_NO_EVENT", "0")
@@ -683,13 +685,13 @@ def main(args=None):
         WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
         WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
         WB_NODE_ROBOT,
-        WB_NODE_ACCELEROMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
+        WB_NODE_ACCELEROMETER, WB_NODE_ALTIMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
         WB_NODE_CONNECTOR, WB_NODE_DISPLAY, WB_NODE_DISTANCE_SENSOR, WB_NODE_EMITTER,
         WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,
         WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
         WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
         WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-        WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+        WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
         WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
         WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
         WB_NODE_FOCUS, WB_NODE_HINGE_JOINT, WB_NODE_HINGE_JOINT_PARAMETERS,
@@ -697,7 +699,7 @@ def main(args=None):
         WB_NODE_LENS, WB_NODE_LENS_FLARE, WB_NODE_PHYSICS, WB_NODE_RECOGNITION,
         WB_NODE_SLIDER_JOINT, WB_NODE_SLOT, WB_NODE_SOLID, WB_NODE_SOLID_REFERENCE,
         WB_NODE_TRACK, WB_NODE_TRACK_WHEEL, WB_NODE_WORLD_INFO, WB_NODE_ZOOM,
-        WB_NODE_MICROPHONE, WB_NODE_RADIO, WB_NODE_SKIN
+        WB_NODE_MICROPHONE, WB_NODE_RADIO
         """)
     gen_consts_from_list(
         'WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_FAST')

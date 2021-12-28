@@ -1,9 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Description: example of asymetric-symetric friction contact"
   ]
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "body"
@@ -16,16 +15,16 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.8339551575520742 0.5175440977752165 0.1914860361758326 5.23812
-  position -2.40755 6.19634 4.34832
+  orientation -0.059997039029521144 -0.8126091742515855 0.5797125884693609 5.448698732695022
+  position -6.908146628208286 4.282487037577215 6.729865797771562
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF BODY Solid {
-  translation 1.79669 0.13 -1.29798
-  rotation 0 1 0 1.5708
+  translation 1.29798 -1.79669 0.13
+  rotation 0 0 1 1.5708
   children [
     DEF BODY Transform {
       children [
@@ -36,14 +35,14 @@ DEF BODY Solid {
             metalness 0
           }
           geometry Box {
-            size 0.3 0.1 0.2
+            size 0.2 0.3 0.1
           }
         }
       ]
     }
     DEF FRONT_WHEEL Transform {
-      translation 0.21 -0.02 0
-      rotation 1 0 0 1.5708
+      translation 0 -0.21 -0.02
+      rotation 0 -1 0 1.5708
       children [
         DEF CYL Shape {
           appearance PBRAppearance {
@@ -66,8 +65,8 @@ DEF BODY Solid {
       ]
     }
     DEF REAR_WHEEL Transform {
-      translation -0.21 -0.02 0
-      rotation 1 0 0 1.5708
+      translation 0 0.21 -0.02
+      rotation 0 -1 0 1.5708
       children [
         USE CYL
       ]
@@ -85,7 +84,7 @@ DEF BODY Solid {
   }
 }
 DEF PLANE Solid {
-  rotation 1 0 0 0.02
+  rotation 0 -1 0 0.02
   children [
     Shape {
       appearance PBRAppearance {

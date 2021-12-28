@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of a truck wheel using the generic VehicleWheel proto
@@ -8,6 +8,7 @@ PROTO TruckWheel [
   field       SFNode   physics        NULL
   field       SFBool   boundingObject TRUE
   hiddenField SFFloat  tireRadius     0.5            # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
+  field SFBool     wheelSide          FALSE    
 ]
 {
   VehicleWheel {
@@ -25,5 +26,6 @@ PROTO TruckWheel [
     contactMaterial "TruckWheels"
     physics IS physics
     boundingObject IS boundingObject
+    wheelSide IS wheelSide
   }
 }

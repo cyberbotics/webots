@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Dynamic distance sensor rays"
 }
@@ -16,7 +16,6 @@ PointLight {
   location 0 0 0.3
 }
 Solid {
-  rotation 1 0 0 1.5707996938995747
   children [
     Shape {
       appearance PBRAppearance {
@@ -81,7 +80,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {
@@ -124,7 +123,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 PROTO ResettableMyBot [
   field SFString controller "my_bot_straight_controller"
   field SFVec3f  translation 0 0 0
@@ -9,6 +9,7 @@ PROTO ResettableMyBot [
     children [
       Transform {
         translation 0 0.0415 0
+        rotation 1 0 0 -1.57079632679
         children [
           Shape {
             appearance Appearance {
@@ -41,7 +42,7 @@ PROTO ResettableMyBot [
           rotation 1 0 0 -2.55421
           children [
             DEF WHEEL Transform {
-              rotation 0 0 1 1.57
+              rotation 0 1 0 -1.57
               children [
                 Shape {
                   appearance Appearance {
@@ -94,7 +95,7 @@ PROTO ResettableMyBot [
         rotation 0 1 0 2.2253
         children [
           DEF SENSOR_TRANSFORM Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance Appearance {
@@ -138,6 +139,7 @@ PROTO ResettableMyBot [
     name "resettable MyBot"
     boundingObject DEF MYBOT_BOUNDING Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.57079632679
       children [
         USE BODY
       ]

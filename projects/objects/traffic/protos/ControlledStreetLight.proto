@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 # license url: https://creativecommons.org/licenses/by/3.0/legalcode
 # Simple model of a controlled street light including a customizable SpotLight.
@@ -6,14 +6,14 @@
 
 PROTO ControlledStreetLight [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "street light"
   field SFString   controller   "defective_street_light"  # Defines the controller used to make the LED blink.
   field SFBool     supervisor   FALSE                     # Is `Robot.supervisor`.
   field SFFloat    beamWidth    1.1                       # Defines the beam width of the spot light.
   field MFColor    color        [ 1 0.9 0.8 ]             # Defines the color of the spot light.
   field SFFloat    cutOffAngle  1.4                       # Defines the cut-off angle of the spot light.
-  field SFVec3f    direction    0 -1 -0.1                 # Defines the direction of the spot light.
+  field SFVec3f    direction    0.1 0 -1                  # Defines the direction of the spot light.
   field SFFloat    radius       1000                      # Defines the radius of the spot light.
   field SFBool     castShadows  FALSE                     # Defines whether the spot light casts shadows.
 ]
@@ -33,7 +33,7 @@ PROTO ControlledStreetLight [
             color 0 0 0
             cutOffAngle IS cutOffAngle
             direction IS direction
-            location 0 7.2 -3.1
+            location 3.1 0 7.2
             radius IS radius
             castShadows IS castShadows
             intensity 30

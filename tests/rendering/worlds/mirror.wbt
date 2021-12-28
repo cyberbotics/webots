@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 0
+  orientation 0 0 1 0
   position -0.06790763702491784 -1.463755315382977 1.0217679711005074
 }
 Background {
@@ -22,8 +22,7 @@ DirectionalLight {
 TestSuiteSupervisor {
 }
 Transform {
-  translation 0 -4.000000021624983 -4.509999999999999
-  rotation 1 0 0 1.5707963220000003
+  translation 0 -4 -4.51
   children [
     Shape {
       appearance Appearance {
@@ -40,27 +39,33 @@ Transform {
   ]
 }
 Mirror {
-  translation 0 -2.0100000000000073 -0.7900000000000005
+  translation 0 -2.01 -0.79
 }
 Robot {
-  translation 0 -2.1699999999999973 1.4300000000000068
+  translation 0 -2.17 1.43
   children [
     DEF ROBOT_CAMERA Camera {
-      translation 0 0.4700000000000002 -1.6100000000000012
+      translation 0 0.47 -1.61
+      rotation -0.577353047596502 0.5773496460042129 0.577348113957118 2.0943983352517446
     }
-    Shape {
-      appearance Appearance {
-        material Material {
+    Transform {
+      rotation 1 0 0 -1.57
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+              url [
+                "textures/transparent.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 8 0.1 8
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/transparent.png"
-          ]
-        }
-      }
-      geometry Box {
-        size 8 8 0.1
-      }
+      ]
     }
     TestSuiteEmitter {
     }

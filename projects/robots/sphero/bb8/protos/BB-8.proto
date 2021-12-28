@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/bb8
@@ -9,7 +9,7 @@
 
 PROTO BB-8 [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            "BB-8"  # Is `Solid.name`.
   field SFString   controller      "bb-8"  # Is `Robot.controller`.
   field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
@@ -50,19 +50,19 @@ PROTO BB-8 [
     rotation IS rotation
     children [
       Transform {
-        translation 0 %<= bodyRadius >% 0
+        translation 0 0 %<= bodyRadius >%
         children IS bodySlot
       }
       Accelerometer {
-        translation 0 %<= bodyRadius >% 0
+        translation 0 0 %<= bodyRadius >%
         name "counterweight accelerometer"
       }
       Gyro {
-        translation 0 %<= bodyRadius >% 0
+        translation 0 0 %<= bodyRadius >%
         name "counterweight gyro"
       }
       DEF ORB_WEIGHT Transform {
-        translation 0 %<= 0.5 * bodyRadius >% 0
+        translation 0 0 %<= 0.5 * bodyRadius >%
         children [
           Shape {
             appearance PBRAppearance {
@@ -79,7 +79,7 @@ PROTO BB-8 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
+          axis 0 0 1
         }
         device [
           RotationalMotor {
@@ -88,10 +88,11 @@ PROTO BB-8 [
           }
         ]
         endPoint Solid {
-          translation 0 %<= bodyRadius >% 0
+          translation 0 0 %<= bodyRadius >%
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
+                axis 0 1 0
               }
               device [
                 RotationalMotor {
@@ -139,7 +140,7 @@ PROTO BB-8 [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
+          axis 0 0 1
         }
         device [
           RotationalMotor {
@@ -148,7 +149,7 @@ PROTO BB-8 [
           }
         ]
         endPoint Solid {
-          translation 0 %<= 2 * bodyRadius + fields.headOffset.value >% 0
+          translation 0 0 %<= 2 * bodyRadius + fields.headOffset.value >%
           children [
             Group {
               children IS headSlot

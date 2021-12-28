@@ -113,57 +113,57 @@ namespace wren {
       mesh->estimateVertexCount(vertexCount);
       mesh->estimateIndexCount(indexCount);
 
-      // back
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       // left
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
+      // back
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       // bottom
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      // right
       mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
       // front
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
+      // top
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
-      // right
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
-      // top
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
 
-      // back
-      for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
       // left
+      for (int i = 0; i < 4; ++i)
+        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+      // back
       for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(-1.0f, 0.0f, 0.0f));
       // bottom
       for (int i = 0; i < 4; ++i)
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
+      // right
+      for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
       // front
-      for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
-      // right
       for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(1.0f, 0.0f, 0.0f));
       // top
       for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
 
-      // back
+      // left
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
@@ -173,7 +173,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.25f, 1.0f));
-      // left
+      // back
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
@@ -193,7 +193,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.25f, 0.5f));
-      // front
+      // right
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
@@ -203,7 +203,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.5f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.5f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.75f, 1.0f));
-      // right
+      // front
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
@@ -294,18 +294,18 @@ namespace wren {
         const float alpha = k * i;
         const float beta = k * (0.5f + i);
         const float x = glm::sin(alpha);
-        const float y = -glm::cos(alpha);
+        const float y = glm::cos(alpha);
         const float xM = glm::sin(beta);
-        const float yM = -glm::cos(beta);
+        const float yM = glm::cos(beta);
 
         // bottom point
-        mesh->addCoord(glm::vec3(x, -h, y));
+        mesh->addCoord(glm::vec3(x, y, -h));
         // apex
-        mesh->addCoord(glm::vec3(0.0f, h, 0.0f));
+        mesh->addCoord(glm::vec3(0.0f, 0.0f, h));
 
         const float invRr = 1.0f / rr;
-        mesh->addNormal(glm::vec3(x * invRr, hh, y * invRr));
-        mesh->addNormal(glm::vec3(xM * invRr, hh, yM * invRr));
+        mesh->addNormal(glm::vec3(x * invRr, y * invRr, hh));
+        mesh->addNormal(glm::vec3(xM * invRr, yM * invRr, hh));
 
         const float d1 = (subdivision - i - 1) * invSub;
         const float d2 = (subdivision - i) * invSub;
@@ -327,8 +327,8 @@ namespace wren {
     if (hasBottom) {
       // define bottom center point
       const int center = mesh->coords().size();
-      mesh->addCoord(glm::vec3(0.0f, -h, 0.0f));
-      mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
+      mesh->addCoord(glm::vec3(0.0f, 0.0f, -h));
+      mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
       mesh->addTexCoord(glm::vec2(0.5f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.75f, 0.5f));
 
@@ -337,8 +337,8 @@ namespace wren {
         const float alpha = k * i;
         const float x = glm::sin(alpha);
         const float y = -glm::cos(alpha);
-        mesh->addCoord(glm::vec3(x, -h, y));
-        mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
+        mesh->addCoord(glm::vec3(x, -y, -h));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
         mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
         mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, -0.5f * y + 0.5f));
       }
@@ -396,8 +396,8 @@ namespace wren {
         const double x = glm::sin(i * k + glm::pi<float>());
         const double y = glm::cos(i * k + glm::pi<float>());
 
-        mesh->addCoord(glm::vec3(x, -h, y));
-        mesh->addCoord(glm::vec3(x, h, y));
+        mesh->addCoord(glm::vec3(x, y, -h));
+        mesh->addCoord(glm::vec3(x, y, h));
 
         const int index = i * 2;
         mesh->addIndex(index);
@@ -437,13 +437,13 @@ namespace wren {
         for (int i = 0; i < sub1; ++i) {
           const float alpha = (glm::pi<float>() * 2.0f * static_cast<float>(i)) / subdivision;
           const float x = glm::sin(alpha);
-          const float y = -glm::cos(alpha);
+          const float y = glm::cos(alpha);
           const float d = (subdivision - static_cast<float>(i)) / subdivision;
 
-          mesh->addCoord(glm::vec3(x, -h, y));
-          mesh->addCoord(glm::vec3(x, h, y));
-          mesh->addNormal(glm::vec3(x, 0.0f, y));
-          mesh->addNormal(glm::vec3(x, 0.0f, y));
+          mesh->addCoord(glm::vec3(x, y, -h));
+          mesh->addCoord(glm::vec3(x, y, h));
+          mesh->addNormal(glm::vec3(x, y, 0.0f));
+          mesh->addNormal(glm::vec3(x, y, 0.0f));
           mesh->addTexCoord(glm::vec2(d, 1.0f));
           mesh->addTexCoord(glm::vec2(d, 0.0f));
           mesh->addUnwrappedTexCoord(glm::vec2(d * 0.5f, 0.5f));
@@ -467,8 +467,8 @@ namespace wren {
       if (hasTop) {
         // center of cylinder top
         const int center = mesh->coords().size();
-        mesh->addCoord(glm::vec3(0.0f, h, 0.0f));
-        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+        mesh->addCoord(glm::vec3(0.0f, 0.0f, h));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
         mesh->addTexCoord(glm::vec2(0.5f, 0.5f));
         mesh->addUnwrappedTexCoord(glm::vec2(0.75f, 0.25f));
 
@@ -478,8 +478,8 @@ namespace wren {
           const float x = glm::sin(alpha);
           const float y = -glm::cos(alpha);
 
-          mesh->addCoord(glm::vec3(x, h, y));
-          mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+          mesh->addCoord(glm::vec3(x, -y, h));
+          mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
           mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, 0.5f * y + 0.5f));
           mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, 0.25f * y + 0.25f));
         }
@@ -495,8 +495,8 @@ namespace wren {
       if (hasBottom) {
         // center of cylinder bottom
         const int center = mesh->coords().size();
-        mesh->addCoord(glm::vec3(0.0f, -h, 0.0f));
-        mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
+        mesh->addCoord(glm::vec3(0.0f, 0.0f, -h));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
         mesh->addTexCoord(glm::vec2(0.5f, 0.5f));
         mesh->addUnwrappedTexCoord(glm::vec2(0.25f, 0.75f));
 
@@ -505,8 +505,8 @@ namespace wren {
           float alpha = (glm::pi<float>() * 2.0f * static_cast<float>(i)) / subdivision;
           float x = glm::sin(alpha);
           float y = -glm::cos(alpha);
-          mesh->addCoord(glm::vec3(x, -h, y));
-          mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
+          mesh->addCoord(glm::vec3(x, -y, -h));
+          mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
           mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
           mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.25f, -0.25f * y + 0.75f));
         }
@@ -530,19 +530,19 @@ namespace wren {
     return mesh;
   }
 
-  StaticMesh *StaticMesh::createUnitElevationGrid(int dimensionX, int dimensionZ, const float *heightData, float thickness,
+  StaticMesh *StaticMesh::createUnitElevationGrid(int dimensionX, int dimensionY, const float *heightData, float thickness,
                                                   bool outline) {
     // thickness only important for outline mesh
     float thickness2 = thickness;
     if (!outline)
       thickness2 = 0.0f;
 
-    const std::array<float, 3> params = {{static_cast<float>(dimensionX), static_cast<float>(dimensionZ), thickness2}};
+    const std::array<float, 3> params = {{static_cast<float>(dimensionX), static_cast<float>(dimensionY), thickness2}};
 
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(&params[0]), params.size() * sizeof(float));
     // cppcheck-suppress uninitvar
     meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(heightData)),
-                                  sizeof(float) * dimensionX * dimensionZ);
+                                  sizeof(float) * dimensionX * dimensionY);
     const cache::Key key(meshHash);
 
     StaticMesh *mesh;
@@ -550,32 +550,32 @@ namespace wren {
       return mesh;
 
     const float spacingX = 1.0f;
-    const float spacingZ = 1.0f;
+    const float spacingY = 1.0f;
     const int stepsX = dimensionX - 1;
-    const int stepsZ = dimensionZ - 1;
+    const int stepsY = dimensionY - 1;
     const float du = 1.0f / stepsX;
-    const float dv = 1.0f / stepsZ;
+    const float dv = 1.0f / stepsY;
 
-    mesh->estimateVertexCount(dimensionX * dimensionZ);
+    mesh->estimateVertexCount(dimensionX * dimensionY);
 
     if (outline) {
       float minHeight = std::numeric_limits<float>::infinity();
       float maxHeight = -std::numeric_limits<float>::infinity();
 
-      mesh->estimateIndexCount(stepsX * stepsZ * 4);
+      mesh->estimateIndexCount(stepsX * stepsY * 4);
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          const float h = heightData[dimensionX * zi + xi];
-          mesh->addCoord(glm::vec3(spacingX * xi, h, spacingZ * zi));
+          const float h = heightData[dimensionX * yi + xi];
+          mesh->addCoord(glm::vec3(spacingX * xi, spacingY * yi, h));
 
-          const int index = zi * dimensionX + xi;
+          const int index = yi * dimensionX + xi;
           if (xi < dimensionX - 1) {
             mesh->addIndex(index);
             mesh->addIndex(index + 1);
           }
 
-          if (zi < dimensionZ - 1) {
+          if (yi < dimensionY - 1) {
             mesh->addIndex(index);
             mesh->addIndex(index + dimensionX);
           }
@@ -591,18 +591,18 @@ namespace wren {
       if (minHeight != maxHeight) {
         const float bottom = minHeight - thickness;
         const float xMax = (dimensionX - 1) * spacingX;
-        const float zMax = (dimensionZ - 1) * spacingZ;
+        const float yMax = (dimensionY - 1) * spacingY;
 
-        mesh->addCoord(glm::vec3(0, bottom, 0));
-        mesh->addCoord(glm::vec3(0, heightData[0], 0));
-        mesh->addCoord(glm::vec3(xMax, bottom, 0));
-        mesh->addCoord(glm::vec3(xMax, heightData[dimensionX - 1], 0));
-        mesh->addCoord(glm::vec3(xMax, bottom, zMax));
-        mesh->addCoord(glm::vec3(xMax, heightData[(dimensionZ - 1) * dimensionX + (dimensionX - 1)], zMax));
-        mesh->addCoord(glm::vec3(0, bottom, zMax));
-        mesh->addCoord(glm::vec3(0, heightData[(dimensionZ - 1) * dimensionX], zMax));
+        mesh->addCoord(glm::vec3(0, 0, bottom));
+        mesh->addCoord(glm::vec3(0, 0, heightData[0]));
+        mesh->addCoord(glm::vec3(xMax, 0, bottom));
+        mesh->addCoord(glm::vec3(xMax, 0, heightData[dimensionX - 1]));
+        mesh->addCoord(glm::vec3(xMax, yMax, bottom));
+        mesh->addCoord(glm::vec3(xMax, yMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)]));
+        mesh->addCoord(glm::vec3(0, yMax, bottom));
+        mesh->addCoord(glm::vec3(0, yMax, heightData[(dimensionY - 1) * dimensionX]));
 
-        const int index = (dimensionX * dimensionZ);
+        const int index = (dimensionX * dimensionY);
         mesh->addIndex(index);
         mesh->addIndex(index + 1);
         mesh->addIndex(index + 2);
@@ -623,41 +623,42 @@ namespace wren {
       }
 
     } else {
-      mesh->estimateIndexCount(stepsX * stepsZ * 6);
+      mesh->estimateIndexCount(stepsX * stepsY * 6);
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          mesh->addCoord(glm::vec3(spacingX * xi, heightData[dimensionX * zi + xi], spacingZ * zi));
-          mesh->addTexCoord(glm::vec2(du * xi, dv * zi));
-          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * zi));
+          mesh->addCoord(
+            glm::vec3(spacingX * xi, spacingY * (dimensionY - 1 - yi), heightData[dimensionX * (dimensionY - 1 - yi) + xi]));
+          mesh->addTexCoord(glm::vec2(du * xi, dv * yi));
+          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * yi));
         }
       }
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
           glm::vec3 normal, v0, v1, v2;
           // Average the normals of the 4 neighbouring triangles,
           // ignore triangles outside of the ElevationGrid
           normal = glm::vec3(0.0f);
-          v0 = mesh->coords()[dimensionX * zi + xi];
-          if (zi > 0 && xi > 0) {
-            v1 = mesh->coords()[dimensionX * (zi - 1) + xi] - v0;
-            v2 = mesh->coords()[dimensionX * zi + (xi - 1)] - v0;
+          v0 = mesh->coords()[dimensionX * yi + xi];
+          if (yi > 0 && xi > 0) {
+            v1 = mesh->coords()[dimensionX * (yi - 1) + xi] - v0;
+            v2 = mesh->coords()[dimensionX * yi + (xi - 1)] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi > 0 && xi < stepsX) {
-            v1 = mesh->coords()[dimensionX * zi + (xi + 1)] - v0;
-            v2 = mesh->coords()[dimensionX * (zi - 1) + xi] - v0;
+          if (yi > 0 && xi < stepsX) {
+            v1 = mesh->coords()[dimensionX * yi + (xi + 1)] - v0;
+            v2 = mesh->coords()[dimensionX * (yi - 1) + xi] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi < stepsZ && xi > 0) {
-            v1 = mesh->coords()[dimensionX * zi + (xi - 1)] - v0;
-            v2 = mesh->coords()[dimensionX * (zi + 1) + xi] - v0;
+          if (yi < stepsY && xi > 0) {
+            v1 = mesh->coords()[dimensionX * yi + (xi - 1)] - v0;
+            v2 = mesh->coords()[dimensionX * (yi + 1) + xi] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi < stepsZ && xi < stepsX) {
-            v1 = mesh->coords()[dimensionX * (zi + 1) + xi] - v0;
-            v2 = mesh->coords()[dimensionX * zi + (xi + 1)] - v0;
+          if (yi < stepsY && xi < stepsX) {
+            v1 = mesh->coords()[dimensionX * (yi + 1) + xi] - v0;
+            v2 = mesh->coords()[dimensionX * yi + (xi + 1)] - v0;
             normal += glm::cross(v1, v2);
           }
 
@@ -665,16 +666,16 @@ namespace wren {
         }
       }
 
-      for (int zi = 0; zi < stepsZ; ++zi) {
+      for (int yi = 0; yi < stepsY; ++yi) {
         for (int xi = 0; xi < stepsX; ++xi) {
           // first triangle
-          mesh->addIndex(dimensionX * zi + xi);
-          mesh->addIndex(dimensionX * (zi + 1) + xi);
-          mesh->addIndex(dimensionX * zi + (xi + 1));
+          mesh->addIndex(dimensionX * yi + xi);
+          mesh->addIndex(dimensionX * (yi + 1) + xi);
+          mesh->addIndex(dimensionX * yi + (xi + 1));
           // second triangle
-          mesh->addIndex(dimensionX * zi + (xi + 1));
-          mesh->addIndex(dimensionX * (zi + 1) + xi);
-          mesh->addIndex(dimensionX * (zi + 1) + (xi + 1));
+          mesh->addIndex(dimensionX * yi + (xi + 1));
+          mesh->addIndex(dimensionX * (yi + 1) + xi);
+          mesh->addIndex(dimensionX * (yi + 1) + (xi + 1));
         }
       }
     }
@@ -699,10 +700,10 @@ namespace wren {
       mesh->estimateVertexCount(4);
       mesh->estimateIndexCount(8);
 
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.0f));
 
       mesh->addIndex(0);
       mesh->addIndex(1);
@@ -721,23 +722,23 @@ namespace wren {
       mesh->estimateVertexCount(4);
       mesh->estimateIndexCount(6);
 
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.0f));
 
       for (int j = 0; j < 4; ++j)
-        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
 
-      mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
+      mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
 
-      mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(1.0f, 0.0f));
+      mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
 
       mesh->addIndex(0);
       mesh->addIndex(1);
@@ -751,7 +752,7 @@ namespace wren {
     const primitive::Box box;
     mesh->mCacheData->mBoundingSphere = box.computeBoundingSphere();
     mesh->mCacheData->mAabb =
-      primitive::Aabb(glm::vec3(-0.5f, -glm::epsilon<float>(), -0.5f), glm::vec3(0.5f, glm::epsilon<float>(), 0.5f));
+      primitive::Aabb(glm::vec3(-0.5f, -0.5f, -glm::epsilon<float>()), glm::vec3(0.5f, 0.5f, glm::epsilon<float>()));
 
     mesh->setup();
 
@@ -770,24 +771,24 @@ namespace wren {
                                       int level) {
     if (level == 0) {
       // get the x-axis texture coordinate of each vertex
-      float a1 = cartesianCoordinatesToPolarAngle(-v1->z, -v1->x) * 0.5f * glm::one_over_pi<float>();
-      float a2 = cartesianCoordinatesToPolarAngle(-v2->z, -v2->x) * 0.5f * glm::one_over_pi<float>();
-      float a3 = cartesianCoordinatesToPolarAngle(-v3->z, -v3->x) * 0.5f * glm::one_over_pi<float>();
+      float a1 = cartesianCoordinatesToPolarAngle(v1->y, -v1->x) * 0.5f * glm::one_over_pi<float>();
+      float a2 = cartesianCoordinatesToPolarAngle(v2->y, -v2->x) * 0.5f * glm::one_over_pi<float>();
+      float a3 = cartesianCoordinatesToPolarAngle(v3->y, -v3->x) * 0.5f * glm::one_over_pi<float>();
 
       // fix the bottom and the top of the texture coordinates
-      if (v1->x == 0.0f && v1->z == 0.0f) {  // if v1 corresponds to a summit
+      if (v1->x == 0.0f && v1->y == 0.0f) {  // if v1 corresponds to a summit
         if (a2 == 0.0f && a3 > 0.8f)
           a3 -= 1.0f;
         if (a3 == 0.0f && a2 > 0.8f)
           a2 -= 1.0f;
         a1 = (a2 + a3) / 2.0;                       // compute the mean of the two other angles
-      } else if (v2->x == 0.0f && v2->z == 0.0f) {  // if v2 corresponds to a summit
+      } else if (v2->x == 0.0f && v2->y == 0.0f) {  // if v2 corresponds to a summit
         if (a1 == 0.0f && a3 > 0.8f)
           a3 -= 1.0f;
         if (a3 == 0.0f && a1 > 0.8f)
           a1 -= 1.0f;
         a2 = (a1 + a3) / 2.0;                       // compute the mean of the two other angles
-      } else if (v3->x == 0.0f && v3->z == 0.0f) {  // if v3 corresponds to a summit
+      } else if (v3->x == 0.0f && v3->y == 0.0f) {  // if v3 corresponds to a summit
         if (a1 == 0.0f && a2 > 0.8f)
           a2 -= 1.0f;
         if (a2 == 0.0f && a1 > 0.8f)
@@ -829,9 +830,9 @@ namespace wren {
       mesh->addNormal(glm::vec3(v2->x, v2->y, v2->z));
       mesh->addNormal(glm::vec3(v1->x, v1->y, v1->z));
 
-      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->y) * glm::one_over_pi<float>());
-      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->y) * glm::one_over_pi<float>());
-      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->y) * glm::one_over_pi<float>());
+      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->z) * glm::one_over_pi<float>());
+      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->z) * glm::one_over_pi<float>());
+      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->z) * glm::one_over_pi<float>());
       mesh->addTexCoord(uv3);
       mesh->addTexCoord(uv2);
       mesh->addTexCoord(uv1);
@@ -862,10 +863,10 @@ namespace wren {
     static const float A = 0.525731112119133606f;
     static const float B = 0.850650808352039932f;
 
-    static const glm::vec3 gVertices[12] = {glm::vec3(-A, 0.0f, B), glm::vec3(A, 0.0f, B),   glm::vec3(-A, 0.0f, -B),
-                                            glm::vec3(A, 0.0f, -B), glm::vec3(0.0f, B, A),   glm::vec3(0.0f, B, -A),
-                                            glm::vec3(0.0f, -B, A), glm::vec3(0.0f, -B, -A), glm::vec3(B, A, 0.0f),
-                                            glm::vec3(-B, A, 0.0f), glm::vec3(B, -A, 0.0f),  glm::vec3(-B, -A, 0.0f)};
+    static const glm::vec3 gVertices[12] = {glm::vec3(-A, -B, 0.0f), glm::vec3(A, -B, 0.0f), glm::vec3(-A, B, 0.0f),
+                                            glm::vec3(A, B, 0.0f),   glm::vec3(0.0f, -A, B), glm::vec3(0.0f, A, B),
+                                            glm::vec3(0.0f, -A, -B), glm::vec3(0.0f, A, -B), glm::vec3(B, 0.0f, A),
+                                            glm::vec3(-B, 0.0f, A),  glm::vec3(B, 0.0f, -A), glm::vec3(-B, 0.0f, -A)};
 
     static const glm::uvec3 gIndices[20] = {
       glm::uvec3(0, 4, 1),  glm::uvec3(0, 9, 4),  glm::uvec3(9, 5, 4),  glm::uvec3(4, 5, 8),  glm::uvec3(4, 8, 1),
@@ -929,16 +930,16 @@ namespace wren {
       const float uOffset = (r == 0) ? 0.5f / subdivision : ((r == subdivision) ? -0.5f / subdivision : 0.0f);
       const float theta = (float)r * latitudeUnitAngle;
       const float sinTheta = glm::sin(theta);
-      const float cosTheta = -glm::cos(theta);
+      const float cosTheta = glm::cos(theta);
       int *indicesRow = new int[rowSize];
       for (s = 0; s <= subdivision; ++s) {  // segments/longitude
         glm::vec3 vertex;
-        const float phi = ((float)s) * longitudeUnitAngle - glm::half_pi<float>();
-        vertex = glm::vec3(glm::cos(phi) * sinTheta, cosTheta, glm::sin(phi) * sinTheta);
+        const float phi = ((float)s) * longitudeUnitAngle + glm::half_pi<float>();
+        vertex = glm::vec3(glm::cos(phi) * sinTheta, glm::sin(phi) * sinTheta, cosTheta);
         mesh->addCoord(vertex);
         mesh->addNormal(vertex);
 
-        glm::vec2 uv(1.0f - (float)s / subdivision + uOffset, 1.0f - (float)r / subdivision);
+        glm::vec2 uv((float)s / subdivision + uOffset, (float)r / subdivision);
         mesh->addTexCoord(uv);
         mesh->addUnwrappedTexCoord(uv);
 
@@ -1069,14 +1070,14 @@ namespace wren {
       for (int i = 0; i < sub1; ++i) {
         const float alpha = factor * i;
         x[i] = glm::sin(alpha);
-        y[i] = -glm::cos(alpha);
+        y[i] = glm::cos(alpha);
       }
 
       for (int i = 0; i < sub1; ++i) {
         const float rx = radius * x[i];
         const float ry = radius * y[i];
-        mesh->addCoord(glm::vec3(rx, -halfHeight, ry));
-        mesh->addCoord(glm::vec3(rx, halfHeight, ry));
+        mesh->addCoord(glm::vec3(rx, ry, -halfHeight));
+        mesh->addCoord(glm::vec3(rx, ry, halfHeight));
       }
 
       for (int i = 0, start = 0; i < subdivision; ++i, start += 2) {
@@ -1109,8 +1110,8 @@ namespace wren {
           // compute vertices
           float *cv = new float[3];
           cv[0] = ar[j] * glm::sin(beta);
-          cv[1] = ay[j];
-          cv[2] = ar[j] * glm::cos(beta);
+          cv[1] = ar[j] * -glm::cos(beta);
+          cv[2] = ay[j];
           v[i][j] = cv;
         }
       }
@@ -1146,7 +1147,7 @@ namespace wren {
       for (int i = 0; i < sub1; ++i) {
         for (int j = 0; j < sub5; ++j) {
           float *cv = v[i][j];
-          mesh->addCoord(glm::vec3(cv[0], -cv[1], cv[2]));
+          mesh->addCoord(glm::vec3(cv[0], cv[1], -cv[2]));
         }
       }
 
@@ -1212,19 +1213,19 @@ namespace wren {
         for (int i = 0; i < sub1; ++i) {
           const float alpha = factor * i;
           x[i] = glm::sin(alpha);
-          y[i] = -glm::cos(alpha);
+          y[i] = glm::cos(alpha);
         }
 
         for (int i = 0; i < sub1; ++i) {
           const float rx = radius * x[i];
           const float ry = radius * y[i];
-          mesh->addCoord(glm::vec3(rx, -halfHeight, ry));
-          mesh->addCoord(glm::vec3(rx, halfHeight, ry));
+          mesh->addCoord(glm::vec3(rx, ry, -halfHeight));
+          mesh->addCoord(glm::vec3(rx, ry, halfHeight));
         }
 
         for (int i = 0; i < sub1; ++i) {
-          mesh->addNormal(glm::vec3(x[i], 0.0f, y[i]));
-          mesh->addNormal(glm::vec3(x[i], 0.0f, y[i]));
+          mesh->addNormal(glm::vec3(x[i], y[i], 0.0f));
+          mesh->addNormal(glm::vec3(x[i], y[i], 0.0f));
         }
 
         for (int i = 0; i < sub1; ++i) {
@@ -1278,13 +1279,13 @@ namespace wren {
             // compute vertices
             float *cv = new float[3];
             cv[0] = ar[j] * glm::sin(beta);
-            cv[1] = ay[j];
-            cv[2] = ar[j] * glm::cos(beta);
+            cv[1] = -ar[j] * glm::cos(beta);
+            cv[2] = ay[j];
             v[i][j] = cv;
 
             // compute normals
             float *cn = new float[3];
-            glm::vec3 cnvec3 = glm::normalize(glm::vec3(cv[0], cv[1] - halfHeight, cv[2]));
+            glm::vec3 cnvec3 = glm::normalize(glm::vec3(cv[0], cv[1], cv[2] - halfHeight));
             cn[0] = cnvec3[0];
             cn[1] = cnvec3[1];
             cn[2] = cnvec3[2];
@@ -1361,14 +1362,14 @@ namespace wren {
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *cv = v[i][j];
-              mesh->addCoord(glm::vec3(cv[0], -cv[1], cv[2]));
+              mesh->addCoord(glm::vec3(cv[0], cv[1], -cv[2]));
             }
           }
 
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *cn = n[i][j];
-              mesh->addNormal(glm::vec3(cn[0], -cn[1], cn[2]));
+              mesh->addNormal(glm::vec3(cn[0], cn[1], -cn[2]));
             }
           }
 
@@ -1895,7 +1896,7 @@ namespace wren {
     } else
       mCacheData->mSupportShadows = false;
 
-    // only the number of indices needs to be known in orer to render the mesh
+    // only the number of indices needs to be known in order to render the mesh
     // vertex count kept for mesh export
     mCacheData->mIndexCount = mIndices.size();
     mCacheData->mVertexCount = mCoords.size();
@@ -1920,6 +1921,7 @@ namespace wren {
         glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferCoords);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferIndices);
+        glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
 
         if (mCacheData->mGlNameBufferNormals)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferNormals);
@@ -2019,10 +2021,10 @@ WrStaticMesh *wr_static_mesh_unit_cylinder_new(int subdivision, bool has_side, b
     wren::StaticMesh::createUnitCylinder(subdivision, has_side, has_top, has_bottom, outline));
 }
 
-WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_z, const float *height_data,
+WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_y, const float *height_data,
                                                      float thickness, bool outline) {
   return reinterpret_cast<WrStaticMesh *>(
-    wren::StaticMesh::createUnitElevationGrid(dimension_x, dimension_z, height_data, thickness, outline));
+    wren::StaticMesh::createUnitElevationGrid(dimension_x, dimension_y, height_data, thickness, outline));
 }
 
 WrStaticMesh *wr_static_mesh_unit_rectangle_new(bool outline) {

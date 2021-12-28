@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
@@ -6,16 +6,16 @@
 # template language: javascript
 
 PROTO UR10e [
-  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 4.712388966 # Is `Transform.rotation`.
-  field SFString   name            "UR10e"           # Is `Solid.name`.
-  field SFString   controller      "void"            # Is `Robot.controller`.
-  field MFString   controllerArgs  []                # Is `Robot.controllerArgs`.
-  field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE              # Is `Robot.synchronization`.
-  field SFBool     selfCollision   TRUE              # Is `Robot.selfCollision`.
-  field MFNode     toolSlot        []                # Extend the robot with new nodes at the end of the arm.
-  field SFBool     staticBase      TRUE              # Defines if the robot base should ba pinned to the static environment.
+  field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.
+  field SFString   name            "UR10e"  # Is `Solid.name`.
+  field SFString   controller      "void"   # Is `Robot.controller`.
+  field MFString   controllerArgs  []       # Is `Robot.controllerArgs`.
+  field SFBool     supervisor      FALSE    # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE     # Is `Robot.synchronization`.
+  field SFBool     selfCollision   TRUE     # Is `Robot.selfCollision`.
+  field MFNode     toolSlot        []       # Extend the robot with new nodes at the end of the arm.
+  field SFBool     staticBase      TRUE     # Defines if the robot base should ba pinned to the static environment.
 ]
 {
   Robot {
@@ -42,7 +42,7 @@ PROTO UR10e [
               }
               DEF CYLINDER Transform {
                 translation 0 0 0.02
-                rotation 1 0 0 1.5707963220000003
+                rotation -0.707107 0.707107 0 -3.141593
                 children [
                   Shape {
                     appearance ScrewThread {
@@ -507,6 +507,7 @@ PROTO UR10e [
                                           children [
                                             Transform {
                                               translation 0 0.086 0
+                                              rotation 1 0 0 -1.570796
                                               children [
                                                 Cylinder {
                                                   height 0.048
@@ -516,6 +517,7 @@ PROTO UR10e [
                                             }
                                             Transform {
                                               translation 0 0.109 0
+                                              rotation 1 0 0 -1.570796
                                               children [
                                                 Cylinder {
                                                   height 0.018
@@ -540,6 +542,7 @@ PROTO UR10e [
                                     children [
                                       Transform {
                                         translation 0 0.007 0.1195
+                                        rotation 1 0 0 -1.570796
                                         children [
                                           Cylinder {
                                             height 0.12
@@ -549,7 +552,7 @@ PROTO UR10e [
                                       }
                                       Transform {
                                         translation 0 0 0.0805
-                                        rotation 1 0 0 4.712388966
+                                        rotation 1 0 0 3.141593
                                         children [
                                           Cylinder {
                                             height 0.043
@@ -574,6 +577,7 @@ PROTO UR10e [
                               children [
                                 Transform {
                                   translation 0 0.095 0
+                                  rotation 1 0 0 -1.570796
                                   children [
                                     Cylinder {
                                       height 0.075
@@ -583,7 +587,7 @@ PROTO UR10e [
                                 }
                                 Transform {
                                   translation 0 0.134 0.007
-                                  rotation 1 0 0 4.712388966
+                                  rotation 1 0 0 3.141593
                                   children [
                                     Cylinder {
                                       height 0.126
@@ -608,7 +612,7 @@ PROTO UR10e [
                         children [
                           Transform {
                             translation 0 0 0.307
-                            rotation 1 0 0 4.712388966
+                            rotation 1 0 0 3.141593
                             children [
                               Cylinder {
                                 height 0.49
@@ -618,6 +622,7 @@ PROTO UR10e [
                           }
                           Transform {
                             translation 0 0.009 0.57
+                            rotation 1 0 0 -1.570796
                             children [
                               Cylinder {
                                 height 0.129
@@ -627,7 +632,7 @@ PROTO UR10e [
                           }
                           Transform {
                             translation 0 0.06 0
-                            rotation 1 0 0 6.283185277377264
+                            rotation 1 0 0 -1.570796
                             children [
                               Capsule {
                                 height 0.05
@@ -637,7 +642,6 @@ PROTO UR10e [
                           }
                           Transform {
                             translation 0 0 0.05
-                            rotation -1 0 0 4.712389014981909
                             children [
                               Capsule {
                                 height 0.03
@@ -662,7 +666,7 @@ PROTO UR10e [
                   children [
                     Transform {
                       translation 0 0 0.33
-                      rotation 1 0 0 4.712388966
+                      rotation 1 0 0 3.141593
                       children [
                         Cylinder {
                           height 0.463
@@ -672,7 +676,7 @@ PROTO UR10e [
                     }
                     Transform {
                       translation 0 0 0.06
-                      rotation 1 0 0 4.712388966
+                      rotation 1 0 0 3.141593
                       children [
                         Cylinder {
                           height 0.1
@@ -680,12 +684,18 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Cylinder {
-                      height 0.183
-                      radius 0.077
+                    Transform {
+                      rotation 1 0 0 -1.570796
+                      children [
+                        Cylinder {
+                          height 0.183
+                          radius 0.077
+                        }
+                      ]
                     }
                     Transform {
                       translation 0 -0.005 0.612
+                      rotation 1 0 0 -1.570796
                       children [
                         Cylinder {
                           height 0.149
@@ -709,7 +719,7 @@ PROTO UR10e [
           boundingObject Group {
             children [
               Transform {
-                rotation 1 0 0 4.712388966
+                rotation 1 0 0 3.141593
                 children [
                   Cylinder {
                     height 0.183
@@ -719,6 +729,7 @@ PROTO UR10e [
               }
               Transform {
                 translation 0 0.05 0
+                rotation 1 0 0 1.570797
                 children [
                   Cylinder {
                     height 0.093
@@ -742,7 +753,7 @@ PROTO UR10e [
     model "UR10e"
     boundingObject Transform {
       translation 0 0 0.05
-      rotation 1 0 0 4.712388966
+      rotation 1 0 0 3.141593
       children [
         Cylinder {
           height 0.1

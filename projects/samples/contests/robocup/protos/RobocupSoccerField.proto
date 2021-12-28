@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Official soccer field for the Robocup Humanoid League 2021.
@@ -6,7 +6,7 @@
 
 PROTO RobocupSoccerField [
   field SFVec3f                     translation 0 0 0
-  field SFRotation                  rotation    0 1 0 0
+  field SFRotation                  rotation    0 0 1 0
   field SFString                    name        "soccer_field"
   field SFString{"adult", "kid"}    size        "adult"
   field SFBool                      turfPhysics TRUE
@@ -245,7 +245,6 @@ PROTO RobocupSoccerField [
       DEF BLADES Solid {
         contactMaterial "grass"
         translation 0 0 0.01
-        rotation 1 0 0 1.5707996938995747
         boundingObject Plane {
           size %<= 2 * I + A >% %<= 2 * I + B >%
         }
@@ -302,19 +301,17 @@ PROTO RobocupSoccerField [
       }
       RobocupGoal {
         translation %<= I - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
-        rotation 0 0 1 -1.5707996938995747
         size IS size
         name "goal_home"
       }
       RobocupGoal {
         translation %<= I + A - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
-        rotation 0 0 1 1.5707996938995747
+        rotation 0 0 1 3.14159
         size IS size
         name "goal_away"
       }
     ]
     boundingObject Transform {
-      rotation 1 0 0 1.5707996938995747
       children [
         Shape {
           geometry Plane {

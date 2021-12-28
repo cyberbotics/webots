@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -22,6 +22,7 @@ Robot {
   children [
     Camera {
       translation 0 0 2
+      rotation -0.577353047596502 0.5773496460042129 0.577348113957118 2.0943983352517446
       name "side camera"
       fieldOfView 0.01
       width 1
@@ -29,7 +30,7 @@ Robot {
     }
     Camera {
       translation 0 2.5 0
-      rotation 1 0 0 -1.5708
+      rotation 0.7071078227023665 -0.7071057396656566 0.0 3.141584013594599
       name "top camera"
       fieldOfView 0.01
       width 1

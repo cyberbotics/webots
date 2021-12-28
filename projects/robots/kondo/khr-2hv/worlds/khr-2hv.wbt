@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This is a model of a Kondo KHR-2HV robot executing movement files."
@@ -10,7 +10,6 @@ WorldInfo {
   ERP 0.5
   physicsDisableLinearThreshold 0.05
   physicsDisableAngularThreshold 0.05
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"
@@ -26,8 +25,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.015941149784921154 -0.9995883126915739 -0.023855499867895952 0.33961194261801625
-  position -0.4071373733375979 0.2022620335752398 1.571068482839273
+  orientation 0.05432314970143893 -0.018482364682482013 -0.9983523414117177 3.6758274338462757
+  position 1.927614374999084 -0.6486695799427195 0.37063517618362674
   follow "KHR-2HV"
 }
 TexturedBackground {
@@ -35,7 +34,8 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  translation 0.0618921 0 0.653058
+  translation 0.653058 0.0618921 0
+  rotation 0 0 1 1.5708
   floorSize 2.2 2.2
   floorTileSize 2.2 2.2
   floorAppearance PBRAppearance {
@@ -54,6 +54,6 @@ RectangleArena {
   }
 }
 Khr2hv {
-  translation -0.0605689 0.22 0.619011
+  translation 0.619011 -0.0605689 0.22
   contactMaterial "khr2"
 }

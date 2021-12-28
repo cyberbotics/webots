@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A viewer to visualize C3D (www.c3d.org) files.
@@ -6,12 +6,12 @@
 
 PROTO C3dViewer [
   field  SFVec3f     translation                      0 0 0
-  field  SFRotation  rotation                         0 1 0 0
+  field  SFRotation  rotation                         0 0 1 0
   field  SFString    c3dFile                          ""            # Defines which file should be displayed.
   field  SFFloat     playbackSpeed                    1.0           # Defines the speed at which should be played the C3D file.
   field  MFNode      markers                          []            # The markers will be automatically inserted in this field.
-  field  SFVec3f     leftGroundReactionForceOffset    0.28 0 0.28   # Defines the offset of the left Ground Reaction Force position.
-  field  SFVec3f     rightGroundReactionForceOffset   -0.21 0 0.22  # Defines the offset of the right Ground Reaction Force position.
+  field  SFVec3f     leftGroundReactionForceOffset    0.28 0.28 0   # Defines the offset of the left Ground Reaction Force position.
+  field  SFVec3f     rightGroundReactionForceOffset   -0.21 0.22 0  # Defines the offset of the right Ground Reaction Force position.
   field  SFFloat     bodyTransparency                 1             # Defines the transparency of the body representation (transparency to 1 disables body representation).
   field  SFFloat     bodyHeight                       -1            # Defines the height of the body representation, if negative, the height defined in the C3D file is used (or 1.83m if not set in the C3D file).
   field  SFFloat     bodyOffset                       0.25          # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.

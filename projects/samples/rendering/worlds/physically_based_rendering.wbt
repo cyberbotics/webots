@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Demo of a simulation world with objects rendered with a Physically Based Rendering (PBR) appearance."
@@ -7,11 +7,10 @@ WorldInfo {
     "The documentation about PBR is provided in the Webots Reference Manual under the PBRAppearance node."
   ]
   title "Physically Based Rendering"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.015676991137252624 0.9893439295110209 0.144750893222027 2.6449781506012155
-  position 1.3197699618831238 0.6861800275391068 -1.1005402262866653
+  orientation -0.07180624754969592 -0.24012211194513644 0.9680832785291972 5.6761129418669185
+  position -7.23059333577823 5.418938787371356 2.254337006919236
   near 0.049999999999999996
 }
 TexturedBackground {
@@ -26,7 +25,7 @@ RectangleArena {
   wallHeight 1
 }
 DEF GOLD SphereGrid {
-  translation -1 1.3000000000000036 0.9919744784234101
+  translation 0 -0.85 1.3
   name "gold sphere grid"
   color 0.83 0.69 0.22
   normalMap NULL
@@ -36,7 +35,7 @@ DEF GOLD SphereGrid {
   widthAndHeight 5
 }
 DEF SILVER SphereGrid {
-  translation 0.6 2.9150000000000036 0.9919744784234101
+  translation 0 0.85 3
   name "silver sphere grid"
   color 0.75 0.75 0.75
   normalMap NULL
@@ -46,7 +45,7 @@ DEF SILVER SphereGrid {
   widthAndHeight 5
 }
 DEF BLACK SphereGrid {
-  translation -1 2.9060000000000037 0.9919744784234101
+  translation 0 -0.85 3
   name "black sphere grid"
   color 0 0 0
   normalMap NULL
@@ -56,7 +55,7 @@ DEF BLACK SphereGrid {
   widthAndHeight 5
 }
 DEF COPPER SphereGrid {
-  translation 0.6 1.3000000000000036 0.9919744784234101
+  translation 0 0.85 1.3
   name "copper sphere grid"
   color 0.72 0.45 0.2
   normalMap NULL
@@ -66,10 +65,10 @@ DEF COPPER SphereGrid {
   widthAndHeight 5
 }
 Telephone {
-  translation 0.1553735885250902 2.1760371282653068e-14 0.571515272665561
-  rotation 0 1 0 3.141592644
+  translation -0.5 0.35 0
+  rotation 0 0 1 3.141592653589793
 }
 Helmet {
-  translation 0.7105062177551061 0.19000000000000136 0.5001095464053436
-  rotation 0 1 0 3.141592644
+  translation -0.5 1 0.2
+  rotation 0 0 1 3.141592653589793
 }

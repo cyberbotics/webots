@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/boebot
@@ -6,7 +6,7 @@
 
 PROTO BoeBot [
   field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0  # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.
   field SFString   name            "BoeBot" # Is `Solid.name`.
   field SFString   controller      "boebot" # Is `Robot.controller`.
   field MFString   controllerArgs  []       # Is `Robot.controllerArgs`.
@@ -30,11 +30,11 @@ PROTO BoeBot [
         children IS extensionSlot
       }
       DEF right_ir_led Transform {
-        translation 0.034 0.048 -0.05
-        rotation 0 1 0 5.88319
+        translation 0.05 -0.034 0.048
+        rotation 0 0 1 5.88319
         children [
           DEF right_leg Transform {
-            translation 0.001 -0.005 0.004
+            translation -0.004 -0.001 -0.005
             children [
               Shape {
                 appearance PBRAppearance {
@@ -47,7 +47,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_leg Transform {
-            translation -0.001 -0.005 0.004
+            translation -0.004 0.001 -0.005
             children [
               Shape {
                 appearance PBRAppearance {
@@ -60,7 +60,7 @@ PROTO BoeBot [
             ]
           }
           Transform {
-            rotation 1 0 0 1.57
+            rotation 0 -1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -78,11 +78,11 @@ PROTO BoeBot [
         ]
       }
       DEF left_ir_led Transform {
-        translation -0.034 0.048 -0.05
-        rotation 0 1 0 0.500004
+        translation 0.05 0.034 0.048
+        rotation 0 0 1 0.500004
         children [
           DEF right_leg Transform {
-            translation 0.001 -0.005 0.004
+            translation -0.004 -0.001 -0.005
             children [
               Shape {
                 appearance PBRAppearance {
@@ -95,7 +95,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_leg Transform {
-            translation -0.001 -0.005 0.004
+            translation -0.004 0.001 -0.005
             children [
               Shape {
                 appearance PBRAppearance {
@@ -108,7 +108,7 @@ PROTO BoeBot [
             ]
           }
           Transform {
-            rotation 1 0 0 1.57
+            rotation 0 -1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -126,64 +126,69 @@ PROTO BoeBot [
         ]
       }
       DEF rds DistanceSensor {
-        translation 0.028 0.05 -0.05
-        rotation 0 1 0 1.17
+        translation 0.05 -0.028 0.05
+        rotation 0 0 1 5.88319
         children [
           Transform {
-            translation -0.001 0 0
             rotation 0 0 1 1.57
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0 0 0
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Cylinder {
-                  height 0.002
-                  radius 0.001
-                }
+            children[
+              Transform {
+                translation 0 0.001 0
+                rotation 1 0 0 1.5707964853
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.002
+                      radius 0.001
+                    }
+                  }
+                ]
               }
-            ]
-          }
-          DEF left_leg Transform {
-            translation -0.003 -0.005 0
-            children [
-              Shape {
-                appearance PBRAppearance {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.0003
-                }
+              DEF left_leg Transform {
+                translation 0 0.003 -0.005
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0003
+                    }
+                  }
+                ]
               }
-            ]
-          }
-          DEF right_leg Transform {
-            translation -0.001 -0.005 0
-            children [
-              Shape {
-                appearance PBRAppearance {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.0003
-                }
+              DEF right_leg Transform {
+                translation 0 0.001 -0.005
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0003
+                    }
+                  }
+                ]
               }
-            ]
-          }
-          Transform {
-            translation -0.002 0 0
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0.501961 0.25098
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Box {
-                  size 0.003 0.004 0.004
-                }
+              Transform {
+                translation 0 0.002 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.501961 0.25098
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Box {
+                      size 0.004 0.003 0.004
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -195,40 +200,45 @@ PROTO BoeBot [
         type "infra-red"
       }
       DEF lds DistanceSensor {
-        translation -0.028 0.05 -0.05
-        rotation 0 1 0 2.07
+        translation 0.05 0.028 0.05
+        rotation 0 0 1 0.500004
         children [
           Transform {
-            translation -0.001 0 0
             rotation 0 0 1 1.57
             children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0 0 0
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Cylinder {
-                  height 0.002
-                  radius 0.001
-                }
+              Transform {
+                translation 0 0.001 0
+                rotation 1 0 0 1.5707964853
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.002
+                      radius 0.001
+                    }
+                  }
+                ]
               }
-            ]
-          }
-          USE left_leg
-          USE right_leg
-          Transform {
-            translation -0.002 0 0
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0.501961 0.25098
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Box {
-                  size 0.003 0.004 0.004
-                }
+              USE left_leg
+              USE right_leg
+              Transform {
+                translation 0 0.002 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.501961 0.25098
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Box {
+                      size 0.004 0.003 0.004
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -240,128 +250,136 @@ PROTO BoeBot [
         type "infra-red"
       }
       DEF rls LightSensor {
-        translation 0.021 0.052 -0.052
-        rotation 0 1 0 1.57
+        translation 0.052 -0.021 0.052
         children [
           Transform {
-            translation 0 0 0.0007
+            rotation 0 0 1 1.57
             children [
-              Shape {
+              Transform {
+                translation -0.0007 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.0004
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0.0007 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.0004
+                    }
+                  }
+                ]
+              }
+              DEF right_ls_leg Transform {
+                translation -0.001 0 -0.005
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0003
+                    }
+                  }
+                ]
+              }
+              DEF left_ls_leg Transform {
+                translation 0.001 0 -0.005
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0003
+                    }
+                  }
+                ]
+              }
+              DEF ls_body Shape {
                 appearance PBRAppearance {
-                  baseColor 0 0 0
+                  baseColor 1 0.501961 0.25098
                   metalness 0
-                  roughness 0.3
+                  roughness 0.2
                 }
                 geometry Cylinder {
-                  height 0.0025
-                  radius 0.0004
+                  height 0.002
+                  radius 0.0017
                 }
               }
             ]
-          }
-          Transform {
-            translation 0 0 -0.0007
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0 0 0
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Cylinder {
-                  height 0.0025
-                  radius 0.0004
-                }
-              }
-            ]
-          }
-          DEF right_ls_leg Transform {
-            translation 0 -0.005 0.001
-            children [
-              Shape {
-                appearance PBRAppearance {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.0003
-                }
-              }
-            ]
-          }
-          DEF left_ls_leg Transform {
-            translation 0 -0.005 -0.001
-            children [
-              Shape {
-                appearance PBRAppearance {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.0003
-                }
-              }
-            ]
-          }
-          DEF ls_body Shape {
-            appearance PBRAppearance {
-              baseColor 1 0.501961 0.25098
-              metalness 0
-              roughness 0.2
-            }
-            geometry Cylinder {
-              height 0.002
-              radius 0.0017
-            }
           }
         ]
         name "rls"
       }
       DEF lls LightSensor {
-        translation -0.021 0.052 -0.052
-        rotation 0 1 0 1.57
+        translation 0.052 0.021 0.052
         children [
           Transform {
-            translation 0 0 -0.0007
+            rotation 0 0 1 1.57
             children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0 0 0
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Cylinder {
-                  height 0.0025
-                  radius 0.0004
-                }
+              Transform {
+                translation 0.0007 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.0004
+                    }
+                  }
+                ]
               }
+              Transform {
+                translation -0.0007 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      metalness 0
+                      roughness 0.3
+                    }
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.0004
+                    }
+                  }
+                ]
+              }
+              USE right_ls_leg
+              USE left_ls_leg
+              USE ls_body
             ]
           }
-          Transform {
-            translation 0 0 0.0007
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0 0 0
-                  metalness 0
-                  roughness 0.3
-                }
-                geometry Cylinder {
-                  height 0.0025
-                  radius 0.0004
-                }
-              }
-            ]
-          }
-          USE right_ls_leg
-          USE left_ls_leg
-          USE ls_body
         ]
         name "lls"
       }
       DEF right_led LED {
-        translation 0.014 0.055 -0.052
+        translation 0.052 -0.014 0.055
         children [
           Transform {
-            translation 0 0.003 0
+            translation 0 0 0.003
             children [
               Shape {
                 appearance PBRAppearance {
@@ -376,7 +394,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_leg Transform {
-            translation -0.001 -0.008 0
+            translation 0 0.001 -0.008
             children [
               Shape {
                 appearance PBRAppearance {
@@ -389,7 +407,7 @@ PROTO BoeBot [
             ]
           }
           DEF right_leg Transform {
-            translation 0.001 -0.008 0
+            translation 0 -0.001 -0.008
             children [
               Shape {
                 appearance PBRAppearance {
@@ -416,10 +434,10 @@ PROTO BoeBot [
         name "right_led"
       }
       DEF left_led LED {
-        translation -0.014 0.055 -0.052
+        translation 0.052 0.014 0.055
         children [
           Transform {
-            translation 0 0.003 0
+            translation 0 0 0.003
             children [
               Shape {
                 appearance PBRAppearance {
@@ -440,8 +458,8 @@ PROTO BoeBot [
         name "left_led"
       }
       DEF right_whisker TouchSensor {
-        translation 0.03 0.035 -0.08
-        rotation 0 1 0 5.88319
+        translation 0.08 -0.03 0.035
+        rotation 0 0 1 5.88319
         children [
           Shape {
             appearance PBRAppearance {
@@ -449,7 +467,7 @@ PROTO BoeBot [
               roughness 0.2
             }
             geometry DEF right_whisker_box Box {
-              size 0.001 0.001 0.1
+              size 0.1 0.001 0.001
             }
           }
         ]
@@ -457,8 +475,8 @@ PROTO BoeBot [
         boundingObject USE right_whisker_box
       }
       DEF left_whisker TouchSensor {
-        translation -0.03 0.035 -0.08
-        rotation 0 1 0 0.533625
+        translation 0.08 0.03 0.035
+        rotation 0 0 1 0.533625
         children [
           Shape {
             appearance PBRAppearance {
@@ -466,7 +484,7 @@ PROTO BoeBot [
               roughness 0.2
             }
             geometry DEF left_whisker_box Box {
-              size 0.001 0.001 0.1
+              size 0.1 0.001 0.001
             }
           }
         ]
@@ -475,8 +493,8 @@ PROTO BoeBot [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 -0.0052 -0.025
+          axis 0 1 0
+          anchor 0.025 0 -0.0052
         }
         device [
           RotationalMotor {
@@ -488,12 +506,12 @@ PROTO BoeBot [
           }
         ]
         endPoint DEF right_wheel Solid {
-          translation 0.046 -0.0052 -0.025
-          rotation -1 0 0 1.74327
+          translation 0.025 -0.046 -0.0052
+          rotation 0 1 0 1.74327
           children [
             DEF Cylinder10 Transform {
-              translation 0.005 0 0
-              rotation 0 1 0 1.57
+              translation 0 -0.005 0
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -504,7 +522,7 @@ PROTO BoeBot [
                   geometry DEF Cylinder10_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.004257 0.02471 -0.002899, -0.01226 -0.02172 -0.002981, 0.01226 -0.02172 -0.002981, -0.01226 0.02173 -0.002905, 0.01878 0.01613 -0.002914, -0.01226 -0.02171 -0.00804, -0.02452 1.468e-5 -0.008002, 0.02452 1.467e-5 -0.008002, -0.004257 0.02471 -0.002899, 0.02304 -0.008573 -0.002958, -0.02304 -0.008573 -0.002958, -0.02304 0.008593 -0.007987, 0.02304 -0.008564 -0.008017, 0.01878 0.01614 -0.007974, -0.01878 0.01613 -0.002914, 0.004257 -0.0247 -0.002986, 0.004257 0.02472 -0.007959, 0.01226 -0.02171 -0.00804, -0.02304 -0.008564 -0.008017, 0.02452 0 -0.002943, -0.01878 0.01614 -0.007974, -0.01878 -0.01611 -0.00803, 0.01878 -0.01611 -0.00803, 0.02304 0.008593 -0.007987, -0.02452 0 -0.002943, -0.004257 0.02472 -0.007959, -0.01226 0.02174 -0.007964, 0.01226 0.02173 -0.002905, -0.02304 0.008584 -0.002928, -0.004257 -0.02469 -0.008045, 0.01226 0.02174 -0.007964, 0.004257 -0.02469 -0.008045, -0.01878 -0.01612 -0.002971, -0.004257 -0.0247 -0.002986, 0.01878 -0.01612 -0.002971, 0.02304 0.008584 -0.002928, -0.03122 -0.01162 -0.008022, -0.02545 0.02186 -0.007964, -0.005769 -0.03347 -0.003001, 0.02545 -0.02184 -0.00804, 0.02545 0.02186 -0.007964, -0.02545 -0.02185 -0.002981, 0.03122 0.01163 -0.007982, -0.03122 0.01163 -0.002922, 0.01661 0.02944 -0.002891, -0.01661 0.02945 -0.00795, 0.005769 0.03348 -0.007943, -0.005769 0.03347 -0.002884, 0.005769 -0.03346 -0.008061, -0.01661 -0.02943 -0.008053, 0.03122 -0.01163 -0.002963, -0.03322 0 -0.002943, 0.01661 -0.02944 -0.002994, 0.03322 0 -0.008002, 0.02545 0.02185 -0.002904, 0.03122 -0.01162 -0.008022, -0.01661 -0.02944 -0.002994, -0.03122 -0.01163 -0.002963, -0.005769 -0.03346 -0.008061, 0.005769 0.03347 -0.002884, -0.02545 0.02185 -0.002904, 0.01661 0.02945 -0.00795, -0.01661 0.02944 -0.002891, -0.03122 0.01163 -0.007982, 0.005769 -0.03347 -0.003001, -0.005769 0.03348 -0.007943, 0.01661 -0.02943 -0.008053, -0.02545 -0.02184 -0.00804, 0.03122 0.01163 -0.002922, 0.02545 -0.02185 -0.002981, 0.03322 0 -0.002943, -0.03322 0 -0.008002
+                        0.002899 -0.004257 0.02471 0.002981 0.01226 -0.02172 0.002981 -0.01226 -0.02172 0.002905 0.01226 0.02173 0.002914 -0.01878 0.01613 0.00804 0.01226 -0.02171 0.008002 0.02452 1.468e-05 0.008002 -0.02452 1.467e-05 0.002899 0.004257 0.02471 0.002958 -0.02304 -0.008573 0.002958 0.02304 -0.008573 0.007987 0.02304 0.008593 0.008017 -0.02304 -0.008564 0.007974 -0.01878 0.01614 0.002914 0.01878 0.01613 0.002986 -0.004257 -0.0247 0.007959 -0.004257 0.02472 0.00804 -0.01226 -0.02171 0.008017 0.02304 -0.008564 0.002943 -0.02452 0 0.007974 0.01878 0.01614 0.00803 0.01878 -0.01611 0.00803 -0.01878 -0.01611 0.007987 -0.02304 0.008593 0.002943 0.02452 0 0.007959 0.004257 0.02472 0.007964 0.01226 0.02174 0.002905 -0.01226 0.02173 0.002928 0.02304 0.008584 0.008045 0.004257 -0.02469 0.007964 -0.01226 0.02174 0.008045 -0.004257 -0.02469 0.002971 0.01878 -0.01612 0.002986 0.004257 -0.0247 0.002971 -0.01878 -0.01612 0.002928 -0.02304 0.008584 0.008022 0.03122 -0.01162 0.007964 0.02545 0.02186 0.003001 0.005769 -0.03347 0.00804 -0.02545 -0.02184 0.007964 -0.02545 0.02186 0.002981 0.02545 -0.02185 0.007982 -0.03122 0.01163 0.002922 0.03122 0.01163 0.002891 -0.01661 0.02944 0.00795 0.01661 0.02945 0.007943 -0.005769 0.03348 0.002884 0.005769 0.03347 0.008061 -0.005769 -0.03346 0.008053 0.01661 -0.02943 0.002963 -0.03122 -0.01163 0.002943 0.03322 0 0.002994 -0.01661 -0.02944 0.008002 -0.03322 0 0.002904 -0.02545 0.02185 0.008022 -0.03122 -0.01162 0.002994 0.01661 -0.02944 0.002963 0.03122 -0.01163 0.008061 0.005769 -0.03346 0.002884 -0.005769 0.03347 0.002904 0.02545 0.02185 0.00795 -0.01661 0.02945 0.002891 0.01661 0.02944 0.007982 0.03122 0.01163 0.003001 -0.005769 -0.03347 0.007943 0.005769 0.03348 0.008053 -0.01661 -0.02943 0.00804 0.02545 -0.02184 0.002922 -0.03122 0.01163 0.002981 -0.02545 -0.02185 0.002943 -0.03322 0 0.008002 0.03322 0
                       ]
                     }
                     coordIndex [
@@ -515,8 +533,8 @@ PROTO BoeBot [
               ]
             }
             DEF Cylinder11 Transform {
-              translation 0.003 0 0
-              rotation 0 1 0 1.57
+              translation 0 -0.003 0
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -527,7 +545,7 @@ PROTO BoeBot [
                   geometry DEF Cylinder11_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.002906 -0.01685 -0.005089, -0.01572 0.005855 1.026e-5, 0.01673 0 0, -0.01282 -0.011 -0.005078, 0.008367 0.01484 -0.005033, -0.008367 0.01483 2.597e-5, 0.008367 -0.01483 -2.597e-5, -0.008367 -0.01483 -2.597e-5, 0.008367 0.01483 2.597e-5, -0.01282 0.01101 -0.00504, 0.01572 0.005865 -0.005049, 0.01282 -0.011 -0.005078, -0.01673 0 -0.005059, -0.01572 -0.005855 -1.026e-5, -0.002906 -0.01685 -0.005089, 0.01572 -0.005846 -0.005069, -0.002906 0.01687 -0.00503, 0.002906 -0.01686 -2.954e-5, 0.01282 0.011 1.928e-5, 0.002906 0.01687 -0.00503, -0.008367 0.01484 -0.005033, 0.01282 -0.011 -1.928e-5, -0.01572 0.005865 -0.005049, -0.002906 0.01686 2.954e-5, -0.01282 0.011 1.928e-5, 0.01572 -0.005855 -1.026e-5, -0.002906 -0.01686 -2.954e-5, -0.01572 -0.005846 -0.005069, 0.002906 0.01686 2.954e-5, -0.01282 -0.011 -1.928e-5, 0.01673 0 -0.005059, 0.01282 0.01101 -0.00504, 0.008367 -0.01482 -0.005085, 0.01572 0.005855 1.026e-5, -0.01673 0 0, -0.008367 -0.01482 -0.005085
+                        0.005089 -0.002906 -0.01685 -1.026e-05 0.01572 0.005855 0 -0.01673 0 0.005078 0.01282 -0.011 0.005033 -0.008367 0.01484 -2.597e-05 0.008367 0.01483 2.597e-05 -0.008367 -0.01483 2.597e-05 0.008367 -0.01483 -2.597e-05 -0.008367 0.01483 0.00504 0.01282 0.01101 0.005049 -0.01572 0.005865 0.005078 -0.01282 -0.011 0.005059 0.01673 0 1.026e-05 0.01572 -0.005855 0.005089 0.002906 -0.01685 0.005069 -0.01572 -0.005846 0.00503 0.002906 0.01687 2.954e-05 -0.002906 -0.01686 -1.928e-05 -0.01282 0.011 0.00503 -0.002906 0.01687 0.005033 0.008367 0.01484 1.928e-05 -0.01282 -0.011 0.005049 0.01572 0.005865 -2.954e-05 0.002906 0.01686 -1.928e-05 0.01282 0.011 1.026e-05 -0.01572 -0.005855 2.954e-05 0.002906 -0.01686 0.005069 0.01572 -0.005846 -2.954e-05 -0.002906 0.01686 1.928e-05 0.01282 -0.011 0.005059 -0.01673 0 0.00504 -0.01282 0.01101 0.005085 -0.008367 -0.01482 -1.026e-05 -0.01572 0.005855 0 0.01673 0 0.005085 0.008367 -0.01482
                       ]
                     }
                     coordIndex [
@@ -538,7 +556,7 @@ PROTO BoeBot [
               ]
             }
             DEF Box13 Transform {
-              rotation 0 1 0 1.57
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -549,7 +567,7 @@ PROTO BoeBot [
                   geometry DEF Box13_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.002923 -0.0269 0 -0.002923 0.0269 0 0.002923 -0.0269 -0.003945 0.002923 0.0269 0 0.002923 -0.0269 0 -0.002923 0.0269 -0.003945
+                        0 0.002923 -0.0269 0 0.002923 0.0269 0.003945 -0.002923 -0.0269 0 -0.002923 0.0269 0 -0.002923 -0.0269 0.003945 0.002923 0.0269
                       ]
                     }
                     coordIndex [
@@ -560,7 +578,7 @@ PROTO BoeBot [
               ]
             }
             DEF Box14 Transform {
-              rotation 0 1 0 1.57
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -571,7 +589,7 @@ PROTO BoeBot [
                   geometry DEF Box14_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.02631 0.002778 0 0.02626 0.003203 0 -0.02626 -0.003203 -0.003945 0.02631 -0.002778 0 -0.02626 -0.003203 0 0.02626 0.003203 -0.003945
+                        0 0.02631 0.002778 0 -0.02626 0.003203 0.003945 0.02626 -0.003203 0 -0.02631 -0.002778 0 0.02626 -0.003203 0.003945 -0.02626 0.003203
                       ]
                     }
                     coordIndex [
@@ -584,7 +602,7 @@ PROTO BoeBot [
           ]
           name "right wheel"
           boundingObject Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               DEF wheel_cylinder Cylinder {
                 height 0.005
@@ -600,8 +618,8 @@ PROTO BoeBot [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis -1 0 0
-          anchor 0 -0.0052 -0.025
+          axis 0 1 0
+          anchor 0.025 0 -0.0052
         }
         device [
           RotationalMotor {
@@ -613,12 +631,12 @@ PROTO BoeBot [
           }
         ]
         endPoint DEF left_wheel Solid {
-          translation -0.0468861 -0.0052 -0.025
-          rotation -1 0 0 0.4
+          translation 0.025 0.0468861 -0.0052
+          rotation 0 1 0 0.4
           children [
             DEF Cylinder08 Transform {
-              translation 0.005 0 0
-              rotation 0 1 0 1.57
+              translation 0 -0.005 0
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -629,7 +647,7 @@ PROTO BoeBot [
                   geometry DEF Cylinder08_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.004257 0.02471 -0.002899, -0.01226 -0.02172 -0.002981, 0.01226 -0.02172 -0.002981, -0.01226 0.02173 -0.002905, 0.01878 0.01613 -0.002914, -0.01226 -0.02171 -0.00804, -0.02452 1.468e-5 -0.008002, 0.02452 1.467e-5 -0.008002, -0.004257 0.02471 -0.002899, 0.02304 -0.008573 -0.002958, -0.02304 -0.008573 -0.002958, -0.02304 0.008593 -0.007987, 0.02304 -0.008564 -0.008017, 0.01878 0.01614 -0.007974, -0.01878 0.01613 -0.002914, 0.004257 -0.0247 -0.002986, 0.004257 0.02472 -0.007959, 0.01226 -0.02171 -0.00804, -0.02304 -0.008564 -0.008017, 0.02452 0 -0.002943, -0.01878 0.01614 -0.007974, -0.01878 -0.01611 -0.00803, 0.01878 -0.01611 -0.00803, 0.02304 0.008593 -0.007987, -0.02452 0 -0.002943, -0.004257 0.02472 -0.007959, -0.01226 0.02174 -0.007964, 0.01226 0.02173 -0.002905, -0.02304 0.008584 -0.002928, -0.004257 -0.02469 -0.008045, 0.01226 0.02174 -0.007964, 0.004257 -0.02469 -0.008045, -0.01878 -0.01612 -0.002971, -0.004257 -0.0247 -0.002986, 0.01878 -0.01612 -0.002971, 0.02304 0.008584 -0.002928, -0.03122 -0.01162 -0.008022, -0.02545 0.02186 -0.007964, -0.005769 -0.03347 -0.003001, 0.02545 -0.02184 -0.00804, 0.02545 0.02186 -0.007964, -0.02545 -0.02185 -0.002981, 0.03122 0.01163 -0.007982, -0.03122 0.01163 -0.002922, 0.01661 0.02944 -0.002891, -0.01661 0.02945 -0.00795, 0.005769 0.03348 -0.007943, -0.005769 0.03347 -0.002884, 0.005769 -0.03346 -0.008061, -0.01661 -0.02943 -0.008053, 0.03122 -0.01163 -0.002963, -0.03322 0 -0.002943, 0.01661 -0.02944 -0.002994, 0.03322 0 -0.008002, 0.02545 0.02185 -0.002904, 0.03122 -0.01162 -0.008022, -0.01661 -0.02944 -0.002994, -0.03122 -0.01163 -0.002963, -0.005769 -0.03346 -0.008061, 0.005769 0.03347 -0.002884, -0.02545 0.02185 -0.002904, 0.01661 0.02945 -0.00795, -0.01661 0.02944 -0.002891, -0.03122 0.01163 -0.007982, 0.005769 -0.03347 -0.003001, -0.005769 0.03348 -0.007943, 0.01661 -0.02943 -0.008053, -0.02545 -0.02184 -0.00804, 0.03122 0.01163 -0.002922, 0.02545 -0.02185 -0.002981, 0.03322 0 -0.002943, -0.03322 0 -0.008002
+                        0.002899 -0.004257 0.02471 0.002981 0.01226 -0.02172 0.002981 -0.01226 -0.02172 0.002905 0.01226 0.02173 0.002914 -0.01878 0.01613 0.00804 0.01226 -0.02171 0.008002 0.02452 1.468e-05 0.008002 -0.02452 1.467e-05 0.002899 0.004257 0.02471 0.002958 -0.02304 -0.008573 0.002958 0.02304 -0.008573 0.007987 0.02304 0.008593 0.008017 -0.02304 -0.008564 0.007974 -0.01878 0.01614 0.002914 0.01878 0.01613 0.002986 -0.004257 -0.0247 0.007959 -0.004257 0.02472 0.00804 -0.01226 -0.02171 0.008017 0.02304 -0.008564 0.002943 -0.02452 0 0.007974 0.01878 0.01614 0.00803 0.01878 -0.01611 0.00803 -0.01878 -0.01611 0.007987 -0.02304 0.008593 0.002943 0.02452 0 0.007959 0.004257 0.02472 0.007964 0.01226 0.02174 0.002905 -0.01226 0.02173 0.002928 0.02304 0.008584 0.008045 0.004257 -0.02469 0.007964 -0.01226 0.02174 0.008045 -0.004257 -0.02469 0.002971 0.01878 -0.01612 0.002986 0.004257 -0.0247 0.002971 -0.01878 -0.01612 0.002928 -0.02304 0.008584 0.008022 0.03122 -0.01162 0.007964 0.02545 0.02186 0.003001 0.005769 -0.03347 0.00804 -0.02545 -0.02184 0.007964 -0.02545 0.02186 0.002981 0.02545 -0.02185 0.007982 -0.03122 0.01163 0.002922 0.03122 0.01163 0.002891 -0.01661 0.02944 0.00795 0.01661 0.02945 0.007943 -0.005769 0.03348 0.002884 0.005769 0.03347 0.008061 -0.005769 -0.03346 0.008053 0.01661 -0.02943 0.002963 -0.03122 -0.01163 0.002943 0.03322 0 0.002994 -0.01661 -0.02944 0.008002 -0.03322 0 0.002904 -0.02545 0.02185 0.008022 -0.03122 -0.01162 0.002994 0.01661 -0.02944 0.002963 0.03122 -0.01163 0.008061 0.005769 -0.03346 0.002884 -0.005769 0.03347 0.002904 0.02545 0.02185 0.00795 -0.01661 0.02945 0.002891 0.01661 0.02944 0.007982 0.03122 0.01163 0.003001 -0.005769 -0.03347 0.007943 0.005769 0.03348 0.008053 -0.01661 -0.02943 0.00804 0.02545 -0.02184 0.002922 -0.03122 0.01163 0.002981 -0.02545 -0.02185 0.002943 -0.03322 0 0.008002 0.03322 0
                       ]
                     }
                     coordIndex [
@@ -640,8 +658,8 @@ PROTO BoeBot [
               ]
             }
             DEF Cylinder09 Transform {
-              translation 0.003 0 0
-              rotation 0 1 0 1.57
+              translation 0 -0.003 0
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -652,7 +670,7 @@ PROTO BoeBot [
                   geometry DEF Cylinder09_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        0.002906 -0.01685 -0.005089, -0.01572 0.005855 1.026e-5, 0.01673 0 0, -0.01282 -0.011 -0.005078, 0.008367 0.01484 -0.005033, -0.008367 0.01483 2.597e-5, 0.008367 -0.01483 -2.597e-5, -0.008367 -0.01483 -2.597e-5, 0.008367 0.01483 2.597e-5, -0.01282 0.01101 -0.00504, 0.01572 0.005865 -0.005049, 0.01282 -0.011 -0.005078, -0.01673 0 -0.005059, -0.01572 -0.005855 -1.026e-5, -0.002906 -0.01685 -0.005089, 0.01572 -0.005846 -0.005069, -0.002906 0.01687 -0.00503, 0.002906 -0.01686 -2.954e-5, 0.01282 0.011 1.928e-5, 0.002906 0.01687 -0.00503, -0.008367 0.01484 -0.005033, 0.01282 -0.011 -1.928e-5, -0.01572 0.005865 -0.005049, -0.002906 0.01686 2.954e-5, -0.01282 0.011 1.928e-5, 0.01572 -0.005855 -1.026e-5, -0.002906 -0.01686 -2.954e-5, -0.01572 -0.005846 -0.005069, 0.002906 0.01686 2.954e-5, -0.01282 -0.011 -1.928e-5, 0.01673 0 -0.005059, 0.01282 0.01101 -0.00504, 0.008367 -0.01482 -0.005085, 0.01572 0.005855 1.026e-5, -0.01673 0 0, -0.008367 -0.01482 -0.005085
+                        0.005089 -0.002906 -0.01685 -1.026e-05 0.01572 0.005855 0 -0.01673 0 0.005078 0.01282 -0.011 0.005033 -0.008367 0.01484 -2.597e-05 0.008367 0.01483 2.597e-05 -0.008367 -0.01483 2.597e-05 0.008367 -0.01483 -2.597e-05 -0.008367 0.01483 0.00504 0.01282 0.01101 0.005049 -0.01572 0.005865 0.005078 -0.01282 -0.011 0.005059 0.01673 0 1.026e-05 0.01572 -0.005855 0.005089 0.002906 -0.01685 0.005069 -0.01572 -0.005846 0.00503 0.002906 0.01687 2.954e-05 -0.002906 -0.01686 -1.928e-05 -0.01282 0.011 0.00503 -0.002906 0.01687 0.005033 0.008367 0.01484 1.928e-05 -0.01282 -0.011 0.005049 0.01572 0.005865 -2.954e-05 0.002906 0.01686 -1.928e-05 0.01282 0.011 1.026e-05 -0.01572 -0.005855 2.954e-05 0.002906 -0.01686 0.005069 0.01572 -0.005846 -2.954e-05 -0.002906 0.01686 1.928e-05 0.01282 -0.011 0.005059 -0.01673 0 0.00504 -0.01282 0.01101 0.005085 -0.008367 -0.01482 -1.026e-05 -0.01572 0.005855 0 0.01673 0 0.005085 0.008367 -0.01482
                       ]
                     }
                     coordIndex [
@@ -663,7 +681,7 @@ PROTO BoeBot [
               ]
             }
             DEF Box07 Transform {
-              rotation 0 1 0 1.57
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -674,7 +692,7 @@ PROTO BoeBot [
                   geometry DEF Box07_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.002923 -0.0269 0 -0.002923 0.0269 0 0.002923 -0.0269 -0.003945 0.002923 0.0269 0 0.002923 -0.0269 0 -0.002923 0.0269 -0.003945
+                        0 0.002923 -0.0269 0 0.002923 0.0269 0.003945 -0.002923 -0.0269 0 -0.002923 0.0269 0 -0.002923 -0.0269 0.003945 0.002923 0.0269
                       ]
                     }
                     coordIndex [
@@ -685,7 +703,7 @@ PROTO BoeBot [
               ]
             }
             DEF Box12 Transform {
-              rotation 0 1 0 1.57
+              rotation 0 0 1 1.57
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -696,7 +714,7 @@ PROTO BoeBot [
                   geometry DEF Box12_FACES IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.02631 0.002778 0 0.02626 0.003203 0 -0.02626 -0.003203 -0.003945 0.02631 -0.002778 0 -0.02626 -0.003203 0 0.02626 0.003203 -0.003945
+                        0 0.02631 0.002778 0 -0.02626 0.003203 0.003945 0.02626 -0.003203 0 -0.02631 -0.002778 0 0.02626 -0.003203 0.003945 -0.02626 0.003203
                       ]
                     }
                     coordIndex [
@@ -709,7 +727,7 @@ PROTO BoeBot [
           ]
           name "left wheel"
           boundingObject Transform {
-            rotation 0 0 1 1.57
+            rotation -1 0 0 1.57
             children [
               USE wheel_cylinder
             ]
@@ -721,10 +739,10 @@ PROTO BoeBot [
         }
       }
       DEF body Transform {
-        rotation 0 1 0 1.5708
+        rotation 0 0 1 1.5708
         children [
           DEF electronic_texture Transform {
-            translation -0.045 0.038 -0.0387
+            translation 0.0387 0.045 0.038
             children [
               Shape {
                 appearance PBRAppearance {
@@ -739,7 +757,7 @@ PROTO BoeBot [
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0 0 0 0.106 0 0 0.106 0 0.078 0 0 0.078
+                      0 0 0 0 -0.106 0 -0.078 -0.106 0 -0.078 0 0
                     ]
                   }
                   texCoord TextureCoordinate {
@@ -759,7 +777,7 @@ PROTO BoeBot [
             ]
           }
           DEF second_condensator Transform {
-            translation -0.04 0.043 -0.013
+            translation 0.013 0.04 0.043
             children [
               Shape {
                 appearance PBRAppearance {
@@ -775,7 +793,7 @@ PROTO BoeBot [
             ]
           }
           DEF first_condensator Transform {
-            translation -0.026 0.043 -0.013
+            translation 0.013 0.026 0.043
             children [
               DEF condensator Shape {
                 appearance PBRAppearance {
@@ -791,10 +809,10 @@ PROTO BoeBot [
             ]
           }
           DEF electronic_box Transform {
-            translation 0.035 0.04 0
+            translation 0 -0.035 0.04
             children [
               DEF texture_shape Transform {
-                translation -0.02 0.003 -0.035
+                translation 0.035 0.02 0.003
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -809,7 +827,7 @@ PROTO BoeBot [
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
-                          0 0 0 0.04 0 0 0.04 0 0.07 0 0 0.07
+                          0 0 0 0 -0.04 0 -0.07 -0.04 0 -0.07 0 0
                         ]
                       }
                       texCoord TextureCoordinate {
@@ -835,14 +853,14 @@ PROTO BoeBot [
                   roughness 0.4
                 }
                 geometry Box {
-                  size 0.04 0.005 0.07
+                  size 0.07 0.04 0.005
                 }
               }
             ]
           }
           DEF right_side Transform {
-            translation -0.03791 0.01059 0.0398
-            rotation 0 1 0 0.007
+            translation -0.0398 0.03791 0.01059
+            rotation 0 0 1 0.007
             children [
               Shape {
                 appearance PBRAppearance {
@@ -852,7 +870,7 @@ PROTO BoeBot [
                 geometry DEF right_side_FACES IndexedFaceSet {
                   coord DEF right_side_COORD Coordinate {
                     point [
-                      -0.004724 0.002791 -0.001725, 0.01258 -6.595e-5 -0.001557, -0.01256 0.002832 -0.0002252, 0.01259 0.0027 -5.352e-5, 0.01259 0.0027 -0.001607, -0.01206 6.323e-5 -0.001725, 0.01258 -6.595e-5 0, -0.01258 6.595e-5 -0.0001752, -0.01763 0.007362 -0.0003412, -0.01556 -0.01156 -0.001539, 0.1028 -0.004067 0.0006761, 0.07864 -0.0289 0.0009626, 0.01762 -0.01406 0.0002835, 0.04277 -0.01419 -0.001098, 0.105 0.007447 -0.001071, 0.1007 -0.004162 -0.0008897, 0.1053 -0.01755 -0.0006167, 0.1019 -0.01722 -0.0006453, 0.1026 -0.01688 0.0009065, 0.04277 -0.01419 0.0004552, 0.01762 -0.01406 -0.00127, 0.02623 -0.00796 -0.001322, 0.02624 -0.005194 0.0001811, 0.1018 -0.004927 -0.000869, 0.1016 -0.001964 -0.0009239, 0.1017 -0.004349 0.0006735, 0.001087 -0.005062 -0.001544, 0.001087 -0.005062 0, 0.103 -0.002203 -0.0009101, 0.1006 -0.003874 -0.0008957, 0.03781 -0.02815 -0.0008793, 0.1025 -0.001954 -0.0009178, 0.1017 -0.002442 0.0006389, 0.101 -0.01507 -0.0006905, 0.1032 -0.004421 -0.0008685, 0.1016 -0.01483 0.0008622, 0.1012 -0.004008 0.0006642, 0.1037 -0.01545 -0.0006653, 0.1029 -0.003875 0.0006733, 0.103 -0.00464 -0.000866, 0.1018 -0.001846 -0.0003078, -0.01831 -0.007786 -7.173e-5, 0.1007 -0.002663 -0.0009168, 0.1053 -0.01752 0.0009361, 0.1034 -0.01532 0.0008832, 0.1017 -0.002442 0.0006389, 0.1026 -0.002504 0.0006461, 0.1035 -0.003257 -0.0008872, 0.02623 -0.00796 0.0002311, 0.0176 -0.01683 -0.00122, 0.04276 -0.01696 0.0005051, 0.02624 -0.005194 -0.001372, 0.0176 -0.01683 0.0003335, 0.04276 -0.01696 -0.001048, 0.001073 -0.007828 -0.001494, 0.001073 -0.007828 5.942e-5, 0.1025 -0.01431 -0.0006942, 0.1018 -0.004979 -0.0003078, 0.07865 -0.02893 -0.0005903, 0.1049 0.007477 0.0004816, -0.01762 0.007332 -0.001894, -0.0183 -0.007816 -0.001625, 0.1029 -0.002774 0.0006529, 0.1031 -0.004542 -0.0001007, 0.1036 -0.003329 -0.0008858, 0.0378 -0.02812 0.0006736, 0.1024 -0.004345 0.0006783, 0.101 -0.003257 0.0006495, 0.1011 -0.01592 0.0008793, 0.1006 -0.002951 -0.0009124, -0.01557 -0.01153 1.433e-5, 0.1006 -0.003724 6.283e-5, 0.1034 -0.002801 2.883e-5, 0.1012 -0.004717 -0.0008764, 0.1023 -0.001937 2.883e-5, 0.1005 -0.003101 -0.0002244, 0.1011 -0.01662 -0.0006621, 0.1021 -0.001846 -0.0008219
+                      0.001725 0.004724 0.002791 0.001557 -0.01258 -6.595e-05 0.0002252 0.01256 0.002832 5.352e-05 -0.01259 0.0027 0.001607 -0.01259 0.0027 0.001725 0.01206 6.323e-05 0 -0.01258 -6.595e-05 0.0001752 0.01258 6.595e-05 0.0003412 0.01763 0.007362 0.001539 0.01556 -0.01156 -0.0006761 -0.1028 -0.004067 -0.0009626 -0.07864 -0.0289 -0.0002835 -0.01762 -0.01406 0.001098 -0.04277 -0.01419 0.001071 -0.105 0.007447 0.0008897 -0.1007 -0.004162 0.0006167 -0.1053 -0.01755 0.0006453 -0.1019 -0.01722 -0.0009065 -0.1026 -0.01688 -0.0004552 -0.04277 -0.01419 0.00127 -0.01762 -0.01406 0.001322 -0.02623 -0.00796 -0.0001811 -0.02624 -0.005194 0.000869 -0.1018 -0.004927 0.0009239 -0.1016 -0.001964 -0.0006735 -0.1017 -0.004349 0.001544 -0.001087 -0.005062 0 -0.001087 -0.005062 0.0009101 -0.103 -0.002203 0.0008957 -0.1006 -0.003874 0.0008793 -0.03781 -0.02815 0.0009178 -0.1025 -0.001954 -0.0006389 -0.1017 -0.002442 0.0006905 -0.101 -0.01507 0.0008685 -0.1032 -0.004421 -0.0008622 -0.1016 -0.01483 -0.0006642 -0.1012 -0.004008 0.0006653 -0.1037 -0.01545 -0.0006733 -0.1029 -0.003875 0.000866 -0.103 -0.00464 0.0003078 -0.1018 -0.001846 7.173e-05 0.01831 -0.007786 0.0009168 -0.1007 -0.002663 -0.0009361 -0.1053 -0.01752 -0.0008832 -0.1034 -0.01532 -0.0006389 -0.1017 -0.002442 -0.0006461 -0.1026 -0.002504 0.0008872 -0.1035 -0.003257 -0.0002311 -0.02623 -0.00796 0.00122 -0.0176 -0.01683 -0.0005051 -0.04276 -0.01696 0.001372 -0.02624 -0.005194 -0.0003335 -0.0176 -0.01683 0.001048 -0.04276 -0.01696 0.001494 -0.001073 -0.007828 -5.942e-05 -0.001073 -0.007828 0.0006942 -0.1025 -0.01431 0.0003078 -0.1018 -0.004979 0.0005903 -0.07865 -0.02893 -0.0004816 -0.1049 0.007477 0.001894 0.01762 0.007332 0.001625 0.0183 -0.007816 -0.0006529 -0.1029 -0.002774 0.0001007 -0.1031 -0.004542 0.0008858 -0.1036 -0.003329 -0.0006736 -0.0378 -0.02812 -0.0006783 -0.1024 -0.004345 -0.0006495 -0.101 -0.003257 -0.0008793 -0.1011 -0.01592 0.0009124 -0.1006 -0.002951 -1.433e-05 0.01557 -0.01153 -6.283e-05 -0.1006 -0.003724 -2.883e-05 -0.1034 -0.002801 0.0008764 -0.1012 -0.004717 -2.883e-05 -0.1023 -0.001937 0.0002244 -0.1005 -0.003101 0.0006621 -0.1011 -0.01662 0.0008219 -0.1021 -0.001846
                     ]
                   }
                   coordIndex [
@@ -863,7 +881,7 @@ PROTO BoeBot [
             ]
           }
           DEF back_wheel Transform {
-            translation -0.05619 -0.02451 0
+            translation 0 0.05619 -0.02451
             children [
               Shape {
                 appearance PBRAppearance {
@@ -879,8 +897,8 @@ PROTO BoeBot [
             ]
           }
           DEF back_wheel_axis Transform {
-            translation -0.055 -0.025 0
-            rotation 1 0 0 1.55
+            translation 0 0.055 -0.025
+            rotation 0 -1 0 1.55
             children [
               Shape {
                 appearance PBRAppearance {
@@ -896,7 +914,7 @@ PROTO BoeBot [
             ]
           }
           DEF main_wheel_axis Transform {
-            translation 0.02322 -0.008308 -0.04687
+            translation 0.04687 -0.02322 -0.008308
             children [
               Shape {
                 appearance PBRAppearance {
@@ -907,7 +925,7 @@ PROTO BoeBot [
                 geometry DEF main_wheel_axis_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0 -0.001977 0, 0.0006611 -0.001858 0, 0.001242 -0.001515 0, 0.001674 -0.0009887 0, 0.001903 -0.0003434 0, 0.001903 0.0003434 0, 0.001674 0.0009887 0, 0.001242 0.001515 0, 0.0006611 0.001858 0, 0 0.001977 0, -0.0006611 0.001858 0, -0.001242 0.001515 0, -0.001674 0.0009887 0, -0.001903 0.0003434 0, -0.001903 -0.0003434 0, -0.001674 -0.0009887 0, -0.001242 -0.001515 0, -0.0006611 -0.001858 0, -7.995e-5 -0.001977 0.01896, 0.0005811 -0.001858 0.01896, 0.001162 -0.001515 0.01897, 0.001594 -0.0009887 0.01897, 0.001824 -0.0003434 0.01897, 0.001824 0.0003434 0.01897, 0.001594 0.0009887 0.01897, 0.001162 0.001515 0.01897, 0.0005811 0.001858 0.01896, -7.995e-5 0.001977 0.01896, -0.000741 0.001858 0.01896, -0.001322 0.001515 0.01895, -0.001754 0.0009887 0.01895, -0.001983 0.0003434 0.01895, -0.001983 -0.0003434 0.01895, -0.001754 -0.0009887 0.01895, -0.001322 -0.001515 0.01895, -0.000741 -0.001858 0.01896, -0.0001599 -0.001977 0.03792, 0.0005012 -0.001858 0.03792, 0.001082 -0.001515 0.03792, 0.001514 -0.0009887 0.03793, 0.001744 -0.0003434 0.03793, 0.001744 0.0003434 0.03793, 0.001514 0.0009887 0.03793, 0.001082 0.001515 0.03792, 0.0005012 0.001858 0.03792, -0.0001599 0.001977 0.03792, -0.000821 0.001858 0.03792, -0.001402 0.001515 0.03791, -0.001834 0.0009887 0.03791, -0.002063 0.0003434 0.03791, -0.002063 -0.0003434 0.03791, -0.001834 -0.0009887 0.03791, -0.001402 -0.001515 0.03791, -0.000821 -0.001858 0.03792, -0.0002399 -0.001977 0.05688, 0.0004212 -0.001858 0.05688, 0.001003 -0.001515 0.05688, 0.001434 -0.0009887 0.05689, 0.001664 -0.0003434 0.05689, 0.001664 0.0003434 0.05689, 0.001434 0.0009887 0.05689, 0.001003 0.001515 0.05688, 0.0004212 0.001858 0.05688, -0.0002399 0.001977 0.05688, -0.0009009 0.001858 0.05688, -0.001482 0.001515 0.05687, -0.001914 0.0009887 0.05687, -0.002143 0.0003434 0.05687, -0.002143 -0.0003434 0.05687, -0.001914 -0.0009887 0.05687, -0.001482 -0.001515 0.05687, -0.0009009 -0.001858 0.05688, -0.0003198 -0.001977 0.07584, 0.0003413 -0.001858 0.07584, 0.0009226 -0.001515 0.07584, 0.001354 -0.0009887 0.07585, 0.001584 -0.0003434 0.07585, 0.001584 0.0003434 0.07585, 0.001354 0.0009887 0.07585, 0.0009226 0.001515 0.07584, 0.0003412 0.001858 0.07584, -0.0003198 0.001977 0.07584, -0.0009809 0.001858 0.07584, -0.001562 0.001515 0.07583, -0.001994 0.0009887 0.07583, -0.002223 0.0003434 0.07583, -0.002223 -0.0003434 0.07583, -0.001994 -0.0009887 0.07583, -0.001562 -0.001515 0.07583, -0.0009809 -0.001858 0.07584, -0.0003998 -0.001977 0.0948, 0.0002613 -0.001858 0.0948, 0.0008426 -0.001515 0.0948, 0.001274 -0.0009887 0.09481, 0.001504 -0.0003434 0.09481, 0.001504 0.0003434 0.09481, 0.001274 0.0009887 0.09481, 0.0008426 0.001515 0.0948, 0.0002613 0.001858 0.0948, -0.0003998 0.001977 0.0948, -0.001061 0.001858 0.0948, -0.001642 0.001515 0.09479, -0.002074 0.0009887 0.09479, -0.002303 0.0003434 0.09479, -0.002303 -0.0003434 0.09479, -0.002074 -0.0009887 0.09479, -0.001642 -0.001515 0.09479, -0.001061 -0.001858 0.0948
+                      0 0 -0.001977 0 -0.0006611 -0.001858 0 -0.001242 -0.001515 0 -0.001674 -0.0009887 0 -0.001903 -0.0003434 0 -0.001903 0.0003434 0 -0.001674 0.0009887 0 -0.001242 0.001515 0 -0.0006611 0.001858 0 0 0.001977 0 0.0006611 0.001858 0 0.001242 0.001515 0 0.001674 0.0009887 0 0.001903 0.0003434 0 0.001903 -0.0003434 0 0.001674 -0.0009887 0 0.001242 -0.001515 0 0.0006611 -0.001858 -0.01896 7.995e-05 -0.001977 -0.01896 -0.0005811 -0.001858 -0.01897 -0.001162 -0.001515 -0.01897 -0.001594 -0.0009887 -0.01897 -0.001824 -0.0003434 -0.01897 -0.001824 0.0003434 -0.01897 -0.001594 0.0009887 -0.01897 -0.001162 0.001515 -0.01896 -0.0005811 0.001858 -0.01896 7.995e-05 0.001977 -0.01896 0.000741 0.001858 -0.01895 0.001322 0.001515 -0.01895 0.001754 0.0009887 -0.01895 0.001983 0.0003434 -0.01895 0.001983 -0.0003434 -0.01895 0.001754 -0.0009887 -0.01895 0.001322 -0.001515 -0.01896 0.000741 -0.001858 -0.03792 0.0001599 -0.001977 -0.03792 -0.0005012 -0.001858 -0.03792 -0.001082 -0.001515 -0.03793 -0.001514 -0.0009887 -0.03793 -0.001744 -0.0003434 -0.03793 -0.001744 0.0003434 -0.03793 -0.001514 0.0009887 -0.03792 -0.001082 0.001515 -0.03792 -0.0005012 0.001858 -0.03792 0.0001599 0.001977 -0.03792 0.000821 0.001858 -0.03791 0.001402 0.001515 -0.03791 0.001834 0.0009887 -0.03791 0.002063 0.0003434 -0.03791 0.002063 -0.0003434 -0.03791 0.001834 -0.0009887 -0.03791 0.001402 -0.001515 -0.03792 0.000821 -0.001858 -0.05688 0.0002399 -0.001977 -0.05688 -0.0004212 -0.001858 -0.05688 -0.001003 -0.001515 -0.05689 -0.001434 -0.0009887 -0.05689 -0.001664 -0.0003434 -0.05689 -0.001664 0.0003434 -0.05689 -0.001434 0.0009887 -0.05688 -0.001003 0.001515 -0.05688 -0.0004212 0.001858 -0.05688 0.0002399 0.001977 -0.05688 0.0009009 0.001858 -0.05687 0.001482 0.001515 -0.05687 0.001914 0.0009887 -0.05687 0.002143 0.0003434 -0.05687 0.002143 -0.0003434 -0.05687 0.001914 -0.0009887 -0.05687 0.001482 -0.001515 -0.05688 0.0009009 -0.001858 -0.07584 0.0003198 -0.001977 -0.07584 -0.0003413 -0.001858 -0.07584 -0.0009226 -0.001515 -0.07585 -0.001354 -0.0009887 -0.07585 -0.001584 -0.0003434 -0.07585 -0.001584 0.0003434 -0.07585 -0.001354 0.0009887 -0.07584 -0.0009226 0.001515 -0.07584 -0.0003412 0.001858 -0.07584 0.0003198 0.001977 -0.07584 0.0009809 0.001858 -0.07583 0.001562 0.001515 -0.07583 0.001994 0.0009887 -0.07583 0.002223 0.0003434 -0.07583 0.002223 -0.0003434 -0.07583 0.001994 -0.0009887 -0.07583 0.001562 -0.001515 -0.07584 0.0009809 -0.001858 -0.0948 0.0003998 -0.001977 -0.0948 -0.0002613 -0.001858 -0.0948 -0.0008426 -0.001515 -0.09481 -0.001274 -0.0009887 -0.09481 -0.001504 -0.0003434 -0.09481 -0.001504 0.0003434 -0.09481 -0.001274 0.0009887 -0.0948 -0.0008426 0.001515 -0.0948 -0.0002613 0.001858 -0.0948 0.0003998 0.001977 -0.0948 0.001061 0.001858 -0.09479 0.001642 0.001515 -0.09479 0.002074 0.0009887 -0.09479 0.002303 0.0003434 -0.09479 0.002303 -0.0003434 -0.09479 0.002074 -0.0009887 -0.09479 0.001642 -0.001515 -0.0948 0.001061 -0.001858
                     ]
                   }
                   coordIndex [
@@ -918,7 +936,7 @@ PROTO BoeBot [
             ]
           }
           DEF batteries Transform {
-            translation 0.02595 -0.01374 -0.0001386
+            translation 0.0001386 -0.02595 -0.01374
             children [
               Shape {
                 appearance PBRAppearance {
@@ -929,7 +947,7 @@ PROTO BoeBot [
                 geometry DEF batteries_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      -0.02146 0 0.03969 0.02146 0 0.03969 -0.02146 0 -0.03969 0.02146 0 -0.03969 -0.02146 0.01596 0.03969 0.02146 0.01596 0.03969 -0.02146 0.01596 -0.03969 0.02146 0.01596 -0.03969
+                      -0.03969 0.02146 0 -0.03969 -0.02146 0 0.03969 0.02146 0 0.03969 -0.02146 0 -0.03969 0.02146 0.01596 -0.03969 -0.02146 0.01596 0.03969 0.02146 0.01596 0.03969 -0.02146 0.01596
                     ]
                   }
                   coordIndex [
@@ -940,7 +958,7 @@ PROTO BoeBot [
             ]
           }
           DEF very_top_side Transform {
-            translation 0.008089 0.03532 0.0005004
+            translation -0.0005004 -0.008089 0.03532
             children [
               Shape {
                 appearance PBRAppearance {
@@ -951,7 +969,7 @@ PROTO BoeBot [
                 geometry DEF green_top_side_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      -0.0528 0 0.03876 0.0528 0 0.03876 -0.0528 0 -0.03876 0.0528 0 -0.03876 -0.0528 0.002393 0.03876 0.0528 0.002393 0.03876 -0.0528 0.002393 -0.03876 0.0528 0.002393 -0.03876
+                      -0.03876 0.0528 0 -0.03876 -0.0528 0 0.03876 0.0528 0 0.03876 -0.0528 0 -0.03876 0.0528 0.002393 -0.03876 -0.0528 0.002393 0.03876 0.0528 0.002393 0.03876 -0.0528 0.002393
                     ]
                   }
                   coordIndex [
@@ -962,7 +980,7 @@ PROTO BoeBot [
             ]
           }
           DEF top_side Transform {
-            translation 0.06379 0.01639 -0.02235
+            translation 0.02235 -0.06379 0.01639
             children [
               Shape {
                 appearance PBRAppearance {
@@ -972,7 +990,7 @@ PROTO BoeBot [
                 geometry DEF top_side_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      -0.1194 0.001484 0.06198, 0.003959 0.001484 0.06198, 0.003959 0.001484 -0.01692, -0.1202 0.001484 -0.01692, -0.1194 0.003073 0.06198, 0.003959 0.003073 0.06198, 0.003959 0.003073 -0.01692, -0.1202 0.003073 -0.01692, -0.00191 0.001484 0.05255, 0.00191 0.001484 0.05255, 0.00191 0.003073 0.05255, -0.00191 0.003073 0.05255, 0.00191 0.001484 0.03905, 0.00191 0.003073 0.03905, -0.00191 0.001484 0.03905, -0.00191 0.003073 0.03905, 0.00191 0.003073 0.03022, -0.00191 0.003073 0.03022, -0.00191 0.001484 0.03022, 0.00191 0.001484 0.03022, 0.00191 0.003073 0.01671, 0.00191 0.001484 0.01671, -0.00191 0.003073 0.01671, -0.00191 0.001484 0.01671, 0.00191 0.003073 0.006753, -0.00191 0.003073 0.006753, -0.00191 0.001484 0.006753, 0.00191 0.001484 0.006753, 0.00191 0.003073 -0.006753, 0.00191 0.001484 -0.006753, -0.00191 0.003073 -0.006753, -0.00191 0.001484 -0.006753
+                      -0.06198 0.1194 0.001484 -0.06198 -0.003959 0.001484 0.01692 -0.003959 0.001484 0.01692 0.1202 0.001484 -0.06198 0.1194 0.003073 -0.06198 -0.003959 0.003073 0.01692 -0.003959 0.003073 0.01692 0.1202 0.003073 -0.05255 0.00191 0.001484 -0.05255 -0.00191 0.001484 -0.05255 -0.00191 0.003073 -0.05255 0.00191 0.003073 -0.03905 -0.00191 0.001484 -0.03905 -0.00191 0.003073 -0.03905 0.00191 0.001484 -0.03905 0.00191 0.003073 -0.03022 -0.00191 0.003073 -0.03022 0.00191 0.003073 -0.03022 0.00191 0.001484 -0.03022 -0.00191 0.001484 -0.01671 -0.00191 0.003073 -0.01671 -0.00191 0.001484 -0.01671 0.00191 0.003073 -0.01671 0.00191 0.001484 -0.006753 -0.00191 0.003073 -0.006753 0.00191 0.003073 -0.006753 0.00191 0.001484 -0.006753 -0.00191 0.001484 0.006753 -0.00191 0.003073 0.006753 -0.00191 0.001484 0.006753 0.00191 0.003073 0.006753 0.00191 0.001484
                     ]
                   }
                   coordIndex [
@@ -983,7 +1001,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_back_screw Transform {
-            translation -0.03943 0.01925 -0.0354
+            translation 0.0354 0.03943 0.01925
             children [
               Shape {
                 appearance PBRAppearance {
@@ -994,7 +1012,7 @@ PROTO BoeBot [
                 geometry DEF left_back_screw_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                      0.00268 -0.0004726 0.01947 0.00268 -0.0004726 0 -0.002357 0.001361 0 0 -0.002721 0 -0.00268 -0.0004726 0.01947 0 0.002721 0.01947 0.0009308 0.002557 0 -0.002357 -0.001361 0 -0.0009308 -0.002557 0.01947 -0.0009308 0.002557 0 0.002357 0.001361 0 0.001749 -0.002085 0 -0.001749 0.002085 0.01947 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0 -0.002721 0.01947 0.0009308 -0.002557 0 0.00268 0.0004726 0 0.002357 -0.001361 0 0.001749 0.002085 0
                     ]
                   }
                   coordIndex [
@@ -1005,7 +1023,7 @@ PROTO BoeBot [
             ]
           }
           DEF right_back_screw Transform {
-            translation -0.03943 0.01925 0.03507
+            translation -0.03507 0.03943 0.01925
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1016,7 +1034,7 @@ PROTO BoeBot [
                 geometry DEF right_back_screw_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                      0.00268 -0.0004726 0.01947 0.00268 -0.0004726 0 -0.002357 0.001361 0 0 -0.002721 0 -0.00268 -0.0004726 0.01947 0 0.002721 0.01947 0.0009308 0.002557 0 -0.002357 -0.001361 0 -0.0009308 -0.002557 0.01947 -0.0009308 0.002557 0 0.002357 0.001361 0 0.001749 -0.002085 0 -0.001749 0.002085 0.01947 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0 -0.002721 0.01947 0.0009308 -0.002557 0 0.00268 0.0004726 0 0.002357 -0.001361 0 0.001749 0.002085 0
                     ]
                   }
                   coordIndex [
@@ -1027,7 +1045,7 @@ PROTO BoeBot [
             ]
           }
           DEF right_front_screw Transform {
-            translation 0.0574 0.01925 0.03507
+            translation -0.03507 -0.0574 0.01925
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1038,7 +1056,7 @@ PROTO BoeBot [
                 geometry DEF right_front_screw_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                      0.00268 -0.0004726 0.01947 0.00268 -0.0004726 0 -0.002357 0.001361 0 0 -0.002721 0 -0.00268 -0.0004726 0.01947 0 0.002721 0.01947 0.0009308 0.002557 0 -0.002357 -0.001361 0 -0.0009308 -0.002557 0.01947 -0.0009308 0.002557 0 0.002357 0.001361 0 0.001749 -0.002085 0 -0.001749 0.002085 0.01947 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0 -0.002721 0.01947 0.0009308 -0.002557 0 0.00268 0.0004726 0 0.002357 -0.001361 0 0.001749 0.002085 0
                     ]
                   }
                   coordIndex [
@@ -1049,7 +1067,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_front_screw Transform {
-            translation 0.0574 0.01925 -0.03503
+            translation 0.03503 -0.0574 0.01925
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1060,7 +1078,7 @@ PROTO BoeBot [
                 geometry DEF left_front_screw_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                      0.00268 -0.0004726 0.01947 0.00268 -0.0004726 0 -0.002357 0.001361 0 0 -0.002721 0 -0.00268 -0.0004726 0.01947 0 0.002721 0.01947 0.0009308 0.002557 0 -0.002357 -0.001361 0 -0.0009308 -0.002557 0.01947 -0.0009308 0.002557 0 0.002357 0.001361 0 0.001749 -0.002085 0 -0.001749 0.002085 0.01947 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0 -0.002721 0.01947 0.0009308 -0.002557 0 0.00268 0.0004726 0 0.002357 -0.001361 0 0.001749 0.002085 0
                     ]
                   }
                   coordIndex [
@@ -1071,7 +1089,7 @@ PROTO BoeBot [
             ]
           }
           DEF back_side Transform {
-            translation -0.053 -0.001431 0.02171
+            translation -0.02171 0.053 -0.001431
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1081,7 +1099,7 @@ PROTO BoeBot [
                 geometry DEF back_side_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      -0.002624 0 -0.03822, -0.001136 0.003509 -0.004455, -0.001608 0.01326 -0.05054, -0.002164 -0.02516 -0.005204, -0.002272 0.01977 0.01681, -0.00125 -0.025 -0.03901, -0.002248 0 0.004455, -0.002634 0.009747 -0.03199, -0.002282 0.009417 0.007724, -0.00236 -0.003097 -0.01063, -0.001512 0.003509 -0.04713, -0.002446 0.009417 -0.01083, -0.002552 -0.006097 -0.03471, -0.002481 0.001012 -0.02129, -0.002953 0.01939 -0.0608, -0.001058 0.003509 0.004455, -0.002702 0 -0.04713, -0.001444 0.01326 -0.03199, -0.002526 -0.02472 -0.04589, -0.002111 -0.02449 0.001364, -0.002326 0 -0.004455, -0.001092 0.01293 0.007724, -0.001024 -0.01427 -0.005266, -0.001256 0.01293 -0.01083, -0.001434 0.003509 -0.03822, -0.002798 0.009747 -0.05054, -0.001339 -0.006089 -0.03472, -0.001034 0 0.004455, -0.001489 0 -0.04713, -0.002271 0.003509 0.004455, -0.001421 0.009747 -0.03199, -0.001058 0.01978 0.01679, -0.001268 0.001021 -0.0213, -0.002726 0.003509 -0.04713, -0.001147 -0.003089 -0.01064, -0.001069 0.009417 0.007724, -0.001232 0.009417 -0.01083, -0.001739 0.0194 -0.06081, -0.0009509 -0.02515 -0.005215, -0.002658 0.01326 -0.03199, -0.00235 0.003509 -0.004455, -0.002647 0.003509 -0.03822, -0.001329 -0.002227 -0.03067, -0.002527 -0.01315 -0.03718, -0.001584 0.009747 -0.05054, -0.002469 0.01293 -0.01083, -0.002306 0.01293 0.007724, -0.002821 0.01326 -0.05054, -0.002512 0.0006737 -0.02504, -0.001312 -0.02471 -0.0459, -0.002238 -0.01428 -0.005255, -0.0008976 -0.02448 0.001354, -0.001113 0 -0.004455, -0.00141 0 -0.03822, -0.002542 -0.002235 -0.03066, -0.001299 0.0006822 -0.02505, -0.001313 -0.01314 -0.03719, -0.002324 -0.005969 -0.008736, -0.002181 -0.02228 -0.004905, -0.002463 -0.02501 -0.039, -0.001111 -0.005961 -0.008746, -0.0009676 -0.02227 -0.004915, -0.002416 -0.0008793 -0.01533, -0.001203 -0.0008708 -0.01534
+                      0.03822 0.002624 0 0.004455 0.001136 0.003509 0.05054 0.001608 0.01326 0.005204 0.002164 -0.02516 -0.01681 0.002272 0.01977 0.03901 0.00125 -0.025 -0.004455 0.002248 0 0.03199 0.002634 0.009747 -0.007724 0.002282 0.009417 0.01063 0.00236 -0.003097 0.04713 0.001512 0.003509 0.01083 0.002446 0.009417 0.03471 0.002552 -0.006097 0.02129 0.002481 0.001012 0.0608 0.002953 0.01939 -0.004455 0.001058 0.003509 0.04713 0.002702 0 0.03199 0.001444 0.01326 0.04589 0.002526 -0.02472 -0.001364 0.002111 -0.02449 0.004455 0.002326 0 -0.007724 0.001092 0.01293 0.005266 0.001024 -0.01427 0.01083 0.001256 0.01293 0.03822 0.001434 0.003509 0.05054 0.002798 0.009747 0.03472 0.001339 -0.006089 -0.004455 0.001034 0 0.04713 0.001489 0 -0.004455 0.002271 0.003509 0.03199 0.001421 0.009747 -0.01679 0.001058 0.01978 0.0213 0.001268 0.001021 0.04713 0.002726 0.003509 0.01064 0.001147 -0.003089 -0.007724 0.001069 0.009417 0.01083 0.001232 0.009417 0.06081 0.001739 0.0194 0.005215 0.0009509 -0.02515 0.03199 0.002658 0.01326 0.004455 0.00235 0.003509 0.03822 0.002647 0.003509 0.03067 0.001329 -0.002227 0.03718 0.002527 -0.01315 0.05054 0.001584 0.009747 0.01083 0.002469 0.01293 -0.007724 0.002306 0.01293 0.05054 0.002821 0.01326 0.02504 0.002512 0.0006737 0.0459 0.001312 -0.02471 0.005255 0.002238 -0.01428 -0.001354 0.0008976 -0.02448 0.004455 0.001113 0 0.03822 0.00141 0 0.03066 0.002542 -0.002235 0.02505 0.001299 0.0006822 0.03719 0.001313 -0.01314 0.008736 0.002324 -0.005969 0.004905 0.002181 -0.02228 0.039 0.002463 -0.02501 0.008746 0.001111 -0.005961 0.004915 0.0009676 -0.02227 0.01533 0.002416 -0.0008793 0.01534 0.001203 -0.0008708
                     ]
                   }
                   coordIndex [
@@ -1092,7 +1110,7 @@ PROTO BoeBot [
             ]
           }
           DEF left_side Transform {
-            translation -0.00773 -0.006306 -0.038
+            translation 0.038 0.00773 -0.006306
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1102,7 +1120,7 @@ PROTO BoeBot [
                 geometry DEF left_side_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.01258 -6.595e-5 5.189e-5, -0.01256 0.002832 0.000167, -0.01258 6.595e-5 -0.001436, 0.01259 0.002543 -0.001454, -0.01256 0.002832 -0.001386, 0.01258 -6.595e-5 -0.001502, 0.01179 0.002704 -0.001449, -0.01258 6.595e-5 0.000117, 0.01259 0.0027 0.0001019, 0.07081 0.000376 -8.532e-5, 0.0491 -0.01209 -0.0002567, -0.0176 0.01683 0.0004327, 0.07126 0.01486 0.0001755, -0.04509 0.005421 0.0002949, 0.07545 0.02427 -0.001218, 0.07576 -0.0007594 -0.0001182, 0.07186 0.01236 -0.001425, -0.04274 0.01973 -0.001006, 0.07313 0.001492 -0.001624, -0.02911 0.009066 -0.001232, 0.07186 0.01464 -0.001383, -0.003956 0.008934 -0.001298, -0.003956 0.008934 0.0002559, -0.01759 0.01959 -0.001071, -0.02911 0.009066 0.000321, 0.07116 0.01213 0.0001265, -0.04783 0.009195 -0.001183, -0.02909 0.01183 0.000371, 0.07169 0.01505 -6.086e-5, 0.008257 -0.01125 -0.0001397, 0.07316 0.002207 -5.805e-5, 0.0704 0.01333 0.00015, 0.07306 0.01259 -0.0008109, 0.073 0.01445 0.0001637, 0.07334 0.01344 0.0001447, -0.04276 0.01696 0.0004978, -0.04713 0.02434 -0.0009112, 0.07142 0.001973 -0.001611, 0.07186 0.01201 -0.0009116, 0.07114 0.01481 -0.000796, 0.0713 0.01207 0.0001251, 0.07576 -0.00073 -0.001671, 0.07306 -5.904e-5 -9.88e-5, 0.07079 0.01317 -0.001407, 0.07294 0.01379 -0.001401, 0.072 5.042e-5 -0.001648, 0.07251 0.01211 0.0001226, 0.07278 0.01461 -0.0009275, -0.04274 0.01973 0.0005478, -0.003942 0.0117 0.0003059, -0.003942 0.0117 -0.001248, -0.01759 0.01959 0.0004827, -0.0176 0.01683 -0.001121, -0.04276 0.01696 -0.001056, -0.02909 0.01183 -0.001182, 0.07152 0.002516 -4.837e-5, 0.0491 -0.01206 -0.00181, 0.07546 0.02424 0.0003348, 0.07053 0.01409 -0.0008661, -0.0451 0.00545 -0.001258, -0.04712 0.02431 0.0006417, 0.0704 0.01333 0.00015, 0.07059 0.01259 -0.0005674, 0.07222 0.01494 0.0001746, 0.008253 -0.01122 -0.001693, -0.04782 0.009165 0.0003695, 0.07169 0.01191 -6.086e-5, 0.0726 0.01265 -0.001421, 0.07072 0.01444 0.0001693, 0.07331 0.01287 -0.0003141, 0.07149 -0.0002714 -9.873e-5, 0.07104 0.001281 -0.001623, 0.07091 0.01409 -0.001391, 0.07131 0.01201 -0.0005428, 0.07328 0.01409 -3.271e-5, 0.07304 0.0144 0.0001628, 0.07192 0.01505 -0.0006129, 0.07359 0.0009696 -8.15e-5, 0.07215 0.01191 -0.0004307, 0.07333 0.01333 0.0001426, 0.0734 0.01348 -0.0006187, 0.07289 0.0003921 -0.001644, 0.0707 0.001587 -6.314e-5
+                      -5.189e-05 -0.01258 -6.595e-05 -0.000167 0.01256 0.002832 0.001436 0.01258 6.595e-05 0.001454 -0.01259 0.002543 0.001386 0.01256 0.002832 0.001502 -0.01258 -6.595e-05 0.001449 -0.01179 0.002704 -0.000117 0.01258 6.595e-05 -0.0001019 -0.01259 0.0027 8.532e-05 -0.07081 0.000376 0.0002567 -0.0491 -0.01209 -0.0004327 0.0176 0.01683 -0.0001755 -0.07126 0.01486 -0.0002949 0.04509 0.005421 0.001218 -0.07545 0.02427 0.0001182 -0.07576 -0.0007594 0.001425 -0.07186 0.01236 0.001006 0.04274 0.01973 0.001624 -0.07313 0.001492 0.001232 0.02911 0.009066 0.001383 -0.07186 0.01464 0.001298 0.003956 0.008934 -0.0002559 0.003956 0.008934 0.001071 0.01759 0.01959 -0.000321 0.02911 0.009066 -0.0001265 -0.07116 0.01213 0.001183 0.04783 0.009195 -0.000371 0.02909 0.01183 6.086e-05 -0.07169 0.01505 0.0001397 -0.008257 -0.01125 5.805e-05 -0.07316 0.002207 -0.00015 -0.0704 0.01333 0.0008109 -0.07306 0.01259 -0.0001637 -0.073 0.01445 -0.0001447 -0.07334 0.01344 -0.0004978 0.04276 0.01696 0.0009112 0.04713 0.02434 0.001611 -0.07142 0.001973 0.0009116 -0.07186 0.01201 0.000796 -0.07114 0.01481 -0.0001251 -0.0713 0.01207 0.001671 -0.07576 -0.00073 9.88e-05 -0.07306 -5.904e-05 0.001407 -0.07079 0.01317 0.001401 -0.07294 0.01379 0.001648 -0.072 5.042e-05 -0.0001226 -0.07251 0.01211 0.0009275 -0.07278 0.01461 -0.0005478 0.04274 0.01973 -0.0003059 0.003942 0.0117 0.001248 0.003942 0.0117 -0.0004827 0.01759 0.01959 0.001121 0.0176 0.01683 0.001056 0.04276 0.01696 0.001182 0.02909 0.01183 4.837e-05 -0.07152 0.002516 0.00181 -0.0491 -0.01206 -0.0003348 -0.07546 0.02424 0.0008661 -0.07053 0.01409 0.001258 0.0451 0.00545 -0.0006417 0.04712 0.02431 -0.00015 -0.0704 0.01333 0.0005674 -0.07059 0.01259 -0.0001746 -0.07222 0.01494 0.001693 -0.008253 -0.01122 -0.0003695 0.04782 0.009165 6.086e-05 -0.07169 0.01191 0.001421 -0.0726 0.01265 -0.0001693 -0.07072 0.01444 0.0003141 -0.07331 0.01287 9.873e-05 -0.07149 -0.0002714 0.001623 -0.07104 0.001281 0.001391 -0.07091 0.01409 0.0005428 -0.07131 0.01201 3.271e-05 -0.07328 0.01409 -0.0001628 -0.07304 0.0144 0.0006129 -0.07192 0.01505 8.15e-05 -0.07359 0.0009696 0.0004307 -0.07215 0.01191 -0.0001426 -0.07333 0.01333 0.0006187 -0.0734 0.01348 0.001644 -0.07289 0.0003921 6.314e-05 -0.0707 0.001587
                     ]
                   }
                   coordIndex [
@@ -1113,7 +1131,7 @@ PROTO BoeBot [
             ]
           }
           DEF front_side Transform {
-            translation 0.06689 0.008742 0.009575
+            translation -0.009575 -0.06689 0.008742
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1123,7 +1141,7 @@ PROTO BoeBot [
                 geometry DEF front_side_FACES IndexedFaceSet {
                   coord Coordinate {
                     point [
-                      0.0007957 0.002722 -0.01551, -0.0006382 0.0042 0.00698, 0.000717 -0.01162 -0.007233, -0.0005718 0.001365 0, 0.0008724 0.002722 -0.02357, -0.0004094 -0.001373 -0.01707, -0.0002005 -0.001459 0.0002005, 0.001121 0.006125 -0.04967, 0.0003542 0.006562 0.0309, -0.000503 0.004044 -0.007233, -0.0004195 0.001237 -0.01601, -0.000559 0 -0.001341, 0.0001575 0.001459 -0.01693, 0.0006358 0 0.0013, -0.0004242 0.0042 -0.01551, -0.000457 -0.01598 -0.01206, 0.0008054 -0.001225 -0.01653, -0.0005615 0.0042 -0.001079, 0.000685 -0.01567 -0.003878, 0.0007957 0.0002901 -0.01551, 0.0002781 0.001459 5.532e-5, 0.0008154 -0.0008262 -0.01758, -0.0005844 0 0.001328, -0.0007789 0.006221 0.02177, 0.001043 0.005787 -0.04147, 0.0006584 0.002722 -0.001079, -0.0004219 -0.001052 -0.01576, 0.0008154 0.0008262 -0.01758, -0.0004 -0.0002901 -0.01805, 0.0006526 -0.001237 -0.0004716, 0.0006578 0.0008262 -0.001012, -0.0005348 -0.01567 -0.003889, -0.0004797 -0.01162 -0.00968, -0.0005798 -0.001052 0.0008474, -0.0004259 0.0002901 -0.01534, -0.0001011 0.009353 -0.04948, 0 -0.0008262 -0.001209, -0.0003475 0.0042 -0.02357, 0.0007402 0.004044 -0.00968, 0.0005817 0.002722 0.00698, -0.0008616 0.009445 0.03047, 0.0007628 -0.01598 -0.01205, -0.0004094 0.001374 -0.01707, 0.0006436 0.001237 0.0004827, -0.0005663 -0.001237 -0.0005728, 0.000441 0.006221 0.02178, 0.000571 0.001237 -0.01612, 0.0002781 -0.0002901 -0.01529, -0.0001771 0.005787 -0.04148, 0.0002358 -0.001459 -0.01685, 0.0008184 0 -0.01789, 0.0006436 -0.001237 0.0004827, 0.0006604 0 -0.001287, -0.0005832 0.0005691 0.001204, -0.0005636 0.001052 -0.0008586, 0.0008085 0.001222 -0.01685, -0.0006382 0.002722 0.00698, 0.0006584 0.0042 -0.001079, 0.0007402 -0.01162 -0.00968, -0.000503 -0.01162 -0.007233, 0.000717 0.004044 -0.007233, -0.0004797 0.004044 -0.00968, -0.000404 0.001052 -0.01764, 0.001119 0.009353 -0.04947, 0 -0.0008262 -0.0179, 0.0007957 0.0042 -0.01551, -0.0004242 0.002722 -0.01551, -0.0004165 -0.001374 -0.01633, 0.0001575 -0.001237 -0.0159, 0.0002005 0.001052 0.001008, 0 0.001374 -0.0005563, 0.0002358 -0.0008262 0.001185, 0.0002358 0.0008262 -0.01551, 0 -0.001374 -0.0005563, 0.0003582 0.009445 0.03048, 0.0005817 0.0042 0.00698, -0.0005772 0.001233 0.0005704, 0 0.0008262 -0.0179, 0 0.0002901 -0.001426, 0 0.0008262 -0.001209, 0.0007984 0.0008262 -0.01579, -0.0003475 0.002722 -0.02357, 0.0008724 0.0042 -0.02357, -0.0005615 0.002722 -0.001079, 0 -0.0002901 0.001426, -0.000404 -0.001052 -0.01764, 0.0001085 -0.001374 0.0005456, 0 0.0005691 0.001343, -9.917e-5 0.006125 -0.04968, -0.0008656 0.006562 0.03088, 0.0008009 -0.001052 -0.01606, 0.0006384 -0.0008241 0.001024, 0 0.001237 -0.0175, 0 -0.001237 -0.0175, 0.0001575 0.001237 -0.0159, 5.532e-5 0.001459 -0.01641, -0.0005602 -0.0005691 -0.001216, 0.0006578 -0.0008262 -0.001012, 0.0007957 -0.0002901 -0.01551, 0.0002781 -0.001459 -5.532e-5, 0 -0.0002901 -0.01812, 0.0002005 -0.001459 -0.01649, 0.0006526 0.001237 -0.0004716, 0.0006384 0.0008262 0.001023, -0.0005718 -0.001365 0, 0.000262 0.0005691 -0.01801, 0.0001085 0.001459 0.000262, 0 -0.0002901 -0.001426, 0.0002358 -0.0008262 -0.01551, 0.0005563 0.001374 -0.01669, -0.0001575 -0.001459 -0.0002358, -0.0004237 0.0008262 -0.01556, 0.0003933 0.001052 -0.01764, -0.000262 0.001459 -0.0001085, 0.0006469 -0.001317 0.0001321, 0 -0.001374 -0.01725, -0.0003933 0.001052 0.0009496, -0.0001085 -0.001374 -0.01615, 0.0002781 0.0002901 -0.01529, 0.0008129 -0.001052 -0.01731, -0.0002129 0.001374 0.0005139, 0.0008129 0.001052 -0.01731, 0.000309 -0.001237 -0.01744, -0.0004237 -0.0008225 -0.01556, -0.0004259 -0.0002901 -0.01534, -0.0004 0.0002901 -0.01805, 5.532e-5 0.001459 -0.0002781, -0.0004022 0.0008262 -0.01783, 0.0006592 -0.0005682 -0.001163, 0.000637 0.0005691 0.001175, -0.0005832 -0.0005691 0.001204, 0.0004625 -0.0008262 -0.01781, -0.0005602 0.0005691 -0.001216, 0.0005563 0 -0.01804, 0 -0.001052 -0.001028, -0.0002005 -0.001052 0.001008, -0.0001575 -0.001459 -0.01693, -0.000413 0.001418 -0.01669, -0.0005772 -0.001234 0.0005702, 0 0.001052 -0.001028, 0.0006469 0.001317 0.0001287, 0.0002129 0.001374 -0.01618, 0.0005456 -0.001374 -0.0168, 0.000309 0.001374 -0.0004625, -0.0002005 -0.001459 -0.01649
+                      0.01551 -0.0007957 0.002722 -0.00698 0.0006382 0.0042 0.007233 -0.000717 -0.01162 0 0.0005718 0.001365 0.02357 -0.0008724 0.002722 0.01707 0.0004094 -0.001373 -0.0002005 0.0002005 -0.001459 0.04967 -0.001121 0.006125 -0.0309 -0.0003542 0.006562 0.007233 0.000503 0.004044 0.01601 0.0004195 0.001237 0.001341 0.000559 0 0.01693 -0.0001575 0.001459 -0.0013 -0.0006358 0 0.01551 0.0004242 0.0042 0.01206 0.000457 -0.01598 0.01653 -0.0008054 -0.001225 0.001079 0.0005615 0.0042 0.003878 -0.000685 -0.01567 0.01551 -0.0007957 0.0002901 -5.532e-05 -0.0002781 0.001459 0.01758 -0.0008154 -0.0008262 -0.001328 0.0005844 0 -0.02177 0.0007789 0.006221 0.04147 -0.001043 0.005787 0.001079 -0.0006584 0.002722 0.01576 0.0004219 -0.001052 0.01758 -0.0008154 0.0008262 0.01805 0.0004 -0.0002901 0.0004716 -0.0006526 -0.001237 0.001012 -0.0006578 0.0008262 0.003889 0.0005348 -0.01567 0.00968 0.0004797 -0.01162 -0.0008474 0.0005798 -0.001052 0.01534 0.0004259 0.0002901 0.04948 0.0001011 0.009353 0.001209 0 -0.0008262 0.02357 0.0003475 0.0042 0.00968 -0.0007402 0.004044 -0.00698 -0.0005817 0.002722 -0.03047 0.0008616 0.009445 0.01205 -0.0007628 -0.01598 0.01707 0.0004094 0.001374 -0.0004827 -0.0006436 0.001237 0.0005728 0.0005663 -0.001237 -0.02178 -0.000441 0.006221 0.01612 -0.000571 0.001237 0.01529 -0.0002781 -0.0002901 0.04148 0.0001771 0.005787 0.01685 -0.0002358 -0.001459 0.01789 -0.0008184 0 -0.0004827 -0.0006436 -0.001237 0.001287 -0.0006604 0 -0.001204 0.0005832 0.0005691 0.0008586 0.0005636 0.001052 0.01685 -0.0008085 0.001222 -0.00698 0.0006382 0.002722 0.001079 -0.0006584 0.0042 0.00968 -0.0007402 -0.01162 0.007233 0.000503 -0.01162 0.007233 -0.000717 0.004044 0.00968 0.0004797 0.004044 0.01764 0.000404 0.001052 0.04947 -0.001119 0.009353 0.0179 0 -0.0008262 0.01551 -0.0007957 0.0042 0.01551 0.0004242 0.002722 0.01633 0.0004165 -0.001374 0.0159 -0.0001575 -0.001237 -0.001008 -0.0002005 0.001052 0.0005563 0 0.001374 -0.001185 -0.0002358 -0.0008262 0.01551 -0.0002358 0.0008262 0.0005563 0 -0.001374 -0.03048 -0.0003582 0.009445 -0.00698 -0.0005817 0.0042 -0.0005704 0.0005772 0.001233 0.0179 0 0.0008262 0.001426 0 0.0002901 0.001209 0 0.0008262 0.01579 -0.0007984 0.0008262 0.02357 0.0003475 0.002722 0.02357 -0.0008724 0.0042 0.001079 0.0005615 0.002722 -0.001426 0 -0.0002901 0.01764 0.000404 -0.001052 -0.0005456 -0.0001085 -0.001374 -0.001343 0 0.0005691 0.04968 9.917e-05 0.006125 -0.03088 0.0008656 0.006562 0.01606 -0.0008009 -0.001052 -0.001024 -0.0006384 -0.0008241 0.0175 0 0.001237 0.0175 0 -0.001237 0.0159 -0.0001575 0.001237 0.01641 -5.532e-05 0.001459 0.001216 0.0005602 -0.0005691 0.001012 -0.0006578 -0.0008262 0.01551 -0.0007957 -0.0002901 5.532e-05 -0.0002781 -0.001459 0.01812 0 -0.0002901 0.01649 -0.0002005 -0.001459 0.0004716 -0.0006526 0.001237 -0.001023 -0.0006384 0.0008262 0 0.0005718 -0.001365 0.01801 -0.000262 0.0005691 -0.000262 -0.0001085 0.001459 0.001426 0 -0.0002901 0.01551 -0.0002358 -0.0008262 0.01669 -0.0005563 0.001374 0.0002358 0.0001575 -0.001459 0.01556 0.0004237 0.0008262 0.01764 -0.0003933 0.001052 0.0001085 0.000262 0.001459 -0.0001321 -0.0006469 -0.001317 0.01725 0 -0.001374 -0.0009496 0.0003933 0.001052 0.01615 0.0001085 -0.001374 0.01529 -0.0002781 0.0002901 0.01731 -0.0008129 -0.001052 -0.0005139 0.0002129 0.001374 0.01731 -0.0008129 0.001052 0.01744 -0.000309 -0.001237 0.01556 0.0004237 -0.0008225 0.01534 0.0004259 -0.0002901 0.01805 0.0004 0.0002901 0.0002781 -5.532e-05 0.001459 0.01783 0.0004022 0.0008262 0.001163 -0.0006592 -0.0005682 -0.001175 -0.000637 0.0005691 -0.001204 0.0005832 -0.0005691 0.01781 -0.0004625 -0.0008262 0.001216 0.0005602 0.0005691 0.01804 -0.0005563 0 0.001028 0 -0.001052 -0.001008 0.0002005 -0.001052 0.01693 0.0001575 -0.001459 0.01669 0.000413 0.001418 -0.0005702 0.0005772 -0.001234 0.001028 0 0.001052 -0.0001287 -0.0006469 0.001317 0.01618 -0.0002129 0.001374 0.0168 -0.0005456 -0.001374 0.0004625 -0.000309 0.001374 0.01649 0.0002005 -0.001459
                     ]
                   }
                   coordIndex [
@@ -1140,23 +1158,23 @@ PROTO BoeBot [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.012 -0.007
+          translation 0.007 0 0.012
           children [
             Box {
-              size 0.075 0.06 0.105
+              size 0.105 0.075 0.06
             }
           ]
         }
         Transform {
-          translation 0 0.005 -0.006
+          translation 0.006 0 0.005
           children [
             Box {
-              size 0.08 0.03 0.123
+              size 0.123 0.08 0.03
             }
           ]
         }
         Transform {
-          translation 0 -0.0245 0.056
+          translation -0.056 0 -0.0245
           children [
             USE back_wheel_sphere
           ]

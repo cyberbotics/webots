@@ -1,10 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Simulation showing the KUKA youBot model"
   ]
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "box"
@@ -37,8 +36,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.12712896951333258 -0.9255637780415025 -0.35660891448198306 3.85207
-  position 2.14386 2.68552 -2.17579
+  orientation 0.24536800754293053 -0.7766768483324324 -0.5801444769527778 5.612784394743679
+  position -3.937090165483516 -1.3211166457174262 2.9712314314009167
 }
 TexturedBackground {
 }
@@ -48,90 +47,105 @@ Floor {
   size 3 3
 }
 WoodenBox {
-  translation 1.75 0.25 1
+  translation 1 1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(1)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation 1.75 0.25 0
+  translation 0 1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(2)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation 1.75 0.25 -1
+  translation -1 1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(3)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation -1.75 0.25 1
+  translation 1 -1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(4)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation -1.75 0.25 0
+  translation 0 -1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(5)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation -1.75 0.25 -1
+  translation -1 -1.75 0.25
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "wooden box(6)"
   size 0.5 0.5 1
   locked TRUE
 }
 WoodenBox {
-  translation 1.5 0.25 -1.75
+  translation -1.75 1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(7)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation 0.5 0.25 -1.75
+  translation -1.75 0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(8)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation -0.5 0.25 -1.75
+  translation -1.75 -0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(9)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation -1.5 0.25 -1.75
+  translation -1.75 -1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(10)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation 1.5 0.25 1.75
+  translation 1.75 1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(11)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation 0.5 0.25 1.75
+  translation 1.75 0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(12)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation -0.5 0.25 1.75
+  translation 1.75 -0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(13)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
-  translation -1.5 0.25 1.75
+  translation 1.75 -1.5 0.25
+  rotation 0 0 1 1.5708
   size 1 0.5 0.5
   locked TRUE
 }
 DEF SRC_PLATFORM SolidBox {
-  translation 1 0.005 0
+  translation 0 1 0.005
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "platform"
   size 0.1 0.01 0.2
   appearance PBRAppearance {
@@ -141,8 +155,8 @@ DEF SRC_PLATFORM SolidBox {
   }
 }
 DEF TMP_PLATFORM SolidBox {
-  translation -0.5 0.005 0.866
-  rotation 0 1 0 -2.0944
+  translation 0.866 -0.5 0.005
+  rotation 0.9351119574552123 -0.25056498860004495 -0.25056498860004495 1.637835
   name "platform(1)"
   size 0.1 0.01 0.2
   appearance PBRAppearance {
@@ -152,8 +166,8 @@ DEF TMP_PLATFORM SolidBox {
   }
 }
 DEF DST_PLATFORM SolidBox {
-  translation -0.5 0.005 -0.866
-  rotation 0 1 0 2.0944
+  translation -0.866 -0.5 0.005
+  rotation -0.1861590761099438 0.6947462840425606 0.6947462840425606 -2.773489
   name "platform(2)"
   size 0.1 0.01 0.2
   appearance PBRAppearance {
@@ -163,54 +177,61 @@ DEF DST_PLATFORM SolidBox {
   }
 }
 DEF C1 KukaBox {
-  translation 1 0.035 -0.06
+  translation -0.06 1 0.035
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "Kuka box(1)"
   color 0.12549 0.847059 0.12549
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 DEF C2 KukaBox {
-  translation 1 0.035 0
+  translation 0 1 0.035
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "Kuka box(2)"
   color 0.12549 0.847059 0.12549
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 DEF C3 KukaBox {
-  translation 1 0.035 0.06
+  translation 0.06 1 0.035
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "Kuka box(3)"
   color 0.12549 0.847059 0.12549
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 DEF B1 KukaBox {
-  translation 1 0.085 -0.03
+  translation -0.03 1 0.085
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "Kuka box(4)"
   color 0.901961 0.901961 0.0901961
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 DEF B2 KukaBox {
-  translation 1 0.085 0.03
+  translation 0.03 1 0.085
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   name "Kuka box(5)"
   color 0.901961 0.901961 0.0901961
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 DEF A1 KukaBox {
-  translation 1 0.135 0
+  translation 0 1 0.135
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   color 0.901961 0.0901961 0.0901961
   size 0.05 0.05 0.05
   contactMaterial "box"
 }
 YoubotFlag {
-  translation 1.35 0 0
+  translation 0 1.35 0
+  rotation 0 0 1 -3.141592653589793
   name "youBot flag(1)"
   locked TRUE
 }
 YoubotFlag {
-  translation -0.675 0 1.16913
-  rotation 0 1 0 -2.0944
+  translation 1.16913 -0.675 0
+  rotation 0 0 1 3.14
   name "youBot flag(2)"
   textureURL [
     "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_tmp.png"
@@ -218,15 +239,16 @@ YoubotFlag {
   locked TRUE
 }
 YoubotFlag {
-  translation -0.675 0 -1.16913
-  rotation 0 1 0 2.0944
+  translation -1.16913 -0.675 0
+  rotation 0 0 1 3.14157
   textureURL [
     "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_goal.png"
   ]
   locked TRUE
 }
 Youbot {
-  translation 0 0.102838 0
+  translation 0 0 0.102838
+  rotation 0 0 1 1.5708
   controller "hanoi"
   bodySlot [
     Kinect {

@@ -1,15 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A pipe object implemented at the Solid-node level.
 # Graphically, the SolidPipe is an IndexedFaceSet.
 # Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
-# The 'accuracy' field defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
+# The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
 # template language: javascript
 
 PROTO SolidPipe [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "pipe"
   field SFFloat    height                2                                                                                                             # Defines the height of the pipe.
   field SFFloat    radius                1                                                                                                             # Defines the radius of the pipe.
@@ -86,19 +86,19 @@ PROTO SolidPipe [
               >%
               # top outer
               %< for (let i = 0; i < outerCircle.length; ++i) { >%
-                %<= outerCircle[i].x >% %<= height * 0.5 >% %<= outerCircle[i].y >%
+                %<= outerCircle[i].x >% %<= outerCircle[i].y >% %<= height * 0.5 >%
               %< } >%
               # top inner
               %< for (let i = 0; i < innerCircle.length; ++i) { >%
-                %<= innerCircle[i].x >% %<= height * 0.5 >% %<= innerCircle[i].y >%
+                %<= innerCircle[i].x >% %<= innerCircle[i].y >% %<= height * 0.5 >%
               %< } >%
               # bottom outer
               %< for (let i = 0; i < outerCircle.length; ++i) { >%
-                %<= outerCircle[i].x >% %<= - height * 0.5 >% %<= outerCircle[i].y >%
+                %<= outerCircle[i].x >% %<= outerCircle[i].y >% %<= - height * 0.5 >%
               %< } >%
               # bottom inner
               %< for (let i = 0; i < innerCircle.length; ++i) { >%
-                %<= innerCircle[i].x >% %<= - height * 0.5 >% %<= innerCircle[i].y >%
+                %<= innerCircle[i].x >% %<= innerCircle[i].y >% %<= - height * 0.5 >%
               %< } >%
             ]
           }
@@ -108,6 +108,14 @@ PROTO SolidPipe [
                 const innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
                 const outerTexCircle = wbgeometry.circle(0.5, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
               >%
+              # outer circle # vertically inverted
+              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
+                %<= outerTexCircle[i].x >% %<= - outerTexCircle[i].y >%
+              %< } >%
+              # inner circle # vertically inverted
+              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
+                %<= innerTexCircle[i].x >% %<= - innerTexCircle[i].y >%
+              %< } >%
               # outer circle
               %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
                 %<= outerTexCircle[i].x >% %<= outerTexCircle[i].y >%
@@ -116,21 +124,13 @@ PROTO SolidPipe [
               %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
                 %<= innerTexCircle[i].x >% %<= innerTexCircle[i].y >%
               %< } >%
-              # outer circlea # vertically inverted
-              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
-                %<= outerTexCircle[i].x >% %<= -outerTexCircle[i].y >%
-              %< } >%
-              # inner circle # vertically inverted
-              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
-                %<= innerTexCircle[i].x >% %<= -innerTexCircle[i].y >%
-              %< } >%
               # top band
               %< for (let i = 0; i <= subdivision; ++i) { >%
-                %<= 1 - i / subdivision >% 1.0
+                %<= i / subdivision - 0.5 >% 1.0
               %< } >%
               # bottom band
               %< for (let i = 0; i <= subdivision; ++i) { >%
-                %<= 1 - i / subdivision >% 0.0
+                %<= i / subdivision - 0.5  >% 0.0
               %< } >%
             ]
           }
@@ -143,19 +143,19 @@ PROTO SolidPipe [
             >%
             # top
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset0 + i >% %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset0 + i + 1 >% -1
+              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset1 + i + 1 >% %<= offset1 + i >% -1
             %< } >%
             # bottom
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
+              %<= offset2 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset2 + i + 1 >% -1
             %< } >%
             # inner side
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset1 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset1 + i + 1 >% -1
+              %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
             %< } >%
             # outer side
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset2 + i + 1 >% %<= offset2 + i >% -1
+              %<= offset0 + i >% %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset0 + i + 1 >% -1
             %< } >%
           ]
           texCoordIndex [
@@ -169,19 +169,19 @@ PROTO SolidPipe [
             >%
             # top
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset2 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset2 + i + 1 >% -1
+              %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
             %< } >%
             # bottom
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset1 + i + 1 >% %<= offset1 + i >% -1
+              %<= offset0 + i >% %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset0 + i + 1 >% -1
             %< } >%
             # inner side
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset4 + i >% %<= offset5 + i >% %<= offset5 + i + 1 >% %<= offset4 + i + 1 >% -1
+              %<= offset4 + i >% %<= offset4 + i + 1 >% %<= offset5 + i + 1 >% %<= offset5 + i >% -1
             %< } >%
             # outer side
             %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-              %<= offset4 + i >% %<= offset4 + i + 1 >% %<= offset5 + i + 1 >% %<= offset5 + i >% -1
+              %<= offset4 + i >% %<= offset5 + i >% %<= offset5 + i + 1 >% %<= offset4 + i + 1 >% -1
             %< } >%
           ]
           creaseAngle 1.5

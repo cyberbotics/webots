@@ -1,11 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {
-  orientation 0.11169797260317144 -0.974901760880025 -0.1925879527628031 4.45337
-  position 12.6962 6.22517 -3.30534
+  orientation 0.12232103847114038 0.4007148865876789 -0.9080006295231107 1.2054035915235701
+  position -7.8517490825003 15.62443019216548 9.386333871378739
 }
 TexturedBackground {
 }
@@ -15,7 +14,8 @@ RectangleArena {
   floorSize 10 10
 }
 SolidBox {
-  translation 0.47 1.1 -0.51
+  translation -0.47 0.51 1.1
+  rotation 0 0 1 -1.5707953071795862
   size 1 0.5 0.5
   physics Physics {
     density -1
@@ -23,8 +23,8 @@ SolidBox {
   }
 }
 SolidPipe {
-  translation 0 1 0
-  rotation 0 0 1 4.71239
+  translation 0 0 1
+  rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 -2.094395307179586
   subdivision 48
   physics Physics {
     density -1
@@ -32,7 +32,8 @@ SolidPipe {
   }
 }
 SolidRoundedBox {
-  translation 0 2.75 1.42
+  translation 1.42 0 2.75
+  rotation 1 0 0 1.5708
   size 1.5 1 2
   borderRadius 0.4
   physics Physics {
@@ -41,7 +42,7 @@ SolidRoundedBox {
   }
 }
 SolidTorus {
-  translation 1.49 2.75 -0.18
+  translation -0.2 1.5 2.7
   majorRadius 0.5
   minorRadius 0.2
   subdivision 40

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable window including walls above and below.
@@ -6,13 +6,13 @@
 
 PROTO Window [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "window"
-  field SFVec3f    size                   0.8 2.4 0.2       # Defines the size of the window.
+  field SFVec3f    size                   0.2 0.8 2.4       # Defines the size of the window.
   field SFFloat    windowThickness        0.05              # Defines the thickness of the window.
   field SFFloat    bottomWallHeight       0.7               # Defines the height of the top wall.
   field SFFloat    windowHeight           1.4               # Defines the height of the window.
-  field SFVec3f    frameSize              0.05 0.05 0.02    # Defines the size of the window frame.
+  field SFVec3f    frameSize              0.05 0.02 0.05    # Defines the size of the window frame.
   field SFVec2f    windowSillSize         0.1 0.05          # Defines the size of the sill below the window.
   field SFNode     wallAppearance         Roughcast {}      # Defines the appearance of the wall.
   field SFNode     frameAppearance        VarnishedPine {}  # Defines the appearance of the frame.
@@ -57,12 +57,12 @@ PROTO Window [
     }
 
     let reset = true;
-    if (windowHeight <= 2 * frameSize.y)
-      console.error('\'frameSize.y\' is too big in comparison to \'windowHeight\'.');
-    else if (windowHeight + bottomWallHeight > size.y)
-      console.error('\'windowHeight\' and \'bottomWallHeight\' are too big in comparison to \'size.y\'.');
-    else if (size.x <= 2 * frameSize.x)
-      console.error('\'frameSize.x\' is too big in comparison to \'size.x\'.');
+    if (windowHeight <= 2 * frameSize.z)
+      console.error('\'frameSize.z\' is too big in comparison to \'windowHeight\'.');
+    else if (windowHeight + bottomWallHeight > size.z)
+      console.error('\'windowHeight\' and \'bottomWallHeight\' are too big in comparison to \'size.z\'.');
+    else if (size.y <= 2 * frameSize.y)
+      console.error('\'frameSize.y\' is too big in comparison to \'size.y\'.');
     else
       reset = false;
 
@@ -81,45 +81,45 @@ PROTO Window [
     children [
       %< if (bottomWallHeight > 0) { >%
         Solid { # bottom wall
-          translation 0 %<= 0.5 * bottomWallHeight >% 0
+          translation 0 0 %<= 0.5 * bottomWallHeight >%
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= bottomWallHeight >% %<= size.z >%
+                size %<= size.x >% %<= size.y >% %<= bottomWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "bottom wall"
           boundingObject Box {
-            size %<= size.x >% %<= bottomWallHeight >% %<= size.z >%
+            size %<= size.x >% %<= size.y >% %<= bottomWallHeight >%
           }
         }
       %< } >%
-      %< let topWallHeight = size.y - bottomWallHeight - windowHeight; >%
+      %< let topWallHeight = size.z - bottomWallHeight - windowHeight; >%
       %< if (topWallHeight > 0) { >%
         Solid { # top wall
-          translation 0 %<= size.y - 0.5 * topWallHeight >% 0
+          translation 0 0 %<= size.z - 0.5 * topWallHeight >%
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= topWallHeight >% %<= size.z >%
+                size %<= size.x >% %<= size.y >% %<= topWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "top wall"
           boundingObject Box {
-            size %<= size.x >% %<= topWallHeight >% %<= size.z >%
+            size %<= size.x >% %<= size.y >% %<= topWallHeight >%
           }
         }
       %< } >%
       SolidBox { # glass
-        translation 0 %<= bottomWallHeight + 0.5 * windowHeight >% 0
+        translation 0 0 %<= bottomWallHeight + 0.5 * windowHeight >%
         name "glass"
-        size %<= size.x - 2 * frameSize.x >% %<= windowHeight - 2 * frameSize.y >% %<= windowThickness >%
+        size %<= windowThickness >% %<= size.y - 2 * frameSize.y >% %<= windowHeight - 2 * frameSize.z >%
         appearance PBRAppearance {
           baseColor 0.8 0.8 0.8
           metalness 0
@@ -129,39 +129,39 @@ PROTO Window [
       }
       %< if (windowSillSize.x > 0 && windowSillSize.y > 0) { >%
         SolidBox { # window sill
-          translation 0 %<= bottomWallHeight + windowSillSize.y * 0.5 >% 0
+          translation 0 0 %<= bottomWallHeight + windowSillSize.y * 0.5 >%
           name "sill"
-          size %<= size.x >% %<= windowSillSize.y >% %<= 2 * windowSillSize.x + size.z + 2 * frameSize.z >%
+          size %<= 2 * windowSillSize.x + size.x + 2 * frameSize.x >% %<= size.y >%  %<= windowSillSize.y >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
       %< } >%
       %< if (frameSize.x > 0 || frameSize.y > 0) { >%
         SolidBox { # bottom frame
-          translation 0 %<= bottomWallHeight + frameSize.y * 0.5 + windowSillSize.y >% 0
+          translation 0 0 %<= bottomWallHeight + frameSize.z * 0.5 + windowSillSize.y >%
           name "bottom frame"
-          size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= size.z + 2 * frameSize.z >%
+          size %<= size.x + 2 * frameSize.x >% %<= size.y - 2 * frameSize.y >%  %<= frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # top frame
-          translation 0 %<= bottomWallHeight + windowHeight - 0.5 * frameSize.y >% 0
+          translation 0 0 %<= bottomWallHeight + windowHeight - 0.5 * frameSize.z >%
           name "top frame"
-          size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= size.z + 2 * frameSize.z >%
+          size %<= size.x + 2 * frameSize.x >% %<= size.y - 2 * frameSize.y >% %<= frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # right frame
-          translation %<= 0.5 * size.x - 0.5 * frameSize.x >% %<= bottomWallHeight + 0.5 * windowHeight >% 0
+          translation 0 %<= 0.5 * size.y - 0.5 * frameSize.y >% %<= bottomWallHeight + 0.5 * windowHeight >%
           name "right frame"
-          size %<= frameSize.x >% %<= windowHeight >% %<= size.z + 2 * frameSize.z >%
+          size %<= size.x + 2 * frameSize.x >% %<= frameSize.y >%  %<= windowHeight >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # left frame
-          translation %<= -0.5 * size.x + 0.5 * frameSize.x >% %<= bottomWallHeight + 0.5 * windowHeight >% 0
+          translation 0 %<= -0.5 * size.y + 0.5 * frameSize.y >% %<= bottomWallHeight + 0.5 * windowHeight >%
           name "left frame"
-          size %<= frameSize.x >% %<= windowHeight >% %<= size.z + 2 * frameSize.z >%
+          size %<= size.x + 2 * frameSize.x >%  %<= frameSize.y >% %<= windowHeight >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }

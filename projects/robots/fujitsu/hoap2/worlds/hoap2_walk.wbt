@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot."
@@ -8,7 +8,6 @@ WorldInfo {
   ]
   title "Fujitsu HOAP-2 walk"
   basicTimeStep 25
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softERP 0.5
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.7921591240814383 0.5976310936111489 0.12377801938821913 5.77173
-  position -0.239505 0.631697 0.803636
+  orientation -0.267737348874143 0.02961421118143284 0.9630367129626715 2.7299379148585783
+  position 0.9338999772410443 -0.395618295148694 0.8755778747556485
   follow "HOAP-2"
 }
 TexturedBackground {
@@ -25,7 +24,8 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF TATAMI Solid {
-  translation 0.0618921 0 0.653058
+  translation 0.653058 0.0618921 0
+  rotation 0 0 1 1.5708
   children [
     DEF WHITE_CENTER Shape {
       appearance PBRAppearance {
@@ -44,16 +44,16 @@ DEF TATAMI Solid {
   ]
   name "ground"
   boundingObject Transform {
-    translation 0 -0.1 0
+    translation 0 0 -0.1
     children [
       Box {
-        size 2.2 0.2 2.2
+        size 2.2 2.2 0.2
       }
     ]
   }
 }
 Hoap2 {
-  translation 0 0.3 0
+  translation 0 0 0.3
   controllerArgs [
     "walk"
   ]

@@ -1,22 +1,22 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a LightSensor device."
   ]
   title "Light Sensor"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9999145421071924 0.007938046364915017 -0.010387295243325724 5.1417
-  position -0.0282472 1.54298 0.684422
+  orientation -0.38636154264624156 -0.00305209646263084 0.9223423676006645 3.1502780411636526
+  position 1.6703492644126905 0.04330207281002885 1.6690729873260608
 }
 TexturedBackground {
 }
 RectangleArena {
 }
 DEF LAMP Solid {
-  translation -0.1 0.095 0
+  translation 0 -0.1 0.095
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -35,11 +35,12 @@ DEF LAMP Solid {
   ]
 }
 DEF ROBOT Robot {
-  translation 0.395525 0 -0.363572
-  rotation 0 1 0 1.52166
+  translation -0.3955 0.3636 0
+  rotation 0 0 1 -1.6199353071795866
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -56,8 +57,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -69,11 +70,11 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176032 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -99,8 +100,8 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -112,8 +113,8 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -123,13 +124,13 @@ DEF ROBOT Robot {
       }
     }
     Transform {
-      translation 0.02 0.063 -0.0385
-      rotation 0 1 0 2.7489
+      translation 0.0385 -0.02 0.063
+      rotation -0.726828171413359 -0.4856551145357015 -0.48565411453546564 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
             Transform {
-              translation 0 0 -1e-05
+              translation 0 0 1e-05
               rotation 0 0 1 0.8
               children [
                 Shape {
@@ -164,15 +165,15 @@ DEF ROBOT Robot {
       ]
     }
     Transform {
-      translation -0.02 0.063 -0.0385
-      rotation 0 1 0 0.3927
+      translation 0.0385 0.02 0.063
+      rotation -0.7268306455324123 0.4856527631523045 0.4856527631523045 -1.884578
       children [
         USE UNUSED_EYE
       ]
     }
     LightSensor {
-      translation -0.02 0.07 -0.042
-      rotation 0 1 0 2.07
+      translation 0.042 0.02 0.07
+      rotation 0 0 -1 -0.499205
       name "ls0"
       lookupTable [
         0 0 0
@@ -180,8 +181,8 @@ DEF ROBOT Robot {
       ]
     }
     LightSensor {
-      translation 0.02 0.07 -0.042
-      rotation 0 1 0 1.07
+      translation 0.042 -0.02 0.07
+      rotation 0 0 1 -0.500795
       name "ls1"
       lookupTable [
         0 0 0
@@ -189,8 +190,8 @@ DEF ROBOT Robot {
       ]
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -209,7 +210,8 @@ DEF ROBOT Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]

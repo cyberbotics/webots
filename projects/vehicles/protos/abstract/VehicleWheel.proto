@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/vehiclewheel
@@ -31,6 +31,7 @@ PROTO VehicleWheel [
   field SFNode     physics            Physics {}
   field SFBool     boundingObject     TRUE
   field MFNode     logoSlot           []
+  field SFBool     wheelSide          FALSE                            #TRUE for wheels on the left side of the vehicle, FALSE otherwise.
 ]
 {
   %<
@@ -136,91 +137,98 @@ PROTO VehicleWheel [
         DEF WHEEL_SLOT Group {
           children IS logoSlot
         }
-        DEF TIRE Shape {
-          appearance IS tireAppearance
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-                %<
-                  let circles = [];
-                  circles[0] = wbgeometry.circle(rimRadius, subdivision, {x: 0, y: 0}, 0);
-                  let beta = Math.PI / (2 * edgeSubdivision);
-                  for (let i = 0; i <= edgeSubdivision; ++i)
-                    circles[i + 1] = wbgeometry.circle(tireRadius - (thickness * 0.5)  * curvatureFactor *  (1 - Math.sin(beta * i)), subdivision, {x: 0, y: 0}, 0);
-                >%
+        Transform{
+          %< if (fields.wheelSide.value) { >%
+            rotation 0 0 1 3.141578
+          %< } >%
+          children[
+            DEF TIRE Shape {
+              appearance IS tireAppearance
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    %<
+                      let circles = [];
+                      circles[0] = wbgeometry.circle(rimRadius, subdivision, {x: 0, y: 0}, 0);
+                      let beta = Math.PI / (2 * edgeSubdivision);
+                      for (let i = 0; i <= edgeSubdivision; ++i)
+                        circles[i + 1] = wbgeometry.circle(tireRadius - (thickness * 0.5)  * curvatureFactor *  (1 - Math.sin(beta * i)), subdivision, {x: 0, y: 0}, 0);
+                    >%
+                    
+                    # top inner
+                    %< for (let i = 0; i < circles[0].length; ++i) { >%
+                      %<= thickness * 0.5 >% %<= -circles[0][i].x >% %<= circles[0][i].y >%
+                    %< } >%
 
-                # top inner
-                %< for (let i = 0; i < circles[0].length; ++i) { >%
-                  %<= circles[0][i].x >% %<= thickness * 0.5 >% %<= circles[0][i].y >%
-                %< } >%
+                    %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
+                      %< for (let j = 0; j < circles[i+1].length; ++j) { >%
+                        %<= thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i))) >% %<= -circles[i+1][j].x >% %<= circles[i+1][j].y >%
+                      %< } >%
+                    %< } >%
 
-                %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
-                  %< for (let j = 0; j < circles[i+1].length; ++j) { >%
-                    %<= circles[i+1][j].x >% %<= thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i))) >% %<= circles[i+1][j].y >%
+                    %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
+                      %< for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j) { >%
+                        %<= - thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i))) >% %<= -circles[(edgeSubdivision - i) + 1][j].x >% %<= circles[(edgeSubdivision - i) + 1][j].y >%
+                      %< } >%
+                    %< } >%
+
+                    # bottom inner
+                    %< for (let i = 0; i < circles[0].length; ++i) { >%
+                    %<= - thickness * 0.5 >% %<= -circles[0][i].x >% %<= circles[0][i].y >%
+                    %< } >%
+
+                  ]
+                }
+                texCoord TextureCoordinate {
+                  point [
+                    # top inner
+                    %< for (let i = 0; i <= subdivision; ++i) { >%
+                      0 %<= 10 * i / subdivision >%
+                    %< } >%
+
+                    %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
+                      %< for (let i = 0; i <= subdivision; ++i) { >%
+                        %<= 0.125 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
+                      %< } >%
+                    %< } >%
+
+                    %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
+                      %< for (let i = 0; i <= subdivision; ++i) { >%
+                        %<= 0.75 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
+                      %< } >%
+                    %< } >%
+
+                    # bottom inner
+                    %< for (let i = 0; i <= subdivision; ++i) { >%
+                      1 %<= 10 * i / subdivision >%
+                    %< } >%
+                  ]
+                }
+                coordIndex [
+                  %<
+                    let offset = [0];
+                    for (let i = 1; i <= (3 + 2 * edgeSubdivision); ++i)
+                      offset[i] = (subdivision + 1) * i;
+                  >%
+                  %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
+                    %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+                      %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
+                      %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
+                    %< } >%
                   %< } >%
-                %< } >%
-
-                %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
-                  %< for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j) { >%
-                    %<= circles[(edgeSubdivision - i) + 1][j].x >% %<= - thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i))) >% %<= circles[(edgeSubdivision - i) + 1][j].y >%
+                ]
+                texCoordIndex [
+                  %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
+                    %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+                      %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
+                      %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
+                    %< } >%
                   %< } >%
-                %< } >%
-
-                # bottom inner
-                %< for (let i = 0; i < circles[0].length; ++i) { >%
-                  %<= circles[0][i].x >% %<= - thickness * 0.5 >% %<= circles[0][i].y >%
-                %< } >%
-
-              ]
+                ]
+                creaseAngle 1.5
+              }
             }
-            texCoord TextureCoordinate {
-              point [
-                # top inner
-                %< for (let i = 0; i <= subdivision; ++i) { >%
-                  0 %<= 10 * i / subdivision >%
-                %< } >%
-
-                %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
-                  %< for (let i = 0; i <= subdivision; ++i) { >%
-                    %<= 0.125 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
-                  %< } >%
-                %< } >%
-
-                %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
-                  %< for (let i = 0; i <= subdivision; ++i) { >%
-                    %<= 0.75 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
-                  %< } >%
-                %< } >%
-
-                # bottom inner
-                %< for (let i = 0; i <= subdivision; ++i) { >%
-                  1 %<= 10 * i / subdivision >%
-                %< } >%
-              ]
-            }
-            coordIndex [
-              %<
-                let offset = [0];
-                for (let i = 1; i <= (3 + 2 * edgeSubdivision); ++i)
-                  offset[i] = (subdivision + 1) * i;
-              >%
-              %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
-                %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
-                  %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
-                %< } >%
-              %< } >%
-            ]
-            texCoordIndex [
-              %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
-                %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
-                  %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
-                %< } >%
-              %< } >%
-            ]
-            creaseAngle 1.5
-          }
+          ]
         }
         DEF RIM Group {
           children [
@@ -237,22 +245,22 @@ PROTO VehicleWheel [
 
                     # top outer
                     %< for (let i = 0; i < rimOuterCircle.length; ++i) { >%
-                      %<= rimOuterCircle[i].x >% %<= thickness * 0.5 >% %<= rimOuterCircle[i].y >%
+                      %<= -thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
                     %< } >%
 
                     # top inner
                     %< for (let i = 0; i < rimInnerCircle.length; ++i) { >%
-                      %<= rimInnerCircle[i].x >% %<= thickness * 0.5 >% %<= rimInnerCircle[i].y >%
+                      %<= -thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
                     %< } >%
 
                     # bottom inner
                     %< for (let i = 0; i < rimInnerCircle.length; ++i) { >%
-                      %<= rimInnerCircle[i].x >% %<= - thickness * 0.5 >% %<= rimInnerCircle[i].y >%
+                      %<= thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
                     %< } >%
 
                     # bottom outer
                     %< for (let i = 0; i < rimOuterCircle.length; ++i) { >%
-                      %<= rimOuterCircle[i].x >% %<= - thickness * 0.5 >% %<= rimOuterCircle[i].y >%
+                      %<= thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
                     %< } >%
                   ]
                 }
@@ -294,46 +302,46 @@ PROTO VehicleWheel [
                     >%
                     # Top part
                     ## Center
-                    0 %<= rimBeamThickness / 2.5 + rimBeamOffset >% 0
+                    %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% 0 0
                     %< for (let i = 0; i < centralCircles[0].length; ++i) { >%
-                      %<= centralCircles[0][i].x >% %<= rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[0][i].y >%
+                      %<= -rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[0][i].x >% %<= centralCircles[0][i].y >%
                     %< } >%
                     ## Between beams
                     %< for (let i = 0; i < centralCircles[1].length; ++i) { >%
-                      %<= centralCircles[1][i].x >% %<= rimBeamThickness / 2.5 + rimBeamOffset >% %<= centralCircles[1][i].y >%
+                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[1][i].x >% %<= centralCircles[1][i].y >%
                     %< } >%
                      %< for (let i = 0; i < centralCircles[2].length; ++i) { >%
-                      %<= centralCircles[2][i].x >% %<= rimBeamThickness / 2.5 + rimBeamOffset >% %<= centralCircles[2][i].y >%
+                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[2][i].x >% %<= centralCircles[2][i].y >%
                     %< } >%
                     ## Beams
                     %< for (let i = 0; i < centralCircles[3].length; ++i) { >%
-                      %<= centralCircles[3][i].x >% %<= rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[3][i].y >%
+                      %<= -rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[3][i].x >% %<= centralCircles[3][i].y >%
                     %< } >%
                      %< for (let i = 0; i < centralCircles[4].length; ++i) { >%
-                      %<= centralCircles[4][i].x >% %<= rimBeamThickness / 2.5 + rimBeamOffset >% %<= centralCircles[4][i].y >%
+                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[4][i].x >% %<= centralCircles[4][i].y >%
                     %< } >%
                     %< for (let i = 0; i < centralCircles[5].length; ++i) { >%
-                      %<= centralCircles[5][i].x >% %<= rimBeamThickness / 2.5 + rimBeamOffset >% %<= centralCircles[5][i].y >%
+                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[5][i].x >% %<= centralCircles[5][i].y >%
                     %< } >%
 
                     # side
                     ## Between beams
                     %< for (let i = 0; i < centralCircles[1].length; ++i) { >%
-                      %<= centralCircles[1][i].x >% %<= -rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[1][i].y >%
+                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[1][i].x >% %<= centralCircles[1][i].y >%
                     %< } >%
                     %< for (let i = 0; i < centralCircles[2].length; ++i) { >%
-                      %<= centralCircles[2][i].x >% %<= -rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[2][i].y >%
+                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[2][i].x >% %<= centralCircles[2][i].y >%
                     %< } >%
                     ## Beams
                     %< for (let i = 0; i < centralCircles[4].length; ++i) { >%
-                      %<= centralCircles[4][i].x >% %<= -rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[4][i].y >%
+                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[4][i].x >% %<= centralCircles[4][i].y >%
                     %< } >%
                     %< for (let i = 0; i < centralCircles[5].length; ++i) { >%
-                      %<= centralCircles[5][i].x >% %<= -rimBeamThickness * 0.5 + rimBeamOffset >% %<= centralCircles[5][i].y >%
+                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[5][i].x >% %<= centralCircles[5][i].y >%
                     %< } >%
 
                     # bottom
-                    0 %<= -rimBeamThickness * 0.5 + rimBeamOffset >% 0
+                    %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% 0 0
                   ]
                 }
                 coordIndex [
@@ -395,10 +403,15 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Cylinder {
-          height %<= thickness >%
-          radius %<= tireRadius >%
-          subdivision %<= subdivision >%
+        boundingObject Transform {
+          rotation 0 1 0 1.570796
+          children [
+            Cylinder {
+              height %<= thickness >%
+              radius %<= tireRadius >%
+              subdivision %<= subdivision >%
+            }
+          ]
         }
         physics IS physics
       %< } >%

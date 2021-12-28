@@ -46,12 +46,13 @@ void WbElevationGrid::init() {
   mData = NULL;
   mMinHeight = 0;
   mMaxHeight = 0;
+  mIs90DegreesRotated = true;
 
   mHeight = findMFDouble("height");
   mXDimension = findSFInt("xDimension");
   mXSpacing = findSFDouble("xSpacing");
-  mZDimension = findSFInt("zDimension");
-  mZSpacing = findSFDouble("zSpacing");
+  mYDimension = findSFInt("yDimension");
+  mYSpacing = findSFDouble("ySpacing");
   mThickness = findSFDouble("thickness");
 }
 
@@ -60,7 +61,7 @@ WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("Elevation
 
   if (tokenizer == NULL) {
     mXDimension->setValueNoSignal(2);
-    mZDimension->setValueNoSignal(2);
+    mYDimension->setValueNoSignal(2);
   }
 }
 
@@ -100,8 +101,8 @@ void WbElevationGrid::postFinalize() {
   connect(mHeight, &WbMFDouble::changed, this, &WbElevationGrid::updateHeight);
   connect(mXDimension, &WbSFInt::changed, this, &WbElevationGrid::updateXDimension);
   connect(mXSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateXSpacing);
-  connect(mZDimension, &WbSFInt::changed, this, &WbElevationGrid::updateZDimension);
-  connect(mZSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateZSpacing);
+  connect(mYDimension, &WbSFInt::changed, this, &WbElevationGrid::updateYDimension);
+  connect(mYSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateYSpacing);
   connect(mThickness, &WbSFDouble::changed, this, &WbElevationGrid::updateThickness);
 }
 
@@ -123,10 +124,10 @@ void WbElevationGrid::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (xDimension() < 2 || zDimension() < 2)
+  if (xDimension() < 2 || yDimension() < 2)
     return;
 
-  if (xSpacing() == 0.0 || zSpacing() == 0.0)
+  if (xSpacing() == 0.0 || ySpacing() == 0.0)
     return;
 
   WbGeometry::computeWrenRenderable();
@@ -142,7 +143,7 @@ void WbElevationGrid::buildWrenMesh() {
   setPickable(isPickable());
 
   // convert height values to float, pad with zeroes if necessary
-  int numValues = xDimension() * zDimension();
+  int numValues = xDimension() * yDimension();
   float *heightData = new float[numValues];
 
   int availableValues = std::min(numValues, mHeight->size());
@@ -155,7 +156,7 @@ void WbElevationGrid::buildWrenMesh() {
   const bool createOutlineMesh = isInBoundingObject();
 
   mWrenMesh =
-    wr_static_mesh_unit_elevation_grid_new(xDimension(), zDimension(), heightData, mThickness->value(), createOutlineMesh);
+    wr_static_mesh_unit_elevation_grid_new(xDimension(), yDimension(), heightData, mThickness->value(), createOutlineMesh);
 
   delete[] heightData;
 
@@ -176,13 +177,13 @@ void WbElevationGrid::rescale(const WbVector3 &scale) {
   }
 
   if (scale.y() != 0.0) {
-    // rescale height
-    setHeightScaleFactor(scale.y());
+    // rescale y spacing
+    setYspacing(ySpacing() * scale.y());
   }
 
   if (scale.z() != 0.0) {
-    // rescale z spacing
-    setZspacing(zSpacing() * scale.z());
+    // rescale height
+    setHeightScaleFactor(scale.z());
   }
 }
 
@@ -196,10 +197,10 @@ bool WbElevationGrid::sanitizeFields() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mXSpacing, 1.0))
     return false;
 
-  if (WbFieldChecker::resetIntIfNegative(this, mZDimension, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mYDimension, 0))
     return false;
 
-  if (WbFieldChecker::resetDoubleIfNonPositive(this, mZSpacing, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mYSpacing, 1.0))
     return false;
 
   checkHeight();
@@ -209,10 +210,10 @@ bool WbElevationGrid::sanitizeFields() {
 
 void WbElevationGrid::checkHeight() {
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
-  const int xdzd = xd * zd;
+  const int yd = mYDimension->value();
+  const int xdyd = xd * yd;
 
-  const int extra = mHeight->size() - xdzd;
+  const int extra = mHeight->size() - xdyd;
   if (extra > 0)
     parsingWarn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
 
@@ -222,7 +223,7 @@ void WbElevationGrid::checkHeight() {
   mHeight->findMinMax(&mMinHeight, &mMaxHeight);
 
   // adjust min/max height if height field is not complete
-  if (mHeight->size() < xdzd) {
+  if (mHeight->size() < xdyd) {
     if (mMinHeight > 0.0)
       mMinHeight = 0.0;
     if (mMaxHeight < 0.0)
@@ -305,7 +306,7 @@ void WbElevationGrid::updateXSpacing() {
   emit changed();
 }
 
-void WbElevationGrid::updateZDimension() {
+void WbElevationGrid::updateYDimension() {
   if (!sanitizeFields())
     return;
 
@@ -323,7 +324,7 @@ void WbElevationGrid::updateZDimension() {
   emit changed();
 }
 
-void WbElevationGrid::updateZSpacing() {
+void WbElevationGrid::updateYSpacing() {
   if (!sanitizeFields())
     return;
 
@@ -350,13 +351,13 @@ void WbElevationGrid::updateLineScale() {
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
-  float scale[] = {static_cast<float>(xSpacing()), 1.0f + offset, static_cast<float>(zSpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(ySpacing()), 1.0f + offset};
 
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbElevationGrid::updateScale() {
-  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(1.0f), static_cast<float>(zSpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(ySpacing()), 1.0f};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -366,13 +367,13 @@ void WbElevationGrid::createResizeManipulator() {
 }
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
-  WbVector3 scale(xSpacing(), 1.0f, zSpacing());
+  WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
   WbTransform *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
   if (isAValidBoundingObject())
-    scale *= WbVector3(1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR), 1.0f);
+    scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -380,9 +381,9 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
 
 bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const xSpacing = findField("xSpacing", true);
-  const WbField *const zSpacing = findField("zSpacing", true);
-  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(zSpacing) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(zSpacing);
+  const WbField *const ySpacing = findField("ySpacing", true);
+  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(ySpacing) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(ySpacing);
 }
 
 /////////////////
@@ -396,7 +397,7 @@ dGeomID WbElevationGrid::createOdeGeom(dSpaceID space) {
   // Creates a height field with without dSpace.
   // We need to translate the height field because in VRML the coordinate center is located in
   // one corner of the grid, while in ODE, it is located in the middle of the grid.
-  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
+  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, scaledDepth() / 2.0, 0.0);
   return dCreateHeightfield(space, mHeightfieldData, true);
 }
 
@@ -405,16 +406,26 @@ bool WbElevationGrid::setOdeHeightfieldData() {
     return false;
 
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
-  const int xdzd = xd * zd;
+  const int yd = mYDimension->value();
+  const int xdyd = xd * yd;
   // Creates height field data
   delete[] mData;
-  mData = new double[xdzd];
-  memset(mData, 0, xdzd * sizeof(double));
-  mHeight->copyItemsTo(mData, xdzd);
+  mData = new double[xdyd];
+  memset(mData, 0, xdyd * sizeof(double));
+  mHeight->copyItemsTo(mData, xdyd);
+
+  // Inverse mData lines for ODE
+  for (int i = 0; i < xd / 2; i++) {  // integer division
+    for (int j = 0; j < yd; j++) {
+      double temp = mData[i * yd + j];
+      mData[i * yd + j] = mData[(xd - 1 - i) * yd + j];
+      mData[(xd - 1 - i) * yd + j] = temp;
+    }
+  }
+
   if (mHeightfieldData == NULL)
     mHeightfieldData = dGeomHeightfieldDataCreate();
-  dGeomHeightfieldDataBuildDouble(mHeightfieldData, mData, false, scaledWidth(), scaledDepth(), xd, zd, heightScaleFactor(),
+  dGeomHeightfieldDataBuildDouble(mHeightfieldData, mData, false, scaledWidth(), scaledDepth(), xd, yd, heightScaleFactor(),
                                   0.0, mThickness->value(), false);
 
   // This should improve performance and allow the heightmap to be rotated
@@ -438,7 +449,7 @@ void WbElevationGrid::applyToOdeData(bool correctSolidMass) {
   WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
   assert(odeGeomData);
   odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
-  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
+  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, scaledDepth() / 2.0, 0.0);
 }
 
 double WbElevationGrid::scaledWidth() const {
@@ -446,20 +457,20 @@ double WbElevationGrid::scaledWidth() const {
 }
 
 double WbElevationGrid::scaledDepth() const {
-  return fabs(absoluteScale().z() * depth());
+  return fabs(absoluteScale().y() * depth());
 }
 
 bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const {
-  const bool invalidDimensions = mXDimension->value() < 2 || mZDimension->value() < 2;
-  const bool invalidSpacings = mXSpacing->value() <= 0.0 || mZSpacing->value() < 0.0;
+  const bool invalidDimensions = mXDimension->value() < 2 || mYDimension->value() < 2;
+  const bool invalidSpacings = mXSpacing->value() <= 0.0 || mYSpacing->value() < 0.0;
   const bool invalid = invalidDimensions || invalidSpacings;
 
   if (warning) {
     if (mXDimension->value() < 2)
       parsingWarn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
-    if (mZDimension->value() < 2)
-      parsingWarn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
+    if (mYDimension->value() < 2)
+      parsingWarn(tr("Invalid 'yDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
       parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
@@ -487,10 +498,10 @@ bool WbElevationGrid::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int text
     return false;
 
   const double sizeX = scaledWidth();
-  const double sizeZ = scaledDepth();
+  const double sizeY = scaledDepth();
 
   const double u = (double)localCollisionPoint.x() / sizeX;
-  const double v = (double)localCollisionPoint.z() / sizeZ;
+  const double v = 1 - (double)localCollisionPoint.y() / sizeY;
 
   // result
   uv.setXy(u, v);
@@ -504,12 +515,12 @@ double WbElevationGrid::computeDistance(const WbRay &ray) const {
 
 double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &localCollisionPoint) const {
   double dx = mXSpacing->value() * absoluteScale().x();
-  double dz = mZSpacing->value() * absoluteScale().z();
+  double dy = mYSpacing->value() * absoluteScale().y();
   int numX = mXDimension->value();
-  int numZ = mZDimension->value();
+  int numY = mYDimension->value();
   double minDistance = std::numeric_limits<double>::infinity();
 
-  int size = numX * numZ;
+  int size = numX * numY;
   double *data = new double[size];
   memset(data, 0, size * sizeof(double));
   mHeight->copyItemsTo(data, size);
@@ -524,12 +535,12 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
     localRay.normalize();
   }
 
-  for (int z = 0; z < (numZ - 1); z++) {
+  for (int y = 0; y < (numY - 1); y++) {
     for (int x = 0; x < (numX - 1); x++) {
-      WbVector3 vertexA(x * dx, data[z * numX + x] * absoluteScale().y(), z * dz);
-      WbVector3 vertexB(x * dx, data[(z + 1) * numX + x] * absoluteScale().y(), (z + 1) * dz);
-      WbVector3 vertexC((x + 1) * dx, data[z * numX + x + 1] * absoluteScale().y(), z * dz);
-      WbVector3 vertexD((x + 1) * dx, data[(z + 1) * numX + x + 1] * absoluteScale().y(), (z + 1) * dz);
+      WbVector3 vertexA(x * dx, (y + 1) * dy, data[(y + 1) * numX + x] * absoluteScale().z());
+      WbVector3 vertexB(x * dx, y * dy, data[y * numX + x] * absoluteScale().z());
+      WbVector3 vertexC((x + 1) * dx, (y + 1) * dy, data[(y + 1) * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexD((x + 1) * dx, y * dy, data[y * numX + x + 1] * absoluteScale().z());
 
       // first triangle: ABC
       WbAffinePlane plane(vertexA, vertexB, vertexC);
@@ -538,7 +549,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.z() >= vertexA.z() && p.z() <= vertexB.z()) {
+        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() >= vertexB.y() && p.y() <= vertexA.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
@@ -552,7 +563,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.z() >= vertexC.z() && p.z() <= vertexD.z()) {
+        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexD.y() && p.y() <= vertexC.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
@@ -571,25 +582,23 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 void WbElevationGrid::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
-  if (mHeight->size() == 0)
-    return;
 
   // create list of vertices
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
+  const int yd = mYDimension->value();
   const double xs = mXSpacing->value();
-  const double zs = mZSpacing->value();
-  const int size = zd * xd;
+  const double ys = mYSpacing->value();
+  const int size = yd * xd;
   double *h = new double[size];
   memset(h, 0, size * sizeof(double));
   mHeight->copyItemsTo(h, size);
   WbVector3 *vertices = new WbVector3[size];
   int index = 0;
-  double posZ = 0.0;
-  for (int z = 0; z < xd; z++, posZ += zs) {
+  double posY = 0.0;
+  for (int y = 0; y < yd; y++, posY += ys) {
     double posX = 0.0;
-    for (int x = 0; x < zd; x++, posX += xs) {
-      vertices[index] = WbVector3(posX, h[index], posZ);
+    for (int x = 0; x < xd; x++, posX += xs) {
+      vertices[index] = WbVector3(posX, posY, h[index]);
       ++index;
     }
   }
@@ -626,13 +635,13 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
   }
 
   findField("xDimension", true)->write(writer);
-  findField("zDimension", true)->write(writer);
+  findField("yDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);
-  findField("zSpacing", true)->write(writer);
+  findField("ySpacing", true)->write(writer);
   if (!mHeight->isEmpty())
     findField("height", true)->write(writer);
   else {
-    int total = mXDimension->value() * mZDimension->value();
+    int total = mXDimension->value() * mYDimension->value();
     if (writer.isX3d())
       writer << " height=\'";
     else {

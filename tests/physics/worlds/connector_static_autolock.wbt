@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "Auto lock static connectors"
   basicTimeStep 8
@@ -36,7 +36,8 @@ DEF ACTIVE_ROBOT Robot {
       ]
     }
     Connector {
-      translation 0 0.2 -0.20000000000000007
+      translation 0 0.2 -0.2
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       autoLock TRUE
       distanceTolerance 0.1
       axisTolerance 0.4
@@ -49,7 +50,7 @@ DEF ACTIVE_ROBOT Robot {
   supervisor TRUE
 }
 DEF SOLID Solid {
-  translation 0.247 0.19999999999999996 0
+  translation 0.247 0.2 0
   children [
     DEF BODY Transform {
       children [
@@ -66,9 +67,9 @@ DEF SOLID Solid {
     }
     Connector {
       translation 0.05 0 0
-      rotation 0 1 0 1.5707963220000003
+      rotation 1 0 0 -1.5708
       autoLock TRUE
-      distanceTolerance 0.09999999999999999
+      distanceTolerance 0.1
     }
   ]
   boundingObject USE BODY

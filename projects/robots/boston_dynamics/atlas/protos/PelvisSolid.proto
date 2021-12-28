@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -7,7 +7,7 @@
 
 PROTO PelvisSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
 Solid {
@@ -22,7 +22,7 @@ Solid {
     children [
       Transform {
         translation 0.046 0.0 -0.02
-        rotation 1.0 0.0 0.0 3.14079632679
+        rotation 1 0 0 1.5708
         children [
           Cylinder {
             radius 0.092
@@ -32,7 +32,7 @@ Solid {
       }
       Transform {
         translation -0.03 0.0 -0.02
-        rotation 1.0 0.0 0.0 3.14079632679
+        rotation 1 0 0 1.5708
         children [
           Cylinder {
             radius 0.092
@@ -42,7 +42,6 @@ Solid {
       }
       Transform {
         translation 0 0.042 0.06
-        rotation 1.0 0.0 0.0 1.57
         children [
           Cylinder {
             radius 0.130
@@ -52,7 +51,6 @@ Solid {
       }
       Transform {
         translation 0 -0.042 0.06
-        rotation 1.0 0.0 0.0 1.57
         children [
           Cylinder {
             radius 0.130

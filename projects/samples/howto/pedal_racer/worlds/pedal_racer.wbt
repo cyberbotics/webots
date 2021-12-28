@@ -1,16 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Model of pedal racer."
     "A simple example of a passive system including a mechanical loop"
     "Biorob, EPFL"
   ]
-  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {
-  orientation -0.33486694206627604 -0.9385058376336051 -0.08408878545220244 0.880818
-  position -2.03031 0.928808 1.87176
+  orientation -0.21718578410966824 -0.40095154530249383 0.8899821310005113 5.310931635465038
+  position -2.729989433682151 2.9947015491392612 1.8155424715721302
 }
 TexturedBackground {
 }
@@ -19,12 +18,12 @@ TexturedBackgroundLight {
 Floor {
 }
 DEF PEDAL_RACER Solid {
-  translation 0 0.075 0
+  translation 0 0 0.075
   children [
     DEF RIGHT_PEDAL_GROUP Group {
       children [
         DEF FRONT_CYLINDER Transform {
-          translation 0.08 0.038 0.09
+          translation -0.09 -0.08 0.038
           children [
             DEF PEDAL_FRONT_HALF_CYLINDER Shape {
               appearance DEF RED_PLASTIC PBRAppearance {
@@ -41,18 +40,18 @@ DEF PEDAL_RACER Solid {
           ]
         }
         DEF MIDDLE_BOX Transform {
-          translation 0.08 0.038 0
+          translation 0 -0.08 0.038
           children [
             Shape {
               appearance USE RED_PLASTIC
               geometry Box {
-                size 0.11 0.025 0.2
+                size 0.2 0.11 0.025
               }
             }
           ]
         }
         DEF BACK_CYLINDER Transform {
-          translation 0.08 0.038 -0.09
+          translation 0.09 -0.08 0.038
           children [
             DEF PEDAL_FRONT_HALF_CYLINDER Shape {
               appearance DEF RED_PLASTIC PBRAppearance {
@@ -73,8 +72,8 @@ DEF PEDAL_RACER Solid {
     DEF PLASTIC_HINGES Group {
       children [
         DEF BACK_HINGE Transform {
-          translation 0.144 0.038 0.11
-          rotation 0 0 1 1.5708
+          translation -0.11 -0.144 0.038
+          rotation -1 0 0 1.5708
           children [
             Shape {
               appearance USE RED_PLASTIC
@@ -87,8 +86,8 @@ DEF PEDAL_RACER Solid {
           ]
         }
         DEF FRONT_HINGE Transform {
-          translation 0.144 0.038 -0.11
-          rotation 0 0 1 1.5708
+          translation 0.11 -0.144 0.038
+          rotation -1 0 0 1.5708
           children [
             Shape {
               appearance USE RED_PLASTIC
@@ -104,19 +103,19 @@ DEF PEDAL_RACER Solid {
     }
     DEF BACK_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.08 0.038 0.11
+        anchor -0.11 -0.08 0.038
       }
       endPoint DEF BACK_AXLE Solid {
         rotation 1 0 0 0
         children [
           DEF BACK_RIGHT_WHEEL Solid {
-            rotation 1 0 0 0
+            rotation 0 -1 0 0
             children [
               Group {
                 children [
                   DEF BLACK_TIRE Transform {
-                    translation 0.2125 0 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 -0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -133,8 +132,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF RED_RIM Transform {
-                    translation 0.2125 0 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 -0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -147,8 +146,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF ANCHOR Transform {
-                    translation 0.19 0.038 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 -0.19 0.038
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -170,13 +169,13 @@ DEF PEDAL_RACER Solid {
             }
           }
           DEF BACK_LEFT_WHEEL Solid {
-            rotation 1 0 0 0
+            rotation 0 -1 0 0
             children [
               Group {
                 children [
                   DEF BLACK_TIRE Transform {
-                    translation -0.2125 0 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -193,8 +192,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF RED_RIM Transform {
-                    translation -0.2125 0 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -207,8 +206,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF ANCHOR Transform {
-                    translation -0.19 -0.038 0.11
-                    rotation 0 0 1 1.5708
+                    translation -0.11 0.19 -0.038
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -229,7 +228,7 @@ DEF PEDAL_RACER Solid {
           }
           DEF LEFT_PEDAL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              anchor -0.08 -0.038 0.11
+              anchor -0.11 0.08 -0.038
             }
             endPoint DEF LEFT_PEDAL Solid {
               rotation 1 0 0 0
@@ -237,7 +236,7 @@ DEF PEDAL_RACER Solid {
                 DEF LEFT_PEDAL_GROUP Group {
                   children [
                     DEF FRONT_CYLINDER Transform {
-                      translation -0.08 -0.038 0.09
+                      translation -0.09 0.08 -0.038
                       children [
                         DEF PEDAL_FRONT_HALF_CYLINDER Shape {
                           appearance DEF RED_PLASTIC PBRAppearance {
@@ -254,18 +253,18 @@ DEF PEDAL_RACER Solid {
                       ]
                     }
                     DEF MIDDLE_BOX Transform {
-                      translation -0.08 -0.038 0
+                      translation 0 0.08 -0.038
                       children [
                         Shape {
                           appearance USE RED_PLASTIC
                           geometry Box {
-                            size 0.11 0.025 0.2
+                            size 0.2 0.11 0.025
                           }
                         }
                       ]
                     }
                     DEF BACK_CYLINDER Transform {
-                      translation -0.08 -0.038 -0.09
+                      translation 0.09 0.08 -0.038
                       children [
                         DEF PEDAL_FRONT_HALF_CYLINDER Shape {
                           appearance DEF RED_PLASTIC PBRAppearance {
@@ -286,8 +285,8 @@ DEF PEDAL_RACER Solid {
                 DEF PLASTIC_HINGES Group {
                   children [
                     DEF BACK_HINGE Transform {
-                      translation -0.144 -0.038 0.11
-                      rotation 0 0 1 1.5708
+                      translation -0.11 0.144 -0.038
+                      rotation -1 0 0 1.5708
                       children [
                         Shape {
                           appearance USE RED_PLASTIC
@@ -300,8 +299,8 @@ DEF PEDAL_RACER Solid {
                       ]
                     }
                     DEF FRONT_HINGE Transform {
-                      translation -0.144 -0.038 -0.11
-                      rotation 0 0 1 1.5708
+                      translation 0.11 0.144 -0.038
+                      rotation -1 0 0 1.5708
                       children [
                         Shape {
                           appearance USE RED_PLASTIC
@@ -317,7 +316,7 @@ DEF PEDAL_RACER Solid {
                 }
                 DEF FRONT_AXLE_HINGE HingeJoint {
                   jointParameters HingeJointParameters {
-                    anchor -0.08 -0.038 -0.11
+                    anchor 0.11 0.08 -0.038
                   }
                   endPoint SolidReference {
                     solidName "front axle"
@@ -332,8 +331,8 @@ DEF PEDAL_RACER Solid {
           DEF AXLE_GROUP Group {
             children [
               DEF MIDDLE_SEGMENT Transform {
-                translation 0 0 0.11
-                rotation 0 0 1 -0.5
+                translation -0.11 0 0
+                rotation -1 0 0 -0.5
                 children [
                   DEF SMALL_CAPSULE Shape {
                     appearance DEF METAL PBRAppearance {
@@ -349,8 +348,8 @@ DEF PEDAL_RACER Solid {
                 ]
               }
               DEF UPPER_SEGMENT Transform {
-                translation 0.105 0.038 0.11
-                rotation 0 0 1 1.5708
+                translation -0.11 -0.105 0.038
+                rotation -1 0 0 1.5708
                 children [
                   DEF LONG_CAPSULE Shape {
                     appearance DEF METAL PBRAppearance {
@@ -366,8 +365,8 @@ DEF PEDAL_RACER Solid {
                 ]
               }
               DEF LOWER_SEGMENT Transform {
-                translation -0.105 -0.038 0.11
-                rotation 0 0 1 1.5708
+                translation -0.11 0.105 -0.038
+                rotation -1 0 0 1.5708
                 children [
                   USE LONG_CAPSULE
                 ]
@@ -384,19 +383,19 @@ DEF PEDAL_RACER Solid {
     }
     DEF FRONT_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.08 0.038 -0.11
+        anchor 0.11 -0.08 0.038
       }
       endPoint DEF FRONT_AXLE Solid {
         rotation 1 0 0 0
         children [
           DEF FRONT_RIGHT_WHEEL Solid {
-            rotation 1 0 0 0
+            rotation 0 -1 0 0
             children [
               Group {
                 children [
                   DEF BLACK_TIRE Transform {
-                    translation 0.2125 0 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 -0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -413,8 +412,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF RED_RIM Transform {
-                    translation 0.2125 0 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 -0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -427,8 +426,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF ANCHOR Transform {
-                    translation 0.19 0.038 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 -0.19 0.038
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -448,13 +447,13 @@ DEF PEDAL_RACER Solid {
             physics USE PLASTIC_DENSITY
           }
           DEF FRONT_LEFT_WHEEL Solid {
-            rotation 1 0 0 0
+            rotation 0 -1 0 0
             children [
               Group {
                 children [
                   DEF BLACK_TIRE Transform {
-                    translation -0.2125 0 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -471,8 +470,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF RED_RIM Transform {
-                    translation -0.2125 0 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 0.2125 0
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -485,8 +484,8 @@ DEF PEDAL_RACER Solid {
                     ]
                   }
                   DEF ANCHOR Transform {
-                    translation -0.19 -0.038 -0.11
-                    rotation 0 0 1 1.5708
+                    translation 0.11 0.19 -0.038
+                    rotation -1 0 0 1.5708
                     children [
                       Shape {
                         appearance USE RED_PLASTIC
@@ -508,22 +507,22 @@ DEF PEDAL_RACER Solid {
           DEF AXLE_GROUP Group {
             children [
               DEF MIDDLE_SEGMENT Transform {
-                translation 0 0 -0.11
-                rotation 0 0 1 -0.5
+                translation 0.11 0 0
+                rotation -1 0 0 -0.5
                 children [
                   USE SMALL_CAPSULE
                 ]
               }
               DEF UPPER_SEGMENT Transform {
-                translation 0.105 0.038 -0.11
-                rotation 0 0 1 1.5708
+                translation 0.11 -0.105 0.038
+                rotation -1 0 0 1.5708
                 children [
                   USE LONG_CAPSULE
                 ]
               }
               DEF LOWER_SEGMENT Transform {
-                translation -0.105 -0.038 -0.11
-                rotation 0 0 1 1.5708
+                translation 0.11 0.105 -0.038
+                rotation -1 0 0 1.5708
                 children [
                   USE LONG_CAPSULE
                 ]

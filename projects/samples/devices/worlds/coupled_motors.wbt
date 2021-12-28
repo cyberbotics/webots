@@ -1,15 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Example use of a coupled motors."
   ]
   title "Coupled Motors"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.0937283257196868 0.9466107934054329 0.30845260051768264 2.5814287732054515
-  position -0.27306832419275945 0.3547413114994289 -0.5488204742362868
+  orientation -0.2515281983443239 0.09335786782070515 0.9633368434528133 2.4548257126872683
+  position 0.3996301408328522 0.3803732989687896 0.13978381699964382
 }
 TexturedBackground {
   texture "empty_office"
@@ -17,13 +16,14 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Table {
-  translation 0 -0.74 0
+  translation 0 0 -0.74
 }
 DEF GRIPPER Robot {
-  translation -0.5 0 -0.2
+  translation 0.2 0.5 0
   children [
     DEF BASE Transform {
-      translation 0 0.0005 -0.025
+      translation 0.025 0 0
+      rotation 0 0 1 -1.570795
       children [
         Shape {
           appearance PBRAppearance {
@@ -36,13 +36,13 @@ DEF GRIPPER Robot {
             roughness 0.5
           }
           geometry Box {
-            size 0.12 0.001 0.12
+            size 0.12 0.12 0.001
           }
         }
       ]
     }
     DEF ROD Transform {
-      translation 0 0.08 0.025
+      translation -0.025 0 0.08
       children [
         Shape {
           appearance PBRAppearance {
@@ -57,7 +57,6 @@ DEF GRIPPER Robot {
     }
     SliderJoint {
       jointParameters JointParameters {
-        axis 0 1 0
       }
       device [
         LinearMotor {
@@ -65,10 +64,11 @@ DEF GRIPPER Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.01 0
+        translation 0 0 0.01
         children [
           Transform {
-            translation 0 -0.004 0
+            translation 0 0 -0.004
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
             children [
               Shape {
                 appearance PBRAppearance {
@@ -83,7 +83,8 @@ DEF GRIPPER Robot {
             ]
           }
           Transform {
-            translation 0 0.006 0
+            translation 0 0 0.006
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
             children [
               Shape {
                 appearance DEF BLACK PBRAppearance {
@@ -100,8 +101,8 @@ DEF GRIPPER Robot {
           }
           DEF LEFT_ACTUATED HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor 0.008 0 0
+              axis 0 0 1
+              anchor 0 -0.008 0
             }
             device [
               RotationalMotor {
@@ -109,11 +110,11 @@ DEF GRIPPER Robot {
               }
             ]
             endPoint Solid {
-              translation 0.008 0 0
+              translation 0 -0.008 0
               children [
                 Gear {
-                  translation 0 0.0025 0
-                  rotation 1 0 0 1.5708
+                  translation 0 0 0.0025
+                  rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395
                   appearance PBRAppearance {
                     baseColor 0.913725 0.72549 0.431373
                     roughness 0.5
@@ -127,8 +128,8 @@ DEF GRIPPER Robot {
                   bodyBoundingObject FALSE
                 }
                 DEF LEFT_ACTUATED_LINKAGE Transform {
-                  translation 0 0.001 0
-                  rotation 0 1 0 0.8
+                  translation 0 0 0.001
+                  rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.71259
                   children [
                     DEF LINKAGE Shape {
                       appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -156,25 +157,25 @@ DEF GRIPPER Robot {
                   }
                 }
                 Transform {
-                  translation 0.02787 0 -0.02869
+                  translation 0.02869 -0.02787 0
                   children [
                     USE LEFT_ACTUATED_AXLE
                   ]
                 }
                 DEF LEFT_ACTUATED_PIVOT HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 1 0
-                    anchor 0.02787 0 -0.02869
+                    axis 0 0 1
+                    anchor 0.02869 -0.02787 0
                   }
                   endPoint Solid {
-                    translation 0.02787 0 -0.02869
+                    translation 0.02869 -0.02787 0
+                    rotation 0 0 1 1.5708
                     children [
                       Transform {
-                        translation 0 -0.006 0
-                        rotation 0 1 0 1.5708
+                        translation 0 0 -0.006
                         children [
                           Transform {
-                            rotation 1 0 0 3.1415
+                            rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.0944
                             children [
                               Shape {
                                 appearance DEF FINGER_APPEARANCE PBRAppearance {
@@ -193,10 +194,11 @@ DEF GRIPPER Robot {
                     ]
                     name "left_gripper"
                     boundingObject Transform {
-                      translation -0.0075 -0.001 -0.0175
+                      translation 0.0075 -0.0175 -0.001
+                      rotation 0 0 1 -1.570795
                       children [
                         Box {
-                          size 0.005 0.01 0.04
+                          size 0.04 0.005 0.01
                         }
                       ]
                     }
@@ -212,15 +214,15 @@ DEF GRIPPER Robot {
           }
           DEF LEFT_PASSIVE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor 0.023 0 0
+              axis 0 0 1
+              anchor 0 -0.023 0
             }
             endPoint Solid {
-              translation 0.023 0 0
+              translation 0 -0.023 0
               children [
                 DEF LEFT_PASSIVE_LINKAGE Transform {
-                  translation 0 0.001 0
-                  rotation 0 1 0 0.8
+                  translation 0 0 0.001
+                  rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.712593
                   children [
                     USE LINKAGE
                   ]
@@ -233,15 +235,15 @@ DEF GRIPPER Robot {
                   }
                 }
                 Transform {
-                  translation 0.02787 0 -0.02869
+                  translation 0.02869 -0.02787 0
                   children [
                     USE LEFT_PASSIVE_AXLE
                   ]
                 }
                 DEF LEFT_PASSIVE_PIVOT HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 1 0
-                    anchor 0.02787 0 -0.02869
+                    axis 0 0 1
+                    anchor 0.02869 -0.02787 0
                   }
                   endPoint SolidReference {
                     solidName "left_gripper"
@@ -257,8 +259,8 @@ DEF GRIPPER Robot {
           }
           DEF RIGHT_ACTUATED HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor -0.008 0 0
+              axis 0 0 1
+              anchor 0 0.008 0
             }
             device [
               RotationalMotor {
@@ -267,14 +269,14 @@ DEF GRIPPER Robot {
               }
             ]
             endPoint Solid {
-              translation -0.008 0 0
+              translation 0 0.008 0
               children [
                 Transform {
-                  rotation 0 1 0 0.1308996938995747
+                  rotation 0 0 1 -0.1309
                   children [
                     Gear {
-                      translation 0 0.0025 0
-                      rotation 1 0 0 1.5708
+                      translation 0 0 0.0025
+                      rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395
                       appearance PBRAppearance {
                         baseColor 0.913725 0.72549 0.431373
                         roughness 0.5
@@ -290,8 +292,8 @@ DEF GRIPPER Robot {
                   ]
                 }
                 DEF RIGHT_ACTUATED_LINKAGE Transform {
-                  translation 0 0.001 0
-                  rotation 0 1 0 2.3416
+                  translation 0 0 0.001
+                  rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
                   children [
                     DEF LINKAGE Shape {
                       appearance USE METAL_APPEARANCE
@@ -311,22 +313,22 @@ DEF GRIPPER Robot {
                   }
                 }
                 Transform {
-                  translation -0.02787 0 -0.02869
+                  translation 0.02869 0.02787 0
                   children [
                     USE RIGHT_ACTUATED_AXLE
                   ]
                 }
                 DEF RIGHT_ACTUATED_PIVOT HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 1 0
-                    anchor -0.02787 0 -0.02869
+                    axis 0 0 1
+                    anchor 0.02869 0.02787 0
                   }
                   endPoint Solid {
-                    translation -0.02787 0 -0.02869
+                    translation 0.02869 0.02787 0
                     children [
                       Transform {
-                        translation 0 0.004 0
-                        rotation 0 1 0 1.5708
+                        translation 0 0 0.004
+                        rotation -1 0 0 -1.570796
                         children [
                           Shape {
                             appearance USE FINGER_APPEARANCE
@@ -341,10 +343,10 @@ DEF GRIPPER Robot {
                     ]
                     name "right_gripper"
                     boundingObject Transform {
-                      translation 0.0075 -0.001 -0.0175
+                      translation 0.0175 -0.0075 -0.001
                       children [
                         Box {
-                          size 0.005 0.01 0.04
+                          size 0.04 0.005 0.01
                         }
                       ]
                     }
@@ -361,15 +363,15 @@ DEF GRIPPER Robot {
           }
           DEF RIGHT_PASSIVE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor -0.023 0 0
+              axis 0 0 1
+              anchor 0 0.023 0
             }
             endPoint Solid {
-              translation -0.023 0 0
+              translation 0 0.023 0
               children [
                 DEF RIGHT_PASSIVE_LINKAGE Transform {
-                  translation 0 0.001 0
-                  rotation 0 1 0 2.3416
+                  translation 0 0 0.001
+                  rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
                   children [
                     USE LINKAGE
                   ]
@@ -382,15 +384,15 @@ DEF GRIPPER Robot {
                   }
                 }
                 Transform {
-                  translation -0.02787 0 -0.02869
+                  translation 0.02869 0.02787 0
                   children [
                     USE RIGHT_PASSIVE_AXLE
                   ]
                 }
                 DEF RIGHT_PASSIVE_PIVOT HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 1 0
-                    anchor -0.02787 0 -0.02869
+                    axis 0 0 1
+                    anchor 0.02869 0.02787 0
                   }
                   endPoint SolidReference {
                     solidName "right_gripper"
@@ -408,7 +410,7 @@ DEF GRIPPER Robot {
         boundingObject Transform {
           children [
             Box {
-              size 0.08 0.012 0.02
+              size 0.02 0.08 0.012
             }
           ]
         }
@@ -422,14 +424,14 @@ DEF GRIPPER Robot {
   controller "coupled_motors"
 }
 DEF OBJECT Solid {
-  translation -0.49 0.01 -0.255
+  translation 0.255 0.49 0.01
   children [
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0 0
       }
       geometry DEF BOX Box {
-        size 0.025 0.02 0.04
+        size 0.04 0.025 0.02
       }
     }
   ]

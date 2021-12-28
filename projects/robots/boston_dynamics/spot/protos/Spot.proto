@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons 4.0
 # license url: https://creativecommons.org/licenses/by/4.0
 # documentation url: https://www.cyberbotics.com/doc/guide/spot
@@ -6,8 +6,8 @@
 # Original model by Greg McKechnie.
 
 PROTO Spot [
-  field SFVec3f     translation      0 0.624 0                 # Is `Transform.translation`.
-  field SFRotation  rotation         0 1 0 0                   # Is `Transform.rotation`.
+  field SFVec3f     translation      0 0 0.624                 # Is `Transform.translation`.
+  field SFRotation  rotation         0 0 1 0                   # Is `Transform.rotation`.
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
   field SFString    controller       "spot_moving_demo"        # Is `Robot.controller`.
@@ -34,8 +34,8 @@ PROTO Spot [
       InertialUnit {
       }
       LED {
-        translation -0.081965 0.05072 -0.505323
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation 0.505323 0.081967 0.050721
+        rotation 0.868733 0.480612 0.119642 1.875866
         children [
           Shape {
             appearance GlossyPaint {
@@ -54,8 +54,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081965 0.03449 -0.497601
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation 0.497601 0.081967 0.034491
+        rotation 0.868733 0.480612 0.119642 1.875866
         children [
           Shape {
             appearance GlossyPaint {
@@ -74,8 +74,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081964 0.01829 -0.489879
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation 0.489879 0.081966 0.018291
+        rotation 0.868733 0.480612 0.119642 1.875866
         children [
           Shape {
             appearance GlossyPaint {
@@ -94,8 +94,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.05072 -0.505323
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation 0.505323 -0.081963 0.050723
+        rotation 0.839454 -0.119040 -0.530233 1.585161
         children [
           Shape {
             appearance GlossyPaint {
@@ -114,8 +114,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.03449 -0.497601
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation 0.497601 -0.081963 0.034493
+        rotation 0.839454 -0.119040 -0.530233 1.585161
         children [
           Shape {
             appearance GlossyPaint {
@@ -134,8 +134,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.01829 -0.489879
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation 0.489879 -0.081963 0.018293
+        rotation 0.839454 -0.119040 -0.530233 1.585161
         children [
           Shape {
             appearance GlossyPaint {
@@ -154,8 +154,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.00119 -0.481728
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation 0.481728 -0.081963 0.001193
+        rotation 0.839454 -0.119040 -0.530233 1.585161
         children [
           Shape {
             appearance GlossyPaint {
@@ -174,8 +174,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081965 0.00119 -0.481728
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation 0.481728 0.081967 0.001191
+        rotation 0.868733 0.480612 0.119642 1.875866
         children [
           Shape {
             appearance GlossyPaint {
@@ -194,7 +194,8 @@ PROTO Spot [
         ]
       }
       DEF HEAD_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation -0.459994 -0.000019 -1.650002
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
           DEF HEAD_COVER Shape {
             appearance DEF YELLOW_COVER MattePaint {
@@ -261,15 +262,15 @@ PROTO Spot [
             ]
           }
           Camera {
-            translation 0.0448981 1.67797 -0.922603
-            rotation -0.7448531349275506 0.6396231158654992 -0.1899370344064321 0.570563
+            translation 0.044898 1.677970 -0.922603
+            rotation 0.492404 -0.738106 -0.461236 -2.507618
             name "right head camera"
             width 1080
             height 720
           }
           Camera {
-            translation -0.045109 1.67955 -0.92325
-            rotation 0.7762069458754797 0.6205489567294331 -0.11145299222843885 -0.5902653071795863
+            translation -0.045109 1.679550 -0.923250
+            rotation 0.776783 -0.539742 -0.324480 -2.231426
             name "left head camera"
             width 1080
             height 720
@@ -491,7 +492,8 @@ PROTO Spot [
         ]
       }
       DEF BODY_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation -0.459994 -0.000019 -1.650002
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
           DEF FRONT_SHOULDER_COVER Shape {
             appearance DEF METAL_PART BrushedAluminium {
@@ -544,8 +546,8 @@ PROTO Spot [
           DEF RIGHT_SIDE Group {
             children [
               Camera {
-                translation 0.110163 1.71561 -0.324321
-                rotation 0.20094208814206066 0.9587724205598619 0.20094208814206066 -1.6128853071795861
+                translation 0.110163 1.715610 -0.324321
+                rotation -0.958773 0.200939 -0.200942 1.612883
                 name "right flank camera"
                 width 1080
                 height 720
@@ -754,8 +756,8 @@ PROTO Spot [
           DEF LEFT_SIDE Group {
             children [
               Camera {
-                translation -0.110127 1.71553 -0.32432
-                rotation 0.19633095168187892 -0.9606807635712095 -0.1963329516813867 -1.6109053071795865
+                translation -0.110127 1.715530 -0.324320
+                rotation -0.143022 0.699837 0.699837 -2.857471
                 name "left flank camera"
                 width 1080
                 height 720
@@ -1349,7 +1351,8 @@ PROTO Spot [
         ]
       }
       DEF REAR_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation -0.459994 -0.000019 -1.650002
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
           DEF REAR_COVER Shape {
             appearance USE YELLOW_COVER
@@ -1374,8 +1377,8 @@ PROTO Spot [
             }
           }
           Camera {
-            translation 0.018113 1.66256 -0.0118637
-            rotation 0 0.9719310196733323 0.23526600476213455 -3.1415853071795863
+            translation 0.018113 1.662560 -0.011864
+            rotation 0.461984 0.461983 0.757062 -1.845577
             name "rear camera"
             width 1080
             height 720
@@ -1627,31 +1630,38 @@ PROTO Spot [
         ]
       }
       DEF FRONT_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0118 -0.3635
+        translation 0.3635 0 0.0118
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         name "front left"
       }
       DEF FRONT_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0118 -0.3635
+        translation 0.3635 0 0.0118
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         name "front right"
       }
       DEF REAR_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0117 0.3084
+        translation -0.3084 0 0.0117
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         name "rear left"
       }
       DEF REAR_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0117 0.3084
+        translation -0.3084 0 0.0117
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         name "rear right"
       }
       Transform {
-        translation 0 0.1118 -0.256
+        translation 0.256 0 0.1118
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS frontExtension
       }
       Transform {
-        translation 0 0.1118 -0.027
+        translation 0.027 0 0.1118
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS middleExtension
       }
       Transform {
-        translation 0 0.1118 0.2
+        translation -0.200000 0 0.111800
+        rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS rearExtension
       }
     ]
@@ -1660,8 +1670,8 @@ PROTO Spot [
     boundingObject DEF BODY_BO Group {
       children [
         Transform {
-          translation 0 -0.000232 -0.462094
-          rotation -1 0 0 0.443185
+          translation 0.462094 0 -0.000232
+          rotation -0.471324 0.471330 0.745453 -1.860413
           children [
             Box {
               size 0.192453 0.177358 0.043396
@@ -1669,8 +1679,8 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 0.084013 -0.477932
-          rotation -1 0 0 0.353595
+          translation 0.477932 0 0.084013
+          rotation -0.496329 0.496335 0.712256 -1.903773
           children [
             Box {
               size 0.192453 0.018113 0.08717
@@ -1678,32 +1688,32 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 0.041304 -0.451833
+          translation 0.451833 0 0.041304
           children [
             Box {
-              size 0.192453 0.102642 0.037736
+              size 0.037736 0.192453 0.102642
             }
           ]
         }
         Transform {
-          translation 0 0.018833 -0.031113
+          translation 0.031113 0 0.018833
           children [
             Box {
-              size 0.222642 0.189434 0.535849
+              size 0.535849 0.222642 0.189434
             }
           ]
         }
         Transform {
-          translation 0 0.107135 -0.376019
+          translation 0.376019 0 0.107135
           children [
             Box {
-              size 0.166038 0.013208 0.158491
+              size 0.158491 0.166038 0.013208
             }
           ]
         }
         Transform {
-          translation 0 -0.079657 -0.363578
-          rotation 1 0 0 -0.03318530717958623
+          translation 0.363578 0 -0.079657
+          rotation -0.570857 0.570861 0.590119 -2.075336
           children [
             Box {
               size 0.166038 0.013208 0.124528
@@ -1711,33 +1721,24 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 0.107135 0.319453
+          translation -0.319453 0 0.107135
           children [
             Box {
-              size 0.166038 0.013208 0.158491
+              size 0.158491 0.166038 0.013208
             }
           ]
         }
         Transform {
-          translation 0 -0.064563 0.313025
+          translation -0.313025 0 -0.064563
           children [
             Box {
-              size 0.166038 0.013208 0.14717
+              size 0.14717 0.166038 0.013208
             }
           ]
         }
         Transform {
-          translation -0.111629 0.074886 0.120195
-          rotation 0 0 -1 -0.423185
-          children [
-            Box {
-              size 0.030189 0.064528 0.182264
-            }
-          ]
-        }
-        Transform {
-          translation 0.111629 0.074886 0.120195
-          rotation 0 0 -1 0.423185
+          translation -0.120195 0.111629 0.074886
+          rotation 0.477074 -0.738109 -0.477070 1.869899
           children [
             Box {
               size 0.030189 0.064528 0.182264
@@ -1745,16 +1746,25 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 0.059588 0.427377
+          translation -0.120195 -0.111629 0.074886
+          rotation 0.643121 -0.415686 -0.643118 2.353682
           children [
             Box {
-              size 0.192453 0.05283 0.089057
+              size 0.030189 0.064528 0.182264
             }
           ]
         }
         Transform {
-          translation 0 0.096611 0.404
-          rotation 1 0 0 0.16
+          translation -0.427377 0 0.059588
+          children [
+            Box {
+              size 0.089057 0.192453 0.05283
+            }
+          ]
+        }
+        Transform {
+          translation -0.404 0 0.096611
+          rotation -0.605765 0.605769 0.515841 -2.189100
           children [
             Box {
               size 0.193585 0.003774 0.135849
@@ -1762,16 +1772,16 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 -0.018903 0.400585
+          translation -0.400585 0 -0.018903
           children [
             Box {
-              size 0.191698 0.103396 0.04566
+              size 0.04566 0.191698 0.103396
             }
           ]
         }
         Transform {
-          translation 0 -0.008337 0.431528
-          rotation 1 0 0 0.46
+          translation -0.431528 0 -0.008337
+          rotation 0.647512 -0.647514 -0.401813 2.377442
           children [
             Box {
               size 0.193585 0.109434 0.037736
@@ -1779,18 +1789,18 @@ PROTO Spot [
           ]
         }
         Transform {
-          translation 0 0.121 0.28
+          translation -0.28 0 0.121
           children [
             Box {
-              size 0.1 0.02 0.05
+              size 0.05 0.1 0.02
             }
           ]
         }
         Transform {
-          translation 0 0.121 -0.02
+          translation 0.02 0 0.121
           children [
             Box {
-              size 0.1 0.02 0.05
+              size 0.05 0.1 0.02
             }
           ]
         }
@@ -1800,7 +1810,7 @@ PROTO Spot [
       density -1
       mass 14.40973585
       centerOfMass [
-        0 0.02032 -0.022374
+        0.022374 0 0.02032
       ]
     }
     controller IS controller
