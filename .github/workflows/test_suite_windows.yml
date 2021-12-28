@@ -121,6 +121,7 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         cd ..
         ls
+        which webots
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
         echo $PYTHON_INSTALLATION_FOLDER
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
