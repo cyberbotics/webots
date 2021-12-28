@@ -116,19 +116,23 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
+        echo 'in'
+        ls
         cmd webots-R2021b-rev1_setup.exe /VERYSILENT /CURRENTUSER
         cd ..
+        echo 'out'
+        ls
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_HOME=$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64'
         export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
-        echo "search"
-        cmd /WHERE /R C: webots*.exe
-        python --version
-        echo 'test suite:'
-        python tests/test_suite.py
+        echo 'search'
+        cmd /WHERE /R D: webots*.exe
+        # python --version
+        # echo 'test suite:'
+        # python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
