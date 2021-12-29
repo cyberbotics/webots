@@ -116,8 +116,8 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd webots-R2021b-rev1_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="." /SP
-        cmd TIMEOUT /T 120
+        cmd webots-R2021b-rev1_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="D:/a/webots/webots/artifact" /SP
+        cmd TIMEOUT 600
         ls -la
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
@@ -125,7 +125,7 @@ jobs:
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_HOME=$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64'
         export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
-        cmd /WHERE /R D: webots*.exe
+        cmd /WHERE /R . webots*.exe
         # python --version
         # echo 'test suite:'
         # python tests/test_suite.py
