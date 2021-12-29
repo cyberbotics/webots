@@ -125,7 +125,10 @@ jobs:
         export PYTHON39_HOME=$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64'
         export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
         #cmd /WHERE /R D: webots*.exe
-        cmd TREE D: /A
+        cd ..
+        cd ..
+        cd ..
+        cmd TREE
         # python --version
         # echo 'test suite:'
         # python tests/test_suite.py
