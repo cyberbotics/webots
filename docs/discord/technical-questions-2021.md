@@ -12897,7 +12897,7 @@ I only ran into one 'corner case' where the solution may involve a little more T
 ![2021-04-09_11-49-11.png](https://cdn.discordapp.com/attachments/565154703139405824/830172259682877480/2021-04-09_11-49-11.png)
 %end
 
-##### Ren is festive 04/09/2021 20:11:17
+##### Renkun 04/09/2021 20:11:17
 <:tSmile:816483891275759656>
 
 ##### thonk enthusiast 04/09/2021 20:51:00
@@ -12924,7 +12924,7 @@ TLC = Tender Loving Care... 😉
 ##### thonk enthusiast 04/09/2021 20:52:56
 Ahh, ok.
 
-##### Ren is festive 04/09/2021 20:54:27
+##### Renkun 04/09/2021 20:54:27
 so is this two separate programs? or is this one program for the same set of students?
 
 ##### Deleted User 04/09/2021 20:55:48
@@ -12934,7 +12934,7 @@ What do you mean by “python”
 o7
 
 ##### jasonc1025 04/09/2021 21:04:26
-Thx `@Ren is festive` & `@Deleted User` (cc: `@Olivier Michel`) for asking.  If I understand the question properly, any one given class can have students with a Win, Mac, or iPad (iOS).   Since I don't have enough skill-set to leverage the super-cool 'Web-Sim', we'll need the students to download the Webot desktop on their respective device, as well as download our Sim-Lessons per Zipped-.wbt Package (of which I'm seeking Olivier and others for best-practices advice, such as using *Python* language as a more turn-key solution to 'C' for younger students [no need to rebuild]).   Hope this makes sense. 🙂
+Thx `@Renkun` & `@Deleted User` (cc: `@Olivier Michel`) for asking.  If I understand the question properly, any one given class can have students with a Win, Mac, or iPad (iOS).   Since I don't have enough skill-set to leverage the super-cool 'Web-Sim', we'll need the students to download the Webot desktop on their respective device, as well as download our Sim-Lessons per Zipped-.wbt Package (of which I'm seeking Olivier and others for best-practices advice, such as using *Python* language as a more turn-key solution to 'C' for younger students [no need to rebuild]).   Hope this makes sense. 🙂
 
 ##### thonk enthusiast 04/09/2021 21:05:46
 Also,
@@ -12951,7 +12951,7 @@ did you mean "Microsoft"? `@jasonc1025`
 
 I think its a documentary
 
-##### Ren is festive 04/09/2021 21:08:10
+##### Renkun 04/09/2021 21:08:10
 ah, so the following class has students that have windows, IPADOS and Mac. In that case i think its better to give the two downloadables only if the staff can successfully manage to keep the class running smoothly even with multiple operating systems. Hope that helps <:tWink:821238815078219826>
 
 
@@ -12963,7 +12963,7 @@ ipad os = IOS for the ipad after IOS 13 I belive
 ##### Deleted User 04/09/2021 21:09:33
 Yeah, ipad os but how about ipa dos
 
-##### Ren is festive 04/09/2021 21:10:23
+##### Renkun 04/09/2021 21:10:23
 np <a:ANIwelcome:736304466080301176>
 
 ##### jasonc1025 04/09/2021 21:13:57
@@ -12980,7 +12980,7 @@ I actually tried setting up the Web Simulation the other day, it wasn't *too* ha
 
 your experience may vary though
 
-##### Ren is festive 04/09/2021 21:17:34
+##### Renkun 04/09/2021 21:17:34
 alright. also, could you tell more about your "project?". I'm passionate about helping elementry and JH peoples, and want to see if I can help with this is any way
 
 ##### Deleted User 04/09/2021 21:17:43
@@ -12992,7 +12992,7 @@ He called his project "Roboquest" which is the second row on that link he sent t
 
 It looks interesting
 
-##### Ren is festive 04/09/2021 21:18:40
+##### Renkun 04/09/2021 21:18:40
 hmm
 
 
@@ -13005,9 +13005,9 @@ I have experience helping out others in Robotics in my organization as well
 Uhh yeah sure
 
 
-`@Ren is festive` Check your friend requests
+`@Renkun` Check your friend requests
 
-##### Ren is festive 04/09/2021 21:20:40
+##### Renkun 04/09/2021 21:20:40
 aight thxx
 
 ##### Deleted User 04/09/2021 21:20:48
@@ -13040,7 +13040,7 @@ Please take a cookie as a sign of my apology 🍪
 ##### onecelerysticc is festive 04/09/2021 21:26:45
 Perhaps you should go to a doctor?
 
-##### Ren is festive 04/09/2021 21:27:52
+##### Renkun 04/09/2021 21:27:52
 `@sihan is sad` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
 
 ##### Deleted User 04/09/2021 21:28:32
@@ -13052,16 +13052,16 @@ Please stop trolling
 ##### onecelerysticc is festive 04/09/2021 21:29:30
 I’m not too sure with doctor terminology, but I think you could try a podiatrist? I’m not too sure if thats the correct one though
 
-##### Ren is festive 04/09/2021 21:30:40
+##### Renkun 04/09/2021 21:30:40
 says the person who doesnt have one
 
 ##### onecelerysticc is festive 04/09/2021 21:30:48
 :0
 
 ##### thonk enthusiast 04/09/2021 21:31:34
-`@Ren is festive` You shouldn't engage with the trolls they'll target you
+`@Renkun` You shouldn't engage with the trolls they'll target you
 
-##### Ren is festive 04/09/2021 21:31:42
+##### Renkun 04/09/2021 21:31:42
 youre right
 
 
@@ -13070,7 +13070,7 @@ youre right
 ##### Deleted User 04/09/2021 21:32:32
 Just block them guys
 
-##### Ren is festive 04/09/2021 21:33:09
+##### Renkun 04/09/2021 21:33:09
 i already did that
 
 ##### thonk enthusiast 04/09/2021 21:33:10
@@ -13085,7 +13085,7 @@ The moderation staff on this server really needs to step up and stop the trolls
 ##### thonk enthusiast 04/09/2021 21:34:22
 I mean they probably don't have to deal with trolls often, this is a kinda niche community
 
-##### Ren is festive 04/09/2021 21:34:27
+##### Renkun 04/09/2021 21:34:27
 yeah the mods here are pretty incompetent
 
 
@@ -13104,21 +13104,21 @@ not to discredit them but
 `@sihan is sad` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
 
 
-oh and `@Ren is festive` this was literally the first instance ever I have seen of a troll here, for the year I have been active here
+oh and `@Renkun` this was literally the first instance ever I have seen of a troll here, for the year I have been active here
 
-##### Ren is festive 04/09/2021 21:54:48
+##### Renkun 04/09/2021 21:54:48
 oh wow ok
 
 ##### thonk enthusiast 04/09/2021 21:54:57
 oh wow
 
-##### Ren is festive 04/09/2021 21:55:03
+##### Renkun 04/09/2021 21:55:03
 yeah i never expected trolls in this place
 
 ##### thonk enthusiast 04/09/2021 21:55:06
 +1
 
-##### Ren is festive 04/09/2021 21:55:21
+##### Renkun 04/09/2021 21:55:21
 hopefully this doesnt happen again
 
 ##### thonk enthusiast 04/09/2021 21:57:00
@@ -13185,28 +13185,28 @@ So, if I’ve gotten this correct, you’re planning a competition style simulat
 ##### jasonc1025 04/10/2021 19:37:42
 It's a key way to get Jr Highers (younger and older) motivated to learn, yet we wish also emphasize team-vs-team (so no solo lone rangers). 😉
 
-##### Ren is festive 04/10/2021 19:40:06
+##### Renkun 04/10/2021 19:40:06
 thats pretty nice, since Junior Highers like competition. I think its a great idea to motivate students and make the learning process more enjoyable <:tWink:821238815078219826>
 
 ##### jasonc1025 04/10/2021 19:57:05
-just for fun, no obligation, yet it's kind of nice to learn more about the community here.  I'm from 'Silicon Valley' (South Bay) in CA, USA.  Where are you `@thonk enthusiast`  and `@Ren is festive`  from(?), assuming i'm not just talking to 'smart bots'.  😉  I assume that we're from all parts of this world?  🙂
+just for fun, no obligation, yet it's kind of nice to learn more about the community here.  I'm from 'Silicon Valley' (South Bay) in CA, USA.  Where are you `@thonk enthusiast`  and `@Renkun`  from(?), assuming i'm not just talking to 'smart bots'.  😉  I assume that we're from all parts of this world?  🙂
 
 ##### diluccockballs 04/10/2021 21:23:43
 [https://cdn.discordapp.com/emojis/771407331489087569.png?size=64](https://cdn.discordapp.com/emojis/771407331489087569.png?size=64)
 
-##### Ren is festive 04/11/2021 04:38:33
+##### Renkun 04/11/2021 04:38:33
 I’m a student residing in the United States
 
 ##### thonk enthusiast 04/11/2021 04:39:48
 Yeah, I'm also a student
 
 
-`@Ren is festive` Where in the US? If you're in the west coast go to DMs
+`@Renkun` Where in the US? If you're in the west coast go to DMs
 
 ##### Ali\_1 04/11/2021 05:08:50
 Hi, is it possible to change the cursor style in 3D view?
 
-##### Ren is festive 04/11/2021 05:11:06
+##### Renkun 04/11/2021 05:11:06
 oh you live in west coast as well? Aight check dms
 
 ##### Supernova 04/11/2021 08:45:10
@@ -21189,7 +21189,7 @@ da fuck
 ##### Maximo Cansino Mateo 07/04/2021 19:12:36
 Its spam dont worry
 
-##### Ren is festive 07/04/2021 19:12:53
+##### Renkun 07/04/2021 19:12:53
 what
 
 ##### thonk enthusiast 07/04/2021 19:13:11
@@ -21198,7 +21198,7 @@ some steam scammer was on here
 ##### charkoteow 07/04/2021 19:13:28
 but i want the knife <:lul:640814880605208616>
 
-##### Ren is festive 07/04/2021 19:13:35
+##### Renkun 07/04/2021 19:13:35
 ^
 
 ##### DavidF 07/05/2021 13:42:40
@@ -33470,4 +33470,424 @@ make[4]: *** Waiting for unfinished jobs....
 404 Not Found
 2021-12-22 21:37:22 ERROR 404: Not Found.
 ```
+
+##### Olivier Michel [Cyberbotics] 12/22/2021 13:32:02
+The compilation on GitHub CI macOS machines works automatically, this may help you: [https://github.com/cyberbotics/webots/blob/master/.github/workflows/test\_suite\_mac.yml](https://github.com/cyberbotics/webots/blob/master/.github/workflows/test_suite_mac.yml)
+
+##### L4RG 12/22/2021 15:09:41
+`@Olivier Michel` Hi, sorry to tag you directly. On 05/08/2019, you stated that it is impossible to have a timestep smaller than 1ms (or control updates higher than 1kHz). 
+
+
+
+Is this still the case for Webots?
+
+##### DDaniel [Cyberbotics] 12/22/2021 15:10:29
+it's technically possible, but in practice I don't think it works as intended. There's an open issue about it
+
+##### L4RG 12/22/2021 18:26:44
+do you have a link to the issue?
+
+edit: [https://github.com/cyberbotics/webots/issues/1669](https://github.com/cyberbotics/webots/issues/1669)
+
+
+
+Indeed seems that this has not been fixed and/or is a design choice.
+
+##### nap 12/23/2021 05:09:51
+Is there a make flag that can be used to echo all issued commands?
+
+
+`wget [https://cyberbotics.com/files/repository/dependencies/mac/release/develop/libssh.tar.bz2](https://cyberbotics.com/files/repository/dependencies/mac/release/develop/libssh.tar.bz2) -P /Users/user/Programming/webots/webots/dependencies` **fails.**
+
+
+
+In the above make invocation, I used `-j4`.  I've now, at least until I get a successful build, am using `-j1`.  So this 404 error could be the 1st of several, as suggested in the build output above.
+
+##### Olivier Michel [Cyberbotics] 12/23/2021 07:38:46
+This could be a problem of the build system (Makefile) which doesn't support well multi-processing (`-j` option).
+
+##### nap 12/23/2021 07:40:49
+I'm now using `-j1`, so I'm avoiding the parallel build problem.
+
+
+[https://cyberbotics.com/files/repository/dependencies/mac/release/develop/libssh.tar.bz2](https://cyberbotics.com/files/repository/dependencies/mac/release/develop/libssh.tar.bz2) returns a 404 Not Found error.
+
+##### Olivier Michel [Cyberbotics] 12/23/2021 07:44:04
+It should be changed to [https://cyberbotics.com/files/repository/dependencies/mac/release/master/libssh.tar.bz2](https://cyberbotics.com/files/repository/dependencies/mac/release/master/libssh.tar.bz2)
+
+
+Which branch or tag of Webots are you using?
+
+##### nap 12/23/2021 07:44:39
+I'm using `R2021b`
+
+
+In which file should this be changed?
+
+##### Olivier Michel [Cyberbotics] 12/23/2021 07:45:20
+Yes, these problems were fixed after the release of R2021b. I would recommend you to use R2022a instead.
+
+##### nap 12/23/2021 07:45:51
+Ok, I can try that.
+
+##### Expert\_Amateur 12/23/2021 07:46:47
+Hi, I seem to encountering an error where WeBots crashes everytime I try to use a while loop inside the default while loop. The simulation stops at exactly 16 milliseconds and I cannot restart it without closing the entire application
+
+
+
+P.S. I updated WeBots recently but I'm not sure if this is relevant since I did not try doing this in the previous version
+
+
+
+Thank you for your help
+
+##### DDaniel [Cyberbotics] 12/23/2021 07:47:33
+are you sure the internal while loop isn't looping forever?
+
+##### Expert\_Amateur 12/23/2021 07:48:53
+Fairly certain but I'll confirm it once and brb
+
+
+Actually, it did not crash when I tried running the loop through a single iteration by changing the condition. I'll look into it further to confirm if my original loop was in fact, infinite
+
+
+
+Thank you for your help!
+
+##### nap 12/23/2021 08:11:45
+Using `R2022a`, I get the following error when I build with `make distrib -j1`:
+
+```
+javac --release 8 SWIG_generated_files/*.java -d .
++ javac --release 8 SWIG_generated_files/Accelerometer.java SWIG_generated_files/Altimeter.java SWIG_generated_files/AnsiCodes.java SWIG_generated_files/Brake.java SWIG_generated_files/Camera.java SWIG_generated_files/CameraRecognitionObject.java SWIG_generated_files/Compass.java SWIG_generated_files/Connector.java SWIG_generated_files/ContactPoint.java SWIG_generated_files/Device.java SWIG_generated_files/Display.java SWIG_generated_files/DistanceSensor.java SWIG_generated_files/Emitter.java SWIG_generated_files/Field.java SWIG_generated_files/GPS.java SWIG_generated_files/Gyro.java SWIG_generated_files/ImageRef.java SWIG_generated_files/InertialUnit.java SWIG_generated_files/Joystick.java SWIG_generated_files/Keyboard.java SWIG_generated_files/LED.java SWIG_generated_files/Lidar.java SWIG_generated_files/LidarPoint.java SWIG_generated_files/LightSensor.java SWIG_generated_files/Motion.java SWIG_generated_files/Motor.java SWIG_generated_files/Mouse.java SWIG_generated_files/MouseState.java SWIG_generated_files/Node.java SWIG_generated_files/Pen.java SWIG_generated_files/PositionSensor.java SWIG_generated_files/Radar.java SWIG_generated_files/RadarTarget.java SWIG_generated_files/RangeFinder.java SWIG_generated_files/Receiver.java SWIG_generated_files/Robot.java SWIG_generated_files/SWIGTYPE_p_WbImageRef.java SWIG_generated_files/Skin.java SWIG_generated_files/Speaker.java SWIG_generated_files/Supervisor.java SWIG_generated_files/TouchSensor.java SWIG_generated_files/wrapper.java SWIG_generated_files/wrapperJNI.java -d .
+javac: invalid flag: --release
+Usage: javac <options> <source files>
+use -help for a list of possible options
+make[2]: *** [/Users/user/Programming/webots/webots/lib/controller/java/Controller.jar] Error 2
+```
+
+
+Though I'm not intending to use Jave, I have `javac 1.8.0_60`
+
+##### Olivier Michel [Cyberbotics] 12/23/2021 08:23:29
+If you have no plan to use java controllers, you can skip the compilation of java stuff by modifying the Makefiles.
+
+
+Or upgrade to a more recent version of javac.
+
+##### nap 12/23/2021 09:01:22
+The build finished and generated `webots-R2022a.dmg`  I'll test it next.
+
+**EDIT** R2022a works fine for me.
+
+
+
+Thanks Olivier!
+
+##### Olivier Michel [Cyberbotics] 12/23/2021 09:03:26
+Did you upgraded javac or dropped javac compilation?
+
+##### nap 12/23/2021 09:11:58
+I  upgraded to LTE 17
+
+##### Expert\_Amateur 12/23/2021 09:53:25
+Hi, after analysing my code quite a bit, I don't think the loop I'd nested was infinite.
+
+I also tried changing the structure of the code quite a bit and the simulation window still always stops at exactly 16ms.
+
+Further, if the loop were infinite, I don't think the simulation should freeze, right?
+
+##### DDaniel [Cyberbotics] 12/23/2021 09:57:17
+the simulation only advances if the the outer while loop is executed (specifically, if the step function is called). If inside it you loop infinitely, it doesn't advance and most likely webots becomes irresponsive (if you see the CPU run at nearly 100%) during that "freeze", then you're likely looping. But you can post the file of the controller, so we can take  a look
+
+##### Expert\_Amateur 12/23/2021 10:02:26
+I think this is the issue, the nested loop was supposed to assign motor velocities based on sensor readings at each point, until a destination is reached. The outer while loop was supposed to change only the destination itself. 
+
+So, if I call the step function in my nested loop, will it work?
+
+
+It worked!
+
+Thank you so much : )
+
+##### nap 12/25/2021 09:01:19
+Out of curiosity, what IDE is used/recommended for working with `Webots` source code itself on MacOS?  If it's Xcode, is there a Xcode Project somewhere?
+
+
+Another question; after building Webots, are **all** files situation locally or are there still portions that need to be accessed via the internet?
+
+##### Olivier Michel [Cyberbotics] 12/25/2021 09:53:57
+After building from the sources, all the files should be there, so that nothing should be downloaded while using Webots.
+
+##### Expert\_Amateur 12/25/2021 14:16:48
+Hi, is it impossible to import VRML95 files after the 2022 update? I can't seem to get it done
+
+
+
+Thanks for the help!
+
+##### nap 12/25/2021 15:53:53
+(Q1) Is LUA/Javascript used for anything else other than procedural PROTO definitions?  (Q2) Does the UI provide subscribable events and/or an API to manupulate the UI?  (Not referring to the supervisor functionality here.)
+
+
+After ONE successful build, I'm now getting the following error.
+
+I haven't done anything here, but it seems that things back on the GitHub server are changing and they are affecting my local build.  I don't think this should be happening, unless I `pull` or something.
+
+
+
+```
+# checking RPATH system
+Dylibs dependencies: ok
+Frameworks dependencies: ok
+# checking submodules update
+# Submodule 'resources/webots_ros':
+# - 'Current' and 'origin/master' commits IDs mismatch.
+#   - 'Current' commit id: 293a3dca69c6228c79526745311e7543ab6a4411
+#   - 'origin/master' commit id: e5933a85023905f9767e12d3cd0312877d280f06
+# Submodule 'src/glm':
+# - 'Current' and 'origin/master' commits IDs mismatch.
+#   - 'Current' commit id: dd48b56e44d699a022c69155c8672caacafd9e8a
+#   - 'origin/master' commit id: 6ad79aae3eb5bf809c30bf1168171e9e55857e45
+# Submodule 'src/stb':
+# - 'Current' and 'origin/master' commits IDs mismatch.
+#   - 'Current' commit id: f67165c2bb2af3060ecae7d20d6f731173485ad0
+#   - 'origin/master' commit id: af1a5bc352164740c1cc1354942b1c6b72eacb8a
+# building distribution source
+# creating webots.mac version R2022aMissing dir: resources/web/server/log
+make[1]: *** [all] Error 255
+make: *** [distrib] Error 2
+```
+
+
+
+**EDIT**  creating the missing folders `./log/session` and `./log/simulation` in my REPO tree fixed the problem.  I don't know why they were deleted between my 1st build and this one.
+
+##### Ranga Kulathunga 12/26/2021 09:36:23
+Hi all, can we connect Webots with sumo which is outside of the Webots directory?
+
+##### nap 12/26/2021 10:18:46
+Though I haven't used `sumo` before, have you tried the sample project @ `./projects/vehicles/worlds/sumo_interface_example.wbt` ?
+
+
+I think it's expecting an `external` controller as I'm getting networking messages stating `connection refused`.  (That's because I'm not running sumo itself.)
+
+
+Why is it that, after compiling from source, when I load a sample project (e.g. ./gctronic/e-puck/worlds/e-puck\_kinematic.wbt), Webots says its `Downloading Assets` and it downloads what it needs from  `githubusercontent.com`?
+
+(a) Shouldn't I already have all files/assets used by Webots given I've cloned the repository and built `distrib` from source, and
+
+(b) What happens when I don't have internet access?
+
+##### Ranga Kulathunga 12/26/2021 19:46:09
+Thank you for your explanation. Yeah, that's the case. I wanna run SUMO externally. Is there any possibility to edit the directory to SUMO?
+
+##### nap 12/27/2021 03:13:09
+Look in the Webots documentation for an explanation of what an ‘external’ controller is.
+
+
+Here are some links to relevant documentation:
+
+[https://cyberbotics.com/doc/guide/using-your-ide](https://cyberbotics.com/doc/guide/using-your-ide)
+
+[https://cyberbotics.com/doc/guide/controller-plugin](https://cyberbotics.com/doc/guide/controller-plugin)
+
+[https://cyberbotics.com/doc/guide/controller-programming](https://cyberbotics.com/doc/guide/controller-programming)
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+
+Late in the build process, `updating proto cache`, Webots is executed with the `--update-proto-cache` flag.
+
+Is there documentation that explains exactly what this does?  It appears as though Webots is invoked `headless`.
+
+I know it at least compiles some controllers (e-puck in my case), but what else?
+
+
+Another question:  When Webots is started, it loads the last world that was open.  Where is this information stored?  And, as a follow-up, where in the code is this location determined?
+
+##### Expert\_Amateur 12/27/2021 07:20:24
+Hi, if anyone could help me out with this, I'd really appreciate it. I'd like to import an assembly but SolidWorks can save it only as stl, among the available options and in that case everything is imported as a single part. Further, the coordinate systems for each part end up in unpredictable locations.
+
+
+
+Thank you once again! : )
+
+##### Yannnick3 [Cyberbotics] 12/27/2021 08:00:34
+As stated in the documentation ([https://cyberbotics.com/doc/guide/the-user-interface#file-menu](https://cyberbotics.com/doc/guide/the-user-interface#file-menu)), only VRML97 is supported in Webots. Also Webots doesn't implement all the fields of VRML, but your shape should still be functional.
+
+
+This error message may come from a problem in the Sumo compilation. You can try to re-compile Sumo directly in `webots/projects/default/resources` with `make clean` and `make release`.
+
+##### nap 12/27/2021 09:54:47
+I'm going to express an opinion that may not be popular, but I I really don't like this business of downloading things from the internet all the time simply to save on the size of the installation file.  I never had any issues downloading the 1.5GB install, but I'm now frustrated that each time I clean then build (as per Yannick suggestion above), I have to download stuff in order to build.  And to make matters worse, after the build completes, it deletes what was downloaded.
+
+
+Unfortunately, it's not working, returning the same error as before.
+
+Something was downloaded when I ran the world into:
+
+```
+Temporary network files generated in /var/folders/tg/vymk3ysd1n14cpx7r7_q5pgw0000gn/T/tmpzpntda44
+Loading configuration ... done.
+Parsing nodes from '/var/folders/tg/vymk3ysd1n14cpx7r7_q5pgw0000gn/T/tmpzpntda44/sumo.nod.xml' ... done.
+Parsing edges from '/var/folders/tg/vymk3ysd1n14cpx7r7_q5pgw0000gn/T/tmpzpntda44/sumo.edg.xml' ... done.
+Parsing connections from '/var/folders/tg/vymk3ysd1n14cpx7r7_q5pgw0000gn/T/tmpzpntda44/sumo.con.xml' ... done.
+```
+
+But all I'm seeing is an intersection with four traffic lights of two roads that lead to infinite horizons.
+
+
+
+**EDIT**  I looked into that folder and here is a list of what's there:
+
+generate\_route\_file.py
+
+plugin.py
+
+sumo.con.xml
+
+sumo.det.xml
+
+sumo.edg.xml
+
+sumo.net.xml
+
+sumo.netccfg
+
+sumo.nod.xml
+
+sumo.rou.xml
+
+sumo.sumocfg
+
+
+
+I must have tried running this example 6 times because there are 6 folders with these files.
+
+##### DDaniel [Cyberbotics] 12/27/2021 10:10:24
+If you use the Webots development environment, all files are available locally. If you use a pre-built binary, the files are downloaded and cached progressively as needed (by opening worlds that require them) and are removed only if you expressly clear the cache from the preferences. When the "downloading assets" shows up, doesn't mean it downloads it everytime. If it finds the asset in the cache, it will use it.
+
+
+Sumo examples should work out of the box, just by pressing play. If it doesn't, it might be a bug.
+
+
+except for ubuntu 18 if I remember right, that does require compiling sumo manually
+
+##### nap 12/27/2021 10:16:27
+I think you are incorrect.
+
+I just did what Yannick suggested, clean and build.
+
+First, the clean deleted everything but the make file.  Then a tar.gz was downloaded and extracted.  Then the compilation too place, and when it finished, the tar.gz was deleted.  (So if I clean/build again, these same process occurs; i.e. there is a download each time.)
+
+I have the same issue when I open worlds using the `webots` binary that is included in the root folder of the repo.  When I run `./projects/robots/gctronic/e-puck/worlds/e-puck_kinematic.wbt`.  I get the `Downloading Assets` dialog with the progress bar, and afterwards the simulation runs.
+
+
+I'm running MacOS Catalina 10.15.6
+
+
+that may be the intention, but that's not how its working on MacOS.
+
+
+If you look into the Makefile that is in `./projects/default/resources` you will see there is a `wget` in the last line of each `ifeq` for each OS Type.
+
+To be more precise, line 69 of the Makefile performs the `wget` and line 79 performs the delete.
+
+
+I am using the `R2022a` tag here.
+
+
+With respect to the `Sumo` demo, each time I reset using the UI button that looks like `|<<`, and the run, I get a new temp folder with those files in it.
+
+But the simulation does not run, and fails with the `connection refused` error.
+
+Do I need to run `Sumo` from the command line in a separate terminal?
+
+##### DDaniel [Cyberbotics] 12/27/2021 11:21:54
+By assets I mean textures and sounds, those are included locally in the development environment and aren't removed on a `make clean`. On a pre-built binary, even if the progress bar appears it might just be checking the cache. You can verify this by putting airplane mode or disconnecting internet and reloading the world. Even without connection, it should still have all the textures (assuming you have opened this world at least once before  (or another world that uses the same assets)). 
+
+If by "tar.gz" you are talking about sumo specifically, then yes, that should be re-downloaded on a `make cleanse`, not a `make clean`, so it might be unintended yes.
+
+As for SUMO, you don't need to. When you press play the sumo interface should pop up. On macOs you might need to install XQuartz: [https://www.cyberbotics.com/doc/automobile/sumo-interface#how-to-include-the-interface](https://www.cyberbotics.com/doc/automobile/sumo-interface#how-to-include-the-interface)
+
+##### Expert\_Amateur 12/27/2021 11:51:24
+Thank you for responding : )
+
+I actually meant VRML97 not 95. I've imported files of the format before but after the update I've been unable to. Sorry about the confusion.
+
+##### nap 12/27/2021 12:14:35
+I already have XQuartz 2.7.11, which according to the documentation is sufficient, and it is reachable in my PATH variable.
+
+After reading the documentation link you posted, I added a path to the SUMO folder to my PATH variable.
+
+However, even after this, no UI pops up for me, just the messages in the Webots Console saying:
+
+*Import done: 9 nodes / 16 edges ....*, *Summary: Node type statistics....Writing network ... Success*,  then:
+
+Connect to SUMO...  `Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.  You can try changing SUMO port using the "--port" argument.`
+
+ Retrying.  `Could not connect to TraCI server at localhost:8873 [Errno 61] Connection refused` x 20 (approx)
+
+`WARNING: 'sumo_supervisor' controller exited with status: 1.`
+
+##### Yannnick3 [Cyberbotics] 12/27/2021 14:33:58
+I see. What do you mean by "it is impossible to import VRML97 parts"? Do you get an error message or is it just displayed in a weird way? For the latter could you please provide screenshots?
+
+
+What I would suggest to you is to build Webots from source as I understand it isn't what you do rn and try the SUMO example worlds. Opening them and directly pressing the RUN button should be working straight away. If not, I believe this may be a problem linked to your configuration.
+
+##### nap 12/27/2021 14:44:07
+I have built Webots 2022a from source.
+
+##### Expert\_Amateur 12/27/2021 14:45:04
+Basically, the files I'd saved as VRML97 to use in the 2021 version are no longer visible at all, when I try to import them. I'll send the screenshots in a bit, I've already reverted back to the 2021 version so I'll need to download the new version again.
+
+Thank you for your help!
+
+##### DDaniel [Cyberbotics] 12/27/2021 14:45:49
+That feature has been removed from 2022 as far as I know, let me double check
+
+##### nap 12/27/2021 14:46:10
+TBH, I'm not that worried about this as I'm not actually using SUMO.  I just was trying to help the other person.
+
+I asked several other questions though.
+
+##### Yannnick3 [Cyberbotics] 12/27/2021 14:46:31
+Have you tried to follow this procedure to compile SUMO: [https://github.com/cyberbotics/webots/wiki/SUMO-compilation#mac](https://github.com/cyberbotics/webots/wiki/SUMO-compilation#mac) ?
+
+##### Expert\_Amateur 12/27/2021 14:49:04
+Ohh, I see, if this is the case, please let me know. Also, in that case, what would be the best method of importing an entire assembly as individual parts? Also, is it possible to change the coordinate axes corresponding to each part? I can't seem to figure out how the axis for the parts I'm importing as .stl is chosen, making the selection of the center of mass difficult
+
+##### nap 12/27/2021 14:50:12
+No, I haven't tried recompiling SUMO.  I've been relying on what was already provided by building `distrib`.
+
+But, as I said, I'm not really concerned about this as I'm not using it for my work.  I was simply trying to help Ranga Kulathunga.
+
+
+
+There are other questions I asked above, to which an answer would help me get my head around what I'm trying to do here.
+
+##### Ranga Kulathunga 12/27/2021 15:52:34
+Thank you all for your support. `@nap`  `@DDaniel`  `@Yannnick3` `@Expert_Amateur`  I will work on them.
+
+##### Expert\_Amateur 12/27/2021 18:30:09
+Hi, in the coupled motors sample world, what exactly is TIP\_PHYSICS? Is it different in some way from the default physics node?
+
+##### DDaniel [Cyberbotics] 12/27/2021 19:05:19
+It's just a shortcut, it means the physics node is defined elsewhere and there the same node is just being re-used. Somewhere in the world file you'll find a "DEF TIP\_PHYSICS", that's where it is defined
+
+##### SeanLuTW 12/28/2021 07:34:11
+Hi, I have a self-wrote `.wbt` file with unknown wrong format, when I opened it with Webots, it directly jumped to default `unnamed.wbt` with no additional information. Is there any tool to check where the format of my `.wbt` went wrong?
+
+
+On the other hand, can I set the default world file from `unnamed.wbt` to other world file?
+
+
+I found that if I open the world with command line and redirect `stdout` and `stderr` to my console, I can see where it went wrong.
+
+##### Expert\_Amateur 12/29/2021 11:02:19
+Got it, that makes sense, thank you!
+
+Oh and what about the question I had about VRML97? I can't seem to import those files in the 2022 version
 

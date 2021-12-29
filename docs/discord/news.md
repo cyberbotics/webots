@@ -4,8 +4,11 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 12/21/2021 14:17:48
-New publication leveraging on Webots: A Hierarchical Framework for Quadruped Locomotion Based on Reinforcement Learning. [https://ieeexplore.ieee.org/abstract/document/9636757](https://ieeexplore.ieee.org/abstract/document/9636757)
+##### Olivier Michel [Cyberbotics] 12/23/2021 17:22:10
+Very nice article, with source code: **Particle Filter Localization with Webots and ROS2** [https://towardsdatascience.com/particle-filter-localization-with-webots-and-ros2-619ecf0c5f08](https://towardsdatascience.com/particle-filter-localization-with-webots-and-ros2-619ecf0c5f08)
+
+
+New publication leveraging on Webots: **A Hierarchical Framework for Quadruped Locomotion Based on Reinforcement Learning**. [https://ieeexplore.ieee.org/abstract/document/9636757](https://ieeexplore.ieee.org/abstract/document/9636757)
 
 ##### Benjamin Délèze [Cyberbotics] 12/21/2021 11:18:03
 Webots R2022a released!

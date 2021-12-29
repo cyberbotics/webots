@@ -2298,3 +2298,18 @@ I found the problem. I'm using my University's internet connection, and for some
 ##### DDaniel [Cyberbotics] 11/28/2021 11:13:21
 Interesting, can I ask you the country? Should work regardless
 
+##### Robokashi 12/22/2021 16:45:56
+Hey, I am not sure it is the right place to ask this, but I created a pull request that was approved about the ROS2 tutorial on ROS2 Foxy : [https://github.com/ros2/ros2\_documentation/pull/2178](https://github.com/ros2/ros2_documentation/pull/2178). Now that is is approved is there something I should do ? I see I can only close the PR.
+
+##### Olivier Michel [Cyberbotics] 12/22/2021 17:05:34
+Unfortunately, I cannot help you. Now that it was accepted by a reviewer of ROS 2 documentation, it should be merged by one of the maintainers soon. I am neither a reviewer nor a maintainer...
+
+##### Robokashi 12/22/2021 18:19:59
+No problem I understand ! Thank you for suggesting a smarter fix than mine.
+
+##### nap 12/23/2021 13:38:29
+I've added a tree (pine) to my world, but it is huge and out of proportion to everything else.  How can I change it's size?  I can't seem to add a transform to it.
+
+##### DDaniel [Cyberbotics] 12/23/2021 15:44:20
+You need to add the Pine as a child of the Transform and then scale it down, not the other way around
+
