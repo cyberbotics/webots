@@ -116,9 +116,11 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd webots-R2022a_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="D:\a\webots\webots\artifact" /SP
+        cmd echo %time%
+        cmd webots-R2022a_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="D:\a\webots\webots\artifact" /SP /LOG="./log.txt"
         cmd TIMEOUT /T 600
-        ls -la
+        cmd echo %time%
+        cmd MORE log.txt
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
