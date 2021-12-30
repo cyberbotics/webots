@@ -116,8 +116,8 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd webots-R2021b-rev1_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="D:/a/webots/webots/artifact" /SP
-        cmd TIMEOUT 600
+        cmd webots-R2022a_setup.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="D:\a\webots\webots\artifact" /SP
+        cmd TIMEOUT /T 600
         ls -la
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
