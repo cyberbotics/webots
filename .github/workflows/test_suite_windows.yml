@@ -117,11 +117,11 @@ jobs:
         echo 'Running Test Suite'
         cd artifact/
         cmd.exe //c webots-R2022a_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
-        ls
-        echo '==> log start'
-        cat log.txt
-        echo '==> log end'
-        ./msys64/mingw64/bin/webotsw.exe --version
+        #echo '==> log start'
+        #cat log.txt
+        #echo '==> log end'
+        #./msys64/mingw64/bin/webotsw.exe --version
+        webots --version
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
@@ -130,8 +130,8 @@ jobs:
         export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
         #/WHERE /R . webots*.exe
         # python --version
-        # echo 'test suite:'
-        # python tests/test_suite.py
+        echo 'test suite:'
+        python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
