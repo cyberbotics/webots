@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "In this example, the robot turns on a slope."

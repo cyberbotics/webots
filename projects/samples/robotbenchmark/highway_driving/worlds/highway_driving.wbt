@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include "WbUpdatedDialog.hpp"
 
 WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
-  setWindowTitle(tr("Welcome to Webots R2022a"));
+  setWindowTitle(tr("Welcome to Webots R2022b"));
 
   QPixmap webotsLogo("images:webots.png");
   QLabel *image = new QLabel(this);
@@ -31,14 +31,14 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   QLabel *label = new QLabel(this);
   label->setGeometry(QRect(75, 30, 330, 30));
-  label->setText(tr("<b>Thank you for using Webots R2022a.</b>"));
+  label->setText(tr("<b>Thank you for using Webots R2022b.</b>"));
   label->setStyleSheet("font-size: 15px;");
   label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   label->setWordWrap(true);
 
   QGroupBox *groupBox = new QGroupBox(this);
   groupBox->setGeometry(QRect(35, 65, 365, 240));
-  groupBox->setTitle(tr("Important Note for Users of Previous Versions"));
+  groupBox->setTitle(tr("Important Note for Users of Versions Lower than R2022a"));
   groupBox->setStyleSheet("QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } "
                           "QGroupBox::title {subcontrol-origin:  margin; subcontrol-position: top center; }");
 
@@ -60,7 +60,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   label = new QLabel(this);
   label->setGeometry(QRect(35, 313, 283, 44));
-  label->setText(tr("Find out the new features, enhancements and bug fixes of Webots R2022a in the <a style='color: #5DADE2;' "
+  label->setText(tr("Find out the new features, enhancements and bug fixes of Webots R2022b in the <a style='color: #5DADE2;' "
                     "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
   label->setOpenExternalLinks(true);
   label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
