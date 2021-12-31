@@ -122,8 +122,8 @@ jobs:
         #echo '==> log end'
         #./msys64/mingw64/bin/webotsw.exe --version
         echo '==> webots home:'
+        export WEBOTS_HOME=$PWD
         echo $WEBOTS_HOME
-        #export WEBOTS_HOME=$PWD
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
@@ -133,6 +133,8 @@ jobs:
         #/WHERE /R . webots*.exe
         # python --version
         echo 'test suite:'
+        cd ..
+        ls
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
