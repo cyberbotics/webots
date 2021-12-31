@@ -1,4 +1,4 @@
-# Webots constants for r2021b, without WB_prefixes
+# Webots constants without WB_prefixes
 
 _WB_STDOUT=0
 _WB_STDERR=1
