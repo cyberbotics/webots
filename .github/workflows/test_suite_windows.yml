@@ -108,10 +108,10 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
-    - name: Set up Python 3.9
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.8
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
@@ -121,15 +121,13 @@ jobs:
         #cat log.txt
         #echo '==> log end'
         #./msys64/mingw64/bin/webotsw.exe --version
-        echo '==> webots home:'
         export WEBOTS_HOME=$PWD
-        echo $WEBOTS_HOME
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
-        export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
-        export PYTHON39_HOME=$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64'
-        export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
+        export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        export PYTHON38_HOME=$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64'
+        export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
         #/WHERE /R . webots*.exe
         # python --version
         echo 'test suite:'
