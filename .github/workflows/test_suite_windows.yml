@@ -121,7 +121,9 @@ jobs:
         #cat log.txt
         #echo '==> log end'
         #./msys64/mingw64/bin/webotsw.exe --version
-        export WEBOTS_HOME=$PWD
+        echo '==> webots home:'
+        echo $WEBOTS_HOME
+        #export WEBOTS_HOME=$PWD
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
