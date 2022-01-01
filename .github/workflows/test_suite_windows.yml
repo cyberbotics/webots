@@ -131,7 +131,7 @@ jobs:
         #/WHERE /R . webots*.exe
         echo 'test suite:'
         cd ..
-        pacman -S --noconfirm make
+        ./scripts/install/msys64_installer.sh --all
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
