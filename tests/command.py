@@ -63,7 +63,7 @@ class Command(object):
         self.mainThread = None
 
     def run(self, timeout=None, expectedString=None, silent=True,
-            forceTermination=True, shell=False, redirectionFile=None):
+            forceTermination=True, shell=True, redirectionFile=None):
         """Run the command and monitor STDERR and STDOUT pipe."""
         def mainTarget():
             if self.redirectionFile is None:
@@ -151,7 +151,7 @@ class Command(object):
             exit()
 
     def runTest(self, timeout=None, silent=True, forceTermination=True,
-                shell=False):
+                shell=True):
         """Run the command and redirect the STDERR and STDOUT to files."""
 
         def mainTarget():

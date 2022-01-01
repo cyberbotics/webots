@@ -129,10 +129,8 @@ jobs:
         export PYTHON38_HOME=$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64'
         export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
         #/WHERE /R . webots*.exe
-        # python --version
         echo 'test suite:'
         cd ..
-        ls
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
