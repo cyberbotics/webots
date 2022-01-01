@@ -131,6 +131,7 @@ jobs:
         #/WHERE /R . webots*.exe
         echo 'test suite:'
         cd ..
+        pacman -S --noconfirm make
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
