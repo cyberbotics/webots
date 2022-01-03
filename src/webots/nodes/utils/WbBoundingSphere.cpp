@@ -247,14 +247,15 @@ void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, doubl
   const WbAbstractPose *upperPose = dynamic_cast<const WbAbstractPose *>(mPoseOwner);
   if (upperPose == NULL)
     upperPose = WbNodeUtilities::findUpperPose(mOwner);
-  if (upperPose) {
-    const WbVector3 &scale = upperPose->absoluteScale();
-    radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
-    center = upperPose->matrix() * mCenter;
-  } else {
-    radius = mRadius;
-    center = mCenter;
-  }
+  // TODO: still needed?
+  // if (upperPose) {
+  //  //const WbVector3 &scale = upperPose->absoluteScale();
+  //  radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
+  //  center = upperPose->matrix() * mCenter;
+  //} else {
+  radius = mRadius;
+  center = mCenter;
+  //}
 }
 
 void WbBoundingSphere::recomputeIfNeeded(bool dirtyOnly) {

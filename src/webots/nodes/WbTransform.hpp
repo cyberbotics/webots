@@ -29,6 +29,8 @@ public:
   WbTransform(WbTokenizer *tokenizer = NULL);
   WbTransform(const WbTransform &other);
   WbTransform(const WbNode &other);
+  // reimplemented functions
+  int nodeType() const override { return WB_NODE_TRANSFORM; }
 
   const WbVector3 &scale() const { return mScale->value(); }
   WbSFVector3 *scaleFieldValue() const { return mScale; }
@@ -38,11 +40,19 @@ public:
   void setScale(const WbVector3 &s) { mScale->setValue(s); }
   void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
-  // reimplemented functions
-  int nodeType() const override { return WB_NODE_TRANSFORM; }
+  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
+  const WbVector3 &absoluteScale() const;
+
+  // resize/scale manipulator
+  bool hasResizeManipulator() const;
+  void attachResizeManipulator();
+  void detachResizeManipulator() const;
+  void updateResizeHandlesSize();
+  void setResizeManipulatorDimensions();
 
 protected:
   WbSFVector3 *mScale;
+  mutable WbVector3 mAbsoluteScale;
   bool checkScale(int constraintType = 0, bool warning = false);
   bool checkScalePositivity(WbVector3 &correctedScale) const;
   bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
@@ -51,6 +61,7 @@ protected:
   void applyToScale();
 
   void updateScale(bool warning = false);
+  void applyScaleToWren();
 
   // WREN manipulators
   WbScaleManipulator *mScaleManipulator;
@@ -58,10 +69,15 @@ protected:
   void createScaleManipulatorIfNeeded();
   bool mScaleManipulatorInitialized;
 
+  void showResizeManipulator(bool enabled);
+
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable
   WbNode *clone() const override { return new WbTransform(*this); }
   void init();
+
+  mutable bool mAbsoluteScaleNeedUpdate;
+  void updateAbsoluteScale() const;
 };
 
 #endif

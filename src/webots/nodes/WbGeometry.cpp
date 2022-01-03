@@ -25,6 +25,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbVector4.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -491,8 +492,8 @@ WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbPose lyin
 }
 
 const WbVector3 WbGeometry::absoluteScale() const {
-  const WbPose *const up = upperPose();
-  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbTransform *const ut = dynamic_cast<WbTransform *>(upperPose());
+  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 WbVector3 WbGeometry::absolutePosition() const {

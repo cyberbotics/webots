@@ -47,7 +47,7 @@ public:
   WbSFRotation *rotationFieldValue() const { return mRotation; }
   // const WbVector3 &scale() const { return mScale->value(); }
   // WbSFVector3 *scaleFieldValue() const { return mScale; }
-  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
+  // bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
 
   double translationStep() const { return mTranslationStep->value(); }
   double rotationStep() const { return mRotationStep->value(); }
@@ -81,16 +81,16 @@ public:
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
   // scaling
-  virtual const WbVector3 &absoluteScale() const;
+  // virtual const WbVector3 &absoluteScale() const;
   bool isTopTransform() const;
   virtual int constraintType() const = 0;
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const {
-    const WbVector3 &s = absoluteScale();
-    WbMatrix3 m = matrix().extracted3x3Matrix();
-    m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
-    return m;
+    // const WbVector3 &s = absoluteScale();
+    // WbMatrix3 m = matrix().extracted3x3Matrix();
+    // m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+    return matrix().extracted3x3Matrix();
   }
 
   // position in 'world' coordinates
@@ -139,7 +139,7 @@ protected:
   void updateTranslation();
   void updateScale(bool warning = false);
   void updateTranslationAndRotation();
-  void updateConstrainedHandleMaterials();
+  // void updateConstrainedHandleMaterials(); // TODO: needed by scale manipulator?
   void applyTranslationToWren();
   void applyRotationToWren();
   void applyScaleToWren();
@@ -154,7 +154,7 @@ protected:
   // virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
   // virtual void applyToScale();
   double mPreviousXscaleValue;
-  mutable WbVector3 mAbsoluteScale;
+  // mutable WbVector3 mAbsoluteScale; // TODO: needs to be reimplemented?
 
   // WREN manipulators
   // WbScaleManipulator *mScaleManipulator;
@@ -166,7 +166,7 @@ protected:
   void createTranslateRotateManipulatorIfNeeded();
   bool mTranslateRotateManipulatorInitialized;
 
-  void showResizeManipulator(bool enabled);
+  // void showResizeManipulator(bool enabled);
 
   void inline setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz, double angle);
 
@@ -186,7 +186,7 @@ private:
   mutable WbMatrix4 mVrmlMatrix;
   mutable bool mMatrixNeedUpdate;
   mutable bool mVrmlMatrixNeedUpdate;
-  mutable bool mAbsoluteScaleNeedUpdate;
+  // mutable bool mAbsoluteScaleNeedUpdate;
   mutable bool mHasSearchedTopTransform;
   mutable bool mIsTopTransform;
 

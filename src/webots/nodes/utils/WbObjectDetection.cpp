@@ -193,7 +193,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
         const WbIndexedFaceSet *indexedFaceSet = static_cast<const WbIndexedFaceSet *>(boundingObject);
         const WbCoordinate *coordinates = indexedFaceSet->coord();
         for (int i = 0; i < coordinates->pointSize(); ++i) {
-          points.append(objectRotation * (coordinates->point(i) * mObject->absoluteScale()) + objectPosition);
+          points.append(objectRotation * coordinates->point(i) + objectPosition);
         }
         break;
       }
@@ -205,8 +205,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
         int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
           for (int j = 0; j < yDimension; ++j)
-            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
-                                            mObject->absoluteScale()) +
+            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j)) +
                           objectPosition);
         }
         break;
@@ -275,8 +274,8 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
     if (useBoundingSphere) {
       WbBoundingSphere *boundingSphere = rootObject->boundingSphere();
-      const WbVector3 &scale = pose->absoluteScale();
-      const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
+      // const WbVector3 &scale = pose->absoluteScale();
+      const double size = 2 * boundingSphere->radius();  // * std::max(std::max(scale.x(), scale.y()), scale.z());
       objectSize.setXyz(size, size, size);
       // correct the object center
       objectPosition += boundingSphere->center();

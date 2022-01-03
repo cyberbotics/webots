@@ -20,7 +20,6 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPose.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 
@@ -41,7 +40,7 @@ void WbAbstractPose::init(WbBaseNode *node) {
   mMatrix = NULL;
   mMatrixNeedUpdate = true;
   mVrmlMatrixNeedUpdate = true;
-  mAbsoluteScaleNeedUpdate = true;
+  // mAbsoluteScaleNeedUpdate = true;
   mPreviousXscaleValue = 1.0;
   mIsTopTransform = false;
   mHasSearchedTopTransform = false;

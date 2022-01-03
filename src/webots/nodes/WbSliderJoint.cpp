@@ -91,9 +91,9 @@ void WbSliderJoint::applyToOdeMinAndMaxStop() {
   const double m = p ? p->minStop() : 0.0;
   const double M = p ? p->maxStop() : 0.0;
   if (m != M) {
-    const double s = upperPose()->absoluteScale().x();
-    dJointSetSliderParam(mJoint, dParamLoStop, s * (m - mOdePositionOffset));
-    dJointSetSliderParam(mJoint, dParamHiStop, s * (M - mOdePositionOffset));
+    // const double s = upperPose()->absoluteScale().x();
+    dJointSetSliderParam(mJoint, dParamLoStop, m - mOdePositionOffset);
+    dJointSetSliderParam(mJoint, dParamHiStop, M - mOdePositionOffset);
   }
 }
 
@@ -186,10 +186,10 @@ void WbSliderJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   }
 
   // Handles scale
-  const double scale = upperPose()->absoluteScale().x();
-  const double s2 = scale * scale;
-  s *= s2;
-  d *= s2;
+  // const double scale = upperPose()->absoluteScale().x();
+  // const double s2 = scale * scale;
+  // s *= s2;
+  // d *= s2;
 
   double cfm, erp;
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
@@ -209,7 +209,7 @@ void WbSliderJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   dJointSetLMotorAxis(mSpringAndDamperMotor, 0, 0, a.x(), a.y(), a.z());
 
   // Stops
-  const double stop = -scale * mOdePositionOffset;
+  const double stop = -mOdePositionOffset;
   dJointSetLMotorParam(mSpringAndDamperMotor, dParamLoStop, stop);
   dJointSetLMotorParam(mSpringAndDamperMotor, dParamHiStop, stop);
 
@@ -243,11 +243,11 @@ void WbSliderJoint::prePhysicsStep(double ms) {
       // ODE motor force (user velocity/position control)
       const double currentVelocity = lm ? lm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, lm ? lm->force() : 0.0);
-      const double s = solid->absoluteScale().x();
-      double s4 = s * s;
-      s4 *= s4;
-      dJointSetSliderParam(mJoint, dParamFMax, s4 * fMax);
-      dJointSetSliderParam(mJoint, dParamVel, -s * currentVelocity);  // ODE convention reverses the axis
+      // const double s = solid->absoluteScale().x();
+      // double s4 = s * s;
+      // s4 *= s4;
+      dJointSetSliderParam(mJoint, dParamFMax, fMax);
+      dJointSetSliderParam(mJoint, dParamVel, -currentVelocity);  // ODE convention reverses the axis
     }
     if (mSpringAndDamperMotor) {
       double position = dJointGetSliderPosition(mJoint);
@@ -274,7 +274,7 @@ void WbSliderJoint::prePhysicsStep(double ms) {
 void WbSliderJoint::postPhysicsStep() {
   const WbSolid *const solid = solidEndPoint();
   assert(mJoint && solid);
-  mPosition = dJointGetSliderPosition(mJoint) / solid->absoluteScale().x() + mOdePositionOffset;
+  mPosition = dJointGetSliderPosition(mJoint) + mOdePositionOffset;
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
@@ -302,8 +302,8 @@ WbVector3 WbSliderJoint::anchor() const {
     const WbVector3 &a = s->position();
     const WbPose *const up = upperPose();
     WbVector3 an = up->matrix().pseudoInversed(a);
-    double scale = up->absoluteScale().x();
-    an /= scale * scale;
+    // double scale = up->absoluteScale().x();
+    // an /= scale * scale;
     return an;
   }
 

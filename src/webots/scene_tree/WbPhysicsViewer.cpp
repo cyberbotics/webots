@@ -193,8 +193,8 @@ void WbPhysicsViewer::updateCenterOfMass() {
   const WbMatrix4 &m = mSolid->matrix();
   mCenterOfMass[LOCAL][ABSOLUTE_POSITION] = m * mSolid->centerOfMass();
   mCenterOfMass[GLOBAL][ABSOLUTE_POSITION] = mSolid->globalCenterOfMass();
-  const double s = 1.0 / mSolid->absoluteScale().x();
-  mCenterOfMass[GLOBAL][RELATIVE_POSITION] = m.pseudoInversed(mCenterOfMass[GLOBAL][ABSOLUTE_POSITION]) * (s * s);
+  // const double s = 1.0 / mSolid->absoluteScale().x();
+  mCenterOfMass[GLOBAL][RELATIVE_POSITION] = m.pseudoInversed(mCenterOfMass[GLOBAL][ABSOLUTE_POSITION]);  // * (s * s);
   if (mSolid->globalMass() != 0.0) {
     const WbVector3 &com = mCenterOfMass[mIncludingExcludingDescendants->currentIndex()][mRelativeAbsolute->currentIndex()];
     for (int i = 0; i < 3; ++i)

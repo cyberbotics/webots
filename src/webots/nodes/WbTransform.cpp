@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbTransform.hpp"
+
 #include "WbBoundingSphere.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContext.hpp"
@@ -28,6 +29,8 @@
 
 void WbTransform::init() {
   mScale = findSFVector3("scale");
+
+  mAbsoluteScaleNeedUpdate = true;
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbPose("Transform", tokenizer) {
@@ -40,6 +43,23 @@ WbTransform::WbTransform(const WbTransform &other) : WbPose(other) {
 
 WbTransform::WbTransform(const WbNode &other) : WbPose(other) {
   init();
+}
+
+const WbVector3 &WbTransform::absoluteScale() const {
+  if (mAbsoluteScaleNeedUpdate)
+    updateAbsoluteScale();
+
+  return mAbsoluteScale;
+}
+
+void WbTransform::updateAbsoluteScale() const {
+  mAbsoluteScale = mScale->value();
+  // multiply with upper transform scale if any
+  const WbTransform *const ut = dynamic_cast<WbTransform *>(mBaseNode->upperPose());
+  if (ut)
+    mAbsoluteScale *= ut->absoluteScale();
+
+  mAbsoluteScaleNeedUpdate = false;
 }
 
 bool WbTransform::checkScalePositivity(WbVector3 &correctedScale) const {
@@ -202,4 +222,52 @@ void WbTransform::createScaleManipulatorIfNeeded() {
     if (mScaleManipulator)
       mScaleManipulator->attachTo(baseNode()->wrenNode());
   }
+}
+
+bool WbTransform::hasResizeManipulator() const {
+  const WbField *const sf = mBaseNode->findField("scale", true);
+  return WbNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
+}
+
+void WbTransform::attachResizeManipulator() {
+  createScaleManipulatorIfNeeded();
+
+  if (mScaleManipulator && !mScaleManipulator->isAttached()) {
+    setResizeManipulatorDimensions();
+    mScaleManipulator->show();
+  }
+}
+
+void WbTransform::detachResizeManipulator() const {
+  if (mScaleManipulator && mScaleManipulator->isAttached())
+    mScaleManipulator->hide();
+}
+
+void WbTransform::updateResizeHandlesSize() {
+  if (mScaleManipulator) {
+    mScaleManipulator->updateHandleScale(matrix().scale().ptr());
+    mScaleManipulator->computeHandleScaleFromViewportSize();
+  }
+}
+
+void WbTransform::setResizeManipulatorDimensions() {
+  updateResizeHandlesSize();
+}
+
+void WbTransform::showResizeManipulator(bool enabled) {
+  // TODO: reimplement when wbskin etc inherit correctly
+  // if (enabled) {
+  //  detachTranslateRotateManipulator();
+  //  attachResizeManipulator();
+  //  setUniformConstraintForResizeHandles(false);
+  //} else {
+  //  detachResizeManipulator();
+  //  attachTranslateRotateManipulator();
+  //}
+}
+
+void WbTransform::applyScaleToWren() {
+  float scale[3];
+  mScale->value().toFloatArray(scale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), scale);
 }

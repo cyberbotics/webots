@@ -151,11 +151,11 @@ void WbSolidMerger::updateCenterOfMass() {
     mAbsoluteCenterOfMass /= mass;
 
   // Computes relative coordinates
-  const double s = 1.0 / mSolid->absoluteScale().x();
+  // const double s = 1.0 / mSolid->absoluteScale().x();
   mScaledCenterOfMass = mSolid->matrix().pseudoInversed(mAbsoluteCenterOfMass);
-  mScaledCenterOfMass *= s;
-  mCenterOfMass = mScaledCenterOfMass;
-  mCenterOfMass *= s;
+  // mScaledCenterOfMass *= s;
+  mCenterOfMass = mScaledCenterOfMass;  // TODO: needed?
+  // mCenterOfMass *= s;
 }
 
 // Sets the offset position with respect to solid collector's body for all placeable ODE dGeoms
@@ -170,9 +170,9 @@ void WbSolidMerger::setGeomOffsetPositions() {
 
 // Computes the inverse matrix of the solid collector
 WbMatrix4 WbSolidMerger::inverseMatrix() const {
-  double s = 1.0 / mSolid->absoluteScale().x();
-  s *= s;
-  return mSolid->matrix().pseudoInversed() * s;
+  // double s = 1.0 / mSolid->absoluteScale().x();
+  // s *= s;
+  return mSolid->matrix().pseudoInversed();
 }
 
 // Transforms and registers the mass of a collected solid: solid's inertia matrix is assumed to be computed in relative
@@ -188,10 +188,10 @@ void WbSolidMerger::transformMass(WbSolid *const solid, const WbMatrix4 &m4) con
   // Computes solid's coordinates with respect to solid collector's frame
   const WbMatrix4 &m = solid->matrix();
   const WbMatrix4 &d = m4 * m;
-  const double s = mSolid->absoluteScale().x();
-  const WbVector3 &t = s * d.translation();  // translation
-  dMatrix3 r;                                // rotation
-  d.extract3x4Matrix(r, s / solid->absoluteScale().x());
+  // const double s = mSolid->absoluteScale().x();
+  const WbVector3 &t = d.translation();  // translation
+  dMatrix3 r;                            // rotation
+  d.extract3x4Matrix(r, 1.0);
   // qDebug() << "translate" << t.x() << t.y() << t.z();
   // qDebug() << "rotate" << r[0] << r[1] << r[2] << r[3] << r[4] << r[5] << r[6] << r[7] << r[8] << r[9] << r[10] << r[11];
   // Rotates and translates inertia & CoM
@@ -350,9 +350,9 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
   dBodySetPosition(mBody, mAbsoluteCenterOfMass.x(), mAbsoluteCenterOfMass.y(), mAbsoluteCenterOfMass.z());
   // Rotates ODE body
   WbMatrix4 m44 = mSolid->matrix();
-  const double s = 1.0 / mSolid->absoluteScale().x();
+  // const double s = 1.0 / mSolid->absoluteScale().x();
   dMatrix3 m;
-  m44.extract3x4Matrix(m, s);
+  m44.extract3x4Matrix(m, 1.0);
   dBodySetRotation(mBody, m);
   // Sets the offset position (with respect to the ODE dBody) of every ODE dGeom in the boundingObject
   setGeomOffsetPositions();

@@ -277,13 +277,13 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   }
 
   // Handles scale
-  const double scale = upperPose()->absoluteScale().x();
-  double s4 = scale * scale;
-  s4 *= scale;
-  s *= s4;
-  d *= s4;
-  s2 *= s4;
-  d2 *= s4;
+  // const double scale = upperPose()->absoluteScale().x();
+  // double s4 = scale * scale;
+  // s4 *= scale;
+  // s *= s4;
+  // d *= s4;
+  // s2 *= s4;
+  // d2 *= s4;
 
   double cfm, erp, cfm2, erp2;
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
@@ -345,9 +345,9 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
   WbJointParameters *const p2 = parameters2();
 
   if (isEnabled()) {
-    const double s = upperPose()->absoluteScale().x();
-    double s5 = s * s;
-    s5 *= s5 * s;
+    // const double s = upperPose()->absoluteScale().x();
+    // double s5 = s * s;
+    // s5 *= s5 * s;
 
     if (rm && rm->userControl()) {
       // user-defined torque
@@ -359,7 +359,7 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      dJointSetHinge2Param(mJoint, dParamFMax, s5 * fMax);
+      dJointSetHinge2Param(mJoint, dParamFMax, fMax);
       dJointSetHinge2Param(mJoint, dParamVel, currentVelocity);
     }
 
@@ -373,7 +373,7 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity2 = rm2 ? rm2->computeCurrentDynamicVelocity(ms, mPosition2) : 0.0;
       const double fMax2 = qMax(p2 ? p2->staticFriction() : 0.0, rm2 ? rm2->torque() : 0.0);
-      dJointSetHinge2Param(mJoint, dParamFMax2, s5 * fMax2);
+      dJointSetHinge2Param(mJoint, dParamFMax2, fMax2);
       dJointSetHinge2Param(mJoint, dParamVel2, currentVelocity2);
     }
     // eventually add spring and damping forces

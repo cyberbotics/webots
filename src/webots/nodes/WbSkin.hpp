@@ -59,6 +59,7 @@ public:
   int constraintType() const override;
 
   // resize/scale manipulator
+  // TODO: reimplement
   // bool hasResizeManipulator() const override { return true; }
   // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
   // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
@@ -142,7 +143,7 @@ private slots:
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  void showResizeManipulator(bool enabled) override;
+  // void showResizeManipulator(bool enabled) override;
   void updateOptionalRendering(int option);
   void downloadUpdate();
 };

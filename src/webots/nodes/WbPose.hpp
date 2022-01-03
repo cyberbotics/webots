@@ -114,7 +114,7 @@ protected:
 
 protected slots:
   // virtual void updateScale(bool warning = true);
-  void updateConstrainedHandleMaterials();
+  // void updateConstrainedHandleMaterials();
 
 private:
   WbPose &operator=(const WbPose &);  // non copyable

@@ -497,8 +497,8 @@ void WbDistanceSensor::computeValue() {
     return;
   }
 
-  const double s = absoluteScale().x();
-  const double lutMaxRange = s * mLut->maxMetricsRange();
+  // const double s = absoluteScale().x();
+  const double lutMaxRange = mLut->maxMetricsRange();
 
   if (mRayType == GENERIC) {
     // average all ray collision distances using ray weights
@@ -556,7 +556,7 @@ void WbDistanceSensor::computeValue() {
     // consider only one ray (there should be only one)
     mDistance = (mRays[0].collidedGeometry()) ? mRays[0].distance() : lutMaxRange;
 
-  mValue = mLut->lookup(mDistance / s);
+  mValue = mLut->lookup(mDistance);
   if (mResolution->value() != -1.0)
     mValue = WbMathsUtilities::discretize(mValue, mResolution->value());
 
@@ -725,7 +725,7 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
   wr_dynamic_mesh_clear(mMesh);
 
   if (mRays) {
-    const float scale = absoluteScale().x();
+    // const float scale = absoluteScale().x();
     const float minValue = mLut->minMetricsRange();
     const float maxValue = mLut->maxMetricsRange();
 
@@ -743,7 +743,7 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
       const float *color = mSensor->isEnabled() ? redColor : greyColor;
 
       // start with a red/grey line segment
-      (direction * minValue / scale).toFloatArray(vertex);
+      (direction * minValue).toFloatArray(vertex);
       wr_dynamic_mesh_add_vertex(mMesh, vertex);
       wr_dynamic_mesh_add_index(mMesh, vertexIndex++);
       wr_dynamic_mesh_add_color(mMesh, color);
@@ -781,7 +781,7 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
       }
 
       // finish line segment
-      (direction * maxValue / scale).toFloatArray(vertex);
+      (direction * maxValue).toFloatArray(vertex);
       wr_dynamic_mesh_add_vertex(mMesh, vertex);
       wr_dynamic_mesh_add_index(mMesh, vertexIndex++);
       wr_dynamic_mesh_add_color(mMesh, color);
@@ -797,7 +797,7 @@ void WbDistanceSensor::updateLineScale() {
 }
 
 void WbDistanceSensor::applyLaserBeamToWren() {
-  if (mRayType == LASER && mAperture->value() > 0.0 && mRays[0].distance() < absoluteScale().x() * mLut->maxValue()) {
+  if (mRayType == LASER && mAperture->value() > 0.0 && mRays[0].distance() < mLut->maxValue()) {
     const dReal *contactPosition = mRays[0].contactPosition();
     const dReal *contactNormal = mRays[0].contactNormal();
 

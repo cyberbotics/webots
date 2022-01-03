@@ -53,7 +53,7 @@ WbPose::WbPose(const QString &modelName, WbTokenizer *tokenizer) : WbGroup(model
 }
 
 WbPose::~WbPose() {
-  disconnect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
+  // disconnect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials); // TODO: needed?
   if (areWrenObjectsInitialized())
     wr_node_delete(WR_NODE(wrenNode()));
 }
@@ -150,9 +150,9 @@ void WbPose::updateTranslationAndRotation() {
 //    forwardJerk();
 //}
 
-void WbPose::updateConstrainedHandleMaterials() {
-  WbAbstractPose::updateConstrainedHandleMaterials();
-}
+// void WbPose::updateConstrainedHandleMaterials() {
+//  WbAbstractPose::updateConstrainedHandleMaterials();
+//}
 
 void WbPose::notifyJerk() {
   WbSolid *s = upperSolid();

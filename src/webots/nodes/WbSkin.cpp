@@ -188,16 +188,17 @@ int WbSkin::constraintType() const {
   return CONSTRAINT;
 }
 
-void WbSkin::showResizeManipulator(bool enabled) {
-  if (isProtoInstance()) {
-    WbBaseNode::showResizeManipulator(enabled);
-    return;
-  }
-
-  WbAbstractPose::showResizeManipulator(enabled);
-
-  emit visibleHandlesChanged(enabled);
-}
+// TODO: re-implement after wbskin inherits from transform
+// void WbSkin::showResizeManipulator(bool enabled) {
+//  if (isProtoInstance()) {
+//    WbBaseNode::showResizeManipulator(enabled);
+//    return;
+//  }
+//
+//  WbAbstractPose::showResizeManipulator(enabled);
+//
+//  emit visibleHandlesChanged(enabled);
+//}
 
 QString WbSkin::modelPath() const {
   if (mModelUrl->value().isEmpty())

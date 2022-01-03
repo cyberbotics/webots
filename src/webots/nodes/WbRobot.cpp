@@ -245,8 +245,8 @@ void WbRobot::postFinalize() {
   connect(this, &WbMatter::matterModelChanged, this, &WbRobot::updateModel);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
-  if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
+  // if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
+  //  parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset(const QString &id) {
