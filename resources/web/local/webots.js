@@ -26,7 +26,7 @@ webots.Window.prototype.send = function(message, robot) {
     _webots.receiveFromJavascript(message);
 };
 
-webots.Window.prototype.receive = function(message, robot) { // Should be overriden.
+webots.Window.prototype.receive = function(message, robot) { // Should be overridden.
   console.log("Robot.window '" + this.name + "' of Robot.name '" + robot + "' received message: " + message);
 };
 

@@ -170,6 +170,7 @@ void WbStreamingServer::onNewTcpData() {
 
   const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
+  // qDebug() << "tokens: " << tokens;
   if (tokens[0] == "GET") {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
@@ -191,16 +192,25 @@ void WbStreamingServer::onNewTcpData() {
 void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
 
-  if (!requestedUrl.startsWith("robot_windows/")) {
-    // Here handle the streaming_viewer files.
-    static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+  qDebug() << "requestedUrl" << requestedUrl;
+
+  // Here handle the streaming_viewer files.
+  static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+  if ((!requestedUrl.startsWith("robot_windows/")) && streamer_files.contains(requestedUrl)) {
     if (streamer_files.contains(requestedUrl))
       filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
     else {
       WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
       socket->write(WbHttpReply::forge404Reply());
-      return;
     }
+  } else {
+    if (requestedUrl.endsWith(".js")) {
+      filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
+      if (!QFileInfo(filePath).exists())
+        filePath = WbProject::current()->pluginsPath() + requestedUrl;
+    }
+    if (requestedUrl.contains("generic"))
+      filePath = WbStandardPaths::webotsHomePath() + "resources/projects/plugins/" + requestedUrl;
   }
   const QString fileName(filePath);
   if (WbHttpReply::mimeType(fileName).isEmpty()) {
@@ -209,6 +219,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const Q
     return;
   }
   WbLog::info(tr("Received request for %1").arg(fileName));
+
   socket->write(WbHttpReply::forgeFileReply(fileName, etag));
 }
 
@@ -500,10 +511,15 @@ void WbStreamingServer::sendToClients(const QString &message) {
     mMessageToClients = message;
   else
     mMessageToClients += "\n" + message;
-  if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages)
+  if (mWebSocketClients.isEmpty() || mClientsReadyToReceiveMessages){
+    qDebug()<< mWebSocketClients.isEmpty() << !mClientsReadyToReceiveMessages;
     return;
+  }
   foreach (QWebSocket *client, mWebSocketClients)
+  {
     client->sendTextMessage(mMessageToClients);
+    qDebug()<< "message" << client << mMessageToClients;
+  }
   mMessageToClients = "";
 }
 

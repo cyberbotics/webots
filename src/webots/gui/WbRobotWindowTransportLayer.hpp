@@ -24,7 +24,7 @@ class WbRobotWindowTransportLayer : public QObject {
   Q_PROPERTY(bool ackReceived MEMBER mAckReceived NOTIFY waitingAckCountChanged FINAL)
 
 public:
-  explicit WbRobotWindowTransportLayer(QObject *parent = NULL);
+  explicit WbRobotWindowTransportLayer();
   void requestAck();
 
 public slots:

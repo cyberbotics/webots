@@ -15,59 +15,40 @@
 #ifndef WB_ROBOT_WINDOW_HPP
 #define WB_ROBOT_WINDOW_HPP
 
-#include "WbDockWidget.hpp"
+#include <QtCore/QObject>
+
 #include "WbRobot.hpp"
 
 #ifndef _WIN32
-#define QWebView QWebEngineView
 class WbRobotWindowTransportLayer;
 #endif
 
-class QWebFrame;
-class QWebView;
-
-class WbRobotWindow : public WbDockWidget {
+class WbRobotWindow : public QObject {
   Q_OBJECT
-
 public:
-  explicit WbRobotWindow(WbRobot *, QWidget *parent = NULL);
-  virtual ~WbRobotWindow();
+  explicit WbRobotWindow(WbRobot *);
+ 
   WbRobot *robot() { return mRobot; }
   const QString *name() { return &mRobot->window(); }
-  void show();
-
+  void setupPage();
 public slots:
-#ifdef _WIN32
-  void receiveFromJavascript(const QByteArray &);
-#endif
   void sendToJavascript(const QByteArray &);
-  void setTitle(const QString &title, const QString &tabbedTitle = NULL);
-  void startControllerIfNeeded();
-
-private:
-  QString formatUrl(const QString &urlString);
-  QString linkTag(const QString &file);
-  QString scriptTag(const QString &file);
-  WbRobot *mRobot;
-  QWebView *mWebView;
-#ifdef _WIN32
-  QWebFrame *mFrame;
-#else
-  void runJavaScript(const QString &message);
-  QStringList mWaitingSentMessages;
-  WbRobotWindowTransportLayer *mTransportLayer;
-#endif
-  int mResetCount;
-  bool mLoaded;
-
-  static QString escapeString(const QString &text);
-
 private slots:
+  void runJavaScript(const QString &message);
 #if defined(__APPLE__) || defined(__linux__)
   void notifyLoadCompleted();
   void notifyAckReceived();
 #endif
-  void setupPage();
+
+private:
+  WbRobot *mRobot;
+  int mResetCount;
+  bool mLoaded;
+#if defined(__APPLE__) || defined(__linux__)
+  QStringList mWaitingSentMessages;
+  WbRobotWindowTransportLayer *mTransportLayer;
+#endif
+  static QString escapeString(const QString &text);
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP

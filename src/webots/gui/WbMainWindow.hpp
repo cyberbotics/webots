@@ -208,7 +208,6 @@ private slots:
   void maximizeDock();
   void minimizeDock();
   void setWidgetMaximized(QWidget *widget, bool maximized);
-  void removeHtmlRobotWindow(WbNode *node);
   void handleNewRobotInsertion(WbRobot *robot);
 
   void toggleFullScreen(bool enabled);

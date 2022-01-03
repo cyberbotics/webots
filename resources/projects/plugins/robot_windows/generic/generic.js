@@ -4,6 +4,8 @@
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
+import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
+
 var robotName = '';
 var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
@@ -21,7 +23,7 @@ function setDeviceModeCallback(switchButton, deviceType) {
   commands.push(message);
 
   // force widgets refresh when they are shown.
-  Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+  Object.keys(window.widgets[deviceType]).forEach(function (deviceName) {
     const widget = window.widgets[deviceType][deviceName];
     if (widget) {
       const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
@@ -83,8 +85,9 @@ function receive(message, _robot) {
   }
 }
 
-window.onload = function() {
-  window.robotWindow = webots.window();
+window.onload = function () {
+  window.robotWindow = new RobotWindow(robotName);
+  console.log(robotWindow);
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
   setupWindow();

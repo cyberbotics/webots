@@ -1134,14 +1134,14 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
 
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
-  QStringList robotWindowNodeNames;
+/*   QStringList robotWindowNodeNames;
   foreach (QWidget *dock, mDockWidgets) {
     WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
     if (!w || !(w->isVisible()))
       continue;
     robotWindowNodeNames << w->robot()->computeUniqueName();
   }
-  perspective->setRobotWindowNodeNames(robotWindowNodeNames);
+  perspective->setRobotWindowNodeNames(robotWindowNodeNames); */
 
   QStringList centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames, supportPolygonEnabledNodeNames;
   world->retrieveNodeNamesWithOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
@@ -1320,14 +1320,14 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
-  foreach (QWidget *dock, mDockWidgets) {
+/*   foreach (QWidget *dock, mDockWidgets) {
     WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
     if (!w)
       continue;
     w->close();
     mDockWidgets.removeOne(w);
     delete w;
-  }
+  } */
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
@@ -1971,34 +1971,17 @@ void WbMainWindow::showRobotWindow() {
     if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
-      showHtmlRobotWindow(robot);  // show HTML robot window as a dock
+      showHtmlRobotWindow(robot);  // show HTML robot window
   }
 }
 
 void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {  // shows the HTML robot window
-  foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (w && w->robot() == robot) {
-      w->show();
-      return;
-    }
-  }
-  WbRobotWindow *robotWindow = new WbRobotWindow(robot, this);
-  connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
-  addDockWidget(Qt::LeftDockWidgetArea, robotWindow, Qt::Horizontal);
-  addDock(robotWindow);
-  robotWindow->show();
-}
 
-void WbMainWindow::removeHtmlRobotWindow(WbNode *node) {
-  for (int i = 0; i < mDockWidgets.size(); ++i) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(mDockWidgets[i]);
-    if (w && w->robot() == node) {
-      mDockWidgets.removeAt(i);
-      delete w;
-      return;
-    }
-  }
+  WbRobotWindow *w = new WbRobotWindow(robot);
+  if (w && w->robot() == robot)
+    w->setupPage();
+  //connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
+
 }
 
 static bool isRobotNode(WbBaseNode *node) {

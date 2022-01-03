@@ -102,7 +102,7 @@ webots.View = class View {
       return;
     }
 
-    this.timeout = timeout * 1000; // convert to millisecons
+    this.timeout = timeout * 1000; // convert to milliseconds
     this.deadline = this.timeout;
     if (typeof this.time !== 'undefined')
       this.deadline += this.time;

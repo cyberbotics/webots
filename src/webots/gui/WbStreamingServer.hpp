@@ -41,6 +41,7 @@ public:
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
   virtual void start(int port);
+  void sendToClients(const QString &message = "");
 
 protected slots:
   void newWorld();
@@ -62,7 +63,6 @@ protected:
   void destroy();
   void resetSimulation();
   void computeEditableControllers();
-  void sendToClients(const QString &message = "");
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
 
