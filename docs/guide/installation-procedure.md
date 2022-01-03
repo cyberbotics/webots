@@ -215,7 +215,7 @@ Once this package is installed, use the same procedure than without GPU accelera
 docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
-##### Upgrade to the latest Webots Image
+##### Upgrade to the Latest Webots Image
 
 If the latest Docker image was upgraded, e.g., with a new version of Webots, you should run the following command to upgrade your local copy:
 ```bash
