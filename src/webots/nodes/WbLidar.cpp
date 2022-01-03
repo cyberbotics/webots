@@ -938,19 +938,19 @@ void WbLidar::setScaleNeedUpdate() {
     s->setScaleNeedUpdate();
 }
 
-void WbLidar::attachResizeManipulator() {
-  WbAbstractCamera::attachResizeManipulator();
-  WbSolid *s = solidEndPoint();
-  if (s)
-    s->attachResizeManipulator();
-}
+// void WbLidar::attachResizeManipulator() {
+//  WbAbstractCamera::attachResizeManipulator();
+//  WbSolid *s = solidEndPoint();
+//  if (s)
+//    s->attachResizeManipulator();
+//}
 
-void WbLidar::detachResizeManipulator() const {
-  WbAbstractCamera::detachResizeManipulator();
-  WbSolid *s = solidEndPoint();
-  if (s)
-    s->detachResizeManipulator();
-}
+// void WbLidar::detachResizeManipulator() const {
+//  WbAbstractCamera::detachResizeManipulator();
+//  WbSolid *s = solidEndPoint();
+//  if (s)
+//    s->detachResizeManipulator();
+//}
 
 void WbLidar::createWrenObjects() {
   // Required to draw lidar points

@@ -319,7 +319,7 @@ void WbSolid::preFinalize() {
     }
   }
 
-  checkScaleAtLoad(true);
+  // checkScaleAtLoad(true);
   if (nodeType() != WB_NODE_TOUCH_SENSOR && mBoundingObject->value() && mPhysics->value() == NULL &&
       mJointParents.size() == 0 && upperSolid() && upperSolid()->physics())
     parsingWarn(tr("As 'physics' is set to NULL, collisions will have no effect"));
@@ -1238,31 +1238,31 @@ void WbSolid::updateRotation() {
 
 // Scale
 
-void WbSolid::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
-
-  WbMatter::applyToScale();
-
-  if (WbOdeContext::instance() && boundingObject())
-    applyToOdeScale();
-
-  if (isDynamic())
-    applyMassCenterToWren();
-}
-
-void WbSolid::setScaleNeedUpdate() {
-  WbMatter::setScaleNeedUpdate();
-
-  foreach (WbBasicJoint *const joint, mJointChildren) {
-    if (joint->solidReference())
-      continue;
-    WbSolid *const s = joint->solidEndPoint();
-    if (s)
-      s->setScaleNeedUpdate();
-  }
-}
+// void WbSolid::updateScale(bool warning) {
+//  const int constraint = constraintType();
+//  if (checkScale(constraint, warning))
+//    return;
+//
+//  WbMatter::applyToScale();
+//
+//  if (WbOdeContext::instance() && boundingObject())
+//    applyToOdeScale();
+//
+//  if (isDynamic())
+//    applyMassCenterToWren();
+//}
+//
+// void WbSolid::setScaleNeedUpdate() {
+//  WbMatter::setScaleNeedUpdate();
+//
+//  foreach (WbBasicJoint *const joint, mJointChildren) {
+//    if (joint->solidReference())
+//      continue;
+//    WbSolid *const s = joint->solidEndPoint();
+//    if (s)
+//      s->setScaleNeedUpdate();
+//  }
+//}
 
 // Creates and updates, or destroys, the ODE dBody according to the existence of a WbPhysics node
 void WbSolid::updatePhysics() {
@@ -1857,35 +1857,35 @@ void WbSolid::applyToOdeMass() {
   mSolidMerger->mergeMass(this);
 }
 
-void WbSolid::propagateScale() {
-  // Sets new masses and new CoMs from top to bottom
-  WbMatter::propagateScale();
-
-  adjustOdeMass(false);  // rescale the ODE dMass in keeping with Webots density or mass value
-
-  if (mSolidMerger == NULL)
-    updateOdeGeomPosition();
-
-  foreach (WbSolid *const solid, mSolidChildren)
-    solid->propagateScale();
-
-  // Merges new masses and sets new geom and body positions, from bottom to top
-  if (isSolidMerger()) {
-    mSolidMerger->updateMasses();
-    mSolidMerger->setGeomAndBodyPositions();
-    mSolidMerger->setOdeDamping();
-  }
-
-  if (mSolidMerger)
-    applyMassCenterToWren();
-  else
-    WbWorld::instance()->awake();
-}
-
-void WbSolid::applyToOdeScale() {
-  propagateScale();
-  resetJoints();
-}
+// void WbSolid::propagateScale() {
+//  // Sets new masses and new CoMs from top to bottom
+//  WbMatter::propagateScale();
+//
+//  adjustOdeMass(false);  // rescale the ODE dMass in keeping with Webots density or mass value
+//
+//  if (mSolidMerger == NULL)
+//    updateOdeGeomPosition();
+//
+//  foreach (WbSolid *const solid, mSolidChildren)
+//    solid->propagateScale();
+//
+//  // Merges new masses and sets new geom and body positions, from bottom to top
+//  if (isSolidMerger()) {
+//    mSolidMerger->updateMasses();
+//    mSolidMerger->setGeomAndBodyPositions();
+//    mSolidMerger->setOdeDamping();
+//  }
+//
+//  if (mSolidMerger)
+//    applyMassCenterToWren();
+//  else
+//    WbWorld::instance()->awake();
+//}
+//
+// void WbSolid::applyToOdeScale() {
+//  propagateScale();
+//  resetJoints();
+//}
 
 void WbSolid::updateTransformForPhysicsStep() {
   if (mUpdatedInStep)

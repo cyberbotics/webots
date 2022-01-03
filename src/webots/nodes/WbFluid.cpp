@@ -69,7 +69,7 @@ void WbFluid::preFinalize() {
 
   setMatrixNeedUpdate();  // force the matrix update after the first ode update
 
-  checkScaleAtLoad(true);
+  // checkScaleAtLoad(true);
 }
 
 void WbFluid::postFinalize() {
@@ -152,16 +152,16 @@ void WbFluid::updateBoundingObject() {
 
 // Scale
 
-void WbFluid::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
-
-  WbMatter::applyToScale();
-
-  if (WbOdeContext::instance() && boundingObject())
-    applyToOdeScale();
-}
+// void WbFluid::updateScale(bool warning) {
+//  const int constraint = constraintType();
+//  if (checkScale(constraint, warning))
+//    return;
+//
+//  WbMatter::applyToScale();
+//
+//  if (WbOdeContext::instance() && boundingObject())
+//    applyToOdeScale();
+//}
 
 // Sets the fluid into placeable ODE dGeoms
 void WbFluid::attachGeomsToFluid(dGeomID g) {
@@ -228,15 +228,15 @@ double WbFluid::viscosity() const {
   return mViscosity->value();
 }
 
-void WbFluid::propagateScale() {
-  WbMatter::propagateScale();
-  updateOdeGeomPosition();
-  WbWorld::instance()->awake();
-}
+// void WbFluid::propagateScale() {
+//  WbMatter::propagateScale();
+//  updateOdeGeomPosition();
+//  WbWorld::instance()->awake();
+//}
 
-void WbFluid::applyToOdeScale() {
-  propagateScale();
-}
+// void WbFluid::applyToOdeScale() {
+//  propagateScale();
+//}
 
 void WbFluid::propagateSelection(bool selected) {
   select(selected);

@@ -54,19 +54,19 @@ public:
   int deviceNodeType() const override { return nodeType(); }
   void reset(const QString &id) override;
 
-  void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
+  // void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
   int constraintType() const override;
 
   // resize/scale manipulator
-  bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
-  virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  }
+  // bool hasResizeManipulator() const override { return true; }
+  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  // void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  // virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
+  // void setUniformConstraintForResizeHandles(bool enabled) override {
+  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
+  //}
 
   // translate-rotate manipulator
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
@@ -130,12 +130,12 @@ private:
 
   QString modelPath() const;
   void updateModel();
-  void applyToScale() override;
+  // void applyToScale() override;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  virtual void updateScale(bool warning = false);
+  // virtual void updateScale(bool warning = false);
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();

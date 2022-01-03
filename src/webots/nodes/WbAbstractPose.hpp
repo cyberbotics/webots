@@ -45,8 +45,8 @@ public:
   const WbRotation &rotation() const { return mRotation->value(); }
   WbSFVector3 *translationFieldValue() const { return mTranslation; }
   WbSFRotation *rotationFieldValue() const { return mRotation; }
-  const WbVector3 &scale() const { return mScale->value(); }
-  WbSFVector3 *scaleFieldValue() const { return mScale; }
+  // const WbVector3 &scale() const { return mScale->value(); }
+  // WbSFVector3 *scaleFieldValue() const { return mScale; }
   bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
 
   double translationStep() const { return mTranslationStep->value(); }
@@ -69,9 +69,9 @@ public:
   void setRotation(const WbRotation &r);
   void setRotationFromOde(const WbRotation &r) { mRotation->setValueFromOde(r); }
   void setRotationAngle(double angle);
-  void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
-  void setScale(const WbVector3 &s) { mScale->setValue(s); }
-  void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
+  // void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
+  // void setScale(const WbVector3 &s) { mScale->setValue(s); }
+  // void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
   // 4x4 transform matrices
   const WbMatrix4 &matrix() const;
@@ -97,7 +97,7 @@ public:
   WbVector3 position() const { return matrix().translation(); }
 
   // resize/scale manipulator
-  WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
+  // WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
   void updateResizeHandlesSize();
   void setResizeManipulatorDimensions();
   void setUniformConstraintForResizeHandles(bool enabled);
@@ -114,13 +114,14 @@ public:
   bool isTranslationFieldVisible() const;
   bool isRotationFieldVisible() const;
 
-  void attachResizeManipulator();
-  void detachResizeManipulator() const;
-  bool hasResizeManipulator() const;
+  // void attachResizeManipulator();
+  // void detachResizeManipulator() const;
+  // bool hasResizeManipulator() const;
 
   virtual void emitTranslationOrRotationChangedByUser() { assert(false); }
 
 protected:
+  WbBaseNode *mBaseNode;
   void init(WbBaseNode *node);
 
   // all constructors are reserved for derived classes only
@@ -145,21 +146,21 @@ protected:
   void applyTranslationAndRotationToWren();
 
   // A specific scale check is done in the WbSolid class
-  WbSFVector3 *mScale;
-  bool checkScale(int constraintType = 0, bool warning = false);
-  bool checkScalePositivity(WbVector3 &correctedScale) const;
-  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
-  bool checkScaleUniformity(bool warning = false);
-  virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
-  virtual void applyToScale();
+  // WbSFVector3 *mScale;
+  // bool checkScale(int constraintType = 0, bool warning = false);
+  // bool checkScalePositivity(WbVector3 &correctedScale) const;
+  // bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
+  // bool checkScaleUniformity(bool warning = false);
+  // virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
+  // virtual void applyToScale();
   double mPreviousXscaleValue;
   mutable WbVector3 mAbsoluteScale;
 
   // WREN manipulators
-  WbScaleManipulator *mScaleManipulator;
-  virtual void createScaleManipulator();
-  void createScaleManipulatorIfNeeded();
-  bool mScaleManipulatorInitialized;
+  // WbScaleManipulator *mScaleManipulator;
+  // virtual void createScaleManipulator();
+  // void createScaleManipulatorIfNeeded();
+  // bool mScaleManipulatorInitialized;
 
   WbTranslateRotateManipulator *mTranslateRotateManipulator;
   void createTranslateRotateManipulatorIfNeeded();
@@ -170,7 +171,6 @@ protected:
   void inline setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz, double angle);
 
 private:
-  WbBaseNode *mBaseNode;
   mutable bool mIsTranslationFieldVisible;
   mutable bool mIsRotationFieldVisible;
   mutable bool mIsTranslationFieldVisibleReady;
@@ -181,7 +181,7 @@ private:
   void updateRotationFieldVisibility() const;
 
   void updateMatrix() const;
-  void updateAbsoluteScale() const;
+  // void updateAbsoluteScale() const;
   mutable WbMatrix4 *mMatrix;
   mutable WbMatrix4 mVrmlMatrix;
   mutable bool mMatrixNeedUpdate;

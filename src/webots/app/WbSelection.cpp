@@ -66,7 +66,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
     if (!mSelectedNode->isBeingDeleted()) {
       disconnect(mSelectedNode, &WbBaseNode::destroyed, this, &WbSelection::clear);
       setUniformConstraintForResizeHandles(false);
-      mSelectedNode->detachResizeManipulator();
+      // mSelectedNode->detachResizeManipulator();
 
       if (mSelectedAbstractPose && transformChanged) {
         mSelectedAbstractPose->detachTranslateRotateManipulator();
@@ -163,7 +163,7 @@ void WbSelection::disableActiveManipulator() {
   if (!mSelectedAbstractPose)
     return;
 
-  mSelectedAbstractPose->detachResizeManipulator();
+  // mSelectedAbstractPose->detachResizeManipulator();
   mSelectedAbstractPose->detachTranslateRotateManipulator();
 }
 
@@ -172,24 +172,26 @@ void WbSelection::restoreActiveManipulator() {
       WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
     return;
 
-  if (mResizeHandlesEnabledFromSceneTree)
-    mSelectedAbstractPose->attachResizeManipulator();
-  else
-    mSelectedAbstractPose->attachTranslateRotateManipulator();
+  // TODO cleanup. It's either one or the other, now only trans+rotate but no resize? Should cast as WbTransform?
+  // if (mResizeHandlesEnabledFromSceneTree)
+  //  mSelectedAbstractPose->attachResizeManipulator();
+  // else
+  mSelectedAbstractPose->attachTranslateRotateManipulator();
 }
 
 bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
   // only Transform or Solid nodes can be selected from the 3D view
   WbAbstractPose *p = selectedAbstractPose();
-  if (!p || mResizeHandlesEnabledFromSceneTree || !mSelectedNode || mSelectedNode->isUseNode() || !p->hasResizeManipulator() ||
+  if (!p || mResizeHandlesEnabledFromSceneTree || !mSelectedNode ||
+      mSelectedNode->isUseNode() ||  // TMP (?) removed: !p->hasResizeManipulator() ||
       WbNodeUtilities::isNodeOrAncestorLocked(p->baseNode()))
     return false;
 
   if (enabled) {
     p->detachTranslateRotateManipulator();
-    p->attachResizeManipulator();
+    // p->attachResizeManipulator(); // TODO: ditto
   } else {
-    p->detachResizeManipulator();
+    // p->detachResizeManipulator();
     p->attachTranslateRotateManipulator();
   }
   emit visibleHandlesChanged();

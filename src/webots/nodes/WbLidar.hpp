@@ -45,8 +45,8 @@ public:
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;
-  void attachResizeManipulator() override;
-  void detachResizeManipulator() const override;
+  // void attachResizeManipulator() override;
+  // void detachResizeManipulator() const override;
   void handleMessage(QDataStream &) override;
   int nodeType() const override { return WB_NODE_LIDAR; }
   QString pixelInfo(int x, int y) const override;

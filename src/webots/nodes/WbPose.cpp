@@ -14,7 +14,7 @@
 
 #include "WbPose.hpp"
 
-#include "WbNodeUtilities.hpp"
+#include "WbNodeUtilities.hpp"  // TODO: all needed?
 #include "WbOdeContext.hpp"
 #include "WbOdeGeomData.hpp"
 #include "WbResizeManipulator.hpp"
@@ -79,7 +79,7 @@ void WbPose::save(const QString &id) {
 void WbPose::preFinalize() {
   WbGroup::preFinalize();
 
-  WbAbstractPose::checkScale(0, true);
+  // WbAbstractPose::checkScale(0, true);
 }
 
 void WbPose::postFinalize() {
@@ -91,7 +91,7 @@ void WbPose::postFinalize() {
     connect(this, &WbPose::translationOrRotationChangedByUser, this, &WbPose::notifyJerk);
   connect(mRotation, &WbSFRotation::changed, this, &WbPose::updateRotation);
   connect(mRotation, &WbSFRotation::changedByUser, this, &WbPose::translationOrRotationChangedByUser);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+  // connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
 void WbPose::updateTranslation() {
@@ -133,22 +133,22 @@ void WbPose::updateTranslationAndRotation() {
     forwardJerk();
 }
 
-void WbPose::applyToScale() {
-  WbAbstractPose::applyToScale();
+// void WbPose::applyToScale() {
+//  WbAbstractPose::applyToScale();
+//
+//  if (isInBoundingObject() && isAValidBoundingObject())
+//    applyToOdeScale();
+//}
 
-  if (isInBoundingObject() && isAValidBoundingObject())
-    applyToOdeScale();
-}
-
-void WbPose::updateScale(bool warning) {
-  WbAbstractPose::updateScale(warning);
-
-  if (mPoseChangedSignalEnabled)
-    emit poseChanged();
-
-  if (mHasNoSolidAncestor)
-    forwardJerk();
-}
+// void WbPose::updateScale(bool warning) {
+//  WbAbstractPose::updateScale(warning);
+//
+//  if (mPoseChangedSignalEnabled)
+//    emit poseChanged();
+//
+//  if (mHasNoSolidAncestor)
+//    forwardJerk();
+//}
 
 void WbPose::updateConstrainedHandleMaterials() {
   WbAbstractPose::updateConstrainedHandleMaterials();
@@ -185,17 +185,17 @@ void WbPose::createWrenObjects() {
 
   applyTranslationToWren();
   applyRotationToWren();
-  applyScaleToWren();
+  // applyScaleToWren();
 }
 
-void WbPose::createScaleManipulator() {
-  const int constraint = constraintType();
-  mScaleManipulator = new WbScaleManipulator(uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
-  if (constraint) {
-    connect(childrenField(), &WbMFNode::destroyed, mScaleManipulator, &WbScaleManipulator::hide);
-    connect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
-  }
-}
+// void WbPose::createScaleManipulator() {
+//  const int constraint = constraintType();
+//  mScaleManipulator = new WbScaleManipulator(uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
+//  if (constraint) {
+//    connect(childrenField(), &WbMFNode::destroyed, mScaleManipulator, &WbScaleManipulator::hide);
+//    connect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
+//  }
+//}
 
 int WbPose::constraintType() const {
   static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
@@ -206,10 +206,10 @@ int WbPose::constraintType() const {
   return CONSTRAINT;
 }
 
-void WbPose::setScaleNeedUpdate() {
-  WbAbstractPose::setScaleNeedUpdateFlag();
-  WbGroup::setScaleNeedUpdate();
-}
+// void WbPose::setScaleNeedUpdate() {
+//  WbAbstractPose::setScaleNeedUpdateFlag();
+//  WbGroup::setScaleNeedUpdate();
+//}
 
 void WbPose::setMatrixNeedUpdate() {
   WbAbstractPose::setMatrixNeedUpdateFlag();
@@ -274,7 +274,7 @@ void WbPose::createOdeGeom(int index) {
     connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
   }
 
-  checkScale(true, true);
+  // checkScale(true, true);
 
   emit geometryInTransformInserted();
 }
@@ -375,9 +375,9 @@ void WbPose::applyToOdeMass(WbGeometry *g, dGeomID geom) {
     solid->correctOdeMass(odeMass, this);
 }
 
-void WbPose::applyToOdeScale() {
-  geometry()->applyToOdeData();
-}
+// void WbPose::applyToOdeScale() {
+//  geometry()->applyToOdeData();
+//}
 
 WbShape *WbPose::shape() const {
   if (childCount() == 0)
@@ -390,10 +390,10 @@ WbShape *WbPose::shape() const {
 //  WREN methods related to WbPose manipulators //
 ///////////////////////////////////////////////////////
 
-void WbPose::showResizeManipulator(bool enabled) {
-  WbAbstractPose::showResizeManipulator(enabled);
-  emit visibleHandlesChanged(enabled);
-}
+// void WbPose::showResizeManipulator(bool enabled) {
+//  WbAbstractPose::showResizeManipulator(enabled);
+//  emit visibleHandlesChanged(enabled);
+//}
 
 ////////////
 // Export //

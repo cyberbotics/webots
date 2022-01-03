@@ -1859,21 +1859,22 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     connect(mDragResize, &WbDragResizeHandleEvent::aborted, this, &WbView3D::abortResizeDrag);
     return;
   } else if (scaleHandle && resizeActive) {
-    cleanupPhysicsDrags();
-    WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
-    WbAbstractPose *pickedPose = WbNodeUtilities::abstractPoseCast(pickedNode);
-    assert(pickedPose);
-    if (dynamic_cast<WbSolid *>(pickedNode))
-      selective = 0;
-    const int handleNumber = scaleHandle - 1;
+    // TODO: fix this, should depend on wbtransform instead
+    // cleanupPhysicsDrags();
+    // WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
+    // WbAbstractPose *pickedPose = WbNodeUtilities::abstractPoseCast(pickedNode);
+    // assert(pickedPose);
+    // if (dynamic_cast<WbSolid *>(pickedNode))
+    //  selective = 0;
+    // const int handleNumber = scaleHandle - 1;
 
-    if (selective)
-      mDragScale = new WbDragScaleHandleEvent(position, viewpoint, handleNumber, pickedPose);
-    else
-      mDragScale = new WbUniformScaleEvent(position, viewpoint, handleNumber, pickedPose);
+    // if (selective)
+    //  mDragScale = new WbDragScaleHandleEvent(position, viewpoint, handleNumber, pickedPose);
+    // else
+    //  mDragScale = new WbUniformScaleEvent(position, viewpoint, handleNumber, pickedPose);
 
-    connect(mDragScale, &WbDragScaleHandleEvent::aborted, this, &WbView3D::abortScaleDrag);
-    return;
+    // connect(mDragScale, &WbDragScaleHandleEvent::aborted, this, &WbView3D::abortScaleDrag);
+    // return;
   }
 
   if (translateHandle) {

@@ -133,7 +133,7 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  WbAbstractPose::checkScale();
+  // TMP WbAbstractPose::checkScale();
 }
 
 void WbSkin::postFinalize() {
@@ -151,7 +151,7 @@ void WbSkin::postFinalize() {
 
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+  // connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
   connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
@@ -173,15 +173,15 @@ void WbSkin::updateRotation() {
     wr_skeleton_update_offset(mSkeleton);
 }
 
-void WbSkin::updateScale(bool warning) {
-  WbAbstractPose::updateScale(warning);
-  if (mSkeleton && mBonesField->size() > 0)
-    wr_skeleton_update_offset(mSkeleton);
-}
-
-void WbSkin::applyToScale() {
-  WbAbstractPose::applyToScale();
-}
+// void WbSkin::updateScale(bool warning) {
+//  WbAbstractPose::updateScale(warning);
+//  if (mSkeleton && mBonesField->size() > 0)
+//    wr_skeleton_update_offset(mSkeleton);
+//}
+//
+// void WbSkin::applyToScale() {
+//  WbAbstractPose::applyToScale();
+//}
 
 int WbSkin::constraintType() const {
   static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
@@ -445,7 +445,7 @@ void WbSkin::reset(const QString &id) {
 void WbSkin::updateModel() {
   applyTranslationToWren();
   applyRotationToWren();
-  applyScaleToWren();
+  // applyScaleToWren();
 
   createWrenSkeleton();
   if (mSkeleton) {
@@ -669,7 +669,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     if (parent) {
       // Attach bone representation
       const WbVector3 &offset = solid->translation();
-      const WbVector3 &scale = solid->scale();
+      const WbVector3 &scale = WbVector3(1, 1, 1);  // TMP of solid->scale();
       const float length = (offset * scale).length();
       const float boneScale[3] = {length, length, length};
 
@@ -910,7 +910,7 @@ void WbSkin::recomputeBoundingSphere() const {
     WbVector3 center(meshBoundingSphereList[index], meshBoundingSphereList[index + 1], meshBoundingSphereList[index + 2]);
     double radius = meshBoundingSphereList[index + 3];
     if (convertToLocal) {
-      const WbVector3 &scale = absoluteScale();
+      const WbVector3 &scale = WbVector3(1, 1, 1);  // TMP of absoluteScale();
       radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
       center = m * center;
     }

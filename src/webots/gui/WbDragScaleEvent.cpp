@@ -14,7 +14,6 @@
 
 #include "WbDragScaleEvent.hpp"
 
-#include "WbAbstractPose.hpp"
 #include "WbBox.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
@@ -26,6 +25,7 @@
 #include "WbResizeAndTranslateCommand.hpp"
 #include "WbResizeCommand.hpp"
 #include "WbResizeManipulator.hpp"
+#include "WbTransform.hpp"
 #include "WbUndoStack.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -255,9 +255,9 @@ void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                               WbAbstractPose *selectedPose) :
+                                               WbTransform *selectedPose) :
   WbDragView3DEvent(viewpoint),
-  mPose(selectedPose),
+  mTransform(selectedPose),
   mHandleNumber(handleNumber),
   mManipulator(selectedPose->scaleManipulator()),
   mScaleRatio(1.0f),
@@ -265,7 +265,7 @@ WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePositio
   mCoordinate = handleNumber;
   mManipulator->highlightAxis(mManipulator->coordinate(mHandleNumber));
   mManipulator->setActive(true);
-  mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mPose->position());
+  mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mTransform->position());
 
   // Compute mouse position offset
   WbVector3 localMousePosition;
@@ -275,13 +275,13 @@ WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePositio
   mLocalMouseOffset = localMousePosition[mCoordinate] -
                       (mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate]);
 
-  mInitialScale = WbVariant(mPose->scale());
+  mInitialScale = WbVariant(mTransform->scale());
   mViewpoint->lock();
 }
 
 WbDragScaleHandleEvent::~WbDragScaleHandleEvent() {
-  mPose->updateTranslateRotateHandlesSize();
-  mPose->setResizeManipulatorDimensions();
+  mTransform->updateTranslateRotateHandlesSize();
+  mTransform->setResizeManipulatorDimensions();
   mManipulator->setActive(false);
   mManipulator->showNormal();
   mManipulator->updateHandleDimensions(1.0f, 1.0f);
@@ -291,12 +291,12 @@ WbDragScaleHandleEvent::~WbDragScaleHandleEvent() {
 
 void WbDragScaleHandleEvent::addActionInUndoStack() {
   WbUndoStack::instance()->push(
-    new WbEditCommand(mPose->scaleFieldValue(), mInitialScale, mPose->scaleFieldValue()->variantValue()));
+    new WbEditCommand(mTransform->scaleFieldValue(), mInitialScale, mTransform->scaleFieldValue()->variantValue()));
 }
 
 void WbDragScaleHandleEvent::computeHandlesPositions(const QPoint &currentMousePosition, WbVector3 &attachedHandlePos,
                                                      WbVector3 &oppositeHandlePos, WbVector3 &localMousePos) {
-  const WbMatrix4 &matrix = mPose->matrix();
+  const WbMatrix4 &matrix = mTransform->matrix();
 
   WbMatrix3 unscaledMatrix = matrix.extracted3x3Matrix();
   WbVector3 absoluteScale = matrix.scale();
@@ -334,23 +334,23 @@ void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {
 
 void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  const WbVector3 &previousScale = mPose->scale();
+  const WbVector3 &previousScale = mTransform->scale();
   mTotalScale *= mScaleRatio;
-  mPose->setScale(mCoordinate, mScaleRatio * previousScale[mCoordinate]);
+  mTransform->setScale(mCoordinate, mScaleRatio * previousScale[mCoordinate]);
   mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }
 
 // uniform scale
 
 WbUniformScaleEvent::WbUniformScaleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                         WbAbstractPose *selectedPose) :
+                                         WbTransform *selectedPose) :
   WbDragScaleHandleEvent(initialMousePosition, viewpoint, handleNumber, selectedPose) {
 }
 
 void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  const WbVector3 &s = mScaleRatio * mPose->scale();
+  const WbVector3 &s = mScaleRatio * mTransform->scale();
   mTotalScale *= mScaleRatio;
-  mPose->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
+  mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
   mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }

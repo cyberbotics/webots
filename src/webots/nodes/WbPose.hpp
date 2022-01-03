@@ -42,7 +42,7 @@ public:
   void createWrenObjects() override;
   void updateCollisionMaterial(bool isColliding = false, bool onSelection = false) override;
   void setSleepMaterial() override;
-  void setScaleNeedUpdate() override;
+  // void setScaleNeedUpdate() override;
   void setMatrixNeedUpdate() override;
   void connectGeometryField(bool dynamic);
   void reset(const QString &id) override;
@@ -71,14 +71,14 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
 
   // resize/scale manipulator
-  bool hasResizeManipulator() const override { return WbAbstractPose::hasResizeManipulator(); }
-  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
-  void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  }
+  // bool hasResizeManipulator() const override { return WbAbstractPose::hasResizeManipulator(); }
+  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  // void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  // void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
+  // void setUniformConstraintForResizeHandles(bool enabled) override {
+  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
+  //}
 
   // translate-rotate manipulator
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
@@ -98,7 +98,7 @@ public slots:
   virtual void updateRotation();
   virtual void updateTranslation();
   virtual void updateTranslationAndRotation();
-  void showResizeManipulator(bool enabled) override;
+  // void showResizeManipulator(bool enabled) override;
 
 signals:
   void geometryInTransformInserted();
@@ -108,12 +108,12 @@ signals:
 protected:
   // this constructor is reserved for derived classes only
   WbPose(const QString &modelName, WbTokenizer *tokenizer);
-  void applyToScale() override;
+  // void applyToScale() override;
 
-  void createScaleManipulator() override;
+  // void createScaleManipulator() override;
 
 protected slots:
-  virtual void updateScale(bool warning = true);
+  // virtual void updateScale(bool warning = true);
   void updateConstrainedHandleMaterials();
 
 private:
@@ -130,7 +130,7 @@ private:
   void applyToOdeGeomRotation();
   void applyToOdeGeomPosition(bool correctMass = true);
   void applyToOdeMass(WbGeometry *g, dGeomID geom);
-  void applyToOdeScale();
+  // void applyToOdeScale();
   void destroyPreviousOdeGeoms();
   WbShape *shape() const;
 

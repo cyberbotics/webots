@@ -212,9 +212,9 @@ void WbMatter::createWrenObjects() {
   wr_node_set_visible(WR_NODE(mMatterCenterTransform), isSelected());
 }
 
-void WbMatter::createScaleManipulator() {
-  mScaleManipulator = new WbScaleManipulator(uniqueId(), WbScaleManipulator::UNIFORM);
-}
+// void WbMatter::createScaleManipulator() {
+//  mScaleManipulator = new WbScaleManipulator(uniqueId(), WbScaleManipulator::UNIFORM);
+//}
 
 ////////////////////////////
 //   Create ODE Objects   //
@@ -542,37 +542,37 @@ int WbMatter::constraintType() const {
   return WbWrenAbstractResizeManipulator::UNIFORM;
 }
 
-bool WbMatter::checkScaleAtLoad(bool warning) {
-  const WbVector3 &s = scale();
-  bool b = false;
+// bool WbMatter::checkScaleAtLoad(bool warning) {
+//   const WbVector3 &s = scale();
+//   bool b = false;
+//
+//   if (s.x() != s.y()) {
+//     mScale->setY(s.x());
+//     b = true;
+//   }
+//
+//   if (s.y() != s.z()) {
+//     mScale->setZ(s.y());
+//     b = true;
+//   }
+//
+//   if (b && warning)
+//     parsingWarn(tr("The 'scale' field components of a Solid must be the same: y and z are reset to x."));
+//
+//   return b;
+// }
 
-  if (s.x() != s.y()) {
-    mScale->setY(s.x());
-    b = true;
-  }
+// bool WbMatter::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
+//  return WbPose::checkScaleUniformity(correctedScale, warning);
+//}
 
-  if (s.y() != s.z()) {
-    mScale->setZ(s.y());
-    b = true;
-  }
-
-  if (b && warning)
-    parsingWarn(tr("The 'scale' field components of a Solid must be the same: y and z are reset to x."));
-
-  return b;
-}
-
-bool WbMatter::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
-  return WbPose::checkScaleUniformity(correctedScale, warning);
-}
-
-void WbMatter::setScaleNeedUpdate() {
-  WbPose::setScaleNeedUpdate();
-
-  WbBaseNode *const bo = boundingObject();
-  if (bo)
-    bo->setScaleNeedUpdate();
-}
+// void WbMatter::setScaleNeedUpdate() {
+//  WbPose::setScaleNeedUpdate();
+//
+//  WbBaseNode *const bo = boundingObject();
+//  if (bo)
+//    bo->setScaleNeedUpdate();
+//}
 
 // Places ODE dGeoms through their absolute coordinates
 void WbMatter::updateOdePlaceableGeomPosition(dGeomID g) {
@@ -632,8 +632,8 @@ void WbMatter::updateOdeGeomPosition(dGeomID g) {
 }
 
 void WbMatter::updateLocked() {
-  if (mLocked)
-    detachResizeManipulator();
+  // if (mLocked)
+  //  detachResizeManipulator();
 
   updateManipulatorVisibility();
 }
@@ -660,41 +660,41 @@ void WbMatter::applyMatterCenterToWren() {
   }
 }
 
-void WbMatter::propagateScale() {
-  // Sets new masses and new CoMs from top to bottom
-  WbBaseNode *const bo = boundingObject();
-  const WbGroup *group = dynamic_cast<WbGroup *>(bo);
-  WbGeometry *g = NULL;
-  if (group == NULL) {
-    g = WbSolidUtilities::geometry(bo);
-    if (g)
-      g->applyToOdeData(false);
-  } else {
-    WbPose *pose = dynamic_cast<WbPose *>(bo);
-    if (pose) {
-      g = pose->geometry();
-      if (g)
-        g->applyToOdeData(false);
-    } else {
-      const WbMFNode &children = group->children();
-      WbMFNode::Iterator it(children);
-      while (it.hasNext()) {
-        WbNode *const node = it.next();
-        pose = dynamic_cast<WbPose *>(node);
-        if (pose) {
-          g = pose->geometry();
-          if (g)
-            pose->applyToOdeData(false);
-        } else {
-          g = WbSolidUtilities::geometry(node);
-          if (g) {
-            g->applyToOdeData(false);
-          }
-        }
-      }
-    }
-  }
-}
+// void WbMatter::propagateScale() {
+//  // Sets new masses and new CoMs from top to bottom
+//  WbBaseNode *const bo = boundingObject();
+//  const WbGroup *group = dynamic_cast<WbGroup *>(bo);
+//  WbGeometry *g = NULL;
+//  if (group == NULL) {
+//    g = WbSolidUtilities::geometry(bo);
+//    if (g)
+//      g->applyToOdeData(false);
+//  } else {
+//    WbPose *pose = dynamic_cast<WbPose *>(bo);
+//    if (pose) {
+//      g = pose->geometry();
+//      if (g)
+//        g->applyToOdeData(false);
+//    } else {
+//      const WbMFNode &children = group->children();
+//      WbMFNode::Iterator it(children);
+//      while (it.hasNext()) {
+//        WbNode *const node = it.next();
+//        pose = dynamic_cast<WbPose *>(node);
+//        if (pose) {
+//          g = pose->geometry();
+//          if (g)
+//            pose->applyToOdeData(false);
+//        } else {
+//          g = WbSolidUtilities::geometry(node);
+//          if (g) {
+//            g->applyToOdeData(false);
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
 
 ////////////
 // Others //

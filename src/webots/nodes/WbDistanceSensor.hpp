@@ -62,7 +62,7 @@ public:
   void rayCollisionCallback(WbGeometry *object, dGeomID rayGeom, const dContactGeom *);
 
 protected:
-  void propagateScale() override;
+  // void propagateScale() override;
   void updateLineScale() override;
 
 private slots:

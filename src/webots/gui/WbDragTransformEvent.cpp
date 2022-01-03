@@ -50,8 +50,8 @@ WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selec
   mInitialPosition(selectedPose->translation()),
   mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
-  WbVector3 computedScaleFromParents = mSelectedPose->absoluteScale();
-  computedScaleFromParents /= mSelectedPose->scale();
+  WbVector3 computedScaleFromParents = WbVector3(1, 1, 1);  // TMP of mSelectedPose->absoluteScale();
+  computedScaleFromParents /= WbVector3(1, 1, 1);           // TMP of mSelectedPose->scale();
   mScaleFromParents = computedScaleFromParents;
 }
 

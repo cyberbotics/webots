@@ -427,7 +427,7 @@ void WbDistanceSensor::createOdeObjects() {
 }
 
 void WbDistanceSensor::createOdeRays() {
-  const double lutMaxRange = absoluteScale().x() * mLut->maxMetricsRange();
+  const double lutMaxRange = mLut->maxMetricsRange();
   for (int i = 0; i < mNRays; i++) {
     dGeomID rayGeom = dCreateRay(WbOdeContext::instance()->space(), lutMaxRange);
     dGeomSetDynamicFlag(rayGeom);
@@ -850,7 +850,7 @@ void WbDistanceSensor::applyLaserBeamToWren() {
   wr_node_set_visible(WR_NODE(mLaserBeamTransform), false);
 }
 
-void WbDistanceSensor::propagateScale() {
-  WbSolid::propagateScale();
-  updateRaySetup();
-}
+// void WbDistanceSensor::propagateScale() {
+//  WbSolid::propagateScale();
+//  updateRaySetup();
+//}

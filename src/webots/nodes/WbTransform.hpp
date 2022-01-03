@@ -26,19 +26,42 @@ class WbTransform : public WbPose {
 
 public:
   // constructors and destructor
+  WbTransform(WbTokenizer *tokenizer = NULL);
   WbTransform(const WbTransform &other);
   WbTransform(const WbNode &other);
-  ~WbTransform();
+
+  const WbVector3 &scale() const { return mScale->value(); }
+  WbSFVector3 *scaleFieldValue() const { return mScale; }
+  WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
+
+  void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
+  void setScale(const WbVector3 &s) { mScale->setValue(s); }
+  void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
+
+protected:
+  WbSFVector3 *mScale;
+  bool checkScale(int constraintType = 0, bool warning = false);
+  bool checkScalePositivity(WbVector3 &correctedScale) const;
+  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
+  bool checkScaleUniformity(bool warning = false);
+  bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
+  void applyToScale();
+
+  void updateScale(bool warning = false);
+
+  // WREN manipulators
+  WbScaleManipulator *mScaleManipulator;
+  void createScaleManipulator();
+  void createScaleManipulatorIfNeeded();
+  bool mScaleManipulatorInitialized;
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable
   WbNode *clone() const override { return new WbTransform(*this); }
   void init();
-
-private slots:
 };
 
 #endif

@@ -68,7 +68,7 @@ public:
   virtual void prePhysicsStep(double ms);
   virtual void postPhysicsStep();
 
-  void setScaleNeedUpdate() override;
+  // void setScaleNeedUpdate() override;
   void createOdeObjects() override;
 
   // field accessors
@@ -269,7 +269,7 @@ protected:
   void applyMassCenterToWren();
 
   // Scale
-  void propagateScale() override;  // overriden in WbDistanceSensor
+  // void propagateScale() override;  // overriden in WbDistanceSensor
 
   // Solid merger, i.e. solid ancestor (possibly the solid itself) that owns the mass, body and dGeoms of this solid..
   virtual void setSolidMerger();
@@ -287,7 +287,7 @@ protected:
 protected slots:
   void updateTranslation() override;
   void updateRotation() override;
-  void updateScale(bool warning = false) override;
+  // void updateScale(bool warning = false) override;
   void updateLineScale() override;
   virtual void updateChildren();
   virtual void updateIsLinearVelocityNull();
@@ -428,7 +428,7 @@ private:
   void setOdeInertiaMatrix();
   void createOdeGeoms() override;
   // rescale all the ODE dGeoms lying inside the Bounding Object when the WbSolid's scale field has changed
-  void applyToOdeScale() override;
+  // void applyToOdeScale() override;
 
   // WREN objects
   WrTransform *mCenterOfMassTransform;

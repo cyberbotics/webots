@@ -233,7 +233,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
     return;
 
   if (mPoseOwner != NULL) {
-    const WbVector3 &scale = mPoseOwner->scale();
+    const WbVector3 &scale = WbVector3(1, 1, 1);  // TMP of mPoseOwner->scale();
     mRadiusInParentCoordinates = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
     mCenterInParentCoordinates = mPoseOwner->vrmlMatrix() * mCenter;
   } else {
