@@ -73,15 +73,15 @@ void WbSkin::init() {
   mCastShadows = findSFBool("castShadows");
 }
 
-WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractPose(this), WbDevice() {
+WbSkin::WbSkin(WbTokenizer *tokenizer) : WbTransform("Skin", tokenizer), WbDevice() {
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice(other) {
+WbSkin::WbSkin(const WbSkin &other) : WbTransform(other), WbDevice(other) {
   init();
 }
 
-WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice() {
+WbSkin::WbSkin(const WbNode &other) : WbTransform(other), WbDevice() {
   init();
 }
 
@@ -133,7 +133,7 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  // TMP WbAbstractPose::checkScale();
+  checkScale();
 }
 
 void WbSkin::postFinalize() {
@@ -151,7 +151,7 @@ void WbSkin::postFinalize() {
 
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
-  // connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
   connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
@@ -173,15 +173,11 @@ void WbSkin::updateRotation() {
     wr_skeleton_update_offset(mSkeleton);
 }
 
-// void WbSkin::updateScale(bool warning) {
-//  WbAbstractPose::updateScale(warning);
-//  if (mSkeleton && mBonesField->size() > 0)
-//    wr_skeleton_update_offset(mSkeleton);
-//}
-//
-// void WbSkin::applyToScale() {
-//  WbAbstractPose::applyToScale();
-//}
+void WbSkin::updateScale(bool warning) {
+  WbTransform::updateScale(warning);
+  if (mSkeleton && mBonesField->size() > 0)
+    wr_skeleton_update_offset(mSkeleton);
+}
 
 int WbSkin::constraintType() const {
   static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
@@ -446,7 +442,7 @@ void WbSkin::reset(const QString &id) {
 void WbSkin::updateModel() {
   applyTranslationToWren();
   applyRotationToWren();
-  // applyScaleToWren();
+  applyScaleToWren();
 
   createWrenSkeleton();
   if (mSkeleton) {
@@ -911,7 +907,7 @@ void WbSkin::recomputeBoundingSphere() const {
     WbVector3 center(meshBoundingSphereList[index], meshBoundingSphereList[index + 1], meshBoundingSphereList[index + 2]);
     double radius = meshBoundingSphereList[index + 3];
     if (convertToLocal) {
-      const WbVector3 &scale = WbVector3(1, 1, 1);  // TMP of absoluteScale();
+      const WbVector3 &scale = absoluteScale();
       radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
       center = m * center;
     }

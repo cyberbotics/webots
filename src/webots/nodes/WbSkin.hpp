@@ -15,10 +15,10 @@
 #ifndef WB_SKIN_HPP
 #define WB_SKIN_HPP
 
-#include "WbAbstractPose.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
+#include "WbTransform.hpp"
 
 class WbBoundingSphere;
 class WbDownloader;
@@ -30,7 +30,7 @@ struct WrRenderable;
 struct WrSkeleton;
 struct WrStaticMesh;
 
-class WbSkin : public WbBaseNode, public WbAbstractPose, public WbDevice {
+class WbSkin : public WbTransform, public WbDevice {
   Q_OBJECT
 
 public:
@@ -136,7 +136,7 @@ private:
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  // virtual void updateScale(bool warning = false);
+  void updateScale(bool warning = false);
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();

@@ -32,6 +32,9 @@ public:
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
 
+  void preFinalize() override;
+  void postFinalize() override;
+
   const WbVector3 &scale() const { return mScale->value(); }
   WbSFVector3 *scaleFieldValue() const { return mScale; }
   WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
@@ -51,6 +54,8 @@ public:
   void setResizeManipulatorDimensions();
 
 protected:
+  WbTransform(const QString &modelName, WbTokenizer *tokenizer);
+
   WbSFVector3 *mScale;
   mutable WbVector3 mAbsoluteScale;
   bool checkScale(int constraintType = 0, bool warning = false);
@@ -60,7 +65,6 @@ protected:
   bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
   void applyToScale();
 
-  void updateScale(bool warning = false);
   void applyScaleToWren();
 
   // WREN manipulators
@@ -70,6 +74,9 @@ protected:
   bool mScaleManipulatorInitialized;
 
   void showResizeManipulator(bool enabled);
+
+protected slots:
+  void updateScale(bool warning = true);
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable

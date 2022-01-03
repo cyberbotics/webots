@@ -137,7 +137,7 @@ protected:
   void setMatrixNeedUpdateFlag() const;
   void updateRotation();
   void updateTranslation();
-  void updateScale(bool warning = false);
+  // void updateScale(bool warning = false);
   void updateTranslationAndRotation();
   // void updateConstrainedHandleMaterials(); // TODO: needed by scale manipulator?
   void applyTranslationToWren();

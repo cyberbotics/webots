@@ -45,6 +45,20 @@ WbTransform::WbTransform(const WbNode &other) : WbPose(other) {
   init();
 }
 
+WbTransform::WbTransform(const QString &modelName, WbTokenizer *tokenizer) : WbPose(modelName, tokenizer) {
+  init();
+}
+
+void WbTransform::preFinalize() {
+  WbPose::preFinalize();
+  checkScale(0, true);
+}
+
+void WbTransform::postFinalize() {
+  WbPose::postFinalize();
+  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+}
+
 const WbVector3 &WbTransform::absoluteScale() const {
   if (mAbsoluteScaleNeedUpdate)
     updateAbsoluteScale();
