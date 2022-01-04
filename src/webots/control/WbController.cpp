@@ -231,7 +231,7 @@ void WbController::start() {
       startVoidExecutable();
       mType = WbFileUtil::EXECUTABLE;
   }
-  if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
+  if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
     return;
 
   info(tr("Starting controller: %1").arg(commandLine()));
