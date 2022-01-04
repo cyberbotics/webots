@@ -318,6 +318,7 @@ void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {
 
   WbVector2 currentPosition(currentMousePosition.x(), currentMousePosition.y());
   mViewpoint->toPixels(mAttachedHandlePosition, mAttachedHandleProjection, mOppositeHandlePosition, mOppositeHandleProjection);
+
   currentPosition -= mAttachedHandleProjection + mMousePositionOffset;
   WbVector2 difference(mAttachedHandleProjection - mOppositeHandleProjection);
   const double length = difference.length();
@@ -337,7 +338,7 @@ void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
   const WbVector3 &previousScale = mTransform->scale();
   mTotalScale *= mScaleRatio;
   mTransform->setScale(mCoordinate, mScaleRatio * previousScale[mCoordinate]);
-  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
+  mManipulator->updateHandleDimensions(mTotalScale, -mViewDistanceUnscaling);
 }
 
 // uniform scale
@@ -352,5 +353,5 @@ void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   const WbVector3 &s = mScaleRatio * mTransform->scale();
   mTotalScale *= mScaleRatio;
   mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
-  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
+  mManipulator->updateHandleDimensions(mTotalScale, -mViewDistanceUnscaling);
 }
