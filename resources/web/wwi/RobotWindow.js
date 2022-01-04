@@ -9,7 +9,7 @@ export default class RobotWindow {
 
   send = function (message, robot) {
     if (this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send('robot:' + robot + ':' + message); //TODO: wait socket open
+      this.socket.send('robot:' + robot + ':' + message); //TODO1: wait socket open
    }
   };
 
@@ -23,7 +23,7 @@ export default class RobotWindow {
     this.close();
   }
 
-  setTitle = function (title) { //TODO
+  setTitle = function (title) { //TODO1
     console.log("title: ", title)
   }
 
@@ -52,7 +52,7 @@ export default class RobotWindow {
     }
   }
 
-  _onSocketClose(event) { // TODO
+  _onSocketClose(event) { // TODO1
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
       if (window.confirm(`Streaming server error
       Connection closed abnormally. (Error code:` + event.code + `)

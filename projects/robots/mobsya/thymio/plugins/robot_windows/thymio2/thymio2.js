@@ -1,12 +1,11 @@
 import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
 
 let robotName = "Thymio II";
-window.robot_window = new RobotWindow("thymio2");
-console.log(robot_window);
 
 window.onload = function() {
+  window.robot_window = new RobotWindow(robotName);
 
-window.robot_window.receive = function(value, robot) {
+  window.robot_window.receive = function(value, robot) {
     if (value.indexOf("configure ") === 0) {
       try {
         var configure = JSON.parse(value.substring(10));
@@ -29,7 +28,7 @@ window.robot_window.receive = function(value, robot) {
       document.getElementById("prox.ground.1").innerHTML = values[8];
     }
   }
-  window.robot_window.send("configure", robotName); //TODO: receive configure
+  window.robot_window.send("configure", robotName); //TODO1: receive configure
 }
 
 window.addEventListener("mouseup", onmouseup);

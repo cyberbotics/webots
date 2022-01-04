@@ -16,7 +16,8 @@
 
 #include <QtCore/QString>
 
-WbRobotWindowTransportLayer::WbRobotWindowTransportLayer() :
+WbRobotWindowTransportLayer::WbRobotWindowTransportLayer(QObject *parent) :
+  QObject(parent),
   mAckReceived(false),
   mWaitingAckCount(0) {
   connect(this, &WbRobotWindowTransportLayer::waitingAckCountChanged, this,

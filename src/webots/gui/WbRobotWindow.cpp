@@ -37,13 +37,7 @@
 #include <QtWebKitWidgets/QWebView>
 #else
 #include <QtWebChannel/QWebChannel>
-#include <QtWebEngineWidgets/QWebEngineView>
 #endif
-
-// Debug code: uncomment to show a web inspector for QtWebKit.
-// #include <QtWebKitWidgets/QWebInspector>
-// #include <QtWidgets/QDialog>
-// #include <QtWidgets/QVBoxLayout>
 
 WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot), mResetCount(0) {
   QString title = "Robot: " + robot->name();
@@ -74,7 +68,7 @@ void WbRobotWindow::setupPage() {
   // mWebView->page()->setWebChannel(channel);
   mTransportLayer = new WbRobotWindowTransportLayer();
   channel->registerObject("_webots", mTransportLayer);
-  connect(mTransportLayer, &WbRobotWindowTransportLayer::ackReceived, this, &WbRobotWindow::notifyAckReceived);  // TODO
+  connect(mTransportLayer, &WbRobotWindowTransportLayer::ackReceived, this, &WbRobotWindow::notifyAckReceived);  // TODO1
   connect(mTransportLayer, &WbRobotWindowTransportLayer::javascriptReceived, mRobot, &WbRobot::receiveFromJavascript);
 }
 #ifndef _WIN32
@@ -87,11 +81,11 @@ void WbRobotWindow::notifyLoadCompleted() {
   }
 }
 
-void WbRobotWindow::runJavaScript(const QString &message) {  // TODO: send this message to robot_window.
+void WbRobotWindow::runJavaScript(const QString &message) {  // TODO1: send this message to robot_window.
   QString jsMessage = "window.robot_window.receive('" + message + "', '" + escapeString(robot()->name()) + "')";
-  //qDebug() << "runJavaScript:" << jsMessage;
+  // qDebug() << "runJavaScript:" << jsMessage;
   mTransportLayer->requestAck();
-  //WbStreamingServer->sendTextMessage(jsMessage);
+  // WbStreamingServer->sendTextMessage(jsMessage);
   // webots->view->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 }
 #endif
@@ -112,7 +106,7 @@ void WbRobotWindow::sendToJavascript(const QByteArray &string) {
 #ifdef _WIN32
   mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 #else
-  // mRobot->setWaitingForWindow(true); //TODO
+  // mRobot->setWaitingForWindow(true); //TODO1
   if (mLoaded)
     runJavaScript(message);
   else  // message will be sent once the robot window loading is completed
