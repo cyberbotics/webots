@@ -830,6 +830,9 @@ void WbController::startBotstudio() {
 }
 
 void WbController::startDocker() {
+#ifndef __linux__
+  warn(tr("Docker controllers are supported only on Linux."));
+#else
   mCommand = "docker";
   // execute "docker build -q ." in the controller folder to build the image if needed and retrieve the image id
   QProcess dockerBuild;
@@ -848,6 +851,7 @@ void WbController::startDocker() {
     "-e",   "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()),
     image};
   mArguments = dockerArguments + mRobot->controllerArgs();
+#endif
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
