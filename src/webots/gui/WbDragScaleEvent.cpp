@@ -338,7 +338,7 @@ void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
   const WbVector3 &previousScale = mTransform->scale();
   mTotalScale *= mScaleRatio;
   mTransform->setScale(mCoordinate, mScaleRatio * previousScale[mCoordinate]);
-  mManipulator->updateHandleDimensions(mTotalScale, -mViewDistanceUnscaling);
+  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }
 
 // uniform scale
@@ -353,5 +353,5 @@ void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   const WbVector3 &s = mScaleRatio * mTransform->scale();
   mTotalScale *= mScaleRatio;
   mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
-  mManipulator->updateHandleDimensions(mTotalScale, -mViewDistanceUnscaling);
+  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }

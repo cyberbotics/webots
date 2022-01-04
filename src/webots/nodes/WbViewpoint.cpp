@@ -274,7 +274,7 @@ bool WbViewpoint::isFollowed(const WbSolid *solid) const {
 
 float WbViewpoint::viewDistanceUnscaling(WbVector3 position) const {
   WbVector3 eye = mPosition->value();
-  WbVector3 forward = mOrientation->value().direction().normalized();
+  WbVector3 forward = -mOrientation->value().direction().normalized();
 
   float w;
   if (projectionMode() == WbViewpoint::PM_PERSPECTIVE) {
@@ -1017,8 +1017,8 @@ void WbViewpoint::toPixels(const WbVector3 &pos, WbVector2 &P) const {
   double w, h;
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = factor * eyePosition.z();
-    w = mAspectRatio ? factor * eyePosition.y() / mAspectRatio : 0.0;
+    h = -factor * eyePosition.z();
+    w = mAspectRatio ? -factor * eyePosition.y() / mAspectRatio : 0.0;
   } else {  // PM_ORTHOGRAPHIC
     w = eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
     h = eyePosition.z() / mOrthographicViewHeight;
@@ -1088,8 +1088,8 @@ void WbViewpoint::eyeToPixels(const WbVector3 &eyePosition, WbVector2 &P) const 
   double w, h;
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = factor * eyePosition.z();
-    w = mAspectRatio != 0.0 ? factor * eyePosition.y() / mAspectRatio : 0.0;
+    h = -factor * eyePosition.z();
+    w = mAspectRatio != 0.0 ? -factor * eyePosition.y() / mAspectRatio : 0.0;
   } else {  // PM_ORTHOGRAPHIC
     w = eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
     h = eyePosition.z() / mOrthographicViewHeight;
