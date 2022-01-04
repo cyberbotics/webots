@@ -86,7 +86,7 @@ Hold the <kbd>⇧ shift</kbd> key and the <kbd>⌘ command</kbd> key down and pr
 
 Any [Transform](../reference/transform.md) node, and any of its descendants, can be scaled.
 Two scaling options are available, uniform and non-uniform.
-By clicking the <kbd>ctrl</kbd> key (<kbd>⌥ option</kbd> on Apple keyboards), the default axis manipulators are replaced with resize manipulators, represented by double-ended arrows, as depicted in the following figure.
+By clicking the <kbd>ctrl</kbd> key (<kbd>⌥ option</kbd> on Apple keyboards), the default pose manipulators are replaced with resize manipulators, represented by double-ended arrows, as depicted in the following figure.
 
 %figure "Manipulators allowing to rescale an object."
 
