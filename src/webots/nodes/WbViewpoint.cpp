@@ -1077,7 +1077,7 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
 
 // Converts eye coordinates of a 3D-point into screen pixel coordinates
 void WbViewpoint::eyeToPixels(const WbVector3 &eyePosition, WbVector2 &P) const {
-  const double z = eyePosition.z();
+  const double z = eyePosition.x();
   if (z == 0.0) {
     P.setX(0.0);
     P.setY(0.0);
@@ -1087,11 +1087,11 @@ void WbViewpoint::eyeToPixels(const WbVector3 &eyePosition, WbVector2 &P) const 
   double w, h;
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = factor * eyePosition.y();
-    w = mAspectRatio != 0.0 ? -factor * eyePosition.x() / mAspectRatio : 0.0;
+    h = -factor * eyePosition.z();
+    w = mAspectRatio != 0.0 ? -factor * eyePosition.y() / mAspectRatio : 0.0;
   } else {  // PM_ORTHOGRAPHIC
-    w = eyePosition.x() / (mAspectRatio * mOrthographicViewHeight);
-    h = -eyePosition.y() / mOrthographicViewHeight;
+    w = eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
+    h = eyePosition.z() / mOrthographicViewHeight;
   }
 
   P.setX((w + 0.5) * wr_viewport_get_width(mWrenViewport));
