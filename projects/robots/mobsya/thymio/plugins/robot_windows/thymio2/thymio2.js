@@ -7,7 +7,6 @@ console.log(robot_window);
 window.onload = function() {
 
 window.robot_window.receive = function(value, robot) {
-    console.log("received");
     if (value.indexOf("configure ") === 0) {
       try {
         var configure = JSON.parse(value.substring(10));
@@ -29,7 +28,7 @@ window.robot_window.receive = function(value, robot) {
       document.getElementById("prox.ground.0").innerHTML = values[7];
       document.getElementById("prox.ground.1").innerHTML = values[8];
     }
-  } 
+  }
   window.robot_window.send("configure", robotName); //TODO: receive configure
 }
 
