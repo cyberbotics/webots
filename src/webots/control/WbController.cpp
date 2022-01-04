@@ -223,6 +223,9 @@ void WbController::start() {
     case WbFileUtil::BOTSTUDIO:
       startBotstudio();
       break;
+    case WbFileUtil::DOCKER:
+      startDocker();
+      break;
     default:
       reportControllerNotFound();
       startVoidExecutable();
@@ -626,9 +629,9 @@ void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
 void WbController::reportControllerNotFound() {
   warn(tr("Could not find controller file:"));
-  warn(tr("Expected either: %1, %2, %3, %4, or %5")
+  warn(tr("Expected either: %1, %2, %3, %4, %5 or %6")
          .arg(name() + WbStandardPaths::executableExtension(), name() + ".jar", name() + ".class", name() + ".py",
-              name() + ".m "));
+              name() + ".m ", "Dockerfile"));
 
   // try to give a smart advice
   QDir dir(mControllerPath);
@@ -678,6 +681,8 @@ void WbController::reportFailedStart() {
     case WbFileUtil::MATLAB:
       reportMissingCommand("matlab");
       break;
+    case WbFileUtil::DOCKER:
+      reportMissingCommand("docker");
     default:
       break;
   }
@@ -722,6 +727,8 @@ WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
     return WbFileUtil::MATLAB;
   else if (dir.exists(name() + ".bsg"))
     return WbFileUtil::BOTSTUDIO;
+  else if (dir.exists("Dockerfile"))
+    return WbFileUtil::DOCKER;
 
   return WbFileUtil::UNKNOWN;
 }
@@ -820,6 +827,27 @@ void WbController::startBotstudio() {
   mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
   copyBinaryAndDependencies(mCommand);
   mCommand = QDir::toNativeSeparators(mCommand);
+}
+
+void WbController::startDocker() {
+  mCommand = "docker";
+  // execute "docker build -q ." in the controller folder to build the image if needed and retrieve the image id
+  QProcess dockerBuild;
+  dockerBuild.setWorkingDirectory(mControllerPath);
+  dockerBuild.start(mCommand, {"build", "-q", "."});
+  if (!dockerBuild.waitForStarted() || !dockerBuild.waitForFinished()) {
+    warn(tr("Unable to run docker, is docker installed?"));
+    return;
+  }
+  const QString image(dockerBuild.readAll().trimmed());
+  const QStringList dockerArguments = {
+    "run",  "--network",
+    "none",  // add "--cpu-shares", "512",
+    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
+    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
+    "-e",   "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()),
+    image};
+  mArguments = dockerArguments + mRobot->controllerArgs();
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {

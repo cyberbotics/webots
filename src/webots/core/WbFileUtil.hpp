@@ -50,8 +50,7 @@ namespace WbFileUtil {
   // if it doesn't exists, check if it can be created (i.e. if parent directory is writable)
   bool isDirectoryWritable(const QString &path);
 
-  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, TEXT, UNKNOWN };
-  const QString &extension(FileType);
+  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, DOCKER, UNKNOWN };
 
   void revealInFileManager(const QString &file);
 };  // namespace WbFileUtil
