@@ -1027,7 +1027,7 @@ Also if anyone can help me figuring out how to make the robot(still using the on
 
 I feel like I should be able to use 1.0/3.0, 4.0/3.0 and stuff like that to get different angles, but I can't make it work
 
-##### DrakerDG 01/10/2021 00:37:29
+##### DrakerDG [Moderator] 01/10/2021 00:37:29
 Hello everyone! Playing with lights and lighting in Webots.  I have placed three line follower robots using the same controller, I still don't understand how it works.  Can someone tell me how it works?
 
 [https://youtu.be/jMzKwcVs\_08](https://youtu.be/jMzKwcVs_08)
@@ -1035,7 +1035,7 @@ Hello everyone! Playing with lights and lighting in Webots.  I have placed three
 ##### Luftwaffel [Moderator] 01/10/2021 12:37:11
 `@DrakerDG` Hey, what part exactly don't you understand?
 
-##### DrakerDG 01/10/2021 12:41:40
+##### DrakerDG [Moderator] 01/10/2021 12:41:40
 <@239507682111913984> hello! I don't understand how by duplicating or tripling the same robot (copy & paste) they can use the same controller separately.  What I mean is that I just copied and pasted them without changing anything and it worked.  Each robot can follow the line without affecting the other.  In the end I only changed the color of the chassis and nothing else.  I see that it works but I don't understand how
 
 
@@ -1047,7 +1047,7 @@ Ah okay, I understand the confusion. Each robot runs its own instance of that co
 
 does that make sense?
 
-##### DrakerDG 01/10/2021 12:53:45
+##### DrakerDG [Moderator] 01/10/2021 12:53:45
 <@239507682111913984> yes, thank you 😁👍🏼
 
 
@@ -1065,13 +1065,13 @@ Usually a Controller is specific to one Robot, but you can have many instances o
 
 you can take a look at your task-manager while running it. You should see the main Webots process, and then at least one per running controller.
 
-##### DrakerDG 01/10/2021 12:58:23
+##### DrakerDG [Moderator] 01/10/2021 12:58:23
 <@239507682111913984> For example robots that play soccer use the same controller all, so
 
 ##### Luftwaffel [Moderator] 01/10/2021 12:58:30
 I mostly use Python and often need similar functionality. So I have sub-modules or scripts, which I dont change and can use in different controllers by simply importing them
 
-##### DrakerDG 01/10/2021 12:59:09
+##### DrakerDG [Moderator] 01/10/2021 12:59:09
 Ok
 
 ##### Luftwaffel [Moderator] 01/10/2021 13:00:01
@@ -1083,7 +1083,7 @@ The roles for behavior, if they should differ, could be put on top of that
 
 What Programming language do you use?
 
-##### DrakerDG 01/10/2021 13:01:05
+##### DrakerDG [Moderator] 01/10/2021 13:01:05
 I will continue playing and I will try to make modules as you indicate.  It's very interesting
 
 
@@ -1095,7 +1095,7 @@ I am currently programming in C language, but I am learning in a course to start
 ##### Luftwaffel [Moderator] 01/10/2021 13:14:31
 Python is definitely easier and quicker imho
 
-##### DrakerDG 01/10/2021 13:17:40
+##### DrakerDG [Moderator] 01/10/2021 13:17:40
 <@239507682111913984>  definitely yes, the syntax is very friendly.  In the little that I have advanced I really like how simple it is
 
 
@@ -1156,7 +1156,7 @@ You can check the e-puck example:
 ##### Diego Rojas 01/10/2021 23:30:11
 What are the steps of designing a model for webots simulation? What is the process of designing something in soldworks and making a PROTO from the mesh? This is likely a simple question, but I cannot seem to find a direct answer or demo.
 
-##### DrakerDG 01/10/2021 23:40:04
+##### DrakerDG [Moderator] 01/10/2021 23:40:04
 `@Diego Rojas` check this play list: [https://youtube.com/playlist?list=PLbEU0vp\_OQkUwANRMUOM00SXybYQ4TXNF](https://youtube.com/playlist?list=PLbEU0vp_OQkUwANRMUOM00SXybYQ4TXNF)
 
 ##### Diego Rojas 01/11/2021 00:13:32
@@ -2139,7 +2139,7 @@ I suspected as much. I hope something along these lines is somewhere on the road
 
 But I understand that it is not the highest priority and a lot of work
 
-##### DrakerDG 01/15/2021 09:27:45
+##### DrakerDG [Moderator] 01/15/2021 09:27:45
 Hey, I tried to install webots on ubuntu but it tells me that it can't download the .deb file, apparently it can't find it. Does anyone know how to solve this problem?
 %figure
 ![Screenshot_from_2021-01-15_03-23-15.png](https://cdn.discordapp.com/attachments/565154703139405824/799570511645376522/Screenshot_from_2021-01-15_03-23-15.png)
@@ -2151,7 +2151,7 @@ what command did you use?
 
 did you follow these steps? [https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt](https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt)
 
-##### DrakerDG 01/15/2021 09:32:55
+##### DrakerDG [Moderator] 01/15/2021 09:32:55
 Yes:
 
 
@@ -2173,7 +2173,7 @@ maybe download it manually. The version just changed to 2021. **[https://github.
 
 `@Olivier Michel` I think you should take a look and make sure the script is correct
 
-##### DrakerDG 01/15/2021 09:35:43
+##### DrakerDG [Moderator] 01/15/2021 09:35:43
 Ok, I will try
 
 ##### MartinG 01/15/2021 09:36:28
@@ -2270,7 +2270,7 @@ I'll message you privately to not crowd the chat here.
 ##### Olivier Michel [Cyberbotics] 01/15/2021 10:38:38
 I believe the problem is now fixed (it was due to a misconfiguration of our debian server). Can you try again and report and success or failure?
 
-##### DrakerDG 01/15/2021 10:46:47
+##### DrakerDG [Moderator] 01/15/2021 10:46:47
 `@Olivier Michel` Ok, at the moment you are downloading the binary file
 
 ##### mjc87 01/15/2021 10:46:57
@@ -2294,7 +2294,7 @@ let me see if I can find that project
 
 the large size is due to the textures
 
-##### DrakerDG 01/15/2021 12:22:32
+##### DrakerDG [Moderator] 01/15/2021 12:22:32
 It is works 😆 thank you)
 
 
@@ -3209,7 +3209,7 @@ hmm you are right
 ##### duct 01/25/2021 18:58:57
 in my simulation, my simulation window is drifting around in a circular shape without me doing anything. Any ideas why?
 
-##### DrakerDG 01/26/2021 06:50:47
+##### DrakerDG [Moderator] 01/26/2021 06:50:47
 <@671921336385273856> check the view menu: The Follow Object submenu allows you to switch between a fixed (static) viewpoint and a viewpoint that follows a mobile object (usually a robot). If you want the viewpoint to follow an object, first you need to select the object with the mouse and then check one of the items of the submenu depending on the following behavior you want... 
 
 [https://cyberbotics.com/doc/guide/the-user-interface](https://cyberbotics.com/doc/guide/the-user-interface)
@@ -13019,7 +13019,7 @@ No need to get angry
 
 Its the... (guys, whats the altf4 equivalent on mac)
 
-##### onecelerysticc is festive 04/09/2021 21:22:14
+##### onecelerysticc 04/09/2021 21:22:14
 I don’t use macs a lot, perhaps you should ask someone else?
 
 
@@ -13037,7 +13037,7 @@ Oh, im sorry
 
 Please take a cookie as a sign of my apology 🍪
 
-##### onecelerysticc is festive 04/09/2021 21:26:45
+##### onecelerysticc 04/09/2021 21:26:45
 Perhaps you should go to a doctor?
 
 ##### Renkun 04/09/2021 21:27:52
@@ -13049,13 +13049,13 @@ Your*
 
 Please stop trolling
 
-##### onecelerysticc is festive 04/09/2021 21:29:30
+##### onecelerysticc 04/09/2021 21:29:30
 I’m not too sure with doctor terminology, but I think you could try a podiatrist? I’m not too sure if thats the correct one though
 
 ##### Renkun 04/09/2021 21:30:40
 says the person who doesnt have one
 
-##### onecelerysticc is festive 04/09/2021 21:30:48
+##### onecelerysticc 04/09/2021 21:30:48
 :0
 
 ##### thonk enthusiast 04/09/2021 21:31:34
@@ -24366,7 +24366,7 @@ Hi, A question about rolling simulation. When the ball is rolling in the simulat
 ##### Olivier Michel [Cyberbotics] 08/20/2021 06:28:19
 Yes, it should work.
 
-##### akashX 08/20/2021 10:33:37
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/20/2021 10:33:37
 could someone share a simple robot that can detect objects
 
 ##### Max\_K 08/20/2021 11:53:57
@@ -24564,7 +24564,7 @@ Or do you mean have a world file with a dummy robot to import the actual robot w
 ##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:06:22
 Yes, with Supervisor node, I mean a dummy robot with the supervisor field checked
 
-##### akashX 08/25/2021 13:07:09
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/25/2021 13:07:09
 need someone to help me in making a simple bot, please dm me if you are willing spend 10 minutes helping a stranger in need
 
 ##### ulrikmf [Premier Service] 08/25/2021 13:07:36
@@ -24821,7 +24821,7 @@ You're doing it right already if you see the orange arrow. Lower the mass just f
 
 Using that method however you don't have much control, if you need  a more precise way of adding an external disturbance, you can use a supervisor: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_add\_force](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_add_force)
 
-##### akashX 08/28/2021 03:48:59
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 03:48:59
 I imported the 4 wheel robot World and want to run obstacle avoidance controller on it
 
 
@@ -24833,7 +24833,7 @@ How do I import the robot in my world and install the object recognition system 
 ##### rizqi 08/28/2021 03:50:51
 maybe you can insert controller on your robot object on scene tree bar
 
-##### akashX 08/28/2021 03:51:16
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 03:51:16
 Could you please link a documentation
 
 
@@ -24848,13 +24848,13 @@ when you click your object, in my picture is object vehicle bmwx5, then expand t
 
 i don't know where documentation, because i not read all tutorials. maybe this little help
 
-##### akashX 08/28/2021 04:13:40
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 04:13:40
 Thank you rizqi I'll try it
 
 ##### mironix<inactive> 08/29/2021 12:11:26
 Hello! i'm a newbie to webots - i was wondering is there any crane with wire simulation sample somewhere EDIT: got it! [https://cyberbotics.com/doc/guide/samples-howto#rope-wbt](https://cyberbotics.com/doc/guide/samples-howto#rope-wbt)
 
-##### akashX 08/30/2021 04:27:50
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/30/2021 04:27:50
 how to add a new controller?
 
 ##### ph504 08/30/2021 04:36:07
@@ -24886,7 +24886,7 @@ and click on it and then you have to browse for your new controller
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/881760053663760424/unknown.png)
 %end
 
-##### akashX 08/30/2021 04:40:53
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/30/2021 04:40:53
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/881760365233459221/unknown.png)
@@ -25199,7 +25199,7 @@ Hi, please check the `wb_supervisor_node_get_position` function:
 ##### FunkyPants 09/02/2021 18:49:44
 Thanks, will check it out
 
-##### akashX 09/03/2021 05:50:14
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 09/03/2021 05:50:14
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/883227370729930752/unknown.png)
@@ -25209,9 +25209,9 @@ Thanks, will check it out
 I have imported the controller why the robot is not moving??
 
 ##### DDaniel [Cyberbotics] 09/03/2021 06:00:50
-`@akashX` what's the content of the `ifrX.py` controller?
+`@17301031_S_M_Abdulla_Al_Mamun` what's the content of the `ifrX.py` controller?
 
-##### akashX 09/03/2021 06:01:25
+##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 09/03/2021 06:01:25
 [https://pastebin.com/APGHdkdb](https://pastebin.com/APGHdkdb)
 
 ##### chawei2000 09/03/2021 14:51:52
@@ -26000,7 +26000,7 @@ Since lots of those attacks are from Russia, it is possible, that whole ip range
 ##### Dmitriy Ogureckiy 09/11/2021 21:24:44
 Thanks, but I am not sure, that it is due to my country, because recently I was could open site.
 
-##### DrakerDG 09/12/2021 13:15:31
+##### DrakerDG [Moderator] 09/12/2021 13:15:31
 Hello! I have a query regarding the dimensions resulting from the linear velocity of the API function wb\_supervisor\_node\_get\_velocity. Will it be in meters / sec, centimeters / second, meters / minute, etc.?
 
 ##### ykopoblete 09/12/2021 13:16:18
@@ -26009,7 +26009,7 @@ compare it with the max velocity of your robot
 
 max velocity is in m/s
 
-##### DrakerDG 09/12/2021 13:19:02
+##### DrakerDG [Moderator] 09/12/2021 13:19:02
 In my case I built my own robot in webots. How do I determine the maximum speed?
 
 
@@ -26018,7 +26018,7 @@ To calculate the modulus of the velocity of my robot, I add the vectors of the l
 ##### ykopoblete 09/12/2021 13:22:24
 in general is in m/s
 
-##### DrakerDG 09/12/2021 13:23:14
+##### DrakerDG [Moderator] 09/12/2021 13:23:14
 I used this, to add the vectors
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/886602860131909642/unknown.png)
@@ -26042,7 +26042,7 @@ yes, at least I have a robot with 2.5 m/s of max speed
 ##### ykopoblete 09/12/2021 13:28:10
 Thanks. So, to use it with multiple robots do I have to create a controller for each one?
 
-##### DrakerDG 09/12/2021 13:28:54
+##### DrakerDG [Moderator] 09/12/2021 13:28:54
 Ok, thanks
 
 ##### DDaniel [Cyberbotics] 09/12/2021 13:32:34
@@ -26051,7 +26051,7 @@ Ok, thanks
 ##### ykopoblete 09/12/2021 13:33:05
 Thanks 😭
 
-##### DrakerDG 09/12/2021 13:36:30
+##### DrakerDG [Moderator] 09/12/2021 13:36:30
 These are my robots at 1.28 m/s 🙂
 > **Attachment**: [Loop\_Track\_V6\_16.mp4](https://cdn.discordapp.com/attachments/565154703139405824/886606201608093706/Loop_Track_V6_16.mp4)
 
@@ -26076,7 +26076,7 @@ I have 2 errors, when I use robot.getVelocity it says: "AttributeError: 'Supervi
 
 Then I changed to node but it says about the constructor
 
-##### DrakerDG 09/12/2021 14:00:36
+##### DrakerDG [Moderator] 09/12/2021 14:00:36
 In my case, the DEF name of the one robot is SLFR\_V4A and use the next code to get the velocity ,  calculate the velocity module and show in a label in the render
 
 
@@ -26108,7 +26108,7 @@ velocity = robot_node.getVelocity()
 ##### ykopoblete 09/12/2021 14:21:41
 Thanks! now it works
 
-##### DrakerDG 09/12/2021 14:33:05
+##### DrakerDG [Moderator] 09/12/2021 14:33:05
 I will try with this code too, thanks
 
 ##### Justin Fisher [Moderator] 09/12/2021 19:33:02
@@ -26175,7 +26175,7 @@ I'd encourage you to start with one of the Webots tutorials and make smaller inc
 
 I dont know why it runs so slowly. I would have to profile the simulation, but I only have the tools setup on a different OS.
 
-##### DrakerDG 09/14/2021 02:11:53
+##### DrakerDG [Moderator] 09/14/2021 02:11:53
 OK thank you.  Yesterday I doubled the friction and improved the performance, the tires stopped sliding in the curves.  The only thing is that as I increased the speed eventually the robots started to lift up in the front, similar to a dragster.  This happens at startup or when colliding with another vehicle.  I've recorded spectacular colosions
 %figure
 ![Screenshot_20210913_200513_com.huawei.himovie.overseas_edit_77269461698104.jpg](https://cdn.discordapp.com/attachments/565154703139405824/887158686680768602/Screenshot_20210913_200513_com.huawei.himovie.overseas_edit_77269461698104.jpg)
@@ -26184,7 +26184,7 @@ OK thank you.  Yesterday I doubled the friction and improved the performance, th
 ##### Luftwaffel [Moderator] 09/14/2021 02:12:56
 you could increase the front weight (by perhaps making the front plate thicker, so it has more mass).
 
-##### DrakerDG 09/14/2021 02:14:21
+##### DrakerDG [Moderator] 09/14/2021 02:14:21
 In my case with less light effects and without cameras it runs around 0.4x, but when recording between 0.1 and 0.2x
 
 
@@ -26196,7 +26196,7 @@ I thought about increasing the weight in the front part, but my idea is to keep 
 ##### Luftwaffel [Moderator] 09/14/2021 02:19:36
 Are the motors realistic? Does the real robot do a wheely?
 
-##### DrakerDG 09/14/2021 02:25:52
+##### DrakerDG [Moderator] 09/14/2021 02:25:52
 It is a real robot, but the RPMs and the strength of the motors do not lift it yet.  In Webots I estimate that I have exceeded the maximum speed and that possibly that would happen.  That is why in faster designs a vertical turbine is added to make the robot not stand up.
 
 
@@ -26205,43 +26205,43 @@ This in a real robot in action: [https://youtu.be/UhucBLW\_qIQ](https://youtu.be
 ##### duct 09/14/2021 02:40:53
 Would scaling down a robot be a reason for "This physics step could not be calculated correctly" error? I had to scale down a robot to fit an arena we made for it, and the simulation occasionally makes this error. Sometimes, it makes the robot do crazy things like doing a flip, or flying across the map. Just wondering if doing the opposite, scaling up the map instead of scaling down the bot, would fix these physics errors
 
-##### DrakerDG 09/14/2021 02:45:09
+##### DrakerDG [Moderator] 09/14/2021 02:45:09
 Maybe it is necessary to lower the value of basicTimeStep in the WorldInfo node
 
 ##### duct 09/14/2021 02:45:39
 hm thanks i'll try that
 
-##### DrakerDG 09/14/2021 02:46:37
+##### DrakerDG [Moderator] 09/14/2021 02:46:37
 By default it is 32, you can start by going down to the middle
 
 ##### duct 09/14/2021 02:47:42
 and does changing that change the timestep for everything? like the robot's robot->getBasicTimeStep() function, does that pull from the worldinfo's timestep?
 
-##### DrakerDG 09/14/2021 02:49:43
+##### DrakerDG [Moderator] 09/14/2021 02:49:43
 Not, only in basicTimeStep of WorldInfo
 
 ##### duct 09/14/2021 02:50:25
 sorry, i can't open the webots rn so i can't check, does the robot also have a similar timestep option in the scene tree?
 
-##### DrakerDG 09/14/2021 02:52:38
+##### DrakerDG [Moderator] 09/14/2021 02:52:38
 I do not think so
 
 ##### duct 09/14/2021 02:53:07
 alright but the robot's basic time step doesn't have to match the world's timestep?
 
-##### DrakerDG 09/14/2021 03:01:28
+##### DrakerDG [Moderator] 09/14/2021 03:01:28
 there's no need
 
 ##### duct 09/14/2021 03:03:09
 ok, thanks!
 
-##### DrakerDG 09/14/2021 03:27:36
+##### DrakerDG [Moderator] 09/14/2021 03:27:36
 👍
 
 ##### ykopoblete 09/14/2021 03:56:36
 how can I do a robot follows a direction? I'm trying to use a direction vector with the module but how can I pass the new position to the robot?
 
-##### DrakerDG 09/14/2021 06:33:40
+##### DrakerDG [Moderator] 09/14/2021 06:33:40
 In this video you can see how the front of the robot lifts even at 1.5m/ s
 > **Attachment**: [km\_Speed\_Line\_Follower\_Robot\_Start\_360p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/887224566299123722/km_Speed_Line_Follower_Robot_Start_360p.mp4)
 
@@ -26281,7 +26281,7 @@ Hello Darko! Thanks a lot, now it works!
 ##### ykopoblete 09/14/2021 14:10:13
 Mmm can you help me a little more with that?  I don't understand very well it's functions
 
-##### DrakerDG 09/14/2021 14:52:45
+##### DrakerDG [Moderator] 09/14/2021 14:52:45
 Ok, can you share your work that you have? I review it and can help you better
 
 ##### yaroslaw 09/14/2021 14:54:10
@@ -26325,7 +26325,7 @@ Hello, can anyone help me
 
 `@DDaniel` Hi I want to know the move path of a robot car in a map, so how can I do that.  Do you have some advice?
 
-##### DrakerDG 09/14/2021 19:16:32
+##### DrakerDG [Moderator] 09/14/2021 19:16:32
 Ok, I will review a soon as possible
 
 ##### ykopoblete 09/14/2021 21:06:27
@@ -26479,7 +26479,7 @@ Another somersault illustrating that this can happen even without much/any water
 
 (Note that I'm remote-controlling the motors.  When I run them fast it "pops a wheelie".  When I back off, it settles back down a bit.  When I rev the motors again it somersaults.  If I did the same thing on dry land, it wouldn't even pop a wheelie, much less somersault.)
 
-##### DrakerDG 09/15/2021 21:46:17
+##### DrakerDG [Moderator] 09/15/2021 21:46:17
 Hello, in some occasions it has happened to me that my robot does strange things in relation to physics. I recently solved a case by reducing the basicTimeStep.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/887816619739455528/unknown.png)
@@ -26634,7 +26634,7 @@ Hello World, we're currently trying to send a flag type information from a super
 ##### h3ndrk 09/17/2021 15:10:08
 Thanks for the quick answer, we will look into that. 👍
 
-##### DrakerDG 09/17/2021 18:18:26
+##### DrakerDG [Moderator] 09/17/2021 18:18:26
 Hi <@239507682111913984>, I checked your code in Python and I really liked it.  Thank you again for the time you have dedicated.  I'm still learning Python and your work has convinced me even more to start using it.  I am from the old school (generation X), so from the beginning I have worked with languages ​​even older than c, but I have not lost the thirst to learn and I stay in that direction.  Thanks😁 👍
 
 ##### ykopoblete 09/17/2021 19:51:51
@@ -26910,7 +26910,7 @@ I'm puzzled by ballJoint axis declaration.  As far as I can tell, the axis that 
 
 Also, does anyone know how Webots computes the perpendicular axis?  Just with a cross product?  (Since joints' .position fields currently give false readings, I'm trying to figure out how to get a supervisor to compute what their correct readings would be.)
 
-##### DrakerDG 09/23/2021 05:22:38
+##### DrakerDG [Moderator] 09/23/2021 05:22:38
 Hello everybody, I have a question about how I can use de setLabel Supervisor function in Python.  In c code I don't have problems but recently I try in Python but I can't make It worked. I understand that I need declare something before but I don't know that.
 
 I would greatly appreciate your help.
@@ -26921,7 +26921,7 @@ I would greatly appreciate your help.
 ##### Justin Fisher [Moderator] 09/23/2021 05:35:31
 I PM'ed you a copy of the little python utility I made to make it a lot easier to handle labels in Webots.  It should give you an example to learn from, or feel free to make use of it if you want
 
-##### DrakerDG 09/23/2021 05:36:43
+##### DrakerDG [Moderator] 09/23/2021 05:36:43
 Excellent! Thanks! 😁 👍
 
 ##### kid07 09/23/2021 06:18:34
@@ -26934,7 +26934,7 @@ This is my arena
 ![image0.jpg](https://cdn.discordapp.com/attachments/565154703139405824/890482797326790696/image0.jpg)
 %end
 
-##### DrakerDG 09/23/2021 07:02:55
+##### DrakerDG [Moderator] 09/23/2021 07:02:55
 If only use directly the function, without of class, is possible? I can't find an example to understand, sorry and thanks in advance!
 
 ##### Justin Fisher [Moderator] 09/23/2021 07:03:30
@@ -27066,7 +27066,7 @@ I really need this stadium and this is an obj file made using TinkerCad. A solut
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891215943890522132/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 06:56:35
+##### DrakerDG [Moderator] 09/25/2021 06:56:35
 Hello! Try reducing WorldInfo.basicTimeStep from 32 to 16 for example
 
 
@@ -27084,7 +27084,7 @@ Oh, I saw you a lot on YouTube videos related to webot. I changed it as you said
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891217680244293693/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:05:56
+##### DrakerDG [Moderator] 09/25/2021 07:05:56
 Is the same robot behavior in all surfaces?
 
 ##### 한정훈 09/25/2021 07:07:06
@@ -27096,7 +27096,7 @@ No, it's only in the part where it protrudes 2cm. Line racing is working well. T
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891219326185664552/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:09:44
+##### DrakerDG [Moderator] 09/25/2021 07:09:44
 Maybe you need simplifying the bounding object platform
 
 
@@ -27111,7 +27111,7 @@ This is the boundary of the stadium. It looks complicated, but I don't know how 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891220507582677002/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:15:11
+##### DrakerDG [Moderator] 09/25/2021 07:15:11
 When you import 3D object dont select use as bounding object, you need made the bounding object in Webots using basic shapes like cylinders and boxes
 
 ##### 한정훈 09/25/2021 07:17:55
@@ -27120,7 +27120,7 @@ Are you talking about this? When creating an object, I set the boundary part of 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891221964738416640/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:19:15
+##### DrakerDG [Moderator] 09/25/2021 07:19:15
 Don't use the last option, uncheck please
 
 
@@ -27132,7 +27132,7 @@ We are making boundaries by referring to your words. But how do you rotate that 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891224299283816448/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:29:17
+##### DrakerDG [Moderator] 09/25/2021 07:29:17
 First you need  add a group node
 
 
@@ -27153,7 +27153,7 @@ Like this?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891225842636718100/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:35:02
+##### DrakerDG [Moderator] 09/25/2021 07:35:02
 Yes, but in solid.boundingObject
 
 
@@ -27168,7 +27168,7 @@ Like this????
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891226966819241984/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:38:59
+##### DrakerDG [Moderator] 09/25/2021 07:38:59
 The group is ok, but you need put before the shape a transformer node.  Just in group.children
 
 
@@ -27192,7 +27192,7 @@ I can't find children in BoundingObject.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891229105088004096/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:46:22
+##### DrakerDG [Moderator] 09/25/2021 07:46:22
 Is ok, don't worries
 
 
@@ -27204,7 +27204,7 @@ You add a group first
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891229888432967680/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:50:16
+##### DrakerDG [Moderator] 09/25/2021 07:50:16
 Before that put the shape, you need put the transform node
 
 ##### 한정훈 09/25/2021 07:50:20
@@ -27216,7 +27216,7 @@ ohhhhhhh
 
 i find
 
-##### DrakerDG 09/25/2021 07:51:05
+##### DrakerDG [Moderator] 09/25/2021 07:51:05
 You need select the group.children and add the transform
 
 ##### 한정훈 09/25/2021 07:52:09
@@ -27225,13 +27225,13 @@ like this?!
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891230579293560863/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:52:49
+##### DrakerDG [Moderator] 09/25/2021 07:52:49
 Yes!
 
 ##### 한정훈 09/25/2021 07:53:32
 I want to rotate the cylindrical boundary object 90 degrees. Is there any way?
 
-##### DrakerDG 09/25/2021 07:54:20
+##### DrakerDG [Moderator] 09/25/2021 07:54:20
 You can rotate the shape thru transform.rotation
 
 ##### 한정훈 09/25/2021 07:56:42
@@ -27240,7 +27240,7 @@ Thank you! I designated the floor of the stadium. How can you specify a slope an
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891231725307453450/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 07:58:45
+##### DrakerDG [Moderator] 09/25/2021 07:58:45
 only you need put the dimensions that you need in every shape
 
 
@@ -27255,7 +27255,7 @@ Is this the right way?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891233039781347328/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 08:02:01
+##### DrakerDG [Moderator] 09/25/2021 08:02:01
 Thru every transform.translation you can move every shape the position you need
 
 
@@ -27276,7 +27276,7 @@ It really helped me a lot. Thank you so much! I'm gon na go to your YouTube!
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891238013689032714/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 08:22:20
+##### DrakerDG [Moderator] 09/25/2021 08:22:20
 Ok, you welcome
 
 ##### 한정훈 09/25/2021 08:31:07
@@ -27285,31 +27285,31 @@ Oh my... I can flip over even if I simply changed the boundaries.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891240386171912262/unknown.png)
 %end
 
-##### DrakerDG 09/25/2021 08:33:32
+##### DrakerDG [Moderator] 09/25/2021 08:33:32
 Always check the shapes bounding objects in your robot
 
 ##### 한정훈 09/25/2021 08:37:30
 It was solved by adding a little bit of height to the actual stadium. Thank you!
 
-##### DrakerDG 09/25/2021 08:38:01
+##### DrakerDG [Moderator] 09/25/2021 08:38:01
 Perfect!
 
 ##### 한정훈 09/25/2021 08:38:38
 Is there a way to erase the overlapping parts between the boundary drawings?
 
-##### DrakerDG 09/25/2021 12:15:27
+##### DrakerDG [Moderator] 09/25/2021 12:15:27
 You can adjust the size or type of geometry to avoid or minimize overlap.  The important thing is that the contact surface is as continuous as possible and in the case of your ramp avoiding the stands or pronounced changes in height
 
 ##### 한정훈 09/25/2021 13:11:01
 Do you happen to have keywords such as motor angle control or delay in arduino when using webot as python?
 
-##### DrakerDG 09/25/2021 13:25:11
+##### DrakerDG [Moderator] 09/25/2021 13:25:11
 In the code command, I don't remember
 
 ##### 한정훈 09/25/2021 13:25:57
 Or can you measure the distance of the ultrasonic sensor for a long time?
 
-##### DrakerDG 09/25/2021 13:26:49
+##### DrakerDG [Moderator] 09/25/2021 13:26:49
 Yes, of course
 
 ##### Shivkumar 09/25/2021 13:33:33
@@ -27318,7 +27318,7 @@ Hey guys, is it possible to make the drone move automatically on a set route ins
 ##### 한정훈 09/25/2021 14:15:14
 Can you tell me how to do it?
 
-##### DrakerDG 09/25/2021 17:18:31
+##### DrakerDG [Moderator] 09/25/2021 17:18:31
 You can add to robot.children a distance sensor and you  need select the type of sensor, like an ultrasonic or infra red
 
 
@@ -27327,7 +27327,7 @@ You can read about it here: [https://cyberbotics.com/doc/reference/distancesenso
 ##### 한정훈 09/25/2021 17:43:32
 I've been to that link, but I haven't found a way to extend the observation length.
 
-##### DrakerDG 09/25/2021 18:07:08
+##### DrakerDG [Moderator] 09/25/2021 18:07:08
 Thru for the lookup table, you configurate the behavior sensor.
 
 
@@ -27369,7 +27369,7 @@ If that's right, then my main puzzle is why parts of one of my robots keep getti
 
 I wonder if it has something to do with the fact that the nodes in the neural net are procedural protos that update themselves to change their color as a supervisor controller changes their activation property?  Does a procedural proto updating itself somehow cause itself to become selected?  Tis annoying, especially when that also means the supervisor stops hearing the keystrokes!
 
-##### DrakerDG 09/26/2021 00:31:32
+##### DrakerDG [Moderator] 09/26/2021 00:31:32
 Wow, interesting behavior 🤔 
 
 
@@ -27439,7 +27439,7 @@ Sorry if this is not the place to ask. In that case, ignore this message.
 ##### 한정훈 09/26/2021 10:18:35
 How can you use the "wb\_robot\_step()" function in Python? Please tell me.
 
-##### DrakerDG 09/26/2021 11:00:40
+##### DrakerDG [Moderator] 09/26/2021 11:00:40
 Example:
 
 
@@ -27455,7 +27455,7 @@ I made a custom robot. The appearance boundary was optimized by giving only the 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891668876536979456/unknown.png)
 %end
 
-##### DrakerDG 09/26/2021 13:04:09
+##### DrakerDG [Moderator] 09/26/2021 13:04:09
 Hello! You need check if some part of the bounding objects touch the floor and the friction does not permitted move the robot.  Similar to sumo robot
 %figure
 ![Mini_Sumo_Robot_V1_3_1.png](https://cdn.discordapp.com/attachments/565154703139405824/891671485792518254/Mini_Sumo_Robot_V1_3_1.png)
@@ -27473,7 +27473,7 @@ That's right. I'm preparing for my university assignment. After a week, I'm goin
 
 What's wrong? Should the boundary of the wheel be cylinder instead of transform?
 
-##### DrakerDG 09/26/2021 13:14:13
+##### DrakerDG [Moderator] 09/26/2021 13:14:13
 The boundary object of the wheel  must be a solid, in the solid.children you need add a transform and in the transform.children you need add a shape with a geometry a cylinder
 
 
@@ -27488,13 +27488,13 @@ We fixed not treating wheels as boundaries, but this time the sensor does not re
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/891674686843392000/unknown.png)
 %end
 
-##### DrakerDG 09/26/2021 13:23:49
+##### DrakerDG [Moderator] 09/26/2021 13:23:49
 Before if did it?
 
 ##### 한정훈 09/26/2021 13:24:18
 Um... I don't think it worked before.
 
-##### DrakerDG 09/26/2021 13:27:07
+##### DrakerDG [Moderator] 09/26/2021 13:27:07
 How have you configured your sensor?  Can you show it?
 
 ##### 한정훈 09/26/2021 13:28:14
@@ -27519,7 +27519,7 @@ Warning: Robot: This robot node has been resized. It is not recommended because 
 
 Is this not working because of this?
 
-##### DrakerDG 09/26/2021 13:44:50
+##### DrakerDG [Moderator] 09/26/2021 13:44:50
 You need a solid in your end point, bounding object and physics
 
 
@@ -27531,7 +27531,7 @@ Add a solid
 ##### 한정훈 09/26/2021 13:45:52
 Is it necessary for all sensors?
 
-##### DrakerDG 09/26/2021 13:46:13
+##### DrakerDG [Moderator] 09/26/2021 13:46:13
 No
 
 
@@ -27786,7 +27786,7 @@ while robot.step(TIME\_STEP) != -1:
 
 \# Enter here exit cleanup code.
 
-##### DrakerDG 09/29/2021 14:28:40
+##### DrakerDG [Moderator] 09/29/2021 14:28:40
 Hi there.  Have you tried changing the basicTimestep parameter in the WorldInfo node?
 %figure
 ![unknown-1.png](https://cdn.discordapp.com/attachments/565154703139405824/892779919036272661/unknown-1.png)
@@ -27915,13 +27915,13 @@ Hi everyone, I have a designed a rover that is intended to place cylinders at va
 ![image0.png](https://cdn.discordapp.com/attachments/565154703139405824/893111755021103144/image0.png)
 %end
 
-##### DrakerDG 09/30/2021 12:30:08
+##### DrakerDG [Moderator] 09/30/2021 12:30:08
 Every cylinder most be a solid and you need add a bounding object and physics nodes
 
 ##### kid07 09/30/2021 12:32:57
 Thank you `@DrakerDG` , let me try it and get back to you
 
-##### DrakerDG 09/30/2021 12:36:02
+##### DrakerDG [Moderator] 09/30/2021 12:36:02
 If omit add physic node, your solid will be like a infinite mass. You will don't can move with other object
 
 ##### mclzc 09/30/2021 17:18:51
@@ -28348,7 +28348,7 @@ I was actually trying to figure out how to let the robot know it's time to turn.
 ##### Brubby 10/10/2021 14:43:54
 you could put a GPS on the bot and read the GPS data
 
-##### DrakerDG 10/10/2021 14:44:05
+##### DrakerDG [Moderator] 10/10/2021 14:44:05
 Always is in the end of the line path?
 
 ##### BIN 10/10/2021 14:45:35
@@ -28547,7 +28547,7 @@ Hi, could anyone tell me how can I measure the position of some specified point?
 ##### oroulet [Premier Service] 10/16/2021 19:05:43
 Is there a way to implement a laser line in webots? I could not find anything . (I do not want a range finder emulation, I want something projecting light or color like a laser does)
 
-##### DrakerDG 10/16/2021 19:27:20
+##### DrakerDG [Moderator] 10/16/2021 19:27:20
 Hello! Maybe you can use a SpotLight with set CutOffAngle and beamWidth around 0.001.  Set castShadow TRUE, intensity in 5 an red color
 
 
@@ -29301,7 +29301,7 @@ It seems to have worked, thank you
 ##### crumpy 10/27/2021 19:36:41
 Hi, I'm currently trying to make a solid node with a shape have some level of opacity like glass almost. Is there a texture that would support this in webots?
 
-##### DrakerDG 10/28/2021 04:38:40
+##### DrakerDG [Moderator] 10/28/2021 04:38:40
 You only need change the Transparency value from 0 to 1 in material options.  In this example the right cylinder have 0.2 of transparency.
 %figure
 ![2021-10-27.png](https://cdn.discordapp.com/attachments/565154703139405824/903140689888571442/2021-10-27.png)
@@ -29317,7 +29317,7 @@ I'm running into a weird issue where my robots are inexplicably losing almost al
 
 I've also been having another mysterious bug that might be related to this: the body of one robot keeps turning itself green, which is apparently occurring due to the basecolor of its PBR appearance changing, which works as a multiplier on the texture imagemap.  However, this change usually does not appear in the scene tree (but occasionally does), and but if you change the basecolor that does appear in the scene tree slightly away from its apparent setting of 1,1,1 then the color pops back to ordinary.  That made me suspect that maybe that body, which is USED as the bounding object for the robot, was somehow forgetting its bounding geometry at the same time as it was glitching its color, which might have explained the loss of traction.  But unfortunately I can't get the same sort of resetting-values-in-the-scene-tree fix to work for the traction.  So I'm mystified (and very frustrated!).  Help?
 
-##### DrakerDG 10/28/2021 06:12:06
+##### DrakerDG [Moderator] 10/28/2021 06:12:06
 I have it if I understand your context. You indicate that the color in the appearance of the PBR can affect the physical behavior related to friction, in your case your robot loses traction, right?
 
 ##### Justin Fisher [Moderator] 10/28/2021 11:39:21
@@ -29448,7 +29448,7 @@ Hi, if I can't use the math library, how do I figure out cos and sin in C when I
 ##### DDaniel [Cyberbotics] 10/31/2021 08:34:06
 You can use the math library
 
-##### DrakerDG 10/31/2021 11:53:47
+##### DrakerDG [Moderator] 10/31/2021 11:53:47
 Maybe thru trigonometry you can do it
 
 ##### BIN 10/31/2021 11:55:47
@@ -29457,7 +29457,7 @@ So how do you use it without referring to the math library
 
 However, external libraries are not required
 
-##### DrakerDG 10/31/2021 12:03:22
+##### DrakerDG [Moderator] 10/31/2021 12:03:22
 What is the position that you need? You can use a table or array with the sin and cos values
 
 ##### BIN 10/31/2021 12:04:26
@@ -29469,7 +29469,7 @@ What is the position that you need? You can use a table or array with the sin an
 
 His coordinate output is not right, it seems not multiplied by the following trigonometric function, what should I do
 
-##### DrakerDG 10/31/2021 13:14:53
+##### DrakerDG [Moderator] 10/31/2021 13:14:53
 I understand that you try calculates the position relative of the robot, right?
 
 ##### Intries 10/31/2021 17:10:16
@@ -29550,7 +29550,7 @@ my hope would be to use Webots to design and build the driver firmware (even con
 
 like i said this is a personal education project, i think im going to make it as an online connected chess playing robot initially
 
-##### DrakerDG 11/02/2021 00:37:26
+##### DrakerDG [Moderator] 11/02/2021 00:37:26
 I like your arm robot, very nice project!
 
 
@@ -29565,7 +29565,7 @@ I can draw up a representation in fusion, I don't need the model to been photo a
 ##### Rizalfauz 11/02/2021 00:47:15
 Thank you
 
-##### DrakerDG 11/02/2021 00:55:45
+##### DrakerDG [Moderator] 11/02/2021 00:55:45
 You will need make every moveable part of your robot per separate
 
 ##### ykopoblete 11/02/2021 14:11:59
@@ -29765,7 +29765,7 @@ Please refrain from spamming every channel with the same question
 
 As explained in the documentation it returns the timestep defined in the `WorldInfo`: [https://cyberbotics.com/doc/reference/robot#wb\_robot\_get\_basic\_time\_step](https://cyberbotics.com/doc/reference/robot#wb_robot_get_basic_time_step)
 
-##### DrakerDG 11/04/2021 19:11:50
+##### DrakerDG [Moderator] 11/04/2021 19:11:50
 Hi. Is the basicTimestep parameter in the WorldInfo node.   The dafault value is 32, but you can set to value needed
 %figure
 ![unknown-1-1.png](https://cdn.discordapp.com/attachments/565154703139405824/905897143947132958/unknown-1-1.png)
@@ -29955,7 +29955,7 @@ Thank you very much. That's the case.
 ##### D3cpt 11/05/2021 17:19:54
 Hi, I was looking for ways to speed up my simulation and found that it runs on CPU. Is there a way to have it run on GPU to increase simulation speed?
 
-##### DrakerDG 11/05/2021 17:36:14
+##### DrakerDG [Moderator] 11/05/2021 17:36:14
 Simulation speed depends on several factors:
 
 - The capacity of your computer
@@ -30012,16 +30012,16 @@ You can download it and install with dpkg. That's how we do it.
 ##### zevmp 11/05/2021 18:45:38
 Thanks, I'll give it a go
 
-##### Chuck 11/06/2021 01:46:06
+##### CAPTAIN CHUCK 11/06/2021 01:46:06
 hey, I'm having issue with a two wheeled robot I've built. I think the wheels are a slipping a bit when I'm turning, which totally mess my odometry data. Is there a way to ensure that there is no slipping?
 
-##### DrakerDG 11/06/2021 02:10:22
+##### DrakerDG [Moderator] 11/06/2021 02:10:22
 You can add contactProperties to the WorldInfo node and set coulombFriction greater than 1
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/906364860814729266/unknown.png)
 %end
 
-##### Chuck 11/06/2021 02:11:11
+##### CAPTAIN CHUCK 11/06/2021 02:11:11
 Yeah that's what I did, but I think the problem lie elsewhere
 
 
@@ -30030,7 +30030,7 @@ I'm doing some integrals and I think my dt is messed up because I have some time
 
 is there a way to get the time elapsed that take into consideration the time dilatation?
 
-##### DrakerDG 11/06/2021 02:13:18
+##### DrakerDG [Moderator] 11/06/2021 02:13:18
 Maybe you need increase from mass of robot and / or change the mass center of it.
 
 
@@ -30039,7 +30039,7 @@ Have you record your simulation with showing acceleration value?
 ##### Luftwaffel [Moderator] 11/06/2021 02:17:14
 you have to use the simulation time, not real time. Calculate odometry every step and use the timestep (32ms or 16ms usually) as your dt
 
-##### Chuck 11/06/2021 02:21:14
+##### CAPTAIN CHUCK 11/06/2021 02:21:14
 I've just tried using the getTime() method but I'm still having 10-15% error. I'll try to use the exact timestep as you suggest, it may be the issue
 
 ##### Luftwaffel [Moderator] 11/06/2021 02:22:44
@@ -30048,13 +30048,13 @@ some error can come from softCFM (soft collisions), where objects are allowed to
 
 You also have to take the width of the tires into account. Approximating the distance between tires by their center line might not be 100% accurate. You can try and play with that value until it fits better
 
-##### Chuck 11/06/2021 02:37:24
+##### CAPTAIN CHUCK 11/06/2021 02:37:24
 I'll give it a try, tyty
 
-##### DrakerDG 11/06/2021 03:04:19
+##### DrakerDG [Moderator] 11/06/2021 03:04:19
 I have a question. This penetrations are like calculations errors or like the deformation of collisions?
 
-##### Chuck 11/06/2021 03:23:03
+##### CAPTAIN CHUCK 11/06/2021 03:23:03
 I'm having an issue that's driving me crazy, maybe folks more intelligent than me will see it imediately.
 
 I have a robot which position is defined by (x,y,theta) and the speed by (vx, vy, vth)
@@ -30305,13 +30305,13 @@ thanks <@787796043987025941> the problem is that I don't know how many objects I
 ##### Heartmage 11/10/2021 14:52:46
 Hi I have few really really basic level questions since I am a complete beginner in Webots so can someone help me out?
 
-##### Chuck 11/10/2021 19:44:44
+##### CAPTAIN CHUCK 11/10/2021 19:44:44
 any idea what may cause a huge noise on a simulated LIDAR? (my noise parameter is set to 0)
 
 ##### Luftwaffel [Moderator] 11/10/2021 20:33:30
 Can you give us more details? How does the noise manifest? Can you post Screenshots or video showing the issue?
 
-##### Chuck 11/10/2021 21:33:07
+##### CAPTAIN CHUCK 11/10/2021 21:33:07
 
 %figure
 ![Screenshot_from_2021-11-10_20-44-52.png](https://cdn.discordapp.com/attachments/565154703139405824/908107026851319838/Screenshot_from_2021-11-10_20-44-52.png)
@@ -30329,13 +30329,13 @@ In webots
 
 It shows you the lidar beams
 
-##### Chuck 11/10/2021 21:34:38
+##### CAPTAIN CHUCK 11/10/2021 21:34:38
 sure, where do I enable it?
 
 ##### Luftwaffel [Moderator] 11/10/2021 21:35:13
 Menu on top
 
-##### Chuck 11/10/2021 21:40:24
+##### CAPTAIN CHUCK 11/10/2021 21:40:24
 
 %figure
 ![b784b89df5bc4613864f52bc0f9842fc.png](https://cdn.discordapp.com/attachments/565154703139405824/908108860986888262/b784b89df5bc4613864f52bc0f9842fc.png)
@@ -30359,7 +30359,7 @@ And I think you can enable to lidar points as well
 
 In optional rendering
 
-##### Chuck 11/10/2021 21:46:16
+##### CAPTAIN CHUCK 11/10/2021 21:46:16
 well they are, something strange is happening
 
 
@@ -30398,7 +30398,7 @@ I wanna control the door using a rotational motor...I have done all the steps of
 
 Someone pls do help
 
-##### DrakerDG 11/11/2021 02:56:39
+##### DrakerDG [Moderator] 11/11/2021 02:56:39
 You need to set a speed of your engine apart from the position.  All in radians
 
 ##### Heartmage 11/11/2021 03:06:56
@@ -30961,7 +30961,7 @@ Hello
 
 Need example code of position sensor
 
-##### DrakerDG 11/16/2021 16:00:02
+##### DrakerDG [Moderator] 11/16/2021 16:00:02
 \# Initialize sensor
 
 position\_sensor = robot.getDevice('position\_sensor')
@@ -30979,7 +30979,7 @@ Thank you so much
 
 could you also share the example code of rotational motor
 
-##### DrakerDG 11/16/2021 17:06:37
+##### DrakerDG [Moderator] 11/16/2021 17:06:37
 \# Initialize Motors
 
 left\_motor = robot.getDevice('left wheel motor')
@@ -31023,7 +31023,7 @@ can you provide the obj?
 ##### ykopoblete 11/17/2021 15:22:35
 Hello everyone, somebody knows how to know the direction of the robot? I mean, how can I get a vector of the robot?
 
-##### DrakerDG 11/17/2021 15:26:57
+##### DrakerDG [Moderator] 11/17/2021 15:26:57
 Where is your robot moving?  That's what you mean?
 
 ##### ykopoblete 11/17/2021 15:27:49
@@ -31032,7 +31032,7 @@ Yes, I need to set a goal but I need to calculate an angle between two vectors (
 
 The idea is that the robot get the direction of the goal
 
-##### DrakerDG 11/17/2021 15:29:52
+##### DrakerDG [Moderator] 11/17/2021 15:29:52
 Exist some ways to do this, one is thru Supervisor and other is using GPS
 
 ##### ykopoblete 11/17/2021 15:30:15
@@ -31041,7 +31041,7 @@ I use the supervisor. I don't have GPS in turtlebot3
 
 I was trying to understand .getOrientation and getPose, but I don't know exactly how to use it
 
-##### DrakerDG 11/17/2021 15:37:46
+##### DrakerDG [Moderator] 11/17/2021 15:37:46
 You only need know the translation vector of your robot
 
 ##### ykopoblete 11/17/2021 15:38:06
@@ -31056,7 +31056,7 @@ position = robot_node.getPosition()
 ##### ykopoblete 11/17/2021 15:44:05
 But that's only the point, right?
 
-##### DrakerDG 11/17/2021 15:44:57
+##### DrakerDG [Moderator] 11/17/2021 15:44:57
 Yes.
 
 
@@ -31089,19 +31089,19 @@ robotNode = robot.getSelf()
 ##### ykopoblete 11/17/2021 15:47:39
 But how I get the direction there?
 
-##### DrakerDG 11/17/2021 15:48:46
+##### DrakerDG [Moderator] 11/17/2021 15:48:46
 The position\_robot is a vector placed in an array
 
 ##### ykopoblete 11/17/2021 15:49:07
 Because the robot has to reach a goal. So what I'm thinking, is I have to calculate angle between two vector and then rotate the robot until angle is almost 0. Then go straight
 
-##### DrakerDG 11/17/2021 15:49:42
+##### DrakerDG [Moderator] 11/17/2021 15:49:42
 You can use trigonometry to operate vectors and obtain the direction
 
 ##### ykopoblete 11/17/2021 15:50:15
 Yes, so you are saying that I use the center (0,0,0) as reference right?
 
-##### DrakerDG 11/17/2021 15:51:31
+##### DrakerDG [Moderator] 11/17/2021 15:51:31
 Only you need the origin vector and goal vector to determine the direction
 
 
@@ -31113,7 +31113,7 @@ But I don't understand that. Because even If my robot is in (2,0,1) you don't kn
 
 You don't know where the velocity is pointing
 
-##### DrakerDG 11/17/2021 15:56:08
+##### DrakerDG [Moderator] 11/17/2021 15:56:08
 You need to know what values ​​of x, y, z change.  You must compare the current position with the previous one.
 
 
@@ -31122,7 +31122,7 @@ You can get the velocity with Supervisor too
 ##### ykopoblete 11/17/2021 15:58:28
 Thank you!
 
-##### DrakerDG 11/17/2021 16:04:20
+##### DrakerDG [Moderator] 11/17/2021 16:04:20
 👍
 
 ##### rhl\_k 11/17/2021 18:02:47
@@ -31171,7 +31171,7 @@ Can somebody tell me, why I get this deviation??? Upon 180 degree rotation the r
 ##### AP\_LISC 11/18/2021 14:48:18
 I made some changes to my supervisor controller and now Webots just crashes in a part of the code that I had not made any changes to. (All my changes are after where webots stops working - checked this with print statements to see which functions got executed). Is there a way to pull the crash logs so I can get a better idea of where things might be going bad?
 
-##### DrakerDG 11/18/2021 15:11:39
+##### DrakerDG [Moderator] 11/18/2021 15:11:39
 Hi! Share a screenshot or video about your code Issues please
 
 ##### AP\_LISC 11/18/2021 15:29:47
@@ -31579,7 +31579,7 @@ I fixed it by heavily increasing the maxTorque of the motor, which feels like a 
 ##### DDaniel [Cyberbotics] 11/24/2021 17:48:03
 did you take a look at the example world `coupled_motors` under `file > open sample world`, seems to be what you're looking for
 
-##### DrakerDG 11/25/2021 07:23:10
+##### DrakerDG [Moderator] 11/25/2021 07:23:10
 Thanks Daniel! Finally I managed to make a robot gripper work, with a parallelogram mechanism, an excellent example, I had already seen it but could not understand it. To be honest it seems like a puzzle. but it contains the concept of motor coupling, physics, relative solids and direction of rotation (multiplier)
 
 
@@ -32259,7 +32259,7 @@ Hey people I'm relatively new to webots and have been trying to differentiate th
 
 I've programmed the sensors so in the event the ground value exceed a certain number then the robot will turn but since both readings are the same the robot wont do what I want, i have tried looking at the robot window but the sensor names they use wont let me call them as they say these cannot be found
 
-##### DrakerDG 12/07/2021 14:11:17
+##### DrakerDG [Moderator] 12/07/2021 14:11:17
 The name of every sensor must be different between both
 
 ##### tenglvjun 12/07/2021 15:06:57
@@ -32316,7 +32316,7 @@ Can you elaborate? What exactly are you trying to achieve?
 ##### PrinceVickster06 12/08/2021 09:30:41
 As creating a autonomous system robot in webit
 
-##### musabcoskun 12/08/2021 14:28:16
+##### drl\_bot 12/08/2021 14:28:16
 Hi everyone, I want to integrate a touch sensor to the gripper of the youBot. But, so far I could not find an easy way and fast way to do it. Is there anyone who can help or give some tips for that. Thanks in advance. 🙂
 %figure
 ![tsensor.png](https://cdn.discordapp.com/attachments/565154703139405824/918146968138690570/tsensor.png)
@@ -32325,7 +32325,7 @@ Hi everyone, I want to integrate a touch sensor to the gripper of the youBot. Bu
 ##### [Red Dragons] Mat198 12/08/2021 15:21:26
 You want to measure contact force?
 
-##### musabcoskun 12/08/2021 16:22:53
+##### drl\_bot 12/08/2021 16:22:53
 Exactly and also want to fix it to the gripper, because when I run simulation its translation does not change with grippers'.
 
 ##### Max\_K 12/09/2021 16:43:32
@@ -32715,7 +32715,7 @@ All help is appreciated, thanks!
 ##### Natsdon 12/15/2021 18:37:26
 hey i have just recived this error whilst working on a working pyhon file "Forced termination (because process didn't terminate itself after 1 second)" does anyone know how to solve this
 
-##### DrakerDG 12/15/2021 19:05:13
+##### DrakerDG [Moderator] 12/15/2021 19:05:13
 You can use a group node in children transform
 
 ##### viet 12/15/2021 19:36:44
@@ -32754,7 +32754,7 @@ Hi, im trying to code a robot to solve a maze. The problem is that I don't know 
 ![431df704-7178-4ae8-abe9-46e0cb8d859d.png](https://cdn.discordapp.com/attachments/565154703139405824/920860972879585311/431df704-7178-4ae8-abe9-46e0cb8d859d.png)
 %end
 
-##### DrakerDG 12/16/2021 02:16:24
+##### DrakerDG [Moderator] 12/16/2021 02:16:24
 [https://www.google.com/amp/s/www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/amp/](https://www.google.com/amp/s/www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/amp/)
 
 ##### Amaral 12/16/2021 02:21:21
@@ -32763,7 +32763,7 @@ I see
 
 The thing is, the robot is a wall follower, but the distance sensor limit is 10cm. So whenever it tries to do this turnes it starts hopping into the wall
 
-##### DrakerDG 12/16/2021 06:09:37
+##### DrakerDG [Moderator] 12/16/2021 06:09:37
 Can you change the sensor limit?
 
 ##### Luftwaffel [Moderator] 12/16/2021 06:11:28
@@ -32847,7 +32847,7 @@ I have sensors currently but they are not catching the reading of the wall befor
 ##### Amaral 12/16/2021 21:13:35
 Each sensor have a maximum range, the ultrasonic for example is 10cm. So if the one you are currently using inst going far enough try changing it
 
-##### DrakerDG 12/16/2021 21:22:11
+##### DrakerDG [Moderator] 12/16/2021 21:22:11
 Don't forget that the ultrasonic have a blind point, aproxly at 45 grades to up
 
 
@@ -32881,7 +32881,7 @@ thanks
 
 Can webots write additional plugins?
 
-##### musabcoskun 12/19/2021 18:21:55
+##### drl\_bot 12/19/2021 18:21:55
 Hi guys, how can I get the position of any solidBox? any suggestion?  I tried the following code, but it doesn't work at all.       trans\_field = kukabox.getField("translation")
 
         values = trans\_field.getSFVec3f()
@@ -32891,7 +32891,7 @@ Hi guys, how can I get the position of any solidBox? any suggestion?  I tried th
 ##### [Red Dragons] Mat198 12/19/2021 18:23:20
 That should have worked. What kind of error message are you getting?
 
-##### musabcoskun 12/19/2021 18:24:29
+##### drl\_bot 12/19/2021 18:24:29
 the error I get:                                                                       
 
  [traj\_controller] Traceback (most recent call last):
@@ -32927,7 +32927,7 @@ obj = supervisor.getFromDef('objName')
 
 objPos = obj.getPosition() # This gives the position relative to the absolute referential
 
-##### musabcoskun 12/19/2021 18:49:15
+##### drl\_bot 12/19/2021 18:49:15
 I tried something similar, but I got error again. I added a supervisor to the environment and tried the code below: 
 
  def initialization(self):                                                 
@@ -32963,7 +32963,7 @@ I tried something similar, but I got error again. I added a supervisor to the en
 [action\_controller] AttributeError: 'NoneType' object has no attribute 'send'
 
 ##### Luftwaffel [Moderator] 12/19/2021 22:38:51
-`@musabcoskun` getReceiver and getEmitter is deprecated, use getDevice instead. This is a simple example of emitter - receiver communication
+`@drl_bot` getReceiver and getEmitter is deprecated, use getDevice instead. This is a simple example of emitter - receiver communication
 > **Attachment**: [emitter\_receiver\_test.rar](https://cdn.discordapp.com/attachments/565154703139405824/922256696011808848/emitter_receiver_test.rar)
 
 
@@ -33890,4 +33890,81 @@ I found that if I open the world with command line and redirect `stdout` and `st
 Got it, that makes sense, thank you!
 
 Oh and what about the question I had about VRML97? I can't seem to import those files in the 2022 version
+
+##### JaydenL1n 12/30/2021 01:46:31
+Hello! I'm wondering the possibility of embedding webots into another software for simulation demonstrating ( Webots takes the data from the software and show the animation "inside" the software). Is there any official API for this? Thank you!
+
+##### Simao 12/30/2021 17:09:35
+Hello! I followed the webots tutorial on the ROS2 documentation and have been implementing more stuff to it. I've been able to add a lidar and it reads correctly in ros using ros2 echo. Next I tried to implement a GPS, but using echo crashed ros
+
+
+[ERROR] [driver-2]: process has died [pid 15159, exit code -11, cmd '/opt/ros/foxy/lib/webots\_ros2\_driver/driver --ros-args --params-file /tmp/launch\_params\_dybbcm9g'].
+
+
+this is the error thrown
+
+##### m2a2 12/31/2021 00:22:45
+Howdy, is there a common pattern on how to distribute a webots simulation across multiple servers/hosts? or even how to run parallelized instance of a webots simulation across a computing cluster. Is this what Web Simulations will eventually do?
+
+##### Yannnick3 [Cyberbotics] 12/31/2021 09:47:11
+You can interface Webots with third-party softwares using the TCP/IP protocol. There is an example on the Khepera robot, located in `WEBOTS_HOME/projects/robots/k-team/khepera1/worlds` . The complete associated documentation can be found here: [https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip](https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip)
+
+##### Expert\_Amateur 12/31/2021 10:01:30
+Hi, could someone help me out with this issue?
+
+Thank you!
+
+##### drl\_bot 12/31/2021 16:08:30
+Hi, I'm tyring to grasp KukaBox with KUKA youBot using deep RL methods. But, I'm stuck at some points. The code needs some improvements for reward learning.  So, I need your help to get the position of KukaBox and youBot grippers' position. Because I want to minimize the distance between them. I hope, I could explain it enough. Any help of you would make me more than happy.
+
+##### DDaniel [Cyberbotics] 12/31/2021 17:18:56
+Indeed it was removed. I assume it's a robot you want to import which means there will be moving parts (wheels, arms, ...) so you will need at the very least to export these components individually (i.e as separate pieces), in STL or Obj format for example. Then on Webots, you can re-build your robot using the classic approach of adding nodes and joints for the moving parts ([https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)). What differs is that the geometries that comprise your robot are expressed in external files, which you can include by using the `Mesh` node (which you can add in the `geometry` field of a `Shape` node). If these parts are not centred, you can remove or change the offsets using other tools like Blender (you should be able to find how to on google/youtube).
+
+
+You can use a supervisor to retrieve the position of any `Solid` node ([https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_position](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_position)). Here you find a tutorial on how to add/use a supervisor: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
+
+##### drl\_bot 12/31/2021 17:26:13
+I can get the position of Kuka Box with the code below:                                                                                                                                                                                              
+
+        kuka\_tr = self.getFromDef('KUKABOX')
+
+        self.translationField = kuka\_tr.getField('translation')                                                                                                                                                                             
+
+        translationValues = self.translationField.getSFVec3f()
+
+
+But, I can not get the position of KUKA youBot's grippers
+
+##### Expert\_Amateur 12/31/2021 17:44:24
+Got it, thank you so much!
+
+
+Out of curiosity, what might be the reason it was removed? It seemed like a pretty convenient feature
+
+##### DDaniel [Cyberbotics] 12/31/2021 17:54:02
+The YouBot is defined as a PROTO (`projects/robots/kuka/youbot/protos`), so you will need to modify it by adding a `DEF GRIPPER` to the Solid node at line L150. Since this node is internal to the proto, you will need to use the `get_from_proto_def` function to retrieve a reference to it
+
+
+Not sure, but I think it's because it's a very old standard, as the 97 in the name suggests and increasingly less software supports exporting it (other than through addons and what not)
+
+##### drl\_bot 12/31/2021 18:06:29
+This is YouBot file. I don't understand which PROTO you mean. Could you make it clear, please?
+%figure
+![kukaps.png](https://cdn.discordapp.com/attachments/565154703139405824/926536808957878272/kukaps.png)
+%end
+
+##### DDaniel [Cyberbotics] 12/31/2021 18:06:58
+the last one, `youbot.proto`
+
+##### drl\_bot 12/31/2021 18:18:41
+Do you mean I should add just the term "DEF GRIPPER" to the line 170 and it will be enough to get a reference?
+%figure
+![ssproto.png](https://cdn.discordapp.com/attachments/565154703139405824/926539879691718708/ssproto.png)
+%end
+
+##### DDaniel [Cyberbotics] 12/31/2021 18:20:20
+Replace your L147 from `endPoint Solid {` to `endPoint DEF GRIPPER Solid {`
+
+##### Expert\_Amateur 12/31/2021 19:55:01
+Understood, thank you, really appreciate all your help : )
 

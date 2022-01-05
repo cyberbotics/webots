@@ -2,6 +2,14 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2022
+
+##### emabrey 01/02/2022 11:48:26
+Immediate Part-time 2-hours/week Online Instructor Role  for our RobocupJunior  Robotics Simulation Competition (using C/C++ - Webots)([https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/))   Teams of six members , between January and mid -June?   2 hours per week on Sundays from 1 to 3 pm (EST).  Very competitive rate, please apply here - [https://www.stormingrobots.com/prod/jobsForm.html](https://www.stormingrobots.com/prod/jobsForm.html) .
+
+
+Hi Draker, will you be interested in being an online instructor for our RobocupJunior  Robotics Simulation Competition Group, [https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/), between Jan and mid June?   - only 2 hours per week on Sunday from 1 to 3 pm (EST).  US$50 to $100 per class (depending on experience).
+
 ## 2021
 
 ##### Olivier Michel [Cyberbotics] 12/23/2021 17:22:10
@@ -41,13 +49,13 @@ We are happy to announce the publication of a new ROS 2 tutorial: Setting-up a R
 
 Any feedback about it is welcome.
 
-##### DrakerDG 12/16/2021 19:25:42
+##### DrakerDG [Moderator] 12/16/2021 19:25:42
 Yes, I know
 
 ##### emabrey 12/16/2021 13:26:20
 Never too old to teach 🙂 .
 
-##### DrakerDG 12/01/2021 00:03:43
+##### DrakerDG [Moderator] 12/01/2021 00:03:43
 I am too old 😔
 
 ##### emabrey 11/30/2021 23:25:48
