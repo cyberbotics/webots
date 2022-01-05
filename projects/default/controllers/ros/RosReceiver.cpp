@@ -19,18 +19,18 @@ RosReceiver::RosReceiver(Receiver *receiver, Ros *ros) : RosSensor(receiver->get
   mReceiver = receiver;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mSetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_channel", &RosReceiver::setChannelCallback);
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_channel", &RosReceiver::setChannelCallback);
   mGetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_channel", &RosReceiver::getChannelCallback);
-  mGetQueueLengthServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_queue_length",
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_channel", &RosReceiver::getChannelCallback);
+  mGetQueueLengthServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_queue_length",
                                                          &RosReceiver::getQueueLengthCallback);
   mNextPacketServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/next_packet", &RosReceiver::nextPacketCallback);
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/next_packet", &RosReceiver::nextPacketCallback);
   mGetDataSizeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_data_size", &RosReceiver::getDataSizeCallback);
-  mGetSignalStrengthServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_signal_strength",
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_data_size", &RosReceiver::getDataSizeCallback);
+  mGetSignalStrengthServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_signal_strength",
                                                             &RosReceiver::getSignalStrengthCallback);
-  mGetEmitterDirectionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_emitter_direction",
+  mGetEmitterDirectionServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_emitter_direction",
                                                               &RosReceiver::getEmitterDirectionCallback);
 }
 
@@ -48,7 +48,7 @@ RosReceiver::~RosReceiver() {
 // creates a publisher for receiver datas with a string as message type
 ros::Publisher RosReceiver::createPublisher() {
   webots_ros::StringStamped type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/data";
+  std::string topicName = RosDevice::fixedDeviceName() + "/data";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

@@ -19,7 +19,7 @@ RosGyro::RosGyro(Gyro *gyroscope, Ros *ros) : RosSensor(gyroscope->getName(), gy
   mGyro = gyroscope;
 
   mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
+    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
 }
 
 RosGyro::~RosGyro() {
@@ -30,7 +30,7 @@ RosGyro::~RosGyro() {
 // creates a publisher for Gyro values with a sensor_msgs/Imu as message type
 ros::Publisher RosGyro::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
+  std::string topicName = RosDevice::fixedDeviceName() + "/values";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

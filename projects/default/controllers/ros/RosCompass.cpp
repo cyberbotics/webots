@@ -19,7 +19,7 @@ RosCompass::RosCompass(Compass *compass, Ros *ros) : RosSensor(compass->getName(
   mCompass = compass;
 
   mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
+    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
 }
 
 RosCompass::~RosCompass() {
@@ -31,7 +31,7 @@ RosCompass::~RosCompass() {
 // for x,y and z north's coordinates as message type
 ros::Publisher RosCompass::createPublisher() {
   sensor_msgs::MagneticField type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
+  std::string topicName = RosDevice::fixedDeviceName() + "/values";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

@@ -20,7 +20,7 @@ RosAccelerometer::RosAccelerometer(Accelerometer *accelerometer, Ros *ros) :
   mAccelerometer = accelerometer;
 
   mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
+    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
 }
 
 RosAccelerometer::~RosAccelerometer() {
@@ -31,7 +31,7 @@ RosAccelerometer::~RosAccelerometer() {
 // creates a publisher for accelerometer values with a sensor_msgs/Imu as message type
 ros::Publisher RosAccelerometer::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
+  std::string topicName = RosDevice::fixedDeviceName() + "/values";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

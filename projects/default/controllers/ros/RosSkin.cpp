@@ -24,16 +24,16 @@ RosSkin::RosSkin(Skin *skin, Ros *ros) : RosDevice(skin, ros) {
   }
 
   mSetBoneOrientationServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + deviceNameFixed + '/' + "set_bone_orientation", &RosSkin::setBoneOrientationCallback);
-  mSetBonePositionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "set_bone_position",
+    deviceNameFixed + '/' + "set_bone_orientation", &RosSkin::setBoneOrientationCallback);
+  mSetBonePositionServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "set_bone_position",
                                                           &RosSkin::setBonePositionCallback);
-  mGetBoneNameServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_bone_name",
+  mGetBoneNameServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_bone_name",
                                                       &RosSkin::getBoneNameCallback);
-  mGetBoneCountServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_bone_count",
+  mGetBoneCountServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_bone_count",
                                                        &RosSkin::getBoneCountCallback);
   mGetBoneOrientationServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + deviceNameFixed + '/' + "get_bone_orientation", &RosSkin::getBoneOrientationCallback);
-  mGetBonePositionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_bone_position",
+    deviceNameFixed + '/' + "get_bone_orientation", &RosSkin::getBoneOrientationCallback);
+  mGetBonePositionServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_bone_position",
                                                           &RosSkin::getBonePositionCallback);
 
   mSkin = skin;

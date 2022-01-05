@@ -25,9 +25,9 @@ ros::Publisher RosMotorSensor::createPublisher() {
   webots_ros::Float64Stamped type;
   std::string topicName;
   if (mMotor->getType() == Motor::LINEAR)
-    topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/force_feedback";
+    topicName = RosDevice::fixedDeviceName() + "/force_feedback";
   else
-    topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/torque_feedback";
+    topicName = RosDevice::fixedDeviceName() + "/torque_feedback";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

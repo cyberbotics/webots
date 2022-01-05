@@ -20,9 +20,9 @@ RosRangeFinder::RosRangeFinder(RangeFinder *range_finder, Ros *ros) : RosSensor(
   mRangeFinder = range_finder;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mInfoServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
   mImageServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
 }
 
 RosRangeFinder::~RosRangeFinder() {
@@ -40,7 +40,7 @@ ros::Publisher RosRangeFinder::createPublisher() {
   type.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
   type.step = sizeof(float) * mRangeFinder->getWidth();
 
-  mRangeTopic = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/range_image";
+  mRangeTopic = RosDevice::fixedDeviceName() + "/range_image";
   return RosDevice::rosAdvertiseTopic(mRangeTopic, type);
 }
 
