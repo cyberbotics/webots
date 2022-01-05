@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -245,15 +245,15 @@ QToolBar *WbSimulationView::createToolBar() {
 
   mToolBar->addSeparator();
 
+  mToolBar->addAction(mTakeScreenshotAction);
+  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
+
   mToolBar->addAction(mMovieAction);
   mToolBar->widgetForAction(mMovieAction)->setObjectName("menuButton");
 
   action = manager->action(WbAction::ANIMATION);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
-
-  mToolBar->addAction(mTakeScreenshotAction);
-  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
 
   mToolBar->addSeparator();
 

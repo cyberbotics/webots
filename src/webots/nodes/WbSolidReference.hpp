@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,9 +47,6 @@ public:
   void updateName();
   bool pointsToStaticEnvironment() const { return mName->value() == STATIC_ENVIRONMENT; }
   static const QString STATIC_ENVIRONMENT;
-
-  // check if mSolid is a parent of this SolidReference instance
-  bool isClosedLoop() const;
 
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
