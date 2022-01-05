@@ -2044,5 +2044,6 @@ void dxClusteredWorldAndSpace::propagatePlaneParams(dxGeom *g, dReal a, dReal b,
 }
 
 void dxClusteredWorldAndSpace::propagateOffsetChange(dxGeom *g) {
+  spaces[staticGeomClusterIDMap[g]]->cleanGeoms();
   updateClusterAABBsAndTable(staticGeomClusterIDMap[g]);
 }
