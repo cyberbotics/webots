@@ -554,21 +554,6 @@ void robot_mutex_unlock_step() {
   wb_robot_mutex_unlock(robot_step_mutex);
 }
 
-void robot_step_begin(int duration) {
-  motion_step_all(duration);
-  robot_send_request(duration);
-}
-
-int robot_step_end() {
-  keyboard_step_end();
-  joystick_step_end();
-  robot_read_data();
-  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
-    return scheduler_actual_step;
-
-  return -1;
-}
-
 WbDeviceTag robot_get_device_tag(const WbDevice *d) {
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++) {
@@ -810,7 +795,7 @@ void wbr_robot_battery_sensor_set_value(double value) {
     robot.battery_value = value;
 }
 
-int wb_robot_step(int duration) {
+int wb_robot_step_begin(int duration) {
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
@@ -846,14 +831,38 @@ int wb_robot_step(int duration) {
   robot_window_pre_update_gui();
   robot_mutex_lock_step();
 
-  robot_step_begin(duration);
-  int e = robot_step_end();
+  motion_step_all(duration);
+  robot_send_request(duration);
+
+  return 0;
+}
+
+int wb_robot_step_end() {
+  if (robot.webots_exit == WEBOTS_EXIT_NOW)
+    return -1;
+  
+  keyboard_step_end();
+  joystick_step_end();
+  robot_read_data();
+
+  int e = -1;
+  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
+    e = scheduler_actual_step;
 
   if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL && remote_control_has_failed())
     wb_robot_set_mode(0, NULL);
 
   robot_mutex_unlock_step();
   robot_window_read_sensors();
+
+  return e;
+}
+
+int wb_robot_step(int duration) {
+  int e = wb_robot_step_begin(duration);
+  if(e==-1)
+    return e;  
+  e = wb_robot_step_end();
 
   return e;
 }
