@@ -834,10 +834,14 @@ int wb_robot_step_begin(int duration) {
   motion_step_all(duration);
   robot_send_request(duration);
 
+  robot_mutex_unlock_step();
+
   return 0;
 }
 
 int wb_robot_step_end() {
+  robot_mutex_lock_step();
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     return -1;
   
