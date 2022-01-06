@@ -311,8 +311,12 @@ void WbNewProtoWizard::updateBaseNode() {
   QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   policy.setHorizontalStretch(1);
 
+  QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
+
   QScrollArea *scrollArea = new QScrollArea();
-  QVBoxLayout *layout = new QVBoxLayout(mFields);
+  QWidget *mainWidget = new QWidget();
+
+  QVBoxLayout *layout = new QVBoxLayout(mainWidget);
 
   // QCheckBox *allCheckBox = new QCheckBox();
   // allCheckBox->setText("all");
@@ -323,11 +327,13 @@ void WbNewProtoWizard::updateBaseNode() {
     // printf("%s\n", protoParameter.toUtf8().constData());
     QCheckBox *fieldCheckBox = new QCheckBox();
     fieldCheckBox->setText(fieldModel->name());
-    // fieldCheckBox->setEnabled(false);
+    fieldCheckBox->setEnabled(false);
     layout->addWidget(fieldCheckBox);
   }
 
-  scrollArea->setWidget(mFields);
+  scrollArea->setWidget(mainWidget);
+
+  fieldsLayout->addWidget(scrollArea);
 }
 
 QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
