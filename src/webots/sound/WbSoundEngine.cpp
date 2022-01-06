@@ -78,13 +78,16 @@ static void init() {
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
 
   if (gDefaultDevice ||
-      !WbPreferences::instance()->value("Sound/OpenAL", true).toBool())  // init was already done or sound is mute
+      !WbPreferences::instance()->value("Sound/OpenAL", true).toBool())  // init was already done or no-audio asked
     return;
   qAddPostRoutine(cleanup);
   try {
     // defaultDeviceName contains the name of the def
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-    if (defaultDeviceName == NULL)
+    const ALCchar *alsaDevice = "ALSA Default";
+    if (defaultDeviceName == alsaDevice)  //"ALSA Default" = no sound device
+      return;
+    if ((defaultDeviceName == NULL))
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
     if (gDefaultDevice == NULL)

@@ -114,6 +114,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
 
 WbPreferences::~WbPreferences() {
   setValue("Internal/firstLaunch", false);
+  setValue("Sound/OpenAL", true);
 }
 
 void WbPreferences::setDefaultPythonCommand() {

@@ -217,7 +217,7 @@ thread.start()
 webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
-# speaker test not working on travis/github action because of missing sound drivers
+# disable audio on travis/github action because of missing sound device
 """ if ('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ):
     webotsArguments += ' --no-audio' """
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
