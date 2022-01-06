@@ -36,11 +36,11 @@ public:
   void accept() override;
   bool validateCurrentPage() override;
 
-  // user wants to edit the new physics plugin file
+  // user wants to edit the new PROTO file
   bool needsEdit() const;
 
-  // name of the new physic lugin file
-  const QString &physicsPluginName() const;
+  // name of the new PROTO file
+  const QString &protoName() const;
 
 protected:
 private slots:
@@ -50,7 +50,6 @@ private:
 
   QString mProtoDir;
   QString mProtoFullPath;
-  int mLanguage;
   QLabel *mFilesLabel;
   WbLineEdit *mNameEdit;
   QButtonGroup *mButtonGroup;
@@ -58,8 +57,8 @@ private:
 
   void updateUI();
   QWizardPage *createIntroPage();
-  QWizardPage *createLanguagePage();
   QWizardPage *createNamePage();
+  QWizardPage *createTagsPage();
   QWizardPage *createConclusionPage();
 };
 

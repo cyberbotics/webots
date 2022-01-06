@@ -44,16 +44,14 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 }
 
 void WbNewProtoWizard::updateUI() {
-  mLanguage = mButtonGroup->checkedId();
-
   // update paths
   mProtoDir = WbProject::current()->protosPath() + mNameEdit->text() + "/";
-  mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto"];
+  mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto";
 
   // update check box message
-  mEditCheckBox->setText(tr("Open '%1%2' in Text Editor.").arg(mNameEdit->text()).arg(EXT[mLanguage]));
+  mEditCheckBox->setText(tr("Open '%1.proto' in Text Editor.").arg(mNameEdit->text()));
 
-  QString files = mPhysicsDir + "\n" + mPhysicsFullPath + "\n" + mMakefileFullPath;
+  QString files = mProtoDir + "\n" + mProtoFullPath;
   mFilesLabel->setText(QDir::toNativeSeparators(files));
 }
 
@@ -67,19 +65,15 @@ bool WbNewProtoWizard::validateCurrentPage() {
 }
 
 void WbNewProtoWizard::accept() {
-  // create physics directory
-  bool success = QDir::root().mkpath(mPhysicsDir);
+  // create protos directory
+  bool success = QDir::root().mkpath(mProtoDir);
 
-  // copy controller from template (and replace "template")
-  QString src = WbStandardPaths::templatesPath() + "plugins/physics/template.c";
-  success = WbFileUtil::copyAndReplaceString(src, mPhysicsFullPath, "template", mNameEdit->text()) && success;
-
-  // copy Makefile from template
-  src = WbStandardPaths::templatesPath() + "plugins/physics/Makefile";
-  success = QFile::copy(src, mMakefileFullPath) && success;
+  // copy PROTO from template (and replace "template")
+  QString src = WbStandardPaths::templatesPath() + "protos/template.proto";
+  success = WbFileUtil::copyAndReplaceString(src, mProtoFullPath, "template", mNameEdit->text()) && success;
 
   if (!success)
-    WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("Physics creation failed"));
+    WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("PROTO creation failed"));
 
   mNeedsEdit = mEditCheckBox->isChecked();
 
@@ -90,8 +84,8 @@ bool WbNewProtoWizard::needsEdit() const {
   return mNeedsEdit;
 }
 
-const QString &WbNewProtoWizard::physicsPluginName() const {
-  return mPhysicsFullPath;
+const QString &WbNewProtoWizard::protoName() const {
+  return mProtoFullPath;
 }
 
 QWizardPage *WbNewProtoWizard::createIntroPage() {
@@ -130,17 +124,6 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
 
   page->setTitle(tr("Tags selection"));
   page->setSubTitle(tr("Please choose the tags of your PROTO."));
-
-  QVBoxLayout *layout = new QVBoxLayout(page);
-  mButtonGroup = new QButtonGroup(page);
-  QRadioButton *buttons[NUM];
-  for (int i = 0; i < NUM; i++) {
-    buttons[i] = new QRadioButton(LANG[i], page);
-    layout->addWidget(buttons[i]);
-    mButtonGroup->addButton(buttons[i], i);
-  }
-
-  buttons[0]->setChecked(true);
 
   return page;
 }
