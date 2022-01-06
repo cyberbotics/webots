@@ -29,6 +29,7 @@
 
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
@@ -63,6 +64,8 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
   setWindowTitle(tr("Create a new PROTO"));
+
+  setMaximumSize(800, 500);
 }
 
 void WbNewProtoWizard::updateUI() {
@@ -289,10 +292,10 @@ QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
   page->setTitle(tr("Exposed field selection"));
   page->setSubTitle(tr("Please choose which fields of the %1 node should be modifiable from the scene tree.").arg(mBaseNode));
 
-  QVBoxLayout *layout = new QVBoxLayout(page);
-
   mBaseNode = QString("Accelerometer");
   WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+
+  // QVBoxLayout *layout = new QVBoxLayout(page);
 
   printf("null field model? %d\n", nodeModel == NULL);
   const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
@@ -302,12 +305,26 @@ QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
 
   // QCheckBox *fieldCheckBoxes[n];
 
+  QScrollArea *scrollArea = new QScrollArea(page);
+  // scrollArea->setGeometry(0, 0, 800, 500);
+  QWidget *mainWidget = new QWidget();
+
+  QVBoxLayout *layout = new QVBoxLayout(mainWidget);
+
+  QCheckBox *allCheckBox = new QCheckBox();
+  allCheckBox->setText("all");
+  allCheckBox->setChecked(true);
+  layout->addWidget(allCheckBox);
+
   foreach (WbFieldModel *fieldModel, fieldModels) {
     // printf("%s\n", protoParameter.toUtf8().constData());
-    QCheckBox *fieldCheckBox = new QCheckBox(page);
+    QCheckBox *fieldCheckBox = new QCheckBox();
     fieldCheckBox->setText(fieldModel->name());
+    fieldCheckBox->setEnabled(false);
     layout->addWidget(fieldCheckBox);
   }
+
+  scrollArea->setWidget(mainWidget);
 
   return page;
 }
