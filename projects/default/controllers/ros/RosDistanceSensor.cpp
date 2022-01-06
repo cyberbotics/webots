@@ -24,10 +24,10 @@ RosDistanceSensor::RosDistanceSensor(DistanceSensor *distanceSensor, Ros *ros) :
                                                    &RosDistanceSensor::getMaxValueCallback);
   mApertureServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_aperture",
                                                    &RosDistanceSensor::getApertureCallback);
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosDistanceSensor::getLookupTable);
-  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_type",
-                                               &RosDistanceSensor::getTypeCallback);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosDistanceSensor::getLookupTable);
+  mTypeServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_type", &RosDistanceSensor::getTypeCallback);
 }
 
 RosDistanceSensor::~RosDistanceSensor() {
