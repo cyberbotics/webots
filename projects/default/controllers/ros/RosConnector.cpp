@@ -19,8 +19,7 @@ RosConnector::RosConnector(Connector *connector, Ros *ros) :
   RosSensor(connector->getName() + "/presence_sensor", connector, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mLockServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/lock", &RosConnector::lockCallback);
-  mIsLockedServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/is_locked", &RosConnector::isLockedCallback);
+  mIsLockedServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_locked", &RosConnector::isLockedCallback);
   mConnector = connector;
 }
 

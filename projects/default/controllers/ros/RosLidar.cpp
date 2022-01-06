@@ -22,20 +22,19 @@ RosLidar::RosLidar(Lidar *lidar, Ros *ros) : RosSensor(lidar->getName(), lidar, 
   mLidar = lidar;
   mIsPointCloudEnabled = false;
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
-  mEnablePointCloudServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "enable_point_cloud",
-                                                           &RosLidar::enablePointCloudCallback);
-  mGetFrequencyInfoServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_frequency_info",
-                                                           &RosLidar::getFrequencyInfoCallback);
-  mGetInfoServer =
-    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_info", &RosLidar::getInfoCallback);
-  mIsPointCloudEnabledServer = RosDevice::rosAdvertiseService(
-    deviceNameFixed + '/' + "is_point_cloud_enabled", &RosLidar::isPointCloudEnabledCallback);
-  mSetFrequencyServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "set_frequency",
-                                                       &RosLidar::setFrequencyCallback);
-  mGetLayerRangeImage = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_range_image",
-                                                       &RosLidar::getLayerRangeImage);
-  mGetLayerPointCloud = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_point_cloud",
-                                                       &RosLidar::getLayerPointCloud);
+  mEnablePointCloudServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "enable_point_cloud", &RosLidar::enablePointCloudCallback);
+  mGetFrequencyInfoServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_frequency_info", &RosLidar::getFrequencyInfoCallback);
+  mGetInfoServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_info", &RosLidar::getInfoCallback);
+  mIsPointCloudEnabledServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "is_point_cloud_enabled", &RosLidar::isPointCloudEnabledCallback);
+  mSetFrequencyServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "set_frequency", &RosLidar::setFrequencyCallback);
+  mGetLayerRangeImage =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_range_image", &RosLidar::getLayerRangeImage);
+  mGetLayerPointCloud =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_point_cloud", &RosLidar::getLayerPointCloud);
 }
 
 RosLidar::~RosLidar() {

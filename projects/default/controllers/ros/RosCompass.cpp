@@ -18,8 +18,8 @@
 RosCompass::RosCompass(Compass *compass, Ros *ros) : RosSensor(compass->getName(), compass, ros) {
   mCompass = compass;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
 }
 
 RosCompass::~RosCompass() {

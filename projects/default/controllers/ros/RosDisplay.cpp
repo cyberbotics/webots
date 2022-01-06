@@ -19,50 +19,30 @@
 RosDisplay::RosDisplay(Display *display, Ros *ros) : RosDevice(display, ros) {
   mDisplay = display;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mInfoServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosDisplay::getInfoCallback);
-  mColorServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_color", &RosDisplay::setColorCallback);
-  mAlphaServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_alpha", &RosDisplay::setAlphaCallback);
-  mOpacityServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_opacity", &RosDisplay::setOpacityCallback);
-  mFontServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_font", &RosDisplay::setFontCallback);
-  mAttachCameraServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/attach_camera", &RosDisplay::attachCameraCallback);
-  mDetachCameraServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/detach_camera", &RosDisplay::detachCameraCallback);
-  mDrawPixelServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_pixel", &RosDisplay::drawPixelCallback);
-  mDrawLineServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_line", &RosDisplay::drawLineCallback);
-  mDrawRectangleServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_rectangle",
-                                                        &RosDisplay::drawRectangleCallback);
-  mDrawOvalServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_oval", &RosDisplay::drawOvalCallback);
-  mDrawPolygonServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_polygon", &RosDisplay::drawPolygonCallback);
-  mDrawTextServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_text", &RosDisplay::drawTextCallback);
-  mFillRectangleServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_rectangle",
-                                                        &RosDisplay::fillRectangleCallback);
-  mFillOvalServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_oval", &RosDisplay::fillOvalCallback);
-  mFillPolygonServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_polygon", &RosDisplay::fillPolygonCallback);
-  mImageNewServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_new", &RosDisplay::imageNewCallback);
-  mImageCopyServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_copy", &RosDisplay::imageCopyCallback);
-  mImagePasteServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_paste", &RosDisplay::imagePasteCallback);
-  mImageLoadServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_load", &RosDisplay::imageLoadCallback);
-  mImageSaveServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_save", &RosDisplay::imageSaveCallback);
-  mImageDeleteServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/image_delete", &RosDisplay::imageDeleteCallback);
+  mInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosDisplay::getInfoCallback);
+  mColorServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_color", &RosDisplay::setColorCallback);
+  mAlphaServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_alpha", &RosDisplay::setAlphaCallback);
+  mOpacityServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_opacity", &RosDisplay::setOpacityCallback);
+  mFontServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_font", &RosDisplay::setFontCallback);
+  mAttachCameraServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/attach_camera", &RosDisplay::attachCameraCallback);
+  mDetachCameraServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/detach_camera", &RosDisplay::detachCameraCallback);
+  mDrawPixelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_pixel", &RosDisplay::drawPixelCallback);
+  mDrawLineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_line", &RosDisplay::drawLineCallback);
+  mDrawRectangleServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_rectangle", &RosDisplay::drawRectangleCallback);
+  mDrawOvalServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_oval", &RosDisplay::drawOvalCallback);
+  mDrawPolygonServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_polygon", &RosDisplay::drawPolygonCallback);
+  mDrawTextServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/draw_text", &RosDisplay::drawTextCallback);
+  mFillRectangleServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_rectangle", &RosDisplay::fillRectangleCallback);
+  mFillOvalServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_oval", &RosDisplay::fillOvalCallback);
+  mFillPolygonServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/fill_polygon", &RosDisplay::fillPolygonCallback);
+  mImageNewServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_new", &RosDisplay::imageNewCallback);
+  mImageCopyServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_copy", &RosDisplay::imageCopyCallback);
+  mImagePasteServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_paste", &RosDisplay::imagePasteCallback);
+  mImageLoadServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_load", &RosDisplay::imageLoadCallback);
+  mImageSaveServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_save", &RosDisplay::imageSaveCallback);
+  mImageDeleteServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/image_delete", &RosDisplay::imageDeleteCallback);
 }
 
 RosDisplay::~RosDisplay() {

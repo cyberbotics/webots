@@ -18,20 +18,16 @@
 RosReceiver::RosReceiver(Receiver *receiver, Ros *ros) : RosSensor(receiver->getName(), receiver, ros) {
   mReceiver = receiver;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetChannelServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_channel", &RosReceiver::setChannelCallback);
-  mGetChannelServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_channel", &RosReceiver::getChannelCallback);
-  mGetQueueLengthServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_queue_length",
-                                                         &RosReceiver::getQueueLengthCallback);
-  mNextPacketServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/next_packet", &RosReceiver::nextPacketCallback);
-  mGetDataSizeServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_data_size", &RosReceiver::getDataSizeCallback);
-  mGetSignalStrengthServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_signal_strength",
-                                                            &RosReceiver::getSignalStrengthCallback);
-  mGetEmitterDirectionServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_emitter_direction",
-                                                              &RosReceiver::getEmitterDirectionCallback);
+  mSetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_channel", &RosReceiver::setChannelCallback);
+  mGetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_channel", &RosReceiver::getChannelCallback);
+  mGetQueueLengthServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_queue_length", &RosReceiver::getQueueLengthCallback);
+  mNextPacketServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/next_packet", &RosReceiver::nextPacketCallback);
+  mGetDataSizeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_data_size", &RosReceiver::getDataSizeCallback);
+  mGetSignalStrengthServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_signal_strength", &RosReceiver::getSignalStrengthCallback);
+  mGetEmitterDirectionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_emitter_direction", &RosReceiver::getEmitterDirectionCallback);
 }
 
 RosReceiver::~RosReceiver() {

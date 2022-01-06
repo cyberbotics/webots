@@ -19,14 +19,12 @@
 RosRadar::RosRadar(Radar *radar, Ros *ros) : RosSensor(radar->getName(), radar, ros) {
   mRadar = radar;
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
-  mGetMaxRangeServer =
-    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_max_range", &RosRadar::getMaxRangeCallback);
-  mGetMinRangeServer =
-    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_min_range", &RosRadar::getMinRangeCallback);
-  mGetVerticalFovServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_vertical_fov",
-                                                         &RosRadar::getVerticalFovCallback);
-  mGetHorizontalFovServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_horizontal_fov",
-                                                           &RosRadar::getHorizontalFovCallback);
+  mGetMaxRangeServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_max_range", &RosRadar::getMaxRangeCallback);
+  mGetMinRangeServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_min_range", &RosRadar::getMinRangeCallback);
+  mGetVerticalFovServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_vertical_fov", &RosRadar::getVerticalFovCallback);
+  mGetHorizontalFovServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_horizontal_fov", &RosRadar::getHorizontalFovCallback);
 }
 
 RosRadar::~RosRadar() {
@@ -38,8 +36,7 @@ RosRadar::~RosRadar() {
 ros::Publisher RosRadar::createPublisher() {
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   webots_ros::Int8Stamped targetsNumberType;
-  mTargetsNumberPublisher =
-    RosDevice::rosAdvertiseTopic(deviceNameFixed + "/number_of_targets", targetsNumberType);
+  mTargetsNumberPublisher = RosDevice::rosAdvertiseTopic(deviceNameFixed + "/number_of_targets", targetsNumberType);
 
   webots_ros::RadarTarget type;
   std::string topicName = deviceNameFixed + "/targets";

@@ -20,10 +20,9 @@
 RosTouchSensor::RosTouchSensor(TouchSensor *touchSensor, Ros *ros) : RosSensor(touchSensor->getName(), touchSensor, ros) {
   mTouchSensor = touchSensor;
 
-  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type",
-                                               &RosTouchSensor::getTypeCallback);
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
+  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type", &RosTouchSensor::getTypeCallback);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
 }
 
 RosTouchSensor::~RosTouchSensor() {

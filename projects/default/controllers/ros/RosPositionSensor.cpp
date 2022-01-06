@@ -21,12 +21,11 @@
 RosPositionSensor::RosPositionSensor(PositionSensor *positionSensor, Ros *ros) :
   RosSensor(positionSensor->getName(), positionSensor, ros) {
   mPositionSensor = positionSensor;
-  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type",
-                                               &RosPositionSensor::getTypeCallback);
-  mGetBrakeNameServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_brake_name",
-                                                       &RosPositionSensor::getBrakeNameCallback);
-  mGetMotorNameServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_motor_name",
-                                                       &RosPositionSensor::getMotorNameCallback);
+  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type", &RosPositionSensor::getTypeCallback);
+  mGetBrakeNameServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_brake_name", &RosPositionSensor::getBrakeNameCallback);
+  mGetMotorNameServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_motor_name", &RosPositionSensor::getMotorNameCallback);
 }
 
 RosPositionSensor::~RosPositionSensor() {

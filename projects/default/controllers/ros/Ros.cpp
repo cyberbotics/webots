@@ -191,26 +191,20 @@ void Ros::launchRos(int argc, char **argv) {
   mGetUrdfService = mNodeHandle->advertiseService("robot/get_urdf", &Ros::getUrdfCallback, this);
   mGetDataService = mNodeHandle->advertiseService("robot/get_data", &Ros::getDataCallback, this);
   mSetDataService = mNodeHandle->advertiseService("robot/set_data", &Ros::setDataCallback, this);
-  mGetCustomDataService =
-    mNodeHandle->advertiseService("robot/get_custom_data", &Ros::getCustomDataCallback, this);
-  mSetCustomDataService =
-    mNodeHandle->advertiseService("robot/set_custom_data", &Ros::setCustomDataCallback, this);
+  mGetCustomDataService = mNodeHandle->advertiseService("robot/get_custom_data", &Ros::getCustomDataCallback, this);
+  mSetCustomDataService = mNodeHandle->advertiseService("robot/set_custom_data", &Ros::setCustomDataCallback, this);
   mGetModeService = mNodeHandle->advertiseService("robot/get_mode", &Ros::getModeCallback, this);
-  mGetSupervisorService =
-    mNodeHandle->advertiseService("robot/get_supervisor", &Ros::getSupervisorCallback, this);
+  mGetSupervisorService = mNodeHandle->advertiseService("robot/get_supervisor", &Ros::getSupervisorCallback, this);
   mGetSynchronizationService =
     mNodeHandle->advertiseService("robot/get_synchronization", &Ros::getSynchronizationCallback, this);
-  mGetProjectPathService =
-    mNodeHandle->advertiseService("robot/get_project_path", &Ros::getProjectPathCallback, this);
+  mGetProjectPathService = mNodeHandle->advertiseService("robot/get_project_path", &Ros::getProjectPathCallback, this);
   mGetWorldPathService = mNodeHandle->advertiseService("robot/get_world_path", &Ros::getWorldPathCallback, this);
-  mGetBasicTimeStepService =
-    mNodeHandle->advertiseService("robot/get_basic_time_step", &Ros::getBasicTimeStepCallback, this);
+  mGetBasicTimeStepService = mNodeHandle->advertiseService("robot/get_basic_time_step", &Ros::getBasicTimeStepCallback, this);
   mGetNumberOfDevicesService =
     mNodeHandle->advertiseService("robot/get_number_of_devices", &Ros::getNumberOfDevicesCallback, this);
   mGetTypeService = mNodeHandle->advertiseService("robot/get_type", &Ros::getTypeCallback, this);
   mSetModeService = mNodeHandle->advertiseService("robot/set_mode", &Ros::setModeCallback, this);
-  mWwiReceiveTextService =
-    mNodeHandle->advertiseService("robot/wwi_receive_text", &Ros::wwiReceiveTextCallback, this);
+  mWwiReceiveTextService = mNodeHandle->advertiseService("robot/wwi_receive_text", &Ros::wwiReceiveTextCallback, this);
   mWwiSendTextService = mNodeHandle->advertiseService("robot/wwi_send_text", &Ros::wwiSendTextCallback, this);
 
   if (mShouldPublishClock)

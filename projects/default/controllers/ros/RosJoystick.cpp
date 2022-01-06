@@ -20,22 +20,18 @@ RosJoystick::RosJoystick(Joystick *joystick, Ros *ros) : RosSensor("joystick", N
   mAxesValuePublisher = NULL;
   mPovsValuePublisher = NULL;
   mGetModelServer = RosDevice::rosAdvertiseService("joystick/get_model", &RosJoystick::getModelCallback);
-  mGetNumberOfAxesServer =
-    RosDevice::rosAdvertiseService("joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
-  mGetNumberOfPovsServer =
-    RosDevice::rosAdvertiseService("joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
-  mIsConnectedServer =
-    RosDevice::rosAdvertiseService("joystick/is_connected", &RosJoystick::isConnectedCallback);
+  mGetNumberOfAxesServer = RosDevice::rosAdvertiseService("joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
+  mGetNumberOfPovsServer = RosDevice::rosAdvertiseService("joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
+  mIsConnectedServer = RosDevice::rosAdvertiseService("joystick/is_connected", &RosJoystick::isConnectedCallback);
   mSetConstantForceServer =
     RosDevice::rosAdvertiseService("joystick/set_constant_force", &RosJoystick::setConstantForceCallback);
-  mSetConstantForceDurationServer = RosDevice::rosAdvertiseService("joystick/set_constant_force_duration",
-                                                                   &RosJoystick::setConstantForceDurationCallback);
+  mSetConstantForceDurationServer =
+    RosDevice::rosAdvertiseService("joystick/set_constant_force_duration", &RosJoystick::setConstantForceDurationCallback);
   mSetAutoCenteringGainServer =
     RosDevice::rosAdvertiseService("joystick/set_auto_centering_gain", &RosJoystick::setAutoCenteringCallback);
   mSetResistanceGainServer =
     RosDevice::rosAdvertiseService("joystick/set_resistance_gain", &RosJoystick::setResistanceGainCallback);
-  mSetForceAxisServer =
-    RosDevice::rosAdvertiseService("joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
+  mSetForceAxisServer = RosDevice::rosAdvertiseService("joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
 }
 
 RosJoystick::~RosJoystick() {

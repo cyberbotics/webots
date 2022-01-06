@@ -18,8 +18,8 @@
 RosGyro::RosGyro(Gyro *gyroscope, Ros *ros) : RosSensor(gyroscope->getName(), gyroscope, ros) {
   mGyro = gyroscope;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
 }
 
 RosGyro::~RosGyro() {

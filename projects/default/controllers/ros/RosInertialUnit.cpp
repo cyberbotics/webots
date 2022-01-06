@@ -19,8 +19,7 @@
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
 
-  mNoiseServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_noise",
-                                                &RosInertialUnit::getNoise);
+  mNoiseServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_noise", &RosInertialUnit::getNoise);
 }
 
 RosInertialUnit::~RosInertialUnit() {

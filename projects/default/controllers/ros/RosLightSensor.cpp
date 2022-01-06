@@ -18,8 +18,8 @@
 RosLightSensor::RosLightSensor(LightSensor *lightSensor, Ros *ros) : RosSensor(lightSensor->getName(), lightSensor, ros) {
   mLightSensor = lightSensor;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
 }
 
 RosLightSensor::~RosLightSensor() {

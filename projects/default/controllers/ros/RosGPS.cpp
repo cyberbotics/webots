@@ -19,11 +19,10 @@
 
 RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
   mGPS = gps;
-  mCoordinateTypeServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + "/get_coordinate_system", &RosGPS::getCoordinateTypeCallback);
-  mConvertServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + "/decimal_degrees_to_degrees_minutes_seconds",
-    &RosGPS::convertToDegreesMinutesSecondsCallback);
+  mCoordinateTypeServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_coordinate_system", &RosGPS::getCoordinateTypeCallback);
+  mConvertServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/decimal_degrees_to_degrees_minutes_seconds",
+                                                  &RosGPS::convertToDegreesMinutesSecondsCallback);
 }
 
 RosGPS::~RosGPS() {
