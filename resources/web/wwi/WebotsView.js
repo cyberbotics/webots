@@ -14,14 +14,14 @@ export default class WebotsView extends HTMLElement {
 
     this._initialCallbackDone = true;
     this.animationCSS = document.createElement('link');
-    this.animationCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/animation.css';
+    this.animationCSS.href = 'https://cyberbotics.com/wwi/R2022a/css/animation.css';
     this.animationCSS.type = 'text/css';
     this.animationCSS.rel = 'stylesheet';
     this.animationCSS.disabled = true;
     document.head.appendChild(this.animationCSS);
 
     this.streamingCSS = document.createElement('link');
-    this.streamingCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/wwi.css';
+    this.streamingCSS.href = 'https://cyberbotics.com/wwi/R2022a/css/wwi.css';
     this.streamingCSS.type = 'text/css';
     this.streamingCSS.rel = 'stylesheet';
     this.streamingCSS.disabled = true;
@@ -33,7 +33,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2022b/" + path;
+          return "https://cyberbotics.com/wwi/R2022a/" + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -68,9 +68,9 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
       });
     };
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/dependencies/glm-js.min.js'));
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/enum.js'));
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
   _closeWhenDOMElementRemoved() {

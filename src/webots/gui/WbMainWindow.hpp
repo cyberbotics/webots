@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,11 +23,9 @@
 #include <QtWidgets/QMainWindow>
 
 #include "WbLog.hpp"
-#include "WbShareWindow.hpp"
 
 class WbBuildEditor;
 class WbConsole;
-class WbLinkWindow;
 class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
@@ -81,10 +79,6 @@ public slots:
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
-  void exportHtmlFiles();
-
-  void uploadScene();
-  void startAnimationRecording();
 
 protected:
   bool event(QEvent *event) override;
@@ -102,6 +96,7 @@ private slots:
   void resetGui(bool restartControllers);
   void importVrml();
   void exportVrml();
+  void exportHtml();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();
@@ -137,16 +132,12 @@ private slots:
   void deleteWorldLoadingProgressDialog();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);
+  void startAnimationRecording();
   void stopAnimationRecording();
   void toggleAnimationIcon();
   void toggleAnimationAction(bool isRecording);
   void enableAnimationAction();
   void disableAnimationAction();
-
-  void ShareMenu();
-  void upload(char type);
-  void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
-  void uploadFinished();
 
 private:
   void showHtmlRobotWindow(WbRobot *);
@@ -167,7 +158,6 @@ private:
   QAction *mToggleFullScreenAction;
   QAction *mExitFullScreenAction;
   QProgressDialog *mWorldLoadingProgressDialog;
-  QProgressDialog *mUploadProgressDialog;
   QTimer *mAnimationRecordingTimer;
   bool mIsFullScreenLocked;
   bool mWorldIsBeingDeleted;
@@ -208,7 +198,6 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbStreamingServer *mStreamingServer;
-  WbLinkWindow *mLinkWindow;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
