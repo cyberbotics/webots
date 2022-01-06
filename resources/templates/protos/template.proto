@@ -1,6 +1,4 @@
 #VRML_SIM %release% utf8
-# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-# license url: https://cyberbotics.com/webots_assets_license
 %tags%
 
 PROTO %name% [
@@ -8,5 +6,3 @@ PROTO %name% [
 ]{
 
 }
-
-

@@ -14,11 +14,13 @@
 
 #include "WbNewProtoWizard.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
 #include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbVersion.hpp"
 
 #include <QtGui/QRegExpValidator>
 
@@ -38,6 +40,15 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createTagsPage());
   addPage(createConclusionPage());
 
+  mProceduralCheckBox->setChecked(true);
+  mProceduralCheckBox->setText("Allow template scripting");
+  mStaticCheckBox->setChecked(true);
+  mStaticCheckBox->setText("Make static");
+  mNonDeterministic->setChecked(false);
+  mNonDeterministic->setText("The result of the PROTO may vary in a non-deterministic way (time-based seed, ...)");
+  mHiddenCheckBox->setChecked(false);
+  mHiddenCheckBox->setText("Hide from new node menu");
+
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
   setWindowTitle(tr("Create a new PROTO"));
@@ -45,7 +56,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 
 void WbNewProtoWizard::updateUI() {
   // update paths
-  mProtoDir = WbProject::current()->protosPath() + mNameEdit->text() + "/";
+  mProtoDir = WbProject::current()->protosPath();
   mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto";
 
   // update check box message
@@ -68,9 +79,46 @@ void WbNewProtoWizard::accept() {
   // create protos directory
   bool success = QDir::root().mkpath(mProtoDir);
 
-  // copy PROTO from template (and replace "template")
+  // copy PROTO from template and rename
   QString src = WbStandardPaths::templatesPath() + "protos/template.proto";
   success = WbFileUtil::copyAndReplaceString(src, mProtoFullPath, "template", mNameEdit->text()) && success;
+
+  if (success) {
+    QFile file(protoName());
+    if (!file.open(QIODevice::ReadWrite)) {
+      WbMessageBox::warning(tr("PROTO template not found."), this, tr("PROTO creation failed"));
+      return;
+    }
+
+    QByteArray protoContent = file.readAll();
+
+    QString tags;
+    if (mProceduralCheckBox->isChecked())
+      tags = "# template language: javascript\n# tags: ";
+    else
+      tags = "# tags: ";
+
+    if (mStaticCheckBox->isChecked())
+      tags += "static, ";
+    if (mNonDeterministic->isChecked())
+      tags += "nonDeterministic, ";
+    if (mHiddenCheckBox->isChecked())
+      tags += "hidden, ";
+
+    if (mStaticCheckBox->isChecked() || mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked())
+      tags.chop(2);
+    else
+      tags.chop(QString("# tags: ").length());
+
+    QString version = WbApplicationInfo::version().toString(false);
+    protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
+    protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
+    protoContent.replace(QByteArray("%release%"), version.toUtf8());
+
+    file.seek(0);
+    file.write(protoContent);
+    file.close();
+  }
 
   if (!success)
     WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("PROTO creation failed"));
@@ -124,6 +172,16 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
 
   page->setTitle(tr("Tags selection"));
   page->setSubTitle(tr("Please choose the tags of your PROTO."));
+
+  mHiddenCheckBox = new QCheckBox(page);
+  mStaticCheckBox = new QCheckBox(page);
+  mNonDeterministic = new QCheckBox(page);
+  mProceduralCheckBox = new QCheckBox(page);
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  layout->addWidget(mProceduralCheckBox);
+  layout->addWidget(mStaticCheckBox);
+  layout->addWidget(mNonDeterministic);
+  layout->addWidget(mHiddenCheckBox);
 
   return page;
 }

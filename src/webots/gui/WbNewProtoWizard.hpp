@@ -52,8 +52,11 @@ private:
   QString mProtoFullPath;
   QLabel *mFilesLabel;
   WbLineEdit *mNameEdit;
-  QButtonGroup *mButtonGroup;
   QCheckBox *mEditCheckBox;
+  QCheckBox *mHiddenCheckBox;
+  QCheckBox *mStaticCheckBox;
+  QCheckBox *mNonDeterministic;
+  QCheckBox *mProceduralCheckBox;
 
   void updateUI();
   QWizardPage *createIntroPage();
