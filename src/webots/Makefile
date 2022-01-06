@@ -347,6 +347,7 @@ QT_SOURCES += \
   WbNewControllerWizard.cpp \
   WbNewPhysicsPluginWizard.cpp \
   WbNewProjectWizard.cpp \
+  WbNewProtoWizard.cpp \
   WbNewVersionDialog.cpp \
   WbNode.cpp \
   WbNodeEditor.cpp \
