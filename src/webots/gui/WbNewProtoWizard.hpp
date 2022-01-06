@@ -56,7 +56,6 @@ private:
   WbLineEdit *mNameEdit;
   QCheckBox *mEditCheckBox;
   QCheckBox *mHiddenCheckBox;
-  QCheckBox *mStaticCheckBox;
   QCheckBox *mNonDeterministic;
   QCheckBox *mProceduralCheckBox;
   QTreeWidget *mTree;

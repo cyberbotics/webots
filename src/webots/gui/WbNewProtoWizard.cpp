@@ -32,7 +32,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
 
-enum { INTRO, LANGUAGE, NAME, CONCLUSION };
+enum { INTRO, LANGUAGE, NAME, CONCLUSION };  // TODO: modify accordingly
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
@@ -43,15 +43,19 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createBaseNodePage());
   addPage(createConclusionPage());
 
-  mProceduralCheckBox->setChecked(true);
-  mProceduralCheckBox->setText("Allow template scripting");
-  mProceduralCheckBox->setToolTip("TODO");
-  mStaticCheckBox->setChecked(true);
-  mStaticCheckBox->setText("Make static");
+  mProceduralCheckBox->setChecked(false);
+  mProceduralCheckBox->setText("Procedural PROTO");
+  mProceduralCheckBox->setToolTip(
+    "By enabling this option, JavaScript template scripting can be used to generate PROTO in a procedural way.");
   mNonDeterministic->setChecked(false);
-  mNonDeterministic->setText("The result of the PROTO may vary in a non-deterministic way (time-based seed, ...)");
+  mNonDeterministic->setText("Non-deterministic PROTO");
+  mNonDeterministic->setToolTip(
+    "A non-deterministic PROTO is a PROTO where the same fields can potentially yield a different result from run to run. This "
+    "is often the case if random number generation with time-based seeds are employed.");
   mHiddenCheckBox->setChecked(false);
-  mHiddenCheckBox->setText("Hide from new node menu");
+  mHiddenCheckBox->setText("Hidden PROTO");
+  mHiddenCheckBox->setToolTip("A hidden PROTO will not appear in the list when adding a new node. This tag is often used for "
+                              "sub-PROTO, as uninteresting components of a larger node.");
 
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
@@ -102,14 +106,12 @@ void WbNewProtoWizard::accept() {
     else
       tags = "# tags: ";
 
-    if (mStaticCheckBox->isChecked())
-      tags += "static, ";
     if (mNonDeterministic->isChecked())
       tags += "nonDeterministic, ";
     if (mHiddenCheckBox->isChecked())
       tags += "hidden, ";
 
-    if (mStaticCheckBox->isChecked() || mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked())
+    if (mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked())
       tags.chop(2);
     else
       tags.chop(QString("# tags: ").length());
@@ -180,12 +182,10 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   page->setSubTitle(tr("Please choose the tags of your PROTO."));
 
   mHiddenCheckBox = new QCheckBox(page);
-  mStaticCheckBox = new QCheckBox(page);
   mNonDeterministic = new QCheckBox(page);
   mProceduralCheckBox = new QCheckBox(page);
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(mProceduralCheckBox);
-  layout->addWidget(mStaticCheckBox);
   layout->addWidget(mNonDeterministic);
   layout->addWidget(mHiddenCheckBox);
 
@@ -221,6 +221,7 @@ QWizardPage *WbNewProtoWizard::createBaseNodePage() {
 
 void WbNewProtoWizard::updateNodeTree() {
   mTree->clear();
+  mTree->setHeaderHidden(true);
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")));
   QStringList nodes = WbNodeModel::baseModelNames();
