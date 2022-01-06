@@ -19,8 +19,8 @@ RosAccelerometer::RosAccelerometer(Accelerometer *accelerometer, Ros *ros) :
   RosSensor(accelerometer->getName(), accelerometer, ros) {
   mAccelerometer = accelerometer;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
 }
 
 RosAccelerometer::~RosAccelerometer() {
