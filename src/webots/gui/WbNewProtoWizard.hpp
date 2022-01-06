@@ -59,6 +59,7 @@ private:
   QCheckBox *mNonDeterministic;
   QCheckBox *mProceduralCheckBox;
   QTreeWidget *mTree;
+  QWidget *mFields;
   QLineEdit *mFindLineEdit;
 
   void updateUI();

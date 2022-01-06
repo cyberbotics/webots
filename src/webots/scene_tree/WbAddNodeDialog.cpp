@@ -133,6 +133,9 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   QVBoxLayout *const rightPaneLayout = new QVBoxLayout();
   QVBoxLayout *const nodeInfoLayout = new QVBoxLayout();
 
+  rightPaneLayout->setSizeConstraint(QLayout::SetFixedSize);
+  nodeInfoLayout->setSizeConstraint(QLayout::SetFixedSize);
+
   nodeInfoLayout->addWidget(mPixmapLabel, 0, Qt::AlignHCenter);
   nodeInfoLayout->addWidget(mInfoText);
   nodeInfoLayout->addWidget(mDocumentationLabel);
