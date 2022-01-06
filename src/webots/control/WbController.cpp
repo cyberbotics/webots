@@ -713,7 +713,9 @@ void WbController::processError(QProcess::ProcessError error) {
 
 WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
   QDir dir(controllerPath);
-  if (dir.exists(name() + WbStandardPaths::executableExtension()))
+  if (dir.exists("Dockerfile"))
+    return WbFileUtil::DOCKER;
+  else if (dir.exists(name() + WbStandardPaths::executableExtension()))
     return WbFileUtil::EXECUTABLE;
   else if (dir.exists(QString("build/release/%1%2").arg(name()).arg(WbStandardPaths::executableExtension())))
     return WbFileUtil::EXECUTABLE;
@@ -727,8 +729,6 @@ WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
     return WbFileUtil::MATLAB;
   else if (dir.exists(name() + ".bsg"))
     return WbFileUtil::BOTSTUDIO;
-  else if (dir.exists("Dockerfile"))
-    return WbFileUtil::DOCKER;
 
   return WbFileUtil::UNKNOWN;
 }
