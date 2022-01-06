@@ -62,18 +62,9 @@ This feature is useful for importing complex objects that were modeled in a 3D m
 Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
 You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
 The following formats are supported:
-  - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
-  - [Blender](https://www.blender.org/) files (.blend).
-  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bvh).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
-  - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
-  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.wrl).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
-  - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
-
-> **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
-
 
 - The **Export VRML97...** item allows you to save the currently loaded world as a ".wrl" file, conforming to the VRML97 standard.
 Such a file can, in turn, be opened with any VRML97 viewer and most 3D modeling software.

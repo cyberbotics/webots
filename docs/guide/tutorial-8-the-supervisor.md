@@ -684,7 +684,7 @@ Ignore the warning, it will disappear.
 12. Navigate to the location of this project and open the world file `my_supervisor.wbt` using a text editor.
 Locate where our ball is described, the line starts with `DEF BALL Solid ...`.
 Select and copy the description.
-Open an empty text file, as a first line add `#VRML_OBJ R2021b` and then paste the description of the Solid.
+Open an empty text file, as a first line add `#VRML_OBJ {{ webots.version.major }}` and then paste the description of the Solid.
 This text file needs to be saved, named `custom_ball.wbo`, in the `controllers / supervisor_controller"` directory!
 13. Re-open Webots and delete the Solid we just created from the scene tree, we will not need it anymore since we will spawn it from the `.wbo` file.
 
@@ -844,7 +844,7 @@ The description of the ball provided below.
 It must be named `custom_ball.wbo` and saved in the controller's directory.
 
 ```
-#VRML_OBJ R2021b
+#VRML_OBJ {{ webots.version.major }}
 
 DEF BALL Solid {
   translation 0 1 1

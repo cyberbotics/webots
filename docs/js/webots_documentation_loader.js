@@ -23,7 +23,7 @@ async function init() {
   document.head.appendChild(script);
 
   let promises = [];
-  promises.push(loadScript('https://git.io/glm-js.min.js'));
+  promises.push(loadScript('https://cdn.jsdelivr.net/npm/glm-js@0.0.6-c/build/glm-js.min.js'));
   promises.push(loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
   promises.push(loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
 
