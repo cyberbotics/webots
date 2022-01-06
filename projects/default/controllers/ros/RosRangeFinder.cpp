@@ -19,10 +19,8 @@
 RosRangeFinder::RosRangeFinder(RangeFinder *range_finder, Ros *ros) : RosSensor(range_finder->getName(), range_finder, ros) {
   mRangeFinder = range_finder;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mInfoServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
-  mImageServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
+  mInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
+  mImageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
 }
 
 RosRangeFinder::~RosRangeFinder() {
