@@ -15,6 +15,7 @@
 #include "WbNewProtoWizard.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbFieldModel.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
@@ -40,22 +41,24 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
   addPage(createNamePage());
   addPage(createTagsPage());
-  addPage(createBaseNodePage());
+  addPage(createBaseNodeSelectorPage());
+  addPage(createExposedFieldSelectorPage());
   addPage(createConclusionPage());
 
   mProceduralCheckBox->setChecked(false);
-  mProceduralCheckBox->setText("Procedural PROTO");
+  mProceduralCheckBox->setText(tr("Procedural PROTO"));
   mProceduralCheckBox->setToolTip(
-    "By enabling this option, JavaScript template scripting can be used to generate PROTO in a procedural way.");
+    tr("By enabling this option, JavaScript template scripting can be used to generate PROTO in a procedural way."));
   mNonDeterministic->setChecked(false);
-  mNonDeterministic->setText("Non-deterministic PROTO");
-  mNonDeterministic->setToolTip(
+  mNonDeterministic->setText(tr("Non-deterministic PROTO"));
+  mNonDeterministic->setToolTip(tr(
     "A non-deterministic PROTO is a PROTO where the same fields can potentially yield a different result from run to run. This "
-    "is often the case if random number generation with time-based seeds are employed.");
+    "is often the case if random number generation with time-based seeds are employed."));
   mHiddenCheckBox->setChecked(false);
-  mHiddenCheckBox->setText("Hidden PROTO");
-  mHiddenCheckBox->setToolTip("A hidden PROTO will not appear in the list when adding a new node. This tag is often used for "
-                              "sub-PROTO, as uninteresting components of a larger node.");
+  mHiddenCheckBox->setText(tr("Hidden PROTO"));
+  mHiddenCheckBox->setToolTip(
+    tr("A hidden PROTO will not appear in the list when adding a new node. This tag is often used for "
+       "sub-PROTO, as uninteresting components of a larger node."));
 
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
@@ -116,12 +119,30 @@ void WbNewProtoWizard::accept() {
     else
       tags.chop(QString("# tags: ").length());
 
+    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+    const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
+
+    QString parameters = "";
+    foreach (WbFieldModel *fieldModel, fieldModels) {
+      WbValue *defaultValue = fieldModel->defaultValue();
+      parameters +=
+        "  field " + defaultValue->vrmlTypeName() + " " + fieldModel->name() + " " + defaultValue->toString() + "\n";
+      printf("%s", parameters.toUtf8().constData());
+    }
+
     QString version = WbApplicationInfo::version().toString(false);
-    QString body = mBaseNode.isEmpty() ? "" : mBaseNode + " {\n  }";
+    // QString body = mBaseNode.isEmpty() ? "" : "  " + mBaseNode + " {\n  }";
+    QString body = "  " + mBaseNode + " {\n";
+    foreach (WbFieldModel *fieldModel, fieldModels) {
+      body += "    " + fieldModel->name() + " IS " + fieldModel->name() + "\n";
+    }
+    body += "  }";
+
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
     protoContent.replace(QByteArray("%release%"), version.toUtf8());
     protoContent.replace(QByteArray("%basenode%"), body.toUtf8());
+    protoContent.replace(QByteArray("%parameters%"), parameters.toUtf8());
 
     file.seek(0);
     file.write(protoContent);
@@ -192,7 +213,7 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   return page;
 }
 
-QWizardPage *WbNewProtoWizard::createBaseNodePage() {
+QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
   QWizardPage *page = new QWizardPage(this);
   QVBoxLayout *layout = new QVBoxLayout(page);
 
@@ -260,6 +281,35 @@ void WbNewProtoWizard::updateBaseNode() {
     mBaseNode = selectedItem->text(0);
 
   printf("%s\n", mBaseNode.toUtf8().constData());
+}
+
+QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
+  QWizardPage *page = new QWizardPage(this);
+
+  page->setTitle(tr("Exposed field selection"));
+  page->setSubTitle(tr("Please choose which fields of the %1 node should be modifiable from the scene tree.").arg(mBaseNode));
+
+  QVBoxLayout *layout = new QVBoxLayout(page);
+
+  mBaseNode = QString("Accelerometer");
+  WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+
+  printf("null field model? %d\n", nodeModel == NULL);
+  const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
+
+  int n = fieldModels.size();
+  // printf("fields: %d\n", n);
+
+  // QCheckBox *fieldCheckBoxes[n];
+
+  foreach (WbFieldModel *fieldModel, fieldModels) {
+    // printf("%s\n", protoParameter.toUtf8().constData());
+    QCheckBox *fieldCheckBox = new QCheckBox(page);
+    fieldCheckBox->setText(fieldModel->name());
+    layout->addWidget(fieldCheckBox);
+  }
+
+  return page;
 }
 
 QWizardPage *WbNewProtoWizard::createConclusionPage() {

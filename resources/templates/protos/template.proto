@@ -2,7 +2,8 @@
 %tags%
 
 PROTO %name% [
-
-]{
-  %basenode%
+%parameters%
+]
+{
+%basenode%
 }

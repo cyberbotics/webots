@@ -67,7 +67,8 @@ private:
   QWizardPage *createIntroPage();
   QWizardPage *createNamePage();
   QWizardPage *createTagsPage();
-  QWizardPage *createBaseNodePage();
+  QWizardPage *createBaseNodeSelectorPage();
+  QWizardPage *createExposedFieldSelectorPage();
   QWizardPage *createConclusionPage();
 };
 
