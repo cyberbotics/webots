@@ -843,6 +843,10 @@ void WbController::startDocker() {
     return;
   }
   const QString image(dockerBuild.readAll().trimmed());
+  if (image.isEmpty()) {
+    warn(tr("Failed to build the docker image in '%1'.").arg(mControllerPath));
+    return;
+  }
   const QStringList dockerArguments = {
     "run",  "--network",
     "none",  // add "--cpu-shares", "512",
