@@ -574,6 +574,8 @@ void dGeomPlaneSetParams_MT (dGeomID g, dReal a, dReal b, dReal c, dReal d, dGeo
 }
 
 void dGeomOffset_MT (dxGeom *g) {
+  g->recomputeAABB();
+
   if (clusterManager->currentCWAS) {
       clusterManager->currentCWAS->propagateOffsetChange(g);
   }
