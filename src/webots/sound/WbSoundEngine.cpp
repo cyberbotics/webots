@@ -37,7 +37,6 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
-#include <QtCore/qdebug.h>
 #include <ode/ode.h>
 
 #include <cassert>
@@ -83,13 +82,8 @@ static void init() {
     return;
   qAddPostRoutine(cleanup);
   try {
-    const ALCchar *devices;
-    // Pass in NULL device handle to get list of *all* devices
-    devices = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
-
     // defaultDeviceName contains the name of the def
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-    qDebug() << "devices:" << devices << "defaultDeviceName:" << defaultDeviceName;
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);

@@ -14,6 +14,7 @@
 
 #include "WbActionManager.hpp"
 
+#include "WbPreferences.hpp"
 #include "WbSimulationState.hpp"
 #include "WbUndoStack.hpp"
 
@@ -181,21 +182,23 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Rendering"));
   mActions[RENDERING] = action;
 
-  action = new QAction(this);
-  action->setText(tr("&Unmute sound"));
-  action->setStatusTip(tr("Unmute the sound on the main audio device of the computer."));
-  action->setToolTip(action->statusTip());
-  // the icon is inverted there to respect the other applications behavior
-  action->setIcon(QIcon("enabledIcons:sound_mute_button.png"));
-  mActions[SOUND_UNMUTE] = action;
+  if (WbPreferences::instance()->value("Sound/OpenAL", true).toBool()) {
+    action = new QAction(this);
+    action->setText(tr("&Unmute sound"));
+    action->setStatusTip(tr("Unmute the sound on the main audio device of the computer."));
+    action->setToolTip(action->statusTip());
+    // the icon is inverted there to respect the other applications behavior
+    action->setIcon(QIcon("enabledIcons:sound_mute_button.png"));
+    mActions[SOUND_UNMUTE] = action;
 
-  action = new QAction(this);
-  action->setText(tr("&Mute sound"));
-  action->setStatusTip(tr("Mute the sound on the main audio device of the computer."));
-  action->setToolTip(action->statusTip());
-  // the icon is inverted there to respect the other applications behavior
-  action->setIcon(QIcon("enabledIcons:sound_unmute_button.png"));
-  mActions[SOUND_MUTE] = action;
+    action = new QAction(this);
+    action->setText(tr("&Mute sound"));
+    action->setStatusTip(tr("Mute the sound on the main audio device of the computer."));
+    action->setToolTip(action->statusTip());
+    // the icon is inverted there to respect the other applications behavior
+    action->setIcon(QIcon("enabledIcons:sound_unmute_button.png"));
+    mActions[SOUND_MUTE] = action;
+  }
 
   action = new QAction(this);
   mActions[ANIMATION] = action;

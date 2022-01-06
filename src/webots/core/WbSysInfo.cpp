@@ -16,6 +16,7 @@
 
 #include "WbMacAddress.hpp"
 
+#include <AL/alc.h>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtGui/QOpenGLFunctions>
@@ -89,6 +90,12 @@ const QString &WbSysInfo::openGLVersion() {
   if (openGLVersion.isEmpty())
     openGLVersion = (const char *)glGetString(GL_VERSION);
   return openGLVersion;
+}
+const QString &WbSysInfo::openALDevices() {
+  static QString openALDevices;
+  if (openALDevices.isEmpty())
+    openALDevices = (const char *)alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
+  return openALDevices;
 }
 
 void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
