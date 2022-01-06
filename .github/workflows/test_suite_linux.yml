@@ -44,7 +44,8 @@ jobs:
         sudo apt purge libzip4
         sudo apt autoremove
         sudo apt install -y libzip-dev
-
+        sudo apt install -y openal-info
+        openal-info
         sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
