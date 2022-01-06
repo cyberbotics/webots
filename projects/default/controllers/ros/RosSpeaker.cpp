@@ -17,21 +17,14 @@
 RosSpeaker::RosSpeaker(Speaker *speaker, Ros *ros) : RosDevice(speaker, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mStopServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/stop", &RosSpeaker::stopCallback);
-  mGetEngineServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
-  mGetLanguageServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
-  mSetEngineServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
-  mSetLanguageServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
+  mGetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
+  mGetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
+  mSetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
+  mSetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
   mSpeakServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
-  mPlayServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
-  mIsSpeakingServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
-  mIsPlayingServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
+  mPlayServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
+  mIsSpeakingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
+  mIsPlayingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
   mSpeaker = speaker;
 }
 
