@@ -18,15 +18,16 @@
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNodeModel.hpp"
 #include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
 
 #include <QtGui/QRegExpValidator>
 
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
 
@@ -38,6 +39,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
   addPage(createNamePage());
   addPage(createTagsPage());
+  addPage(createBaseNodePage());
   addPage(createConclusionPage());
 
   mProceduralCheckBox->setChecked(true);
@@ -182,6 +184,32 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   layout->addWidget(mStaticCheckBox);
   layout->addWidget(mNonDeterministic);
   layout->addWidget(mHiddenCheckBox);
+
+  return page;
+}
+
+QWizardPage *WbNewProtoWizard::createBaseNodePage() {
+  // mTree->clear();
+
+  QWizardPage *page = new QWizardPage(this);
+
+  page->setTitle(tr("Base node selection"));
+  page->setSubTitle(tr("Please choose the base node from which the PROTO will inherit."));
+
+  QVBoxLayout *layout = new QVBoxLayout(page);
+
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), 10001);
+
+  QStringList basicNodes = WbNodeModel::baseModelNames();
+  foreach (const QString &basicNodeName, basicNodes) {
+    QFileInfo fileInfo(basicNodeName);
+    QTreeWidgetItem *item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
+    nodesItem->addChild(item);
+  }
+
+  mTree = new QTreeWidget(this);
+  mTree->addTopLevelItem(nodesItem);
+  layout->addWidget(mTree);
 
   return page;
 }

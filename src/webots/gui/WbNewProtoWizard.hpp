@@ -20,6 +20,7 @@
 //
 
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWizard>
 
 class WbLineEdit;
@@ -57,11 +58,13 @@ private:
   QCheckBox *mStaticCheckBox;
   QCheckBox *mNonDeterministic;
   QCheckBox *mProceduralCheckBox;
+  QTreeWidget *mTree;
 
   void updateUI();
   QWizardPage *createIntroPage();
   QWizardPage *createNamePage();
   QWizardPage *createTagsPage();
+  QWizardPage *createBaseNodePage();
   QWizardPage *createConclusionPage();
 };
 
