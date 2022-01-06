@@ -97,7 +97,6 @@ static void init() {
   } catch (const QString &e) {
     WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
-  qDebug() << "gdevice" << gDefaultDevice << "gContext" << gContext;
   WbSoundEngine::updateListener();
 }
 
