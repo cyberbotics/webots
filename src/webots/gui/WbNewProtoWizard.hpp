@@ -51,6 +51,7 @@ private:
 
   QString mProtoDir;
   QString mProtoFullPath;
+  QString mBaseNode;
   QLabel *mFilesLabel;
   WbLineEdit *mNameEdit;
   QCheckBox *mEditCheckBox;
@@ -59,8 +60,11 @@ private:
   QCheckBox *mNonDeterministic;
   QCheckBox *mProceduralCheckBox;
   QTreeWidget *mTree;
+  QLineEdit *mFindLineEdit;
 
   void updateUI();
+  void updateBaseNode();
+  void updateNodeTree();
   QWizardPage *createIntroPage();
   QWizardPage *createNamePage();
   QWizardPage *createTagsPage();

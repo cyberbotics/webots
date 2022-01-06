@@ -19,6 +19,7 @@
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNodeModel.hpp"
+#include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
@@ -44,6 +45,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 
   mProceduralCheckBox->setChecked(true);
   mProceduralCheckBox->setText("Allow template scripting");
+  mProceduralCheckBox->setToolTip("TODO");
   mStaticCheckBox->setChecked(true);
   mStaticCheckBox->setText("Make static");
   mNonDeterministic->setChecked(false);
@@ -113,9 +115,11 @@ void WbNewProtoWizard::accept() {
       tags.chop(QString("# tags: ").length());
 
     QString version = WbApplicationInfo::version().toString(false);
+    QString body = mBaseNode.isEmpty() ? "" : mBaseNode + " {\n  }";
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
     protoContent.replace(QByteArray("%release%"), version.toUtf8());
+    protoContent.replace(QByteArray("%basenode%"), body.toUtf8());
 
     file.seek(0);
     file.write(protoContent);
@@ -189,29 +193,72 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
 }
 
 QWizardPage *WbNewProtoWizard::createBaseNodePage() {
-  // mTree->clear();
-
   QWizardPage *page = new QWizardPage(this);
+  QVBoxLayout *layout = new QVBoxLayout(page);
+
+  QFont font;
+  font.fromString(WbPreferences::instance()->value("Editor/font").toString());
+  mFindLineEdit = new QLineEdit(this);
+  mFindLineEdit->setFont(font);
+  mFindLineEdit->setClearButtonEnabled(true);
+
+  mTree = new QTreeWidget(this);
 
   page->setTitle(tr("Base node selection"));
   page->setSubTitle(tr("Please choose the base node from which the PROTO will inherit."));
 
-  QVBoxLayout *layout = new QVBoxLayout(page);
+  connect(mFindLineEdit, &QLineEdit::textChanged, this, &WbNewProtoWizard::updateNodeTree);
 
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), 10001);
+  updateNodeTree();
 
-  QStringList basicNodes = WbNodeModel::baseModelNames();
-  foreach (const QString &basicNodeName, basicNodes) {
-    QFileInfo fileInfo(basicNodeName);
-    QTreeWidgetItem *item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
-    nodesItem->addChild(item);
-  }
-
-  mTree = new QTreeWidget(this);
-  mTree->addTopLevelItem(nodesItem);
+  layout->addWidget(mFindLineEdit);
   layout->addWidget(mTree);
 
+  connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbNewProtoWizard::updateBaseNode);
+
   return page;
+}
+
+void WbNewProtoWizard::updateNodeTree() {
+  mTree->clear();
+
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")));
+  QStringList nodes = WbNodeModel::baseModelNames();
+  foreach (const QString &basicNodeName, nodes) {
+    QFileInfo fileInfo(basicNodeName);
+    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
+      QTreeWidgetItem *item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
+      nodesItem->addChild(item);
+    }
+  }
+
+  // QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO")));
+
+  // nWProtosNodes = addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), mFindLineEdit->text(),
+  //                                       QDir(WbStandardPaths::projectsPath()));
+
+  // nodes = WbNodeModel::baseModelNames();
+  // foreach (const QString &basicNodeName, nodes) {
+  //  QFileInfo fileInfo(basicNodeName);
+  //  QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(fileInfo.baseName()));
+  //  protosItem->addChild(item);
+  //}
+
+  mTree->addTopLevelItem(nodesItem);
+
+  if (mFindLineEdit->text().length() > 0)
+    mTree->expandAll();
+  // mTree->addTopLevelItem(protosItem);
+}
+
+void WbNewProtoWizard::updateBaseNode() {
+  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
+  if (selectedItem->childCount() > 0)
+    mBaseNode = "";  // selected a folder
+  else
+    mBaseNode = selectedItem->text(0);
+
+  printf("%s\n", mBaseNode.toUtf8().constData());
 }
 
 QWizardPage *WbNewProtoWizard::createConclusionPage() {
