@@ -45,6 +45,7 @@ public:
 
 protected:
 private slots:
+  void updateCheckBox(int state);
 
 private:
   bool mNeedsEdit;
@@ -61,6 +62,8 @@ private:
   QTreeWidget *mTree;
   QWidget *mFields;
   QLineEdit *mFindLineEdit;
+
+  QVector<QCheckBox *> mExposedFieldCheckBoxes;
 
   void updateUI();
   void updateBaseNode();

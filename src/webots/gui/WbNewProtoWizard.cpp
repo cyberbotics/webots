@@ -125,20 +125,28 @@ void WbNewProtoWizard::accept() {
 
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
     const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
+    assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
 
     QString parameters = "";
-    foreach (WbFieldModel *fieldModel, fieldModels) {
-      WbValue *defaultValue = fieldModel->defaultValue();
-      parameters +=
-        "  field " + defaultValue->vrmlTypeName() + " " + fieldModel->name() + " " + defaultValue->toString() + "\n";
-      printf("%s", parameters.toUtf8().constData());
+    for (int i = 0; i < fieldModels.size(); ++i) {
+      if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
+        // foreach (WbFieldModel *fieldModel, fieldModels) {
+        WbValue *defaultValue = fieldModels[i]->defaultValue();
+        parameters +=
+          "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + defaultValue->toString() + "\n";
+        // printf("%s", parameters.toUtf8().constData());
+      }
     }
+
+    parameters.chop(1);  // chop new line
 
     QString version = WbApplicationInfo::version().toString(false);
     // QString body = mBaseNode.isEmpty() ? "" : "  " + mBaseNode + " {\n  }";
     QString body = "  " + mBaseNode + " {\n";
-    foreach (WbFieldModel *fieldModel, fieldModels) {
-      body += "    " + fieldModel->name() + " IS " + fieldModel->name() + "\n";
+    // foreach (WbFieldModel *fieldModel, fieldModels) {
+    for (int i = 0; i < fieldModels.size(); ++i) {
+      if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+        body += "    " + fieldModels[i]->name() + " IS " + fieldModels[i]->name() + "\n";
     }
     body += "  }";
 
@@ -264,6 +272,7 @@ QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
 }
 
 void WbNewProtoWizard::updateNodeTree() {
+  printf("update node\n");
   mTree->clear();
   mTree->setHeaderHidden(true);
 
@@ -297,9 +306,14 @@ void WbNewProtoWizard::updateNodeTree() {
 }
 
 void WbNewProtoWizard::updateBaseNode() {
+  printf("update base\n");
   qDeleteAll(mFields->children());
+  mExposedFieldCheckBoxes.clear();
 
   const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
+  if (!selectedItem)
+    return;
+
   const QTreeWidgetItem *topLevel = selectedItem;
   while (topLevel->parent())
     topLevel = topLevel->parent();
@@ -309,8 +323,6 @@ void WbNewProtoWizard::updateBaseNode() {
     return;
   } else
     mBaseNode = selectedItem->text(0);
-
-  printf("%s %d\n", mBaseNode.toUtf8().constData(), selectedItem->childCount());
 
   WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
   const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
@@ -328,22 +340,28 @@ void WbNewProtoWizard::updateBaseNode() {
   QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
   QVBoxLayout *layout = new QVBoxLayout(mainWidget);
 
-  QCheckBox *allCheckBox = new QCheckBox();
-  allCheckBox->setText("expose all");
-  allCheckBox->setChecked(true);
-  layout->addWidget(allCheckBox);
+  QCheckBox *exposeAll = new QCheckBox();
+  exposeAll->setText("expose all");
+  // allCheckBox->setChecked(true);
+  mExposedFieldCheckBoxes.push_back(exposeAll);
+  connect(exposeAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
+  layout->addWidget(exposeAll);
 
   foreach (WbFieldModel *fieldModel, fieldModels) {
     // printf("%s\n", protoParameter.toUtf8().constData());
-    QCheckBox *fieldCheckBox = new QCheckBox();
-    fieldCheckBox->setText(fieldModel->name());
-    // fieldCheckBox->setEnabled(false);
-    layout->addWidget(fieldCheckBox);
+    // QCheckBox *fieldCheckBox = new QCheckBox();
+    // fieldCheckBox->setText(fieldModel->name());
+    mExposedFieldCheckBoxes.push_back(new QCheckBox(fieldModel->name()));
+    layout->addWidget(mExposedFieldCheckBoxes.back());
   }
 
   scrollArea->setWidget(mainWidget);
-
   fieldsLayout->addWidget(scrollArea);
+}
+
+void WbNewProtoWizard::updateCheckBox(int state) {
+  for (int i = 1; i < mExposedFieldCheckBoxes.size(); ++i)
+    mExposedFieldCheckBoxes[i]->setChecked(state);
 }
 
 QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
