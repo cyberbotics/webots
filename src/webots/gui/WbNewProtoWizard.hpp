@@ -63,8 +63,12 @@ private:
   QWidget *mFields;
   QLineEdit *mFindLineEdit;
 
+  enum BaseType { BASE_NODE, PROTO_NODE };
+
+  BaseType mType;
+
   // QStringList protoFiles;
-  QMap<QString, QString> mProtoFiles;
+  // QMap<QString, QString> mProtoFiles;
 
   QVector<QCheckBox *> mExposedFieldCheckBoxes;
 

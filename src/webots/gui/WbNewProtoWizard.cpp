@@ -22,7 +22,7 @@
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoCachedInfo.hpp"
+#include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
@@ -45,7 +45,7 @@ enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
-
+  /*
   // prepare list of PROTO files
   QDirIterator it(WbStandardPaths::projectsPath(), QDirIterator::Subdirectories);
   while (it.hasNext()) {
@@ -53,6 +53,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
     if (!file.isDir() && file.fileName().endsWith(".proto", Qt::CaseInsensitive))
       mProtoFiles.insert(file.baseName(), file.filePath());
   }
+  */
 
   addPage(createIntroPage());
   addPage(createNamePage());
@@ -80,7 +81,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   setOption(QWizard::CancelButtonOnLeft, true);
   setWindowTitle(tr("Create a new PROTO"));
 
-  setMaximumSize(800, 500);
+  // setMaximumSize(800, 500);
 }
 
 void WbNewProtoWizard::updateUI() {
@@ -137,8 +138,16 @@ void WbNewProtoWizard::accept() {
     else
       tags.chop(QString("# tags: ").length());
 
-    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-    const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
+    QList<WbFieldModel *> fieldModels;
+    if (mType == BASE_NODE) {
+      WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+      fieldModels = nodeModel->fieldModels();
+    } else {
+      WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
+      assert(protoModel);
+      fieldModels = protoModel->fieldModels();
+      printf("proto model null ? %d\n", protoModel == NULL);
+    }
     assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
 
     QString parameters = "";
@@ -301,12 +310,13 @@ void WbNewProtoWizard::updateNodeTree() {
   }
 
   QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
-  // foreach (const QString &protoPath, protoFiles) {
-  QMapIterator<QString, QString> it(mProtoFiles);
-  while (it.hasNext()) {
-    it.next();
-    if (it.key().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
-      QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(it.key()));
+  QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
+  foreach (const QString &protoName, protoNodesNames) {
+    // QMapIterator<QString, QString> it(mProtoFiles);
+    // while (it.hasNext()) {
+    //  it.next();
+    if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
+      QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(protoName));
       protosItem->addChild(item);
     }
   }
@@ -339,6 +349,7 @@ void WbNewProtoWizard::updateBaseNode() {
 
   QStringList fieldNames;
   if (topLevel->type() == PROTO_NODE_LIST) {
+    /*
     assert(mProtoFiles[mBaseNode]);
     WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(mProtoFiles[mBaseNode]);
     bool success = protoCachedInfo->load();
@@ -347,12 +358,17 @@ void WbNewProtoWizard::updateBaseNode() {
       protoCachedInfo = WbProtoCachedInfo::computeInfo(mBaseNode);
     }
     fieldNames = protoCachedInfo->parameterNames();
+    */
+    WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, WbStandardPaths::projectsPath());
+    fieldNames = protoModel->parameterNames();
+    mType = PROTO_NODE;
   } else {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
     fieldNames = nodeModel->fieldNames();
+    mType = BASE_NODE;
   }
 
-  printf("%d\n", fieldNames.size());
+  printf("# models: %d\n", fieldNames.size());
 
   QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   policy.setHorizontalStretch(1);
