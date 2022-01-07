@@ -59,6 +59,7 @@ void WbFieldDoubleSpinBox::setMode(int mode) {
 
 void WbFieldDoubleSpinBox::stepBy(int steps) {
   double value = text().toDouble();
+
   switch (mMode) {
     case NORMAL:
       // normal double change the last decimal
