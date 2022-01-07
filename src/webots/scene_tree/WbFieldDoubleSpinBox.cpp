@@ -68,8 +68,7 @@ void WbFieldDoubleSpinBox::stepBy(int steps) {
     case RADIANS: {
       // angle in radians: change by pi/24 and snap to the nearest multiple of PI
       value += M_PI * steps / 24.0;
-      double intpart;
-      double decpart = modf(fabs(value) / M_PI, &intpart);
+      double decpart = fmod(fabs(value) / M_PI, 1.0);
       if (decpart < 0.01 || decpart > 0.99)
         value = M_PI * round(value / M_PI);
       break;
