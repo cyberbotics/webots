@@ -297,13 +297,20 @@ void WbNewProtoWizard::updateNodeTree() {
 }
 
 void WbNewProtoWizard::updateBaseNode() {
+  qDeleteAll(mFields->children());
+
   const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  if (selectedItem->childCount() > 0)
-    mBaseNode = "Accelerometer";  // selected a folder
-  else
+  const QTreeWidgetItem *topLevel = selectedItem;
+  while (topLevel->parent())
+    topLevel = topLevel->parent();
+
+  if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
+    mBaseNode = "";  // selected a folder
+    return;
+  } else
     mBaseNode = selectedItem->text(0);
 
-  // printf("%s\n", mBaseNode.toUtf8().constData());
+  printf("%s %d\n", mBaseNode.toUtf8().constData(), selectedItem->childCount());
 
   WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
   const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
@@ -311,23 +318,26 @@ void WbNewProtoWizard::updateBaseNode() {
   QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   policy.setHorizontalStretch(1);
 
-  QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
-
   QScrollArea *scrollArea = new QScrollArea();
-  QWidget *mainWidget = new QWidget();
+  scrollArea->viewport()->setBackgroundRole(QPalette::Dark);
+  scrollArea->viewport()->setAutoFillBackground(true);
+  scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
+  QWidget *mainWidget = new QWidget();
+  QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
   QVBoxLayout *layout = new QVBoxLayout(mainWidget);
 
-  // QCheckBox *allCheckBox = new QCheckBox();
-  // allCheckBox->setText("all");
-  // allCheckBox->setChecked(true);
-  // layout->addWidget(allCheckBox);
+  QCheckBox *allCheckBox = new QCheckBox();
+  allCheckBox->setText("expose all");
+  allCheckBox->setChecked(true);
+  layout->addWidget(allCheckBox);
 
   foreach (WbFieldModel *fieldModel, fieldModels) {
     // printf("%s\n", protoParameter.toUtf8().constData());
     QCheckBox *fieldCheckBox = new QCheckBox();
     fieldCheckBox->setText(fieldModel->name());
-    fieldCheckBox->setEnabled(false);
+    // fieldCheckBox->setEnabled(false);
     layout->addWidget(fieldCheckBox);
   }
 
