@@ -63,6 +63,9 @@ private:
   QWidget *mFields;
   QLineEdit *mFindLineEdit;
 
+  // QStringList protoFiles;
+  QMap<QString, QString> mProtoFiles;
+
   QVector<QCheckBox *> mExposedFieldCheckBoxes;
 
   void updateUI();

@@ -22,8 +22,12 @@
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoCachedInfo.hpp"
+#include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
+
+#include <QtCore/QDirIterator>
 
 #include <QtGui/QRegExpValidator>
 
@@ -37,8 +41,18 @@
 
 enum { INTRO, LANGUAGE, NAME, CONCLUSION };  // TODO: modify accordingly
 
+enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
+
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
+
+  // prepare list of PROTO files
+  QDirIterator it(WbStandardPaths::projectsPath(), QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    QFileInfo file(it.next());
+    if (!file.isDir() && file.fileName().endsWith(".proto", Qt::CaseInsensitive))
+      mProtoFiles.insert(file.baseName(), file.filePath());
+  }
 
   addPage(createIntroPage());
   addPage(createNamePage());
@@ -53,9 +67,9 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
     tr("By enabling this option, JavaScript template scripting can be used to generate PROTO in a procedural way."));
   mNonDeterministic->setChecked(false);
   mNonDeterministic->setText(tr("Non-deterministic PROTO"));
-  mNonDeterministic->setToolTip(tr(
-    "A non-deterministic PROTO is a PROTO where the same fields can potentially yield a different result from run to run. This "
-    "is often the case if random number generation with time-based seeds are employed."));
+  mNonDeterministic->setToolTip(tr("A non-deterministic PROTO is a PROTO where the same fields can potentially yield a "
+                                   "different result from run to run. This "
+                                   "is often the case if random number generation with time-based seeds are employed."));
   mHiddenCheckBox->setChecked(false);
   mHiddenCheckBox->setText(tr("Hidden PROTO"));
   mHiddenCheckBox->setToolTip(
@@ -276,7 +290,7 @@ void WbNewProtoWizard::updateNodeTree() {
   mTree->clear();
   mTree->setHeaderHidden(true);
 
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")));
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_NODE_LIST);
   QStringList nodes = WbNodeModel::baseModelNames();
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
@@ -286,20 +300,19 @@ void WbNewProtoWizard::updateNodeTree() {
     }
   }
 
-  // QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO")));
-
-  // nWProtosNodes = addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), mFindLineEdit->text(),
-  //                                       QDir(WbStandardPaths::projectsPath()));
-
-  // nodes = WbNodeModel::baseModelNames();
-  // foreach (const QString &basicNodeName, nodes) {
-  //  QFileInfo fileInfo(basicNodeName);
-  //  QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(fileInfo.baseName()));
-  //  protosItem->addChild(item);
-  //}
+  QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
+  // foreach (const QString &protoPath, protoFiles) {
+  QMapIterator<QString, QString> it(mProtoFiles);
+  while (it.hasNext()) {
+    it.next();
+    if (it.key().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
+      QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(it.key()));
+      protosItem->addChild(item);
+    }
+  }
 
   mTree->addTopLevelItem(nodesItem);
-  // mTree->addTopLevelItem(protosItem);
+  mTree->addTopLevelItem(protosItem);
 
   if (mFindLineEdit->text().length() > 0)
     mTree->expandAll();
@@ -324,8 +337,22 @@ void WbNewProtoWizard::updateBaseNode() {
   } else
     mBaseNode = selectedItem->text(0);
 
-  WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-  const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
+  QStringList fieldNames;
+  if (topLevel->type() == PROTO_NODE_LIST) {
+    assert(mProtoFiles[mBaseNode]);
+    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(mProtoFiles[mBaseNode]);
+    bool success = protoCachedInfo->load();
+    if (!success || protoCachedInfo->isOutOfDate()) {
+      delete protoCachedInfo;
+      protoCachedInfo = WbProtoCachedInfo::computeInfo(mBaseNode);
+    }
+    fieldNames = protoCachedInfo->parameterNames();
+  } else {
+    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+    fieldNames = nodeModel->fieldNames();
+  }
+
+  printf("%d\n", fieldNames.size());
 
   QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   policy.setHorizontalStretch(1);
@@ -347,11 +374,11 @@ void WbNewProtoWizard::updateBaseNode() {
   connect(exposeAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
   layout->addWidget(exposeAll);
 
-  foreach (WbFieldModel *fieldModel, fieldModels) {
+  foreach (const QString &name, fieldNames) {
     // printf("%s\n", protoParameter.toUtf8().constData());
     // QCheckBox *fieldCheckBox = new QCheckBox();
     // fieldCheckBox->setText(fieldModel->name());
-    mExposedFieldCheckBoxes.push_back(new QCheckBox(fieldModel->name()));
+    mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
     layout->addWidget(mExposedFieldCheckBoxes.back());
   }
 
@@ -369,7 +396,8 @@ QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
     QWizardPage *page = new QWizardPage(this);
 
     page->setTitle(tr("Exposed field selection"));
-    page->setSubTitle(tr("Please choose which fields of the %1 node should be modifiable from the scene tree.").arg(mBaseNode));
+    page->setSubTitle(tr("Please choose which fields of the %1 node should be modifiable from the scene
+    tree.").arg(mBaseNode));
 
     mBaseNode = QString("Accelerometer");
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
