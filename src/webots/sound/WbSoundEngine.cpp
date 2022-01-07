@@ -87,7 +87,7 @@ static void init() {
     const ALCchar *alsaDevice = "ALSA Default";
     if (defaultDeviceName == alsaDevice)  //"ALSA Default" = no sound device
       return;
-    if ((defaultDeviceName == NULL))
+    if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
     if (gDefaultDevice == NULL)
