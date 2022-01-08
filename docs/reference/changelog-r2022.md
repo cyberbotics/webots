@@ -1,5 +1,12 @@
 # Webots R2022 Change Log
 
+
+## Webots R2020b Revision 1
+Released on XX XX, 2022.
+
+  - Bug fixes
+    - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
+
 ## Webots R2022a
 Released on December 21th, 2022.
 
