@@ -1976,7 +1976,7 @@ I'll look into that, thanks for the pointer!
 ##### David Mansolino [Cyberbotics] 01/24/2020 13:38:30
 You're welcome
 
-##### 🍎小苹果🍎 01/25/2020 00:23:34
+##### 🌊 Ayato 🌊 01/25/2020 00:23:34
 Now I chose car's controller as <extend> like in the tutorial but it says there is no extend controller 😭 
 
 
@@ -2011,7 +2011,7 @@ Hi `@FB`, you can download the latest version of Webots from here: [https://gith
 And older release from here: [https://github.com/cyberbotics/webots/releases/tag/R2019a](https://github.com/cyberbotics/webots/releases/tag/R2019a)
 
 
-`@🍎小苹果🍎`, it is not 'extend' but 'extern'
+`@🌊 Ayato 🌊`, it is not 'extend' but 'extern'
 
 
 Hi `@enescan`  you can export your robot in VRML from SolidWorks and then import this VRML file in Webots directly (not that this will import only the shapes, you will then have to add solids, bounding objects, physics, sensors, etc.). Or import from SolidWorks to Blender and then Blender to Webots, here is an example with Autodesk Inventor  (Solidworks works similarly): [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
@@ -2220,7 +2220,7 @@ Not entirely sure what is going on, but looking at the Webots source it is built
 ##### shivajitheboss 02/01/2020 19:21:44
 I wanted to know if i can transfer my code to arduino. Do i have to make any changes? Please help at the earliest.
 
-##### w3. eydi 02/01/2020 19:35:19
+##### w3.eydi 02/01/2020 19:35:19
 hi guys
 
 
@@ -2262,7 +2262,7 @@ I need dampingConstant* staticFriction* maxVelocity* acceleration* springConstan
 However, some of these parameters depends on the configuration of your robot (i.e. to what is connected the device) and not only the motor itself.
 
 
-Hi `@w3. eydi` Welcome 😉
+Hi `@w3.eydi` Welcome 😉
 
 
 `@shivajitheboss`, unfortunately we don't have any way of transferrign to arduino out of the box. But since both Webots and arduino support C like language it should be quite easy to adapt your code from one to the other.
@@ -2619,7 +2619,7 @@ Understood, thank you for the help !
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:38:18
 You're welcome. We will try fix [https://github.com/cyberbotics/webots/issues/1310](https://github.com/cyberbotics/webots/issues/1310) soon so that you are not blocked by this.
 
-##### w3. eydi 02/05/2020 13:55:32
+##### w3.eydi 02/05/2020 13:55:32
 `@David Mansolino` David, do you have a different language option for language? I mean, I can translate to community in Turkish.
 
 
@@ -2629,7 +2629,7 @@ For documentation, sorry. 😀
 Hi, which type of joint is used to model the contact between tire and the road `@David Mansolino`? I'm trying to find out if it is necessary to consider lateral or longitudinal slip for the vehicle
 
 ##### David Mansolino [Cyberbotics] 02/05/2020 13:59:13
-`@w3. eydi` we indeed don't have any Turkish translation, if you would liek to translate it to Trukish this would be highly appreciated: here is the procedure how to create a translation for a new language:
+`@w3.eydi` we indeed don't have any Turkish translation, if you would liek to translate it to Trukish this would be highly appreciated: here is the procedure how to create a translation for a new language:
 
 [https://github.com/cyberbotics/webots/tree/master/resources/translations](https://github.com/cyberbotics/webots/tree/master/resources/translations)
 
@@ -2638,7 +2638,7 @@ Once you have done the `wb_tr.ts` file, you can send it to me and I will integra
 
 `@nelsondmmg` a 'Contact Joint' is used to model the contact between the tire and the road: [http://ode.org/wiki/index.php?title=Manual#Contact](http://ode.org/wiki/index.php?title=Manual#Contact)
 
-##### w3. eydi 02/05/2020 14:04:38
+##### w3.eydi 02/05/2020 14:04:38
 `@David Mansolino` I actually said it for the documentation page. Like tutorials. I understand that you will integrate this translation into the Webots program. I will work on this topic at the first opportunity.
 
 ##### David Mansolino [Cyberbotics] 02/05/2020 14:07:18
@@ -2934,7 +2934,7 @@ Is there a better way that would save duplicating the library?
 ##### Gman 02/08/2020 21:00:19
 I have, in the same simulation, two robots and a different controller for each.  How to I communicate between them?  For instance Im trying to share compass data between the robots how do I do this?
 
-##### 🍎小苹果🍎 02/08/2020 22:03:08
+##### 🌊 Ayato 🌊 02/08/2020 22:03:08
 I'm not sure but I remember as I read something about receiver device it may help you
 
 ##### Gman 02/08/2020 22:24:50
@@ -2983,7 +2983,7 @@ You might also be interested of gettign the maximum range of the range-finder:
 [https://www.cyberbotics.com/doc/reference/rangefinder#wb\_range\_finder\_get\_max\_range](https://www.cyberbotics.com/doc/reference/rangefinder#wb_range_finder_get_max_range)****
 
 
-`@Gman`, `@🍎小苹果🍎` is completely right, you can use the emitter-receiver mechanism, find an example in this sample simulation: [https://www.cyberbotics.com/doc/guide/samples-devices#emitter\_receiver-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#emitter_receiver-wbt)
+`@Gman`, `@🌊 Ayato 🌊` is completely right, you can use the emitter-receiver mechanism, find an example in this sample simulation: [https://www.cyberbotics.com/doc/guide/samples-devices#emitter\_receiver-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#emitter_receiver-wbt)
 
 
 `@kadeng` note that arbitrary collision shapes using indexedFaceSet are working but way less efficient and stable than using a set of basic geometries.
@@ -8192,7 +8192,7 @@ Many thanks for you interest and help. I am newbie in this kind of jobs 🙂
 ##### Darko Lukić [Cyberbotics] 03/30/2020 22:14:43
 No problem, good luck!
 
-##### 🍎小苹果🍎 03/30/2020 22:41:01
+##### 🌊 Ayato 🌊 03/30/2020 22:41:01
 Hi! I'm getting error in sumo\_supervisor
 
 >>> TypeError : '<' not supported between instances of 'Edge' and 'Edge'
@@ -8202,9 +8202,9 @@ Hi! I'm getting error in sumo\_supervisor
 and sumo stops working. I didn't change anything it's was working yesterday I can't understand 😢
 
 ##### David Mansolino [Cyberbotics] 03/31/2020 05:45:01
-`@🍎小苹果🍎`, did you updated the Webots, Python or SUMO version installed on your computer since yesterday?
+`@🌊 Ayato 🌊`, did you updated the Webots, Python or SUMO version installed on your computer since yesterday?
 
-##### 🍎小苹果🍎 03/31/2020 10:05:14
+##### 🌊 Ayato 🌊 03/31/2020 10:05:14
 No I didn't
 
 ##### Dorteel 03/31/2020 11:35:50
@@ -8220,7 +8220,7 @@ Basically you just have to set the dimensions and texture.
 
 > No I didn't
 
-`@🍎小苹果🍎` did you change anything else to your system since yesterday?
+`@🌊 Ayato 🌊` did you change anything else to your system since yesterday?
 
 
 Otherwise, would it be possible to get the complete error message?
@@ -8435,7 +8435,7 @@ I've also tried to set isLocked to false for both connectors just in case but sa
 
 Am I missing something ?
 
-##### w3. eydi 03/31/2020 18:27:20
+##### w3.eydi 03/31/2020 18:27:20
 `@David Mansolino` First, I wish you and your loved ones healthy days. 
 
 
@@ -8478,7 +8478,7 @@ ok, Thank you
 
 > Does blender webots exporter work on windows? And second question is : will exporter work in new version like 2.8?
 
-Hi `@w3. eydi`, I wish you healthy days too, thank you.
+Hi `@w3.eydi`, I wish you healthy days too, thank you.
 
 The blender exporter is indeed supposed to work on Windows, however, for now it does not support versions > 2.7x
 
@@ -9122,7 +9122,7 @@ ok, thanks
 ##### Olivier Michel [Cyberbotics] 04/06/2020 15:09:00
 Or maybe reduce the aperture, number of rays, etc.
 
-##### 🍎小苹果🍎 04/06/2020 23:10:40
+##### 🌊 Ayato 🌊 04/06/2020 23:10:40
 I can't open wav file with speaker device I tried all the combinations it just don't see the file where I am doing wrong? I have a file  my\_controller  inside of it I created another file which named sounds and  my\_controller.py. so I wrote path  in the function as sound = 'sounds / my\_sound.wav'
 
 ##### Jie 04/07/2020 03:09:54
@@ -9136,7 +9136,7 @@ Ifind how to solve my problem, its need in VS to project/Rebuild project,😅
 
 > I can't open wav file with speaker device I tried all the combinations it just don't see the file where I am doing wrong? I have a file  my\_controller  inside of it I created another file which named sounds and  my\_controller.py. so I wrote path  in the function as sound = 'sounds / my\_sound.wav'
 
-`@🍎小苹果🍎` What you did should work, what is the exact error message you get? Can you try if this controller works for you (as it uses the exact same file hierarchy): [https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker)
+`@🌊 Ayato 🌊` What you did should work, what is the exact error message you get? Can you try if this controller works for you (as it uses the exact same file hierarchy): [https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker)
 
 ##### airobotnews 04/07/2020 08:20:53
 Is it possible to export solidworks design robot prototype to webots?
@@ -9156,7 +9156,7 @@ It needs to be modified for better use!
 ##### David Mansolino [Cyberbotics] 04/07/2020 08:52:28
 You're welcome!
 
-##### 🍎小苹果🍎 04/07/2020 09:37:41
+##### 🌊 Ayato 🌊 04/07/2020 09:37:41
 `@David Mansolino` I look at the sample project it works fine but I still get error in my project . I'm checking the path with os.path.isfile(path) it returns True
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565154703139405824/697017243921547314/Untitled.png)
@@ -9169,7 +9169,7 @@ Maybe you can try to convert it to an absolute path with something like:
 os.path.abspath(path)
 ```
 
-##### 🍎小苹果🍎 04/07/2020 09:39:25
+##### 🌊 Ayato 🌊 04/07/2020 09:39:25
 Okay thank you so much 🙂
 
 ##### David Mansolino [Cyberbotics] 04/07/2020 09:39:34
@@ -9378,37 +9378,37 @@ I reinstalled webots and it worked... but thank you
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:53:33
 OK, thank you for the feedback.
 
-##### 🍎小苹果🍎 04/08/2020 09:34:57
+##### 🌊 Ayato 🌊 04/08/2020 09:34:57
 Hi! When I start to simulation my pc suddenly shuts down itself I thought maybe it was because of my code so I tried sample worlds too but it didn't change what should I do? 😢
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:35:35
 That's strange. What is your OS?
 
-##### 🍎小苹果🍎 04/08/2020 09:35:43
+##### 🌊 Ayato 🌊 04/08/2020 09:35:43
 Windows
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:35:48
 10?
 
-##### 🍎小苹果🍎 04/08/2020 09:35:52
+##### 🌊 Ayato 🌊 04/08/2020 09:35:52
 Yes
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:36:00
 What graphics card do you have?
 
-##### 🍎小苹果🍎 04/08/2020 09:36:46
+##### 🌊 Ayato 🌊 04/08/2020 09:36:46
 Nvdia GeForce GTX 1050 and Intel UHD 630
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:37:47
 Do you know which one is used when you run Webots?
 
-##### 🍎小苹果🍎 04/08/2020 09:38:31
+##### 🌊 Ayato 🌊 04/08/2020 09:38:31
 I don't know I tried started with Nvdia before but this time it gives texture error so I stopped trying open with it
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:38:48
 Did you try to run Webots in safe mode? [https://cyberbotics.com/doc/guide/starting-webots#safe-mode](https://cyberbotics.com/doc/guide/starting-webots#safe-mode)
 
-##### 🍎小苹果🍎 04/08/2020 09:40:07
+##### 🌊 Ayato 🌊 04/08/2020 09:40:07
 I didn't know that I'll try thank you so much
 
 
@@ -9420,19 +9420,19 @@ it worked thank you so much again. actually if you know how can I fix this graph
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:53:17
 Your problem is similar to the one of `@Taechu` which I just answered one hour ago, please scroll up to see it.
 
-##### 🍎小苹果🍎 04/08/2020 09:53:35
+##### 🌊 Ayato 🌊 04/08/2020 09:53:35
 okay thank you so much
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:57:08
 By the way, did you install any other software after installing Webots?
 
-##### 🍎小苹果🍎 04/08/2020 10:06:22
+##### 🌊 Ayato 🌊 04/08/2020 10:06:22
 I probably installed because its been a while .but It always like this from the first day I downloaded Webots. I searched  for libjpeg-8.dll I only have two one is in webots others again in webots but in windows.old folder .
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:09:04
 OK, so can you try to remove the one in the `windows.old` folder? By the way, where is folder located? Inside `C:\Program Files\Webots`?
 
-##### 🍎小苹果🍎 04/08/2020 10:10:02
+##### 🌊 Ayato 🌊 04/08/2020 10:10:02
 its in the C:\Users\nur-b\AppData\Local\Programs\Webots\msys64\mingw64\bin
 
 ##### Taechu 04/08/2020 10:10:46
@@ -9442,7 +9442,7 @@ earlier I only found one libjpeg-8.dll in my computer. the problem occurred afte
 Which version of Python did you installed?
 
 ##### Taechu 04/08/2020 10:11:56
-my route was the same as `@🍎小苹果🍎` 's  then I reinstalled Webots to c:\ program files
+my route was the same as `@🌊 Ayato 🌊` 's  then I reinstalled Webots to c:\ program files
 
 
 3.7
@@ -9454,9 +9454,9 @@ Instead of `C:\Users\...`? So, that would mean the problem arises when Webots is
 perhaps. I reinstalled it for all users
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:14:49
-`@🍎小苹果🍎`: can you try to re-install it for all users?
+`@🌊 Ayato 🌊`: can you try to re-install it for all users?
 
-##### 🍎小苹果🍎 04/08/2020 10:15:09
+##### 🌊 Ayato 🌊 04/08/2020 10:15:09
 okay I'll try thank you so much
 
 
@@ -9471,7 +9471,7 @@ BTW, I have a question for you: how do you start Webots? By clicking on the icon
 
 The problem you are reporting is similar to the one described in this issue: [https://github.com/cyberbotics/webots/issues/137](https://github.com/cyberbotics/webots/issues/137)
 
-##### 🍎小苹果🍎 04/08/2020 15:22:47
+##### 🌊 Ayato 🌊 04/08/2020 15:22:47
 I was clicking on the icon. If I do right click and choose Nvdia as graphic card that error happens but if I just click the icon and open it it works fine. And I found something in help >OpenGL information it shows as program uses Nvdia somehow I don't know if I understand correctly but
 
 ##### Yuxiang Z's grandpapa 04/08/2020 16:27:08
@@ -9630,7 +9630,7 @@ Thanks
 You're welcome
 
 ##### Olivier Michel [Cyberbotics] 04/09/2020 11:48:42
-`@🍎小苹果🍎` & `@Taechu`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
+`@🌊 Ayato 🌊` & `@Taechu`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
 
 
 Please let me know if that works for you.
@@ -15182,7 +15182,7 @@ Unfortunately none of them is using pure pursuit.
 
 `@dralorg` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
 
-##### w3. eydi 05/18/2020 06:40:19
+##### w3.eydi 05/18/2020 06:40:19
 Good morning `@David Mansolino`;
 
 
@@ -15211,9 +15211,9 @@ and error message but simulation is working !
 Hi `@David Mansolino` I want to do stair climbing work with Op2 with python. When I use the    gaitManager.setYAmplitude  command, the foot does not rise as usual.  The robot is falling.  What's your advice?
 
 ##### David Mansolino [Cyberbotics] 05/18/2020 06:42:28
-HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+HI `@w3.eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### w3. eydi 05/18/2020 06:42:31
+##### w3.eydi 05/18/2020 06:42:31
 `@David Mansolino`  I received this error message when I used it with optirun.
 %figure
 ![DeepinEkranGoruntusu_20200516234439.png](https://cdn.discordapp.com/attachments/565154703139405824/711831066775912455/DeepinEkranGoruntusu_20200516234439.png)
@@ -15224,7 +15224,7 @@ HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 
 
 `@elkelkmuh` the gait algorithm of the darwin-op is not maid to climb stairs, unfortunately you will have to write your own gait algorithm if you want to climb stairs.
 
-##### w3. eydi 05/18/2020 06:53:04
+##### w3.eydi 05/18/2020 06:53:04
 As I understand it, there is a stable version in the only repository. I will download it manually and install it again. I will give you feedback if I get an error. If the problem is not resolved, I will continue to use it on Windows, thank you `@David Mansolino` .
 
 ##### elkelkmuh 05/18/2020 06:58:17
@@ -23049,7 +23049,7 @@ Hi. Trying to "build" PROTOs. When inserting into world, I'm not allowed to tran
 ##### David Mansolino [Cyberbotics] 07/01/2020 10:51:05
 `@Robsicky` do you PROTO have a `translation` and a `rotation` fields ?
 
-##### w3. eydi 07/01/2020 10:52:58
+##### w3.eydi 07/01/2020 10:52:58
 For the quadruped spot, I need parameters to be able to apply the trajectory I have specified with inverse kinematics. How can I find? Or Are there any created equations? I could not find it in documentation.
 %figure
 ![IMG_20200701_134833.jpg](https://cdn.discordapp.com/attachments/565154703139405824/727839159049388132/IMG_20200701_134833.jpg)
@@ -23069,7 +23069,7 @@ I was using "IS".
 ##### David Mansolino [Cyberbotics] 07/01/2020 10:57:27
 > For the quadruped spot, I need parameters to be able to apply the trajectory I have specified with inverse kinematics. How can I find? Or Are there any created equations? I could not find it in documentation.
 
-`@w3. eydi` you should be able to find them in the documentation of the real spot robot. Or you can convert the robot to base node to extract them from the model (right click on the spot node => 'Convert to Base Node(s)').
+`@w3.eydi` you should be able to find them in the documentation of the real spot robot. Or you can convert the robot to base node to extract them from the model (right click on the spot node => 'Convert to Base Node(s)').
 
 ##### Robsicky 07/01/2020 11:00:42
 I was setting translations and rotations using lua for "child frames". The graphical frame is the one linked to the translation and rotation field? What happens if several children "inherit" translation via "IS"?
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### YBN 07/07/2020 11:47:56
+##### ONI 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@YBN` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@ONI` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### YBN 07/07/2020 12:09:20
+##### ONI 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -27211,7 +27211,7 @@ Hi! I'm trying to get the bounding object to work for my PROTO, but can't get it
 ##### watchdogs132 07/27/2020 18:36:05
 Hello ,something weird is happening with my tracked robot when it climbs a staircase. In every iteration , my bot seems to stop climbing at the 14th step , before and after that particular step everything goes smoothly . This only happens during ascending .
 
-##### UnlimitedSaberFaceWorks 07/27/2020 19:06:13
+##### IamTheSpineOfMyBackBodyPain 07/27/2020 19:06:13
 motinan
 
 ##### chenpixx 07/27/2020 21:25:36
@@ -39177,7 +39177,7 @@ Hello, how can I active the supervisor of a robot by python command?
 
 (Incidentally, you may want to create a different robot to be your supervisor, though this robot needn't have any interesting parts or anything.  If so, you would give the supervisor robot its own controller program, separate from the program you use to control your ordinary robot.)
 
-##### DrakerDG 09/27/2020 13:09:51
+##### DrakerDG [Moderator] 09/27/2020 13:09:51
 Greetings to all, I have made my first robot in Webots, I know that I still have a lot to learn and I consider that for this reason I ran into a small problem with the hinge joints used for the motors and with the balls casters.  I will be grateful if someone can guide me and thus avoid the deviations that I show in the following video from minute 3:25.
 
 
@@ -39206,7 +39206,7 @@ Perhaps you can share a screenshot of your scene tree, with the
 
 expanded
 
-##### DrakerDG 09/27/2020 15:46:00
+##### DrakerDG [Moderator] 09/27/2020 15:46:00
 
 %figure
 ![LFR-001.png](https://cdn.discordapp.com/attachments/565154703139405824/759803035298955324/LFR-001.png)
@@ -39221,7 +39221,7 @@ expanded
 ##### Luftwaffel [Moderator] 09/27/2020 15:48:04
 I can already see, that your anchor and translation are 2mm off. You could share your project files (pm if you want) and I can take a look
 
-##### DrakerDG 09/27/2020 15:49:09
+##### DrakerDG [Moderator] 09/27/2020 15:49:09
 [https://github.com/DrakerDG/Webotz/blob/master/Line%20Follower%20Robot%20V4.rar](https://github.com/DrakerDG/Webotz/blob/master/Line%20Follower%20Robot%20V4.rar)
 
 ##### Luftwaffel [Moderator] 09/27/2020 15:50:05
@@ -39233,7 +39233,7 @@ can you zip it pls?
 
 nvm got it
 
-##### DrakerDG 09/27/2020 15:51:36
+##### DrakerDG [Moderator] 09/27/2020 15:51:36
 [https://1drv.ms/u/s](https://1drv.ms/u/s)!AsrVsIc6NV0EhqIxgAWRGIWFfY83YA
 
 
@@ -39242,7 +39242,7 @@ Tray this please!
 ##### Luftwaffel [Moderator] 09/27/2020 15:52:10
 had to install unrar software, I'm on linux. works now 🙂
 
-##### DrakerDG 09/27/2020 15:54:39
+##### DrakerDG [Moderator] 09/27/2020 15:54:39
 At the beginning I have configured it at exactly the same point the origin of the wheel with the anchor, but during the journey there happens that strange shift that when stopping the robot the change is evident
 
 
@@ -39251,7 +39251,7 @@ Shifting only happens when the robot turns around curves, as if mechanical stres
 ##### Luftwaffel [Moderator] 09/27/2020 15:58:25
 let me investigate
 
-##### DrakerDG 09/27/2020 15:58:48
+##### DrakerDG [Moderator] 09/27/2020 15:58:48
 Thanks in advance
 
 ##### Luftwaffel [Moderator] 09/27/2020 16:02:18
@@ -39263,7 +39263,7 @@ I'm a bit confused. Your hingejoints have limits, arent they supposed to be coni
 
 nvm the last question, but what are the encoders?
 
-##### DrakerDG 09/27/2020 16:17:00
+##### DrakerDG [Moderator] 09/27/2020 16:17:00
 Shifting only happens when the robot turns around curves, as if mechanical stress is pulling the wheel off its axis.  The same happens in the caster balls
 
 
@@ -39280,7 +39280,7 @@ Shifting only happens when the robot turns around curves, as if mechanical stres
 ##### Luftwaffel [Moderator] 09/27/2020 16:20:11
 hold on, I have to figure out how to build the controller first. I work in python, not c
 
-##### DrakerDG 09/27/2020 16:20:44
+##### DrakerDG [Moderator] 09/27/2020 16:20:44
 <@239507682111913984> ok
 
 
@@ -39298,7 +39298,7 @@ How large is the deviation?
 
 tbh, i'm at a loss too. very strange
 
-##### DrakerDG 09/27/2020 17:09:33
+##### DrakerDG [Moderator] 09/27/2020 17:09:33
 Yes, me too.
 
 It is small, a few millimeters, it seems an elastic effect due to the outward torque that the wheel experiences when the robot rotates.  Something like that I understand
@@ -39311,7 +39311,7 @@ Actually, if I had to guess, my guess would be that when the physics engine disc
 
 Probably another pretty good solution would be to reload your world often, and to have reloaded it quite recently before you make any changes that'll lead you to save the world again.  Deformations of joints persist across hitting reset, but not across reloading of world, so, as long as you take care never to save a world with big joint deformities in it, then you'll always be able to undeform them by hitting reload world.
 
-##### DrakerDG 09/28/2020 00:46:42
+##### DrakerDG [Moderator] 09/28/2020 00:46:42
 `@Justin Fisher` I have done the correction manually.  The option of a supervisor is fine with me.  Just saving the world without deformations is how I have managed to make the robot work without problems, I use it as a reference for any changes and avoid strange movements.
 
 
@@ -39849,7 +39849,7 @@ I am downloading "webots\_2020b-rev2\_amd64.deb", will try with that as well
 ##### Olivier Michel [Cyberbotics] 09/30/2020 14:41:32
 I doubt this will be better. May I ask you to write a bug report at [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md) including a precise procedure so that we can try to reproduce the problem on our RTX machine.
 
-##### DrakerDG 09/30/2020 14:42:01
+##### DrakerDG [Moderator] 09/30/2020 14:42:01
 `@aozdemir` Hello, have you decorated those streets with their trees and details?
 
 ##### aozdemir 09/30/2020 14:44:02
@@ -39858,7 +39858,7 @@ I doubt this will be better. May I ask you to write a bug report at [https://git
 
 `@DrakerDG` yes, I did. Do you think this is the issue?
 
-##### DrakerDG 09/30/2020 14:48:08
+##### DrakerDG [Moderator] 09/30/2020 14:48:08
 `@aozdemir` To be honest I am new to this, but it seems that it does not resolve the texture that should go in the mesh, similar as when a vector is inverted, the texture is not seen and therefore it looks black
 
 ##### aozdemir 09/30/2020 14:50:46
@@ -41065,7 +41065,7 @@ probably it's just a text file, so you probably could go in and manually subtrac
 ##### SebasRG 10/09/2020 02:06:16
 Thanks friend, I'll try it so
 
-##### DrakerDG 10/09/2020 04:47:32
+##### DrakerDG [Moderator] 10/09/2020 04:47:32
 Greetings to all!  This is my second robot in webots, it still has some mechanical problems, but it manages to follow the line effectively.   Does anyone know what I can do to avoid the shocks that can be seen in the video?
 
 
@@ -41095,7 +41095,7 @@ It would be great if someone give a solution 😊
 ##### David Mansolino [Cyberbotics] 10/09/2020 08:29:53
 Hi `@GaGa`, do you have write acess in this folder? Can you check which files have been created?
 
-##### DrakerDG 10/09/2020 09:55:13
+##### DrakerDG [Moderator] 10/09/2020 09:55:13
 `@Darko Lukić` Thanks, I will review what you tell me 😁👍🏼
 
 ##### DrVoodoo [Moderator] 10/09/2020 10:02:25
@@ -41199,7 +41199,7 @@ Webots became free and open-source last year.  It sounds like you were trying to
 ##### Olivier Michel [Cyberbotics] 10/10/2020 18:33:16
 I confirm Webots do not support any more 32 bit systems.
 
-##### DrakerDG 10/11/2020 01:35:49
+##### DrakerDG [Moderator] 10/11/2020 01:35:49
 > Greetings to all!  This is my second robot in webots, it still has some mechanical problems, but it manages to follow the line effectively.   Does anyone know what I can do to avoid the shocks that can be seen in the video?
 
 > 
@@ -41218,7 +41218,7 @@ I confirm Webots do not support any more 32 bit systems.
 
 as for "More than 3500"... what do you mean by that?
 
-##### DrakerDG 10/11/2020 11:13:27
+##### DrakerDG [Moderator] 10/11/2020 11:13:27
 > `@DrakerDG` Be careful with setting the ERP that high. I suggest you follow the advice of the documentation and put it to a max of 0.8. Instead, perhaps try raising the cfm slightly. Perhaps something like 1e-4
 
 <@239507682111913984> ok, I previously set the ERP to 0.8 but it didn't work for me, however I hadn't set the CFM.  I am going to set it to 0.8 again and I will put the CFM in the value that you have digested and continue with the tests, thank you very much for the observation
@@ -41231,7 +41231,7 @@ as for "More than 3500"... what do you mean by that?
 ##### Luftwaffel [Moderator] 10/11/2020 12:13:15
 at some point you might get a traction problem. Perhaps add a contact property to the worldinfo and increase the friction of the tires
 
-##### DrakerDG 10/11/2020 12:36:00
+##### DrakerDG [Moderator] 10/11/2020 12:36:00
 Ok, thanks a lot 😁👍🏼.  I had not taken friction into account.
 
 ##### aalmanso 10/11/2020 14:28:18
@@ -41241,7 +41241,7 @@ Hi,
 
 Is that possible please?
 
-##### DrakerDG 10/11/2020 15:25:40
+##### DrakerDG [Moderator] 10/11/2020 15:25:40
 `@aalmanso` Is possible, in the children part the sensors you need are added and then you configure them as IR, their sensitivity and other parameters. 
 
 
@@ -41538,7 +41538,7 @@ you can go to the file properties to see the correct path
 
 or you go into the folder containing it, an press ctrl+L
 
-##### DrakerDG 10/13/2020 19:56:03
+##### DrakerDG [Moderator] 10/13/2020 19:56:03
 `@Luthanicus` you need write cd before your path
 
 ##### Luftwaffel [Moderator] 10/13/2020 19:56:33
@@ -41553,7 +41553,7 @@ try it with the correct path
 ##### Luthanicus 10/13/2020 19:57:39
 The correct path is identical to what I wrote
 
-##### DrakerDG 10/13/2020 19:57:45
+##### DrakerDG [Moderator] 10/13/2020 19:57:45
 <@239507682111913984> ok, is like a line command, 😁
 
 ##### Luftwaffel [Moderator] 10/13/2020 19:58:21
@@ -42011,7 +42011,7 @@ Ah, I missed the second line. Thanks.
 ##### David Mansolino [Cyberbotics] 10/16/2020 13:55:23
 You're welcome 😉
 
-##### UnlimitedSaberFaceWorks 10/16/2020 17:41:29
+##### IamTheSpineOfMyBackBodyPain 10/16/2020 17:41:29
 I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
 
 ##### Justin Fisher [Moderator] 10/17/2020 01:24:12
@@ -43357,7 +43357,7 @@ thanks a lot justin - i understand the heirachy chain now. it was also the fact 
 ##### soheil 10/25/2020 10:41:21
 Hello there, I have problem with my robot in Webots. It weighs about 300 kilograms and it penetrates into the floor. I have reduced the CFM as much as possible but the problem is still there. Do you have any ideas about it?
 
-##### DrakerDG 10/25/2020 12:05:41
+##### DrakerDG [Moderator] 10/25/2020 12:05:41
 `@soheil` Hello. A query.  Have you made the collision boundingObject for your robot?
 
 ##### Justin Fisher [Moderator] 10/25/2020 12:21:28
@@ -44451,7 +44451,7 @@ I could only find the above mentioned documentation on curvatures. What I intend
 ##### derek 11/03/2020 01:54:36
 hello,does webots support multi-select items in the left tree?
 
-##### DrakerDG 11/03/2020 02:54:12
+##### DrakerDG [Moderator] 11/03/2020 02:54:12
 I have not been able to select several objects of the same level 🤔
 
 ##### Chinwei.Chang 11/03/2020 05:19:17
@@ -47033,7 +47033,7 @@ with 32ms, you cannot get more than about 30hz
 ##### Luftwaffel [Moderator] 12/07/2020 22:38:33
 what resolution are you using? Uncompressed raw image data is huge
 
-##### DrakerDG 12/07/2020 23:17:44
+##### DrakerDG [Moderator] 12/07/2020 23:17:44
 `@furchan` I have not yet used native files from solidworks to webots.  But if in OBJ format.  You can export the mesh to OBJ and try importing it into webots as a solid.  You export this new solid from webots to WBO format
 
 ##### furchan 12/07/2020 23:31:58
@@ -47215,7 +47215,7 @@ ok
 ##### GaGa 12/09/2020 06:09:37
 Is there any tutorial or any leads where I can see how to work on line follower using epuck
 
-##### DrakerDG 12/09/2020 06:27:16
+##### DrakerDG [Moderator] 12/09/2020 06:27:16
 `@GaGa` hello, maybe something like this?
 
 [https://youtu.be/\_wl1i1xcrFc](https://youtu.be/_wl1i1xcrFc)
@@ -47223,7 +47223,7 @@ Is there any tutorial or any leads where I can see how to work on line follower 
 ##### GaGa 12/09/2020 11:38:11
 `@DrakerDG` it would be great if u have any steps how u did
 
-##### DrakerDG 12/09/2020 19:20:26
+##### DrakerDG [Moderator] 12/09/2020 19:20:26
 `@GaGa` I originally used an example and then just modified the code so that it would work following lines and / or avoiding obstacles.  But zero is not that difficult either.
 
 
@@ -48247,7 +48247,7 @@ So yes, I got it as a shape node into a world. But it's huge, with a strange ori
 
 The small brown rectangle is my 5x5 floor...
 
-##### DrakerDG 12/17/2020 14:17:39
+##### DrakerDG [Moderator] 12/17/2020 14:17:39
 `@Götz` is normal but you can change the orietation
 
 ##### Götz 12/17/2020 14:18:09
