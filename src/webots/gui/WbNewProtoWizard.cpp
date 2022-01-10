@@ -28,9 +28,7 @@
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
-
 #include <QtGui/QRegExpValidator>
-
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
@@ -154,6 +152,7 @@ void WbNewProtoWizard::accept() {
 
     file.seek(0);
     file.write(protoContent);
+    file.resize(file.pos());
     file.close();
   }
 
