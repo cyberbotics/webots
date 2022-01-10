@@ -25,16 +25,16 @@ Supervisor::~Supervisor() {
   Node::cleanup();
 }
 
-Supervisor *Supervisor::internalGetInstance() {
+Supervisor *Supervisor::getSupervisorInstance() {
   if (cInstance) {
-    if(!dynamic_cast<Supervisor *>(cInstance)) {
+    if (!dynamic_cast<Supervisor *>(cInstance)) {
       cerr << "A Robot instance is already present, it cannot be casted to Supervisor" << endl;
       return NULL;
     }
-    return (Supervisor *)cInstance;
+    return static_cast<Supervisor *>(cInstance);
   }
   cInstance = new Supervisor();
-  return (Supervisor *)cInstance;
+  return static_cast<Supervisor *>(cInstance);
 }
 
 void Supervisor::simulationQuit(int status) {
