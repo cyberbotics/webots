@@ -35,6 +35,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSizePolicy>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
@@ -45,37 +46,12 @@ enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
-  /*
-  // prepare list of PROTO files
-  QDirIterator it(WbStandardPaths::projectsPath(), QDirIterator::Subdirectories);
-  while (it.hasNext()) {
-    QFileInfo file(it.next());
-    if (!file.isDir() && file.fileName().endsWith(".proto", Qt::CaseInsensitive))
-      mProtoFiles.insert(file.baseName(), file.filePath());
-  }
-  */
 
   addPage(createIntroPage());
   addPage(createNamePage());
   addPage(createTagsPage());
   addPage(createBaseNodeSelectorPage());
-  // addPage(createExposedFieldSelectorPage());
   addPage(createConclusionPage());
-
-  mProceduralCheckBox->setChecked(false);
-  mProceduralCheckBox->setText(tr("Procedural PROTO"));
-  mProceduralCheckBox->setToolTip(
-    tr("By enabling this option, JavaScript template scripting can be used to generate PROTO in a procedural way."));
-  mNonDeterministic->setChecked(false);
-  mNonDeterministic->setText(tr("Non-deterministic PROTO"));
-  mNonDeterministic->setToolTip(tr("A non-deterministic PROTO is a PROTO where the same fields can potentially yield a "
-                                   "different result from run to run. This "
-                                   "is often the case if random number generation with time-based seeds are employed."));
-  mHiddenCheckBox->setChecked(false);
-  mHiddenCheckBox->setText(tr("Hidden PROTO"));
-  mHiddenCheckBox->setToolTip(
-    tr("A hidden PROTO will not appear in the list when adding a new node. This tag is often used for "
-       "sub-PROTO, as uninteresting components of a larger node."));
 
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
@@ -241,9 +217,40 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   mNonDeterministic = new QCheckBox(page);
   mProceduralCheckBox = new QCheckBox(page);
   QVBoxLayout *layout = new QVBoxLayout(page);
+
+  QLabel *hiddenTagDescription = new QLabel(page);
+  QLabel *nondeterministicTagDescription = new QLabel(page);
+  QLabel *proceduralTagDescription = new QLabel(page);
+
+  mProceduralCheckBox->setChecked(false);
+  mProceduralCheckBox->setText(tr("Procedural PROTO."));
+  proceduralTagDescription->setText(tr("<i>By enabling this option, JavaScript template scripting can be used\n"
+                                       " to generate PROTO in a procedural way.</i>"));
+  proceduralTagDescription->setWordWrap(true);
+  proceduralTagDescription->setIndent(20);
+  mNonDeterministic->setChecked(false);
+  mNonDeterministic->setText(tr("Non-deterministic PROTO"));
+  nondeterministicTagDescription->setText(
+    tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially yield\n"
+       "a different result from run to run. This is often the case if random number\n"
+       "generation with time-based seeds are employed.</i>"));
+  nondeterministicTagDescription->setWordWrap(true);
+  nondeterministicTagDescription->setIndent(20);
+
+  mHiddenCheckBox->setChecked(false);
+  mHiddenCheckBox->setText(tr("Hidden PROTO"));
+  hiddenTagDescription->setText(tr("<i>A hidden PROTO will not appear in the list when adding a new node.\n"
+                                   "This tag is often used for sub-PROTO, when creating components of\n"
+                                   "a larger node.</i>"));
+  hiddenTagDescription->setWordWrap(true);
+  hiddenTagDescription->setIndent(20);
+
   layout->addWidget(mProceduralCheckBox);
+  layout->addWidget(proceduralTagDescription);
   layout->addWidget(mNonDeterministic);
+  layout->addWidget(nondeterministicTagDescription);
   layout->addWidget(mHiddenCheckBox);
+  layout->addWidget(hiddenTagDescription);
 
   return page;
 }
