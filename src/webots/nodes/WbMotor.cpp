@@ -617,6 +617,9 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mTargetPosition;
   stream << (double)mTargetVelocity;
   stream << (double)mMultiplier->value();
+  stream << (int)mCoupledMotors.size();
+  for (int i = 0; i < mCoupledMotors.size(); ++i)
+    stream << (WbDeviceTag)mCoupledMotors[i]->tag();
   mNeedToConfigure = false;
 }
 

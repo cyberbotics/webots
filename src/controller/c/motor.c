@@ -53,6 +53,8 @@ typedef struct {
   WbJointType type;
   int requested_device_type;
   int associated_device_tag;
+  int siblings_size;
+  WbDeviceTag *siblings;
 } Motor;
 
 static Motor *motor_create() {
@@ -87,6 +89,8 @@ static Motor *motor_create() {
   motor->configured = false;
   motor->requested_device_type = 0;
   motor->associated_device_tag = 0;
+  motor->siblings_size = 0;
+  motor->siblings = NULL;
   return motor;
 }
 
@@ -178,6 +182,12 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
       m->position = request_read_double(r);
       m->velocity = request_read_double(r);
       m->multiplier = request_read_double(r);
+      m->siblings_size = request_read_int32(r);
+      if (m->siblings_size > 0) {
+        m->siblings = (WbDeviceTag *)malloc(sizeof(WbDeviceTag) * m->siblings_size);
+        for (int i = 0; i < m->siblings_size; i++)
+          m->siblings[i] = request_read_uint16(r);
+      }
       m->configured = true;
       break;
     case C_MOTOR_FEEDBACK:
@@ -194,6 +204,7 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
 
 static void motor_cleanup(WbDevice *d) {
   Motor *m = (Motor *)d->pdata;
+  free(m->siblings);
   free(m);
 }
 
