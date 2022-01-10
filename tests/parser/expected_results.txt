@@ -25,7 +25,7 @@ parser/worlds/proto_missing_ending_curly_bracket.wbt "Expected field name or '}'
 parser/worlds/proto_missing_item_value_in_field.wbt "Expected floating point value, found 'field'."
 parser/worlds/proto_nested_parameter.wbt VOID
 parser/worlds/proto_not_allowed_field_value.wbt "Invalid 'translation' changed to 0 0 0. The value should be in the list: {0 0 0}."
-parser/worlds/proto_not_allowed_mf_field_value.wbt "Invalid 'Transform' removed from 'extensionSlot' field. The values should be in the list: {Solid, Group}."
+parser/worlds/proto_not_allowed_mf_field_value.wbt "Invalid 'Transform' removed from 'extensionSlot' field. The values should be in the list: {Solid{}, Group{}}."
 parser/worlds/proto_parameter_missing_ending_curly_bracket.wbt "Expected field name or '}', found ']'."
 parser/worlds/proto_typo_in_alias.wbt "PROTO parameter 'rotation' has no matching IS field."
 parser/worlds/proto_typo_in_is_keyword.wbt "Expected floating point value, found 'ISNOT'."
