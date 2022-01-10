@@ -108,6 +108,8 @@ void WbNewProtoWizard::accept() {
       tags.chop(2);
     }
 
+    tags += "\n";  // leave one empty line before the proto definition
+
     QString parameters = "";
     QString body = "";
 
@@ -242,6 +244,7 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   hiddenTagDescription->setWordWrap(true);
   hiddenTagDescription->setIndent(20);
 
+  layout->setSpacing(4);
   layout->addWidget(mProceduralCheckBox);
   layout->addWidget(proceduralTagDescription);
   layout->addWidget(mNonDeterministic);
@@ -355,8 +358,6 @@ void WbNewProtoWizard::updateBaseNode() {
   }
 
   QScrollArea *scrollArea = new QScrollArea();
-  scrollArea->viewport()->setBackgroundRole(QPalette::Dark);
-  scrollArea->viewport()->setAutoFillBackground(true);
   scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
@@ -364,15 +365,20 @@ void WbNewProtoWizard::updateBaseNode() {
   QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
   QVBoxLayout *layout = new QVBoxLayout(mainWidget);
 
-  QCheckBox *exposeAll = new QCheckBox();
-  exposeAll->setText("expose all");
-  mExposedFieldCheckBoxes.push_back(exposeAll);
-  layout->addWidget(exposeAll);
-  connect(exposeAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
+  if (fieldNames.size() > 0) {
+    QCheckBox *selectAll = new QCheckBox();
+    selectAll->setText("select all");
+    mExposedFieldCheckBoxes.push_back(selectAll);
+    layout->addWidget(selectAll);
+    connect(selectAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
 
-  foreach (const QString &name, fieldNames) {
-    mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
-    layout->addWidget(mExposedFieldCheckBoxes.back());
+    foreach (const QString &name, fieldNames) {
+      mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
+      layout->addWidget(mExposedFieldCheckBoxes.back());
+    }
+  } else {
+    QLabel *message = new QLabel("No fields.");
+    layout->addWidget(message);
   }
 
   scrollArea->setWidget(mainWidget);
