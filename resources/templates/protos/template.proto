@@ -5,5 +5,5 @@ PROTO %name% [
 %parameters%
 ]
 {
-%basenode%
+%body%
 }

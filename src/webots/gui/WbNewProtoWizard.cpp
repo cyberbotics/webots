@@ -35,12 +35,11 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSizePolicy>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
 
-enum { INTRO, LANGUAGE, NAME, CONCLUSION };  // TODO: modify accordingly
+enum { INTRO, NAME, TAGS, BASE_NODE, CONCLUSION };
 
 enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
 
@@ -56,8 +55,6 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
   setWindowTitle(tr("Create a new PROTO"));
-
-  // setMaximumSize(800, 500);
 }
 
 void WbNewProtoWizard::updateUI() {
@@ -98,61 +95,61 @@ void WbNewProtoWizard::accept() {
 
     QByteArray protoContent = file.readAll();
 
-    QString tags;
+    QString tags = "";
     if (mProceduralCheckBox->isChecked())
-      tags = "# template language: javascript\n# tags: ";
-    else
-      tags = "# tags: ";
+      tags += "# template language: javascript\n";
 
-    if (mNonDeterministic->isChecked())
-      tags += "nonDeterministic, ";
-    if (mHiddenCheckBox->isChecked())
-      tags += "hidden, ";
+    if (mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked()) {
+      tags += "# tags: ";
 
-    if (mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked())
+      if (mNonDeterministic->isChecked())
+        tags += "nonDeterministic, ";
+      if (mHiddenCheckBox->isChecked())
+        tags += "hidden, ";
+
       tags.chop(2);
-    else
-      tags.chop(QString("# tags: ").length());
-
-    QList<WbFieldModel *> fieldModels;
-    if (mType == BASE_NODE) {
-      WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-      fieldModels = nodeModel->fieldModels();
-    } else {
-      WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
-      assert(protoModel);
-      fieldModels = protoModel->fieldModels();
-      printf("proto model null ? %d\n", protoModel == NULL);
     }
-    assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
 
     QString parameters = "";
-    for (int i = 0; i < fieldModels.size(); ++i) {
-      if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
-        // foreach (WbFieldModel *fieldModel, fieldModels) {
-        WbValue *defaultValue = fieldModels[i]->defaultValue();
-        parameters +=
-          "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + defaultValue->toString() + "\n";
-        // printf("%s", parameters.toUtf8().constData());
+    QString body = "";
+
+    QList<WbFieldModel *> fieldModels;
+    // if base node was selected, define exposed parameters and PROTO body accordingly
+    if (mBaseNode != "") {
+      if (mType == BASE_NODE) {
+        WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+        fieldModels = nodeModel->fieldModels();
+      } else {
+        WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
+        assert(protoModel);
+        fieldModels = protoModel->fieldModels();
       }
+
+      assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
+
+      for (int i = 0; i < fieldModels.size(); ++i) {
+        if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
+          WbValue *defaultValue = fieldModels[i]->defaultValue();
+          parameters +=
+            "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + defaultValue->toString() + "\n";
+        }
+      }
+
+      parameters.chop(1);  // chop new line
+
+      body += "  " + mBaseNode + " {\n";
+      for (int i = 0; i < fieldModels.size(); ++i)
+        if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+          body += "    " + fieldModels[i]->name() + " IS " + fieldModels[i]->name() + "\n";
+      body += "  }";
     }
 
-    parameters.chop(1);  // chop new line
-
-    QString version = WbApplicationInfo::version().toString(false);
-    // QString body = mBaseNode.isEmpty() ? "" : "  " + mBaseNode + " {\n  }";
-    QString body = "  " + mBaseNode + " {\n";
-    // foreach (WbFieldModel *fieldModel, fieldModels) {
-    for (int i = 0; i < fieldModels.size(); ++i) {
-      if (mExposedFieldCheckBoxes[i + 1]->isChecked())
-        body += "    " + fieldModels[i]->name() + " IS " + fieldModels[i]->name() + "\n";
-    }
-    body += "  }";
+    QString release = WbApplicationInfo::version().toString(false);
 
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
-    protoContent.replace(QByteArray("%release%"), version.toUtf8());
-    protoContent.replace(QByteArray("%basenode%"), body.toUtf8());
+    protoContent.replace(QByteArray("%release%"), release.toUtf8());
+    protoContent.replace(QByteArray("%body%"), body.toUtf8());
     protoContent.replace(QByteArray("%parameters%"), parameters.toUtf8());
 
     file.seek(0);
@@ -196,7 +193,7 @@ QWizardPage *WbNewProtoWizard::createNamePage() {
   page->setSubTitle(tr("Please choose a name for your PROTO node."));
 
   QLabel *nameLabel = new QLabel(tr("PROTO name:"), page);
-  mNameEdit = new WbLineEdit("my_proto", page);
+  mNameEdit = new WbLineEdit("MyProto", page);
   mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
@@ -218,22 +215,21 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   mProceduralCheckBox = new QCheckBox(page);
   QVBoxLayout *layout = new QVBoxLayout(page);
 
-  QLabel *hiddenTagDescription = new QLabel(page);
   QLabel *nondeterministicTagDescription = new QLabel(page);
   QLabel *proceduralTagDescription = new QLabel(page);
+  QLabel *hiddenTagDescription = new QLabel(page);
 
   mProceduralCheckBox->setChecked(false);
-  mProceduralCheckBox->setText(tr("Procedural PROTO."));
+  mProceduralCheckBox->setText(tr("Procedural PROTO"));
   proceduralTagDescription->setText(tr("<i>By enabling this option, JavaScript template scripting can be used\n"
                                        " to generate PROTO in a procedural way.</i>"));
   proceduralTagDescription->setWordWrap(true);
   proceduralTagDescription->setIndent(20);
   mNonDeterministic->setChecked(false);
   mNonDeterministic->setText(tr("Non-deterministic PROTO"));
-  nondeterministicTagDescription->setText(
-    tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially yield\n"
-       "a different result from run to run. This is often the case if random number\n"
-       "generation with time-based seeds are employed.</i>"));
+  nondeterministicTagDescription->setText(tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
+                                             "yield a different result from run to run. This is often the case if random\n"
+                                             "number generation with time-based seeds are employed.</i>"));
   nondeterministicTagDescription->setWordWrap(true);
   nondeterministicTagDescription->setIndent(20);
 
@@ -271,12 +267,8 @@ QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
   mFindLineEdit->setFont(font);
   mFindLineEdit->setClearButtonEnabled(true);
 
-  // QLabel *info = new QLabel();
-  // info->setText(tr("Select a node"));
-
   mTree = new QTreeWidget();
 
-  // fieldListLayout->addWidget(info);
   mFields = new QWidget(this);
   fieldListLayout->addWidget(mFields);
 
