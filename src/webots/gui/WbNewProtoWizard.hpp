@@ -16,7 +16,7 @@
 #define WB_NEW_PROTO_WIZARD_HPP
 
 //
-// Description: Wizard for creating a new Proto
+// Description: Wizard for the creation of a new PROTO
 //
 
 #include <QtWidgets/QCheckBox>
@@ -25,7 +25,6 @@
 
 class WbLineEdit;
 class QLabel;
-class QButtonGroup;
 
 class WbNewProtoWizard : public QWizard {
   Q_OBJECT
@@ -49,6 +48,7 @@ private slots:
 
 private:
   bool mNeedsEdit;
+  bool mIsProtoNode;
 
   QString mProtoDir;
   QString mProtoFullPath;
@@ -57,19 +57,11 @@ private:
   WbLineEdit *mNameEdit;
   QCheckBox *mEditCheckBox;
   QCheckBox *mHiddenCheckBox;
-  QCheckBox *mNonDeterministic;
+  QCheckBox *mNonDeterministicCheckbox;
   QCheckBox *mProceduralCheckBox;
   QTreeWidget *mTree;
   QWidget *mFields;
   QLineEdit *mFindLineEdit;
-
-  enum BaseType { BASE_NODE, PROTO_NODE };
-
-  BaseType mType;
-
-  // QStringList protoFiles;
-  // QMap<QString, QString> mProtoFiles;
-
   QVector<QCheckBox *> mExposedFieldCheckBoxes;
 
   void updateUI();
@@ -79,7 +71,6 @@ private:
   QWizardPage *createNamePage();
   QWizardPage *createTagsPage();
   QWizardPage *createBaseNodeSelectorPage();
-  QWizardPage *createExposedFieldSelectorPage();
   QWizardPage *createConclusionPage();
 };
 

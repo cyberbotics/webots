@@ -38,7 +38,6 @@
 #include <QtWidgets/QWizardPage>
 
 enum { INTRO, NAME, TAGS, BASE_NODE, CONCLUSION };
-
 enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
@@ -97,10 +96,10 @@ void WbNewProtoWizard::accept() {
     if (mProceduralCheckBox->isChecked())
       tags += "# template language: javascript\n";
 
-    if (mNonDeterministic->isChecked() || mHiddenCheckBox->isChecked()) {
+    if (mNonDeterministicCheckbox->isChecked() || mHiddenCheckBox->isChecked()) {
       tags += "# tags: ";
 
-      if (mNonDeterministic->isChecked())
+      if (mNonDeterministicCheckbox->isChecked())
         tags += "nonDeterministic, ";
       if (mHiddenCheckBox->isChecked())
         tags += "hidden, ";
@@ -116,13 +115,13 @@ void WbNewProtoWizard::accept() {
     QList<WbFieldModel *> fieldModels;
     // if base node was selected, define exposed parameters and PROTO body accordingly
     if (mBaseNode != "") {
-      if (mType == BASE_NODE) {
-        WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-        fieldModels = nodeModel->fieldModels();
-      } else {
+      if (mIsProtoNode) {
         WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
+      } else {
+        WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+        fieldModels = nodeModel->fieldModels();
       }
 
       assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
@@ -179,9 +178,8 @@ QWizardPage *WbNewProtoWizard::createIntroPage() {
 
   page->setTitle(tr("New PROTO creation"));
 
-  QLabel *label = new QLabel(tr("This wizard will help you creating a new PROTO."), page);
-
   QVBoxLayout *layout = new QVBoxLayout(page);
+  QLabel *label = new QLabel(tr("This wizard will help you creating a new PROTO."), page);
   layout->addWidget(label);
 
   return page;
@@ -214,27 +212,27 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   QVBoxLayout *layout = new QVBoxLayout(page);
 
   mHiddenCheckBox = new QCheckBox(page);
-  mNonDeterministic = new QCheckBox(page);
+  mNonDeterministicCheckbox = new QCheckBox(page);
   mProceduralCheckBox = new QCheckBox(page);
 
-  QLabel *nondeterministicTagDescription = new QLabel(page);
+  QLabel *nonDeterministicTagDescription = new QLabel(page);
   QLabel *proceduralTagDescription = new QLabel(page);
   QLabel *hiddenTagDescription = new QLabel(page);
 
   mProceduralCheckBox->setChecked(false);
   mProceduralCheckBox->setText(tr("Procedural PROTO"));
   proceduralTagDescription->setText(tr("<i>By enabling this option, JavaScript template scripting can be used\n"
-                                       " to generate PROTO in a procedural way.</i>"));
+                                       "to generate PROTO in a procedural way.</i>"));
   proceduralTagDescription->setWordWrap(true);
   proceduralTagDescription->setIndent(20);
 
-  mNonDeterministic->setChecked(false);
-  mNonDeterministic->setText(tr("Non-deterministic PROTO"));
-  nondeterministicTagDescription->setText(tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
+  mNonDeterministicCheckbox->setChecked(false);
+  mNonDeterministicCheckbox->setText(tr("Non-deterministic PROTO"));
+  nonDeterministicTagDescription->setText(tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
                                              "yield a different result from run to run. This is often the case if random\n"
                                              "number generators with time-based seeds are employed.</i>"));
-  nondeterministicTagDescription->setWordWrap(true);
-  nondeterministicTagDescription->setIndent(20);
+  nonDeterministicTagDescription->setWordWrap(true);
+  nonDeterministicTagDescription->setIndent(20);
 
   mHiddenCheckBox->setChecked(false);
   mHiddenCheckBox->setText(tr("Hidden PROTO"));
@@ -247,8 +245,8 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   layout->setSpacing(4);
   layout->addWidget(mProceduralCheckBox);
   layout->addWidget(proceduralTagDescription);
-  layout->addWidget(mNonDeterministic);
-  layout->addWidget(nondeterministicTagDescription);
+  layout->addWidget(mNonDeterministicCheckbox);
+  layout->addWidget(nonDeterministicTagDescription);
   layout->addWidget(mHiddenCheckBox);
   layout->addWidget(hiddenTagDescription);
 
@@ -350,11 +348,11 @@ void WbNewProtoWizard::updateBaseNode() {
   if (topLevel->type() == PROTO_NODE_LIST) {
     WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, WbStandardPaths::projectsPath());
     fieldNames = protoModel->parameterNames();
-    mType = PROTO_NODE;
+    mIsProtoNode = true;
   } else {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
     fieldNames = nodeModel->fieldNames();
-    mType = BASE_NODE;
+    mIsProtoNode = false;
   }
 
   QScrollArea *scrollArea = new QScrollArea();
