@@ -42,7 +42,8 @@ showdown.extension('wbVariables', function() {
       year: 2022
     },
     url: {
-      github_tree: `https://github.com/cyberbotics/webots/tree/` + branch
+      github_tree: `https://github.com/cyberbotics/webots/tree/` + branch,
+      github_raw: `https://raw.githubusercontent.com/cyberbotics/webots/` + branch
     }
   };
 
