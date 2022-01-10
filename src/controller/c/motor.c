@@ -240,6 +240,14 @@ void wb_motor_set_position_no_mutex(WbDeviceTag tag, double pos) {
   if (m) {
     m->requests[C_MOTOR_SET_POSITION] = 1;
     m->position = pos;
+
+    for (int i = 0; i < m->siblings_size; ++i) {
+      Motor *s = motor_get_struct(m->siblings[i]);
+      if (s)
+        s->position = isinf(pos) ? pos : pos * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
@@ -278,6 +286,15 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
     }
     m->requests[C_MOTOR_SET_VELOCITY] = 1;
     m->velocity = velocity;
+
+    for (int i = 0; i < m->siblings_size; ++i) {
+      Motor *s = motor_get_struct(m->siblings[i]);
+      if (s)
+        s->velocity = velocity * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
+
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
@@ -349,6 +366,14 @@ void wb_motor_set_force(WbDeviceTag tag, double force) {
   if (m) {
     m->requests[C_MOTOR_SET_FORCE] = 1;
     m->force = force;
+
+    for (int i = 0; i < m->siblings_size; ++i) {
+      Motor *s = motor_get_struct(m->siblings[i]);
+      if (s)
+        s->force = force * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();

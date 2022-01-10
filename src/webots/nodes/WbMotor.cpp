@@ -345,7 +345,6 @@ void WbMotor::setTargetPosition(double position) {
   }
 
   mUserControl = false;
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
@@ -358,7 +357,6 @@ void WbMotor::setVelocity(double velocity) {
     mTargetVelocity = mTargetVelocity >= 0.0 ? m : -m;
   }
 
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
