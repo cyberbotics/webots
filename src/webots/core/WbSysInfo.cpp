@@ -92,10 +92,13 @@ const QString &WbSysInfo::openGLVersion() {
   return openGLVersion;
 }
 const QString &WbSysInfo::openALDevices() {
-  static QString openALDevices;
-  if (openALDevices.isEmpty())
-    openALDevices = (const char *)alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
-  return openALDevices;
+  const ALCchar *openALDevices = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+  static QString gDefaultDevice;
+
+  //openALDevices = (const char *)alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
+  if (gDefaultDevice.isEmpty())
+    gDefaultDevice = (const char *)alcOpenDevice(openALDevices);
+  return gDefaultDevice;
 }
 
 void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
