@@ -19,11 +19,10 @@
 
 RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
   mGPS = gps;
-  mCoordinateTypeServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + "/get_coordinate_system", &RosGPS::getCoordinateTypeCallback);
-  mConvertServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + "/decimal_degrees_to_degrees_minutes_seconds",
-    &RosGPS::convertToDegreesMinutesSecondsCallback);
+  mCoordinateTypeServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_coordinate_system", &RosGPS::getCoordinateTypeCallback);
+  mConvertServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/decimal_degrees_to_degrees_minutes_seconds",
+                                                  &RosGPS::convertToDegreesMinutesSecondsCallback);
 }
 
 RosGPS::~RosGPS() {
@@ -38,12 +37,12 @@ RosGPS::~RosGPS() {
 // for x,y and z absolute coordinates as message type
 ros::Publisher RosGPS::createPublisher() {
   webots_ros::Float64Stamped speedType;
-  mSpeedPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed", speedType);
+  mSpeedPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/speed", speedType);
 
-  std::string speedVectorTopicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed_vector";
+  std::string speedVectorTopicName = RosDevice::fixedDeviceName() + "/speed_vector";
   mSpeedVectorPublisher = RosDevice::rosAdvertiseTopic(speedVectorTopicName, geometry_msgs::PointStamped());
 
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
+  std::string topicName = RosDevice::fixedDeviceName() + "/values";
   if (mGPS->getCoordinateSystem() == GPS::WGS84)
     return RosDevice::rosAdvertiseTopic(topicName, sensor_msgs::NavSatFix());
   return RosDevice::rosAdvertiseTopic(topicName, geometry_msgs::PointStamped());

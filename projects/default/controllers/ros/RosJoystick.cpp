@@ -19,23 +19,19 @@ RosJoystick::RosJoystick(Joystick *joystick, Ros *ros) : RosSensor("joystick", N
   mJoystick = joystick;
   mAxesValuePublisher = NULL;
   mPovsValuePublisher = NULL;
-  mGetModelServer = RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_model", &RosJoystick::getModelCallback);
-  mGetNumberOfAxesServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
-  mGetNumberOfPovsServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
-  mIsConnectedServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/is_connected", &RosJoystick::isConnectedCallback);
+  mGetModelServer = RosDevice::rosAdvertiseService("joystick/get_model", &RosJoystick::getModelCallback);
+  mGetNumberOfAxesServer = RosDevice::rosAdvertiseService("joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
+  mGetNumberOfPovsServer = RosDevice::rosAdvertiseService("joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
+  mIsConnectedServer = RosDevice::rosAdvertiseService("joystick/is_connected", &RosJoystick::isConnectedCallback);
   mSetConstantForceServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_constant_force", &RosJoystick::setConstantForceCallback);
-  mSetConstantForceDurationServer = RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_constant_force_duration",
-                                                                   &RosJoystick::setConstantForceDurationCallback);
+    RosDevice::rosAdvertiseService("joystick/set_constant_force", &RosJoystick::setConstantForceCallback);
+  mSetConstantForceDurationServer =
+    RosDevice::rosAdvertiseService("joystick/set_constant_force_duration", &RosJoystick::setConstantForceDurationCallback);
   mSetAutoCenteringGainServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_auto_centering_gain", &RosJoystick::setAutoCenteringCallback);
+    RosDevice::rosAdvertiseService("joystick/set_auto_centering_gain", &RosJoystick::setAutoCenteringCallback);
   mSetResistanceGainServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_resistance_gain", &RosJoystick::setResistanceGainCallback);
-  mSetForceAxisServer =
-    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
+    RosDevice::rosAdvertiseService("joystick/set_resistance_gain", &RosJoystick::setResistanceGainCallback);
+  mSetForceAxisServer = RosDevice::rosAdvertiseService("joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
 }
 
 RosJoystick::~RosJoystick() {
@@ -64,7 +60,7 @@ RosJoystick::~RosJoystick() {
 // creates a publisher for joystick values with a webots_ros/Int8Stamped as message type
 ros::Publisher RosJoystick::createPublisher() {
   webots_ros::Int8Stamped type;
-  std::string topicName = mRos->name() + "/joystick/pressed_button";
+  std::string topicName = "joystick/pressed_button";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

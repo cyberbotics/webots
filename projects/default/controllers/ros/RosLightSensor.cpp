@@ -18,8 +18,8 @@
 RosLightSensor::RosLightSensor(LightSensor *lightSensor, Ros *ros) : RosSensor(lightSensor->getName(), lightSensor, ros) {
   mLightSensor = lightSensor;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
 }
 
 RosLightSensor::~RosLightSensor() {
@@ -30,7 +30,7 @@ RosLightSensor::~RosLightSensor() {
 // creates a publisher for light sensor value with a {double} as message type
 ros::Publisher RosLightSensor::createPublisher() {
   sensor_msgs::Illuminance type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

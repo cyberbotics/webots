@@ -18,14 +18,13 @@ RosMouse::RosMouse(Mouse *mouse, Ros *ros) : RosSensor("mouse", NULL, ros) {
   mMouse = mouse;
 
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mGetStateServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/mouse_get_state", &RosMouse::getStateCallback);
-  mEnable3dPositionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/mouse_enable_3d_position",
-                                                           &RosMouse::enable3dPositionCallback);
-  mDisable3dPositionServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + fixedDeviceName + "/mouse_disable_3d_position", &RosMouse::disable3dPositionCallback);
-  mIs3dPositionEnabledServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + fixedDeviceName + "/mouse_is_3d_position_enabled", &RosMouse::is3dPositionEnabledCallback);
+  mGetStateServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/mouse_get_state", &RosMouse::getStateCallback);
+  mEnable3dPositionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/mouse_enable_3d_position", &RosMouse::enable3dPositionCallback);
+  mDisable3dPositionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/mouse_disable_3d_position", &RosMouse::disable3dPositionCallback);
+  mIs3dPositionEnabledServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/mouse_is_3d_position_enabled", &RosMouse::is3dPositionEnabledCallback);
 }
 
 RosMouse::~RosMouse() {

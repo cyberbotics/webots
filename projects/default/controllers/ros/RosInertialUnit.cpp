@@ -19,8 +19,7 @@
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
 
-  mNoiseServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_noise",
-                                                &RosInertialUnit::getNoise);
+  mNoiseServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_noise", &RosInertialUnit::getNoise);
 }
 
 RosInertialUnit::~RosInertialUnit() {
@@ -30,7 +29,7 @@ RosInertialUnit::~RosInertialUnit() {
 // creates a publisher for InertialUnit values with a sensor_msgs/Imu as message type
 ros::Publisher RosInertialUnit::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/quaternion";
+  std::string topicName = RosDevice::fixedDeviceName() + "/quaternion";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

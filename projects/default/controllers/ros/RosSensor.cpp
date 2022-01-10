@@ -17,10 +17,9 @@
 RosSensor::RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices) :
   RosDevice(device, ros, enableDefaultServices) {
   std::string fixedDeviceName = Ros::fixedNameString(deviceName);
-  mSensorEnableServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/enable", &RosSensor::sensorEnableCallback);
-  mSamplingPeriodServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_sampling_period",
-                                                         &RosSensor::samplingPeriodCallback);
+  mSensorEnableServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/enable", &RosSensor::sensorEnableCallback);
+  mSamplingPeriodServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_sampling_period", &RosSensor::samplingPeriodCallback);
 }
 
 RosSensor::~RosSensor() {

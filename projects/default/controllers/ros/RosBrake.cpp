@@ -19,14 +19,12 @@
 
 RosBrake::RosBrake(Brake *brake, Ros *ros) : RosDevice(brake, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetDampingConstantServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_damping_constant",
-                                                             &RosBrake::setDampingConstantCallback);
-  mGetTypeServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_type", &RosBrake::getTypeCallback);
-  mGetMotorNameServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_motor_name", &RosBrake::getMotorNameCallback);
-  mGetPositionSensorNameServer = RosDevice::rosAdvertiseService(
-    ros->name() + '/' + fixedDeviceName + "/get_position_sensor_name", &RosBrake::getPositionSensorNameCallback);
+  mSetDampingConstantServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_damping_constant", &RosBrake::setDampingConstantCallback);
+  mGetTypeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_type", &RosBrake::getTypeCallback);
+  mGetMotorNameServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_motor_name", &RosBrake::getMotorNameCallback);
+  mGetPositionSensorNameServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_position_sensor_name", &RosBrake::getPositionSensorNameCallback);
   mBrake = brake;
 }
 

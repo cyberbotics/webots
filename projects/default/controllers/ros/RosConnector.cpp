@@ -18,9 +18,8 @@
 RosConnector::RosConnector(Connector *connector, Ros *ros) :
   RosSensor(connector->getName() + "/presence_sensor", connector, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mLockServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/lock", &RosConnector::lockCallback);
-  mIsLockedServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_locked", &RosConnector::isLockedCallback);
+  mLockServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/lock", &RosConnector::lockCallback);
+  mIsLockedServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_locked", &RosConnector::isLockedCallback);
   mConnector = connector;
 }
 
@@ -32,7 +31,7 @@ RosConnector::~RosConnector() {
 
 ros::Publisher RosConnector::createPublisher() {
   webots_ros::Int8Stamped type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/presence";
+  std::string topicName = RosDevice::fixedDeviceName() + "/presence";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 

@@ -22,7 +22,7 @@ RosBatterySensor::RosBatterySensor(Robot *robot, Ros *ros) : RosSensor("battery_
 // creates a publisher for battery sensor value with a {double} as message type
 ros::Publisher RosBatterySensor::createPublisher() {
   webots_ros::Float64Stamped type;
-  std::string topicName = mRos->name() + "/battery_sensor/value";
+  std::string topicName = "battery_sensor/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
