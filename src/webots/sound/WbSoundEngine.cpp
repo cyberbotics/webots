@@ -30,7 +30,6 @@
 #include "WbWaveFile.hpp"
 #include "WbWorld.hpp"
 
-#include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
 #include <QtCore/QObject>
@@ -77,7 +76,6 @@ static void cleanup() {
 static void init() {
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
-  qDebug() << "status" << !WbPreferences::instance()->value("Sound/OpenAL").toBool();
 
   if (gDefaultDevice || !WbPreferences::instance()->value("Sound/OpenAL").toBool())  // init was already done or no-audio asked
     return;
@@ -85,23 +83,18 @@ static void init() {
   try {
     // defaultDeviceName contains the name of the def
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-    /*     const ALCchar *alsaDevice = "ALSA Default";
-
-        if (defaultDeviceName == alsaDevice)  //"ALSA Default" = no sound device
-          return; */
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
-    if (gDefaultDevice == NULL) {
-      WbPreferences::instance()->setValue("Sound/OpenAL", false);
+    if (gDefaultDevice == NULL)
       throw QObject::tr("Cannot initialize OpenAL default device '%1'").arg(defaultDeviceName);
-    }
     gContext = alcCreateContext(gDefaultDevice, NULL);
     if (gContext == NULL)
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
   } catch (const QString &e) {
+    WbPreferences::instance()->setValue("Sound/OpenAL", false);
     WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
   WbSoundEngine::updateListener();

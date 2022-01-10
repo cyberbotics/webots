@@ -91,13 +91,11 @@ const QString &WbSysInfo::openGLVersion() {
     openGLVersion = (const char *)glGetString(GL_VERSION);
   return openGLVersion;
 }
-const QString &WbSysInfo::openALDevices() {
-  const ALCchar *openALDevices = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+const QString &WbSysInfo::defaultALDevices() {
+  const ALCchar *defaultALDevices = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
   static QString gDefaultDevice;
-
-  //openALDevices = (const char *)alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
   if (gDefaultDevice.isEmpty())
-    gDefaultDevice = (const char *)alcOpenDevice(openALDevices);
+    gDefaultDevice = (const char *)alcOpenDevice(defaultALDevices);
   return gDefaultDevice;
 }
 

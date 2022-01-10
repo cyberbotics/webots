@@ -134,7 +134,7 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
     out << "System: " << WbSysInfo::sysInfo() << "\n";
     out << "Processor: " << WbSysInfo::processor() << "\n";
     out << "Number of cores: " << WbSysInfo::coreCount() << "\n";
-    out << "OpenAL devices: " << WbSysInfo::openALDevices() << "\n";
+    out << "OpenAL devices: " << WbSysInfo::defaultALDevices() << "\n";
     out << "OpenGL vendor: " << WbSysInfo::openGLVendor() << "\n";
     out << "OpenGL renderer: " << WbSysInfo::openGLRenderer() << "\n";
     out << "OpenGL version: " << WbSysInfo::openGLVersion() << "\n";

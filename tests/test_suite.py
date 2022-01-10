@@ -190,7 +190,8 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
-            if (not filename.endswith('_temp.wbt')):
+            if (not filename.endswith('_temp.wbt') and
+                    not (('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
                 worldsCount += 1
 
