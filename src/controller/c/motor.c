@@ -53,8 +53,8 @@ typedef struct {
   WbJointType type;
   int requested_device_type;
   int associated_device_tag;
-  int siblings_size;
-  WbDeviceTag *siblings;
+  int couplings_size;
+  WbDeviceTag *couplings;
 } Motor;
 
 static Motor *motor_create() {
@@ -89,8 +89,8 @@ static Motor *motor_create() {
   motor->configured = false;
   motor->requested_device_type = 0;
   motor->associated_device_tag = 0;
-  motor->siblings_size = 0;
-  motor->siblings = NULL;
+  motor->couplings_size = 0;
+  motor->couplings = NULL;
   return motor;
 }
 
@@ -182,11 +182,11 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
       m->position = request_read_double(r);
       m->velocity = request_read_double(r);
       m->multiplier = request_read_double(r);
-      m->siblings_size = request_read_int32(r);
-      if (m->siblings_size > 0) {
-        m->siblings = (WbDeviceTag *)malloc(sizeof(WbDeviceTag) * m->siblings_size);
-        for (int i = 0; i < m->siblings_size; i++)
-          m->siblings[i] = request_read_uint16(r);
+      m->couplings_size = request_read_int32(r);
+      if (m->couplings_size > 0) {
+        m->couplings = (WbDeviceTag *)malloc(sizeof(WbDeviceTag) * m->couplings_size);
+        for (int i = 0; i < m->couplings_size; i++)
+          m->couplings[i] = request_read_uint16(r);
       }
       m->configured = true;
       break;
@@ -204,7 +204,7 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
 
 static void motor_cleanup(WbDevice *d) {
   Motor *m = (Motor *)d->pdata;
-  free(m->siblings);
+  free(m->couplings);
   free(m);
 }
 
@@ -241,8 +241,8 @@ void wb_motor_set_position_no_mutex(WbDeviceTag tag, double pos) {
     m->requests[C_MOTOR_SET_POSITION] = 1;
     m->position = pos;
 
-    for (int i = 0; i < m->siblings_size; ++i) {
-      Motor *s = motor_get_struct(m->siblings[i]);
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
       if (s)
         s->position = isinf(pos) ? pos : pos * s->multiplier;
       else
@@ -287,8 +287,8 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
     m->requests[C_MOTOR_SET_VELOCITY] = 1;
     m->velocity = velocity;
 
-    for (int i = 0; i < m->siblings_size; ++i) {
-      Motor *s = motor_get_struct(m->siblings[i]);
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
       if (s)
         s->velocity = velocity * s->multiplier;
       else
@@ -367,8 +367,8 @@ void wb_motor_set_force(WbDeviceTag tag, double force) {
     m->requests[C_MOTOR_SET_FORCE] = 1;
     m->force = force;
 
-    for (int i = 0; i < m->siblings_size; ++i) {
-      Motor *s = motor_get_struct(m->siblings[i]);
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
       if (s)
         s->force = force * s->multiplier;
       else
