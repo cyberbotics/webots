@@ -210,10 +210,11 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   page->setTitle(tr("Tags selection"));
   page->setSubTitle(tr("Please choose the tags of your PROTO."));
 
+  QVBoxLayout *layout = new QVBoxLayout(page);
+
   mHiddenCheckBox = new QCheckBox(page);
   mNonDeterministic = new QCheckBox(page);
   mProceduralCheckBox = new QCheckBox(page);
-  QVBoxLayout *layout = new QVBoxLayout(page);
 
   QLabel *nondeterministicTagDescription = new QLabel(page);
   QLabel *proceduralTagDescription = new QLabel(page);
@@ -225,11 +226,12 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
                                        " to generate PROTO in a procedural way.</i>"));
   proceduralTagDescription->setWordWrap(true);
   proceduralTagDescription->setIndent(20);
+
   mNonDeterministic->setChecked(false);
   mNonDeterministic->setText(tr("Non-deterministic PROTO"));
   nondeterministicTagDescription->setText(tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
                                              "yield a different result from run to run. This is often the case if random\n"
-                                             "number generation with time-based seeds are employed.</i>"));
+                                             "number generators with time-based seeds are employed.</i>"));
   nondeterministicTagDescription->setWordWrap(true);
   nondeterministicTagDescription->setIndent(20);
 
@@ -268,37 +270,38 @@ QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
   mFindLineEdit->setClearButtonEnabled(true);
 
   mTree = new QTreeWidget();
-
   mFields = new QWidget(this);
-  fieldListLayout->addWidget(mFields);
 
   QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   policy.setHorizontalStretch(1);
 
   mFindLineEdit->setSizePolicy(policy);
   mTree->setSizePolicy(policy);
-  // info->setSizePolicy(policy);
   mFields->setSizePolicy(policy);
 
   nodeListLayout->addWidget(mFindLineEdit);
   nodeListLayout->addWidget(mTree);
+  fieldListLayout->addWidget(mFields);
 
   mainLayout->addLayout(nodeListLayout);
   mainLayout->addLayout(fieldListLayout);
 
   connect(mFindLineEdit, &QLineEdit::textChanged, this, &WbNewProtoWizard::updateNodeTree);
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbNewProtoWizard::updateBaseNode);
+
   updateNodeTree();
 
   return page;
 }
 
 void WbNewProtoWizard::updateNodeTree() {
-  printf("update node\n");
   mTree->clear();
   mTree->setHeaderHidden(true);
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_NODE_LIST);
+  QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
+
+  // list of all available base nodes
   QStringList nodes = WbNodeModel::baseModelNames();
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
@@ -307,13 +310,9 @@ void WbNewProtoWizard::updateNodeTree() {
       nodesItem->addChild(item);
     }
   }
-
-  QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
+  // list of all available protos
   QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
-    // QMapIterator<QString, QString> it(mProtoFiles);
-    // while (it.hasNext()) {
-    //  it.next();
     if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
       QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(protoName));
       protosItem->addChild(item);
@@ -328,7 +327,6 @@ void WbNewProtoWizard::updateNodeTree() {
 }
 
 void WbNewProtoWizard::updateBaseNode() {
-  printf("update base\n");
   qDeleteAll(mFields->children());
   mExposedFieldCheckBoxes.clear();
 
@@ -348,16 +346,6 @@ void WbNewProtoWizard::updateBaseNode() {
 
   QStringList fieldNames;
   if (topLevel->type() == PROTO_NODE_LIST) {
-    /*
-    assert(mProtoFiles[mBaseNode]);
-    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(mProtoFiles[mBaseNode]);
-    bool success = protoCachedInfo->load();
-    if (!success || protoCachedInfo->isOutOfDate()) {
-      delete protoCachedInfo;
-      protoCachedInfo = WbProtoCachedInfo::computeInfo(mBaseNode);
-    }
-    fieldNames = protoCachedInfo->parameterNames();
-    */
     WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, WbStandardPaths::projectsPath());
     fieldNames = protoModel->parameterNames();
     mType = PROTO_NODE;
@@ -366,11 +354,6 @@ void WbNewProtoWizard::updateBaseNode() {
     fieldNames = nodeModel->fieldNames();
     mType = BASE_NODE;
   }
-
-  printf("# models: %d\n", fieldNames.size());
-
-  QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  policy.setHorizontalStretch(1);
 
   QScrollArea *scrollArea = new QScrollArea();
   scrollArea->viewport()->setBackgroundRole(QPalette::Dark);
@@ -384,15 +367,11 @@ void WbNewProtoWizard::updateBaseNode() {
 
   QCheckBox *exposeAll = new QCheckBox();
   exposeAll->setText("expose all");
-  // allCheckBox->setChecked(true);
   mExposedFieldCheckBoxes.push_back(exposeAll);
-  connect(exposeAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
   layout->addWidget(exposeAll);
+  connect(exposeAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
 
   foreach (const QString &name, fieldNames) {
-    // printf("%s\n", protoParameter.toUtf8().constData());
-    // QCheckBox *fieldCheckBox = new QCheckBox();
-    // fieldCheckBox->setText(fieldModel->name());
     mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
     layout->addWidget(mExposedFieldCheckBoxes.back());
   }
@@ -402,54 +381,9 @@ void WbNewProtoWizard::updateBaseNode() {
 }
 
 void WbNewProtoWizard::updateCheckBox(int state) {
+  // if the "expose all" checkbox is checked, activate all others
   for (int i = 1; i < mExposedFieldCheckBoxes.size(); ++i)
     mExposedFieldCheckBoxes[i]->setChecked(state);
-}
-
-QWizardPage *WbNewProtoWizard::createExposedFieldSelectorPage() {
-  /*
-    QWizardPage *page = new QWizardPage(this);
-
-    page->setTitle(tr("Exposed field selection"));
-    page->setSubTitle(tr("Please choose which fields of the %1 node should be modifiable from the scene
-    tree.").arg(mBaseNode));
-
-    mBaseNode = QString("Accelerometer");
-    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-
-    // QVBoxLayout *layout = new QVBoxLayout(page);
-
-    printf("null field model? %d\n", nodeModel == NULL);
-    const QList<WbFieldModel *> &fieldModels = nodeModel->fieldModels();
-
-    int n = fieldModels.size();
-    // printf("fields: %d\n", n);
-
-    // QCheckBox *fieldCheckBoxes[n];
-
-    QScrollArea *scrollArea = new QScrollArea(page);
-    // scrollArea->setGeometry(0, 0, 800, 500);
-    QWidget *mainWidget = new QWidget();
-
-    QVBoxLayout *layout = new QVBoxLayout(mainWidget);
-
-    //QCheckBox *allCheckBox = new QCheckBox();
-    //allCheckBox->setText("all");
-    //allCheckBox->setChecked(true);
-    //layout->addWidget(allCheckBox);
-
-    foreach (WbFieldModel *fieldModel, fieldModels) {
-      // printf("%s\n", protoParameter.toUtf8().constData());
-      QCheckBox *fieldCheckBox = new QCheckBox();
-      fieldCheckBox->setText(fieldModel->name());
-      fieldCheckBox->setEnabled(false);
-      layout->addWidget(fieldCheckBox);
-    }
-
-    scrollArea->setWidget(mainWidget);
-
-    return page;
-    */
 }
 
 QWizardPage *WbNewProtoWizard::createConclusionPage() {
