@@ -95,6 +95,14 @@ int Robot::step(int duration) {
   return wb_robot_step(duration);
 }
 
+int Robot::step_begin(int duration) {
+  return wb_robot_step_begin(duration);
+}
+
+int Robot::step_end() {
+  return wb_robot_step_end();
+}
+
 Robot::UserInputEvent Robot::waitForUserInputEvent(UserInputEvent event_type, int timeout) {
   return UserInputEvent(wb_robot_wait_for_user_input_event(WbUserInputEvent(event_type), timeout));
 }
