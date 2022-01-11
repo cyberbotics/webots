@@ -40,6 +40,8 @@
 enum { INTRO, NAME, TAGS, BASE_NODE, CONCLUSION };
 enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
 
+static const QStringList defaultFields = {"translation", "rotation", "name", "controller"};
+
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
 
@@ -52,6 +54,8 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
   setWindowTitle(tr("Create a new PROTO"));
+
+  setMinimumSize(600, 400);
 }
 
 void WbNewProtoWizard::updateUI() {
@@ -291,13 +295,6 @@ QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
   mTree = new QTreeWidget();
   mFields = new QWidget(this);
 
-  QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  policy.setHorizontalStretch(1);
-
-  mFindLineEdit->setSizePolicy(policy);
-  mTree->setSizePolicy(policy);
-  mFields->setSizePolicy(policy);
-
   nodeListLayout->addWidget(mFindLineEdit);
   nodeListLayout->addWidget(mTree);
   fieldListLayout->addWidget(mFields);
@@ -387,6 +384,8 @@ void WbNewProtoWizard::updateBaseNode() {
 
     foreach (const QString &name, fieldNames) {
       mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
+      if (defaultFields.contains(name))
+        mExposedFieldCheckBoxes.back()->setChecked(true);
       layout->addWidget(mExposedFieldCheckBoxes.back());
     }
   } else
