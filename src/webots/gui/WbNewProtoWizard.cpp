@@ -205,7 +205,6 @@ QWizardPage *WbNewProtoWizard::createNamePage() {
 
   mDescription = new QPlainTextEdit(tr("Describe the functionality of your PROTO here."));
   mDescription->setObjectName("ProtoDescription");
-  mDescription->setBackgroundVisible(true);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
   QHBoxLayout *nameLayout = new QHBoxLayout();
