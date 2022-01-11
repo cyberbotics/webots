@@ -294,7 +294,6 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
       else
         fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
     }
-
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
