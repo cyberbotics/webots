@@ -307,18 +307,14 @@ void WbNewProtoWizard::updateNodeTree() {
   const QStringList nodes = WbNodeModel::baseModelNames();
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
-    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
-      QTreeWidgetItem *item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
-      nodesItem->addChild(item);
-    }
+    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+      nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos
   const QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
-    if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
-      QTreeWidgetItem *item = new QTreeWidgetItem(protosItem, QStringList(protoName));
-      protosItem->addChild(item);
-    }
+    if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+      protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
   }
 
   mTree->addTopLevelItem(nodesItem);
