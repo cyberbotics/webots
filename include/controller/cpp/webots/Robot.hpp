@@ -68,6 +68,8 @@ namespace webots {
     virtual ~Robot();
 
     virtual int step(int duration);
+    virtual int step_begin(int duration);
+    virtual int step_end();
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
     std::string getUrdf(std::string prefix = "") const;
