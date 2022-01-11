@@ -143,7 +143,7 @@ void WbNewProtoWizard::accept() {
       body += "  }";
     }
 
-    QString release = WbApplicationInfo::version().toString(false);
+    const QString release = WbApplicationInfo::version().toString(false);
 
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
