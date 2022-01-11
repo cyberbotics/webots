@@ -343,6 +343,8 @@ Then it creates a directory, a template source code file and a Makefile in your 
 - The **New Proto...** menu item will let you create a new PROTO for your project.
 Webots asks you to define a name for the PROTO node, the tags that should be included (if any), and the base node from which the PROTO itself will inherit.
 Based on the choice of base node, Webots will ask you which among its fields should be exposed (i.e visible from the scene tree) and will create the necessary parameters accordingly.
+Then, Webots will propose you to open the PROTO file in the text editor, so that you can continue to edit it.
+Finally, you will be able to insert an instance of your new PROTO in the scene tree as you would do for any other PROTO.
 
 ### Help Menu
 
