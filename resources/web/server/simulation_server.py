@@ -206,12 +206,19 @@ class Client:
             if output[0] == '2':  # stderr
                 sys.stdout.write("\033[0m")  # reset ANSI code
             sys.stdout.flush()
-        logging.info('Done')
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
+        # create a Dockerfile if not provided in the project folder
+        self.project_instance_path += project
+        os.chdir(self.project_instance_path)
+        if not os.path.isfile('Dockerfile'):
+            f = open("Dockerfile", "w")
+            f.write("FROM cyberbotics/webots:R2022a-ubuntu20.04")
+            f.close()
+        logging.info('Done')
         if path:
             os.chdir(path)
-        self.project_instance_path += project
+
         return True
 
     def cleanup_webots_instance(self):
