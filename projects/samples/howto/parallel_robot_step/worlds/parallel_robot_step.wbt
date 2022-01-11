@@ -1,0 +1,17 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.16978651703738604 -0.44169400145505516 -0.8809534310682574 5.46028959946699
+  position -1.4624949595640053 -1.2962285084960832 0.8343563494141362
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+E-puck {
+  controller "parallel_robot_step"
+}

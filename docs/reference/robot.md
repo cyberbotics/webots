@@ -704,7 +704,7 @@ while 1
     break;
   end
 
-  % the following code (until step_end) is executed in parallel with the background simulation step
+  % the following code (until wb_robot_step_end) is executed in parallel with the background simulation step
   % useful for computationally intensive controllers
 
   val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
