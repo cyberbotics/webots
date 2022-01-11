@@ -92,7 +92,7 @@ void WbNewProtoWizard::accept() {
 
     QByteArray protoContent = file.readAll();
 
-    QString tags = "";
+    QString tags;
     if (mProceduralCheckBox->isChecked())
       tags += "# template language: javascript\n";
 
