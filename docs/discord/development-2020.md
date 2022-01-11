@@ -618,7 +618,7 @@ Hi `@Sanket Khadse`, the VRML import does indeed import only the visual meshes o
 
 Note also that a customizable door is already available in Webots: [https://cyberbotics.com/doc/guide/object-apartment-structure#door](https://cyberbotics.com/doc/guide/object-apartment-structure#door)
 
-##### 🍎小苹果🍎 04/14/2020 15:06:31
+##### 🌊 Ayato 🌊 04/14/2020 15:06:31
 hello! sorry for disturbing again. I don't know why but my simulation looks like lagging (I don't know if its correct word to explain but ) it's happens in some sample projects too I tried changing fps and time step but it didn't change too much thing in simulation.is there any other way to solve this ?
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 15:08:50
@@ -627,7 +627,7 @@ Hi, you may try reducing the OpenGl features to speed up the simulation speed: [
 
 You can also find some tips to speed up your simulation here: [https://cyberbotics.com/doc/guide/speed-performance](https://cyberbotics.com/doc/guide/speed-performance)
 
-##### 🍎小苹果🍎 04/14/2020 15:09:24
+##### 🌊 Ayato 🌊 04/14/2020 15:09:24
 okay thank you so much :)
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 15:13:36
@@ -7342,13 +7342,13 @@ code
 
 Any help would be appreciated.
 
-##### DrakerDG 11/09/2020 21:55:24
+##### DrakerDG [Moderator] 11/09/2020 21:55:24
 Hello, I am learning Python, what courses or books do you advise me to continue learning?  To be able to program in webots using phyton, since I have only been able to program in C code 😬🙏
 
 ##### DrVoodoo [Moderator] 11/11/2020 18:22:14
 "Automate the boring stuff with python" is good, highlights where python excels
 
-##### DrakerDG 11/12/2020 05:25:52
+##### DrakerDG [Moderator] 11/12/2020 05:25:52
 `@DrVoodoo` thanks a lot 😁👍🏼
 
 ##### samuel.nametala 11/12/2020 20:41:08
@@ -7535,7 +7535,7 @@ reloading the world also can help in many cases
 ##### evoo 11/13/2020 23:46:38
 Hi! If I have two robots in my world how do I differentiate one from the other in the controller code? I know how to instantiate one like “ robot = Robot() “ but how about more than one?
 
-##### DrakerDG 11/14/2020 00:09:36
+##### DrakerDG [Moderator] 11/14/2020 00:09:36
 `@evoo` I'm not sure but I think that in the controller code it can be easily differentiated
 
 ##### Luftwaffel [Moderator] 11/14/2020 11:39:22
@@ -8108,6 +8108,6 @@ I exportet the tall middle link of both as a .wrl file. There is some obvious di
 
 > **Attachment**: [Shape\_right.wrl](https://cdn.discordapp.com/attachments/565155651395780609/793877250230845494/Shape_right.wrl)
 
-##### DrakerDG 12/30/2020 19:30:31
+##### DrakerDG [Moderator] 12/30/2020 19:30:31
 🥰 👍
 
