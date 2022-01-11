@@ -84,6 +84,8 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 
 %thread webots::Robot::step(int duration);
+%thread webots::Robot::step_begin(int duration);
+%thread webots::Robot::step_end();
 %nothreadblock;
 
 //handling std::string
