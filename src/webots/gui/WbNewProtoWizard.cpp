@@ -221,24 +221,26 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
 
   mProceduralCheckBox->setChecked(false);
   mProceduralCheckBox->setText(tr("Procedural PROTO"));
-  proceduralTagDescription->setText(tr("<i>By enabling this option, JavaScript template scripting can be used\n"
-                                       "to generate PROTO in a procedural way.</i>"));
+  proceduralTagDescription->setText("<i>" + tr("By enabling this option, JavaScript template scripting can be used\n"
+                                       "to generate PROTO in a procedural way.") + "</i>"));
   proceduralTagDescription->setWordWrap(true);
   proceduralTagDescription->setIndent(20);
 
   mNonDeterministicCheckbox->setChecked(false);
   mNonDeterministicCheckbox->setText(tr("Non-deterministic PROTO"));
-  nonDeterministicTagDescription->setText(tr("<i>A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
+  nonDeterministicTagDescription->setText("<i>" + tr("A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
                                              "yield a different result from run to run. This is often the case if random\n"
-                                             "number generators with time-based seeds are employed.</i>"));
+                                             "number generators with time-based seeds are employed.") + "</i>"));
   nonDeterministicTagDescription->setWordWrap(true);
   nonDeterministicTagDescription->setIndent(20);
 
   mHiddenCheckBox->setChecked(false);
   mHiddenCheckBox->setText(tr("Hidden PROTO"));
-  hiddenTagDescription->setText(tr("<i>A hidden PROTO will not appear in the list when adding a new node.\n"
-                                   "This tag is often used for sub-PROTO, when creating components of\n"
-                                   "a larger node.</i>"));
+  hiddenTagDescription->setText(tr("<i>" +
+                                   tr("A hidden PROTO will not appear in the list when adding a new node.\n"
+                                      "This tag is often used for sub-PROTO, when creating components of\n"
+                                      "a larger node.") +
+                                   "</i>"));
   hiddenTagDescription->setWordWrap(true);
   hiddenTagDescription->setIndent(20);
 
