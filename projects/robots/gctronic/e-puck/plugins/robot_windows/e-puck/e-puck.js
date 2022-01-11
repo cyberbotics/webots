@@ -4,12 +4,15 @@
 /* exported wifiConnect */
 /* exported wifiDisconnect */
 
+import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
+
 window.onload = function() {
   var progressBar = document.getElementById('uploadProgressBar');
   progressBar.style.visibility = 'hidden';
-
-  window.robotWindow = webots.window('e-puck');
+  window.robotWindow = new RobotWindow('e-puck');
+  console.log("epuck robot win");
   window.robotWindow.receive = function(value, robot) {
+    console.log("epuck received", value);
     if (value.indexOf('configure ') === 0) {
       try {
         var configure = JSON.parse(value.substring(10));
@@ -95,8 +98,7 @@ window.onload = function() {
   };
   onchange = 'onFileUpload();';
 };
-
-function setGroundSensorValue(id, valueString) {
+window.setGroundSensorValue = function(id, valueString){
   var value = parseInt(valueString);
   var elem = document.getElementById(id);
   var elemLabel = document.getElementById(id + ' label');
@@ -113,8 +115,7 @@ function setGroundSensorValue(id, valueString) {
     elemLabel.innerHTML = '';
   }
 }
-
-function updateDropDownMenu(menu, value) {
+window.updateDropDownMenu = function(menu, value) {
   var values = value.split(' ');
   while (menu.childNodes.length)
     menu.removeChild(menu.firstChild);
@@ -181,8 +182,7 @@ window.onclick = function(event) {
       window.robotWindow.send(action);
   }
 };
-
-function hideAllDropDownMenus() {
+window.hideAllDropDownMenus = function(){
   var dropdowns = document.getElementsByClassName('dropdown-content');
   var i;
   for (i = 0; i < dropdowns.length; i++) {
@@ -191,8 +191,7 @@ function hideAllDropDownMenus() {
       openDropdown.classList.remove('show');
   }
 }
-
-function dropDownMenu(id) {
+window.dropDownMenu = function(id){
   hideAllDropDownMenus();
   if (selectedPort === 'remote control' && id === 'upload') {
     console.log('Please revert to simulation before uploading HEX to the e-puck robot.');
@@ -200,22 +199,20 @@ function dropDownMenu(id) {
   }
   document.getElementById(id).classList.toggle('show');
 }
-
-function wifiConnect() {
+window.wifiConnect = function(){
   var button = document.getElementById('connect');
   button.innerHTML = 'disconnect';
   button.onclick = wifiDisconnect;
   window.robotWindow.send('connect ' + document.getElementById('ip address').value);
 }
-
-function wifiDisconnect() {
+window.wifiDisconnect = function(){
   var button = document.getElementById('connect');
   button.innerHTML = 'connect';
   button.onclick = wifiConnect;
   window.robotWindow.send('disconnect');
 }
 
-function robotLayout(configure) {
+window.robotLayout = function(configure){
   window.robotWindow.setTitle('Robot: ' + configure.name, configure.name);
   if (configure.model === 'GCtronic e-puck2') { // e-puck2: Wifi remote control only
     var ipAddress = document.getElementById('ip address');
@@ -238,7 +235,7 @@ function robotLayout(configure) {
     image.src = 'images/e-puck.png';
   }
 }
-
-function onEnableAll() {
-  window.robotWindow.send('enable');
+window.onEnableAll = function(){
+  //window.robotWindow.send('enable');
+  window.robotWindow.send('configure');
 }
