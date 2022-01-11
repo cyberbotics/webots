@@ -50,7 +50,7 @@ function get_button(x,y) {
   return "";
 }
 
-window.show_click= function(event) {
+window.show_click = function(event) {
   var mouse_click = document.getElementById("mouse_click");
   mouse_click.style.left = (event.clientX - mouse_click.width/2) + "px";
   mouse_click.style.top = (event.clientY - mouse_click.height/2) + "px";

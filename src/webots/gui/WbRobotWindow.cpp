@@ -32,14 +32,7 @@
 #include <QtGui/QDesktopServices>
 #include <QtWebSockets/QWebSocket>
 
-#ifdef _WIN32
-#include <QtWebKitWidgets/QWebFrame>
-#include <QtWebKitWidgets/QWebView>
-#else
-#include <QtWebChannel/QWebChannel>
-#endif
-
-WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot), mResetCount(0) {
+WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
   QString title = "Robot: " + robot->name();
 
   const QString &windowFileName = robot->windowFile("html");
@@ -49,6 +42,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot), mResetCount(0) {
   }
 
   connect(robot, &WbRobot::sendToJavascript, this, &WbRobotWindow::sendToJavascript);
+  connect(robot, &WbRobot::controllerChanged, this, &WbRobotWindow::setupPage);
 }
 
 void WbRobotWindow::setupPage() {
@@ -57,65 +51,22 @@ void WbRobotWindow::setupPage() {
     mRobot->parsingWarn(QString("No dockable HTML robot window is set in the 'window' field."));
     return;
   }
-  mResetCount++;
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
 
   qDebug() << "windowFileName:"
            << "http://localhost:1234" + windowFileName;
   QDesktopServices::openUrl(QUrl("http://localhost:1234" + windowFileName));
-
-  QWebChannel *channel = new QWebChannel();
-  // mWebView->page()->setWebChannel(channel);
-  mTransportLayer = new WbRobotWindowTransportLayer();
-  channel->registerObject("_webots", mTransportLayer);
-  connect(mTransportLayer, &WbRobotWindowTransportLayer::ackReceived, this, &WbRobotWindow::notifyAckReceived);  // TODO1
-  connect(mTransportLayer, &WbRobotWindowTransportLayer::javascriptReceived, mRobot, &WbRobot::receiveFromJavascript);
-}
-#ifndef _WIN32
-void WbRobotWindow::notifyLoadCompleted() {
-  mLoaded = true;
-  if (!mWaitingSentMessages.isEmpty()) {
-    foreach (const QString &message, mWaitingSentMessages)
-      runJavaScript(message);
-    mWaitingSentMessages.clear();
-  }
-}
-
-void WbRobotWindow::runJavaScript(const QString &message) {  // TODO1: send this message to robot_window.
-  QString jsMessage = "window.robot_window.receive('" + message + "', '" + escapeString(robot()->name()) + "')";
-  // qDebug() << "runJavaScript:" << jsMessage;
-  mTransportLayer->requestAck();
-  // WbStreamingServer->sendTextMessage(jsMessage);
-  // webots->view->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
-}
-#endif
-
-void WbRobotWindow::notifyAckReceived() {
-  mRobot->setWaitingForWindow(false);
-}
-
-QString WbRobotWindow::escapeString(const QString &text) {
-  QString escaped(text);
-  escaped.replace("\\", "\\\\\\\\");
-  escaped.replace("'", "\\'");
-  return escaped;
+  startControllerIfNeeded();  // TODO1: not sure it is needed
+  // connect(mTransportLayer, &WbRobotWindowTransportLayer::javascriptReceived, mRobot, &WbRobot::receiveFromJavascript);
 }
 
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
-  const QString &message(escapeString(string));
-#ifdef _WIN32
-  mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
-#else
-  // mRobot->setWaitingForWindow(true); //TODO1
-  if (mLoaded)
-    runJavaScript(message);
-  else  // message will be sent once the robot window loading is completed
-    mWaitingSentMessages << message;
-#endif
+  // qDebug() << "runJavaScript Robotwin:" << string;
+  return;
 }
 
-#ifdef _WIN32
-void WbRobotWindow::receiveFromJavascript(const QByteArray &message) {
-  mRobot->receiveFromJavascript(message);
+void WbRobotWindow::startControllerIfNeeded() {
+  if (!mRobot->isControllerStarted())
+    mRobot->startController();
+  mRobot->updateControllerWindow();
 }
-#endif

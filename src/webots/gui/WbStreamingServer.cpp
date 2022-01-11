@@ -30,6 +30,7 @@
 #include "WbTemplateManager.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/qdebug.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
@@ -86,6 +87,7 @@ void WbStreamingServer::start(int port) {
 }
 
 void WbStreamingServer::sendToJavascript(const QByteArray &string) {
+  qDebug() << "sendToJavascript" << string;
   WbRobot *robot = dynamic_cast<WbRobot *>(sender());
   if (robot) {
     QJsonObject jsonObject;
@@ -505,14 +507,10 @@ void WbStreamingServer::sendToClients(const QString &message) {
     mMessageToClients = message;
   else
     mMessageToClients += "\n" + message;
-  if (mWebSocketClients.isEmpty() || mClientsReadyToReceiveMessages) {
-    qDebug() << mWebSocketClients.isEmpty() << !mClientsReadyToReceiveMessages;
+  if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages) {
     return;
   }
-  foreach (QWebSocket *client, mWebSocketClients) {
-    client->sendTextMessage(mMessageToClients);
-    qDebug() << "message" << client << mMessageToClients;
-  }
+  foreach (QWebSocket *client, mWebSocketClients) { client->sendTextMessage(mMessageToClients); }
   mMessageToClients = "";
 }
 
@@ -529,6 +527,7 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
     const WbField *controllerField = robot->findField("controller");
     if (controllerField) {
       const QString &name = dynamic_cast<WbSFString *>(controllerField->value())->value();
+      qDebug() << "connectnewrobot" << name;
       if (name != "void")
         mEditableControllers.append(name);
     }

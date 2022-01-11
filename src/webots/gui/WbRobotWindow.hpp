@@ -19,36 +19,20 @@
 
 #include "WbRobot.hpp"
 
-#ifndef _WIN32
-class WbRobotWindowTransportLayer;
-#endif
-
 class WbRobotWindow : public QObject {
   Q_OBJECT
 public:
   explicit WbRobotWindow(WbRobot *);
- 
+
   WbRobot *robot() { return mRobot; }
   const QString *name() { return &mRobot->window(); }
   void setupPage();
 public slots:
   void sendToJavascript(const QByteArray &);
-private slots:
-  void runJavaScript(const QString &message);
-#if defined(__APPLE__) || defined(__linux__)
-  void notifyLoadCompleted();
-  void notifyAckReceived();
-#endif
+  void startControllerIfNeeded();
 
 private:
   WbRobot *mRobot;
-  int mResetCount;
-  bool mLoaded;
-#if defined(__APPLE__) || defined(__linux__)
-  QStringList mWaitingSentMessages;
-  WbRobotWindowTransportLayer *mTransportLayer;
-#endif
-  static QString escapeString(const QString &text);
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP

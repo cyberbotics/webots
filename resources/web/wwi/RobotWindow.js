@@ -11,6 +11,8 @@ export default class RobotWindow {
     if (this.socket.readyState === WebSocket.OPEN) {
       this.socket.send('robot:' + robot + ':' + message); //TODO1: wait socket open
    }
+   else
+    console.log("test");
   };
 
   receive = function (message, robot) { // to be overridden
@@ -18,6 +20,7 @@ export default class RobotWindow {
   };
 
   close = function () {
+    window.close();
     if (this.socket)
       this.socket.close();
     this.close();
@@ -40,26 +43,24 @@ export default class RobotWindow {
 
   _onSocketMessage(event) {
     let data = event.data;
+    console.log('robot: "' + data + '"');
     if (data.startsWith('robot:') || data.startsWith('robot window:')){
       data = data.substring(data.indexOf('{') + 1).slice(0, -1);
       let table = data.replaceAll("\"","").split(",").map(pair => pair.split(":"));
       this.receive(table[0][1], table[1][1]);
+
     }
-    else if (data.startsWith('application/json:')) {
+    else if (data.startsWith('application/json:'))
       return 0;
-    } else {
+    else { //TODO1: remove this else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
     }
   }
 
   _onSocketClose(event) { // TODO1
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
-      if (window.confirm(`Streaming server error
-      Connection closed abnormally. (Error code:` + event.code + `)
-      The simulation is going to be reset`))
-        window.open(window.location.href, '_self');
+      close();
     }
-    close();
   }
 
 };
