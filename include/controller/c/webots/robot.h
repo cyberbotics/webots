@@ -69,7 +69,7 @@ int wb_robot_init_msvc();  // internally, this function just calls wb_robot_init
 #define wb_robot_init() (setvbuf(stdout, NULL, _IONBF, 0), setvbuf(stderr, NULL, _IONBF, 0), wb_robot_init_msvc())
 #endif
 
-int wb_robot_step_begin(int duration); // milliseconds  
+int wb_robot_step_begin(int duration);  // milliseconds
 int wb_robot_step_end();
 int wb_robot_step(int duration);  // milliseconds
 

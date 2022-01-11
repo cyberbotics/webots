@@ -844,7 +844,7 @@ int wb_robot_step_end() {
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     return -1;
-  
+
   keyboard_step_end();
   joystick_step_end();
   robot_read_data();
@@ -864,8 +864,8 @@ int wb_robot_step_end() {
 
 int wb_robot_step(int duration) {
   int e = wb_robot_step_begin(duration);
-  if(e==-1)
-    return e;  
+  if (e == -1)
+    return e;
   e = wb_robot_step_end();
 
   return e;
