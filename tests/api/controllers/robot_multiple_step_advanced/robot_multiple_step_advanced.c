@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
   // step 4 - 128 ms -> sensor values not updated
   // step 5 - 160 ms
   // step 6 - 192 ms -> sensor values updated but waiting for step_end
-  wb_robot_step(time_step);
-  wb_robot_step_begin(4 * time_step);
+  wb_robot_step(3 * time_step);
+  wb_robot_step_begin(3 * time_step);
 
   // check initial sensor values
 
