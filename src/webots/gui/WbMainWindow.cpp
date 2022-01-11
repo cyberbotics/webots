@@ -1135,14 +1135,14 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
 
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
-/*   QStringList robotWindowNodeNames;
-  foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (!w || !(w->isVisible()))
-      continue;
-    robotWindowNodeNames << w->robot()->computeUniqueName();
-  }
-  perspective->setRobotWindowNodeNames(robotWindowNodeNames); */
+  /*   QStringList robotWindowNodeNames;
+    foreach (QWidget *dock, mDockWidgets) {
+      WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
+      if (!w || !(w->isVisible()))
+        continue;
+      robotWindowNodeNames << w->robot()->computeUniqueName();
+    }
+    perspective->setRobotWindowNodeNames(robotWindowNodeNames); */
 
   QStringList centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames, supportPolygonEnabledNodeNames;
   world->retrieveNodeNamesWithOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
@@ -1321,14 +1321,14 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
-/*   foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (!w)
-      continue;
-    w->close();
-    mDockWidgets.removeOne(w);
-    delete w;
-  } */
+  /*   foreach (QWidget *dock, mDockWidgets) {
+      WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
+      if (!w)
+        continue;
+      w->close();
+      mDockWidgets.removeOne(w);
+      delete w;
+    } */
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
@@ -2116,8 +2116,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {  // shows the HTML robo
   WbRobotWindow *w = new WbRobotWindow(robot);
   if (w && w->robot() == robot)
     w->setupPage();
-  //connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
-
+  // connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
 }
 
 static bool isRobotNode(WbBaseNode *node) {
