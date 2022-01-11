@@ -80,7 +80,7 @@ void WbNewProtoWizard::accept() {
   bool success = QDir::root().mkpath(mProtoDir);
 
   // copy PROTO from template and rename
-  QString src = WbStandardPaths::templatesPath() + "protos/template.proto";
+  const QString src = WbStandardPaths::templatesPath() + "protos/template.proto";
   success = WbFileUtil::copyAndReplaceString(src, mProtoFullPath, "template", mNameEdit->text()) && success;
 
   if (success) {
