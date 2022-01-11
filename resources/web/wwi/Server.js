@@ -23,7 +23,8 @@ export default class Server {
   connect() {
     const n = this._url.indexOf('/session?url=', 6);
     const url = 'http' + (n > 0 ? this._url.substring(2, n + 8) : this._url.substring(2, this._url.indexOf('/', 6)) + '/session');
-    document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to session server...';
+    if (document.getElementById('webotsProgressMessage'))
+      document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to session server...';
     let self = this;
     fetch(url)
       .then(response => response.text())

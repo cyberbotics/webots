@@ -92,6 +92,12 @@ export default class WebotsView extends HTMLElement {
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
       this._disconnect();
   }
+
+  resize() {
+    if (typeof this._view !== 'undefined')
+      this._view.onresize();
+  }
+
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
