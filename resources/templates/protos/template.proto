@@ -1,4 +1,5 @@
 #VRML_SIM %release% utf8
+%description%
 %tags%
 PROTO %name% [
 %parameters%

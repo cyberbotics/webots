@@ -144,7 +144,14 @@ void WbNewProtoWizard::accept() {
     }
 
     const QString release = WbApplicationInfo::version().toString(false);
+    QString description = mDescription->toPlainText();
+    description.insert(0, "# ");
+#ifdef _WIN32
+    description.replace("\r\n", "\n");
+#endif
+    description.replace("\n", "\n# ");  // prepend a '#' before every new line
 
+    protoContent.replace(QByteArray("%description%"), description.toUtf8());
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
     protoContent.replace(QByteArray("%release%"), release.toUtf8());
@@ -196,9 +203,16 @@ QWizardPage *WbNewProtoWizard::createNamePage() {
   mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
-  QHBoxLayout *layout = new QHBoxLayout(page);
-  layout->addWidget(nameLabel);
-  layout->addWidget(mNameEdit);
+  mDescription = new QPlainTextEdit(tr("Describe the functionality of your PROTO here."));
+  mDescription->setObjectName("ProtoDescription");
+  mDescription->setBackgroundVisible(true);
+
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  QHBoxLayout *nameLayout = new QHBoxLayout();
+  nameLayout->addWidget(nameLabel);
+  nameLayout->addWidget(mNameEdit);
+  layout->addLayout(nameLayout);
+  layout->addWidget(mDescription);
 
   return page;
 }
@@ -221,26 +235,30 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
 
   mProceduralCheckBox->setChecked(false);
   mProceduralCheckBox->setText(tr("Procedural PROTO"));
-  proceduralTagDescription->setText("<i>" + tr("By enabling this option, JavaScript template scripting can be used\n"
-                                       "to generate PROTO in a procedural way.") + "</i>"));
+  proceduralTagDescription->setText("<i>" +
+                                    tr("By enabling this option, JavaScript template scripting can be used\n"
+                                       "to generate PROTO in a procedural way.") +
+                                    "</i>");
   proceduralTagDescription->setWordWrap(true);
   proceduralTagDescription->setIndent(20);
 
   mNonDeterministicCheckbox->setChecked(false);
   mNonDeterministicCheckbox->setText(tr("Non-deterministic PROTO"));
-  nonDeterministicTagDescription->setText("<i>" + tr("A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
+  nonDeterministicTagDescription->setText("<i>" +
+                                          tr("A non-deterministic PROTO is a PROTO where the same fields can potentially\n"
                                              "yield a different result from run to run. This is often the case if random\n"
-                                             "number generators with time-based seeds are employed.") + "</i>"));
+                                             "number generators with time-based seeds are employed.") +
+                                          "</i>");
   nonDeterministicTagDescription->setWordWrap(true);
   nonDeterministicTagDescription->setIndent(20);
 
   mHiddenCheckBox->setChecked(false);
   mHiddenCheckBox->setText(tr("Hidden PROTO"));
-  hiddenTagDescription->setText(tr("<i>" +
-                                   tr("A hidden PROTO will not appear in the list when adding a new node.\n"
-                                      "This tag is often used for sub-PROTO, when creating components of\n"
-                                      "a larger node.") +
-                                   "</i>"));
+  hiddenTagDescription->setText("<i>" +
+                                tr("A hidden PROTO will not appear in the list when adding a new node.\n"
+                                   "This tag is often used for sub-PROTO, when creating components of\n"
+                                   "a larger node.") +
+                                "</i>");
   hiddenTagDescription->setWordWrap(true);
   hiddenTagDescription->setIndent(20);
 

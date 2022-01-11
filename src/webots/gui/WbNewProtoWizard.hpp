@@ -20,6 +20,7 @@
 //
 
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWizard>
 
@@ -55,6 +56,7 @@ private:
   QString mBaseNode;
   QLabel *mFilesLabel;
   WbLineEdit *mNameEdit;
+  QPlainTextEdit *mDescription;
   QCheckBox *mEditCheckBox;
   QCheckBox *mHiddenCheckBox;
   QCheckBox *mNonDeterministicCheckbox;
