@@ -80,8 +80,8 @@ webots-view button:first-of-type { margin-right: 6px; }
 
 .player-btn {
   float: left;
-  height: 38px;
-  width: 38px;
+  height: 36px;
+  width: 36px;
   box-sizing: border-box;
   margin: 0 1px;
   border:none;
