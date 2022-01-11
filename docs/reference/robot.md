@@ -128,6 +128,8 @@ Asynchronous controllers may also be recommended for networked simulations invol
 ### Robot Functions
 
 #### `wb_robot_step`
+#### `wb_robot_step_begin`
+#### `wb_robot_step_end`
 #### `wb_robot_init`
 #### `wb_robot_cleanup`
 
@@ -139,6 +141,8 @@ Asynchronous controllers may also be recommended for networked simulations invol
 #include <webots/robot.h>
 
 int wb_robot_step(int duration);
+int wb_robot_step_begin(int duration);
+int wb_robot_step_end();
 void wb_robot_init();
 void wb_robot_cleanup();
 ```
@@ -155,6 +159,8 @@ namespace webots {
     Robot();
     virtual ~Robot();
     virtual int step(int duration);
+    virtual int step_begin(int duration);
+    virtual int step_end();
     // ...
   }
 }
@@ -171,6 +177,8 @@ class Robot:
     def __init__(self):
     def __del__(self):
     def step(self, duration):
+    def step_begin(self, duration):
+    def step_end(self):
     # ...
 ```
 
@@ -185,6 +193,8 @@ public class Robot {
   public Robot();
   protected void finalize();
   public int step(int duration);
+  public int step_begin(int duration);
+  public int step_end();
   // ...
 }
 ```
@@ -195,6 +205,8 @@ public class Robot {
 
 ```MATLAB
 period = wb_robot_step(duration)
+period = wb_robot_step_begin(duration)
+period = wb_robot_step_end()
 ```
 
 %tab-end
@@ -239,6 +251,12 @@ Then `dt` may be interpreted as follows:
 It means that the step actually lasted the requested number of milliseconds, but the actuator commands could not be executed on time.
 - if `dt` > `duration`, then the actuators values were set at `controller_time` + `dt`, and the sensor values were also measured at `controller_time` + `dt`.
 It means that the requested step duration could not be respected.
+
+With `wb_robot_step`, the controller code is executed sequentially with the Webots background simulation process. 
+If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
+`wb_robot_step_begin` and `wb_robot_step_end` allow you to do such an implementation.
+They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two is executed in parallel to the update of the simulation step.
+`wb_robot_step_begin` and `wb_robot_step_end` both return -1 if the simulation is terminated.
 
 The C API has two additional functions: `wb_robot_init` and `wb_robot_cleanup`.
 There is no equivalent of the `wb_robot_init` and `wb_robot_cleanup` functions in the Java, Python, C++ and MATLAB APIs.
@@ -437,6 +455,266 @@ wb_distance_sensor_enable(distanceSensor, TIME_STEP);
 while wb_robot_step(TIME_STEP) ~= -1
   val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
   wb_led_set(led, 1);                                  % Send actuator commands
+end
+```
+
+%tab-end
+
+
+%end
+
+**Advanced controller Example**
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/robot.h>
+#include <webots/distance_sensor.h>
+#include <webots/led.h>
+
+#define TIME_STEP 32
+
+static WbDeviceTag my_sensor, my_led;
+
+int main() {
+  /* initialize the webots controller library */
+  wb_robot_init();
+
+  // get device tags
+  my_sensor = wb_robot_get_device("my_distance_sensor");
+  my_led = wb_robot_get_device("my_led");
+
+  /* enable sensors to read data from them */
+  wb_distance_sensor_enable(my_sensor, TIME_STEP);
+
+  /* with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values */
+  wb_robot_step(TIME_STEP);
+
+  /* main control loop */
+  do {
+
+    /* begin simulation step computation: send command values to Webots for update */
+    /* leave the loop when the simulation is over */
+    if (wb_robot_step_begin(TIME_STEP) == -1)
+      break;
+
+    /* the following code (until wb_robot_step_end) is executed in parallel with the background simulation step */
+    /* useful for computationally intensive controllers  */
+
+    /* read and process sensor data */
+    double val = wb_distance_sensor_get_value(my_sensor);
+
+    /* send actuator commands */
+    wb_led_set(my_led, 1);
+
+    /* end simulation step computation: retrieve new sensor values from Webots */
+    /* leave the loop when the simulation is over */
+  } while (wb_robot_step_end() != -1);
+
+  /* Add here your own exit cleanup code */
+
+  wb_robot_cleanup();
+
+  return 0;
+}
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Robot.h>
+#include <webots/DistanceSensor.h>
+#include <webots/Led.h>
+
+class MyController : public Robot {
+public:
+  MyController() {
+    timeStep = 32;  // set the control time step
+
+    // get device tags
+    distanceSensor = getDistanceSensor("my_distance_sensor");
+    led = getLed("my_led");
+
+    distanceSensor->enable(timeStep);  // enable sensors to read data from them
+  }
+
+  void run() {
+    // with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values
+    step(timeStep);
+
+    // main control loop
+    do {
+      // begin simulation step computation: send command values to Webots for update
+      // leave the loop when the simulation is over
+      if (step_begin(timeStep) == -1)
+        break;
+      
+      // the following code (until step_end) is executed in parallel with the background simulation step
+      // useful for computationally intensive controllers
+
+      double val = distanceSensor->getValue();  // Read and process sensor data
+      led->set(1);                              // Send actuator commands
+
+      // end simulation step computation: retrieve new sensor values from Webots
+      // leave the loop when the simulation is over
+    } while (step_end() != -1);
+  }
+
+private:
+  int timeStep;
+  DistanceSensor *distanceSensor;
+  Led *led;
+}
+
+// main C++ program
+int main() {
+  MyController *controller = new MyController();
+  controller->run();
+  delete controller;
+  return 0;
+}
+
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Robot
+
+class MyController(Robot):
+    def __init__(self):
+        super(MyController, self).__init__()
+        self.timeStep = 32  # set the control time step
+
+        # get device tags
+        self.distanceSensor = self.getDistanceSensor('my_distance_sensor')
+        self.led = self.getLed('my_led')
+        self.distanceSensor.enable(timeStep)  # enable sensors to read data from them
+
+    def run(self):
+        # with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values
+        self.step(self.timeStep)
+
+        # main control loop
+        while True:
+            # begin simulation step computation: send command values to Webots for update
+            # leave the loop when the simulation is over
+            if self.step_begin(self.timeStep) == -1:
+              break
+            
+            # the following code (until self.step_end) is executed in parallel with the background simulation step
+            # useful for computationally intensive controllers
+
+            val = self.distanceSensor.getValue()  # Read and process sensor data
+            self.led.set(1)                       # Send actuator commands
+            
+            # end simulation step computation: retrieve new sensor values from Webots
+            # leave the loop when the simulation is over
+            if self.step_end() == -1:
+              break
+        
+# main Python program
+controller = MyController()
+controller.run()
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Led;
+
+public class MyController extends Robot {
+  public MyController() {
+    timeStep = 32;  // set the control time step
+
+    // get device tags
+    distanceSensor = getDistanceSensor("my_distance_sensor");
+    led = getLed("my_led");
+
+    distanceSensor.enable(timeStep);  // enable sensors to read data from them
+  }
+
+  public void run() {
+    // with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values
+    step(timeStep);
+
+    // main control loop
+    do {
+      // begin simulation step computation: send command values to Webots for update
+      // leave the loop when the simulation is over
+      if(step_begin(timeStep) == -1)
+        break;
+
+      // the following code (until step_end) is executed in parallel with the background simulation step
+      // useful for computationally intensive controllers
+      
+      double val = distanceSensor.getValue();  // Read and process sensor data
+      led.set(1);                              // Send actuator commands
+
+      // end simulation step computation: retrieve new sensor values from Webots
+      // leave the loop when the simulation is over
+    } while (step_end() != -1)
+  }
+
+  private int timeStep;
+  private DistanceSensor distanceSensor;
+  private Led led;
+
+  // main Java program
+  public static void main(String[] args) {
+    MyController controller = new MyController();
+    controller.run();
+  }
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+
+TIME_STEP = 32; % control time step
+
+% get device tags
+distanceSensor = wb_robot_get_device("my_distance_sensor");
+led = wb_robot_get_device("my_led");
+
+% enable sensors to read data from them
+wb_distance_sensor_enable(distanceSensor, TIME_STEP);
+
+% with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values
+wb_robot_step(TIME_STEP);
+
+% main control loop
+while 1
+  % begin simulation step computation: send command values to Webots for update
+  % leave the loop when the simulation is over
+  if wb_robot_step_begin(TIME_STEP) == -1
+    break;
+  end
+
+  % the following code (until step_end) is executed in parallel with the background simulation step
+  % useful for computationally intensive controllers
+
+  val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
+  wb_led_set(led, 1);                                  % Send actuator commands
+
+  % end simulation step computation: retrieve new sensor values from Webots
+  % leave the loop when the simulation is over
+  if wb_robot_step_end() == -1
+    break;
+  end
 end
 ```
 
