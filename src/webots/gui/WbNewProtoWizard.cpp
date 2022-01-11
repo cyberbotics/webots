@@ -302,7 +302,7 @@ void WbNewProtoWizard::updateNodeTree() {
   QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
 
   // list of all available base nodes
-  QStringList nodes = WbNodeModel::baseModelNames();
+  const QStringList nodes = WbNodeModel::baseModelNames();
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
     if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard))) {
