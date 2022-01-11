@@ -374,10 +374,8 @@ void WbNewProtoWizard::updateBaseNode() {
       mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
       layout->addWidget(mExposedFieldCheckBoxes.back());
     }
-  } else {
-    QLabel *message = new QLabel("No fields.");
-    layout->addWidget(message);
-  }
+  } else
+    layout->addWidget(new QLabel("No fields."));
 
   scrollArea->setWidget(mainWidget);
   fieldsLayout->addWidget(scrollArea);
