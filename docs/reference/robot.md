@@ -508,7 +508,7 @@ int main() {
     /* read and process sensor data */
     double val = wb_distance_sensor_get_value(my_sensor);
 
-    /* Intensive computation could take place here */
+    /* intensive computation could take place here */
 
     /* send actuator commands */
     wb_led_set(my_led, 1);
@@ -561,7 +561,7 @@ public:
 
       double val = distanceSensor->getValue();  // Read and process sensor data
 
-      // Intensive computation could take place here
+      // intensive computation could take place here
 
       led->set(1);                              // Send actuator commands
 
@@ -612,20 +612,20 @@ class MyController(Robot):
             # begin simulation step computation: send command values to Webots for update
             # leave the loop when the simulation is over
             if self.stepBegin(self.timeStep) == -1:
-              break
+                break
             
             # the following code (until self.step_end) is executed in parallel with the background simulation step
 
             val = self.distanceSensor.getValue()  # Read and process sensor data
 
-            # Intensive computation could take place here
+            # intensive computation could take place here
 
             self.led.set(1)                       # Send actuator commands
             
             # end simulation step computation: retrieve new sensor values from Webots
             # leave the loop when the simulation is over
             if self.stepEnd() == -1:
-              break
+                break
         
 # main Python program
 controller = MyController()
@@ -660,14 +660,14 @@ public class MyController extends Robot {
     do {
       // begin simulation step computation: send command values to Webots for update
       // leave the loop when the simulation is over
-      if(stepBegin(timeStep) == -1)
+      if (stepBegin(timeStep) == -1)
         break;
 
       // the following code (until step_end) is executed in parallel with the background simulation step
       
       double val = distanceSensor.getValue();  // Read and process sensor data
 
-      // Intensive computation could take place here
+      // intensive computation could take place here
 
       led.set(1);                              // Send actuator commands
 
@@ -718,7 +718,7 @@ while 1
 
   val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
 
-  % Intensive computation could take place here
+  % intensive computation could take place here
 
   wb_led_set(led, 1);                                  % Send actuator commands
 

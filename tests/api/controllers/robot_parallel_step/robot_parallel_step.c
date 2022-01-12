@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
   ts_setup(argv[0]);
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
   WbDeviceTag camera = wb_robot_get_device("camera");
   WbDeviceTag compass = wb_robot_get_device("compass");
   WbDeviceTag gps = wb_robot_get_device("gps");
@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
   WbFieldRef robot_trans_field = wb_supervisor_node_get_field(robot_node, "translation");
   WbFieldRef rotationField = wb_supervisor_node_get_field(robot_node, "rotation");
-  double newRotation[4] = {0.0, 1.0, 0.0, 1.5708};
-  double newTranslation[3] = {-0.05, 0.0295, 0.1};
+  const double newRotation[4] = {0.0, 1.0, 0.0, 1.5708};
+  const double newTranslation[3] = {-0.05, 0.0295, 0.1};
   wb_supervisor_field_set_sf_rotation(rotationField, newRotation);
   wb_supervisor_field_set_sf_vec3f(robot_trans_field, newTranslation);
 
@@ -70,8 +70,8 @@ int main(int argc, char **argv) {
   ts_assert_double_in_delta(wb_touch_sensor_get_value(ts), 0.0, 0.001, "Initial touch sensor measurement is wrong.");
 
   // second pose update
-  double newRotation1[4] = {0.0, 0.0, 1.0, 0.0};
-  double newTranslation1[3] = {0.1, 0.0295, 0.1};
+  const double newRotation1[4] = {0.0, 0.0, 1.0, 0.0};
+  const double newTranslation1[3] = {0.1, 0.0295, 0.1};
   wb_supervisor_field_set_sf_rotation(rotationField, newRotation1);
   wb_supervisor_field_set_sf_vec3f(robot_trans_field, newTranslation1);
 
