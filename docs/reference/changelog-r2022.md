@@ -1,7 +1,7 @@
 # Webots R2022 Change Log
 
 
-## Webots R2020b Revision 1
+## Webots R2022a Revision 1
 Released on XX XX, 2022.
 
   - Bug fixes
