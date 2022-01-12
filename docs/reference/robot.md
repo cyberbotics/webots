@@ -159,8 +159,8 @@ namespace webots {
     Robot();
     virtual ~Robot();
     virtual int step(int duration);
-    virtual int step_begin(int duration);
-    virtual int step_end();
+    virtual int stepBegin(int duration);
+    virtual int stepEnd();
     // ...
   }
 }
@@ -254,8 +254,8 @@ It means that the requested step duration could not be respected.
 
 With `wb_robot_step`, the controller code is executed sequentially with the Webots background simulation process. 
 If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
-`wb_robot_step_begin` and `wb_robot_step_end` allow you to do such an implementation.
-They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two is executed in parallel to the update of the simulation step.
+`wb_robot_step_begin` and `wb_robot_step_end` allow you to achieve such an implementation.
+They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two function calls is executed in parallel with the Webots simulation step.
 `wb_robot_step_begin` and `wb_robot_step_end` both return -1 if the simulation is terminated.
 
 The C API has two additional functions: `wb_robot_init` and `wb_robot_cleanup`.
@@ -463,7 +463,7 @@ end
 
 %end
 
-**Advanced controller Example**
+**Parallel controller example**
 
 %tab-component "language"
 
@@ -500,7 +500,7 @@ int main() {
     if (wb_robot_step_begin(TIME_STEP) == -1)
       break;
 
-    /* the following code (until wb_robot_step_end) is executed in parallel with the background simulation step */
+    /* the following code (until wb_robot_step_end) is executed in parallel with the Webots simulation step */
     /* useful for computationally intensive controllers  */
 
     /* read and process sensor data */
