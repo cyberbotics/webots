@@ -54,7 +54,7 @@ int main() {
 
   const int time_step = wb_robot_get_basic_time_step();
 
-  /* Get the camera device, enable it, and store its width and height */
+  /* get the camera device, enable it, and store its width and height */
   camera = wb_robot_get_device("camera");
   wb_camera_enable(camera, time_step);
   width = wb_camera_get_width(camera);
@@ -80,34 +80,34 @@ int main() {
     if (wb_robot_step_begin(time_step) == -1)
       break;
 
-    /* Get the new camera values */
+    /* get the new camera values */
     const unsigned char *image = wb_camera_get_image(camera);
 
-    /* Decrement the pause_counter */
+    /* decrement the pause_counter */
     if (pause_counter > 0)
       pause_counter--;
 
-    /* Case 1 */
+    /* case 1 */
     if (pause_counter > 640 / time_step) {
       left_speed = 0;
       right_speed = 0;
     }
-    /* Case 2 */
+    /* case 2 */
     else if (pause_counter > 0) {
       left_speed = -SPEED;
       right_speed = SPEED;
     }
-    /* Case 3 */
-    else if (!image) {  // image may be NULL if Robot.synchronization is FALSE
+    /* case 3 */
+    else if (!image) {
       left_speed = 0;
       right_speed = 0;
-    } else {  // pause_counter == 0
-      /* Reset the sums */
+    } else {
+      /* reset the sums */
       red = 0;
       green = 0;
       blue = 0;
 
-      /* Intense computation on image executed in parallel with the Webots simulation step */
+      /* intense computation on image executed in parallel with the Webots simulation step */
       for (i = width / 3; i < 2 * width / 3; i++) {
         for (j = height / 2; j < 3 * height / 4; j++) {
           red += wb_camera_image_get_red(image, width, i, j);
@@ -116,7 +116,7 @@ int main() {
         }
       }
 
-      /* Detect blob */
+      /* detect blob */
       if ((red > 3 * green) && (red > 3 * blue))
         current_blob = RED;
       else if ((green > 3 * red) && (green > 3 * blue))
@@ -126,12 +126,12 @@ int main() {
       else
         current_blob = NONE;
 
-      /* Case 3a */
+      /* case 3a */
       if (current_blob == NONE) {
         left_speed = -SPEED;
         right_speed = SPEED;
       }
-      /* Case 3b */
+      /* case 3b */
       else {
         left_speed = 0;
         right_speed = 0;
@@ -156,7 +156,7 @@ int main() {
       }
     }
 
-    /* Set the motor speeds. */
+    /* set the motor speeds. */
     wb_motor_set_velocity(left_motor, left_speed);
     wb_motor_set_velocity(right_motor, right_speed);
 
