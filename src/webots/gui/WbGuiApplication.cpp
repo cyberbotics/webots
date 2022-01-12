@@ -482,6 +482,16 @@ bool WbGuiApplication::setup() {
   if (showGuidedTour)
     mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
+  if (mStreamingServer == NULL) {
+    bool monitorActivity = false;
+    bool disableTextStreams = false;
+    bool ssl = false;
+    bool controllerEdit = false;
+    int port = 1234;
+    mStreamingServer = new WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer->start(port);
+    mStreamingServer->sendToClients();
+  }
   return true;
 }
 

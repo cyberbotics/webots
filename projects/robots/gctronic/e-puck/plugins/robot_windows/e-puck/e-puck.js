@@ -6,13 +6,14 @@
 
 import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
 
+let robotName = "e-puck";
+
 window.onload = function() {
   var progressBar = document.getElementById('uploadProgressBar');
   progressBar.style.visibility = 'hidden';
-  window.robotWindow = new RobotWindow('e-puck');
-  console.log("epuck robot win");
+  window.robotWindow = new RobotWindow(robotName);
   window.robotWindow.receive = function(value, robot) {
-    console.log("epuck received", value);
+    console.log("epuck received " + value);
     if (value.indexOf('configure ') === 0) {
       try {
         var configure = JSON.parse(value.substring(10));
@@ -83,7 +84,7 @@ window.onload = function() {
       }
     }
   };
-  window.robotWindow.send('configure');
+  window.robotWindow.send('configure', robotName);
   document.getElementById('file-selector').onchange = function(e) {
     var filename = e.target.files[0].name;
     if (filename.lastIndexOf('.hex') !== filename.length - 4) {
@@ -93,7 +94,7 @@ window.onload = function() {
     var reader = new FileReader();
     reader.readAsText(e.target.files[0]);
     reader.onloadend = function(event) {
-      window.robotWindow.send('upload ' + selectedPort + ' ' + event.target.result);
+      window.robotWindow.send('upload ' + selectedPort + ' ' + event.target.result, robotName);
     };
   };
   onchange = 'onFileUpload();';
@@ -179,7 +180,7 @@ window.onclick = function(event) {
       }
     }
     if (action)
-      window.robotWindow.send(action);
+      window.robotWindow.send(action, robotName);
   }
 };
 window.hideAllDropDownMenus = function(){
@@ -203,13 +204,13 @@ window.wifiConnect = function(){
   var button = document.getElementById('connect');
   button.innerHTML = 'disconnect';
   button.onclick = wifiDisconnect;
-  window.robotWindow.send('connect ' + document.getElementById('ip address').value);
+  window.robotWindow.send('connect ' + document.getElementById('ip address').value, robotName);
 }
 window.wifiDisconnect = function(){
   var button = document.getElementById('connect');
   button.innerHTML = 'connect';
   button.onclick = wifiConnect;
-  window.robotWindow.send('disconnect');
+  window.robotWindow.send('disconnect', robotName);
 }
 
 window.robotLayout = function(configure){
@@ -236,6 +237,5 @@ window.robotLayout = function(configure){
   }
 }
 window.onEnableAll = function(){
-  //window.robotWindow.send('enable');
-  window.robotWindow.send('configure');
+  window.robotWindow.send('enable', robotName);
 }

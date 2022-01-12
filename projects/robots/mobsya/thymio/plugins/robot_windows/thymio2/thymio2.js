@@ -3,11 +3,12 @@ import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
 let robotName = "Thymio II";
 
 window.onload = function() {
-  window.robot_window = new RobotWindow(robotName);
+  window.robotWindow = new RobotWindow(robotName);
 
-  window.robot_window.receive = function(value, robot) {
+  window.robotWindow.receive = function(value, robot) {
     if (value.indexOf("configure ") === 0) {
       try {
+        console.log("value " + value);
         var configure = JSON.parse(value.substring(10));
         console.log("configure" + configure);
       } catch(e) {
@@ -28,7 +29,7 @@ window.onload = function() {
       document.getElementById("prox.ground.1").innerHTML = values[8];
     }
   }
-  window.robot_window.send("configure", robotName); //TODO1: receive configure
+  window.robotWindow.send("configure", robotName); //TODO1: receive configure
 }
 
 window.addEventListener("mouseup", onmouseup);
@@ -60,24 +61,24 @@ window.thymio_onmousedown = function(event) {
   var button = get_button(event.offsetX, event.offsetY);
   if (button) {
     show_click(event);
-    window.robot_window.send("mousedown " + button, robotName);
+    window.robotWindow.send("mousedown " + button, robotName);
   }
 }
 window.clap_onmousedown = function(event) {
   show_click(event);
-  window.robot_window.send("mousedown clap", robotName);
+  window.robotWindow.send("mousedown clap", robotName);
 }
 
 window.tap_onmousedown = function(event) {
   show_click(event);
-  window.robot_window.send("mousedown tap", robotName);
+  window.robotWindow.send("mousedown tap", robotName);
 }
 
 window.onmouseup = function(event) {
   document.getElementById("mouse_click").style.display='none';
-  window.robot_window.send("mouseup", robotName);
+  window.robotWindow.send("mouseup", robotName);
 }
 
 window.robotLayout = function(configure) {
-  window.robot_window.setTitle("Robot: " + configure.name, configure.name);
+  window.robotWindow.setTitle("Robot: " + configure.name, configure.name);
 }

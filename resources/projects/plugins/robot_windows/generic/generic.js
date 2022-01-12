@@ -80,7 +80,7 @@ function receive(message, _robot) {
 
   commands = commands.concat(DeviceWidget.commands);
   if (commands.length !== 0) {
-    window.robotWindow.send(commands.join());
+    window.robotWindow.send(commands.join(), robotName);
     DeviceWidget.commands = [];
     commands = [];
   }
