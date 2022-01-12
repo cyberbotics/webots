@@ -98,6 +98,19 @@ export default class WebotsView extends HTMLElement {
       this._view.onresize();
   }
 
+  setWebotsMessageCallback(callback) {
+    if (typeof this._view !== 'undefined')
+      this._view.messageCallback = callback;
+  }
+
+  setWebotsErrorMessageCallback(callback) {
+    if (typeof this._view !== 'undefined')
+      this._view.errorMessageCallback = callback;
+  }
+
+  hasView() {
+    return typeof this._view !== 'undefined';
+  }
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
