@@ -112,6 +112,8 @@ static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
 static bool should_abort_simulation_waiting = false;
+static bool waiting_for_step_begin = false;
+static bool waiting_for_step_end = false;
 
 // Static functions
 static void init_robot_window_library() {
@@ -796,6 +798,9 @@ void wbr_robot_battery_sensor_set_value(double value) {
 }
 
 int wb_robot_step_begin(int duration) {
+  if(waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
+
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
@@ -836,10 +841,16 @@ int wb_robot_step_begin(int duration) {
 
   robot_mutex_unlock_step();
 
+  waiting_for_step_begin = false;
+  waiting_for_step_end = true;
+
   return 0;
 }
 
 int wb_robot_step_end() {
+  if(waiting_for_step_begin)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
+
   robot_mutex_lock_step();
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
@@ -858,6 +869,9 @@ int wb_robot_step_end() {
 
   robot_mutex_unlock_step();
   robot_window_read_sensors();
+
+  waiting_for_step_begin = true;
+  waiting_for_step_end = false;
 
   return e;
 }

@@ -95,11 +95,11 @@ int Robot::step(int duration) {
   return wb_robot_step(duration);
 }
 
-int Robot::step_begin(int duration) {
+int Robot::stepBegin(int duration) {
   return wb_robot_step_begin(duration);
 }
 
-int Robot::step_end() {
+int Robot::stepEnd() {
   return wb_robot_step_end();
 }
 
