@@ -12154,7 +12154,7 @@ Here you are. Thanks for taking the time.
 Using the struct module, you can stringify any data and extract it
 
 
-<@103557508861263872> i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
+`@SamSmurfitt` i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
 
 ##### SamSmurfitt 09/03/2019 18:13:32
 thats comepletely fine!
@@ -12233,7 +12233,7 @@ I have a issue on floor arena, how do I add wall tile?
 `@aysegulucar` David answered you through support tickets.
 
 
-<@103557508861263872> Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
+`@SamSmurfitt` Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
 
 
 
@@ -12374,7 +12374,7 @@ so If I write a function in normal Matlab is it possible to have a robot's contr
 If you write your controller in matlab yes it should be possible as the controller will be interpreted by Matlab.
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 15:02:10
-<@103557508861263872> Did you noticed the world I sent you this morning?
+`@SamSmurfitt` Did you noticed the world I sent you this morning?
 
 ##### SamSmurfitt 09/04/2019 15:11:25
 So in this example, After 5 seconds the motor is set to a position (Joint\_Angle) but I would like that to be calculated using a function, 'ang\_cal' from a certain input
@@ -12883,7 +12883,7 @@ Nice, I'll try this. Thanks a lot for your answers !
 Hi, Are there any example worlds which use a joystick? Im trying to use a joystick but cant seem to get it to be detected by webots, and wondered if there is an example one I could test it on
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 11:41:57
-<@103557508861263872> Hi, there are examples, let me check..
+`@SamSmurfitt` Hi, there are examples, let me check..
 
 
 This one is certainly the reference:
@@ -13553,7 +13553,7 @@ You're welcome
 Hi, is there an example Virtual Reality world I can test out?
 
 ##### David Mansolino [Cyberbotics] 09/26/2019 12:03:00
-Hi  <@103557508861263872>, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
+Hi  `@SamSmurfitt`, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
 
 ##### SamSmurfitt 09/26/2019 12:46:41
 I've loaded up a sample world, (boomer) but whenever I enable the headset in webots I just get a fully light blue view
@@ -15996,7 +15996,7 @@ working fine now* !
 ##### David Mansolino [Cyberbotics] 10/28/2019 14:02:41
 Perfect, you're welcome
 
-##### Amr 10/28/2019 15:25:29
+##### amr 10/28/2019 15:25:29
 Is there is a world of a city with detailed sidewalks to simulate a wheeled robot performing last mile delivery?
 
 
@@ -16009,7 +16009,7 @@ check this link as an example for what I am looking for and thanks in advance
 `@David Mansolino` e-puck2
 
 ##### David Mansolino [Cyberbotics] 10/28/2019 15:37:53
-`@Amr`, you  might be interested by the 'village\_center' world.
+`@amr`, you  might be interested by the 'village\_center' world.
 %figure
 ![22.png](https://cdn.discordapp.com/attachments/565154703139405824/638401055226331146/22.png)
 %end

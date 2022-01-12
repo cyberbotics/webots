@@ -5530,7 +5530,7 @@ just sending to let you know `@David Mansolino`
 ##### David Mansolino [Cyberbotics] 03/03/2020 07:01:36
 Good to know, thank you for the feeback!
 
-##### Cohen 03/03/2020 14:41:28
+##### Deleted User 03/03/2020 14:41:28
 hi, i'm trying to create a new HTML window for a robot, but i only have generic or generic\_window
 
 
@@ -5543,17 +5543,17 @@ do someone have any hints
 thanks in advance
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:45:12
-Hi `@Cohen` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
+Hi `@Deleted User` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
 
 [https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window](https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window)
 
-##### Cohen 03/03/2020 14:46:02
+##### Deleted User 03/03/2020 14:46:02
 ok, no menu to add it, just prepare the file and it's up and running then ?
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:46:49
 Yes, once you have created and compiled the robot window, you should be able to select it from the `window` field o your robot.
 
-##### Cohen 03/03/2020 14:47:11
+##### Deleted User 03/03/2020 14:47:11
 ok let's try it thx
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:47:21
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### ONI 07/07/2020 11:47:56
+##### YASU 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@ONI` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@YASU` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### ONI 07/07/2020 12:09:20
+##### YASU 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
