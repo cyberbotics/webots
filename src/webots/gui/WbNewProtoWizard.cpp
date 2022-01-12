@@ -368,7 +368,7 @@ void WbNewProtoWizard::updateBaseNode() {
   }
 
   QScrollArea *scrollArea = new QScrollArea();
-  scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
   scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
   QWidget *mainWidget = new QWidget();
