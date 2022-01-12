@@ -177,8 +177,8 @@ class Robot:
     def __init__(self):
     def __del__(self):
     def step(self, duration):
-    def step_begin(self, duration):
-    def step_end(self):
+    def stepBegin(self, duration):
+    def stepEnd(self):
     # ...
 ```
 
@@ -193,8 +193,8 @@ public class Robot {
   public Robot();
   protected void finalize();
   public int step(int duration);
-  public int step_begin(int duration);
-  public int step_end();
+  public int stepBegin(int duration);
+  public int stepEnd();
   // ...
 }
 ```
@@ -252,7 +252,10 @@ It means that the step actually lasted the requested number of milliseconds, but
 - if `dt` > `duration`, then the actuators values were set at `controller_time` + `dt`, and the sensor values were also measured at `controller_time` + `dt`.
 It means that the requested step duration could not be respected.
 
-With `wb_robot_step`, the controller code is executed sequentially with the Webots background simulation process. 
+When using `wb_robot_step()`, the controller code is executed sequentially with the Webots simulation step, i.e., not in parallel.
+This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step()` which actually sends the motor commands and sensors requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
+During this time, the controller is idle, waiting for Webots to complete its simulation step.
+On the other hand, prior to starting a new step, Webots waits for all the controllers to send their `wb_robot_step()` messages which may induce some idle waiting time in Webots if a controller doesn't send quickly enough its `wb_robot_step()` message because it is busy with some computation.
 If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
 `wb_robot_step_begin` and `wb_robot_step_end` allow you to achieve such an implementation.
 They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two function calls is executed in parallel with the Webots simulation step.
@@ -274,7 +277,7 @@ In this case the simulation will remain blocked (sleeping) on the current step (
 Note that the call to the `wb_robot_cleanup` function must be the last API function call in a C controller.
 Any subsequent Webots API function call will give unpredictable results.
 
-**Simple controller Example**
+**Simple controller example**
 
 %tab-component "language"
 
@@ -501,10 +504,11 @@ int main() {
       break;
 
     /* the following code (until wb_robot_step_end) is executed in parallel with the Webots simulation step */
-    /* useful for computationally intensive controllers  */
 
     /* read and process sensor data */
     double val = wb_distance_sensor_get_value(my_sensor);
+
+    /* Intensive computation could take place here */
 
     /* send actuator commands */
     wb_led_set(my_led, 1);
@@ -550,18 +554,20 @@ public:
     do {
       // begin simulation step computation: send command values to Webots for update
       // leave the loop when the simulation is over
-      if (step_begin(timeStep) == -1)
+      if (stepBegin(timeStep) == -1)
         break;
       
       // the following code (until step_end) is executed in parallel with the background simulation step
-      // useful for computationally intensive controllers
 
       double val = distanceSensor->getValue();  // Read and process sensor data
+
+      // Intensive computation could take place here
+
       led->set(1);                              // Send actuator commands
 
       // end simulation step computation: retrieve new sensor values from Webots
       // leave the loop when the simulation is over
-    } while (step_end() != -1);
+    } while (stepEnd() != -1);
   }
 
 private:
@@ -605,18 +611,20 @@ class MyController(Robot):
         while True:
             # begin simulation step computation: send command values to Webots for update
             # leave the loop when the simulation is over
-            if self.step_begin(self.timeStep) == -1:
+            if self.stepBegin(self.timeStep) == -1:
               break
             
             # the following code (until self.step_end) is executed in parallel with the background simulation step
-            # useful for computationally intensive controllers
 
             val = self.distanceSensor.getValue()  # Read and process sensor data
+
+            # Intensive computation could take place here
+
             self.led.set(1)                       # Send actuator commands
             
             # end simulation step computation: retrieve new sensor values from Webots
             # leave the loop when the simulation is over
-            if self.step_end() == -1:
+            if self.stepEnd() == -1:
               break
         
 # main Python program
@@ -652,18 +660,20 @@ public class MyController extends Robot {
     do {
       // begin simulation step computation: send command values to Webots for update
       // leave the loop when the simulation is over
-      if(step_begin(timeStep) == -1)
+      if(stepBegin(timeStep) == -1)
         break;
 
       // the following code (until step_end) is executed in parallel with the background simulation step
-      // useful for computationally intensive controllers
       
       double val = distanceSensor.getValue();  // Read and process sensor data
+
+      // Intensive computation could take place here
+
       led.set(1);                              // Send actuator commands
 
       // end simulation step computation: retrieve new sensor values from Webots
       // leave the loop when the simulation is over
-    } while (step_end() != -1)
+    } while (stepEnd() != -1)
   }
 
   private int timeStep;
@@ -705,9 +715,11 @@ while 1
   end
 
   % the following code (until wb_robot_step_end) is executed in parallel with the background simulation step
-  % useful for computationally intensive controllers
 
   val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
+
+  % Intensive computation could take place here
+
   wb_led_set(led, 1);                                  % Send actuator commands
 
   % end simulation step computation: retrieve new sensor values from Webots
