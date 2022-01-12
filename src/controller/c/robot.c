@@ -798,7 +798,7 @@ void wbr_robot_battery_sensor_set_value(double value) {
 }
 
 int wb_robot_step_begin(int duration) {
-  if(waiting_for_step_end)
+  if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
   if (!robot.client_exit)
@@ -848,7 +848,7 @@ int wb_robot_step_begin(int duration) {
 }
 
 int wb_robot_step_end() {
-  if(waiting_for_step_begin)
+  if (waiting_for_step_begin)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
 
   robot_mutex_lock_step();
