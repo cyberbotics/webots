@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5988649619496187 0.7598749517194467 0.2528849839323209 5.09863
-  position -0.3184 0.391568 0.295716
+  orientation 0.9286315153002099 -0.37098708232974925 0.00347757612369663 4.528139423982821
+  position -0.4333492851082345 0.279699359957294 0.3018558005363777
 }
 Background {
   skyColor [
@@ -19,10 +19,6 @@ PointLight {
 Floor {
   rotation 1 0 0 -1.57079632679
   size 1 1
-}
-Robot {
-  controller "robot_multiple_step_supervisor"
-  supervisor TRUE
 }
 DEF OBSTACLE Solid {
   translation -0.05 0.05 0.01
@@ -41,6 +37,7 @@ DEF ROBOT Robot {
   translation 0.1 0.0295 0.1
   children [
     DEF BODY Transform {
+      rotation 0 1 0 1.57079632679
       children [
         Shape {
           geometry Cone {
@@ -49,10 +46,9 @@ DEF ROBOT Robot {
           }
         }
       ]
-      rotation 0 1 0 1.57079632679
     }
     Camera {
-      rotation 1 0 0 -1.5708011490495657
+      rotation 1 1.88116e-06 -7.19235e-09 -1.5708053071795867
       fieldOfView 0.1
       width 1
       height 1
@@ -83,8 +79,6 @@ DEF ROBOT Robot {
       }
       type "force"
     }
-    TestSuiteEmitter {
-    }
   ]
   boundingObject Transform {
     translation 0 -0.004 0
@@ -98,7 +92,6 @@ DEF ROBOT Robot {
     density -1
     mass 1
   }
-  controller "robot_multiple_step"
-}
-TestSuiteSupervisor {
+  controller "robot_parallel_step"
+  supervisor TRUE
 }
