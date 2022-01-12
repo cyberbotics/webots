@@ -29,10 +29,8 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds, time_step);
   wb_touch_sensor_enable(ts, time_step);
 
-  // step 1 - robot_step - 32 ms -> get initial sensor values and update position
-  // step 2 - robot_step_begin and robot_step_end - 64 ms -> check initial camera values
-  // step 3 - robot_step_begin and robot_step_end - 96 ms -> check camera values after first pose update
-  wb_robot_step(time_step);
+  // step 1 - 32 ms -> get initial sensor values, robot node/fields and update position
+  wb_robot_step_begin(time_step);
 
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
   WbFieldRef robot_trans_field = wb_supervisor_node_get_field(robot_node, "translation");
@@ -42,10 +40,10 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_rotation(rotationField, newRotation);
   wb_supervisor_field_set_sf_vec3f(robot_trans_field, newTranslation);
 
-  // step 2
-  wb_robot_step_begin(time_step);
+  wb_robot_step_end();
 
-  // check initial sensor values
+  // step 2 - 64 ms -> check initial sensor values
+  wb_robot_step_begin(time_step);
 
   // camera
   image = wb_camera_get_image(camera);
@@ -79,18 +77,19 @@ int main(int argc, char **argv) {
 
   wb_robot_step_end();  // retrieve sensor values after step update
 
-  // step 3 - check camera value after first pose update
+  // step 3 - 96 ms -> check camera values after first pose update (second is only visible by the sensor after the next
+  // step_end)
   wb_robot_step_begin(time_step);
 
   image = wb_camera_get_image(camera);
+
   // Intense computation between begin and end
   for (int i = 0; i < 100000000; i++) {
     r = wb_camera_image_get_red(image, 1, 0, 0);
     g = wb_camera_image_get_blue(image, 1, 0, 0);
     b = wb_camera_image_get_green(image, 1, 0, 0);
-    int mean = (r+g+b)/3;
+    int mean = (r + g + b) / 3;
   }
-
   ts_assert_color_in_delta(r, g, b, 207, 207, 207, 5, "Camera measurement after first pose update is wrong.");
 
   wb_robot_step_end();
