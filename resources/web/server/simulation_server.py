@@ -171,6 +171,8 @@ class Client:
             logging.error('Missing world file in Webots simulation URL')
             return False
         self.world = filename
+        mkdir_p(self.project_instance_path)
+        os.chdir(self.project_instance_path)
         # get the default branch name
         repository_url = 'https://github.com/' + username + '/' + repository + '.git'
         default_branch = subprocess.getoutput("git ls-remote --quiet --symref " + repository_url +
@@ -185,14 +187,12 @@ class Client:
             elif type == 'tags':
                 url += 'tags/' + version
             else:
-                logging.error("Cannot determine if \"" + version + "\" is a branch or a tag.")
+                logging.error(f'Cannot determine if "{version}" is a branch or a tag: ${type}')
         url += '/' + folder
         try:
             path = os.getcwd()
         except OSError:
             path = False
-        mkdir_p(self.project_instance_path)
-        os.chdir(self.project_instance_path)
         command = AsyncProcess(['svn', 'export', url])
         sys.stdout.write('$ svn export ' + url + '\n')
         sys.stdout.flush()
@@ -208,13 +208,7 @@ class Client:
             sys.stdout.flush()
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
-        # create a Dockerfile if not provided in the project folder
         self.project_instance_path += project
-        os.chdir(self.project_instance_path)
-        if not os.path.isfile('Dockerfile'):
-            f = open("Dockerfile", "w")
-            f.write("FROM cyberbotics/webots:R2022a-ubuntu20.04")
-            f.close()
         logging.info('Done')
         if path:
             os.chdir(path)
@@ -233,7 +227,38 @@ class Client:
             global config
             world = self.project_instance_path + '/worlds/' + self.world
             port = client.streaming_server_port
-            command = config['webots'] + ' --batch --mode=pause '
+            if config['docker']:
+                # create a Dockerfile if not provided in the project folder
+                os.chdir(self.project_instance_path)
+                if not os.path.isfile('Dockerfile'):
+                    f = open('Dockerfile', 'w')
+                    f.write('FROM cyberbotics/webots:R2022a-ubuntu20.04\n')  # FIXME: Determine version from from wbt file
+                    f.write('RUN mkdir -p ' + self.project_instance_path + '\n')
+                    f.write('COPY . ' + self.project_instance_path + '\n')
+                    if os.path.isfile('Makefile'):
+                        f.write('RUN make\n')
+                    f.close()
+                print('created Dockerfile')
+                image = subprocess.getoutput('docker build -q .')
+                print('image = ' + image)
+                command = 'docker run -it'
+                if 'SSH_CONNECTION' in os.environ:
+                    xauth = '/tmp/.docker-' + str(port) + '.xauth'
+                    os.system('touch ' + xauth)
+                    display = os.environ['DISPLAY']
+                    os.system('xauth nlist ' + display + " | sed -s 's/^..../ffff/' | xauth -f " + xauth + ' nmerge -')
+                    os.system('chmod 777 ' + xauth)
+                    command += ' --net host -e DISPLAY=' + display + ' -e XAUTHORITY=' + xauth
+                    command += ' -v ' + xauth + ':' + xauth
+                else:
+                    command += ' --gpus=all -e DISPLAY'
+
+                command += ' -v /tmp/.X11-unix:/tmp/.X11-unix:rw'
+                command += ' -p ' + str(port) + ':' + str(port)
+                command += ' ' + image + ' '
+            else:
+                command = ''
+            command += config['webots'] + ' --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
                 command += '--minimize --no-rendering '
@@ -641,6 +666,11 @@ def main():
     network_sent = n.bytes_sent
     network_received = n.bytes_recv
     snapshots = []
+    if 'docker' not in config:
+        config['docker'] = False
+    if config['docker']:
+        if 'SSH_CONNECTION' not in os.environ:
+            os.system('xhost +local:root')
     if 'webotsHome' not in config:
         config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     config['webots'] = config['webotsHome']
@@ -664,7 +694,6 @@ def main():
         config['maxConnections'] = 100
     if 'debug' not in config:
         config['debug'] = False
-    os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
     if os.path.exists(config['instancesPath']):
