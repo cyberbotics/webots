@@ -946,14 +946,14 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   return robot.user_input_event_type;
 }
 
-bool wb_robot_flush_unlocked(const char *func) {
+void wb_robot_flush_unlocked(const char *func) {
   if (func && waiting_for_step_end) {
     fprintf(
       stderr,
       "Warning: %s(): functions with immediate requests to Webots cannot be implemented in-between wb_robot_step_begin() and "
       "wb_robot_step_end()!\n",
       func);
-    return 0;
+    return;
   }
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
@@ -962,15 +962,13 @@ bool wb_robot_flush_unlocked(const char *func) {
     exit(EXIT_SUCCESS);
   }
   if (robot.webots_exit == WEBOTS_EXIT_LATER)
-    return 0;
+    return;
   robot.is_immediate_message = true;
   robot_send_request(0);
   robot_read_data();
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     robot.webots_exit = WEBOTS_EXIT_LATER;
   robot.is_immediate_message = false;
-
-  return 1;
 }
 
 int wb_robot_init_msvc() {
