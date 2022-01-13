@@ -275,8 +275,6 @@ class Client:
                 command += ';multimediaServer=' + config['multimediaServer']
             if 'multimediaStream' in config:
                 command += ';multimediaStream=' + config['multimediaStream']
-            if config['ssl']:
-                command += ';ssl'
             command += '" ' + world
             try:
                 client.webots_process = subprocess.Popen(command.split(),
@@ -298,7 +296,7 @@ class Client:
                 hostname = client.websocket.request.host.split(':')[0]
             else:
                 hostname = config['fullyQualifiedDomainName']
-            protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
+            protocol = 'wss:' if config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
             message = 'webots:' + protocol + '//' + hostname + separator + str(port)
@@ -648,13 +646,10 @@ def main():
     #
     # port:                     local port on which the server is listening (launching webots instances).
     # fullyQualifiedDomainName: hostname of the server (from the Internet).
-    # portRewrite:              true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+    # portRewrite:              true (default) for https/wss URLs (using apache rewrite rule).
     # projectsDir:              directory in which projects are located.
     # webotsHome:               directory in which Webots is installed (WEBOTS_HOME)
     # maxConnections:           maximum number of simultaneous Webots instances.
-    # sslKey:                   private key for a SSL enabled server.
-    # sslCertificate:           certificate for a SSL enabled server.
-    # keyDir:                   directory where the host keys needed for validation are stored.
     # logDir:                   directory where the log files are written.
     # monitorLogEnabled:        specify if the monitor data have to be stored in a file.
     # debug:                    debug mode (output to stdout).
@@ -687,10 +682,6 @@ def main():
         config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
     else:
         config['projectsDir'] = expand_path(config['projectsDir'])
-    if 'keyDir' not in config:
-        config['keyDir'] = 'key'
-    else:
-        config['keyDir'] = expand_path(config['keyDir'])
     if 'port' not in config:
         config['port'] = 2000
     if 'maxConnections' not in config:
@@ -752,22 +743,11 @@ def main():
     handlers.append((r'/client', ClientWebSocketHandler))
     handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
-    if 'sslCertificate' in config and 'sslKey' in config:
-        config['ssl'] = True
-        ssl_certificate = os.path.abspath(expand_path(config['sslCertificate']))
-        ssl_key = os.path.abspath(expand_path(config['sslKey']))
-        ssl_options = {"certfile": ssl_certificate, "keyfile": ssl_key}
-        http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
-    else:
-        config['ssl'] = False
-        http_server = tornado.httpserver.HTTPServer(application)
+    http_server = tornado.httpserver.HTTPServer(application)
     if 'portRewrite' not in config:
-        config['portRewrite'] = False
+        config['portRewrite'] = True
     http_server.listen(config['port'])
-    message = "Simulation server running on port %d (" % config['port']
-    if not config['ssl']:
-        message += 'no '
-    message += 'SSL)'
+    message = "Simulation server running on port %d" % config['port']
     print(message)
     sys.stdout.flush()
     try:
