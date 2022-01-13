@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 
   image = wb_camera_get_image(camera);
 
-  // Intense computation between begin and end
+  // intense computation between begin and end
   for (int i = 0; i < 1000000; i++) {
     r = wb_camera_image_get_red(image, 1, 0, 0);
     g = wb_camera_image_get_blue(image, 1, 0, 0);
