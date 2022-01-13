@@ -25,9 +25,6 @@ then
 elif [[ $url == https://github.com* ]]
 then
 	echo "$url" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
-else
-	echo "cyberbotics/webots" > $WEBOTS_HOME/resources/repo.txt
-fi
 elif [[ $url == https://*@github.com* ]]
 then
 	repo=$(echo $url | cut -d/ -f4)/$(echo $url | cut -d/ -f5 | cut -d. -f1)
