@@ -2819,7 +2819,7 @@ Many cad programs also allow you to export urdf
 ##### its-me 11/09/2021 17:00:28
 I have fusion360, can look into that
 
-##### DrakerDG 11/09/2021 18:45:30
+##### DrakerDG [Moderator] 11/09/2021 18:45:30
 [http://wiki.ros.org/urdf](http://wiki.ros.org/urdf)
 
 ##### Caio Viturino 11/14/2021 19:06:59
