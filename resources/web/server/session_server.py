@@ -65,7 +65,7 @@ class SessionHandler(tornado.web.RequestHandler):
                 minimum = simulation_server_loads[i]
                 minimally_loaded_server = config['simulationServers'][i]
         if minimum < LOAD_THRESHOLD:
-            if config['ssl'] or config['portRewrite']:
+            if config['portRewrite']:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
@@ -112,7 +112,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         for i in range(nServer):
             self.write("<tr><td>%d</td>" % (i + 1))
             url = "http"
-            if config['ssl'] or config['portRewrite']:
+            if config['portRewrite']:
                 url += "s"
             url += "://" + config['simulationServers'][i] + "/monitor"
             self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
@@ -206,13 +206,13 @@ def send_email(subject, content):
 def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
-    if config['ssl'] or config['portRewrite']:
+    if config['portRewrite']:
         url = 'https://' + url
     else:
         url = 'http://' + url
     url += '/load'
     if 'administrator' in config:
-        if config['ssl'] or config['portRewrite']:
+        if config['portRewrite']:
             protocol = 'https://'
         else:
             protocol = 'http://'
@@ -295,10 +295,8 @@ def main():
     # are described here:
     #
     # port:               local port on which the server is listening.
-    # portRewrite:        true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+    # portRewrite:        true (default) for https/wss URLs (using apache rewrite rule).
     # server:             host where this session script is running.
-    # sslKey:             private key for a SSL enabled server.
-    # sslCertificate:     certificate for a SSL enabled server.
     # simulationServers:  lists all the available simulation servers.
     # administrator:      email address of administrator that will receive the notifications.
     # mailServer:         SMTP mail server host from which the notifications are sent.
@@ -360,21 +358,10 @@ def main():
     application = tornado.web.Application(handlers)
     if 'server' not in config:
         config['server'] = 'localhost'
-    if 'sslCertificate' in config and 'sslKey' in config:
-        config['ssl'] = True
-        ssl_certificate = os.path.abspath(expand_path(config['sslCertificate']))
-        ssl_key = os.path.abspath(expand_path(config['sslKey']))
-        ssl_options = {"certfile": ssl_certificate, "keyfile": ssl_key}
-        http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
-    else:
-        config['ssl'] = False
-        http_server = tornado.httpserver.HTTPServer(application)
+    http_server = tornado.httpserver.HTTPServer(application)
     update_load()
     http_server.listen(config['port'])
-    message = "Session server running on port %d (" % config['port']
-    if not config['ssl']:
-        message += 'no '
-    message += 'SSL)'
+    message = "Session server running on port %d" % config['port']
     logging.info(message)
 
     try:

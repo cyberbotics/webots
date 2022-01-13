@@ -6,8 +6,8 @@ This section describes how to setup a simulation web service similar to [robotbe
 Such a system may be distributed on several machines.
 One machine runs a session server that communicates with several simulation servers.
 Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client.
-Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
-Therefore binary or Python controllers coming from the outside world may be executed safely on the simulation servers.
+Webots instances are executed in a secure environment using [Docker](https://www.docker.com).
+Therefore physics plug-ins and robot controllers coming from the outside world may be executed safely on the simulation servers.
 
 The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
@@ -17,10 +17,8 @@ The Web Simulation system is still work in progress and could change in the next
 
 The prerequisites for the server machine(s) are the following:
 
-- Ubuntu 18.04 or 20.04 LTS (Windows and macOS X are also supported, but should not be used for production purposes)
-- Webots latest version
-- Python 3.8 or newer
-- Web service dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
+- Ubuntu 20.04 LTS or newer
+- Web service dependencies ([Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
 Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
@@ -40,14 +38,13 @@ Of course, Webots has to be installed on all the machines where a simulation ser
 
 %end
 
-
 #### Quick Start
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
 We assume you use Ubuntu 20.04 or newer.
 
 First, you need to install dependencies:
 ```bash
-sudo apt install subversion firejail python3-tornado python3-pynvml
+sudo apt install subversion docker python3-tornado python3-pynvml
 ```
 
 Then, start a session and simulation servers:
@@ -167,7 +164,7 @@ It manages the load of the simulation server machines and sends the URL of the a
 
 These are the configuration parameters for the session server:
 - `port`: local port on which the server is listening.
-- `portRewrite`: true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
+- `portRewrite`: true (default) for https/wss URLs (using apache rewrite rule).
 - `server`: host where this session script is running.
 - `administrator`: email address of administrator that will receive notifications about the status of the simulation server machines.
 - `mailServer`: SMTP mail server host from which the notifications are sent.
@@ -176,8 +173,6 @@ These are the configuration parameters for the session server:
 - `mailSenderUser`: user name to authenticate on the SMTP server.
 - `mailSenderPassword`: password to authenticate on the SMTP server with the mailSenderUser.
 - `simulationServers`: lists all the available simulation servers.
-- `sslCertificate`: path to the certificate file for a SSL enabled server.
-- `sslKey`: path to the private key file for a SSL enabled server.
 - `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
 - `debug`: if true, the output will be written to `stdout` instead of the log file.
 
@@ -194,12 +189,11 @@ WebSocket request handler:
 The simulation server creates and starts a Webots instance with the desired simulation for each client request and sends the WebSocket URL of Webots to the client so that it can communicate directly with Webots.
 
 These are the configuration parameters for the simulation server:
+- `docker`: set to `true` to start simulations in a docker security sandbox.
+- `allowedRepositories`: lists the GitHub repositories allowed to run by this simulation server.
 - `port`: local port on which the server is listening (launching Webots instances).
-- `portRewrite`: true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
-- `sslKey`: path to the private key file for a SSL enabled server.
-- `sslCertificate`: path to the certificate file for a SSL enabled server.
+- `portRewrite`: true (default) for https/wss URLs (using apache rewrite rule).
 - `projectsDir`: directory in which Webots projects are located.
-- `keyDir`: directory where the website host keys needed for validation are stored. This folder should include a file named as the host (for example "robotbenchmark.net") containing a key identifying it.
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
 - `debug`: if true, the output will be written to `stdout` instead of the log file.
 - `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
@@ -236,24 +230,14 @@ In the above sample URL, the simulation server will checkout the `my_own_version
 
 This protocol is still experimental and the robot windows are not yet supported.
 
-#### Network Settings
+#### Port Rewrite
 
-In order to make the web simulation work properly from the outside world, you have two possibilities:
-1. Configure your web server, `session_server.py` and `simulation_server.py` to perform port rewrite.
+In order to make the web simulation work properly from the outside world over SSL, you have to configure your web server, `session_server.py` and `simulation_server.py` to perform port rewrite.
 Requests arriving to the web server will be redirected to the local network, e.g., `wss://webserver.com/2000/client` &rarr; `ws://webserver.com:2000/client` and `https://webserver.com/2000/monitor` &rarr; `http://webserver.com:2000/monitor`.
 You just need to have port 443 open in your local firewall for incoming connections.
 Such a setup is compatible with any client firewall allowing outgoing connections on port 443 to your server (which is very standard).
-Moreover, it has the advantage of allowing you to run the `session_server.py`, `simulation_server.py` and Webots without SSL encryption while still proving a SSL interface to the clients via your web server.
-2. Open all the ports used by the `session_server.py`, `simulation_server.py` and Webots.
-On simple networks, this can be done by modifying the NAT settings of the router.
-The disadvantage of this method is that local firewalls may block the connections on non-standard ports, and thus some clients may not be able to use the web simulation if they cannot change their firewall rules.
-Another disadvantage is that you must run the `session_server.py`, `simulation_server.py` and Webots in SSL mode if you want to provide a SSL connection to the simulation server, so that it can be executed from a `https` web page.
 
-#### Port Rewrite
-
-Port rewrite is useful for providing an SSL interface using the standard 443 port for both WebSockets `wss://` and HTTP `https://` requests.
-It can be tested on a local host by setting up [XAMPP to use SSL](https://gist.github.com/nguyenanhtu/33aa7ffb6c36fdc110ea8624eeb51e69).
-Port rewrite should be configured in the `session_server.py` and `simulation_server.py` by simply setting the `portRewrite` option to `true`.
+Port rewrite can be tested on a local host by setting up [XAMPP to use SSL](https://gist.github.com/nguyenanhtu/33aa7ffb6c36fdc110ea8624eeb51e69).
 In the `session_server.py` configuration, the `simulationServers` should be listed using the outside URL: `hostname/2000` instead of `hostname:2000`.
 Your web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
 With the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
@@ -341,21 +325,14 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
 %end
 
-#### SSL Encryption
-
-Webots, the session and simulation servers can work with or without SSL encryption.
-If you use the port rewrite method, applying SSL encryption to Webots, the session server or the simulation server is useless.
-Otherwise, it is strongly recommended.
-SSL encryption requires the `fullchain.pem` and `privkey.pem` files.
-Their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
-Note that Webots will look for the file "WEBOTS\_HOME/resources/web/server/ssl/cert.pem", so you may have to rename `fullchain.pem` and copy it in the `ssl` folder or create a soft link.
+**Note:** Port rewrite can be disabled for testing purposes in the `session_server.py` and `simulation_server.py` by simply setting the `portRewrite` configuration option to `false`.
 
 #### Server Display
 
 On Linux, a working Linux display (":0") should be available to run Webots remotely.
 This can be achieved generally simply by executing 'xhost +' on the server computer.
 
-**Note :** On some computers, in addition to the previous comment, the display entity is linked with the fact that a monitor is plugged.
+**Note:** On some computers, in addition to the previous comment, the display entity is linked with the fact that a monitor is plugged.
 In this case, you can open automatically a user session when the computer is switched on, run `session_server.py` and `simulation_server.py` automatically when the session starts up, and let the monitor switched on at Ubuntu startup.
 If you have a headless system, i.e., a system without any physical monitors attached, then with the NVIDIA graphics card you could fake a monitor in the X session.
 This solution basically consists in adding a screen configuration to the X server configuration file by copying the Extended Display Identification Data (EDID) of a temporary attached monitor.
@@ -383,7 +360,7 @@ You can use the following `Dockerfile` to build your Docker image.
 FROM cyberbotics/webots:latest
 
 RUN apt update
-RUN apt install -y firejail python3-pip
+RUN apt install -y python3-pip
 RUN pip3 install tornado pynvml psutil requests distro
 ENV DISPLAY=:99
 COPY server/config /usr/local/webots/resources/web/server/config
