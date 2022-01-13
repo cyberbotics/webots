@@ -256,7 +256,7 @@ export default class Parser {
   _parseViewpoint(node) {
     const id = getNodeAttribute(node, 'id');
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
-    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
+    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
@@ -386,7 +386,7 @@ export default class Parser {
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
-    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
     const transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
