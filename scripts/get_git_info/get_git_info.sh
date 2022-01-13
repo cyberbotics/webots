@@ -24,11 +24,6 @@ then
 	echo "$url" | $(cut -c 16- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
 elif [[ $url == https://github.com* ]]
 then
-if [[ $url == git@github.com* ]]
-then
-	echo "$url" | $(cut -c 16- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
-elif [[ $url == https://github.com* ]]
-then
 	echo "$url" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
 else
 	echo "cyberbotics/webots" > $WEBOTS_HOME/resources/repo.txt

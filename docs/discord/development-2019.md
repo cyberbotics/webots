@@ -1022,11 +1022,11 @@ no i will try
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:54:00
 I would go for this function first: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_simulation\_reset](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_simulation_reset)
 
-##### Ella 11/19/2019 16:04:03
+##### 장지영 11/19/2019 16:04:03
 Hello~ I am a real beginner of Webot!!  I want to use a* algorithm  boxes as obstacles and find the path!! but it's really hard,,,, can you give me some tips where to start??
 
 ##### Fabien Rohrer [Moderator] 11/19/2019 16:05:16
-`@Ella` Hi, I confirm this task may be hard. There is currently no example about such implementation.
+`@장지영` Hi, I confirm this task may be hard. There is currently no example about such implementation.
 
 
 If I were you, I would first use an existing library to deal with the algorithm, and a predefined map stored in the controller. Webots can retrieve easily the robot position in the map.
@@ -1043,7 +1043,7 @@ The objects of a scene and their size may be retrieved using a supervisor, like 
 
 But using a predefined map to start is certainly simpler.
 
-##### Ella 11/19/2019 16:16:53
+##### 장지영 11/19/2019 16:16:53
 `@Fabien Rohrer`  Thank you so much!!! Maybe I should try step by step!!!
 
 ##### Fabien Rohrer [Moderator] 11/19/2019 16:38:52
