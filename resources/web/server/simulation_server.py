@@ -141,13 +141,16 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
+        global config
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if not hasattr(self, 'url'):
-            logging.error('Missing url.')
+            logging.error('Missing URL.')
             return False
         if not self.url.startswith('https://github.com/'):
-            logging.error('Unsupported url protocol: ' + self.url)
+            logging.error('Unsupported URL protocol: ' + self.url)
             return False
+        if 'allowedRepositories' in config and not self.url.startswith(tuple(config['allowedRepositories'])):
+            logging.error('Specified URL is not allowed: ' + self.url)
         return self.setup_project_from_github()
 
     def setup_project_from_github(self):
