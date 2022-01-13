@@ -32,7 +32,6 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
-#include <QtWidgets/QSizePolicy>
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
@@ -370,6 +369,7 @@ void WbNewProtoWizard::updateBaseNode() {
   QScrollArea *scrollArea = new QScrollArea();
   scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
   scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  scrollArea->setWidgetResizable(true);
 
   QWidget *mainWidget = new QWidget();
   QVBoxLayout *fieldsLayout = new QVBoxLayout(mFields);
