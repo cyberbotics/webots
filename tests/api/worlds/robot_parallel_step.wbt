@@ -79,6 +79,8 @@ DEF ROBOT Robot {
       }
       type "force"
     }
+    TestSuiteEmitter {
+    }
   ]
   boundingObject Transform {
     translation 0 -0.004 0
@@ -94,4 +96,6 @@ DEF ROBOT Robot {
   }
   controller "robot_parallel_step"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
