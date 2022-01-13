@@ -260,6 +260,13 @@ If the two computational processes (Webots and controller) are slow, it may be i
 `wb_robot_step_begin` and `wb_robot_step_end` allow you to achieve such an implementation.
 They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two function calls is executed in parallel with the Webots simulation step.
 `wb_robot_step_begin` and `wb_robot_step_end` both return -1 if the simulation is terminated.
+Note that some functions cannot be implemented between `wb_robot_step_begin` and `wb_robot_step_end`, as they require immediate response from Webots using a request-response pattern. 
+This includes some [Supervisor API](#supervisor.md) functions, like `wb_supervisor_node_get_field` and `wb_supervisor_field_get_sf_rotation`, but also some Robot API functions, like `wb_robot_get_urdf`. 
+Webots warns you in case you implement one of these functions between `wb_robot_step_begin` and `wb_robot_step_end`.
+You can simply write them before `wb_robot_step_begin` or after `wb_robot_step_end`.
+If you still want to parallelize some of these functions with the simulation step, you can use the tracking options from the supervisor. 
+`wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_point_tracking` force Webots to stream information to the controller. 
+Using tracking, some supervisor methods get their value locally and can be written between `wb_robot_step_begin` and `wb_robot_step_end`.
 
 The C API has two additional functions: `wb_robot_init` and `wb_robot_cleanup`.
 There is no equivalent of the `wb_robot_init` and `wb_robot_cleanup` functions in the Java, Python, C++ and MATLAB APIs.
