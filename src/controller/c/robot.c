@@ -877,6 +877,9 @@ int wb_robot_step_end() {
 }
 
 int wb_robot_step(int duration) {
+  if (waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
+
   int e = wb_robot_step_begin(duration);
   if (e == -1)
     return e;
@@ -923,7 +926,7 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   robot.is_waiting_for_user_input_event = true;
   robot.user_input_event_type = event_type;
   robot.user_input_event_timeout = timeout;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   while (robot.is_waiting_for_user_input_event && !robot_is_quitting())
     robot_read_data();
 
@@ -943,20 +946,31 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   return robot.user_input_event_type;
 }
 
-void wb_robot_flush_unlocked() {
+bool wb_robot_flush_unlocked(const char *func) {
+  if (func && waiting_for_step_end) {
+    fprintf(
+      stderr,
+      "Warning: %s(): functions with immediate requests to Webots cannot be implemented in-between wb_robot_step_begin() and "
+      "wb_robot_step_end()!\n",
+      func);
+    return 0;
+  }
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
     robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
   }
   if (robot.webots_exit == WEBOTS_EXIT_LATER)
-    return;
+    return 0;
   robot.is_immediate_message = true;
   robot_send_request(0);
   robot_read_data();
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     robot.webots_exit = WEBOTS_EXIT_LATER;
   robot.is_immediate_message = false;
+
+  return 1;
 }
 
 int wb_robot_init_msvc() {
@@ -1163,7 +1177,7 @@ void wb_robot_wwi_send(const char *data, int size) {
   robot_mutex_lock_step();
   robot.wwi_message_to_send_size = size;
   robot.wwi_message_to_send = data;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1196,7 +1210,7 @@ const char *wb_robot_get_urdf(const char *prefix) {
   robot.urdf_prefix = malloc(strlen(prefix) + 1);
   strcpy(robot.urdf_prefix, prefix);
 
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot.need_urdf = false;
 
   robot_mutex_unlock_step();

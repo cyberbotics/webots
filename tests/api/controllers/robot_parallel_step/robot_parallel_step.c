@@ -29,16 +29,19 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds, time_step);
   wb_touch_sensor_enable(ts, time_step);
 
+  WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
+  WbFieldRef translation_field = wb_supervisor_node_get_field(robot_node, "translation");
+  WbFieldRef rotation_field = wb_supervisor_node_get_field(robot_node, "rotation");
+  wb_supervisor_field_enable_sf_tracking(rotation_field, time_step);
+
   // step 1 - 32 ms -> get initial sensor values, robot node/fields and update position
   wb_robot_step_begin(time_step);
 
-  WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
-  WbFieldRef robot_trans_field = wb_supervisor_node_get_field(robot_node, "translation");
-  WbFieldRef rotationField = wb_supervisor_node_get_field(robot_node, "rotation");
+  const double *rotation = wb_supervisor_field_get_sf_rotation(rotation_field);
   const double newRotation[4] = {0.0, 1.0, 0.0, 1.5708};
   const double newTranslation[3] = {-0.05, 0.0295, 0.1};
-  wb_supervisor_field_set_sf_rotation(rotationField, newRotation);
-  wb_supervisor_field_set_sf_vec3f(robot_trans_field, newTranslation);
+  wb_supervisor_field_set_sf_rotation(rotation_field, newRotation);
+  wb_supervisor_field_set_sf_vec3f(translation_field, newTranslation);
 
   wb_robot_step_end();
 
@@ -72,8 +75,8 @@ int main(int argc, char **argv) {
   // second pose update
   const double newRotation1[4] = {0.0, 0.0, 1.0, 0.0};
   const double newTranslation1[3] = {0.1, 0.0295, 0.1};
-  wb_supervisor_field_set_sf_rotation(rotationField, newRotation1);
-  wb_supervisor_field_set_sf_vec3f(robot_trans_field, newTranslation1);
+  wb_supervisor_field_set_sf_rotation(rotation_field, newRotation1);
+  wb_supervisor_field_set_sf_vec3f(translation_field, newTranslation1);
 
   wb_robot_step_end();  // retrieve sensor values after step update
 
