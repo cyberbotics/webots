@@ -148,7 +148,7 @@ static WbDeviceTag brake_get_associated_device(WbDeviceTag t, int device_type, c
   robot_mutex_lock_step();
   b->state |= C_BRAKE_GET_ASSOCIATED_DEVICE;
   b->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag result = b->requested_device_tag;
   robot_mutex_unlock_step();
   return result;

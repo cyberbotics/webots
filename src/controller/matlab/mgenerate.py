@@ -385,6 +385,8 @@ def main(args=None):
     # gen(PROC, "wb_robot_init()", "robot")
     # gen(PROC, "wb_robot_cleanup()", "robot")
     gen(FUNC, "wb_robot_step(duration)", "robot")
+    gen(FUNC, "wb_robot_step_begin(duration)", "robot")
+    gen(FUNC, "wb_robot_step_end()", "robot")
     gen(FUNC, "wb_robot_wait_for_user_input_event(event_type, timeout)", "robot")
     gen(PROC, "wb_robot_battery_sensor_enable(sampling_period)", "robot")
     gen(PROC, "wb_robot_battery_sensor_disable()", "robot")
