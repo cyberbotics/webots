@@ -35,7 +35,7 @@
 #endif
 
 int wb_robot_get_step_duration();
-void wb_robot_flush_unlocked();
+void wb_robot_flush_unlocked(const char *);
 void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
 WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning);
