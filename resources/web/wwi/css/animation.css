@@ -112,12 +112,18 @@ webots-view button:first-of-type { margin-right: 6px; }
   height: 34px;
 }
 
+.icon-info {
+  width: 28px;
+}
+
 .icon-play       { background-position:   -2px -2px }
 .icon-pause      { background-position:  -40px -2px }
 .icon-settings   { background-position: -382px -2px }
 .icon-fullscreen { background-position: -420px -2px }
 .icon-partscreen { background-position: -458px -2px }
+.icon-info       { background-position: -306px -2px }
 
+.icon-info:hover,
 .icon-play:hover,
 .icon-pause:hover,
 .icon-settings:hover,
@@ -147,6 +153,11 @@ webots-view button:first-of-type { margin-right: 6px; }
 
 .player-btn:hover .tooltip {
   visibility: visible;
+}
+
+.info-tooltip {
+  right: 30px;
+  white-space: nowrap;
 }
 
 .settings-tooltip {
@@ -324,4 +335,34 @@ webots-view input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
   pointer-events: none;
+}
+.information-panel {
+  position: absolute;
+  top: calc(50% - 140px);
+  left: calc(50% - 220px);
+  background-color: #333;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 280px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Helvetica;
+  display: none;
+  pointer-events: auto;
+}
+
+.information-panel a {
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.information-panel a:hover {
+  text-decoration: underline;
+}
+
+.cloud {
+  font-size: 12px;
 }

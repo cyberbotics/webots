@@ -1,5 +1,6 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
+import informationPanel from './informationPanel.js';
 import AnimationSlider from './AnimationSlider.js';
 import WbWorld from './nodes/WbWorld.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
@@ -107,6 +108,7 @@ export default class Animation {
     this._createSlider();
     this._createPlayButton();
     this._createTimeIndicator();
+    this._createInfoButton();
     this._createSettings();
     this._createFullscreenButton();
 
@@ -424,6 +426,15 @@ export default class Animation {
     this.play_bar = document.createElement('div');
     this.play_bar.id = 'play-bar';
     this._view3d.appendChild(this.play_bar);
+    let div = document.createElement('div');
+    div.innerHTML = informationPanel;
+    div.style.width = '100%';
+    div.style.height = '100%';
+    div.style.position = 'absolute';
+    div.style.top = '0px';
+    div.style.left = '0px';
+    div.style.pointerEvents = 'none';
+    document.body.appendChild(div);
 
     this.play_bar.addEventListener('mouseover', () => this._showPlayBar());
     this.play_bar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
@@ -509,6 +520,34 @@ export default class Animation {
     this._timeSlider.setOffset(offset);
   }
 
+  _createInfoButton() {
+    const infoButton = document.createElement('button');
+    infoButton.className = 'player-btn icon-info';
+    infoButton.id = 'info-button';
+    infoButton.onclick = () => this._displayInformationWindow();
+    document.getElementById('right-pane').appendChild(infoButton);
+
+    const infoTooltip = document.createElement('span');
+    infoTooltip.className = 'tooltip info-tooltip';
+    infoTooltip.innerHTML = 'Simulation information';
+    infoButton.appendChild(infoTooltip);
+
+    window.addEventListener('click', function(e) {
+      let infoPanel = document.getElementsByClassName('information-panel')[0];
+      if (infoPanel && !infoPanel.contains(e.target) && !document.getElementsByClassName('icon-info')[0].contains(e.target))
+        infoPanel.style.display = 'none';
+    });
+  }
+
+  _displayInformationWindow() {
+    let infoPanel = document.getElementsByClassName('information-panel')[0];
+    if (infoPanel) {
+      if (infoPanel.style.display === 'block')
+        infoPanel.style.display = 'none';
+      else
+        infoPanel.style.display = 'block';
+    }
+  }
   _createSettings() {
     this._createSettingsButton();
     this._createSettingsPane();
