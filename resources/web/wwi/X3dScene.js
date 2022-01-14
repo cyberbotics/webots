@@ -138,7 +138,7 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = [], automaticMove) {
+  applyPose(pose, appliedFields = []) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
       return appliedFields;
@@ -170,7 +170,7 @@ export default class X3dScene {
     return fields;
   }
 
-  _applyPoseToObject(pose, object, fields, automaticMove) {
+  _applyPoseToObject(pose, object, fields) {
     for (let key in pose) {
       if (key === 'id')
         continue;

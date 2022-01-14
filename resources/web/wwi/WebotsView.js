@@ -111,6 +111,20 @@ export default class WebotsView extends HTMLElement {
   hasView() {
     return typeof this._view !== 'undefined';
   }
+
+  // The value is update only the web side, do not used with simulation.
+  updateNode(nodeId, field, value) {
+    if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
+      return;
+
+    let pose = {
+      'id': nodeId,
+      [field]: value
+    };
+    this._view.x3dScene.applyPose(pose);
+    this._view.x3dScene.render();
+  }
+
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
