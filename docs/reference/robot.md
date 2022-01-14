@@ -159,8 +159,8 @@ namespace webots {
     Robot();
     virtual ~Robot();
     virtual int step(int duration);
-    virtual int stepBegin(int duration);
-    virtual int stepEnd();
+    int stepBegin(int duration);
+    int stepEnd();
     // ...
   }
 }
