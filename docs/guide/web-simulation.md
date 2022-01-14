@@ -96,6 +96,7 @@ sequenceDiagram
   participant U as User
   participant C as Web Client
   participant W as Web Server
+  participant G as GitHub Repository
   participant SE as Session Server
   participant SS1 as Simulation Server 1
   participant SW1 as Webots
@@ -127,11 +128,11 @@ sequenceDiagram
     deactivate SE
     C->>SS1: Start simulation
     activate SS1
-      SS1->>W: Download simulation project
-      activate W
-        Note right of W: download_project.php
-        W-->>SS1: Return simulation project archive
-      deactivate W
+      SS1->>G: Clone simulation project
+      activate G
+        Note right of G: git clone repository
+        G-->>SS1: Simulation project
+      deactivate G
       SS1->>SW1: Start Webots
       activate SW1
         SS1-->>C: Return Webots web socket URL
