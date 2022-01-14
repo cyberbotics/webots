@@ -1236,7 +1236,7 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
   is_field_immediate_message = request->type != SET;  // set operations are postponed
 }
 
-static void field_operation_with_data(WbFieldStruct *f, int action, int index, union WbFieldData data, const char *func) {
+static void field_operation_with_data(WbFieldStruct *f, int action, int index, union WbFieldData data, const char *function) {
   robot_mutex_lock_step();
   WbFieldRequest *r;
   for (r = field_requests_list_head; r; r = r->next) {
@@ -1270,26 +1270,26 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
                                                             // pending get request should remain
   create_and_append_field_request(f, action, index, data, true);
   if (action != SET)  // Only setter can be postponed. The getter, import and remove actions have to be applied immediately.
-    wb_robot_flush_unlocked(func);
+    wb_robot_flush_unlocked(function);
 
   assert(action != GET || sent_field_get_request == NULL);
   robot_mutex_unlock_step();
 }
 
-static void field_operation(WbFieldStruct *f, int action, int index, const char *func) {
+static void field_operation(WbFieldStruct *f, int action, int index, const char *function) {
   union WbFieldData data;
   data.sf_string = NULL;
-  field_operation_with_data(f, action, index, data, func);
+  field_operation_with_data(f, action, index, data, function);
 }
 
-static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool check_type, int *index, bool is_importing,
+static bool check_field(WbFieldRef f, const char *function, WbFieldType type, bool check_type, int *index, bool is_importing,
                         bool check_type_internal) {
-  if (!robot_check_supervisor(func))
+  if (!robot_check_supervisor(function))
     return false;
 
   if (!f) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with NULL 'field' argument.\n", func);
+      fprintf(stderr, "Error: %s() called with NULL 'field' argument.\n", function);
     return false;
   }
 
@@ -1304,18 +1304,18 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     field = field->next;
   }
   if (!found) {
-    fprintf(stderr, "Error: %s() called with invalid 'field' argument.\n", func);
+    fprintf(stderr, "Error: %s() called with invalid 'field' argument.\n", function);
     return false;
   }
 
   if (check_type_internal && ((WbFieldStruct *)f)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", func);
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", function);
     return false;
   }
 
   if (check_type && ((WbFieldStruct *)f)->type != type) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", func, wb_supervisor_field_get_type_name(f));
+      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", function, wb_supervisor_field_get_type_name(f));
     return false;
   }
 
@@ -1325,7 +1325,7 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     int offset = is_importing ? 0 : -1;
 
     if (*index < -(count + 1 + offset) || *index > (count + offset)) {
-      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", func, *index,
+      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", function, *index,
               -count - 1 - offset, count + offset);
       return false;
     }
@@ -1813,14 +1813,14 @@ int wb_supervisor_node_get_id(WbNodeRef node) {
   return node->id;
 }
 
-static WbNodeRef node_get_from_id(int id, const char *func) {
+static WbNodeRef node_get_from_id(int id, const char *function) {
   robot_mutex_lock_step();
 
   WbNodeRef result = find_node_by_id(id);
   if (!result) {
     WbNodeRef node_list_before = node_list;
     node_id = id;
-    wb_robot_flush_unlocked(func);
+    wb_robot_flush_unlocked(function);
     if (node_list != node_list_before)
       result = node_list;
     else

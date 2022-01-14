@@ -946,13 +946,13 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   return robot.user_input_event_type;
 }
 
-void wb_robot_flush_unlocked(const char *func) {
-  if (func && waiting_for_step_end) {
+void wb_robot_flush_unlocked(const char *function) {
+  if (function && waiting_for_step_end) {
     fprintf(
       stderr,
       "Warning: %s(): functions with immediate requests to Webots cannot be implemented in-between wb_robot_step_begin() and "
       "wb_robot_step_end()!\n",
-      func);
+      function);
     return;
   }
 
