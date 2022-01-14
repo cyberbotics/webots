@@ -234,43 +234,41 @@ class Client:
                 # create a Dockerfile if not provided in the project folder
                 os.chdir(self.project_instance_path)
                 if not os.path.isfile('Dockerfile'):
+                    with open(world) as world_file:
+                        version = world_file.readline().split()[1]
+                        from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                        print(f'FROM docker image {from_image}')
                     f = open('Dockerfile', 'w')
-                    f.write('FROM cyberbotics/webots:R2022a-ubuntu20.04\n')  # FIXME: Determine version from from wbt file
-                    f.write('RUN mkdir -p ' + self.project_instance_path + '\n')
-                    f.write('COPY . ' + self.project_instance_path + '\n')
+                    f.write(f'FROM {from_image}\n')
+                    f.write(f'RUN mkdir -p {self.project_instance_path}\n')
+                    f.write(f'COPY . {self.project_instance_path}\n')
                     if os.path.isfile('Makefile'):
                         f.write('RUN make\n')
                     f.close()
                 print('created Dockerfile')
                 image = subprocess.getoutput('docker build -q .')
-                print('image = ' + image)
                 command = 'docker run -it'
                 if 'SSH_CONNECTION' in os.environ:
-                    xauth = '/tmp/.docker-' + str(port) + '.xauth'
+                    xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
-                    os.system('xauth nlist ' + display + " | sed -s 's/^..../ffff/' | xauth -f " + xauth + ' nmerge -')
-                    os.system('chmod 777 ' + xauth)
-                    command += ' --net host -e DISPLAY=' + display + ' -e XAUTHORITY=' + xauth
-                    command += ' -v ' + xauth + ':' + xauth
+                    os.system(f"xauth nlist {display} sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
+                    os.system(f'chmod 777 {xauth}')
+                    command += f' --net host -e DISPLAY={display} -e XAUTHORITY={xauth}'
+                    command += f' -v {xauth}:{xauth}'
                 else:
                     command += ' --gpus=all -e DISPLAY'
 
-                command += ' -v /tmp/.X11-unix:/tmp/.X11-unix:rw'
-                command += ' -p ' + str(port) + ':' + str(port)
-                command += ' ' + image + ' '
+                command += f' -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p {port}:{port} {image} '
             else:
                 command = ''
             command += config['webots'] + ' --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
                 command += '--minimize --no-rendering '
-            command += '--stream="port=' + str(port) + ';monitorActivity'
+            command += f'--stream="port={port};monitorActivity'
             if hasattr(self, 'mode'):
-                command += ';mode=' + self.mode
-            if not hasattr(self, 'url'):
-                if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
-                    command += ';controllerEdit'
+                command += f';mode={self.mode}'
             if 'multimediaServer' in config:
                 command += ';multimediaServer=' + config['multimediaServer']
             if 'multimediaStream' in config:
