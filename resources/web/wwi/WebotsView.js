@@ -120,8 +120,14 @@ export default class WebotsView extends HTMLElement {
     return typeof this._view !== 'undefined';
   }
 
+  resetViewpoint() {
+    if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined') {
+      WbWorld.instance.viewpoint.resetViewpoint();
+      this._view.x3dScene.render();
+    }
+  }
   // The value is update only the web side, do not used with simulation.
-  updateNode(nodeId, field, value) {
+  updateNode(nodeId, field, value, render) {
     if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
       return;
 
@@ -130,7 +136,8 @@ export default class WebotsView extends HTMLElement {
       [field]: value
     };
     this._view.x3dScene.applyPose(pose);
-    this._view.x3dScene.render();
+    if (render)
+      this._view.x3dScene.render();
   }
 
   getNode(id) {
