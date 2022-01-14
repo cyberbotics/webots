@@ -252,7 +252,7 @@ class Client:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
-                    os.system(f"xauth nlist {display} sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
+                    os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
                     command += f' --net host -e DISPLAY={display} -e XAUTHORITY={xauth}'
                     command += f' -v {xauth}:{xauth}'
@@ -739,10 +739,10 @@ def main():
     handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
     http_server = tornado.httpserver.HTTPServer(application)
-    if 'portRewrite' not in config:
-        config['portRewrite'] = True
     if 'ssl' not in config:
         config['ssl'] = True
+    if 'portRewrite' not in config:
+        config['portRewrite'] = True
     http_server.listen(config['port'])
     message = f"Simulation server running on port {config['port']}"
     print(message)

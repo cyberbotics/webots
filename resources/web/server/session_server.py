@@ -305,6 +305,8 @@ def main():
         config['logDir'] = 'log'
     else:
         config['logDir'] = expand_path(config['logDir'])
+    if 'ssl' not in config:
+        config['ssl'] = True
     if 'portRewrite' not in config:
         config['portRewrite'] = True
     if 'debug' not in config:
