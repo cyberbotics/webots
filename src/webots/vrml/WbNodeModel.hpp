@@ -49,6 +49,7 @@ public:
   // field models
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
+  QStringList fieldNames();
 
   QStringList documentationBookAndPage() const { return QStringList() << "reference" << mName.toLower(); }
 

@@ -27,6 +27,8 @@ class WbTokenizer;
 
 class WbProtoList {
 public:
+  enum { RESOURCES_PROTO_CACHE, PROJECTS_PROTO_CACHE, EXTRA_PROTO_CACHE };
+
   // return the current proto list
   static WbProtoList *current();
 
@@ -34,6 +36,8 @@ public:
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
 
   static QStringList fileList();
+
+  static QStringList fileList(int cache);
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively
