@@ -177,7 +177,7 @@ These are the configuration parameters for the session server:
 # mailSenderUser:     user name to authenticate on the SMTP server
 # mailSenderPassword: password of mailSenderUser
 # logDir:             directory where the log file is written
-# debug:              debug mode (output to stdout)
+# debug:              output debug information to stdout (false by default)
 ```
 
 HTTP request handlers:
@@ -202,8 +202,8 @@ These are the configuration parameters for the simulation server:
 # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
 # maxConnections:    maximum number of simultaneous Webots instances
 # logDir:            directory where the log files are written
-# monitorLogEnabled: store monitor data in a file
-# debug:             debug mode (output to stdout)
+# monitorLogEnabled: store monitor data in a file (true by default)
+# debug:             output debug information to stdout (false by default)
 ```
 
 HTTP request handlers:

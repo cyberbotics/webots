@@ -292,7 +292,7 @@ def main():
     # mailSenderUser:     user name to authenticate on the SMTP server
     # mailSenderPassword: password of mailSenderUser
     # logDir:             directory where the log file is written
-    # debug:              debug mode (output to stdout)
+    # debug:              output debug information to stdout (false by default)
     #
     global config
     global simulation_server_loads

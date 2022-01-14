@@ -652,8 +652,8 @@ def main():
     # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
     # maxConnections:    maximum number of simultaneous Webots instances
     # logDir:            directory where the log files are written
-    # monitorLogEnabled: store monitor data in a file
-    # debug:             debug mode (output to stdout)
+    # monitorLogEnabled: store monitor data in a file (true by default)
+    # debug:             output debug information to stdout (false by default)
     #
     global config
     global snapshots
