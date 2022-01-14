@@ -164,18 +164,21 @@ The session server is the entry point for requesting the start of a new simulati
 It manages the load of the simulation server machines and sends the URL of the available simulation server to the client.
 
 These are the configuration parameters for the session server:
-- `port`: local port on which the server is listening.
-- `portRewrite`: true (default) for https/wss URLs (using apache rewrite rule).
-- `server`: host where this session script is running.
-- `administrator`: email address of administrator that will receive notifications about the status of the simulation server machines.
-- `mailServer`: SMTP mail server host from which the notifications are sent.
-- `mailServerPort`: SMTP mail server port.
-- `mailSender`: email address used to send the notifications.
-- `mailSenderUser`: user name to authenticate on the SMTP server.
-- `mailSenderPassword`: password to authenticate on the SMTP server with the mailSenderUser.
-- `simulationServers`: lists all the available simulation servers.
-- `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
-- `debug`: if true, the output will be written to `stdout` instead of the log file.
+```
+# server:             fully qualilified domain name of the session server
+# ssl:                for https/wss URL (true by default)
+# port:               local port on which the server is listening
+# portRewrite:        port rewritten in the URL by apache (true by default)
+# simulationServers:  lists all the available simulation servers
+# administrator:      email address that will receive notifications
+# mailServer:         SMTP mail server host for sending notifications
+# mailServerPort:     SMTP mail server port
+# mailSender:         email address used to send the notifications
+# mailSenderUser:     user name to authenticate on the SMTP server
+# mailSenderPassword: password of mailSenderUser
+# logDir:             directory where the log file is written
+# debug:              debug mode (output to stdout)
+```
 
 HTTP request handlers:
 * The `/` request queries the availability of the simulation servers and returns 1 if some are available or 0 if no simulation server is available.
@@ -190,16 +193,18 @@ WebSocket request handler:
 The simulation server creates and starts a Webots instance with the desired simulation for each client request and sends the WebSocket URL of Webots to the client so that it can communicate directly with Webots.
 
 These are the configuration parameters for the simulation server:
-- `docker`: set to `true` to start simulations in a docker security sandbox.
-- `allowedRepositories`: lists the GitHub repositories allowed to run by this simulation server.
-- `port`: local port on which the server is listening (launching Webots instances).
-- `portRewrite`: true (default) for https/wss URLs (using apache rewrite rule).
-- `projectsDir`: directory in which Webots projects are located.
-- `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
-- `debug`: if true, the output will be written to `stdout` instead of the log file.
-- `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
-- `maxConnections`: maximum number of simultaneous Webots instances. Default value is 100.
-
+```
+# server:            fully qualilified domain name of the simulation server
+# ssl:               for https/wss URL (true by default)
+# port:              local port on which the server is listening
+# portRewrite:       port rewritten in the URL by apache (true by default)
+# projectsDir:       directory in which projects are located
+# webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
+# maxConnections:    maximum number of simultaneous Webots instances
+# logDir:            directory where the log files are written
+# monitorLogEnabled: store monitor data in a file
+# debug:             debug mode (output to stdout)
+```
 
 HTTP request handlers:
 * The `/load` request returns the current load of the machine computed as the maximum value between all the monitored data (main CPU and GPU load and memory usage, and network usage).

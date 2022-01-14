@@ -65,10 +65,7 @@ class SessionHandler(tornado.web.RequestHandler):
                 minimum = simulation_server_loads[i]
                 minimally_loaded_server = config['simulationServers'][i]
         if minimum < LOAD_THRESHOLD:
-            if config['portRewrite']:
-                protocol = 'wss:'
-            else:
-                protocol = 'ws:'
+            protocol = 'wss:' if config['ssl'] else 'ws:'
             self.write(protocol + '//' + minimally_loaded_server)
             return
         self.write('Error: no simulation server available at the moment.')
@@ -111,9 +108,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         average_count = 0
         for i in range(nServer):
             self.write("<tr><td>%d</td>" % (i + 1))
-            url = "http"
-            if config['portRewrite']:
-                url += "s"
+            url = 'https' if config['ssl'] else 'http'
             url += "://" + config['simulationServers'][i] + "/monitor"
             self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
@@ -206,20 +201,11 @@ def send_email(subject, content):
 def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
-    if config['portRewrite']:
-        url = 'https://' + url
-    else:
-        url = 'http://' + url
+    url = 'https://' + url if config['ssl'] else 'http://' + url
     url += '/load'
     if 'administrator' in config:
-        if config['portRewrite']:
-            protocol = 'https://'
-        else:
-            protocol = 'http://'
-        if config['portRewrite']:
-            separator = '/'
-        else:
-            separator = ':'
+        protocol = 'https://' if config['ssl'] else 'http://'
+        separator = '/' if config['portRewrite'] else ':'
         check_string = "Check it at " + protocol + config['server'] + separator + str(config['port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
@@ -294,18 +280,19 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:               local port on which the server is listening.
-    # portRewrite:        true (default) for https/wss URLs (using apache rewrite rule).
-    # server:             host where this session script is running.
-    # simulationServers:  lists all the available simulation servers.
-    # administrator:      email address of administrator that will receive the notifications.
-    # mailServer:         SMTP mail server host from which the notifications are sent.
-    # mailServerPort:     SMTP mail server port.
-    # mailSender:         email address used to send the notifications.
-    # mailSenderUser:     user name to authenticate on the SMTP server.
-    # mailSenderPassword: password to authenticate on the SMTP server with the mailSenderUser.
-    # logDir:             directory where the log file is written.
-    # debug:              debug mode (output to stdout).
+    # server:             fully qualilified domain name of the session server
+    # ssl:                for https/wss URL (true by default)
+    # port:               local port on which the server is listening
+    # portRewrite:        port rewritten in the URL by apache (true by default)
+    # simulationServers:  lists all the available simulation servers
+    # administrator:      email address that will receive notifications
+    # mailServer:         SMTP mail server host for sending notifications
+    # mailServerPort:     SMTP mail server port
+    # mailSender:         email address used to send the notifications
+    # mailSenderUser:     user name to authenticate on the SMTP server
+    # mailSenderPassword: password of mailSenderUser
+    # logDir:             directory where the log file is written
+    # debug:              debug mode (output to stdout)
     #
     global config
     global simulation_server_loads
@@ -318,7 +305,7 @@ def main():
     else:
         config['logDir'] = expand_path(config['logDir'])
     if 'portRewrite' not in config:
-        config['portRewrite'] = False
+        config['portRewrite'] = True
     if 'debug' not in config:
         config['debug'] = False
     sessionLogDir = os.path.join(config['logDir'], 'session')

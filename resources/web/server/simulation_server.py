@@ -292,11 +292,11 @@ class Client:
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
-            if 'fullyQualifiedDomainName' not in config:
+            if 'server' not in config:
                 hostname = client.websocket.request.host.split(':')[0]
             else:
-                hostname = config['fullyQualifiedDomainName']
-            protocol = 'wss:' if config['portRewrite'] else 'ws:'
+                hostname = config['server']
+            protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
             message = 'webots:' + protocol + '//' + hostname + separator + str(port)
@@ -644,15 +644,16 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:                     local port on which the server is listening (launching webots instances).
-    # fullyQualifiedDomainName: hostname of the server (from the Internet).
-    # portRewrite:              true (default) for https/wss URLs (using apache rewrite rule).
-    # projectsDir:              directory in which projects are located.
-    # webotsHome:               directory in which Webots is installed (WEBOTS_HOME)
-    # maxConnections:           maximum number of simultaneous Webots instances.
-    # logDir:                   directory where the log files are written.
-    # monitorLogEnabled:        specify if the monitor data have to be stored in a file.
-    # debug:                    debug mode (output to stdout).
+    # server:            fully qualilified domain name of the simulation server
+    # ssl:               for https/wss URL (true by default)
+    # port:              local port on which the server is listening
+    # portRewrite:       port rewritten in the URL by apache (true by default)
+    # projectsDir:       directory in which projects are located
+    # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:    maximum number of simultaneous Webots instances
+    # logDir:            directory where the log files are written
+    # monitorLogEnabled: store monitor data in a file
+    # debug:             debug mode (output to stdout)
     #
     global config
     global snapshots
@@ -746,6 +747,8 @@ def main():
     http_server = tornado.httpserver.HTTPServer(application)
     if 'portRewrite' not in config:
         config['portRewrite'] = True
+    if 'ssl' not in config:
+        config['ssl'] = True
     http_server.listen(config['port'])
     message = "Simulation server running on port %d" % config['port']
     print(message)
