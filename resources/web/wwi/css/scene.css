@@ -1,0 +1,33 @@
+/*Inspired from https://gitlab.com/robocup-sim/JaSMIn/*/
+@import "fonts.css";
+
+body {
+  scroll-behavior: smooth;
+}
+
+#webotsProgress {
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 160px);
+  top: calc(50% - 84px);
+  background-color: white;
+  width:300px;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+#view3d {
+ display: flex;
+ position: relative;
+ height: 100%;
+}
+
+.webots-label {
+  position: absolute;
+  white-space: pre;
+  z-index: 1;
+}

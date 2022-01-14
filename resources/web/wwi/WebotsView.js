@@ -28,6 +28,13 @@ export default class WebotsView extends HTMLElement {
     this.streamingCSS.disabled = true;
     document.head.appendChild(this.streamingCSS);
 
+    this.sceneCSS = document.createElement('link');
+    this.sceneCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/scene.css';
+    this.sceneCSS.type = 'text/css';
+    this.sceneCSS.rel = 'stylesheet';
+    this.sceneCSS.disabled = true;
+    document.head.appendChild(this.sceneCSS);
+
     const script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {
@@ -147,6 +154,7 @@ export default class WebotsView extends HTMLElement {
       console.time('Loaded in: ');
       this.animationCSS.disabled = false;
       this.streamingCSS.disabled = true;
+      this.sceneCSS.disabled = true;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
@@ -199,6 +207,7 @@ export default class WebotsView extends HTMLElement {
 
       this.animationCSS.disabled = true;
       this.streamingCSS.disabled = false;
+      this.sceneCSS.disabled = true;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
@@ -278,8 +287,9 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      this.animationCSS.disabled = false;
+      this.animationCSS.disabled = true;
       this.streamingCSS.disabled = true;
+      this.sceneCSS.disabled = false
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
@@ -294,7 +304,7 @@ export default class WebotsView extends HTMLElement {
     this._view.destroyWorld();
     this._hasScene = false;
     this.innerHTML = null;
-    this.animationCSS.disabled = true;
+    this.sceneCSS.disabled = true;
   }
 }
 
