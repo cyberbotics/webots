@@ -365,7 +365,6 @@ RUN apt install -y python3-pip
 RUN pip3 install tornado pynvml psutil requests distro
 ENV DISPLAY=:99
 COPY server/config /usr/local/webots/resources/web/server/config
-COPY server/key /usr/local/webots/resources/web/server/key
 COPY server.sh /usr/local/server.sh
 RUN chmod 654 /usr/local/server.sh
 CMD ["/usr/local/server.sh", ""]
@@ -390,7 +389,6 @@ To correctly setup and automatically run the simulation server, you should provi
       "port": 2000
     }
     ```
-* `server/key`: a folder containing your website host keys needed for validation (see [Session server](#session-server) section).
 * `server.sh`: a script that configures the virtual screen and starts the simulation and session servers.
     ```bash
     #!/bin/sh
