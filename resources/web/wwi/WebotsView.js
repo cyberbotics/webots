@@ -1,4 +1,5 @@
 import {webots} from './webots.js';
+import WbWorld from './nodes/WbWorld.js';
 import {exitFullscreen} from './fullscreen_handler.js';
 
 export default class WebotsView extends HTMLElement {
@@ -123,6 +124,11 @@ export default class WebotsView extends HTMLElement {
     };
     this._view.x3dScene.applyPose(pose);
     this._view.x3dScene.render();
+  }
+
+  getNode(id) {
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.nodes !== 'undefined')
+      return WbWorld.instance.nodes.get('n' + id);
   }
 
   // Animation's functions
