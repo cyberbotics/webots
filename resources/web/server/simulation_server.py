@@ -247,7 +247,7 @@ class Client:
                     f.close()
                 print('created Dockerfile')
                 image = subprocess.getoutput('docker build -q .')
-                command = 'docker run -it'
+                command = 'docker run'
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
