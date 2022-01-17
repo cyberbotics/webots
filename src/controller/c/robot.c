@@ -112,6 +112,8 @@ static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
 static bool should_abort_simulation_waiting = false;
+static bool waiting_for_step_begin = false;
+static bool waiting_for_step_end = false;
 
 // Static functions
 static void init_robot_window_library() {
@@ -554,21 +556,6 @@ void robot_mutex_unlock_step() {
   wb_robot_mutex_unlock(robot_step_mutex);
 }
 
-void robot_step_begin(int duration) {
-  motion_step_all(duration);
-  robot_send_request(duration);
-}
-
-int robot_step_end() {
-  keyboard_step_end();
-  joystick_step_end();
-  robot_read_data();
-  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
-    return scheduler_actual_step;
-
-  return -1;
-}
-
 WbDeviceTag robot_get_device_tag(const WbDevice *d) {
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++) {
@@ -810,7 +797,10 @@ void wbr_robot_battery_sensor_set_value(double value) {
     robot.battery_value = value;
 }
 
-int wb_robot_step(int duration) {
+int wb_robot_step_begin(int duration) {
+  if (waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
+
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
@@ -846,14 +836,54 @@ int wb_robot_step(int duration) {
   robot_window_pre_update_gui();
   robot_mutex_lock_step();
 
-  robot_step_begin(duration);
-  int e = robot_step_end();
+  motion_step_all(duration);
+  robot_send_request(duration);
+
+  robot_mutex_unlock_step();
+
+  waiting_for_step_begin = false;
+  waiting_for_step_end = true;
+
+  return 0;
+}
+
+int wb_robot_step_end() {
+  if (waiting_for_step_begin)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
+
+  robot_mutex_lock_step();
+
+  if (robot.webots_exit == WEBOTS_EXIT_NOW)
+    return -1;
+
+  keyboard_step_end();
+  joystick_step_end();
+  robot_read_data();
+
+  int e = -1;
+  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
+    e = scheduler_actual_step;
 
   if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL && remote_control_has_failed())
     wb_robot_set_mode(0, NULL);
 
   robot_mutex_unlock_step();
   robot_window_read_sensors();
+
+  waiting_for_step_begin = true;
+  waiting_for_step_end = false;
+
+  return e;
+}
+
+int wb_robot_step(int duration) {
+  if (waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
+
+  int e = wb_robot_step_begin(duration);
+  if (e == -1)
+    return e;
+  e = wb_robot_step_end();
 
   return e;
 }
@@ -896,7 +926,7 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   robot.is_waiting_for_user_input_event = true;
   robot.user_input_event_type = event_type;
   robot.user_input_event_timeout = timeout;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   while (robot.is_waiting_for_user_input_event && !robot_is_quitting())
     robot_read_data();
 
@@ -916,7 +946,16 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   return robot.user_input_event_type;
 }
 
-void wb_robot_flush_unlocked() {
+void wb_robot_flush_unlocked(const char *function) {
+  if (function && waiting_for_step_end) {
+    fprintf(
+      stderr,
+      "Warning: %s(): functions with immediate requests to Webots cannot be implemented in-between wb_robot_step_begin() and "
+      "wb_robot_step_end()!\n",
+      function);
+    return;
+  }
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
     robot_mutex_unlock_step();
@@ -1136,7 +1175,7 @@ void wb_robot_wwi_send(const char *data, int size) {
   robot_mutex_lock_step();
   robot.wwi_message_to_send_size = size;
   robot.wwi_message_to_send = data;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1169,7 +1208,7 @@ const char *wb_robot_get_urdf(const char *prefix) {
   robot.urdf_prefix = malloc(strlen(prefix) + 1);
   strcpy(robot.urdf_prefix, prefix);
 
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot.need_urdf = false;
 
   robot_mutex_unlock_step();

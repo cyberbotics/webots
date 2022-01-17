@@ -5,6 +5,7 @@ Released on XX, XXth, 2022.
 
   - New Features:
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
+    - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
 
 ## Webots R2022a
 Released on December 21th, 2022.

@@ -658,7 +658,7 @@ static WbDeviceTag motor_get_associated_device(WbDeviceTag t, int device_type, c
   robot_mutex_lock_step();
   motor->requests[C_MOTOR_GET_ASSOCIATED_DEVICE] = 1;
   motor->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag tag = motor->associated_device_tag;
   robot_mutex_unlock_step();
   return tag;

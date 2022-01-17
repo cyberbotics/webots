@@ -538,6 +538,19 @@ QPlainTextEdit#ConsoleEdit {
   color: #fff;
 }
 
+QPlainTextEdit#ProtoDescription {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+QPlainTextEdit#ProtoDescription:focus {
+  border-color: #9b93ff;
+  background-color: #333;
+}
+
 /* color editor */
 
 QToolButton#colorToolButton {
