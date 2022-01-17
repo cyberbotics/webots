@@ -84,4 +84,8 @@ export default class WbVector3 {
   clone() {
     return new WbVector3(this.x, this.y, this.z);
   }
+
+  toString() {
+    return this.x + ' ' + this.y + ' ' + this.z;
+  }
 }
