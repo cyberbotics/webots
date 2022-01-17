@@ -97,7 +97,6 @@ WbDeviceTag wb_robot_get_device(const char *name);
 // Introspection API
 int wb_robot_get_number_of_devices();
 WbDeviceTag wb_robot_get_device_by_index(int index);
-WbNodeType wb_robot_get_type();
 
 // robot battery API
 void wb_robot_battery_sensor_enable(int sampling_period);

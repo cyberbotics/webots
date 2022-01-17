@@ -377,9 +377,6 @@ def main(args=None):
     # gen(FUNC, "wb_receiver_get_emitter_direction(tag)", "receiver")
     gen(FUNC, "wb_receiver_get_data_size(tag)", "receiver")
     gen(FUNC, "wb_receiver_get_signal_strength(tag)", "receiver")
-    gen(FUNC, "wb_robot_get_number_of_devices()", "receiver")
-    gen(FUNC, "wb_robot_get_device_by_index(index)", "receiver")
-    gen(FUNC, "wb_robot_get_type()", "receiver")
 
     # robot.h
     # gen(PROC, "wb_robot_init()", "robot")
@@ -407,6 +404,8 @@ def main(args=None):
     gen(PROC, "wb_robot_set_data(data)", "robot")
     gen(FUNC, "wb_robot_wwi_receive_text()", "robot")
     gen(PROC, "wb_robot_wwi_send_text(text)", "robot")
+    gen(FUNC, "wb_robot_get_number_of_devices()", "robot")
+    gen(FUNC, "wb_robot_get_device_by_index(index)", "robot")
 
     # skin.h
     # gen(PROC, "wb_skin_set_bone_orientation(tag, index, values, absolute)")

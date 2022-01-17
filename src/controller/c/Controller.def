@@ -271,7 +271,6 @@ wb_robot_get_project_path
 wb_robot_get_supervisor
 wb_robot_get_synchronization
 wb_robot_get_time
-wb_robot_get_type
 wb_robot_get_urdf
 wb_robot_get_world_path
 wb_robot_init
