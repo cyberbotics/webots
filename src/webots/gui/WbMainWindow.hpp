@@ -23,6 +23,7 @@
 #include <QtWidgets/QMainWindow>
 
 #include "WbLog.hpp"
+#include "WbRobotWindow.hpp"
 #include "WbShareWindow.hpp"
 
 class WbBuildEditor;
@@ -149,7 +150,10 @@ private slots:
   void uploadFinished();
 
 private:
-  void showHtmlRobotWindow(WbRobot *);
+  void showHtmlRobotWindow(WbRobot *robot);
+  void deleteHtmlRobotWindow(WbRobot *robot, bool deleteAll = false);
+  QList<WbRobotWindow *> mRobotWindows;
+
   int mExitStatus;
   QList<WbConsole *> mConsoles;
   WbBuildEditor *mTextEditor;

@@ -14,6 +14,8 @@
 
 #include "WbMainWindow.hpp"
 
+#include <QtCore/qdebug.h>
+
 #include "WbAboutBox.hpp"
 #include "WbActionManager.hpp"
 #include "WbAnimationRecorder.hpp"
@@ -389,9 +391,11 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mStreamingServer) {
     mStreamingServer->setMainWindow(this);
-    WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
-    if (multimediaStreamingServer)
-      multimediaStreamingServer->setView3D(mSimulationView->view3D());
+    if (mStreamingServer->getStreamStatus()) {
+      WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
+      if (multimediaStreamingServer)
+        multimediaStreamingServer->setView3D(mSimulationView->view3D());
+    }
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
@@ -1135,15 +1139,6 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
 
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
-  /*   QStringList robotWindowNodeNames;
-    foreach (QWidget *dock, mDockWidgets) {
-      WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-      if (!w || !(w->isVisible()))
-        continue;
-      robotWindowNodeNames << w->robot()->computeUniqueName();
-    }
-    perspective->setRobotWindowNodeNames(robotWindowNodeNames); */
-
   QStringList centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames, supportPolygonEnabledNodeNames;
   world->retrieveNodeNamesWithOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
                                                 supportPolygonEnabledNodeNames);
@@ -1321,14 +1316,10 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
-  /*   foreach (QWidget *dock, mDockWidgets) {
-      WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-      if (!w)
-        continue;
-      w->close();
-      mDockWidgets.removeOne(w);
-      delete w;
-    } */
+
+  if (reloading)
+    deleteHtmlRobotWindow(NULL, true);
+
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
@@ -2111,12 +2102,33 @@ void WbMainWindow::showRobotWindow() {
   }
 }
 
-void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {  // shows the HTML robot window
+void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
+  deleteHtmlRobotWindow(robot);
 
-  WbRobotWindow *w = new WbRobotWindow(robot);
-  if (w && w->robot() == robot)
-    w->setupPage();
-  // connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
+  WbRobotWindow *currentRobotWindow = new WbRobotWindow(robot);
+  mRobotWindows << currentRobotWindow;
+  connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
+
+  if (currentRobotWindow && currentRobotWindow->robot() == robot)
+    currentRobotWindow->setupPage();
+  qDebug() << "create robot Window of " << robot->name();
+
+  connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteHtmlRobotWindow(robot); });
+  connect(robot, &WbRobot::controllerChanged, this, [this]() { showHtmlRobotWindow(dynamic_cast<WbRobot *>(sender())); });
+}
+
+void WbMainWindow::deleteHtmlRobotWindow(WbRobot *robot, bool deleteAll) {
+  // delete the robot window of a given robot or all the robot windows if robot is NULL.
+  qDebug() << "list of robot Window: " << mRobotWindows << "robot" << robot << deleteAll;
+  foreach (WbRobotWindow *robotWindow, mRobotWindows) {
+    if ((robotWindow->robot() == robot) || (deleteAll)) {
+      qDebug() << "delete robot Window " << robotWindow->getClientID();
+      robot->disconnect(this);
+      mStreamingServer->closeClient(robotWindow->getClientID());
+      mRobotWindows.removeAll(robotWindow);
+      robotWindow->deleteLater();
+    }
+  }
 }
 
 static bool isRobotNode(WbBaseNode *node) {

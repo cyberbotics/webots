@@ -42,7 +42,8 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
+WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit,
+                                     bool stream) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
@@ -50,6 +51,7 @@ WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStrea
   mMonitorActivity(monitorActivity),
   mDisableTextStreams(disableTextStreams),
   mSsl(ssl),
+  mStream(stream),
   mControllerEdit(controllerEdit) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
@@ -87,7 +89,6 @@ void WbStreamingServer::start(int port) {
 }
 
 void WbStreamingServer::sendToJavascript(const QByteArray &string) {
-  qDebug() << "sendToJavascript" << string;
   WbRobot *robot = dynamic_cast<WbRobot *>(sender());
   if (robot) {
     QJsonObject jsonObject;
@@ -159,6 +160,16 @@ void WbStreamingServer::destroy() {
   mTcpServer = NULL;
 }
 
+void WbStreamingServer::closeClient(QString clientID) {
+  foreach (QWebSocket *client, mWebSocketClients) {
+    if (clientToId(client) == clientID) {
+      qDebug() << "closeClient" << clientID;
+      emit client->disconnected();
+      break;
+    }
+  }
+}
+
 void WbStreamingServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   if (socket) {
@@ -190,7 +201,8 @@ void WbStreamingServer::onNewTcpData() {
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket) {
+  QString requestedUrl = completeUrl.left(completeUrl.lastIndexOf('?'));
   QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
   // Here handle the streaming_viewer files.
   static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
@@ -215,7 +227,6 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const Q
     return;
   }
   WbLog::info(tr("Received request for %1").arg(fileName));
-
   socket->write(WbHttpReply::forgeFileReply(fileName, etag));
 }
 
@@ -252,7 +263,10 @@ void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type
 void WbStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
 
-  if (message.startsWith("robot:")) {
+  if (message.startsWith("robot_window:init")) {
+    sendToClients();
+    emit sendRobotWindowClientID(clientToId(client), "connected");
+  } else if (message.startsWith("robot:")) {
     QString name;
     QString robotMessage;
     const QString &data = message.mid(6).trimmed();
@@ -423,6 +437,8 @@ bool WbStreamingServer::isControllerEditAllowed(const QString &controller) {
 void WbStreamingServer::socketDisconnected() {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
   if (client) {
+    qDebug() << "socket closed of " << clientToId(client);
+    emit sendRobotWindowClientID(clientToId(client), "disconnected");
     mWebSocketClients.removeAll(client);
     client->deleteLater();
     WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
@@ -527,7 +543,6 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
     const WbField *controllerField = robot->findField("controller");
     if (controllerField) {
       const QString &name = dynamic_cast<WbSFString *>(controllerField->value())->value();
-      qDebug() << "connectnewrobot" << name;
       if (name != "void")
         mEditableControllers.append(name);
     }

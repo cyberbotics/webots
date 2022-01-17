@@ -988,7 +988,6 @@ void WbRobot::handleMessage(QDataStream &stream) {
       QByteArray message;
       message.resize(size - 1);  // an extra character is always added for the final '\0'
       stream.readRawData(message.data(), size);
-      qDebug() << "C_ROBOT_WWI_MESSAGE" << message;
       emit sendToJavascript(message);
       return;
     }
@@ -1266,7 +1265,6 @@ void WbRobot::writeImmediateAnswer(QDataStream &stream) {
     int length = mMessageFromWwi->length() + 1;
     stream << length;
     stream.writeRawData(mMessageFromWwi->constData(), length);
-    qDebug() << "mMessageFromWwi" << mMessageFromWwi;
     delete mMessageFromWwi;
     mMessageFromWwi = NULL;
   }

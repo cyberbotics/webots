@@ -14,35 +14,11 @@
 
 #include "WbRobotWindow.hpp"
 
-#include "WbApplicationInfo.hpp"
-#include "WbLog.hpp"
-#include "WbProject.hpp"
-#include "WbRobot.hpp"
-#include "WbRobotWindowTransportLayer.hpp"
-#include "WbStandardPaths.hpp"
-#include "WbVersion.hpp"
-#include "WbWebPage.hpp"
-
 #include <QtCore/qdebug.h>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QFile>
-#include <QtCore/QRegularExpression>
-#include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
-#include <QtWebSockets/QWebSocket>
 
 WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
-  QString title = "Robot: " + robot->name();
-
-  const QString &windowFileName = robot->windowFile("html");
-  if (windowFileName.isEmpty()) {
-    robot->parsingWarn(QString("No dockable HTML robot window is set in the 'window' field."));
-    return;
-  }
-
-  connect(robot, &WbRobot::sendToJavascript, this, &WbRobotWindow::sendToJavascript);
-  connect(robot, &WbRobot::controllerChanged, this, &WbRobotWindow::setupPage);
 }
 
 void WbRobotWindow::setupPage() {
@@ -52,21 +28,16 @@ void WbRobotWindow::setupPage() {
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
-
-  qDebug() << "windowFileName:"
-           << "http://localhost:1234" + windowFileName;
-  QDesktopServices::openUrl(QUrl("http://localhost:1234" + windowFileName));
-  startControllerIfNeeded();  // TODO1: not sure it is needed
-  // connect(mTransportLayer, &WbRobotWindowTransportLayer::javascriptReceived, mRobot, &WbRobot::receiveFromJavascript);
+  QDesktopServices::openUrl(QUrl("http://localhost:1234" + windowFileName + "?name=" + mRobot->name()));
 }
 
-void WbRobotWindow::sendToJavascript(const QByteArray &string) {
-  // qDebug() << "runJavaScript Robotwin:" << string;
-  return;
-}
-
-void WbRobotWindow::startControllerIfNeeded() {
-  if (!mRobot->isControllerStarted())
-    mRobot->startController();
-  mRobot->updateControllerWindow();
+void WbRobotWindow::setClientID(QString clientID, QString socketStatus) {
+  if ((mClientID == "") && (socketStatus == "connected")) {
+    mClientID = clientID;
+    qDebug() << "new connection: " << mClientID;
+  } else if ((clientID == mClientID) && (socketStatus == "disconnected")) {
+    qDebug() << "delete connection: " << mClientID;
+    mClientID = "";
+  } else
+    qDebug() << "already one client" << mClientID << "unknown client:" << clientID;
 }

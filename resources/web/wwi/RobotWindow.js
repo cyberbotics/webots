@@ -1,68 +1,62 @@
+import {getGETQueryValue} from './request_methods.js';
 export default class RobotWindow {
-  constructor(name, onready) {
-    this.name = name;
+  constructor(onready) {
+    this.name = getGETQueryValue('name', 'undefined');
     this.wsServer = "ws://localhost:1234/";;
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
+    this.pendingMsgs = [];
     this.connect();
   };
-  waitForSocketConnection = function(socket, callback) {
-    setTimeout(
-        function () {
-          if (socket.readyState == 1) {
-                //console.log("Connection is made");
-                if (callback != null){
-                    callback(socket);
-                }
-            } else {
-              console.log("wait...");
-              this.robotWindow.waitForSocketConnection(socket, callback);
-            }
 
-        }, 5);
-  }
-
-  send = function (message, robot) {
-    this.waitForSocketConnection(this.socket, function(socket){
-      socket.send('robot:' + robot + ':' + message);
-    });
+  send(message) {
+    if (this.socket.readyState !== 1) {
+      this.pendingMsgs.push(message);
+    } else {
+      if (message === "init"){
+        this.socket.send('robot_window:' + message);
+      }
+      else
+        this.socket.send('robot:' + this.name + ':' + message);
+    }
   };
 
-  receive = function (message, robot) { // to be overridden
-    console.log("Robot window '" + this.name + "' received message from Robot '" + robot + "': " + message);
+  receive(message, robot) { // to be overridden
+    console.log("Robot window received message from Robot '" + robot + "': " + message);
   };
 
-  close = function () {
+  close() {
     window.close();
     if (this.socket)
       this.socket.close();
     this.close();
   }
 
-  setTitle = function (title) { //TODO1
-    console.log("title: ", title)
+  setTitle(title) {
+    document.title = title;
   }
 
   connect() {
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
-    this.socket.onerror = (event) => {};
+    this.socket.onerror = (event) => { };
+    this.send("init");
   }
 
   _onSocketOpen(event) {
-    console.log("Robot windows initialized");
+    while (this.pendingMsgs.length > 0)
+      this.send(this.pendingMsgs.shift());
   }
 
   _onSocketMessage(event) {
     let data = event.data;
-    if (data.startsWith('robot:') || data.startsWith('robot window:')){
-
+    if (data.startsWith('robot:')) {
       var message = data.match("\"message\":\"(.*)\",\"name\"")[1];
       var robot = data.match(",\"name\":\"(.*)\"}")[1];
       message = message.replace(/\\/g, "");
+      this.name = robot;
       this.receive(message, robot);
-
     }
     else if (data.startsWith('application/json:'))
       return 0;
@@ -70,9 +64,8 @@ export default class RobotWindow {
       return 0;
     else if (data.startsWith('stderr:'))
       return 0;
-    else { //TODO1: remove this else
+    else //TODO1: remove this else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
-    }
   }
 
   _onSocketClose(event) {

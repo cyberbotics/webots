@@ -195,7 +195,8 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false;
-  bool batch = false, stream = false;
+  bool batch = false;
+  mStream = false;
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -243,7 +244,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--stream")) {
-      stream = true;
+      mStream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
@@ -302,7 +303,7 @@ void WbGuiApplication::parseArguments() {
     }
   }
 
-  if (stream && !batch)
+  if (mStream && !batch)
     cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
 
   if (logPerformanceMode) {
@@ -380,6 +381,16 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
+
+  if (!mStream) {  // create streaming server for robot window if not in stream mode.
+    bool monitorActivity = false;
+    bool disableTextStreams = false;
+    bool ssl = false;
+    bool controllerEdit = false;
+    int port = 1234;
+    mStreamingServer = new WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit, mStream);
+    mStreamingServer->start(port);
+  }
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the
@@ -482,16 +493,6 @@ bool WbGuiApplication::setup() {
   if (showGuidedTour)
     mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
-  if (mStreamingServer == NULL) {
-    bool monitorActivity = false;
-    bool disableTextStreams = false;
-    bool ssl = false;
-    bool controllerEdit = false;
-    int port = 1234;
-    mStreamingServer = new WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-    mStreamingServer->start(port);
-    mStreamingServer->sendToClients();
-  }
   return true;
 }
 

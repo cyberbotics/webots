@@ -25,14 +25,15 @@ public:
   explicit WbRobotWindow(WbRobot *);
 
   WbRobot *robot() { return mRobot; }
-  const QString *name() { return &mRobot->window(); }
+  const QString getClientID() { return mClientID; };
   void setupPage();
+
 public slots:
-  void sendToJavascript(const QByteArray &);
-  void startControllerIfNeeded();
+  void setClientID(QString clientID, QString socketStatus);
 
 private:
   WbRobot *mRobot;
+  QString mClientID;
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP

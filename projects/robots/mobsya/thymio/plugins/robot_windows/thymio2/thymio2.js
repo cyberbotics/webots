@@ -1,23 +1,19 @@
 import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
 
-let robotName = "Thymio II";
-
 window.onload = function() {
-  window.robotWindow = new RobotWindow(robotName);
+  window.robotWindow = new RobotWindow();
 
-  window.robotWindow.receive = function(value, robot) {
-    if (value.indexOf("configure ") === 0) {
+  window.robotWindow.receive = function(message, robot) {
+    if (message.indexOf("configure ") === 0) {
       try {
-        console.log("value " + value);
-        var configure = JSON.parse(value.substring(10));
-        console.log("configure" + configure);
+        var configure = JSON.parse(message.substring(10));
       } catch(e) {
         console.log(e);
-        console.log("In: " + value);
+        console.log("In: " + message);
       }
       robotLayout(configure);
     } else { // sensor values
-      var values = value.split(" ");
+      var values = message.split(" ");
       document.getElementById("prox.horizontal.0").innerHTML = values[0];
       document.getElementById("prox.horizontal.1").innerHTML = values[1];
       document.getElementById("prox.horizontal.2").innerHTML = values[2];
@@ -29,7 +25,7 @@ window.onload = function() {
       document.getElementById("prox.ground.1").innerHTML = values[8];
     }
   }
-  window.robotWindow.send("configure", robotName); //TODO1: receive configure
+  window.robotWindow.send("configure");
 }
 
 window.addEventListener("mouseup", onmouseup);
@@ -61,24 +57,24 @@ window.thymio_onmousedown = function(event) {
   var button = get_button(event.offsetX, event.offsetY);
   if (button) {
     show_click(event);
-    window.robotWindow.send("mousedown " + button, robotName);
+    window.robotWindow.send("mousedown " + button);
   }
 }
 window.clap_onmousedown = function(event) {
   show_click(event);
-  window.robotWindow.send("mousedown clap", robotName);
+  window.robotWindow.send("mousedown clap");
 }
 
 window.tap_onmousedown = function(event) {
   show_click(event);
-  window.robotWindow.send("mousedown tap", robotName);
+  window.robotWindow.send("mousedown tap");
 }
 
 window.onmouseup = function(event) {
   document.getElementById("mouse_click").style.display='none';
-  window.robotWindow.send("mouseup", robotName);
+  window.robotWindow.send("mouseup");
 }
 
 window.robotLayout = function(configure) {
-  window.robotWindow.setTitle("Robot: " + configure.name, configure.name);
+  window.robotWindow.setTitle("Robot: " + configure.name);
 }
