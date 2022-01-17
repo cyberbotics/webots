@@ -434,7 +434,9 @@ export default class Animation {
     div.style.top = '0px';
     div.style.left = '0px';
     div.style.pointerEvents = 'none';
-    document.body.appendChild(div);
+    let webotsView = document.getElementsByTagName('webots-view')[0];
+    if (webotsView)
+      webotsView.appendChild(div);
 
     this.play_bar.addEventListener('mouseover', () => this._showPlayBar());
     this.play_bar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
