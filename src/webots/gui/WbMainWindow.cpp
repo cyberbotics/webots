@@ -38,6 +38,7 @@
 #include "WbNewControllerWizard.hpp"
 #include "WbNewPhysicsPluginWizard.hpp"
 #include "WbNewProjectWizard.hpp"
+#include "WbNewProtoWizard.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeDebugger.hpp"
@@ -803,6 +804,12 @@ QMenu *WbMainWindow::createWizardsMenu() {
   action->setText(tr("New &Physics Plugin..."));
   action->setStatusTip(tr("Create a new physics plugin."));
   connect(action, &QAction::triggered, this, &WbMainWindow::newPhysicsPlugin);
+  menu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New P&roto..."));
+  action->setStatusTip(tr("Create a new PROTO."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
   menu->addAction(action);
 
   return menu;
@@ -2012,6 +2019,22 @@ void WbMainWindow::newPhysicsPlugin() {
   wizard.exec();
   if (wizard.needsEdit())
     openFileInTextEditor(wizard.physicsPluginName());
+
+  simulationState->resumeSimulation();
+}
+
+void WbMainWindow::newProto() {
+  QString protoPath = WbProject::current()->path() + "protos";
+  if (!WbProjectRelocationDialog::validateLocation(this, protoPath))
+    return;
+
+  WbSimulationState *simulationState = WbSimulationState::instance();
+  simulationState->pauseSimulation();
+
+  WbNewProtoWizard wizard(this);
+  wizard.exec();
+  if (wizard.needsEdit())
+    openFileInTextEditor(wizard.protoName());
 
   simulationState->resumeSimulation();
 }
