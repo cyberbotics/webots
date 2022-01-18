@@ -91,7 +91,7 @@ Alternatively, you could have started the session server and simulation server w
 python session_server.py
 ```
 
-and, from another terminal:
+And, from another terminal:
 
 ```
 python simulation_server.py
