@@ -58,7 +58,7 @@ A task of the simulation server is to start a Webots instance with the correct w
 To show the user interface, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
-ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
+ws://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/develop/projects/languages/python/worlds/example.wbt
 ```
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
