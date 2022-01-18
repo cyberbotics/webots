@@ -222,17 +222,18 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 ```
-# server:            fully qualilified domain name of the simulation server
-# ssl:               for https/wss URL (true by default)
-# port:              local port on which the server is listening
-# portRewrite:       port rewritten in the URL by apache (true by default)
-# docker:            launch webots inside a docker (false by default)
-# projectsDir:       directory in which projects are located
-# webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
-# maxConnections:    maximum number of simultaneous Webots instances
-# logDir:            directory where the log files are written
-# monitorLogEnabled: store monitor data in a file (true by default)
-# debug:             output debug information to stdout (false by default)
+    # server:              fully qualilified domain name of simulation server
+    # ssl:                 for https/wss URL (true by default)
+    # port:                local port on which the server is listening
+    # portRewrite:         port rewritten in the URL by apache (true by default)
+    # docker:              launch webots inside a docker (false by default)
+    # allowedRepositories: list of allowed GitHub simulation repositories
+    # projectsDir:         directory in which projects are located
+    # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:      maximum number of simultaneous Webots instances
+    # logDir:              directory where the log files are written
+    # monitorLogEnabled:   store monitor data in a file (true by default)
+    # debug:               output debug information to stdout (false by default)
 ```
 
 HTTP request handlers:
@@ -270,6 +271,8 @@ FROM docker image cyberbotics/webots:R2022a-ubuntu20.04
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remain secure, regardless of the running simulations.
+
+If you don't want to use Docker, you should ensure that the list of `allowedRepositories` provided in the configuration file doesn't contain any malware, otherwise, you are putting your simulation server at risk.
 
 #### Simulation Files Checkout
 
