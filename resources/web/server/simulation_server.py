@@ -177,7 +177,7 @@ class Client:
         mkdir_p(self.project_instance_path)
         os.chdir(self.project_instance_path)
         # get the default branch name
-        repository_url = f'https://github.com/{username}/{repository}.git'
+        repository_url = f'https://git@github.com/{username}/{repository}.git'
         default_branch = subprocess.getoutput(f'git ls-remote --quiet --symref {repository_url}'
                                               ' HEAD | head -1 | cut -f1 | cut -d/ -f3')
         url = f'https://github.com/{username}/{repository}/'
@@ -695,6 +695,8 @@ def main():
     root_logger.setLevel(logging.DEBUG)
 
     config['logDir'] = 'log' if 'logDir' not in config else expand_path(config['logDir'])
+    if not os.path.isabs(config['logDir']):
+        config['logDir'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), config['logDir'])
     simulationLogDir = os.path.join(config['logDir'], 'simulation')
     logFile = os.path.join(simulationLogDir, 'output.log')
     try:
@@ -777,11 +779,13 @@ if 'DISPLAY' not in os.environ:
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 argc = len(sys.argv)
 if argc == 1:
-    config_json = 'config/simulation/default.json'
+    config_json = 'config/simulation/local.json'
 elif argc == 2:
     config_json = sys.argv[1]
 else:
     sys.exit('Too many arguments.')
+if not os.path.isabs(config_json):
+    config_json = os.path.join(os.path.dirname(os.path.abspath(__file__)), config_json)
 with open(config_json) as config_file:
     config = json.load(config_file)
 if __name__ == '__main__':

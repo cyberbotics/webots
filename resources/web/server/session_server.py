@@ -311,6 +311,8 @@ def main():
         config['portRewrite'] = True
     if 'debug' not in config:
         config['debug'] = False
+    if not os.path.isabs(config['logDir']):
+        config['logDir'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), config['logDir'])
     sessionLogDir = os.path.join(config['logDir'], 'session')
     logFile = os.path.join(sessionLogDir, 'output.log')
     try:
@@ -366,11 +368,13 @@ def main():
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 argc = len(sys.argv)
 if argc == 1:
-    config_json = 'config/session/default.json'
+    config_json = 'config/session/local.json'
 elif argc == 2:
     config_json = sys.argv[1]
 else:
     sys.exit('Too many arguments.')
+if not os.path.isabs(config_json):
+    config_json = os.path.join(os.path.dirname(os.path.abspath(__file__)), config_json)
 with open(config_json) as config_file:
     config = json.load(config_file)
 start_time = time.strftime('%A, %B %d, %Y at %H:%M:%S')
