@@ -60,7 +60,7 @@ cd $WEBOTS_HOME/resources/web/server
 ./server.sh start local
 ```
 This will start the session server with the [config/session/local.json]({{ url.github_tree }}/resources/web/server/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json]({{ url.github_tree }}/resources/web/server/config/simulation/local.json) configuration file.
-You should now be able to check the status of your session server at the following URL: http://localhost:1999/monitor
+You should now be able to check the status of your session server at [http://localhost:1999/monitor](http://localhost:1999/monitor).
 The session server should display a list of simulation servers.
 In your case, only one simulation server should be listed.
 If you click on the simulation server link named localhost:2000, you should see it's status page at http://localhost:2000/monitor
