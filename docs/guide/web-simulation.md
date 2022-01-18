@@ -3,13 +3,20 @@
 ### Description
 
 This section describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
-Such a system may be distributed on several machines.
+Such a system may be distributed on several machines to provide a powerful cluster of simulation servers.
 One machine runs a session server that communicates with several simulation servers.
-Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client.
-Webots instances are executed in a secure environment using [Docker](https://www.docker.com).
-Therefore physics plug-ins and robot controllers coming from the outside world may be executed safely on the simulation servers.
+Each machine runs one instance of a simulation server that receives requests from the session server and starts for each connected client a new instance of Webots that communicates directly with the client.
 
-The Web Simulation system is still work in progress and could change in the next releases of Webots.
+Webots instances can be executed in a secure environment using [Docker](https://www.docker.com).
+This is needed if the simulations are coming from the outside world and may contain some malicious code that could compromise the simulation server.
+That is the case with [robotbenchmark.net](https://robotbenchmark.net) where robot controllers are python programs written by external users and may potentially harm the simulation server.
+Other use cases include simulations created by external users that include binary code for a physics plug-in or a robot window.
+Running them in a Docker container ensures the integrity of the simulation server.
+However, if the simulations executed on a simulation server can't contain any malicious code, then it is safe to run the Webots instances without Docker.
+This is the case if the simulation servers run only simulations from a limited list of allowed GitHub repositories controlled by the owner of the simulation servers.
+
+
+**Note:** The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
 ### Streaming Server
 
@@ -20,7 +27,7 @@ The prerequisites for the server machine(s) are the following:
 - Ubuntu 20.04 LTS or newer
 - Web service dependencies ([Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
-Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
+The simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
 GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, range-finders).
 
@@ -30,7 +37,7 @@ In order to run Webots in the cloud, you need to run at least one session server
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
 Both servers are Python scripts named `simulation_server.py` and `session_server.py` and located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/cyberbotics/webots/tree/released/resources/web/server/)".
 
-Of course, Webots has to be installed on all the machines where a simulation server is running.
+Either Docker or Webots has to be installed on all the machines where a simulation server is running.
 
 %figure "Web simulation server network infrastructure"
 
