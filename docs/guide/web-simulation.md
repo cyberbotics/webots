@@ -226,6 +226,7 @@ These are the configuration parameters for the simulation server:
 # ssl:               for https/wss URL (true by default)
 # port:              local port on which the server is listening
 # portRewrite:       port rewritten in the URL by apache (true by default)
+# docker:            launch webots inside a docker (false by default)
 # projectsDir:       directory in which projects are located
 # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
 # maxConnections:    maximum number of simultaneous Webots instances
@@ -250,6 +251,25 @@ The payload should be a JSON object named `start` containing a `url` string and 
   }
 }
 ```
+
+#### Docker
+
+If the `docker` configuration option is set to `true`, Docker will be used to start Webots, otherwise Webots will be started directly on the metal of the server.
+If the simulation project contains a `Dockerfile` file at the root level, this file will be used to start the Webots instance inside the corresponding Docker container.
+Otherwise, a `Dockerfile` will be created based on the standard Docker image of Webots.
+The version of Webots for the Docker image is automatically computed from the header line of the simulation world file.
+For example if the world file starts with the following line:
+
+```
+#VRML_SIM R2022a utf8
+```
+
+the simulation server will create a `Dockerfile` starting with:
+```
+FROM docker image cyberbotics/webots:R2022a-ubuntu20.04
+```
+
+Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remain secure, regardless of the running simulations.
 
 #### Simulation Files Checkout
 
