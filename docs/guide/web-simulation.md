@@ -63,7 +63,7 @@ This will start the session server with the [config/session/local.json]({{ url.g
 You should now be able to check the status of your session server at [http://localhost:1999/monitor](http://localhost:1999/monitor).
 The session server should display a list of simulation servers.
 In your case, only one simulation server should be listed.
-If you click on the simulation server link named localhost:2000, you should see it's status page at http://localhost:2000/monitor
+If you click on the simulation server link named localhost:2000, you should see it's status page at [http://localhost:2000/monitor](http://localhost:2000/monitor).
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
