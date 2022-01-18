@@ -638,17 +638,18 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # server:            fully qualilified domain name of the simulation server
-    # ssl:               for https/wss URL (true by default)
-    # port:              local port on which the server is listening
-    # portRewrite:       port rewritten in the URL by apache (true by default)
-    # docker:            launch webots inside a docker (false by default)
-    # projectsDir:       directory in which projects are located
-    # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
-    # maxConnections:    maximum number of simultaneous Webots instances
-    # logDir:            directory where the log files are written
-    # monitorLogEnabled: store monitor data in a file (true by default)
-    # debug:             output debug information to stdout (false by default)
+    # server:              fully qualilified domain name of simulation server
+    # ssl:                 for https/wss URL (true by default)
+    # port:                local port on which the server is listening
+    # portRewrite:         port rewritten in the URL by apache (true by default)
+    # docker:              launch webots inside a docker (false by default)
+    # allowedRepositories: list of allowed GitHub simulation repositories
+    # projectsDir:         directory in which projects are located
+    # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:      maximum number of simultaneous Webots instances
+    # logDir:              directory where the log files are written
+    # monitorLogEnabled:   store monitor data in a file (true by default)
+    # debug:               output debug information to stdout (false by default)
     #
     global config
     global snapshots
