@@ -265,7 +265,7 @@ For example if the world file starts with the following line:
 #VRML_SIM R2022a utf8
 ```
 
-the simulation server will create a `Dockerfile` starting with:
+The simulation server will create a `Dockerfile` starting with:
 ```
 FROM docker image cyberbotics/webots:R2022a-ubuntu20.04
 ```
