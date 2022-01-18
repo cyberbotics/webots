@@ -27,7 +27,7 @@ The prerequisites for the server machine(s) are the following:
 - Ubuntu 20.04 LTS or newer
 - Web service dependencies ([Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
-Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
+The simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
 GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, range-finders).
 
