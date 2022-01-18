@@ -354,7 +354,7 @@ webots-view input:checked + .slider:before {
 
 .information-panel a {
   color: white;
-  font-weight: bold;
+  font-size: 12px;
   font-style: italic;
   text-decoration: none;
 }
