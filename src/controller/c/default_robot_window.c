@@ -432,9 +432,7 @@ static void touch_sensor_configure(WbDeviceTag tag) {
 }
 
 void wbu_default_robot_window_configure() {
-  buffer_append("configure {\"type\":\"");
-  buffer_append(wb_node_get_name(wb_robot_get_type()));
-  buffer_append("\",\"name\":\"");
+  buffer_append("configure {\"name\":\"");
   buffer_append_escaped_string(wb_robot_get_name());
   buffer_append("\",\"model\":\"");
   buffer_append_escaped_string(wb_robot_get_model());
