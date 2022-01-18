@@ -59,15 +59,20 @@ cd $WEBOTS_HOME/resources/web/server
 ./server.sh start local
 ```
 This will start the session server with the [config/session/local.json]({{ url.github_tree }}/resources/web/server/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json]({{ url.github_tree }}/resources/web/server/config/simulation/local.json) configuration file.
+
 You should now be able to check the status of your session server at [http://localhost:1999/monitor](http://localhost:1999/monitor).
+
 The session server should display a list of simulation servers.
 In your case, only one simulation server should be listed.
 If you click on the simulation server link named localhost:2000, you should see it's status page at [http://localhost:2000/monitor](http://localhost:2000/monitor).
-The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
-A task of the simulation server is to start a Webots instance with the correct world.
 
-To show the user interface, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
-In the user interface, find a `Connect to` field, and type for example:
+The session server keeps a track of the available simulation servers and their respective compute load.
+It assigns a connection to the simulation server with the lowest compute load (similar to a load balancer).
+
+Then, the selected simulation server starts a Webots instance that communicates directly with the client.
+
+To test the session and simulation servers, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
+In the user interface, under the `Connect to:` field, type for example:
 ```
 ws://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/develop/projects/languages/python/worlds/example.wbt
 ```
@@ -80,7 +85,19 @@ cd $WEBOTS_HOME/resources/web/server
 ./server.sh stop
 ```
 
-Further in the document, you will find more details on how to start multiple simulation servers, how to monitor servers, how to rewrite the ports, and more.
+Alternatively, you could have started the session server and simulation server with the following commands:
+
+```
+python session_server.py
+```
+
+and, from another terminal:
+
+```
+python simulation_server.py
+```
+
+Further in this document, you will find more details on how to start multiple simulation servers, how to monitor servers with log files, how to get e-mail notifications, how to rewrite the ports to setup SSL connections, etc.
 
 #### Protocol
 
