@@ -642,6 +642,7 @@ def main():
     # ssl:               for https/wss URL (true by default)
     # port:              local port on which the server is listening
     # portRewrite:       port rewritten in the URL by apache (true by default)
+    # docker:            launch webots inside a docker (false by default)
     # projectsDir:       directory in which projects are located
     # webotsHome:        directory in which Webots is installed (WEBOTS_HOME)
     # maxConnections:    maximum number of simultaneous Webots instances
