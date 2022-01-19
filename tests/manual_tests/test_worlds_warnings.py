@@ -44,7 +44,7 @@ class TestWorldsWarnings(unittest.TestCase):
         self.worlds = []
         for directory in ['projects']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
-                for fileName in fnmatch.filter(fileNames, '*.wbt'):
+                for fileName in fnmatch.filter(fileNames, '*speaker.wbt'):
                     world = os.path.join(rootPath, fileName)
                     self.worlds.append(world)
         self.webotsFullPath = None
@@ -73,16 +73,16 @@ class TestWorldsWarnings(unittest.TestCase):
         for world in self.worlds:
             print('Testing: %s' % world)
             self.process = Popen([
-                                    self.webotsFullPath,
-                                    '--stdout',
-                                    '--stderr',
-                                    '--mode=pause',
-                                    '--minimize',
-                                    '--batch',
-                                    '--no-sandbox',
-                                    world
-                                 ], stdin=PIPE,
-                                 stdout=PIPE, stderr=PIPE, text=True)
+                self.webotsFullPath,
+                '--stdout',
+                '--stderr',
+                '--mode=pause',
+                '--minimize',
+                '--batch',
+                '--no-sandbox',
+                world
+            ], stdin=PIPE,
+                stdout=PIPE, stderr=PIPE, text=True)
             t = Timer(20.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()
