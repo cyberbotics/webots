@@ -1,6 +1,7 @@
 import {webots} from './webots.js';
 import WbWorld from './nodes/WbWorld.js';
 import {exitFullscreen} from './fullscreen_handler.js';
+import {createSceneMenu} from './sceneMenu.js';
 
 export default class WebotsView extends HTMLElement {
   constructor() {
@@ -296,15 +297,19 @@ export default class WebotsView extends HTMLElement {
       console.time('Loaded in: ');
       this.animationCSS.disabled = true;
       this.streamingCSS.disabled = true;
-      this.sceneCSS.disabled = false
+      this.sceneCSS.disabled = false;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this._view.open(scene);
+      createSceneMenu();
       this._hasScene = true;
-
       this._closeWhenDOMElementRemoved();
     }
+  }
+
+  hasScene() {
+    return this._hasScene;
   }
 
   _closeScene() {

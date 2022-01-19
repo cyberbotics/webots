@@ -65,6 +65,8 @@ export default class Animation {
     document.removeEventListener('mouseup', this.settingsRef);
     this.settingsRef = undefined;
 
+    window.removeEventListener('click', this._closeInfoOnClick);
+
     if (typeof this._timeSlider !== 'undefined') {
       this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
       this.updateFloatingTimeRef = undefined;
@@ -534,11 +536,13 @@ export default class Animation {
     infoTooltip.innerHTML = 'Simulation information';
     infoButton.appendChild(infoTooltip);
 
-    window.addEventListener('click', function(e) {
-      let infoPanel = document.getElementsByClassName('information-panel')[0];
-      if (infoPanel && !infoPanel.contains(e.target) && !document.getElementsByClassName('icon-info')[0].contains(e.target))
-        infoPanel.style.display = 'none';
-    });
+    window.addEventListener('click', this._closeInfoOnClick);
+  }
+
+  _closeInfoOnClick(event) {
+    let infoPanel = document.getElementsByClassName('information-panel')[0];
+    if (infoPanel && !infoPanel.contains(event.target) && !document.getElementsByClassName('icon-info')[0].contains(event.target))
+      infoPanel.style.display = 'none';
   }
 
   _displayInformationWindow() {

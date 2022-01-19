@@ -31,3 +31,78 @@ body {
   white-space: pre;
   z-index: 1;
 }
+
+webots-view .menu-items {
+  margin: 0 auto;
+  text-align: right;
+  z-index: 1;
+  height: 40px;
+  bottom: 0px;
+  right: 0px;
+  position: absolute;
+}
+
+webots-view .ui-icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-image: url('https://cyberbotics.com/wwi/R2022b/images/icons.svg');
+  background-color: transparent;
+  border: none;
+  width: 34px;
+  height: 34px;
+}
+
+webots-view .info-button {
+  width: 28px;
+}
+webots-view .fullscreen-button { background-position: -420px -2px }
+webots-view .exit-fullscreen-button { background-position: -458px -2px }
+webots-view .reset-button{ background-position: -192px -2px}
+webots-view .info-button{background-position: -306px -2px}
+
+webots-view .info-button:hover,
+webots-view .reset-button:hover,
+webots-view .fullscreen-button:hover,
+webots-view .exit-fullscreen-button:hover {
+  background-position-y: -40px;
+}
+
+.information-panel {
+  position: absolute;
+  top: calc(50% - 140px);
+  left: calc(50% - 220px);
+  background-color: #333;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 280px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Helvetica;
+  display: none;
+}
+
+.information-panel a {
+  font-size: 12px;
+  color: white;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.information-panel a:hover {
+  text-decoration: underline;
+}
+
+.information-panel h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.information-panel .cloud {
+  font-size: 12px;
+}
