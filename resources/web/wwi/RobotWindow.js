@@ -10,11 +10,10 @@ export default class RobotWindow {
   };
 
   send(message) {
-    if (this.socket.readyState !== 1) {
+    if (this.socket.readyState !== 1)
       this.pendingMsgs.push(message);
-    } else {
-        this.socket.send('robot:' + this.name + ':' + message);
-    }
+    else
+      this.socket.send('robot:' + this.name + ':' + message);
   };
 
   receive(message, robot) { // to be overridden

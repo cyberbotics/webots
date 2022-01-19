@@ -23,7 +23,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(
 void WbRobotWindow::setupPage() {
   QString windowFileName = mRobot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    mRobot->parsingWarn(QString("No dockable HTML robot window is set in the 'window' field."));
+    mRobot->parsingWarn(QString("No HTML robot window is set in the 'window' field."));
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
@@ -34,6 +34,6 @@ void WbRobotWindow::setClientID(const QString &clientID, const QString &robotNam
   if (robotName == mRobot->name() && socketStatus == "connected") {
     mClientID = clientID;
     emit socketOpened();
-  } else if ((clientID == mClientID) && (socketStatus == "disconnected"))
+  } else if (clientID == mClientID && socketStatus == "disconnected")
     mClientID = "";
 }

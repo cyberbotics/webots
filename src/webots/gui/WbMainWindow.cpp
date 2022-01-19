@@ -2148,7 +2148,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     if (mPendingRobots.size() < maxPendingRobotWindows)
       mPendingRobots << robot;
     else
-      WbLog::warning(tr("maximum number of pending robot windows reached."));
+      WbLog::warning(tr("Maximum number of pending robot windows reached."));
   }
 }
 
@@ -2173,7 +2173,7 @@ void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
       disconnect(robotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
       robotWindow->robot()->disconnect(this);
       mRobotWindows.removeAll(robotWindow);
-      delete (robotWindow);
+      delete robotWindow;
     }
 
   mOnSocketOpen = true;
