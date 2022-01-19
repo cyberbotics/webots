@@ -41,6 +41,7 @@ public:
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
   void checkIfReadRequestCompleted();
+  const QString server();
 
   void reset(bool restartControllers) override;
 

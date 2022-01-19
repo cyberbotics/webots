@@ -223,81 +223,18 @@ void WbController::start() {
     case WbFileUtil::BOTSTUDIO:
       startBotstudio();
       break;
+    case WbFileUtil::DOCKER:
+      startDocker();
+      break;
     default:
       reportControllerNotFound();
       startVoidExecutable();
       mType = WbFileUtil::EXECUTABLE;
   }
-  if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
+  if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
     return;
 
   info(tr("Starting controller: %1").arg(commandLine()));
-
-#ifdef __linux__
-  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_FIREJAIL_CONTROLLERS") && mRobot->findField("controller")) {
-    mArguments.prepend(mCommand);
-    mCommand = "firejail";
-    QStringList firejailArguments;
-    firejailArguments << "--net=none"
-                      << "--nosound"
-                      << "--shell=none"
-                      << "--quiet";
-    // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
-    // with /tmp/ (including the local socket used by Webots which would prevent the
-    // controller from running)
-    if (!mControllerPath.startsWith("/tmp/"))
-      firejailArguments << "--whitelist=" + mControllerPath;
-    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
-    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
-
-    QString ldLibraryPath = WbStandardPaths::controllerLibPath();
-    ldLibraryPath.chop(1);
-
-    // extract the controller resources from runtime.ini and add them in the firejail whitelist
-    // the runtime.ini itself has to be put in the blacklist of firejail
-    const QString &runtimeFilePath = mControllerPath + "runtime.ini";
-    if (QFile::exists(runtimeFilePath)) {
-      WbIniParser iniParser(runtimeFilePath);
-      if (!iniParser.isValid())
-        warn(tr("Environment variables from runtime.ini could not be loaded: the file contains illegal definitions."));
-      else {
-        QProcessEnvironment env = mProcess->processEnvironment();
-        for (int i = 0; i < iniParser.size(); ++i) {
-          if (iniParser.sectionAt(i) != "environment variables with relative paths" &&
-              iniParser.sectionAt(i) != "environment variables with paths" &&
-              iniParser.sectionAt(i) != "environment variables for linux" &&
-              iniParser.sectionAt(i) != "environment variables for linux 64")
-            continue;
-
-          if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
-            const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
-            foreach (QString path, pathsList) {
-              firejailArguments << "--whitelist=" + path;
-              firejailArguments << "--read-only=" + path;
-              ldLibraryPath += ":" + path;
-            }
-          } else
-            // the variable could be used to define WEBOTS_LIBRARY_PATH or FIREJAIL_PATH
-            addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.resolvedValueAt(i, env), true);
-        }
-        mProcess->setProcessEnvironment(env);
-      }
-    } else {
-      // create runtime.ini file so that it is included it in the blacklist
-      // otherwise it can be created and modified from the robot controller
-      QFile file(runtimeFilePath);
-      if (file.open(QIODevice::WriteOnly)) {
-        QTextStream stream(&file);
-        stream << '\n';
-      } else {
-        warn(tr("Could not create the runtime.ini file."));
-        return;
-      }
-    }
-    firejailArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
-    mArguments = firejailArguments + mArguments;
-  }
-#endif
 
   // for matlab controllers we must change to the lib/matlab directory
   // other controller types are executed in the controller dir
@@ -621,9 +558,9 @@ void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
 void WbController::reportControllerNotFound() {
   warn(tr("Could not find controller file:"));
-  warn(tr("Expected either: %1, %2, %3, %4, or %5")
+  warn(tr("Expected either: %1, %2, %3, %4, %5 or %6")
          .arg(name() + WbStandardPaths::executableExtension(), name() + ".jar", name() + ".class", name() + ".py",
-              name() + ".m "));
+              name() + ".m ", "Dockerfile"));
 
   // try to give a smart advice
   QDir dir(mControllerPath);
@@ -673,6 +610,8 @@ void WbController::reportFailedStart() {
     case WbFileUtil::MATLAB:
       reportMissingCommand("matlab");
       break;
+    case WbFileUtil::DOCKER:
+      reportMissingCommand("docker");
     default:
       break;
   }
@@ -703,7 +642,9 @@ void WbController::processError(QProcess::ProcessError error) {
 
 WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
   QDir dir(controllerPath);
-  if (dir.exists(name() + WbStandardPaths::executableExtension()))
+  if (dir.exists("Dockerfile"))
+    return WbFileUtil::DOCKER;
+  else if (dir.exists(name() + WbStandardPaths::executableExtension()))
     return WbFileUtil::EXECUTABLE;
   else if (dir.exists(QString("build/release/%1%2").arg(name()).arg(WbStandardPaths::executableExtension())))
     return WbFileUtil::EXECUTABLE;
@@ -815,6 +756,35 @@ void WbController::startBotstudio() {
   mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
   copyBinaryAndDependencies(mCommand);
   mCommand = QDir::toNativeSeparators(mCommand);
+}
+
+void WbController::startDocker() {
+#ifndef __linux__
+  warn(tr("Docker controllers are supported only on Linux."));
+#else
+  mCommand = "docker";
+  // execute "docker build -q ." in the controller folder to build the image if needed and retrieve the image id
+  QProcess dockerBuild;
+  dockerBuild.setWorkingDirectory(mControllerPath);
+  dockerBuild.start(mCommand, {"build", "-q", "."});
+  if (!dockerBuild.waitForStarted() || !dockerBuild.waitForFinished()) {
+    warn(tr("Unable to run docker, is docker installed?"));
+    return;
+  }
+  const QString image(dockerBuild.readAll().trimmed());
+  if (image.isEmpty()) {
+    warn(tr("Failed to build the docker image in '%1'.").arg(mControllerPath));
+    return;
+  }
+  const QStringList dockerArguments = {
+    "run",  "--network",
+    "none",  // add "--cpu-shares", "512",
+    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
+    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
+    "-e",   "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()),
+    image};
+  mArguments = dockerArguments + mRobot->controllerArgs();
+#endif
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
