@@ -30,7 +30,6 @@
 #include "WbTemplateManager.hpp"
 #include "WbWorld.hpp"
 
-#include <QtCore/qdebug.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
@@ -161,10 +160,9 @@ void WbStreamingServer::destroy() {
   mTcpServer = NULL;
 }
 
-void WbStreamingServer::closeClient(QString clientID) {
+void WbStreamingServer::closeClient(const QString &clientID) {
   foreach (QWebSocket *client, mWebSocketClients) {
     if (clientToId(client) == clientID) {
-      qDebug() << "closeClient" << clientID;
       disconnect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
       disconnect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
       emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
@@ -456,9 +454,10 @@ void WbStreamingServer::socketDisconnected() {
     emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
     mWebSocketClients.removeAll(client);
     client->deleteLater();
-    WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
-                  .arg(clientToId(client))
-                  .arg(mWebSocketClients.size()));
+    if (mStream)
+      WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
+                    .arg(clientToId(client))
+                    .arg(mWebSocketClients.size()));
   }
 }
 

@@ -14,12 +14,10 @@
 
 #include "WbRobotWindow.hpp"
 
-#include <QtCore/qdebug.h>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 
 WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(robot), mMainWindow(mainWindow) {
-  mClientID = "";
 }
 
 void WbRobotWindow::setupPage() {

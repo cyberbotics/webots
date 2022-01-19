@@ -14,8 +14,6 @@
 
 #include "WbMainWindow.hpp"
 
-#include <QtCore/qdebug.h>
-
 #include "WbAboutBox.hpp"
 #include "WbActionManager.hpp"
 #include "WbAnimationRecorder.hpp"

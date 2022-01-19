@@ -42,8 +42,8 @@ public:
   void setMainWindow(WbMainWindow *mainWindow);
   virtual void start(int port);
   void sendToClients(const QString &message = "");
+  void closeClient(const QString &clientID);
   bool getStreamStatus() { return mStream; }
-  void closeClient(QString clientID);
 
 signals:
   void sendRobotWindowClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);

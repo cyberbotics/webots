@@ -53,7 +53,6 @@
 #include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
-#include <QtCore/QDebug>
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 
