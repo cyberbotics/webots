@@ -250,6 +250,8 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
+    WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
     WbWorld.computeUpVector();
   }
 

@@ -1,4 +1,4 @@
-export default class informationPanel {
+export default class InformationPanel {
   constructor(parentNode) {
     this.informationPanel = document.createElement('div');
     this.informationPanel.className = 'information-panel';
@@ -20,24 +20,48 @@ export default class informationPanel {
     infoTabsBar.appendChild(this.tab1);
 
     this.webotsPresentation = document.createElement('div');
+    this.webotsPresentation.style.display = 'none';
     this.webotsPresentation.innerHTML = `
       <h2>Webots<span class=cloud>.cloud</span></h2>
       <img src=https://raw.githubusercontent.com/cyberbotics/webots/master/resources/icons/core/webots.png></img></br>
       <p>Open Source Robot Simulator</p>
       <a href="https://cyberbotics.com" target="_blank">Cyberbotics Ltd.</a>`;
-
     this.informationPanel.appendChild(this.webotsPresentation);
+
+    this.simulationDescritption = document.createElement('div');
+    this.informationPanel.appendChild(this.simulationDescritption);
+
+    this.simulationTitle = document.createElement('h2');
+    this.simulationTitle.innerHTML = 'No title found';
+    this.simulationDescritption.appendChild(this.simulationTitle);
+
+    this.simulationText = document.createElement('div');
+    this.simulationText.style.marginTop = '14px';
+    this.simulationText.innerHTML = 'No description found';
+    this.simulationDescritption.appendChild(this.simulationText);
+
     parentNode.appendChild(this.informationPanel);
   }
 
   _switchTab(nbr) {
-    console.log(nbr)
     if (nbr === 0) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#555';
+      this.webotsPresentation.style.display = 'none';
+      this.simulationDescritption.style.display = 'block';
     } else if (nbr === 1) {
       this.tab0.style.backgroundColor = '#555';
       this.tab1.style.backgroundColor = '#333';
+      this.webotsPresentation.style.display = 'block';
+      this.simulationDescritption.style.display = 'none';
     }
+  }
+
+  setTitle(title) {
+    this.simulationTitle.innerHTML = title;
+  }
+
+  setDescription(description) {
+    this.simulationText.innerHTML = description;
   }
 }

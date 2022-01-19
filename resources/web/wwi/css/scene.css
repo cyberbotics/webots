@@ -79,6 +79,7 @@ webots-view .exit-fullscreen-button:hover {
   opacity: 0.95;
   font-family: Helvetica;
   display: none;
+  pointer-events: auto;
 }
 
 .information-panel a {
@@ -112,9 +113,7 @@ webots-view .exit-fullscreen-button:hover {
   background-color: #555;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  pointer-events: auto;
 }
-
 
 .information-panel .info-tabs-bar .info-tab {
   width: 220px;

@@ -336,20 +336,20 @@ webots-view input:checked + .slider:before {
   border-radius: 50%;
   pointer-events: none;
 }
+
 .information-panel {
   position: absolute;
-  top: calc(50% - 140px);
+  top: calc(50% - 150px);
   left: calc(50% - 220px);
   background-color: #333;
   color: white;
   text-align: center;
   width: 440px;
-  height: 280px;
+  height: 300px;
   border-radius: 10px;
   opacity: 0.95;
   font-family: Helvetica;
   display: none;
-  pointer-events: auto;
 }
 
 .information-panel a {
@@ -375,4 +375,37 @@ webots-view input:checked + .slider:before {
 
 .cloud {
   font-size: 12px;
+}
+
+.information-panel .info-tabs-bar {
+  height: 28px;
+  background-color: #555;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  pointer-events: auto;
+}
+
+.information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+  height: 28px;
+  position: absolute;
+  color: white;
+  background-color: #333;
+  border-width: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px #333 solid;
+}
+
+.information-panel .info-tabs-bar .info-tab:hover {
+  border-bottom: 1px solid red;
+}
+
+.information-panel .info-tabs-bar .tab0 {
+  left: 0px;
+}
+
+.information-panel .info-tabs-bar .tab1 {
+  right: 0px;
+  background-color: #555;
 }

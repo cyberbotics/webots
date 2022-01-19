@@ -1,6 +1,6 @@
 'use strict';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
-import informationPanel from './informationPanel.js';
+import InformationPanel from './InformationPanel.js';
 import AnimationSlider from './AnimationSlider.js';
 import WbWorld from './nodes/WbWorld.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
@@ -429,7 +429,7 @@ export default class Animation {
     this.play_bar.id = 'play-bar';
     this._view3d.appendChild(this.play_bar);
     let div = document.createElement('div');
-    div.innerHTML = informationPanel;
+    new InformationPanel(div);
     div.style.width = '100%';
     div.style.height = '100%';
     div.style.position = 'absolute';

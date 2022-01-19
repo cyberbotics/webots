@@ -1,4 +1,5 @@
-import informationPanel from './informationPanel.js';
+import InformationPanel from './InformationPanel.js';
+import WbWorld from './nodes/WbWorld.js';
 
 export default class SceneMenu {
   constructor() {
@@ -8,7 +9,7 @@ export default class SceneMenu {
 
     this.informationPlaceHolder = document.createElement('div');
     this.informationPlaceHolder.id = 'informationPlaceHolder';
-    new informationPanel(this.informationPlaceHolder);
+    this.informationPanel = new InformationPanel(this.informationPlaceHolder);
     this.informationPlaceHolder.style.width = '100%';
     this.informationPlaceHolder.style.height = '100%';
     this.informationPlaceHolder.style.position = 'absolute';
@@ -54,6 +55,8 @@ export default class SceneMenu {
       document.getElementsByClassName('info-button')[0].onclick = () => this._displayInformationWindow();
 
     window.addEventListener('click', this._closeInfoOnClick);
+
+    this._setTitleAndDescription();
   }
 
   close() {
@@ -64,6 +67,14 @@ export default class SceneMenu {
       this.menuItems.parentNode.removeChild(this.menuItems);
 
     window.removeEventListener('click', this._closeInfoOnClick);
+  }
+
+  _setTitleAndDescription() {
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
+      this.informationPanel.setTitle(WbWorld.instance.title);
+      this.informationPanel.setDescription(WbWorld.instance.description);
+    } else
+      setTimeout(() => this._setTitleAndDescription(), 100);
   }
 
   _closeInfoOnClick(event) {
