@@ -8,8 +8,8 @@ export default class Server {
     this._onready = onready;
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
-    // "wss://cyberbotics1.epfl.ch/1999/session
-    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python/worlds/example.wbt"
+    // "wss://cyberbotics1.epfl.ch/session
+    //  ?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
     const n = this._url.indexOf('/session?url=', 6);
     // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
     if (n === -1) {
@@ -62,23 +62,17 @@ export default class Server {
   }
 
   onOpen(event) {
-    if (this._repository) {
-      let message = `{"start":{"url":"` + this._repository + `"`;
-      if (this._view.mode === 'mjpeg')
-        message += ',"mode":"mjpeg"';
-      message += '}}';
-      this.socket.send(message);
-    } else { // legacy format
-      const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-      this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
-    }
+    let message = `{"start":{"url":"` + this._repository + `"`;
+    if (this._view.mode === 'mjpeg')
+      message += ',"mode":"mjpeg"';
+    message += '}}';
+    this.socket.send(message);
     document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
   }
 
   onMessage(event) {
     const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
-      console.log('received ' + message);
       const url = message.substring(7);
       this._httpServerUrl = url.replace(/ws/, 'http');
       this._view.x3dScene.prefix = this._httpServerUrl + '/';
