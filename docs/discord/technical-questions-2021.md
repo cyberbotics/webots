@@ -12946,7 +12946,7 @@ Also,
 did you mean "Microsoft"? `@jasonc1025`
 
 ##### Deleted User 04/09/2021 21:06:45
-`@sihan is sad` please dont joke around, this is a serious discord server
+`@sihan` please dont joke around, this is a serious discord server
 
 
 I think its a documentary
@@ -12984,7 +12984,7 @@ your experience may vary though
 alright. also, could you tell more about your "project?". I'm passionate about helping elementry and JH peoples, and want to see if I can help with this is any way
 
 ##### Deleted User 04/09/2021 21:17:43
-`@sihan is sad` i think you sent the wrong emojis for your reactions, you might have misclicked
+`@sihan` i think you sent the wrong emojis for your reactions, you might have misclicked
 
 ##### thonk enthusiast 04/09/2021 21:18:25
 He called his project "Roboquest" which is the second row on that link he sent to questforspace
@@ -13041,7 +13041,7 @@ Please take a cookie as a sign of my apology 🍪
 Perhaps you should go to a doctor?
 
 ##### Renkun 04/09/2021 21:27:52
-`@sihan is sad` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
+`@sihan` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
 
 ##### Deleted User 04/09/2021 21:28:32
 Your*
@@ -13101,7 +13101,7 @@ not to discredit them but
 [https://cdn.discordapp.com/emojis/693723538552782888.png?size=64](https://cdn.discordapp.com/emojis/693723538552782888.png?size=64)
 
 ##### Luftwaffel [Moderator] 04/09/2021 21:38:51
-`@sihan is sad` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
+`@sihan` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
 
 
 oh and `@Renkun` this was literally the first instance ever I have seen of a troll here, for the year I have been active here
@@ -30012,7 +30012,7 @@ You can download it and install with dpkg. That's how we do it.
 ##### zevmp 11/05/2021 18:45:38
 Thanks, I'll give it a go
 
-##### CAPTAIN CHUCK 11/06/2021 01:46:06
+##### Chuck 11/06/2021 01:46:06
 hey, I'm having issue with a two wheeled robot I've built. I think the wheels are a slipping a bit when I'm turning, which totally mess my odometry data. Is there a way to ensure that there is no slipping?
 
 ##### DrakerDG [Moderator] 11/06/2021 02:10:22
@@ -30021,7 +30021,7 @@ You can add contactProperties to the WorldInfo node and set coulombFriction grea
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/906364860814729266/unknown.png)
 %end
 
-##### CAPTAIN CHUCK 11/06/2021 02:11:11
+##### Chuck 11/06/2021 02:11:11
 Yeah that's what I did, but I think the problem lie elsewhere
 
 
@@ -30039,7 +30039,7 @@ Have you record your simulation with showing acceleration value?
 ##### Luftwaffel [Moderator] 11/06/2021 02:17:14
 you have to use the simulation time, not real time. Calculate odometry every step and use the timestep (32ms or 16ms usually) as your dt
 
-##### CAPTAIN CHUCK 11/06/2021 02:21:14
+##### Chuck 11/06/2021 02:21:14
 I've just tried using the getTime() method but I'm still having 10-15% error. I'll try to use the exact timestep as you suggest, it may be the issue
 
 ##### Luftwaffel [Moderator] 11/06/2021 02:22:44
@@ -30048,13 +30048,13 @@ some error can come from softCFM (soft collisions), where objects are allowed to
 
 You also have to take the width of the tires into account. Approximating the distance between tires by their center line might not be 100% accurate. You can try and play with that value until it fits better
 
-##### CAPTAIN CHUCK 11/06/2021 02:37:24
+##### Chuck 11/06/2021 02:37:24
 I'll give it a try, tyty
 
 ##### DrakerDG [Moderator] 11/06/2021 03:04:19
 I have a question. This penetrations are like calculations errors or like the deformation of collisions?
 
-##### CAPTAIN CHUCK 11/06/2021 03:23:03
+##### Chuck 11/06/2021 03:23:03
 I'm having an issue that's driving me crazy, maybe folks more intelligent than me will see it imediately.
 
 I have a robot which position is defined by (x,y,theta) and the speed by (vx, vy, vth)
@@ -30305,13 +30305,13 @@ thanks <@787796043987025941> the problem is that I don't know how many objects I
 ##### Heartmage 11/10/2021 14:52:46
 Hi I have few really really basic level questions since I am a complete beginner in Webots so can someone help me out?
 
-##### CAPTAIN CHUCK 11/10/2021 19:44:44
+##### Chuck 11/10/2021 19:44:44
 any idea what may cause a huge noise on a simulated LIDAR? (my noise parameter is set to 0)
 
 ##### Luftwaffel [Moderator] 11/10/2021 20:33:30
 Can you give us more details? How does the noise manifest? Can you post Screenshots or video showing the issue?
 
-##### CAPTAIN CHUCK 11/10/2021 21:33:07
+##### Chuck 11/10/2021 21:33:07
 
 %figure
 ![Screenshot_from_2021-11-10_20-44-52.png](https://cdn.discordapp.com/attachments/565154703139405824/908107026851319838/Screenshot_from_2021-11-10_20-44-52.png)
@@ -30329,13 +30329,13 @@ In webots
 
 It shows you the lidar beams
 
-##### CAPTAIN CHUCK 11/10/2021 21:34:38
+##### Chuck 11/10/2021 21:34:38
 sure, where do I enable it?
 
 ##### Luftwaffel [Moderator] 11/10/2021 21:35:13
 Menu on top
 
-##### CAPTAIN CHUCK 11/10/2021 21:40:24
+##### Chuck 11/10/2021 21:40:24
 
 %figure
 ![b784b89df5bc4613864f52bc0f9842fc.png](https://cdn.discordapp.com/attachments/565154703139405824/908108860986888262/b784b89df5bc4613864f52bc0f9842fc.png)
@@ -30359,7 +30359,7 @@ And I think you can enable to lidar points as well
 
 In optional rendering
 
-##### CAPTAIN CHUCK 11/10/2021 21:46:16
+##### Chuck 11/10/2021 21:46:16
 well they are, something strange is happening
 
 

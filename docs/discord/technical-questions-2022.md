@@ -290,7 +290,7 @@ oops, i find the problem, my mistake
 
 I was trying to add in the wrong place
 
-##### Osama Bin Laden 01/07/2022 10:43:37
+##### Barack Hussein Obama II 01/07/2022 10:43:37
 Hello all I am facing an issue when loading code into vs code
 
 ##### Luftwaffel [Moderator] 01/09/2022 00:18:11
@@ -303,7 +303,7 @@ Hello everyone, i want to make a plunger like solenoid, any idea to make it?  be
 
 > **Attachment**: [Tak\_berjudul\_5\_540p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/929586918663024650/Tak_berjudul_5_540p.mp4)
 
-##### Osama Bin Laden 01/09/2022 04:56:40
+##### Barack Hussein Obama II 01/09/2022 04:56:40
 [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/929599534982647838/unknown.png)
@@ -581,4 +581,254 @@ The old way of specifying the robot name in the launchfile worked very well. Doe
 
 ##### Benjamin Hug [Cyberbotics] 01/12/2022 12:57:54
 I suggest you to check this launch file [https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_universal\_robot/launch/multirobot\_launch.py#L40-L68](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_universal_robot/launch/multirobot_launch.py#L40-L68) which is what you are looking for.
+
+##### Jan Weber 01/12/2022 15:17:37
+Thank you, the "additional\_env" parameter worked.
+
+##### moebius 01/12/2022 23:42:51
+Hi I have a supervisor file that is generating the arena for the environment and managing running the sims for multiple robot designs , and I want to read some data from a json file for a given robot and pass those parameters to the customData field for the robot  using 
+
+```
+supervisor.getRoot().getField('children')
+topLevelNodes.getMFNode(-1)
+robot.getField('customData').setSFString(data['geometry_params'])
+```
+
+ but i do not see this reflected in the customData field in the GUI tree for the robot node, and hence I am not able to access the data in the controller file
+
+
+
+What am i doing wrong, and how am i supposed to be passing the data to the controller?
+
+##### Olivier Michel [Cyberbotics] 01/13/2022 07:32:13
+Using the `customData` field this way should work. Are you sure you are pointing to the right robot? Can you for example change the `description` field for that robot and see the change in the scene tree? Alternatively, you may also use an `Emitter` on the supervisor side and a `Receiver` device on the robot side.
+
+##### pyphais 01/13/2022 08:09:15
+Hi all, I'm trying to make a skid-steer vehicle simulation accurate to the physical vehicle I have. I've set it up so that the available torque for each wheel at each step is based on the speed of the wheel, and approximated a linear torque-speed curve, then I attempt to set the velocity for each wheel and it uses the available torque to do it. I figured this is more accurate than simply picking an acceleration as the motors do not have that information. The vehicle seems to be getting to the correct speed doing this (its max speed is dependent on the torque available at that speed), but it is accelerating much too quickly. The physical vehicle takes about 1/4 of the wheel to get up to speed, and another quarter turn of the wheel to come to a complete stop when the throttle is let go, but the simulated vehicle seems to do both nearly instantaneously. Lowering the available torque just lowers the max speed that the vehicle gets to instead of affecting the accelerations, increasing friction makes it worse, decreasing friction makes it slide instead of continuing turning the wheel. I'm not sure what parameters to edit in order to make it have the same behavior as the real vehicle. The only thing that gets me that behavior is increasing the mass of the wheels from 0.7kg to like 50kg each, but this is definitely not the case for the real vehicle. Does anyone have any advice?
+
+##### moebius 01/13/2022 08:09:49
+yes I'm pointing to the right robot, but  i'll check once more. I'll try the methods that you've mentioned and get back to you, thanks you so much!
+
+##### Amrita 01/15/2022 07:05:36
+I am using NAO robot in WEBOT. I am controlling it with c coding. Can anyone help m to bring it to stand position or standzero position after walking for few steps.
+
+##### AmilaChinthaka 01/16/2022 12:57:57
+Hi guys, Is there any method to extract the camera output of a robot in a webots simulation and send it to a web interface using python?
+
+##### [Red Dragons] Mat198 01/16/2022 13:27:23
+I know how to send image data from webots to opencv. Is that useful? I never worked with web interfaces
+
+##### Amrita 01/16/2022 13:30:38
+How we can send it?
+
+##### mouselet2017 01/16/2022 13:31:56
+When I used webots to simulate led lights, I used the following code:
+
+from controller import Robot
+
+from controller import LED
+
+
+
+robot = Robot()
+
+timestep = int(robot.getBasicTimeStep())
+
+led = robot.getDevice("led")
+
+print(led)
+
+print(led.get())
+
+led.set(1)
+
+print(led.get())
+
+while robot.step(timestep) != -1:
+
+    led.set(1)
+
+    pass
+
+
+
+But unfortunately, my led doesn't light up, and I don't know why (console output is fine). Hope someone can help me! THANKS!!!
+%figure
+![20220116213136.png](https://cdn.discordapp.com/attachments/565154703139405824/932265920557121536/20220116213136.png)
+%end
+
+##### [Red Dragons] Mat198 01/16/2022 13:48:28
+That's a code to get webots images and send them to openCV:
+
+
+
+from controller import Robot
+
+from controller import Camera
+
+import cv2 
+
+import numpy as np
+
+
+
+
+
+\# create the Robot instance.
+
+robot = Robot()
+
+
+
+\# get the time step of the current world.
+
+timestep = int(robot.getBasicTimeStep())
+
+
+
+\# Get camera devices
+
+cam\_right = robot.getDevice('cam\_right')
+
+cam\_left = robot.getDevice('cam\_left')
+
+
+
+
+
+\#Enable the cameras
+
+Camera.enable(cam\_right, timestep)
+
+Camera.enable(cam\_left, timestep)
+
+
+
+\# Get camera parameters
+
+width = cam\_right.getWidth()
+
+height = cam\_right.getHeight()
+
+fov = cam\_right.getFov() 
+
+
+
+cv2.startWindowThread()
+
+
+
+while robot.step(timestep) != -1:
+
+    
+
+    # Read the sensors:
+
+    img\_right = cam\_right.getImage()
+
+    img\_left = cam\_left.getImage()
+
+    
+
+    # Convert images to openCV
+
+    img\_right\_cv = np.frombuffer(img\_right, np.uint8).reshape((height, width, 4))
+
+    img\_left\_cv = np.frombuffer(img\_left, np.uint8).reshape((height, width, 4))
+
+    
+
+    # Showing images
+
+    cv2.imshow("Direita",img\_right\_cv)
+
+    cv2.imshow('Esquerda',img\_left\_cv)
+
+    cv2.waitKey(timestep)
+
+\# Enter here exit cleanup code.
+
+##### DrakerDG [Moderator] 01/16/2022 21:59:39
+Hi, you need put a pointlight or spotlight in children LED node and define the color that you need. 
+
+
+
+This is an example in Python:
+
+
+
+\# Initialize LED
+
+led = robot.getDevice('led\_name')
+
+
+
+\# Turn on LED
+
+led.set(1)
+
+   
+
+\# Turn off LED
+
+led.set(0)
+
+
+
+Reference: [https://cyberbotics.com/doc/reference/led](https://cyberbotics.com/doc/reference/led)
+
+
+You must be use pointlight with castShadows setting in TRUE to obtain more realistic results. 
+
+
+
+Check the world samples, in devices a LED example to understand that I say
+
+
+
+%figure
+![Screenshot_20220116-160913_Chrome.jpg](https://cdn.discordapp.com/attachments/565154703139405824/932396343970922556/Screenshot_20220116-160913_Chrome.jpg)
+%end
+
+##### mouselet2017 01/17/2022 03:02:36
+Thank you very much!!!That's OK!
+
+##### waynemartis 01/17/2022 06:05:56
+I notice that the yaw values of the compass has a range of (-1, 1). Can it be made to (-pi, pi)?
+
+##### Tom\_Wolf 01/17/2022 09:11:23
+Hi everyone ! I'm new user on webots simulateur and im currently using ros2 galactic to launch my world and develope my stuff. so i've an issue with it when i try to launch my world it say "Error: can't copy 'worlds/my\_world.wbt' dioesn't exist or not a regular file" if you now why thanks to let me now
+
+##### Olivier Michel [Cyberbotics] 01/17/2022 09:31:42
+Sure, it is simply a matter of defining a `lookupTable` for the `Compass` node, see documentation here: [https://cyberbotics.com/doc/reference/compass](https://cyberbotics.com/doc/reference/compass)
+
+##### Tom\_Wolf 01/17/2022 09:44:37
+thanks a lot !
+
+##### Benjamin Hug [Cyberbotics] 01/17/2022 10:00:15
+I will need to see your launch file in order to help you, hard to say without any code. You might check some of our tutorials if you begin with Webots ([https://github.com/cyberbotics/webots\_ros2/wiki/Tutorials](https://github.com/cyberbotics/webots_ros2/wiki/Tutorials)). Finally you can check this launch file ([https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_mavic/launch/robot\_launch.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_mavic/launch/robot_launch.py)), which is very simple.
+
+##### Tom\_Wolf 01/17/2022 10:09:35
+Hi ! there is my launch file
+%figure
+![Capture_decran_2022-01-17_a_11.09.00.png](https://cdn.discordapp.com/attachments/565154703139405824/932577384295698492/Capture_decran_2022-01-17_a_11.09.00.png)
+%end
+
+##### Benjamin Hug [Cyberbotics] 01/17/2022 10:17:49
+I assume your world is in the folder `world`, but you are searching into the folder `worlds` at line 16.
+
+##### Tom\_Wolf 01/17/2022 10:19:37
+daim it s a stupide error thanks
+
+##### JosjaG 01/17/2022 16:02:20
+I'm having issues using Webots R2022a, when I try `from controller import Robot` I get the following error: `ImportError: my_webots_home/webots/lib/controller/python38/_controller.so: undefined symbol: _ZNK6webots3GPS14getSpeedVectorEv`. The error does not occur when I revert back to Webots R2021b and the issue shows up for the deb as well as the tar package of Webots 2022a. Does anyone know what may be causing this?
+
+##### DDaniel [Cyberbotics] 01/17/2022 16:17:08
+When installing from tar, did you follow these steps? [https://cyberbotics.com/doc/guide/installation-procedure#installing-the-tarball-package](https://cyberbotics.com/doc/guide/installation-procedure#installing-the-tarball-package)
+
+##### Olivier Michel [Cyberbotics] 01/17/2022 16:18:38
+`GPS.getSpeedVector` is a new API function in Webots R2022a. Are you sure, you don't have two versions of Webots installed on your machine and `WEBOTS_HOME` is pointing to R2021b while you are try to run R2022a?
+
+##### JosjaG 01/18/2022 09:37:01
+Ah, I see my `PYTHONPATH` also referenced to an old location of webots, removing the old reference fixed the issue!
 
