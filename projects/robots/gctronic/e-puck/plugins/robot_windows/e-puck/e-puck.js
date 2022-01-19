@@ -1,4 +1,3 @@
-/* global webots: false */
 /* exported dropDownMenu */
 /* exported onEnableAll */
 /* exported wifiConnect */
@@ -46,7 +45,7 @@ window.onload = function() {
     } else if (message.indexOf('update ') === 0) {
       var data = JSON.parse(message.substring(7));
       if (data)
-        update_image(data); 
+        update_image(data);
     } else { // sensor values
       var values = message.split(' ');
       document.getElementById('ps0').innerHTML = values[0];
@@ -220,7 +219,7 @@ window.wifiDisconnect = function(){
 }
 
 window.robotLayout = function(configure){
-  window.robotWindow.setTitle('Robot: ' + configure.name);
+  window.robotWindow.setTitle(configure.name);
   if (configure.model === 'GCtronic e-puck2') { // e-puck2: Wifi remote control only
     var ipAddress = document.getElementById('ip address');
     ipAddress.style.visibility = 'visible';

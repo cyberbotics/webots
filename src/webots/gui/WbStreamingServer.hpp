@@ -46,7 +46,7 @@ public:
   void closeClient(QString clientID);
 
 signals:
-  void sendRobotWindowClientID(QString clientID, QString socketStatus);
+  void sendRobotWindowClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
 
 protected slots:
   void newWorld();

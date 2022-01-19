@@ -1325,7 +1325,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   savePerspective(reloading, true);
 
   if (reloading)
-    deleteHtmlRobotWindow(NULL, true);
+    deleteRobotWindow(NULL);  // delete all the robot windows
 
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
@@ -2126,32 +2126,49 @@ void WbMainWindow::showRobotWindow() {
 }
 
 void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
-  deleteHtmlRobotWindow(robot);
+  if (mOnSocketOpen) {
+    mOnSocketOpen = false;
+    WbRobotWindow *currentRobotWindow = NULL;
+    foreach (WbRobotWindow *robotWindow, mRobotWindows) {
+      if ((robotWindow->robot() == robot)) {  // close the client of the robot window associated with the robot.
+        if (robotWindow->getClientID() != "")
+          mStreamingServer->closeClient(robotWindow->getClientID());
+        currentRobotWindow = robotWindow;
+      }
+    }
 
-  WbRobotWindow *currentRobotWindow = new WbRobotWindow(robot);
-  mRobotWindows << currentRobotWindow;
-  connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
+    if (currentRobotWindow == NULL) {  // if no robot window associated with the robot, create one.
+      currentRobotWindow = new WbRobotWindow(robot, this);
+      mRobotWindows << currentRobotWindow;
+      connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
+      connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
+      connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+    }
 
-  if (currentRobotWindow && currentRobotWindow->robot() == robot)
-    currentRobotWindow->setupPage();
-  qDebug() << "create robot Window of " << robot->name();
-
-  connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteHtmlRobotWindow(robot); });
-  connect(robot, &WbRobot::controllerChanged, this, [this]() { showHtmlRobotWindow(dynamic_cast<WbRobot *>(sender())); });
+    if (currentRobotWindow && currentRobotWindow->robot() == robot)
+      currentRobotWindow->setupPage();
+  }
 }
 
-void WbMainWindow::deleteHtmlRobotWindow(WbRobot *robot, bool deleteAll) {
-  // delete the robot window of a given robot or all the robot windows if robot is NULL.
-  qDebug() << "list of robot Window: " << mRobotWindows << "robot" << robot << deleteAll;
-  foreach (WbRobotWindow *robotWindow, mRobotWindows) {
-    if ((robotWindow->robot() == robot) || (deleteAll)) {
-      qDebug() << "delete robot Window " << robotWindow->getClientID();
-      robot->disconnect(this);
+void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if ((robotWindow->robot() == robot))
       mStreamingServer->closeClient(robotWindow->getClientID());
+}
+
+void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
+  // delete the robot window and client of robot, delete all if NULL.
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if ((robotWindow->robot() == robot) || robot == NULL) {
+      closeClientRobotWindow(robotWindow->robot());
+      disconnect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, robotWindow, &WbRobotWindow::setClientID);
+      robotWindow->robot()->disconnect(this);
       mRobotWindows.removeAll(robotWindow);
-      robotWindow->deleteLater();
+      delete (robotWindow);
     }
-  }
+
+  mOnSocketOpen = true;
 }
 
 static bool isRobotNode(WbBaseNode *node) {

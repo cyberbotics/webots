@@ -23,7 +23,6 @@
 #include <QtWidgets/QMainWindow>
 
 #include "WbLog.hpp"
-#include "WbRobotWindow.hpp"
 #include "WbShareWindow.hpp"
 
 class WbBuildEditor;
@@ -33,6 +32,7 @@ class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
+class WbRobotWindow;
 class WbSimulationView;
 class WbStreamingServer;
 
@@ -68,6 +68,9 @@ public:
   void setToolBarAlign(const QString &align) { mToolBarAlign = align; }
 
   void restorePreferredGeometry(bool minimizedOnStart = false);
+
+  void deleteRobotWindow(WbRobot *robot);
+  void onSocketOpen(const bool &SocketOpenStatus) { mOnSocketOpen = SocketOpenStatus; }
 
 signals:
   void restartRequested();
@@ -152,8 +155,9 @@ private slots:
 
 private:
   void showHtmlRobotWindow(WbRobot *robot);
-  void deleteHtmlRobotWindow(WbRobot *robot, bool deleteAll = false);
+  void closeClientRobotWindow(WbRobot *robot);
   QList<WbRobotWindow *> mRobotWindows;
+  bool mOnSocketOpen;
 
   int mExitStatus;
   QList<WbConsole *> mConsoles;

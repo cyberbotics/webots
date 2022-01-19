@@ -1,4 +1,3 @@
-/* global webots: false */
 /* global DeviceWidget: false */
 /* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
@@ -59,7 +58,6 @@ function configure(data) {
 }
 
 function receive(message, _robot) {
-  console.log("received", message);
   let data = '';
   if (message.indexOf('configure ') === 0) {
     data = parseJSONMessage(message.substring(10));
@@ -80,14 +78,14 @@ function receive(message, _robot) {
 
   commands = commands.concat(DeviceWidget.commands);
   if (commands.length !== 0) {
-    window.robotWindow.send(commands.join(), robotName);
+    window.robotWindow.send(commands.join());
     DeviceWidget.commands = [];
     commands = [];
   }
 }
 
 window.onload = function () {
-  window.robotWindow = new RobotWindow(robotName);
+  window.robotWindow = new RobotWindow();
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
   setupWindow();

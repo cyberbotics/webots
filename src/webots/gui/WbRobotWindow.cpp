@@ -18,7 +18,8 @@
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 
-WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
+WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(robot), mMainWindow(mainWindow) {
+  mClientID = "";
 }
 
 void WbRobotWindow::setupPage() {
@@ -31,13 +32,10 @@ void WbRobotWindow::setupPage() {
   QDesktopServices::openUrl(QUrl("http://localhost:1234" + windowFileName + "?name=" + mRobot->name()));
 }
 
-void WbRobotWindow::setClientID(QString clientID, QString socketStatus) {
-  if ((mClientID == "") && (socketStatus == "connected")) {
+void WbRobotWindow::setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus) {
+  if (robotName == mRobot->name() && socketStatus == "connected") {
     mClientID = clientID;
-    qDebug() << "new connection: " << mClientID;
-  } else if ((clientID == mClientID) && (socketStatus == "disconnected")) {
-    qDebug() << "delete connection: " << mClientID;
+    mMainWindow->onSocketOpen(true);
+  } else if ((clientID == mClientID) && (socketStatus == "disconnected"))
     mClientID = "";
-  } else
-    qDebug() << "already one client" << mClientID << "unknown client:" << clientID;
 }

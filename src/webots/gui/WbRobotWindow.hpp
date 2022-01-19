@@ -17,23 +17,25 @@
 
 #include <QtCore/QObject>
 
+#include "WbMainWindow.hpp"
 #include "WbRobot.hpp"
 
 class WbRobotWindow : public QObject {
   Q_OBJECT
 public:
-  explicit WbRobotWindow(WbRobot *);
+  explicit WbRobotWindow(WbRobot *, WbMainWindow *);
 
   WbRobot *robot() { return mRobot; }
-  const QString getClientID() { return mClientID; };
+  const QString getClientID() { return mClientID; }
   void setupPage();
 
 public slots:
-  void setClientID(QString clientID, QString socketStatus);
+  void setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
 
 private:
   WbRobot *mRobot;
   QString mClientID;
+  WbMainWindow *mMainWindow;
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP
