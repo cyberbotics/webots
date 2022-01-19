@@ -44,7 +44,7 @@ class TestWorldsWarnings(unittest.TestCase):
         self.worlds = []
         for directory in ['projects']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
-                for fileName in fnmatch.filter(fileNames, '*speaker.wbt'):
+                for fileName in fnmatch.filter(fileNames, '*.wbt'):
                     world = os.path.join(rootPath, fileName)
                     self.worlds.append(world)
         self.webotsFullPath = None
