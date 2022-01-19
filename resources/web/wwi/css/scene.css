@@ -1,4 +1,3 @@
-/*Inspired from https://gitlab.com/robocup-sim/JaSMIn/*/
 @import "fonts.css";
 
 body {
@@ -69,13 +68,13 @@ webots-view .exit-fullscreen-button:hover {
 
 .information-panel {
   position: absolute;
-  top: calc(50% - 140px);
+  top: calc(50% - 150px);
   left: calc(50% - 220px);
   background-color: #333;
   color: white;
   text-align: center;
   width: 440px;
-  height: 280px;
+  height: 300px;
   border-radius: 10px;
   opacity: 0.95;
   font-family: Helvetica;
@@ -101,8 +100,43 @@ webots-view .exit-fullscreen-button:hover {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .information-panel .cloud {
   font-size: 12px;
+}
+
+.information-panel .info-tabs-bar {
+  height: 28px;
+  background-color: #555;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  pointer-events: auto;
+}
+
+
+.information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+  height: 28px;
+  position: absolute;
+  color: white;
+  background-color: #333;
+  border-width: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px #333 solid;
+}
+
+.information-panel .info-tabs-bar .info-tab:hover {
+  border-bottom: 1px solid red;
+}
+
+.information-panel .info-tabs-bar .tab0 {
+  left: 0px;
+}
+
+.information-panel .info-tabs-bar .tab1 {
+  right: 0px;
+  background-color: #555;
 }
