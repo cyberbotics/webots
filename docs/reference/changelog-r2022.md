@@ -3,7 +3,8 @@
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.
-
+  - Cleanup
+    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
   - Bug fixes
     - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
 
