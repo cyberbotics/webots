@@ -4,7 +4,20 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 01/11/2022 16:50:51
+##### Olivier Michel [Cyberbotics] 01/18/2022 13:29:53
+New employment opportunity for a Webots experienced developer: [https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/](https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/)
+
+
+**New scientific publication based Webots simulation**: A Swarm Robotic Approach to Inspection of 2.5D Surfaces in Orbit. [https://juliaebert.com/pdfs/inproceedings/2022\_swarm.pdf](https://juliaebert.com/pdfs/inproceedings/2022_swarm.pdf)
+
+
+**Introduction to Autonomous Robots** is a book by a team from the University of Colorado Boulder, with the book’s source freely available online under Creative Commons 4.0 license. The book extensively uses Webots for exercises.
+
+[https://introduction-to-autonomous-robots.github.io](https://introduction-to-autonomous-robots.github.io)
+
+[https://github.com/Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots](https://github.com/Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots)
+
+
 New publication using a swarm of Thymio II robots in Webots: An Innate Motivation to Tidy Your Room: Online Onboard Evolution of Manipulation Behaviors in a Robot Swarm, [https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang\_en&pg=PA191#v=onepage&q&f=false](https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang_en&pg=PA191#v=onepage&q&f=false)
 
 ##### koyal 01/11/2022 09:40:29
