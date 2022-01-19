@@ -70,7 +70,6 @@ public:
   void restorePreferredGeometry(bool minimizedOnStart = false);
 
   void deleteRobotWindow(WbRobot *robot);
-  void onSocketOpen(const bool &SocketOpenStatus) { mOnSocketOpen = SocketOpenStatus; }
 
 signals:
   void restartRequested();
@@ -156,7 +155,9 @@ private slots:
 private:
   void showHtmlRobotWindow(WbRobot *robot);
   void closeClientRobotWindow(WbRobot *robot);
+  void onSocketOpened();
   QList<WbRobotWindow *> mRobotWindows;
+  QList<WbRobot *> mPendingRobots;
   bool mOnSocketOpen;
 
   int mExitStatus;

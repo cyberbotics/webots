@@ -89,9 +89,6 @@
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
-
-#include <QtCore/QDirIterator>
-#include <QtCore/QObject>
 #include <QtNetwork/QHttpMultiPart>
 #include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QApplication>
@@ -1322,8 +1319,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
 
-  if (reloading)
-    deleteRobotWindow(NULL);  // delete all the robot windows
+  deleteRobotWindow(NULL);  // delete all the robot windows
 
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
@@ -2142,11 +2138,24 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(currentRobotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
     }
 
     if (currentRobotWindow && currentRobotWindow->robot() == robot)
       currentRobotWindow->setupPage();
+  } else {
+    const int maxPendingRobotWindows = 5;
+    if (mPendingRobots.size() < maxPendingRobotWindows)
+      mPendingRobots << robot;
+    else
+      WbLog::warning(tr("maximum number of pending robot windows reached."));
   }
+}
+
+void WbMainWindow::onSocketOpened() {
+  mOnSocketOpen = true;
+  if (!mPendingRobots.isEmpty())
+    showHtmlRobotWindow(mPendingRobots.takeFirst());
 }
 
 void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
@@ -2161,6 +2170,7 @@ void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
     if ((robotWindow->robot() == robot) || robot == NULL) {
       closeClientRobotWindow(robotWindow->robot());
       disconnect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, robotWindow, &WbRobotWindow::setClientID);
+      disconnect(robotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
       robotWindow->robot()->disconnect(this);
       mRobotWindows.removeAll(robotWindow);
       delete (robotWindow);

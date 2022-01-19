@@ -31,6 +31,8 @@ public:
 
 public slots:
   void setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
+signals:
+  void socketOpened();
 
 private:
   WbRobot *mRobot;

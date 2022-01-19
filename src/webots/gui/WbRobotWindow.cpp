@@ -33,7 +33,7 @@ void WbRobotWindow::setupPage() {
 void WbRobotWindow::setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus) {
   if (robotName == mRobot->name() && socketStatus == "connected") {
     mClientID = clientID;
-    mMainWindow->onSocketOpen(true);
+    emit socketOpened();
   } else if ((clientID == mClientID) && (socketStatus == "disconnected"))
     mClientID = "";
 }
