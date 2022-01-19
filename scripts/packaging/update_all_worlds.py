@@ -25,6 +25,7 @@ worlds = []
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
     for fileName in fnmatch.filter(fileNames, '*speaker.wbt'):
+        print("test")
         world = os.path.join(rootPath, fileName)
         worlds.append(world)
 webotsFullPath = None
@@ -41,6 +42,7 @@ else:
         sys.exit(1)
     webotsFullPath = os.path.normpath(webotsFullPath)
 
+print("END OF OPENAL WARNINGS")
 for i in range(len(worlds)):
     print('%d/%d: %s' % (i + 1, len(worlds), worlds[i]))
     call([webotsFullPath, worlds[i], '--minimize', '--batch', '--no-sandbox', '--mode=pause', '--update-world'])
