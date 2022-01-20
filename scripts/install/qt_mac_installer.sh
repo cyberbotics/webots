@@ -38,9 +38,6 @@ declare -a qtFrameworks=( \
   "QtSensors" \
   "QtSql" \
   "QtWebChannel" \
-  "QtWebEngine" \
-  "QtWebEngineCore" \
-  "QtWebEngineWidgets" \
   "QtWebSockets" \
   "QtWidgets" \
   "QtXml" \
@@ -108,17 +105,6 @@ install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
-cd $WEBOTS_HOME/Contents/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents/MacOS
-install_name_tool -change @rpath/QtWebEngineCore.framework/Versions/5/QtWebEngineCore @rpath/Contents/Frameworks/QtWebEngineCore.framework/Versions/5/QtWebEngineCore QtWebEngineProcess
-install_name_tool -change @rpath/QtQuick.framework/Versions/5/QtQuick @rpath/Contents/Frameworks/QtQuick.framework/Versions/5/QtQuick QtWebEngineProcess
-install_name_tool -change @rpath/QtQml.framework/Versions/5/QtQml @rpath/Contents/Frameworks/QtQml.framework/Versions/5/QtQml QtWebEngineProcess
-install_name_tool -change @rpath/QtQmlModels.framework/Versions/5/QtQmlModels @rpath/Contents/Frameworks/QtQmlModels.framework/Versions/5/QtQmlModels QtWebEngineProcess
-install_name_tool -change @rpath/QtNetwork.framework/Versions/5/QtNetwork @rpath/Contents/Frameworks/QtNetwork.framework/Versions/5/QtNetwork QtWebEngineProcess
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore QtWebEngineProcess
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @rpath/Contents/Frameworks/QtGui.framework/Versions/5/QtGui QtWebEngineProcess
-install_name_tool -change @rpath/QtWebChannel.framework/Versions/5/QtWebChannel @rpath/Contents/Frameworks/QtWebChannel.framework/Versions/5/QtWebChannel QtWebEngineProcess
-install_name_tool -change @rpath/QtPositioning.framework/Versions/5/QtPositioning @rpath/Contents/Frameworks/QtPositioning.framework/Versions/5/QtPositioning QtWebEngineProcess
-install_name_tool -add_rpath @loader_path/../../../../../../../../.. QtWebEngineProcess
 
 cd $WEBOTS_HOME
 

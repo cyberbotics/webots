@@ -81,7 +81,7 @@ QT_OPENGL_INCLUDE  = -isystem $(FRAMEWORKS)/QtOpenGL.framework/Headers
 QT_PRINT_SUPPORT_INCLUDE  = -isystem $(FRAMEWORKS)/QtPrintSupport.framework/Headers
 QT_QML_INCLUDE     = -isystem $(FRAMEWORKS)/QtQml.framework/Headers
 QT_NETWORK_INCLUDE = -isystem $(FRAMEWORKS)/QtNetwork.framework/Headers
-QT_WEB_INCLUDE     = -isystem $(FRAMEWORKS)/QtWebEngineWidgets.framework/Headers -isystem $(FRAMEWORKS)/QtWebChannel.framework/Headers
+QT_WEB_INCLUDE     = -isystem $(FRAMEWORKS)/QtWebChannel.framework/Headers
 QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
@@ -89,7 +89,7 @@ GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
-LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
+LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
 CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
@@ -116,7 +116,7 @@ QT_PRINT_SUPPORT_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
 QT_QML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtQml
 QT_OPENGL_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
 QT_NETWORK_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
-QT_WEB_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtWebEngineCore -isystem $(WEBOTS_PATH)/include/qt/QtWebEngineWidgets -isystem $(WEBOTS_PATH)/include/qt/QtWebChannel
+QT_WEB_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtWebChannel
 QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
 FREETYPE_INCLUDE   = -I/usr/include/freetype2
@@ -124,7 +124,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
