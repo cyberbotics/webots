@@ -222,8 +222,7 @@ endif
 endif
 
 # objects that inherit form QObject (alphabetical order)
-QT_SOURCES = \
-  WbAboutBox.cpp \
+QT_SOURCES = WbAboutBox.cpp \
   WbAbstractAppearance.cpp \
   WbAbstractDragEvent.cpp \
   WbAbstractCamera.cpp \
