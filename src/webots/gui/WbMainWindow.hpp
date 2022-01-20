@@ -123,6 +123,7 @@ private slots:
   void newProjectDirectory();
   void newRobotController();
   void newPhysicsPlugin();
+  void newProto();
   void openPreferencesDialog();
   void openWebotsUpdateDialogFromStartup();
   void openWebotsUpdateDialogFromMenu();

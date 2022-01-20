@@ -75,12 +75,6 @@ Robot::Robot() {
   mMouse = new Mouse();
 }
 
-Robot *Robot::internalGetInstance() {
-  if (cInstance)
-    return cInstance;
-  return new Robot();
-}
-
 Robot::~Robot() {
   for (size_t i = 0; i < deviceList.size(); ++i)
     delete deviceList[i];
@@ -93,6 +87,14 @@ Robot::~Robot() {
 
 int Robot::step(int duration) {
   return wb_robot_step(duration);
+}
+
+int Robot::stepBegin(int duration) {
+  return wb_robot_step_begin(duration);
+}
+
+int Robot::stepEnd() {
+  return wb_robot_step_end();
 }
 
 Robot::UserInputEvent Robot::waitForUserInputEvent(UserInputEvent event_type, int timeout) {
@@ -171,10 +173,6 @@ Device *Robot::getDeviceByIndex(int index) {
 
 Device *Robot::getDevice(const std::string &name) {
   return getOrCreateDevice(wb_robot_get_device(name.c_str()));
-}
-
-int Robot::getType() const {
-  return wb_robot_get_type();
 }
 
 void Robot::batterySensorEnable(int sampling_period) {

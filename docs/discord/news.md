@@ -4,6 +4,32 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
+##### Olivier Michel [Cyberbotics] 01/18/2022 13:29:53
+New employment opportunity for a Webots experienced developer: [https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/](https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/)
+
+
+**New scientific publication based Webots simulation**: A Swarm Robotic Approach to Inspection of 2.5D Surfaces in Orbit. [https://juliaebert.com/pdfs/inproceedings/2022\_swarm.pdf](https://juliaebert.com/pdfs/inproceedings/2022_swarm.pdf)
+
+
+**Introduction to Autonomous Robots** is a book by a team from the University of Colorado Boulder, with the book’s source freely available online under Creative Commons 4.0 license. The book extensively uses Webots for exercises.
+
+[https://introduction-to-autonomous-robots.github.io](https://introduction-to-autonomous-robots.github.io)
+
+[https://github.com/Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots](https://github.com/Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots)
+
+
+New publication using a swarm of Thymio II robots in Webots: An Innate Motivation to Tidy Your Room: Online Onboard Evolution of Manipulation Behaviors in a Robot Swarm, [https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang\_en&pg=PA191#v=onepage&q&f=false](https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang_en&pg=PA191#v=onepage&q&f=false)
+
+##### koyal 01/11/2022 09:40:29
+This project is also available with docker.
+
+[https://hub.docker.com/repository/docker/softillusion/robotics\_picodegree](https://hub.docker.com/repository/docker/softillusion/robotics_picodegree)
+
+
+We are back with new video of Yolo with Webots.
+
+[https://youtu.be/W9XZWi2qtoY](https://youtu.be/W9XZWi2qtoY)
+
 ##### emabrey 01/02/2022 11:48:26
 Immediate Part-time 2-hours/week Online Instructor Role  for our RobocupJunior  Robotics Simulation Competition (using C/C++ - Webots)([https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/))   Teams of six members , between January and mid -June?   2 hours per week on Sundays from 1 to 3 pm (EST).  Very competitive rate, please apply here - [https://www.stormingrobots.com/prod/jobsForm.html](https://www.stormingrobots.com/prod/jobsForm.html) .
 

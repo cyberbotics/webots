@@ -210,8 +210,9 @@ wb_receiver_get_data_size.m
 wb_receiver_get_signal_strength.m
 wb_robot_get_number_of_devices.m
 wb_robot_get_device_by_index.m
-wb_robot_get_type.m
 wb_robot_step.m
+wb_robot_step_begin.m
+wb_robot_step_end.m
 wb_robot_wait_for_user_input_event.m
 wb_robot_battery_sensor_enable.m
 wb_robot_battery_sensor_disable.m
@@ -437,7 +438,6 @@ WB_MODE_CROSS_COMPILATION.m
 WB_MODE_REMOTE_CONTROL.m
 WB_NODE_NO_NODE.m
 WB_NODE_APPEARANCE.m
-WB_NODE_ALTIMETER.m
 WB_NODE_BACKGROUND.m
 WB_NODE_BILLBOARD.m
 WB_NODE_BOX.m
@@ -470,6 +470,7 @@ WB_NODE_TRANSFORM.m
 WB_NODE_VIEWPOINT.m
 WB_NODE_ROBOT.m
 WB_NODE_ACCELEROMETER.m
+WB_NODE_ALTIMETER.m
 WB_NODE_BRAKE.m
 WB_NODE_CAMERA.m
 WB_NODE_COMPASS.m

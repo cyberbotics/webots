@@ -1,4 +1,6 @@
 {
-  "debug": true,
-  "portRewrite": true
+  "server": "localhost",
+  "ssl": false,
+  "portRewrite": false,
+  "debug": true
 }
