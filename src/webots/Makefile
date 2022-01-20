@@ -95,7 +95,6 @@ CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
-QT_SOURCES         = WbRobotWindowTransportLayer.cpp
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE)
@@ -129,7 +128,6 @@ LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
-QT_SOURCES         = WbRobotWindowTransportLayer.cpp
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
@@ -164,7 +162,6 @@ LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -
 LD_FLAGS          = -Wl,--enable-auto-import
 EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
 FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config
-QT_SOURCES        = WbVirtualRealityHeadset.cpp
 ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
 # in particular in WbController::setProcessEnvironment(), however increasing the
@@ -228,7 +225,7 @@ endif
 endif
 
 # objects that inherit form QObject (alphabetical order)
-QT_SOURCES += \
+QT_SOURCES = \
   WbAboutBox.cpp \
   WbAbstractAppearance.cpp \
   WbAbstractDragEvent.cpp \
@@ -582,6 +579,8 @@ OTHER_SOURCES = \
   WbWrenVertexArrayFrameListener.cpp
 
 ifeq ($(OSTYPE),windows)
+QT_SOURCES += \
+  WbVirtualRealityHeadset.cpp
 OTHER_SOURCES += \
   WbMicrosoftTextToSpeech.cpp \
   WbWindowsRegistry.cpp
