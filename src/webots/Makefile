@@ -463,7 +463,6 @@ QT_SOURCES += \
   WbVisualBoundingSphere.cpp \
   WbWebotsUpdateDialog.cpp \
   WbWebotsUpdateManager.cpp \
-  WbWebPage.cpp \
   WbWorld.cpp \
   WbWorldInfo.cpp \
   WbWrenAbstractManipulator.cpp \
