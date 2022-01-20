@@ -101,10 +101,6 @@
 #include <QtWidgets/QStyle>
 #include "WbNetwork.hpp"
 
-#ifdef _WIN32
-#include <QtWebKit/QWebSettings>
-#endif
-
 #include <wren/gl_state.h>
 
 WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
@@ -1366,9 +1362,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
             &WbVisualBoundingSphere::show);
   }
 
-#ifdef _WIN32
-  QWebSettings::globalSettings()->clearMemoryCaches();
-#endif
   WbRenderingDeviceWindowFactory::reset();
   restorePerspective(reloading, firstLoad, false);
 
@@ -2283,21 +2276,6 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
 
   if (isMinimized())
     return;
-
-#ifdef __APPLE__
-  // Note: this platform dependent cases are caused by the fact that
-  // the event loop and the OpenGL context management is slightly different
-  // between the different OS and that Windows uses QtWebKit and the other OS use
-  // QtWebEngine (OpengGL). These callbacks about updating the world loading dialog
-  // are called during the object finalization, and the OpenGL context should
-  // be dealt in a clean way.
-  const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-  QOpenGLContext context;
-  if (needToChangeContext) {
-    WbWrenOpenGlContext::doneWren();
-    context.makeCurrent(windowHandle());
-  }
-#endif
 
   mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);

@@ -11,7 +11,6 @@ declare -a BASE_PACKAGES=(
   "unzip"                     # Webots dependencies
   "zip"                       # robotbenchmark square path
   "mingw-w64-x86_64-qt5"      # Webots
-  "mingw-w64-x86_64-qtwebkit" # Webots
   "mingw-w64-x86_64-libzip"   # Webots
   "mingw-w64-x86_64-libgd"    # Webots (Lua PROTOs)
   "liblzma"                   # Webots
