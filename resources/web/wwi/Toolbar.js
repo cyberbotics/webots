@@ -172,9 +172,8 @@ export default class Toolbar {
     const buttonName = name + 'Button';
     this[buttonName] = document.createElement('button');
     this[buttonName].id = buttonName;
-    this[buttonName].className = 'toolBarButton';
+    this[buttonName].className = 'toolBarButton toolbar-' + name;
     this[buttonName].title = tooltip;
-    this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
     return this[buttonName];
   }
 

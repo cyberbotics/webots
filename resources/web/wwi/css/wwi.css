@@ -16,7 +16,7 @@ iframe {
   z-index: 1;
   width: 100%;
   height: 48px;
-  background-color: #666;
+  position: absolute;
 }
 
 .toolBarRight {
@@ -27,25 +27,6 @@ iframe {
 .toolBarLeft {
   display: flex;
   float: left;
-}
-
-.toolBarButton {
-  display: block;
-  width: 32px;
-  height: 32px;
-  border: none;
-  color: #ccc;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  background-color: #ccc;
-  background-size: 32px 32px;
-  background-repeat: no-repeat;
-}
-
-.toolBarButton:hover {
-  background-color: #eee;
 }
 
 .toolBarButtonActive {
@@ -134,6 +115,39 @@ webots-view button::-moz-focus-inner {
   border: 0;
 }
 
+webots-view .toolBarButton {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-image: url(../images/icons.svg);
+  width: 34px;
+  height: 34px;
+}
+
+webots-view .info-button {
+  width: 28px;
+}
+webots-view .toolbar-real_time       { background-position:   -2px -2px }
+webots-view .toolbar-pause           { background-position:  -40px -2px }
+webots-view .toolbar-step            { background-position:  -78px -2px }
+webots-view .toolbar-reset           { background-position: -192px -2px }
+webots-view .info-button             { background-position: -306px -2px }
+webots-view .icon-settings           { background-position: -382px -2px }
+webots-view .toolbar-fullscreen      { background-position: -420px -2px }
+webots-view .toolbar-exit_fullscreen { background-position: -458px -2px }
+
+webots-view .icon-settings,
+webots-view .toolbar-real_time:hover,
+webots-view .icon-pause:hover,
+webots-view .info-button:hover,
+webots-view .reset-button:hover,
+webots-view .fullscreen-button:hover,
+webots-view .exit-fullscreen-button:hover {
+  background-position-y: -40px;
+}
+
+webots-view .toolbar-quit     { background-image: url(../images/quit.png) }
+
+
 #playPauseButton {
   display: block;
   width: 20px;
@@ -141,7 +155,6 @@ webots-view button::-moz-focus-inner {
   border: none;
   color: #ccc;
   margin-left: 10px;
-  background-image: url(play.png);
   background-color: #ccc;
   background-size: 20px 20px;
   background-repeat: no-repeat;
@@ -174,7 +187,7 @@ webots-view button::-moz-focus-inner {
 .webots3DView {
   border: none;
   width: 100%;
-  height: calc(100% - 48px);
+  height: 100%;
   position: relative;
 }
 
