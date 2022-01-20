@@ -21,7 +21,6 @@ rm -rf include/qt
 rm -rf lib/webots/qt
 rm -rf lib/webots/libQt5*
 rm -rf lib/webots/libicu*
-rm -f resources/web/local/qwebchannel.js
 
 # install Qt in Webots
 
@@ -33,7 +32,6 @@ mkdir include/qt/QtNetwork
 mkdir include/qt/QtOpenGL
 mkdir include/qt/QtPrintSupport
 mkdir include/qt/QtQml
-mkdir include/qt/QtWebChannel
 mkdir include/qt/QtWebSockets
 mkdir include/qt/QtWidgets
 mkdir include/qt/QtXml
@@ -59,7 +57,6 @@ cp -r $QT_INSTALLATION_PATH/include/QtNetwork                      include/qt/Qt
 cp -r $QT_INSTALLATION_PATH/include/QtOpenGL                       include/qt/QtOpenGL/
 cp -r $QT_INSTALLATION_PATH/include/QtPrintSupport                 include/qt/QtPrintSupport/
 cp -r $QT_INSTALLATION_PATH/include/QtQml                          include/qt/QtQml/
-cp -r $QT_INSTALLATION_PATH/include/QtWebChannel                   include/qt/QtWebChannel/
 cp -r $QT_INSTALLATION_PATH/include/QtWebSockets                   include/qt/QtWebSockets/
 cp -r $QT_INSTALLATION_PATH/include/QtWidgets                      include/qt/QtWidgets/
 cp -r $QT_INSTALLATION_PATH/include/QtXml                          include/qt/QtXml/
@@ -80,7 +77,6 @@ cp $QT_INSTALLATION_PATH/lib/libQt5Quick.so.$QT_VERSION             lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5QuickWidgets.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Sensors.so.$QT_VERSION           lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Sql.so.$QT_VERSION               lib/webots/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebChannel.so.$QT_VERSION        lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5WebSockets.so.$QT_VERSION        lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Widgets.so.$QT_VERSION           lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5XcbQpa.so.$QT_VERSION            lib/webots/
@@ -98,9 +94,6 @@ cp $QT_INSTALLATION_PATH/plugins/xcbglintegrations/libqxcb-glx-integration.so li
 cp $QT_INSTALLATION_PATH/plugins/imageformats/libqjpeg.so           lib/webots/qt/plugins/imageformats/
 cp $QT_INSTALLATION_PATH/resources/icudtl.dat                       lib/webots/qt/resources/
 cp -r $QT_INSTALLATION_PATH/translations/*                          lib/webots/qt/translations/
-
-# copy qwebchannel.js from the Examples
-cp ${QT_INSTALLATION_PATH}/../../Examples/Qt-${QT_VERSION}/webchannel/shared/qwebchannel.js resources/web/local/
 
 cd lib/webots
 ln -sf libQt5Concurrent.so.$QT_VERSION        libQt5Concurrent.so.5
@@ -135,8 +128,6 @@ ln -sf libQt5Sensors.so.$QT_VERSION           libQt5Sensors.so.5
 ln -sf libQt5Sensors.so.$QT_VERSION           libQt5Sensors.so
 ln -sf libQt5Sql.so.$QT_VERSION               libQt5Sql.so.5
 ln -sf libQt5Sql.so.$QT_VERSION               libQt5Sql.so
-ln -sf libQt5WebChannel.so.$QT_VERSION        libQt5WebChannel.so.5
-ln -sf libQt5WebChannel.so.$QT_VERSION        libQt5WebChannel.so
 ln -sf libQt5WebSockets.so.$QT_VERSION        libQt5WebSockets.so.5
 ln -sf libQt5WebSockets.so.$QT_VERSION        libQt5WebSockets.so
 ln -sf libQt5Widgets.so.$QT_VERSION           libQt5Widgets.so.5
@@ -153,6 +144,6 @@ cd ../..
 
 ARCHIVE=webots-qt-$QT_VERSION-linux64-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
-tar cjf $ARCHIVE lib/webots/libQt5* lib/webots/libicu* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
+tar cjf $ARCHIVE lib/webots/libQt5* lib/webots/libicu* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc
 
 echo Done.

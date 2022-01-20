@@ -36,7 +36,7 @@ endif
 
 
 qt-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/webots-qt-*-linux64-release.tar.bz2 $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME_LIB)/libQt* $(WEBOTS_HOME_LIB)/libicu* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/webots-qt-*-linux64-release.tar.bz2 $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME_LIB)/libQt* $(WEBOTS_HOME_LIB)/libicu* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
 qt: $(WEBOTS_HOME_LIB)/libQt5Core.so.$(QT_VERSION)
 

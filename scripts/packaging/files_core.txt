@@ -146,7 +146,6 @@ lib/webots/libQt5Quick.so* [linux]
 lib/webots/libQt5QuickWidgets.so* [linux]
 lib/webots/libQt5Sensors.so* [linux]
 lib/webots/libQt5Sql.so* [linux]
-lib/webots/libQt5WebChannel.so* [linux]
 lib/webots/libQt5WebSockets.so* [linux]
 lib/webots/libQt5Widgets.so* [linux]
 lib/webots/libQt5XcbQpa.so* [linux]
@@ -303,10 +302,6 @@ resources/translations/*.ts
 resources/translations/*.qm
 resources/translations/README.md
 resources/web/
-resources/web/local/
-resources/web/local/webots.css
-resources/web/local/webots.js
-resources/web/local/qwebchannel.js [mac,linux]
 resources/web/server/
 resources/web/server/async_process.py
 resources/web/server/server.sh
@@ -526,16 +521,6 @@ Contents/Frameworks/QtSql.framework/Versions/5/Headers/*.h [mac]
 Contents/Frameworks/QtSql.framework/Versions/5/QtSql [exe,mac]
 Contents/Frameworks/QtSql.framework/Versions/5/Resources/ [mac]
 Contents/Frameworks/QtSql.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtWebChannel.framework/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/QtWebChannel [exe,mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtWebSockets.framework/ [mac]
 Contents/Frameworks/QtWebSockets.framework/Versions/ [mac]

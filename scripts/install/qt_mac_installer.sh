@@ -37,7 +37,6 @@ declare -a qtFrameworks=( \
   "QtQuickWidgets" \
   "QtSensors" \
   "QtSql" \
-  "QtWebChannel" \
   "QtWebSockets" \
   "QtWidgets" \
   "QtXml" \
@@ -58,7 +57,6 @@ cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/webots/qt/plugins/imagef
 cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/webots/qt/plugins/platforms/
 cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/webots/qt/plugins/printsupport/
 cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/webots/qt/plugins/styles/
-cp ../../Examples/Qt-$QT_VERSION/webchannel/shared/qwebchannel.js $WEBOTS_HOME/resources/web/local/qwebchannel.js
 echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/webots/qt/libexec/qt.conf
 
 # remove the debug frameworks
@@ -110,6 +108,6 @@ cd $WEBOTS_HOME
 
 ARCHIVE=qt-$QT_VERSION-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
-tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
+tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc
 
 echo Done.

@@ -965,10 +965,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -fs Versions/5/QtSql QtSql\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebChannel.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebChannel QtWebChannel\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtWebSockets.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtWebSockets QtWebSockets\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
