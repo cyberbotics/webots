@@ -74,8 +74,9 @@ export default class Server {
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
       this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
     }
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
+    let progressMessage = document.getElementById('webotsProgressMessage'))
+    if (progressMessage)
+      progressMessage.innerHTML = 'Starting simulation...';
   }
 
   onMessage(event) {
