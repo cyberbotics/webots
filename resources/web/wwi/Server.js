@@ -23,7 +23,7 @@ export default class Server {
   connect() {
     const n = this._url.indexOf('/session?url=', 6);
     const url = 'http' + (n > 0 ? this._url.substring(2, n + 8) : this._url.substring(2, this._url.indexOf('/', 6)) + '/session');
-    let progressMessage = document.getElementById('webotsProgressMessage'))
+    let progressMessage = document.getElementById('webotsProgressMessage');
     if (progressMessage)
       progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
@@ -74,7 +74,7 @@ export default class Server {
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
       this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
     }
-    let progressMessage = document.getElementById('webotsProgressMessage'))
+    let progressMessage = document.getElementById('webotsProgressMessage');
     if (progressMessage)
       progressMessage.innerHTML = 'Starting simulation...';
   }
