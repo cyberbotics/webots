@@ -139,3 +139,15 @@ webots-view .exit-fullscreen-button:hover {
   right: 0px;
   background-color: #555;
 }
+
+.simulation-text {
+  margin-top: 5px;
+  overflow-y: auto;
+  height: 198px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.simulation-text a {
+  font-size: inherit;
+}

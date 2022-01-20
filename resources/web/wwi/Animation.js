@@ -429,7 +429,7 @@ export default class Animation {
     this.play_bar.id = 'play-bar';
     this._view3d.appendChild(this.play_bar);
     let div = document.createElement('div');
-    new InformationPanel(div);
+    let informationPanel = new InformationPanel(div);
     div.style.width = '100%';
     div.style.height = '100%';
     div.style.position = 'absolute';
@@ -439,6 +439,11 @@ export default class Animation {
     let webotsView = document.getElementsByTagName('webots-view')[0];
     if (webotsView)
       webotsView.appendChild(div);
+
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
+      informationPanel.setTitle(WbWorld.instance.title);
+      informationPanel.setDescription(WbWorld.instance.description);
+    }
 
     this.play_bar.addEventListener('mouseover', () => this._showPlayBar());
     this.play_bar.addEventListener('mouseleave', _ => this._onMouseLeave(_));

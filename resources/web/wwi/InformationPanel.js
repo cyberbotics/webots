@@ -36,7 +36,7 @@ export default class InformationPanel {
     this.simulationDescritption.appendChild(this.simulationTitle);
 
     this.simulationText = document.createElement('div');
-    this.simulationText.style.marginTop = '14px';
+    this.simulationText.className = 'simulation-text';
     this.simulationText.innerHTML = 'No description found';
     this.simulationDescritption.appendChild(this.simulationText);
 
@@ -62,6 +62,15 @@ export default class InformationPanel {
   }
 
   setDescription(description) {
-    this.simulationText.innerHTML = description;
+    let array = description.split('"').filter(String);
+    let arrayLength = array.length;
+    if (arrayLength > 0)
+      this.simulationText.innerHTML = '';
+
+    for (let i = 0; i < arrayLength; i++) {
+      let regExUrl = /(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]*(\/\S*)?/g;
+      array[i] = array[i].replaceAll(regExUrl, link => '<a href=' + link + ' target=_blank>' + link + '</a>');
+      this.simulationText.innerHTML += '<p>' + array[i] + '</p>';
+    }
   }
 }

@@ -350,11 +350,12 @@ webots-view input:checked + .slider:before {
   opacity: 0.95;
   font-family: Helvetica;
   display: none;
+  pointer-events: auto;
 }
 
 .information-panel a {
-  color: white;
   font-size: 12px;
+  color: white;
   font-style: italic;
   text-decoration: none;
 }
@@ -371,9 +372,10 @@ webots-view input:checked + .slider:before {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.cloud {
+.information-panel .cloud {
   font-size: 12px;
 }
 
@@ -382,7 +384,6 @@ webots-view input:checked + .slider:before {
   background-color: #555;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  pointer-events: auto;
 }
 
 .information-panel .info-tabs-bar .info-tab {
@@ -408,4 +409,16 @@ webots-view input:checked + .slider:before {
 .information-panel .info-tabs-bar .tab1 {
   right: 0px;
   background-color: #555;
+}
+
+.simulation-text {
+  margin-top: 5px;
+  overflow-y: auto;
+  height: 198px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.simulation-text a {
+  font-size: inherit;
 }
