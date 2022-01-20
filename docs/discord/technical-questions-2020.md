@@ -5530,7 +5530,7 @@ just sending to let you know `@David Mansolino`
 ##### David Mansolino [Cyberbotics] 03/03/2020 07:01:36
 Good to know, thank you for the feeback!
 
-##### Cohen 03/03/2020 14:41:28
+##### Deleted User 03/03/2020 14:41:28
 hi, i'm trying to create a new HTML window for a robot, but i only have generic or generic\_window
 
 
@@ -5543,17 +5543,17 @@ do someone have any hints
 thanks in advance
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:45:12
-Hi `@Cohen` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
+Hi `@Deleted User` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
 
 [https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window](https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window)
 
-##### Cohen 03/03/2020 14:46:02
+##### Deleted User 03/03/2020 14:46:02
 ok, no menu to add it, just prepare the file and it's up and running then ?
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:46:49
 Yes, once you have created and compiled the robot window, you should be able to select it from the `window` field o your robot.
 
-##### Cohen 03/03/2020 14:47:11
+##### Deleted User 03/03/2020 14:47:11
 ok let's try it thx
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:47:21
@@ -11415,7 +11415,7 @@ Can anyone say why because I am sure it's going inside if condition but the moto
 
 2. remove the set\_position call inside the if condition
 
-##### Rahul0496 04/26/2020 21:41:29
+##### Yuuki 04/26/2020 21:41:29
 hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
 
@@ -11478,7 +11478,7 @@ P.S: next time use  screen shot instead of camera.
 
 > hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
-`@Rahul0496` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+`@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 ##### pro2017001 04/27/2020 07:15:00
 Hello there
@@ -11494,8 +11494,8 @@ And hoap2 is not working in the simulated environment.
 
 Please guide me how can I use hoap2 robot for walking simulation.
 
-##### Rahul0496 04/27/2020 07:54:08
-> `@Rahul0496` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+##### Yuuki 04/27/2020 07:54:08
+> `@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
@@ -11526,7 +11526,7 @@ I checked and it works for example in `projects/samples/devices/worlds/battery.w
 ##### David Mansolino [Cyberbotics] 04/27/2020 09:00:38
 > `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
-`@Rahul0496` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
+`@Yuuki` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
 
 So that we can investigate and fix the issue. Thank you
 
@@ -24031,7 +24031,7 @@ Yes exactly
 
 `@David Mansolino`  thanks , will try it out 👍
 
-##### zeynepp 07/06/2020 11:18:18
+##### Zeynep Öktem 07/06/2020 11:18:18
 Hi. I want to run the example of the Irb robot but I get this error:
 
 
@@ -24043,7 +24043,7 @@ Hi. I want to run the example of the Irb robot but I get this error:
 ##### David Mansolino [Cyberbotics] 07/06/2020 11:19:16
 which version of ikpy and python are you using?
 
-##### zeynepp 07/06/2020 11:19:35
+##### Zeynep Öktem 07/06/2020 11:19:35
 pytho 3.7
 
 
@@ -24056,7 +24056,7 @@ Can you try applying this patch to your controler?
 
 [https://github.com/cyberbotics/webots/pull/1782/files](https://github.com/cyberbotics/webots/pull/1782/files)
 
-##### zeynepp 07/06/2020 11:24:33
+##### Zeynep Öktem 07/06/2020 11:24:33
 I will try, thank you
 
 
@@ -24067,7 +24067,7 @@ That's strange because another user reported the exact same issue and for him it
 
 Are you sure you changed the correct file and it is this one that is been used?
 
-##### zeynepp 07/06/2020 12:01:01
+##### Zeynep Öktem 07/06/2020 12:01:01
 Yes. I tried it on two different computers to make sure.
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:02:07
@@ -24075,13 +24075,13 @@ Ok, thank you for checking it. Can I ask you to test with a beta version of R202
 
 [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### zeynepp 07/06/2020 12:03:54
+##### Zeynep Öktem 07/06/2020 12:03:54
 Of course, I will try
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:04:05
 Perfect, let us know
 
-##### zeynepp 07/06/2020 12:53:05
+##### Zeynep Öktem 07/06/2020 12:53:05
 Thank you so much. It worked in this version.
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:53:20
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### ONI 07/07/2020 11:47:56
+##### YASU 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@ONI` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@YASU` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### ONI 07/07/2020 12:09:20
+##### YASU 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -27211,7 +27211,7 @@ Hi! I'm trying to get the bounding object to work for my PROTO, but can't get it
 ##### watchdogs132 07/27/2020 18:36:05
 Hello ,something weird is happening with my tracked robot when it climbs a staircase. In every iteration , my bot seems to stop climbing at the 14th step , before and after that particular step everything goes smoothly . This only happens during ascending .
 
-##### IamTheSpineOfMyBackBodyPain 07/27/2020 19:06:13
+##### yaDadsAsic 07/27/2020 19:06:13
 motinan
 
 ##### chenpixx 07/27/2020 21:25:36
@@ -42011,7 +42011,7 @@ Ah, I missed the second line. Thanks.
 ##### David Mansolino [Cyberbotics] 10/16/2020 13:55:23
 You're welcome 😉
 
-##### IamTheSpineOfMyBackBodyPain 10/16/2020 17:41:29
+##### yaDadsAsic 10/16/2020 17:41:29
 I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
 
 ##### Justin Fisher [Moderator] 10/17/2020 01:24:12
