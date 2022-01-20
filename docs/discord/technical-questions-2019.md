@@ -1965,7 +1965,7 @@ Thank you!
 ##### Olivier Michel [Cyberbotics] 05/01/2019 14:07:52
 You are welcome.
 
-##### sai 05/01/2019 19:11:58
+##### sbashett 05/01/2019 19:11:58
 Hello, is it possible to make webots vehicles start with some specific initial velocity instead of zero?
 
 ##### Fabien Rohrer [Moderator] 05/01/2019 19:13:31
@@ -1974,7 +1974,7 @@ I think this is possible thanks to the hidden fields.
 
 Just save a world while vehicles are running, and observe how « hiddenField » are stored in the .wbt file.
 
-##### sai 05/01/2019 19:15:19
+##### sbashett 05/01/2019 19:15:19
 Ohh thats's a good idea. I can try it out thanks!!
 
 ##### Fabien Rohrer [Moderator] 05/01/2019 19:15:42
@@ -1983,13 +1983,13 @@ Here is the doc: [https://cyberbotics.com/doc/reference/proto-hidden-fields](htt
 
 These parameters may be difficult to write manually.
 
-##### sai 05/01/2019 19:20:29
+##### sbashett 05/01/2019 19:20:29
 Yeah that looks like it... Is there any source where I can understand how these parameters encode some specific velocity? Without that I could only try to check a couple of webots saved worlds with different velocities...
 
 ##### Fabien Rohrer [Moderator] 05/01/2019 19:26:44
 Hidden fields are dealt in the WbSolid class: [https://github.com/omichel/webots/blob/931d04675d7dc69aa0599c4d525795bbbdd6193f/src/webots/nodes/WbSolid.cpp#L157](https://github.com/omichel/webots/blob/931d04675d7dc69aa0599c4d525795bbbdd6193f/src/webots/nodes/WbSolid.cpp#L157)
 
-##### sai 05/01/2019 19:27:25
+##### sbashett 05/01/2019 19:27:25
 Thanks that could be helpful
 
 
@@ -5194,7 +5194,7 @@ Hello! Can you give me an example of how to use  simulationQuit(variable)  in py
 ##### David Mansolino [Cyberbotics] 06/19/2019 13:30:44
 Hi `@DimitrisK`,  you can put any integer value, this is the exit code ([https://cyberbotics.com/doc/reference/supervisor?tab=python#wb\_supervisor\_simulation\_quit](https://cyberbotics.com/doc/reference/supervisor?tab=python#wb_supervisor_simulation_quit)), you probably want to exit with 0 in case of success and 1 in case of failure
 
-##### Heller Drake 06/19/2019 13:53:37
+##### gatto.tamugno 06/19/2019 13:53:37
 Good evening everyone! I'm looking for a way to launch Webots in batch mode BUT without GUI. Unfortunately I've been unable to find any clue throughout the online documentation. So I was wondering if there is any way to genuinely achieve it, even with a console trick.
 
 
@@ -5210,7 +5210,7 @@ Try "./webots --minimize --batch --stdout --stderr"
 
 You can have more information about these options here: [https://cyberbotics.com/doc/guide/starting-webots#command-line-arguments](https://cyberbotics.com/doc/guide/starting-webots#command-line-arguments)
 
-##### Heller Drake 06/19/2019 14:02:44
+##### gatto.tamugno 06/19/2019 14:02:44
 I already took a look into the cli options but none of them has the wanted effect (that is without having the Webots icon popping up on the application bar), sadly.
 
 
@@ -5305,7 +5305,7 @@ Is it possible to run Webots only in web browser? I don't wanna launch Webots, e
 Is there any example file available in webots where compass device is been used?
 
 ##### adhitthana 06/19/2019 21:30:50
-`@Heller Drake`  on linux it is possible to run a dummy x server and  launch webots on it: [https://techoverflow.net/2019/02/23/how-to-run-x-server-using-xserver-xorg-video-dummy-driver-on-ubuntu/](https://techoverflow.net/2019/02/23/how-to-run-x-server-using-xserver-xorg-video-dummy-driver-on-ubuntu/).
+`@gatto.tamugno`  on linux it is possible to run a dummy x server and  launch webots on it: [https://techoverflow.net/2019/02/23/how-to-run-x-server-using-xserver-xorg-video-dummy-driver-on-ubuntu/](https://techoverflow.net/2019/02/23/how-to-run-x-server-using-xserver-xorg-video-dummy-driver-on-ubuntu/).
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/20/2019 06:12:30
 `@Akash` for the Compass device example please look at the `samples/devices/compass.wbt` world . You can Open it from the `File > Open Sample Worlds` menu
@@ -11705,7 +11705,7 @@ Hi `@David Mansolino` , thanks for your reply!
 ##### Olivier Michel [Cyberbotics] 08/29/2019 05:49:14
 `@Frodo`: did you try print()? Note you need to call Robot.step() so that your print command is sent to Webots and displayed in the console.
 
-##### SasukeFan 08/29/2019 14:04:36
+##### Smruti 08/29/2019 14:04:36
 hello, how can i convert .txt to .motion that webots can understand?I have a .txt file that contains the angle of each joints.Now i want nao to be in that position specified in that .txt file. For that reason i have to convert it into .motion file. So how should i do that?Can anyone help
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:06:13
@@ -11723,19 +11723,19 @@ You should try to forge a similar file.
 
 Basically, the header list the motor names, and each line contain a pose (time,posName,motorPositions*)
 
-##### SasukeFan 08/29/2019 14:39:34
+##### Smruti 08/29/2019 14:39:34
 actually i m getting my data from kinect and using that data i m getting my joints angle (motor positions)using python . Now i have information of angles of left shoulder pitch and roll, left elbow pitch and roll.Now i want it to be in a file that webots can read.so how should i do that?Continuosly i will be getting data from kinect which will be given to webots .So how should i continuosly convert it to motion files?
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:42:26
 Using the motion mechanism is certainly overkilled. Why not simply and directly actuating the simulated robot motors? (cf. Motor.setPosition(double pos))
 
-##### SasukeFan 08/29/2019 14:43:18
+##### Smruti 08/29/2019 14:43:18
 sorry i can't get u
 
 ##### Fabien Rohrer [Moderator] 08/29/2019 14:45:51
 The Webots motion file mechanism aims to play back a stored motion in simulation. You would like to map the Kinect and the Webots simulated robot in real-time, right? In this case, it seems more appropriated to not use the Webots motion file mechanism, but rather to directly move the simulated robot actuators.
 
-##### SasukeFan 08/29/2019 14:48:48
+##### Smruti 08/29/2019 14:48:48
 okay thank you
 
 ##### ClLebi 08/29/2019 15:21:59
@@ -12154,7 +12154,7 @@ Here you are. Thanks for taking the time.
 Using the struct module, you can stringify any data and extract it
 
 
-<@103557508861263872> i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
+`@SamSmurfitt` i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
 
 ##### SamSmurfitt 09/03/2019 18:13:32
 thats comepletely fine!
@@ -12233,7 +12233,7 @@ I have a issue on floor arena, how do I add wall tile?
 `@aysegulucar` David answered you through support tickets.
 
 
-<@103557508861263872> Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
+`@SamSmurfitt` Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
 
 
 
@@ -12374,7 +12374,7 @@ so If I write a function in normal Matlab is it possible to have a robot's contr
 If you write your controller in matlab yes it should be possible as the controller will be interpreted by Matlab.
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 15:02:10
-<@103557508861263872> Did you noticed the world I sent you this morning?
+`@SamSmurfitt` Did you noticed the world I sent you this morning?
 
 ##### SamSmurfitt 09/04/2019 15:11:25
 So in this example, After 5 seconds the motor is set to a position (Joint\_Angle) but I would like that to be calculated using a function, 'ang\_cal' from a certain input
@@ -12883,7 +12883,7 @@ Nice, I'll try this. Thanks a lot for your answers !
 Hi, Are there any example worlds which use a joystick? Im trying to use a joystick but cant seem to get it to be detected by webots, and wondered if there is an example one I could test it on
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 11:41:57
-<@103557508861263872> Hi, there are examples, let me check..
+`@SamSmurfitt` Hi, there are examples, let me check..
 
 
 This one is certainly the reference:
@@ -13501,7 +13501,7 @@ thank you, i will look in to that.
 ##### Olivier Michel [Cyberbotics] 09/25/2019 09:27:30
 Please, let us know if you believe we should add a comment regarding the ERP value in this FAQ.
 
-##### Rahul0496 09/25/2019 09:35:53
+##### Yuuki 09/25/2019 09:35:53
 Hey,i have been trying to work on the kuka robot. But the bot only moves in the forward direction and it does not strafe, any idea why?
 
 ##### Fabien Rohrer [Moderator] 09/25/2019 09:36:11
@@ -13513,7 +13513,7 @@ yes, you have to copy the contact properties from the youBot examples in your wo
 
 These lines: [https://github.com/cyberbotics/webots/blob/revision/projects/robots/kuka/youbot/worlds/youbot.wbt#L10-L34](https://github.com/cyberbotics/webots/blob/revision/projects/robots/kuka/youbot/worlds/youbot.wbt#L10-L34)
 
-##### Rahul0496 09/25/2019 09:37:43
+##### Yuuki 09/25/2019 09:37:43
 thank you,i will try it out
 
 
@@ -13553,7 +13553,7 @@ You're welcome
 Hi, is there an example Virtual Reality world I can test out?
 
 ##### David Mansolino [Cyberbotics] 09/26/2019 12:03:00
-Hi  <@103557508861263872>, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
+Hi  `@SamSmurfitt`, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
 
 ##### SamSmurfitt 09/26/2019 12:46:41
 I've loaded up a sample world, (boomer) but whenever I enable the headset in webots I just get a fully light blue view
@@ -15996,7 +15996,7 @@ working fine now* !
 ##### David Mansolino [Cyberbotics] 10/28/2019 14:02:41
 Perfect, you're welcome
 
-##### Amr 10/28/2019 15:25:29
+##### amr 10/28/2019 15:25:29
 Is there is a world of a city with detailed sidewalks to simulate a wheeled robot performing last mile delivery?
 
 
@@ -16009,7 +16009,7 @@ check this link as an example for what I am looking for and thanks in advance
 `@David Mansolino` e-puck2
 
 ##### David Mansolino [Cyberbotics] 10/28/2019 15:37:53
-`@Amr`, you  might be interested by the 'village\_center' world.
+`@amr`, you  might be interested by the 'village\_center' world.
 %figure
 ![22.png](https://cdn.discordapp.com/attachments/565154703139405824/638401055226331146/22.png)
 %end

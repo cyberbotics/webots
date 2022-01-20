@@ -25,6 +25,7 @@ namespace webots {
     typedef enum { SIMULATION_MODE_PAUSE = 0, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST } SimulationMode;
 
     Supervisor() : Robot() {}
+    static Supervisor *getSupervisorInstance();
     virtual ~Supervisor();
     virtual void simulationQuit(int status);
     virtual void simulationReset();
