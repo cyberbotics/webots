@@ -1,5 +1,13 @@
 # Webots R2022 Change Log
 
+
+## Webots R2022a Revision 1
+Released on XX XX, 2022.
+  - Cleanup
+    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
+  - Bug fixes
+    - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
+
 ## Webots R2022a
 Released on December 21th, 2022.
 
@@ -7,6 +15,7 @@ Released on December 21th, 2022.
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
     - Added support for rolling friction in [ContactProperties](contactproperties.md) ([#3771](https://github.com/cyberbotics/webots/pull/3771)).
     - Added the [ColladaShapes](../guide/object-shapes.md#colladashapes) PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
+    - **The entire library of robots, objects and worlds has been converted to the FLU/ENU coordinate system, and might require manual changes of your local files. Additional details are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a).**
   - Enhancements
     - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).
     - Added speed vector output to GPS ([#3742](https://github.com/cyberbotics/webots/pull/3742)).
@@ -37,7 +46,7 @@ Released on December 21th, 2022.
     - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
     - Fixed propagation of rotation change from supervisor ([#3752](https://github.com/cyberbotics/webots/pull/3752)).
     - Fixed incorrect update of the differential slip ratio in 4x4 vehicles ([#3770](https://github.com/cyberbotics/webots/pull/3770)).
-    - Fixed wb_keyboard_get_key() to be MT-safe ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
+    - Fixed `wb_keyboard_get_key()` to be MT-safe ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
     - Display a warning in the console when the robot battery is empty ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
     - Fixed incorrect node enumeration in Matlab API and missing `WB_MF_ROTATION` constant ([#3808](https://github.com/cyberbotics/webots/pull/3808)).
     - Fixed incorrect boundingSphere computation for ElevationGrid ([#3828](https://github.com/cyberbotics/webots/pull/3828)).
