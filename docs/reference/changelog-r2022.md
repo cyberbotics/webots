@@ -8,7 +8,7 @@ Released on XX XX, 2022.
   - Bug fixes
     - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
     - Fixed insufficient value sanity check in Solid's `postPhysicsStep` resulting in exploding [Track](track.md) ([#4133](https://github.com/cyberbotics/webots/pull/4133)).
-
+    - Fixed `wb_supervisor_world_save` behavior when no argument is provided in non-C APIs ([#4140](https://github.com/cyberbotics/webots/pull/4140)).
 ## Webots R2022a
 Released on December 21th, 2022.
 

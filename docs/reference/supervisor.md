@@ -2747,7 +2747,7 @@ To stop the inertia of a single [Solid](solid.md) node please refer to [this sec
 ```c
 #include <webots/supervisor.h>
 
-void wb_supervisor_world_load(const char *file);
+void wb_supervisor_world_load(const char *filename);
 bool wb_supervisor_world_save(const char *file);
 void wb_supervisor_world_reload();
 ```
