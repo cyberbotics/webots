@@ -1,4 +1,4 @@
-import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
 window.onload = function() {
   window.robotWindow = new RobotWindow();
