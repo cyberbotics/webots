@@ -43,11 +43,12 @@ For that purpose, the name of the license should be specified in the `license:` 
 #### Tags
 
 If needed, the `tags:` comment should be properly specified.
-It currently supports three possible options: `deprecated`, `hidden` and `static` which may be used simultaneously separated with a coma:
+It currently supports three possible options: `deprecated`, `hidden` and `nonDeterministic` which may be used simultaneously separated with a coma:
 - `deprecated` means this PROTO should not be used any more in new simulations, but is kept for backwards compatibility. When using a deprecated PROTO, Webots will display a warning message about it.
 - `hidden` tells Webots not to display this PROTO in the Add Node dialog when the user wants to insert a new PROTO.
 Hidden PROTO nodes are typically used as sub-PROTO nodes, that is they are used from another PROTO file, but not directly from a world file.
-- `nonDeterministic` is described in the [Procedural PROTO nodes](procedural-proto-nodes.md) subsections.
+- `nonDeterministic` tells Webots that this PROTO may yield a different result with each execution.
+This is typically the case if randomness is involved in the execution of the PROTO, which most commonly occurs if a time-based seed is used in the random process. 
 
 #### Documentation
 
@@ -140,7 +141,6 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 #VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
 # A color pencil
 
 ColorPencil {
