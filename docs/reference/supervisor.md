@@ -2747,8 +2747,8 @@ To stop the inertia of a single [Solid](solid.md) node please refer to [this sec
 ```c
 #include <webots/supervisor.h>
 
-void wb_supervisor_world_load(const char *filename);
-bool wb_supervisor_world_save(const char *filename);
+void wb_supervisor_world_load(const char *file);
+bool wb_supervisor_world_save(const char *file);
 void wb_supervisor_world_reload();
 ```
 
@@ -2807,7 +2807,7 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_world_load('filename')
 success = wb_supervisor_world_save()
-success = wb_supervisor_world_save('filename')
+success = wb_supervisor_world_save('file')
 wb_supervisor_world_reload()
 ```
 
@@ -2834,15 +2834,15 @@ As a result of changing the current world, all the supervisor and robot controll
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it from the new world.
 
 The `wb_supervisor_world_save` function saves the current world.
-The `filename` parameter defines the path to the target world file.
+The `file` parameter defines the path to the target world file.
 It should end with the `.wbt` extension.
 It can be defined either as an absolute path, or as a path relative to the current supervisor controller.
 If NULL, the current world path is used instead (e.g., a simple save operation).
 The boolean return value indicates the success of the save operation.
 Be aware that this function can overwrite silently existing files, so that the corresponding data may be lost.
 
-> **Note** [C++, Java, Python, MATLAB]: In the other APIs, the `Robot.worldSave` function can be called without argument.
-In this case, a simple save operation is performed.
+> **Note** [C++, Java, Python, MATLAB]: Only for the C API it is required to pass NULL in order to perform a simple save operation.
+For all others the `Robot.worldSave` function can be called without argument.
 
 The `wb_supervisor_world_reload` function sends a request to the simulator process, asking it to reload the current world immediately.
 As a result of reloading the current world, all the supervisor and robot controller processes are terminated and restarted.
