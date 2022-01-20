@@ -157,7 +157,7 @@ private:
   void closeClientRobotWindow(WbRobot *robot);
   void onSocketOpened();
   QList<WbRobotWindow *> mRobotWindows;
-  QList<WbRobot *> mPendingRobots;
+  QList<WbRobot *> mRobotsWaitingForWindowToOpen;
   bool mOnSocketOpen;
 
   int mExitStatus;

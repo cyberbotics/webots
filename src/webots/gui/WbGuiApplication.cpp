@@ -130,7 +130,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   bool disableTextStreams = false;
   bool ssl = false;
   bool controllerEdit = false;
-  int port = 1234;
+  int port = WbPreferences::instance()->value("Streaming/port", 1234).toInt();
   QString mode = "x3d";
 
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
@@ -383,13 +383,8 @@ bool WbGuiApplication::setup() {
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
 
   if (!mStream) {  // create streaming server for robot window if not in stream mode.
-    bool monitorActivity = false;
-    bool disableTextStreams = false;
-    bool ssl = false;
-    bool controllerEdit = false;
-    int port = 1234;
-    mStreamingServer = new WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit, mStream);
-    mStreamingServer->start(port);
+    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
+    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port", 1234).toInt());
   }
 
 #ifndef _WIN32

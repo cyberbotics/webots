@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbRobotWindow.hpp"
+#include "WbPreferences.hpp"
 
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
@@ -22,12 +23,13 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(
 
 void WbRobotWindow::setupPage() {
   QString windowFileName = mRobot->windowFile("html");
+  const QString port = WbPreferences::instance()->value("Streaming/port", 1234).toString();
   if (windowFileName.isEmpty()) {
     mRobot->parsingWarn(QString("No HTML robot window is set in the 'window' field."));
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
-  QDesktopServices::openUrl(QUrl("http://localhost:1234" + windowFileName + "?name=" + mRobot->name()));
+  QDesktopServices::openUrl(QUrl("http://localhost:" + port + windowFileName + "?name=" + mRobot->name()));
 }
 
 void WbRobotWindow::setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus) {

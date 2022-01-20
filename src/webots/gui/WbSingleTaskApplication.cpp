@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
+#include "WbPreferences.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
@@ -184,7 +185,11 @@ void WbSingleTaskApplication::showHelp() const {
   cout << "  --stream[=\"key[=value];...\"]" << endl;
   cout << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
   cout << tr("    given as an option:").toUtf8().constData() << endl;
-  cout << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
+  cout << tr("      port=%1          - Start the streaming server on port %1.")
+            .arg(WbPreferences::instance()->value("Streaming/port", 1234).toInt())
+            .toUtf8()
+            .constData()
+       << endl;
   cout << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
   cout << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
   cout << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;

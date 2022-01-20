@@ -2145,8 +2145,8 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
       currentRobotWindow->setupPage();
   } else {
     const int maxPendingRobotWindows = 5;
-    if (mPendingRobots.size() < maxPendingRobotWindows)
-      mPendingRobots << robot;
+    if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
+      mRobotsWaitingForWindowToOpen << robot;
     else
       WbLog::warning(tr("Maximum number of pending robot windows reached."));
   }
@@ -2154,8 +2154,8 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
 
 void WbMainWindow::onSocketOpened() {
   mOnSocketOpen = true;
-  if (!mPendingRobots.isEmpty())
-    showHtmlRobotWindow(mPendingRobots.takeFirst());
+  if (!mRobotsWaitingForWindowToOpen.isEmpty())
+    showHtmlRobotWindow(mRobotsWaitingForWindowToOpen.takeFirst());
 }
 
 void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
