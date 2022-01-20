@@ -63,16 +63,16 @@ There is no `WbDeviceTag` in C++/Java/Python.
 
 using namespace webots;
 
-int main(int argc, char **argv) {
-  Robot *robot = new Robot();
+int main() {
+  Robot robot;
 
-  int timeStep = (int) robot->getBasicTimeStep();
-  LED *led = robot->getLED("ledName");
-  DistanceSensor *distanceSensor = robot->getDistanceSensor("distanceSensorName");
+  int timeStep = (int) robot.getBasicTimeStep();
+  LED *led = robot.getLED("ledName");
+  DistanceSensor *distanceSensor = robot.getDistanceSensor("distanceSensorName");
   distanceSensor->enable(timeStep);
 
   // Main control loop
-  while (robot->step(timeStep) != -1) {
+  while (robot.step(timeStep) != -1) {
     // Read the sensors
     double val = distanceSensor->getValue();
 
@@ -82,7 +82,6 @@ int main(int argc, char **argv) {
     led->set(1);
   }
 
-  delete robot;
   return 0;
 }
 ```
