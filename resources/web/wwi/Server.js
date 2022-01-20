@@ -23,7 +23,9 @@ export default class Server {
   connect() {
     const n = this._url.indexOf('/session?url=', 6);
     const url = 'http' + (n > 0 ? this._url.substring(2, n + 8) : this._url.substring(2, this._url.indexOf('/', 6)) + '/session');
-    document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to session server...';
+    let progressMessage = document.getElementById('webotsProgressMessage');
+    if (progressMessage)
+      progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
     fetch(url)
       .then(response => response.text())
@@ -72,7 +74,9 @@ export default class Server {
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
       this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
     }
-    document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
+    let progressMessage = document.getElementById('webotsProgressMessage');
+    if (progressMessage)
+      progressMessage.innerHTML = 'Starting simulation...';
   }
 
   onMessage(event) {
@@ -81,7 +85,8 @@ export default class Server {
       console.log('received ' + message);
       const url = message.substring(7);
       this._httpServerUrl = url.replace(/ws/, 'http');
-      this._view.x3dScene.prefix = this._httpServerUrl + '/';
+      if (typeof this._view.x3dScene !== 'undefined')
+        this._view.x3dScene.prefix = this._httpServerUrl + '/';
       this._view.stream = new Stream(url, this._view, this._onready);
       this._view.stream.connect();
     } else if (message.indexOf('controller:') === 0 || message.indexOf('reset controller:') === 0) {
