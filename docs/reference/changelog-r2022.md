@@ -43,5 +43,6 @@ Released on December 21th, 2022.
     - Fixed incorrect boundingSphere computation for ElevationGrid ([#3828](https://github.com/cyberbotics/webots/pull/3828)).
     - Fixed bug where deleting a node from [Supervisor](supervisor.md) did not refresh the scene tree ([#3867](https://github.com/cyberbotics/webots/pull/3867)).
     - Display a warning in case a file cannot be saved or a build process would fail because of insufficient write permissions ([#4046](https://github.com/cyberbotics/webots/pull/4046)).
+    - Fixed the ROS `camera/recognition_objects` topic that was always returning an empty list of objects ([#4139](https://github.com/cyberbotics/webots/pull/4139)).
   - Dependency Updates
     - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
