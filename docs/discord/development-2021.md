@@ -343,7 +343,7 @@ Do you know why I am getting this error?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/802613647226044436/unknown.png)
 %end
 
-##### Bitbots\_Jasper [Moderator] 01/23/2021 19:02:50
+##### jasper [Moderator] 01/23/2021 19:02:50
 you seem to be missiong ros-<version>-console-bridge
 
 ##### Aditya Agrawal 01/24/2021 18:32:16
@@ -468,13 +468,13 @@ Yes, there not such a limit in GitHub.
 ##### Darko Lukić [Cyberbotics] 01/29/2021 10:08:53
 I think it is possible, but I am concern about the quality of the translations.
 
-##### Bitbots\_Jasper [Moderator] 01/29/2021 10:10:29
+##### jasper [Moderator] 01/29/2021 10:10:29
 I think the quality would be rather poor since there is often only a small snippet of text and translation algorithms usually work much better with context, it might be worth a shot but a native or very fluent speaker would need to rework it
 
 ##### Ginzo1 01/29/2021 12:47:01
 Hello, everyone! I've just recently pick up WeBots as I have an university project that requires to be simulated. It is a robot design project for which I will need a hydraulic scissors lift. Since I have a relatively basic knowledge on mechanics and kinematics but I am still really inexperienced with WeBots. Since the scissors lift is a quite common system, I was wondering if there is some information somewhere on how to create one on my own or see how it is supposed to be done from scratch? Thanks in advance!
 
-##### Bitbots\_Jasper [Moderator] 01/29/2021 12:49:47
+##### jasper [Moderator] 01/29/2021 12:49:47
 `@Ginzo1` this question has been asked a while back, maybe there is something useful for you there [https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16](https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16)
 
 ##### Azer Babaev [Starkit, TC] 01/30/2021 10:34:05
@@ -503,7 +503,7 @@ For translating the manuals, I believe the option 2 is the best for us: we will 
 ##### Lumii 02/09/2021 10:36:01
 is there any tutorial how i can start writing a program to actually move (UR) my robot in the simulation?
 
-##### Bitbots\_Jasper [Moderator] 02/09/2021 10:37:40
+##### jasper [Moderator] 02/09/2021 10:37:40
 [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
 
@@ -1277,7 +1277,7 @@ As you already read, the simplest and best way to get the coordinates of an obje
 ##### h.sciascia 03/01/2021 09:06:20
 Hello ! How to set min and max motor limits to a negative value ?
 
-##### Bitbots\_Jasper [Moderator] 03/01/2021 09:08:45
+##### jasper [Moderator] 03/01/2021 09:08:45
 normally you should be able to just set the values in the Motor node in the PROTO file of your robot. The fields are described in more detail here: [https://cyberbotics.com/doc/reference/motor#motor-limits](https://cyberbotics.com/doc/reference/motor#motor-limits)
 
 
@@ -1292,13 +1292,13 @@ But I have the error : WARNING: DEF Robot3DOF Robot > HingeJoint > DEF axe0Solid
 
 Oh sorry i'm in the wrong channel
 
-##### Bitbots\_Jasper [Moderator] 03/01/2021 09:30:42
+##### jasper [Moderator] 03/01/2021 09:30:42
 this is not really expected behavior but you can rotate your motor by 45° before to work around this. If you give me your proto I can quickly calculate the correct rotation
 
 ##### Stefania Pedrazzi [Cyberbotics] 03/01/2021 09:30:49
 You should first modify the `minPosition` field, then modify the current joint position (probably set to 0) so that it will be in the new position range [-180°, -45°], and then modify the `maxPosition`. Otherwise if you don't modify the joint position, Webots won't let you set a range that doesn't contain the current joint position.
 
-##### Bitbots\_Jasper [Moderator] 03/01/2021 09:31:38
+##### jasper [Moderator] 03/01/2021 09:31:38
 I think this is a better solution 😆
 
 ##### h.sciascia 03/01/2021 09:33:14
@@ -1307,7 +1307,7 @@ Ok I will try to make some conversion, thank you 👍 and sorry for the wrong ch
 ##### Olivier Michel [Cyberbotics] 03/01/2021 09:36:32
 Can you post a message to [https://github.com/cyberbotics/webots/discussions/2574](https://github.com/cyberbotics/webots/discussions/2574) mentioning that you have a M1 machine and are ready to make some tests? We will contact you be replying there (and you will be notified) when we have a beta version to test. Thank you!
 
-##### Bitbots\_Jasper [Moderator] 03/01/2021 09:39:19
+##### jasper [Moderator] 03/01/2021 09:39:19
 but only changing the position in the HingeJoint does not change the rotation of the end point. I just says what is the position of the joint at the pose you define in your proto. For that you need to change the roation field in the Node defined as the endPoint of your HingeJoint
 
 ##### h.sciascia 03/01/2021 09:42:25
@@ -1589,7 +1589,7 @@ No wait, I think I figured this out. I'm trying to present the data in PCL which
 
 As always, you bang your head on the problem for an hour and realise the issue as soon as you start explaining it.
 
-##### Bitbots\_Jasper [Moderator] 04/08/2021 16:45:20
+##### jasper [Moderator] 04/08/2021 16:45:20
 have you tried the rubber ducky method ([https://en.wikipedia.org/wiki/Rubber\_duck\_debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)) ? 😋
 
 ##### Spur 04/09/2021 00:12:04
@@ -1601,13 +1601,13 @@ axis angles usually
 ##### Spur 04/09/2021 06:26:06
 wont there only be 3 though? xy xz yz ?
 
-##### Bitbots\_Jasper [Moderator] 04/09/2021 06:29:30
+##### jasper [Moderator] 04/09/2021 06:29:30
 In the axis angle notation used in webots  the first three values specify the rotation axis and the fourth specifies the rotation in radians
 
 ##### Spur 04/09/2021 06:32:35
 sorry i'm a bit confused, how do the three values describe the axis, isnt an axis by definition only 1 value, ie x axis y axis or z axis
 
-##### Bitbots\_Jasper [Moderator] 04/09/2021 06:36:12
+##### jasper [Moderator] 04/09/2021 06:36:12
 It is not necessarily the x y or z axis. You can think of the axis being specified as a line though the origin of the coordinate system and a point on the unit sphere specified by the three coordinates. If the point is (1,0,0) it is simply a rotation around the x axis but any axis is possible
 
 ##### Spur 04/09/2021 06:38:19
@@ -1619,7 +1619,7 @@ The 4th value is the roll around the specified axis to my understanding
 ##### Spur 04/09/2021 06:54:21
 oh gotcha thanks
 
-##### Bitbots\_Jasper [Moderator] 04/09/2021 07:16:05
+##### jasper [Moderator] 04/09/2021 07:16:05
 Yes, thanks `@Drake P.` for explaining
 
 ##### Gotcha97 04/09/2021 19:29:53
@@ -1673,7 +1673,7 @@ does anyone here have experience compiling webots for profiling? make has the `p
 ##### Olivier Michel [Cyberbotics] 04/23/2021 06:23:58
 Simply type "make profile" in the `WEBOTS_HOME/src/webots` folder. Then, you should be able to use gprof to analyse the result of a run. See [https://sourceware.org/binutils/docs/gprof/](https://sourceware.org/binutils/docs/gprof/)
 
-##### Bitbots\_Jasper [Moderator] 04/23/2021 13:56:53
+##### jasper [Moderator] 04/23/2021 13:56:53
 The current way of modeling noise for gyros and accelerometers using a lookup table. The noise is given as a percentage of the response value (see [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)). In my opinion this does not make much sense as a model of noise for these sensors (opposed to distance sensors for which it does) since it causes that there is very little noise around zero. 
 
 In gazebo using a gaussian around the signal with a fixed standard deviation and an optional bias. 
@@ -2127,7 +2127,7 @@ I am setting up a CI/CD pipeline for our controller for robocup, which requires 
 ##### Robot 05/28/2021 21:39:12
 Yeah totally agree.
 
-##### Bitbots\_Jasper [Moderator] 05/29/2021 08:51:23
+##### jasper [Moderator] 05/29/2021 08:51:23
 I think it's a good idea as well.
 
 ##### Olivier Michel [Cyberbotics] 05/29/2021 11:19:56
