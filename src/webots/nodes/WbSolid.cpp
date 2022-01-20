@@ -1958,13 +1958,12 @@ void WbSolid::applyPhysicsTransform() {
     dQMultiply1(qr, q.ptr(), dBodyGetQuaternion(b));
   }
 
-  if (std::isnan(qr[0]) || std::isnan(qr[1]) || std::isnan(qr[2]) || std::isnan(qr[3]) ||
-      (qr[1] == 0.0 && qr[2] == 0.0 && qr[3] == 0.0)) {
-    setTransformFromOde(result[0], result[1], result[2], 0.0, 1.0, 0.0, 0.0);
+  const double norm = sqrt(qr[1] * qr[1] + qr[2] * qr[2] + qr[3] * qr[3]);
+  if (std::isnan(qr[0]) || std::isnan(norm) || norm == 0.0) {
+    setTransformFromOde(result[0], result[1], result[2], 0.0, 0.0, 1.0, 0.0);
     return;
   }
 
-  const double norm = sqrt(qr[1] * qr[1] + qr[2] * qr[2] + qr[3] * qr[3]);
   double angle = 2.0 * atan2(norm, qr[0]);  // in the range [-2 * M_PI, 2 * M_PI]
   if (angle < -M_PI)
     angle += 2.0 * M_PI;
