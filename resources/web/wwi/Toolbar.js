@@ -1,4 +1,4 @@
-import DefaultUrl from './DefaultUrl.js';
+import InformationPanel from './InformationPanel.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import {webots} from './webots.js';
 
@@ -17,31 +17,9 @@ export default class Toolbar {
       this.quitButton.onclick = () => { this._view.quitSimulation(); };
     }
 
-    this._worldSelectionDiv = document.createElement('div');
-    this._worldSelectionDiv.id = 'worldSelectionDiv';
-    this.domElement.left.appendChild(this._worldSelectionDiv);
-
-    if (webots.showRevert) { // disabled by default
-      this.domElement.left.appendChild(this._createToolBarButton('revert', 'Revert the simulation'));
-      this.revertButton.addEventListener('click', () => { this.reset(true); });
-    }
-
-    this.domElement.left.appendChild(this._createToolBarButton('reset', 'Reset the simulation'));
-    this.resetButton.addEventListener('click', () => { this.reset(false); });
-
-    this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
-    this.stepButton.onclick = () => { this.step(); };
-
-    this.domElement.left.appendChild(this._createToolBarButton('real_time', 'Run the simulation in real time'));
-    this.real_timeButton.onclick = () => { this.realTime(); };
-
-    this.domElement.left.appendChild(this._createToolBarButton('pause', 'Pause the simulation'));
-    this.pauseButton.onclick = () => { this.pause(); };
-    this.pauseButton.style.display = 'none';
-
-    if (webots.showRun) { // disabled by default
-      this.domElement.left.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible'));
-      this.runButton.onclick = () => { this.run(); };
+    if (!webots.showReload) { // disabled by default
+      this.domElement.left.appendChild(this._createToolBarButton('reload', 'Reload the simulation'));
+      this.reloadButton.addEventListener('click', () => { this.reset(true); });
     }
 
     const div = document.createElement('div');
@@ -59,8 +37,55 @@ export default class Toolbar {
     div.appendChild(timeout);
     this.domElement.left.appendChild(div);
 
+    this.domElement.left.appendChild(this._createToolBarButton('reset', 'Reset the simulation'));
+    this.resetButton.addEventListener('click', () => { this.reset(false); });
+
+    this.domElement.left.appendChild(this._createToolBarButton('real_time', 'Run the simulation in real time'));
+    this.real_timeButton.onclick = () => { this.realTime(); };
+
+    this.domElement.left.appendChild(this._createToolBarButton('pause', 'Pause the simulation'));
+    this.pauseButton.onclick = () => { this.pause(); };
+    this.pauseButton.style.display = 'none';
+
+    this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
+    this.stepButton.onclick = () => { this.step(); };
+
+    if (!webots.showRun) { // disabled by default
+      this.domElement.left.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible'));
+      this.runButton.onclick = () => { this.run(); };
+    }
+
+    this._worldSelectionDiv = document.createElement('div');
+    this._worldSelectionDiv.id = 'worldSelectionDiv';
+    this.domElement.left.appendChild(this._worldSelectionDiv);
+
     this.domElement.right = document.createElement('div');
     this.domElement.right.className = 'toolBarRight';
+
+    if (typeof webots.infoButton === 'undefined' || webots.infoButton) {
+      let webotsView = document.getElementsByTagName('webots-view')[0];
+      if (webotsView) {
+        let infoButton = this._createToolBarButton('information', 'Information');
+        this.domElement.right.appendChild(infoButton);
+        this.informationPlaceHolder = document.createElement('div');
+        this.informationPlaceHolder.id = 'informationPlaceHolder';
+        this.informationPanel = new InformationPanel(this.informationPlaceHolder);
+        this.informationPlaceHolder.style.width = '100%';
+        this.informationPlaceHolder.style.height = '100%';
+        this.informationPlaceHolder.style.position = 'absolute';
+        this.informationPlaceHolder.style.top = '0px';
+        this.informationPlaceHolder.style.left = '0px';
+        this.informationPlaceHolder.style.pointerEvents = 'none';
+        this.informationPlaceHolder.style.zIndex = 1;
+        webotsView.appendChild(this.informationPlaceHolder);
+        infoButton.onclick = () => this._displayInformationWindow();
+        window.addEventListener('click', this._closeInfoOnClick);
+      }
+    }
+
+    if (typeof webots.settingsButton === 'undefined' || webots.settingsButton) {
+      this.domElement.right.appendChild(this._createToolBarButton('settings', 'Settings'));
+    }
 
     if (this._view.fullscreenEnabled) {
       this.domElement.right.appendChild(this._createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
@@ -83,13 +108,29 @@ export default class Toolbar {
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
   }
 
-  reset(revert = false) {
+  _displayInformationWindow() {
+    let infoPanel = document.getElementsByClassName('information-panel')[0];
+    if (infoPanel) {
+      if (infoPanel.style.display === 'block')
+        infoPanel.style.display = 'none';
+      else
+        infoPanel.style.display = 'block';
+    }
+  }
+
+  _closeInfoOnClick(event) {
+    let infoPanel = document.getElementsByClassName('information-panel')[0];
+    if (infoPanel && !infoPanel.contains(event.target) && !document.getElementsByClassName('toolbar-information')[0].contains(event.target))
+      infoPanel.style.display = 'none';
+  }
+
+  reset(reload = false) {
     if (this._view.broadcast)
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
     if (document.getElementById('webotsProgressMessage')) {
-      if (revert)
-        document.getElementById('webotsProgressMessage').innerHTML = 'Reverting simulation...';
+      if (reload)
+        document.getElementById('webotsProgressMessage').innerHTML = 'Reloading simulation...';
       else
         document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
     }
@@ -104,8 +145,8 @@ export default class Toolbar {
     } else
       document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.enableToolBarButtons(false);
-    if (revert)
-      this._view.stream.socket.send('revert');
+    if (reload)
+      this._view.stream.socket.send('reload');
     else
       this._view.stream.socket.send('reset');
   }
@@ -135,9 +176,9 @@ export default class Toolbar {
       return;
     this._view.stream.socket.send('fast:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
-    this.real_timeButton.style.display = 'inline';
-    if (typeof this.runButton !== 'undefined')
-      this.runButton.style.display = 'none';
+    this.runButton.style.display = 'inline';
+    if (typeof this.real_timeButton !== 'undefined')
+      this.real_timeButton.style.display = 'none';
   }
 
   step() {
@@ -151,7 +192,7 @@ export default class Toolbar {
   }
 
   enableToolBarButtons(enabled) {
-    const buttons = [this.quitButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
+    const buttons = [this.quitButton, this.reloadButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this._view.broadcast)) {

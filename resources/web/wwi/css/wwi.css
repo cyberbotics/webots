@@ -11,38 +11,25 @@ iframe {
   height: 100%;
 }
 
-#toolBar {
+webots-view #toolBar {
   clear: both;
   z-index: 1;
   width: 100%;
   height: 48px;
   position: absolute;
+  bottom: 0;
+  border-top: 1px solid red;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.toolBarRight {
+webots-view .toolBarRight {
   display: flex;
   float: right;
 }
 
-.toolBarLeft {
+webots-view .toolBarLeft {
   display: flex;
   float: left;
-}
-
-.toolBarButtonActive {
-  background-color: #111;
-}
-
-.toolBarButtonActive:hover {
-  background-color: #444;
-}
-
- .toolBarButtonDisabled {
-   background-color: #444;
- }
-
-.toolBarButtonDisabled:hover {
-  background-color: #444;
 }
 
 #worldSelectionDiv {
@@ -121,31 +108,51 @@ webots-view .toolBarButton {
   background-image: url(../images/icons.svg);
   width: 34px;
   height: 34px;
+  background-color: transparent;
+  border: 0;
+  opacity: 1;
 }
 
-webots-view .info-button {
+webots-view .toolbar-reload {
+  transform: scaleX(-1);
+  background-position: -496px -2px;
+}
+webots-view .toolbar-information {
+  background-position: -306px -2px;
   width: 28px;
 }
+
 webots-view .toolbar-real_time       { background-position:   -2px -2px }
 webots-view .toolbar-pause           { background-position:  -40px -2px }
 webots-view .toolbar-step            { background-position:  -78px -2px }
+webots-view .toolbar-run             { background-position: -154px -2px }
 webots-view .toolbar-reset           { background-position: -192px -2px }
-webots-view .info-button             { background-position: -306px -2px }
-webots-view .icon-settings           { background-position: -382px -2px }
+webots-view .toolbar-settings           { background-position: -382px -2px }
 webots-view .toolbar-fullscreen      { background-position: -420px -2px }
 webots-view .toolbar-exit_fullscreen { background-position: -458px -2px }
 
-webots-view .icon-settings,
+webots-view .toolbar-information:hover,
+webots-view .toolbar-reload:hover,
+webots-view .toolbar-button:hover,
 webots-view .toolbar-real_time:hover,
-webots-view .icon-pause:hover,
-webots-view .info-button:hover,
-webots-view .reset-button:hover,
-webots-view .fullscreen-button:hover,
-webots-view .exit-fullscreen-button:hover {
+webots-view .toolbar-pause:hover,
+webots-view .toolbar-step:hover,
+webots-view .toolbar-run:hover,
+webots-view .toolbar-reset:hover,
+webots-view .toolbar-settings:hover,
+webots-view .toolbar-fullscreen:hover,
+webots-view .toolbar-exit_fullscreen:hover {
   background-position-y: -40px;
 }
 
-webots-view .toolbar-quit     { background-image: url(../images/quit.png) }
+webots-view .toolbar-quit {
+  background-size: 28px;
+  background-image: url(../images/quit.png)
+}
+
+webots-view .toolbar-quit:hover {
+  background-image: url(../images/quit_hover.png)
+}
 
 
 #playPauseButton {
@@ -192,8 +199,7 @@ webots-view .toolbar-quit     { background-image: url(../images/quit.png) }
 }
 
 .webotsTime {
-  padding-top: 8px;
-  color: #ccc;
+  color: white;
   font-size: 14px;
   font-family: monospace;
   line-height: normal;
@@ -216,4 +222,90 @@ webots-view .toolbar-quit     { background-image: url(../images/quit.png) }
   /* get rid of whitespace after #remoteScene image */
   display: block;
   float: left;
+}
+
+.information-panel {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 220px);
+  background-color: #333;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 300px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Helvetica;
+  display: none;
+  pointer-events: auto;
+}
+
+.information-panel a {
+  font-size: 12px;
+  color: white;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.information-panel a:hover {
+  text-decoration: underline;
+}
+
+.information-panel h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.information-panel .cloud {
+  font-size: 12px;
+}
+
+.information-panel .info-tabs-bar {
+  height: 28px;
+  background-color: #555;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+  height: 28px;
+  position: absolute;
+  color: white;
+  background-color: #333;
+  border-width: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px #333 solid;
+}
+
+.information-panel .info-tabs-bar .info-tab:hover {
+  border-bottom: 1px solid red;
+}
+
+.information-panel .info-tabs-bar .tab0 {
+  left: 0px;
+}
+
+.information-panel .info-tabs-bar .tab1 {
+  right: 0px;
+  background-color: #555;
+}
+
+.simulation-text {
+  margin-top: 5px;
+  overflow-y: auto;
+  height: 198px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.simulation-text a {
+  font-size: inherit;
 }

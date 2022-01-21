@@ -34,7 +34,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
 
-webots.showRevert          // defines whether the revert button should be displayed
+webots.showReload          // defines whether the reload button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
 webots.showRun             // defines whether the run button should be displayed
 */

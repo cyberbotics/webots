@@ -268,8 +268,8 @@ export default class WebotsView extends HTMLElement {
     webots.showQuit = enable;
   }
 
-  displayRevert(enable) {
-    webots.showRevert = enable;
+  displayReload(enable) {
+    webots.showReload = enable;
   }
 
   displayRun(enable) {
