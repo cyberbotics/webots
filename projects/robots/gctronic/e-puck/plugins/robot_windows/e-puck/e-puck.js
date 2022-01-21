@@ -100,7 +100,7 @@ window.onload = function() {
 };
 
 function update_image(data) {
-  if (data.devices != null) {
+  if (data.devices.camera != null) {
     document.getElementById('camera').src = data.devices['camera']['image'] + '#' + new Date().getTime();;
   }
 }
