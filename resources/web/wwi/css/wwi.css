@@ -15,11 +15,10 @@ webots-view #toolBar {
   clear: both;
   z-index: 1;
   width: 100%;
-  height: 48px;
+  height: 40px;
   position: absolute;
   bottom: 0;
-  border-top: 1px solid red;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 webots-view .toolBarRight {
@@ -67,37 +66,6 @@ webots-view .toolBarLeft {
   font-weight:normal;
 }
 
-#playBar {
-  display: flex;
-  float: left;
-  z-index: 1;
-  width: 100%;
-  height: 20px;
-  background-color: #666;
-}
-
-#playSlider {
-  display: block;
-  width: 100%;
-  height: 5px;
-  margin: 7px 15px;
-  background: #888;
-}
-
-.ui-slider {
-  height: 5px;
-}
-
-.ui-slider-handle {
-  height: 13px !important;
-  outline: 0;
-}
-
-/* fix conflict wit bulma.min.css */
-.ui-dialog {
-  box-sizing: content-box;
-}
-
 webots-view button::-moz-focus-inner {
   border: 0;
 }
@@ -111,6 +79,7 @@ webots-view .toolBarButton {
   background-color: transparent;
   border: 0;
   opacity: 1;
+  margin-top: 3px;
 }
 
 webots-view .toolbar-reload {
@@ -147,7 +116,9 @@ webots-view .toolbar-exit_fullscreen:hover {
 
 webots-view .toolbar-quit {
   background-size: 28px;
-  background-image: url(../images/quit.png)
+  background-image: url(../images/quit.png);
+  margin-top:5px;
+  margin-left: 5px;
 }
 
 webots-view .toolbar-quit:hover {
@@ -203,6 +174,8 @@ webots-view .toolbar-quit:hover {
   font-size: 14px;
   font-family: monospace;
   line-height: normal;
+  margin-top: 12px;
+  margin-left: 3px;
 }
 
 .webots-label {
@@ -308,4 +281,170 @@ webots-view .toolbar-quit:hover {
 
 .simulation-text a {
   font-size: inherit;
+}
+
+/* Settings */
+
+/* Settings */
+
+.settings-pane {
+  position: absolute;
+  bottom: 55px;
+  right: 1%;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  background: rgba(0,0,0, 0.7);
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
+}
+
+webots-view ul {
+  padding-left: 0px;
+}
+
+webots-view li {
+  display: block;
+  clear: both;
+  padding: 1px 8px 1px 8px;
+  position: relative;
+}
+webots-view li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+.spacer {
+  display: inline-block;
+  min-width: 30px;
+}
+
+.setting-text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 30px;
+  font-weight: 450;
+  font-size: 14px;
+  float: right;
+  pointer-events: none;
+  color: white;
+}
+
+.arrow-right{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  top: 11px;
+  right: 17px;
+  pointer-events: none;
+}
+
+/* Speed and gtao pane */
+.first-li {
+  border-bottom: 1px solid grey;
+  padding-left: 19px;
+}
+
+.check-speed, .check-gtao{
+  display: inline-block;
+  min-width: 12px;
+  pointer-events: none;
+}
+
+.setting-span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 5px;
+  pointer-events: none;
+  color: white;
+}
+
+.arrow-left{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 11px;
+  left: 11px;
+}
+
+/* Shadow switch */
+
+.switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 17px;
+  top: 10px;
+  right: 11px;
+  pointer-events: none;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  pointer-events: none;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 21px;
+  width: 21px;
+  left: -3px;
+  top: -2px;
+  background-color: #ccc;
+  pointer-events: none;
+}
+
+webots-view input:checked + .slider {
+  background-color: red;
+  pointer-events: none;
+}
+
+webots-view input:focus + .slider {
+  box-shadow: 0 0 1px red;
+  pointer-events: none;
+}
+
+webots-view input:checked + .slider:before {
+  -webkit-transform: translateX(23px);
+  -ms-transform: translateX(23px);
+  transform: translateX(23px);
+  background-color: white;
+  pointer-events: none;
+}
+
+.slider.round {
+  border-radius: 17px;
+  pointer-events: none;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+  pointer-events: none;
 }

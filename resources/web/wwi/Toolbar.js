@@ -1,6 +1,8 @@
 import InformationPanel from './InformationPanel.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import {webots} from './webots.js';
+import WbWorld from './nodes/WbWorld.js';
+import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 
 export default class Toolbar {
   constructor(parent, view) {
@@ -29,16 +31,13 @@ export default class Toolbar {
     clock.title = 'Current simulation time';
     clock.innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     div.appendChild(clock);
-    const timeout = document.createElement('span');
-    timeout.id = 'webotsTimeout';
-    timeout.title = 'Simulation time out';
-    timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.timeout >= 0 ? this._view.timeout : 0);
-    div.appendChild(document.createElement('br'));
-    div.appendChild(timeout);
     this.domElement.left.appendChild(div);
 
     this.domElement.left.appendChild(this._createToolBarButton('reset', 'Reset the simulation'));
     this.resetButton.addEventListener('click', () => { this.reset(false); });
+
+    this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
+    this.stepButton.onclick = () => { this.step(); };
 
     this.domElement.left.appendChild(this._createToolBarButton('real_time', 'Run the simulation in real time'));
     this.real_timeButton.onclick = () => { this.realTime(); };
@@ -46,9 +45,6 @@ export default class Toolbar {
     this.domElement.left.appendChild(this._createToolBarButton('pause', 'Pause the simulation'));
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
-
-    this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
-    this.stepButton.onclick = () => { this.step(); };
 
     if (!webots.showRun) { // disabled by default
       this.domElement.left.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible'));
@@ -80,11 +76,15 @@ export default class Toolbar {
         webotsView.appendChild(this.informationPlaceHolder);
         infoButton.onclick = () => this._displayInformationWindow();
         window.addEventListener('click', this._closeInfoOnClick);
+        this._setTitleAndDescription();
       }
     }
 
-    if (typeof webots.settingsButton === 'undefined' || webots.settingsButton) {
-      this.domElement.right.appendChild(this._createToolBarButton('settings', 'Settings'));
+    if ((typeof webots.settingsButton === 'undefined' || webots.settingsButton) && this._view.mode !== 'mjpeg') {
+      let settingsButton = this._createToolBarButton('settings', 'Settings');
+      settingsButton.id = 'settings-button';
+      this.domElement.right.appendChild(settingsButton);
+      this._createSettings();
     }
 
     if (this._view.fullscreenEnabled) {
@@ -108,6 +108,231 @@ export default class Toolbar {
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
   }
 
+  _setTitleAndDescription() {
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
+      this.informationPanel.setTitle(WbWorld.instance.title);
+      this.informationPanel.setDescription(WbWorld.instance.description);
+    } else
+      setTimeout(() => this._setTitleAndDescription(), 100);
+  }
+
+  _createSettings() {
+    this._settingsPane = document.createElement('div');
+    this._settingsPane.className = 'settings-pane';
+    this._settingsPane.id = 'settings-pane';
+    this._settingsPane.style.visibility = 'hidden';
+    document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
+    this._view.x3dScene.domElement.appendChild(this._settingsPane);
+
+    const settingsList = document.createElement('ul');
+    settingsList.id = 'settings-list';
+    this._settingsPane.appendChild(settingsList);
+
+    this._createResetViewpoint();
+    this._createChangeShadows();
+    this._createChangeGtao();
+  }
+
+  _createResetViewpoint() {
+    const resetViewpoint = document.createElement('li');
+    resetViewpoint.onclick = () => this._resetViewpoint();
+    document.getElementById('settings-list').appendChild(resetViewpoint);
+
+    let label = document.createElement('span');
+    label.className = 'setting-span';
+    label.innerHTML = 'Reset viewpoint';
+    resetViewpoint.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    resetViewpoint.appendChild(label);
+  }
+
+  _resetViewpoint() {
+    WbWorld.instance.viewpoint.resetViewpoint();
+    this._view.x3dScene.render(); // render once to reset immediatly the viewpoint even if the animation is on pause
+  }
+
+  _changeSettingsPaneVisibility(event) {
+    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'playback-li' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
+      return;
+    if (typeof this._settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
+      return;
+    if (event.target.id === 'settings-button' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden') {
+      this._settingsPane.style.visibility = 'visible';
+      document.getElementById('settings-button').style.transform = 'rotate(10deg)';
+      const tooltips = document.getElementsByClassName('tooltip');
+      for (let i of tooltips)
+        i.style.visibility = 'hidden';
+    } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible') {
+      this._settingsPane.style.visibility = 'hidden';
+      if (this._gtaoPane.style.visibility === 'hidden') {
+        document.getElementById('settings-button').style.transform = '';
+        const tooltips = document.getElementsByClassName('tooltip');
+        for (let i of tooltips)
+          i.style.visibility = '';
+      }
+    }
+
+    this._gtaoPane.style.visibility = 'hidden';
+  }
+
+  _createChangeShadows() {
+    const shadowLi = document.createElement('li');
+    shadowLi.id = 'enable-shadows';
+    document.getElementById('settings-list').appendChild(shadowLi);
+
+    let label = document.createElement('span');
+    label.className = 'setting-span';
+    label.innerHTML = 'Shadows';
+    shadowLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    shadowLi.appendChild(label);
+
+    const button = document.createElement('label');
+    button.className = 'switch';
+    shadowLi.appendChild(button);
+
+    label = document.createElement('input');
+    label.type = 'checkbox';
+    label.checked = true;
+    button.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'slider round';
+    button.appendChild(label);
+
+    shadowLi.onclick = _ => {
+      button.click();
+      changeShadows();
+      this._view.x3dScene.render();
+    };
+  }
+
+  _createChangeGtao() {
+    const gtaoLi = document.createElement('li');
+    gtaoLi.id = 'gtao-settings';
+    document.getElementById('settings-list').appendChild(gtaoLi);
+    gtaoLi.onclick = () => this._openGtaoPane();
+
+    let label = document.createElement('span');
+    label.className = 'setting-span';
+    label.innerHTML = 'Ambient Occlusion';
+    gtaoLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    gtaoLi.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'setting-text';
+    label.innerHTML = this._gtaoLevelToText(GtaoLevel);
+    label.id = 'gtao-display';
+    gtaoLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'arrow-right';
+    gtaoLi.appendChild(label);
+
+    this._createGtaoPane();
+  }
+
+  _createGtaoPane() {
+    this._gtaoPane = document.createElement('div');
+    this._gtaoPane.className = 'settings-pane';
+    this._gtaoPane.id = 'gtao-pane';
+    this._gtaoPane.style.visibility = 'hidden';
+    this._view.x3dScene.domElement.appendChild(this._gtaoPane);
+
+    const gtaoList = document.createElement('ul');
+    this._gtaoPane.appendChild(gtaoList);
+
+    let gtaoLevelLi = document.createElement('li');
+    gtaoLevelLi.className = 'first-li';
+
+    let label = document.createElement('div');
+    label.className = 'arrow-left';
+    gtaoLevelLi.appendChild(label);
+
+    label = document.createElement('span');
+    label.innerHTML = 'Ambient Occlusion Level';
+    label.className = 'setting-span';
+    gtaoLevelLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    gtaoLevelLi.appendChild(label);
+    gtaoLevelLi.onclick = () => this._closeGtaoPane();
+    gtaoList.appendChild(gtaoLevelLi);
+
+    for (let i of ['Low', 'Normal', 'High', 'Ultra']) {
+      gtaoLevelLi = document.createElement('li');
+      gtaoLevelLi.id = i;
+      label = document.createElement('span');
+      if (this._gtaoLevelToText(GtaoLevel) === i)
+        label.innerHTML = '&check;';
+      label.id = 'c' + i;
+      label.className = 'check-gtao';
+      gtaoLevelLi.appendChild(label);
+      label = document.createElement('span');
+      label.innerHTML = i;
+      label.className = 'setting-span';
+      gtaoLevelLi.appendChild(label);
+      label = document.createElement('div');
+      label.className = 'spacer';
+      gtaoLevelLi.appendChild(label);
+      gtaoLevelLi.onclick = _ => this._changeGtao(_);
+      gtaoList.appendChild(gtaoLevelLi);
+    }
+  }
+
+  _changeGtao(event) {
+    changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
+    this._gtaoPane.style.visibility = 'hidden';
+    document.getElementById('gtao-display').innerHTML = event.srcElement.id;
+    this._settingsPane.style.visibility = 'visible';
+    for (let i of document.getElementsByClassName('check-gtao')) {
+      if (i.id === 'c' + event.srcElement.id)
+        i.innerHTML = '&check;';
+      else
+        i.innerHTML = '';
+    }
+    this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
+    this._view.x3dScene.render();
+  }
+
+  _openGtaoPane() {
+    this._settingsPane.style.visibility = 'hidden';
+    this._gtaoPane.style.visibility = 'visible';
+  }
+
+  _closeGtaoPane() {
+    this._settingsPane.style.visibility = 'visible';
+    this._gtaoPane.style.visibility = 'hidden';
+  }
+
+  _gtaoLevelToText(number) {
+    const pairs = {
+      1: 'Low',
+      2: 'Medium',
+      3: 'High',
+      4: 'Ultra'
+    };
+    return (number in pairs) ? pairs[number] : '';
+  }
+
+  _textToGtaoLevel(text) {
+    const pairs = {
+      'Low': 1,
+      'Medium': 2,
+      'High': 3,
+      'Ultra': 4
+    };
+    return (text in pairs) ? pairs[text] : 4;
+  }
+
   _displayInformationWindow() {
     let infoPanel = document.getElementsByClassName('information-panel')[0];
     if (infoPanel) {
@@ -115,6 +340,12 @@ export default class Toolbar {
         infoPanel.style.display = 'none';
       else
         infoPanel.style.display = 'block';
+    } else {
+      let webotsView = document.getElementsByTagName('webots-view')[0];
+      if (webotsView) {
+        webotsView.appendChild(this.informationPlaceHolder);
+        document.getElementsByClassName('information-panel')[0].style.display = 'block';
+      }
     }
   }
 
@@ -139,11 +370,6 @@ export default class Toolbar {
     this._view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
 
-    if (this._view.timeout >= 0) {
-      this._view.deadline = this._view.timeout;
-      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.timeout);
-    } else
-      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.enableToolBarButtons(false);
     if (reload)
       this._view.stream.socket.send('reload');
