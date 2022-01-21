@@ -78,7 +78,6 @@ class TestWorldsWarnings(unittest.TestCase):
                 '--mode=pause',
                 '--minimize',
                 '--batch',
-                '--no-sandbox',
                 world
             ], stdin=PIPE,
                 stdout=PIPE, stderr=PIPE, text=True)
