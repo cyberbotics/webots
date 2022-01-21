@@ -110,11 +110,15 @@ DeviceWidget.prototype.createRadar = function(device) {
 };
 
 DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxValue, yLabel) {
+  let customStyle = '';
+  if (navigator.appVersion.indexOf('Linux') !== -1)
+    customStyle = ' style="width:17px;"';
   const mean = 0.5 * (maxValue + minValue);
   const step = 0.01 * (maxValue - minValue); // 1%
   const slider = appendNewElement(device.name + '-content',
     '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
-    ' class="motor-slider"' + ' id="' + device.htmlName + '-slider"' +
+    ' class="motor-slider"' + customStyle +
+    ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +
     ' disabled=true' +
     '>');
@@ -302,7 +306,12 @@ DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
       if (checkbox && value.update.length > 0)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     } else if (value.image && widget.image) {
-      widget.image.style.backgroundImage = 'url("' + value.image + '")';
+      const img = new Image();
+      img.src = value.image;
+      img.decode()
+      .then(() => {
+        widget.image.style.backgroundImage = 'url("' + img.src + '")';
+      })
       if (checkbox)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
       if (value.cloudPointEnabled !== undefined) {
