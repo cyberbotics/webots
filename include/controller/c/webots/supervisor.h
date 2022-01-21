@@ -60,7 +60,7 @@ typedef enum {
 } WbSimulationMode;
 
 void wb_supervisor_world_load(const char *filename);
-bool wb_supervisor_world_save(const char *file);
+bool wb_supervisor_world_save(const char *filename);
 void wb_supervisor_world_reload();
 
 void wb_supervisor_simulation_quit(int status);

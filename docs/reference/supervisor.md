@@ -2748,7 +2748,7 @@ To stop the inertia of a single [Solid](solid.md) node please refer to [this sec
 #include <webots/supervisor.h>
 
 void wb_supervisor_world_load(const char *filename);
-bool wb_supervisor_world_save(const char *file);
+bool wb_supervisor_world_save(const char *filename);
 void wb_supervisor_world_reload();
 ```
 
@@ -2807,7 +2807,7 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_world_load('filename')
 success = wb_supervisor_world_save()
-success = wb_supervisor_world_save('file')
+success = wb_supervisor_world_save('filename')
 wb_supervisor_world_reload()
 ```
 
@@ -2834,7 +2834,7 @@ As a result of changing the current world, all the supervisor and robot controll
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it from the new world.
 
 The `wb_supervisor_world_save` function saves the current world.
-The `file` parameter defines the path to the target world file.
+The `filename` parameter defines the path to the target world file.
 It should end with the `.wbt` extension.
 It can be defined either as an absolute path, or as a path relative to the current supervisor controller.
 If NULL, the current world path is used instead (e.g., a simple save operation).

@@ -1736,11 +1736,11 @@ bool wb_supervisor_save_world(const char *filename) {
   return wb_supervisor_world_save(filename);
 }
 
-bool wb_supervisor_world_save(const char *file) {
+bool wb_supervisor_world_save(const char *filename) {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
-  if (file && strcmp("wbt", wb_file_get_extension(file)) != 0) {
+  if (filename && strcmp("wbt", wb_file_get_extension(filename)) != 0) {
     fprintf(stderr, "Error: the target file given to %s() should have the '.wbt' extension.\n", __FUNCTION__);
     return false;
   }
@@ -1752,7 +1752,7 @@ bool wb_supervisor_world_save(const char *file) {
   save_request = true;
 
   robot_mutex_lock_step();
-  save_filename = supervisor_strdup(file);
+  save_filename = supervisor_strdup(filename);
   wb_robot_flush_unlocked();
   robot_mutex_unlock_step();
 
