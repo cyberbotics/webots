@@ -110,15 +110,11 @@ DeviceWidget.prototype.createRadar = function(device) {
 };
 
 DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxValue, yLabel) {
-  let customStyle = '';
-  if (navigator.appVersion.indexOf('Linux') !== -1)
-    customStyle = ' style="width:17px;"';
   const mean = 0.5 * (maxValue + minValue);
   const step = 0.01 * (maxValue - minValue); // 1%
   const slider = appendNewElement(device.name + '-content',
     '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
-    ' class="motor-slider"' + customStyle +
-    ' id="' + device.htmlName + '-slider"' +
+    ' class="motor-slider"' + ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +
     ' disabled=true' +
     '>');

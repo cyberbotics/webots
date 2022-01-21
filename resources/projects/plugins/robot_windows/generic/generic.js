@@ -33,7 +33,7 @@ function setDeviceModeCallback(switchButton, deviceType) {
 
 function configure(data) {
   robotName = data.name;
-  window.robotWindow.setTitle('Generic robot window [' + robotName + ']');
+  window.robotWindow.setTitle(robotName + ' robot window');
 
   if (data.devices == null) {
     document.getElementById('no-controller-label').innerHTML = 'No devices.';
@@ -58,6 +58,7 @@ function configure(data) {
 }
 
 function receive(message, _robot) {
+  console.log(message);
   let data = '';
   if (message.indexOf('configure ') === 0) {
     data = parseJSONMessage(message.substring(10));
