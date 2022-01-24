@@ -185,8 +185,10 @@ webots-view .toolbar-quit:hover {
 
 #remoteScene {
   background: white;
+  border: none;
   width: 100%;
-  height: calc(100% - 48px);
+  height: 100%;
+  position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -194,7 +196,6 @@ webots-view .toolbar-quit:hover {
   user-select: none;
   /* get rid of whitespace after #remoteScene image */
   display: block;
-  float: left;
 }
 
 .information-panel {
