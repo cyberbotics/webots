@@ -10,13 +10,13 @@ export default class InformationPanel {
     this.tab0 = document.createElement('button');
     this.tab0.className = 'info-tab tab0';
     this.tab0.innerHTML = 'Simulation';
-    this.tab0.onclick = () => this._switchTab(0);
+    this.tab0.onclick = () => this.switchTab(0);
     infoTabsBar.appendChild(this.tab0);
 
     this.tab1 = document.createElement('button');
     this.tab1.className = 'info-tab tab1';
     this.tab1.innerHTML = 'Webots';
-    this.tab1.onclick = () => this._switchTab(1);
+    this.tab1.onclick = () => this.switchTab(1);
     infoTabsBar.appendChild(this.tab1);
 
     this.webotsPresentation = document.createElement('div');
@@ -43,7 +43,7 @@ export default class InformationPanel {
     parentNode.appendChild(this.informationPanel);
   }
 
-  _switchTab(nbr) {
+  switchTab(nbr) {
     if (nbr === 0) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#555';

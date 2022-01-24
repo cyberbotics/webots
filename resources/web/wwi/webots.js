@@ -145,6 +145,11 @@ webots.View = class View {
         else if (!document.getElementById('toolBar'))
           this.view3D.appendChild(this.toolBar.domElement);
 
+        if (this.mode === 'x3d')
+          this.toolBar.createSettingsButton();
+        else
+          this.toolBar.hideSettingsButton();
+
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
           this._server = new Server(this.url, this, finalizeWorld);

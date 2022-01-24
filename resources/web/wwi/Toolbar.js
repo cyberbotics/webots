@@ -80,13 +80,6 @@ export default class Toolbar {
       }
     }
 
-    if ((typeof webots.settingsButton === 'undefined' || webots.settingsButton) && this._view.mode !== 'mjpeg') {
-      let settingsButton = this._createToolBarButton('settings', 'Settings');
-      settingsButton.id = 'settings-button';
-      this.domElement.right.appendChild(settingsButton);
-      this._createSettings();
-    }
-
     if (this._view.fullscreenEnabled) {
       this.domElement.right.appendChild(this._createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
       this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
@@ -108,6 +101,28 @@ export default class Toolbar {
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
   }
 
+  createSettingsButton() {
+    if ((typeof webots.settingsButton === 'undefined' || webots.settingsButton)) {
+      if (typeof this.settingsButton === 'undefined') {
+        this.settingsButton = this._createToolBarButton('settings', 'Settings');
+        this.settingsButton.id = 'settings-button';
+        if (typeof this.fullscreenButton !== 'undefined')
+          this.domElement.right.insertBefore(this.settingsButton, this.fullscreenButton);
+        else
+          this.domElement.right.appendChild(this.settingsButton);
+        this._createSettingsMenu();
+
+        if (this._view.mode === 'mjpeg')
+          this.settingsButton.style.display = 'none';
+      } else
+        this.settingsButton.style.display = 'inline';
+    }
+  }
+
+  hideSettingsButton() {
+    if (typeof this.settingsButton !== 'undefined')
+      this.settingsButton.style.display = 'none';
+  }
   _setTitleAndDescription() {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       this.informationPanel.setTitle(WbWorld.instance.title);
@@ -116,7 +131,7 @@ export default class Toolbar {
       setTimeout(() => this._setTitleAndDescription(), 100);
   }
 
-  _createSettings() {
+  _createSettingsMenu() {
     this._settingsPane = document.createElement('div');
     this._settingsPane.className = 'settings-pane';
     this._settingsPane.id = 'settings-pane';
@@ -346,6 +361,17 @@ export default class Toolbar {
         webotsView.appendChild(this.informationPlaceHolder);
         document.getElementsByClassName('information-panel')[0].style.display = 'block';
       }
+    }
+
+    // if mjpeg streaming do not display the description of the world (not present)
+    let tabsBar = document.getElementsByClassName('info-tabs-bar')[0];
+    if (this._view.mode === 'mjpeg') {
+      if (tabsBar)
+        tabsBar.style.display = 'none';
+      this.informationPanel.switchTab(1);
+    } else {
+      if (tabsBar)
+        tabsBar.style.display = 'block';
     }
   }
 
