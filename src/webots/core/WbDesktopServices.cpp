@@ -55,7 +55,7 @@ bool WbDesktopServices::openUrlWithArgs(const QString &url, const QString &progr
   else
     process.setProgram(program);
   if (newBrowserWindow)
-    process.setArguments(QStringList() << url);
+    process.setArguments(QStringList() << "-new-window" << url);
   else
     process.setArguments(QStringList() << url);
   process.setStandardErrorFile(QProcess::nullDevice());
