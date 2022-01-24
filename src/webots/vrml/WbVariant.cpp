@@ -162,7 +162,7 @@ const QString WbVariant::toStringRepresentation(WbPrecision::Level level) const 
       return mRotation->toString(level);
     case WB_SF_NODE: {
       if (mNode)
-        return mNode->fullName() + "{}";
+        return mNode->fullName();
       else
         return "NULL";
     }

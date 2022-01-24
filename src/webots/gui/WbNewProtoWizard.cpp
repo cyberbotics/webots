@@ -19,6 +19,7 @@
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
+#include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -132,8 +133,10 @@ void WbNewProtoWizard::accept() {
       for (int i = 0; i < fieldModels.size(); ++i) {
         if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
           WbValue *defaultValue = fieldModels[i]->defaultValue();
-          parameters +=
-            "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + defaultValue->toString() + "\n";
+          QString vrmlStringValue = defaultValue->toString();
+          if (defaultValue->type() == WB_SF_NODE)
+            vrmlStringValue += "{}";
+          parameters += "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + vrmlStringValue + "\n";
         }
       }
 
