@@ -215,9 +215,10 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
       WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
       socket->write(WbHttpReply::forge404Reply());
     }
-  } else if (requestedUrl.contains("generic"))
-    filePath = WbStandardPaths::webotsHomePath() + "resources/projects/plugins/" + requestedUrl;
-  else if (requestedUrl.endsWith(".js")) {
+  } else if (requestedUrl.contains("generic")) {
+    QString requestFile = requestedUrl.mid(requestedUrl.lastIndexOf("/"));
+    filePath = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic" + requestFile;
+  } else if (requestedUrl.endsWith(".js")) {
     filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
     if (!QFileInfo(filePath).exists())
       filePath = WbProject::current()->pluginsPath() + requestedUrl;
