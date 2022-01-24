@@ -58,7 +58,7 @@ graph LR
 ### Robot Window
 
 A robot window allows the programmer to efficiently create custom user interfaces for its robots.
-Robot windows can be opened by double-clicking on the virtual robot, or using the [context menu](the-3d-window.md#context-menu). The robot windows will be open on your default web browser. In the [preferences](../guide/preferences), you have the possibility to set your robot window default web browser and choose if you want to open the robot window always in a new web browser window instead of a new tab (only available if you set a web browser).
+Robot windows can be opened by double-clicking on the virtual robot, or using the [context menu](the-3d-window.md#context-menu).
 The *window* field of the [Robot](../reference/robot.md) node specifies a robot window.
 
 Robot windows are implemented in HTML and provide the following features:
@@ -66,7 +66,7 @@ Robot windows are implemented in HTML and provide the following features:
 1. They rely on HTML layout and JavaScript programming.
 2. They communicate directly with the robot controller using two JavaScript functions: `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send`.
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
-3. They can be used to display robot windows on web pages.
+3. They will be display on your system default web browser. Check the [preferences](preferences#robot-windows) to set particular web browser.
 
 A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt) and it demonstrates how to establish a two-way communication between a robot window and Python controller.
 To create a similar robot window for your project follow these steps:
