@@ -27,7 +27,9 @@ import logging
 import os
 import psutil
 import re
+import requests
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
@@ -38,7 +40,7 @@ import tornado.httpserver
 import tornado.web
 import tornado.websocket
 import traceback
-import socket
+
 if sys.platform == 'win32':
     import wmi
 elif sys.platform == 'darwin':
@@ -142,6 +144,7 @@ class Client:
 
     def setup_project(self):
         global config
+        global current_load
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if not hasattr(self, 'url'):
             logging.error('Missing URL.')
@@ -150,7 +153,15 @@ class Client:
             logging.error(f'Unsupported URL protocol: {self.url}')
             return False
         if 'allowedRepositories' in config and not self.url.startswith(tuple(config['allowedRepositories'])):
-            logging.error(f'Specified URL is not allowed: {self.url}')
+            if not config['docker']:
+                logging.error('Docker not enabled: cannot host foreign simulations.')
+                return False
+            if config['shareIdleTime'] == 0:
+                logging.error('This simulation server is not configured to share idle time.')
+                return False
+            if current_load > config['shareIdleTime']:
+                logging.error(f'Cannot share idle time when current load is above threshold: {current_load}.')
+                return False
         return self.setup_project_from_github()
 
     def setup_project_from_github(self):
@@ -513,6 +524,16 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write(f'<p><b>GPU load compute: {gpu_load_compute}%% &mdash; load memory: {gpu_load_memory}%%</b><br>\n')
         self.write(f'{gpu}</p>\n')
         self.write(f'<p><b>RAM:</b><br>{ram}</p>\n')
+        if 'allowedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Allowed Repositories</th></thead>\n')
+            for allowedRepository in config['allowedRepositories']:
+                self.write(f'<tr><td><a href="{allowedRepository}">{allowedRepository}</a></td></tr>')
+            self.write('</table>')
+        if 'notify' in config:
+            self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}</th></thead>\n')
+            for notify in config['notify']:
+                self.write(f'<tr><td><a href="{notify}">{notify}</a></td></tr>')
+            self.write('</table>')
         self.write('<canvas id="graph" height="400" width="1024"></canvas>\n')
         self.write('<script src="https://cyberbotics.com/harry-plotter/0.9f/harry.min.js"></script>\n')
         self.write('<script>\n')
@@ -644,6 +665,8 @@ def main():
     # portRewrite:         port rewritten in the URL by apache (true by default)
     # docker:              launch webots inside a docker (false by default)
     # allowedRepositories: list of allowed GitHub simulation repositories
+    # shareIdleTime:       maximum load for running non-allowed repositories
+    # notify:              webservices to be notified about the server status
     # projectsDir:         directory in which projects are located
     # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
     # maxConnections:      maximum number of simultaneous Webots instances
@@ -733,6 +756,18 @@ def main():
     # startup janus server if needed
     if 'multimediaServer' in config:
         subprocess.Popen(["/opt/janus/bin/janus"])
+
+    if 'notify' not in config:
+        config['notify'] = ['https://webots.cloud']
+
+    if 'shareIdleTime' not in config:
+        config['shareIdleTime'] = 0.5
+
+    for notify in config['notify']:
+        url = f'{notify}/webots_simulation_server.php'
+        x = requests.post(url, data={'shareIdleTime': config['shareIdleTime'],
+                                     'allowedRepositories': config['allowedRepositories']})
+        print(x.text)
 
     # startup the server
     logging.info(f"Running simulation server on port {config['port']}")
