@@ -35,21 +35,21 @@ bool WbSoundSource::isPlaying() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_PLAYING); */
-  return;
+  return false;
 }
 
 bool WbSoundSource::isStopped() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_STOPPED); */
-  return;
+  return false;
 }
 
 bool WbSoundSource::isPaused() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_PAUSED); */
-  return;
+  return false;
 }
 
 void WbSoundSource::play() {
