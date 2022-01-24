@@ -106,8 +106,8 @@ export default class Toolbar {
       if (typeof this.settingsButton === 'undefined') {
         this.settingsButton = this._createToolBarButton('settings', 'Settings');
         this.settingsButton.id = 'settings-button';
-        if (typeof this.fullscreenButton !== 'undefined')
-          this.domElement.right.insertBefore(this.settingsButton, this.fullscreenButton);
+        if (typeof this.exit_fullscreenButton !== 'undefined')
+          this.domElement.right.insertBefore(this.settingsButton, this.exit_fullscreenButton);
         else
           this.domElement.right.appendChild(this.settingsButton);
         this._createSettingsMenu();
