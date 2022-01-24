@@ -46,3 +46,35 @@ bool WbDesktopServices::openUrl(const QString &url) {
   return result;
 #endif
 }
+
+bool WbDesktopServices::openUrlWithArgs(const QString &url, const QString &program, const bool newBrowserWindow) {
+#ifdef __linux__
+  QProcess process;
+  if (program.isEmpty())
+    process.setProgram("xdg-open");  // we need to use xdg-open to be snap compliant
+  else
+    process.setProgram(program);
+  if (newBrowserWindow)
+    process.setArguments(QStringList() << url);
+  else
+    process.setArguments(QStringList() << url);
+  process.setStandardErrorFile(QProcess::nullDevice());
+  process.setStandardOutputFile(QProcess::nullDevice());
+  return process.startDetached();
+#else
+#ifdef _WIN32
+  // The TEMP/TMP environment variables set my the MSYS2 console are confusing Visual C++ (among possibly other apps)
+  // as they refer to "/tmp" which is not a valid Windows path. It is therefore safer to remove them
+  const QByteArray TEMP = qgetenv("TEMP");
+  const QByteArray TMP = qgetenv("TMP");
+  qunsetenv("TMP");
+  qunsetenv("TEMP");
+#endif
+  bool result = QDesktopServices::openUrl(QUrl(url));
+#ifdef _WIN32
+  qputenv("TEMP", TEMP);
+  qputenv("TMP", TMP);
+#endif
+  return result;
+#endif
+}

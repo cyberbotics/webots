@@ -60,6 +60,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mTabWidget->addTab(createGeneralTab(), tr("General"));
   mTabWidget->addTab(createOpenGLTab(), tr("OpenGL"));
   mTabWidget->addTab(createNetworkTab(), tr("Network"));
+  mTabWidget->addTab(createRobotWindowTab(), tr("Robot window"));
 
   for (int i = 0; i < mTabWidget->count(); ++i) {
     if (mTabWidget->tabText(i) == defaultTab) {
@@ -110,6 +111,10 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mHttpProxyUsername->setText(prefs->value("Network/httpProxyUsername").toString());
   mHttpProxyPassword->setText(prefs->value("Network/httpProxyPassword").toString());
   mLanguageCombo->setFocus();
+
+  // robot window tab
+  mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
+  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -194,6 +199,10 @@ void WbPreferencesDialog::accept() {
   QDialog::accept();
   if (willRestart)
     emit restartRequested();
+
+  // Robot window
+  prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
+  prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -463,6 +472,32 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
                                this),
                     1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
+
+  return widget;
+}
+
+QWidget *WbPreferencesDialog::createRobotWindowTab() {
+  QWidget *widget = new QWidget(this);
+  QGridLayout *layout = new QGridLayout(widget);
+
+  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+  // row 0
+  mBrowserProgram = new WbLineEdit(this);
+  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
+  mBrowserProgram->setPlaceholderText(tr("firefox, google-chrome... (default if empty)"));
+  layout->addWidget(new QLabel(tr("default robot window web browser:"), this), 0, 0);
+  layout->addWidget(mBrowserProgram, 0, 1);
+
+  // row 1
+  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
+  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
+    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+    if (mBrowserProgram->text().isEmpty())
+      mNewBrowserWindow->setChecked(false);
+  });
+  layout->addWidget(mNewBrowserWindow, 1, 1);
 
   return widget;
 }
