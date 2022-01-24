@@ -26,7 +26,7 @@ WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), m
 WbSoundClip::~WbSoundClip() {
   /*   if (mBuffer)
       alDeleteBuffers(1, &mBuffer); */
-  int a = 0;
+  return;
 }
 
 void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
@@ -39,11 +39,11 @@ void WbSoundClip::load(const QString &filename, QIODevice *device, double balanc
     mBalance = balance;
     mDevice = device;
     load(&wave); */
-  int a = 0;
+  return;
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
-  int a = 0;
+  return;
   /*   ALuint buffer = 0;
 
     try {

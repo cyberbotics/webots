@@ -22,49 +22,49 @@
 WbSoundSource::WbSoundSource() {
   /*   alGenSources(1, &mSource);
     alSourcei(mSource, AL_LOOPING, AL_FALSE); */
-  int a = 0;
+  return;
 }
 
 WbSoundSource::~WbSoundSource() {
   /*   alSourceStop(mSource);
     alDeleteSources(1, &mSource); */
-  int a = 0;
+  return;
 }
 
 bool WbSoundSource::isPlaying() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_PLAYING); */
-  int a = 0;
+  return;
 }
 
 bool WbSoundSource::isStopped() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_STOPPED); */
-  int a = 0;
+  return;
 }
 
 bool WbSoundSource::isPaused() const {
   /*   ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
     return (source_state == AL_PAUSED); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::play() {
   /* alSourcePlay(mSource); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::stop() {
   /*   alSourceStop(mSource); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::pause() {
   /*   alSourcePause(mSource); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setLooping(bool loop) {
@@ -72,35 +72,35 @@ void WbSoundSource::setLooping(bool loop) {
       alSourcei(mSource, AL_LOOPING, AL_TRUE);
     else
       alSourcei(mSource, AL_LOOPING, AL_FALSE); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setSoundClip(const WbSoundClip *clip) {
   /*   alSourcei(mSource, AL_BUFFER, clip->openALBuffer()); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setPitch(double pitch) {
   /*   alSourcef(mSource, AL_PITCH, pitch); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setGain(double gain) {
   /*   alSourcef(mSource, AL_GAIN, gain); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setPosition(const WbVector3 &pos) {
   /*   alSource3f(mSource, AL_POSITION, pos.x(), pos.y(), pos.z()); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setVelocity(const WbVector3 &v) {
   /*   alSource3f(mSource, AL_VELOCITY, v.x(), v.y(), v.z()); */
-  int a = 0;
+  return;
 }
 
 void WbSoundSource::setDirection(const WbVector3 &dir) {
   /*   alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z()); */
-  int a = 0;
+  return;
 }
