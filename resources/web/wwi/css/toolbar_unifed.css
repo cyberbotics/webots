@@ -1,0 +1,48 @@
+webots-view {
+  height: 100%;
+  width: 100%;
+}
+
+webots-view .webots3DView {
+  height: 100%;
+  width: 100%;
+  margin:0;
+  padding:0;
+}
+
+#webotsProgress {
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 160px);
+  top: calc(50% - 84px);
+  background-color: white;
+  width:300px;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+webots-view .toolBar {
+  z-index: 1;
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+}
+
+webots-view toolbar-left {
+  position: absolute;
+  bottom: 0px;
+  left: 1%;
+  height: 40px;
+}
+
+webots-view toolbar-right {
+  position: absolute;
+  bottom: 0px;
+  height: 40px;
+  right: 1%;
+}

@@ -1,5 +1,6 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import SceneMenu from './SceneMenu.js';
+import ToolbarUnifed from './ToolbarUnifed.js';
 import {webots} from './webots.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -166,6 +167,7 @@ export default class WebotsView extends HTMLElement {
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
+      this._view.onready = () => new ToolbarUnifed(this._view, 'animation', this);
       this._view.open(scene);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
