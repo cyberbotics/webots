@@ -81,9 +81,9 @@ The **Proxy** section allows you to manually configure a HTTP proxy that Webots 
 After changing the proxy configuration, it is recommended to restart Webots to ensure the changes are properly taken into account.
 If you clear the **Hostname** field, Webots will try to retrieve the default system proxy on the next launch.
 
-#### Web services
+#### Web Services
 
-The **Web services** section contains preferences about the URL of the simulation upload service and the web browser of the HTML robot window.
+The **Web Services** section contains preferences about the URL of the simulation upload service and the web browser of the HTML robot window.
 
 - the **simulation upload service** field allow you to set your own simulation upload server URL. The default value is `https://beta.webots.cloud`.
 - the **robot window default web browser** field allow you to set the browser in which the robot window will be opened. For example, `firefox`, `google-chrome`, etc. The default value is an empty value, which correspond to the system default web browser.
