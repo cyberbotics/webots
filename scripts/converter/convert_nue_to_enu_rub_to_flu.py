@@ -221,10 +221,10 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
             else:
                 miss_rotation = False
 
-            if 'R2021b' in line:
-                line = '#VRML_SIM R2022a utf8 \r\n'
-            elif 'R2022a' in line:
+            if 'R2022a' in line:
                 warning_verbose += 'The version of the file was already 2022a. '
+            elif '#VRML_SIM' in line:
+                line = '#VRML_SIM R2022a utf8 \r\n'
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['position'] and len(vector) == 3:
