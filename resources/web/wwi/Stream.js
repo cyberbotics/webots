@@ -68,8 +68,8 @@ export default class Stream {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('pause:') || data === 'paused by client') {
-      if (this._view.toolBar !== null)
-        this._view.toolBar.setMode('pause');
+      // if (this._view.toolBar !== null)
+      //   this._view.toolBar.setMode('pause');
       // Update timeout.
       if (data.startsWith('pause:')) {
         this._view.isAutomaticallyPaused = undefined;

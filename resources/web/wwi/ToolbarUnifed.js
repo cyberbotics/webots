@@ -1,5 +1,6 @@
 import Animation from './Animation.js';
 import AnimationSlider from './AnimationSlider.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import InformationPanel from './InformationPanel.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -9,7 +10,11 @@ export default class ToolbarUnifed {
     this.type = type;
     this._createToolbar(parentNode);
     if (type === 'animation')
-      this._createSlider();
+      this.createAnimationToolbar();
+    else if (type === 'scene')
+      this.createSceneToolbar();
+    else if (type === 'streaming')
+      this.createSimulationToolbar();
   }
 
   setType(type) {
@@ -20,8 +25,61 @@ export default class ToolbarUnifed {
     }
   }
 
+  createAnimationToolbar() {
+    if (this.type !== 'animation' || typeof this._view === 'undefined' || typeof this._view.animation === 'undefined')
+      return;
+
+    this._createSlider();
+
+    // Left part
+    this._createPlayButton();
+    this._createAnimationTimeIndicator();
+
+    // Right part
+    this._createInfoButton();
+    this._createSettings();
+    this._createFullscreenButtons();
+
+    // document.addEventListener('keydown', this.keydownRef = _ => this._keyboardHandler(_));
+  }
+
+  createSceneToolbar() {
+    if (this.type !== 'scene' || typeof this._view === 'undefined')
+      return;
+
+    this._createInfoButton();
+    this._createRestoreViewpointButton();
+    this._createFullscreenButtons();
+  }
+
+  createSimulationToolbar() {
+    // Left part
+    this._createQuitButton();
+    this._createReloadButton();
+    this._createPlayButton();
+
+    // Right part
+    this._createInfoButton();
+    this._createSettings();
+    this._createFullscreenButtons();
+  }
+
+  _createToolBarButton(name, tooltipText, click) {
+    const button = document.createElement('button');
+    button.id = 'name';
+    button.className = 'toolbar-btn icon-' + name;
+    button.addEventListener('click', click);
+
+    const tooltip = document.createElement('span');
+    tooltip.className = 'tooltip ' + name + '-tooltip';
+    tooltip.id = name + '-tooltip';
+    tooltip.innerHTML = tooltipText;
+    button.appendChild(tooltip);
+
+    return button;
+  }
+
   _createToolbar(parentNode) {
-    console.log("create toolbar")
     this.toolbar = document.createElement('div');
     this.toolbar.id = 'toolbar';
     this.toolbar.className = 'toolbar';
@@ -30,18 +88,32 @@ export default class ToolbarUnifed {
     // this.toolbar.addEventListener('mouseover', () => this._showPlayBar());
     // this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
-    this.toolBarLeft = document.createElement('div');
-    this.toolBarLeft.className = 'toolbar-left';
-    this.toolBarLeft.id = 'toolbar-left';
+    this.toolbarLeft = document.createElement('div');
+    this.toolbarLeft.className = 'toolbar-left';
+    this.toolbarLeft.id = 'toolbar-left';
 
-    this.toolBarRight = document.createElement('div');
-    this.toolBarRight.className = 'toolbar-right';
-    this.toolBarRight.id = 'toolbar-right';
+    this.toolbarRight = document.createElement('div');
+    this.toolbarRight.className = 'toolbar-right';
+    this.toolbarRight.id = 'toolbar-right';
 
-    this.toolbar.appendChild(this.toolBarLeft);
-    this.toolbar.appendChild(this.toolBarRight);
+    this.toolbar.appendChild(this.toolbarLeft);
+    this.toolbar.appendChild(this.toolbarRight);
     // this._view.mouseEvents.hidePlayBar = () => this._hidePlayBar();
     // this._view.mouseEvents.showPlayBar = () => this._showPlayBar();
+  }
+
+  _createPlayButton() {
+    let action;
+    if (this.type === 'animation')
+      action = (this._view.animation._gui === 'real_time') ? 'pause' : 'play';
+
+    this.toolbarLeft.appendChild(this._createToolBarButton(action, 'P' + action.substring(1) + ' (k)', this._triggerPlayPauseButton));
+  }
+
+  _createInfoButton() {
+    this.toolbarRight.appendChild(this._createToolBarButton('info', 'Simulation information', this._displayInformationWindow));
+
+    window.addEventListener('click', this._closeInfoOnClick);
   }
 
   _createInformation() {
@@ -63,6 +135,32 @@ export default class ToolbarUnifed {
     }
   }
 
+  _createSettings() {
+    this.toolbarRight.appendChild(this._createToolBarButton('settings', 'Settings'));
+
+    // this._createSettingsPane();
+  }
+
+  _createFullscreenButtons() {
+    this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
+    this.toolbarRight.appendChild(this._fullscreenButton);
+
+    this._exitFullscreenButton = this._createToolBarButton('partscreen', 'Exit full screen (f)', () => exitFullscreen());
+    this.toolbarRight.appendChild(this._exitFullscreenButton);
+    this._exitFullscreenButton.style.display = 'none';
+
+    document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
+  }
+
+  // _keyboardHandler(e) {
+  //   if (e.code === 'KeyK')
+  //     this._triggerPlayPauseButton();
+  //   else if (e.code === 'KeyF')
+  //     this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
+  // }
+
+  // Animations functions
+
   _createSlider() {
     if (!Animation.sliderDefined) {
       window.customElements.define('animation-slider', AnimationSlider);
@@ -74,5 +172,98 @@ export default class ToolbarUnifed {
     this.toolbar.appendChild(this._timeSlider);
     // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
     // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
+  }
+
+  _createAnimationTimeIndicator() {
+    this._currentTime = document.createElement('span');
+    this._currentTime.className = 'current-time';
+    this._currentTime.disabled = false;
+    this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
+    this.toolbarLeft.appendChild(this._currentTime);
+
+    const timeDivider = document.createElement('span');
+    timeDivider.innerHTML = '/';
+    timeDivider.className = 'time-divider';
+    this.toolbarLeft.appendChild(timeDivider);
+
+    const totalTime = document.createElement('span');
+    totalTime.className = 'total-time';
+    const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
+    totalTime.innerHTML = time;
+    this.toolbarLeft.appendChild(totalTime);
+
+    let offset;
+    switch (time.length) {
+      case 20:
+        offset = 19;
+        break;
+      case 22:
+        offset = 25;
+        break;
+      case 23:
+        offset = 30;
+        break;
+      case 25:
+        offset = 36;
+        break;
+      default:
+        offset = 0;
+    }
+
+    if (typeof this._timeSlider !== 'undefined')
+      this._timeSlider.setOffset(offset);
+  }
+
+  _formatTime(time) {
+    if (typeof this._unusedPrefix === 'undefined') {
+      const maxTime = this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time;
+      if (maxTime < 60000)
+        this._unusedPrefix = 6;
+      else if (maxTime < 600000)
+        this._unusedPrefix = 4;
+      else if (maxTime < 3600000)
+        this._unusedPrefix = 3;
+      else if (maxTime < 36000000)
+        this._unusedPrefix = 1;
+    }
+
+    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
+  }
+
+  _parseMillisecondsIntoReadableTime(milliseconds) {
+    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+    const absoluteHours = Math.floor(hours);
+    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+    const minutes = (hours - absoluteHours) * 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
+    if (ms < 10)
+      ms = '00' + ms;
+    else if (ms < 100)
+      ms = '0' + ms;
+    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
+  };
+
+  // Scene functions
+
+  _createRestoreViewpointButton() {
+    this.toolbarRight.appendChild(this._createToolBarButton('reset-scene', 'Reset the Scene', () => {
+      WbWorld.instance.viewpoint.resetViewpoint();
+      this._view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
+    }));
+  }
+
+  // Streaming functions
+
+  _createQuitButton() {
+    this.toolbarLeft.appendChild(this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation()));
+  }
+
+  _createReloadButton() {
+    this.toolbarLeft.appendChild(this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); }));
   }
 }

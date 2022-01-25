@@ -106,15 +106,15 @@ export default class Animation {
     this._allIds = this._data.ids.split(';').filter(Boolean).map(s => parseInt(s));
     this._labelsIds = typeof this._data.labelsIds === 'undefined' ? [] : this._data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
-    this._createPlayBar();
-    this._createSlider();
-    this._createPlayButton();
-    this._createTimeIndicator();
-    this._createInfoButton();
-    this._createSettings();
-    this._createFullscreenButton();
+    // this._createPlayBar();
+    // this._createSlider();
+    // this._createPlayButton();
+    // this._createTimeIndicator();
+    // this._createInfoButton();
+    // this._createSettings();
+    // this._createFullscreenButton();
 
-    document.addEventListener('keydown', this.keydownRef = _ => this._keyboardHandler(_));
+    //document.addEventListener('keydown', this.keydownRef = _ => this._keyboardHandler(_));
     // Initialize animation data.
     this._start = new Date().getTime();
     this._step = 0;
@@ -248,12 +248,12 @@ export default class Animation {
         }
       }
 
-      if (automaticMove)
-        this._timeSlider.setValue(100 * this._step / this._data.frames.length);
+      // if (automaticMove)
+      //   this._timeSlider.setValue(100 * this._step / this._data.frames.length);
 
       this._previousStep = this._step;
       this._view.time = this._data.frames[this._step].time;
-      this._currentTime.innerHTML = this._formatTime(this._view.time);
+      // this._currentTime.innerHTML = this._formatTime(this._view.time);
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }

@@ -27,12 +27,6 @@ export default class SceneMenu {
     infoButton.title = 'Simulation information';
     this.menuItems.appendChild(infoButton);
 
-    let resetButton = document.createElement('button');
-    resetButton.className = 'reset-button ui-icon';
-    resetButton.title = 'Reset Viewpoint and sliders';
-    resetButton.onclick = () => this.webotsView.resetViewpoint();
-    this.menuItems.appendChild(resetButton);
-
     let fullscreenButton = document.createElement('button');
     fullscreenButton.className = 'fullscreen-button ui-icon';
     fullscreenButton.title = 'Enter fullscreen';

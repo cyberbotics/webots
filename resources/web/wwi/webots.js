@@ -140,15 +140,15 @@ webots.View = class View {
         document.getElementById('webotsProgress').style.display = 'block';
 
       if (this._isWebSocketProtocol) {
-        if (typeof this.toolBar === 'undefined')
-          this.toolBar = new Toolbar(this.view3D, this);
-        else if (!document.getElementById('toolBar'))
-          this.view3D.appendChild(this.toolBar.domElement);
+        // if (typeof this.toolBar === 'undefined')
+        //   this.toolBar = new Toolbar(this.view3D, this);
+        // else if (!document.getElementById('toolBar'))
+        //   this.view3D.appendChild(this.toolBar.domElement);
 
-        if (this.mode === 'x3d')
-          this.toolBar.createSettingsButton();
-        else
-          this.toolBar.hideSettingsButton();
+        // if (this.mode === 'x3d')
+        //   this.toolBar.createSettingsButton();
+        // else
+        //   this.toolBar.hideSettingsButton();
 
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
@@ -190,8 +190,8 @@ webots.View = class View {
       if (typeof this.onready === 'function')
         this.onready();
 
-      if (this.runOnLoad && this.toolBar)
-        this.toolBar.realTime();
+      // if (this.runOnLoad && this.toolBar)
+      //   this.toolBar.realTime();
     };
 
     if (this.broadcast)

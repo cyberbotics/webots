@@ -1,5 +1,4 @@
 import {exitFullscreen} from './fullscreen_handler.js';
-import SceneMenu from './SceneMenu.js';
 import ToolbarUnifed from './ToolbarUnifed.js';
 import {webots} from './webots.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -16,26 +15,11 @@ export default class WebotsView extends HTMLElement {
       return;
 
     this._initialCallbackDone = true;
-    this.animationCSS = document.createElement('link');
-    this.animationCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/animation.css';
-    this.animationCSS.type = 'text/css';
-    this.animationCSS.rel = 'stylesheet';
-    this.animationCSS.disabled = true;
-    document.head.appendChild(this.animationCSS);
-
-    this.streamingCSS = document.createElement('link');
-    this.streamingCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/wwi.css';
-    this.streamingCSS.type = 'text/css';
-    this.streamingCSS.rel = 'stylesheet';
-    this.streamingCSS.disabled = true;
-    document.head.appendChild(this.streamingCSS);
-
-    this.sceneCSS = document.createElement('link');
-    this.sceneCSS.href = 'https://cyberbotics.com/wwi/R2022b/css/scene.css';
-    this.sceneCSS.type = 'text/css';
-    this.sceneCSS.rel = 'stylesheet';
-    this.sceneCSS.disabled = true;
-    document.head.appendChild(this.sceneCSS);
+    this.css = document.createElement('link');
+    this.css.href = '../../../../../webots2/resources/web/wwi/css/toolbar_unified.css';
+    this.css.type = 'text/css';
+    this.css.rel = 'stylesheet';
+    document.head.appendChild(this.css);
 
     const script = document.createElement('script');
     script.textContent = `var Module = [];
@@ -161,9 +145,6 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      this.animationCSS.disabled = false;
-      this.streamingCSS.disabled = true;
-      this.sceneCSS.disabled = true;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
@@ -186,7 +167,6 @@ export default class WebotsView extends HTMLElement {
     this._view.animation = undefined;
     this._hasAnimation = false;
     this.innerHTML = null;
-    this.animationCSS.disabled = true;
   }
 
   hasAnimation() {
@@ -215,22 +195,20 @@ export default class WebotsView extends HTMLElement {
       this.close();
       console.time('Loaded in: ');
 
-      this.animationCSS.disabled = true;
-      this.streamingCSS.disabled = false;
-      this.sceneCSS.disabled = true;
-
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this._view.broadcast = broadcast;
       this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
       this._disconnectCallback = disconnectCallback;
-      this._view.open(server, mode);
-      this._view.onquit = () => this._disconnect();
-      this._view.onready = _ => {
+      this._view.onready = () => {
+        this.toolbar = new ToolbarUnifed(this._view, 'streaming', this);
         if (typeof callback === 'function')
           callback();
       };
+      this._view.open(server, mode);
+      this._view.onquit = () => this._disconnect();
+
       this._closeWhenDOMElementRemoved();
     }
   }
@@ -247,7 +225,6 @@ export default class WebotsView extends HTMLElement {
 
     if (typeof this._disconnectCallback === 'function')
       this._disconnectCallback();
-    this.streamingCSS.disabled = true;
   }
 
   hideToolbar() {
@@ -297,14 +274,12 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      this.animationCSS.disabled = true;
-      this.streamingCSS.disabled = true;
-      this.sceneCSS.disabled = false;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
+
+      this._view.onready = () => { this.toolbar = new ToolbarUnifed(this._view, 'scene', this); };
       this._view.open(scene);
-      this.sceneMenu = new SceneMenu();
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();
     }
@@ -316,10 +291,8 @@ export default class WebotsView extends HTMLElement {
 
   _closeScene() {
     this._view.destroyWorld();
-    this.sceneMenu.close();
     this._hasScene = false;
     this.innerHTML = null;
-    this.sceneCSS.disabled = true;
   }
 }
 
