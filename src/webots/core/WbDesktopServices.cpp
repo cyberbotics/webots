@@ -86,7 +86,7 @@ bool WbDesktopServices::openUrlWithArgs(const QString &url, const QString &progr
   process.setStandardOutputFile(QProcess::nullDevice());
   bool result = process.startDetached();
   if (!result) {
-    WbLog::warning(QObject::tr("Failed to open web browser: %1. Open robot window in default browser.").arg(program));
+    WbLog::warning(QObject::tr("Failed to open web browser: %1. Opening robot window in default browser.").arg(program));
     result = openUrl(url);
   }
 #ifdef _WIN32

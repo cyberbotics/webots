@@ -26,9 +26,9 @@ int main(int argc, char **argv) {
     const char *test_message = (char *)wb_robot_wwi_receive_text();
     wb_robot_step(TIME_STEP);
     if (test_message) {
-      if (strcmp(test_message, "Answer: test wwi functions from complete_test controller.") == 0) {
+      if (strcmp(test_message, "Answer: test wwi functions from complete_test controller.") == 0)
         received = true;
-      } else
+      else
         ts_send_error_and_exit("Wrong test message received from the HTML robot-window: %s", test_message);
     }
   }
