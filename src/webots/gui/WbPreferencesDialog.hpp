@@ -59,15 +59,16 @@ private:
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo,
     *mTextureFilteringCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
-    *mHttpProxyPassword, *mCacheSize, *mUploadUrl;
+    *mHttpProxyPassword, *mCacheSize, *mUploadUrl, *mBrowserProgram;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox;
+    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
 
   QStringList mValidThemeFilenames;
 
   QWidget *createGeneralTab();
   QWidget *createOpenGLTab();
   QWidget *createNetworkTab();
+  QWidget *createRobotWindowTab();
 };
 
 #endif

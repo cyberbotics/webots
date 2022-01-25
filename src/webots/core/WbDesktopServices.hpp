@@ -23,6 +23,7 @@
 
 namespace WbDesktopServices {
   bool openUrl(const QString &url);
-};
+  bool openUrlWithArgs(const QString &url, const QString &program, const bool newBrowserWindow);
+};  // namespace WbDesktopServices
 
 #endif
