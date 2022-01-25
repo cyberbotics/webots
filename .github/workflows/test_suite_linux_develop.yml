@@ -113,6 +113,9 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py ${{ github.sha }}
         export WEBOTS_HOME=$PWD/artifact/webots
+        xdg-settings get default-web-browser
+        xdg-open --version
+        update-alternatives --config x-www-browser
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
     needs: build
