@@ -46,6 +46,7 @@ public:
 
 private:
   unsigned int mSource;
+  bool mAudio;
 };
 
 #endif

@@ -42,6 +42,9 @@ protected:
   unsigned int mBuffer;
   int mSide;  // 0: both sides, -1: left only, 1: right only
   double mBalance;
+
+private:
+  bool mAudio;
 };
 
 #endif

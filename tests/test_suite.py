@@ -190,6 +190,7 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
+            # speaker test not working on github action because of missing sound drivers
             if (not filename.endswith('_temp.wbt') and
                     not (('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
@@ -218,9 +219,9 @@ thread.start()
 webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
-# disable audio on travis/github action because of missing sound device
-""" if ('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ):
-    webotsArguments += ' --no-audio' """
+# disable audio on github action because of missing sound device
+if ('GITHUB_ACTIONS' in os.environ):
+    webotsArguments += ' --no-audio'
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 

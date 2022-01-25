@@ -14,23 +14,30 @@
 
 #include "WbSoundClip.hpp"
 
+#include "WbPreferences.hpp"
 #include "WbWaveFile.hpp"
 
 #include <QtCore/QObject>
 
 #include <AL/al.h>
 
-WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
+WbSoundClip::WbSoundClip() :
+  mFilename(),
+  mDevice(NULL),
+  mBuffer(0),
+  mSide(0),
+  mBalance(0.0),
+  mAudio(WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
 }
 
 WbSoundClip::~WbSoundClip() {
-  /*   if (mBuffer)
-      alDeleteBuffers(1, &mBuffer); */
-  return;
+  if (mBuffer && mAudio)
+    alDeleteBuffers(1, &mBuffer);
 }
 
 void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
-  /*   WbWaveFile wave(filename, device);
+  if (mAudio) {
+    WbWaveFile wave(filename, device);
     wave.loadFromFile(side);
     if (wave.nChannels() > 1)
       wave.convertToMono(balance);
@@ -38,13 +45,13 @@ void WbSoundClip::load(const QString &filename, QIODevice *device, double balanc
     mSide = side;
     mBalance = balance;
     mDevice = device;
-    load(&wave); */
-  return;
+    load(&wave);
+  }
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
-  return;
-  /*   ALuint buffer = 0;
+  if (mAudio) {
+    ALuint buffer = 0;
 
     try {
       ALenum format = 0;
@@ -72,5 +79,6 @@ void WbSoundClip::load(const WbWaveFile *wave) {
       throw;  // throw up
     }
 
-    mBuffer = buffer; */
+    mBuffer = buffer;
+  }
 }

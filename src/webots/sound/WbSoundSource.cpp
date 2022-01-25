@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSoundSource.hpp"
+#include "WbPreferences.hpp"
 
 #include "WbSoundClip.hpp"
 #include "WbVector3.hpp"
@@ -20,87 +21,93 @@
 #include <AL/al.h>
 
 WbSoundSource::WbSoundSource() {
-  /*   alGenSources(1, &mSource);
-    alSourcei(mSource, AL_LOOPING, AL_FALSE); */
-  return;
+  mAudio = WbPreferences::instance()->value("Sound/OpenAL").toBool();
+  if (mAudio) {
+    alGenSources(1, &mSource);
+    alSourcei(mSource, AL_LOOPING, AL_FALSE);
+  }
 }
 
 WbSoundSource::~WbSoundSource() {
-  /*   alSourceStop(mSource);
-    alDeleteSources(1, &mSource); */
-  return;
+  if (mAudio) {
+    alSourceStop(mSource);
+    alDeleteSources(1, &mSource);
+  }
 }
 
 bool WbSoundSource::isPlaying() const {
-  /*   ALenum source_state;
+  if (mAudio) {
+    ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
-    return (source_state == AL_PLAYING); */
-  return false;
+    return (source_state == AL_PLAYING);
+  }
 }
 
 bool WbSoundSource::isStopped() const {
-  /*   ALenum source_state;
+  if (mAudio) {
+    ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
-    return (source_state == AL_STOPPED); */
-  return false;
+    return (source_state == AL_STOPPED);
+  }
 }
 
 bool WbSoundSource::isPaused() const {
-  /*   ALenum source_state;
+  if (mAudio) {
+    ALenum source_state;
     alGetSourcei(mSource, AL_SOURCE_STATE, &source_state);
-    return (source_state == AL_PAUSED); */
-  return false;
+    return (source_state == AL_PAUSED);
+  }
 }
 
 void WbSoundSource::play() {
-  /* alSourcePlay(mSource); */
-  return;
+  if (mAudio)
+    alSourcePlay(mSource);
 }
 
 void WbSoundSource::stop() {
-  /*   alSourceStop(mSource); */
-  return;
+  if (mAudio)
+    alSourceStop(mSource);
 }
 
 void WbSoundSource::pause() {
-  /*   alSourcePause(mSource); */
-  return;
+  if (mAudio)
+    alSourcePause(mSource);
 }
 
 void WbSoundSource::setLooping(bool loop) {
-  /*   if (loop)
+  if (mAudio) {
+    if (loop)
       alSourcei(mSource, AL_LOOPING, AL_TRUE);
     else
-      alSourcei(mSource, AL_LOOPING, AL_FALSE); */
-  return;
+      alSourcei(mSource, AL_LOOPING, AL_FALSE);
+  }
 }
 
 void WbSoundSource::setSoundClip(const WbSoundClip *clip) {
-  /*   alSourcei(mSource, AL_BUFFER, clip->openALBuffer()); */
-  return;
+  if (mAudio)
+    alSourcei(mSource, AL_BUFFER, clip->openALBuffer());
 }
-
 void WbSoundSource::setPitch(double pitch) {
-  /*   alSourcef(mSource, AL_PITCH, pitch); */
-  return;
+  if (mAudio)
+    alSourcef(mSource, AL_PITCH, pitch);
 }
 
 void WbSoundSource::setGain(double gain) {
-  /*   alSourcef(mSource, AL_GAIN, gain); */
-  return;
+  if (mAudio)
+    alSourcef(mSource, AL_GAIN, gain);
 }
 
 void WbSoundSource::setPosition(const WbVector3 &pos) {
-  /*   alSource3f(mSource, AL_POSITION, pos.x(), pos.y(), pos.z()); */
-  return;
+  if (mAudio)
+    alSource3f(mSource, AL_POSITION, pos.x(), pos.y(), pos.z());
 }
 
 void WbSoundSource::setVelocity(const WbVector3 &v) {
-  /*   alSource3f(mSource, AL_VELOCITY, v.x(), v.y(), v.z()); */
-  return;
+  if (mAudio)
+    alSource3f(mSource, AL_VELOCITY, v.x(), v.y(), v.z());
 }
 
 void WbSoundSource::setDirection(const WbVector3 &dir) {
-  /*   alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z()); */
-  return;
+  if (mAudio)
+    alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z());
 }
