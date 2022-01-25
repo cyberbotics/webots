@@ -27,7 +27,7 @@ WbSoundClip::WbSoundClip() :
   mBuffer(0),
   mSide(0),
   mBalance(0.0),
-  mAudio(WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
+  mAudio(!WbPreferences::instance()->value("Sound/mute", true).toBool()) {
 }
 
 WbSoundClip::~WbSoundClip() {

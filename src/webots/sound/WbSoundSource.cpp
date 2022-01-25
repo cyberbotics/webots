@@ -21,7 +21,7 @@
 #include <AL/al.h>
 
 WbSoundSource::WbSoundSource() {
-  mAudio = WbPreferences::instance()->value("Sound/OpenAL").toBool();
+  mAudio = !WbPreferences::instance()->value("Sound/mute", true).toBool();
   if (mAudio) {
     alGenSources(1, &mSource);
     alSourcei(mSource, AL_LOOPING, AL_FALSE);
