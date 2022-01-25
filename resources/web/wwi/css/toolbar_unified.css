@@ -37,6 +37,7 @@ webots-view .toolbar {
   height: 40px;
   position: absolute;
   bottom: 0;
+  align-self: flex-end;
 }
 
 webots-view .toolbar-left {
@@ -53,9 +54,19 @@ webots-view .toolbar-right {
   right: 1%;
 }
 
+webots-view .webots-streaming-time {
+  color: white;
+  font-size: 14px;
+  font-family: monospace;
+  line-height: normal;
+  position: relative;
+  height: 100%;
+  white-space: nowrap;
+  display: inline;
+}
+
 /* Buttons */
 webots-view .toolbar-btn {
-  float: left;
   height: 36px;
   width: 36px;
   box-sizing: border-box;
@@ -73,6 +84,7 @@ webots-view .toolbar-btn {
 
   cursor: pointer;
   outline:none;
+  display: inline-flex;
 }
 
 webots-view .toolbar-btn:hover {
@@ -82,6 +94,9 @@ webots-view .toolbar-btn:hover {
 
 webots-view .icon-play        { background-position:   -2px -2px }
 webots-view .icon-pause       { background-position:  -40px -2px }
+webots-view .icon-step        { background-position:  -78px -2px }
+webots-view .icon-run         { background-position: -154px -2px }
+webots-view .icon-reset       { background-position: -192px -2px}
 webots-view .icon-reset-scene { background-position: -192px -2px}
 webots-view .icon-info        { background-position: -306px -2px }
 webots-view .icon-settings    { background-position: -382px -2px }
@@ -90,6 +105,9 @@ webots-view .icon-partscreen  { background-position: -458px -2px }
 
 webots-view .icon-play:hover,
 webots-view .icon-pause:hover,
+webots-view .icon-step:hover,
+webots-view .icon-run:hover,
+webtos-view .icon-reset:hover,
 webots-view .icon-reset-scene:hover,
 webots-view .icon-info:hover,
 webots-view .icon-settings:hover,
@@ -165,9 +183,11 @@ webots-view .fullscreen-tooltip, .partscreen-tooltip, .reset-scene-tooltip {
 
 /* Time Indicator */
 
-webots-view .current-time, .total-time, .time-divider {
+webots-view .animation-time {
   display: inline-block;
-  padding: 11px 3px;
+  padding: 0px 3px 0px;
+}
+webots-view .current-time, .total-time, .time-divider {
   color: rgba(240, 240, 240, 1);
   font-family: 'verdana';
   font-size: 14px;
@@ -179,3 +199,41 @@ webots-view .current-time, .total-time, .time-divider {
 webots-view .current-time { margin-left: 8px; }
 
 webots-view .total-time { margin-right: 8px; }
+
+/* World selection */
+
+webots-view #worldSelectionDiv {
+  display: inline-flex;
+}
+
+webots-view .select-css {
+  align-self: center;
+  padding: 0.4em 1.8em 0.3em 0.4em;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 0.5em;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right .7em top 55%, 0 0;
+  background-size: .65em auto, 100%;
+  filter: grayscale(1);
+  font-size: 14px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: Arial,Helvetica,sans-serif;
+  top: 3px;
+  position: relative;
+}
+/* Hide arrow icon in IE browsers */
+webots-view .select-css::-ms-expand {
+  display: none;
+}
+/* Hide dashed box when on focus in Firefox browsers */
+webots-view .select-css:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+/* Set options to normal weight */
+webots-view .select-css option {
+  font-weight:normal;
+}

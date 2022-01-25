@@ -247,6 +247,7 @@ webots.View = class View {
   // Functions for internal use.
 
   updateWorldList(currentWorld, worlds) {
+    this.toolBar = document.createElement('div');
     if (!this.toolBar || this.broadcast)
       // Do not show world list if no toolbar exists or in broadcast mode,
       // where multiple users can connect to the same Webots instance.
@@ -256,16 +257,17 @@ webots.View = class View {
       this.toolBar.deleteWorldSelect();
     if (worlds.length <= 1)
       return;
-    this.toolBar.createWorldSelect();
+    // this.toolBar.createWorldSelect();
     for (let i in worlds) {
       const option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];
-      this.toolBar.worldSelect.appendChild(option);
-      if (currentWorld === worlds[i])
-        this.toolBar.worldSelect.selectedIndex = i;
+      this.toolBar.appendChild(option)
+      // this.toolBar.worldSelect.appendChild(option);
+      // if (currentWorld === worlds[i])
+      //   this.toolBar.worldSelect.selectedIndex = i;
     }
-    this.toolBar.worldSelect.onchange = () => {
+    /*this.toolBar.worldSelect.onchange = () => {
       if (this.broadcast || typeof this.toolBar.worldSelect === 'undefined')
         return;
       if (this.toolBar)
@@ -275,7 +277,7 @@ webots.View = class View {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
       this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
-    };
+    };*/
   }
 
   setLabel(properties) {

@@ -53,10 +53,17 @@ export default class ToolbarUnifed {
   }
 
   createSimulationToolbar() {
+    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+
     // Left part
     this._createQuitButton();
     this._createReloadButton();
+    this._createStreamingTimeIndicator();
+    this._createResetButton();
+    this._createStepButton();
     this._createPlayButton();
+    this._createRunButton();
+    this._createWorldSelection();
 
     // Right part
     this._createInfoButton();
@@ -106,7 +113,8 @@ export default class ToolbarUnifed {
     let action;
     if (this.type === 'animation')
       action = (this._view.animation._gui === 'real_time') ? 'pause' : 'play';
-
+    else if (this.type === 'streaming')
+      action = 'play';
     this.toolbarLeft.appendChild(this._createToolBarButton(action, 'P' + action.substring(1) + ' (k)', this._triggerPlayPauseButton));
   }
 
@@ -152,6 +160,23 @@ export default class ToolbarUnifed {
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
   }
 
+  _parseMillisecondsIntoReadableTime(milliseconds) {
+    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+    const absoluteHours = Math.floor(hours);
+    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+    const minutes = (hours - absoluteHours) * 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
+    if (ms < 10)
+      ms = '00' + ms;
+    else if (ms < 100)
+      ms = '0' + ms;
+    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
+  };
   // _keyboardHandler(e) {
   //   if (e.code === 'KeyK')
   //     this._triggerPlayPauseButton();
@@ -175,22 +200,25 @@ export default class ToolbarUnifed {
   }
 
   _createAnimationTimeIndicator() {
+    let div = document.createElement('div')
+    div.className = 'animation-time'
     this._currentTime = document.createElement('span');
     this._currentTime.className = 'current-time';
     this._currentTime.disabled = false;
     this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
-    this.toolbarLeft.appendChild(this._currentTime);
+    div.appendChild(this._currentTime);
 
     const timeDivider = document.createElement('span');
     timeDivider.innerHTML = '/';
     timeDivider.className = 'time-divider';
-    this.toolbarLeft.appendChild(timeDivider);
+    div.appendChild(timeDivider);
 
     const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
     const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
     totalTime.innerHTML = time;
-    this.toolbarLeft.appendChild(totalTime);
+    div.appendChild(totalTime);
+    this.toolbarLeft.appendChild(div);
 
     let offset;
     switch (time.length) {
@@ -230,24 +258,6 @@ export default class ToolbarUnifed {
     return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
   }
 
-  _parseMillisecondsIntoReadableTime(milliseconds) {
-    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
-    const absoluteHours = Math.floor(hours);
-    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-    const minutes = (hours - absoluteHours) * 60;
-    const absoluteMinutes = Math.floor(minutes);
-    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
-    const seconds = (minutes - absoluteMinutes) * 60;
-    const absoluteSeconds = Math.floor(seconds);
-    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
-    if (ms < 10)
-      ms = '00' + ms;
-    else if (ms < 100)
-      ms = '0' + ms;
-    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
-  };
-
   // Scene functions
 
   _createRestoreViewpointButton() {
@@ -265,5 +275,49 @@ export default class ToolbarUnifed {
 
   _createReloadButton() {
     this.toolbarLeft.appendChild(this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); }));
+  }
+
+  _createStreamingTimeIndicator() {
+    const div = document.createElement('div');
+    div.className = 'webots-streaming-time';
+    const clock = document.createElement('span');
+    clock.id = 'webotsClock';
+    clock.title = 'Current simulation time';
+    clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
+    div.appendChild(clock);
+    this.toolbarLeft.appendChild(div);
+  }
+
+  _createResetButton() {
+    this.toolbarLeft.appendChild(this._createToolBarButton('reset', 'Reset the simulation', () => { this.reset(false); }));
+  }
+
+  _createStepButton() {
+    this.toolbarLeft.appendChild(this._createToolBarButton('step', 'Perform one simulation step', () => { this.step(); }));
+  }
+
+  _createRunButton() {
+    this.toolbarLeft.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible', () => { this.run(); }));
+  }
+
+  _createWorldSelection() {
+    this._worldSelectionDiv = document.createElement('div');
+    this._worldSelectionDiv.id = 'worldSelectionDiv';
+    this.toolbarLeft.appendChild(this._worldSelectionDiv);
+    this.createWorldSelect();
+  }
+
+  createWorldSelect() {
+    this.worldSelect = document.createElement('select');
+    this.worldSelect.id = 'worldSelection';
+    this.worldSelect.classList.add('select-css');
+    this._worldSelectionDiv.appendChild(this.worldSelect);
+
+    // check if toolbar buttons are disabled
+    // if (this.real_timeButton && this.real_timeButton.disabled)
+    //   this.worldSelect.disabled = true;
+
+  this.worldSelect.innerHTML = this._view.toolBar.innerHTML;
+    console.log(this._view.toolBar);
   }
 }
