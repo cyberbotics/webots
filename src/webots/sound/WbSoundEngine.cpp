@@ -83,13 +83,13 @@ static void init() {
   qAddPostRoutine(cleanup);
   try {
     // defaultDeviceName contains the name of the def
-    const ALCchar *defaultDeviceName = NULL;  // alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+    const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
-    gDefaultDevice = NULL;  // alcOpenDevice(defaultDeviceName);
+    gDefaultDevice = alcOpenDevice(defaultDeviceName);
     if (gDefaultDevice == NULL)
       throw QObject::tr("Cannot initialize OpenAL default device '%1'").arg(defaultDeviceName);
-    gContext = NULL;  // alcCreateContext(gDefaultDevice, NULL);
+    gContext = alcCreateContext(gDefaultDevice, NULL);
     if (gContext == NULL)
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
