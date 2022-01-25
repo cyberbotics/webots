@@ -132,11 +132,21 @@ void WbNewProtoWizard::accept() {
 
       for (int i = 0; i < fieldModels.size(); ++i) {
         if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
-          WbValue *defaultValue = fieldModels[i]->defaultValue();
-          QString vrmlStringValue = defaultValue->toString();
-          if (defaultValue->type() == WB_SF_NODE)
-            vrmlStringValue += "{}";
-          parameters += "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + vrmlStringValue + "\n";
+          const WbValue *defaultValue = fieldModels[i]->defaultValue();
+          QString vrmlDefaultValue = defaultValue->toString();
+
+          if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
+            vrmlDefaultValue += "{}";
+
+          const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
+          if (defaultValue->type() == WB_MF_NODE && mv) {
+            vrmlDefaultValue = "[ ";
+            for (int j = 0; j < mv->size(); ++j)
+              vrmlDefaultValue += mv->itemToString(j) + "{} ";
+            vrmlDefaultValue += "]";
+          }
+          parameters +=
+            "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + vrmlDefaultValue + "\n";
         }
       }
 

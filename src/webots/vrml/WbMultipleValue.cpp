@@ -56,8 +56,7 @@ QString WbMultipleValue::toString(WbPrecision::Level level) const {
 
 QString WbMultipleValue::itemToString(int index, WbPrecision::Level level) const {
   assert(index >= 0 && index < size());
-  QString value = variantValue(index).toSimplifiedStringRepresentation(level);
-  return type() == WB_MF_NODE ? value + "{}" : value;
+  return variantValue(index).toSimplifiedStringRepresentation(level);
 }
 
 bool WbMultipleValue::valueAtIndexEqualsSingleValue(int index, const WbValue *other) const {
