@@ -94,6 +94,7 @@ static void init() {
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
   } catch (const QString &e) {
+    WbPreferences::instance()->setValue("Sound/OpenAL", false);
     WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
   WbSoundEngine::updateListener();
