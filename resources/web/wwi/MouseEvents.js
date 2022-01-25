@@ -347,27 +347,14 @@ export default class MouseEvents {
       const distanceY = y - y1;
       const newTouchDistance = distanceX * distanceX + distanceY * distanceY;
       const pinchSize = this._state.touchDistance - newTouchDistance;
-
-      const moveX1 = x - this._state.x;
-      const moveX2 = x1 - this._state.x1;
-      const moveY1 = y - this._state.y;
-      const moveY2 = y1 - this._state.y1;
       const ratio = 1;
 
       if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
         let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * -5 * this._moveParams.dy);
-        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
-        let roll3 = glm.quat();
-        roll3.w = roll2.w;
-        roll3.x = roll2.x;
-        roll3.y = roll2.y;
-        roll3.z = roll2.z;
+        let zDisplacement = rollVector.mul(scaleFactor * pinchSize * -0.015);
 
         WbWorld.instance.viewpoint.position = position.add(zDisplacement);
-        WbWorld.instance.viewpoint.orientation = quaternionToVec4(roll3.mul(vec4ToQuaternion(orientation)));
         WbWorld.instance.viewpoint.updatePosition();
-        WbWorld.instance.viewpoint.updateOrientation();
 
         this._scene.render();
       } else { // rotation (pitch and yaw)
