@@ -60,7 +60,6 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mTabWidget->addTab(createGeneralTab(), tr("General"));
   mTabWidget->addTab(createOpenGLTab(), tr("OpenGL"));
   mTabWidget->addTab(createNetworkTab(), tr("Network"));
-  mTabWidget->addTab(createRobotWindowTab(), tr("Robot window"));
 
   for (int i = 0; i < mTabWidget->count(); ++i) {
     if (mTabWidget->tabText(i) == defaultTab) {
@@ -195,14 +194,12 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
+  prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
+  prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
     emit restartRequested();
-
-  // Robot window
-  prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
-  prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -405,7 +402,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *upload = new QGroupBox(tr("Simulation upload service"), this);
+  QGroupBox *upload = new QGroupBox(tr("Web services"), this);
   upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
   cache->setObjectName("networkGroupBox");
@@ -451,8 +448,26 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 0
   mUploadUrl = new WbLineEdit(this);
   mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
-  layout->addWidget(new QLabel(tr("URL:"), this), 0, 0);
-  layout->addWidget(mUploadUrl, 0, 1);
+  layout->addWidget(new QLabel(tr("Simulation upload service:"), this), 1, 0);
+  layout->addWidget(mUploadUrl, 1, 1);
+
+  // row 1
+  mBrowserProgram = new WbLineEdit(this);
+  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
+  mBrowserProgram->setPlaceholderText(tr("firefox, google-chrome... (default if empty)"));
+  mBrowserProgram->setMinimumWidth(260);
+  layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 2, 0);
+  layout->addWidget(mBrowserProgram, 2, 1);
+
+  // row 2
+  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
+  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
+    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+    if (mBrowserProgram->text().isEmpty())
+      mNewBrowserWindow->setChecked(false);
+  });
+  layout->addWidget(mNewBrowserWindow, 3, 1);
 
   // Cache
   layout = new QGridLayout(cache);
@@ -472,32 +487,6 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
                                this),
                     1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
-
-  return widget;
-}
-
-QWidget *WbPreferencesDialog::createRobotWindowTab() {
-  QWidget *widget = new QWidget(this);
-  QGridLayout *layout = new QGridLayout(widget);
-
-  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-
-  // row 0
-  mBrowserProgram = new WbLineEdit(this);
-  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
-  mBrowserProgram->setPlaceholderText(tr("firefox, google-chrome... (default if empty)"));
-  layout->addWidget(new QLabel(tr("default robot window web browser:"), this), 0, 0);
-  layout->addWidget(mBrowserProgram, 0, 1);
-
-  // row 1
-  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
-  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
-  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
-    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
-    if (mBrowserProgram->text().isEmpty())
-      mNewBrowserWindow->setChecked(false);
-  });
-  layout->addWidget(mNewBrowserWindow, 1, 1);
 
   return widget;
 }
