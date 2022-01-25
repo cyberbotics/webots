@@ -88,6 +88,7 @@ The **Web Services** section contains preferences about the URL of the simulatio
 - The **simulation upload service** field allow you to set your own simulation upload server URL. The default value is `https://beta.webots.cloud`.
 - The **robot window default web browser** field allow you to set the browser in which the robot window will be opened. For example, `firefox`, `google-chrome`, etc. The default value is an empty value, which correspond to the system default web browser.
 - The check box allows you to open the robot window always in a new web browser window instead of a new tab (only available if you set the **robot window default web browser** field).
+
 #### Disk Cache
 
 The **Disk Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
