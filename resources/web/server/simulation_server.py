@@ -162,6 +162,10 @@ class Client:
             if current_load > config['shareIdleTime']:
                 logging.error(f'Cannot share idle time when current load is above threshold: {current_load}.')
                 return False
+            if 'blockedRepositories' in config and self.url.startswith(tuple(config['bannedRepositories'])):
+                logging.error(f'Cannot run simulation from blocked repository: {self.url}')
+                return False
+
         return self.setup_project_from_github()
 
     def setup_project_from_github(self):
@@ -474,9 +478,19 @@ class MonitorHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Write the web page content."""
+        def percent(value):
+            level = 150 + value
+            if value <= 50:
+                red = '%0.2x' % int(level * value / 50)
+                green = '%0.2x' % int(level)
+            else:
+                red = '%0.2x' % int(level)
+                green = '%0.2x' % int(level - level * (value - 50) / 50)
+            return f'<font color="#{red}{green}00">{value}%</font>'
         global cpu_load
         global gpu_load_compute
-        global gpu_load_memory
+        global gpu_ram_usage
+        global swap
         memory = psutil.virtual_memory()
         swap = psutil.swap_memory()
         if nvidia:
@@ -488,7 +502,8 @@ class MonitorHandler(tornado.web.RequestHandler):
         else:
             gpu = 'Not recognized'
         ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + 'GB'
-        ram += f' (swap: {int(round(float(swap.total) / (1024 * 1048576)))}GB)'
+        ram += f' &mdash; <b>swap:</b> {percent(swap.percent)}'
+        ram += f' of {int(round(float(swap.total) / (1024 * 1048576)))}GB'
         real_cores = psutil.cpu_count(False)
         cores_ratio = int(psutil.cpu_count(True) / real_cores)
         cores = f' ({cores_ratio}x {real_cores} cores)'
@@ -517,23 +532,41 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write('<!DOCTYPE html>\n')
         self.write('<html><head><meta charset="utf-8"/><title>Webots simulation server</title>')
         self.write('<link rel="stylesheet" type="text/css" href="https://cyberbotics.com/wwi/R2022b/css/monitor.css">')
-        self.write(f'</head>\n<body><h1>Webots simulation server: {socket.getfqdn()}</h1>')
-        self.write(f'<h2>Host: {os_name}</h2>\n')
-        self.write(f'<p><b>CPU load: {cpu_load}%%</b><br>\n')
+        self.write('</head>\n<body><h1>')
+        if 'title' in config:
+            self.write(config['title'])
+        else:
+            self.write('Webots simulation server')
+        self.write('</h1>')
+        if 'description' in config:
+            self.write(f'<p>{config["description"]}</p>')
+        self.write(f'<h2>Current load: {percent(current_load)}</h2>')
+        self.write(f'<p><b>Host:</b> {os_name} ({socket.getfqdn()})</p>\n')
+        self.write(f'<p><b>CPU load:</b> {percent(cpu_load)}<br>\n')
         self.write(f'{cpu} {cores}</p>\n')
-        self.write(f'<p><b>GPU load compute: {gpu_load_compute}%% &mdash; load memory: {gpu_load_memory}%%</b><br>\n')
+        self.write(f'<p><b>GPU load compute:</b> {percent(gpu_load_compute)}')
+        self.write(f' &mdash; <b>RAM usage:</b> {percent(gpu_ram_usage)}<br>\n')
         self.write(f'{gpu}</p>\n')
-        self.write(f'<p><b>RAM:</b><br>{ram}</p>\n')
+        self.write(f'<p><b>RAM:</b> {ram}</p>\n')
         if 'allowedRepositories' in config:
             self.write('<table class="bordered"><thead><tr><th>Allowed Repositories</th></thead>\n')
-            for allowedRepository in config['allowedRepositories']:
-                self.write(f'<tr><td><a href="{allowedRepository}">{allowedRepository}</a></td></tr>')
+            for repository in config['allowedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
+            self.write('</table>')
+        if 'blockedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Blocked Repositories</th></thead>\n')
+            for repository in config['blockedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
             self.write('</table>')
         if 'notify' in config:
             self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}</th></thead>\n')
             for notify in config['notify']:
+                slash = notify.find('/', 8)
+                if slash > -1:
+                    notify = notify[0:slash]
                 self.write(f'<tr><td><a href="{notify}">{notify}</a></td></tr>')
             self.write('</table>')
+        self.write('<br>')
         self.write('<canvas id="graph" height="400" width="1024"></canvas>\n')
         self.write('<script src="https://cyberbotics.com/harry-plotter/0.9f/harry.min.js"></script>\n')
         self.write('<script>\n')
@@ -598,6 +631,7 @@ def update_snapshot():
     global network_received
     global cpu_load
     global gpu_load_compute
+    global gpu_ram_usage
     global gpu_load_memory
     memory = psutil.virtual_memory()
     swap = psutil.swap_memory()
@@ -665,6 +699,7 @@ def main():
     # portRewrite:         port rewritten in the URL by apache (true by default)
     # docker:              launch webots inside a docker (false by default)
     # allowedRepositories: list of allowed GitHub simulation repositories
+    # blockedRepositories: list of blocked GitHub simulation repositories
     # shareIdleTime:       maximum load for running non-allowed repositories
     # notify:              webservices to be notified about the server status
     # projectsDir:         directory in which projects are located
@@ -758,15 +793,28 @@ def main():
         subprocess.Popen(["/opt/janus/bin/janus"])
 
     if 'notify' not in config:
-        config['notify'] = ['https://webots.cloud']
+        config['notify'] = ['https://beta.webots.cloud/ajax/simulation_server_pulse.php']
+    elif isinstance(config['notify'], str):
+        config['notify'] = [config['notify']]
 
     if 'shareIdleTime' not in config:
         config['shareIdleTime'] = 0.5
 
-    for notify in config['notify']:
-        url = f'{notify}/webots_simulation_server.php'
-        x = requests.post(url, data={'shareIdleTime': config['shareIdleTime'],
-                                     'allowedRepositories': config['allowedRepositories']})
+    if 'ssl' not in config:
+        config['ssl'] = True
+
+    if 'portRewrite' not in config:
+        config['portRewrite'] = True
+
+    url = 'https' if config['ssl'] else 'http'
+    url += '://' + config['server']
+    url += '/' if config['portRewrite'] else ':'
+    url += str(config['port'])
+
+    for server in config['notify']:
+        x = requests.post(server, data={'url': url,
+                                        'shareIdleTime': config['shareIdleTime'],
+                                        'allowedRepositories': ','.join(config['allowedRepositories'])})
         print(x.text)
 
     # startup the server
@@ -778,10 +826,6 @@ def main():
     handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
     http_server = tornado.httpserver.HTTPServer(application)
-    if 'ssl' not in config:
-        config['ssl'] = True
-    if 'portRewrite' not in config:
-        config['portRewrite'] = True
     http_server.listen(config['port'])
     message = f"Simulation server running on port {config['port']}"
     print(message)
