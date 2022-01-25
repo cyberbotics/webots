@@ -45,4 +45,4 @@ else:
 print("END OF OPENAL WARNINGS")
 for i in range(len(worlds)):
     print('%d/%d: %s' % (i + 1, len(worlds), worlds[i]))
-    call([webotsFullPath, worlds[i], '--minimize', '--batch', '--no-sandbox', '--no-audio' '--mode=pause', '--update-world'])
+    call([webotsFullPath, worlds[i], '--minimize', '--batch', '--no-sandbox', '--no-audio', '--mode=pause', '--update-world'])
