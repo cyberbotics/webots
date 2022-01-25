@@ -142,7 +142,7 @@ void WbVariant::clear() {
   mType = -1;
 }
 
-const QString WbVariant::toStringRepresentation(WbPrecision::Level level) const {
+const QString WbVariant::toSimplifiedStringRepresentation(WbPrecision::Level level) const {
   switch (mType) {
     case WB_SF_BOOL:
       return mBool ? "TRUE" : "FALSE";
