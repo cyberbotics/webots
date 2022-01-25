@@ -54,8 +54,16 @@ class HeadersGenerator:
         'sensor_msgs/PointCloud': 'd8e9c3f5afbdd8a130fd1d2763945fca',
         'sensor_msgs/Range': 'c005c34273dc426c67a020a87bc24148',
     }
+    customPredifinedMD5 = {
+        'webots_ros/msg/RecognitionObject.msg': 'd1a091cfdf9ce6628a657e03f119442a',
+        'webots_ros/msg/RecognitionObjects.msg': 'ac0ec54e563936d28b7dec5cf26184c3',
+    }
 
     def ros_md5sum(self, srv):
+        for customMsg in self.customPredifinedMD5:
+            if customMsg in srv:
+                return self.customPredifinedMD5[customMsg]
+
         m = hashlib.md5()
         with open(srv, 'r') as f:
             text = f.read()

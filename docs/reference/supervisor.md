@@ -2841,8 +2841,8 @@ If NULL, the current world path is used instead (e.g., a simple save operation).
 The boolean return value indicates the success of the save operation.
 Be aware that this function can overwrite silently existing files, so that the corresponding data may be lost.
 
-> **Note** [C++, Java, Python, MATLAB]: In the other APIs, the `Robot.worldSave` function can be called without argument.
-In this case, a simple save operation is performed.
+> **Note** [C++, Java, Python, MATLAB]: Only for the C API it is required to pass NULL in order to perform a simple save operation.
+For all others the `Robot.worldSave` function can be called without argument.
 
 The `wb_supervisor_world_reload` function sends a request to the simulator process, asking it to reload the current world immediately.
 As a result of reloading the current world, all the supervisor and robot controller processes are terminated and restarted.
