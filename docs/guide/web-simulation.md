@@ -222,18 +222,21 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 ```
-    # server:              fully qualilified domain name of simulation server
-    # ssl:                 for https/wss URL (true by default)
-    # port:                local port on which the server is listening
-    # portRewrite:         port rewritten in the URL by apache (true by default)
-    # docker:              launch webots inside a docker (false by default)
-    # allowedRepositories: list of allowed GitHub simulation repositories
-    # projectsDir:         directory in which projects are located
-    # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
-    # maxConnections:      maximum number of simultaneous Webots instances
-    # logDir:              directory where the log files are written
-    # monitorLogEnabled:   store monitor data in a file (true by default)
-    # debug:               output debug information to stdout (false by default)
+# server:              fully qualilified domain name of simulation server
+# ssl:                 for https/wss URL (true by default)
+# port:                local port on which the server is listening
+# portRewrite:         port rewritten in the URL by apache (true by default)
+# docker:              launch webots inside a docker (false by default)
+# allowedRepositories: list of allowed GitHub simulation repositories
+# blockedRepositories: list of blocked GitHub simulation repositories
+# shareIdleTime:       maximum load for running non-allowed repositories
+# notify:              webservices to be notified about the server status
+# projectsDir:         directory in which projects are located
+# webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
+# maxConnections:      maximum number of simultaneous Webots instances
+# logDir:              directory where the log files are written
+# monitorLogEnabled:   store monitor data in a file (true by default)
+# debug:               output debug information to stdout (false by default)
 ```
 
 HTTP request handlers:
@@ -413,9 +416,8 @@ Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-we
 
 This is the API of the `webots-streaming` web component:
 * `connect(servers, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
-  * `server`: The URL of theserver. Different URL formats are supported:
+  * `server`: The URL of the server. Different URL formats are supported:
       * URL to a session server: "https://beta.webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
-      * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The URL value specifies both the session server host and the desired simulation name.
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
   * `mode`: `x3d` or `mjpeg`.
