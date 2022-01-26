@@ -74,7 +74,7 @@ Then, the selected simulation server starts a Webots instance that communicates 
 To test the session and simulation servers, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, under the `Connect to:` field, type for example:
 ```
-ws://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/develop/projects/languages/python/worlds/example.wbt
+http://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/develop/projects/languages/python/worlds/example.wbt
 ```
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
@@ -413,7 +413,8 @@ Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-we
 
 This is the API of the `webots-streaming` web component:
 * `connect(servers, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
-  * `server`: The URL of the server. Three different URL formats are supported:
+  * `server`: The URL of theserver. Different URL formats are supported:
+      * URL to a session server: "https://beta.webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
       * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The URL value specifies both the session server host and the desired simulation name.
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
