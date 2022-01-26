@@ -2132,7 +2132,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     }
 
     if (currentRobotWindow == NULL) {  // if no robot window associated with the robot, create one.
-      currentRobotWindow = new WbRobotWindow(robot, this);
+      currentRobotWindow = new WbRobotWindow(robot);
       mRobotWindows << currentRobotWindow;
       connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });

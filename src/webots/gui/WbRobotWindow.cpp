@@ -13,10 +13,11 @@
 // limitations under the License.
 
 #include "WbRobotWindow.hpp"
+
 #include "WbDesktopServices.hpp"
 #include "WbPreferences.hpp"
 
-WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(robot), mMainWindow(mainWindow) {
+WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
 }
 
 void WbRobotWindow::setupPage() {
