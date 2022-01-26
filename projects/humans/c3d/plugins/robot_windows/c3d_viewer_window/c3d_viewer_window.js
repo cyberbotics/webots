@@ -37,9 +37,9 @@ window.updateTabCallback = function() {
 
 window.checkboxCallback = function(checkbox) {
   if (checkbox.checked)
-  window.robotWindow.send('enable:' + checkbox.getAttribute('marker'));
+    window.robotWindow.send('enable:' + checkbox.getAttribute('marker'));
   else
-  window.robotWindow.send('disable:' + checkbox.getAttribute('marker'));
+    window.robotWindow.send('disable:' + checkbox.getAttribute('marker'));
 }
 
 
@@ -72,7 +72,7 @@ window.changeColor = function(virtual, color) {
   window.robotWindow.send(message);
 }
 
-window.changeRadius =  function(virtual, radius) {
+window.changeRadius = function(virtual, radius) {
   let div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
   let radiusSliders = div.getElementsByClassName('radiusSlider');
   let message = 'radius:' + radius;
