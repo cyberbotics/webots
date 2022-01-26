@@ -190,12 +190,12 @@ void WbActionManager::populateActions() {
   action->setIcon(QIcon("enabledIcons:sound_mute_button.png"));
   mActions[SOUND_UNMUTE] = action;
 
-  if (!WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
-    action->setEnabled(false);
-    action->setStatusTip(tr("--no-audio flag called. the sound has been disabled."));
-    WbPreferences::instance()->setValue("Sound/mute", true);
-  }
-
+  /*   if (!WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
+      action->setEnabled(false);
+      action->setStatusTip(tr("--no-audio flag called. the sound has been disabled."));
+      WbPreferences::instance()->setValue("Sound/mute", true);
+    }
+   */
   action = new QAction(this);
   action->setText(tr("&Mute sound"));
   action->setStatusTip(tr("Mute the sound on the main audio device of the computer."));

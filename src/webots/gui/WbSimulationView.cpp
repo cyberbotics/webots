@@ -479,7 +479,7 @@ void WbSimulationView::updateVisibility() {
 
 void WbSimulationView::unmuteSound() {
   WbPreferences::instance()->setValue("Sound/mute", false);
-  WbPreferences::instance()->setValue("Sound/OpenAL", true);
+  // WbPreferences::instance()->setValue("Sound/OpenAL", true);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   if (mode != WbSimulationState::FAST && WbSimulationState::instance()->isRendering())
     WbSoundEngine::setMute(false);

@@ -218,8 +218,8 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
-    else if (arg == "--no-audio")
-      WbPreferences::instance()->setValue("Sound/OpenAL", false);
+    /*     else if (arg == "--no-audio")
+          WbPreferences::instance()->setValue("Sound/OpenAL", false); */
     else if (arg == "convert") {
       mTask = CONVERT;
       mTaskArguments = args.mid(i);
