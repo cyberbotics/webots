@@ -793,7 +793,7 @@ def main():
         subprocess.Popen(["/opt/janus/bin/janus"])
 
     if 'notify' not in config:
-        config['notify'] = ['https://beta.webots.cloud/ajax/simulation_server_pulse.php']
+        config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']
     elif isinstance(config['notify'], str):
         config['notify'] = [config['notify']]
 
