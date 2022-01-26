@@ -101,12 +101,6 @@
 #include <QtWidgets/QStyle>
 #include "WbNetwork.hpp"
 
-#ifdef _WIN32
-#include <QtWebKit/QWebSettings>
-#else
-#include <QtWebEngineWidgets/QWebEngineProfile>
-#endif
-
 #include <wren/gl_state.h>
 
 WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
@@ -1368,11 +1362,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
             &WbVisualBoundingSphere::show);
   }
 
-#ifdef _WIN32
-  QWebSettings::globalSettings()->clearMemoryCaches();
-#else
-  QWebEngineProfile::defaultProfile()->clearHttpCache();
-#endif
   WbRenderingDeviceWindowFactory::reset();
   restorePerspective(reloading, firstLoad, false);
 
