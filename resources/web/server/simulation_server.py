@@ -559,7 +559,7 @@ class MonitorHandler(tornado.web.RequestHandler):
                 self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
             self.write('</table>')
         if 'notify' in config:
-            self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}</th></thead>\n')
+            self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}%</th></thead>\n')
             for notify in config['notify']:
                 slash = notify.find('/', 8)
                 if slash > -1:
@@ -798,7 +798,7 @@ def main():
         config['notify'] = [config['notify']]
 
     if 'shareIdleTime' not in config:
-        config['shareIdleTime'] = 0.5
+        config['shareIdleTime'] = 50
 
     if 'ssl' not in config:
         config['ssl'] = True
