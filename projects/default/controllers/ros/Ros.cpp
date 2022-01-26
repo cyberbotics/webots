@@ -80,6 +80,7 @@ Ros::Ros() :
   mUseWebotsSimTime(false),
   mAutoPublish(false),
   mUseRosControl(false),
+  mRosNameSpace(""),
   mRobotDescriptionPrefix(""),
   mSetRobotDescription(false),
   mRosControl(NULL) {
@@ -120,7 +121,6 @@ void Ros::launchRos(int argc, char **argv) {
   setupRobot();
   fixName();
   bool rosMasterUriSet = false;
-  std::string rosNameSpace = "";
 
   mStepSize = mRobot->getBasicTimeStep();
 
@@ -140,7 +140,7 @@ void Ros::launchRos(int argc, char **argv) {
       char robot_name[64];
       strncpy(robot_name, argv[i] + sizeof(name) - 1, strlen(argv[i]) - strlen(name) + 1);
       mRobotName = std::string(robot_name);
-      rosNameSpace = std::string(robot_name);
+      mRosNameSpace = std::string(robot_name);
     } else if (strcmp(argv[i], "--clock") == 0)
       mShouldPublishClock = true;
     else if (strcmp(argv[i], "--synchronize") == 0)
@@ -178,7 +178,7 @@ void Ros::launchRos(int argc, char **argv) {
     exit(EXIT_SUCCESS);
   }
 
-  mNodeHandle = new ros::NodeHandle(rosNameSpace);
+  mNodeHandle = new ros::NodeHandle(mRosNameSpace);
   ROS_INFO("The controller is now connected to the ROS master.");
 
   mNamePublisher = mNodeHandle->advertise<std_msgs::String>("/model_name", 1, true);
