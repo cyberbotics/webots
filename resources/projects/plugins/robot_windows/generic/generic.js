@@ -58,7 +58,6 @@ function configure(data) {
 }
 
 function receive(message, _robot) {
-  console.log(message);
   let data = '';
   if (message.indexOf('configure ') === 0) {
     data = parseJSONMessage(message.substring(10));

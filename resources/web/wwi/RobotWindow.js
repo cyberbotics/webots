@@ -1,4 +1,5 @@
 import {getGETQueryValue} from './request_methods.js';
+
 export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));

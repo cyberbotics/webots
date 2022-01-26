@@ -13,17 +13,18 @@
 // limitations under the License.
 
 #include "WbRobotWindow.hpp"
+
 #include "WbDesktopServices.hpp"
 #include "WbPreferences.hpp"
 
-WbRobotWindow::WbRobotWindow(WbRobot *robot, WbMainWindow *mainWindow) : mRobot(robot), mMainWindow(mainWindow) {
+WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
 }
 
 void WbRobotWindow::setupPage() {
   QString windowFileName = mRobot->windowFile("html");
   const QString port = WbPreferences::instance()->value("Streaming/port", 1234).toString();
   if (windowFileName.isEmpty()) {
-    mRobot->parsingWarn(QString("No HTML robot window is set in the 'window' field."));
+    mRobot->parsingWarn(tr("No HTML robot window is set in the 'window' field."));
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows

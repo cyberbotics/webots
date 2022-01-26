@@ -17,13 +17,12 @@
 
 #include <QtCore/QObject>
 
-#include "WbMainWindow.hpp"
 #include "WbRobot.hpp"
 
 class WbRobotWindow : public QObject {
   Q_OBJECT
 public:
-  explicit WbRobotWindow(WbRobot *, WbMainWindow *);
+  explicit WbRobotWindow(WbRobot *);
 
   WbRobot *robot() { return mRobot; }
   const QString getClientID() { return mClientID; }
@@ -37,7 +36,6 @@ signals:
 private:
   WbRobot *mRobot;
   QString mClientID;
-  WbMainWindow *mMainWindow;
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP
