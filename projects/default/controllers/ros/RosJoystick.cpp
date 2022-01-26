@@ -91,7 +91,7 @@ void RosJoystick::publishAuxiliaryValue() {
       for (int i = 0; i < axesNumber; ++i) {
         std::ostringstream s;
         s << i;
-        mAxesValuePublisher[i] = RosDevice::rosAdvertiseTopic(mRos->name() + "/joystick/axis" + s.str(), value);
+        mAxesValuePublisher[i] = RosDevice::rosAdvertiseTopic("joystick/axis" + s.str(), value);
       }
     }
   }
@@ -112,7 +112,7 @@ void RosJoystick::publishAuxiliaryValue() {
       for (int i = 0; i < povsNumber; ++i) {
         std::ostringstream s;
         s << i;
-        mPovsValuePublisher[i] = RosDevice::rosAdvertiseTopic(mRos->name() + "/joystick/pov" + s.str(), value);
+        mPovsValuePublisher[i] = RosDevice::rosAdvertiseTopic("joystick/pov" + s.str(), value);
       }
     }
   }
