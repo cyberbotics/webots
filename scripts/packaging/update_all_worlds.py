@@ -24,7 +24,7 @@ from subprocess import call
 worlds = []
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
-    for fileName in fnmatch.filter(fileNames, 'speaker*.wbt'):
+    for fileName in fnmatch.filter(fileNames, '*.wbt'):
         world = os.path.join(rootPath, fileName)
         worlds.append(world)
 webotsFullPath = None
