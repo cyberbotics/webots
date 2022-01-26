@@ -2,18 +2,20 @@
 
 body {
   scroll-behavior: smooth;
-  width: 100%;
 }
 
 webots-view {
   height: 100%;
-  width: 100%;
+  display: block;
 }
 
 webots-view .webots3DView {
   height: 100%;
-  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   position: relative;
+  display: flex;
 }
 
 webots-view #webotsProgress {
@@ -31,13 +33,10 @@ webots-view #webotsProgress {
   box-sizing: content-box;
 }
 
-webots-view .toolbar {
-  z-index: 1;
-  width: 100%;
-  height: 40px;
+webots-view .webots-label {
   position: absolute;
-  bottom: 0;
-  align-self: flex-end;
+  white-space: pre;
+  z-index: 1;
 }
 
 webots-view .toolbar-left {
@@ -62,11 +61,14 @@ webots-view .webots-streaming-time {
   position: relative;
   height: 100%;
   white-space: nowrap;
-  display: inline;
+  display: inline-block;
+  float: left;
+  top: 11px;
 }
 
 /* Buttons */
 webots-view .toolbar-btn {
+  float: left;
   height: 36px;
   width: 36px;
   box-sizing: border-box;
@@ -84,7 +86,6 @@ webots-view .toolbar-btn {
 
   cursor: pointer;
   outline:none;
-  display: inline-flex;
 }
 
 webots-view .toolbar-btn:hover {
@@ -117,12 +118,10 @@ webots-view .toolbar-reload:hover {
   background-position-y: -40px;
 }
 
-webots-view button:first-of-type { margin-right: 6px; }
-
 webots-view .icon-quit {
   background-size: 28px;
   background-image: url(../images/quit.png);
-  margin-top:5px;
+  margin-top:3px;
   margin-left: 5px;
 }
 
@@ -183,11 +182,9 @@ webots-view .fullscreen-tooltip, .partscreen-tooltip, .reset-scene-tooltip {
 
 /* Time Indicator */
 
-webots-view .animation-time {
-  display: inline-block;
-  padding: 0px 3px 0px;
-}
 webots-view .current-time, .total-time, .time-divider {
+  display: inline-block;
+  padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
   font-family: 'verdana';
   font-size: 14px;
@@ -204,6 +201,7 @@ webots-view .total-time { margin-right: 8px; }
 
 webots-view #worldSelectionDiv {
   display: inline-flex;
+  margin-top: 2px;
 }
 
 webots-view .select-css {

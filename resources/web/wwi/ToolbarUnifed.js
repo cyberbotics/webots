@@ -200,25 +200,21 @@ export default class ToolbarUnifed {
   }
 
   _createAnimationTimeIndicator() {
-    let div = document.createElement('div')
-    div.className = 'animation-time'
     this._currentTime = document.createElement('span');
     this._currentTime.className = 'current-time';
-    this._currentTime.disabled = false;
     this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
-    div.appendChild(this._currentTime);
+    this.toolbarLeft.appendChild(this._currentTime);
 
     const timeDivider = document.createElement('span');
     timeDivider.innerHTML = '/';
     timeDivider.className = 'time-divider';
-    div.appendChild(timeDivider);
+    this.toolbarLeft.appendChild(timeDivider);
 
     const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
     const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
     totalTime.innerHTML = time;
-    div.appendChild(totalTime);
-    this.toolbarLeft.appendChild(div);
+    this.toolbarLeft.appendChild(totalTime);
 
     let offset;
     switch (time.length) {
@@ -278,14 +274,13 @@ export default class ToolbarUnifed {
   }
 
   _createStreamingTimeIndicator() {
-    const div = document.createElement('div');
-    div.className = 'webots-streaming-time';
     const clock = document.createElement('span');
+    clock.className = 'webots-streaming-time';
+
     clock.id = 'webotsClock';
     clock.title = 'Current simulation time';
     clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
-    div.appendChild(clock);
-    this.toolbarLeft.appendChild(div);
+    this.toolbarLeft.appendChild(clock);
   }
 
   _createResetButton() {
