@@ -53,7 +53,7 @@ void RosGPS::publishValue(ros::Publisher publisher) {
   if (mGPS->getCoordinateSystem() == GPS::WGS84) {
     sensor_msgs::NavSatFix value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     value.latitude = mGPS->getValues()[0];
     value.longitude = mGPS->getValues()[1];
     value.altitude = mGPS->getValues()[2];
@@ -63,7 +63,7 @@ void RosGPS::publishValue(ros::Publisher publisher) {
   } else {
     geometry_msgs::PointStamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     value.point.x = mGPS->getValues()[0];
     value.point.y = mGPS->getValues()[1];
     value.point.z = mGPS->getValues()[2];
@@ -76,7 +76,7 @@ void RosGPS::publishAuxiliaryValue() {
     if (mSpeedVectorPublisher.getNumSubscribers() >= 1) {
       geometry_msgs::PointStamped value;
       value.header.stamp = ros::Time::now();
-      value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+      value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
       const double *speed_vector = mGPS->getSpeedVector();
       value.point.x = speed_vector[0];
       value.point.y = speed_vector[1];

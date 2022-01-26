@@ -48,13 +48,13 @@ void RosRadar::publishValue(ros::Publisher publisher) {
   int target_number = mRadar->getNumberOfTargets();
   webots_ros::Int8Stamped targetsNumber;
   targetsNumber.header.stamp = ros::Time::now();
-  targetsNumber.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  targetsNumber.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   targetsNumber.data = target_number;
   mTargetsNumberPublisher.publish(targetsNumber);
 
   webots_ros::RadarTarget target;
   target.header.stamp = ros::Time::now();
-  target.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  target.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   const WbRadarTarget *targets = mRadar->getTargets();
   for (int i = 0; i < target_number; ++i) {
     target.distance = targets[i].distance;

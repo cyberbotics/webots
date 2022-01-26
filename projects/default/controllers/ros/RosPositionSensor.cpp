@@ -44,7 +44,7 @@ ros::Publisher RosPositionSensor::createPublisher() {
 void RosPositionSensor::publishValue(ros::Publisher publisher) {
   webots_ros::Float64Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.data = mPositionSensor->getValue();
   publisher.publish(value);
 }

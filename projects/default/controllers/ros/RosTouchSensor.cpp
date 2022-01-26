@@ -54,19 +54,19 @@ void RosTouchSensor::publishValue(ros::Publisher publisher) {
   if (mTouchSensor->getType() == TouchSensor::BUMPER) {
     webots_ros::BoolStamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     value.data = mTouchSensor->getValue();
     publisher.publish(value);
   } else if (mTouchSensor->getType() == TouchSensor::FORCE) {
     webots_ros::Float64Stamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     value.data = mTouchSensor->getValue();
     publisher.publish(value);
   } else if (mTouchSensor->getType() == TouchSensor::FORCE3D) {
     geometry_msgs::WrenchStamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     value.wrench.force.x = mTouchSensor->getValues()[0];
     value.wrench.force.y = mTouchSensor->getValues()[1];
     value.wrench.force.z = mTouchSensor->getValues()[2];

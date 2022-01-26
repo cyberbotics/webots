@@ -68,7 +68,7 @@ ros::Publisher RosJoystick::createPublisher() {
 void RosJoystick::publishValue(ros::Publisher publisher) {
   webots_ros::Int8Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + "/joystick";
+  value.header.frame_id = mFrameIdPrefix + "joystick";
   int button = mJoystick->getPressedButton();
   while (button >= 0) {
     value.data = button;
@@ -99,7 +99,7 @@ void RosJoystick::publishAuxiliaryValue() {
   // publish the axes value
   if (mAxesValuePublisher && axesNumber > 0) {
     for (int i = 0; i < axesNumber; ++i) {
-      value.header.frame_id = mRos->name() + "/joystick";
+      value.header.frame_id = mFrameIdPrefix + "joystick";
       value.data = mJoystick->getAxisValue(i);
       mAxesValuePublisher[i].publish(value);
     }
@@ -120,7 +120,7 @@ void RosJoystick::publishAuxiliaryValue() {
   // publish the point of views value
   if (mPovsValuePublisher && povsNumber > 0) {
     for (int i = 0; i < povsNumber; ++i) {
-      value.header.frame_id = mRos->name() + "/joystick";
+      value.header.frame_id = mFrameIdPrefix + "joystick";
       value.data = mJoystick->getPovValue(i);
       mPovsValuePublisher[i].publish(value);
     }

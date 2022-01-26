@@ -39,7 +39,7 @@ ros::Publisher RosAccelerometer::createPublisher() {
 void RosAccelerometer::publishValue(ros::Publisher publisher) {
   sensor_msgs::Imu value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.orientation.x = 0.0;
   value.orientation.y = 0.0;
   value.orientation.z = 0.0;

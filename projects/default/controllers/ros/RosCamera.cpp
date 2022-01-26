@@ -94,7 +94,7 @@ void RosCamera::publishValue(ros::Publisher publisher) {
   const unsigned char *colorImage = mCamera->getImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   image.height = mCamera->getHeight();
   image.width = mCamera->getWidth();
   image.encoding = sensor_msgs::image_encodings::BGRA8;
@@ -112,7 +112,7 @@ void RosCamera::publishAuxiliaryValue() {
     const CameraRecognitionObject *cameraObjects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObjects objects;
     objects.header.stamp = ros::Time::now();
-    objects.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_objects";
+    objects.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName() + "/recognition_objects";
     for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
       webots_ros::RecognitionObject object;
       object.position.x = cameraObjects[i].position[0];
@@ -140,7 +140,7 @@ void RosCamera::publishAuxiliaryValue() {
       const unsigned char *colorImage = mCamera->getRecognitionSegmentationImage();
       sensor_msgs::Image image;
       image.header.stamp = ros::Time::now();
-      image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
+      image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
       image.height = mCamera->getHeight();
       image.width = mCamera->getWidth();
       image.encoding = sensor_msgs::image_encodings::BGRA8;

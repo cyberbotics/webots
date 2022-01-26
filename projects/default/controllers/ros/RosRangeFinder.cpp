@@ -48,7 +48,7 @@ void RosRangeFinder::publishValue(ros::Publisher publisher) {
   rangeImageVector = (const char *)(void *)mRangeFinder->getRangeImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   image.height = mRangeFinder->getHeight();
   image.width = mRangeFinder->getWidth();
   image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;

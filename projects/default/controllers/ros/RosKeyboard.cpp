@@ -30,7 +30,7 @@ ros::Publisher RosKeyboard::createPublisher() {
 void RosKeyboard::publishValue(ros::Publisher publisher) {
   webots_ros::Int32Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + "/keyboard";
+  value.header.frame_id = mFrameIdPrefix + "keyboard";
   int key = mKeyboard->getKey();
   while (key >= 0) {
     value.data = key;

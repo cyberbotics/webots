@@ -71,7 +71,7 @@ void RosLidar::publishValue(ros::Publisher publisher) {
   rangeImageVector = (const char *)(void *)mLidar->getRangeImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   image.height = mLidar->getNumberOfLayers();
   image.width = mLidar->getHorizontalResolution();
   image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
@@ -96,7 +96,7 @@ void RosLidar::publishLaserScan() {
     return;
   sensor_msgs::LaserScan laserScan;
   laserScan.header.stamp = ros::Time::now();
-  laserScan.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  laserScan.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   laserScan.angle_min = -mLidar->getFov() / 2.0;
   laserScan.angle_max = mLidar->getFov() / 2.0;
   laserScan.angle_increment = mLidar->getFov() / mLidar->getHorizontalResolution();
@@ -114,7 +114,7 @@ void RosLidar::publishPointCloud() {
   if (pointCloud) {
     sensor_msgs::PointCloud2 cloud;
     cloud.header.stamp = ros::Time::now();
-    cloud.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    cloud.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     // Convention of PointCloud2, if points are unordered height is 1
     cloud.height = 1;
     cloud.width = mLidar->getNumberOfPoints();
@@ -184,7 +184,7 @@ bool RosLidar::getLayerRangeImage(webots_ros::lidar_get_layer_range_image::Reque
                                   webots_ros::lidar_get_layer_range_image::Response &res) {
   const char *rangeImageVector = (const char *)(void *)mLidar->getLayerRangeImage(req.layer);
   res.image.header.stamp = ros::Time::now();
-  res.image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  res.image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   res.image.height = 1;
   res.image.width = mLidar->getHorizontalResolution();
   res.image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;

@@ -38,7 +38,7 @@ ros::Publisher RosLightSensor::createPublisher() {
 void RosLightSensor::publishValue(ros::Publisher publisher) {
   sensor_msgs::Illuminance value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.illuminance = mLightSensor->getValue();
   value.variance = 0.0;
   publisher.publish(value);

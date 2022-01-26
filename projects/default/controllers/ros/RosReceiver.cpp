@@ -53,7 +53,7 @@ void RosReceiver::publishValue(ros::Publisher publisher) {
   // creates a string message to put receiver datas inside
   webots_ros::StringStamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   if (mReceiver->getQueueLength() > 0)
     value.data = reinterpret_cast<const char *>(mReceiver->getData());
   publisher.publish(value);

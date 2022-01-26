@@ -50,7 +50,7 @@ ros::Publisher RosDistanceSensor::createPublisher() {
 void RosDistanceSensor::publishValue(ros::Publisher publisher) {
   sensor_msgs::Range value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   if (mDistanceSensor->getType() == DistanceSensor::SONAR)
     value.radiation_type = 0;
   else if (mDistanceSensor->getType() == DistanceSensor::INFRA_RED)
