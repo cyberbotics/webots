@@ -305,10 +305,7 @@ class Client:
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
-            if 'server' not in config:
-                hostname = client.websocket.request.host.split(':')[0]
-            else:
-                hostname = config['server']
+            hostname = config['server']
             protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
@@ -806,15 +803,20 @@ def main():
     if 'portRewrite' not in config:
         config['portRewrite'] = True
 
+    if 'server' not in config:
+        config['server'] = 'localhost'
+        logging.error('Warning: server name not defined in configuration file.')
+
     url = 'https' if config['ssl'] else 'http'
     url += '://' + config['server']
     url += '/' if config['portRewrite'] else ':'
     url += str(config['port'])
 
     for server in config['notify']:
+        allowedRepositories = ','.join(config['allowedRepositories']) if 'allowedRepositories' in config else ''
         x = requests.post(server, data={'url': url,
                                         'shareIdleTime': config['shareIdleTime'],
-                                        'allowedRepositories': ','.join(config['allowedRepositories'])})
+                                        'allowedRepositories': allowedRepositories})
         print(x.text)
 
     # startup the server
