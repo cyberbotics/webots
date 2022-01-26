@@ -110,14 +110,13 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("Directories/www", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/");
 
   setDefaultPythonCommand();
-
-  if (WbSysInfo::defaultALDevices().isEmpty())
-    setValue("Sound/OpenAL", false);
+  if (value("Sound/OpenAL").toBool())
+    if (WbSysInfo::defaultALDevices().isEmpty())
+      setValue("Sound/OpenAL", false);
 }
 
 WbPreferences::~WbPreferences() {
   setValue("Internal/firstLaunch", false);
-  setValue("Sound/OpenAL", true);
 }
 
 void WbPreferences::setDefaultPythonCommand() {
