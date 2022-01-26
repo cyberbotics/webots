@@ -217,8 +217,6 @@ thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
 webotsArguments = '--mode=fast --stdout --stderr --batch'
-if sys.platform != 'win32':
-    webotsArguments += ' --no-sandbox'
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 

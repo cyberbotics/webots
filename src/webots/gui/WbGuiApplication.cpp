@@ -279,16 +279,7 @@ void WbGuiApplication::parseArguments() {
         logPerformanceMode = true;
       } else
         cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
-    }
-#ifndef _WIN32
-    else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
-             arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
-             arg.startsWith("--remote-debugging-port=")) {
-      // Silently ignore the awesome QWebEngine debugging tools:
-      // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
-    }
-#endif
-    else if (arg.startsWith("-")) {
+    } else if (arg.startsWith("-")) {
       cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
       cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       mTask = FAILURE;
