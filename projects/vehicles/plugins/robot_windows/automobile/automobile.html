@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset='UTF-8'>
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
+    <!-- For development reason when open with Webots, it gets the local files of the generic window -->
     <link rel='stylesheet' type='text/css' href="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/generic.css">
     <link rel='stylesheet' type='text/css' href='automobile.css'>
   </head>
@@ -84,8 +86,7 @@
     <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/device_widget.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/cyberbotics/webots@R2021b/resources/projects/plugins/robot_windows/generic/window_manager.js"></script>
     <script src="vehicle_timeplot_widget.js"></script>
-    <script src="radar_widget.js"></script>
     <script src="overview_widget.js"></script>
-    <script src="automobile.js"></script>
+    <script type="module" src="automobile.js"></script>
   </body>
 </html>
