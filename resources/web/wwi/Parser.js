@@ -252,10 +252,6 @@ export default class Parser {
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
 
-    if (typeof webots.currentView.toolBar !== 'undefined' && typeof webots.currentView.toolBar.informationPanel !== 'undefined') {
-      webots.currentView.toolBar.informationPanel.setTitle(WbWorld.instance.title);
-      webots.currentView.toolBar.informationPanel.setDescription(WbWorld.instance.description);
-    }
     WbWorld.computeUpVector();
   }
 

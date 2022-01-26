@@ -8,6 +8,7 @@ export default class ToolbarUnifed {
   constructor(view, type, parentNode) {
     this._view = view;
     this.type = type;
+    this.parentNode = parentNode;
     this._createToolbar(parentNode);
     if (type === 'animation')
       this.createAnimationToolbar();
@@ -39,8 +40,6 @@ export default class ToolbarUnifed {
     this._createInfoButton();
     this._createSettings();
     this._createFullscreenButtons();
-
-    // document.addEventListener('keydown', this.keydownRef = _ => this._keyboardHandler(_));
   }
 
   createSceneToolbar() {
@@ -119,28 +118,33 @@ export default class ToolbarUnifed {
   }
 
   _createInfoButton() {
-    this.toolbarRight.appendChild(this._createToolBarButton('info', 'Simulation information', this._displayInformationWindow));
-
-    window.addEventListener('click', this._closeInfoOnClick);
+    this.infoButton = this._createToolBarButton('info', 'Simulation information', () => this._displayInformationWindow());
+    this.toolbarRight.appendChild(this.infoButton);
+    this._createInformation();
+    window.addEventListener('click', _ => this._closeInfoOnClick(_));
   }
 
   _createInformation() {
-    let div = document.createElement('div');
-    let informationPanel = new InformationPanel(div);
-    div.style.width = '100%';
-    div.style.height = '100%';
-    div.style.position = 'absolute';
-    div.style.top = '0px';
-    div.style.left = '0px';
-    div.style.pointerEvents = 'none';
-    let webotsView = document.getElementsByTagName('webots-view')[0];
-    if (webotsView)
-      webotsView.appendChild(div);
+    this.informationPanel = new InformationPanel(this.parentNode);
 
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      informationPanel.setTitle(WbWorld.instance.title);
-      informationPanel.setDescription(WbWorld.instance.description);
+      this.informationPanel.setTitle(WbWorld.instance.title);
+      this.informationPanel.setDescription(WbWorld.instance.description);
     }
+  }
+
+  _displayInformationWindow() {
+    if (typeof this.informationPanel !== 'undefined') {
+      if (this.informationPanel.informationPanel.style.display === 'block')
+        this.informationPanel.informationPanel.style.display = 'none';
+      else
+        this.informationPanel.informationPanel.style.display = 'block';
+    }
+  }
+
+  _closeInfoOnClick(event) {
+    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target))
+      this.informationPanel.informationPanel.style.display = 'none';
   }
 
   _createSettings() {
@@ -158,6 +162,7 @@ export default class ToolbarUnifed {
     this._exitFullscreenButton.style.display = 'none';
 
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
+    document.addEventListener('keydown', this.keydownRef = _ => this._fullscrenKeyboardHandler(_));
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {
@@ -177,12 +182,11 @@ export default class ToolbarUnifed {
       ms = '0' + ms;
     return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
   };
-  // _keyboardHandler(e) {
-  //   if (e.code === 'KeyK')
-  //     this._triggerPlayPauseButton();
-  //   else if (e.code === 'KeyF')
-  //     this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
-  // }
+
+  _fullscrenKeyboardHandler(e) {
+    if (e.code === 'KeyF')
+      this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
+  }
 
   // Animations functions
 
