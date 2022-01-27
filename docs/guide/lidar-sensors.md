@@ -23,7 +23,7 @@ The model of the `Ibeo LUX` contains a spherical projection, a fixed resolution 
 ```
 IbeoLux {
   SFVec3f    translation             0 0 0
-  SFRotation rotation                0 1 0 0
+  SFRotation rotation                0 0 1 0
   SFString   name                    "Ibeo Lux"
   SFBool     useExtendedFieldOfView  FALSE
   SFBool     fastModel               FALSE
@@ -56,7 +56,7 @@ The model has the following specifications:
 ```
 HokuyoUrg04lx [
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "Hokuyo URG-04LX"
   SFFloat    noise       0.0
   SFInt32    resolution  667
@@ -85,7 +85,7 @@ The model has the following specifications:
 ```
 HokuyoUrg04lxug01 [
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "Hokuyo URG-04LX-UG01"
   SFFloat    noise       0.0
   SFInt32    resolution  667
@@ -114,7 +114,7 @@ The model has the following specifications:
 ```
 HokuyoUtm30lx {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "Hokuyo UTM-30LX"
   SFFloat    noise       0.0
   SFInt32    resolution  1080
@@ -137,8 +137,8 @@ The `Robotis LDS-01` is a 1 layer lidar with a range of up to 3.5 meters and a f
 
 ```
 RobotisLds01 {
-  SFVec3f    translation    0 0.02 0
-  SFRotation rotation       0 1 0 0
+  SFVec3f    translation    0 0 0.02
+  SFRotation rotation       0 0 1 0
   SFString   name           "LDS-01"
   SFFloat    noise          0.0043
   SFBool     enablePhysics  TRUE
@@ -166,7 +166,7 @@ The model of the `SICK LMS 291` contains a spherical projection, a configurable 
 ```
 SickLms291 {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "Sick LMS 291"
   SFFloat    noise       0.0
   SFInt32    resolution  180
@@ -216,7 +216,7 @@ In comparison to the real sensor, the simulated model has the following limitati
 ```
 SickLdMrs {
   SFVec3f    translation       0 0 0
-  SFRotation rotation          0 1 0 0
+  SFRotation rotation          0 0 1 0
   SFString   name              "Sick LD-MRS"
   SFString   type              "400001"
   SFString   angularResolution "0.5 [deg]"
@@ -236,6 +236,41 @@ Internally, the `Lidar.horizontalResolution` is directly affected by this field.
 The value could be one of the following: `0.5 [deg]`, `0.25 [deg]` or `0.125 [deg]`.
 
 The `enablePhysics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
+
+#### SICK S300
+
+The [SICK S300](https://www.sick.com/ag/en/opto-electronic-protective-devices/safety-laser-scanners/s300-standard/s30b-2011ba/p/p53845) is a 3 layers safety lidar. The model has the following specifications:
+
+- `field of view`: 270 [deg]
+- `range`: up to 30 [m]
+- `number of layers`: 3
+- `angular resolution`: 0.5 [deg]
+- `resolution`: 540
+- `dimension`: 0.102 x 0.152 x 0.106 [m]
+- `weight`: 1.2 [kg]
+
+%figure "SICK S300 lidar"
+
+![sick_s300.png](images/sensors/sick_s300.thumbnail.png)
+
+%end
+
+```
+SickS300 [
+  SFVec3f    translation    0 0 0
+  SFRotation rotation       0 0 1 0
+  SFString   name           "Sick S300"
+  SFFloat    noise          0.0
+  SFInt32    resolution     540
+  SFBool     enablePhysics  TRUE
+]
+```
+
+The `noise` field specifies the standard deviation of the gaussian depth noise in meters.
+
+The `resolution` field specifies the number of points returned per layer per scan.
+
+The `enablePhysics` field specifies if the sensor should be affected by physics or not.
 
 ### Velodyne
 
@@ -259,7 +294,7 @@ The model of the `Velodyne Puck` contains a spherical projection and a gaussian 
 ```
 VelodynePuck {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "Velodyne VLP-16"
   SFString   version        "Puck"
   SFBool     enablePhysics  TRUE
@@ -281,7 +316,7 @@ The model of the `Velodyne HDL 32` contains a gaussian noise with a standard dev
 ```
 VelodyneHDL-32E {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "Velodyne HDL-32E"
   SFBool     enablePhysics  TRUE
 }
@@ -302,7 +337,7 @@ The model of the `Velodyne HDL 64` contains a gaussian noise with a standard dev
 ```
 VelodyneHDL-64E {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "Velodyne HDL-32E"
   SFBool     enablePhysics  TRUE
 }

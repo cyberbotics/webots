@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,13 @@
 #include "TextureCubeMap.hpp"
 #include "TextureRtt.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
+
 #include <wren/shader_program.h>
 #include <wren/texture_cubemap.h>
 #include <wren/texture_cubemap_baker.h>
@@ -248,7 +254,7 @@ namespace wren {
       glBindTexture(GL_TEXTURE_CUBE_MAP, prefilteredCubeGlName);
 
       for (unsigned int i = 0; i < 6; ++i)
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, size, size, 0, GL_RGB, GL_FLOAT, nullptr);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA16F, size, size, 0, GL_RGBA, GL_FLOAT, nullptr);
 
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -322,6 +328,7 @@ namespace wren {
       glstate::setStencilTest(false);
       glstate::setColorMask(true, true, true, true);
       glstate::setCullFace(false);
+      glstate::setPolygonMode(GL_FILL);
 
       unsigned int brdfTextureGlName = Texture::generateNewTexture();
 
@@ -334,7 +341,7 @@ namespace wren {
 
       // pre-allocate enough memory for the LUT texture.
       glBindTexture(GL_TEXTURE_2D, brdfTextureGlName);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, size, size, 0, GL_RGB, GL_FLOAT, 0);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, size, size, 0, GL_RGBA, GL_FLOAT, 0);
       // be sure to set wrapping mode to GL_CLAMP_TO_EDGE
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

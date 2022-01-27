@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -190,7 +190,7 @@ static void print_gyro() {
 static void print_gps() {
   const double *p = wb_gps_get_values(gps);
   printf("----------gps----------\n");
-  printf("position: [ x y z] = [%f %f %f]\n", p[0], p[1], p[2]);
+  printf("position: [ x y z ] = [%f %f %f]\n", p[0], p[1], p[2]);
 }
 
 // the InertialUnit roll/pitch angles are equal to naoqi's AngleX/AngleY

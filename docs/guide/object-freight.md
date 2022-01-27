@@ -15,13 +15,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 IntermodalContainer {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "container"
   SFColor    color        0.9 0.1 0.1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/freight/protos/IntermodalContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalContainer.proto]({{ url.github_tree }}/projects/objects/freight/protos/IntermodalContainer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -46,14 +46,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 IntermodalOfficeContainer {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "office"
   SFColor    primaryColor   0.9 0.1 0.1
   SFColor    secondaryColor 0.6 0.6 0.6
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalOfficeContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/freight/protos/IntermodalOfficeContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalOfficeContainer.proto]({{ url.github_tree }}/projects/objects/freight/protos/IntermodalOfficeContainer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

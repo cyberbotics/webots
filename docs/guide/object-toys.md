@@ -2,7 +2,7 @@
 
 ## PaperBoat
 
-A paper boat (42.8 x 14.2 x 10.6 cm).
+A paper boat (42.8 x 10.6 x 14.2 cm).
 
 %figure
 
@@ -15,10 +15,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 PaperBoat {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "paper boat"
   SFFloat    scale               1
-  MFString   textureUrl          "textures/newspaper.jpg"
+  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
   SFFloat    mass                0.25
   MFNode     immersionProperties [
       ImmersionProperties {
@@ -30,7 +30,7 @@ PaperBoat {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/toys/protos/PaperBoat.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto]({{ url.github_tree }}/projects/objects/toys/protos/PaperBoat.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -45,7 +45,7 @@ PaperBoat {
 
 ## RubberDuck
 
-A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
+A rubber yellow duck (10.13 x 7.42 x 10.66 cm).
 
 %figure
 
@@ -58,7 +58,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RubberDuck {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "rubber duck"
   SFFloat    scale               1
   SFColor    bodyColor           0.87451 0.756863 0.113725
@@ -73,7 +73,7 @@ RubberDuck {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/toys/protos/RubberDuck.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto]({{ url.github_tree }}/projects/objects/toys/protos/RubberDuck.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

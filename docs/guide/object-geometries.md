@@ -16,7 +16,7 @@ Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 ```
 Extrusion {
   MFVec2f    crossSection              [1 1, 1 -1, -1 -1, -1 1, 1 1]
-  MFVec3f    spine                     [0 0 0, 0 1 0]
+  MFVec3f    spine                     [0 0 0, 0 0 1]
   MFVec2f    scale                     [1.0 1.0]
   MFRotation orientation               [0 0 1 0]
   SFBool     beginCap                  TRUE
@@ -29,7 +29,7 @@ Extrusion {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Extrusion.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto]({{ url.github_tree }}/projects/objects/geometries/protos/Extrusion.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -69,7 +69,7 @@ Rectangle {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Rectangle.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto]({{ url.github_tree }}/projects/objects/geometries/protos/Rectangle.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -114,7 +114,7 @@ TexturedBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto]({{ url.github_tree }}/projects/objects/geometries/protos/TexturedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -123,7 +123,7 @@ TexturedBox {
 
 - `size`: Defines the size of the box.
 
-- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"` and `"none"`.
+- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"`, and `"none"`.
 
 - `front`: Defines whether the front face should be included.
 
@@ -141,9 +141,10 @@ TexturedBox {
 
 Customizable parallelepiped.
 The `size` and `angles` fields specify the edges and angles of the parallelepiped:
-- `angles.x`: angle between base and side edges of the parallelogram face
-- `angles.y`: angle in y direction between front and back faces of the prism
-- `angles.z`: angle in x direction between front and back faces of the prism
+- `angles.x`: angle in y direction between front and back faces of the prism
+- `angles.y`: angle between base and side edges of the parallelogram face
+- `angles.z`: angle in z direction between front and back faces of the prism
+
 Available texture mappings:
 - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube\_mapping.jpg
 - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact\_mapping.jpg
@@ -176,7 +177,7 @@ TexturedParallelepiped {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto]({{ url.github_tree }}/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -187,7 +188,7 @@ TexturedParallelepiped {
 
 - `angles`: Defines the angles of the parallelepiped.
 
-- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"` and `"none"`.
+- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"`, and `"none"`.
 
 - `front`: Defines whether the front face should be included.
 
@@ -200,4 +201,3 @@ TexturedParallelepiped {
 - `top`: Defines whether the top face should be included.
 
 - `bottom`: Defines whether the bottom face should be included.
-

@@ -1,12 +1,13 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: hidden, static
+# tags: hidden
 # Backward compatibility with the deprecated 'Supervisor' node (deprecated in Webots R2018c)
+# template language: javascript
 
 PROTO Supervisor [
   vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 1 0 0
+  vrmlField SFRotation rotation            0 0 1 0
   vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []
   field     SFString   name                "supervisor"
@@ -37,7 +38,7 @@ PROTO Supervisor [
   deprecatedField SFString data            ""
 ]
 {
-  %{ io.stderr:write("Deprecated 'Supervisor' node, please use the 'Robot' node instead and set its 'supervisor' field to TRUE.\n") }%
+  %< console.error('\'Supervisor\' node is deprecated, please use the \'Robot\' node instead and set its \'supervisor\' field to TRUE.'); >%
   Robot {
     translation IS translation
     rotation IS rotation

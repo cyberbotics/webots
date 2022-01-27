@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
+# template language: javascript
 
 PROTO TemplateTransformSlot [
   field MFNode slot []
 ]
 {
-  %{ local test = fields.slot.value }%
+  %< const test = fields.slot.value; >%
   Transform {
     children IS slot
   }

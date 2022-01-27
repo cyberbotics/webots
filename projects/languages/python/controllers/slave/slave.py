@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ behavior.
 
 from controller import AnsiCodes
 from controller import Robot
+from common import common_print
 
 
 class Enumerate(object):
@@ -43,18 +44,18 @@ class Slave (Robot):
     def __init__(self):
         super(Slave, self).__init__()
         self.mode = self.Mode.AVOIDOBSTACLES
-        self.camera = self.getCamera('camera')
+        self.camera = self.getDevice('camera')
         self.camera.enable(4 * self.timeStep)
-        self.receiver = self.getReceiver('receiver')
+        self.receiver = self.getDevice('receiver')
         self.receiver.enable(self.timeStep)
-        self.motors.append(self.getMotor("left wheel motor"))
-        self.motors.append(self.getMotor("right wheel motor"))
+        self.motors.append(self.getDevice("left wheel motor"))
+        self.motors.append(self.getDevice("right wheel motor"))
         self.motors[0].setPosition(float("inf"))
         self.motors[1].setPosition(float("inf"))
         self.motors[0].setVelocity(0.0)
         self.motors[1].setVelocity(0.0)
         for dsnumber in range(0, 2):
-            self.distanceSensors.append(self.getDistanceSensor('ds' + str(dsnumber)))
+            self.distanceSensors.append(self.getDevice('ds' + str(dsnumber)))
             self.distanceSensors[-1].enable(self.timeStep)
 
     def run(self):
@@ -95,4 +96,5 @@ class Slave (Robot):
 
 
 controller = Slave()
+common_print('slave')
 controller.run()

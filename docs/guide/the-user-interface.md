@@ -29,6 +29,7 @@ On each `Save` the content of the ".wbt" file is overwritten and no backup copie
 Note that a ".wbt" file should always be saved in a Webots project directory, and in the "worlds" subdirectory, otherwise it will not be possible to reopen the file.
 
 - ![](images/revert-button.png =26x26) The **Reload World** menu item (and button) reloads the current world from the saved version and restarts the simulation from the beginning.
+Please refer to [Reset/Reload Matrix](../reference/supervisor.md#wb_supervisor_simulation_reset) for more details.
 
     > **Note**:
 When opening (or reloading) a world, if the world takes more than 2 seconds to
@@ -38,28 +39,7 @@ be opened instead.
 
 - ![](images/reset-simulation-button.png =26x26) The **Reset Simulation** menu item (and button) restores the initial state of the simulation.
 The simulation is not entirely destroyed and reconstructed as with a reload, but the initial state of all nodes is restored, which is much faster.
-
-    > **Note**:
-In order to reset the simulation, the following steps are performed:
-  - The simulation time is set to 00:00:00
-  - All nodes added during the simulation are removed.
-  - All sound sources are stopped.
-  - The random seeds used by Webots internally are reset.
-  - All the nodes are reset. This has the following implication depending on the node type:
-    - **[Brake](../reference/brake.md)**: The brake is released.
-    - **[Charger](../reference/charger.md)**: The `battery` field and the `emissiveColor` field of the [Material](../reference/material.md) node of the first [Shape](../reference/shape.md) child node are restored.
-    - **[Connector](../reference/connector.md)**: If attached, the connector is detached and the value of the `isLocked` field is restored.
-    - **[Display](../reference/display.md)**: The image is cleared.
-    - **[Emitter](../reference/emitter.md)/[Receiver](../reference/receiver.md)**: The message queue is cleared.
-    - **[Joint](../reference/joint.md)/[Motor](../reference/motor.md)**: The position, velocity, acceleration, available torque and available force are restored.
-    - **[LED](../reference/led.md)**: If the first child is a Light node, it's `color` field is restored and it is switched off. If the first child is a [Shape](../reference/shape.md) node, the `emissiveColor` field of its [Material](../reference/material.md) node is restored.
-    - **[Lidar](../reference/lidar.md)**: The position of the rotating head is restored.
-    - **[Pen](../reference/pen.md)**: All the painted textures are cleaned.
-    - **[Propeller](../reference/propeller.md)**: The slow helix and it's initial position are restored.
-    - **[Robot](../reference/robot.md)**: The `battery` field is restored, all the supervisor labels are removed, the nodes visibility is restored and the controller is restarted.
-    - **[Solid](../reference/solid.md)**: The `translation` and `rotation` fields are restored and the physics is reset.
-    - **[Track](../reference/track.md)**: The motor position is restored and the `translation` field of the textureTransform node of the [Appearance](../reference/appearance.md) node of the first [Shape](../reference/shape.md) children node is restored.
-    - **[Viewpoint](../reference/viewpoint.md)**: The `orientation` and `position` fields are restored.
+Please refer to [Reset/Reload Matrix](../reference/supervisor.md#wb_supervisor_simulation_reset) for more details.
 
 - ![](images/new-button.png =26x26) The **New Text File** menu item (and button) opens an empty text file in the text editor.
 
@@ -82,18 +62,9 @@ This feature is useful for importing complex objects that were modeled in a 3D m
 Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
 You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
 The following formats are supported:
-  - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
-  - [Blender](https://www.blender.org/) files (.blend).
-  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bvh).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
-  - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
-  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.wrl).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
-  - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
-
-> **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
-
 
 - The **Export VRML97...** item allows you to save the currently loaded world as a ".wrl" file, conforming to the VRML97 standard.
 Such a file can, in turn, be opened with any VRML97 viewer and most 3D modeling software.
@@ -117,7 +88,7 @@ Checking the video caption option will display the acceleration value in the top
 
 %end
 
-- The **Export HTML5 Model...** item allows you to export the current world as an interactive 3D ".html" file.
+- The **Export HTML5 Scene...** item allows you to export the current world as an interactive 3D ".html" file.
 You can get more information about this topic in [this section](web-scene.md).
 
 - ![](images/animation-button.png =26x26) The **Make HTML5 Animation...** item allows you to record a simulation as a 3D animation and publish it on a HTML5 web page.
@@ -236,7 +207,7 @@ If the light sensor device is disabled or the first measurement is not available
   - The **Show Pen Painting Rays** allows you to display, or to hide, the rays in which the pen devices paint.
 These rays are drawn as violet lines if painting is enabled, otherwise as gray lines.
 
-- The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes.
+  - The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes. The color of a normal is magenta if it was not creased using the [IndexedFaceSet](../reference/indexedfaceset.md) `creaseAngle`, otherwise, it is yellow. The length of the normal representation is proportional to the [WorldInfo](../reference/worldinfo.md) `lineScale` parameter.  
 
   - The **Show Radar Frustums** allows you to display, or to hide, the radar frustum.
 If the radar device is enabled the frustum is drawn in blue, otherwise if the radar is disabled or the first measurement is not available yet, the frustum is drawn in gray.
@@ -289,12 +260,12 @@ The **Simulation** menu is used to control the simulation mode.
 The duration of this step is defined in the **basicTimeStep** field of the [WorldInfo](../reference/worldinfo.md) node, and can be adjusted in the scene tree window to suit your needs.
 
 - ![](images/realtime-button.png =26x26) The **Real-time** menu item (and button) runs the simulation at real-time until it is interrupted by `Pause` or `Step`.
-In run mode, the 3D display of the scene is refreshed every *n* basic time steps, where *n* is defined in the `displayRefresh` field of the [WorldInfo](../reference/worldinfo.md) node.
+In fast mode, the 3D display of the scene is refreshed every *n* basic time steps, where *n* is defined in the `displayRefresh` field of the [WorldInfo](../reference/worldinfo.md) node.
 
-- ![](images/run-button.png =26x26) The **Run** menu item (and button) is like `Real-time`, except that it runs as fast as possible.
+- ![](images/fast-button.png =26x26) The **Fast** menu item (and button) is like `Real-time`, except that it runs as fast as possible.
 
-- ![](images/fast-button.png =26x26) The **Fast** menu item (and button) is like `Run`, except that no graphical rendering is performed.
-As the graphical rendering is disabled (black screen) this allows for a faster simulation and therefore is well suited for cpu-intensive simulations (genetic algorithms, vision, learning, etc.).
+- ![](images/rendering-button.png =26x26) The **Rendering** menu item (and button) disables or enables graphical rendering.
+Disabled (black screen) graphical rendering allows for a faster simulation and therefore is well suited for cpu-intensive simulations (genetic algorithms, vision, learning, etc.).
 
 ### Build Menu
 

@@ -64,10 +64,10 @@ robot = Robot()
 timestep = int(robot.getBasicTimeStep() * 4)
 
 # Get camera motors.
-panHeadMotor = robot.getMotor('PRM:/r1/c1/c2-Joint2:12')
-tiltHeadMotor = robot.getMotor('PRM:/r1/c1/c2/c3-Joint2:13')
+panHeadMotor = robot.getDevice('PRM:/r1/c1/c2-Joint2:12')
+tiltHeadMotor = robot.getDevice('PRM:/r1/c1/c2/c3-Joint2:13')
 # Other camera motor not used in this controller.
-# tiltNeckMotor = robot.getMotor('PRM:/r1/c1-Joint2:11')
+# tiltNeckMotor = robot.getDevice('PRM:/r1/c1-Joint2:11')
 
 # Initialize motors in order to use velocity control instead of position control.
 panHeadMotor.setPosition(float('+inf'))
@@ -77,14 +77,14 @@ panHeadMotor.setVelocity(0.0)
 tiltHeadMotor.setVelocity(0.0)
 
 # Get and enable the camera device.
-camera = robot.getCamera('PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1')
+camera = robot.getDevice('PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1')
 camera.enable(timestep)
 width = camera.getWidth()
 height = camera.getHeight()
 
 # Get the display device.
 # The display can be used to visually show the tracked position.
-display = robot.getDisplay('display')
+display = robot.getDevice('display')
 # Show camera image in the display background.
 display.attachCamera(camera)
 display.setColor(0xFF0000)
@@ -159,11 +159,11 @@ while robot.step(timestep) != -1:
 
     # Move the head and camera in order to center the target object.
     # Compute distance in pixels between the target point and the center.
-    dx = targetPoint[0] - width / 2
-    dy = targetPoint[1] - height / 2
+    dy = targetPoint[0] - width / 2
+    dz = targetPoint[1] - height / 2
     # The speed factor 1.5 has been chosen empirically.
-    panHeadMotor.setVelocity(-1.5 * dx / width)
-    tiltHeadMotor.setVelocity(-1.5 * dy / height)
+    panHeadMotor.setVelocity(-1.5 * dy / width)
+    tiltHeadMotor.setVelocity(-1.5 * dz / height)
 
 # Cleanup code.
 cleanup()

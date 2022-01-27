@@ -6,13 +6,13 @@
 #define WB_MATLAB_LOADLIBRARY
 
 #include "../../../include/controller/c/webots/accelerometer.h"
+#include "../../../include/controller/c/webots/altimeter.h"
 #include "../../../include/controller/c/webots/brake.h"
 #include "../../../include/controller/c/webots/camera.h"
 #include "../../../include/controller/c/webots/compass.h"
 #include "../../../include/controller/c/webots/connector.h"
 #include "../../../include/controller/c/webots/console.h"
 #include "../../../include/controller/c/webots/device.h"
-#include "../../../include/controller/c/webots/differential_wheels.h"
 #include "../../../include/controller/c/webots/display.h"
 #include "../../../include/controller/c/webots/distance_sensor.h"
 #include "../../../include/controller/c/webots/emitter.h"

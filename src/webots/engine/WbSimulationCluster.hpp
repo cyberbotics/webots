@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,6 +57,7 @@ private:
   QList<WbKinematicDifferentialWheels *> mCollisionedRobots;
   void handleKinematicsCollisions();
   void swapBuffer();
+  static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
   static const WbContactProperties *fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
                                                           const WbGeometry *wg2, dContact *contact);
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,

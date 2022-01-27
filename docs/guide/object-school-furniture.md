@@ -15,13 +15,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Blackboard {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "blackboard"
   SFBool     castShadows TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Blackboard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Blackboard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -32,7 +32,7 @@ Blackboard {
 
 ## Book
 
-A book (0.2 x 0.15 x 0.02 m).
+A book (0.2 x 0.02 x 0.15 m).
 
 %figure
 
@@ -45,15 +45,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 Book {
   SFVec3f    translation 0 0.1 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "book"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/book.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/school_furniture/protos/textures/book.jpg"
   SFFloat    mass        0.3
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Book.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Book.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -81,13 +81,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Clock {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "clock"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Clock.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Clock.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
-

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ namespace WbWrenPostProcessingEffects {
                                WrTexture *normalTexture, bool halfRes);
   WrPostProcessingEffect *bloom(float width, float height, WrTextureInternalFormat textureFormat);
   WrPostProcessingEffect *hdrResolve(float width, float height);
-
+  WrPostProcessingEffect *passThrough(float width, float height);
 };  // namespace WbWrenPostProcessingEffects
 
 #endif

@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ MODULE_NAME = vehicle
 
 INTERFACE          = $(MODULE_NAME).i
 SOURCE_HEADERS     = $(substr $(WEBOTS_HOME_PATH_NO_ESCAPE),$(WEBOTS_HOME_PATH),$(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp))
-SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/resources/languages/python/
+SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/src/controller/python/
 WRAPPER            = $(MODULE_NAME)$(PYTHON_SHORT_VERSION).cpp
 WRAPPER_OBJECT     = $(WRAPPER:.cpp=.o)
 PYOUT              = $(PYTHON_LIB_FOLDER)/$(MODULE_NAME).py
@@ -38,10 +38,10 @@ LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
-LD_FLAGS        = -shared
+LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -50,7 +50,7 @@ C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -65,12 +65,15 @@ PYTHON_PYMALLOC = m
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+ifeq ($(PYTHON_SHORT_VERSION),38)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
 LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -isystem $(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
-LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
+LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"

@@ -1,0 +1,388 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  info [
+    "Tests rolling friction."
+  ]
+  title "Rolling friction test"
+  contactProperties [
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 1"
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 2"
+      rollingFriction 0.04 0 0
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 3"
+      rollingFriction 0.08 0 0
+    }
+    ContactProperties {
+      material1 "box"
+      material2 "ball 4"
+    }
+    ContactProperties {
+      material1 "box"
+      material2 "ball 5"
+      rollingFriction 0 0 0.03
+    }
+    ContactProperties {
+      material1 "box"
+      material2 "ball 6"
+      rollingFriction 0 0 0.06
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 7"
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 8"
+      rollingFriction 0 0.05 0
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 9"
+      rollingFriction 0 0.1 0
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.3812996518679634 0.14152330234362212 0.9135544485027292 2.4877815273088038
+  position 79.00530941693668 -83.63059814902375 108.1947871168946
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+DEF TEST_RHO Transform {
+  children [
+    Solid {
+      translation -25 0 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Box {
+            size 14 10 0.4
+          }
+        }
+      ]
+      name "ramp"
+      contactMaterial "ramp"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 30 0 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Box {
+            size 100 10 0.4
+          }
+        }
+      ]
+      name "base"
+      contactMaterial "ramp"
+      boundingObject USE RAMP
+    }
+  ]
+}
+DEF TEST_RHO2` Transform {
+  translation 0 -26 0
+  children [
+    Solid {
+      translation -25 -5 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Box {
+            size 14 40 0.4
+          }
+        }
+      ]
+      name "ramp 2"
+      contactMaterial "ramp"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 30 -5 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+          }
+          geometry Box {
+            size 100 40 0.4
+          }
+        }
+      ]
+      name "base 2"
+      contactMaterial "ramp"
+      boundingObject USE RAMP
+    }
+  ]
+}
+Solid {
+  translation -14 -8 0
+  rotation 1 0 0 1.57079632679
+  children [
+    DEF BOX Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.203922 0.211765
+      }
+      geometry Box {
+        size 8 2 5
+      }
+    }
+  ]
+  name "box"
+  contactMaterial "box"
+  boundingObject USE BOX
+}
+DEF BALL_1 Solid {
+  translation -31 -3 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 1"
+  contactMaterial "ball 1"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_2 Solid {
+  translation -31 0 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 2"
+  contactMaterial "ball 2"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_3 Solid {
+  translation -31 3 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 3"
+  contactMaterial "ball 3"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_4 Solid {
+  translation -16 -8 1.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 4"
+  contactMaterial "ball 4"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_5 Solid {
+  translation -14 -8 1.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 5"
+  contactMaterial "ball 5"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_6 Solid {
+  translation -12 -8 1.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 6"
+  contactMaterial "ball 6"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_7 Solid {
+  translation -31 -50 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 7"
+  contactMaterial "ball 7"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_8 Solid {
+  translation -31 -28 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 8"
+  contactMaterial "ball 8"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_9 Solid {
+  translation -31 -18 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 9"
+  contactMaterial "ball 9"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "supervisor"
+  controller "rolling_friction_supervisor"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

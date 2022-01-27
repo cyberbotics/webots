@@ -36,7 +36,14 @@ Setting the value of this field to `<extern>` will make this robot runnable from
 > **Note**: If the controller is not started the robot window will not work.
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
 
-- `controllerArgs`: string containing the arguments (separated by space characters) to be passed to the `main` function of the C/C++ controller program or the `main` method of the Java controller program.
+- `controllerArgs`: list of strings containing the command line arguments to be passed to the controller program.
+Unlike in command line instructions, each `controllerArgs` item is interpreted as a single argument value, even if it contains spaces, and multiple arguments need to be specified on separate MFString items.
+On the other hand, it is not necessary to escape the spaces contained in the argument value.
+The corresponding command line instruction will have the form:
+
+    ``<controller_program_name> "controllerArgs[0]" "controllerArgs[1]" ...``
+
+    In case of C, C++, and Java controller programs the values are passed as arguments of the `main` function or method.
 
 - `customData`: this field may contain any user data, for example parameters corresponding to the configuration of the robot.
 It can be read from the robot controller using the `wb_robot_get_custom_data` function and can be written using the `wb_robot_set_custom_data` function.
@@ -61,7 +68,9 @@ This is useful for complex articulated robots for which the controller doesn't p
 Enabling self collision is, however, likely to decrease the simulation speed, as more collisions will be generated during the simulation.
 Note that only collisions between non-consecutive solids will be detected.
 For consecutive solids, e.g., two solids attached to each other with a joint, no collision detection is performed, even if the self collision is enabled.
-The reason is that this type of collision detection is usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
+Collision detection is also ignored for longer chains of consecutive solids in the event that all intermediary joints connecting the two colliding bodies all share the same `anchor` point.
+If even just one of them is different, standard rules apply.
+The reason for these exceptions is that these types of collision detections are usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
 To prevent two consecutive solid nodes from penetrating each other, the `minStop` and `maxStop` fields of the corresponding joint node should be adjusted accordingly.
 Here is an example of a robot leg with self collision enabled:
 
@@ -482,6 +491,7 @@ namespace webots {
     Radar *getRadar(const std::string &name);
     RangeFinder *getRangeFinder(const std::string &name);
     Receiver *getReceiver(const std::string &name);
+    Skin *getSkin(const std::string &name);
     Speaker *getSpeaker(const std::string &name);
     TouchSensor *getTouchSensor(const std::string &name);
     // ...
@@ -497,31 +507,10 @@ namespace webots {
 from controller import Robot
 
 class Robot:
-    def getAccelerometer(self, name):
-    def getBrake(self, name):
-    def getCamera(self, name):
-    def getCompass(self, name):
-    def getConnector(self, name):
-    def getDisplay(self, name):
-    def getDistanceSensor(self, name):
-    def getEmitter(self, name):
-    def getGPS(self, name):
-    def getGyro(self, name):
-    def getInertialUnit(self, name):
+    def getDevice(self, name):
     def getJoystick(self):
     def getKeyboard(self):
-    def getLED(self, name):
-    def getLidar(self, name):
-    def getLightSensor(self, name):
-    def getMotor(self, name):
     def getMouse(self):
-    def getPen(self, name):
-    def getPositionSensor(self, name):
-    def getRadar(self, name):
-    def getRangeFinder(self, name):
-    def getReceiver(self, name):
-    def getSpeaker(self, name):
-    def getTouchSensor(self, name):
     # ...
 ```
 
@@ -557,6 +546,7 @@ public class Robot {
   public RangeFinder getRangeFinder(String name);
   public Receiver getReceiver(String name);
   public Speaker getSpeaker(String name);
+  public Skin *getSkin(String name);
   public TouchSensor getTouchSensor(String name);
   // ...
 }
@@ -574,7 +564,7 @@ tag = wb_robot_get_device('name')
 
 %tab "ROS"
 
-> Note: this function has no equivalent for ROS.
+> **Note**: this function has no equivalent for ROS.
 Devices are available through their services.
 
 %tab-end
@@ -585,16 +575,16 @@ Devices are available through their services.
 
 *get a unique identifier to a device*
 
-The `wb_robot_get_device` function (available in C and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
+The `wb_robot_get_device` function (available in C, Python and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function will return the unique identifier of that device.
 This `WbDeviceTag` identifier will be used subsequently for enabling, sending commands to, or reading data from this device.
-If the specified device is not found, the function returns 0.
+If the specified device is not found, the function returns 0 in C and MATLAB or `None` in Python.
 
-In C++, Java or Python, users should use the device specific typed methods, for example `getDistanceSensor`.
+In C++ or Java, users should use the device specific typed methods, for example `getDistanceSensor`.
 These functions return a reference to an object corresponding to a specified `name`.
 Depending on the called function, this object can be an instance of a `Device` subclass.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function `getDistanceSensor` will return a reference to a [DistanceSensor](distancesensor.md) object.
-If the specified device is not found, the function returns `NULL` in C++, `null` in Java or the `none` in Python.
+If the specified device is not found, the function returns `NULL` in C++ or `null` in Java.
 
 ---
 
@@ -1224,7 +1214,7 @@ name = wb_robot_get_name()
 
 *return the name defined in the robot node*
 
-This function returns the name as it is defined in the name field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the name as it is defined in the name field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 This function is very useful to pass some arbitrary parameter from a world file to a controller program.
 For example, you can have the same controller code behave differently depending on the name of the robot.
@@ -1309,7 +1299,7 @@ model = wb_robot_get_model()
 
 *return the model defined in the robot node*
 
-This function returns the model string as it is defined in the model field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the model string as it is defined in the model field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 
 ---
@@ -1402,87 +1392,6 @@ wb_robot_set_custom_data('data')
 The `wb_robot_get_custom_data` function returns the string contained in the `customData` field of the robot node.
 
 The `wb_robot_set_custom_data` function set the string contained in the `customData` field of the robot node.
-
----
-
-#### `wb_robot_get_type`
-
-%tab-component "language"
-
-%tab "C"
-
-```c
-#include <webots/nodes.h>
-#include <webots/robot.h>
-
-WbNodeType wb_robot_get_type();
-```
-
-%tab-end
-
-%tab "C++"
-
-```cpp
-#include <webots/Robot.hpp>
-
-namespace webots {
-  class Robot {
-    int getType() const;
-    // ...
-  }
-}
-```
-
-%tab-end
-
-%tab "Python"
-
-```python
-from controller import Robot
-
-class Robot:
-    def getType(self):
-    # ...
-```
-
-%tab-end
-
-%tab "Java"
-
-```java
-import com.cyberbotics.webots.controller.Robot;
-
-public class Robot {
-  public int getType();
-  // ...
-}
-```
-
-%tab-end
-
-%tab "MATLAB"
-
-```MATLAB
-type = wb_robot_get_type()
-```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
-%end
-
-##### Description
-
-*return the type of the robot node*
-
-This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_SUPERVISOR or WB\_NODE\_DIFFERENTIAL\_WHEELS).
 
 ---
 
@@ -2066,7 +1975,7 @@ The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) n
 %tab "C"
 
 ```c
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 const char *wb_robot_wwi_receive(int *size);
 const char *wb_robot_wwi_receive_text();
@@ -2083,7 +1992,7 @@ void wb_robot_wwi_send_text(const char *text);
 
 namespace webots {
   class Robot {
-    const char *wwiReceive();
+    const char *wwiReceive(int *size);
     std::string wwiReceiveText();
     void wwiSend(const char *data, int size);
     void wwiSendText(const std::string &text);

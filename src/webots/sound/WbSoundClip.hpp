@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@
 
 #include <QtCore/QString>
 
+class QIODevice;
+
 class WbWaveFile;
 
 class WbSoundClip {
@@ -30,12 +32,13 @@ public:
   const QString &filename() const { return mFilename; }
   int side() const { return mSide; }
   double balance() const { return mBalance; }
-  void load(const QString &filename, double balance, int side = 0);
+  void load(const QString &filename, QIODevice *device = NULL, double balance = 0, int side = 0);
   void load(const WbWaveFile *wave);
   unsigned int openALBuffer() const { return mBuffer; }
 
 protected:
   QString mFilename;
+  QIODevice *mDevice;
   unsigned int mBuffer;
   int mSide;  // 0: both sides, -1: left only, 1: right only
   double mBalance;

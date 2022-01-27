@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Ceiling {
-  SFVec3f    translation      0 2.4 0
+  SFVec3f    translation      0 0 2.4
   SFRotation rotation         1 0 0 3.14159
   SFString   name             "ceiling"
   SFString   contactMaterial  "default"
@@ -25,7 +25,7 @@ Ceiling {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Ceiling.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Ceiling.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Ceiling.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/Ceiling.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,9 +53,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Door {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "door"
-  SFVec3f    size                   1 2.4 0.2
+  SFVec3f    size                   0.2 1 2.4
   SFBool     canBeOpen              TRUE
   SFFloat    position               0
   SFBool     jointAtLeft            TRUE
@@ -73,7 +73,7 @@ Door {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Door.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Door.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Door.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/Door.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -126,7 +126,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorKnob {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door knob"
   SFFloat    doorThickness    0.05
   SFFloat    handleRadius     0.03
@@ -137,7 +137,7 @@ DoorKnob {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorKnob.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/DoorKnob.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorKnob.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/DoorKnob.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorLever {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door lever"
   SFBool     canTurn          FALSE
   SFBool     jointAtLeft      TRUE
@@ -187,7 +187,7 @@ DoorLever {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorLever.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/DoorLever.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorLever.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/DoorLever.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -232,7 +232,7 @@ GenericDoorAppearance {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/GenericDoorAppearance.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/GenericDoorAppearance.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/GenericDoorAppearance.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/GenericDoorAppearance.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -256,7 +256,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Radiator {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "radiator"
   SFInt32    numberOfFins          10
   SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }
@@ -265,7 +265,7 @@ Radiator {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Radiator.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Radiator.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Radiator.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/Radiator.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -293,14 +293,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wall {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wall"
-  SFVec3f    size        1 2.4 0.2
-  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 1 2.4 } }
+  SFVec3f    size        0.2 1 2.4
+  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 2.4 1 } }
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Wall.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Wall.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Wall.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/Wall.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -326,7 +326,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WallPlug {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "wall plug"
   SFColor    mainColor              1 1 1
   SFColor    secondaryColor         0 0 0
@@ -334,7 +334,7 @@ WallPlug {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/WallPlug.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/WallPlug.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/WallPlug.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/WallPlug.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -362,13 +362,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Window {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "window"
-  SFVec3f    size                   0.8 2.4 0.2
+  SFVec3f    size                   0.2 0.8 2.4
   SFFloat    windowThickness        0.05
   SFFloat    bottomWallHeight       0.7
   SFFloat    windowHeight           1.4
-  SFVec3f    frameSize              0.05 0.05 0.02
+  SFVec3f    frameSize              0.05 0.02 0.05
   SFVec2f    windowSillSize         0.1 0.05
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
@@ -376,7 +376,7 @@ Window {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Window.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Window.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Window.proto]({{ url.github_tree }}/projects/objects/apartment_structure/protos/Window.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,8 +125,8 @@ void WbBaseNode::validateProtoNodes() {
   }
 }
 
-void WbBaseNode::reset() {
-  WbNode::reset();
+void WbBaseNode::reset(const QString &id) {
+  WbNode::reset(id);
   WbBoundingSphere *const nodeBoundingSphere = boundingSphere();
   if (nodeBoundingSphere)
     nodeBoundingSphere->resetGlobalCoordinatesUpdateTime();
@@ -211,29 +211,30 @@ WbSolid *WbBaseNode::topSolid() const {
   return mTopSolid;
 }
 
-WbBaseNode *WbBaseNode::getSingleFinalizedProtoInstance() {
-  if (!isProtoParameterNode())
-    return NULL;
-
-  WbBaseNode *finalizedInstance = NULL;
-  QVector<WbNode *> nodeInstances = protoParameterNodeInstances();
-  foreach (WbNode *node, nodeInstances) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(node);
-    if (baseNode && baseNode->isPostFinalizedCalled()) {
-      // cppcheck-suppress knownConditionTrueFalse
-      if (finalizedInstance)
-        // multiple finilized instances found
+WbBaseNode *WbBaseNode::getFirstFinalizedProtoInstance() const {
+  QList<const WbNode *> nodes;  // stack containing other instances of the proto parameter node
+                                // to be used in case of deeply nested PROTOs where the first one could not be finalized
+  const WbBaseNode *baseNode = this;
+  while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
+    // if node is a proto parameter node we need to find the corresponding proto parameter node instance
+    // if the parameter is used multiple times all the instances are inspected in depth-first search (using the "nodes" list)
+    const QVector<WbNode *> nodeInstances = baseNode->protoParameterNodeInstances();
+    if (nodeInstances.isEmpty()) {
+      if (nodes.isEmpty())
         return NULL;
-
-      finalizedInstance = baseNode;
+      baseNode = static_cast<const WbBaseNode *>(nodes.takeFirst());
+      continue;
     }
+    baseNode = static_cast<const WbBaseNode *>(nodeInstances.at(0));
+    for (int i = nodeInstances.size() - 1; i >= 1; --i)
+      nodes.append(nodeInstances.at(i));
   }
 
-  return finalizedInstance;
+  return baseNode && baseNode->isPostFinalizedCalled() ? const_cast<WbBaseNode *>(baseNode) : NULL;
 }
 
 bool WbBaseNode::isInvisibleNode() const {
-  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
+  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(this);
 }
 
 QString WbBaseNode::documentationUrl() const {
@@ -256,7 +257,11 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
       << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
-    writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+    const WbNode *def = defNode();
+    if (def && def->isProtoParameterNode())
+      def = static_cast<const WbBaseNode *>(def)->getFirstFinalizedProtoInstance();
+    assert(def != NULL);
+    writer << " USE=\'n" + QString::number(def->uniqueId()) + "\'></" + x3dName() + ">";
     return true;
   }
   return false;
@@ -294,8 +299,8 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
     writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
     writer.decreaseIndent();
 
     writer.indent();

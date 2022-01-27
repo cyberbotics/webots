@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include "WbMacAddress.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtGui/QOpenGLFunctions>
 
@@ -122,9 +123,20 @@ const QString &WbSysInfo::sysInfo() {
     case QSysInfo::WV_WINDOWS8_1:
       sysInfo.append("Windows 8.1");
       break;
-    case QSysInfo::WV_WINDOWS10:
-      sysInfo.append("Windows 10");
+    case QSysInfo::WV_WINDOWS10:  // Or Windows 11
+    {
+      QString version("Windows 10");
+      QString kernelVersion = QSysInfo::kernelVersion();
+      QRegExp rx("[.]");
+      QStringList list = kernelVersion.split(rx, Qt::SkipEmptyParts);
+      if (list.size() == 3) {
+        const int buildNumber = list[2].toInt();
+        if (buildNumber >= 22000)
+          version = "Windows 11";
+      }
+      sysInfo.append(version);
       break;
+    }
     default:
       sysInfo.append("Windows");
       break;
@@ -363,12 +375,36 @@ bool WbSysInfo::isVirtualMachine() {
 #ifdef _WIN32
   unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
   __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
-  // cppcheck-suppress shiftTooManyBitsSigned
-  if (ecx & (1 << 31)) {
-    virtualMachine = 1;
-    return true;
+  if (!(ecx & ((unsigned int)1 << 31))) {
+    virtualMachine = 0;
+    return false;
   }
-#endif
+  const auto queryVendorIdMagic = 0x40000000;
+  __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
+  const int vendorIdLength = 13;
+  using VendorIdStr = char[vendorIdLength];
+  VendorIdStr hyperVendorId = {};
+  memcpy(hyperVendorId + 0, &ebx, 4);
+  memcpy(hyperVendorId + 4, &ecx, 4);
+  memcpy(hyperVendorId + 8, &edx, 4);
+  hyperVendorId[12] = '\0';
+  static const VendorIdStr vendors[]{
+    "KVMKVMKVM\0\0\0",  // KVM
+    "Microsoft Hv",     // Microsoft Hyper-V or Windows Virtual PC */
+    "VMwareVMware",     // VMware
+    "XenVMMXenVMM",     // Xen
+    "prl hyperv  ",     // Parallels
+    "VBoxVBoxVBox"      // VirtualBox
+  };
+  for (const auto &vendor : vendors) {
+    if (!memcmp(vendor, hyperVendorId, vendorIdLength)) {
+      virtualMachine = 1;
+      return true;
+    }
+  }
+  virtualMachine = 0;
+  return false;
+#else
 #ifdef __linux__
   QFile cpuinfoFile("/proc/cpuinfo");
   if (!cpuinfoFile.open(QIODevice::ReadOnly)) {
@@ -397,6 +433,7 @@ bool WbSysInfo::isVirtualMachine() {
 #endif
   virtualMachine = 0;
   return false;
+#endif  // _WIN32
 }
 
 #ifdef _WIN32
@@ -496,6 +533,32 @@ bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
     id == 0x7300 || id == 0xaac8 || id == 0xaad8 || id == 0xaae8)
     return true;
   return false;
+}
+
+#else
+
+bool WbSysInfo::isLowEndGpu() {
+  static char lowEndGpu = -1;  // not yet determined
+  if (lowEndGpu == -1) {       // based on the telemetry data from https://cyberbotics.com/telemetry
+    lowEndGpu = 0;
+    const QString &renderer = openGLRenderer();
+    if (renderer.contains("Intel") && renderer.contains(" HD Graphics ")) {
+      // we support only recent Intel GPUs from about 2015
+      if (renderer.contains("Ivybridge") || renderer.contains("Sandybridge") || renderer.contains("Haswell") ||
+          renderer.contains("Ironlake"))
+        lowEndGpu = 1;
+      else {
+        const QRegularExpression re(" HD Graphics P{0,1}([\\d]{3,4})");
+        const QRegularExpressionMatch match = re.match(renderer);
+        const int number = match.hasMatch() ? match.captured(1).toInt() : 0;
+
+        if ((number >= 2000 && number <= 6000) || (number >= 100 && number < 500))
+          lowEndGpu = 1;
+      }
+    } else if (renderer.contains("Radeon HD") || renderer.contains("Radeon(TM) HD"))
+      lowEndGpu = 1;  // We don't support old AMD Radeon HD cards
+  }
+  return (bool)lowEndGpu;
 }
 
 #endif

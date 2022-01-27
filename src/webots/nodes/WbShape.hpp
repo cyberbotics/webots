@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SHAPE; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -45,7 +46,8 @@ public:
   bool isAValidBoundingObject(bool checkOde = true, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
-  void reset() override;
+  void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   WbAppearance *appearance() const;
@@ -59,7 +61,7 @@ public:
   WrMaterial *wrenMaterial() const { return mWrenMaterial; }
 
   // infrared related functions
-  void pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness = NULL, double *occlusion = NULL) const;
+  void pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness = NULL, double *occlusion = NULL) const;
 
   // for a shape lying into a boundingObject
   void connectGeometryField() const;

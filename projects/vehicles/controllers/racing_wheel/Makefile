@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ CFLAGS += -std=c++11
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- DYNAMIC_LIBRARIES += -lQt5Core
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
 endif
 

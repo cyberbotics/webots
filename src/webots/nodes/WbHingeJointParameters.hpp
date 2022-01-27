@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,9 +38,14 @@ public:
 
   virtual const WbVector3 &anchor() const { return mAnchor->value(); }
 
+  double stopErp() const { return mStopErp->value(); }
+  double stopCfm() const { return mStopCfm->value(); }
+
 signals:
   void anchorChanged();
   void suspensionChanged();
+  void stopErpChanged();
+  void stopCfmChanged();
 
 private:
   WbHingeJointParameters &operator=(const WbHingeJointParameters &);  // non copyable
@@ -52,10 +57,14 @@ private:
   WbSFDouble *mSuspensionSpringConstant;
   WbSFDouble *mSuspensionDampingConstant;
   WbSFVector3 *mSuspensionAxis;
+  WbSFDouble *mStopErp;
+  WbSFDouble *mStopCfm;
 
 private slots:
   void updateSuspension();
   void updateAxis() override;
+  void updateStopErp();
+  void updateStopCfm();
 };
 
 #endif

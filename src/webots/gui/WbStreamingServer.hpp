@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,10 +52,11 @@ protected slots:
 protected:
   virtual void create(int port);
   virtual void stop();
+  // cppcheck-suppress virtualCallInConstructor
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
+  virtual void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
@@ -100,6 +101,7 @@ private:
 
   QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
+  bool mClientsReadyToReceiveMessages;
   bool mMonitorActivity;
   bool mDisableTextStreams;
   bool mSsl;

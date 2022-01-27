@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,9 +117,10 @@ int main(int argc, char **argv) {
 
     // apply the braitenberg coefficients on the resulted values of the lms291
     double obstacle = 0.0;
-    for (i = 0; i < lms291_width; i++)
-      obstacle += braitenberg_coefficients[i] * (1.0 - lms291_values[i] / max_range);
-
+    for (i = 0; i < lms291_width; i++) {
+      const float value = isinf(lms291_values[i]) ? max_range : lms291_values[i];
+      obstacle += braitenberg_coefficients[i] * (1.0 - value / max_range);
+    }
     // compute the speed and the direction according to the information about
     // a front obstacle
     double speed = MAX_SPEED * (0.99 - obstacle);

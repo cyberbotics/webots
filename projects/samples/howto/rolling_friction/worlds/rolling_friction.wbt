@@ -1,0 +1,698 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  info [
+    "This sample project showcases the effect of modeling rolling friction."
+  ]
+  title "Rolling friction example"
+  contactProperties [
+    ContactProperties {
+      material1 "ramp 1"
+      material2 "ball 1"
+      rollingFriction 0.04 0 0
+    }
+    ContactProperties {
+      material1 "ramp 2"
+      material2 "ball 2"
+      rollingFriction 0.03 0 0
+    }
+    ContactProperties {
+      material1 "ramp 3"
+      material2 "ball 3"
+      rollingFriction 0.02 0 0
+    }
+    ContactProperties {
+      material1 "ramp 4"
+      material2 "ball 4"
+      rollingFriction 0.01 0 0
+    }
+    ContactProperties {
+      material1 "ramp 5"
+      material2 "ball 5"
+    }
+    ContactProperties {
+      material1 "wide ramp"
+      material2 "ball 6"
+      rollingFriction 0 0.1 0
+    }
+    ContactProperties {
+      material1 "wide ramp"
+      material2 "ball 7"
+      rollingFriction 0 0.08 0
+    }
+    ContactProperties {
+      material1 "wide ramp"
+      material2 "ball 8"
+      rollingFriction 0 0.06 0
+    }
+    ContactProperties {
+      material1 "wide ramp"
+      material2 "ball 9"
+      rollingFriction 0 0.04 0
+    }
+    ContactProperties {
+      material1 "wide ramp"
+      material2 "ball 10"
+      rollingFriction 0 0.022 0
+    }
+    ContactProperties {
+      material1 "cylinder"
+      material2 "ball 11"
+    }
+    ContactProperties {
+      material1 "cylinder"
+      material2 "ball 12"
+      rollingFriction 0 0 0.04
+    }
+    ContactProperties {
+      material1 "cylinder"
+      material2 "ball 13"
+      rollingFriction 0 0 0.03
+    }
+    ContactProperties {
+      material1 "cylinder"
+      material2 "ball 14"
+      rollingFriction 0 0 0.02
+    }
+    ContactProperties {
+      material1 "cylinder"
+      material2 "ball 15"
+      rollingFriction 0 0 0.01
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.2952228457038941 0.06769393280049142 0.9530272833641737 2.7113124713693324
+  position 61.19297938652705 -21.52859710122167 49.765039180840525
+}
+TexturedBackground {
+  luminosity 0.5
+}
+TexturedBackgroundLight {
+}
+DEF RHO Transform {
+  translation 10 27 1
+  rotation 0 0 -1 1.57
+  children [
+    Solid {
+      translation 0 -6 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 14 2 0.4
+          }
+        }
+      ]
+      name "ramp 1"
+      contactMaterial "ramp 1"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 21.75 -6 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 1 base"
+      contactMaterial "ramp 1"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 0 -3 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 14 2 0.4
+          }
+        }
+      ]
+      name "ramp 2"
+      contactMaterial "ramp 2"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 21.75 -3 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 2 base"
+      contactMaterial "ramp 2"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 0 0 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 14 2 0.4
+          }
+        }
+      ]
+      name "ramp 3"
+      contactMaterial "ramp 3"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 21.75 0 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 3 base"
+      contactMaterial "ramp 3"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 0 3 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 14 2 0.4
+          }
+        }
+      ]
+      name "ramp 4"
+      contactMaterial "ramp 4"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 21.75 3 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 4 base"
+      contactMaterial "ramp 4"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 0 6 1.2
+      rotation 0 1 0 0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 14 2 0.4
+          }
+        }
+      ]
+      name "ramp 5"
+      contactMaterial "ramp 5"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 21.75 6 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 5 base"
+      contactMaterial "ramp 5"
+      boundingObject USE RAMP
+    }
+    DEF BALL_1 Solid {
+      translation -6 -6 3.1
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 1"
+      contactMaterial "ball 1"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_2 Solid {
+      translation -6 -3 3.1
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 2"
+      contactMaterial "ball 2"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_3 Solid {
+      translation -6 0 3.1
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 3"
+      contactMaterial "ball 3"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_4 Solid {
+      translation -6 3 3.1
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 4"
+      contactMaterial "ball 4"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_5 Solid {
+      translation -6 6 3.1
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 5"
+      contactMaterial "ball 5"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+  ]
+}
+DEF RHO_2 Transform {
+  translation -20 0 0
+  children [
+    Solid {
+      translation 0 0 1.25
+      rotation 0 1 0 0.15
+      children [
+        DEF RAMP Shape {
+          appearance DamascusSteel {
+          }
+          geometry Box {
+            size 26 30 0.4
+          }
+        }
+      ]
+      name "wide ramp"
+      contactMaterial "wide ramp"
+      boundingObject USE RAMP
+    }
+    Solid {
+      translation 25.74 0 -0.7
+      children [
+        DEF RAMP Shape {
+          appearance DamascusSteel {
+          }
+          geometry Box {
+            size 26 30 0.4
+          }
+        }
+      ]
+      name "wide ramp base"
+      contactMaterial "wide ramp"
+      boundingObject USE RAMP
+    }
+    DEF BALL_6 Solid {
+      translation -12 -11 3.76
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 6"
+      contactMaterial "ball 6"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_7 Solid {
+      translation -12 -7 3.76
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 7"
+      contactMaterial "ball 7"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_8 Solid {
+      translation -12 -2 3.76
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 8"
+      contactMaterial "ball 8"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_9 Solid {
+      translation -12 4 3.76
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 9"
+      contactMaterial "ball 9"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_10 Solid {
+      translation -12 14 3.76
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 10"
+      contactMaterial "ball 10"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+  ]
+}
+DEF RHO_N Transform {
+  translation -2 10 1
+  children [
+    Solid {
+      children [
+        DEF CYLINDER Shape {
+          appearance HammeredCopper {
+          }
+          geometry Cylinder {
+            height 0.5
+            radius 4
+          }
+        }
+      ]
+      name "cylinder"
+      contactMaterial "cylinder"
+      boundingObject USE CYLINDER
+    }
+    DEF BALL_11 Solid {
+      translation 0 0 0.75
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 11"
+      contactMaterial "ball 11"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_12 Solid {
+      translation 3 0 0.75
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 12"
+      contactMaterial "ball 12"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_13 Solid {
+      translation 0 -3 0.75
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 13"
+      contactMaterial "ball 13"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_14 Solid {
+      translation -3 0 0.75
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 14"
+      contactMaterial "ball 14"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF BALL_15 Solid {
+      translation 0 3 0.75
+      children [
+        DEF SPHERE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/water.jpg"
+              ]
+            }
+          }
+          geometry Sphere {
+            radius 0.5
+            subdivision 3
+          }
+        }
+      ]
+      name "ball 15"
+      contactMaterial "ball 15"
+      boundingObject USE SPHERE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+  ]
+}
+Robot {
+  name "supervisor"
+  controller "rolling_friction_supervisor"
+  supervisor TRUE
+}

@@ -11,30 +11,30 @@ class Sprinter(Robot):
         # This is the time step (ms) used in the motion file.
         self.timeStep = 40
         # Get pointers to the shoulder motors.
-        self.RShoulderPitch = self.getMotor('RShoulderPitch')
-        self.LShoulderPitch = self.getMotor('LShoulderPitch')
+        self.RShoulderPitch = self.getDevice('RShoulderPitch')
+        self.LShoulderPitch = self.getDevice('LShoulderPitch')
         # Move the arms down.
         self.RShoulderPitch.setPosition(1.1)
         self.LShoulderPitch.setPosition(1.1)
 
         # # Get pointers to the 12 motors of the legs (not used).
-        # self.RHipYawPitch = self.getMotor('RHipYawPitch')  # not used in forward.motion
-        # self.LHipYawPitch = self.getMotor('LHipYawPitch')  # not used in forward.motion
-        # self.RHipRoll = self.getMotor('RHipRoll')
-        # self.LHipRoll = self.getMotor('LHipRoll')
-        # self.RHipPitch = self.getMotor('RHipPitch')
-        # self.LHipPitch = self.getMotor('LHipPitch')
-        # self.RKneePitc = self.getMotor('RKneePitch')
-        # self.LKneePitch = self.getMotor('LKneePitch')
-        # self.RAnklePitch = self.getMotor('RAnklePitch')
-        # self.LAnklePitch = self.getMotor('LAnklePitch')
-        # self.RAnkleRoll = self.getMotor('RAnkleRoll')
-        # self.LAnkleRoll = self.getMotor('LAnkleRoll')
+        # self.RHipYawPitch = self.getDevice('RHipYawPitch')  # not used in forward.motion
+        # self.LHipYawPitch = self.getDevice('LHipYawPitch')  # not used in forward.motion
+        # self.RHipRoll = self.getDevice('RHipRoll')
+        # self.LHipRoll = self.getDevice('LHipRoll')
+        # self.RHipPitch = self.getDevice('RHipPitch')
+        # self.LHipPitch = self.getDevice('LHipPitch')
+        # self.RKneePitc = self.getDevice('RKneePitch')
+        # self.LKneePitch = self.getDevice('LKneePitch')
+        # self.RAnklePitch = self.getDevice('RAnklePitch')
+        # self.LAnklePitch = self.getDevice('LAnklePitch')
+        # self.RAnkleRoll = self.getDevice('RAnkleRoll')
+        # self.LAnkleRoll = self.getDevice('LAnkleRoll')
         # getting pointer to the 2 shoulder motors
 
         # # Get pointers to the onboard cameras (not used).
-        # self.CameraTop = self.getCamera('CameraTop')
-        # self.CameraBottom = self.getCamera('CameraBottom')
+        # self.CameraTop = self.getDevice('CameraTop')
+        # self.CameraBottom = self.getDevice('CameraBottom')
         # # Enable the cameras.
         # self.CameraTop.enable(self.timeStep)
         # self.CameraBottom.enable(self.timeStep)

@@ -55,22 +55,17 @@ end
 -- and segment 2 (p3->p4), a point is a table with x and y ids
 -- if no intersections are found return nil
 function M.intersection(p1, p2, p3, p4)
-  local p1x = math.min(p1.x, p2.x)
-  local p2x = math.max(p1.x, p2.x)
-  local p3x = math.min(p3.x, p4.x)
-  local p4x = math.max(p3.x, p4.x)
-
   --  check that the interval exists
   if (math.max(p1.x,p2.x) < math.min(p3.x,p4.x)) then
     return nil
   end
 
-  -- check that point 1 and 2 ar not equal
+  -- check that point 1 and 2 are not equal
   if p1.x == p2.x and p1.y == p2.y then
     return nil
   end
 
-  -- check that point 3 and 4 ar not equal
+  -- check that point 3 and 4 are not equal
   if p3.x == p4.x and p3.y == p4.y then
     return nil
   end

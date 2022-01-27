@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,13 @@ public:
   QString pixelInfo(int x, int y) const override;
   void createWrenObjects() override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
+  void enableExternalWindow(bool enabled) override;
+
+  WbCamera *const attachedCamera() const { return mAttachedCamera; }
+
+signals:
+  void attachedCameraChanged(const WbRenderingDevice *previousAttachedDevice, const WbRenderingDevice *newAttachedDevice);
 
 protected:
   void setup() override;

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@
 
 class WbBuildEditor;
 class WbConsole;
-class WbDocumentation;
 class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
@@ -52,7 +51,7 @@ public:
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
-  void savePerspective(bool reloading, bool saveToFile);
+  bool savePerspective(bool reloading, bool saveToFile);
   void restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory);
 
   const QString &enabledIconPath() const { return mEnabledIconPath; }
@@ -76,8 +75,10 @@ public slots:
   bool loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
+  void showUpdatedDialog();
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
+  void resetWorldFromGui();
 
 protected:
   bool event(QEvent *event) override;
@@ -92,8 +93,7 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorldFromGui();
-  void resetWorld(bool restartControllers);
+  void resetGui(bool restartControllers);
   void importVrml();
   void exportVrml();
   void exportHtml();
@@ -105,9 +105,6 @@ private slots:
   void showUserGuide();
   void showReferenceManual();
   void showAutomobileDocumentation();
-  void showOfflineUserGuide();
-  void showOfflineReferenceManual();
-  void showOfflineAutomobileDocumentation();
 
   void openGithubRepository();
   void openCyberboticsWebsite();
@@ -143,11 +140,9 @@ private slots:
   void disableAnimationAction();
 
 private:
-  void showOnlineBook(const QString &);
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
   QList<WbConsole *> mConsoles;
-  WbDocumentation *mDocumentation;
   WbBuildEditor *mTextEditor;
   WbSimulationView *mSimulationView;
   WbRecentFilesList *mRecentFiles;
@@ -180,6 +175,7 @@ private:
   QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
+  QString findHtmlFileName(const char *title);
   void enableToolsWidgetItems(bool enabled);
   void updateWindowTitle();
   void updateGui();
@@ -204,6 +200,7 @@ private:
   WbStreamingServer *mStreamingServer;
 
 private slots:
+  void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
   void openFileInTextEditor(const QString &);

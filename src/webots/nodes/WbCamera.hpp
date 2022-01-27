@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 struct WrTexture;
 
 class WbAffinePlane;
+class WbDownloader;
 class WbFocus;
 class WbLensFlare;
 class WbWrenLabelOverlay;
@@ -38,6 +39,7 @@ public:
   virtual ~WbCamera();
 
   // reimplemented public functions
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
@@ -46,7 +48,10 @@ public:
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void reset() override;
+  void reset(const QString &id) override;
+  void resetSharedMemory() override;
+  bool isEnabled() const override;
+  void updateTextureUpdateNotifications(bool enabled) override;
 
   // specific functions
   void rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth);
@@ -59,6 +64,8 @@ public:
 
 protected:
   void setup() override;
+  void render() override;
+  bool needToRender() const override;
 
 private:
   WbSFNode *mFocus;
@@ -83,7 +90,7 @@ private:
   WbCamera &operator=(const WbCamera &);  // non copyable
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -112,10 +119,22 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  // smart camera segmentation
+  void initializeSegmentationSharedMemory();
+  void createSegmentationCamera();
+  bool mSegmentationEnabled;
+  bool mSegmentationChanged;
+  WbWrenCamera *mSegmentationCamera;
+  WbSharedMemory *mSegmentationShm;
+  bool mHasSegmentationSharedMemoryChanged;
+  bool mSegmentationImageChanged;
+  // URL downloader
+  WbDownloader *mDownloader;
 
 private slots:
   void updateFocus();
   void updateRecognition();
+  void updateSegmentation();
   void updateNear();
   void updateFar();
   void updateExposure();
@@ -123,10 +142,15 @@ private slots:
   void updateBloomThreshold();
   void updateNoiseMaskUrl();
   void updateLensFlare();
+  void updateCameraOrientation();
+  void updateSegmentationCameraOrientation();
   void applyFocalSettingsToWren();
   void applyFarToWren();
+  void applyNearToWren() override;
+  void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
+  void updateOverlayMaskTexture();
 };
 
 #endif  // WB_CAMERA_HPP

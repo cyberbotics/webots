@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ private:
   WbRangeFinder &operator=(const WbRangeFinder &);  // non copyable
   WbNode *clone() const override { return new WbRangeFinder(*this); }
   void init();
-  void initializeSharedMemory() override;
+  void initializeImageSharedMemory() override;
 
   int size() const override { return sizeof(float) * width() * height(); }
   double minRange() const override { return mMinRange->value(); }
@@ -71,6 +71,7 @@ private slots:
   void updateMinRange();
   void updateMaxRange();
   void updateResolution();
+  void updateOrientation();
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
 };

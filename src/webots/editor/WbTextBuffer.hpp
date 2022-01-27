@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,18 +98,12 @@ public:
   void markError(int line, int column = -1);
   void unmarkError();
 
-  // invert current and previous line
-  void transposeCurrentLine();
-
   // toggle line comment
   void toggleLineComment();
 
   // indentation
   enum IndentMode { INCREASE, DECREASE };
   void indent(IndentMode mode);
-
-  // duplicate seleted text
-  void duplicateSelection();
 
   // to be used from class LineNumberArea
   void lineNumberAreaPaintEvent(QPaintEvent *event);

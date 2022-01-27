@@ -1,93 +1,96 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A cardboard box.
+# template language: javascript
 
 PROTO CardboardBox [
-  field SFVec3f    translation 0 0.3 0
-  field SFRotation rotation    0 1 0 0
+  field SFVec3f    translation 0 0 0.3
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "cardboard box"
   field SFVec3f    size        0.6 0.6 0.6      # Defines the size of the cardboard box.
   field SFFloat    mass        0                # Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
   field SFBool     locked      FALSE            # Is `Solid.locked`.
 ]
 {
+%<
+  let size = fields.size.value;
+  let volume = size.x * size.y * size.z;
+  let mass = fields.mass.value;
+  if (volume < 0.000001 || volume > 1) {
+    size = fields.size.defaultValue;
+    console.error('Box volume outside of range [ 1 cm3 ; 1 m3 ]. \'size\' value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+  }
+
+  const max_size = 2.5;
+  const min_size = 0.01;
+
+  if (size.x > max_size) {
+    console.error('\'size.x\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.x = max_size;
+  } else if (size.x < min_size) {
+    console.error('\'size.x\' less than minimal size (' + min_size + '). Value clamped.');
+    size.x = min_size;
+  }
+
+  if (size.y > max_size) {
+    console.error('\'size.y\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.y = max_size;
+  } else if (size.y < min_size) {
+    console.error('\'size.y\' less than minimal size (' + min_size + '). Value clamped.');
+    size.y = min_size;
+  }
+
+  if (size.z > max_size) {
+    console.error('\'size.z\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.z = max_size;
+  } else if (size.z < min_size) {
+    console.error('\'size.z\' less than minimal size (' + min_size + '). Value clamped.');
+    size.z = min_size;
+  }
+
+  // we want the mass for a 1cm3 box be comprised between 0.1 and 10 g inclusive
+  // and the mass for a 1m3 box be comprised between 1 and 100 kg, hence the
+  // following min_mass and max_mass values:
+  let min_mass = Math.pow(volume, 2/3);
+  let max_mass = min_mass * 100;
+  if (mass > 0 && mass < min_mass) {
+    console.error('\'mass\' less than minimal value (' + min_mass + '). Value clamped.');
+    mass = min_mass;
+  } else if (mass > max_mass) {
+    console.error('\'mass\' greater than maximal value (' + max_mass + '). Value clamped.');
+    mass = max_mass;
+  }
+>%
 Solid {
-  %{
-    local size = fields.size.value
-    local volume = size.x * size.y * size.z
-    local mass = fields.mass.value
-    if volume < 0.000001 or volume > 1 then
-      io.stderr:write("'size' volume outside of range [ 1 cm3 ; 1 m3 ]\n")
-      size.x = fields.size.defaultValue.x
-      size.y = fields.size.defaultValue.y
-      size.z = fields.size.defaultValue.z
-    end
-
-    local max_size = 2.5
-    local min_size = 0.01
-
-    if size.x > max_size then
-      io.stderr:write("'size.x' greater than " .. max_size .. "\n")
-      size.x = max_size
-    elseif size.x < min_size then
-      io.stderr:write("'size.x' less than " .. min_size .. "\n")
-      size.x = min_size
-    end
-    if size.y > max_size then
-      io.stderr:write("'size.y' greater than " .. max_size .. "\n")
-      size.y = max_size
-    elseif size.y < min_size then
-      io.stderr:write("'size.y' less than " .. min_size .. "\n")
-      size.y = min_size
-    end
-    if size.z > max_size then
-      io.stderr:write("'size.z' greater than " .. max_size .. "\n")
-      size.z = max_size
-    elseif size.z < min_size then
-      io.stderr:write("'size.z' less than " .. min_size .. "\n")
-      size.z = min_size
-    end
-    -- we want the mass for a 1cm3 box be comprised between 0.1 and 10 g inclusive
-    -- and the mass for a 1m3 box be comprised between 1 and 100 kg, hence the
-    -- following min_mass and max_mass values:
-    local min_mass = volume^(2/3)
-    local max_mass = min_mass*100
-    if mass > 0 and mass < min_mass then
-      io.stderr:write("'mass' less than " .. min_mass .. "\n")
-      mass = min_mass
-    elseif mass > max_mass then
-      io.stderr:write("'mass' greater than " .. max_mass .. "\n")
-      mass = max_mass
-    end
-  }%
   translation IS translation
   rotation IS rotation
   children [
     Transform {
-      scale %{= size.x }% %{= size.y }% %{= size.z }%
+      scale %<= size.x >% %<= size.y >% %<= size.z >%
       children [
         Shape {
           appearance PBRAppearance {
             metalness 0
             roughness 0.7
             baseColorMap ImageTexture {
-              url "textures/cardboard_box_base_color.jpg"
+              url "webots://projects/objects/factory/containers/protos/textures/cardboard_box_base_color.jpg"
             }
             roughnessMap ImageTexture {
-              url "textures/cardboard_box_roughness.jpg"
+              url "webots://projects/objects/factory/containers/protos/textures/cardboard_box_roughness.jpg"
             }
             normalMap ImageTexture {
-              url "textures/cardboard_box_normal.jpg"
+              url "webots://projects/objects/factory/containers/protos/textures/cardboard_box_normal.jpg"
             }
             occlusionMap ImageTexture {
-              url "textures/cardboard_box_occlusion.jpg"
+              url "webots://projects/objects/factory/containers/protos/textures/cardboard_box_occlusion.jpg"
             }
           }
           geometry IndexedFaceSet {
             coord Coordinate {
-              point [ -0.490029 0.498200 -0.490131 -0.490029 0.490029 -0.498301 -0.498200 0.490029 -0.490131 -0.490028 0.495806 -0.495908 -0.494746 0.494746 -0.494849 -0.495806 0.490028 -0.495908 -0.495806 0.495806 -0.490131 -0.490105 -0.490105 -0.498173 -0.490105 -0.498275 -0.490001 -0.498275 -0.490105 -0.490001 -0.490105 -0.495882 -0.495779 -0.494822 -0.494822 -0.494718 -0.495882 -0.495882 -0.490000 -0.495882 -0.490105 -0.495779 0.498275 0.490105 -0.490001 0.490105 0.490105 -0.498173 0.490105 0.498275 -0.490001 0.495882 0.490105 -0.495779 0.494822 0.494822 -0.494718 0.490105 0.495882 -0.495779 0.495882 0.495882 -0.490000 0.490029 -0.498200 -0.490131 0.490029 -0.490029 -0.498301 0.498200 -0.490029 -0.490131 0.490028 -0.495806 -0.495908 0.494746 -0.494746 -0.494849 0.495806 -0.490028 -0.495908 0.495806 -0.495806 -0.490131 -0.490105 0.498275 0.490001 -0.498275 0.490105 0.490001 -0.490105 0.490105 0.498173 -0.495882 0.495882 0.490000 -0.494822 0.494822 0.494718 -0.495882 0.490105 0.495779 -0.490105 0.495882 0.495779 -0.498200 -0.490029 0.490131 -0.490029 -0.498200 0.490131 -0.490029 -0.490029 0.498301 -0.495806 -0.495806 0.490131 -0.494746 -0.494746 0.494849 -0.490028 -0.495806 0.495908 -0.495806 -0.490028 0.495908 0.490028 0.498200 0.490131 0.490028 0.490029 0.498301 0.498200 0.490029 0.490131 0.490028 0.495806 0.495908 0.494746 0.494746 0.494849 0.495806 0.490028 0.495908 0.495806 0.495806 0.490131 0.498275 -0.490105 0.490001 0.490105 -0.490105 0.498173 0.490105 -0.498275 0.490001 0.495882 -0.490105 0.495779 0.494822 -0.494822 0.494718 0.490105 -0.495882 0.495779 0.495882 -0.495882 0.490000 ]
+              point [
+                0.490131 0.490029 0.4982 0.498301 0.490029 0.490029 0.490131 0.4982 0.490029 0.495908 0.490028 0.495806 0.494849 0.494746 0.494746 0.495908 0.495806 0.490028 0.490131 0.495806 0.495806 0.498173 0.490105 -0.490105 0.490001 0.490105 -0.498275 0.490001 0.498275 -0.490105 0.495779 0.490105 -0.495882 0.494718 0.494822 -0.494822 0.49 0.495882 -0.495882 0.495779 0.495882 -0.490105 0.490001 -0.498275 0.490105 0.498173 -0.490105 0.490105 0.490001 -0.490105 0.498275 0.495779 -0.495882 0.490105 0.494718 -0.494822 0.494822 0.495779 -0.490105 0.495882 0.49 -0.495882 0.495882 0.490131 -0.490029 -0.4982 0.498301 -0.490029 -0.490029 0.490131 -0.4982 -0.490029 0.495908 -0.490028 -0.495806 0.494849 -0.494746 -0.494746 0.495908 -0.495806 -0.490028 0.490131 -0.495806 -0.495806 -0.490001 0.490105 0.498275 -0.490001 0.498275 0.490105 -0.498173 0.490105 0.490105 -0.49 0.495882 0.495882 -0.494718 0.494822 0.494822 -0.495779 0.495882 0.490105 -0.495779 0.490105 0.495882 -0.490131 0.4982 -0.490029 -0.490131 0.490029 -0.4982 -0.498301 0.490029 -0.490029 -0.490131 0.495806 -0.495806 -0.494849 0.494746 -0.494746 -0.495908 0.490028 -0.495806 -0.495908 0.495806 -0.490028 -0.490131 -0.490028 0.4982 -0.498301 -0.490028 0.490029 -0.490131 -0.4982 0.490029 -0.495908 -0.490028 0.495806 -0.494849 -0.494746 0.494746 -0.495908 -0.495806 0.490028 -0.490131 -0.495806 0.495806 -0.490001 -0.498275 -0.490105 -0.498173 -0.490105 -0.490105 -0.490001 -0.490105 -0.498275 -0.495779 -0.495882 -0.490105 -0.494718 -0.494822 -0.494822 -0.495779 -0.490105 -0.495882 -0.49 -0.495882 -0.495882
+              ]
             }
             texCoord TextureCoordinate {
               point [ 0.8724 0.0029 0.6278 0.2471 0.8721 0.2472 0.3778 0.5029 0.6222 0.7471 0.3779 0.7472 0.3778 0.7528 0.6223 0.9971 0.3779 0.9972 0.3778 0.0028 0.6222 0.2470 0.3778 0.2472 0.6222 0.2528 0.3778 0.4972 0.6220 0.4972 0.6222 0.0028 0.6233 0.0008 0.6242 0.0028 0.3724 0.2471 0.3744 0.2483 0.3724 0.2491 0.6220 0.4972 0.6232 0.4993 0.6241 0.4972 0.3721 0.0028 0.3733 0.0008 0.3741 0.0028 0.6222 0.7471 0.6243 0.7483 0.6222 0.7491 0.6222 0.2528 0.6243 0.2516 0.6222 0.2508 0.6223 0.9971 0.6243 0.9983 0.6223 0.9992 0.1281 0.2472 0.1269 0.2493 0.1261 0.2473 0.3778 0.0028 0.3758 0.0017 0.3778 0.0008 0.3779 0.7472 0.3767 0.7492 0.3759 0.7472 0.1276 0.0029 0.1256 0.0017 0.1276 0.0009 0.6220 0.7528 0.6232 0.7507 0.6241 0.7528 0.6222 0.2470 0.6242 0.2481 0.6222 0.2490 0.3778 0.4972 0.3757 0.4984 0.3778 0.4992 0.8721 0.2472 0.8733 0.2492 0.8741 0.2472 0.3780 0.2528 0.3768 0.2507 0.3759 0.2528 0.6221 0.5028 0.6233 0.5008 0.6241 0.5028 0.8724 0.0029 0.8744 0.0017 0.8724 0.0009 0.3778 0.2472 0.3767 0.2492 0.3758 0.2472 0.6278 0.2471 0.6258 0.2483 0.6278 0.2491 0.3779 0.9972 0.3767 0.9993 0.3759 0.9972 0.3778 0.7528 0.3757 0.7516 0.3778 0.7508 0.6279 0.0028 0.6267 0.0008 0.6259 0.0028 0.3778 0.5029 0.3757 0.5017 0.3778 0.5009 0.3779 0.9972 0.6223 0.9992 0.3779 0.9993 0.3758 0.0028 0.3778 0.2472 0.3758 0.2472 0.3779 0.7472 0.3757 0.5029 0.3778 0.5029 0.3778 0.7508 0.6220 0.7528 0.3778 0.7528 0.1281 0.2472 0.3724 0.2491 0.1281 0.2493 0.3778 0.0008 0.6222 0.0028 0.3778 0.0028 0.3721 0.0028 0.3744 0.2471 0.3724 0.2471 0.6243 0.2528 0.6220 0.4972 0.6241 0.4972 0.6222 0.0028 0.6242 0.2470 0.6222 0.2470 0.3778 0.4992 0.6220 0.4972 0.3778 0.4972 0.6221 0.5028 0.6243 0.7471 0.6222 0.7471 0.6222 0.2508 0.3780 0.2528 0.6222 0.2528 0.6279 0.0028 0.8724 0.0009 0.6279 0.0008 0.3778 0.5009 0.6221 0.5028 0.3778 0.5029 0.8721 0.2472 0.8744 0.0029 0.8724 0.0029 0.3757 0.4972 0.3780 0.2528 0.3759 0.2528 0.6279 0.0028 0.6258 0.2471 0.6278 0.2471 0.3757 0.7528 0.3779 0.9972 0.3759 0.9972 0.6220 0.7528 0.6243 0.9971 0.6223 0.9971 0.1256 0.0029 0.1281 0.2472 0.1261 0.2473 0.3721 0.0028 0.1276 0.0009 0.3721 0.0008 0.6222 0.7491 0.3779 0.7472 0.6222 0.7471 0.3778 0.2472 0.6222 0.2490 0.3778 0.2492 0.6278 0.2491 0.8721 0.2472 0.6278 0.2471 0.1276 0.0029 0.3724 0.2471 0.1281 0.2472 0.8724 0.0029 0.6279 0.0028 0.6278 0.2471 0.3778 0.5029 0.6221 0.5028 0.6222 0.7471 0.3778 0.7528 0.6220 0.7528 0.6223 0.9971 0.3778 0.0028 0.6222 0.0028 0.6222 0.2470 0.6222 0.2528 0.3780 0.2528 0.3778 0.4972 0.6222 0.0028 0.6222 0.0008 0.6233 0.0008 0.3724 0.2471 0.3744 0.2471 0.3744 0.2483 0.6220 0.4972 0.6220 0.4993 0.6232 0.4993 0.3721 0.0028 0.3721 0.0008 0.3733 0.0008 0.6222 0.7471 0.6243 0.7471 0.6243 0.7483 0.6222 0.2528 0.6243 0.2528 0.6243 0.2516 0.6223 0.9971 0.6243 0.9971 0.6243 0.9983 0.1281 0.2472 0.1281 0.2493 0.1269 0.2493 0.3778 0.0028 0.3758 0.0028 0.3758 0.0017 0.3779 0.7472 0.3779 0.7492 0.3767 0.7492 0.1276 0.0029 0.1256 0.0029 0.1256 0.0017 0.6220 0.7528 0.6220 0.7507 0.6232 0.7507 0.6222 0.2470 0.6242 0.2470 0.6242 0.2481 0.3778 0.4972 0.3757 0.4972 0.3757 0.4984 0.8721 0.2472 0.8721 0.2492 0.8733 0.2492 0.3780 0.2528 0.3780 0.2507 0.3768 0.2507 0.6221 0.5028 0.6221 0.5008 0.6233 0.5008 0.8724 0.0029 0.8744 0.0029 0.8744 0.0017 0.3778 0.2472 0.3778 0.2492 0.3767 0.2492 0.6278 0.2471 0.6258 0.2471 0.6258 0.2483 0.3779 0.9972 0.3779 0.9993 0.3767 0.9993 0.3778 0.7528 0.3757 0.7528 0.3757 0.7516 0.6279 0.0028 0.6279 0.0008 0.6267 0.0008 0.3778 0.5029 0.3757 0.5029 0.3757 0.5017 0.3779 0.9972 0.6223 0.9971 0.6223 0.9992 0.3758 0.0028 0.3778 0.0028 0.3778 0.2472 0.3779 0.7472 0.3759 0.7472 0.3757 0.5029 0.3778 0.7508 0.6220 0.7507 0.6220 0.7528 0.1281 0.2472 0.3724 0.2471 0.3724 0.2491 0.3778 0.0008 0.6222 0.0008 0.6222 0.0028 0.3721 0.0028 0.3741 0.0028 0.3744 0.2471 0.6243 0.2528 0.6222 0.2528 0.6220 0.4972 0.6222 0.0028 0.6242 0.0028 0.6242 0.2470 0.3778 0.4992 0.6220 0.4993 0.6220 0.4972 0.6221 0.5028 0.6241 0.5028 0.6243 0.7471 0.6222 0.2508 0.3780 0.2507 0.3780 0.2528 0.6279 0.0028 0.8724 0.0029 0.8724 0.0009 0.3778 0.5009 0.6221 0.5008 0.6221 0.5028 0.8721 0.2472 0.8741 0.2472 0.8744 0.0029 0.3757 0.4972 0.3778 0.4972 0.3780 0.2528 0.6279 0.0028 0.6259 0.0028 0.6258 0.2471 0.3757 0.7528 0.3778 0.7528 0.3779 0.9972 0.6220 0.7528 0.6241 0.7528 0.6243 0.9971 0.1256 0.0029 0.1276 0.0029 0.1281 0.2472 0.3721 0.0028 0.1276 0.0029 0.1276 0.0009 0.6222 0.7491 0.3779 0.7492 0.3779 0.7472 0.3778 0.2472 0.6222 0.2470 0.6222 0.2490 0.6278 0.2491 0.8721 0.2492 0.8721 0.2472 0.1276 0.0029 0.3721 0.0028 0.3724 0.2471 ]
@@ -103,14 +106,14 @@ Solid {
   name IS name
   model "cardboard box"
   boundingObject Box {
-    size %{= size.x }% %{= size.y }% %{= size.z }%
+    size %<= size.x >% %<= size.y >% %<= size.z >%
   }
-  %{ if mass > 0 then }%
+  %< if (mass > 0) { >%
   physics Physics {
     density -1
-    mass %{= mass}%
+    mass %<= mass>%
   }
-  %{ end }%
+  %< } >%
   locked IS locked
 }
 }

@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 absoluteStop = float(sys.argv[1])
-motor = robot.getMotor('rotational motor')
-positionSensor = robot.getPositionSensor('position sensor')
+motor = robot.getDevice('rotational motor')
+positionSensor = robot.getDevice('position sensor')
 positionSensor.enable(timestep)
 
 while robot.step(timestep) != -1:

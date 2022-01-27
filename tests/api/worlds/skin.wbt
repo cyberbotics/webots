@@ -1,0 +1,72 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.09206760769891277 0.049098315222385655 0.9945415582342058 2.058202306322589
+  position 4.194481528134114 -6.351519928736491 2.264067055086583
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Robot {
+  children [
+    Solid {
+      translation 0 2 0
+      rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+      children [
+        HingeJoint {
+          jointParameters DEF JOINT_PARAMETERS HingeJointParameters {
+          }
+          endPoint Solid {
+            name "Tail"
+          }
+        }
+      ]
+      name "Head"
+    }
+    Skin {
+      translation 0 2 0
+      rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+      name "physical skin"
+      modelUrl "skins/simple_skin.fbx"
+      appearance [
+        PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/red256.jpg"
+            ]
+          }
+          name "skin"
+        }
+      ]
+      bones [
+        SolidReference {
+          solidName "Head"
+        }
+        SolidReference {
+          solidName "Tail"
+        }
+      ]
+    }
+    CharacterSkin {
+      rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
+      name "graphical skin"
+      model "Anthony"
+    }
+    Camera {
+      translation 0.96 0 0
+      rotation 0 0 1 1.5708
+      fieldOfView 0.2
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "skin"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

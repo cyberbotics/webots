@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #ifndef WB_RECEIVER_HPP
 #define WB_RECEIVER_HPP
 
+#include "WbMFInt.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSolidDevice.hpp"
@@ -48,7 +49,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static void transmitData(int channel, const void *data, int size);
   static void transmitPacket(WbDataPacket *packet);
@@ -80,6 +81,7 @@ private:
   WbSFInt *mBufferSize;
   WbSFDouble *mSignalStrengthNoise;
   WbSFDouble *mDirectionNoise;
+  WbMFInt *mAllowedChannels;
 
   bool mNeedToConfigure;
 
@@ -91,9 +93,11 @@ private:
   void receivePacketIfPossible(WbDataPacket *packet);
   bool checkApertureAndRange(const WbEmitter *emitter, const WbReceiver *receiver, bool checkRangeOnly = false) const;
   void updateRaysSetupIfNeeded() override;
+  bool isChannelAllowed();
 
 private slots:
   void updateTransmissionSetup();
+  void updateAllowedChannels();
 };
 
 #endif  // WB_RECEIVER_HPP

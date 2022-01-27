@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ComputerMouse {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "computer mouse"
   SFColor    topColor    0.71 0.71 0.71
   SFColor    bottomColor 0.056 0.056 0.056
@@ -23,7 +23,7 @@ ComputerMouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/ComputerMouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/ComputerMouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/ComputerMouse.proto]({{ url.github_tree }}/projects/objects/computers/protos/ComputerMouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -51,14 +51,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 DesktopComputer {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "desktop computer"
   SFColor    powerbuttonColor 0.252903 0.263813 0.266361
   SFFloat    mass             0
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/DesktopComputer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/DesktopComputer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/DesktopComputer.proto]({{ url.github_tree }}/projects/objects/computers/protos/DesktopComputer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -84,14 +84,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Keyboard {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "keyboard"
   SFColor    color       0.1 0.1 0.1
   SFFloat    mass        0
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Keyboard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Keyboard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Keyboard.proto]({{ url.github_tree }}/projects/objects/computers/protos/Keyboard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -117,14 +117,14 @@ Derived from [Robot](../reference/robot.md).
 ```
 Laptop {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "laptop"
   SFString   controller  "laptop_switch_on"
   SFBool     supervisor  FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Laptop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Laptop.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Laptop.proto]({{ url.github_tree }}/projects/objects/computers/protos/Laptop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -148,14 +148,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Monitor {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "monitor"
   SFColor    color       0.15 0.15 0.15
   SFFloat    mass        0
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Monitor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Monitor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Monitor.proto]({{ url.github_tree }}/projects/objects/computers/protos/Monitor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

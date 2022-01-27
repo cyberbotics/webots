@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,13 +44,13 @@ with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
     file.write(supervisor.getUrdf().encode('utf-8'))
 armChain = Chain.from_urdf_file(filename)
 for i in [0, 6]:
-    armChain.active_links_mask[0] = False
+    armChain.active_links_mask[i] = False
 
 # Initialize the arm motors and encoders.
 motors = []
 for link in armChain.links:
     if 'motor' in link.name:
-        motor = supervisor.getMotor(link.name)
+        motor = supervisor.getDevice(link.name)
         motor.setVelocity(1.0)
         position_sensor = motor.getPositionSensor()
         position_sensor.enable(timeStep)
@@ -87,7 +87,7 @@ while supervisor.step(timeStep) != -1:
         break
     elif supervisor.getTime() > 1.5:
         # Note: start to draw at 1.5 second to be sure the arm is well located.
-        supervisor.getPen('pen').write(True)
+        supervisor.getDevice('pen').write(True)
 
 # Loop 2: Move the arm hand to the target.
 print('Move the yellow and black sphere to move the arm...')
@@ -98,9 +98,9 @@ while supervisor.step(timeStep) != -1:
 
     # Compute the position of the target relatively to the arm.
     # x and y axis are inverted because the arm is not aligned with the Webots global axes.
-    x = targetPosition[0] - armPosition[0]
-    y = - (targetPosition[2] - armPosition[2])
-    z = targetPosition[1] - armPosition[1]
+    x = -(targetPosition[1] - armPosition[1])
+    y = targetPosition[0] - armPosition[0]
+    z = targetPosition[2] - armPosition[2]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
     initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]

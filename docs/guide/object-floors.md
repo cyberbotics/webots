@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CircleArena {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "circle arena"
   SFFloat    radius          1.0
   SFString   contactMaterial "default"
@@ -28,7 +28,7 @@ CircleArena {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/CircleArena.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto]({{ url.github_tree }}/projects/objects/floors/protos/CircleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -64,7 +64,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Floor {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "floor"
   SFString   contactMaterial "default"
   SFVec2f    size            10 10
@@ -73,7 +73,7 @@ Floor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/Floor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto]({{ url.github_tree }}/projects/objects/floors/protos/Floor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -101,7 +101,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RectangleArena {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "rectangle arena"
   SFString   contactMaterial "default"
   SFVec2f    floorSize       1 1
@@ -113,7 +113,7 @@ RectangleArena {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/RectangleArena.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto]({{ url.github_tree }}/projects/objects/floors/protos/RectangleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -147,11 +147,11 @@ Derived from [Solid](../reference/solid.md).
 ```
 UnevenTerrain {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "uneven terrain"
   SFVec3f    size           50 5 50
   SFInt32    xDimension     50
-  SFInt32    zDimension     50
+  SFInt32    yDimension     50
   SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
@@ -160,7 +160,7 @@ UnevenTerrain {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/UnevenTerrain.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto]({{ url.github_tree }}/projects/objects/floors/protos/UnevenTerrain.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -171,7 +171,7 @@ UnevenTerrain {
 
 - `xDimension`: Defines the number of points in the grid height array in the x direction.
 
-- `zDimension`: Defines the number of points in the grid height array in the y direction.
+- `yDimension`: Defines the number of points in the grid height array in the y direction.
 
 - `appearance`: Defines the appearance of the terrain.
 

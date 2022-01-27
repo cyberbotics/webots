@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ ifeq ($(OSTYPE),windows)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
  MOC = moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
 endif
 

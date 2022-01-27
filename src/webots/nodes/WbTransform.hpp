@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,6 +45,18 @@ public:
   void setScaleNeedUpdate() override;
   void setMatrixNeedUpdate() override;
   void connectGeometryField(bool dynamic);
+  void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
+
+  // accessors to stored fields
+  const WbVector3 translationFromFile(const QString &id) const { return mSavedTranslations[id]; }
+  const WbRotation rotationFromFile(const QString &id) const { return mSavedRotations[id]; }
+  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
+  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
+
+  void save(const QString &id) override;
 
   // Scaling
   int constraintType() const override;
@@ -101,13 +113,17 @@ protected:
   void createScaleManipulator() override;
 
 protected slots:
-  virtual void updateScale(bool warning = false);
+  virtual void updateScale(bool warning = true);
   void updateConstrainedHandleMaterials();
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable
   WbNode *clone() const override { return new WbTransform(*this); }
   void init();
+
+  // Positions and orientations storage
+  QMap<QString, WbVector3> mSavedTranslations;
+  QMap<QString, WbRotation> mSavedRotations;
 
   mutable bool mPoseChangedSignalEnabled;
 

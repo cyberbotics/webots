@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbField.hpp"
+#include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
@@ -44,6 +45,7 @@ WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStrea
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
+  mClientsReadyToReceiveMessages(false),
   mMonitorActivity(monitorActivity),
   mDisableTextStreams(disableTextStreams),
   mSsl(ssl),
@@ -170,9 +172,44 @@ void WbStreamingServer::onNewTcpData() {
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
-      sendTcpRequestReply(requestedUrl, socket);
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+      bool hasEtag = false;
+      QString etag;
+      for (const auto &i : tokens) {
+        if (i == "If-None-Match:")
+          hasEtag = true;
+        else if (hasEtag) {
+          etag = i;
+          break;
+        }
+      }
+      sendTcpRequestReply(requestedUrl, etag, socket);
+    }
   }
+}
+
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+  QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
+
+  if (!requestedUrl.startsWith("robot_windows/")) {
+    // Here handle the streaming_viewer files.
+    static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+    if (streamer_files.contains(requestedUrl))
+      filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
+    else {
+      WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
+      socket->write(WbHttpReply::forge404Reply());
+      return;
+    }
+  }
+  const QString fileName(filePath);
+  if (WbHttpReply::mimeType(fileName).isEmpty()) {
+    WbLog::warning(tr("Unsupported file type %1").arg(fileName));
+    socket->write(WbHttpReply::forge404Reply());
+    return;
+  }
+  WbLog::info(tr("Received request for %1").arg(fileName));
+  socket->write(WbHttpReply::forgeFileReply(fileName, etag));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {
@@ -183,7 +220,6 @@ void WbStreamingServer::onNewWebSocketConnection() {
     mWebSocketClients << client;
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
-    sendToClients();  // send possible bufferized messages
   }
 }
 
@@ -216,16 +252,16 @@ void WbStreamingServer::processTextMessage(QString message) {
     const QJsonDocument &jsonDocument = QJsonDocument::fromJson(data.toUtf8());
     if (jsonDocument.isNull() || !jsonDocument.isObject()) {
       // backward compatibility
-      const int nameSize = message.indexOf(":");
+      const int nameSize = data.indexOf(":");
       name = data.left(nameSize);
       robotMessage = data.mid(nameSize + 1);
     } else {
       name = jsonDocument.object().value("name").toString();
       robotMessage = jsonDocument.object().value("message").toString();
     }
-    const QByteArray &byteRobotMessage = robotMessage.toUtf8();
     WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(robotMessage));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+    const QByteArray &byteRobotMessage = robotMessage.toUtf8();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
         robot->receiveFromJavascript(byteRobotMessage);
@@ -252,9 +288,11 @@ void WbStreamingServer::processTextMessage(QString message) {
     if (realTime) {
       printf("real-time\n");
       WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+      client->sendTextMessage("real-time");
     } else {
       printf("fast\n");
       WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+      client->sendTextMessage("fast");
     }
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
             &WbStreamingServer::propagateSimulationStateChange);
@@ -454,13 +492,15 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty()) {
-    if (message.isEmpty())
+  if (message.isEmpty()) {
+    mClientsReadyToReceiveMessages = true;
+    if (mMessageToClients.isEmpty())
       return;
+  } else if (mMessageToClients.isEmpty())
     mMessageToClients = message;
-  } else if (!message.isEmpty())
+  else
     mMessageToClients += "\n" + message;
-  if (mWebSocketClients.isEmpty())
+  if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(mMessageToClients);
@@ -556,12 +596,8 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
       return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
-    case WbSimulationState::STEP:
-      return "step";
     case WbSimulationState::REALTIME:
       return "real-time";
-    case WbSimulationState::RUN:
-      return "run";
     case WbSimulationState::FAST:
       return "fast";
     default:

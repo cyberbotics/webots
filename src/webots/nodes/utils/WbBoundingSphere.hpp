@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 //              or WbGeometry instance have a bounding sphere including bounding
 //              objects.
 //
-//              The WbBoundingSphere is also included in a tree of WbBounsingSphere
+//              The WbBoundingSphere is also included in a tree of WbBoundingSphere
 //              instances using the 'parent' and 'subBoundingSphere' concepts.
 //              But the sphere's radius and center are expressed in the owner node
 //              coordinate system.
@@ -46,6 +46,7 @@
 
 class WbBoundingSphere;
 class WbShape;
+class WbSkin;
 
 class WbAbstractTransform;
 class WbBaseNode;
@@ -119,6 +120,7 @@ private:
   QList<WbBoundingSphere *> mSubBoundingSpheres;
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
+  const WbSkin *mSkinOwner;
   const WbAbstractTransform *mTransformOwner;
 
   // Cached values

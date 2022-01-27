@@ -2,7 +2,7 @@
 
 ## Chair
 
-A chair (0.5 x 1 x 0.5 m).
+A chair (0.5 x 0.5 x 1 m).
 
 %figure
 
@@ -15,14 +15,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Chair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "chair"
   SFColor    color       1 1 1
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/Chair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto]({{ url.github_tree }}/projects/objects/chairs/protos/Chair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -48,7 +48,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OfficeChair {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "office chair"
   SFNode     legAppearance   BrushedAluminium { textureTransform TextureTransform { scale 5 5 } }
   SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }
@@ -56,7 +56,7 @@ OfficeChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/OfficeChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/OfficeChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/OfficeChair.proto]({{ url.github_tree }}/projects/objects/chairs/protos/OfficeChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -84,8 +84,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 SimpleChair {
-  SFVec3f    translation 0 0.91 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "simple chair"
   SFColor    legColor    1 1 0
   SFColor    seatColor   1 0.65 0
@@ -93,7 +93,7 @@ SimpleChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/SimpleChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto]({{ url.github_tree }}/projects/objects/chairs/protos/SimpleChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -108,7 +108,7 @@ SimpleChair {
 
 ## WoodenChair
 
-A wooden chair (0.42 x 0.944 x 0.44 m).
+A wooden chair (0.42 x 0.44 x 0.944 m).
 
 %figure
 
@@ -121,14 +121,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenChair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wooden chair"
   SFColor    color       1 1 1
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/WoodenChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto]({{ url.github_tree }}/projects/objects/chairs/protos/WoodenChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -138,4 +138,3 @@ WoodenChair {
 - `color`: Defines the color of the chair.
 
 - `physics`: Defines the physics of the chair.
-

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "WbIndexedFaceSet.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbMFNode.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPositionSensor.hpp"
@@ -40,6 +41,8 @@
 #include <wren/renderable.h>
 #include <wren/transform.h>
 
+static const WbQuaternion TRACK_PAD_TRANSFORM(WbVector3(1, 0, 0), -M_PI_2);
+
 void WbTrack::init() {
   mDeviceField = findMFNode("device");
   mTextureAnimationField = findSFVector2("textureAnimation");
@@ -55,7 +58,7 @@ void WbTrack::init() {
   // texture animation
   mShape = NULL;
   mTextureTransform = NULL;
-  mInitialTextureTransformTranslation = WbVector2();
+  mSavedTextureTransformTranslations[stateId()] = WbVector2();
 
   // geometries animation
   mPathLength = 0.0;
@@ -167,35 +170,35 @@ void WbTrack::addDevice(int index) {
   r->descendantNodeInserted(decendant);
 }
 
-void WbTrack::reset() {
-  WbSolid::reset();
+void WbTrack::reset(const QString &id) {
+  WbSolid::reset(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->reset();
+    g->reset(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->reset();
+    mDeviceField->item(i)->reset(id);
 
   mMotorPosition = 0.0;
   mSurfaceVelocity = 0.0;
   if (mTextureTransform)
-    mTextureTransform->setTransaltion(mInitialTextureTransformTranslation);
+    mTextureTransform->setTranslation(mSavedTextureTransformTranslations[id]);
 }
 
-void WbTrack::save() {
-  WbSolid::save();
+void WbTrack::save(const QString &id) {
+  WbSolid::save(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->save();
+    g->save(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->save();
+    mDeviceField->item(i)->save(id);
 
-  mInitialTextureTransformTranslation = WbVector2();
+  mSavedTextureTransformTranslations[id] = WbVector2();
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform)
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mSavedTextureTransformTranslations[id] = mTextureTransform->translation();
   }
 }
 
@@ -315,7 +318,7 @@ void WbTrack::updateTextureTransform() {
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
       mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
@@ -517,8 +520,8 @@ void WbTrack::updateAnimatedGeometries() {
     }
     float position[3];
     float rotation[4];
-    WbVector3(beltPosition.position.x(), beltPosition.position.y(), 0.0).toFloatArray(position);
-    WbRotation(0.0, 0.0, -1.0, beltPosition.rotation).toFloatArray(rotation);
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
+    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
 
     WrTransform *transform = wr_transform_new();
     wr_transform_set_position(transform, position);
@@ -603,7 +606,7 @@ void WbTrack::prePhysicsStep(double ms) {
   } else
     mSurfaceVelocity = 0.0;
 
-  double travelledDistance = mSurfaceVelocity * sec;
+  const double travelledDistance = mSurfaceVelocity * sec;
   mMotorPosition += travelledDistance;
 
   for (int i = 0; i < mWheelsList.size(); ++i)
@@ -611,7 +614,7 @@ void WbTrack::prePhysicsStep(double ms) {
 
   // texture animation
   if (mTextureTransform) {
-    mTextureTransform->translate(0.001 * ms * mSurfaceVelocity * mTextureAnimationField->value());
+    mTextureTransform->translate(-0.001 * ms * mSurfaceVelocity * mTextureAnimationField->value());
     mTextureTransform->modifyWrenMaterial(mShape->wrenMaterial());
   }
 
@@ -645,8 +648,8 @@ void WbTrack::animateMesh() {
 
     float position[3];
     float rotation[4];
-    WbVector3(beltPosition.position.x(), beltPosition.position.y(), 0.0).toFloatArray(position);
-    WbRotation(0.0, 0.0, -1.0, beltPosition.rotation).toFloatArray(rotation);
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
+    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
 
     wr_transform_set_position(mBeltElements[i], position);
     wr_transform_set_orientation(mBeltElements[i], rotation);
@@ -792,7 +795,7 @@ void WbTrack::computeBeltPath() {
     bool isOuterTangent = isWheelInner == mWheelsList[nextIndex]->inner();
     if (isOuterTangent) {
       // outer tangent
-      double relAngle = acos((radius - nextRadius) / distanceVector.length());
+      double relAngle = WbMathsUtilities::clampedAcos((radius - nextRadius) / distanceVector.length());
       assert(!std::isnan(relAngle));
       if (isWheelInner == 0)
         relAngle = -relAngle;
@@ -801,7 +804,7 @@ void WbTrack::computeBeltPath() {
       pointB = WbVector2(cos(absAngle), sin(absAngle)) * nextRadius + nextCenter;
     } else {
       // inner tangent
-      double relAngle = acos((radius + nextRadius) / distanceVector.length());
+      double relAngle = WbMathsUtilities::clampedAcos((radius + nextRadius) / distanceVector.length());
       assert(!std::isnan(relAngle));
       if (isWheelInner == 0)
         relAngle = -relAngle;

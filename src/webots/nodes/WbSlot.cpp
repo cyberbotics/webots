@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,13 +52,19 @@ void WbSlot::validateProtoNode() {
     solid->validateProtoNode();
 }
 
+void WbSlot::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (hasEndpoint())
+    static_cast<WbBaseNode *>(endPoint())->downloadAssets();
+}
+
 void WbSlot::preFinalize() {
   WbBaseNode::preFinalize();
 
   connect(mEndPoint, &WbSFString::changed, this, &WbSlot::endPointChanged);
   WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
   if (pg)  // parent is a group
-    connect(this, &WbSlot::endPointInserted, pg, &WbGroup::insertChildFromSlot);
+    connect(this, &WbSlot::endPointInserted, pg, &WbGroup::insertChildFromSlotOrJoint);
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)  // parent is another slot
     connect(this, &WbSlot::endPointInserted, ps, &WbSlot::endPointInserted);
@@ -176,20 +182,20 @@ void WbSlot::endPointChanged() {
   }
 }
 
-void WbSlot::reset() {
-  WbBaseNode::reset();
+void WbSlot::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbSlot::save() {
-  WbBaseNode::save();
+void WbSlot::save(const QString &id) {
+  WbBaseNode::save(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->save();
+    e->save(id);
 }
 
 //////////////////////////////////////////////////////////////
@@ -215,4 +221,12 @@ void WbSlot::write(WbVrmlWriter &writer) const {
     if (hasEndpoint())
       mEndPoint->value()->write(writer);
   }
+}
+
+QList<const WbBaseNode *> WbSlot::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    list << e->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
 }

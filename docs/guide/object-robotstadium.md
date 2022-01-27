@@ -16,14 +16,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 RobotstadiumGoal {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "robotstadium goal"
   SFFloat    postRadius  0.05
   SFColor    frameColor  1 1 1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/robotstadium/protos/RobotstadiumGoal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto]({{ url.github_tree }}/projects/objects/robotstadium/protos/RobotstadiumGoal.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -51,7 +51,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RobotstadiumSoccerField {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "robotstadium soccer field"
   SFString   contactMaterial "default"
   SFColor    frame1Color     1 1 1
@@ -60,7 +60,7 @@ RobotstadiumSoccerField {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto]({{ url.github_tree }}/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

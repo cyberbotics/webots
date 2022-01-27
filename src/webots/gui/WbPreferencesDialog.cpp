@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
 
 #include <QtWidgets/QButtonGroup>
@@ -37,6 +39,7 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
@@ -51,13 +54,12 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   gStartupModes.clear();
   gStartupModes << "Pause"
                 << "Real-time"
-                << "Run"
                 << "Fast";
 
   mTabWidget = new QTabWidget(this);
   mTabWidget->addTab(createGeneralTab(), tr("General"));
   mTabWidget->addTab(createOpenGLTab(), tr("OpenGL"));
-  mTabWidget->addTab(createNetworkTab(), tr("Network Proxy"));
+  mTabWidget->addTab(createNetworkTab(), tr("Network"));
 
   for (int i = 0; i < mTabWidget->count(); ++i) {
     if (mTabWidget->tabText(i) == defaultTab) {
@@ -88,6 +90,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
+  mRenderingCheckBox->setChecked(prefs->value("General/rendering").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
 
   // openGL tab
@@ -147,6 +150,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
+  prefs->setValue("General/rendering", mRenderingCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
 
   // openGL
@@ -182,6 +186,8 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
+  if (!mCacheSize->text().isEmpty())
+    prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -196,6 +202,14 @@ void WbPreferencesDialog::openFontDialog() {
   QFont font = QFontDialog::getFont(&ok, initial, this);
   if (ok)
     mEditorFontEdit->setText(font.toString());
+}
+
+void WbPreferencesDialog::clearCache() {
+  WbNetwork::instance()->clearCache();
+  WbMessageBox::info(tr("The cache has been cleared."), this);
+  mTabWidget->removeTab(2);
+  mTabWidget->addTab(createNetworkTab(), tr("Network"));
+  mTabWidget->setCurrentIndex(2);
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -270,55 +284,59 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   connect(chooseFontButton, &QPushButton::pressed, this, &WbPreferencesDialog::openFontDialog);
 
   // row 3
-  layout->addWidget(new QLabel(tr("Editor font:"), this), 3, 0);
-  layout->addWidget(mEditorFontEdit, 3, 1);
-  layout->addWidget(chooseFontButton, 3, 2);
+  mRenderingCheckBox = new QCheckBox(tr("Rendering"), this);
+  layout->addWidget(mRenderingCheckBox, 3, 1);
 
   // row 4
-  layout->addWidget(new QLabel(tr("Number of threads:"), this), 4, 0);
-  layout->addWidget(mNumberOfThreadsCombo, 4, 1);
+  layout->addWidget(new QLabel(tr("Editor font:"), this), 4, 0);
+  layout->addWidget(mEditorFontEdit, 4, 1);
+  layout->addWidget(chooseFontButton, 4, 2);
 
   // row 5
-  layout->addWidget(new QLabel(tr("Python command:"), this), 5, 0);
+  layout->addWidget(new QLabel(tr("Number of threads:"), this), 5, 0);
+  layout->addWidget(mNumberOfThreadsCombo, 5, 1);
+
+  // row 6
+  layout->addWidget(new QLabel(tr("Python command:"), this), 6, 0);
   if (WbSysInfo::isSnap()) {
     QLabel *label = new QLabel(
       tr("built-in python (snap), see <a href=\"https://cyberbotics.com/doc/guide/running-extern-robot-controllers\">extern "
          "controllers</a> for alternatives."),
       this);
-    layout->addWidget(label, 5, 1);
+    layout->addWidget(label, 6, 1);
     connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
     mPythonCommand = NULL;
   } else
-    layout->addWidget(mPythonCommand = new WbLineEdit(this), 5, 1);
-  // row 6
-  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 6, 0);
-  layout->addWidget(mExtraProjectsPath, 6, 1);
-
+    layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
   // row 7
+  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 7, 0);
+  layout->addWidget(mExtraProjectsPath, 7, 1);
+
+  // row 8
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
        "current world was modified by either changing the viewpoint,\ndragging, rotating, applying a force or applying a "
        "torque to an object. It will however\nstill display a warning if the world was modified from the scene tree."));
-  layout->addWidget(new QLabel(tr("Warnings:"), this), 7, 0);
-  layout->addWidget(mDisableSaveWarningCheckBox, 7, 1);
+  layout->addWidget(new QLabel(tr("Warnings:"), this), 8, 0);
+  layout->addWidget(mDisableSaveWarningCheckBox, 8, 1);
 
-  // row 8
+  // row 9
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://cyberbotics.com/doc/guide/telemetry"));
   QLabel *label =
     new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
-  layout->addWidget(label, 8, 0);
-  layout->addWidget(mTelemetryCheckBox, 8, 1);
+  layout->addWidget(label, 9, 0);
+  layout->addWidget(mTelemetryCheckBox, 9, 1);
 
-  // row 9
+  // row 10
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 9, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 9, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 10, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 10, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);
@@ -369,34 +387,64 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
 
 QWidget *WbPreferencesDialog::createNetworkTab() {
   QWidget *widget = new QWidget(this);
-  QGridLayout *layout = new QGridLayout(widget);
+  QGridLayout *network = new QGridLayout(widget);
+  QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
+  proxy->setObjectName("networkGroupBox");
+  QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
+  cache->setObjectName("networkGroupBox");
+
+  network->addWidget(proxy, 0, 1);
+  network->addWidget(cache, 1, 1);
+
+  // Proxy
+  QGridLayout *layout = new QGridLayout(proxy);
+
   // row 0
   mHttpProxySocks5CheckBox = new QCheckBox(tr("SOCKS v5"), this);
   mHttpProxySocks5CheckBox->setToolTip(tr("Activate SOCK5 proxying."));
-  layout->addWidget(new QLabel(tr("Proxy type:"), this), 0, 0);
+  layout->addWidget(new QLabel(tr("Type:"), this), 0, 0);
   layout->addWidget(mHttpProxySocks5CheckBox, 0, 1);
 
   // row 1
   mHttpProxyHostName = new WbLineEdit(this);
-  layout->addWidget(new QLabel(tr("Proxy hostname:"), this), 1, 0);
+  layout->addWidget(new QLabel(tr("Hostname:"), this), 1, 0);
   layout->addWidget(mHttpProxyHostName, 1, 1);
 
   // row 2
   mHttpProxyPort = new WbLineEdit(this);
   mHttpProxyPort->setValidator(new QIntValidator(0, 65535));
-  layout->addWidget(new QLabel(tr("Proxy port:"), this), 2, 0);
+  layout->addWidget(new QLabel(tr("Port:"), this), 2, 0);
   layout->addWidget(mHttpProxyPort, 2, 1);
 
   // row 3
   mHttpProxyUsername = new WbLineEdit(this);
-  layout->addWidget(new QLabel(tr("Proxy username:"), this), 3, 0);
+  layout->addWidget(new QLabel(tr("Username:"), this), 3, 0);
   layout->addWidget(mHttpProxyUsername, 3, 1);
 
   // row 4
   mHttpProxyPassword = new WbLineEdit(this);
   mHttpProxyPassword->setEchoMode(QLineEdit::PasswordEchoOnEdit);
-  layout->addWidget(new QLabel(tr("Proxy password:"), this), 4, 0);
+  layout->addWidget(new QLabel(tr("Password:"), this), 4, 0);
   layout->addWidget(mHttpProxyPassword, 4, 1);
+
+  // Cache
+  layout = new QGridLayout(cache);
+
+  // row 0
+  mCacheSize = new WbLineEdit(this);
+  mCacheSize->setValidator(new QIntValidator(0, 65535));
+  mCacheSize->setText(WbPreferences::instance()->value("Network/cacheSize", 1024).toString());
+  layout->addWidget(new QLabel(tr("Set the size of the cache (in MB):"), this), 0, 0);
+  layout->addWidget(mCacheSize, 0, 1);
+
+  // row 1
+  QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
+  connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
+  layout->addWidget(new QLabel(tr("Amount of cache used : %1 MB.")
+                                 .arg(WbNetwork::instance()->networkAccessManager()->cache()->cacheSize() / (1024 * 1024)),
+                               this),
+                    1, 0);
+  layout->addWidget(clearCacheButton, 1, 1);
 
   return widget;
 }

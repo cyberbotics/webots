@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,14 +32,13 @@ public:
   void rosEnable(int samplingPeriod) override { mInertialUnit->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mInertialUnit->getSamplingPeriod(); }
-  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
+  bool getNoise(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
 
 private:
   void cleanup() { mInertialUnit->disable(); }
 
   InertialUnit *mInertialUnit;
-
-  ros::ServiceServer mLookupTableServer;
+  ros::ServiceServer mNoiseServer;
 };
 
 #endif  // ROS_INERTIAL_UNIT_HPP

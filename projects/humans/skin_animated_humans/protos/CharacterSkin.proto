@@ -1,0 +1,95 @@
+#VRML_SIM R2022a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Skin node representing a human with predefined mesh and appearance.
+# Four different characters are available based on the 'model' field:
+# - "Anthony": a boy,
+# - "Robert": a men,
+# - "Sandra": a woman,
+# - "Sophia": a girl.
+# template language: javascript
+
+PROTO CharacterSkin [
+  field SFVec3f                                           translation 0 0 0
+  field SFRotation                                        rotation    0.57735 0.57735 0.57735 2.0944
+  field SFVec3f                                           scale       1 1 1
+  field SFString                                          name        "skin"
+  field SFString{"Anthony", "Robert", "Sandra", "Sophia"} model        "Sandra"
+  field SFBool                                            castShadows TRUE
+]
+{
+  %< const character = fields.model.value.toLowerCase(); >%
+
+  Skin {
+    translation IS translation
+    rotation IS rotation
+    scale IS scale
+    name IS name
+    modelUrl %<= '"' + "webots://projects/humans/skin_animated_humans/protos/skins/" + character + '.fbx"' >%
+    appearance [
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_skin.jpg"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "skin"
+      }
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %< const character_eyes = (character === "sophia") ? "sandra" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyes + '_eyes.jpg"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "eyes"
+      }
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %< const character_eyebrow = (character === "anthony") ? "robert" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyebrow + '_eyebrow.png"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "eyebrow"
+      }
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_hair.png"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "hair"
+      }
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_shoes.jpg"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "shoes"
+      }
+      PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_suit.jpg"' >%
+          ]
+        }
+        roughness 1
+        metalness 0
+        name "suit"
+      }
+    ]
+    castShadows IS castShadows
+  }
+}

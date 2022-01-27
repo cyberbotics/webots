@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -157,7 +157,7 @@ public:
   bool operator!=(const WbVector4 &v) const { return mX != v.mX || mY != v.mY || mZ != v.mZ || mW != v.mW; }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const {
     return QString("%1 %2 %3 %4")
       .arg(WbPrecision::doubleToString(mX, level))
       .arg(WbPrecision::doubleToString(mY, level))

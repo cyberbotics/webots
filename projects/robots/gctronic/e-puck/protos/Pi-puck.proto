@@ -1,7 +1,6 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/epuck
 # Raspberry pi extension for the e-puck robot model 2
 # To be inserted in the `turretSlot` of the E-puck node.
@@ -10,6 +9,7 @@ PROTO Pi-puck [
 ]
 {
   Solid {
+    rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
     children [
       LED {
         translation -0.0301 0.0022 -0.0258
@@ -70,24 +70,25 @@ PROTO Pi-puck [
       }
       DEF CYLINDER_TRANSFORM Transform {
         translation 0 0.001 -0.0094
+        rotation 1 0 0 -1.5708
         children [
           DEF TOP Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_base_color.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_normal.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_occlusion.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -105,7 +106,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/pi-puck_bottom.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_bottom.jpg"
                 ]
               }
               roughness 1
@@ -146,19 +147,19 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_base_color.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_normal.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_occlusion.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -181,7 +182,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_bottom.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_bottom.jpg"
                 ]
               }
               roughness 1
@@ -296,7 +297,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation 0.02 0.002 -0.034
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         appearance PBRAppearance {
         }
         screwRadius 0.0008
@@ -304,7 +305,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.0005 0.002 0.0224
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(0)"
         appearance PBRAppearance {
         }
@@ -313,7 +314,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.02 0.002 -0.0347
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(1)"
         appearance PBRAppearance {
         }
@@ -378,6 +379,7 @@ PROTO Pi-puck [
     name "pi-puck"
     boundingObject DEF CYLINDER_TRANSFORM Transform {
       translation 0 0.001 -0.0094
+      rotation 1 0 0 -1.5708
       children [
         Cylinder {
           height 0.002

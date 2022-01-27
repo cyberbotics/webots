@@ -409,13 +409,13 @@ Reload the world.
 > ]
 >
 > for i in range(8):
->     ps.append(robot.getDistanceSensor(psNames[i]))
+>     ps.append(robot.getDevice(psNames[i]))
 >     ps[i].enable(TIME_STEP)
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
-> leftMotor = robot.getMotor('left wheel motor')
-> rightMotor = robot.getMotor('right wheel motor')
+> leftMotor = robot.getDevice('left wheel motor')
+> rightMotor = robot.getDevice('right wheel motor')
 > leftMotor.setPosition(float('inf'))
 > rightMotor.setPosition(float('inf'))
 > leftMotor.setVelocity(0.0)
@@ -779,11 +779,11 @@ psNames = [
 ]
 
 for i in range(8):
-    ps.append(robot.getDistanceSensor(psNames[i]))
+    ps.append(robot.getDevice(psNames[i]))
     ps[i].enable(TIME_STEP)
 
-leftMotor = robot.getMotor('left wheel motor')
-rightMotor = robot.getMotor('right wheel motor')
+leftMotor = robot.getDevice('left wheel motor')
+rightMotor = robot.getDevice('right wheel motor')
 leftMotor.setPosition(float('inf'))
 rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
@@ -956,7 +956,7 @@ end
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/collision_avoidance.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+[This solution]({{ url.github_tree }}/projects/samples/tutorials/worlds/collision_avoidance.wbt) as the others is located in the [solution directory]({{ url.github_tree }}/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

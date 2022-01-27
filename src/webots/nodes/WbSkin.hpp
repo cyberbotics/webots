@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
 
+class WbBoundingSphere;
+class WbDownloader;
 class WbMFNode;
 
 struct WrDynamicMesh;
@@ -41,6 +43,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SKIN; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
@@ -49,7 +52,7 @@ public:
   void createWrenObjects() override;
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
-  void reset() override;
+  void reset(const QString &id) override;
 
   void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }
@@ -72,6 +75,10 @@ public:
 
   void emitTranslationOrRotationChangedByUser() override {}
 
+  // ray tracing
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
+  void recomputeBoundingSphere() const;
+
 signals:
   void wrenMaterialChanged();
 
@@ -81,15 +88,18 @@ private:
   void init();
 
   WbSFString *mName;
-  WbSFString *mModelName;
+  WbSFString *mModelUrl;
   WbMFNode *mAppearanceField;
   WbMFNode *mBonesField;
   WbSFBool *mCastShadows;
 
-  QString mModelPath;
+  WbDownloader *mDownloader;
+  bool mIsModelUrlValid;
   WrSkeleton *mSkeleton;
   WrTransform *mSkeletonTransform;
   WrTransform *mRenderablesTransform;
+  QList<WbRotation> mInitialSkeletonOrientation;
+  QList<WbVector3> mInitialSkeletonPosition;
 
   QVector<WrRenderable *> mRenderables;
   QStringList mMaterialNames;
@@ -106,6 +116,9 @@ private:
   WbRotation *mBoneOrientationRequest;
   bool mBonesWarningPrinted;
 
+  // Ray tracing
+  mutable WbBoundingSphere *mBoundingSphere;
+
   void createWrenSkeleton();
   void deleteWrenSkeleton();
 
@@ -115,13 +128,15 @@ private:
   bool createSkeletonFromWebotsNodes();
   WrTransform *createBoneRepresentation(WrRenderable **renderable, const float *scale);
 
+  QString modelPath() const;
+  void updateModel();
   void applyToScale() override;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
   virtual void updateScale(bool warning = false);
-  void updateModel();
+  void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
   void updateAppearanceName(const QString &newName, const QString &prevName);
@@ -129,6 +144,7 @@ private slots:
   void updateCastShadows();
   void showResizeManipulator(bool enabled) override;
   void updateOptionalRendering(int option);
+  void downloadUpdate();
 };
 
 #endif

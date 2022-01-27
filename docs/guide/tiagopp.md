@@ -17,8 +17,8 @@ More information on the TIAGo++ robot can be found on their [website](http://blo
 Derived from [Robot](../reference/robot.md).
 ```
 Tiago++ {
-  SFVec3f     translation           0 0 0
-  SFRotation  rotation              1 0 0 -1.5708
+  SFVec3f     translation           0 0 0.095
+  SFRotation  rotation              0 0 1 0
   SFString    name                  "TIAGo++"
   SFString    controller            "tiago++"
   MFString    controllerArgs        []
@@ -31,7 +31,7 @@ Tiago++ {
   MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
 
 #### Tiago++ Field Summary
 
@@ -40,7 +40,7 @@ Tiago++ {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/worlds)".
 
 #### tiago++.wbt
 

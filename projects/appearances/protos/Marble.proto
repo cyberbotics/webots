@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A beige marble material.
@@ -13,26 +13,26 @@ PROTO Marble [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/marble/marble_base_color.jpg"
+        "webots://projects/appearances/protos/textures/marble/marble_base_color.jpg"
       ]
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "textures/marble/marble_roughness.jpg"
+        "webots://projects/appearances/protos/textures/marble/marble_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/marble/marble_normal.jpg"
+        "webots://projects/appearances/protos/textures/marble/marble_normal.jpg"
       ]
     }
     normalMapFactor 0.2
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/marble/marble_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/marble/marble_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

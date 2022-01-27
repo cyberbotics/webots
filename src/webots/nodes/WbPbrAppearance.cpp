@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,6 +76,27 @@ WbPbrAppearance::~WbPbrAppearance() {
     wr_texture_delete(WR_TEXTURE(cBrdfTexture));
     cBrdfTexture = NULL;
   }
+}
+
+void WbPbrAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (baseColorMap())
+    baseColorMap()->downloadAssets();
+
+  if (roughnessMap())
+    roughnessMap()->downloadAssets();
+
+  if (metalnessMap())
+    metalnessMap()->downloadAssets();
+
+  if (normalMap())
+    normalMap()->downloadAssets();
+
+  if (occlusionMap())
+    occlusionMap()->downloadAssets();
+
+  if (emissiveColorMap())
+    emissiveColorMap()->downloadAssets();
 }
 
 void WbPbrAppearance::preFinalize() {
@@ -165,26 +186,26 @@ void WbPbrAppearance::postFinalize() {
     emit changed();
 }
 
-void WbPbrAppearance::reset() {
-  WbAbstractAppearance::reset();
+void WbPbrAppearance::reset(const QString &id) {
+  WbAbstractAppearance::reset(id);
 
   if (baseColorMap())
-    baseColorMap()->reset();
+    baseColorMap()->reset(id);
 
   if (roughnessMap())
-    roughnessMap()->reset();
+    roughnessMap()->reset(id);
 
   if (metalnessMap())
-    metalnessMap()->reset();
+    metalnessMap()->reset(id);
 
   if (normalMap())
-    normalMap()->reset();
+    normalMap()->reset(id);
 
   if (occlusionMap())
-    occlusionMap()->reset();
+    occlusionMap()->reset(id);
 
   if (emissiveColorMap())
-    emissiveColorMap()->reset();
+    emissiveColorMap()->reset(id);
 }
 
 void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
@@ -351,7 +372,7 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
   WbImageTexture *tex = baseColorMap();
   if (tex) {
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
+    tex->pickColor(uvTransformed, pickedColor);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
 }
@@ -368,7 +389,7 @@ double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVe
   if (texture) {
     WbRgb pickedColor;
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    texture->pickColor(pickedColor, uvTransformed);
+    texture->pickColor(uvTransformed, pickedColor);
     return pickedColor.red();
   }
   return 0.0;  // default value
@@ -496,9 +517,9 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     writer << "<Material diffuseColor=\"";
     mBaseColor->write(writer);
-    writer << "\" specularColor=\"" << 1.0 - mRoughness->value() << " " << 1.0 - mRoughness->value() << " "
-           << 1.0 - mRoughness->value() << "\" ";
-    writer << "shininess=\"" << 1.0 - mRoughness->value() << "\"";
+    writer << "\" specularColor=\"" << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
+           << (float)(1.0 - mRoughness->value()) << "\" ";
+    writer << "shininess=\"" << (float)(1.0 - mRoughness->value()) << "\"";
     writer << "/>";
     mBaseColorMap->write(writer);
     if (textureTransform())
@@ -513,10 +534,10 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     mBaseColor->write(writer);
     writer << "\n";
     writer.indent();
-    writer << "specularColor " << 1.0 - mRoughness->value() << " " << 1.0 - mRoughness->value() << " "
-           << 1.0 - mRoughness->value() << "\n";
+    writer << "specularColor " << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
+           << (float)(1.0 - mRoughness->value()) << "\n";
     writer.indent();
-    writer << "shininess " << 1.0 - mRoughness->value() << "\n";
+    writer << "shininess " << (float)(1.0 - mRoughness->value()) << "\n";
     writer.decreaseIndent();
     writer.indent();
     writer << "}\n";

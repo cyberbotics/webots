@@ -73,6 +73,8 @@ mkdir -p $TMP_LIB_DIR
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$TMP_LIB_DIR:$LD_LIBRARY_PATH
 
+export QT_ENABLE_HIGHDPI_SCALING=1
+
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
   primusrun "$webots_home/bin/webots-bin" "$@" &

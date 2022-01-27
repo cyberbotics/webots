@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,6 +81,12 @@ WbBasicJoint::~WbBasicJoint() {
   }
 }
 
+void WbBasicJoint::downloadAssets() {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->downloadAssets();
+}
+
 void WbBasicJoint::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -113,6 +119,14 @@ void WbBasicJoint::postFinalize() {
     e->postFinalize();
 
   connect(mEndPoint, &WbSFNode::changed, this, &WbBasicJoint::updateEndPoint);
+  const WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
+  if (pg)
+    connect(this, &WbBasicJoint::endPointChanged, pg, &WbGroup::insertChildFromSlotOrJoint);
+  else {
+    const WbSlot *slot = dynamic_cast<WbSlot *>(parentNode());
+    if (slot)
+      connect(this, &WbBasicJoint::endPointChanged, slot, &WbSlot::endPointInserted);
+  }
   connect(mParameters, &WbSFNode::changed, this, &WbBasicJoint::updateParameters);
 
   WbSolid *const s = solidEndPoint();
@@ -170,24 +184,24 @@ void WbBasicJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
   applyToOdeSpringAndDampingConstants(body, parentBody);
 }
 
-void WbBasicJoint::reset() {
-  WbBaseNode::reset();
+void WbBasicJoint::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->reset();
+    p->reset(id);
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbBasicJoint::save() {
-  WbBaseNode::save();
+void WbBasicJoint::save(const QString &id) {
+  WbBaseNode::save(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->save();
+    p->save(id);
   if (e)
-    e->save();
+    e->save(id);
 }
 
 // Update methods: they check validity and correct if necessary
@@ -432,7 +446,7 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
     WbRotation computedRotation;
     const WbBasicJoint *instance = NULL;
     if (isProtoParameterNode())
-      instance = dynamic_cast<WbBasicJoint *>(protoParameterNodeInstances().at(0));
+      instance = dynamic_cast<WbBasicJoint *>(getFirstFinalizedProtoInstance());
     if (instance == NULL)
       instance = this;
     instance->computeEndPointSolidPositionFromParameters(computedTranslation, computedRotation);
@@ -482,4 +496,11 @@ WbBoundingSphere *WbBasicJoint::boundingSphere() const {
   if (solid)
     return solid->boundingSphere();
   return NULL;
+}
+
+QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  if (mEndPoint->value())
+    list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
 }

@@ -15,12 +15,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 CeilingLight {
   SFVec3f    translation                0 2.4 0
-  SFRotation rotation                   0 1 0 0
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -29,7 +29,7 @@ CeilingLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/CeilingLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -69,7 +69,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CeilingSpotLight {
   SFVec3f    translation               0 1.0 0
-  SFRotation rotation                  0 1 0 0
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "ceiling light"
   SFNode     supportAppearance         DamascusSteel { }
   SFColor    spotLightColor            1 1 1
@@ -79,7 +79,7 @@ CeilingSpotLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/CeilingSpotLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingSpotLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -111,7 +111,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ConstructionLamp {
   SFVec3f    translation               0 0.07 0
-  SFRotation rotation                  0 1 0 0
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "construction lamp"
   SFNode     supportAppearance         MetalPipePaint { }
   SFColor    spotLightColor            1 1 1
@@ -121,7 +121,7 @@ ConstructionLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/ConstructionLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/ConstructionLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -154,13 +154,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 DoubleFluorescentLamp {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "double fuorescent lamp"
   SFFloat    intensity       10
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -184,12 +184,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 FloorLight {
   SFVec3f    translation                0 0 0
-  SFRotation rotation                   0 1 0 0
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "floor light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/lights/protos/textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -198,7 +198,7 @@ FloorLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/FloorLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/FloorLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

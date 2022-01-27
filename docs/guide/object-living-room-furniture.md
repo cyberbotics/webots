@@ -2,7 +2,7 @@
 
 ## Armchair
 
-An armchair (1 x 0.8 x 1.1 m).
+An armchair (1 x 1.1 x 0.8 m).
 
 %figure
 
@@ -15,15 +15,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 Armchair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "armchair"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/sofa.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Armchair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Armchair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Armchair.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Armchair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -36,7 +36,7 @@ Armchair {
 
 ## Carpet
 
-A carpet (2.4 x 0.02 x 1.6 m).
+A carpet (2.4 x 1.6 x 0.02 m).
 
 %figure
 
@@ -49,13 +49,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Carpet {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "carpet"
   SFColor    color       1 1 1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Carpet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Carpet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Carpet.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Carpet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -66,7 +66,7 @@ Carpet {
 
 ## Sofa
 
-A sofa for two people (1 x 0.8 x 1.8 m).
+A sofa for two people (1 x 1.8 x 0.8 m).
 
 %figure
 
@@ -79,15 +79,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 Sofa {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "sofa"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/sofa.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Sofa.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Sofa.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Sofa.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Sofa.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

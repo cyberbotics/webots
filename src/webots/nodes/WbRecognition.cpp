@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ void WbRecognition::init() {
   mOcclusion = findSFBool("occlusion");
   mFrameColor = findSFColor("frameColor");
   mFrameThickness = findSFInt("frameThickness");
+  mSegmentation = findSFBool("segmentation");
 }
 
 WbRecognition::WbRecognition(WbTokenizer *tokenizer) : WbBaseNode("Recognition", tokenizer) {
@@ -52,6 +53,7 @@ void WbRecognition::postFinalize() {
   connect(mMaxRange, &WbSFDouble::changed, this, &WbRecognition::updateMaxRange);
   connect(mMaxObjects, &WbSFInt::changed, this, &WbRecognition::updateMaxObjects);
   connect(mFrameThickness, &WbSFInt::changed, this, &WbRecognition::updateFrameThickness);
+  connect(mSegmentation, &WbSFBool::changed, this, &WbRecognition::segmentationChanged);
 }
 
 void WbRecognition::updateMaxRange() {

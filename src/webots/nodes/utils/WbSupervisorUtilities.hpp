@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,11 @@
 
 class QDataStream;
 
-struct WbDeletedNodeInfo;
+struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
+struct WbTrackedFieldInfo;
+struct WbTrackedPoseInfo;
+struct WbTrackedContactPointInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -32,6 +35,7 @@ class WbRobot;
 class WbTransform;
 class WbSolid;
 class WbWrenLabelOverlay;
+class WbField;
 
 class WbSupervisorUtilities : public QObject {
   Q_OBJECT
@@ -46,7 +50,7 @@ public:
   void writeConfigure(QDataStream &stream);
   void processImmediateMessages(bool blockRegeneration = false);
   void postPhysicsStep();
-  void reset();
+  void reset();  // should be called when controllers are restarted
 
   bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
@@ -54,7 +58,7 @@ public:
 signals:
   void worldModified();
   void changeSimulationModeRequested(int newMode);
-  void labelChanged(const QString &labelDescription);  // i.e. "label:<id>;<font>;<color>;<size>;<x>;<y>;<text>"
+  void labelChanged(const QString &labelDescription);  // i.e. json format
 
 private slots:
   void animationStartStatusChanged(int status);
@@ -63,31 +67,38 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
-  void updateProtoRegeneratedFlag();
+  void notifyFieldUpdate();
+  void updateProtoRegeneratedFlag(WbNode *node);
 
 private:
   WbRobot *mRobot;
   int mFoundNodeUniqueId;
   int mFoundNodeType;
+  int mFoundNodeTag;
   QString mFoundNodeModelName;
   QString mCurrentDefName;
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
-  int mFoundFieldId;
+  int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
+  QString mFoundFieldName;
   bool mFoundFieldIsInternal;
-  bool mGetSelectedNode;
-  bool mGetFromId;
-  bool mNeedToResetSimulation;
+  int mNodeFieldCount;
+  int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
+  QPair<WbTransform *, WbTransform *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
+  int mNodeIdGetContactPoints;
+  bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
+  QString mNodeExportString;
+  bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
 
@@ -97,7 +108,7 @@ private:
   int *mMovieStatus;
   bool *mSaveStatus;
 
-  int mImportedNodesNumber;
+  int mImportedNodeId;
   bool mLoadWorldRequested;
   QString mWorldToLoad;
 
@@ -105,16 +116,21 @@ private:
   bool mVirtualRealityHeadsetPositionRequested;
   bool mVirtualRealityHeadsetOrientationRequested;
 
-  QVector<struct WbDeletedNodeInfo> mNodesDeletedSinceLastStep;
+  QVector<int> mNodesDeletedSinceLastStep;
+  QVector<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be updated on change
+  QVector<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notified to the libController
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 
+  void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
+  void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
+  void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
   const WbNode *getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode = NULL);
   const WbNode *getNodeFromProtoDEF(const WbNode *fromNode, const QString &defName) const;
-  WbNode *getProtoParameterNodeInstance(WbNode *const node) const;
+  WbNode *getProtoParameterNodeInstance(int nodeId, const QString &functionName) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);
   void makeFilenameAbsolute(QString &filename);
@@ -122,6 +138,9 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
+  QVector<WbTrackedFieldInfo> mTrackedFields;
+  QVector<WbTrackedPoseInfo> mTrackedPoses;
+  QVector<WbTrackedContactPointInfo> mTrackedContactPoints;
 };
 
 #endif

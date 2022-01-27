@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,6 +76,14 @@ WbField::~WbField() {
     field->mParameter = NULL;
   delete mValue;
   mModel->unref();
+}
+
+void WbField::listenToValueSizeChanges() const {
+  if (isSingle())
+    return;
+  const WbMultipleValue *mf = static_cast<WbMultipleValue *>(mValue);
+  connect(mf, &WbMultipleValue::itemRemoved, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
+  connect(mf, &WbMultipleValue::itemInserted, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
 }
 
 const QString &WbField::name() const {
@@ -330,7 +338,8 @@ void WbField::redirectTo(WbField *parameter) {
     // In some case Webots modifies the fields directly and not the proto parameters, e.g. changing "translation" or
     // "rotation" fields with the mouse. In these cases we need to propagate the change back to the proto parameters, e.g. in
     // order to update the Scene Tree
-    connect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
+    if (!isHidden())
+      connect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
   }
 
   // ODE updates

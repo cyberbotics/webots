@@ -781,11 +781,11 @@ Webots cannot simulation soft robotics because ODE (the Webots physics engine) d
 
 However there are some tricks to transform a soft robot model into an hard model that could help in simulating soft robotics application.
 
-##### ThePolymath 09/29/2019 10:08:43
+##### bart 09/29/2019 10:08:43
 how to integrate webots with an ide in macOS?
 
 ##### Fabien Rohrer [Moderator] 09/30/2019 06:35:35
-`@ThePolymath` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
+`@bart` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
 
 ##### David Mansolino [Cyberbotics] 09/30/2019 06:40:07
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
@@ -1022,11 +1022,11 @@ no i will try
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:54:00
 I would go for this function first: [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_simulation\_reset](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_simulation_reset)
 
-##### Ella 11/19/2019 16:04:03
+##### 장지영 11/19/2019 16:04:03
 Hello~ I am a real beginner of Webot!!  I want to use a* algorithm  boxes as obstacles and find the path!! but it's really hard,,,, can you give me some tips where to start??
 
 ##### Fabien Rohrer [Moderator] 11/19/2019 16:05:16
-`@Ella` Hi, I confirm this task may be hard. There is currently no example about such implementation.
+`@장지영` Hi, I confirm this task may be hard. There is currently no example about such implementation.
 
 
 If I were you, I would first use an existing library to deal with the algorithm, and a predefined map stored in the controller. Webots can retrieve easily the robot position in the map.
@@ -1043,7 +1043,7 @@ The objects of a scene and their size may be retrieved using a supervisor, like 
 
 But using a predefined map to start is certainly simpler.
 
-##### Ella 11/19/2019 16:16:53
+##### 장지영 11/19/2019 16:16:53
 `@Fabien Rohrer`  Thank you so much!!! Maybe I should try step by step!!!
 
 ##### Fabien Rohrer [Moderator] 11/19/2019 16:38:52

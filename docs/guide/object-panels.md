@@ -15,9 +15,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Panel {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "panel"
-  SFVec3f    size             1.2 1.5 0.05
+  SFVec3f    size             0.05 1.2 1.5
   SFFloat    borderHeight     0.05
   SFFloat    internalWidth    0.02
   SFInt32    panelsCount      2
@@ -26,7 +26,7 @@ Panel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/Panel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto]({{ url.github_tree }}/projects/objects/panels/protos/Panel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -60,13 +60,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 PanelWithTubes {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "panel with tubes"
   SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PanelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PanelWithTubes.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PanelWithTubes.proto]({{ url.github_tree }}/projects/objects/panels/protos/PanelWithTubes.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

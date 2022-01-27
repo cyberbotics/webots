@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 //               Starting webots.exe from the icon is fine, but will open a DOS command prompt in the background.
 //               (a similar naming convention is used for python.exe / pythonw.exe, java.exe / javaw.exe, etc.)
 
+#include <shlwapi.h>
 #include <stdio.h>
 #include <windows.h>
 
@@ -51,79 +52,80 @@ static int fail(const char *function, const char *info) {
 }
 
 int main(int argc, char *argv[]) {
-  // compute the full command line with absolute path for webots-bin.exe, options and arguments
+  // We retrieve the command line in wchar_t from the Windows system.
   const int LENGTH = 4096;
-  char *module_path = malloc(LENGTH);
-  if (!GetModuleFileName(NULL, module_path, LENGTH))
-    fail("GetModuleFileName", 0);
-  int l = strlen(module_path);
+  wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
+  if (!GetModuleFileNameW(NULL, module_path, LENGTH))
+    fail("GetModuleFileNameW", 0);
+  const int l = wcslen(module_path)
 #ifdef WEBOTSW
-  const int l0 = l - 1;  // webotsw.exe (we need to remove the final 'w')
-#else
-  const int l0 = l;  // webots.exe
+                - 1  // webotsw.exe (we need to remove the final 'w')
 #endif
-  l = l0;
-  for (int i = 1; i < argc; i++)
-    l += 3 + strlen(argv[i]);          // spaces and double quotes between arguments
-  char *command_line = malloc(l + 7);  // room for double quotes, the extra "-bin" string and final '\0'
-  command_line[0] = '\"';
-  command_line[1] = '\0';
-  strcat(command_line, module_path);
-  command_line[l0 - 3] = '\0';  // cut out ".exe" after "webots" or "webotsw"
-  strcat(command_line, "-bin.exe");
-  strcat(command_line, "\"");
-  for (int i = 1; i < argc; i++) {
-    strcat(command_line, " \"");
-    strcat(command_line, argv[i]);
-    strcat(command_line, "\"");
+    ;
+  wchar_t *command_line = malloc(LENGTH * sizeof(wchar_t));
+  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
+  const int index = l - 4;  // don't copy the ".exe"
+  wcsncpy(command_line, module_path, index);
+  command_line[index] = L'\0';
+  wcscat(command_line, L"-bin.exe");
+  const wchar_t *arguments = PathGetArgsW(GetCommandLineW());
+  if (arguments && arguments[0] != L'\0') {
+    wcscat(command_line, L" ");
+    wcscat(command_line, arguments);
   }
-
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
-  char *old_path = malloc(LENGTH);
-  char *new_path = malloc(LENGTH);
+  wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
+  wchar_t *new_path = malloc(LENGTH * sizeof(wchar_t));
 
-  strcpy(new_path, module_path);
-  new_path[l0 - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
-  strcpy(&new_path[l0 - 10], module_path);
-  new_path[2 * l0 - 21] = '\0';
-  strcat(new_path, "\\cpp;");
-  strcat(new_path, module_path);
+  wcscpy(new_path, module_path);
+  new_path[l - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
+  wcscpy(&new_path[l - 10], module_path);
+  new_path[2 * l - 21] = '\0';
+  wcscat(new_path, L"\\cpp;");
+  wcscat(new_path, module_path);
   free(module_path);
-  new_path[3 * l0 - 38] = '\0';
-  strcat(new_path, "usr\\bin;");
-  if (!GetEnvironmentVariable("PATH", old_path, LENGTH))
-    fail("GetEnvironmentVariable", 0);
-  strcat(new_path, old_path);
+  new_path[3 * l - 38] = '\0';
+  wcscat(new_path, L"usr\\bin;");
+  if (!GetEnvironmentVariableW(L"PATH", old_path, LENGTH))
+    fail("GetEnvironmentVariableW", "PATH");
+  wcscat(new_path, old_path);
   free(old_path);
-  if (!SetEnvironmentVariable("PATH", new_path))
-    fail("SetEnvironmentVariable", new_path);
+  if (!SetEnvironmentVariableW(L"PATH", new_path))
+    fail("SetEnvironmentVariableW", "PATH");
   free(new_path);
+  if (!SetEnvironmentVariableW(L"QT_ENABLE_HIGHDPI_SCALING", L"1"))
+    fail("SetEnvironmentVariableW", "QT_ENABLE_HIGHDPI_SCALING=1");
 
   // start the webots-bin.exe process, wait for completion and return exit code
-  STARTUPINFO info = {sizeof(info)};
+  STARTUPINFOW info = {sizeof(info)};
   PROCESS_INFORMATION process_info;
-  if (!CreateProcess(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
-    fail("CreateProcess", command_line);
+
+  while (1) {
+    if (!CreateProcessW(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
+      fail("CreateProcess", "Cannot launch Webots binary");
+
+    // webots-bin.exe should be killed whenever its parent (webots.exe or webotsw.exe) terminates.
+    HANDLE job = CreateJobObject(NULL, NULL);
+    JOBOBJECT_EXTENDED_LIMIT_INFORMATION jeli = {0};
+    jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+    if (!SetInformationJobObject(job, JobObjectExtendedLimitInformation, &jeli, sizeof(jeli)))
+      fail("SetInformationJobObject", 0);
+    if (!AssignProcessToJobObject(job, process_info.hProcess))
+      fail("AssignProcessToJobObject", 0);
+
+    // wait for webots-bin.exe to terminate
+    WaitForSingleObject(process_info.hProcess, INFINITE);  // return zero in case of success
+    DWORD exit_code;
+    if (!GetExitCodeProcess(process_info.hProcess, &exit_code))
+      fail("GetExitCodeProcess", 0);
+    if (!CloseHandle(process_info.hProcess))
+      fail("CloseHandle", 0);
+    if (!CloseHandle(process_info.hThread))
+      fail("CloseHandle", 0);
+    if (exit_code != 3030)  // special return code to restart Webots, see WbGuiApplication.cpp
+      return exit_code;
+  }
   free(command_line);
-
-  // webots-bin.exe should be killed whenever its parent (webots.exe or webotsw.exe) terminates.
-  HANDLE job = CreateJobObject(NULL, NULL);
-  JOBOBJECT_EXTENDED_LIMIT_INFORMATION jeli = {0};
-  jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
-  if (!SetInformationJobObject(job, JobObjectExtendedLimitInformation, &jeli, sizeof(jeli)))
-    fail("SetInformationJobObject", 0);
-  if (!AssignProcessToJobObject(job, process_info.hProcess))
-    fail("AssignProcessToJobObject", 0);
-
-  // wait for webots-bin.exe to terminate
-  WaitForSingleObject(process_info.hProcess, INFINITE);  // return zero in case of success
-  DWORD exit_code;
-  if (!GetExitCodeProcess(process_info.hProcess, &exit_code))
-    fail("GetExitCodeProcess", 0);
-  if (!CloseHandle(process_info.hProcess))
-    fail("CloseHandle", 0);
-  if (!CloseHandle(process_info.hThread))
-    fail("CloseHandle", 0);
-  return exit_code;
+  return 0;
 }

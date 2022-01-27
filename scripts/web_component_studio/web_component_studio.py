@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 """Create a web component scene foreach component of the components.json file."""
 
+import json
+import os
 import sys
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
-
-import json  # noqa
-import os  # noqa
 
 from shutil import copyfile  # noqa
 from inspect import currentframe, getframeinfo  # noqa
@@ -41,13 +40,14 @@ def search_and_replace(filename, fromString, toString):
     with open(filename, 'r') as file:
         data = file.read()
     data = data.replace(fromString, toString)
-    with open(filename, 'w') as file:
+    with open(filename, 'w', newline='\n') as file:
         file.write(data)
 
 
 def run_webots():
     """Run Webots on WORLD with right flags."""
-    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --minimize %s' % WORLD)
+    command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
+    os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
 
 # Script logics.
@@ -58,7 +58,7 @@ with open(ROBOTS) as f:
         copyfile(TEMPLATE, WORLD)
 
         search_and_replace(WORLD, '%ROBOT_HEADER%',
-                           'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
+                                  'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT%', component['proto'])
         search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
@@ -69,3 +69,15 @@ with open(ROBOTS) as f:
         search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
 
         run_webots()
+
+        branch = ''
+        with open(os.path.join(WEBOTS_HOME, 'resources', 'branch.txt'), 'r') as file:
+            branch = file.read().strip()
+
+        repo = ''
+        with open(os.path.join(WEBOTS_HOME, 'resources', 'repo.txt'), 'r') as file:
+            repo = file.read().strip()
+
+        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                           'https://raw.githubusercontent.com/' + repo + '/' + branch,
+                           'webots:/')

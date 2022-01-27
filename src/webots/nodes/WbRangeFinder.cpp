@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenTextureOverlay.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -67,12 +67,21 @@ void WbRangeFinder::postFinalize() {
   connect(mResolution, &WbSFDouble::changed, this, &WbRangeFinder::updateResolution);
 }
 
-void WbRangeFinder::initializeSharedMemory() {
-  WbAbstractCamera::initializeSharedMemory();
+void WbRangeFinder::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
+}
+
+void WbRangeFinder::initializeImageSharedMemory() {
+  WbAbstractCamera::initializeImageSharedMemory();
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = rangeFinderImage();
-    for (int i = 0; i < width() * height(); i++)
+    const int size = width() * height();
+    for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
 }
@@ -107,6 +116,9 @@ void WbRangeFinder::createWrenCamera() {
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
   applyResolutionToWren();
+
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbRangeFinder::updateOrientation);
 }
 
 /////////////////////

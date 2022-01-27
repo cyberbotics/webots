@@ -15,13 +15,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Barbecue {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "barbecue"
   SFBool     enablePhysics   FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Barbecue.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto]({{ url.github_tree }}/projects/objects/garden/protos/Barbecue.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -45,12 +45,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 DogHouse {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "dog house"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/DogHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto]({{ url.github_tree }}/projects/objects/garden/protos/DogHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -70,13 +70,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Gnome {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "gnome"
   SFBool     enablePhysics  FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Gnome.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto]({{ url.github_tree }}/projects/objects/garden/protos/Gnome.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -100,12 +100,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Pergolas {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "pergola"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Pergolas.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto]({{ url.github_tree }}/projects/objects/garden/protos/Pergolas.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -126,14 +126,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 PicketFence {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "picket fence"
   SFInt32    numberOfSegments       1
   SFBool     enableBoundingObject   TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFence.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto]({{ url.github_tree }}/projects/objects/garden/protos/PicketFence.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -159,13 +159,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 PicketFenceWithDoor {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "picket fence with door"
   SFBool     enableBoundingObject  TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFenceWithDoor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto]({{ url.github_tree }}/projects/objects/garden/protos/PicketFenceWithDoor.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -189,12 +189,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Slide {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "slide"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Slide.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto]({{ url.github_tree }}/projects/objects/garden/protos/Slide.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -214,12 +214,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Swing {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "swing"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Swing.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto]({{ url.github_tree }}/projects/objects/garden/protos/Swing.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -239,12 +239,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 SwingCouch {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "swing couch"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/SwingCouch.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto]({{ url.github_tree }}/projects/objects/garden/protos/SwingCouch.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -264,13 +264,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 TableWithUmbrella {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "table with umbrella"
   SFBool     enablePhysics FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/TableWithUmbrella.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto]({{ url.github_tree }}/projects/objects/garden/protos/TableWithUmbrella.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -294,13 +294,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 WateringCan {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "watering can"
   SFBool     enablePhysics  FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/WateringCan.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto]({{ url.github_tree }}/projects/objects/garden/protos/WateringCan.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -324,13 +324,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wheelbarrow {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "wheelbarrow"
   SFBool     enablePhysics  FALSE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Wheelbarrow.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto]({{ url.github_tree }}/projects/objects/garden/protos/Wheelbarrow.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)

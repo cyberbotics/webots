@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,8 +43,9 @@ namespace {
   };
 }  // namespace
 
-WbWaveFile::WbWaveFile(const QString &filename) :
+WbWaveFile::WbWaveFile(const QString &filename, QIODevice *device) :
   mFilename(filename),
+  mDevice(device),
   mBuffer(NULL),
   mBufferSize(0),
   mNChannels(0),
@@ -54,7 +55,8 @@ WbWaveFile::WbWaveFile(const QString &filename) :
 }
 
 WbWaveFile::WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate) :
-  mFilename(""),
+  mFilename(),
+  mDevice(NULL),
   mBuffer(buffer),
   mBufferSize(bufferSize),
   mNChannels(channelNumber),
@@ -69,8 +71,6 @@ WbWaveFile::~WbWaveFile() {
 }
 
 void WbWaveFile::loadConvertedFile(int side) {
-  FILE *soundFile = NULL;
-
   if (mBuffer != NULL)
     free(mBuffer);
 
@@ -81,32 +81,22 @@ void WbWaveFile::loadConvertedFile(int side) {
   mRate = 0;
 
   try {
-    QFileInfo fi(mFilename);
-
-    if (!fi.exists())
-      throw QObject::tr("File doesn't exist");
-
-    if (fi.suffix() != "wav")
-      throw QObject::tr("Unsupported file format").arg(fi.suffix());
-
-    soundFile = fopen(mFilename.toUtf8(), "rb");
-    if (!soundFile)
-      throw QObject::tr("Cannot open file");
-
     bool riffChunkRead = false;
     bool formatChunkRead = false;
     bool dataChunkRead = false;
 
-    do {  // read chunks one by one
+    while (1) {  // read chunks one by one
       Chunk chunk;
-      size_t readSize = fread(&chunk, sizeof(Chunk), 1, soundFile);
-      if (readSize != 1)
+      qint64 readSize = mDevice->read((char *)&chunk, sizeof(Chunk));
+      if (readSize <= 0)
+        break;  // end of file
+      if (readSize != sizeof(Chunk))
         throw QObject::tr("Cannot read chunk");
 
       if (strncmp(chunk.id, "RIFF", 4) == 0) {
         RIFFChunkData riffChunk;
-        readSize = fread(&riffChunk, sizeof(RIFFChunkData), 1, soundFile);
-        if (readSize != 1)
+        readSize = mDevice->read((char *)&riffChunk, sizeof(RIFFChunkData));
+        if (readSize != sizeof(RIFFChunkData))
           throw QObject::tr("Cannot read RIFF chunk");
 
         if (strncmp(riffChunk.type, "WAVE", 4) != 0)
@@ -116,8 +106,8 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       } else if (strncmp(chunk.id, "fmt ", 4) == 0) {
         FormatChunkData formatChunk;
-        readSize = fread(&formatChunk, sizeof(FormatChunkData), 1, soundFile);
-        if (readSize != 1)
+        readSize = mDevice->read((char *)&formatChunk, sizeof(FormatChunkData));
+        if (readSize != sizeof(FormatChunkData))
           throw QObject::tr("Cannot read format chunk");
 
         mNChannels = formatChunk.numChannels;
@@ -134,20 +124,19 @@ void WbWaveFile::loadConvertedFile(int side) {
         if (!mBuffer)
           throw QObject::tr("Cannot allocate data memory");
 
-        readSize = fread(mBuffer, chunk.size, 1, soundFile);
-        if (readSize != 1)
+        readSize = mDevice->read((char *)mBuffer, chunk.size);
+        if (readSize != chunk.size)
           throw QObject::tr("Cannot read data chunk");
 
         dataChunkRead = true;
-      } else  // ignore this chunk
-        fseek(soundFile, chunk.size, SEEK_CUR);
-
+      } else {  // trash this chunk
+        char *trash = new char[chunk.size];
+        mDevice->read(trash, chunk.size);
+        delete[] trash;
+      }
       if (riffChunkRead && formatChunkRead && dataChunkRead)
         break;  // not necessary to go further
-
-    } while (!feof(soundFile));
-
-    fclose(soundFile);
+    }
 
     if (riffChunkRead == false)
       throw("Corrupted WAVE file: RIFF chunk not found");
@@ -160,11 +149,8 @@ void WbWaveFile::loadConvertedFile(int side) {
 
   } catch (const QString &e) {
     // clean up
-    if (soundFile != NULL)
-      fclose(soundFile);
     if (mBuffer != NULL)
       free(mBuffer);
-
     // throw up
     throw;
   }
@@ -199,11 +185,24 @@ void WbWaveFile::loadConvertedFile(int side) {
   }
 }
 
-void WbWaveFile::loadFromFile(int side) {
-  QFileInfo fi(mFilename);
+void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
+  assert(mDevice == NULL);
+  mDevice = new QFile(filename);
+  mDevice->open(QIODevice::ReadOnly);
+  loadConvertedFile(side);
+  mDevice->close();
+  delete mDevice;
+  mDevice = NULL;
+}
 
-  if (fi.suffix() == "wav") {
-    loadConvertedFile(side);
+void WbWaveFile::loadFromFile(int side) {
+  const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
+
+  if (suffix == "wav") {
+    if (mDevice)
+      loadConvertedFile(side);
+    else
+      loadConvertedFile(side, mFilename);
     return;
   }
 
@@ -214,26 +213,36 @@ void WbWaveFile::loadFromFile(int side) {
   static QString ffmpeg(QString("%1util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
   static QString percentageChar = "%";
 #else  // _WIN32
-  static QString ffmpeg =
-    QDir::toNativeSeparators(QString("%1mingw64/bin/ffmpeg.exe").arg(WbStandardPaths::webotsMsys64Path()));
+  static QString ffmpeg = "ffmpeg.exe";
   static QString percentageChar = "%%";
 #endif
 
-  QString outputFilename = WbStandardPaths::webotsTmpPath() + fi.baseName() + ".wav";
+  const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";
+  QString inputFilename;
+  if (mDevice) {
+    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + suffix;
+    QFile input(inputFilename);
+    input.open(QFile::WriteOnly);
+    input.write(mDevice->readAll());
+    input.close();
+  } else
+    inputFilename = mFilename;
   const QStringList arguments = QStringList() << "-y"
-                                              << "-i" << mFilename << outputFilename << "-sample_fmt"
+                                              << "-i" << inputFilename << outputFilename << "-sample_fmt"
                                               << "s16"
                                               << "-loglevel"
                                               << "quiet";
-  mFilename = outputFilename;
 
   QProcess *conversionProcess = new QProcess();
   conversionProcess->execute(ffmpeg, arguments);
   conversionProcess->waitForFinished(-1);
-
-  loadConvertedFile(side);
   delete conversionProcess;
-  QFile::remove(mFilename);
+
+  if (mDevice)
+    QFile::remove(inputFilename);
+
+  loadConvertedFile(side, outputFilename);
+  QFile::remove(outputFilename);
 }
 
 void WbWaveFile::convertToMono(double balance) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,15 @@
 #include <stdio.h>
 
 #define SPEED 4.0
+#define MAX_SPEED 0.3
+#define SPEED_INCREMENT 0.05
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
+
+// robot geometry
+#define WHEEL_RADIUS 0.05
+#define LX 0.228  // longitudinal distance from robot's COM to wheel [m].
+#define LY 0.158  // lateral distance from robot's COM to wheel [m].
 
 // stimulus coefficients
 #define K1 3.0
@@ -49,6 +56,10 @@ static WbDeviceTag wheels[4];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
+
+static double robot_vx = 0.0;
+static double robot_vy = 0.0;
+static double robot_omega = 0.0;
 
 static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_position(t, INFINITY);
@@ -73,6 +84,9 @@ void base_init() {
 void base_reset() {
   static double speeds[4] = {0.0, 0.0, 0.0, 0.0};
   base_set_wheel_speeds_helper(speeds);
+  robot_vx = 0.0;
+  robot_vy = 0.0;
+  robot_omega = 0.0;
 }
 
 void base_forwards() {
@@ -105,6 +119,52 @@ void base_strafe_right() {
   base_set_wheel_speeds_helper(speeds);
 }
 
+void base_move(double vx, double vy, double omega) {
+  double speeds[4];
+  speeds[0] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
+  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
+  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
+  speeds[3] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
+  base_set_wheel_speeds_helper(speeds);
+  printf("Speeds: vx=%.2f[m/s] vy=%.2f[m/s] ω=%.2f[rad/s]\n", vx, vy, omega);
+}
+
+void base_forwards_increment() {
+  robot_vx += SPEED_INCREMENT;
+  robot_vx = robot_vx > MAX_SPEED ? MAX_SPEED : robot_vx;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
+void base_backwards_increment() {
+  robot_vx -= SPEED_INCREMENT;
+  robot_vx = robot_vx < -MAX_SPEED ? -MAX_SPEED : robot_vx;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
+void base_turn_left_increment() {
+  robot_omega += SPEED_INCREMENT;
+  robot_omega = robot_omega > MAX_SPEED ? MAX_SPEED : robot_omega;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
+void base_turn_right_increment() {
+  robot_omega -= SPEED_INCREMENT;
+  robot_omega = robot_omega < -MAX_SPEED ? -MAX_SPEED : robot_omega;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
+void base_strafe_left_increment() {
+  robot_vy += SPEED_INCREMENT;
+  robot_vy = robot_vy > MAX_SPEED ? MAX_SPEED : robot_vy;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
+void base_strafe_right_increment() {
+  robot_vy -= SPEED_INCREMENT;
+  robot_vy = robot_vy < -MAX_SPEED ? -MAX_SPEED : robot_vy;
+  base_move(robot_vx, robot_vy, robot_omega);
+}
+
 void base_goto_init(double time_step) {
   gps = wb_robot_get_device("gps");
   compass = wb_robot_get_device("compass");
@@ -121,12 +181,12 @@ void base_goto_init(double time_step) {
   goto_data.reached = false;
 }
 
-void base_goto_set_target(double x, double z, double alpha) {
+void base_goto_set_target(double x, double y, double alpha) {
   if (!gps || !compass)
     fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS and Compass");
 
   goto_data.v_target.u = x;
-  goto_data.v_target.v = z;
+  goto_data.v_target.v = y;
   goto_data.alpha = alpha;
   goto_data.reached = false;
 }
@@ -140,7 +200,7 @@ void base_goto_run() {
   const double *compass_raw_values = wb_compass_get_values(compass);
 
   // compute 2d vectors
-  Vector2 v_gps = {gps_raw_values[0], gps_raw_values[2]};
+  Vector2 v_gps = {gps_raw_values[0], gps_raw_values[1]};
   Vector2 v_front = {compass_raw_values[0], compass_raw_values[1]};
   Vector2 v_right = {-v_front.v, v_front.u};
   Vector2 v_north = {1.0, 0.0};
@@ -158,12 +218,12 @@ void base_goto_run() {
   // using an a matrix of homogenous coordinates
   Matrix33 transform;
   matrix33_set_identity(&transform);
-  transform.a.u = v_front.u;
-  transform.a.v = v_right.u;
-  transform.b.u = v_front.v;
-  transform.b.v = v_right.v;
-  transform.c.u = -v_front.u * v_gps.u - v_front.v * v_gps.v;
-  transform.c.v = -v_right.u * v_gps.u - v_right.v * v_gps.v;
+  transform.a.u = -v_right.u;
+  transform.a.v = v_front.u;
+  transform.b.u = v_right.v;
+  transform.b.v = -v_front.v;
+  transform.c.u = v_right.u * v_gps.u - v_right.v * v_gps.v;
+  transform.c.v = -v_front.u * v_gps.u + v_front.v * v_gps.v;
   Vector3 v_target_tmp = {goto_data.v_target.u, goto_data.v_target.v, 1.0};
   Vector3 v_target_rel;
   matrix33_mult_vector3(&v_target_rel, &transform, &v_target_tmp);

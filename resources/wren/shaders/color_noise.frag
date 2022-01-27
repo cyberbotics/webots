@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 in vec2 texUv;
 in vec2 seed1;

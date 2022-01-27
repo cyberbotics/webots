@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,6 +77,16 @@ WbPropeller::~WbPropeller() {
     wr_node_delete(WR_NODE(mRenderable));
     wr_node_delete(WR_NODE(mTransform));
   }
+}
+
+void WbPropeller::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbSolid *const fastHelix = helix(FAST_HELIX);
+  WbSolid *const slowHelix = helix(SLOW_HELIX);
+  if (fastHelix)
+    fastHelix->downloadAssets();
+  if (slowHelix)
+    slowHelix->downloadAssets();
 }
 
 void WbPropeller::preFinalize() {
@@ -242,7 +252,7 @@ void WbPropeller::prePhysicsStep(double ms) {
 
     // Moves the slow helix
     const WbQuaternion q(mNormalizedAxis, mPosition);
-    const WbQuaternion iq(mHelix->rotationFromFile().toQuaternion());
+    const WbQuaternion iq(mHelix->rotationFromFile(stateId()).toQuaternion());
     WbQuaternion qp(q * iq);
     if (qp.w() != 1.0)
       qp.normalize();
@@ -250,7 +260,7 @@ void WbPropeller::prePhysicsStep(double ms) {
     if (r.angle() == 0.0)
       r = WbRotation(mNormalizedAxis.x(), mNormalizedAxis.y(), mNormalizedAxis.z(), 0.0);
     const WbVector3 &c = mCenterOfThrust->value();
-    mHelix->setTranslationAndRotation(q * (mHelix->translationFromFile() - c) + c, r);
+    mHelix->setTranslationAndRotation(q * (mHelix->translationFromFile(stateId()) - c) + c, r);
   }
 }
 
@@ -358,7 +368,7 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group>";
+      writer << "<Group isPropeller='true'>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();
@@ -386,18 +396,29 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   }
 }
 
-void WbPropeller::reset() {
-  WbBaseNode::reset();
+void WbPropeller::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const device = mDevice->value();
   if (device)
-    device->reset();
+    device->reset(id);
   WbNode *const fastHelix = mFastHelix->value();
   if (fastHelix)
-    fastHelix->reset();
+    fastHelix->reset(id);
   WbNode *const slowHelix = mSlowHelix->value();
   if (slowHelix)
-    slowHelix->reset();
+    slowHelix->reset(id);
 
   updateHelix(0.0);
+}
+
+QList<const WbBaseNode *> WbPropeller::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbBaseNode *const fastHelix = helix(FAST_HELIX);
+  if (fastHelix)
+    list << fastHelix->findClosestDescendantNodesWithDedicatedWrenNode();
+  const WbBaseNode *const slowHelix = helix(SLOW_HELIX);
+  if (slowHelix)
+    list << slowHelix->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
 }

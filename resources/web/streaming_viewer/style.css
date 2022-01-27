@@ -6,8 +6,13 @@ html, body {
   padding:0;
   height: 100%;
   overflow-y: hidden;
+  display: flex; 
+  flex-flow: column;
 }
+header {
+  padding: 0 10px 10px 10px;
+}
+
 #playerDiv {
-  height: calc(100% - 150px);
-  width: 100%;
+  flex: 1;
 }

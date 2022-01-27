@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,10 +55,10 @@ void WbAbstractAppearance::postFinalize() {
   connect(mTextureTransform, &WbSFNode::changed, this, &WbAbstractAppearance::updateTextureTransform);
 }
 
-void WbAbstractAppearance::reset() {
-  WbBaseNode::reset();
+void WbAbstractAppearance::reset(const QString &id) {
+  WbBaseNode::reset(id);
   if (textureTransform())
-    textureTransform()->reset();
+    textureTransform()->reset(id);
 }
 
 void WbAbstractAppearance::createWrenObjects() {

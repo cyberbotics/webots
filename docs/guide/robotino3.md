@@ -15,7 +15,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Robotino3 {
   SFVec3f     translation          0 0 0
-  SFRotation  rotation             1 0 0 -1.5708
+  SFRotation  rotation             0 0 1 0
   SFString    name                 "Robotino 3"
   SFString    model                "Festo - Robotino 3"
   SFString    controller           "robotino3"
@@ -33,7 +33,7 @@ Robotino3 {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/festo/robotino3/protos/Robotino3.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/festo/robotino3/protos/Robotino3.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/festo/robotino3/protos/Robotino3.proto]({{ url.github_tree }}/projects/robots/festo/robotino3/protos/Robotino3.proto)"
 
 #### Robotino 3 Field Summary
 
@@ -47,7 +47,7 @@ Robotino3 {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/festo/robotino3/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds]({{ url.github_tree }}/projects/robots/festo/robotino3/worlds)".
 
 > **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](../reference/contactproperties.md) should be added in the `contactProperties` field of the [WorldInfo](../reference/worldinfo.md) node:
 ```

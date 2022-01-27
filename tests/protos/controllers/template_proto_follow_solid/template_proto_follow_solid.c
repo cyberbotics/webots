@@ -8,7 +8,7 @@
 #define TIME_STEP 32
 
 int main(int argc, char **argv) {
-  ts_setup(argv[0]);  // give the controller args
+  ts_setup(argv[1]);  // give the controller args
 
   WbDeviceTag motor = wb_robot_get_device("linear motor");
   wb_motor_set_position(motor, INFINITY);
@@ -16,14 +16,14 @@ int main(int argc, char **argv) {
 
   WbNodeRef node = wb_supervisor_node_get_self();
   WbFieldRef reverted_field = wb_supervisor_node_get_field(node, "isRegenerated");
-  bool is_regenerated = wb_supervisor_field_get_sf_bool(reverted_field);
+  const bool is_regenerated = wb_supervisor_field_get_sf_bool(reverted_field);
 
   node = wb_supervisor_node_get_from_def("VIEWPOINT");
   WbFieldRef position_field = wb_supervisor_node_get_field(node, "position");
   const double *positionBefore = wb_supervisor_field_get_sf_vec3f(position_field);
-  double expected_z = positionBefore[2];
+  const double expected_z = positionBefore[2];
 
-  wb_robot_step(4 * TIME_STEP);
+  wb_robot_step(8 * TIME_STEP);
 
   // check if viewpoint moved
   const char *message;

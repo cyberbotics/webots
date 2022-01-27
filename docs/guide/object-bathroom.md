@@ -15,14 +15,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 BathroomSink {
   SFVec3f    translation       0 0 0
-  SFRotation rotation          0 0.7 0.7 3.141593
+  SFRotation rotation          0 0 1 0
   SFString   name              "sink"
   SFNode     upperAppearance   VarnishedPine { }
   SFNode     bottomAppearance  MarbleTiles { }
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/BathroomSink.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/BathroomSink.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/BathroomSink.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/BathroomSink.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -48,12 +48,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 Bathtube {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 0.7 0.7 3.141593
+  SFRotation rotation         0 0 1 0
   SFString   name             "bathtube"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Bathtube.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/Bathtube.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Bathtube.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/Bathtube.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -73,13 +73,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Toilet {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "toilet"
   SFColor    lidColor       0.45 0.62 0.81
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Toilet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/Toilet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/Toilet.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/Toilet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -103,13 +103,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 WashingMachine {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 0.7 0.7 3.141593
+  SFRotation rotation       0 0 1 0
   SFString   name           "whashing machine"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/WashingMachine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bathroom/protos/WashingMachine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bathroom/protos/WashingMachine.proto]({{ url.github_tree }}/projects/objects/bathroom/protos/WashingMachine.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
-

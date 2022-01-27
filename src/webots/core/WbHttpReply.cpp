@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbHttpReply.hpp"
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
@@ -41,25 +42,47 @@ QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
   return reply;
 }
 
-QByteArray WbHttpReply::forgeImageReply(const QString &imageFileName) {
+QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag) {
   QByteArray reply;
 
-  QFile imageFile(imageFileName);
-  if (!imageFile.open(QIODevice::ReadOnly))
+  QFile file(fileName);
+  if (!file.open(QIODevice::ReadOnly))
     return forge404Reply();
 
-  QByteArray imageData = imageFile.readAll();
-  int imageSize = imageData.length();
-  QFileInfo fi(imageFile);
-  QString imageExtension = fi.suffix().toLower();
+  const QByteArray data = file.readAll();
 
-  reply.append("HTTP/1.1 200 OK\r\n");
-  reply.append("Access-Control-Allow-Origin: *\r\n");
-  reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the images for 1 hour.
-  reply.append(QString("Content-Type: image/%1\r\n").arg(imageExtension).toUtf8());
-  reply.append(QString("Content-Length: %1\r\n").arg(imageSize).toUtf8());
-  reply.append("\r\n");
-  reply.append(imageData);
+  const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
+
+  if (!etag.isEmpty() && hash.toHex().compare(etag.toLocal8Bit(), Qt::CaseSensitive) == 0) {
+    reply.append("HTTP/1.1 304 Not modified\r\n");
+    reply.append("Access-Control-Allow-Origin: *\r\n");
+    reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
+    reply.append("etag: ").append(hash.toHex()).append("\r\n");
+    reply.append("\r\n");
+  } else {
+    const QString mimeType = WbHttpReply::mimeType(fileName, true);
+    reply.append("HTTP/1.1 200 OK\r\n");
+    reply.append("Access-Control-Allow-Origin: *\r\n");
+    reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
+    reply.append("etag: ").append(hash.toHex()).append("\r\n");
+    reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
+    reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
+    reply.append("\r\n");
+    reply.append(data);
+  }
 
   return reply;
+}
+
+QString WbHttpReply::mimeType(const QString &url, bool generic) {
+  const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
+  QString type;
+  if (extension == "png" || extension == "jpg" || extension == "jpeg")
+    return QString("image/%1").arg(extension);
+  else if (extension == "html" || extension == "css")
+    return QString("text/%1").arg(extension);
+  else if (extension == "js")
+    return "application/javascript";
+  else
+    return generic ? "application/octet-stream" : "";  // generic binary format
 }

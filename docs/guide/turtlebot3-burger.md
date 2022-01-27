@@ -16,7 +16,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 TurtleBot3Burger {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "TurtleBot3Burger"
   SFString   controller      "void"
   MFString   controllerArgs  []
@@ -27,7 +27,7 @@ TurtleBot3Burger {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto]({{ url.github_tree }}/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto)"
 
 #### TurtleBot3Burger Field Summary
 
@@ -35,7 +35,7 @@ TurtleBot3Burger {
 
 ### Samples
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robotis/turtlebot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/turtlebot/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robotis/turtlebot/worlds]({{ url.github_tree }}/projects/robots/robotis/turtlebot/worlds)".
 
 #### turtlebot3\_burger.wbt
 

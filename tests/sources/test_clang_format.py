@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,11 +55,11 @@ class TestClangFormat(unittest.TestCase):
             'include/controller',
             'projects',
             'resources/projects',
-            'resources/languages/cpp',
             'resources/wren/shaders',
             'tests',
             'include/wren',
-            'src/Controller',
+            'src/controller/c',
+            'src/controller/cpp',
             'src/license/sign',
             'src/webots',
             'src/wren'

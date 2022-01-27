@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 
 PROTO TemplateTexture [
 ]
@@ -6,14 +6,11 @@ PROTO TemplateTexture [
   %{
     local gd = require("gd")
     local debug = require('debug')
-    local wbrandom = require('wbrandom')
-    local os = require('os')
-    wbrandom.seed(os.clock() + os.time())
     local im = gd.createTrueColor(256, 128)
     backgroundColor = im:colorAllocate(0, 255, 0)
     im:filledRectangle(0, 0, 255, 127, backgroundColor)
     local name = debug.getinfo(1,'S').source  -- get the name of the current file
-    name = name .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+    name = name .. context.id  -- prevent name clashes
     local i = 0  -- make sure the file does not already exist
     local file = io.open(name .. i .. ".png", "r")
     while file do
@@ -25,13 +22,18 @@ PROTO TemplateTexture [
     gd.fontCacheShutdown()
   }%
 
-  Shape {
-    appearance Appearance {
-      texture ImageTexture {
-        url [ %{= '"' .. context.temporary_files_path .. name .. i .. '.png"' }% ]
+  Transform {
+    rotation 1 0 0 -1.5708
+    children [
+      Shape {
+        appearance Appearance {
+          texture ImageTexture {
+            url [ %{= '"' .. context.temporary_files_path .. name .. i .. '.png"' }% ]
+          }
+        }
+        geometry Plane {
+        }
       }
-    }
-    geometry Plane {
-    }
+    ]
   }
 }

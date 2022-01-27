@@ -18,7 +18,7 @@
   } while (0)
 
 #define TS_DOUBLE_IN_DELTA(value, expected, delta) \
-  ((isnan(value) && isnan(expected)) || (fabs((value) - (expected)) <= (delta)))
+  ((isnan(value) && isnan(expected)) || (isinf(value) && isinf(expected)) || (fabs((value) - (expected)) <= (delta)))
 
 void ts_assert_boolean_equal(bool value, const char *error_message, ...) {
   bool correct = value;
@@ -179,6 +179,24 @@ void ts_assert_string_equal(const char *value, const char *expected, const char 
   // otherwise compare normally
   else
     correct = (strcmp(value, expected) == 0);
+
+  TS_FINAL_CHECK();
+}
+
+void ts_assert_string_contains(const char *haystack, const char *needle, const char *error_message, ...) {
+  bool correct = false;
+  // if string is NULL and the other isn't, false
+  if ((haystack == NULL) != (needle == NULL))
+    correct = false;
+  // if they're both NULL, this still counts as a match
+  else if (haystack == NULL && needle == NULL)
+    correct = true;
+  // the needle string has to be shorter than or equal to the haystack string
+  else if (strlen(haystack) < strlen(needle))
+    correct = false;
+  // otherwise compare normally
+  else
+    correct = strstr(haystack, needle) != NULL;
 
   TS_FINAL_CHECK();
 }

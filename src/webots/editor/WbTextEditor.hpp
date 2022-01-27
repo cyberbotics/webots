@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ protected:
   QToolBar *toolBar() const { return mToolBar; }
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   virtual void updateGui();
   void tabChanged(int);
   void preview();
@@ -88,8 +89,6 @@ private slots:
   void deleteFindDialog();
   void goToLine();
   void toggleLineComment();
-  void duplicateSelection();
-  void transposeCurrentLine();
   void print();
   void printPreview();
   void modificationChanged(bool changed);

@@ -15,12 +15,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 LegoLargeMotor {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "LEGO large motor"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lego/protos/LegoLargeMotor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto]({{ url.github_tree }}/projects/objects/lego/protos/LegoLargeMotor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -40,12 +40,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 LegoWheel {
   SFVec3f    translation 0 0.0219974 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "LEGO wheel"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lego/protos/LegoWheel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto]({{ url.github_tree }}/projects/objects/lego/protos/LegoWheel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

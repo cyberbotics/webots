@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,8 +134,6 @@ void WbTextEditor::connectActions() {
   connect(actionManager->action(WbAction::REPLACE), &QAction::triggered, this, &WbTextEditor::openReplaceDialog);
   connect(actionManager->action(WbAction::GO_TO_LINE), &QAction::triggered, this, &WbTextEditor::goToLine);
   connect(actionManager->action(WbAction::TOGGLE_LINE_COMMENT), &QAction::triggered, this, &WbTextEditor::toggleLineComment);
-  connect(actionManager->action(WbAction::DUPLICATE_SELECTION), &QAction::triggered, this, &WbTextEditor::duplicateSelection);
-  connect(actionManager->action(WbAction::TRANSPOSE_LINE), &QAction::triggered, this, &WbTextEditor::transposeCurrentLine);
   connect(actionManager->action(WbAction::PRINT), &QAction::triggered, this, &WbTextEditor::print);
   connect(actionManager->action(WbAction::PRINT_PREVIEW), &QAction::triggered, this, &WbTextEditor::printPreview);
 
@@ -181,8 +179,6 @@ void WbTextEditor::updateFileNames() {
 
 void WbTextEditor::updateEditMenu() {
   WbActionManager::instance()->setEnabled(WbAction::TOGGLE_LINE_COMMENT, mCurrentBuffer);
-  WbActionManager::instance()->setEnabled(WbAction::DUPLICATE_SELECTION, mCurrentBuffer);
-  WbActionManager::instance()->setEnabled(WbAction::TRANSPOSE_LINE, mCurrentBuffer);
   WbActionManager::instance()->enableTextEditActions(mCurrentBuffer);
   WbActionManager::instance()->setFocusObject(this);
 
@@ -471,14 +467,6 @@ void WbTextEditor::toggleLineComment() {
   mCurrentBuffer->toggleLineComment();
 }
 
-void WbTextEditor::duplicateSelection() {
-  mCurrentBuffer->duplicateSelection();
-}
-
-void WbTextEditor::transposeCurrentLine() {
-  mCurrentBuffer->transposeCurrentLine();
-}
-
 void WbTextEditor::print() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
@@ -565,9 +553,10 @@ bool WbTextEditor::saveBuffer(WbTextBuffer *buffer, bool saveAs) {
     return false;
   }
   fileName = QFileInfo(fileName).path() + "/" + QFileInfo(fileName).fileName();
-  if (saveAs || buffer->isModified() || !QFile::exists(fileName))
-    buffer->saveAs(fileName);
-
+  if (saveAs || buffer->isModified() || !QFile::exists(fileName)) {
+    if (!buffer->saveAs(fileName))
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
+  }
   return true;
 }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #ifndef WB_VIEWPOINT_HPP
 #define WB_VIEWPOINT_HPP
 
+#include "WbBackground.hpp"
 #include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
@@ -58,7 +59,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   static QString followTypeToString(int type);
   static int followStringToType(const QString &type);
@@ -98,9 +99,14 @@ public:
   void storePickedCoordinates(const WbVector3 &v) { mRotationCenter = v; }
   void setCoordinateSystemVisibility(bool visible);
   void restore();
-  void save() override;
+  void save(const QString &id) override;
   void setPosition(const WbVector3 &position);
-  void setProjectionMode(int projectionMode) { mProjectionMode = projectionMode; }
+  void setProjectionMode(int projectionMode) {
+    if (projectionMode != mProjectionMode) {
+      mProjectionMode = projectionMode;
+      emit cameraModeChanged();
+    }
+  }
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
@@ -120,8 +126,8 @@ public:
   void updateFollowSolidState();
   void updateOrthographicViewHeight();
 
-  void setNodeVisibility(WbBaseNode *node, bool visible);
-  QList<WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
+  void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
+  QList<const WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
   void enableNodeVisibility(bool enabled);
 
   // Ray picking based on current projection mode
@@ -170,14 +176,14 @@ private:
   const float *mInverseViewMatrix;
 
   // to restore viewpoint
-  double mInitialFieldOfView;
-  WbVector3 mInitialPosition;
-  WbRotation mInitialOrientation;
-  QString mInitialDescription;
-  double mInitialNear;
-  double mInitialFar;
-  double mInitialOrthographicHeight;
-  QString mInitialFollow;
+  QMap<QString, double> mSavedFieldOfView;
+  QMap<QString, WbVector3> mSavedPosition;
+  QMap<QString, WbRotation> mSavedOrientation;
+  QMap<QString, QString> mSavedDescription;
+  QMap<QString, double> mSavedNear;
+  QMap<QString, double> mSavedFar;
+  QMap<QString, double> mSavedOrthographicHeight;
+  QMap<QString, QString> mSavedFollow;
 
   // follow solid stuff
   WbSolid *mFollowedSolid;
@@ -194,7 +200,7 @@ private:
   WrCamera *mWrenCamera;
   WrViewport *mWrenViewport;
 
-  QList<WbBaseNode *> mInvisibleNodes;
+  QList<const WbBaseNode *> mInvisibleNodes;
   bool mNodeVisibilityEnabled;
 
   WbCoordinateSystem *mCoordinateSystem;
@@ -320,8 +326,9 @@ signals:
   void followTypeChanged(int type);
   void cameraParametersChanged();
   void refreshRequired();
-  void nodeVisibilityChanged(WbNode *node, bool visibility);
+  void nodeVisibilityChanged(const WbNode *node, bool visibility);
   void virtualRealityHeadsetRequiresRender();
+  void cameraModeChanged();
 };
 
 #endif

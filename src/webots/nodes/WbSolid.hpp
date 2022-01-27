@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,8 +61,8 @@ public:
   void propagateSelection(bool selected) override;
   void saveHiddenFieldValues() const;
   void setMatrixNeedUpdate() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // processing before / after ODE world step
   virtual void prePhysicsStep(double ms);
@@ -115,15 +115,7 @@ public:
     return includeDescendants ? mGlobalListOfContactPoints : mListOfContactPoints;
   }
   const QVector<WbVector3> &computedContactPoints(bool includeDescendants = false);
-
-  // accessors to stored fields
-  const WbVector3 &translationFromFile() const { return mTranslationLoadedFromFile; }
-  const WbRotation &rotationFromFile() const { return mRotationLoadedFromFile; }
-  void setTranslationFromFile(const WbVector3 &translation) { mTranslationLoadedFromFile = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mRotationLoadedFromFile = rotation; }
-  // only used by WbDifferentialWheels
-  const WbVector3 &physicsResetTranslation() const { return mPhysicsResetTranslation; }
-  const WbRotation &physicsResetRotation() const { return mPhysicsResetRotation; }
+  const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
   // Solid merger
   QPointer<WbSolidMerger> solidMerger() const { return mSolidMerger; }
@@ -138,7 +130,6 @@ public:
   void removeJointParent(WbBasicJoint *joint);
 
   // set up joints for special nodes:
-  // - hinge joint between Solid wheel and DifferentialWheels
   // - fixed joint between TouchSensor and parent body
   // - fixed joint between dynamic solid child and kinematic parent body (static environment)
   void setOdeJointToUpperSolid();
@@ -154,9 +145,9 @@ public:
   void awake();
   static void awakeSolids(WbGroup *group);
 
-  void resetPhysics() override;
+  void resetPhysics(bool recursive = true) override;
   // pause/resume physics computation on the current solid and its descandants
-  void pausePhysics() override;
+  void pausePhysics(bool resumeAutomatically = false) override;
   void resumePhysics() override;
 
   // handle artifical moves triggered by the user or a Supervisor
@@ -262,16 +253,11 @@ protected:
   const QList<WbBasicJoint *> &jointParents() const { return mJointParents; }
   void setJointParents();
 
-  // store translation and rotation after resetting the physics
-  // used only by WbDifferentialWheels
-  WbVector3 mPhysicsResetTranslation;
-  WbRotation mPhysicsResetRotation;
-
   // to-be-reimplemented in derived classes
   void updateName() override;
   virtual dJointID createJoint(dBodyID body, dBodyID parentBody, dWorldID world) const;
   // check if a ODE joint is needed between current and upper solid
-  // special cases for: TouchSensor and DifferentialWheels
+  // special cases for: TouchSensor
   virtual bool needJointToUpperSolid(const WbSolid *upperSolid) const;
 
   // Avoids joint destruction, which is safer with respect to physics plugins
@@ -296,6 +282,7 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
+  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;
@@ -310,7 +297,7 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
-  void exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform, bool correctOrientation,
+  void exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
                        const WbVector3 &offset) const;
 
   // list of finalized solids
@@ -338,7 +325,8 @@ private:
 
   // ODE
   dJointID mJoint;
-  bool mUpdatedInStep;  // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
+  bool mUpdatedInStep;       // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
+  bool mResetPhysicsInStep;  // used to completely reset physics when the solid is also moved in the same step
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
   void computePlaneParams(WbTransform *transform, WbVector3 &n, double &d) const;
@@ -346,7 +334,6 @@ private:
   void setBodiesAndJointsToParents();
   void setJointChildrenWithReferencedEndpoint();
   void updateKinematicPlaceableGeomPosition(dGeomID g);
-  virtual bool updateJointChildren();  // overriden in WbDifferentialWheels
   bool resetJointPositions(bool allParents = false);
   void handleJerk() override;
 
@@ -408,7 +395,9 @@ private:
 
   // Contact points
   QVector<WbVector3> mListOfContactPoints;
-  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants needed for the support polygon
+  QVector<WbVector3> mGlobalListOfContactPoints;  // includes contacts of Solid descendants
+  // defines the colliding Solid for each for the contact point in mGlobalListOfContactPoints
+  QVector<const WbSolid *> mSolidPerContactPoints;
   bool mHasExtractedContactPoints;
   void extractContactPoints();  // populates both local and global lists
 
@@ -457,10 +446,6 @@ private:
   WrRenderable *mCenterOfBuoyancyRenderable;
   WrMaterial *mCenterOfBuoyancyMaterial;
 
-  // Positions and orientations storage
-  WbRotation mPreviousRotation;  // used only by WbDifferentialWheels
-  WbVector3 mTranslationLoadedFromFile;
-  WbRotation mRotationLoadedFromFile;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;
   bool applyHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParameters *hkp, bool backupPrevious);
   bool restoreHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,

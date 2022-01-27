@@ -1,11 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   title "C3D viewer"
-  coordinateSystem "NUE"
+  window "c3d_viewer_window"
 }
 Viewpoint {
-  orientation -0.7095662703664664 0.642643640090935 0.2890066777929114 0.7904657261701156
-  position 3.271213250962302 4.245847478516282 5.147248384110216
+  orientation -0.07616418883734283 0.1747014765737607 0.9816712333677184 0.8797587125461395
+  position -7.610902481741123 -6.650233327334643 1.7750447890846346
 }
 TexturedBackground {
 }
@@ -16,5 +16,5 @@ RectangleArena {
   wallHeight 0.001
 }
 C3dViewer {
-  c3dFile "EB015PI.c3d"
+  c3dFile "default.c3d"
 }
