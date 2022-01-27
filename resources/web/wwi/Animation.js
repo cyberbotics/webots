@@ -248,12 +248,17 @@ export default class Animation {
         }
       }
 
-      // if (automaticMove)
-      //   this._timeSlider.setValue(100 * this._step / this._data.frames.length);
+      if (automaticMove) {
+        let timeSlider = document.getElementById('timeSlider');
+        if (timeSlider)
+          timeSlider.setValue(100 * this._step / this._data.frames.length);
+      }
 
       this._previousStep = this._step;
       this._view.time = this._data.frames[this._step].time;
-      // this._currentTime.innerHTML = this._formatTime(this._view.time);
+      let currentTime = document.getElementById('currentTime');
+      if (currentTime)
+        currentTime.innerHTML = this._formatTime(this._view.time);
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }

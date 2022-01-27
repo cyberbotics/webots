@@ -2,7 +2,6 @@ import Animation from './Animation.js';
 import DefaultUrl from './DefaultUrl.js';
 import MouseEvents from './MouseEvents.js';
 import MultimediaClient from './MultimediaClient.js';
-import Toolbar from './Toolbar.js';
 import Selector from './Selector.js';
 import Server from './Server.js';
 import Stream from './Stream.js';

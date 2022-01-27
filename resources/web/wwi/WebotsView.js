@@ -55,7 +55,7 @@ export default class WebotsView extends HTMLElement {
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
-          this.loadAnimation(scene, animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
         else if (typeof scene !== 'undefined' && scene !== '')
           this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
