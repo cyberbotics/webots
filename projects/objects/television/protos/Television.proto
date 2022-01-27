@@ -49,6 +49,7 @@ Robot {
       }
     }
     LED {
+     rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
       children [
         Shape {
           appearance PBRAppearance {
