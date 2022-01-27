@@ -20,6 +20,7 @@ Robot {
     }
   ]
   controller "robot_window_html"
+  showWindow TRUE
   window "info"
 }
 TestSuiteSupervisor {

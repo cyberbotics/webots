@@ -299,8 +299,7 @@ void WbStreamingServer::processTextMessage(QString message) {
           break;
         }
     }
-  }
-  if (mStream) {
+  } else if (mStream) {
     if (message == "pause") {
       disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
                  &WbStreamingServer::propagateSimulationStateChange);
