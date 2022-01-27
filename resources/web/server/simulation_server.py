@@ -212,18 +212,15 @@ class Client:
         except OSError:
             path = False
         command = AsyncProcess(['svn', 'export', url])
-        sys.stdout.write(f'$ svn export {url}\n')
-        sys.stdout.flush()
+        logging.info(f'$ svn export {url}')
         while True:
             output = command.run()
             if output[0] == 'x':
                 break
             if output[0] == '2':  # stderr
-                sys.stdout.write('\033[0;31m')  # ANSI red color
-            sys.stdout.write(output[1:])
-            if output[0] == '2':  # stderr
-                sys.stdout.write('\033[0m')  # reset ANSI code
-            sys.stdout.flush()
+                logging.error(output[1:].strip('\n'))
+            else:  # stdout
+                logging.info(output[1:].strip('\n'))
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
         self.project_instance_path += project
@@ -252,7 +249,7 @@ class Client:
                     with open(world) as world_file:
                         version = world_file.readline().split()[1]
                         from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                        print(f'FROM docker image {from_image}')
+                        logging.info(f'FROM docker image {from_image}')
                     f = open('Dockerfile', 'w')
                     f.write(f'FROM {from_image}\n')
                     f.write(f'RUN mkdir -p {self.project_instance_path}\n')
@@ -260,17 +257,16 @@ class Client:
                     if os.path.isfile('Makefile'):
                         f.write('RUN make\n')
                     f.close()
-                print('created Dockerfile')
+                logging.info('created Dockerfile')
                 image = subprocess.getoutput('docker build -q .')
-                command = 'docker run'
+                command = 'docker run --net host'
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
-                    command += f' --net host -e DISPLAY={display} -e XAUTHORITY={xauth}'
-                    command += f' -v {xauth}:{xauth}'
+                    command += f' -e DISPLAY={display} -e XAUTHORITY={xauth} -v {xauth}:{xauth}'
                 else:
                     command += ' --gpus=all -e DISPLAY'
 
@@ -300,10 +296,12 @@ class Client:
             logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{command}"')
             while 1:
                 if client.webots_process is None:
+                    logging.warning('Client connection closed or killed')
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
+                    logging.info('Webots world is loaded, ready to receive connections')
                     break
             hostname = config['server']
             protocol = 'wss:' if config['ssl'] else 'ws:'
@@ -814,10 +812,33 @@ def main():
 
     for server in config['notify']:
         allowedRepositories = ','.join(config['allowedRepositories']) if 'allowedRepositories' in config else ''
-        x = requests.post(server, data={'url': url,
-                                        'shareIdleTime': config['shareIdleTime'],
-                                        'allowedRepositories': allowedRepositories})
-        print(x.text)
+        retry = 6  # try once and retries 5 times if needed
+        while retry > 0:
+            error = False
+            try:
+                x = requests.post(server, data={'url': url,
+                                                'shareIdleTime': config['shareIdleTime'],
+                                                'allowedRepositories': allowedRepositories})
+            except requests.exceptions.RequestException as e:
+                error = f'Request exception: {e}'
+            except requests.exceptions.HTTPError as e:
+                error = f'HTTP error: {e}'
+            except requests.exceptions.ConnectionError as e:
+                error = f'Connection error: {e}'
+            except requests.exceptions.Timeout as e:
+                error = f'Timeout error: {e}'
+            finally:
+                if error:
+                    retry -= 1
+                    logging.warning(f'{error}\n')
+                    if retry > 0:
+                        logging.info(f'Retrying ({6 - retry}/5) in 5 seconds...\n')
+                    else:
+                        logging.error('Giving up\n')
+                    time.sleep(5)
+                else:
+                    retry = 0
+        logging.info(x.text)
 
     # startup the server
     logging.info(f"Running simulation server on port {config['port']}")
@@ -829,9 +850,6 @@ def main():
     application = tornado.web.Application(handlers)
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(config['port'])
-    message = f"Simulation server running on port {config['port']}"
-    print(message)
-    sys.stdout.flush()
     try:
         nvmlInit()
         nvidia = True
