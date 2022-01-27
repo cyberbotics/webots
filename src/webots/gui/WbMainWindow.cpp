@@ -1135,6 +1135,12 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
 
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
+  QStringList robotWindowNodeNames;
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if (!robotWindow->getClientID().isEmpty())
+      robotWindowNodeNames << robotWindow->robot()->computeUniqueName();
+  perspective->setRobotWindowNodeNames(robotWindowNodeNames);
+
   QStringList centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames, supportPolygonEnabledNodeNames;
   world->retrieveNodeNamesWithOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
                                                 supportPolygonEnabledNodeNames);
@@ -2113,7 +2119,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     mOnSocketOpen = false;
     WbRobotWindow *currentRobotWindow = NULL;
     foreach (WbRobotWindow *robotWindow, mRobotWindows) {
-      if ((robotWindow->robot() == robot)) {  // close the client of the robot window associated with the robot.
+      if ((robotWindow->robot() == robot)) {  // close only the client of the robot window associated with the robot.
         if (robotWindow->getClientID() != "")
           mStreamingServer->closeClient(robotWindow->getClientID());
         currentRobotWindow = robotWindow;
