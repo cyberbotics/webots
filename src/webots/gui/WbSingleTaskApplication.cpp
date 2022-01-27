@@ -17,7 +17,6 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
-#include "WbPreferences.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"

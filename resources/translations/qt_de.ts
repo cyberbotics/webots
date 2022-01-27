@@ -81,9 +81,9 @@ Die Audio- und Video-Unterstützung steht nicht zur Verfügung.</translation>
     <name>Phonon::Gstreamer::MediaObject</name>
     <message>
         <location filename="../src/3rdparty/phonon/gstreamer/mediaobject.cpp" line="+90"/>
-        <source>Cannot start playback.
+        <source>Cannot start playback. 
 
-Check your Gstreamer installation and make sure you
+Check your Gstreamer installation and make sure you 
 have libgstreamer-plugins-base installed.</source>
         <translation>Die Wiedergabe kann nicht gestartet werden.
 Bitte prüfen Sie die Gstreamer-Installation und stellen Sie sicher, dass das Paket libgstreamer-plugins-base installiert ist.</translation>

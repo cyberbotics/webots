@@ -111,7 +111,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mHttpProxyPassword->setText(prefs->value("Network/httpProxyPassword").toString());
   mLanguageCombo->setFocus();
 
-  // robot window tab
+  // robot window
   mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
   mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }

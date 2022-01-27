@@ -194,8 +194,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
-  bool logPerformanceMode = false;
-  bool batch = false;
+  bool logPerformanceMode = false, batch = false;
   mStream = false;
 
   const int size = args.size();
@@ -375,7 +374,7 @@ bool WbGuiApplication::setup() {
 
   if (!mStream) {  // create streaming server for robot window if not in stream mode.
     mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
-    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port", 1234).toInt());
+    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port").toInt());
   }
 
 #ifndef _WIN32

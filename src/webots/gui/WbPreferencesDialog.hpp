@@ -68,7 +68,6 @@ private:
   QWidget *createGeneralTab();
   QWidget *createOpenGLTab();
   QWidget *createNetworkTab();
-  QWidget *createRobotWindowTab();
 };
 
 #endif

@@ -90,9 +90,9 @@
     <name>Phonon::Gstreamer::MediaObject</name>
     <message>
         <location filename="../src/3rdparty/phonon/gstreamer/mediaobject.cpp" line="+90"/>
-        <source>Cannot start playback.
+        <source>Cannot start playback. 
 
-Check your Gstreamer installation and make sure you
+Check your Gstreamer installation and make sure you 
 have libgstreamer-plugins-base installed.</source>
         <translation type="unfinished"></translation>
     </message>
