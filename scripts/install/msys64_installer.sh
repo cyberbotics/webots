@@ -13,6 +13,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-qt5"      # Webots
   "mingw-w64-x86_64-libzip"   # Webots
   "mingw-w64-x86_64-libgd"    # Webots (Lua PROTOs)
+  "mingw-w64-x86_64-woff2"    # Webots
   "liblzma"                   # Webots
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
   "mingw-w64-x86_64-dlfcn"    # dependency of ffmpeg
