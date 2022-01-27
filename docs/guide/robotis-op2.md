@@ -42,7 +42,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 RobotisOp2 {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "ROBOTIS OP2"
   SFString   controller      "motion_player"
   MFString   controllerArgs  []
@@ -57,6 +57,7 @@ RobotisOp2 {
   SFNode     jersey          NULL
   SFInt32    channel         0
   SFBool     showWindow      FALSE
+  SFBool     backlash        FALSE
   MFNode     bodySlot        []
   MFNode     headSlot        []
   MFNode     leftFootSlot    []
@@ -80,6 +81,8 @@ RobotisOp2 {
 
 - `channel`: Defines the `channel` field of the [Emitter](../reference/emitter.md) and [Receiver](../reference/receiver.md).
 
+- `backlash`: Enables the modeling of backlash in all the joints of the robot.
+
 - `bodySlot`: Extends the robot with new nodes in the body slot.
 
 - `headSlot`: Extends the robot with new nodes in the head slot.
@@ -91,6 +94,14 @@ RobotisOp2 {
 - `leftHandSlot`: Extends the robot with new nodes in the left hand slot.
 
 - `rightHandSlot`: Extends the robot with new nodes in the right hand slot.
+
+#### RobotisOp2Hinge2 Variant
+
+A variant of this [PROTO](../reference/proto.md) where the joints of the ankles, hips and neck have been modeled using [Hinge2Joint](../reference/hinge2joint.md) instead of [HingeJoint](../reference/hingejoint.md) nodes is also available.
+
+This variant is more computationally efficient while still modeling the robot with great accuracy.
+
+> **File location**: "WEBOTS\_HOME/projects/robots/robotis/darwin-op/protos/RobotisOp2Hinge2.proto"
 
 ### Simulated Devices
 
@@ -183,9 +194,19 @@ sudo apt-get install espeak
 
 For more information on the use of all of these sensors/actuators refer to the [Reference Manual](http://www.cyberbotics.com/reference) of Webots.
 
+#### Self Collision
+
 The physical model is very realistic and self collision check is available.
 To activate the self collision expand the ROBOTIS OP2 node in the scene tree and set `selfCollision` field to `true`.
 Use the self collision check only if you need it, because it is an expensive computation feature and can therefore significantly slow down the simulation speed.
+
+#### Backlash
+
+It is possible to model the effect of backlash present in the motors by setting the `backlash` field to `true`.
+Doing so will add a backlash of 0.01 [rad] to every joint in the robot.
+The modeling of this effect is achieved by replacing the existing joints with [HingeJointWithBacklash](hinge-joint-with-backlash.md) which effectively doubles their number.
+Additionally, for the correct enforcing of this effect, the value of the `basicTimestep` in [WorldInfo](../reference/worldinfo.md) should probably be set to a smaller value when enabling the backlash.
+For these reasons, activating this option is computationally expensive and will significantly slow down the simulation speed.
 
 ### Non-Simulated Devices
 
@@ -616,7 +637,7 @@ Webots will also stop the auto start of the demo program at the startup of the r
 Then the controller code itself is sent to the robot.
 The whole controller directory is sent to the robot, so please put all the files needed by your controller in the same directory.
 The controller itself is then compiled for the robot and you can see the compilation in the `Robot console`.
-If the compilation succeeds and the robot is close to the [start position](#start-position-of-the-robot-the-robot-is-sitting-down) the controller will be initialized (head and eyes [LED](../reference/led.md) in red) and then started (head and eyes [LED](../reference/led.md) in green).
+If the compilation succeeds and the robot is close to the [start position](#start-position-of-the-robot-the-robot-is-sitting-down-same-start-position-as-in-simulation) the controller will be initialized (head and eyes [LED](../reference/led.md) in red) and then started (head and eyes [LED](../reference/led.md) in green).
 
 %figure "Start position of the robot. The robot is sitting down (same start position as in simulation)"
 
@@ -686,7 +707,7 @@ Moreover, the remote control mode allows you to visualize the state of the senso
 #### Using Remote Control from Robot Window
 
 To use remote control, open the robot window, go to the `Transfer` tab, as for remote compilation you have to set the connection settings (see [previous chapter](#settings) for more information).
-To start the remote control, stop and revert your simulation, put your robot in the [stable position](#start-position-of-the-robot-the-robot-is-sitting-down).
+To start the remote control, stop and revert your simulation, put your robot in the [stable position](#start-position-of-the-robot-the-robot-is-sitting-down-same-start-position-as-in-simulation).
 Then press the following button:
 
 %figure "Remote control button"
@@ -784,7 +805,7 @@ The controller is a very simple soccer player.
 It relies on most of the tools used in previous examples.
 We recommend you to study it by yourself and of course to improve it.
 
-To extend this controller you can add new files to the project, but do not forget to also add them to the makefile (add the cpp files to the `CXX_SOURCES` section).
+To extend this controller you can add new files to the project, but do not forget to also add them to the Makefile (add the cpp files to the `CXX_SOURCES` section).
 This example is also a good starting point for developing a more complicated controller.
 
 This example works in remote compilation.
@@ -864,6 +885,14 @@ Otherwise, it is recommended to test this example with the remote control in ord
 
 This example can also be used to explore and test all the parameters of the gait.
 
+#### darwin-op\_hinge\_vs\_hinge2.wbt
+
+![darwin-op_hinge_vs_hinge2.wbt.png](images/robots/robotis-op2/darwin-op_hinge_vs_hinge2.wbt.thumbnail.jpg) This example showcases the classic ROBOTIS OP2, which is modeled using [HingeJoint](../reference/hingejoint.md) for all of its joints, side by side with the same robot where the ankles, hips and neck have been modeled using [Hinge2Joint](../reference/hinge2joint.md) instead.
+
+The advantage of this version is that it's more computationally efficient while retaining the same properties of the original.
+
+This example can be used to compare the behavior of each variant.
+
 ### FAQ
 
 #### An Error Occurs When Compiling the Plugins
@@ -898,6 +927,10 @@ If you are starting the controller 'manually' by SSH, use the -X option when sta
 ```sh
 export DISPLAY=:0 ./my-controller
 ```
+
+#### Activating the Backlash Flag Renders the Robot Unable to Stand
+
+Due to the small amount of backlash present in the motors, for correct modeling of this effect it is required to lower the `basicTimestep` in [WorldInfo](../reference/worldinfo.md). It was observed that setting the `basicTimeStep` to 8 ms gives good results.
 
 ### Appendix
 

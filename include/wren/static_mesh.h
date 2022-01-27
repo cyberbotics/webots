@@ -16,7 +16,7 @@ WrStaticMesh *wr_static_mesh_unit_cone_new(int subdivision, bool has_side, bool 
 WrStaticMesh *wr_static_mesh_unit_cylinder_new(int subdivision, bool has_side, bool has_top, bool has_bottom, bool outline);
 /* Creates a elevation grid mesh with specified dimension, heights and unit spacing, starting at the origin and extending in +X
  * and +Z. */
-WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_z, const float *height_data,
+WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_y, const float *height_data,
                                                      float thickness, bool outline);
 /* Creates a rectangle mesh with an edge length of 1.0f, centered on the origin and perpendicular to +Y. */
 WrStaticMesh *wr_static_mesh_unit_rectangle_new(bool outline);
@@ -46,7 +46,6 @@ void wr_static_mesh_get_bounding_sphere(WrStaticMesh *mesh, float *sphere);
    This function should be avoided in performance sensitive code as it involves heavy memory operations. */
 void wr_static_mesh_read_data(WrStaticMesh *mesh, float *coord_data, float *normal_data, float *tex_coord_data,
                               unsigned int *index_data);
-int wr_static_mesh_get_triangle_count(WrStaticMesh *mesh);
 int wr_static_mesh_get_vertex_count(WrStaticMesh *mesh);
 int wr_static_mesh_get_index_count(WrStaticMesh *mesh);
 

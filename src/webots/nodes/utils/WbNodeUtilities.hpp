@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ namespace WbNodeUtilities {
   //////////////////////////
   // Permanent properties //
   //////////////////////////
+
+  void fixBackwardCompatibility(WbNode *node);
 
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
@@ -102,6 +104,9 @@ namespace WbNodeUtilities {
   // is this node located directly or indirectly in the given field
   bool isFieldDescendant(const WbNode *node, const QString &fieldName);
 
+  // is this node located directly or indirectly under a Billboard
+  bool isDescendantOfBillboard(const WbNode *node);
+
   // is this node located in the boundingObject field of a Solid
   // use checkNodeUse() to inspect USE nodes and PROTO parameter instances
   bool isInBoundingObject(const WbNode *node);
@@ -117,6 +122,9 @@ namespace WbNodeUtilities {
 
   // find (innermost) enclosing PROTO if any
   WbProtoModel *findContainingProto(const WbNode *node);
+
+  // find root PROTO node if any
+  WbNode *findRootProtoNode(WbNode *const node);
 
   // find the field parent of the target field, i.e. the closest upper field in the tree hierarchy
   WbField *findFieldParent(const WbField *target, bool internal = false);
@@ -151,6 +159,9 @@ namespace WbNodeUtilities {
 
   // has this node a child of type Solid
   bool hasSolidChildren(const WbNode *node);
+
+  // has this node a Robot node descendant
+  bool hasARobotDescendant(const WbNode *node);
 
   // has this node a Device node descendant
   bool hasADeviceDescendant(const WbNode *node);

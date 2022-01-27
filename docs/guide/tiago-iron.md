@@ -13,8 +13,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 TiagoIron {
-  SFVec3f     translation      0 0 0
-  SFRotation  rotation         1 0 0 -1.5708
+  SFVec3f     translation      0 0 0.095
+  SFRotation  rotation         0 0 1 0
   SFString    name             "TIAGo Iron"
   SFString    controller       "tiagoIron"
   MFString    controllerArgs   []
@@ -26,11 +26,11 @@ TiagoIron {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/protos/TiagoIron.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/protos/TiagoIron.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto)"
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_iron/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_iron/worlds)".
 
 #### tiago\_iron.wbt
 

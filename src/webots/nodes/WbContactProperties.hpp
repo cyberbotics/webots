@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +20,10 @@
 #include "WbSFDouble.hpp"
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
+#include "WbSFVector3.hpp"
 
 class WbSoundClip;
+class WbDownloader;
 
 class WbContactProperties : public WbBaseNode {
   Q_OBJECT
@@ -35,6 +37,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONTACT_PROPERTIES; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
 
@@ -44,6 +47,7 @@ public:
   int coulombFrictionSize() const { return mCoulombFriction->size(); }
   double coulombFriction(int index) const { return mCoulombFriction->item(index); }
   WbVector2 frictionRotation() const { return mFrictionRotation->value(); }
+  WbVector3 rollingFriction() const { return mRollingFriction->value(); }
   double bounce() const { return mBounce->value(); }
   double bounceVelocity() const { return mBounceVelocity->value(); }
   int forceDependentSlipSize() const { return mForceDependentSlip->size(); }
@@ -64,6 +68,7 @@ private:
   WbSFString *mMaterial2;
   WbMFDouble *mCoulombFriction;
   WbSFVector2 *mFrictionRotation;
+  WbSFVector3 *mRollingFriction;
   WbSFDouble *mBounce;
   WbSFDouble *mBounceVelocity;
   WbMFDouble *mForceDependentSlip;
@@ -72,16 +77,20 @@ private:
   WbSFString *mBumpSound;
   WbSFString *mRollSound;
   WbSFString *mSlideSound;
-  WbSoundClip *mBumpSoundClip;
-  WbSoundClip *mRollSoundClip;
-  WbSoundClip *mSlideSoundClip;
+  const WbSoundClip *mBumpSoundClip;
+  const WbSoundClip *mRollSoundClip;
+  const WbSoundClip *mSlideSoundClip;
+  WbDownloader *mDownloader[3];
   WbContactProperties &operator=(const WbContactProperties &);  // non copyable
   WbNode *clone() const override { return new WbContactProperties(*this); }
   void init();
+  void downloadAsset(const QString &url, int index);
+  void loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip);
 
 private slots:
   void updateCoulombFriction();
   void updateFrictionRotation();
+  void updateRollingFriction();
   void updateBounce();
   void updateBounceVelocity();
   void updateSoftCfm();

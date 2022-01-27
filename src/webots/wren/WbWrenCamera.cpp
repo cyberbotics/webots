@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mNotifyOnTextureUpdate(false),
   mPostProcessingEffects(),
   mSphericalPostProcessingEffect(NULL),
+  mUpdateTextureFormatEffect(NULL),
   mColorNoiseIntensity(0.0f),
   mRangeNoiseIntensity(0.0f),
   mDepthResolution(-1.0f),
@@ -83,7 +84,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenBloom[i] = new WbWrenBloom();
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenDepthOfField[i] = new WbWrenDepthOfField();
@@ -103,7 +104,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
 WbWrenCamera::~WbWrenCamera() {
   cleanup();
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     delete mWrenBloom[i];
     delete mWrenColorNoise[i];
     delete mWrenDepthOfField[i];
@@ -139,13 +140,13 @@ void WbWrenCamera::setSize(int width, int height) {
 
 void WbWrenCamera::setNear(float nearValue) {
   mNear = nearValue;
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     if (mIsCameraActive[i])
       wr_camera_set_near(mCamera[i], mNear);
 }
 
 void WbWrenCamera::setFar(float farValue) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     if (mIsCameraActive[i])
       wr_camera_set_far(mCamera[i], farValue);
 }
@@ -161,14 +162,15 @@ void WbWrenCamera::setMinRange(float minRange) {
 void WbWrenCamera::setMaxRange(float maxRange) {
   mMaxRange = maxRange;
 
-  bool isRangeFinderOrLidar = mType == 'r' || mType == 'l';
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
-    if (mIsCameraActive[i] && isRangeFinderOrLidar)
+  if (mIsColor)
+    return;
+
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    if (mIsCameraActive[i])
       wr_camera_set_far(mCamera[i], mMaxRange);
   }
 
-  if (isRangeFinderOrLidar)
-    setBackgroundColor(WbRgb(mMaxRange, mMaxRange, mMaxRange));
+  setBackgroundColor(WbRgb(mMaxRange, mMaxRange, mMaxRange));
 }
 
 void WbWrenCamera::setFieldOfView(float fov) {
@@ -260,7 +262,7 @@ void WbWrenCamera::setTangentialLensDistortionCoefficients(const WbVector2 &coef
 }
 
 void WbWrenCamera::setColorNoise(float colorNoise) {
-  if (mType != 'c' || colorNoise == mColorNoiseIntensity)
+  if (!mIsColor || colorNoise == mColorNoiseIntensity)
     return;
 
   const bool hasStatusChanged = mColorNoiseIntensity == 0.0f || colorNoise == 0.0f;
@@ -273,7 +275,7 @@ void WbWrenCamera::setColorNoise(float colorNoise) {
 }
 
 void WbWrenCamera::setAmbientOcclusionRadius(float radius) {
-  if (mType != 'c' || radius == mAmbientOcclusionRadius)
+  if (!mIsColor || radius == mAmbientOcclusionRadius)
     return;
 
   const bool hasStatusChanged = mAmbientOcclusionRadius == 0.0f || radius == 0.0f;
@@ -286,7 +288,7 @@ void WbWrenCamera::setAmbientOcclusionRadius(float radius) {
 }
 
 void WbWrenCamera::setBloomThreshold(float threshold) {
-  if (mType != 'c' || threshold == mBloomThreshold)
+  if (!mIsColor || threshold == mBloomThreshold)
     return;
 
   const bool hasStatusChanged = mBloomThreshold == -1.0f || threshold == -1.0f;
@@ -299,7 +301,7 @@ void WbWrenCamera::setBloomThreshold(float threshold) {
 }
 
 void WbWrenCamera::setRangeNoise(float rangeNoise) {
-  if ((mType != 'r' && mType != 'l') || rangeNoise == mRangeNoiseIntensity)
+  if (mIsColor || rangeNoise == mRangeNoiseIntensity)
     return;
 
   const bool hasStatusChanged = mRangeNoiseIntensity == 0.0f || rangeNoise == 0.0f;
@@ -312,7 +314,7 @@ void WbWrenCamera::setRangeNoise(float rangeNoise) {
 }
 
 void WbWrenCamera::setRangeResolution(float resolution) {
-  if ((mType != 'r' && mType != 'l') || resolution == mDepthResolution)
+  if (mIsColor || resolution == mDepthResolution)
     return;
 
   // A value of -1 signifies disabled, see WbRangeFinder::applyResolutionToWren()
@@ -325,8 +327,8 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   }
 }
 
-QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
-  if ((mType == 'r' || mType == 'l') || mIsSpherical)
+QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device) {
+  if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 
   cleanup();
@@ -334,12 +336,12 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
   mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskTexturePath);
   if (!mNoiseMaskTexture) {
     QImage *image = new QImage();
-    QImageReader imageReader(noiseMaskTexturePath);
-    if (!imageReader.read(image)) {
+    QImageReader *imageReader = device ? new QImageReader(device) : new QImageReader(noiseMaskTexturePath);
+    if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader.errorString());
+      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader->errorString());
     }
-
+    delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
     if (image->format() != QImage::Format_ARGB32) {
       QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
@@ -382,7 +384,7 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
 }
 
 void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
-  if (mType == 'c')
+  if (mIsColor)
     mBackgroundColor = color;
   else
     mBackgroundColor = WbRgb(mMaxRange, mMaxRange, mMaxRange);
@@ -390,7 +392,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_viewport_set_clear_color_rgb(mCameraViewport[i], backgroundColor);
   }
@@ -398,7 +400,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
 
 void WbWrenCamera::render() {
   int numActiveViewports = 0;
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       mViewportsToRender[numActiveViewports++] = mCameraViewport[i];
   }
@@ -406,7 +408,7 @@ void WbWrenCamera::render() {
   if (!numActiveViewports)
     return;
 
-  if (mType != 'c') {
+  if (!mIsColor) {
     wr_shader_program_set_custom_uniform_value(WbWrenShaders::encodeDepthShader(), "minRange",
                                                WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
                                                reinterpret_cast<const char *>(&mMinRange));
@@ -417,7 +419,7 @@ void WbWrenCamera::render() {
 
   WbWrenOpenGlContext::makeWrenCurrent();
   if (mIsSpherical) {
-    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
       if (mIsCameraActive[i])
         updatePostProcessingParameters(i);
     }
@@ -425,13 +427,23 @@ void WbWrenCamera::render() {
     updatePostProcessingParameters(CAMERA_ORIENTATION_FRONT);
 
   // Depth information needs to be conserved for post-processing shaders
+  const char *materialName = NULL;
+  if (!mIsColor)
+    materialName = "encodeDepth";
+  else if (mType == 's')
+    materialName = "segmentation";
   wr_scene_enable_depth_reset(wr_scene_get_instance(), false);
-  wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender,
-                               (mType != 'c') ? "encodeDepth" : NULL, true);
+  wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender, materialName, true);
 
   if (mIsSpherical)
     applySphericalPostProcessingEffect();
-
+  else if (mUpdateTextureFormatEffect) {
+    WrPostProcessingEffectPass *updateTextureFormatPass =
+      wr_post_processing_effect_get_pass(mUpdateTextureFormatEffect, "PassThrough");
+    wr_post_processing_effect_pass_set_input_texture(updateTextureFormatPass, 0,
+                                                     WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0)));
+    wr_post_processing_effect_apply(mUpdateTextureFormatEffect);
+  }
   mFirstRenderingCall = false;
 
   wr_scene_enable_depth_reset(wr_scene_get_instance(), true);
@@ -471,7 +483,7 @@ WbRgb WbWrenCamera::copyPixelColourValue(int x, int y) {
   WbWrenOpenGlContext::doneWren();
 
   WbRgb result;
-  if (mType == 'c') {
+  if (mIsColor) {
     // convert BGR to RGB
     result = WbRgb(pixelData[2], pixelData[1], pixelData[0]);
   } else {
@@ -497,15 +509,22 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   WbWrenOpenGlContext::doneWren();
 }
 
+void WbWrenCamera::rotateRoll(float angle) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    if (mIsCameraActive[i])
+      wr_camera_apply_roll(mCamera[i], angle);
+  }
+}
+
 void WbWrenCamera::rotatePitch(float angle) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_apply_pitch(mCamera[i], angle);
   }
 }
 
 void WbWrenCamera::rotateYaw(float angle) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_apply_yaw(mCamera[i], angle);
   }
@@ -518,8 +537,10 @@ float WbWrenCamera::computeFieldOfViewY(double fovX, double aspectRatio) {
 void WbWrenCamera::init() {
   mFirstRenderingCall = true;
   mIsCopyingEnabled = false;
+  mIsColor = mType == 'c' || mType == 's';
+  assert(mIsColor || mType == 'r' || mType == 'l');
 
-  if (mType == 'c')
+  if (mIsColor)
     mTextureFormat = WR_TEXTURE_INTERNAL_FORMAT_RGB16F;
   else
     mTextureFormat = WR_TEXTURE_INTERNAL_FORMAT_R32F;
@@ -532,7 +553,7 @@ void WbWrenCamera::init() {
 
   WrTextureRtt *outputTexture = wr_texture_rtt_new();
   wr_texture_rtt_enable_initialize_data(outputTexture, true);
-  if (mType == 'c')
+  if (mIsColor)
     wr_texture_set_internal_format(WR_TEXTURE(outputTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
   else
     wr_texture_set_internal_format(WR_TEXTURE(outputTexture), mTextureFormat);
@@ -543,14 +564,14 @@ void WbWrenCamera::init() {
   wr_frame_buffer_append_output_texture(mResultFrameBuffer, outputTexture);
   wr_frame_buffer_enable_depth_buffer(mResultFrameBuffer, true);
 
-  mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
-  for (int i = CAMERA_ORIENTATION_FRONT + 1; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     mIsCameraActive[i] = false;
+  mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
 
   if (mIsSpherical) {
     setupSphericalSubCameras();
 
-    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
       if (mIsCameraActive[i]) {
         setupCamera(i, mSubCamerasResolutionX, mSubCamerasResolutionY);
         setupCameraPostProcessing(i);
@@ -589,7 +610,12 @@ void WbWrenCamera::cleanup() {
   wr_post_processing_effect_delete(mSphericalPostProcessingEffect);
   mSphericalPostProcessingEffect = NULL;
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  if (mUpdateTextureFormatEffect) {
+    wr_post_processing_effect_delete(mUpdateTextureFormatEffect);
+    mUpdateTextureFormatEffect = NULL;
+  }
+
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
       mWrenBloom[i]->detachFromViewport();
       mWrenColorNoise[i]->detachFromViewport();
@@ -610,7 +636,7 @@ void WbWrenCamera::cleanup() {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
 
-        if (mType == 'c')
+        if (mIsColor)
           wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 1)));
 
         wr_frame_buffer_delete(mCameraFrameBuffer[i]);
@@ -631,16 +657,14 @@ void WbWrenCamera::cleanup() {
 }
 
 void WbWrenCamera::setupCamera(int index, int width, int height) {
-  const bool isRangeFinderOrLidar = mType != 'c';
-
   mCamera[index] = wr_camera_new();
   wr_camera_set_flip_y(mCamera[index], true);
   wr_transform_attach_child(mNode, WR_NODE(mCamera[index]));
 
-  if (isRangeFinderOrLidar)
-    wr_camera_set_far(mCamera[index], mMaxRange);
-  else
+  if (mIsColor)
     wr_camera_set_far(mCamera[index], 10000.0f);
+  else
+    wr_camera_set_far(mCamera[index], mMaxRange);
 
   mCameraViewport[index] = wr_viewport_new();
   wr_viewport_sync_aspect_ratio_with_camera(mCameraViewport[index], false);
@@ -648,11 +672,12 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
 
   mInverseViewMatrix[index] = wr_transform_get_matrix(WR_TRANSFORM(mCamera[index]));
 
-  if (isRangeFinderOrLidar) {
+  if (mIsColor)
+    wr_viewport_set_visibility_mask(mCameraViewport[index], WbWrenRenderingContext::VM_WEBOTS_CAMERA);
+  else {
     wr_viewport_set_visibility_mask(mCameraViewport[index], WbWrenRenderingContext::VM_WEBOTS_RANGE_CAMERA);
     wr_viewport_enable_skybox(mCameraViewport[index], false);
-  } else
-    wr_viewport_set_visibility_mask(mCameraViewport[index], WbWrenRenderingContext::VM_WEBOTS_CAMERA);
+  }
 
   WrTextureRtt *depthRenderTexture = wr_texture_rtt_new();
   wr_texture_set_internal_format(WR_TEXTURE(depthRenderTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
@@ -671,7 +696,7 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
 
     // needed to store normals for ambient occlusion
-    if (mType == 'c') {
+    if (mIsColor) {
       WrTextureRtt *normalTexture = wr_texture_rtt_new();
       wr_texture_rtt_enable_initialize_data(normalTexture, true);
       wr_texture_set_internal_format(WR_TEXTURE(normalTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB8);
@@ -683,6 +708,14 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
     wr_viewport_set_size(mCameraViewport[index], width, height);
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
+  }
+
+  if (!mIsSpherical && mType == 's') {
+    // a dummy post effect is needed to generate the output texture
+    // note that rendering and output textures have different formats
+    mUpdateTextureFormatEffect = WbWrenPostProcessingEffects::passThrough(mWidth, mHeight);
+    wr_post_processing_effect_set_result_frame_buffer(mUpdateTextureFormatEffect, mResultFrameBuffer);
+    wr_post_processing_effect_setup(mUpdateTextureFormatEffect);
   }
 }
 
@@ -738,7 +771,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mBloomThreshold != -1.0f && mType == 'c')
     mWrenBloom[index]->setup(mCameraViewport[index]);
@@ -793,11 +826,11 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
     mWrenColorNoise[index]->setup(mCameraViewport[index]);
 
   // range noise
-  if (mRangeNoiseIntensity > 0.0f && mType != 'c')
+  if (mRangeNoiseIntensity > 0.0f && !mIsColor)
     mWrenRangeNoise[index]->setup(mCameraViewport[index]);
 
   // depth resolution
-  if (mDepthResolution > 0.0f && mType != 'c')
+  if (mDepthResolution > 0.0f && !mIsColor)
     mWrenRangeQuantization[index]->setup(mCameraViewport[index]);
 
   // noise masks
@@ -830,21 +863,21 @@ void WbWrenCamera::setCamerasOrientations() {
 }
 
 void WbWrenCamera::setFovy(float fov) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_set_fovy(mCamera[i], fov);
   }
 }
 
 void WbWrenCamera::setAspectRatio(float aspectRatio) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_set_aspect_ratio(mCamera[i], aspectRatio);
   }
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
@@ -891,6 +924,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 
     mWrenRangeNoise[index]->setTime(time);
     mWrenRangeNoise[index]->setIntensity(mRangeNoiseIntensity);
+    mWrenRangeNoise[index]->setMinRange(mMinRange);
+    mWrenRangeNoise[index]->setMaxRange(mMaxRange);
   }
 
   if (mDepthResolution > 0.0f)
@@ -907,11 +942,18 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 void WbWrenCamera::applySphericalPostProcessingEffect() {
   assert(mIsSpherical);
 
-  const int isRangeFinderOrLidar = (mType != 'c');
-
+  const int isRangeFinderOrLidar = !mIsColor;
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "rangeCamera",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                              reinterpret_cast<const char *>(&isRangeFinderOrLidar));
+
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionX",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&mSubCamerasResolutionX));
+
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionY",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&mSubCamerasResolutionY));
 
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "minRange",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, reinterpret_cast<const char *>(&mMinRange));
@@ -934,7 +976,7 @@ void WbWrenCamera::applySphericalPostProcessingEffect() {
   WrPostProcessingEffectPass *mergeSphericalPass =
     wr_post_processing_effect_get_pass(mSphericalPostProcessingEffect, "MergeSpherical");
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_post_processing_effect_pass_set_input_texture(
         mergeSphericalPass, i, WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));

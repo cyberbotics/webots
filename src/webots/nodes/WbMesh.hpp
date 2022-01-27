@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 
 #include "WbTriangleMeshGeometry.hpp"
 
+class WbDownloader;
 class WbMFString;
+struct aiScene;
 
 class WbMesh : public WbTriangleMeshGeometry {
   Q_OBJECT
@@ -33,6 +35,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MESH; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createResizeManipulator() override;
@@ -48,13 +51,18 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbSFString *mName;
+  WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
   void init();
+  bool checkIfNameExists(const aiScene *scene, const QString &name) const;
 
 private slots:
   void updateUrl();
+  void updateName();
+  void downloadUpdate();
 };
 
 #endif

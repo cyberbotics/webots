@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -148,20 +148,25 @@ void WbMatter::postFinalize() {
   updateManipulatorVisibility();
 }
 
-void WbMatter::reset() {
-  WbTransform::reset();
-
-  WbNode *const b = mBoundingObject->value();
-  if (b)
-    b->reset();
+void WbMatter::setBoundingObject(WbNode *boundingObject) {
+  mBoundingObject->removeValue();
+  mBoundingObject->setValue(boundingObject);
 }
 
-void WbMatter::save() {
-  WbTransform::save();
+void WbMatter::reset(const QString &id) {
+  WbTransform::reset(id);
 
   WbNode *const b = mBoundingObject->value();
   if (b)
-    b->save();
+    b->reset(id);
+}
+
+void WbMatter::save(const QString &id) {
+  WbTransform::save(id);
+
+  WbNode *const b = mBoundingObject->value();
+  if (b)
+    b->save(id);
 }
 
 void WbMatter::connectNameUpdates() const {
@@ -193,7 +198,7 @@ void WbMatter::createWrenObjects() {
   wr_renderable_set_mesh(mMatterCenterRenderable, WR_MESH(mMatterCenterMesh));
   wr_renderable_set_material(mMatterCenterRenderable, mMatterCenterMaterial, NULL);
   wr_renderable_set_drawing_mode(mMatterCenterRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-  wr_renderable_set_visibility_flags(mMatterCenterRenderable, WbWrenRenderingContext::VF_SELECTED_OUTLINE);
+  wr_renderable_set_visibility_flags(mMatterCenterRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
   wr_renderable_set_drawing_order(mMatterCenterRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
   wr_renderable_set_cast_shadows(mMatterCenterRenderable, false);
   wr_renderable_set_receive_shadows(mMatterCenterRenderable, false);

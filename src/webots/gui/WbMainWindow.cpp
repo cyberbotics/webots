@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,9 @@
 #include "WbControlledWorld.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
-#include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
+#include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
-#include "WbHtmlExportDialog.hpp"
 #include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
@@ -64,8 +63,10 @@
 #include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbUpdatedDialog.hpp"
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
+#include "WbVisualBoundingSphere.hpp"
 #include "WbWebotsUpdateDialog.hpp"
 #include "WbWebotsUpdateManager.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -106,7 +107,6 @@
 WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
-  mDocumentation(NULL),
   mTextEditor(NULL),
   mSimulationView(NULL),
   mRecentFiles(NULL),
@@ -120,12 +120,12 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
 #endif
-
   setObjectName("MainWindow");
   QStatusBar *statusBar = new QStatusBar(this);
   statusBar->showMessage(tr("Welcome to Webots!"));
   setStatusBar(statusBar);
 
+  WbGuiApplication::setWindowsDarkMode(this);
   style()->polish(this);
   QDir::addSearchPath("enabledIcons", WbStandardPaths::resourcesPath() + enabledIconPath());
   QDir::addSearchPath("disabledIcons", WbStandardPaths::resourcesPath() + disabledIconPath());
@@ -149,13 +149,13 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // listen to log
   connect(WbLog::instance(), &WbLog::logEmitted, this, &WbMainWindow::showStatusBarMessage);
 
-  // world reload or simulation quit shoud not be executed directly (Qt::QueuedConnection)
+  // world reload or simulation quit should not be executed directly (Qt::QueuedConnection)
   // because it is call in a Webots state where events have to be solved
   // (typically packets comming from libController)
   // applying the reload or quit directly may imply a Webots crash
   connect(WbApplication::instance(), &WbApplication::worldReloadRequested, this, &WbMainWindow::reloadWorld,
           Qt::QueuedConnection);
-  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetWorld,
+  connect(WbApplication::instance(), &WbApplication::simulationResetRequested, this, &WbMainWindow::resetGui,
           Qt::QueuedConnection);
   connect(WbApplication::instance(), &WbApplication::simulationQuitRequested, this, &WbMainWindow::simulationQuit,
           Qt::QueuedConnection);
@@ -241,15 +241,13 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
   static const QString ctrlOne = tr("Press <i>Ctrl+1</i> to execute one basic time step.") + "<br/>";
   static const QString ctrlTwo = tr("Press <i>Ctrl+2</i> to run the simulation in real time.") + "<br/>";
   static const QString ctrlThree = tr("Press <i>Ctrl+3</i> to run the simulation as fast as possible.") + "<br/>";
-  static const QString ctrlFour =
-    tr("Press <i>Ctrl+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+  static const QString ctrlFour = tr("Press <i>Ctrl+4</i> to toggle the 3D scene rendering.") + "<br/>" + "<br/>";
 
   static const QString cmdZero = tr("Press <i>Cmd+0</i> to pause the simulation.") + "<br/>";
   static const QString cmdOne = tr("Press <i>Cmd+1</i> to execute one basic time step.") + "<br/>";
   static const QString cmdTwo = tr("Press <i>Cmd+2</i> to run the simulation in real time.") + "<br/>";
   static const QString cmdThree = tr("Press <i>Cmd+3</i> to run the simulation as fast as possible.") + "<br/>";
-  static const QString cmdFour =
-    tr("Press <i>Cmd+4</i> to run the simulation as fast as possible without rendering the 3D scene.") + "<br/>" + "<br/>";
+  static const QString cmdFour = tr("Press <i>Cmd+4</i> to toggle the 3D scene rendering.") + "<br/>" + "<br/>";
 
   static const QString ctrlScreenshot =
     tr("Press <i>Ctrl+Shift+P</i> to take a screenshot of the 3D screen.") + "<br/>" + "<br/>";
@@ -317,7 +315,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // hide docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->hide();
-    mDocumentation->hide();
     if (mTextEditor)
       mTextEditor->hide();
 
@@ -342,7 +339,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // show docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->show();
-    mDocumentation->show();
     if (mTextEditor)
       mTextEditor->show();
 
@@ -396,16 +392,11 @@ void WbMainWindow::createMainTools() {
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
-  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorld, Qt::QueuedConnection);
+  connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
-  mDocumentation = new WbDocumentation(this);
-  addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-  addDock(mDocumentation);
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, mDocumentation, &WbDocumentation::open);
-  mDocumentation->open("guide", "index", false);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, this, &WbMainWindow::showOnlineDocumentation);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
-  resizeDocks({mDocumentation}, {20}, Qt::Horizontal);
 
   mOdeDebugger = new WbOdeDebugger();
   connect(WbVideoRecorder::instance(), &WbVideoRecorder::requestOpenUrl, this, &WbMainWindow::openUrl);
@@ -486,7 +477,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(manager->action(WbAction::TAKE_SCREENSHOT));
   menu->addAction(mSimulationView->movieAction());
   action = new QAction(this);
-  action->setText(tr("&Export HTML5 Model..."));
+  action->setText(tr("&Export HTML5 Scene..."));
   action->setStatusTip(tr("Export the whole Scene Tree as an HTML5 file."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::exportHtml);
@@ -534,9 +525,6 @@ QMenu *WbMainWindow::createEditMenu() {
   menu->addAction(manager->action(WbAction::GO_TO_LINE));
   menu->addSeparator();
   menu->addAction(manager->action(WbAction::TOGGLE_LINE_COMMENT));
-  menu->addSeparator();
-  menu->addAction(manager->action(WbAction::DUPLICATE_SELECTION));
-  menu->addAction(manager->action(WbAction::TRANSPOSE_LINE));
 
   return menu;
 }
@@ -547,6 +535,9 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
+  menu->addAction(actionManager->action(WbAction::RENDERING));
+  menu->addSeparator();
+
   subMenu = menu->addMenu(tr("&Follow Object"));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_NONE));
   subMenu->addAction(actionManager->action(WbAction::FOLLOW_TRACKING));
@@ -655,7 +646,7 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_OBJECT_MOVE));
   subMenu->addAction(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE));
-  subMenu->addAction(actionManager->action(WbAction::DISABLE_FAST_MODE));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_RENDERING));
 
   return menu;
 }
@@ -668,7 +659,6 @@ QMenu *WbMainWindow::createSimulationMenu() {
   menu->addAction(manager->action(WbAction::PAUSE));
   menu->addAction(manager->action(WbAction::STEP));
   menu->addAction(manager->action(WbAction::REAL_TIME));
-  menu->addAction(manager->action(WbAction::RUN));
   menu->addAction(manager->action(WbAction::FAST));
   return menu;
 }
@@ -710,7 +700,6 @@ void WbMainWindow::enableToolsWidgetItems(bool enabled) {
     WbActionManager::setActionEnabledSilently(mTextEditor->toggleViewAction(), enabled);
   for (int i = 0; i < mConsoles.size(); ++i)
     WbActionManager::setActionEnabledSilently(mConsoles.at(i)->toggleViewAction(), enabled);
-  WbActionManager::setActionEnabledSilently(mDocumentation->toggleViewAction(), enabled);
 }
 
 // we need this function because WbDockWidget and WbSimulationView don't have a common base class
@@ -755,7 +744,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
@@ -891,28 +879,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::showAutomobileDocumentation);
   menu->addAction(action);
 
-  QMenu *offlineDocumentationMenu = new QMenu(tr("&Offline documentation"), this);
-
-  action = new QAction(this);
-  action->setText(tr("&User Guide"));
-  action->setStatusTip(tr("Open the Webots user guide in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineUserGuide);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Reference manual"));
-  action->setStatusTip(tr("Open the Webots reference manual in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineReferenceManual);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Webots for automobiles"));
-  action->setStatusTip(tr("Open the Webots for automobiles book in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineAutomobileDocumentation);
-  offlineDocumentationMenu->addAction(action);
-
-  menu->addMenu(offlineDocumentationMenu);
-
   menu->addSeparator();
 
   action = new QAction(this);
@@ -984,8 +950,6 @@ void WbMainWindow::createMenus() {
 
   mSimulationMenu = createSimulationMenu();
   mMenuBar->addAction(mSimulationMenu->menuAction());
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::RUN));
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::FAST));
 
   menu = createBuildMenu();
   mMenuBar->addAction(menu->menuAction());
@@ -1080,6 +1044,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
   WbClipboard::deleteInstance();
+  WbVisualBoundingSphere::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
@@ -1133,10 +1098,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return;
+    return false;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1148,7 +1113,8 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
+  const bool saveScreenPerspective =
+    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
   if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
   if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
@@ -1165,13 +1131,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->setFilesList(mTextEditor->openFiles());
     perspective->setSelectedTab(mTextEditor->selectedTab());
   }
-  if (mDocumentation->isVisible()) {
-    perspective->setDocumentationBook(mDocumentation->book());
-    perspective->setDocumentationPage(mDocumentation->page());
-  } else {
-    perspective->setDocumentationBook("");
-    perspective->setDocumentationPage("");
-  }
+
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
   QStringList robotWindowNodeNames;
@@ -1212,9 +1172,11 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
   }
 
+  if (!saveToFile)
+    return false;
+
   // save our new perspective in the file
-  if (saveToFile)
-    perspective->save();
+  return perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1256,14 +1218,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mSimulationView->restoreState(perspective->simulationViewState(), firstLoad);
       if (mTextEditor)
         mTextEditor->openFiles(perspective->filesList(), perspective->selectedTab());
-      if (!perspective->documentationBook().isEmpty())
-        mDocumentation->open(perspective->documentationBook(), perspective->documentationPage());
-      else {  // the documentation dock is not specified, reset it to its default location and contents
-        mDocumentation->open("guide", "index", false);
-        removeDockWidget(mDocumentation);
-        addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-        mDocumentation->hide();
-      }
     }
     // update icons
     foreach (QWidget *dock, mDockWidgets)
@@ -1288,6 +1242,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // Refreshing
   mSimulationView->repaintView3D();
 
+  WbLog::setConsoleLogsPostponed(false);
   WbLog::instance()->showPendingConsoleMessages();
 }
 
@@ -1320,16 +1275,50 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
   return true;
 }
 
+QString WbMainWindow::findHtmlFileName(const char *title) {
+  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
+  const QString worldName = QFileInfo(WbWorld::instance()->fileName()).baseName();
+
+  QString fileName;
+  for (int i = 0; i < 1000; ++i) {
+    const QString suffix = i == 0 ? "" : QString("_%1").arg(i);
+    fileName = WbPreferences::instance()->value("Directories/www").toString() + worldName + suffix + ".html";
+    if (!QFileInfo::exists(fileName))
+      break;
+  }
+
+  fileName = QFileDialog::getSaveFileName(this, tr(title), WbProject::computeBestPathForSaveAs(fileName),
+                                          tr("HTML Files (*.html *.HTML)"));
+
+  if (fileName.isEmpty()) {
+    return QString();
+  }
+
+  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
+    fileName.append(".html");
+
+  return fileName;
+}
+
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
+  if (!WbApplication::instance()->isValidWorldFileName(fileName))
+    return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
-  return WbApplication::instance()->loadWorld(fileName, reloading);
+  WbLog::setConsoleLogsPostponed(true);
+  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
+  if (!success) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+  }
+  // else console messages will be forwarded after world load in restorePerspective()
+  return success;
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
-  WbLog::instance()->setPopUpPostponed(true);
+  WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
   foreach (QWidget *dock, mDockWidgets) {
     WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
@@ -1343,6 +1332,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
   mSimulationView->prepareWorldLoading();
+  WbVisualBoundingSphere::deleteInstance();
 
   foreach (WbConsole *console, mConsoles) {
     mDockWidgets.removeAll(console);
@@ -1376,8 +1366,14 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
     ->action(WbAction::DISABLE_FORCE_AND_TORQUE)
     ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE));
   WbActionManager::instance()
-    ->action(WbAction::DISABLE_FAST_MODE)
-    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FAST_MODE));
+    ->action(WbAction::DISABLE_RENDERING)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
+  mSimulationView->disableRendering(perspective->isUserInteractionDisabled(WbAction::DISABLE_RENDERING));
+  if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
+    WbVisualBoundingSphere::enable(perspective->isGlobalOptionalRenderingEnabled("BoundingSphere"), NULL);
+    connect(mSimulationView->sceneTree(), &WbSceneTree::nodeSelected, WbVisualBoundingSphere::instance(),
+            &WbVisualBoundingSphere::show);
+  }
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();
@@ -1394,6 +1390,7 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   connect(world, &WbWorld::robotAdded, this, &WbMainWindow::handleNewRobotInsertion);
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
+  connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
 
   updateGui();
 
@@ -1476,9 +1473,12 @@ void WbMainWindow::saveWorld() {
   }
 
   mSimulationView->applyChanges();
-  world->save();
-  savePerspective(false, true);
-  updateWindowTitle();
+  if (world->save()) {
+    if (!savePerspective(false, true))
+      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    updateWindowTitle();
+  } else
+    WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
   simulationState->resumeSimulation();
 }
 
@@ -1508,9 +1508,12 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
-    world->saveAs(fileName);
-    savePerspective(false, true);
-    updateWindowTitle();
+    if (world->saveAs(fileName)) {
+      if (!savePerspective(false, true))
+        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      updateWindowTitle();
+    } else
+      WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
 
   simulationState->resumeSimulation();
@@ -1525,19 +1528,19 @@ void WbMainWindow::reloadWorld() {
 }
 
 void WbMainWindow::resetWorldFromGui() {
-  resetWorld(true);
-}
-
-void WbMainWindow::resetWorld(bool restartControllers) {
-  toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
-  else {
-    if (restartControllers)
-      mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset(restartControllers);
-  }
+  else
+    WbWorld::instance()->reset(true);
+  resetGui(true);
+}
+
+void WbMainWindow::resetGui(bool restartControllers) {
+  toggleAnimationAction(false);
+  if (WbWorld::instance() && restartControllers)
+    mSimulationView->cancelSupervisorMovieRecording();
   mSimulationView->view3D()->renderLater();
+  mSimulationView->disableStepButton(false);
 }
 
 void WbMainWindow::importVrml() {
@@ -1597,24 +1600,25 @@ void WbMainWindow::exportVrml() {
 
 void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
   WbWorld *world = WbWorld::instance();
 
-  WbHtmlExportDialog parametersDialog(tr("Export HTML5 Model"), world->fileName(), this);
-  bool accept = parametersDialog.exec();
-  if (accept) {
-    const QString &fileName = parametersDialog.fileName();
-    assert(!fileName.isEmpty());
+  QString fileName = findHtmlFileName("Export HTML Scene");
+  if (fileName.isEmpty()) {
+    WbSimulationState::instance()->setMode(currentMode);
+    return;
+  }
+
+  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
-            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+            tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
               .arg(fileName),
-            tr("Export HTML5 Model"));
+            tr("Export HTML5 Scene"));
   }
 
   WbSimulationState::instance()->setMode(currentMode);
@@ -1623,6 +1627,13 @@ void WbMainWindow::exportHtml() {
 void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
+}
+
+void WbMainWindow::showUpdatedDialog() {
+  WbUpdatedDialog *updatedDialog = new WbUpdatedDialog(this);
+  updatedDialog->show();
+  updatedDialog->raise();
+  connect(updatedDialog, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
 }
 
 void WbMainWindow::showGuidedTour() {
@@ -1705,6 +1716,7 @@ void WbMainWindow::show3DForceInfo() {
       break;
     case WbSysInfo::WIN32_PLATFORM:
       info = infoWindows;
+      break;
     default:
       assert(false);
   }
@@ -1764,8 +1776,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots/").toUtf8(), "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots").toUtf8(), "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QString u("file:///" + url);
@@ -1778,35 +1790,26 @@ void WbMainWindow::showDocument(const QString &url) {
     WbMessageBox::warning(tr("Cannot open the document: '%1'.").arg(url), this, tr("Internal error"));
 }
 
-void WbMainWindow::showOnlineBook(const QString &book) {
-  QString versionString = WbApplicationInfo::version().toString();
-  versionString.replace(" revision ", "-rev");
-  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/index?version=" + versionString;
+void WbMainWindow::showOnlineDocumentation(const QString &book, const QString &page) {
+  QString versionString = WbApplicationInfo::branch();
+  if (versionString.isEmpty()) {
+    versionString = WbApplicationInfo::version().toString();
+    versionString.replace(" revision ", "-rev");
+  }
+  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
   showDocument(url);
 }
 
 void WbMainWindow::showUserGuide() {
-  showOnlineBook("guide");
+  showOnlineDocumentation("guide");
 }
 
 void WbMainWindow::showReferenceManual() {
-  showOnlineBook("reference");
+  showOnlineDocumentation("reference");
 }
 
 void WbMainWindow::showAutomobileDocumentation() {
-  showOnlineBook("automobile");
-}
-
-void WbMainWindow::showOfflineUserGuide() {
-  mDocumentation->open("guide");
-}
-
-void WbMainWindow::showOfflineReferenceManual() {
-  mDocumentation->open("reference");
-}
-
-void WbMainWindow::showOfflineAutomobileDocumentation() {
-  mDocumentation->open("automobile");
+  showOnlineDocumentation("automobile");
 }
 
 void WbMainWindow::openGithubRepository() {
@@ -2122,9 +2125,10 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   }
 #endif
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, this);
+  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
+  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
@@ -2203,14 +2207,13 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 
 void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
-  const QString &worldFileName = WbWorld::instance()->fileName();
+  QString fileName = findHtmlFileName("Save Animation File");
+  if (fileName.isEmpty()) {
+    WbSimulationState::instance()->setMode(currentMode);
+    return;
+  }
 
-  WbHtmlExportDialog parametersDialog(tr("Export as HTML5 animation"), worldFileName, this);
-  bool accept = parametersDialog.exec();
-  if (accept) {
-    const QString &fileName = parametersDialog.fileName();
-    assert(!fileName.isEmpty());
+  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
     WbAnimationRecorder::instance()->start(fileName);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");

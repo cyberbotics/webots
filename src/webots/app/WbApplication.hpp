@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ public:
   // worldName must be absolute or specified with respect to WEBOTS_HOME
   // return true on success, false otherwise
   bool loadWorld(QString worldName, bool reloading);
+  bool isValidWorldFileName(const QString &worldName);
 
   // take a sceenshot of the 3d view
   // quality must be between 0 and 100 included
@@ -107,6 +108,7 @@ public slots:
   void setWorldLoadingCanceled();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);
+  void setWorldLoadingProgressDialogCreatedtoFalse();
 
 private:
   static WbApplication *cInstance;
@@ -118,7 +120,6 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-  QElapsedTimer *mWorldLoadTimer;
 
   // remove links to the project dynamic libraries
   void removeOldLibraries();

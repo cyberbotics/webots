@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,10 @@ WbDeviceTag left_motor, right_motor;
 WbDeviceTag cam;
 unsigned short width, height;
 
+// motors
+WbDeviceTag left_motor;
+WbDeviceTag right_motor;
+
 /*****************************
  *
  *  Functions
@@ -53,7 +57,7 @@ unsigned short width, height;
 // This function returns the position
 // of the peak contained in the array given
 // in argument
-int find_middle(int tab[], int sizeTab) {
+int find_middle(const int tab[], int sizeTab) {
   int i, j;
   int *copy = (int *)malloc(sizeof(int) * sizeTab);
   int mid = 0;
@@ -123,7 +127,7 @@ int find_middle(int tab[], int sizeTab) {
 }
 
 // return the mean of the values of an array
-int mean(int array[], int size) {
+int mean(const int array[], int size) {
   if (size == 0)
     return 0;
   int sum = 0, i;
@@ -156,7 +160,7 @@ void lfm(int array[], int size) {
 int previous_mean[] = {0, 0, 0};
 int current_mean[] = {0, 0, 0};
 int is_in[] = {0, 0, 0};
-void lem(int array[], int size) {
+void lem(const int array[], int size) {
   int *left = (int *)malloc(sizeof(int) * size / 10);
   int *right = (int *)malloc(sizeof(int) * size / 10);
   int *middle = (int *)malloc(sizeof(int) * size / 10);
@@ -211,8 +215,8 @@ void utm(void) {
   // - put your results in the speed_utm array
   // - look at the main function: add a function
   //   call to this function and add your results
-  //   in the differential_wheels_set_speed(...)
-  //   function
+  //   in the wb_motor_set_velocity(left_motor, ...) and
+  //   wb_motor_set_velocity(right_motor, ...) functions
 
   //...
 }
@@ -245,12 +249,20 @@ static void reset(void) {
   wb_camera_enable(cam, TIME_STEP_CAM);
   width = wb_camera_get_width(cam);
   height = wb_camera_get_height(cam);
+
+  // motors
+  left_motor = wb_robot_get_device("left wheel motor");
+  right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0);
+  wb_motor_set_velocity(right_motor, 0);
 }
 
 static int run(void) {
   int i;
   int *gray = (int *)malloc(sizeof(int) * width);
-  int speed[2] = {150, 150};
+  const int speed[2] = {150, 150};
   const unsigned char *image;
 
   // 1. Get the sensors values

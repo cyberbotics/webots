@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 #define pi_2 1.570796327
 
@@ -10,6 +12,8 @@
 #define UP 4
 #define DOWN 5
 
+const float FLT_MAX = intBitsToFloat(0x7F800000);
+
 const vec3 orientations[6] = vec3[6](vec3(1.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, -1.0, 0.0),
                                      vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, -1.0));
 
@@ -18,6 +22,8 @@ in vec2 texUv;
 out vec4 fragColor;
 
 uniform int rangeCamera;
+uniform int subCamerasResolutionX;
+uniform int subCamerasResolutionY;
 
 uniform float maxRange;
 uniform float minRange;
@@ -103,23 +109,24 @@ void main() {
   if (fovX < pi_2)
     coord.x *= pi_2 / fovX;
   if (fovY < pi_2)
-    coord.y *= pi_2 / fovY;
+    coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
+  ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = texture(inputTextures[0], faceCoord);
+    fragColor = texelFetch(inputTextures[0], imageIndex, 0);
   else if (face == RIGHT)
-    fragColor = texture(inputTextures[1], faceCoord);
+    fragColor = texelFetch(inputTextures[1], imageIndex, 0);
   else if (face == BACK)
-    fragColor = texture(inputTextures[2], faceCoord);
+    fragColor = texelFetch(inputTextures[2], imageIndex, 0);
   else if (face == LEFT)
-    fragColor = texture(inputTextures[3], faceCoord);
+    fragColor = texelFetch(inputTextures[3], imageIndex, 0);
   else if (face == UP)
-    fragColor = texture(inputTextures[4], faceCoord);
+    fragColor = texelFetch(inputTextures[4], imageIndex, 0);
   else if (face == DOWN)
-    fragColor = texture(inputTextures[5], faceCoord);
+    fragColor = texelFetch(inputTextures[5], imageIndex, 0);
 
   // rectify the spherical transform
   if (rangeCamera > 0) {
@@ -135,8 +142,10 @@ void main() {
       depth = depth / cosine;
     }
     if (depth < minRange)
-      depth = maxRange;
+      depth = FLT_MAX;
+    if (depth >= maxRange)
+      depth = FLT_MAX;
 
-    fragColor = vec4(clamp(depth, 0.0, maxRange), 0.0, 0.0, 0.0);
+    fragColor = vec4(depth, 0.0, 0.0, 0.0);
   }
 }

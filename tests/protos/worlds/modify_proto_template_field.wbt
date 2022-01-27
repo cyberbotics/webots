@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 Viewpoint {
@@ -19,7 +19,7 @@ TestRectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap DEF TEST_NODE ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "textures/grey.jpg"
       ]
       repeatS FALSE
       repeatT FALSE

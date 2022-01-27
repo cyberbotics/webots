@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,15 +52,21 @@ void WbWorldInfo::init(const WbVersion *version) {
   mGravity = findSFDouble("gravity");
   mCoordinateSystem = findSFString("coordinateSystem");
   WbField *northDirectionField = findField("northDirection");
+  const WbSFVector3 *const northDirection = findSFVector3("northDirection");
   if (version && *version < WbVersion(2020, 1, 0, true)) {
     mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
-    const WbSFVector3 *const northDirection = findSFVector3("northDirection");
     if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
       northDirectionField->reset();
-    else if (!northDirectionField->isDefault())
+    else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0)) {
+      northDirectionField->reset();
+      mCoordinateSystem->setValue("EUN");
+    } else if (!northDirectionField->isDefault())
       parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
                      "aligned along the x-axis."));
+  } else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0) && mCoordinateSystem->value() == "NUE") {
+    northDirectionField->reset();
+    mCoordinateSystem->setValue("EUN");
   } else if (!northDirectionField->isDefault())
     parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
@@ -68,6 +74,8 @@ void WbWorldInfo::init(const WbVersion *version) {
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
+  mDragForceScale = findSFDouble("dragForceScale");
+  mDragTorqueScale = findSFDouble("dragTorqueScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
 
@@ -94,6 +102,14 @@ WbWorldInfo::~WbWorldInfo() {
   delete mPhysicsReceiver;
 }
 
+void WbWorldInfo::downloadAssets() {
+  const int size = mContactProperties->size();
+  for (int i = 0; i < size; ++i) {
+    WbContactProperties *const cp = static_cast<WbContactProperties *>(mContactProperties->item(i));
+    cp->downloadAssets();
+  }
+}
+
 void WbWorldInfo::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -109,6 +125,8 @@ void WbWorldInfo::preFinalize() {
   updateBasicTimeStep();
   updateFps();
   updateLineScale();
+  updateDragForceScale();
+  updateDragTorqueScale();
   updateRandomSeed();
   updateDefaultDamping();
   updateGpsCoordinateSystem();
@@ -136,6 +154,8 @@ void WbWorldInfo::postFinalize() {
   connect(mOptimalThreadCount, &WbSFInt::changed, this, &WbWorldInfo::displayOptimalThreadCountWarning);
   connect(mFps, &WbSFDouble::changed, this, &WbWorldInfo::updateFps);
   connect(mLineScale, &WbSFDouble::changed, this, &WbWorldInfo::updateLineScale);
+  connect(mDragForceScale, &WbSFDouble::changed, this, &WbWorldInfo::updateDragForceScale);
+  connect(mDragTorqueScale, &WbSFDouble::changed, this, &WbWorldInfo::updateDragTorqueScale);
   connect(mRandomSeed, &WbSFInt::changed, this, &WbWorldInfo::updateRandomSeed);
   connect(mPhysicsDisableTime, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
   connect(mPhysicsDisableLinearThreshold, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
@@ -159,14 +179,14 @@ void WbWorldInfo::postFinalize() {
   WbWorld::instance()->setWorldInfo(this);
 }
 
-void WbWorldInfo::reset() {
-  WbBaseNode::reset();
+void WbWorldInfo::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   for (int i = 0; i < mContactProperties->size(); ++i)
-    mContactProperties->item(i)->reset();
+    mContactProperties->item(i)->reset(id);
   WbNode *const d = mDefaultDamping->value();
   if (d)
-    d->reset();
+    d->reset(id);
 }
 
 double WbWorldInfo::lineScale() const {
@@ -240,6 +260,14 @@ void WbWorldInfo::applyLineScaleToWren() {
   WbWrenRenderingContext::instance()->setLineScale(static_cast<float>(mLineScale->value()));
 }
 
+void WbWorldInfo::updateDragForceScale() {
+  WbFieldChecker::resetDoubleIfNonPositive(this, mDragForceScale, 30.0);
+}
+
+void WbWorldInfo::updateDragTorqueScale() {
+  WbFieldChecker::resetDoubleIfNonPositive(this, mDragTorqueScale, 5.0);
+}
+
 void WbWorldInfo::updateRandomSeed() {
   WbFieldChecker::resetIntIfNegativeAndNotDisabled(this, mRandomSeed, 0, -1);
   emit randomSeedChanged();
@@ -311,21 +339,11 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
-  if (mCoordinateSystem->value() == "ENU") {
-    mEastVector = WbVector3(1, 0, 0);
-    mNorthVector = WbVector3(0, 1, 0);
-    mUpVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(0, 1, 0);
-    mGravityBasis[Y].setXyz(0, 0, 1);
-    mGravityBasis[Z].setXyz(1, 0, 0);
-  } else {  // "NUE"
-    mNorthVector = WbVector3(1, 0, 0);
-    mUpVector = WbVector3(0, 1, 0);
-    mEastVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(1, 0, 0);
-    mGravityBasis[Y].setXyz(0, 1, 0);
-    mGravityBasis[Z].setXyz(0, 0, 1);
-  }
+  const QString &system = mCoordinateSystem->value();
+  assert(system.size() == 3);
+  mNorthVector = WbVector3(system[0] == 'N' ? 1 : 0, system[1] == 'N' ? 1 : 0, system[2] == 'N' ? 1 : 0);
+  mEastVector = WbVector3(system[0] == 'E' ? 1 : 0, system[1] == 'E' ? 1 : 0, system[2] == 'E' ? 1 : 0);
+  mUpVector = WbVector3(system[0] == 'U' ? 1 : 0, system[1] == 'U' ? 1 : 0, system[2] == 'U' ? 1 : 0);
   mGravityUnitVector = -mUpVector;
   mGravityVector = mGravityUnitVector * mGravity->value();
 }
@@ -372,6 +390,9 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       }
       writer << "'";
     }
+
+    writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
+    writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
 
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";

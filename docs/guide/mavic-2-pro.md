@@ -15,7 +15,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 PROTO Mavic2Pro {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "Mavic 2 PRO"
   SFString   controller          "mavic2pro"
   MFString   controllerArgs      []
@@ -36,7 +36,7 @@ PROTO Mavic2Pro {
 
 ### Samples
 
-You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/master/projects/robots/dji/mavic/worlds).
+You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/released/projects/robots/dji/mavic/worlds).
 
 #### mavic\_2\_pro.wbt
 

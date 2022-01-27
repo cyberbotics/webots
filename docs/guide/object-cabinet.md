@@ -21,7 +21,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Cabinet {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "cabinet"
   SFFloat    depth          0.5
   SFFloat    innerThickness 0.02
@@ -58,7 +58,7 @@ Cabinet {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/Cabinet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/cabinet/protos/Cabinet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/Cabinet.proto]({{ url.github_tree }}/projects/objects/cabinet/protos/Cabinet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -98,7 +98,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 CabinetHandle {
   SFVec3f    translation   0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "cabinet handle"
   SFFloat    handleLength 0.065
   SFFloat    handleRadius 0.0055
@@ -107,7 +107,7 @@ CabinetHandle {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/CabinetHandle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/cabinet/protos/CabinetHandle.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/CabinetHandle.proto]({{ url.github_tree }}/projects/objects/cabinet/protos/CabinetHandle.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

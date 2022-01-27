@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   gravity 0
   physicsDisableTime 0.1
@@ -29,7 +29,7 @@ DEF SOLID Solid {
         }
         texture ImageTexture {
           url [
-            "textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -67,7 +67,7 @@ DEF FLOOR Solid {
         }
         texture ImageTexture {
           url [
-            "textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         textureTransform TextureTransform {

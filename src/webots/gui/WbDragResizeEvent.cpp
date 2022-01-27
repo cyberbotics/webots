@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -385,14 +385,14 @@ void WbResizeElevationGridEvent::apply(const QPoint &currentMousePosition) {
       mElevationGrid->setHeightScaleFactor(mResizeRatio);
       break;
     case Z: {
-      const double resizedZspacing = mElevationGrid->zSpacing() * mResizeRatio;
+      const double resizedYspacing = mElevationGrid->ySpacing() * mResizeRatio;
 
-      if (exceedsFloatMax(resizedZspacing)) {
+      if (exceedsFloatMax(resizedYspacing)) {
         emit aborted();
         return;
       }
 
-      mElevationGrid->setZspacing(resizedZspacing);
+      mElevationGrid->setYspacing(resizedYspacing);
       break;
     }
     default:

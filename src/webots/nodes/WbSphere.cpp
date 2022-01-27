@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -371,8 +372,8 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
     pointOnTexture /= absoluteScale();
   }
 
-  const double u = 0.5 + atan2(pointOnTexture.x(), pointOnTexture.z()) * 0.5 * M_1_PI;
-  const double v = 0.5 - asin(pointOnTexture.y() / scaledRadius()) * M_1_PI;
+  const double u = 0.5 + atan2(pointOnTexture.x(), -pointOnTexture.y()) * 0.5 * M_1_PI;
+  const double v = 0.5 - WbMathsUtilities::clampedAsin(pointOnTexture.z() / scaledRadius()) * M_1_PI;
 
   // result
   uv.setXy(u, v);

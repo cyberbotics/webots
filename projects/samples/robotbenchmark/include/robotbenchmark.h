@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #ifndef ROBOTBENCHMARK_H
 #define ROBOTBENCHMARK_H
 
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <stdio.h>
 #include <stdlib.h>

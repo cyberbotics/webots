@@ -23,7 +23,7 @@ Moreover we recommend you to ensure you understood all the concepts of a tutoria
 
 The last section will provide you with some hints to address problems that are not covered in this chapter.
 
-The solutions of the tutorials are located into the "[WEBOTS\_HOME/projects/samples/tutorials](https://github.com/cyberbotics/webots/tree/master/projects/samples/tutorials)" subdirectory of the Webots installation directory.
+The solutions of the tutorials are located into the "[WEBOTS\_HOME/projects/samples/tutorials]({{ url.github_tree }}/projects/samples/tutorials)" subdirectory of the Webots installation directory.
 
 We hope you will enjoy your first steps with Webots.
 Meanwhile, we would really appreciate to receive your feedback regarding this chapter.
@@ -37,5 +37,6 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 - [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes.md)
 - [Tutorial 6: 4-Wheels Robot (60 minutes)](tutorial-6-4-wheels-robot.md)
 - [Tutorial 7: Your First PROTO (20 minutes)](tutorial-7-your-first-proto.md)
-- [Tutorial 8: Using ROS (60 minutes)](tutorial-8-using-ros.md)
+- [Tutorial 8: The Supervisor (30 minutes)](tutorial-8-the-supervisor.md)
+- [Tutorial 9: Using ROS (60 minutes)](tutorial-9-using-ros.md)
 - [Going Further](going-further.md)

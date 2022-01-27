@@ -27,6 +27,7 @@ Bear in mind that this value may be overridden by the content of a `runtime.ini`
 - The **Extra projects path** defines the path to a user folder similar to the `WEBOTS_HOME/projects` folder.
 This user folder should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
 It may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
+It has the priority over the other search paths.
 This folder may also contain a `default` project that can be used to define generic controllers, textures, sounds, etc.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
@@ -61,17 +62,50 @@ Otherwise, disabling anti-aliasing can lead to marginally increase performance a
 
 ### Network
 
-The **Network** tab allows you to manually configure a HTTP proxy that Webots will use to access its license server over the Internet.
+The **Network** tab contains preferences about configuring a HTTP proxy and managing the assets cache.
 
-- The **Proxy type** check box allows you to enable or disable the SOCK v5 proxy protocol.
+#### Proxy
 
-- The **Proxy hostname** field allows you to set the hostname of the proxy server.
+The **Proxy** section allows you to manually configure a HTTP proxy that Webots will use to access its license server over the Internet.
 
-- The **Proxy port** field allows you to set the port used by the proxy server.
+- The **Type** check box allows you to enable or disable the SOCK v5 proxy protocol.
 
-- The **Proxy username** field is optional. It allows you to specify a username sent to the proxy server.
+- The **Hostname** field allows you to set the hostname of the proxy server.
 
-- The **Proxy password** field is optional as well and allows you to specify the user password sent to the proxy server.
+- The **Port** field allows you to set the port used by the proxy server.
+
+- The **Username** field is optional. It allows you to specify a username sent to the proxy server.
+
+- The **Password** field is optional as well and allows you to specify the user password sent to the proxy server.
 
 After changing the proxy configuration, it is recommended to restart Webots to ensure the changes are properly taken into account.
-If you clear the **Proxy hostname** field, Webots will try to retrieve the default system proxy on the next launch.
+If you clear the **Hostname** field, Webots will try to retrieve the default system proxy on the next launch.
+
+#### Cache
+
+The **Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
+If you change this value and the new cache size is smaller than the currently used cache size, then the cache is automatically cleaned.
+
+The default location of the cache is the following:
+
+%tab-component "os"
+
+%tab "Windows"
+
+`C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
+
+%tab-end
+
+%tab "Linux"
+
+`~/.cache/Cyberbotics/Webots`
+
+%tab-end
+
+%tab "macOS"
+
+`~/Library/Caches/Cyberbotics/Webots", "/Library/Caches/Cyberbotics/Webots`
+
+%tab-end
+
+%end

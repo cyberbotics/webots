@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ void WbTrackWheel::init() {
 
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
-  mRotation = new WbSFRotation(WbRotation());
+  mRotation = new WbSFRotation(WbRotation(1, 0, 0, M_PI_2));
   mScale = new WbSFVector3(WbVector3(1, 1, 1));
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
@@ -65,7 +65,7 @@ void WbTrackWheel::postFinalize() {
 }
 
 void WbTrackWheel::updatePosition() {
-  setTranslation(mPosition->x(), mPosition->y(), 0);
+  setTranslation(mPosition->x(), 0, mPosition->y());
   updateTranslation();
   if (isPostFinalizedCalled())
     emit changed();
@@ -82,7 +82,7 @@ void WbTrackWheel::rotate(double travelledDistance) {
     angle = -angle;
 
   WbMatrix3 currentRotation(rotation());
-  WbRotation newRotation(WbMatrix3(0, 0, 1, angle) * currentRotation);
+  WbRotation newRotation(WbMatrix3(0, -1, 0, angle) * currentRotation);
   newRotation.normalize();
   setRotation(newRotation);
   updateRotation();

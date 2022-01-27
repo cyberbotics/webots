@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairs {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "straight stairs"
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
@@ -30,7 +30,7 @@ StraightStairs {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairs.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto]({{ url.github_tree }}/projects/objects/stairs/protos/StraightStairs.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -70,7 +70,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairsLanding {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "straight stairs landing"
   SFVec3f    landingSize     0.4 0.03 1.27
   SFFloat    height          2.0
@@ -86,7 +86,7 @@ StraightStairsLanding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairsLanding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto]({{ url.github_tree }}/projects/objects/stairs/protos/StraightStairsLanding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -128,7 +128,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairsRail {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "straight stairs rail"
   SFFloat    run              2.0
   SFFloat    rise             0.75
@@ -142,7 +142,7 @@ StraightStairsRail {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairsRail.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto]({{ url.github_tree }}/projects/objects/stairs/protos/StraightStairsRail.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

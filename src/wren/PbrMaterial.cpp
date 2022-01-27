@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,12 @@
 
 #include <wren/material.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 namespace wren {
 
@@ -55,13 +60,14 @@ namespace wren {
   }
 
   size_t PbrMaterial::sortingId() const {
-    const size_t programId = static_cast<size_t>(mDefaultProgram->glName());
+    const unsigned long long programId = static_cast<unsigned long long>(mDefaultProgram->glName());
 
     size_t textureId = 0;
     if (mTextures[0].first)
       textureId = static_cast<size_t>(mTextures[0].first->glName());
 
-    return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
+    return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) |
+           (mHasPremultipliedAlpha ? 1 : 0);
   }
 
   PbrMaterial *PbrMaterial::createMaterial() {

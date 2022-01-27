@@ -17,15 +17,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 BiscuitBox {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "biscuit box"
   SFVec3f    size        0.24 0.04 0.08
-  MFString   textureUrl  "textures/biscuit_box.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/biscuit_box.jpg"
   SFFloat    mass        0.4
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto]({{ url.github_tree }}/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,15 +53,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 CerealBox {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "cereal box"
   SFVec3f    size        0.08 0.3 0.2
-  MFString   textureUrl  "textures/cereal_box_2.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/cereal_box_2.jpg"
   SFFloat    mass        1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/CerealBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/CerealBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/CerealBox.proto]({{ url.github_tree }}/projects/objects/kitchen/breakfast/protos/CerealBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -89,15 +89,15 @@ Derived from [Solid](../reference/solid.md).
 ```
 HoneyJar {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "honey jar"
-  MFString   textureLidUrl  "textures/bee_lid.jpg"
+  MFString   textureLidUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/bee_lid.jpg"
   SFFloat    mass           0.5
   SFColor    color          0.839216 0.572549 0.105882
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/HoneyJar.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/HoneyJar.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/HoneyJar.proto]({{ url.github_tree }}/projects/objects/kitchen/breakfast/protos/HoneyJar.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -125,14 +125,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 JamJar {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "jam jar"
-  MFString   textureLidUrl "textures/blue_jar_lid.jpg"
+  MFString   textureLidUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/blue_jar_lid.jpg"
   SFFloat    mass          0.5
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/JamJar.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/JamJar.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/JamJar.proto]({{ url.github_tree }}/projects/objects/kitchen/breakfast/protos/JamJar.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -160,13 +160,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 HotPlate {
   SFVec3f    translation 0 0.71 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "hot plate"
-  MFString   textureUrl  "textures/components.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/components/protos/textures/components.jpg"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/HotPlate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/HotPlate.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/HotPlate.proto]({{ url.github_tree }}/projects/objects/kitchen/components/protos/HotPlate.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -190,13 +190,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Sink {
   SFVec3f    translation 0 0.72 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "sink"
-  MFString   textureUrl  "textures/components.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/components/protos/textures/components.jpg"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Sink.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/Sink.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Sink.proto]({{ url.github_tree }}/projects/objects/kitchen/components/protos/Sink.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -220,14 +220,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Worktop {
   SFVec3f    translation  0 0.71 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "worktop"
   SFVec3f    size         0.44 0.06 0.7
   SFNode     appearance   Marble { }
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Worktop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/Worktop.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Worktop.proto]({{ url.github_tree }}/projects/objects/kitchen/components/protos/Worktop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -242,7 +242,7 @@ Worktop {
 
 ### Fridge PROTO
 
-A fridge with 2 doors (0.7 x 1.8 x 0.7 m).
+A fridge with 2 doors (0.7 x 0.7 x 1.8 m).
 
 %figure
 
@@ -255,13 +255,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Fridge {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "fridge"
   SFColor    mainColor      1 1 1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/fridge/protos/Fridge.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/fridge/protos/Fridge.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/fridge/protos/Fridge.proto]({{ url.github_tree }}/projects/objects/kitchen/fridge/protos/Fridge.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -274,7 +274,7 @@ Fridge {
 
 ### Oven PROTO
 
-An oven (0.5 x 0.68 x 0.44 m).
+An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
 
 %figure
 
@@ -286,14 +286,15 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Oven {
-  SFVec3f    translation    0 0.34 0
-  SFRotation rotation       0 1 0 0
+  SFVec3f    translation    0 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "oven"
   SFColor    mainColor      1 1 1
+  SFString   type           "oven"  # Either "oven" or "microwave"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/oven/protos/Oven.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/oven/protos/Oven.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/oven/protos/Oven.proto]({{ url.github_tree }}/projects/objects/kitchen/oven/protos/Oven.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -319,13 +320,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Carafe {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "carafe"
   SFFloat    mass        1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Carafe.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Carafe.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Carafe.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Carafe.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -349,14 +350,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Cookware {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name       "cookware"
   SFColor    color      0.7 0.7 0.7
   SFFloat    mass       0.7
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Cookware.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Cookware.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Cookware.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Cookware.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -382,13 +383,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Fork {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "fork"
   SFColor    color       0.75 0.75 0.75
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Fork.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Fork.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Fork.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Fork.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -412,13 +413,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Glass {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "glass"
   SFFloat    mass        0.17
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Glass.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Glass.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Glass.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Glass.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -442,13 +443,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Knife {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "knife"
   SFColor    color       0.75 0.75 0.75
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Knife.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Knife.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Knife.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Knife.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -472,14 +473,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Lid {
   SFVec3f    translation 0 0.068 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "lid"
   SFColor    color       0.7 0.7 0.7
   SFFloat    mass        0.19
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Lid.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Lid.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Lid.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Lid.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -505,16 +506,16 @@ Derived from [Solid](../reference/solid.md).
 ```
 Plate {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "plate"
-  MFString   textureUrl  "textures/floral_plate.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/utensils/protos/textures/floral_plate.jpg"
   SFFloat    height      0.01
   SFFloat    radius      0.11
   SFFloat    mass        0.3
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Plate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Plate.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Plate.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Plate.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -544,14 +545,14 @@ Derived from [Solid](../reference/solid.md).
 ```
 Spoon {
   SFVec3f     translation 0 0 0
-  SFRotation  rotation    0 1 0 0
+  SFRotation  rotation    0 0 1 0
   SFString    name        "spoon"
   SFColor     color       0.75 0.75 0.75
   SFString    type        "table"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Spoon.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Spoon.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Spoon.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Spoon.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -577,13 +578,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wineglass {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wine glass"
   SFFloat    mass        0.2
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Wineglass.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Wineglass.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Wineglass.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/Wineglass.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -607,13 +608,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenSpoon {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wooden spoon"
-  MFString   textureUrl  "textures/wooden_spoon.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/utensils/protos/textures/wooden_spoon.jpg"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto]({{ url.github_tree }}/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

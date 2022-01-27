@@ -2,7 +2,8 @@
 
 ```
 Mesh {
-  field MFString url [ ]
+  field MFString url  [ ]
+  field SFString name ""
 }
 ```
 
@@ -11,19 +12,20 @@ Mesh {
 The [Mesh](#mesh) node represents a 3D shape imported from an external file created by a 3D modeling software.
 The [Mesh](#mesh) node can be used either as a graphical or as a collision detection primitive (in a boundingObject).
 Currently, the following formats are supported:
-  - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
-  - [Blender](https://www.blender.org/) files (.blend).
-  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bvh).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
-  - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
-  - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
 
 If the file contains more than one mesh, the meshes will be merged into a single one.
 
 ### Field Summary
 
-The `url` field defines the path to the 3D file.
-The file should be specified with a relative or absolute path.
+The `url` field defines the 3D file.
+If the `url` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
+Absolute paths work as well, but they are not recommended because they are not portable across systems.
+
+The `name` field defines which sub-meshe is included.
+If the `name` value is an empty string then all sub-meshes are included.
+Note that the `name` field is applied only for Collada files.

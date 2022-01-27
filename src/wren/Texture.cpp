@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,12 @@
 #include "GlState.hpp"
 #include "Material.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 namespace wren {
 
@@ -29,11 +34,16 @@ namespace wren {
   const Texture::GlFormatParams Texture::GL_FORMAT_PARAMS[WR_TEXTURE_INTERNAL_FORMAT_COUNT] = {
     GlFormatParams(GL_R8, GL_RED, GL_UNSIGNED_BYTE, 1, 1),
     GlFormatParams(GL_RG8, GL_RG, GL_UNSIGNED_BYTE, 2, 2),
+#ifdef __EMSCRIPTEN__
+    GlFormatParams(GL_RGB8, GL_RGB, GL_UNSIGNED_BYTE, 3, 3),
+    GlFormatParams(GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE, 4, 4),
+#else
     GlFormatParams(GL_RGB8, GL_BGR, GL_UNSIGNED_BYTE, 3, 3),
     GlFormatParams(GL_RGBA8, GL_BGRA, GL_UNSIGNED_BYTE, 4, 4),
-    GlFormatParams(GL_R16F, GL_RED, GL_UNSIGNED_BYTE, 2, 1),
-    GlFormatParams(GL_RGB16F, GL_RGB, GL_UNSIGNED_BYTE, 6, 3),
-    GlFormatParams(GL_RGBA16F, GL_RGBA, GL_UNSIGNED_BYTE, 8, 4),
+#endif
+    GlFormatParams(GL_R16F, GL_RED, GL_HALF_FLOAT, 2, 1),
+    GlFormatParams(GL_RGB16F, GL_RGB, GL_HALF_FLOAT, 6, 3),
+    GlFormatParams(GL_RGBA16F, GL_RGBA, GL_HALF_FLOAT, 8, 4),
     GlFormatParams(GL_R32F, GL_RED, GL_FLOAT, 4, 1),
     GlFormatParams(GL_RG32F, GL_RG, GL_FLOAT, 8, 2),
     GlFormatParams(GL_RGB32F, GL_RGB, GL_FLOAT, 12, 3),
@@ -169,7 +179,7 @@ namespace wren {
 
   void Texture::addMaterialUser(Material *material) {
     assert(material);
-    for (auto &user : mMaterialsUsingThisTexture) {
+    for (const Material *user : mMaterialsUsingThisTexture) {
       if (user == material)
         return;
     }

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public:
   void writeAnswer(QDataStream &) override;
   void writeConfigure(QDataStream &) override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
 private:
   // user accessible fields
@@ -56,6 +56,7 @@ private:
   WbSensor *mSensor;
   WbVector3 mMeasuredPosition;
   WbVector3 mPreviousPosition;
+  WbVector3 mSpeedVector;
   double mMeasuredSpeed;
   WbUTMConverter *mUTMConverter;
   bool mNeedToUpdateCoordinateSystem;

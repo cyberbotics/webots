@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@
 #include <webots_ros/robot_get_device_list.h>
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
+
+#include <highlevel/RosControl.hpp>
 
 using namespace webots;
 
@@ -79,7 +81,6 @@ private:
   bool getWorldPathCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getBasicTimeStepCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getNumberOfDevicesCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
-  bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool setModeCallback(webots_ros::robot_set_mode::Request &req, webots_ros::robot_set_mode::Response &res);
   bool wwiReceiveTextCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool wwiSendTextCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
@@ -109,7 +110,6 @@ private:
   ros::ServiceServer mGetWorldPathService;
   ros::ServiceServer mGetBasicTimeStepService;
   ros::ServiceServer mGetNumberOfDevicesService;
-  ros::ServiceServer mGetTypeService;
   ros::ServiceServer mSetModeService;
   ros::ServiceServer mWwiReceiveTextService;
   ros::ServiceServer mWwiSendTextService;
@@ -120,6 +120,11 @@ private:
   bool mShouldPublishClock;
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
+  bool mAutoPublish;
+  bool mUseRosControl;
+  std::string mRobotDescriptionPrefix;
+  bool mSetRobotDescription;
+  highlevel::RosControl *mRosControl;
 };
 
 #endif  // ROS_HPP

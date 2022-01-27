@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ signals:
 private slots:
   void accept() override;
   void openFontDialog();
+  void clearCache();
 
 private:
   QString retrieveThemeName(const QString &filename) const;
@@ -58,9 +59,9 @@ private:
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo,
     *mTextureFilteringCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
-    *mHttpProxyPassword;
+    *mHttpProxyPassword, *mCacheSize;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;
+    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox;
 
   QStringList mValidThemeFilenames;
 

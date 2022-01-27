@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ from command import Command
 
 # monitor failures
 failures = 0
-
+systemFailures = []
+whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
 filesArguments = []
 nomakeOption = False
@@ -48,7 +49,10 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
+testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+
+if sys.platform == 'win32':
+    testGroups.remove('parser')  # this one doesn't work on Windows
 
 # global files
 testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
@@ -212,9 +216,11 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --stdout --stderr --minimize --batch'
+webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
+webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
+
 
 for groupName in testGroups:
 
@@ -263,10 +269,13 @@ for groupName in testGroups:
     # when it crashes.
     # this is particuarliy useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
-    #                    firstSimulation + ' --mode=fast --minimize')
+    #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
-    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    if groupName == 'with_rendering':
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    else:
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -294,9 +303,13 @@ for groupName in testGroups:
             appendToOutputFile('- expected number of worlds: %d\n' % (worldsCount))
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
-            with open(webotsStdErrFilename, 'r') as file:
-                if 'Failure' in file.read():
-                    failures += 1
+            lines = open(webotsStdErrFilename, 'r').readlines()
+            for line in lines:
+                if 'Failure' in line:
+                    # check if it should be ignored
+                    if not any(item in line for item in whitelist):
+                        failures += 1
+                        systemFailures.append(line)
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -308,8 +321,8 @@ for groupName in testGroups:
             for line in f:
                 appendToOutputFile(line)
                 if '(core dumped)' in line:
-                    l = line[0:line.find(' Segmentation fault')]
-                    pid = int(l[l.rfind(' ') + 1:])
+                    seg_fault_line = line[0:line.find(' Segmentation fault')]
+                    pid = int(seg_fault_line[seg_fault_line.rfind(' ') + 1:])
                     core_dump_file = '/tmp/core_webots-bin.' + str(pid)
                     if os.path.exists(core_dump_file):
                         appendToOutputFile(subprocess.check_output([
@@ -323,6 +336,11 @@ for groupName in testGroups:
                         )
 
 appendToOutputFile('\n' + finalMessage + '\n')
+
+if len(systemFailures) > 0:
+    appendToOutputFile('\nSystem Failures:\n')
+    for message in systemFailures:
+        appendToOutputFile(message)
 
 time.sleep(1)
 if monitorOutputCommand.isRunning():

@@ -19,7 +19,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Road {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -60,7 +60,7 @@ Road {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Road.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Road.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Road.proto]({{ url.github_tree }}/projects/objects/road/protos/Road.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -154,7 +154,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLaneRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -187,7 +187,7 @@ AddLaneRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLaneRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto]({{ url.github_tree }}/projects/objects/road/protos/AddLaneRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -265,7 +265,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLanesRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -299,7 +299,7 @@ AddLanesRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLanesRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto]({{ url.github_tree }}/projects/objects/road/protos/AddLanesRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -377,7 +377,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CrashBarrier {
   SFVec3f     translation             0 0 0
-  SFRotation  rotation                0 1 0 0
+  SFRotation  rotation                0 0 1 0
   SFString    name                    "crash barrier"
   SFFloat     poleGap                 2
   SFNode      poleAppearance          PBRAppearance { roughness 0.7 }
@@ -388,7 +388,7 @@ CrashBarrier {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CrashBarrier.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto]({{ url.github_tree }}/projects/objects/road/protos/CrashBarrier.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -422,7 +422,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Crossroad {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "crossroad"
   SFString   id               ""
   SFFloat    speedLimit       -1.0
@@ -437,7 +437,7 @@ Crossroad {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Crossroad.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto]({{ url.github_tree }}/projects/objects/road/protos/Crossroad.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -478,7 +478,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CurvedRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -515,7 +515,7 @@ CurvedRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CurvedRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto]({{ url.github_tree }}/projects/objects/road/protos/CurvedRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -600,7 +600,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HelicoidalRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -633,7 +633,7 @@ HelicoidalRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/HelicoidalRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto]({{ url.github_tree }}/projects/objects/road/protos/HelicoidalRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -711,7 +711,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 LaneSeparation {
          SFVec3f     translation                 0 0 0
-         SFRotation  rotation                    0 1 0 0
+         SFRotation  rotation                    0 0 1 0
          SFString    name                        "road"
          SFString    id                          ""
          MFString    connectedRoadIDs            []
@@ -747,7 +747,7 @@ LaneSeparation {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/LaneSeparation.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto]({{ url.github_tree }}/projects/objects/road/protos/LaneSeparation.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -829,7 +829,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadIntersection {
          SFVec3f              translation                    0 0 0
-         SFRotation           rotation                       0 1 0 0
+         SFRotation           rotation                       0 0 1 0
          SFString             name                           "road intersection"
          SFString             id                             ""
          MFString             connectedRoadIDs               []
@@ -839,8 +839,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
-                                                                        "textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -856,7 +856,7 @@ RoadIntersection {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadIntersection.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto]({{ url.github_tree }}/projects/objects/road/protos/RoadIntersection.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -924,7 +924,7 @@ RoadLine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadLine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto]({{ url.github_tree }}/projects/objects/road/protos/RoadLine.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -933,7 +933,7 @@ RoadLine {
 
 - `color`: Defines the color of the line.
 
-- `type`: Defines the type of the road, should be `dashed`, `continuous`, `double` or `none`. This field accepts the following values: `"dashed"`, `"continuous"`, `"double"` and `"none"`.
+- `type`: Defines the type of the road, should be `dashed`, `continuous`, `double` or `none`. This field accepts the following values: `"dashed"`, `"continuous"`, `"double"`, and `"none"`.
 
 - `width`: Defines the with of the line.
 
@@ -954,7 +954,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadPillars {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "road pillar"
   SFFloat    height             5
   SFFloat    width              8
@@ -968,7 +968,7 @@ RoadPillars {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadPillars.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto]({{ url.github_tree }}/projects/objects/road/protos/RoadPillars.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1008,7 +1008,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Roundabout {
          SFVec3f              translation              0 0 0
-         SFRotation           rotation                 0 1 0 0
+         SFRotation           rotation                 0 0 1 0
          SFString             name                     "roundabout"
          SFString             id                       ""
          MFString             connectedRoadIDs         []
@@ -1021,14 +1021,14 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
-                                                                  "textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE
@@ -1041,7 +1041,7 @@ Roundabout {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Roundabout.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto]({{ url.github_tree }}/projects/objects/road/protos/Roundabout.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1115,7 +1115,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -1152,7 +1152,7 @@ StraightRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/StraightRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto]({{ url.github_tree }}/projects/objects/road/protos/StraightRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

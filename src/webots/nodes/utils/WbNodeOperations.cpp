@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbQjsCollada.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -82,6 +83,20 @@ void WbNodeOperations::cleanup() {
 }
 
 WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
+  connect(WbQjsCollada::instance(), &WbQjsCollada::vrmlFromFileRequested, this, &WbNodeOperations::onVrmlExportRequested);
+}
+
+void WbNodeOperations::onVrmlExportRequested(const QString &filePath) {
+  QString stream;
+  WbNodeOperations::OperationResult result =
+    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
+  if (result == WbNodeOperations::OperationResult::FAILURE) {
+    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
+                             WbLog::PARSING);
+    WbQjsCollada::instance()->setVrmlResponse("");
+    return;
+  }
+  WbQjsCollada::instance()->setVrmlResponse(stream);
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {
@@ -101,23 +116,19 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
+                                                               const QString &nodeString, bool fromSupervisor) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, importedNodesNumber, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
                                                                const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
-  if (importedNodesNumber)
-    *importedNodesNumber = 0;
+                                                               bool avoidIntersections, bool fromSupervisor) {
   mFromSupervisor = fromSupervisor;
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
@@ -205,17 +216,11 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
-  if (importedNodesNumber && sfnode && nodes.size() > 0)
-    *importedNodesNumber = 1;
-  else if (importedNodesNumber)
-    *importedNodesNumber = nodes.size();
-
   mFromSupervisor = false;
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
+WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, bool fromSupervisor) {
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(filename);
   if (errors)
@@ -248,7 +253,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   WbNodeReader nodeReader;
   QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
   WbBaseNode *lastBaseNodeCreated = NULL;
-  int numberOfNodes = 0;
   foreach (WbNode *node, nodes) {
     WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
     if (WbNodeUtilities::isSingletonTypeName(baseNode->nodeModelName())) {
@@ -264,22 +268,19 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
         baseNode->finalize();
         lastBaseNodeCreated = baseNode;
         result = SUCCESS;
-        numberOfNodes++;
       } else {
         WbLog::error(errorMessage, false, WbLog::PARSING);
         delete baseNode;
       }
     }
   }
-  if (importedNodesNumber)
-    *importedNodesNumber = numberOfNodes;
   if (lastBaseNodeCreated && !fromSupervisor)
     WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
   return result;
 }
 
-bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
-                   const QString &referenceFolder) {
+static bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
+                          const QString &referenceFolder) {
   if (material->GetTextureCount(textureType) > 0) {
     aiString path;
     material->GetTexture(textureType, 0, &path);
@@ -297,9 +298,9 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder,
-                  bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
-                  bool importBoundingObjects) {
+static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
+                         const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
+                         bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
   // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
@@ -385,42 +386,49 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " } ";
     }
     // extract the geometry
-    stream += " geometry IndexedFaceSet { ";
-    stream += " coord Coordinate { ";
-    stream += " point [ ";
-    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-      const aiVector3D vertice = mesh->mVertices[j];
-      stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
-    }
-    stream += " ]";
-    stream += " } ";
-    if (importNormals && mesh->HasNormals()) {
-      stream += " normal Normal { ";
-      stream += " vector [ ";
-      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        const aiVector3D normal = mesh->mNormals[j];
-        stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
-      }
-      stream += " ]";
-      stream += " } ";
-    }
-    if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
-      stream += " texCoord TextureCoordinate { ";
+    if (referenceMeshes) {
+      stream += " geometry Mesh { ";
+      stream += QString(" url \"%1\"").arg(fileName);
+      stream += QString(" name \"%1\"").arg(mesh->mName.data);
+      stream += " }";
+    } else {
+      stream += " geometry IndexedFaceSet { ";
+      stream += " coord Coordinate { ";
       stream += " point [ ";
       for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        const aiVector3D texCoord = mesh->mTextureCoords[0][j];
-        stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+        const aiVector3D vertice = mesh->mVertices[j];
+        stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
+      }
+      stream += " ]";
+      stream += " } ";
+      if (importNormals && mesh->HasNormals()) {
+        stream += " normal Normal { ";
+        stream += " vector [ ";
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+          const aiVector3D normal = mesh->mNormals[j];
+          stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
+        }
+        stream += " ]";
+        stream += " } ";
+      }
+      if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
+        stream += " texCoord TextureCoordinate { ";
+        stream += " point [ ";
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+          const aiVector3D texCoord = mesh->mTextureCoords[0][j];
+          stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+        }
+        stream += " ]";
+        stream += " } ";
+      }
+      stream += " coordIndex [ ";
+      for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
+        const aiFace face = mesh->mFaces[j];
+        stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
       }
       stream += " ]";
       stream += " } ";
     }
-    stream += " coordIndex [ ";
-    for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
-      const aiFace face = mesh->mFaces[j];
-      stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
-    }
-    stream += " ]";
-    stream += " } ";
     stream += " } ";
   }
 
@@ -430,8 +438,8 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
-                 importAsSolid, importBoundingObjects);
+    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
+                 importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
   stream += " ] ";
   if (importAsSolid) {
@@ -445,7 +453,22 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
 WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,
                                                                         bool importNormals, bool importAppearances,
                                                                         bool importAsSolid, bool importBoundingObjects) {
-  OperationResult result = FAILURE;
+  QString stream = "";
+  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, importTextureCoordinates, importNormals,
+                                                                      importAppearances, importAsSolid, importBoundingObjects);
+  if (result == FAILURE)
+    return FAILURE;
+
+  WbGroup *root = WbWorld::instance()->root();
+  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
+
+  return result;
+}
+
+WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
+                                                                             bool importTextureCoordinates, bool importNormals,
+                                                                             bool importAppearances, bool importAsSolid,
+                                                                             bool importBoundingObjects, bool referenceMeshes) {
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                               aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
@@ -454,20 +477,15 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
                                                         aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
   if (!scene) {
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
-    return result;
+    return FAILURE;
   }
-
-  QString stream = "";
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
-               importNormals, importAppearances, importAsSolid, importBoundingObjects);
-  WbGroup *root = WbWorld::instance()->root();
-  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
-
-  return result;
+  addModelNode(stream, scene->mRootNode, scene, filename, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
+               importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+  return SUCCESS;
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field,
-                                                                int newNodeIndex, bool subscribe) {
+                                                                int newNodeIndex, bool subscribe, bool finalize) {
   const bool isInBoundingObject = dynamic_cast<WbSolid *>(parentNode) && field->name() == "boundingObject";
   if (!WbNodeUtilities::validateInsertedNode(field, newNode, parentNode, isInBoundingObject)) {
     delete newNode;
@@ -506,11 +524,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   // update flag for PROTO nodes and their instances if any
   baseNode->updateNestedProtoFlag();
-  baseNode->finalize();
+  if (finalize) {
+    baseNode->finalize();
 
-  assert(!WbWorld::instance()->isLoading());
-  if (!WbWorld::instance()->isLoading())
-    resolveSolidNameClashIfNeeded(newNode);
+    assert(!WbWorld::instance()->isLoading());
+  }
+  resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
     WbTemplateManager::instance()->subscribe(newNode);

@@ -15,11 +15,11 @@ Derived from [Solid](../reference/solid.md).
 ```
 Telephone {
   SFVec3f translation 0 0 0
-  SFRotation rotation 0 1 0 0
+  SFRotation rotation 0 0 1 0
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/Telephone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/telephone/protos/Telephone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/Telephone.proto]({{ url.github_tree }}/projects/objects/telephone/protos/Telephone.proto)"
 
 > **License**: MIT
 [More information.](https://opensource.org/licenses/MIT)
@@ -39,13 +39,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 OfficeTelephone {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "office telephone"
   SFBool     enablePhysics  TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/OfficeTelephone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/telephone/protos/OfficeTelephone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/OfficeTelephone.proto]({{ url.github_tree }}/projects/objects/telephone/protos/OfficeTelephone.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

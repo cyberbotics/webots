@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,12 @@
 
 #include <wren/shader_program.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <cstdlib>
@@ -93,6 +98,10 @@ namespace wren {
 
     unsigned int shaderGlName = glCreateShader(type);
 
+#ifdef __EMSCRIPTEN__
+    shaderCode.replace(0, 17, "#version 300 es");
+#endif
+
     const char *cString = shaderCode.c_str();
     glShaderSource(shaderGlName, 1, &cString, nullptr);
     glCompileShader(shaderGlName);
@@ -110,6 +119,7 @@ namespace wren {
       DEBUG("ShaderProgram::compileShader: compilation failed!");
       DEBUG("Shader source path: " << path.c_str());
       DEBUG("InfoLog: " << log);
+      // cppcheck-suppress danglingLifetime
       mCompilationLog.assign(log);
 
       glDeleteShader(shaderGlName);

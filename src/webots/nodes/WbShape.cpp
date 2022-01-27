@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,6 +60,14 @@ WbShape::~WbShape() {
     wr_material_delete(mWrenMaterial);
 }
 
+void WbShape::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (abstractAppearance())
+    abstractAppearance()->downloadAssets();
+  if (geometry())
+    geometry()->downloadAssets();
+}
+
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -100,17 +108,17 @@ void WbShape::postFinalize() {
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbShape::updateAppearance);
 }
 
-void WbShape::reset() {
-  WbBaseNode::reset();
+void WbShape::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   // handle both kinds of appearance nodes
   WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mAppearance->value());
   if (baseNode)
-    baseNode->reset();
+    baseNode->reset(id);
 
   WbNode *const geometry = mGeometry->value();
   if (geometry)
-    geometry->reset();
+    geometry->reset(id);
 }
 
 WbAppearance *WbShape::appearance() const {
@@ -253,16 +261,33 @@ void WbShape::applyMaterialToGeometry() {
 
   if (g) {
     if (appearance()) {
-      if (appearance()->areWrenObjectsInitialized())
+      if (appearance()->areWrenObjectsInitialized()) {
         mWrenMaterial = appearance()->modifyWrenMaterial(mWrenMaterial);
-      else
+        if (appearance()->material() && appearance()->material()->transparency() == 1)
+          g->setTransparent(true);
+        else
+          g->setTransparent(false);
+      } else {
         mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
+        // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+        // replaced by the default one.
+        g->setTransparent(false);
+      }
     } else if (pbrAppearance() && g->nodeType() != WB_NODE_POINT_SET) {
       createWrenMaterial(WR_MATERIAL_PBR);
-      if (pbrAppearance()->areWrenObjectsInitialized())
+      if (pbrAppearance()->areWrenObjectsInitialized()) {
         mWrenMaterial = pbrAppearance()->modifyWrenMaterial(mWrenMaterial);
-    } else
+        if (pbrAppearance()->transparency() == 1)
+          g->setTransparent(true);
+        else
+          g->setTransparent(false);
+      }
+    } else {
       mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
+      // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+      // replaced by the default one.
+      g->setTransparent(false);
+    }
 
     if (!g->isInBoundingObject())
       g->setWrenMaterial(mWrenMaterial, mCastShadows->value());
@@ -274,7 +299,7 @@ void WbShape::applyMaterialToGeometry() {
 // ray cast to a shape: pick the collided color
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
-void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness, double *occlusion) const {
+void WbShape::pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness, double *occlusion) const {
   WbAppearance *const app = appearance();
   WbPbrAppearance *const pbrApp = pbrAppearance();
   WbGeometry *const geom = geometry();
@@ -291,6 +316,8 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
     *occlusion = 0.0;
 
   if (geom) {
+    float paintContribution = 0.0f;
+
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
     if (paintTexture) {
       const bool success = geom->pickUVCoordinate(uv, ray, 0);
@@ -321,7 +348,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         return;
       }
       // retrieve the corresponding color in the paint texture
-      paintTexture->pickColor(paintColor, uv);
+      paintTexture->pickColor(uv, paintColor, &paintContribution);
     }
 
     if (app) {
@@ -347,7 +374,7 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
         }
 
         // retrieve the corresponding color in the texture
-        app->pickColorInTexture(textureColor, uv);
+        app->pickColorInTexture(uv, textureColor);
       }
 
     } else if (pbrApp) {
@@ -387,9 +414,12 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
       return;  // default value
 
     // combine colors
-    pickedColor.setRed(diffuseColor.red() * textureColor.red() * paintColor.red());
-    pickedColor.setGreen(diffuseColor.green() * textureColor.green() * paintColor.green());
-    pickedColor.setBlue(diffuseColor.blue() * textureColor.blue() * paintColor.blue());
+    pickedColor.setRed((1.0f - paintContribution) * diffuseColor.red() * textureColor.red() +
+                       paintContribution * paintColor.red());
+    pickedColor.setGreen((1.0f - paintContribution) * diffuseColor.green() * textureColor.green() +
+                         paintContribution * paintColor.green());
+    pickedColor.setBlue((1.0f - paintContribution) * diffuseColor.blue() * textureColor.blue() +
+                        paintContribution * paintColor.blue());
   }
 }
 
@@ -407,6 +437,14 @@ void WbShape::createWrenMaterial(int type) {
     wr_pbr_material_set_base_color(mWrenMaterial, defaultColor);
     wr_material_set_default_program(mWrenMaterial, WbWrenShaders::pbrShader());
   }
+}
+
+QList<const WbBaseNode *> WbShape::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbGeometry *const g = geometry();
+  if (g)
+    list << g;
+  return list;
 }
 
 ///////////////////////////////////////////////////////////
@@ -469,10 +507,5 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
 
 void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
-
-  writer << "<Shape>";
-
   geometry()->exportBoundingObjectToX3D(writer);
-
-  writer << "</Shape>";
 }

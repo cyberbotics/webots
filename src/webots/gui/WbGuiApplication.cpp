@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,6 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
+  mShouldDoRendering = true;
 
   parseArguments();
 }
@@ -117,7 +118,9 @@ void WbGuiApplication::restart() {
   nonProgramArgs.removeFirst();
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
-#else
+#elif defined(_WIN32)
+  exit(3030);  // this special code tells the launcher to restart Webots, see launcher.c
+#else  // macOS
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
 }
@@ -130,11 +133,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   int port = 1234;
   QString mode = "x3d";
 
-#ifdef __APPLE__
-  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
-#else  //  Qt >= 5.15
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-#endif
   foreach (QString option, options) {
     option = option.trimmed();
     const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
@@ -212,11 +211,18 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::PAUSE;
     else if (arg == "--mode=realtime")
       mStartupMode = WbSimulationState::REALTIME;
-    else if (arg == "--mode=run")
-      mStartupMode = WbSimulationState::RUN;
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
-    else if (arg == "--help")
+    else if (arg == "--mode=run") {
+      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      mStartupMode = WbSimulationState::FAST;
+    } else if (arg == "--no-rendering")
+      mShouldDoRendering = false;
+    else if (arg == "convert") {
+      mTask = CONVERT;
+      mTaskArguments = args.mid(i);
+      break;
+    } else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
       mTask = SYSINFO;
@@ -228,9 +234,9 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArgument = items[1];
+        mTaskArguments.append(items[1]);
       else
-        mTaskArgument.clear();
+        mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
@@ -304,7 +310,7 @@ void WbGuiApplication::parseArguments() {
     mTask = NORMAL;
   }
 
-  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_SAFE_MODE")) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
     WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
@@ -325,7 +331,7 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArgument, this);
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
     if (mMainWindow)
       connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else
@@ -343,8 +349,11 @@ bool WbGuiApplication::setup() {
   WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
+  if (mShouldDoRendering)
+    mShouldDoRendering = renderingFromPreferences();
 
   WbSimulationState::instance()->setMode(mStartupMode);
+  WbSimulationState::instance()->setRendering(mShouldDoRendering);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
@@ -364,7 +373,7 @@ bool WbGuiApplication::setup() {
     if (WbNewVersionDialog::run() != QDialog::Accepted) {
       mTask = QUIT;
       return false;
-    } else if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss")
+    } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
       udpateStyleSheet();
   }
 
@@ -471,7 +480,7 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showGuidedTour();
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
   return true;
 }
@@ -482,11 +491,14 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
   if (startupMode == "Real-time")
     return WbSimulationState::REALTIME;
-  if (startupMode == "Run")
-    return WbSimulationState::RUN;
   if (startupMode == "Fast")
     return WbSimulationState::FAST;
   return WbSimulationState::PAUSE;
+}
+
+bool WbGuiApplication::renderingFromPreferences() const {
+  WbPreferences *const prefs = WbPreferences::instance();
+  return prefs->value("General/rendering", true).toBool();
 }
 
 #ifdef __APPLE__
@@ -528,9 +540,79 @@ void WbGuiApplication::loadInitialWorld() {
     mMainWindow->setFullScreen(true, false, false, true);
 }
 
+#ifdef _WIN32
+#include <Windows.h>
+#include <dwmapi.h>
+#include <QtGui/QWindow>
+
+static bool windowsDarkMode = false;
+
+enum PreferredAppMode { Default, AllowDark, ForceDark, ForceLight, Max };
+
+enum WINDOWCOMPOSITIONATTRIB {
+  WCA_UNDEFINED = 0,
+  WCA_NCRENDERING_ENABLED = 1,
+  WCA_NCRENDERING_POLICY = 2,
+  WCA_TRANSITIONS_FORCEDISABLED = 3,
+  WCA_ALLOW_NCPAINT = 4,
+  WCA_CAPTION_BUTTON_BOUNDS = 5,
+  WCA_NONCLIENT_RTL_LAYOUT = 6,
+  WCA_FORCE_ICONIC_REPRESENTATION = 7,
+  WCA_EXTENDED_FRAME_BOUNDS = 8,
+  WCA_HAS_ICONIC_BITMAP = 9,
+  WCA_THEME_ATTRIBUTES = 10,
+  WCA_NCRENDERING_EXILED = 11,
+  WCA_NCADORNMENTINFO = 12,
+  WCA_EXCLUDED_FROM_LIVEPREVIEW = 13,
+  WCA_VIDEO_OVERLAY_ACTIVE = 14,
+  WCA_FORCE_ACTIVEWINDOW_APPEARANCE = 15,
+  WCA_DISALLOW_PEEK = 16,
+  WCA_CLOAK = 17,
+  WCA_CLOAKED = 18,
+  WCA_ACCENT_POLICY = 19,
+  WCA_FREEZE_REPRESENTATION = 20,
+  WCA_EVER_UNCLOAKED = 21,
+  WCA_VISUAL_OWNER = 22,
+  WCA_HOLOGRAPHIC = 23,
+  WCA_EXCLUDED_FROM_DDA = 24,
+  WCA_PASSIVEUPDATEMODE = 25,
+  WCA_USEDARKMODECOLORS = 26,
+  WCA_LAST = 27
+};
+
+struct WINDOWCOMPOSITIONATTRIBDATA {
+  WINDOWCOMPOSITIONATTRIB Attrib;
+  PVOID pvData;
+  SIZE_T cbData;
+};
+
+using fnAllowDarkModeForWindow = BOOL(WINAPI *)(HWND hWnd, BOOL allow);
+using fnSetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode appMode);
+using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSITIONATTRIBDATA *);
+
+static void setDarkTitlebar(HWND hwnd) {
+  static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
+  static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
+  if (!AllowDarkModeForWindow) {  // first call
+    HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+    HMODULE hUser32 = GetModuleHandleW(L"user32.dll");
+    AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
+    SetWindowCompositionAttribute =
+      reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+    fnSetPreferredAppMode SetPreferredAppMode =
+      reinterpret_cast<fnSetPreferredAppMode>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
+    SetPreferredAppMode(AllowDark);
+  }
+  BOOL dark = TRUE;
+  AllowDarkModeForWindow(hwnd, dark);
+  WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark, sizeof(dark)};
+  SetWindowCompositionAttribute(hwnd, &data);
+}
+#endif  // _WIN32
+
 void WbGuiApplication::udpateStyleSheet() {
-  QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
-  QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
+  mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
+  QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
   qssFile.open(QFile::ReadOnly);
   QString styleSheet = QString::fromUtf8(qssFile.readAll());
 
@@ -543,7 +625,23 @@ void WbGuiApplication::udpateStyleSheet() {
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
   linuxQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
+
+#elif _WIN32
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
+  windowsQssFile.open(QFile::ReadOnly);
+  styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 
   qApp->setStyleSheet(styleSheet);
+#ifdef _WIN32
+  if (mThemeLoaded != "webots_classic.qss")
+    windowsDarkMode = true;
+#endif
+}
+
+void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
+#ifdef _WIN32
+  if (windowsDarkMode)
+    setDarkTitlebar(reinterpret_cast<HWND>(window->winId()));
+#endif
 }

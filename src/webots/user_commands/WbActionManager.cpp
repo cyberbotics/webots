@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,9 +43,6 @@ void WbActionManager::cleanup() {
 }
 
 WbActionManager::WbActionManager() : QObject(), mFocusObject(NULL) {
-#ifndef _WIN32
-  QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
   populateActions();
   connectActions();
 }
@@ -168,26 +165,21 @@ void WbActionManager::populateActions() {
   mActions[STEP] = action;
 
   icon = QIcon();
-  icon.addFile("enabledIcons:run_button.png", QSize(), QIcon::Normal);
-  icon.addFile("disabledIcons:run_button.png", QSize(), QIcon::Disabled);
-  action = new QAction(this);
-  action->setText(tr("&Run"));
-  action->setStatusTip(tr("Run the simulation. (%1+3)").arg(mapControlKey()));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_3);
-  action->setIcon(icon);
-  mActions[RUN] = action;
-
-  icon = QIcon();
   icon.addFile("enabledIcons:fast_button.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:fast_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("&Fast"));
-  action->setStatusTip(tr("Run the simulation as fast as possible without graphics. (%1+4)").arg(mapControlKey()));
+  action->setStatusTip(tr("Run the simulation as fast as possible. (%1+3)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_4);
+  action->setShortcut(Qt::CTRL + Qt::Key_3);
   action->setIcon(icon);
   mActions[FAST] = action;
+
+  action = new QAction(this);
+  action->setCheckable(true);
+  action->setShortcut(Qt::CTRL + Qt::Key_4);
+  action->setText(tr("&Rendering"));
+  mActions[RENDERING] = action;
 
   action = new QAction(this);
   action->setText(tr("&Unmute sound"));
@@ -467,11 +459,11 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_FORCE_AND_TORQUE] = action;
 
   action = new QAction(this);
-  action->setText(tr("Disable Fast Mode"));
-  action->setStatusTip(tr("Disable running the simulation in fast mode."));
+  action->setText(tr("Disable Rendering"));
+  action->setStatusTip(tr("Disable activating the rendering."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
-  mActions[DISABLE_FAST_MODE] = action;
+  mActions[DISABLE_RENDERING] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);
@@ -684,25 +676,12 @@ void WbActionManager::populateActions() {
   mActions[GO_TO_LINE] = action;
 
   action = new QAction(this);
-  action->setText(tr("&Toggle Line Comment"));
+  action->setText(tr("&Toggle Line Comment") + "    ");  // add spaces because the spacing between the menu text
+  // and the hotkey text does not expand to adjust for the text length
   action->setStatusTip(tr("Toggle comment of selected lines."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_Slash);
   mActions[TOGGLE_LINE_COMMENT] = action;
-
-  action = new QAction(this);
-  action->setText(tr("&Duplicate Line or Selection"));
-  action->setStatusTip(tr("Duplicate current line or selected text."));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_D);
-  mActions[DUPLICATE_SELECTION] = action;
-
-  action = new QAction(this);
-  action->setText(tr("&Transpose Current Line"));
-  action->setStatusTip(tr("Invert the current line and its previous line."));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_T);
-  mActions[TRANSPOSE_LINE] = action;
 
   action = new QAction(this);
   action->setText(tr("&Print..."));
@@ -1061,7 +1040,6 @@ void WbActionManager::updateEnabled() {
   mActions[REAL_TIME]->setEnabled(simulationEnabled);
   mActions[PAUSE]->setEnabled(simulationEnabled);
   mActions[STEP]->setEnabled(simulationEnabled);
-  mActions[RUN]->setEnabled(simulationEnabled);
   mActions[FAST]->setEnabled(simulationEnabled);
 }
 
@@ -1085,10 +1063,24 @@ void WbActionManager::enableTextEditActions(bool enabled) {
   mActions[REPLACE]->setEnabled(enabled);
   mActions[GO_TO_LINE]->setEnabled(enabled);
   mActions[TOGGLE_LINE_COMMENT]->setEnabled(enabled);
-  mActions[DUPLICATE_SELECTION]->setEnabled(enabled);
-  mActions[TRANSPOSE_LINE]->setEnabled(enabled);
   mActions[PRINT]->setEnabled(enabled);
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
+}
+
+void WbActionManager::updateRenderingButton() {
+  QAction *rendering = action(WbAction::RENDERING);
+
+  if (WbSimulationState::instance()->isRendering()) {
+    rendering->setIcon(QIcon("enabledIcons:rendering.png"));
+    rendering->setChecked(true);
+    rendering->setStatusTip(tr("Turn off rendering to gain better performance. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Hide Rendering. (%1+4)").arg(mapControlKey()));
+  } else {
+    rendering->setIcon(QIcon("enabledIcons:no_rendering.png"));
+    rendering->setChecked(false);
+    rendering->setStatusTip(tr("Turn on rendering to see the simulation. (%1+4)").arg(mapControlKey()));
+    rendering->setToolTip(tr("Show Rendering. (%1+4)").arg(mapControlKey()));
+  }
 }
 
 void WbActionManager::forwardTransformToActionToSceneTree() {

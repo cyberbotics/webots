@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QVector>
+
+class QIODevice;
 
 struct WrCamera;
 struct WrPostProcessingEffect;
@@ -48,7 +50,7 @@ class WbWrenCamera : public QObject {
 
 public:
   enum CameraOrientation {
-    CAMERA_ORIENTATION_FRONT,
+    CAMERA_ORIENTATION_FRONT = 0,
     CAMERA_ORIENTATION_RIGHT,
     CAMERA_ORIENTATION_BACK,
     CAMERA_ORIENTATION_LEFT,
@@ -64,7 +66,6 @@ public:
 
   bool isSpherical() { return mIsSpherical; }
   bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
-  WrCamera *getSubCamera(int cameraIndex) { return mCamera[cameraIndex]; }
   WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
 
   WrTexture *getWrenTexture() const;
@@ -91,7 +92,7 @@ public:
   void setLensDistortionCenter(const WbVector2 &center);
   void setRadialLensDistortionCoefficients(const WbVector2 &coefficients);
   void setTangentialLensDistortionCoefficients(const WbVector2 &coefficients);
-  QString setNoiseMask(const char *noiseMaskTexturePath);
+  QString setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device);
 
   void enableCopying(bool enable);
   WbRgb copyPixelColourValue(int x, int y);
@@ -99,6 +100,7 @@ public:
 
   void enableTextureUpdateNotifications(bool enabled) { mNotifyOnTextureUpdate = enabled; }
 
+  void rotateRoll(float angle);
   void rotateYaw(float angle);
   void rotatePitch(float angle);
 
@@ -137,6 +139,7 @@ private:
   float mMaxRange;
   float mFieldOfView;
   char mType;
+  bool mIsColor;
   bool mAntiAliasing;
   bool mIsSpherical;
   bool mFirstRenderingCall;
@@ -162,6 +165,7 @@ private:
 
   QVector<WrPostProcessingEffect *> mPostProcessingEffects;
   WrPostProcessingEffect *mSphericalPostProcessingEffect;
+  WrPostProcessingEffect *mUpdateTextureFormatEffect;
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 

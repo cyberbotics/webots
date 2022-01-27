@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -545,8 +545,10 @@ void WbVideoRecorder::createMpeg() {
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
     mScriptProcess->start("./" + mScriptPath, QStringList());
+    // clang-format off
     connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
+    // clang-format on
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);
     connect(mScriptProcess, &QProcess::readyReadStandardError, this, &WbVideoRecorder::readStderr);
   } else {

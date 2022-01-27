@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,8 +45,8 @@ public:
   std::valarray<signed short> stack;
   _vmVariables variables;
 
-  uint16 lastMessageSource;
-  std::valarray<uint8> lastMessageData;
+  unsigned short int lastMessageSource;
+  std::valarray<unsigned char> lastMessageData;
 };
 
 #endif

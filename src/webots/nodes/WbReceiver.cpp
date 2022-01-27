@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 #include "WbWorld.hpp"
 
 #include <webots/receiver.h>  // for WB_CHANNEL_BROADCAST
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -109,6 +109,7 @@ void WbReceiver::init() {
   mBufferSize = findSFInt("bufferSize");
   mSignalStrengthNoise = findSFDouble("signalStrengthNoise");
   mDirectionNoise = findSFDouble("directionNoise");
+  mAllowedChannels = findMFInt("allowedChannels");
 }
 
 WbReceiver::WbReceiver(WbTokenizer *tokenizer) : WbSolidDevice("Receiver", tokenizer) {
@@ -143,6 +144,7 @@ void WbReceiver::preFinalize() {
 
   mSensor = new WbSensor();
   updateTransmissionSetup();
+  updateAllowedChannels();
 
   gReceiverList.append(this);  // add myself
 }
@@ -158,6 +160,7 @@ void WbReceiver::postFinalize() {
   connect(mByteSize, &WbSFInt::changed, this, &WbReceiver::updateTransmissionSetup);
   connect(mSignalStrengthNoise, &WbSFDouble::changed, this, &WbReceiver::updateTransmissionSetup);
   connect(mDirectionNoise, &WbSFDouble::changed, this, &WbReceiver::updateTransmissionSetup);
+  connect(mAllowedChannels, &WbMFInt::changed, this, &WbReceiver::updateAllowedChannels);
 }
 
 void WbReceiver::updateTransmissionSetup() {
@@ -174,6 +177,34 @@ void WbReceiver::updateTransmissionSetup() {
   WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBaudRate, -1, -1);
   WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 
+  if (!isChannelAllowed()) {
+    parsingWarn(tr("'channel' is not included in 'allowedChannels'. Setting 'channel' to %1").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
+  mNeedToConfigure = true;
+}
+
+bool WbReceiver::isChannelAllowed() {
+  const int allowedChannelsSize = mAllowedChannels->size();
+  if (allowedChannelsSize > 0) {
+    const int currentChannel = (int)mChannel->value();
+    for (int i = 0; i < allowedChannelsSize; i++) {
+      if (currentChannel == mAllowedChannels->item(i))
+        return true;
+    }
+    return false;
+  }
+  return true;
+}
+
+void WbReceiver::updateAllowedChannels() {
+  if (!isChannelAllowed()) {
+    parsingWarn(
+      tr("'allowedChannels' does not contain current 'channel'. Setting 'channel' to %1.").arg(mAllowedChannels->item(0)));
+    mChannel->setValue(mAllowedChannels->item(0));
+  }
+
   mNeedToConfigure = true;
 }
 
@@ -185,6 +216,9 @@ void WbReceiver::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mBufferSize->value();
   stream << (int)mChannel->value();
+  stream << (int)mAllowedChannels->size();
+  for (int i = 0; i < mAllowedChannels->size(); i++)
+    stream << (int)mAllowedChannels->item(i);
   mNeedToConfigure = false;
 }
 
@@ -354,8 +388,8 @@ bool WbReceiver::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbReceiver::reset() {
-  WbSolidDevice::reset();
+void WbReceiver::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   qDeleteAll(mTransmissionList);
   mTransmissionList.clear();
   qDeleteAll(mReadyQueue);
@@ -383,19 +417,19 @@ bool WbReceiver::checkApertureAndRange(const WbEmitter *emitter, const WbReceive
 
   // emission: check that receiver is within emitter's cone
   if (emitter->aperture() > 0.0) {
-    WbVector3 e2r = rTranslation - eTranslation;
-    WbVector4 eAxisZ4 = emitter->matrix().column(2);
-    WbVector3 eAxisZ3(eAxisZ4[0], eAxisZ4[1], eAxisZ4[2]);
-    if (eAxisZ3.angle(e2r) > emitter->aperture() / 2.0)
+    const WbVector3 e2r = rTranslation - eTranslation;
+    const WbVector4 eAxisX4 = emitter->matrix().column(0);
+    const WbVector3 eAxisX3(eAxisX4[0], eAxisX4[1], eAxisX4[2]);
+    if (eAxisX3.angle(e2r) > emitter->aperture() / 2.0)
       return false;
   }
 
   // reception: check that emitter is within receiver's cone
   if (receiver->aperture() > 0.0) {
-    WbVector3 r2e = eTranslation - rTranslation;
-    WbVector4 rAxisZ4 = receiver->matrix().column(2);
-    WbVector3 rAxisZ3(rAxisZ4[0], rAxisZ4[1], rAxisZ4[2]);
-    if (rAxisZ3.angle(r2e) > receiver->aperture() / 2.0)
+    const WbVector3 r2e = eTranslation - rTranslation;
+    const WbVector4 rAxisX4 = receiver->matrix().column(0);
+    const WbVector3 rAxisX3(rAxisX4[0], rAxisX4[1], rAxisX4[2]);
+    if (rAxisX3.angle(r2e) > receiver->aperture() / 2.0)
       return false;
   }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,9 +39,10 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_WORLD_INFO; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   const WbMFString &info() const { return *mInfo; }
@@ -59,6 +60,8 @@ public:
   double physicsDisableAngularThreshold() const { return mPhysicsDisableAngularThreshold->value(); }
   WbDamping *defaultDamping() const;
   double lineScale() const;
+  double dragForceScale() const { return mDragForceScale->value(); };
+  double dragTorqueScale() const { return mDragTorqueScale->value(); };
   const QString &coordinateSystem() const { return mCoordinateSystem->value(); }
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
@@ -80,8 +83,6 @@ public:
   const WbVector3 &gravityVector() const { return mGravityVector; }
   // returns a unit vector with the direction and orientation of the gravity
   const WbVector3 &gravityUnitVector() const { return mGravityUnitVector; }
-  // returns an orthonormal basis
-  const WbVector3 *gravityBasis() const { return mGravityBasis; }
 
   const WbReceiver *physicsReceiver() const { return mPhysicsReceiver; }
 
@@ -123,6 +124,8 @@ private:
   WbSFString *mGpsCoordinateSystem;
   WbSFVector3 *mGpsReference;
   WbSFDouble *mLineScale;
+  WbSFDouble *mDragForceScale;
+  WbSFDouble *mDragTorqueScale;
   WbSFInt *mRandomSeed;
   WbMFNode *mContactProperties;
 
@@ -135,7 +138,6 @@ private:
   WbVector3 mUpVector;
   WbVector3 mGravityVector;
   WbVector3 mGravityUnitVector;
-  WbVector3 mGravityBasis[3];  // An orthonormal basis (b[X], b[Y] = -gravity().normalized(), b[Z])
 
   // Apply methods
   void applyLineScaleToWren();
@@ -152,6 +154,8 @@ private slots:
   void updateFps();
   void updateOptimalThreadCount();
   void updateLineScale();
+  void updateDragForceScale();
+  void updateDragTorqueScale();
   void updateRandomSeed();
   void updateGravity();
   void updateCfm();

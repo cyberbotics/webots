@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbGroup.hpp"
 
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbGeometry.hpp"
 #include "WbOdeContext.hpp"
@@ -53,6 +54,15 @@ WbGroup::~WbGroup() {
   delete mBoundingSphere;
 }
 
+void WbGroup::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->downloadAssets();
+  }
+}
+
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -71,6 +81,28 @@ void WbGroup::preFinalize() {
 void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
 
+  recomputeBoundingSphere();
+
+  connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
+  connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
+  // if parent is a slot, it needs to be notified when a new node is inserted
+  WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
+  if (ps)
+    connect(this, &WbGroup::notifyParentSlot, ps, &WbSlot::endPointInserted);
+  // if parent is a joint, it needs to be notified when a new node is inserted
+  const WbBasicJoint *pj = dynamic_cast<WbBasicJoint *>(parentNode());
+  if (pj)
+    connect(this, &WbGroup::notifyParentJoint, pj, &WbBasicJoint::endPointChanged);
+
+  const WbGroup *const parent = dynamic_cast<const WbGroup *const>(parentNode());
+  if (parent && parent->mHasNoSolidAncestor) {
+    connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
+    connect(this, &WbGroup::topLevelListsUpdateRequested, parent, &WbGroup::topLevelListsUpdateRequested);
+  } else if (mHasNoSolidAncestor)
+    connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
+}
+
+void WbGroup::recomputeBoundingSphere() const {
   mBoundingSphere = new WbBoundingSphere(this);
   mBoundingSphere->empty();
 
@@ -81,20 +113,6 @@ void WbGroup::postFinalize() {
     if (mBoundingSphere)
       mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
   }
-
-  connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
-  connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
-  // if parent is a slot, it needs to be notified when a new node is inserted
-  WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
-  if (ps)
-    connect(this, &WbGroup::notifyParentSlot, ps, &WbSlot::endPointInserted);
-
-  const WbGroup *const parent = dynamic_cast<const WbGroup *const>(parentNode());
-  if (parent && parent->mHasNoSolidAncestor) {
-    connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
-    connect(this, &WbGroup::topLevelListsUpdateRequested, parent, &WbGroup::topLevelListsUpdateRequested);
-  } else if (mHasNoSolidAncestor)
-    connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
 }
 
 void WbGroup::insertChild(int index, WbNode *child) {
@@ -227,17 +245,22 @@ bool WbGroup::isAValidBoundingObject(bool checkOde, bool warning) const {
 }
 
 void WbGroup::descendantNodeInserted(WbBaseNode *decendant) {
-  if (parentNode()) {
-    WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
-    WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
-    if (pg)
-      pg->descendantNodeInserted(decendant);
-    if (ps)
-      emit notifyParentSlot(decendant);
+  if (!parentNode())
+    return;
+
+  WbGroup *pg = dynamic_cast<WbGroup *>(parentNode());
+  if (pg) {
+    pg->descendantNodeInserted(decendant);
+    return;
   }
+
+  if (dynamic_cast<WbBasicJoint *>(parentNode()))
+    emit notifyParentJoint(decendant);
+  else if (dynamic_cast<WbSlot *>(parentNode()))
+    emit notifyParentSlot(decendant);
 }
 
-void WbGroup::insertChildFromSlot(WbBaseNode *decendant) {
+void WbGroup::insertChildFromSlotOrJoint(WbBaseNode *decendant) {
   descendantNodeInserted(decendant);
   emit childAdded(decendant);
 }
@@ -264,18 +287,18 @@ bool WbGroup::shallExport() const {
   return !mChildren->isEmpty();
 }
 
-void WbGroup::reset() {
-  WbBaseNode::reset();
+void WbGroup::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->reset();
+    it.next()->reset(id);
 }
 
-void WbGroup::save() {
-  WbBaseNode::save();
+void WbGroup::save(const QString &id) {
+  WbBaseNode::save(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->save();
+    it.next()->save(id);
 }
 
 void WbGroup::forwardJerk() {
@@ -285,6 +308,17 @@ void WbGroup::forwardJerk() {
     if (child)
       child->forwardJerk();
   }
+}
+
+QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    const WbBaseNode *const child = static_cast<WbBaseNode *>(it.next());
+    assert(child);
+    list << child->findClosestDescendantNodesWithDedicatedWrenNode();
+  }
+  return list;
 }
 
 ///////////////////
@@ -356,7 +390,7 @@ void WbGroup::writeParameters(WbVrmlWriter &writer) const {
           const WbVector3 *const p = it.value();
           assert(p);
           const int jointIndex = it.key();
-          for (int j = 0; j < 2; ++j) {
+          for (int j = 0; j < 3; ++j) {
             const double pj = (*p)[j];
             if (!std::isnan(pj)) {
               QString axisIndex;
@@ -407,15 +441,7 @@ void WbGroup::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
     const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
-
-    if (childGeom)
-      writer << "<Shape>";
-
     childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
   }
 
   writer << "</Group>";

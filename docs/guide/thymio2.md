@@ -13,10 +13,6 @@ Moreover Aseba studio and VPL for Thymio II can be connected on the simulated mo
 Many Aseba examples are working directly with the simulated robot.
 Finally several objects related to the Thymio II are available, including a pen which can draw on any 3D object.
 
-### Movie Presentation
-
-![youtube video](https://www.youtube.com/watch?v=q9VuJ8Kvt7U)
-
 ### Thymio II Model
 
 The main characteristics of the Thymio II model in Webots is summed up in [this table](#thymio-ii-characteristics).
@@ -69,7 +65,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Thymio2 {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Thymio II"
   SFString   controller      "thymio2_aseba"
   MFString   controllerArgs  "port=33333"

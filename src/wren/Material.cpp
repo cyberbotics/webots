@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,12 @@
 #include "TextureTransform.hpp"
 #include "UniformBuffer.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 namespace wren {
 
@@ -62,7 +67,7 @@ namespace wren {
     mTextureCubes[index].first = texture;
   }
 
-  void Material::removeDeletedTexture(Texture *texture) {
+  void Material::removeDeletedTexture(const Texture *texture) {
     for (size_t i = 0; i < mTextures.size(); ++i) {
       if (mTextures[i].first == texture)
         setTexture(NULL, i);
@@ -144,7 +149,7 @@ namespace wren {
     }
   }
 
-  int Material::countTextureInstances(Texture *texture) {
+  int Material::countTextureInstances(const Texture *texture) {
     int instances = 0;
     for (auto &textureInstance : mTextures) {
       if (textureInstance.first == texture)

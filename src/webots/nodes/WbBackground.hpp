@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #include "WbBaseNode.hpp"
 #include "WbSFDouble.hpp"
 
+class WbDownloader;
 class WbRgb;
 
 struct WrTextureCubeMap;
@@ -41,6 +42,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_BACKGROUND; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -68,18 +70,29 @@ private:
   WbBackground &operator=(const WbBackground &);  // non copyable
   void init();
   void destroySkyBox();
-  void applyColourToWren(const WbRgb &color);
+  void applyColorToWren(const WbRgb &color);
+  bool loadTexture(int i);
+  bool loadIrradianceTexture(int i);
   void applySkyBoxToWren();
 
   bool isFirstInstance() { return cBackgroundList.first() == this; }
   // make this the WbBackground instance in use
   void activate();
+  void downloadAsset(const QString &url, int index, bool postpone);
 
   // user accessible fields
   WbMFColor *mSkyColor;
   WbMFString *mUrlFields[6];
   WbMFString *mIrradianceUrlFields[6];
   WbSFDouble *mLuminosity;
+
+  // texture loading fields
+  QImage *mTexture[6];
+  bool mTextureHasAlpha;
+  int mTextureSize;
+  float *mIrradianceTexture[6];
+  int mIrradianceWidth;
+  int mIrradianceHeight;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;
@@ -98,10 +111,13 @@ private:
   WrTextureCubeMap *mCubeMapTexture;
   WrTextureCubeMap *mIrradianceCubeTexture;
 
+  WbDownloader *mDownloader[12];
+
 private slots:
   void updateColor();
   void updateCubemap();
   void updateLuminosity();
+  void downloadUpdate();
 };
 
 #endif

@@ -9,6 +9,15 @@ h1 {
 h2 {
   font-size: 0.8em;
 }
+#canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  display: block;
+}
 #content {
   margin-left: 200px; /* This value is adjusted by the JS when creating/showing/hiding the menu. */
 }
@@ -26,6 +35,7 @@ h2 {
   border: none;
   background-color: transparent;
   outline: none;
+  font-size: 18px;
 }
 #menu-open-button:hover {
   background-color: #AAF;
@@ -36,6 +46,8 @@ h2 {
   outline: none;
   color: white;
   text-align: right;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 #menu-close-button:hover {
   color: #AAF;
@@ -97,10 +109,18 @@ h2 {
   padding: 10px;
   margin: 10px;
   width: 350px;
-  height: 250px;
+  height: 255px;
   display: inline-block;
-  background-color: lightgrey;
   overflow: hidden;
+}
+.device-background {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  background-color: lightgrey;
+  z-index: -2;
 }
 .device > h2 {
   position: absolute;
@@ -114,18 +134,116 @@ h2 {
   top: 30px;
   left: 10px;
   width: 350px;
-  height: 230px;
+  height: 240px;
   margin: 0px;
   padding: 0px;
+}
+.device-buttons {
+  display: inline;
+}
+.device-button {
+  width: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: lightgrey;
+  padding: 4px;
+  border-radius: 4px;
+}
+.device-button:focus {
+  outline: 0;
+}
+.device-switch {
+  cursor: pointer;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+.device-switch:before {
+  border-radius: 50%;
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.device-mode-switch {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.device-mode-switch div {
+  display: flex;
+}
+.device-mode-switch div:last-child {
+  font-size: small;
+  visibility: hidden;
+}
+.device-mode-switch:hover div:last-child {
+  visibility: visible;
+}
+.device-mode-switch label {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 20px;
+  margin-left: 10px
+}
+.device-mode-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.device-mode-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.device-mode-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.device-mode-switch input:checked + .device-mode-slider {
+  background-color: #5B5;
+}
+.device-mode-switch input:focus + .device-mode-slider {
+  box-shadow: 0 0 1px #5B5;
+}
+.device-mode-switch input:checked + .device-mode-slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
 }
 .motor-slider {
   position: absolute;
   z-index: 1;
   width: 10px;
-  top: 0px;
+  top: 10px;
   right: 0px;
   height: 209px;
   -webkit-appearance: slider-vertical;
+}
+.motor-slider-right {
+  right: auto;
+  left: 13px;
 }
 .motor-slider::-webkit-slider-runnable-track {
   -webkit-appearance: slider-vertical;
@@ -140,12 +258,14 @@ h2 {
 }
 .plot-canvas {
   position: absolute;
-  top: 5px;
+  top: 15px;
   left: 20px;
   width: 320px;
   height: 200px;
-  background-color: white;
   border: 1px solid darkgrey;
+}
+.plot-canvas-background {
+  background-color: white;
 }
 .plot-axis-label {
   font-size: 0.8em;
@@ -155,7 +275,7 @@ h2 {
 .plot-axis-label-x,
 .plot-axis-label-x-min,
 .plot-axis-label-x-max {
-  top: 200px;
+  top: 210px;
   left: 21px;
   width: 320px;
   height: 16px;
@@ -174,8 +294,8 @@ h2 {
 .plot-axis-label-y-max {
   /* Fill the overall left part of the plot, use `justify-content` to align text. */
   -webkit-writing-mode: vertical-lr;
-  top: 5px;
-  left: -10px;
+  top: 15px;
+  left: -15px;
   width: 16px;
   height: 202px;
 }
@@ -188,27 +308,18 @@ h2 {
 .plot-axis-label-y-max {
   justify-content: flex-start;
 }
-.differential-wheels-button {
-  width: calc(33% - 6px);
-  height: calc(33% - 6px);
-  margin: 3px;
-  background-color: #444;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-}
-.differential-wheels-button:hover {
-  background-color: #ccc;
-}
-.differential-wheels-button:active {
-  background-color: #5B5;
-}
-.point-cloud-enable-label {
+.device-option-enable-label {
   position: absolute;
   top: 0px;
   right: 10px;
   text-align: right;
+}
+.device-option-item-enable-label {
+  top: 0px;
+  right: 10px;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .image {
   width: 100%;
@@ -217,4 +328,14 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast;
+}
+.settings-content {
+  font-size: 0.8em;
+  margin: 10px;
+}
+.settings-content > * {
+  margin-left: 0px;
+}
+#refresh-rate-number {
+  max-width: 60px;
 }

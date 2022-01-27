@@ -5,7 +5,7 @@
 InertialUnit {
   #fields that inherit from the Solid node:
   vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 1 0 0
+  vrmlField SFRotation rotation            0 0 1 0
   vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []               # shape and solids fixed to that solid
   field     SFString   name                "inertial unit"  # used by wb_robot_get_device()
@@ -21,7 +21,7 @@ InertialUnit {
   field     SFFloat    radarCrossSection   0.0              # radar cross section of this solid
   field     MFColor    recognitionColors   []               # colors returned for this Solid by Cameras with a Recognition node
   #fields specific to the InertialUnit node:
-  field     MFVec3f    lookupTable     []          # empty: no interpolation
+  field     SFFloat    noise           0
   field     SFBool     xAxis           TRUE
   field     SFBool     yAxis           TRUE
   field     SFBool     zAxis           TRUE
@@ -30,4 +30,7 @@ InertialUnit {
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+
+  # deprecated fields
+  deprecatedField MFVec3f lookupTable []
 }

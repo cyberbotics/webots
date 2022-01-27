@@ -1,5 +1,5 @@
-#ifndef WR_SKELETON
-#define WR_SKELETON
+#ifndef WR_SKELETON_H
+#define WR_SKELETON_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,8 +25,10 @@ void wr_skeleton_apply_binding_pose(WrSkeleton *skeleton);
 // Only suitable when skeleton is attached to another transform
 void wr_skeleton_update_offset(WrSkeleton *skeleton);
 
+float *wr_skeleton_compute_bounding_spheres(WrSkeleton *skeleton, int &count);
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // WR_SKELETON
+#endif  // WR_SKELETON_H

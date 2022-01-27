@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,6 +35,8 @@ namespace webots {
     double getMaxFov() const;
     double getMinFov() const;
     virtual void setFov(double fov);
+    double getExposure() const;
+    void setExposure(double exposure);
     double getFocalLength() const;
     double getFocalDistance() const;
     double getMaxFocalDistance() const;
@@ -48,6 +50,12 @@ namespace webots {
     int getRecognitionSamplingPeriod() const;
     int getRecognitionNumberOfObjects() const;
     const CameraRecognitionObject *getRecognitionObjects() const;
+    bool hasRecognitionSegmentation() const;
+    void enableRecognitionSegmentation();
+    void disableRecognitionSegmentation();
+    bool isRecognitionSegmentationEnabled() const;
+    const unsigned char *getRecognitionSegmentationImage() const;
+    int saveRecognitionSegmentationImage(const std::string &filename, int quality) const;
     static unsigned char imageGetRed(const unsigned char *image, int width, int x, int y);
     static unsigned char imageGetGreen(const unsigned char *image, int width, int x, int y);
     static unsigned char imageGetBlue(const unsigned char *image, int width, int x, int y);

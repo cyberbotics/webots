@@ -13,8 +13,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 TiagoTitanium {
-  SFVec3f     translation      0 0 0
-  SFRotation  rotation         1 0 0 -1.5708
+  SFVec3f     translation      0 0 0.095
+  SFRotation  rotation         0 0 1 0
   SFString    name             "TIAGo Titanium"
   SFString    controller       "tiagoTitanium"
   MFString    controllerArgs   []
@@ -26,11 +26,11 @@ TiagoTitanium {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/protos/TiagoTitanium.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/protos/TiagoTitanium.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto)"
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_titanium/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_titanium/worlds)".
 
 #### tiago\_titanium.wbt
 

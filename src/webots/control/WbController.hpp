@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ private:
   WbFileUtil::FileType mType;
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
-  QString mCommand;         // command to be exectuted, e.g. "java"
+  QString mCommand;         // command to be executed, e.g. "java"
   QStringList mArguments;   // command arguments
   QString mJavaCommand;
   QString mJavaOptions;

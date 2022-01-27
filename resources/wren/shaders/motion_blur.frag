@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 const int sceneTextureIndex = 0;
 const int lastResultTextureIndex = 1;

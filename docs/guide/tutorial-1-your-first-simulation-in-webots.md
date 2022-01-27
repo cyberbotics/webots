@@ -74,14 +74,14 @@ In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factor
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
 1. Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
-2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
-Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
+2. Change its `translation` to `0 0 0.05` instead of `0 0 0.3`.
+Alternatively, you may use the blue arrow that appears in the 3D view to adjust its `translation.z` field.
 3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
-4. Select the box and press Ctrl-C, Ctrl-V (Windows, Linux) or Cmd-C, Cmd-V (macOS) to copy and paste it.
+4. Select the box and press <kbd>ctrl</kbd>-<kbd>C</kbd>, <kbd>ctrl</kbd>-<kbd>V</kbd> (Windows, Linux) or <kbd>⌘ command</kbd>-<kbd>C</kbd>, <kbd>⌘ command</kbd>-<kbd>V</kbd> (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 5. Move the boxes, so that no box is at the center of the arena.
-You may also use the green rotation arrows to rotate the boxes along the vertical axis.
+You may also use the blue rotation arrows to rotate the boxes along the vertical axis.
 This can be done also by shift-click and drag with the right mouse button.
 Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
 6. Once you are satisfied with the result, save the world using the save button.
@@ -125,13 +125,13 @@ Because we won't need it, you can actually close it.
 
 Now, while the simulation is running, let's play with the physics:
 
-> **Hands-on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing *Alt + left-click + drag*.
-On Linux, you should also press the *Ctrl* key in addition to *Alt + left-click + drag*.
+> **Hands-on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing <kbd>alt</kbd> *+ left-click + drag* (use the <kbd>⌥ option</kbd> key on some Mac keyboards).
+On Linux, you should also press the <kbd>ctrl</kbd> key in addition to <kbd>alt</kbd> *+ left-click + drag*.
 It is not possible to apply a force to a `WoodenBox` node, because by default, they have no mass and are considered as glued on the floor.
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
 Once this is done, should be able to apply a force on them as well.
 
-The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26), in run ![](images/run-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
+The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
@@ -239,7 +239,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 %tab "Python"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `epuck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
->Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
+>Modify the program by getting the motor devices (`leftMotor = robot.getDevice('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
 >from controller import Robot, Motor
 >
@@ -249,8 +249,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >robot = Robot()
 >
 ># get the motor devices
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 ># set the target position of the motors
 >leftMotor.setPosition(10.0)
 >rightMotor.setPosition(10.0)
@@ -414,8 +414,8 @@ In order to control the motors of the wheels in speed you need to set the target
 >robot = Robot()
 >
 ># get a handler to the motors and set target position to infinity (speed control)
->leftMotor = robot.getMotor('left wheel motor')
->rightMotor = robot.getMotor('right wheel motor')
+>leftMotor = robot.getDevice('left wheel motor')
+>rightMotor = robot.getDevice('right wheel motor')
 >leftMotor.setPosition(float('inf'))
 >rightMotor.setPosition(float('inf'))
 >
@@ -485,7 +485,7 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab-end
 %end
 
-The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
+The robot will now move (the wheels will rotate at a speed of 0.2 radian per second) and never stop.
 If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or clicking on the gear icon ![](images/build-button.png =26x26) above the code area.
 Compilation errors are displayed in red in the console.
 If there are any, fix them and retry to compile.

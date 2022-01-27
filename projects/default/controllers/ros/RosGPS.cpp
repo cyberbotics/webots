@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "RosGPS.hpp"
+#include "geometry_msgs/PointStamped.h"
 #include "sensor_msgs/NavSatFix.h"
 #include "webots_ros/Float64Stamped.h"
 
@@ -29,6 +30,7 @@ RosGPS::~RosGPS() {
   mCoordinateTypeServer.shutdown();
   mConvertServer.shutdown();
   mSpeedPublisher.shutdown();
+  mSpeedVectorPublisher.shutdown();
   cleanup();
 }
 
@@ -38,33 +40,57 @@ ros::Publisher RosGPS::createPublisher() {
   webots_ros::Float64Stamped speedType;
   mSpeedPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed", speedType);
 
-  sensor_msgs::NavSatFix type;
+  std::string speedVectorTopicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed_vector";
+  mSpeedVectorPublisher = RosDevice::rosAdvertiseTopic(speedVectorTopicName, geometry_msgs::PointStamped());
+
   std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
-  return RosDevice::rosAdvertiseTopic(topicName, type);
+  if (mGPS->getCoordinateSystem() == GPS::WGS84)
+    return RosDevice::rosAdvertiseTopic(topicName, sensor_msgs::NavSatFix());
+  return RosDevice::rosAdvertiseTopic(topicName, geometry_msgs::PointStamped());
 }
 
 // get value from the GPS and publish it into a [3x1] {double} array
 void RosGPS::publishValue(ros::Publisher publisher) {
-  sensor_msgs::NavSatFix value;
-  value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
   if (mGPS->getCoordinateSystem() == GPS::WGS84) {
+    sensor_msgs::NavSatFix value;
+    value.header.stamp = ros::Time::now();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
     value.latitude = mGPS->getValues()[0];
     value.longitude = mGPS->getValues()[1];
     value.altitude = mGPS->getValues()[2];
+    value.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
+    value.status.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
+    publisher.publish(value);
   } else {
-    value.latitude = mGPS->getValues()[0];
-    value.longitude = mGPS->getValues()[2];
-    value.altitude = mGPS->getValues()[1];
+    geometry_msgs::PointStamped value;
+    value.header.stamp = ros::Time::now();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    value.point.x = mGPS->getValues()[0];
+    value.point.y = mGPS->getValues()[1];
+    value.point.z = mGPS->getValues()[2];
+    publisher.publish(value);
   }
-  value.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
-  value.status.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
-  publisher.publish(value);
+}
 
-  webots_ros::Float64Stamped speedValue;
-  speedValue.header.stamp = ros::Time::now();
-  speedValue.data = mGPS->getSpeed();
-  mSpeedPublisher.publish(speedValue);
+void RosGPS::publishAuxiliaryValue() {
+  if (mGPS->getSamplingPeriod() > 0) {
+    if (mSpeedVectorPublisher.getNumSubscribers() >= 1) {
+      geometry_msgs::PointStamped value;
+      value.header.stamp = ros::Time::now();
+      value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+      const double *speed_vector = mGPS->getSpeedVector();
+      value.point.x = speed_vector[0];
+      value.point.y = speed_vector[1];
+      value.point.z = speed_vector[2];
+      mSpeedVectorPublisher.publish(value);
+    }
+    if (mSpeedPublisher.getNumSubscribers() >= 1) {
+      webots_ros::Float64Stamped speedValue;
+      speedValue.header.stamp = ros::Time::now();
+      speedValue.data = mGPS->getSpeed();
+      mSpeedPublisher.publish(speedValue);
+    }
+  }
 }
 
 bool RosGPS::getCoordinateTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {

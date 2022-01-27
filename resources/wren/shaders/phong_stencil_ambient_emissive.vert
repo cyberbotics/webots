@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 

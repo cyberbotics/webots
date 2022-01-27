@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setFallbacksEnabled(false);
   // set defaults for preferences that are accessed from several locations
   setDefault("General/startupMode", "Real-time");
+  setDefault("General/rendering", true);
   setDefault("General/language", "");
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
   setDefault("General/checkWebotsUpdateOnStartup", true);
@@ -81,14 +82,18 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllCameraOverlays", false);
   setDefault("View3d/hideAllRangeFinderOverlays", false);
   setDefault("View3d/hideAllDisplayOverlays", false);
+  setDefault("Network/cacheSize", 1024);
 
 #ifdef _WIN32
   // "Monospace" isn't supported under Windows: the non-monospaced Arial font is loaded instead
   setDefault("Editor/font", "Consolas,10");
+  setDefault("General/theme", "webots_classic.qss");
 #elif defined(__APPLE__)
   setDefault("Editor/font", "Courier,14");  // "Monospace" isn't supported under MacOS
+  setDefault("General/theme", "webots_classic.qss");
 #else
   setDefault("Editor/font", "Monospace, 9");
+  setDefault("General/theme", "webots_night.qss");
 #endif  // "Consolas" seems to be a standard Windows monospaced font, so we use it instead
   setDefault("Internal/firstLaunch", true);
   setDefault("Movie/resolution", 6);  // 480p: 854 x 480
@@ -227,3 +232,8 @@ void WbPreferences::checkIsWritable() {
                    true);
 }
 #endif
+
+bool WbPreferences::booleanEnvironmentVariable(const QByteArray &variable) {
+  const QByteArray content = qgetenv(variable).toLower();
+  return !content.isEmpty() && content != "0" && content != "false";
+}

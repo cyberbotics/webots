@@ -1,0 +1,99 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  info [
+    "Skin animation of human models."
+    "In this example BVH motions are played on FBX MakeHuman models."
+    "Author: Guillaume Michel <guillaume.michel.202@gmail.com>"
+  ]
+  title "Human Skin Animation"
+}
+Viewpoint {
+  orientation 0.056814234454449726 0.032542588135553545 -0.9978542592587328 2.103101849070375
+  position 4.505725485654369 5.67986443264761 2.4268523026142588
+}
+TexturedBackground {
+  texture "noon_cloudy_countryside"
+}
+TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
+}
+Floor {
+  size 50 50
+  tileSize 2 2
+  appearance Grass {
+    type "mossy"
+  }
+}
+DEF ROBERT Robot {
+  translation -3 -3 0
+  children [
+    CharacterSkin {
+      name "Robert"
+      model "Robert"
+    }
+  ]
+  name "robert"
+  controller "bvh_animation"
+  controllerArgs [
+    "-d"
+    "Robert"
+    "-f"
+    "../../motion_files/walk.bvh"
+    "-l"
+  ]
+  supervisor TRUE
+}
+DEF SANDRA Robot {
+  translation 7.08473e-06 -5.3 -5.12216e-05
+  rotation 0 0 1 1.5708
+  children [
+    CharacterSkin {
+      name "Sandra"
+    }
+  ]
+  name "sandra"
+  controllerArgs [
+    "Sandra"
+  ]
+  supervisor TRUE
+}
+DEF SOPHIA Robot {
+  translation 1.57653 -5.52878 -1.70245e-05
+  rotation 0 0 1 1.8326
+  children [
+    CharacterSkin {
+      name "Sophia"
+      model "Sophia"
+    }
+  ]
+  name "sophia"
+  controller "bvh_animation"
+  controllerArgs [
+    "-d"
+    "Sophia"
+    "-f"
+    "../../motion_files/jump.bvh"
+    "-s"
+    "100"
+  ]
+  supervisor TRUE
+}
+DEF ANTHONY Robot {
+  translation -3 -1.48 -1.10673e-05
+  children [
+    CharacterSkin {
+      name "Anthony"
+      model "Anthony"
+    }
+  ]
+  name "anthony"
+  controller "bvh_animation"
+  controllerArgs [
+    "-d"
+    "Anthony"
+    "-f"
+    "../../motion_files/run.bvh"
+    "-l"
+  ]
+  supervisor TRUE
+}

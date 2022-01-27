@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include <webots/plugins/robot_window/default.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/utils/default_robot_window.h>
 
 #include "../../../include/robotbenchmark.h"
 #include "wall_following_metric.h"

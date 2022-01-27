@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;
@@ -11,6 +13,7 @@ layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
+uniform int wireframeRendering;
 
 // Material parameters for this renderable
 layout(std140) uniform PbrMaterial {
@@ -81,7 +84,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
     // A single irradiance map is used for the diffuse and specular reflections:
     // Thanks to the following fact: the diffuse map is close to the specular map at the 6th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 6.0).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;
@@ -172,12 +175,13 @@ void main() {
     color = mix(color, color * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
   }
 
-  vec3 emissive = material.emissiveColorAndIntensity.rgb;
+  vec3 emissive = (wireframeRendering != 0) ? material.baseColorAndTransparency.rgb : material.emissiveColorAndIntensity.rgb;
 
   if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
     emissive = texture(inputTextures[6], texUv).rgb;
 
-  emissive *= material.emissiveColorAndIntensity.w;
+  if (wireframeRendering != 0)
+    emissive *= material.emissiveColorAndIntensity.w;
   color += emissive;
 
   fragColor = vec4(color, baseColor.a);

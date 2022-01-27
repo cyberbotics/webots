@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@
 #include "WbTreeItem.hpp"
 #include "WbTreeView.hpp"
 #include "WbUndoStack.hpp"
+#include "WbUrl.hpp"
 #include "WbValueEditor.hpp"
 #include "WbVariant.hpp"
 #include "WbViewpoint.hpp"
@@ -218,6 +219,7 @@ void WbSceneTree::setWorld(WbWorld *world) {
   connect(mTreeView, &WbTreeView::collapsed, this, &WbSceneTree::stopWatching);
   connect(mModel, &WbSceneTreeModel::itemInserted, mTreeView, &WbTreeView::itemInserted);
   connect(mModel, &WbSceneTreeModel::rowsAboutToBeRemovedSoon, this, &WbSceneTree::handleRowRemoval);
+  connect(mTreeView, &WbTreeView::beforeContextMenuShowed, this, &WbSceneTree::updateSelection);
 
   connect(mTreeView, &WbTreeView::selectionHasChanged, this, &WbSceneTree::updateSelection);
   connect(WbSelection::instance(), &WbSelection::selectionChangedFromSceneTree, this, &WbSceneTree::updateSelection);
@@ -727,10 +729,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
-      const QFileInfo fileInfo(destination);
-      if (!QDir(fileInfo.absolutePath()).exists())
-        QDir().mkpath(fileInfo.absolutePath());
-      QFile::copy(it.value(), destination);
+      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
+        const QFileInfo fileInfo(destination);
+        if (!QDir(fileInfo.absolutePath()).exists())
+          QDir().mkpath(fileInfo.absolutePath());
+        QFile::copy(it.value(), destination);
+      }
     }
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
@@ -1114,10 +1118,8 @@ void WbSceneTree::updateSelection() {
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
     if (baseNode && baseNode->isProtoParameterNode())
-      // select proto parameter node instance
-      // if proto parameter is used only once
-      // baseNode = NULL if none or multiple instances exists
-      baseNode = baseNode->getSingleFinalizedProtoInstance();
+      // select first proto parameter node instance
+      baseNode = baseNode->getFirstFinalizedProtoInstance();
 
     if (baseNode && !baseNode->isPostFinalizedCalled())
       // ignore not initialized nodes
@@ -1125,7 +1127,9 @@ void WbSceneTree::updateSelection() {
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
     mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
+      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
+                   baseNode->nodeType() != WB_NODE_BILLBOARD &&
+                   !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
@@ -1437,7 +1441,7 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
   else if ((mSelectedItem->isItem() && !mSelectedItem->isNode() && mSelectedItem->field()->isMultiple()) ||
            (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
-  // default behavior, collapse/expoand tree item
+  // default behavior, collapse/expand tree item
   else if (mTreeView->isExpanded(mTreeView->currentIndex()))
     mTreeView->collapse(mTreeView->currentIndex());
   else

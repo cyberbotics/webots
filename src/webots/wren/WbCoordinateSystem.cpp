@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ WbCoordinateSystem::WbCoordinateSystem(WbWrenRenderingContext *context) {
     wr_renderable_set_material(renderable, mAxesMaterial[i], NULL);
     wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_2);
     wr_renderable_set_drawing_mode(renderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_SELECTED_OUTLINE);
+    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_renderable_set_scene_culling(renderable, false);
     wr_renderable_set_in_view_space(renderable, true);
     wr_renderable_set_z_sorted_rendering(renderable, true);
@@ -118,7 +118,7 @@ WbCoordinateSystem::WbCoordinateSystem(WbWrenRenderingContext *context) {
     wr_renderable_set_mesh(renderable, WR_MESH(mLabelsMesh));
     wr_renderable_set_material(renderable, mLabelsMaterial[i], NULL);
     wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_2);
-    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_SELECTED_OUTLINE);
+    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_renderable_set_scene_culling(renderable, false);
     wr_renderable_set_in_view_space(renderable, true);
     wr_renderable_set_z_sorted_rendering(renderable, true);
@@ -167,10 +167,11 @@ void WbCoordinateSystem::setVisible(bool b) {
 
 void WbCoordinateSystem::setOrientation(const WbQuaternion &quaternion) {
   float rotation[4];
-  WbRotation(quaternion).toFloatArray(rotation);
+  WbQuaternion adaptedQuaternion(WbQuaternion(0.5, -0.5, 0.5, 0.5) * quaternion);
+  WbRotation(adaptedQuaternion).toFloatArray(rotation);
   wr_transform_set_orientation(mTransform, rotation);
 
-  WbRotation(quaternion.conjugated()).toFloatArray(rotation);
+  WbRotation(adaptedQuaternion.conjugated()).toFloatArray(rotation);
   for (int i = 0; i < 3; ++i)
     wr_transform_set_orientation(mLabelsTransform[i], rotation);
 }

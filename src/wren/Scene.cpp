@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,12 @@
 #include <wren/renderable.h>
 #include <wren/scene.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <algorithm>
 #include <memory>
@@ -116,8 +121,13 @@ namespace wren {
 
   void Scene::bindPixelBuffer(int buffer) { glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer); }
 
-  void *Scene::mapPixelBuffer(unsigned int accessMode) { return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode); }
-
+  void *Scene::mapPixelBuffer(unsigned int accessMode) {
+#ifdef __EMSCRIPTEN__
+    return NULL;
+#else
+    return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
+#endif
+  }
   void Scene::unMapPixelBuffer() { glUnmapBuffer(GL_PIXEL_PACK_BUFFER); }
 
   void Scene::terminateFrameCapture() {
@@ -375,6 +385,16 @@ namespace wren {
       DEBUG("Rendering skybox");
 
       glstate::setBlend(false);
+
+// GL_DEPTH_CLAMP is not available in webgl, so it is a way to work around
+// It must be here and not in glstate::setDepthClamp because we need to access the camera
+#ifdef __EMSCRIPTEN__
+      float near = mCurrentViewport->camera()->nearDistance();
+      mCurrentViewport->camera()->setNear(0.05);
+      float far = mCurrentViewport->camera()->farDistance();
+      mCurrentViewport->camera()->setFar(1000000.0f);
+      mCurrentViewport->camera()->updateUniforms();
+#endif
       glstate::setDepthClamp(true);
       glstate::setDepthMask(false);
       glstate::setDepthTest(true);
@@ -383,6 +403,12 @@ namespace wren {
       glstate::setColorMask(true, true, true, true);
 
       mSkybox->render();
+
+#ifdef __EMSCRIPTEN__
+      mCurrentViewport->camera()->setNear(near);
+      mCurrentViewport->camera()->setFar(far);
+      mCurrentViewport->camera()->updateUniforms();
+#endif
     }
 
     RenderQueue *renderQueue = &mRenderQueues[WR_RENDERABLE_DRAWING_ORDER_MAIN];
@@ -607,9 +633,19 @@ namespace wren {
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
       visible = (distance <= radius &&
-                 positionalLight->attenuationConstant() +
-                     distance * (positionalLight->attenuationLinear() + distance * positionalLight->attenuationQuadratic()) <
-                   255.0f);
+                 (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
+                                                        // boundingSphere.mRadius, 2) can be very big in this case.
+                  positionalLight->attenuationConstant() +
+                      (distance - boundingSphere.mRadius) *
+                        (positionalLight->attenuationLinear() +
+                         (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                    2000.0f));
+      // In the shaders, the attenuation is used as such:
+      // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
+      // color = 1/attenuationFactor * color * ...
+      // Due to this there is no well-defined upper bound for the attenuationFactor.
+      // 2000 is a trade-off value in which the remaining light is very weak but still visible. The light become really
+      // invisible around 8000.
     }
     return visible;
   }

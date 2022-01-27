@@ -42,13 +42,17 @@ if [[ $1 == "start" || $1 == "restart" ]] ; then
   fi
   SESSION_CONFIG="config/session/$CONFIG.json"
   SIMULATION_CONFIG="config/simulation/$CONFIG.json"
+  case "$(uname)" in
+    MSYS_NT*) PYTHON=python ;;
+    *) PYTHON=python3 ;;
+  esac
   if [ -e $SESSION_CONFIG ] ; then
-    ./session_server.py $SESSION_CONFIG >/dev/null &
+    $PYTHON session_server.py $SESSION_CONFIG >/dev/null &
     echo $! > $SESSION_PID
     echo "Started $CONFIG session server ($!)"
   fi
   if [ -e $SIMULATION_CONFIG ] ; then
-    ./simulation_server.py $SIMULATION_CONFIG >/dev/null &
+    $PYTHON simulation_server.py $SIMULATION_CONFIG >/dev/null &
     echo $! > $SIMULATION_PID
     echo "Started $CONFIG simulation server ($!)"
   fi

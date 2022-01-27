@@ -1,10 +1,13 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 const int bgTextureIndex = 0;
 const int mainTextureIndex = 1;
-const int fgTextureIndex = 2;
-const int closeButtonTextureIndex = 3;
-const int resizeButtonTextureIndex = 4;
+const int maskTextureIndex = 2;
+const int fgTextureIndex = 3;
+const int closeButtonTextureIndex = 4;
+const int resizeButtonTextureIndex = 5;
 
 in float aspectRatio;
 in float closeButtonProportionX;
@@ -19,20 +22,24 @@ out vec4 fragColor;
 
 uniform int channelCount;
 
-uniform sampler2D inputTextures[5];
+uniform sampler2D inputTextures[6];
 
 layout(std140) uniform Overlay {
   vec4 positionAndSize;
   vec4 defaultSize;  // x,y: size, z: render default size instead of actual overlay
   vec4 borderColor;
   vec4 backgroundColor;
-  vec4 activeFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
   vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
                       // w: overlay transparency
+  uvec2 activeFlags;  // x: textures, y: border
   vec2 sizeInPixels;  // x,y: size in screen pixels
   vec2 borderSize;    // x: vertical size, y: horizontal size
 }
 overlay;
+
+bool isTextureActive(uint flag, int index) {
+  return (flag & (0x0001u << uint(index))) != 0u;
+}
 
 void main() {
   fragColor = vec4(0.0);
@@ -47,13 +54,13 @@ void main() {
     fragColor = overlay.borderColor;
   else {
     // bg texture
-    if (overlay.activeFlags.x > 0.0)
+    if (isTextureActive(overlay.activeFlags.x, bgTextureIndex))
       fragColor = vec4(texture(inputTextures[bgTextureIndex], texUv).rgb, 1.0);
     else
       fragColor = vec4(overlay.backgroundColor);
 
     // main texture
-    if (overlay.activeFlags.y > 0.0) {
+    if (isTextureActive(overlay.activeFlags.x, mainTextureIndex)) {
       vec4 color = texture(inputTextures[mainTextureIndex], texUv);
 
       // normalize depth if required
@@ -69,8 +76,17 @@ void main() {
       fragColor = mix(fragColor, color, color.a);
     }
 
+    // mask
+    if (isTextureActive(overlay.activeFlags.x, maskTextureIndex)) {
+      vec4 color = texture(inputTextures[maskTextureIndex], texUv);
+      if (color.x > 0.01 || color.y > 0.01 || color.z > 0.01)
+        fragColor = mix(fragColor, color, 0.8);
+      else
+        fragColor = mix(fragColor, vec4(1.0, 1.0, 1.0, 1.0), 0.4);
+    }
+
     // fg texture
-    if (overlay.activeFlags.z > 0.0) {
+    if (isTextureActive(overlay.activeFlags.x, fgTextureIndex)) {
       vec4 color = texture(inputTextures[fgTextureIndex], texUv);
       fragColor = mix(fragColor, color, color.a);
     }

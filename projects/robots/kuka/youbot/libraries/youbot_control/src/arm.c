@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,9 @@ static WbDeviceTag arm_elements[5];
 static enum Height current_height = ARM_RESET;
 static enum Orientation current_orientation = ARM_FRONT;
 
+enum Height new_height;
+enum Orientation new_orientation;
+
 void arm_init() {
   arm_elements[ARM1] = wb_robot_get_device("arm1");
   arm_elements[ARM2] = wb_robot_get_device("arm2");
@@ -45,11 +48,8 @@ void arm_init() {
 }
 
 void arm_reset() {
-  wb_motor_set_position(arm_elements[ARM1], 0.0);
-  wb_motor_set_position(arm_elements[ARM2], 1.57);
-  wb_motor_set_position(arm_elements[ARM3], -2.635);
-  wb_motor_set_position(arm_elements[ARM4], 1.78);
-  wb_motor_set_position(arm_elements[ARM5], 0.0);
+  arm_set_height(ARM_RESET);
+  arm_set_orientation(ARM_FRONT);
 }
 
 void arm_set_height(enum Height height) {
@@ -134,31 +134,58 @@ void arm_set_orientation(enum Orientation orientation) {
 }
 
 void arm_increase_height() {
-  current_height++;
-  if (current_height >= ARM_MAX_HEIGHT)
-    current_height = ARM_MAX_HEIGHT - 1;
-  arm_set_height(current_height);
+  new_height = current_height + 1;
+
+  // Prevents from going beyond index.
+  if (new_height >= ARM_MAX_HEIGHT)
+    new_height = ARM_MAX_HEIGHT - 1;
+
+  // Prevents self-colliding poses.
+  if (new_height == ARM_FRONT_FLOOR) {
+    if (current_orientation == ARM_BACK_LEFT || current_orientation == ARM_BACK_RIGHT)
+      new_height = current_height;
+  }
+
+  arm_set_height(new_height);
 }
 
 void arm_decrease_height() {
-  current_height--;
-  if ((int)current_height < 0)
-    current_height = 0;
-  arm_set_height(current_height);
+  new_height = current_height - 1;
+  if ((int)new_height < 0)
+    new_height = 0;
+  arm_set_height(new_height);
 }
 
 void arm_increase_orientation() {
-  current_orientation++;
-  if (current_orientation >= ARM_MAX_SIDE)
-    current_orientation = ARM_MAX_SIDE - 1;
-  arm_set_orientation(current_orientation);
+  new_orientation = current_orientation + 1;
+
+  // Prevents from going beyond index.
+  if (new_orientation >= ARM_MAX_SIDE)
+    new_orientation = ARM_MAX_SIDE - 1;
+
+  // Prevents self-colliding poses.
+  if (new_orientation == ARM_BACK_LEFT) {
+    if (current_height == ARM_FRONT_FLOOR)
+      new_orientation = current_orientation;
+  }
+
+  arm_set_orientation(new_orientation);
 }
 
 void arm_decrease_orientation() {
-  current_orientation--;
-  if ((int)current_orientation < 0)
-    current_orientation = 0;
-  arm_set_orientation(current_orientation);
+  new_orientation = current_orientation - 1;
+
+  // Prevents from going beyond index.
+  if ((int)new_orientation < 0)
+    new_orientation = 0;
+
+  // Prevents self-colliding poses.
+  if (new_orientation == ARM_BACK_RIGHT) {
+    if (current_height == ARM_FRONT_FLOOR)
+      new_orientation = current_orientation;
+  }
+
+  arm_set_orientation(new_orientation);
 }
 
 void arm_set_sub_arm_rotation(enum Arm arm, double radian) {
@@ -182,15 +209,15 @@ double arm_get_sub_arm_length(enum Arm arm) {
 }
 
 void arm_ik(double x, double y, double z) {
-  double x1 = sqrt(x * x + z * z);
-  double y1 = y + arm_get_sub_arm_length(ARM4) + arm_get_sub_arm_length(ARM5) - arm_get_sub_arm_length(ARM1);
+  double y1 = sqrt(x * x + y * y);
+  double z1 = z + arm_get_sub_arm_length(ARM4) + arm_get_sub_arm_length(ARM5) - arm_get_sub_arm_length(ARM1);
 
   double a = arm_get_sub_arm_length(ARM2);
   double b = arm_get_sub_arm_length(ARM3);
-  double c = sqrt(x1 * x1 + y1 * y1);
+  double c = sqrt(y1 * y1 + z1 * z1);
 
-  double alpha = -asin(z / x1);
-  double beta = -(M_PI_2 - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1));
+  double alpha = -asin(x / y1);
+  double beta = -(M_PI_2 - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(z1 / y1));
   double gamma = -(M_PI - acos((a * a + b * b - c * c) / (2.0 * a * b)));
   double delta = -(M_PI + (beta + gamma));
   double epsilon = M_PI_2 + alpha;

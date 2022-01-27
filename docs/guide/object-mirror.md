@@ -16,7 +16,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Mirror {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "mirror"
   SFString   controller      "mirror"
   SFBool     supervisor      FALSE
@@ -29,7 +29,7 @@ Mirror {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/mirror/protos/Mirror.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto]({{ url.github_tree }}/projects/objects/mirror/protos/Mirror.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

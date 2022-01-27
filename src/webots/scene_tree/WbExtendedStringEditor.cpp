@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@
 #include "WbProject.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
+#include "WbSkin.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
 #include "WbStandardPaths.hpp"
@@ -363,10 +364,12 @@ void WbExtendedStringEditor::select() {
   // add webots resources and default controllers/plugins
   items += defaultEntryList();
   items.sort();
-  if (mStringType == CONTROLLER) {
+
+  if (mStringType == CONTROLLER || mStringType == PHYSICS_PLUGIN)
     items.prepend("none");
+  if (mStringType == CONTROLLER)
     items.prepend("<extern>");
-  }
+
   items.removeDuplicates();
 
   // let the user choose from an item list
@@ -405,6 +408,11 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbMesh *mesh = dynamic_cast<const WbMesh *>(parentNode);
     if (mesh)
       return MESH_URL;
+    const WbSkin *skin = dynamic_cast<const WbSkin *>(parentNode);
+    if (skin)
+      return SKIN_URL;
+    if (parentNode->fullName() == "ColladaShapes")
+      return COLLADA_URL;
     return TEXTURE_URL;
   } else if (fieldName == "solidName")
     return SOLID_REFERENCE;
@@ -420,15 +428,16 @@ void WbExtendedStringEditor::updateWidgets() {
   const bool protoParameter = field()->isParameter();
   const bool regular = mStringType == REGULAR;
   const bool sound = mStringType == SOUND;
-  const bool texture = mStringType == TEXTURE_URL;
+  const bool texture = mStringType == TEXTURE_URL || mStringType == HDR_TEXTURE_URL;
   const bool solidReference = mStringType == SOLID_REFERENCE;
   const bool fluidName = mStringType == FLUID_NAME;
   const bool referenceArea = mStringType == REFERENCE_AREA;
-  const bool enableLineEdit = regular || sound || texture || (solidReference && protoParameter) ||
+  const bool mesh = mStringType == MESH_URL || mStringType == SKIN_URL || mStringType == COLLADA_URL;
+  const bool enableLineEdit = regular || mesh || sound || texture || (solidReference && protoParameter) ||
                               (fluidName && protoParameter) || (referenceArea && protoParameter);
-  const bool showSelectButton = sound || texture || !regular || (solidReference && !protoParameter) ||
+  const bool showSelectButton = mesh || sound || texture || !regular || (solidReference && !protoParameter) ||
                                 (fluidName && !protoParameter) || (referenceArea && !protoParameter);
-  const bool showEditButton = !regular && !sound && !texture && !solidReference && !fluidName && !referenceArea;
+  const bool showEditButton = !regular && !mesh && !sound && !texture && !solidReference && !fluidName && !referenceArea;
 
   // show/hide widgets
   lineEdit()->setReadOnly(!enableLineEdit);
@@ -546,8 +555,12 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       selectFile("textures", "Texture", "*.hdr *.HDR");
       break;
     case MESH_URL:
-      selectFile("meshes", "Meshes",
-                 "*.3ds *.3DS *.bvh *.BVH *.blend *.BLEND *.dae *.DAE *.fbx *.FBX *.stl *.STL *.obj *.OBJ *.x3d *.X3D");
+      selectFile("meshes", "Meshes", "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
+    case SKIN_URL:
+      selectFile("meshes", "Meshes", "*.fbx *.FBX");
+      break;
+    case COLLADA_URL:
+      selectFile("meshes", "Collada files", "*.dae *.DAE");
       break;
     default:
       return false;

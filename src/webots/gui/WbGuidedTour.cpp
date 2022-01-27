@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbGuidedTour.hpp"
 
+#include "WbApplication.hpp"
 #include "WbConsole.hpp"
 #include "WbMFString.hpp"
 #include "WbSFString.hpp"
@@ -56,6 +57,7 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   mTimer->start(250);  // trigger every 250 milliseconds
 
   setWindowTitle(tr("Guided Tour - Webots"));
+  setWindowOpacity(0.85);
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -277,7 +279,8 @@ void WbGuidedTour::loadWorld() {
 }
 
 void WbGuidedTour::selectWorld() {
-  if (mTree->selectedItems().size() < 1)
+  // prevent selecting a new world if in the process of canceling the previous one or if invalid
+  if (mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
     return;
   QTreeWidgetItem *item = mTree->selectedItems().at(0);
   mIndex = mWorlds.indexOf(item);

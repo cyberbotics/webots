@@ -1,55 +1,54 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   gravity 0
-  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
-  position 54.32519512629353 36.85193472314329 -3.1707126958688465
+  orientation -0.22829072045121848 0.2455838697244722 0.9421103491030215 1.70306075886739
+  position 3.1707126958688465 -54.32519512629353 36.85193472314329
   near 0.2
   bloomThreshold 2100
 }
 Background {
   backUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_back.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_back.png"
   ]
   bottomUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_bottom.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_front.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_front.png"
   ]
   leftUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_left.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_left.png"
   ]
   rightUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_right.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_right.png"
   ]
   topUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_top.png"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_top.png"
   ]
   backIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_back.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_back.hdr"
   ]
   bottomIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_bottom.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_bottom.hdr"
   ]
   frontIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_front.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_front.hdr"
   ]
   leftIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_left.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_left.hdr"
   ]
   rightIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_right.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_right.hdr"
   ]
   topIrradianceUrl [
-    "textures/cubic/san_giuseppe_bridge_4k_top.hdr"
+    "webots://scripts/icon_studio/worlds/textures/cubic/san_giuseppe_bridge_4k_top.hdr"
   ]
 }
 DEF LIGHT DirectionalLight {
   ambientIntensity 1
-  direction -0.6 -1 0.55
+  direction -0.55 0.6 -1
   intensity 2.7
   castShadows TRUE
 }

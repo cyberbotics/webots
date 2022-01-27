@@ -2,7 +2,7 @@
 
 This tutorial aims at creating your first robot from scratch.
 The robot will consist of a body, four wheels, and two distance sensors.
-The result is depicted on [this figure](#3d-view-of-the-4-wheels-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-of-its-wheels-are-oriented-the-same-way-their-px-vector-defines-the-left-of-the-robot-their-py-vector-defines-the-top-of-the-robot-and-their-pz-vector-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-in-a-different-way-their-px-vector-indicates-the-direction-of-the-sensor).
+The result is depicted on [this figure](#3d-view-of-the-4-wheels-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-of-its-wheels-are-oriented-the-same-way-their-px-vector-in-red-defines-the-left-of-the-robot-their-py-vector-in-green-defines-the-top-of-the-robot-and-their-pz-vector-in-blue-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-in-a-different-way-their-px-vector-indicates-the-direction-of-the-sensor).
 The [next figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device) shows the robot from a top view.
 
 %figure "3D view of the 4 wheels robot. Note that the coordinate system representations of the robot body and of its wheels are oriented the same way. Their +x-vector (in red) defines the left of the robot, their +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented in a different way, their +x-vector indicates the direction of the sensor."
@@ -73,7 +73,7 @@ Please refer to [this figure](#high-level-representation-of-the-4-wheeled-robot)
 Add a [Shape](../reference/shape.md) node containing a Box geometry to the [Robot](../reference/robot.md) node.
 Set the color of the [Shape](../reference/shape.md) to red.
 Use the [Shape](../reference/shape.md) to define the `boundingObject` field of the [Robot](../reference/robot.md) node.
-The dimension of the box is `(0.1, 0.05, 0.2)`.
+The dimension of the box is `(0.2, 0.1, 0.05)`.
 Add a [Physics](../reference/physics.md) node to the [Robot](../reference/robot.md).
 The [figure](#high-level-representation-of-the-4-wheeled-robot) represents all the nodes defining the robot.
 So far, only the direct children nodes of the root [Robot](../reference/robot.md) node has been implemented.
@@ -126,10 +126,10 @@ The rotation origin (anchor) and the rotation axis (axis) are defined by the opt
 
 %end
 
-For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.06, 0, 0.05)` in order to define the relative gap between the body and the wheel, and the rotation to `(0 0 1 1.5708)` for the wheel cylinder to be correctly oriented.
-The [HingeJointParameters](../reference/hingejointparameters.md) anchor should also be defined to `(0.06, 0, 0.05)` to define the rotation origin (relatively to the body).
+For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.05, 0.06, 0)` in order to define the relative gap between the body and the wheel, and the rotation to `(1 0 0 1.5708)` for the wheel cylinder to be correctly oriented.
+The [HingeJointParameters](../reference/hingejointparameters.md) anchor should also be defined to `(0.05, 0.06, 0)` to define the rotation origin (relatively to the body).
 Finally, the [HingeJointParameters](../reference/hingejointparameters.md) axis should define the rotation axis.
-In our case it's along the x-axis (so `(1, 0, 0)`).
+In our case it's along the y-axis (so `(0, 1, 0)`).
 
 > **Hands on #3**: Add a [HingeJointParameters](../reference/hingejointparameters.md) node, and enter the field values as described above.
 Some signs obviously have to be updated for other wheels.
@@ -140,9 +140,12 @@ Now, let's implement the cylinder shape of the wheels.
 Don't forget the [Physics](../reference/physics.md) nodes.
 
 For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
-- **jointParameters**: Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.06 0 -0.05) and axis fields (1 0 0). These values have to be modified according to the location of the wheel.
-- **device**: Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device). These labels will be used to reference the wheels from the controller.
-- **endPoint**: Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node. The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
+- **jointParameters**: Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.05 -0.06 0) and axis (0 1 0) fields.
+  These values have to be modified according to the location of the wheel.
+- **device**: Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
+  These labels will be used to reference the wheels from the controller.
+- **endPoint**: Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node.
+  The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
 Set the color of the wheels to green.
 
 
@@ -159,7 +162,7 @@ So, it is necessary to rotate the distance sensor to point their x-axis outside 
 
 %spoiler "**Reminder**: How to know the orientation of the distance sensor?"
 
-As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut <kbd>ctrl</kbd>-<kbd>F10</kbd> or `View / Optional Rendering / Show DistanceSensor Rays`.
 
 %end
 
@@ -243,7 +246,7 @@ for (int i = 0; i < 4 ; i++)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
-    wheels.append(robot.getMotor(name))
+    wheels.append(robot.getDevice(name))
 ```
 %tab-end
 
@@ -438,12 +441,12 @@ robot = Robot()
 ds = []
 dsNames = ['ds_right', 'ds_left']
 for i in range(2):
-    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds.append(robot.getDevice(dsNames[i]))
     ds[i].enable(TIME_STEP)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for i in range(4):
-    wheels.append(robot.getMotor(wheelsNames[i]))
+    wheels.append(robot.getDevice(wheelsNames[i]))
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 avoidObstacleCounter = 0
@@ -558,7 +561,7 @@ end
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+[This solution]({{ url.github_tree }}/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory]({{ url.github_tree }}/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

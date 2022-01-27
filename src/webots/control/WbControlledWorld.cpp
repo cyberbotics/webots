@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -219,9 +219,32 @@ void WbControlledWorld::addControllerConnection() {
       robotName = buffer;
       delete[] buffer;
     }
-    foreach (WbRobot *const robot, robots()) {
-      if (robot->isControllerStarted())
-        continue;
+
+    QListIterator<WbRobot *> robotsIt(robots());
+    // count number of external controllers
+    int nbExternalController = 0;
+    while (robotsIt.hasNext()) {
+      if (robotsIt.next()->controllerName() == "<extern>")
+        nbExternalController++;
+    }
+
+    robotsIt.toFront();
+    while (robotsIt.hasNext()) {
+      WbRobot *const robot = robotsIt.next();
+      if (robot->isControllerStarted()) {
+        // if a specific robot have been targeted by giving a name, or only one external controller is in the scene (hence it's
+        // the target)
+        if (robot->controllerName() == "<extern>" &&
+            (robotName == robot->name() || (robotName.isEmpty() && nbExternalController == 1))) {
+          // automatically disconnect from previous extern controller that may have failed, the slot could be immediately used
+          // to restart
+          WbLog::info(tr("Closing extern controller connection for robot \"%1\".").arg(robot->name()));
+          disconnect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController);
+          robot->restartController();
+          updateRobotController(robot);
+        } else  // this controller seems to be in active use, ignore it
+          continue;
+      }
       if ((robotName == robot->name() || robotName.isEmpty()) && robot->controllerName() == "<extern>") {
         WbLog::info(tr("Starting extern controller for robot \"%1\".").arg(robot->name()));
         mRobotsWaitingExternController.append(robot);
@@ -279,10 +302,30 @@ void WbControlledWorld::reset(bool restartControllers) {
   }
 }
 
-void WbControlledWorld::step() {
-  if (mFirstStep && !mRetryEnabled) {
-    startControllers();
+void WbControlledWorld::checkIfReadRequestCompleted() {
+  assert(!mControllers.isEmpty());
+  if (!needToWait()) {
+    WbSimulationState *state = WbSimulationState::instance();
+    emit state->controllerReadRequestsCompleted();
+    if (state->isPaused() || state->isStep()) {
+      // in order to avoid mixing immediate messages sent by Webots and the libController
+      // some Webots immediate messages could have been postponed
+      // if the simulation is running these messages will be sent within the step message
+      // otherwise we want to send them as soon as the libController request is over
+      writePendingImmediateAnswer();
+    }
+
+    // print controller logs to Webots console(s)
+    // wait until read request completed to guarantee the printout determinism
+    // logs are ordered by controller and not by receiving time
+    foreach (WbController *const controller, mControllers)
+      controller->flushBuffers();
   }
+}
+
+void WbControlledWorld::step() {
+  if (mFirstStep && !mRetryEnabled)
+    startControllers();
 
   WbSimulationState *const simulationState = WbSimulationState::instance();
 
@@ -355,8 +398,10 @@ void WbControlledWorld::step() {
     }
   }
 
-  mIsExecutingStep = true;
-  WbSimulationWorld::step();
+  if (mNewControllers.isEmpty()) {
+    mIsExecutingStep = true;
+    WbSimulationWorld::step();
+  }
 
   waitForRobotWindowIfNeededAndCompleteStep();
 }
@@ -401,6 +446,13 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   const QString &newControllerName = robot->controllerName();
 
   mRobotsWaitingExternController.removeAll(robot);
+
+  // There should not be any controller for `robot` in `mWaitingControllers`
+  for (WbController *controller : mWaitingControllers)
+    if (controller->robotId() == robotID && !mControllers.contains(controller)) {
+      mWaitingControllers.removeOne(controller);
+      delete controller;
+    }
 
   // restart the controller if needed
   for (int i = 0; i < size; ++i) {
@@ -481,7 +533,6 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
   WbSimulationState *const simulationState = WbSimulationState::instance();
   for (int i = 0; i < controllersCount; ++i) {
     WbController *controller = mControllers[i];
-    controller->flushBuffers();
     if (!controller->isRequestPending())
       continue;
     double rt = controller->requestTime() + controller->deltaTimeRequested();

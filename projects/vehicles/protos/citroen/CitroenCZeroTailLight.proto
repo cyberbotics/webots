@@ -1,0 +1,58 @@
+#VRML_SIM R2022a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO CitroenCZeroTailLight [
+]
+{
+  DEF TAIL_LIGHT Shape {
+    appearance DEF TAIL_LIGHT_APP PBRAppearance {
+      baseColor 0.560784 0.113725 0.113725
+      roughness 0.3
+      metalness 0
+      emissiveIntensity 10
+    }
+    geometry IndexedFaceSet {
+      coord Coordinate {
+        point [
+          0.519307 1.134522 -0.056451
+          0.510437 1.008291 -0.162934
+          0.623647 0.969162 -0.080940
+          0.587757 1.092182 -0.043001
+          0.611647 1.026452 -0.049351
+          0.546236 1.128643 -0.054132
+          0.538859 1.132042 -0.055260
+          0.531356 1.011188 -0.160490
+          0.538323 1.006114 -0.160922
+          -0.519307 1.134522 -0.056451
+          -0.510437 1.008291 -0.162934
+          -0.623647 0.969162 -0.080940
+          -0.587757 1.092182 -0.043001
+          -0.611647 1.026452 -0.049351
+          -0.546236 1.128643 -0.054132
+          -0.538859 1.132042 -0.055260
+          -0.531356 1.011188 -0.160490
+          -0.538323 1.006114 -0.160922
+        ]
+      }
+      coordIndex [
+        14, 15, 16, -1
+        5, 8, 7, -1
+        13, 17, 11, -1
+        14, 17, 12, -1
+        9, 16, 15, -1
+        9, 10, 16, -1
+        17, 13, 12, -1
+        14, 16, 17, -1
+        5, 7, 6, -1
+        4, 2, 8, -1
+        5, 3, 8, -1
+        0, 6, 7, -1
+        0, 7, 1, -1
+        8, 3, 4, -1
+      ]
+      creaseAngle 0.4
+    }
+  }
+}

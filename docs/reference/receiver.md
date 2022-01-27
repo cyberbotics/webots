@@ -12,6 +12,7 @@ Receiver {
   SFInt32  bufferSize          -1        # {-1, [0, inf)}
   SFFloat  signalStrengthNoise 0         # [0, inf)
   SFFloat  directionNoise      0         # [0, inf)
+  MFInt32  allowedChannels     [ ]       # [0, inf)
 }
 ```
 
@@ -33,7 +34,7 @@ Currently, there is no implementation difference between the "radio" and "serial
 
 - `aperture`: opening angle of the reception cone (in radians); for "infra-red" only.
 The receiver can only receive messages from emitters currently located within its reception cone.
-The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the z-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
+The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the x-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
 An `aperture` of -1 (the default) is considered to be infinite, meaning that a signal can be received from any direction.
 For "radio" receivers, the `aperture` field is ignored.
 
@@ -60,6 +61,9 @@ The noise is proportionnal to the signal strength, e.g., a `signalStrengthNoise`
 
 - `directionNoise`: standard deviation of the gaussian noise added to each of the components of the direction returned by `wb_receiver_get_emitter_direction`.
 The noise is not dependent on the distance between emitter-receiver.
+
+- `allowedChannels`: specifies allowed channels [Receiver](#receiver) is allowed to listen to.
+Empty list (default) gives unlimited access.
 
 ### Receiver Functions
 
@@ -536,9 +540,9 @@ It is illegal to call this function if the receiver's queue is empty (i.e. when 
 
 The `wb_receiver_get_emitter_direction` function also operates on the head packet in the receiver's queue.
 It returns a normalized (length=1) vector that indicates the direction of the emitter with respect to the receiver's coordinate system.
-The three vector components indicate the *x, y *, and *z*-directions of the emitter, respectively.
-For example, if the emitter was exactly in front of the receiver, then the vector would be [0 0 1].
-In the usual orientation used for 2D simulations (robots moving in the *xz*-plane and the *y *-axis oriented upwards), a positive *x *-component indicates that the emitter is located to the left of the receiver while a negative *x *-component indicates that the emitter is located to the right.
+The three vector components indicate the *x, y*, and *z*-directions of the emitter, respectively.
+For example, if the emitter was exactly in front of the receiver, then the vector would be [1 0 0].
+In the usual orientation used for 2D simulations (robots moving in the *xy*-plane and the *z*-axis oriented upwards), a positive *y*-component indicates that the emitter is located to the left of the receiver while a negative *y*-component indicates that the emitter is located to the right.
 If the packet is sent from a physics plugin, the returned values will be NaN (Not a Number).
 The returned vector is valid only until the next call to the `wb_receiver_next_packet` function.
 It is illegal to call this function if the receiver's queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
@@ -641,6 +645,7 @@ channel = wb_receiver_get_channel(tag)
 *set and get the receiver's channel.*
 
 The `wb_receiver_set_channel` function allows a receiver to change its reception channel.
+The target channel must be included in `allowedChannels` or `allowedChannels` should be empty.
 It modifies the `channel` field of the corresponding [Receiver](#receiver) node.
 Normally, a receiver can only receive data packets from emitters that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used to listen simultaneously to all channels.

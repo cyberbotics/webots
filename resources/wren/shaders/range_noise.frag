@@ -1,4 +1,8 @@
-#version 330
+#version 330 core
+
+precision highp float;
+
+const float FLT_MAX = intBitsToFloat(0x7F800000);
 
 in vec2 texUv;
 in vec2 seed;
@@ -6,6 +10,8 @@ in vec2 seed;
 out float fragColor;
 
 uniform float intensity;
+uniform float minRange;
+uniform float maxRange;
 
 uniform sampler2D inputTextures[1];
 
@@ -38,5 +44,9 @@ float gaussian(vec2 uv, vec2 seed) {
 }
 
 void main() {
-  fragColor = texture(inputTextures[0], texUv).r + intensity * gaussian(texUv, seed);
+  float depth = texture(inputTextures[0], texUv).r;
+  if (depth < maxRange && depth > minRange)
+    fragColor = depth + intensity * gaussian(texUv, seed);
+  else
+    fragColor = FLT_MAX;
 }
