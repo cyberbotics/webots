@@ -219,9 +219,6 @@ thread.start()
 webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
-# disable audio on github action because of missing sound device
-""" if ('GITHUB_ACTIONS' in os.environ):
-    webotsArguments += ' --no-audio' """
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 
