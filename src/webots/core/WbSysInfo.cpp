@@ -93,10 +93,10 @@ const QString &WbSysInfo::openGLVersion() {
 }
 const QString &WbSysInfo::defaultALDevices() {
   const ALCchar *defaultALDevices = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-  static QString gDefaultDevice;
-  if (gDefaultDevice.isEmpty())
-    gDefaultDevice = (const char *)alcOpenDevice(defaultALDevices);
-  return gDefaultDevice;
+  ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevices);
+  static QString defaultDeviceName = (const char *)gDefaultDevice;
+  alcCloseDevice(gDefaultDevice);
+  return defaultDeviceName;
 }
 
 void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
