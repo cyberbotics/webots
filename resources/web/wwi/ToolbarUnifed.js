@@ -109,10 +109,20 @@ export default class ToolbarUnifed {
     // this._view.mouseEvents.showPlayBar = () => this._showPlayBar();
   }
 
+  hideToolbar() {
+    if (typeof this.toolbar !== 'undefined')
+      this.toolbar.style.display = 'none';
+  }
+
+  showToolbar() {
+    if (typeof this.toolbar !== 'undefined')
+      this.toolbar.style.display = 'block';
+  }
+
   _createPlayButton() {
     let action;
     if (this.type === 'animation')
-      action = (this._view.animation._gui === 'real_time') ? 'pause' : 'play';
+      action = (this._view.animation._gui === 'real-time') ? 'pause' : 'play';
     else if (this.type === 'streaming')
       action = 'play';
     this.playButton = this._createToolBarButton('play', 'Play (k)', () => this._triggerPlayPauseButton());
@@ -131,14 +141,27 @@ export default class ToolbarUnifed {
     let animation = this._view.animation;
     let action;
     if (this.type === 'animation' && typeof animation !== 'undefined') {
-      if (animation._gui === 'real_time')
+      if (animation._gui === 'real-time')
         animation.pause();
       else {
-        animation._gui = 'real_time';
+        animation._gui = 'real-time';
         animation._start = new Date().getTime() - animation._data.basicTimeStep * animation._step / animation._speed;
         window.requestAnimationFrame(() => animation._updateAnimation());
       }
-      action = (animation._gui === 'real_time') ? 'pause' : 'play';
+      action = (animation._gui === 'real-time') ? 'pause' : 'play';
+    } else if (this.type === 'streaming') {
+      if (this._view.runOnLoad === 'real-time') {
+        this.pause();
+        action = 'play';
+      } else {
+        this.realTime();
+        action = 'pause';
+      }
+    }
+
+    if (typeof this.runButton !== 'undefined') {
+      this.runTooltip.innerHTML = 'Run';
+      this.runButton.className = 'toolbar-btn icon-run';
     }
 
     this.playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
@@ -411,6 +434,142 @@ export default class ToolbarUnifed {
     return (text in pairs) ? pairs[text] : 4;
   }
 
+  _resetViewpoint() {
+    WbWorld.instance.viewpoint.resetViewpoint();
+    this._view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
+  }
+
+  _createFullscreenButtons() {
+    this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
+    this.toolbarRight.appendChild(this._fullscreenButton);
+
+    this._exitFullscreenButton = this._createToolBarButton('partscreen', 'Exit full screen (f)', () => exitFullscreen());
+    this.toolbarRight.appendChild(this._exitFullscreenButton);
+    this._exitFullscreenButton.style.display = 'none';
+
+    document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
+    document.addEventListener('keydown', this.keydownRef = _ => this._fullscrenKeyboardHandler(_));
+  }
+
+  _parseMillisecondsIntoReadableTime(milliseconds) {
+    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
+    const absoluteHours = Math.floor(hours);
+    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+    const minutes = (hours - absoluteHours) * 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
+    if (ms < 10)
+      ms = '00' + ms;
+    else if (ms < 100)
+      ms = '0' + ms;
+    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
+  };
+
+  _fullscrenKeyboardHandler(e) {
+    if (e.code === 'KeyF')
+      this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
+  }
+
+  // Animations functions
+
+  _createSlider() {
+    if (!Animation.sliderDefined) {
+      window.customElements.define('animation-slider', AnimationSlider);
+      Animation.sliderDefined = true;
+    }
+    this._timeSlider = document.createElement('animation-slider');
+    this._timeSlider.id = 'timeSlider';
+    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
+    this.toolbar.appendChild(this._timeSlider);
+    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
+    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
+  }
+
+  _updateSlider(event) {
+    let animation = this._view.animation;
+    if (event.mouseup && animation) {
+      if (animation._previousState === 'real-time' && animation._gui === 'pause') {
+        animation._previousState = undefined;
+        this._triggerPlayPauseButton();
+      }
+      return;
+    }
+
+    const value = event.detail;
+
+    if (animation._gui === 'real-time') {
+      animation._previousState = 'real-time';
+      this._triggerPlayPauseButton();
+    }
+
+    const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
+    const requestedStep = Math.floor(animation._data.frames.length * clampedValued / 100);
+    animation._start = (new Date().getTime()) - Math.floor(animation._data.basicTimeStep * animation._step);
+    animation._updateAnimationState(requestedStep);
+
+    this._timeSlider.setTime(this._formatTime(animation._data.frames[requestedStep].time));
+  }
+
+  _createAnimationTimeIndicator() {
+    this._currentTime = document.createElement('span');
+    this._currentTime.className = 'current-time';
+    this._currentTime.id = 'currentTime';
+    this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
+    this.toolbarLeft.appendChild(this._currentTime);
+
+    const timeDivider = document.createElement('span');
+    timeDivider.innerHTML = '/';
+    timeDivider.className = 'time-divider';
+    this.toolbarLeft.appendChild(timeDivider);
+
+    const totalTime = document.createElement('span');
+    totalTime.className = 'total-time';
+    const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
+    totalTime.innerHTML = time;
+    this.toolbarLeft.appendChild(totalTime);
+
+    let offset;
+    switch (time.length) {
+      case 20:
+        offset = 19;
+        break;
+      case 22:
+        offset = 25;
+        break;
+      case 23:
+        offset = 30;
+        break;
+      case 25:
+        offset = 36;
+        break;
+      default:
+        offset = 0;
+    }
+
+    if (typeof this._timeSlider !== 'undefined')
+      this._timeSlider.setOffset(offset);
+  }
+
+  _formatTime(time) {
+    if (typeof this._unusedPrefix === 'undefined') {
+      const maxTime = this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time;
+      if (maxTime < 60000)
+        this._unusedPrefix = 6;
+      else if (maxTime < 600000)
+        this._unusedPrefix = 4;
+      else if (maxTime < 3600000)
+        this._unusedPrefix = 3;
+      else if (maxTime < 36000000)
+        this._unusedPrefix = 1;
+    }
+
+    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
+  }
+
   _createChangeSpeed() {
     const playbackLi = document.createElement('li');
     playbackLi.id = 'playback-li';
@@ -520,142 +679,6 @@ export default class ToolbarUnifed {
     this._speedPane.style.visibility = 'hidden';
   }
 
-  _resetViewpoint() {
-    WbWorld.instance.viewpoint.resetViewpoint();
-    this._view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
-  }
-
-  _createFullscreenButtons() {
-    this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
-    this.toolbarRight.appendChild(this._fullscreenButton);
-
-    this._exitFullscreenButton = this._createToolBarButton('partscreen', 'Exit full screen (f)', () => exitFullscreen());
-    this.toolbarRight.appendChild(this._exitFullscreenButton);
-    this._exitFullscreenButton.style.display = 'none';
-
-    document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('keydown', this.keydownRef = _ => this._fullscrenKeyboardHandler(_));
-  }
-
-  _parseMillisecondsIntoReadableTime(milliseconds) {
-    const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
-    const absoluteHours = Math.floor(hours);
-    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-    const minutes = (hours - absoluteHours) * 60;
-    const absoluteMinutes = Math.floor(minutes);
-    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
-    const seconds = (minutes - absoluteMinutes) * 60;
-    const absoluteSeconds = Math.floor(seconds);
-    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-    let ms = Math.floor((seconds - absoluteSeconds) * 1000);
-    if (ms < 10)
-      ms = '00' + ms;
-    else if (ms < 100)
-      ms = '0' + ms;
-    return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
-  };
-
-  _fullscrenKeyboardHandler(e) {
-    if (e.code === 'KeyF')
-      this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
-  }
-
-  // Animations functions
-
-  _createSlider() {
-    if (!Animation.sliderDefined) {
-      window.customElements.define('animation-slider', AnimationSlider);
-      Animation.sliderDefined = true;
-    }
-    this._timeSlider = document.createElement('animation-slider');
-    this._timeSlider.id = 'timeSlider';
-    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
-    this.toolbar.appendChild(this._timeSlider);
-    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
-    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
-  }
-
-  _updateSlider(event) {
-    let animation = this._view.animation;
-    if (event.mouseup && animation) {
-      if (animation._previousState === 'real_time' && animation._gui === 'pause') {
-        animation._previousState = undefined;
-        this._triggerPlayPauseButton();
-      }
-      return;
-    }
-
-    const value = event.detail;
-
-    if (animation._gui === 'real_time') {
-      animation._previousState = 'real_time';
-      this._triggerPlayPauseButton();
-    }
-
-    const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(animation._data.frames.length * clampedValued / 100);
-    animation._start = (new Date().getTime()) - Math.floor(animation._data.basicTimeStep * animation._step);
-    animation._updateAnimationState(requestedStep);
-
-    this._timeSlider.setTime(this._formatTime(animation._data.frames[requestedStep].time));
-  }
-
-  _createAnimationTimeIndicator() {
-    this._currentTime = document.createElement('span');
-    this._currentTime.className = 'current-time';
-    this._currentTime.id = 'currentTime';
-    this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
-    this.toolbarLeft.appendChild(this._currentTime);
-
-    const timeDivider = document.createElement('span');
-    timeDivider.innerHTML = '/';
-    timeDivider.className = 'time-divider';
-    this.toolbarLeft.appendChild(timeDivider);
-
-    const totalTime = document.createElement('span');
-    totalTime.className = 'total-time';
-    const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
-    totalTime.innerHTML = time;
-    this.toolbarLeft.appendChild(totalTime);
-
-    let offset;
-    switch (time.length) {
-      case 20:
-        offset = 19;
-        break;
-      case 22:
-        offset = 25;
-        break;
-      case 23:
-        offset = 30;
-        break;
-      case 25:
-        offset = 36;
-        break;
-      default:
-        offset = 0;
-    }
-
-    if (typeof this._timeSlider !== 'undefined')
-      this._timeSlider.setOffset(offset);
-  }
-
-  _formatTime(time) {
-    if (typeof this._unusedPrefix === 'undefined') {
-      const maxTime = this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time;
-      if (maxTime < 60000)
-        this._unusedPrefix = 6;
-      else if (maxTime < 600000)
-        this._unusedPrefix = 4;
-      else if (maxTime < 3600000)
-        this._unusedPrefix = 3;
-      else if (maxTime < 36000000)
-        this._unusedPrefix = 1;
-    }
-
-    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
-  }
-
   // Scene functions
 
   _createRestoreViewpointButton() {
@@ -672,6 +695,60 @@ export default class ToolbarUnifed {
     this.toolbarLeft.appendChild(this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); }));
   }
 
+  reset(reload = false) {
+    if (this._view.broadcast)
+      return;
+    if (document.getElementById('webotsProgressMessage')) {
+      if (reload)
+        document.getElementById('webotsProgressMessage').innerHTML = 'Reloading simulation...';
+      else
+        document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
+    }
+    if (document.getElementById('webotsProgress'))
+      document.getElementById('webotsProgress').style.display = 'block';
+
+    if (typeof this.pauseButton !== 'undefined' && this.playButton.className === 'toolbar-btn icon-pause')
+      this._view.runOnLoad = 'real-time';
+    else if (typeof this.runButton !== 'undefined' && this.runButton.className === 'toolbar-btn icon-pause')
+      this._view.runOnLoad = 'run';
+
+    let state = this._view.runOnLoad;
+    this.pause();
+    this._view.runOnLoad = state;
+
+    this.hideToolbar();
+    this._view.onready = () => {
+      switch (this._view.runOnLoad) {
+        case 'real-time':
+          this.realTime();
+          break;
+        case 'fast':
+        case 'run':
+          this.run();
+          break;
+      }
+      this.showToolbar();
+    }
+    if (reload)
+      this._view.stream.socket.send('reload');
+    else
+      this._view.stream.socket.send('reset');
+  }
+
+  pause() {
+    if (this._view.broadcast)
+      return;
+    this._view.stream.socket.send('pause');
+    this._view.runOnLoad = 'pause';
+  }
+
+  realTime(force) {
+    if (this._view.broadcast)
+      return;
+    this._view.stream.socket.send('real-time:' + this._view.timeout);
+    this._view.runOnLoad = 'real-time';
+  }
+
   _createStreamingTimeIndicator() {
     const clock = document.createElement('span');
     clock.className = 'webots-streaming-time';
@@ -683,15 +760,63 @@ export default class ToolbarUnifed {
   }
 
   _createResetButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('reset', 'Reset the simulation', () => { this.reset(false); }));
+    this.toolbarLeft.appendChild(this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false)));
   }
 
   _createStepButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('step', 'Perform one simulation step', () => { this.step(); }));
+    this.toolbarLeft.appendChild(this._createToolBarButton('step', 'Perform one simulation step', () => this.step()));
+  }
+
+  step() {
+    if (this._view.broadcast)
+      return;
+
+    if (typeof this.playButton !== 'undefined') {
+      this.playTooltip.innerHTML = 'Play (k)';
+      this.playButton.className = 'toolbar-btn icon-play';
+    }
+
+    if (typeof this.runButton !== 'undefined') {
+      this.runTooltip.innerHTML = 'Run';
+      this.runButton.className = 'toolbar-btn icon-run';
+    }
+
+    this.pause();
+
+    this._view.stream.socket.send('step');
   }
 
   _createRunButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible', () => { this.run(); }));
+    this.runButton = this._createToolBarButton('run', 'Run the simulation as fast as possible', () => this._triggerRunPauseButton());
+    this.runTooltip = this.runButton.childNodes[0];
+    this.toolbarLeft.appendChild(this.runButton);
+  }
+
+  _triggerRunPauseButton() {
+    let action;
+    if (this.type === 'streaming') {
+      if (this._view.runOnLoad === 'run' || this._view.runOnLoad === 'fast') {
+        this.pause();
+        action = 'run';
+      } else {
+        this.run();
+        action = 'pause';
+      }
+    }
+    if (typeof this.playButton !== 'undefined') {
+      this.playTooltip.innerHTML = 'Play (k)';
+      this.playButton.className = 'toolbar-btn icon-play';
+    }
+
+    this.runTooltip.innerHTML = action.charAt(0).toUpperCase() + action.slice(1);
+    this.runButton.className = 'toolbar-btn icon-' + action;
+  }
+
+  run() {
+    if (this._view.broadcast)
+      return;
+    this._view.stream.socket.send('fast:' + this._view.timeout);
+    this._view.runOnLoad = 'fast';
   }
 
   _createWorldSelection() {
@@ -708,7 +833,7 @@ export default class ToolbarUnifed {
     this._worldSelectionDiv.appendChild(this.worldSelect);
 
     // check if toolbar buttons are disabled
-    // if (this.real_timeButton && this.real_timeButton.disabled)
+    // if (this.real-timeButton && this.real-timeButton.disabled)
     //   this.worldSelect.disabled = true;
 
     this.worldSelect.innerHTML = this._view.toolBar.innerHTML;

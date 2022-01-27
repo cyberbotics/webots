@@ -87,7 +87,6 @@ export default class X3dScene {
     this.renderMinimal();
     clearTimeout(this._renderingTimeout);
     this._loader = undefined;
-    webots.currentView.runOnLoad = false;
   }
 
   _deleteObject(id) {
@@ -295,8 +294,8 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (view.toolBar)
-        view.toolBar.enableToolBarButtons(false);
+      // if (view.toolBar)
+      //   view.toolBar.enableToolBarButtons(false);
 
       if (document.getElementById('webotsProgressMessage'))
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';

@@ -91,7 +91,7 @@ webots-view .toolbar-information {
   width: 28px;
 }
 
-webots-view .toolbar-real_time       { background-position:   -2px -2px }
+webots-view .toolbar-real-time       { background-position:   -2px -2px }
 webots-view .toolbar-pause           { background-position:  -40px -2px }
 webots-view .toolbar-step            { background-position:  -78px -2px }
 webots-view .toolbar-run             { background-position: -154px -2px }
@@ -102,7 +102,7 @@ webots-view .toolbar-exit_fullscreen { background-position: -458px -2px }
 
 webots-view .toolbar-information:hover,
 webots-view .toolbar-button:hover,
-webots-view .toolbar-real_time:hover,
+webots-view .toolbar-real-time:hover,
 webots-view .toolbar-pause:hover,
 webots-view .toolbar-step:hover,
 webots-view .toolbar-run:hover,

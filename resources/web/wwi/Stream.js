@@ -84,12 +84,10 @@ export default class Stream {
           document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      if (this._view.toolBar) {
-        this._view.toolBar.setMode(data);
-        this._view.runOnLoad = data;
-      } else
-      if (this._view.timeout >= 0)
-        this.socket.send('timeout:' + this._view.timeout);
+      this._view.runOnLoad = data;
+      //TODO keep ?
+      // if (this._view.timeout >= 0)
+      //   this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
@@ -109,15 +107,12 @@ export default class Stream {
           document.getElementById('webotsProgress').style.display = 'none';
         this._view.multimediaClient.requestNewSize(); // To force the server to render once
       }
-
-      if (typeof this._onready === 'function')
-        this._onready();
     } else if (data === 'reset finished') {
       this._view.resetSimulation();
       if (typeof this._view.x3dScene !== 'undefined' && typeof this._view.multimediaClient === 'undefined')
         this._view.x3dScene.resetViewpoint();
-      if (webots.currentView.toolBar)
-        webots.currentView.toolBar.enableToolBarButtons(true);
+      // if (webots.currentView.toolBar)
+      //   webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this._onready === 'function')
         this._onready();
     } else if (data.startsWith('time: ')) {
@@ -126,7 +121,7 @@ export default class Stream {
         document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
     } else if (data === 'delete world') {
       this._view.destroyWorld();
-      webots.currentView.toolBar.enableToolBarButtons(false);
+      // webots.currentView.toolBar.enableToolBarButtons(false);
     } else {
       let messagedProcessed = false;
       if (typeof this._view.multimediaClient !== 'undefined')

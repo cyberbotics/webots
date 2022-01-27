@@ -105,13 +105,6 @@ export default class Parser {
       renderer.render();
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'none';
-      if (webots.currentView.toolBar) {
-        webots.currentView.toolBar.enableToolBarButtons(true);
-        if (webots.currentView.runOnLoad === 'real-time')
-          webots.currentView.toolBar.realTime(true);
-        else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
-          webots.currentView.toolBar.run(true);
-      }
 
       if (typeof callback === 'function')
         callback();

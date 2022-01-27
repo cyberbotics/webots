@@ -163,6 +163,10 @@ webots-view .toolbar-btn:hover .tooltip {
   visibility: visible;
 }
 
+webots-view .reload-tooltip{
+  transform: scaleX(-1);
+}
+
 webots-view .play-tooltip, .pause-tooltip {
   left: 0px;
 }

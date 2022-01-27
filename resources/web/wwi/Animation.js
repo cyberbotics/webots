@@ -10,7 +10,7 @@ export default class Animation {
     this._url = url;
     this._scene = scene;
     this._view = view;
-    this._gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
+    this._gui = typeof gui === 'undefined' || gui === 'play' ? 'real-time' : 'pause';
     this._loop = typeof loop === 'undefined' ? true : loop;
     this._speed = 1;
     this._view3d = scene.domElement;
@@ -132,21 +132,21 @@ export default class Animation {
   }
 
   _triggerPlayPauseButton() {
-    if (this._gui === 'real_time')
+    if (this._gui === 'real-time')
       this.pause();
     else {
-      this._gui = 'real_time';
+      this._gui = 'real-time';
       this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
       window.requestAnimationFrame(() => this._updateAnimation());
     }
-    const action = (this._gui === 'real_time') ? 'pause' : 'play';
+    const action = (this._gui === 'real-time') ? 'pause' : 'play';
     document.getElementById('play-tooltip').innerHTML = 'P' + action.substring(1) + ' (k)';
     document.getElementById('play-button').className = 'player-btn icon-' + action;
   }
 
   _updateSlider(event) {
     if (event.mouseup) {
-      if (this._previousState === 'real_time' && this._gui === 'pause') {
+      if (this._previousState === 'real-time' && this._gui === 'pause') {
         this._previousState = undefined;
         this._triggerPlayPauseButton();
       } else {
@@ -159,8 +159,8 @@ export default class Animation {
 
     const value = event.detail;
 
-    if (this._gui === 'real_time') {
-      this._previousState = 'real_time';
+    if (this._gui === 'real-time') {
+      this._previousState = 'real-time';
       this._triggerPlayPauseButton();
     }
 
@@ -184,7 +184,7 @@ export default class Animation {
             this._start = new Date().getTime();
           } else
             return;
-        } else if (this._gui === 'real_time') {
+        } else if (this._gui === 'real-time') {
           this._triggerPlayPauseButton();
           return;
         } else
@@ -265,7 +265,7 @@ export default class Animation {
   }
 
   _updateAnimation() {
-    if (this._gui === 'real_time')
+    if (this._gui === 'real-time')
       this._updateAnimationState();
 
     window.requestAnimationFrame(() => this._updateAnimation());
@@ -482,7 +482,7 @@ export default class Animation {
 
   _createPlayButton() {
     const playButton = document.createElement('button');
-    const action = (this._gui === 'real_time') ? 'pause' : 'play';
+    const action = (this._gui === 'real-time') ? 'pause' : 'play';
     playButton.className = 'player-btn icon-' + action;
     playButton.id = 'play-button';
     playButton.addEventListener('click', () => this._triggerPlayPauseButton());

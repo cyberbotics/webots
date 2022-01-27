@@ -202,7 +202,8 @@ export default class WebotsView extends HTMLElement {
 
       this._disconnectCallback = disconnectCallback;
       this._view.onready = () => {
-        this.toolbar = new ToolbarUnifed(this._view, 'streaming', this);
+        if (typeof this.toolbar === 'undefined')
+          this.toolbar = new ToolbarUnifed(this._view, 'streaming', this);
         if (typeof callback === 'function')
           callback();
       };

@@ -39,8 +39,8 @@ export default class Toolbar {
     this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
     this.stepButton.onclick = () => { this.step(); };
 
-    this.domElement.left.appendChild(this._createToolBarButton('real_time', 'Run the simulation in real time'));
-    this.real_timeButton.onclick = () => { this.realTime(); };
+    this.domElement.left.appendChild(this._createToolBarButton('real-time', 'Run the simulation in real time'));
+    this.real-timeButton.onclick = () => { this.realTime(); };
 
     this.domElement.left.appendChild(this._createToolBarButton('pause', 'Pause the simulation'));
     this.pauseButton.onclick = () => { this.pause(); };
@@ -404,7 +404,7 @@ export default class Toolbar {
   }
 
   isPaused() {
-    return this.real_timeButton.style.display === 'inline';
+    return this.real-timeButton.style.display === 'inline';
   }
 
   pause() {
@@ -418,7 +418,7 @@ export default class Toolbar {
       return;
     this._view.stream.socket.send('real-time:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
-    this.real_timeButton.style.display = 'none';
+    this.real-timeButton.style.display = 'none';
     if (typeof this.runButton !== 'undefined')
       this.runButton.style.display = 'inline';
   }
@@ -429,22 +429,22 @@ export default class Toolbar {
     this._view.stream.socket.send('fast:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
     this.runButton.style.display = 'inline';
-    if (typeof this.real_timeButton !== 'undefined')
-      this.real_timeButton.style.display = 'none';
+    if (typeof this.real-timeButton !== 'undefined')
+      this.real-timeButton.style.display = 'none';
   }
 
   step() {
     if (this._view.broadcast)
       return;
     this.pauseButton.style.display = 'none';
-    this.real_timeButton.style.display = 'inline';
+    this.real-timeButton.style.display = 'inline';
     if (typeof this.runButton !== 'undefined')
       this.runButton.style.display = 'inline';
     this._view.stream.socket.send('step');
   }
 
   enableToolBarButtons(enabled) {
-    const buttons = [this.quitButton, this.reloadButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
+    const buttons = [this.quitButton, this.reloadButton, this.resetButton, this.stepButton, this.real-timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this._view.broadcast)) {
@@ -482,7 +482,7 @@ export default class Toolbar {
     this._worldSelectionDiv.appendChild(this.worldSelect);
 
     // check if toolbar buttons are disabled
-    if (this.real_timeButton && this.real_timeButton.disabled)
+    if (this.real-timeButton && this.real-timeButton.disabled)
       this.worldSelect.disabled = true;
   }
 
@@ -490,7 +490,7 @@ export default class Toolbar {
     const runEnabled = typeof this.runButton !== 'undefined';
     if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
-      this.real_timeButton.style.display = 'inline';
+      this.real-timeButton.style.display = 'inline';
       if (runEnabled)
         this.runButton.style.display = 'inline';
       return;
@@ -499,11 +499,11 @@ export default class Toolbar {
     this.pauseButton.style.display = 'inline';
     if (runEnabled && (mode === 'run' || mode === 'fast')) {
       this.runButton.style.display = 'none';
-      this.real_timeButton.style.display = 'inline';
+      this.real-timeButton.style.display = 'inline';
     } else {
       if (runEnabled)
         this.runButton.style.display = 'inline';
-      this.real_timeButton.style.display = 'none';
+      this.real-timeButton.style.display = 'none';
     }
   }
 }
