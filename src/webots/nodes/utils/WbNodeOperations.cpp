@@ -301,6 +301,17 @@ static bool addTextureMap(QString &stream, const aiMaterial *material, const QSt
 static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
                          const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
                          bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
+  // ColladaShapes check for sub-meshes
+  if (referenceMeshes) {
+    if (node->mNumChildren > 0) {
+      for (unsigned int i = 0; i < node->mNumChildren; ++i)
+        if (node->mChildren[i]->mNumMeshes > 0)
+          addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
+                  importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+      return;
+    }
+  }
+
   // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
@@ -310,14 +321,16 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
   const WbRotation webotsRotation(quaternion);
 
   // export the node
-  if (importAsSolid)
-    stream += " Solid { ";
-  else
-    stream += " Transform { ";
-  stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
-  stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
-  stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
-  stream += " children [";
+  if (!referenceMeshes) {
+    if (importAsSolid)
+      stream += " Solid { ";
+    else
+      stream += " Transform { ";
+    stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
+    stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
+    stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
+    stream += " children [";
+  }
 
   const bool defNeedGroup = importAsSolid && importBoundingObjects && node->mNumMeshes > 1;
 
@@ -329,6 +342,12 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+
+    WbLog::warning(QString("scene has %1 mMeshes.").arg(scene->mNumMeshes));
+
+    WbLog::warning(QString("scene has %1 mMaterialIndex.").arg(scene->mNumMaterials));
+
+
     if (mesh->mNumVertices > 100000)
       WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                        .arg(mesh->mName.C_Str()));
@@ -432,22 +451,24 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     stream += " } ";
   }
 
-  if (defNeedGroup) {
+  if (!referenceMeshes) {
+    if (defNeedGroup) {
+      stream += " ] ";
+      stream += " } ";
+    }
+
+    for (unsigned int i = 0; i < node->mNumChildren; ++i)
+      addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
+                  importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+
     stream += " ] ";
+    if (importAsSolid) {
+      stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
+      if (importBoundingObjects && node->mNumMeshes > 0)
+        stream += " boundingObject USE SHAPE ";
+    }
     stream += " } ";
   }
-
-  for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
-                 importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
-
-  stream += " ] ";
-  if (importAsSolid) {
-    stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
-    if (importBoundingObjects && node->mNumMeshes > 0)
-      stream += " boundingObject USE SHAPE ";
-  }
-  stream += " } ";
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,

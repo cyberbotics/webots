@@ -157,12 +157,57 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
+  // Assimp fix for up_axis
+  // Adapted from https://github.com/assimp/assimp/issues/849
+  int UpAxis = 1, UpAxisSign = 1, FrontAxis = 2, FrontAxisSign = 1, CoordAxis = 0, CoordAxisSign = 1;
+  double UnitScaleFactor = 1.0;
+  if (scene->mMetaData) {
+    scene->mMetaData->Get<int>("UpAxis", UpAxis);
+    scene->mMetaData->Get<int>("UpAxisSign", UpAxisSign);
+    scene->mMetaData->Get<int>("FrontAxis", FrontAxis);
+    scene->mMetaData->Get<int>("FrontAxisSign", FrontAxisSign);
+    scene->mMetaData->Get<int>("CoordAxis", CoordAxis);
+    scene->mMetaData->Get<int>("CoordAxisSign", CoordAxisSign);
+    scene->mMetaData->Get<double>("UnitScaleFactor", UnitScaleFactor);
+  }
+
+  aiVector3D upVec, forwardVec, rightVec;
+  upVec[UpAxis] = UpAxisSign * (float)UnitScaleFactor;
+  forwardVec[FrontAxis] = FrontAxisSign * (float)UnitScaleFactor;
+  rightVec[CoordAxis] = CoordAxisSign * (float)UnitScaleFactor;
+
+  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f,
+    upVec.x, upVec.y, upVec.z, 0.0f,
+    forwardVec.x, forwardVec.y, forwardVec.z, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f);
+  scene->mRootNode->mTransformation = mat;
+
   // count total number of vertices and faces
   int totalVertices = 0;
   int totalFaces = 0;
-  for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
-    totalVertices += scene->mMeshes[i]->mNumVertices;
-    totalFaces += scene->mMeshes[i]->mNumFaces;
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+  aiNode *node = NULL;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+
+    // check all the meshes of this node
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (mName->value() != "" && mName->value() != mesh->mName.data)
+        continue;
+
+      if (i>1){
+        continue;
+      }
+
+      totalVertices += mesh->mNumVertices;
+      totalFaces += mesh->mNumFaces;
+    }
+    // add all the children of this node to the queue
+    for (size_t i = 0; i < node->mNumChildren; ++i)
+      queue.push_back(node->mChildren[i]);
   }
 
   // create the arrays
@@ -175,10 +220,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int currentIndexIndex = 0;
   unsigned int *const indexData = new unsigned int[3 * totalFaces];
 
+  warn(tr("new mesh."));
+
   // loop over all the node to find meshes
-  std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
-  aiNode *node = NULL;
+  node = NULL;
   unsigned int indexOffset = 0;
   while (!queue.empty()) {
     node = queue.front();
@@ -192,11 +238,57 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       current = current->mParent;
     }
 
+    warn(tr("new node."));
+
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
+
+      if (i>1){
+        /*
+        for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+          // extract the coordinate
+          const aiVector3D vertice = transform * mesh->mVertices[j];
+          coordData[currentCoordIndex++] = 0.0;//vertice[0];
+          coordData[currentCoordIndex++] = 0.0;//vertice[1];
+          coordData[currentCoordIndex++] = 0.0;//vertice[2];
+          // extract the normal
+          const aiVector3D normal = transform * mesh->mNormals[j];
+          normalData[currentNormalIndex++] = 0.0;//normal[0];
+          normalData[currentNormalIndex++] = 0.0;//normal[1];
+          normalData[currentNormalIndex++] = 0.0;//normal[2];
+          // extract the texture coordinate
+          if (mesh->HasTextureCoords(0)) {
+            texCoordData[currentTexCoordIndex++] = 0.0;//mesh->mTextureCoords[0][j].x;
+            texCoordData[currentTexCoordIndex++] = 0.0;//mesh->mTextureCoords[0][j].y;
+          } else {
+            texCoordData[currentTexCoordIndex++] = 0.0;//0.5;
+            texCoordData[currentTexCoordIndex++] = 0.0;//0.5;
+          }
+        }
+
+        // create the index array
+        for (size_t j = 0; j < mesh->mNumFaces; ++j) {
+          const aiFace face = mesh->mFaces[j];
+          if (face.mNumIndices < 3)  // we want to skip lines
+            continue;
+          assert(face.mNumIndices == 3);
+          indexData[currentIndexIndex++] = 0;//face.mIndices[0] + indexOffset;
+          indexData[currentIndexIndex++] = 0;//face.mIndices[1] + indexOffset;
+          indexData[currentIndexIndex++] = 0;//face.mIndices[2] + indexOffset;
+        }
+
+        indexOffset += mesh->mNumVertices;
+        */
+
+        continue;
+      }
+
+      warn(tr("sub Meshes name is \"%1\".").arg(mesh->mName.data));
+
+
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
