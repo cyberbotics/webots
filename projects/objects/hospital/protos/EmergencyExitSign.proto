@@ -6,7 +6,7 @@
 PROTO EmergencyExitSign [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0
-  field SFString   name            "exit sign"
+  field SFString   name            "emergency exit sign"
   field SFNode     physics         NULL                # Is `Solid.physics`.
 ]
 {
