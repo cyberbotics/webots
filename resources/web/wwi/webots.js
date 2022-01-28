@@ -142,7 +142,8 @@ webots.View = class View {
           this.view3D.appendChild(this.toolBar.domElement);
 
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
-          // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+          // "http://localhost/1999/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+          // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
           this._server = new Server(this.url, this, finalizeWorld);
           this._server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
@@ -187,7 +188,7 @@ webots.View = class View {
 
     if (this.broadcast)
       this.setTimeout(-1);
-    this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
+    this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://') || this.url.endsWith('.wbt');
 
     const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
 

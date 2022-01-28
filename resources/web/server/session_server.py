@@ -206,7 +206,7 @@ def retrieve_load(url, i):
     if 'administrator' in config:
         protocol = 'https://' if config['ssl'] else 'http://'
         separator = '/' if config['portRewrite'] else ':'
-        check_string = f'Check it at{protocol}{config["server"]}{separator}{config["port"]}/monitor\n\n' + \
+        check_string = f'Check it at {protocol}{config["server"]}{separator}{config["port"]}/monitor\n\n' + \
                        '-Simulation Server'
     try:
         response = urlopen(url, timeout=5)

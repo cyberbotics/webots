@@ -8,26 +8,24 @@ export default class Server {
     this._onready = onready;
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
-    // "wss://cyberbotics1.epfl.ch/session
-    //  ?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
-    const n = this._url.indexOf('/session?url=', 6);
-    // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
+    // "http://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+    // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+    const n = this._url.indexOf('?url=https://github.com/', 8);
+    // 8 is for skipping the "http(s)://domain" part of the URL which smallest form is 8 characters long: "https://a"
     if (n === -1) {
       const m = url.lastIndexOf('/');
       this._project = url.substring(this._url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
       this._worldFile = url.substring(m + 1); // e.g., "simple.wbt"
     } else
-      this._repository = this._url.substring(n + 13);
+      this._repository = this._url.substring(n + 5);
   }
 
   connect() {
-    const n = this._url.indexOf('/session?url=', 6);
-    const url = 'http' + (n > 0 ? this._url.substring(2, n + 8) : this._url.substring(2, this._url.indexOf('/', 6)) + '/session');
     let progressMessage = document.getElementById('webotsProgressMessage');
     if (progressMessage)
       progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
-    fetch(url)
+    fetch(self._url)
       .then(response => response.text())
       .then(function(data) {
         if (data.startsWith('Error:')) {
