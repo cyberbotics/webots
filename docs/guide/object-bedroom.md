@@ -43,6 +43,12 @@ Bed {
 
 A photo frame with a customizable picture.
 
+%figure
+
+![PhotoFrame](images/objects/bedroom/PhotoFrame/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -66,4 +72,3 @@ PhotoFrame {
 - `pictureUrl`: Url of the photo
 
 - `frameAppearance`: Define the appearance of the frame
-
