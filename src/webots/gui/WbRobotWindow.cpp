@@ -15,6 +15,7 @@
 #include "WbRobotWindow.hpp"
 
 #include <QtCore/qdebug.h>
+#include <QtCore/QProcess>
 
 #include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
@@ -76,17 +77,17 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   arguments << "-a " + program;
 #endif
 
-  QProcess mCurrentProcess;
-  mCurrentProcess.setProgram(systemProgram);
+  QProcess currentProcess;
+  currentProcess.setProgram(systemProgram);
   qDebug() << systemProgram << arguments;
   if (newBrowserWindow)
-    mCurrentProcess.setArguments(arguments << "-new-window" << url);
+    currentProcess.setArguments(arguments << "-new-window" << url);
   else
-    mCurrentProcess.setArguments(arguments << url);
-  /*   mCurrentProcess.setStandardErrorFile(QProcess::nullDevice());
-    mCurrentProcess.setStandardOutputFile(QProcess::nullDevice()); */
+    currentProcess.setArguments(arguments << url);
+  /*   currentProcess.setStandardErrorFile(QProcess::nullDevice());
+    currentProcess.setStandardOutputFile(QProcess::nullDevice()); */
   qDebug() << systemProgram << arguments;
-  bool result = mCurrentProcess.startDetached();
+  bool result = currentProcess.startDetached();
   if (!result) {
     WbLog::warning(QObject::tr("Failed to open web browser: %1. Opening robot window in default browser.").arg(program));
     result = WbDesktopServices::openUrl(url);
