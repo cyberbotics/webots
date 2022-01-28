@@ -14,7 +14,6 @@
 
 #include "WbRobotWindow.hpp"
 
-#include <QtCore/qdebug.h>
 #include <QtCore/QProcess>
 
 #include "WbDesktopServices.hpp"
@@ -58,7 +57,7 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   qunsetenv("TMP");
   qunsetenv("TEMP");
   if (program.isEmpty())
-    return openUrl(url);
+    return WbDesktopServices::openUrl(url);
 
   systemProgram = "cmd";
   arguments << "/Q"
@@ -69,32 +68,42 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
     return WbDesktopServices::openUrl(url);
 
   systemProgram = program;
-#else
+#elif __APPLE__
   if (program.isEmpty())
-    return openUrl(url);
+    return WbDesktopServices::openUrl(url);
 
   systemProgram = "open";  // set argument
-  arguments << "-a " + program;
+  arguments << "-a" + program;
 #endif
 
   QProcess currentProcess;
+  bool success = false;
+
   currentProcess.setProgram(systemProgram);
-  qDebug() << systemProgram << arguments;
   if (newBrowserWindow)
     currentProcess.setArguments(arguments << "-new-window" << url);
   else
     currentProcess.setArguments(arguments << url);
-  /*   currentProcess.setStandardErrorFile(QProcess::nullDevice());
-    currentProcess.setStandardOutputFile(QProcess::nullDevice()); */
-  qDebug() << systemProgram << arguments;
-  bool result = currentProcess.startDetached();
-  if (!result) {
-    WbLog::warning(QObject::tr("Failed to open web browser: %1. Opening robot window in default browser.").arg(program));
-    result = WbDesktopServices::openUrl(url);
-  }
+
+#ifdef __linux__
+  currentProcess.setStandardErrorFile(QProcess::nullDevice());
+  currentProcess.setStandardOutputFile(QProcess::nullDevice());
+  success = currentProcess.startDetached();
+#else
+  currentProcess.start();
+  if (currentProcess.waitForFinished())
+    success = currentProcess.readAllStandardError().isEmpty();
+#endif
 #ifdef _WIN32
   qputenv("TEMP", TEMP);
   qputenv("TMP", TMP);
 #endif
-  return result;
+
+  if (!success) {
+    WbLog::warning(
+      QObject::tr("Unable to open web browser program: %1. Opening robot window in default browser.").arg(program));
+    success = WbDesktopServices::openUrl(url);
+  }
+
+  return success;
 }
