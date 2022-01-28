@@ -454,10 +454,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 1
   mBrowserProgram = new WbLineEdit(this);
   mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
-  mBrowserProgram->setPlaceholderText(tr("firefox, google-chrome... (default if empty)"));
-  mBrowserProgram->setMinimumWidth(260);
+  mBrowserProgram->setMinimumWidth(270);
   layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 2, 0);
   layout->addWidget(mBrowserProgram, 2, 1);
+#ifdef __linux__
+  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
+#else
+  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google chrome\" (default if empty)"));
+#endif
 
   // row 2
   mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
