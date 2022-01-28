@@ -38,10 +38,10 @@ int main(int argc, char **argv) {
       {width / 2, height - 1}   // bottom line, central pixel
     };
     const double samples_expected_values[4] = {
-      INFINITY,                                     // no collision
-      2.0,                                          // collision with transparent object
-      2.0,                                          // collision
-      2.0                                           // collision with colored ElevationGrid
+      INFINITY,  // no collision
+      2.0,       // collision with transparent object
+      2.0,       // collision
+      2.0        // collision with colored ElevationGrid
     };
 
     int i;
