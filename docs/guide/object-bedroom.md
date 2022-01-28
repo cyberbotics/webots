@@ -39,3 +39,31 @@ Bed {
 
 - `blanketAppearance`: Defines the appearance of the blanket.
 
+## PhotoFrame
+
+A photo frame with a customizable picture.
+
+Derived from [Solid](../reference/solid.md).
+
+```
+PhotoFrame {
+  SFVec3f    translation        0 0 0
+  SFRotation rotation           0 0 1 0
+  SFString   name               "PhotoFrame"
+  MFString   pictureUrl         "textures/child_picture.jpeg"
+  SFNode     frameAppearance    VarnishedPine { colorOverride 0.333333 0.341176 0.32549 textureTransform TextureTransform { rotation 1 } }
+  SFNode     physics            NULL
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/PhotoFrame.proto]({{ url.github_tree }}/projects/objects/bedroom/protos/PhotoFrame.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### PhotoFrame Field Summary
+
+- `pictureUrl`: Url of the photo
+
+- `frameAppearance`: Define the appearance of the frame
+

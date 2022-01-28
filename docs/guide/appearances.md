@@ -240,6 +240,33 @@ CementTiles {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
+## Cloth
+
+An cloth material. The color can be overridden using the `colorOverride` field.
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Cloth {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Cloth.proto]({{ url.github_tree }}/projects/appearances/protos/Cloth.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Cloth Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
 ## Copper
 
 A copper material.

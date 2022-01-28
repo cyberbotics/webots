@@ -45,7 +45,7 @@ PaperBoat {
 
 ## RubberDuck
 
-A rubber yellow duck (10.13 x 7.42 x 10.66 cm).
+A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 
 %figure
 
