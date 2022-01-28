@@ -36,6 +36,13 @@ if [ ! -e /usr/share/applications/webots.desktop ] && [ ! -e ~/.local/share/appl
   echo "Type=Application" >> $FILE
 fi
 
+#prevent CI Warnings
+if [[ -z "$XDG_RUNTIME_DIR" ]]
+then
+XDG_RUNTIME_DIR = "/tmp/runtime-runner"
+export XDG_RUNTIME_DIR
+fi
+
 # we need this to start webots from snap
 if [[ ! -z "$SNAP" ]]
 then
