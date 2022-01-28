@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An emergency exit sign
 
-PROTO ExitSign [
+PROTO EmergencyExitSign [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0
   field SFString   name            "exit sign"
@@ -24,7 +24,7 @@ PROTO ExitSign [
               IBLStrength 3
             }
             geometry Box {
-              size 0.39 0.18 0.08
+              size 0.38 0.17 0.08
             }
           }
         ]
@@ -47,7 +47,7 @@ PROTO ExitSign [
       translation 0 0 -0.04
       children [
         Box {
-          size 0.39 0.18 0.081
+          size 0.38 0.17 0.081
         }
       ]
     }
