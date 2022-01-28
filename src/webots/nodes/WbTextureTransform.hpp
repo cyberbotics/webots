@@ -45,7 +45,7 @@ public:
   // animation functions
   void translate(const WbVector2 &offset);
   WbVector2 translation() { return mTranslation->value(); }
-  void setTransaltion(WbVector2 translation) { mTranslation->setValue(translation); }
+  void setTranslation(WbVector2 translation) { mTranslation->setValue(translation); }
 
   // export
   QStringList fieldsToSynchronizeWithX3D() const override;
