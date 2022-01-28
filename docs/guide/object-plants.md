@@ -38,6 +38,12 @@ BunchOfSunFlowers {
 
 A flower pot.
 
+%figure
+
+![FlowerPot](images/objects/plants/FlowerPot/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -94,4 +100,3 @@ PottedTree {
 - `leavesColor`: Defines the color of the leaves.
 
 - `leavesTextureUrl`: Defines the textures used for of the leaves.
-

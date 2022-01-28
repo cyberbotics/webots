@@ -246,7 +246,7 @@ An cloth material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Cloth](images/appearances/Cloth.png)
+![Cloth](images/appearances/Cloth.thumbnail.png)
 
 %end
 

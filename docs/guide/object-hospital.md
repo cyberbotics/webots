@@ -4,6 +4,12 @@
 
 A curtain
 
+%figure
+
+![Curtain](images/objects/hospital/Curtain/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -24,6 +30,12 @@ Curtain {
 
 A drip stand
 
+%figure
+
+![DripStand](images/objects/hospital/DripStand/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -40,14 +52,20 @@ DripStand {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
-## ExitSign
+## EmergencyExitSign
 
 An emergency exit sign
+
+%figure
+
+![EmergencyExitSign](images/objects/hospital/EmergencyExitSign/model.thumbnail.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
 ```
-ExitSign {
+EmergencyExitSign {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "exit sign"
@@ -55,7 +73,7 @@ ExitSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/hospital/protos/ExitSign.proto]({{ url.github_tree }}/projects/objects/hospital/protos/ExitSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/hospital/protos/EmergencyExitSign.proto]({{ url.github_tree }}/projects/objects/hospital/protos/EmergencyExitSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -63,6 +81,12 @@ ExitSign {
 ## HandSanitizer
 
 A hand sanitizer bottle
+
+%figure
+
+![HandSanitizer](images/objects/hospital/HandSanitizer/model.thumbnail.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
@@ -84,6 +108,12 @@ HandSanitizer {
 
 An hospital bed
 
+%figure
+
+![HospitalBed](images/objects/hospital/HospitalBed/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -103,6 +133,12 @@ HospitalBed {
 ## MedicineBottle
 
 A bottle of medicine
+
+%figure
+
+![MedicineBottle](images/objects/hospital/MedicineBottle/model.thumbnail.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
