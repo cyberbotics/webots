@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
       {width / 2, height - 1}   // bottom line, central pixel
     };
     const double samples_expected_values[4] = {
-      wb_range_finder_get_max_range(range_finder),  // no collision
+      INFINITY,                                     // no collision
       2.0,                                          // collision with transparent object
       2.0,                                          // collision
       2.0                                           // collision with colored ElevationGrid
