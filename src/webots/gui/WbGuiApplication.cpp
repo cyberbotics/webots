@@ -374,7 +374,7 @@ bool WbGuiApplication::setup() {
 
   if (!mStream) {  // create streaming server for robot window if not in stream mode.
     mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
-    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port").toInt());
+    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port", 1234).toInt());
   }
 
 #ifndef _WIN32
