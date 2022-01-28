@@ -244,6 +244,12 @@ CementTiles {
 
 An cloth material. The color can be overridden using the `colorOverride` field.
 
+%figure
+
+![Cloth](images/appearances/Cloth.png)
+
+%end
+
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
