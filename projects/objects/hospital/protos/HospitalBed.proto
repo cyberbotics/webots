@@ -17,7 +17,7 @@ PROTO HospitalBed [
     name IS name
     children [
       Shape {
-        appearance Cloth {
+        appearance Fabric {
           textureTransform TextureTransform {
             scale 3 3
             }
