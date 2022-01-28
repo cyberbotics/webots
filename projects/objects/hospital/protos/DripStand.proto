@@ -6,7 +6,7 @@
 PROTO DripStand [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0
-  field SFString   name            "drip_stand"
+  field SFString   name            "drip stand"
   field SFNode     physics         NULL                # Is `Solid.physics`.
 ]
 {
