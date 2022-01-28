@@ -36,6 +36,8 @@ signals:
 private:
   WbRobot *mRobot;
   QString mClientID;
+
+  bool openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow);
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP

@@ -13,10 +13,10 @@
 // limitations under the License.
 
 #include "WbDesktopServices.hpp"
-#include "WbLog.hpp"
 
+#ifdef __linux__
 #include <QtCore/QProcess>
-#ifndef __linux__
+#else
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #endif
@@ -45,53 +45,4 @@ bool WbDesktopServices::openUrl(const QString &url) {
 #endif
   return result;
 #endif
-}
-
-bool WbDesktopServices::openUrlWithArgs(const QString &url, const QString &program, const bool newBrowserWindow) {
-  QString systemProgram;
-  QStringList arguments;
-
-#ifdef _WIN32
-  // The TEMP/TMP environment variables set my the MSYS2 console are confusing Visual C++ (among possibly other apps)
-  // as they refer to "/tmp" which is not a valid Windows path. It is therefore safer to remove them
-  const QByteArray TEMP = qgetenv("TEMP");
-  const QByteArray TMP = qgetenv("TMP");
-  qunsetenv("TMP");
-  qunsetenv("TEMP");
-  if (program.isEmpty())
-    return openUrl(url);
-
-  systemProgram = "start" + program;
-  arguments << program;
-#elif __linux__
-  if (program.isEmpty())
-    return openUrl(url);
-
-  systemProgram = program;
-#else
-  if (program.isEmpty())
-    return openUrl(url);
-
-  systemProgram = "open";  // set argument
-  arguments << "-a " + program;
-#endif
-
-  QProcess process;
-  process.setProgram(systemProgram);
-  if (newBrowserWindow)
-    process.setArguments(arguments << "-new-window" << url);
-  else
-    process.setArguments(arguments << url);
-  process.setStandardErrorFile(QProcess::nullDevice());
-  process.setStandardOutputFile(QProcess::nullDevice());
-  bool result = process.startDetached();
-  if (!result) {
-    WbLog::warning(QObject::tr("Failed to open web browser: %1. Opening robot window in default browser.").arg(program));
-    result = openUrl(url);
-  }
-#ifdef _WIN32
-  qputenv("TEMP", TEMP);
-  qputenv("TMP", TMP);
-#endif
-  return result;
 }
