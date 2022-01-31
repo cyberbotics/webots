@@ -39,7 +39,7 @@ fi
 #prevent CI Warnings
 if [[ -z "$XDG_RUNTIME_DIR" ]]
 then
-XDG_RUNTIME_DIR = "/tmp/runtime-runner"
+XDG_RUNTIME_DIR="/tmp/runtime-runner"
 export XDG_RUNTIME_DIR
 fi
 
