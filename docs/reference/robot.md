@@ -12,7 +12,6 @@ Robot {
   MFFloat  battery         []       # see below
   SFFloat  cpuConsumption  10       # [0, inf)
   SFBool   selfCollision   FALSE    # {TRUE, FALSE}
-  SFBool   showWindow      FALSE    # {TRUE, FALSE}
   SFString window          ""       # any string
   SFString remoteControl   ""       # any string
 }
@@ -92,8 +91,6 @@ Here is an example of a robot leg with self collision enabled:
     because they are non-consecutive, e.g., they are attached to each other through
     an intermediate solid ("Leg"). In such an example, it is probably a good idea to
     set `minStop` and `maxStop` values for the "Knee" and "Ankle" joints.
-
-- `showWindow`: defines whether the robot window should be shown at the startup of the controller.
 
 - `window`: defines the path of the robot window controller plugin used to display the robot window.
 If the `window` field is empty, the default generic robot window is loaded.
@@ -260,11 +257,11 @@ If the two computational processes (Webots and controller) are slow, it may be i
 `wb_robot_step_begin` and `wb_robot_step_end` allow you to achieve such an implementation.
 They correspond to a split version of `wb_robot_step`, with the particularity that the code written between the two function calls is executed in parallel with the Webots simulation step.
 `wb_robot_step_begin` and `wb_robot_step_end` both return -1 if the simulation is terminated.
-Note that some Webots API functions cannot be called between `wb_robot_step_begin` and `wb_robot_step_end`, as they require immediate response from Webots using a request-response pattern. 
-This includes some [Supervisor API](supervisor.md) functions, like `wb_supervisor_node_get_field` and `wb_supervisor_field_get_sf_rotation`, but also some Robot API functions, like `wb_robot_get_urdf`. 
+Note that some Webots API functions cannot be called between `wb_robot_step_begin` and `wb_robot_step_end`, as they require immediate response from Webots using a request-response pattern.
+This includes some [Supervisor API](supervisor.md) functions, like `wb_supervisor_node_get_field` and `wb_supervisor_field_get_sf_rotation`, but also some Robot API functions, like `wb_robot_get_urdf`.
 Webots will warn you in case you call one of these functions between `wb_robot_step_begin` and `wb_robot_step_end`.
 You can simply call them before `wb_robot_step_begin` or after `wb_robot_step_end`.
-However, some of these functions can be called between `wb_robot_step_begin` and `wb_robot_step_end` if you enable the supervisor tracking feature. 
+However, some of these functions can be called between `wb_robot_step_begin` and `wb_robot_step_end` if you enable the supervisor tracking feature.
 `wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_point_tracking` force Webots to continuously stream the requested information to the controller.
 By enabling the tracking, the corresponding supervisor functions can be called between `wb_robot_step_begin` and `wb_robot_step_end`, because their value will be queried to Webots during `wb_robot_step_begin` and received during `wb_robot_step_end`.
 
@@ -563,7 +560,7 @@ public:
       // leave the loop when the simulation is over
       if (stepBegin(timeStep) == -1)
         break;
-      
+
       // the following code (until step_end) is executed in parallel with the background simulation step
 
       double val = distanceSensor->getValue();  // Read and process sensor data
@@ -620,7 +617,7 @@ class MyController(Robot):
             # leave the loop when the simulation is over
             if self.stepBegin(self.timeStep) == -1:
                 break
-            
+
             # the following code (until self.step_end) is executed in parallel with the background simulation step
 
             val = self.distanceSensor.getValue()  # Read and process sensor data
@@ -628,12 +625,12 @@ class MyController(Robot):
             # intensive computation could take place here
 
             self.led.set(1)                       # Send actuator commands
-            
+
             # end simulation step computation: retrieve new sensor values from Webots
             # leave the loop when the simulation is over
             if self.stepEnd() == -1:
                 break
-        
+
 # main Python program
 controller = MyController()
 controller.run()
@@ -671,7 +668,7 @@ public class MyController extends Robot {
         break;
 
       // the following code (until step_end) is executed in parallel with the background simulation step
-      
+
       double val = distanceSensor.getValue();  // Read and process sensor data
 
       // intensive computation could take place here

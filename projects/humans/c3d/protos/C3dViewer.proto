@@ -44,7 +44,6 @@ PROTO C3dViewer [
     ]
     name IS name
     supervisor TRUE
-    showWindow TRUE
     window IS window
   }
 }

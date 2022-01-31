@@ -229,7 +229,6 @@ private slots:
   void maximizeDock();
   void minimizeDock();
   void setWidgetMaximized(QWidget *widget, bool maximized);
-  void handleNewRobotInsertion(WbRobot *robot);
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();

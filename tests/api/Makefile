@@ -12,18 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: controllers physics robot_windows remote_controls
+.PHONY: controllers physics remote_controls
 
-release debug profile clean: controllers physics robot_windows remote_controls
+release debug profile clean: controllers physics remote_controls
 
 controllers:
 	+@make -s -C controllers $(MAKECMDGOALS)
 
 physics:
 	+@make -s -C plugins/physics $(MAKECMDGOALS)
-
-robot_windows:
-	+@make -s -C plugins/robot_windows $(MAKECMDGOALS)
 
 remote_controls:
 	+@make -s -C plugins/remote_controls $(MAKECMDGOALS)

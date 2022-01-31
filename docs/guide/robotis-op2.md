@@ -56,7 +56,6 @@ RobotisOp2 {
   MFFloat    battery         []
   SFNode     jersey          NULL
   SFInt32    channel         0
-  SFBool     showWindow      FALSE
   SFBool     backlash        FALSE
   MFNode     bodySlot        []
   MFNode     headSlot        []

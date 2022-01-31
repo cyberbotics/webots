@@ -1373,10 +1373,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   emit splashScreenCloseRequested();
 
-  foreach (WbRobot *const robot, WbControlledWorld::instance()->robots())
-    handleNewRobotInsertion(robot);
-
-  connect(world, &WbWorld::robotAdded, this, &WbMainWindow::handleNewRobotInsertion);
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
   connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
 
@@ -1390,15 +1386,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbLog::setPopUpPostponed(false);
   WbLog::showPostponedPopUpMessages();
   connect(WbProject::current(), &WbProject::pathChanged, this, &WbMainWindow::updateProjectPath);
-}
-
-void WbMainWindow::handleNewRobotInsertion(WbRobot *robot) {
-  if (robot->isShowWindowFieldEnabled()) {
-    if (robot->windowFile().isEmpty())
-      robot->showWindow();
-    else
-      showHtmlRobotWindow(robot);
-  }
 }
 
 void WbMainWindow::newWorld() {

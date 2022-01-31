@@ -94,7 +94,7 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   currentProcess.setStandardErrorFile(QProcess::nullDevice());
   currentProcess.setStandardOutputFile(QProcess::nullDevice());
   success = currentProcess.startDetached();
-  error = tr("Cannot start %s.").arg(systemProgram);
+  error = tr("Cannot start %1.").arg(systemProgram);
 #else
   currentProcess.start();
   if (currentProcess.waitForFinished()) {
@@ -108,9 +108,8 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
 #endif
 
   if (!success) {
-    WbLog::warning(QObject::tr("Unable to open web browser program: %1. %2 Opening robot window in default browser.")
-                     .arg(program)
-                     .arg(error));
+    WbLog::warning(
+      tr("Unable to open web browser program: %1. %2 Opening robot window in default browser.").arg(program).arg(error));
     success = WbDesktopServices::openUrl(url);
   }
 
