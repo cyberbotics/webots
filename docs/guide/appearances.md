@@ -1,4 +1,4 @@
-Fabric# Appearances
+# Appearances
 This chapter describes the list of available appearance PROTO nodes based on the [PBRAppearance](../reference/pbrappearance.md) node.
 
 ## Asphalt
