@@ -1,4 +1,4 @@
-# Appearances
+Fabric# Appearances
 This chapter describes the list of available appearance PROTO nodes based on the [PBRAppearance](../reference/pbrappearance.md) node.
 
 ## Asphalt
@@ -233,39 +233,6 @@ CementTiles {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CementTiles Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
-## Cloth
-
-An cloth material. The color can be overridden using the `colorOverride` field.
-
-%figure
-
-![Cloth](images/appearances/Cloth.thumbnail.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-Cloth {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Cloth.proto]({{ url.github_tree }}/projects/appearances/protos/Cloth.proto)"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### Cloth Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -524,6 +491,39 @@ ElectricConduit {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ElectricConduit Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## Fabric
+
+An fabric material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![Fabric](images/appearances/Fabric.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Fabric {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Fabric.proto]({{ url.github_tree }}/projects/appearances/protos/Fabric.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Fabric Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -2028,4 +2028,3 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
