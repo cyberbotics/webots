@@ -27,16 +27,16 @@ WbSoundClip::WbSoundClip() :
   mBuffer(0),
   mSide(0),
   mBalance(0.0),
-  mAudio(WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
+  mOpenAL(WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
 }
 
 WbSoundClip::~WbSoundClip() {
-  if (mBuffer && mAudio)
+  if (mBuffer && mOpenAL)
     alDeleteBuffers(1, &mBuffer);
 }
 
 void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
-  if (mAudio) {
+  if (mOpenAL) {
     WbWaveFile wave(filename, device);
     wave.loadFromFile(side);
     if (wave.nChannels() > 1)
@@ -50,7 +50,7 @@ void WbSoundClip::load(const QString &filename, QIODevice *device, double balanc
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
-  if (mAudio) {
+  if (mOpenAL) {
     ALuint buffer = 0;
 
     try {

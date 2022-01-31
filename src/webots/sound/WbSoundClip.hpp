@@ -44,7 +44,7 @@ protected:
   double mBalance;
 
 private:
-  bool mAudio;
+  bool mOpenAL;
 };
 
 #endif

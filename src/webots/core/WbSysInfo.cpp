@@ -100,7 +100,7 @@ const QString &WbSysInfo::defaultALDevices() {
   if (defaultALDevice) {
     ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevice);
     if (gDefaultDevice) {
-      defaultDeviceName = (const char *)defaultALDevice ;
+      defaultDeviceName = (const char *)defaultALDevice;
       alcCloseDevice(gDefaultDevice);
     }
   }
