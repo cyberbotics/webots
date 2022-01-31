@@ -6,14 +6,14 @@ window.onload = function() {
   window.robotWindow.receive = function(message, robot) {
     if (message.indexOf("configure ") === 0) {
       try {
-        var configure = JSON.parse(message.substring(10));
+        let configure = JSON.parse(message.substring(10));
       } catch(e) {
         console.log(e);
         console.log("In: " + message);
       }
       robotLayout(configure);
     } else { // sensor values
-      var values = message.split(" ");
+      let values = message.split(" ");
       document.getElementById("prox.horizontal.0").innerHTML = values[0];
       document.getElementById("prox.horizontal.1").innerHTML = values[1];
       document.getElementById("prox.horizontal.2").innerHTML = values[2];

@@ -540,7 +540,8 @@ void WbStreamingServer::sendToClients(const QString &message) {
   if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages) {
     return;
   }
-  foreach (QWebSocket *client, mWebSocketClients) { client->sendTextMessage(mMessageToClients); }
+  foreach (QWebSocket *client, mWebSocketClients)
+    client->sendTextMessage(mMessageToClients);
   mMessageToClients = "";
 }
 
