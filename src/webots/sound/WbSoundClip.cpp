@@ -15,70 +15,66 @@
 #include "WbSoundClip.hpp"
 
 #include "WbPreferences.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbWaveFile.hpp"
 
 #include <QtCore/QObject>
 
 #include <AL/al.h>
 
-WbSoundClip::WbSoundClip() :
-  mFilename(),
-  mDevice(NULL),
-  mBuffer(0),
-  mSide(0),
-  mBalance(0.0),
-  mAudio(WbPreferences::instance()->value("Sound/OpenAL").toBool()) {
+WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
 }
 
 WbSoundClip::~WbSoundClip() {
-  if (mBuffer && mAudio)
+  if (mBuffer && WbSoundEngine::openAL())
     alDeleteBuffers(1, &mBuffer);
 }
 
 void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
-  if (mAudio) {
-    WbWaveFile wave(filename, device);
-    wave.loadFromFile(side);
-    if (wave.nChannels() > 1)
-      wave.convertToMono(balance);
-    mFilename = wave.filename();
-    mSide = side;
-    mBalance = balance;
-    mDevice = device;
-    load(&wave);
-  }
+  if (!WbSoundEngine::openAL())
+    return;
+  WbWaveFile wave(filename, device);
+  wave.loadFromFile(side);
+  if (wave.nChannels() > 1)
+    wave.convertToMono(balance);
+  mFilename = wave.filename();
+  mSide = side;
+  mBalance = balance;
+  mDevice = device;
+  load(&wave);
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
-  if (mAudio) {
-    ALuint buffer = 0;
+  if (!WbSoundEngine::openAL())
+    return;
 
-    try {
-      ALenum format = 0;
-      if (wave->nChannels() == 1 && wave->bitsPerSample() == 8)
-        format = AL_FORMAT_MONO8;
-      else if (wave->nChannels() == 1 && wave->bitsPerSample() == 16)
-        format = AL_FORMAT_MONO16;
-      else if (wave->nChannels() == 2 && wave->bitsPerSample() == 8)
-        format = AL_FORMAT_STEREO8;
-      else if (wave->nChannels() == 2 && wave->bitsPerSample() == 16)
-        format = AL_FORMAT_STEREO16;
-      else
-        throw QObject::tr("Unknown WAVE format");
+  ALuint buffer = 0;
 
-      ALsizei rate = wave->rate();
-      ALsizei bufferSize = wave->bufferSize() * sizeof(qint16);
+  try {
+    ALenum format = 0;
+    if (wave->nChannels() == 1 && wave->bitsPerSample() == 8)
+      format = AL_FORMAT_MONO8;
+    else if (wave->nChannels() == 1 && wave->bitsPerSample() == 16)
+      format = AL_FORMAT_MONO16;
+    else if (wave->nChannels() == 2 && wave->bitsPerSample() == 8)
+      format = AL_FORMAT_STEREO8;
+    else if (wave->nChannels() == 2 && wave->bitsPerSample() == 16)
+      format = AL_FORMAT_STEREO16;
+    else
+      throw QObject::tr("Unknown WAVE format");
 
-      alGenBuffers(1, &buffer);
-      alBufferData(buffer, format, wave->buffer(), bufferSize, rate);
+    ALsizei rate = wave->rate();
+    ALsizei bufferSize = wave->bufferSize() * sizeof(qint16);
 
-    } catch (const QString &e) {
-      if (buffer != 0)
-        alDeleteBuffers(1, &buffer);
+    alGenBuffers(1, &buffer);
+    alBufferData(buffer, format, wave->buffer(), bufferSize, rate);
 
-      throw;  // throw up
-    }
+  } catch (const QString &e) {
+    if (buffer != 0)
+      alDeleteBuffers(1, &buffer);
 
-    mBuffer = buffer;
+    throw;  // throw up
   }
+
+  mBuffer = buffer;
 }

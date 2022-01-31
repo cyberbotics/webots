@@ -27,6 +27,7 @@ class WbSoundClip;
 class WbSoundSource;
 
 namespace WbSoundEngine {
+  bool openAL();
   void setWorld(WbWorld *world);
   void setMute(bool mute);
   void setVolume(int volume);

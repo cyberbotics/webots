@@ -44,6 +44,7 @@
 
 static WbWorld *gWorld = NULL;
 static WbViewpoint *gViewpoint = NULL;
+static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
 static ALCdevice *gDefaultDevice = NULL;
@@ -77,8 +78,8 @@ static void cleanup() {
 static void init() {
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
-
-  if (gDefaultDevice || !WbPreferences::instance()->value("Sound/OpenAL").toBool())  // init was already done.
+  gOpenAL = WbPreferences::instance()->value("Sound/OpenAL").toBool();
+  if (gDefaultDevice || !gOpenAL)  // init was already done or should be skipped
     return;
   qAddPostRoutine(cleanup);
   try {
@@ -98,6 +99,10 @@ static void init() {
     WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
   WbSoundEngine::updateListener();
+}
+
+bool WbSoundEngine::openAL() {
+  return gOpenAL;
 }
 
 void WbSoundEngine::setWorld(WbWorld *world) {

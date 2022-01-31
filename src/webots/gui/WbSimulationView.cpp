@@ -478,7 +478,7 @@ void WbSimulationView::updateVisibility() {
 }
 
 void WbSimulationView::unmuteSound() {
-  if (WbSysInfo::defaultALDevices().isEmpty()) {
+  if (WbSysInfo::defaultALDevice().isEmpty()) {
     WbLog::warning("no audio device found.");
     return;
   }

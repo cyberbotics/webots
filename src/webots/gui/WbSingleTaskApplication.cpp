@@ -202,7 +202,7 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("System: %1").arg(WbSysInfo::sysInfo()).toUtf8().constData() << endl;
   cout << tr("Processor: %1").arg(WbSysInfo::processor()).toUtf8().constData() << endl;
   cout << tr("Number of cores: %1").arg(WbSysInfo::coreCount()).toUtf8().constData() << endl;
-  cout << tr("OpenAL device: %1").arg(WbSysInfo::defaultALDevices()).toUtf8().constData() << endl;
+  cout << tr("OpenAL device: %1").arg(WbSysInfo::defaultALDevice()).toUtf8().constData() << endl;
 
   // create simply an OpenGL context
   QMainWindow mainWindow;

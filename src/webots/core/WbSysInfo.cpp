@@ -91,7 +91,8 @@ const QString &WbSysInfo::openGLVersion() {
     openGLVersion = (const char *)glGetString(GL_VERSION);
   return openGLVersion;
 }
-const QString &WbSysInfo::defaultALDevices() {
+
+const QString &WbSysInfo::defaultALDevice() {
   static QString defaultDeviceName = "?";
   if (defaultDeviceName != "?")
     return defaultDeviceName;
@@ -100,7 +101,7 @@ const QString &WbSysInfo::defaultALDevices() {
   if (defaultALDevice) {
     ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevice);
     if (gDefaultDevice) {
-      defaultDeviceName = (const char *)defaultALDevice ;
+      defaultDeviceName = (const char *)defaultALDevice;
       alcCloseDevice(gDefaultDevice);
     }
   }
