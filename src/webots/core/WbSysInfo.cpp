@@ -92,10 +92,18 @@ const QString &WbSysInfo::openGLVersion() {
   return openGLVersion;
 }
 const QString &WbSysInfo::defaultALDevices() {
-  const ALCchar *defaultALDevices = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-  ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevices);
-  static QString defaultDeviceName = (const char *)gDefaultDevice;
-  alcCloseDevice(gDefaultDevice);
+  static QString defaultDeviceName = "?";
+  if (defaultDeviceName != "?")
+    return defaultDeviceName;
+  defaultDeviceName = "";
+  const ALCchar *defaultALDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+  if (defaultALDevice) {
+    ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevice);
+    if (gDefaultDevice) {
+      defaultDeviceName = (const char *)defaultALDevice ;
+      alcCloseDevice(gDefaultDevice);
+    }
+  }
   return defaultDeviceName;
 }
 
