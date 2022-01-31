@@ -5,6 +5,8 @@ precision highp float;
 const int sceneTextureIndex = 0;
 const int lastResultTextureIndex = 1;
 
+const float FLT_MAX = intBitsToFloat(0x7F800000);
+
 in vec2 texUv;
 
 layout(location = 0) out vec4 result;
@@ -21,7 +23,10 @@ void main() {
   if (firstRender == 1.0)
     result = sceneColor;
   else
-    result = mix(sceneColor, lastColor, intensity);
+    if (lastColor == FLT_MAX || sceneColor == FLT_MAX )
+      result = sceneColor
+    else
+      result = mix(sceneColor, lastColor, intensity);
 
   result = vec4(result.rgb, 1.0);
 }

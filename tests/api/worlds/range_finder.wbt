@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9916928629006359 0.007423969021714616 -0.12841398037560237 5.74739
-  position -0.236366 2.54748 4.38049
+  orientation 0.41361081363131735 -0.6674580110601656 -0.6192139358241605 5.556358626081302
+  position -5.604968113719904 -2.89604711021145 3.5605460031134144
 }
 Background {
   skyColor [
@@ -17,6 +17,15 @@ PointLight {
 }
 Transform {
   translation 2 0 -2
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 0.8 -0.75
   children [
     Shape {
       geometry Plane {
@@ -55,18 +64,14 @@ Transform {
 Robot {
   children [
     RangeFinder {
-      rotation 0.577349 -0.577349 -0.577349 -2.0944
+      rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 -2.0944
       fieldOfView 1.5708
+      minRange 1
       maxRange 3
-      motionBlur 32
-    }
-    TestSuiteEmitter {
     }
   ]
   controller "range_finder_checker"
   controllerArgs [
     "range_finder"
   ]
-}
-TestSuiteSupervisor {
 }
