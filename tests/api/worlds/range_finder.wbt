@@ -78,3 +78,5 @@ Robot {
     "range_finder"
   ]
 }
+TestSuiteSupervisor {
+}
