@@ -2,7 +2,7 @@
 
 ## Curtain
 
-A curtain
+A curtain.
 
 %figure
 
@@ -28,7 +28,7 @@ Curtain {
 
 ## DripStand
 
-A drip stand
+A drip stand.
 
 %figure
 
@@ -54,7 +54,7 @@ DripStand {
 
 ## EmergencyExitSign
 
-An emergency exit sign
+An emergency exit sign.
 
 %figure
 
@@ -80,7 +80,7 @@ EmergencyExitSign {
 
 ## HandSanitizer
 
-A hand sanitizer bottle
+A hand sanitizer bottle.
 
 %figure
 
@@ -106,7 +106,7 @@ HandSanitizer {
 
 ## HospitalBed
 
-An hospital bed
+An hospital bed.
 
 %figure
 
@@ -132,7 +132,7 @@ HospitalBed {
 
 ## MedicineBottle
 
-A bottle of medicine
+A bottle of medicine.
 
 %figure
 
@@ -155,4 +155,3 @@ MedicineBottle {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
-
