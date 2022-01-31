@@ -99,11 +99,14 @@ const QString &WbSysInfo::defaultALDevice() {
   defaultDeviceName = "";
   const ALCchar *defaultALDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
   if (defaultALDevice) {
+    const QByteArray ALSOFT_LOGLEVEL = qgetenv("ALSOFT_LOGLEVEL");
+    qputenv("ALSOFT_LOGLEVEL", "0");
     ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevice);
     if (gDefaultDevice) {
       defaultDeviceName = (const char *)defaultALDevice;
       alcCloseDevice(gDefaultDevice);
     }
+    qputenv("ALSOFT_LOG_LEVEL", ALSOFT_LOGLEVEL);
   }
   return defaultDeviceName;
 }
