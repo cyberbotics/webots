@@ -182,7 +182,7 @@ void WbTrack::reset(const QString &id) {
   mMotorPosition = 0.0;
   mSurfaceVelocity = 0.0;
   if (mTextureTransform)
-    mTextureTransform->setTransaltion(mSavedTextureTransformTranslations[id]);
+    mTextureTransform->setTranslation(mSavedTextureTransformTranslations[id]);
 }
 
 void WbTrack::save(const QString &id) {

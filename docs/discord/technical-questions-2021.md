@@ -876,14 +876,14 @@ Got it. Thanks!
 ##### Ragemor 01/07/2021 17:43:11
 Is there any Webots project about multi robot coordination using leader follower approach? I want to implement leader follower algorithm in my project but i cant understand how can i write code about that. Which nodes and api functions(or sensors) should i use? Do you have docs about leader follower and multi robots in webots?
 
-##### b\_adam 01/07/2021 20:15:16
+##### adamcio1 01/07/2021 20:15:16
 Hi, I am trying to rotate an epuck2 robot by 90 degrees, I tried using time but I couldn't measure exactly 90 degrees, is there a way to do it effectively not using time and angular speed?
 
 ##### Aditya Agrawal 01/07/2021 21:36:03
 The most effective way to turn an epuck2 is by using time and angular speed itself. You may want to have a look at the proto file and take into account the thickness of the wheels among the other things to get a more accurate value of axle length.
 
 ##### ArjunSadananda 01/07/2021 21:41:23
-`@b_adam` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
+`@adamcio1` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
 
 ##### Luiz Felipe 01/08/2021 06:08:10
 In line 46 in [https://github.com/cyberbotics/webots/blob/master/resources/web/streaming\_viewer/index.html#L46](https://github.com/cyberbotics/webots/blob/master/resources/web/streaming_viewer/index.html#L46) of the new 2021a version the line it is not supposed to be:  `  <script src="[https://www.cyberbotics.com/wwi/R2021a/webots.min.js](https://www.cyberbotics.com/wwi/R2021a/webots.min.js)"></script>` ?
@@ -969,7 +969,7 @@ Maybe this one can help? [http://www.diegoantognini.com/projects/dis/](http://ww
 ##### Ragemor 01/08/2021 14:00:31
 Thank you. If anyone have an idea or doc about leader follower can share with me?
 
-##### b\_adam 01/08/2021 14:23:25
+##### adamcio1 01/08/2021 14:23:25
 could someone give me a hand with rotating an EPUCK2 robot by 90 degrees? Tried absolutely everything and nothing worked, I am a complete beginner so don't know much
 
 
@@ -3210,7 +3210,7 @@ hmm you are right
 in my simulation, my simulation window is drifting around in a circular shape without me doing anything. Any ideas why?
 
 ##### DrakerDG [Moderator] 01/26/2021 06:50:47
-<@671921336385273856> check the view menu: The Follow Object submenu allows you to switch between a fixed (static) viewpoint and a viewpoint that follows a mobile object (usually a robot). If you want the viewpoint to follow an object, first you need to select the object with the mouse and then check one of the items of the submenu depending on the following behavior you want... 
+`@duct` check the view menu: The Follow Object submenu allows you to switch between a fixed (static) viewpoint and a viewpoint that follows a mobile object (usually a robot). If you want the viewpoint to follow an object, first you need to select the object with the mouse and then check one of the items of the submenu depending on the following behavior you want... 
 
 [https://cyberbotics.com/doc/guide/the-user-interface](https://cyberbotics.com/doc/guide/the-user-interface)
 
@@ -13019,7 +13019,7 @@ No need to get angry
 
 Its the... (guys, whats the altf4 equivalent on mac)
 
-##### onecelerysticc 04/09/2021 21:22:14
+##### celerystic 04/09/2021 21:22:14
 I don’t use macs a lot, perhaps you should ask someone else?
 
 
@@ -13037,7 +13037,7 @@ Oh, im sorry
 
 Please take a cookie as a sign of my apology 🍪
 
-##### onecelerysticc 04/09/2021 21:26:45
+##### celerystic 04/09/2021 21:26:45
 Perhaps you should go to a doctor?
 
 ##### Renkun 04/09/2021 21:27:52
@@ -13049,13 +13049,13 @@ Your*
 
 Please stop trolling
 
-##### onecelerysticc 04/09/2021 21:29:30
+##### celerystic 04/09/2021 21:29:30
 I’m not too sure with doctor terminology, but I think you could try a podiatrist? I’m not too sure if thats the correct one though
 
 ##### Renkun 04/09/2021 21:30:40
 says the person who doesnt have one
 
-##### onecelerysticc 04/09/2021 21:30:48
+##### celerystic 04/09/2021 21:30:48
 :0
 
 ##### thonk enthusiast 04/09/2021 21:31:34
@@ -20736,7 +20736,7 @@ I solved it . Thank you
 
 I would like to ask whether webots has an optical flow module that can be used to hover the drone indoors.
 
-##### Sergen Aşık 06/27/2021 13:37:28
+##### Sergen 06/27/2021 13:37:28
 Hi, is there anyone work on octomap?
 
 
@@ -21210,13 +21210,13 @@ I haven't found a good tutorial on ROS with Webots but I think the process for u
 ##### DavidF 07/05/2021 17:12:00
 Thanks! I have done that stuff and found the ROS2 tutorial, but I hoped that there was a good ROS one too 😅
 
-##### amruthraghav 07/05/2021 17:51:14
+##### amzzzz 07/05/2021 17:51:14
 Hi everyone! I am new to webots and was wondering if there are some good tutorials for webots on python. I did find a few sample codes here and there in the documentation but nothing concrete. Most of the example(sample world) code is in c or c++ as well. I was wondering If anyone could point me to a decent tutorial or GitHub repo with a few sample codes in python. Would highly appreciate! Thanks in advance.
 
 ##### Alejandro Naranjo 07/05/2021 18:49:00
 I think Soft illusion has very good tutorials here is a link to them: [https://www.youtube.com/c/Softillusion/videos](https://www.youtube.com/c/Softillusion/videos)
 
-##### amruthraghav 07/05/2021 18:51:11
+##### amzzzz 07/05/2021 18:51:11
 `@Alejandro Naranjo` thank you so much for the fast reply! This will help a lot. Have a great day/night ahead.
 
 ##### Troy 07/05/2021 20:30:22
@@ -21350,7 +21350,7 @@ The asphalt appearance is predefined. If you want a custom appearance, right-cli
 ##### yanan 07/08/2021 10:25:00
 thanks, Daniel.
 
-##### amruthraghav 07/08/2021 12:26:47
+##### amzzzz 07/08/2021 12:26:47
 Hey everyone, I was wondering if anyone had problem to import a config file for a bot,. While importing Config it says "No module named Config". However I did install Config using Pip earlier and its shows that the package has installed. Thanks in advance
 %figure
 ![Screenshot_2021-07-08_at_8.25.36_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/862671056052944935/Screenshot_2021-07-08_at_8.25.36_PM.png)
