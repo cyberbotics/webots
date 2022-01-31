@@ -387,7 +387,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
   if (mIsColor)
     mBackgroundColor = color;
   else
-    mBackgroundColor = WbRgb(INFINITY, INFINITY, INFINITY);
+    mBackgroundColor = WbRgb(FLT_MAX, FLT_MAX, FLT_MAX);
 
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};
