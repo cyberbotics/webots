@@ -343,9 +343,9 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-    WbLog::warning(QString("scene has %1 mMeshes.").arg(scene->mNumMeshes));
+    //WbLog::warning(QString("scene has %1 mMeshes.").arg(scene->mNumMeshes));
 
-    WbLog::warning(QString("scene has %1 mMaterialIndex.").arg(scene->mNumMaterials));
+    //WbLog::warning(QString("scene has %1 mMaterialIndex.").arg(scene->mNumMaterials));
 
 
     if (mesh->mNumVertices > 100000)
@@ -409,6 +409,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       stream += " geometry Mesh { ";
       stream += QString(" url \"%1\"").arg(fileName);
       stream += QString(" name \"%1\"").arg(mesh->mName.data);
+      stream += QString(" materialIndex %1").arg(0);
       stream += " }";
     } else {
       stream += " geometry IndexedFaceSet { ";

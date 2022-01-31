@@ -59,7 +59,6 @@ private:
   WbNode *clone() const override { return new WbMesh(*this); }
   void init();
   bool checkIfNameExists(const aiScene *scene, const QString &name) const;
-  bool checkIfMaterialIndexExists(const aiScene *scene, const qint32 &materialIndex) const;
 
 private slots:
   void updateUrl();

@@ -34,6 +34,7 @@
 void WbMesh::init() {
   mUrl = findMFString("url");
   mName = findSFString("name");
+  mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
 }
@@ -87,6 +88,7 @@ void WbMesh::postFinalize() {
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
+  connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
 
 void WbMesh::createResizeManipulator() {
@@ -103,22 +105,6 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
       if (name == mesh->mName.data)
-        return true;
-    }
-  }
-  return false;
-}
-
-bool WbMesh::checkIfMaterialIndexExists(const aiScene *scene, const qint32 &materialIndex) const {
-  std::list<aiNode *> queue;
-  queue.push_back(scene->mRootNode);
-  aiNode *node = NULL;
-  while (!queue.empty()) {
-    node = queue.front();
-    queue.pop_front();
-    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      if (materialIndex == mesh->mMaterialIndex)
         return true;
     }
   }
@@ -173,6 +159,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
+/*
+  if (mMaterialIndex->value() >= (int) scene->mNumMaterials) {
+    warn(tr("Geometry with the color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
+    return;
+  }
+*/
+
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
   int UpAxis = 1, UpAxisSign = 1, FrontAxis = 2, FrontAxisSign = 1, CoordAxis = 0, CoordAxisSign = 1;
@@ -214,10 +207,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
-      if (i>1){
-        continue;
-      }
-
       totalVertices += mesh->mNumVertices;
       totalFaces += mesh->mNumFaces;
     }
@@ -236,7 +225,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int currentIndexIndex = 0;
   unsigned int *const indexData = new unsigned int[3 * totalFaces];
 
-  warn(tr("new mesh."));
+  //warn(tr("new mesh."));
 
   // loop over all the node to find meshes
   queue.push_back(scene->mRootNode);
@@ -254,7 +243,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       current = current->mParent;
     }
 
-    warn(tr("new node."));
+    //warn(tr("new node."));
 
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
@@ -262,49 +251,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
-      if (i>1){
-        /*
-        for (size_t j = 0; j < mesh->mNumVertices; ++j) {
-          // extract the coordinate
-          const aiVector3D vertice = transform * mesh->mVertices[j];
-          coordData[currentCoordIndex++] = 0.0;//vertice[0];
-          coordData[currentCoordIndex++] = 0.0;//vertice[1];
-          coordData[currentCoordIndex++] = 0.0;//vertice[2];
-          // extract the normal
-          const aiVector3D normal = transform * mesh->mNormals[j];
-          normalData[currentNormalIndex++] = 0.0;//normal[0];
-          normalData[currentNormalIndex++] = 0.0;//normal[1];
-          normalData[currentNormalIndex++] = 0.0;//normal[2];
-          // extract the texture coordinate
-          if (mesh->HasTextureCoords(0)) {
-            texCoordData[currentTexCoordIndex++] = 0.0;//mesh->mTextureCoords[0][j].x;
-            texCoordData[currentTexCoordIndex++] = 0.0;//mesh->mTextureCoords[0][j].y;
-          } else {
-            texCoordData[currentTexCoordIndex++] = 0.0;//0.5;
-            texCoordData[currentTexCoordIndex++] = 0.0;//0.5;
-          }
-        }
-
-        // create the index array
-        for (size_t j = 0; j < mesh->mNumFaces; ++j) {
-          const aiFace face = mesh->mFaces[j];
-          if (face.mNumIndices < 3)  // we want to skip lines
-            continue;
-          assert(face.mNumIndices == 3);
-          indexData[currentIndexIndex++] = 0;//face.mIndices[0] + indexOffset;
-          indexData[currentIndexIndex++] = 0;//face.mIndices[1] + indexOffset;
-          indexData[currentIndexIndex++] = 0;//face.mIndices[2] + indexOffset;
-        }
-
-        indexOffset += mesh->mNumVertices;
-        */
-
-        continue;
-      }
-
-      warn(tr("sub Meshes name is \"%1\".").arg(mesh->mName.data));
-
-
+      //if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+      //return;
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
