@@ -15,6 +15,9 @@
 #include "WbRobotWindow.hpp"
 
 #include <QtCore/QProcess>
+#if __APPLE__
+#include <QtCore/QRandomGenerator>
+#endif
 
 #include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
@@ -70,7 +73,8 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   systemProgram = program;
 #elif __APPLE__
   if (program.isEmpty())
-    return WbDesktopServices::openUrl(url);
+    // safari fails to open the same url that has just been closed, generate random number to fix the issue.
+    return WbDesktopServices::openUrl(url + '#' + QString::number(QRandomGenerator::global()->generate()));
 
   systemProgram = "open";  // set argument
   arguments << "-a" + program;
