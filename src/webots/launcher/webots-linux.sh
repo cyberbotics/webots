@@ -39,8 +39,7 @@ fi
 #prevent CI Warnings
 if [[ -z "$XDG_RUNTIME_DIR" ]]
 then
-XDG_RUNTIME_DIR="/tmp/runtime-runner"
-export XDG_RUNTIME_DIR
+export XDG_RUNTIME_DIR="/tmp/runtime-runner"
 fi
 
 # we need this to start webots from snap
