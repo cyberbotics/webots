@@ -478,17 +478,18 @@ void WbSimulationView::updateVisibility() {
 }
 
 void WbSimulationView::unmuteSound() {
-  if (!WbSysInfo::defaultALDevices().isEmpty()) {
-    WbPreferences::instance()->setValue("Sound/mute", false);
-    WbPreferences::instance()->setValue("Sound/OpenAL", true);
-    const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
-    if (mode != WbSimulationState::FAST && WbSimulationState::instance()->isRendering())
-      WbSoundEngine::setMute(false);
-    mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
-    connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
-    updateSoundButtons();
-  } else
+  if (WbSysInfo::defaultALDevices().isEmpty()) {
     WbLog::warning("no audio device found.");
+    return;
+  }
+  WbPreferences::instance()->setValue("Sound/mute", false);
+  WbPreferences::instance()->setValue("Sound/OpenAL", true);
+  const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
+  if (mode != WbSimulationState::FAST && WbSimulationState::instance()->isRendering())
+    WbSoundEngine::setMute(false);
+  mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
+  connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
+  updateSoundButtons();
 }
 
 void WbSimulationView::muteSound() {
