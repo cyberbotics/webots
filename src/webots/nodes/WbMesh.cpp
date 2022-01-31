@@ -109,6 +109,22 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
   return false;
 }
 
+bool WbMesh::checkIfMaterialIndexExists(const aiScene *scene, const qint32 &materialIndex) const {
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+  aiNode *node = NULL;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (materialIndex == mesh->mMaterialIndex)
+        return true;
+    }
+  }
+  return false;
+}
+
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
   const QString filePath(path());
   if (filePath.isEmpty())
@@ -590,6 +606,14 @@ void WbMesh::updateUrl() {
 }
 
 void WbMesh::updateName() {
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateMaterialIndex() {
   if (areWrenObjectsInitialized())
     buildWrenMesh(true);
 

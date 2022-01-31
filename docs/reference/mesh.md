@@ -4,6 +4,7 @@
 Mesh {
   field MFString url  [ ]
   field SFString name ""
+  field SFInt32 materialIndex -1
 }
 ```
 
@@ -26,6 +27,10 @@ Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
 
-The `name` field defines which sub-meshe is included.
+The `name` field defines which sub-mesh is included.
 If the `name` value is an empty string then all sub-meshes are included.
 Note that the `name` field is applied only for Collada files.
+
+The `materialIndex` field defines which color of a sub-mesh is included.
+If the `materialIndex` value is a equal to its default value `-1` all colors of the sub-mesh are included.
+Note that the `materialIndex` field is applied only for Collada files.
