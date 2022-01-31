@@ -247,37 +247,22 @@ webots.View = class View {
   // Functions for internal use.
 
   updateWorldList(currentWorld, worlds) {
-    this.toolBar = document.createElement('div');
-    if (!this.toolBar || this.broadcast)
-      // Do not show world list if no toolbar exists or in broadcast mode,
+    if (this.broadcast)
+      // Do not show world list if in broadcast mode,
       // where multiple users can connect to the same Webots instance.
       return;
 
-    if (typeof this.toolBar.worldSelect !== 'undefined')
-      this.toolBar.deleteWorldSelect();
-    if (worlds.length <= 1)
-      return;
-    // this.toolBar.createWorldSelect();
-    for (let i in worlds) {
-      const option = document.createElement('option');
-      option.value = worlds[i];
-      option.text = worlds[i];
-      this.toolBar.appendChild(option)
-      // this.toolBar.worldSelect.appendChild(option);
-      // if (currentWorld === worlds[i])
-      //   this.toolBar.worldSelect.selectedIndex = i;
+    const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
+    this.currentWorld = currentWorld;
+    this.worlds = worlds;
+
+    if (existingCurrentWorld) {
+      const webotsView = document.getElementsByTagName('webots-view')[0];
+      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionDiv !== 'undefined') {
+        webotsView.toolbar.deleteWorldSelect();
+        webotsView.toolbar.createWorldSelect();
+      }
     }
-    /* this.toolBar.worldSelect.onchange = () => {
-      if (this.broadcast || typeof this.toolBar.worldSelect === 'undefined')
-        return;
-      if (this.toolBar)
-        this.toolBar.enableToolBarButtons(false);
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.toolBar.worldSelect.value + '...';
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
-      this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
-    }; */
   }
 
   setLabel(properties) {

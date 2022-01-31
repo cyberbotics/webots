@@ -829,22 +829,48 @@ export default class ToolbarUnifed {
   }
 
   _createWorldSelection() {
-    this._worldSelectionDiv = document.createElement('div');
-    this._worldSelectionDiv.id = 'worldSelectionDiv';
-    this.toolbarLeft.appendChild(this._worldSelectionDiv);
+    this.worldSelectionDiv = document.createElement('div');
+    this.worldSelectionDiv.id = 'worldSelectionDiv';
+    this.toolbarLeft.appendChild(this.worldSelectionDiv);
     this.createWorldSelect();
   }
 
   createWorldSelect() {
+    const worlds = this._view.worlds;
+    if (worlds.length <= 1)
+      return;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
     this.worldSelect.classList.add('select-css');
-    this._worldSelectionDiv.appendChild(this.worldSelect);
+    this.worldSelectionDiv.appendChild(this.worldSelect);
 
-    // check if toolbar buttons are disabled
-    // if (this.real-timeButton && this.real-timeButton.disabled)
-    //   this.worldSelect.disabled = true;
+    if (typeof worlds === 'undefined')
+      return;
 
-    this.worldSelect.innerHTML = this._view.toolBar.innerHTML;
+    for (let i in worlds) {
+      const option = document.createElement('option');
+      option.value = worlds[i];
+      option.text = worlds[i];
+      this.worldSelect.appendChild(option);
+      if (this._view.currentWorld === worlds[i])
+        this.worldSelect.selectedIndex = i;
+    }
+
+    this.worldSelect.onchange = () => {
+      if (this._view.broadcast || typeof this.worldSelect === 'undefined')
+        return;
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.worldSelect.value + '...';
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'block';
+      this._view.stream.socket.send('load:' + this.worldSelect.value);
+    };
+  }
+
+  deleteWorldSelect() {
+    if (typeof this.worldSelectionDiv !== 'undefined' && typeof this.worldSelect !== 'undefined') {
+      this.worldSelectionDiv.removeChild(this.worldSelect);
+      this.worldSelect = undefined;
+    }
   }
 }
