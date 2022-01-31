@@ -20,7 +20,7 @@ void main() {
   vec4 sceneColor = texture(inputTextures[sceneTextureIndex], texUv);
   vec4 lastColor = texture(inputTextures[lastResultTextureIndex], texUv);
 
-  if (firstRender == 1.0 || lastColor == FLT_MAX || sceneColor == FLT_MAX)
+  if (firstRender == 1.0 || sceneColor.x == FLT_MAX || lastColor.x == FLT_MAX)
     result = sceneColor;
   else
     result = mix(sceneColor, lastColor, intensity);
