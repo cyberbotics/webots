@@ -27,7 +27,9 @@ import logging
 import os
 import psutil
 import re
+import requests
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
@@ -38,7 +40,7 @@ import tornado.httpserver
 import tornado.web
 import tornado.websocket
 import traceback
-import socket
+
 if sys.platform == 'win32':
     import wmi
 elif sys.platform == 'darwin':
@@ -142,6 +144,7 @@ class Client:
 
     def setup_project(self):
         global config
+        global current_load
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if not hasattr(self, 'url'):
             logging.error('Missing URL.')
@@ -150,7 +153,19 @@ class Client:
             logging.error(f'Unsupported URL protocol: {self.url}')
             return False
         if 'allowedRepositories' in config and not self.url.startswith(tuple(config['allowedRepositories'])):
-            logging.error(f'Specified URL is not allowed: {self.url}')
+            if not config['docker']:
+                logging.error('Docker not enabled: cannot host foreign simulations.')
+                return False
+            if config['shareIdleTime'] == 0:
+                logging.error('This simulation server is not configured to share idle time.')
+                return False
+            if current_load > config['shareIdleTime']:
+                logging.error(f'Cannot share idle time when current load is above threshold: {current_load}.')
+                return False
+            if 'blockedRepositories' in config and self.url.startswith(tuple(config['bannedRepositories'])):
+                logging.error(f'Cannot run simulation from blocked repository: {self.url}')
+                return False
+
         return self.setup_project_from_github()
 
     def setup_project_from_github(self):
@@ -197,18 +212,15 @@ class Client:
         except OSError:
             path = False
         command = AsyncProcess(['svn', 'export', url])
-        sys.stdout.write(f'$ svn export {url}\n')
-        sys.stdout.flush()
+        logging.info(f'$ svn export {url}')
         while True:
             output = command.run()
             if output[0] == 'x':
                 break
             if output[0] == '2':  # stderr
-                sys.stdout.write('\033[0;31m')  # ANSI red color
-            sys.stdout.write(output[1:])
-            if output[0] == '2':  # stderr
-                sys.stdout.write('\033[0m')  # reset ANSI code
-            sys.stdout.flush()
+                logging.error(output[1:].strip('\n'))
+            else:  # stdout
+                logging.info(output[1:].strip('\n'))
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
         self.project_instance_path += project
@@ -237,7 +249,7 @@ class Client:
                     with open(world) as world_file:
                         version = world_file.readline().split()[1]
                         from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                        print(f'FROM docker image {from_image}')
+                        logging.info(f'FROM docker image {from_image}')
                     f = open('Dockerfile', 'w')
                     f.write(f'FROM {from_image}\n')
                     f.write(f'RUN mkdir -p {self.project_instance_path}\n')
@@ -245,17 +257,16 @@ class Client:
                     if os.path.isfile('Makefile'):
                         f.write('RUN make\n')
                     f.close()
-                print('created Dockerfile')
+                logging.info('created Dockerfile')
                 image = subprocess.getoutput('docker build -q .')
-                command = 'docker run'
+                command = 'docker run --net host'
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
-                    command += f' --net host -e DISPLAY={display} -e XAUTHORITY={xauth}'
-                    command += f' -v {xauth}:{xauth}'
+                    command += f' -e DISPLAY={display} -e XAUTHORITY={xauth} -v {xauth}:{xauth}'
                 else:
                     command += ' --gpus=all -e DISPLAY'
 
@@ -285,15 +296,14 @@ class Client:
             logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{command}"')
             while 1:
                 if client.webots_process is None:
+                    logging.warning('Client connection closed or killed')
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
+                    logging.info('Webots world is loaded, ready to receive connections')
                     break
-            if 'server' not in config:
-                hostname = client.websocket.request.host.split(':')[0]
-            else:
-                hostname = config['server']
+            hostname = config['server']
             protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
@@ -463,9 +473,19 @@ class MonitorHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Write the web page content."""
+        def percent(value):
+            level = 150 + value
+            if value <= 50:
+                red = '%0.2x' % int(level * value / 50)
+                green = '%0.2x' % int(level)
+            else:
+                red = '%0.2x' % int(level)
+                green = '%0.2x' % int(level - level * (value - 50) / 50)
+            return f'<font color="#{red}{green}00">{value}%</font>'
         global cpu_load
         global gpu_load_compute
-        global gpu_load_memory
+        global gpu_ram_usage
+        global swap
         memory = psutil.virtual_memory()
         swap = psutil.swap_memory()
         if nvidia:
@@ -477,7 +497,8 @@ class MonitorHandler(tornado.web.RequestHandler):
         else:
             gpu = 'Not recognized'
         ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + 'GB'
-        ram += f' (swap: {int(round(float(swap.total) / (1024 * 1048576)))}GB)'
+        ram += f' &mdash; <b>swap:</b> {percent(swap.percent)}'
+        ram += f' of {int(round(float(swap.total) / (1024 * 1048576)))}GB'
         real_cores = psutil.cpu_count(False)
         cores_ratio = int(psutil.cpu_count(True) / real_cores)
         cores = f' ({cores_ratio}x {real_cores} cores)'
@@ -506,13 +527,41 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write('<!DOCTYPE html>\n')
         self.write('<html><head><meta charset="utf-8"/><title>Webots simulation server</title>')
         self.write('<link rel="stylesheet" type="text/css" href="https://cyberbotics.com/wwi/R2022b/css/monitor.css">')
-        self.write(f'</head>\n<body><h1>Webots simulation server: {socket.getfqdn()}</h1>')
-        self.write(f'<h2>Host: {os_name}</h2>\n')
-        self.write(f'<p><b>CPU load: {cpu_load}%%</b><br>\n')
+        self.write('</head>\n<body><h1>')
+        if 'title' in config:
+            self.write(config['title'])
+        else:
+            self.write('Webots simulation server')
+        self.write('</h1>')
+        if 'description' in config:
+            self.write(f'<p>{config["description"]}</p>')
+        self.write(f'<h2>Current load: {percent(current_load)}</h2>')
+        self.write(f'<p><b>Host:</b> {os_name} ({socket.getfqdn()})</p>\n')
+        self.write(f'<p><b>CPU load:</b> {percent(cpu_load)}<br>\n')
         self.write(f'{cpu} {cores}</p>\n')
-        self.write(f'<p><b>GPU load compute: {gpu_load_compute}%% &mdash; load memory: {gpu_load_memory}%%</b><br>\n')
+        self.write(f'<p><b>GPU load compute:</b> {percent(gpu_load_compute)}')
+        self.write(f' &mdash; <b>RAM usage:</b> {percent(gpu_ram_usage)}<br>\n')
         self.write(f'{gpu}</p>\n')
-        self.write(f'<p><b>RAM:</b><br>{ram}</p>\n')
+        self.write(f'<p><b>RAM:</b> {ram}</p>\n')
+        if 'allowedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Allowed Repositories</th></thead>\n')
+            for repository in config['allowedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
+            self.write('</table>')
+        if 'blockedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Blocked Repositories</th></thead>\n')
+            for repository in config['blockedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
+            self.write('</table>')
+        if 'notify' in config:
+            self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}%</th></thead>\n')
+            for notify in config['notify']:
+                slash = notify.find('/', 8)
+                if slash > -1:
+                    notify = notify[0:slash]
+                self.write(f'<tr><td><a href="{notify}">{notify}</a></td></tr>')
+            self.write('</table>')
+        self.write('<br>')
         self.write('<canvas id="graph" height="400" width="1024"></canvas>\n')
         self.write('<script src="https://cyberbotics.com/harry-plotter/0.9f/harry.min.js"></script>\n')
         self.write('<script>\n')
@@ -577,6 +626,7 @@ def update_snapshot():
     global network_received
     global cpu_load
     global gpu_load_compute
+    global gpu_ram_usage
     global gpu_load_memory
     memory = psutil.virtual_memory()
     swap = psutil.swap_memory()
@@ -644,6 +694,9 @@ def main():
     # portRewrite:         port rewritten in the URL by apache (true by default)
     # docker:              launch webots inside a docker (false by default)
     # allowedRepositories: list of allowed GitHub simulation repositories
+    # blockedRepositories: list of blocked GitHub simulation repositories
+    # shareIdleTime:       maximum load for running non-allowed repositories
+    # notify:              webservices to be notified about the server status
     # projectsDir:         directory in which projects are located
     # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
     # maxConnections:      maximum number of simultaneous Webots instances
@@ -734,6 +787,59 @@ def main():
     if 'multimediaServer' in config:
         subprocess.Popen(["/opt/janus/bin/janus"])
 
+    if 'notify' not in config:
+        config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']
+    elif isinstance(config['notify'], str):
+        config['notify'] = [config['notify']]
+
+    if 'shareIdleTime' not in config:
+        config['shareIdleTime'] = 50
+
+    if 'ssl' not in config:
+        config['ssl'] = True
+
+    if 'portRewrite' not in config:
+        config['portRewrite'] = True
+
+    if 'server' not in config:
+        config['server'] = 'localhost'
+        logging.error('Warning: server name not defined in configuration file.')
+
+    url = 'https' if config['ssl'] else 'http'
+    url += '://' + config['server']
+    url += '/' if config['portRewrite'] else ':'
+    url += str(config['port'])
+
+    for server in config['notify']:
+        allowedRepositories = ','.join(config['allowedRepositories']) if 'allowedRepositories' in config else ''
+        retry = 6  # try once and retries 5 times if needed
+        while retry > 0:
+            error = False
+            try:
+                x = requests.post(server, data={'url': url,
+                                                'shareIdleTime': config['shareIdleTime'],
+                                                'allowedRepositories': allowedRepositories})
+            except requests.exceptions.RequestException as e:
+                error = f'Request exception: {e}'
+            except requests.exceptions.HTTPError as e:
+                error = f'HTTP error: {e}'
+            except requests.exceptions.ConnectionError as e:
+                error = f'Connection error: {e}'
+            except requests.exceptions.Timeout as e:
+                error = f'Timeout error: {e}'
+            finally:
+                if error:
+                    retry -= 1
+                    logging.warning(f'{error}\n')
+                    if retry > 0:
+                        logging.info(f'Retrying ({6 - retry}/5) in 5 seconds...\n')
+                    else:
+                        logging.error('Giving up\n')
+                    time.sleep(5)
+                else:
+                    retry = 0
+        logging.info(x.text)
+
     # startup the server
     logging.info(f"Running simulation server on port {config['port']}")
 
@@ -743,14 +849,7 @@ def main():
     handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
     http_server = tornado.httpserver.HTTPServer(application)
-    if 'ssl' not in config:
-        config['ssl'] = True
-    if 'portRewrite' not in config:
-        config['portRewrite'] = True
     http_server.listen(config['port'])
-    message = f"Simulation server running on port {config['port']}"
-    print(message)
-    sys.stdout.flush()
     try:
         nvmlInit()
         nvidia = True

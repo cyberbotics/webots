@@ -290,7 +290,7 @@ oops, i find the problem, my mistake
 
 I was trying to add in the wrong place
 
-##### Barack Hussein Obama II 01/07/2022 10:43:37
+##### Osama Bin Laden 01/07/2022 10:43:37
 Hello all I am facing an issue when loading code into vs code
 
 ##### Luftwaffel [Moderator] 01/09/2022 00:18:11
@@ -303,7 +303,7 @@ Hello everyone, i want to make a plunger like solenoid, any idea to make it?  be
 
 > **Attachment**: [Tak\_berjudul\_5\_540p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/929586918663024650/Tak_berjudul_5_540p.mp4)
 
-##### Barack Hussein Obama II 01/09/2022 04:56:40
+##### Osama Bin Laden 01/09/2022 04:56:40
 [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/929599534982647838/unknown.png)
@@ -831,4 +831,321 @@ When installing from tar, did you follow these steps? [https://cyberbotics.com/d
 
 ##### JosjaG 01/18/2022 09:37:01
 Ah, I see my `PYTHONPATH` also referenced to an old location of webots, removing the old reference fixed the issue!
+
+##### Spy Guy 01/19/2022 22:22:01
+Hello, I'm having issues trying to run the example python webots world. I'm not using PyCharm and just trying to do it within Webots itself. This is the same error I keep getting and I haven't had any luck researching the issue
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/933486485947187291/unknown.png)
+%end
+
+
+I'm on Windows using Webots R2022a and my Python 3.9 installation is located at C:\msys64\mingw64\bin\python.exe (already specified in my Path environment variable)
+
+##### AmilaChinthaka 01/20/2022 06:10:17
+It would be helpful indeed. Can you explain how it is done?
+
+##### Olivier Michel [Cyberbotics] 01/20/2022 08:05:06
+You should install Python 3.9 from Python.org instead (or recompile the python wrapper for msys64 python).
+
+##### JosjaG 01/20/2022 09:57:29
+I'm using webots with ros\_control, but since that means I have to use the default `"ros"` controller (right?), I can no longer access the motor devices within the controller to set the initial position. How can I provide initial positions to motor joints?
+
+##### [Red Dragons] Mat198 01/20/2022 11:45:21
+I send the code above. I got it from an exemple wich I don't remember the name
+
+
+I'm trying to use the robot.worldSave() command without an argument as explained here: [https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_world\_save](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_world_save)
+
+
+
+I keep getting this error msg:
+
+Error: wb\_supervisor\_world\_save() called with a NULL 'filename' argument.
+
+
+
+I don't want to explicitly give the world name as I want to use the same code for multiple worlds.
+
+
+
+I need to generate multiple objects and save so I don't need to create then every single time I run the sim.
+
+
+
+Thanks in advance
+
+##### Olivier Michel [Cyberbotics] 01/20/2022 13:03:36
+It looks like a bug. Please open an issue about it.
+
+##### Spy Guy 01/20/2022 17:23:19
+I got that to work, thank you!
+
+##### [Red Dragons] Mat198 01/20/2022 17:26:25
+How I do that?
+
+##### Benjamin Hug [Cyberbotics] 01/20/2022 19:37:42
+Click on `New issue` here [https://github.com/cyberbotics/webots/issues](https://github.com/cyberbotics/webots/issues), thank you!
+
+##### [Red Dragons] Mat198 01/20/2022 19:41:14
+Thanks
+
+##### DDaniel [Cyberbotics] 01/21/2022 10:12:46
+No need to open an issue, it should be fixed already. The corrected version should become available with tonight's nightly build here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Jan Weber 01/21/2022 14:12:42
+I am currently converting my project from the old webots\_ros2\_core to the webots\_ros2\_driver. I am using webots\_ros2\_turtlebot. I noticed that the tf2-tree of the turtlebot is not connected: (see tf2\_tree\_splitted.png)
+
+In webots 2021a with webots\_ros2\_core it was fully connected. 
+
+My understanding is that the tree should be completely built by the driver, right? I have now extended the robot\_launch.py from webots\_ros2\_turtlebot:
+
+
+
+    extension\_slot\_publisher = Node(
+
+        package='tf2\_ros',
+
+        executable='static\_transform\_publisher',
+
+        output='screen',
+
+        arguments=['-0.03', '0', '0.153', '0', '0', '0', 'base\_link', 'extension\_slot'],
+
+    )
+
+
+
+    lidar\_publisher = Node(
+
+        package='tf2\_ros',
+
+        executable='static\_transform\_publisher',
+
+        output='screen',
+
+        arguments=['0', '0', '0.02', '0', '0', 'extension\_slot', 'LDS-01'],
+
+    )
+
+
+
+Now the tree is fully connected and the navigation works: (see tf2\_tree.png)
+
+
+
+I am unsure if this is the right way. I rarely get this warning, which to my understanding indicates that someone is publishing the transformation between LDS-01 and base\_link:
+
+
+
+[controller\_server-11] [INFO] [1642773577.942406284] [local\_costmap.local\_costmap\_rclcpp\_node]: Message Filter dropping message: frame 'LDS-01' at time 0.864 for reason 'the timestamp on the message is earlier than all the data in the transform cache'.
+
+
+
+Jan
+%figure
+![tf2_tree_splitted.png](https://cdn.discordapp.com/attachments/565154703139405824/934088121136603166/tf2_tree_splitted.png)
+%end
+
+
+tf2\_tree.png
+%figure
+![tf2_tree.png](https://cdn.discordapp.com/attachments/565154703139405824/934088351307403394/tf2_tree.png)
+%end
+
+##### Benjamin Hug [Cyberbotics] 01/21/2022 14:53:56
+When I run  `ros2 launch webots_ros2_turtlebot robot_launch.py` I have this tree, so I guess you are missing something.
+
+Maybe by looking here ([https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_turtlebot/launch/robot\_launch.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_turtlebot/launch/robot_launch.py)) you will find out what is wrong / missing, otherwise I think it would be easier to open an issue on `webots_ros2` so we can take a look more in depth.
+> **Attachment**: [frames.pdf](https://cdn.discordapp.com/attachments/565154703139405824/934098497035190282/frames.pdf)
+
+##### Jan Weber 01/21/2022 15:15:34
+When I run the command you suggested, I get exactly the same unconnected tree as shown above. There are also many frames missing that are included in your tree.
+
+Then I will create an issue in the next few days and describe the problem in more detail.
+
+Thank you!
+
+##### Max\_K 01/21/2022 15:31:09
+Hello, i try to add a TouchSensor to the spot robot. I followed the tutorial setting-up a Robot Simulation. I am able to add a Distance Sensor as described in updating my\_robot.urdf and had the ros topic also available. But when i try to add a TouchSensor i get the error:
+
+```[driver-2] wb_device_init(): node not handled
+[ERROR] [driver-2]: process has died [pid 132208, exit code -11, cmd '/home/max/webots_ws/install/webots_ros2_driver/lib/webots_ros2_driver/driver --ros-args --params-file /tmp/launch_params_hfe_jwra'].
+```
+
+what could be the reason? I am using ros foxy
+
+##### Benjamin Hug [Cyberbotics] 01/21/2022 16:35:29
+Webots tries to init the TouchSensor with `wb_device_init`, but it shouldn't.
+
+
+
+In any case, the TouchSensor is not yet implemented in the ROS 2 interface for Webots :/
+
+But it is on our to do list!
+
+##### kindleforjc 01/21/2022 21:49:33
+Hello all, just started with Webots Automotive and python. I am trying to make small example where car can reach up to some solid node.
+
+
+
+I am trying to use the supervisor API in  python but it says "Only one instance of the Root class should be created".
+
+
+
+So can anyone help me understand the error? Does this mean that when we add any Car/Vehicle and set the Supervisor field to True... In background one instance of that robot is already created?
+
+
+
+Is there any way to access the self instance in python for vehicle?
+
+
+
+Thank you and sorry if my questions are not clear.
+
+
+I think I got it. I had created Driver() instance already and hence no need to create Supervisor () instance. 
+
+
+
+Thank you.
+
+##### tokia 01/22/2022 01:30:57
+How to increase camera sensor resolution?
+
+##### DrakerDG [Moderator] 01/22/2022 01:33:18
+You can change de width and height to increase resolution (pixels) and set to TRUE antiAliasing
+%figure
+![Screenshot_2022-01-21_193210.png](https://cdn.discordapp.com/attachments/565154703139405824/934259399705387108/Screenshot_2022-01-21_193210.png)
+%end
+
+##### tokia 01/22/2022 01:37:28
+Cool, thank you! I have been looking for 2 finger grippers compatible for universal robots in Webots as I cant use the 3 finger one for my project. If you know any available please let me know😃
+
+##### DrakerDG [Moderator] 01/22/2022 01:46:00
+Maybe the sample world coupled\_motors.wbt works for you.  Take a look to this...
+> **Attachment**: [coupled\_motors.mp4](https://cdn.discordapp.com/attachments/565154703139405824/934262592447324160/coupled_motors.mp4)
+
+
+
+%figure
+![2022-01-21.png](https://cdn.discordapp.com/attachments/565154703139405824/934262724827963434/2022-01-21.png)
+%end
+
+##### giaco\_mz 01/22/2022 18:44:12
+Hi i am running robocup\kid.wbt simulation. I want a new simulation with a lower number of robot but if i try to delete some of them webots crash. Where i can find the file to lower the number of robots?
+
+##### DDaniel [Cyberbotics] 01/22/2022 18:54:21
+Just by deleting them it crashes? Which OS and webots version are you using? I have no issues on my side. Either way the adult.wbt only has 4 robots
+
+##### giaco\_mz 01/22/2022 18:55:46
+Windows - 477.46 MB
+
+18 Dec 2021 - R2022a
+
+##### DDaniel [Cyberbotics] 01/22/2022 18:57:42
+You mean the included sample world kid.wbt, or it's a custom one (from a previous version of webots)?
+
+##### giaco\_mz 01/22/2022 18:58:01
+the included one
+
+
+Now setting field size on kid to the adult one i have this error, it could be related
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/934522977343668274/unknown.png)
+%end
+
+
+after this error also the adult one with the field size parameter set to kid crash
+
+##### DDaniel [Cyberbotics] 01/22/2022 19:05:19
+That error is from the physics engine, I think something is very wrong with your version, something might have been corrupted. I suggest you try to completely uninstall webots and reinstall it
+
+##### giaco\_mz 01/22/2022 19:06:18
+ok, one question can you give me some advice to speed up this kind of simulation please?
+
+
+from webots settings point of view
+
+##### DDaniel [Cyberbotics] 01/22/2022 19:15:10
+these simulations are meant to be very realistic, so they are especially heavy. If you don't need that much, disabling `backlash` modeling would help (set the corresponding flag to false), and disable `turfPhysics` for the ground. Disabling rendering also helps, but there's not much else you can do, it depends a lot on your system too
+
+##### giaco\_mz 01/22/2022 19:18:31
+Ok perfect thx a lot you were very helpfull
+
+
+i have try to reinstall webots but i have the same problem
+
+##### Yosi Frost 01/22/2022 20:32:01
+Is their a way to run unit test for Python controllers in webots?
+
+##### Max\_K 01/24/2022 12:37:32
+ok 😅 .. Do you have an idea for a workaround? I want to detect if the feet of the spot are on the ground. When the spot move/sits the feet turns red, so maybe i could just read out the boundingbox?
+> **Attachment**: [2022-01-24\_13-25-55.mp4](https://cdn.discordapp.com/attachments/565154703139405824/935151332325724220/2022-01-24_13-25-55.mp4)
+
+##### Benjamin Hug [Cyberbotics] 01/24/2022 12:50:20
+That could be something to do. With ROS 2 you should be able to create a plugin and use the Supervisor API in case your robot is a Supervisor.
+
+##### Max\_K 01/24/2022 18:01:52
+When i try to import the Supervisor module i get this error: 
+```[driver-2] Traceback (most recent call last):
+[driver-2]   File "/home/max/webots_ws/build/webots_spot/webots_spot/spot_driver.py", line 8, in <module>
+[driver-2]     from controller import Supervisor
+[driver-2]   File "/usr/local/webots/lib/controller/python38/controller.py", line 31, in <module>
+[driver-2]     import _controller
+[driver-2] ImportError: /usr/local/webots/lib/controller/python38/_controller.so: undefined symbol: _ZNK6webots3GPS14getSpeedVectorEv
+[driver-2] terminate called after throwing an instance of 'std::runtime_error'
+[driver-2]   what():  The webots_spot.spot_driver.SpotDriver plugin cannot be found (C++ or Python).
+[ERROR] [driver-2]: process has died [pid 73385, exit code -6, cmd '/home/max/webots_ws/install/webots_ros2_driver/lib/webots_ros2_driver/driver --ros-args --params-file /tmp/launch_params_zgpmbvdv'].
+```
+
+maybe my env vars are still wrong
+
+##### Benjamin Hug [Cyberbotics] 01/25/2022 09:45:08
+Just take example on the mavic plugin here ([https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_mavic/webots\_ros2\_mavic/mavic\_driver.py#L40](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_mavic/webots_ros2_mavic/mavic_driver.py#L40)). (Edit: check the line 40, this is the way to get the instance of the robot)
+
+##### Max\_K 01/25/2022 12:06:44
+Ok, i have an instance of my robot, but i cant execute supervisor functions. I want to use getFromDef to access a boundingObject Group that i could use to detect the collision.
+
+I have the same error as here: [https://github.com/cyberbotics/webots/issues/4134](https://github.com/cyberbotics/webots/issues/4134)
+
+
+
+I exported the env vars, but the error remains
+
+##### Benjamin Hug [Cyberbotics] 01/25/2022 13:08:13
+Please open an issue on Github so we can look at this together more in depth.
+
+##### Yosi Frost 01/25/2022 14:38:43
+I had a similar issue
+
+
+I was using an older version of webots. when I upgraded, everything worked
+
+##### Max\_K 01/25/2022 14:46:07
+[https://github.com/cyberbotics/webots/issues/4151](https://github.com/cyberbotics/webots/issues/4151) 
+
+I opened an issue.
+
+##### moebius 01/26/2022 03:47:32
+if a .wbo file i am importing into webots has the coordinate system with the x axis pointing up and the arena has the coordinate system with the y axis pointing up (a +90 deg rotation about the z axis basically) , is there anyway I can change the coordinate systems of either of them so they match? I need to use a compass and the values are obviously not usable at the moment. Or should I do some transformation in the controller itself to use the compass values? would really appreciate the help, i am a bit stuck here.
+
+##### Rico Schillings[Sweaty] 01/26/2022 09:57:47
+I'm trying to rebuild a RC-car in webots which we are using for several university projects to test self-driving algorithms. Its a Audi q2 scaled with 1:8 (see picture). I am using the Car.proto to allow working with the webots driver library, but when i down-scaled everything with the real dimensions of our car, I have the following problem: Using 4x4 is working but it seems that the car is "slipping" over the front wheels as soon as I steer into a curve (like the friction of the front wheels is to low and the rear wheels are pushing the car ahead instead of steering correctly..). Since our real car has only a rear motor, I would like to use the "propulsion" type of car.proto. But this is not working for such small-scaled cars like I want. With propulsion the front tires are blocking/fixed and do not rotate. 
+
+
+
+I also tested the example proto of the saeon altino car. This is by default a 4x4 type, but when I change it to propulsion, its front wheels are also blocking. 
+
+
+
+Could it be that there is a kind of a bug with the car.proto which only work for (nearly) realistic dimensions but not when working with small-scaled cars?
+%figure
+![audi_model.jpeg](https://cdn.discordapp.com/attachments/565154703139405824/935835909113413642/audi_model.jpeg)
+%end
+
+##### DDaniel [Cyberbotics] 01/26/2022 09:59:38
+Are you using the `scale` parameter to scale it down? This scaling should only be used on geometries, not at the robot level
+
+##### Rico Schillings[Sweaty] 01/26/2022 10:02:58
+No I just use `scale` on my created mesh/stl files. I have measured all dimensions from the real car and modified the values in the car.proto (e.g. `trackFront = 0.2` or `wheelbase=0.36`) and also created a new wheel.proto with measured values
 
