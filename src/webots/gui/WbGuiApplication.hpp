@@ -57,6 +57,7 @@ private:
   WbMainWindow *mMainWindow;
   bool mShouldDoRendering;
   QString mThemeLoaded;
+  bool mStream;
 
   Task mTask;
   QStringList mTaskArguments;

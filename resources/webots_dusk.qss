@@ -56,12 +56,6 @@ QWidget#DocumentationWebView {
   border: auto;
 }
 
-QWidget#HtmlRobotWindow * {
-  background-color: auto;
-  color: auto;
-  border: auto;
-}
-
 QFrame#consoleTitleBar {
   background: #2a2a33;
 }
