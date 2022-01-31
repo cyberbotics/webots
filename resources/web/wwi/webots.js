@@ -267,7 +267,7 @@ webots.View = class View {
       // if (currentWorld === worlds[i])
       //   this.toolBar.worldSelect.selectedIndex = i;
     }
-    /*this.toolBar.worldSelect.onchange = () => {
+    /* this.toolBar.worldSelect.onchange = () => {
       if (this.broadcast || typeof this.toolBar.worldSelect === 'undefined')
         return;
       if (this.toolBar)
@@ -277,7 +277,7 @@ webots.View = class View {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
       this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
-    };*/
+    }; */
   }
 
   setLabel(properties) {

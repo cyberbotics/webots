@@ -229,13 +229,21 @@ export default class ToolbarUnifed {
   }
 
   _changeSettingsPaneVisibility(event) {
-    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'playback-li' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
+    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
       return;
 
-    if (typeof this._settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined' || typeof this._speedPane === 'undefined')
+    if (typeof this._settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
       return;
 
-    if (event.target.id === 'settingsButton' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && this._speedPane.style.visibility === 'hidden') {
+    let speedPanelHidden = true;
+    if (this.type === 'animation') {
+      if (event.srcElement.id === 'playback-li' || typeof this._speedPane === 'undefined')
+        return;
+      else if (this._speedPane.style.visibility === 'visible')
+        speedPanelHidden = false;
+    }
+
+    if (event.target.id === 'settingsButton' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this._settingsPane.style.visibility = 'visible';
       let settingsButton = document.getElementById('settingsButton');
       if (settingsButton)
@@ -243,9 +251,9 @@ export default class ToolbarUnifed {
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
-    } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || this._speedPane.style.visibility === 'visible') {
+    } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
       this._settingsPane.style.visibility = 'hidden';
-      if (this._gtaoPane.style.visibility === 'hidden' && this._speedPane.style.visibility === 'hidden') {
+      if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         let settingsButton = document.getElementById('settingsButton');
         if (settingsButton)
           settingsButton.style.transform = '';
@@ -256,7 +264,8 @@ export default class ToolbarUnifed {
     }
 
     this._gtaoPane.style.visibility = 'hidden';
-    this._speedPane.style.visibility = 'hidden';
+    if (this.type === 'animation')
+      this._speedPane.style.visibility = 'hidden';
   }
 
   _createResetViewpoint() {

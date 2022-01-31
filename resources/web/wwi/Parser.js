@@ -245,6 +245,15 @@ export default class Parser {
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
 
+    // Update information panel when switching between worlds
+    let webotsView = document.getElementsByTagName('webots-view')[0];
+    if (webotsView && typeof webotsView.toolbar !== 'undefined') {
+      let informationPanel = webotsView.toolbar.informationPanel;
+      if (typeof informationPanel !== 'undefined') {
+        informationPanel.setTitle(WbWorld.instance.title);
+        informationPanel.setDescription(WbWorld.instance.description);
+      }
+    }
     WbWorld.computeUpVector();
   }
 
