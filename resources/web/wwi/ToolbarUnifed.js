@@ -175,7 +175,7 @@ export default class ToolbarUnifed {
   }
 
   _triggerPlayPauseButton() {
-    let animation = this._view.animation;
+    const animation = this._view.animation;
     let action;
     if (this.type === 'animation' && typeof animation !== 'undefined') {
       if (animation._gui === 'real-time')
@@ -282,7 +282,7 @@ export default class ToolbarUnifed {
 
     if (event.target.id === 'settingsButton' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this._settingsPane.style.visibility = 'visible';
-      let settingsButton = document.getElementById('settingsButton');
+      const settingsButton = document.getElementById('settingsButton');
       if (settingsButton)
         settingsButton.style.transform = 'rotate(10deg)';
       const tooltips = document.getElementsByClassName('tooltip');
@@ -291,7 +291,7 @@ export default class ToolbarUnifed {
     } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
       this._settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
-        let settingsButton = document.getElementById('settingsButton');
+        const settingsButton = document.getElementById('settingsButton');
         if (settingsButton)
           settingsButton.style.transform = '';
         const tooltips = document.getElementsByClassName('tooltip');
@@ -434,7 +434,7 @@ export default class ToolbarUnifed {
   _changeGtao(event) {
     changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
     this._gtaoPane.style.visibility = 'hidden';
-    let gtaoLabel = document.getElementById('gtao-display');
+    const gtaoLabel = document.getElementById('gtao-display');
     if (gtaoLabel)
       gtaoLabel.innerHTML = event.srcElement.id;
     this._settingsPane.style.visibility = 'visible';
@@ -444,7 +444,7 @@ export default class ToolbarUnifed {
       else
         i.innerHTML = '';
     }
-    let animation = this._view.animation;
+    const animation = this._view.animation;
     if (animation)
       animation._start = new Date().getTime() - animation._data.basicTimeStep * animation._step / animation._speed;
     this._view.x3dScene.render();
@@ -536,7 +536,7 @@ export default class ToolbarUnifed {
   }
 
   _updateSlider(event) {
-    let animation = this._view.animation;
+    const animation = this._view.animation;
     if (event.mouseup && animation) {
       if (animation._previousState === 'real-time' && animation._gui === 'pause') {
         animation._previousState = undefined;
@@ -697,11 +697,11 @@ export default class ToolbarUnifed {
   }
 
   _changeSpeed(event) {
-    let animation = this._view.animation;
+    const animation = this._view.animation;
     if (animation) {
       animation._speed = event.srcElement.id;
       this._speedPane.style.visibility = 'hidden';
-      let speedDisplay = document.getElementById('speed-display');
+      const speedDisplay = document.getElementById('speed-display');
       if (speedDisplay)
         speedDisplay.innerHTML = animation._speed === '1' ? 'Normal' : animation._speed;
       this._settingsPane.style.visibility = 'visible';
@@ -758,7 +758,7 @@ export default class ToolbarUnifed {
     else if (typeof this.runButton !== 'undefined' && this.runButton.className === 'toolbar-btn icon-pause')
       this._view.runOnLoad = 'run';
 
-    let state = this._view.runOnLoad;
+    const state = this._view.runOnLoad;
     this.pause();
     this._view.runOnLoad = state;
 
@@ -774,7 +774,7 @@ export default class ToolbarUnifed {
           break;
       }
       this.showToolbar();
-    }
+    };
     if (reload)
       this._view.stream.socket.send('reload');
     else
