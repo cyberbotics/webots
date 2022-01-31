@@ -459,8 +459,10 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout->addWidget(mBrowserProgram, 2, 1);
 #ifdef __linux__
   mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
-#else
-  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google chrome\" (default if empty)"));
+#elif defined(_WIN32)
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or msedge (default if empty)"));
+#else  // macOS
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or safari (default if empty)"));
 #endif
 
   // row 2

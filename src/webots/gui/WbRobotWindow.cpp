@@ -65,7 +65,7 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   systemProgram = "cmd";
   arguments << "/Q"
             << "/C"
-            << "\"start " + program + "\"";
+            << "start" << program;
 #elif __linux__
   if (program.isEmpty())
     return WbDesktopServices::openUrl(url);
@@ -89,14 +89,18 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
   else
     currentProcess.setArguments(arguments << url);
 
+  QString error;
 #ifdef __linux__
   currentProcess.setStandardErrorFile(QProcess::nullDevice());
   currentProcess.setStandardOutputFile(QProcess::nullDevice());
   success = currentProcess.startDetached();
+  error = tr("Cannot start %s.").arg(systemProgram);
 #else
   currentProcess.start();
-  if (currentProcess.waitForFinished())
-    success = currentProcess.readAllStandardError().isEmpty();
+  if (currentProcess.waitForFinished()) {
+    error = currentProcess.readAllStandardError().trimmed();
+    success = error.isEmpty();
+  }
 #endif
 #ifdef _WIN32
   qputenv("TEMP", TEMP);
@@ -104,8 +108,9 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
 #endif
 
   if (!success) {
-    WbLog::warning(
-      QObject::tr("Unable to open web browser program: %1. Opening robot window in default browser.").arg(program));
+    WbLog::warning(QObject::tr("Unable to open web browser program: %1. %2 Opening robot window in default browser.")
+                     .arg(program)
+                     .arg(error));
     success = WbDesktopServices::openUrl(url);
   }
 
