@@ -92,8 +92,8 @@ export default class ToolbarUnifed {
     this.toolbar.className = 'toolbar';
     parentNode.appendChild(this.toolbar);
 
-    // this.toolbar.addEventListener('mouseover', () => this._showPlayBar());
-    // this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
+    this.toolbar.addEventListener('mouseover', () => this.showToolbar());
+    this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
     this.toolbarLeft = document.createElement('div');
     this.toolbarLeft.className = 'toolbar-left';
@@ -105,12 +105,49 @@ export default class ToolbarUnifed {
 
     this.toolbar.appendChild(this.toolbarLeft);
     this.toolbar.appendChild(this.toolbarRight);
-    // this._view.mouseEvents.hidePlayBar = () => this._hidePlayBar();
-    // this._view.mouseEvents.showPlayBar = () => this._showPlayBar();
+    this._view.mouseEvents.hideToolbar = () => this.hideToolbar();
+    this._view.mouseEvents.showToolbar = () => this.showToolbar();
+  }
+
+  _onMouseLeave(e) {
+    if (e.relatedTarget != null && e.relatedTarget.id !== 'canvas')
+      this._view.mouseEvents.onMouseLeave();
   }
 
   hideToolbar() {
-    if (typeof this.toolbar !== 'undefined')
+    if (this.toolbar === 'undefined')
+      return;
+
+    let canHide;
+
+    let isPlaying = true;
+    if (document.getElementById('playButton') && document.getElementById('playButton').className !== 'toolbar-btn icon-pause')
+      isPlaying = false;
+
+    let settingsPane = true;
+    if (typeof this._settingsPane !== 'undefined' && this._settingsPane.style.visibility !== 'hidden')
+      settingsPane = false;
+
+    let gtaoPane = true;
+    if (typeof this._gtaoPane !== 'undefined' && this._gtaoPane.style.visibility !== 'hidden')
+      gtaoPane = false;
+
+    if (this.type === 'animation') {
+      const isSelected = this._timeSlider.selected();
+      let speedPane = true;
+      if (typeof this._speedPane !== 'undefined' && this._speedPane.style.visibility !== 'hidden')
+        speedPane = false;
+
+      canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
+    } else if (this.type === 'streaming') {
+      if (document.getElementById('runButton'))
+        isPlaying = isPlaying || document.getElementById('runButton').className === 'toolbar-btn icon-pause';
+
+      canHide = isPlaying && settingsPane && gtaoPane;
+    } else if (this.type === 'scene')
+      canHide = true;
+
+    if (canHide)
       this.toolbar.style.display = 'none';
   }
 
