@@ -357,22 +357,22 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       QString name("PBRAppearance");
       float roughness = 1.0, transparency = 0.0;
       for (unsigned int j = 0; j < material->mNumProperties; ++j) {
-        float value[3];
+        float values[3];
+        float value;
         unsigned int count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, value, &count) == AI_SUCCESS && count == 3)
-          baseColor = WbVector3(value[0], value[1], value[2]);
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, values, &count) == AI_SUCCESS && count == 3)
+          baseColor = WbVector3(values[0], values[1], values[2]);
         count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, value, &count) == AI_SUCCESS && count == 3)
-          emissiveColor = WbVector3(value[0], value[1], value[2]);
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS_STRENGTH, value, &count) == AI_SUCCESS && count == 3)
-          roughness = 1.0 - value[0];
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_REFLECTIVITY, value, &count) == AI_SUCCESS && count == 3)
-          roughness = 1.0 - value[0];
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_OPACITY, value, &count) == AI_SUCCESS && count == 3)
-          transparency = 1.0 - value[0];
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, values, &count) == AI_SUCCESS && count == 3)
+          emissiveColor = WbVector3(values[0], values[1], values[2]);
+        if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &value) == AI_SUCCESS)
+          roughness = 1.0 - value;
+        else if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS_STRENGTH, &value) == AI_SUCCESS)
+          roughness = 1.0 - value / 100.0;
+        else if (aiGetMaterialFloat(material, AI_MATKEY_REFLECTIVITY, &value) == AI_SUCCESS)
+          roughness = 1.0 - value;
+        if (aiGetMaterialFloat(material, AI_MATKEY_OPACITY, &value) == AI_SUCCESS)
+          transparency = 1.0 - value;
         aiString nameProperty;
         if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
           name = nameProperty.C_Str();

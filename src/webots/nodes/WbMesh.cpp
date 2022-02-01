@@ -305,8 +305,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPath = path().toUtf8();
-  return WbTriangleMeshCache::sipHash13x(meshPath.constData(), meshPath.size());
+  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value() ).toUtf8();
+  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
 }
 
 void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
