@@ -68,7 +68,7 @@ Derived from [Solid](../reference/solid.md).
 EmergencyExitSign {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
-  SFString   name            "exit sign"
+  SFString   name            "emergency exit sign"
   SFNode     physics         NULL
 }
 ```
