@@ -240,12 +240,13 @@ void WbLog::showPendingConsoleMessages() {
 
 void WbLog::toggle(FILE *std_stream) {
   static int fd[3] = {0, 0, 0};
+  const int no = fileno(std_stream);
+  assert(no >= 1);  // it shouldn't be stdin
   fflush(std_stream);
-  int no = fileno(std_stream);
   if (fd[no] == 0) {
     fd[no] = dup(no);
-    FILE *n = freopen("/dev/null", "w", std_stream);
-    if (!n)
+    // cppcheck-suppress leakReturnValNotUsed
+    if (freopen("/dev/null", "w", std_stream) == NULL)
       fprintf(stderr, "Failed to disable %s.", (no == 1) ? "stdout" : "stderr");
   } else {
     dup2(fd[no], no);
