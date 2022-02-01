@@ -343,11 +343,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-    //WbLog::warning(QString("scene has %1 mMeshes.").arg(scene->mNumMeshes));
-
-    //WbLog::warning(QString("scene has %1 mMaterialIndex.").arg(scene->mNumMaterials));
-
-
     if (mesh->mNumVertices > 100000)
       WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                        .arg(mesh->mName.C_Str()));
@@ -361,7 +356,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       stream += " appearance PBRAppearance { ";
       WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
       QString name("PBRAppearance");
-      float roughness = 1.0, transparency = 0.0;
+      float roughness = 0.0, transparency = 0.0;
       for (unsigned int j = 0; j < material->mNumProperties; ++j) {
         float value[3];
         unsigned int count = 3;
@@ -372,7 +367,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
           emissiveColor = WbVector3(value[0], value[1], value[2]);
         count = 1;
         if (aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS_STRENGTH, value, &count) == AI_SUCCESS && count == 3)
-          roughness = 0.01 * (100.0 - value[0]);
+          roughness = 1.0 - value[0];
         count = 1;
         if (aiGetMaterialFloatArray(material, AI_MATKEY_REFLECTIVITY, value, &count) == AI_SUCCESS && count == 3)
           roughness = 1.0 - value[0];
@@ -409,7 +404,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       stream += " geometry Mesh { ";
       stream += QString(" url \"%1\"").arg(fileName);
       stream += QString(" name \"%1\"").arg(mesh->mName.data);
-      stream += QString(" materialIndex %1").arg(0);
+      stream += QString(" materialIndex %1").arg((int)mesh->mMaterialIndex);
       stream += " }";
     } else {
       stream += " geometry IndexedFaceSet { ";

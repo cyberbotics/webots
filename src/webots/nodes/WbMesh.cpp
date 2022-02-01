@@ -125,8 +125,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
-                                                        aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS |
-                                                        aiComponent_MATERIALS);
+                                                        aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
   const aiScene *scene;
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
@@ -159,12 +158,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-/*
   if (mMaterialIndex->value() >= (int) scene->mNumMaterials) {
     warn(tr("Geometry with the color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
     return;
   }
-*/
 
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
@@ -207,6 +204,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
+      if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+        continue;
+
       totalVertices += mesh->mNumVertices;
       totalFaces += mesh->mNumFaces;
     }
@@ -243,16 +243,14 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       current = current->mParent;
     }
 
-    //warn(tr("new node."));
-
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
-      //if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
-      //return;
+      if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+        continue;
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
