@@ -16,10 +16,10 @@ void main() {
   else
     floatDepth = gl_FragCoord.z / gl_FragCoord.w;
 
-    if (floatDepth < minRange)
-      floatDepth = FLT_MAX;
-    if (floatDepth >= maxRange)
-      floatDepth = FLT_MAX;
+  if (floatDepth < minRange)
+    floatDepth = FLT_MAX;
+  if (floatDepth >= maxRange)
+    floatDepth = FLT_MAX;
 
   outputDepth = floatDepth;
 }
