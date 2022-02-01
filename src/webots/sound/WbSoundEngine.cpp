@@ -83,8 +83,8 @@ static void init() {
   initialized = true;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
-  WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
   try {
+    WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
@@ -96,14 +96,15 @@ static void init() {
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    WbLog::toggle(stderr);
     gOpenAL = true;
     gDevice = QString(defaultDeviceName);
     qAddPostRoutine(cleanup);
     WbSoundEngine::updateListener();
   } catch (const QString &e) {
+    WbLog::toggle(stderr);
     WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
-  WbLog::toggle(stderr);
 }
 
 const QString &WbSoundEngine::device() {
