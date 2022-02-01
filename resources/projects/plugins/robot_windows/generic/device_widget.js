@@ -306,7 +306,12 @@ DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
       if (checkbox && value.update.length > 0)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     } else if (value.image && widget.image) {
-      widget.image.style.backgroundImage = 'url("' + value.image + '")';
+      const img = new Image();
+      img.src = value.image;
+      img.decode()
+      .then(() => {
+        widget.image.style.backgroundImage = 'url("' + img.src + '")';
+      })
       if (checkbox)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
       if (value.cloudPointEnabled !== undefined) {

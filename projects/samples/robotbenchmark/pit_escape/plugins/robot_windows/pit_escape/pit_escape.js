@@ -1,9 +1,11 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Pit Escape';
 let benchmarkPerformance = 0;
 
-webots.window('pit_escape').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   // updates the metric
   if (message.startsWith('update:')) {
     benchmarkPerformance = message.substr(7);
