@@ -158,7 +158,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  if (mMaterialIndex->value() >= (int) scene->mNumMaterials) {
+  if (mMaterialIndex->value() >= (int)scene->mNumMaterials) {
     warn(tr("Geometry with the color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
     return;
   }
@@ -182,10 +182,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   forwardVec[FrontAxis] = FrontAxisSign * (float)UnitScaleFactor;
   rightVec[CoordAxis] = CoordAxisSign * (float)UnitScaleFactor;
 
-  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f,
-    upVec.x, upVec.y, upVec.z, 0.0f,
-    forwardVec.x, forwardVec.y, forwardVec.z, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f);
+  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
+                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
   scene->mRootNode->mTransformation = mat;
 
   // count total number of vertices and faces
@@ -305,7 +303,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value() ).toUtf8();
+  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value()).toUtf8();
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
 }
 
