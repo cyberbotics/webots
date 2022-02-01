@@ -75,9 +75,8 @@ static void cleanup() {
   delete gTextToSpeech;
   gTextToSpeech = NULL;
 }
-#include <QtCore/QDebug>
+
 static void init() {
-  qDebug() << "init";
   if (gDefaultDevice)  // init was already done
     return;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
@@ -103,7 +102,6 @@ static void init() {
     WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
   WbLog::toggle(stderr);
-  qDebug() << "OK";
 }
 
 const QString &WbSoundEngine::device() {
