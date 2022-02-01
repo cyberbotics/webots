@@ -146,7 +146,7 @@ Derived from [Solid](../reference/solid.md).
 MedicineBottle {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
-  SFString   name            "medicine_bottle"
+  SFString   name            "medicine bottle"
   SFNode     physics         NULL
 }
 ```
