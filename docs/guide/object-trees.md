@@ -254,6 +254,7 @@ Sassafras {
 ### Sassafras Field Summary
 
 - `burnt`: Defines whether the tree is burnt (after a wildfire).
+
 - `enableBoundingObject`: Defines whether the tree should have a bounding object.
 
 ## SimpleTree
@@ -335,7 +336,7 @@ Tree {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
-  SFVec3f    scale                1 4 1
+  SFVec3f    scale                1 1 4
   MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
@@ -352,6 +353,7 @@ Tree {
 
 - `name`: Defines the name of the tree.
 
-- `scale`: The first and last components of the scale define the radius of the tree and the middle one defines it's height.
+- `scale`: The first and middle components of the scale define the radius of the tree and the last one defines it's height.
 
 - `texture`: Defines the texture used for the tree.
+

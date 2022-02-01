@@ -169,6 +169,7 @@
     - [Garden](object-garden.md)
     - [Gear](object-gear.md)
     - [Geometries](object-geometries.md)
+    - [Hospital](object-hospital.md)
     - [Kitchen](object-kitchen.md)
     - [Lego](object-lego.md)
     - [Lights](object-lights.md)
