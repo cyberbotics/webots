@@ -16,7 +16,6 @@
 
 #include "WbMacAddress.hpp"
 
-#include <AL/alc.h>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtGui/QOpenGLFunctions>
@@ -90,25 +89,6 @@ const QString &WbSysInfo::openGLVersion() {
   if (openGLVersion.isEmpty())
     openGLVersion = (const char *)glGetString(GL_VERSION);
   return openGLVersion;
-}
-
-const QString &WbSysInfo::defaultALDevice() {
-  static QString defaultDeviceName = "?";
-  if (defaultDeviceName != "?")
-    return defaultDeviceName;
-  defaultDeviceName = "";
-#ifdef NDEBUG
-  qputenv("ALSOFT_LOGLEVEL", "0");
-#endif
-  const ALCchar *defaultALDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-  if (defaultALDevice) {
-    ALCdevice *gDefaultDevice = alcOpenDevice(defaultALDevice);
-    if (gDefaultDevice) {
-      defaultDeviceName = (const char *)defaultALDevice;
-      alcCloseDevice(gDefaultDevice);
-    }
-  }
-  return defaultDeviceName;
 }
 
 void WbSysInfo::openGlLineWidthRange(double &min, double &max) {

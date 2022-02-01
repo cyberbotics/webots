@@ -28,6 +28,7 @@ class WbSoundSource;
 
 namespace WbSoundEngine {
   bool openAL();
+  const QString &device();
   void setWorld(WbWorld *world);
   void setMute(bool mute);
   void setVolume(int volume);

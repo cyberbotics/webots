@@ -478,12 +478,11 @@ void WbSimulationView::updateVisibility() {
 }
 
 void WbSimulationView::unmuteSound() {
-  if (WbSysInfo::defaultALDevice().isEmpty()) {
+  if (WbSoundEngine::device().isEmpty()) {
     WbLog::warning("no audio device found.");
     return;
   }
   WbPreferences::instance()->setValue("Sound/mute", false);
-  WbPreferences::instance()->setValue("Sound/OpenAL", true);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   if (mode != WbSimulationState::FAST && WbSimulationState::instance()->isRendering())
     WbSoundEngine::setMute(false);

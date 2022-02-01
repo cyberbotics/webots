@@ -53,7 +53,6 @@ namespace WbSysInfo {
   bool isLowEndGpu();
 #endif
   const void initializeOpenGlInfo();
-  const QString &defaultALDevice();
   const QString &openGLRenderer();
   const QString &openGLVendor();
   const QString &openGLVersion();

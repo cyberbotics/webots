@@ -47,6 +47,7 @@ static WbViewpoint *gViewpoint = NULL;
 static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
+static QString gDevice;
 static ALCdevice *gDefaultDevice = NULL;
 static ALCcontext *gContext = NULL;
 static QList<WbSoundClip *> gSounds;
@@ -76,12 +77,10 @@ static void cleanup() {
 }
 
 static void init() {
+  if (gDefaultDevice)  // init was already done
+    return;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
-  gOpenAL = WbPreferences::instance()->value("Sound/OpenAL").toBool();
-  if (gDefaultDevice || !gOpenAL)  // init was already done or should be skipped
-    return;
-  qAddPostRoutine(cleanup);
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)
@@ -94,11 +93,17 @@ static void init() {
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    gDevice = QString(defaultDeviceName);
+    qAddPostRoutine(cleanup);
+    WbSoundEngine::updateListener();
   } catch (const QString &e) {
-    WbPreferences::instance()->setValue("Sound/OpenAL", false);
-    WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
-  WbSoundEngine::updateListener();
+}
+
+const QString &WbSoundEngine::device() {
+  init();
+  return (const QString &)gDevice;
 }
 
 bool WbSoundEngine::openAL() {
