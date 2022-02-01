@@ -191,28 +191,16 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   // count total number of vertices and faces
   int totalVertices = 0;
   int totalFaces = 0;
-  std::list<aiNode *> queue;
-  queue.push_back(scene->mRootNode);
-  aiNode *node = NULL;
-  while (!queue.empty()) {
-    node = queue.front();
-    queue.pop_front();
+  for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+    const aiMesh *mesh = scene->mMeshes[i];
+    if (mName->value() != "" && mName->value() != mesh->mName.data)
+      continue;
 
-    // check all the meshes of this node
-    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      if (mName->value() != "" && mName->value() != mesh->mName.data)
-        continue;
+    if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+      continue;
 
-      if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
-        continue;
-
-      totalVertices += mesh->mNumVertices;
-      totalFaces += mesh->mNumFaces;
-    }
-    // add all the children of this node to the queue
-    for (size_t i = 0; i < node->mNumChildren; ++i)
-      queue.push_back(node->mChildren[i]);
+    totalVertices += mesh->mNumVertices;
+    totalFaces += mesh->mNumFaces;
   }
 
   // create the arrays
@@ -225,11 +213,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int currentIndexIndex = 0;
   unsigned int *const indexData = new unsigned int[3 * totalFaces];
 
-  //warn(tr("new mesh."));
-
   // loop over all the node to find meshes
+  std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
-  node = NULL;
+  aiNode *node = NULL;
   unsigned int indexOffset = 0;
   while (!queue.empty()) {
     node = queue.front();

@@ -342,7 +342,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-
     if (mesh->mNumVertices > 100000)
       WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                        .arg(mesh->mName.C_Str()));
@@ -356,7 +355,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       stream += " appearance PBRAppearance { ";
       WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
       QString name("PBRAppearance");
-      float roughness = 0.0, transparency = 0.0;
+      float roughness = 1.0, transparency = 0.0;
       for (unsigned int j = 0; j < material->mNumProperties; ++j) {
         float value[3];
         unsigned int count = 3;
