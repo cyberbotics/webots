@@ -2,7 +2,7 @@
 
 precision highp float;
 
-const float FLT_MAX = 1.0 / 0.0;
+const float FLT_MAX = intBitsToFloat(0x7F800000);
 
 layout(location = 0) out float floatDepth;
 layout(location = 1) out float outputDepth;
