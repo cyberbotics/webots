@@ -71,6 +71,28 @@ export default class ToolbarUnifed {
     this._createFullscreenButtons();
   }
 
+  removeToolbar() {
+    if (typeof this._view.mouseEvents !== 'undefined' && typeof this._view.mouseEvents.hideToolbar) {
+      this._view.mouseEvents.hideToolbar = undefined;
+      if (typeof this._view.mouseEvents.showToolbar !== 'undefined') {
+        this._view.mouseEvents.showToolbar();
+        this._view.mouseEvents.showToolbar = undefined;
+      }
+    }
+
+    document.removeEventListener('fullscreenchange', this.fullscreenRef);
+    this.fullscreenRef = undefined;
+    document.removeEventListener('keydown', this.keydownRefF);
+    this.keydownRefF = undefined;
+
+    window.removeEventListener('click', this._closeInfoOnClick);
+
+    if (typeof this.toolbar !== 'undefined') {
+      this.parentNode.removeChild(this.toolbar);
+      this.toolbar = undefined;
+    }
+  }
+
   _createToolBarButton(name, tooltipText, click) {
     const button = document.createElement('button');
     button.id = name + 'Button';
@@ -171,7 +193,7 @@ export default class ToolbarUnifed {
     }
 
     this.toolbarLeft.appendChild(this.playButton);
-    document.addEventListener('keydown', this.keydownRef = _ => this._playKeyboardHandler(_));
+    document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
   }
 
   _triggerPlayPauseButton() {
@@ -494,7 +516,7 @@ export default class ToolbarUnifed {
     this._exitFullscreenButton.style.display = 'none';
 
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('keydown', this.keydownRef = _ => this._fullscrenKeyboardHandler(_));
+    document.addEventListener('keydown', this.keydownRefF = _ => this._fullscrenKeyboardHandler(_));
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {
@@ -725,6 +747,27 @@ export default class ToolbarUnifed {
     this._speedPane.style.visibility = 'hidden';
   }
 
+  removeAnimationToolbar() {
+    document.removeEventListener('sliderchange', this.sliderchangeRef);
+    this.sliderchangeRef = undefined;
+
+    if (typeof this._timeSlider !== 'undefined') {
+      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
+      this.updateFloatingTimeRef = undefined;
+      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
+      this.hideFloatingTimeRef = undefined;
+      this._timeSlider.removeEventListeners();
+      this._timeSlider = undefined;
+    }
+
+    if (typeof this._speedPane !== 'undefined') {
+      this.parentNode.removeChild(this._speedPane);
+      this._speedPane = undefined;
+    }
+
+    this.removeStreamingToolbar();
+  }
+
   // Scene functions
 
   _createRestoreViewpointButton() {
@@ -909,5 +952,24 @@ export default class ToolbarUnifed {
       this.worldSelectionDiv.removeChild(this.worldSelect);
       this.worldSelect = undefined;
     }
+  }
+
+  removeStreamingToolbar() {
+    document.removeEventListener('keydown', this.keydownRefK);
+    this.keydownRefK = undefined;
+    document.removeEventListener('mouseup', this.settingsRef);
+    this.settingsRef = undefined;
+
+    if (typeof this._gtaoPane !== 'undefined') {
+      this.parentNode.removeChild(this._gtaoPane);
+      this._gtaoPane = undefined;
+    }
+
+    if (typeof this._settingsPane !== 'undefined') {
+      this.parentNode.removeChild(this._settingsPane);
+      this._settingsPane = undefined;
+    }
+
+    this.removeToolbar();
   }
 }

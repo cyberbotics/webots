@@ -148,7 +148,9 @@ export default class WebotsView extends HTMLElement {
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-      this._view.onready = () => new ToolbarUnifed(this._view, 'animation', this);
+      this._view.onready = () => {
+        this.toolbar = new ToolbarUnifed(this._view, 'animation', this);
+      };
       this._view.open(scene);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
@@ -161,7 +163,10 @@ export default class WebotsView extends HTMLElement {
 
   _closeAnimation() {
     this._view.animation.pause();
-    this._view.animation.removePlayBar();
+    if (typeof this.toolbar !== 'undefined') {
+      this.toolbar.removeAnimationToolbar();
+      this.toolbar = undefined;
+    }
     this._view.removeLabels();
     this._view.destroyWorld();
     this._view.animation = undefined;
@@ -219,6 +224,10 @@ export default class WebotsView extends HTMLElement {
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
 
+    if (typeof this.toolbar !== 'undefined') {
+      this.toolbar.removeStreamingToolbar();
+      this.toolbar = undefined;
+    }
     this._view.close();
     this.innerHTML = null;
     if (this._view.mode === 'mjpeg')
@@ -291,6 +300,10 @@ export default class WebotsView extends HTMLElement {
   }
 
   _closeScene() {
+    if (typeof this.toolbar !== 'undefined') {
+      this.toolbar.removeToolbar();
+      this.toolbar = undefined;
+    }
     this._view.destroyWorld();
     this._hasScene = false;
     this.innerHTML = null;
