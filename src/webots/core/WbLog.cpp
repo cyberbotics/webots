@@ -241,11 +241,11 @@ void WbLog::showPendingConsoleMessages() {
 void WbLog::toggle(FILE *std_stream) {
 #ifndef _WIN32  // this doesn't work on Windows
   static int fd[3] = {0, 0, 0};
-  static FILE *stream;  // to make cppcheck happy about resource leak
   const int no = fileno(std_stream);
   assert(no >= 1);  // it shouldn't be stdin
   fflush(std_stream);
   if (fd[no] == 0) {
+    static FILE *stream;  // to make cppcheck happy about resource leak
     fd[no] = dup(no);
     stream = freopen("/dev/null", "w", std_stream);
     if (!stream)
