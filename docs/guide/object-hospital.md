@@ -94,7 +94,7 @@ Derived from [Solid](../reference/solid.md).
 HandSanitizer {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
-  SFString   name            "hand_sanitizer"
+  SFString   name            "hand sanitizer"
   SFNode     physics         NULL
 }
 ```
