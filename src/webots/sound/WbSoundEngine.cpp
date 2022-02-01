@@ -75,8 +75,9 @@ static void cleanup() {
   delete gTextToSpeech;
   gTextToSpeech = NULL;
 }
-
+#include <QtCore/QDebug>
 static void init() {
+  qDebug() << "init";
   if (gDefaultDevice)  // init was already done
     return;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();

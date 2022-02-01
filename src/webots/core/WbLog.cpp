@@ -14,8 +14,8 @@
 
 #include "WbLog.hpp"
 
-#include <cstdlib>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include <QtCore/QCoreApplication>
@@ -244,7 +244,8 @@ void WbLog::toggle(FILE *stdout_or_stderr) {
   int no = fileno(stdout_or_stderr);
   if (fd == 0) {
     fd = dup(no);
-    if (!freopen("/dev/null", "w", stdout_or_stderr))
+    FILE *n = freopen("/dev/null", "w", stdout_or_stderr);
+    if (!n)
       fprintf(stderr, "Failed to disable %s.", (no == 1) ? "stdout" : "stderr");
   } else {
     dup2(fd, no);
