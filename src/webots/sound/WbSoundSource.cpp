@@ -14,7 +14,6 @@
 
 #include "WbSoundSource.hpp"
 
-#include "WbPreferences.hpp"
 #include "WbSoundClip.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbVector3.hpp"

@@ -77,8 +77,10 @@ static void cleanup() {
 }
 
 static void init() {
-  if (gDefaultDevice)  // init was already done
+  static bool initialized = false;
+  if (initialized)  // init was already done
     return;
+  initialized = true;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
   WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
