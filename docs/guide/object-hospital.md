@@ -42,7 +42,7 @@ Derived from [Solid](../reference/solid.md).
 DripStand {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
-  SFString   name            "drip_stand"
+  SFString   name            "drip stand"
   SFNode     physics         NULL
 }
 ```
