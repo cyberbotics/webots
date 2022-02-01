@@ -110,6 +110,10 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mHttpProxyUsername->setText(prefs->value("Network/httpProxyUsername").toString());
   mHttpProxyPassword->setText(prefs->value("Network/httpProxyPassword").toString());
   mLanguageCombo->setFocus();
+
+  // robot window
+  mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
+  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -190,6 +194,8 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
+  prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
+  prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -396,9 +402,9 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *upload = new QGroupBox(tr("Simulation upload service"), this);
+  QGroupBox *upload = new QGroupBox(tr("Web Services"), this);
   upload->setObjectName("networkGroupBox");
-  QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
+  QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
@@ -442,8 +448,32 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 0
   mUploadUrl = new WbLineEdit(this);
   mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
-  layout->addWidget(new QLabel(tr("URL:"), this), 0, 0);
-  layout->addWidget(mUploadUrl, 0, 1);
+  layout->addWidget(new QLabel(tr("Simulation upload service:"), this), 1, 0);
+  layout->addWidget(mUploadUrl, 1, 1);
+
+  // row 1
+  mBrowserProgram = new WbLineEdit(this);
+  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
+  mBrowserProgram->setMinimumWidth(270);
+  layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 2, 0);
+  layout->addWidget(mBrowserProgram, 2, 1);
+#ifdef __linux__
+  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
+#elif defined(_WIN32)
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or msedge (default if empty)"));
+#else  // macOS
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or safari (default if empty)"));
+#endif
+
+  // row 2
+  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
+  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
+    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+    if (mBrowserProgram->text().isEmpty())
+      mNewBrowserWindow->setChecked(false);
+  });
+  layout->addWidget(mNewBrowserWindow, 3, 1);
 
   // Cache
   layout = new QGridLayout(cache);

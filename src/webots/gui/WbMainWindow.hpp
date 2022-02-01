@@ -32,6 +32,7 @@ class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
+class WbRobotWindow;
 class WbSimulationView;
 class WbStreamingServer;
 
@@ -67,6 +68,8 @@ public:
   void setToolBarAlign(const QString &align) { mToolBarAlign = align; }
 
   void restorePreferredGeometry(bool minimizedOnStart = false);
+
+  void deleteRobotWindow(WbRobot *robot);
 
 signals:
   void restartRequested();
@@ -150,7 +153,13 @@ private slots:
   void uploadFinished();
 
 private:
-  void showHtmlRobotWindow(WbRobot *);
+  void showHtmlRobotWindow(WbRobot *robot);
+  void closeClientRobotWindow(WbRobot *robot);
+  void onSocketOpened();
+  QList<WbRobotWindow *> mRobotWindows;
+  QList<WbRobot *> mRobotsWaitingForWindowToOpen;
+  bool mOnSocketOpen;
+
   int mExitStatus;
   QList<WbConsole *> mConsoles;
   WbBuildEditor *mTextEditor;
@@ -220,8 +229,6 @@ private slots:
   void maximizeDock();
   void minimizeDock();
   void setWidgetMaximized(QWidget *widget, bool maximized);
-  void removeHtmlRobotWindow(WbNode *node);
-  void handleNewRobotInsertion(WbRobot *robot);
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();

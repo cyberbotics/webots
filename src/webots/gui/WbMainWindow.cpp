@@ -89,9 +89,6 @@
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
-
-#include <QtCore/QDirIterator>
-#include <QtCore/QObject>
 #include <QtNetwork/QHttpMultiPart>
 #include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QApplication>
@@ -103,12 +100,6 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QStyle>
 #include "WbNetwork.hpp"
-
-#ifdef _WIN32
-#include <QtWebKit/QWebSettings>
-#else
-#include <QtWebEngineWidgets/QWebEngineProfile>
-#endif
 
 #include <wren/gl_state.h>
 
@@ -390,9 +381,11 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mStreamingServer) {
     mStreamingServer->setMainWindow(this);
-    WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
-    if (multimediaStreamingServer)
-      multimediaStreamingServer->setView3D(mSimulationView->view3D());
+    if (mStreamingServer->getStreamStatus()) {
+      WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
+      if (multimediaStreamingServer)
+        multimediaStreamingServer->setView3D(mSimulationView->view3D());
+    }
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
@@ -1143,12 +1136,9 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
   QStringList robotWindowNodeNames;
-  foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (!w || !(w->isVisible()))
-      continue;
-    robotWindowNodeNames << w->robot()->computeUniqueName();
-  }
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if (!robotWindow->getClientID().isEmpty())
+      robotWindowNodeNames << robotWindow->robot()->computeUniqueName();
   perspective->setRobotWindowNodeNames(robotWindowNodeNames);
 
   QStringList centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames, supportPolygonEnabledNodeNames;
@@ -1328,14 +1318,9 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   WbLog::setPopUpPostponed(true);
   savePerspective(reloading, true);
-  foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (!w)
-      continue;
-    w->close();
-    mDockWidgets.removeOne(w);
-    delete w;
-  }
+
+  deleteRobotWindow(NULL);  // delete all the robot windows
+
   mSimulationView->view3D()->logWrenStatistics();
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
@@ -1383,20 +1368,11 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
             &WbVisualBoundingSphere::show);
   }
 
-#ifdef _WIN32
-  QWebSettings::globalSettings()->clearMemoryCaches();
-#else
-  QWebEngineProfile::defaultProfile()->clearHttpCache();
-#endif
   WbRenderingDeviceWindowFactory::reset();
   restorePerspective(reloading, firstLoad, false);
 
   emit splashScreenCloseRequested();
 
-  foreach (WbRobot *const robot, WbControlledWorld::instance()->robots())
-    handleNewRobotInsertion(robot);
-
-  connect(world, &WbWorld::robotAdded, this, &WbMainWindow::handleNewRobotInsertion);
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
   connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
 
@@ -1410,15 +1386,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   WbLog::setPopUpPostponed(false);
   WbLog::showPostponedPopUpMessages();
   connect(WbProject::current(), &WbProject::pathChanged, this, &WbMainWindow::updateProjectPath);
-}
-
-void WbMainWindow::handleNewRobotInsertion(WbRobot *robot) {
-  if (robot->isShowWindowFieldEnabled()) {
-    if (robot->windowFile().isEmpty())
-      robot->showWindow();
-    else
-      showHtmlRobotWindow(robot);
-  }
 }
 
 void WbMainWindow::newWorld() {
@@ -2130,34 +2097,68 @@ void WbMainWindow::showRobotWindow() {
     if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
-      showHtmlRobotWindow(robot);  // show HTML robot window as a dock
+      showHtmlRobotWindow(robot);  // show HTML robot window
   }
 }
 
-void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {  // shows the HTML robot window
-  foreach (QWidget *dock, mDockWidgets) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(dock);
-    if (w && w->robot() == robot) {
-      w->show();
-      return;
+void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
+  if (mOnSocketOpen) {
+    mOnSocketOpen = false;
+    WbRobotWindow *currentRobotWindow = NULL;
+    foreach (WbRobotWindow *robotWindow, mRobotWindows) {
+      if ((robotWindow->robot() == robot)) {  // close only the client of the robot window associated with the robot.
+        if (robotWindow->getClientID() != "")
+          mStreamingServer->closeClient(robotWindow->getClientID());
+        currentRobotWindow = robotWindow;
+      }
     }
+
+    if (currentRobotWindow == NULL) {  // if no robot window associated with the robot, create one.
+      currentRobotWindow = new WbRobotWindow(robot);
+      mRobotWindows << currentRobotWindow;
+      connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
+      connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
+      connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(currentRobotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
+    }
+
+    if (currentRobotWindow && currentRobotWindow->robot() == robot)
+      currentRobotWindow->setupPage();
+  } else {
+    const int maxPendingRobotWindows = 3;
+    if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
+      mRobotsWaitingForWindowToOpen << robot;
+    else
+      WbLog::warning(tr("Maximum number of pending robot windows reached."));
   }
-  WbRobotWindow *robotWindow = new WbRobotWindow(robot, this);
-  connect(robot, &WbBaseNode::isBeingDestroyed, this, &WbMainWindow::removeHtmlRobotWindow);
-  addDockWidget(Qt::LeftDockWidgetArea, robotWindow, Qt::Horizontal);
-  addDock(robotWindow);
-  robotWindow->show();
 }
 
-void WbMainWindow::removeHtmlRobotWindow(WbNode *node) {
-  for (int i = 0; i < mDockWidgets.size(); ++i) {
-    WbRobotWindow *w = dynamic_cast<WbRobotWindow *>(mDockWidgets[i]);
-    if (w && w->robot() == node) {
-      mDockWidgets.removeAt(i);
-      delete w;
-      return;
+void WbMainWindow::onSocketOpened() {
+  mOnSocketOpen = true;
+  if (!mRobotsWaitingForWindowToOpen.isEmpty())
+    showHtmlRobotWindow(mRobotsWaitingForWindowToOpen.takeFirst());
+}
+
+void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if ((robotWindow->robot() == robot))
+      mStreamingServer->closeClient(robotWindow->getClientID());
+}
+
+void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
+  // delete the robot window and client of robot, delete all if NULL.
+  foreach (WbRobotWindow *robotWindow, mRobotWindows)
+    if ((robotWindow->robot() == robot) || robot == NULL) {
+      closeClientRobotWindow(robotWindow->robot());
+      disconnect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, robotWindow, &WbRobotWindow::setClientID);
+      disconnect(robotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
+      robotWindow->robot()->disconnect(this);
+      mRobotWindows.removeAll(robotWindow);
+      delete robotWindow;
     }
-  }
+
+  mOnSocketOpen = true;
 }
 
 static bool isRobotNode(WbBaseNode *node) {
