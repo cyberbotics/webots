@@ -22,6 +22,8 @@ void main() {
 
   if (firstRender == 1.0 || sceneColor.x == FLT_MAX || lastColor.x == FLT_MAX)
     result = sceneColor;
+  else if (isnan(abs(sceneColor.r)) || isinf(sceneColor.r))
+    result = vec4(FLT_MAX, FLT_MAX, FLT_MAX, 1.0);
   else
     result = mix(sceneColor, lastColor, intensity);
 
