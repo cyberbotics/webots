@@ -384,13 +384,10 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *
 }
 
 void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
-
-  float test = 0x7f800000;
-
   if (mIsColor)
     mBackgroundColor = color;
   else
-    mBackgroundColor = WbRgb(test, test, test);
+    mBackgroundColor = WbRgb(1.0 / 0.0, 1.0 / 0.0, 1.0 / 0.0);
 
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};
