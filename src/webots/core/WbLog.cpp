@@ -239,6 +239,7 @@ void WbLog::showPendingConsoleMessages() {
 }
 
 void WbLog::toggle(FILE *std_stream) {
+#ifndef _WIN32  // this doesn't work on Windows
   static int fd[3] = {0, 0, 0};
   static FILE *stream;  // to make cppcheck happy about resource leak
   const int no = fileno(std_stream);
@@ -254,5 +255,5 @@ void WbLog::toggle(FILE *std_stream) {
     close(fd[no]);
     fd[no] = 0;
   }
-  // cppcheck-suppress resourceLeak
+#endif
 }
