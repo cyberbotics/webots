@@ -120,7 +120,7 @@ Derived from [Solid](../reference/solid.md).
 HospitalBed {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
-  SFString   name            "hospital_bed"
+  SFString   name            "hospital bed"
   SFNode     physics         NULL
 }
 ```
