@@ -91,7 +91,7 @@ public:
   static void setConsoleLogsPostponed(bool postponed) { instance()->mConsoleLogsPostponed = postponed; }
   // show messages in console emitted before WbConsole was listening
   static void showPendingConsoleMessages();
-  static void toggle(FILE *stdout_or_stderr);  // disable or enable stderr or stdout
+  static void toggle(FILE *std_stream);  // disable or enable stderr or stdout
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);

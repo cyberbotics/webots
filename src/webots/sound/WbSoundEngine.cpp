@@ -95,6 +95,7 @@ static void init() {
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    gOpenAL = true;
     gDevice = QString(defaultDeviceName);
     qAddPostRoutine(cleanup);
     WbSoundEngine::updateListener();
@@ -102,6 +103,7 @@ static void init() {
     WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
   }
   WbLog::toggle(stderr);
+  qDebug() << "OK";
 }
 
 const QString &WbSoundEngine::device() {

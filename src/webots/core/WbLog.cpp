@@ -238,18 +238,18 @@ void WbLog::showPendingConsoleMessages() {
   instance()->mPendingConsoleMessages.clear();
 }
 
-void WbLog::toggle(FILE *stdout_or_stderr) {
-  static int fd = 0;
-  fflush(stdout_or_stderr);
-  int no = fileno(stdout_or_stderr);
-  if (fd == 0) {
-    fd = dup(no);
-    FILE *n = freopen("/dev/null", "w", stdout_or_stderr);
+void WbLog::toggle(FILE *std_stream) {
+  static int fd[3] = {0, 0, 0};
+  fflush(std_stream);
+  int no = fileno(std_stream);
+  if (fd[no] == 0) {
+    fd[no] = dup(no);
+    FILE *n = freopen("/dev/null", "w", std_stream);
     if (!n)
       fprintf(stderr, "Failed to disable %s.", (no == 1) ? "stdout" : "stderr");
   } else {
-    dup2(fd, no);
-    close(fd);
-    fd = 0;
+    dup2(fd[no], no);
+    close(fd[no]);
+    fd[no] = 0;
   }
 }
