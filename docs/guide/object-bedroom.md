@@ -55,8 +55,8 @@ Derived from [Solid](../reference/solid.md).
 PhotoFrame {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
-  SFString   name               "PhotoFrame"
-  MFString   pictureUrl         "textures/child_picture.jpeg"
+  SFString   name               "photo frame"
+  MFString   pictureUrl         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/bedroom/protos/textures/child_picture.jpg"
   SFNode     frameAppearance    VarnishedPine { colorOverride 0.333333 0.341176 0.32549 textureTransform TextureTransform { rotation 1 } }
   SFNode     physics            NULL
 }
@@ -69,6 +69,7 @@ PhotoFrame {
 
 ### PhotoFrame Field Summary
 
-- `pictureUrl`: Url of the photo
+- `pictureUrl`: Url of the photo.
 
-- `frameAppearance`: Define the appearance of the frame
+- `frameAppearance`: Define the appearance of the frame.
+

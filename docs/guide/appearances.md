@@ -2028,3 +2028,4 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+

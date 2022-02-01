@@ -50,7 +50,7 @@ Derived from [Solid](../reference/solid.md).
 FlowerPot {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
-  SFString   name                 "flower_pot"
+  SFString   name                 "flower pot"
   SFColor    vaseBaseColor        0.2313726 0.5843138 0.6745098
   SFNode     physics              NULL
 }
@@ -100,3 +100,4 @@ PottedTree {
 - `leavesColor`: Defines the color of the leaves.
 
 - `leavesTextureUrl`: Defines the textures used for of the leaves.
+

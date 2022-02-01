@@ -155,3 +155,4 @@ MedicineBottle {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
