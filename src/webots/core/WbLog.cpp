@@ -14,11 +14,13 @@
 
 #include "WbLog.hpp"
 
+#include <cstdlib>
 #include <stdio.h>
+#include <unistd.h>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMetaType>
 #include <QtCore/QUrl>
-#include <cstdlib>
 
 static WbLog *gInstance = NULL;
 
@@ -234,4 +236,19 @@ void WbLog::showPendingConsoleMessages() {
   foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
     emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
+}
+
+void WbLog::toggle(FILE *stdout_or_stderr) {
+  static int fd = 0;
+  fflush(stdout_or_stderr);
+  int no = fileno(stdout_or_stderr);
+  if (fd == 0) {
+    fd = dup(no);
+    if (!freopen("/dev/null", "w", stdout_or_stderr))
+      fprintf(stderr, "Failed to disable %s.", (no == 1) ? "stdout" : "stderr");
+  } else {
+    dup2(fd, no);
+    close(fd);
+    fd = 0;
+  }
 }
