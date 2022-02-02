@@ -1756,6 +1756,37 @@ ScrewThread {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
+## ScuffedPlastic
+
+A worn scuffed plastic material. The color can be selected using the `colorOverride` field.
+
+%figure
+
+![ScuffedPlastic](images/appearances/ScuffedPlastic.thumbnail.png)
+
+%end
+
+```
+ScuffedPlastic {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform TextureTransform { scale 4 4 }
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScuffedPlastic.proto]({{ url.github_tree }}/projects/appearances/protos/ScuffedPlastic.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ScuffedPlastic Field Summary
+
+- `colorOverride`: Defines the plastic's color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## ShinyLeather
 
 A shiny leather material. The color can be selected using the `colorOverride` field. Useful with any of the vehicle PROTOs.
@@ -1995,4 +2026,35 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## WornBurlap
+
+A worn burlap material. The color can be selected using the `colorOverride` field.
+
+%figure
+
+![WornBurlap](images/appearances/WornBurlap.thumbnail.png)
+
+%end
+
+```
+WornBurlap {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform TextureTransform { scale 4 4 }
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WornBurlap.proto]({{ url.github_tree }}/projects/appearances/protos/WornBurlap.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### WornBurlap Field Summary
+
+- `colorOverride`: Defines the burlap's color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
