@@ -34,6 +34,7 @@ jobs:
             ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: openrndr/setup-opengl@v3.3
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -95,6 +96,7 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: openrndr/setup-opengl@v3.3
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
@@ -131,6 +133,7 @@ jobs:
             python: 3.6
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: openrndr/setup-opengl@v3.3
     - uses: actions/checkout@v2
       with:
          submodules: true

@@ -19,6 +19,7 @@ jobs:
         os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: openrndr/setup-opengl@v3.3
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -75,6 +76,7 @@ jobs:
         os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: openrndr/setup-opengl@v3.3
     - uses: actions/checkout@v2
       with:
          ref: develop
