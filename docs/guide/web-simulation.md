@@ -436,7 +436,7 @@ This is the API of the `webots-streaming` web component:
     * `robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
 * `setWebotsMessageCallback(callback)`: define a function that will be called every time a message is send by webots.
     * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
-* `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by webots.
+* `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by Webots.
     * `callback`: the function to be called when an error is received, the text of the error is passed to this function as the only argument.
 
 Moreover, the following attributes are available:
