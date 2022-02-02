@@ -801,7 +801,6 @@ export default class Toolbar {
 
   _createQuitButton() {
     const quitButton = this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation());
-    console.log(this.parentNode);
     if (!(typeof this.parentNode.showQuit === 'undefined' || this.parentNode.showQuit))
       quitButton.style.display = 'none';
     this.toolbarLeft.appendChild(quitButton);
