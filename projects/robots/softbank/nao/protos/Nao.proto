@@ -817,7 +817,11 @@ PROTO Nao [
                 rotation 0 1 0 0.692901
               %< } >%
               name "CameraBottom"
-              fieldOfView IS cameraFieldOfView
+              %< if (version === '3.3') { >%
+                fieldOfView 0.8342
+              %< } else { >%
+                fieldOfView 1.064
+              %< } >%
               width IS cameraWidth
               height IS cameraHeight
               near 0.002
