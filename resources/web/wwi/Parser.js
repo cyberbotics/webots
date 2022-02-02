@@ -58,7 +58,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-    
+  
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
