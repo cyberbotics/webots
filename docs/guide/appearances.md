@@ -1762,7 +1762,7 @@ A worn scuffed plastic material. The color can be selected using the `colorOverr
 
 %figure
 
-![ScuffedPlastic](images/appearances/ScuffedPlastic.png)
+![ScuffedPlastic](images/appearances/ScuffedPlastic.thumbnail.png)
 
 %end
 
@@ -2033,7 +2033,7 @@ A worn burlap material. The color can be selected using the `colorOverride` fiel
 
 %figure
 
-![WornBurlap](images/appearances/WornBurlap.png)
+![WornBurlap](images/appearances/WornBurlap.thumbnail.png)
 
 %end
 
