@@ -294,9 +294,6 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      // if (view.toolBar)
-      //   view.toolBar.enableToolBarButtons(false);
-
       if (document.getElementById('webotsProgressMessage'))
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
       if (document.getElementById('webotsProgressPercent'))

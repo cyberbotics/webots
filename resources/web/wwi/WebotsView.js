@@ -245,19 +245,13 @@ export default class WebotsView extends HTMLElement {
   }
 
   hideToolbar() {
-    let toolbar = document.getElementById('toolBar');
-    if (toolbar) {
-      if (toolbar.style.display !== 'none')
-        toolbar.style.display = 'none';
-    }
+    if (typeof this.toolbar !== 'undefined')
+      this.toolbar.hideToolbar(true);
   }
 
   showToolbar() {
-    let toolbar = document.getElementById('toolBar');
-    if (toolbar) {
-      if (toolbar.style.display !== 'block')
-        toolbar.style.display = 'block';
-    }
+    if (typeof this.toolbar !== 'undefined')
+      this.toolbar.showToolbar(true);
   }
 
   displayQuit(enable) {

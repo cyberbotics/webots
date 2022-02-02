@@ -133,16 +133,6 @@ webots.View = class View {
         document.getElementById('webotsProgress').style.display = 'block';
 
       if (this._isWebSocketProtocol) {
-        // if (typeof this.toolBar === 'undefined')
-        //   this.toolBar = new Toolbar(this.view3D, this);
-        // else if (!document.getElementById('toolBar'))
-        //   this.view3D.appendChild(this.toolBar.domElement);
-
-        // if (this.mode === 'x3d')
-        //   this.toolBar.createSettingsButton();
-        // else
-        //   this.toolBar.hideSettingsButton();
-
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "http://localhost/1999/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
           // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
@@ -178,14 +168,11 @@ webots.View = class View {
 
     let loadFinalize = () => {
       if (typeof this.multimediaClient !== 'undefined')
-        // finalize multimedia client and set toolbar buttons status
+        // finalize multimedia client
         this.multimediaClient.finalize();
 
       if (typeof this.onready === 'function')
         this.onready();
-
-      // if (this.runOnLoad && this.toolBar)
-      //   this.toolBar.realTime();
     };
 
     if (this.broadcast)
