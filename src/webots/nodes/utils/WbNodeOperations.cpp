@@ -308,7 +308,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
         if (node->mChildren[i]->mNumMeshes > 0)
           addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
                   importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
-      return;
     }
   }
 
