@@ -19,14 +19,6 @@ export default class ToolbarUnifed {
       this.createStreamingToolbar();
   }
 
-  setType(type) {
-    if (this.type !== type) {
-      this.type = type;
-      // TODO update toolbar accordingly
-      return 0; // filler, remove when TODO is done;
-    }
-  }
-
   createAnimationToolbar() {
     if (this.type !== 'animation' || typeof this._view === 'undefined' || typeof this._view.animation === 'undefined')
       return;
@@ -64,6 +56,8 @@ export default class ToolbarUnifed {
     this._createPlayButton();
     this._createRunButton();
     this._createWorldSelection();
+    if (this._view.broadcast)
+      this.toolbarLeft.style.visibility = 'hidden';
 
     // Right part
     this._createInfoButton();
@@ -938,7 +932,7 @@ export default class ToolbarUnifed {
 
   createWorldSelect() {
     const worlds = this._view.worlds;
-    if (worlds.length <= 1)
+    if (typeof worlds === 'undefined' || worlds.length <= 1)
       return;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
