@@ -79,7 +79,8 @@ Nao {
 
 - `degreeOfFreedom`: Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
 
-- `customColor`: If a color is defined in this field, it overrides the default secondary color of the robot. Either zero or one color is allowed in this field.
+- `customColor`: If a color is defined in this field, it overrides the default secondary color of the robot.
+Either zero or one color is allowed in this field.
 
 - `gpsAccuracy`: Defines the `accuracy` field of the [GPS](../reference/gps.md).
 
