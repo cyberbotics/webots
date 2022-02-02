@@ -85,9 +85,8 @@ export default class Stream {
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       this._view.runOnLoad = data;
-      //TODO keep ?
-      // if (this._view.timeout >= 0)
-      //   this.socket.send('timeout:' + this._view.timeout);
+      if (this._view.timeout >= 0)
+        this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';

@@ -182,8 +182,12 @@ export default class ToolbarUnifed {
     let action;
     if (this.type === 'animation')
       action = (this._view.animation._gui === 'real-time') ? 'pause' : 'play';
-    else if (this.type === 'streaming')
-      action = 'play';
+    else if (this.type === 'streaming') {
+      action = (this._view.runOnLoad === 'real-time') ? 'pause' : 'play';
+      if (action === 'pause')
+        this.realTime();
+    }
+
     this.playButton = this._createToolBarButton('play', 'Play (k)', () => this._triggerPlayPauseButton());
     this.playTooltip = this.playButton.childNodes[0];
 
@@ -876,8 +880,13 @@ export default class ToolbarUnifed {
   }
 
   _createRunButton() {
-    this.runButton = this._createToolBarButton('run', 'Run the simulation as fast as possible', () => this._triggerRunPauseButton());
+    this.runButton = this._createToolBarButton('run', 'Run', () => this._triggerRunPauseButton());
     this.runTooltip = this.runButton.childNodes[0];
+    if (this._view.runOnLoad === 'run' || this._view.runOnLoad === 'fast') {
+      this.runTooltip.innerHTML = 'Pause';
+      this.runButton.className = 'toolbar-btn icon-pause';
+      this.run();
+    }
     this.toolbarLeft.appendChild(this.runButton);
   }
 
