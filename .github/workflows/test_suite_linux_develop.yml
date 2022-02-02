@@ -29,7 +29,6 @@ jobs:
             ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: openrndr/setup-opengl@v1.1
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -92,7 +91,6 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: openrndr/setup-opengl@v1.1
     - uses: actions/checkout@v2
       with:
          ref: develop
@@ -131,7 +129,6 @@ jobs:
             python: 3.6
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: openrndr/setup-opengl@v1.1
     - uses: actions/checkout@v2
       with:
          submodules: true
