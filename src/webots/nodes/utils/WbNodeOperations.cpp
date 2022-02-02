@@ -339,7 +339,10 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     stream += " children [ ";
   }
 
+  WbLog::warning(QString("node has %1 meshes.").arg(node->mNumMeshes));
+
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
     if (mesh->mNumVertices > 100000)

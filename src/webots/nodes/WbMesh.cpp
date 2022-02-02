@@ -231,6 +231,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      warn(tr("mMaterialIndex->value() %1 and (int)mesh->mMaterialIndex %2").arg(mMaterialIndex->value()).arg((int)mesh->mMaterialIndex));
+
       if (mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
