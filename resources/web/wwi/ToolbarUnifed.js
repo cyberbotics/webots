@@ -185,7 +185,7 @@ export default class ToolbarUnifed {
   _createPlayButton() {
     let action;
     if (this.type === 'animation')
-      action = (this._view.animation._gui === 'real-time') ? 'pause' : 'play';
+      action = (this._view.animation.gui === 'real-time') ? 'pause' : 'play';
     else if (this.type === 'streaming') {
       action = (this._view.runOnLoad === 'real-time') ? 'pause' : 'play';
       if (action === 'pause')
@@ -208,14 +208,14 @@ export default class ToolbarUnifed {
     const animation = this._view.animation;
     let action;
     if (this.type === 'animation' && typeof animation !== 'undefined') {
-      if (animation._gui === 'real-time')
+      if (animation.gui === 'real-time')
         animation.pause();
       else {
-        animation._gui = 'real-time';
-        animation._start = new Date().getTime() - animation._data.basicTimeStep * animation._step / animation._speed;
-        window.requestAnimationFrame(() => animation._updateAnimation());
+        animation.gui = 'real-time';
+        animation.start = new Date().getTime() - animation.data.basicTimeStep * animation.step / animation.speed;
+        window.requestAnimationFrame(() => animation.updateAnimation());
       }
-      action = (animation._gui === 'real-time') ? 'pause' : 'play';
+      action = (animation.gui === 'real-time') ? 'pause' : 'play';
     } else if (this.type === 'streaming') {
       if (this._view.runOnLoad === 'real-time') {
         this.pause();
@@ -470,7 +470,7 @@ export default class ToolbarUnifed {
     }
     const animation = this._view.animation;
     if (animation)
-      animation._start = new Date().getTime() - animation._data.basicTimeStep * animation._step / animation._speed;
+      animation.start = new Date().getTime() - animation.data.basicTimeStep * animation.step / animation.speed;
     this._view.x3dScene.render();
   }
 
@@ -562,8 +562,8 @@ export default class ToolbarUnifed {
   _updateSlider(event) {
     const animation = this._view.animation;
     if (event.mouseup && animation) {
-      if (animation._previousState === 'real-time' && animation._gui === 'pause') {
-        animation._previousState = undefined;
+      if (animation.previousState === 'real-time' && animation.gui === 'pause') {
+        animation.previousState = undefined;
         this._triggerPlayPauseButton();
       }
       return;
@@ -571,17 +571,17 @@ export default class ToolbarUnifed {
 
     const value = event.detail;
 
-    if (animation._gui === 'real-time') {
-      animation._previousState = 'real-time';
+    if (animation.gui === 'real-time') {
+      animation.previousState = 'real-time';
       this._triggerPlayPauseButton();
     }
 
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(animation._data.frames.length * clampedValued / 100);
-    animation._start = (new Date().getTime()) - Math.floor(animation._data.basicTimeStep * animation._step);
-    animation._updateAnimationState(requestedStep);
+    const requestedStep = Math.floor(animation.data.frames.length * clampedValued / 100);
+    animation.start = (new Date().getTime()) - Math.floor(animation.data.basicTimeStep * animation.step);
+    animation.updateAnimationState(requestedStep);
 
-    this._timeSlider.setTime(this._formatTime(animation._data.frames[requestedStep].time));
+    this._timeSlider.setTime(this._formatTime(animation.data.frames[requestedStep].time));
   }
 
   _updateFloatingTimePosition(e) {
@@ -595,8 +595,8 @@ export default class ToolbarUnifed {
       x = 0;
 
     const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(this._view.animation._data.frames.length * clampedValued / 100);
-    this._timeSlider.setTime(this._formatTime(this._view.animation._data.frames[requestedStep].time));
+    const requestedStep = Math.floor(this._view.animation.data.frames.length * clampedValued / 100);
+    this._timeSlider.setTime(this._formatTime(this._view.animation.data.frames[requestedStep].time));
 
     this._timeSlider.setFloatingTimePosition(e.clientX);
   }
@@ -609,7 +609,7 @@ export default class ToolbarUnifed {
     this._currentTime = document.createElement('span');
     this._currentTime.className = 'current-time';
     this._currentTime.id = 'currentTime';
-    this._currentTime.innerHTML = this._formatTime(this._view.animation._data.frames[0].time);
+    this._currentTime.innerHTML = this._formatTime(this._view.animation.data.frames[0].time);
     this.toolbarLeft.appendChild(this._currentTime);
 
     const timeDivider = document.createElement('span');
@@ -619,7 +619,7 @@ export default class ToolbarUnifed {
 
     const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
-    const time = this._formatTime(this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time);
+    const time = this._formatTime(this._view.animation.data.frames[this._view.animation.data.frames.length - 1].time);
     totalTime.innerHTML = time;
     this.toolbarLeft.appendChild(totalTime);
 
@@ -647,7 +647,7 @@ export default class ToolbarUnifed {
 
   _formatTime(time) {
     if (typeof this._unusedPrefix === 'undefined') {
-      const maxTime = this._view.animation._data.frames[this._view.animation._data.frames.length - 1].time;
+      const maxTime = this._view.animation.data.frames[this._view.animation.data.frames.length - 1].time;
       if (maxTime < 60000)
         this._unusedPrefix = 6;
       else if (maxTime < 600000)
@@ -744,19 +744,19 @@ export default class ToolbarUnifed {
   _changeSpeed(event) {
     const animation = this._view.animation;
     if (animation) {
-      animation._speed = event.srcElement.id;
+      animation.speed = event.srcElement.id;
       this._speedPane.style.visibility = 'hidden';
       const speedDisplay = document.getElementById('speed-display');
       if (speedDisplay)
-        speedDisplay.innerHTML = animation._speed === '1' ? 'Normal' : animation._speed;
+        speedDisplay.innerHTML = animation.speed === '1' ? 'Normal' : animation.speed;
       this._settingsPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('check-speed')) {
-        if (i.id === 'c' + animation._speed)
+        if (i.id === 'c' + animation.speed)
           i.innerHTML = '&check;';
         else
           i.innerHTML = '';
       }
-      animation._start = new Date().getTime() - animation._data.basicTimeStep * animation._step / animation._speed;
+      animation.start = new Date().getTime() - animation.data.basicTimeStep * animation.step / animation.speed;
     }
   }
 
