@@ -307,7 +307,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       for (unsigned int i = 0; i < node->mNumChildren; ++i)
         if (node->mChildren[i]->mNumMeshes > 0)
           addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
-                  importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+                       importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
     }
   }
 
@@ -341,7 +341,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
   WbLog::warning(QString("node has %1 meshes.").arg(node->mNumMeshes));
 
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
     if (mesh->mNumVertices > 100000)
@@ -456,7 +455,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
       addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
-                  importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+                   importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
     stream += " ] ";
     if (importAsSolid) {
