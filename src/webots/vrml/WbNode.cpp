@@ -946,7 +946,7 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
           field->setAlias(alias);
           copyAliasValue(field, alias);
         } else
-          parsingWarn(tr("Field reference '%1' has no matching PROTO parameter.").arg(alias));
+          parsingWarn(tr("Field IS reference '%1' has no matching PROTO parameter.").arg(alias));
       } else {
         // field->readValue(tokenizer);
         readFieldValue(field, tokenizer, worldPath);
