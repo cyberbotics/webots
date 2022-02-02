@@ -187,7 +187,7 @@ export default class ToolbarUnifed {
     if (this.type === 'animation')
       action = (this._view.animation.gui === 'real-time') ? 'pause' : 'play';
     else if (this.type === 'streaming') {
-      action = (this._view.runOnLoad === 'real-time') ? 'pause' : 'play';
+      action = (this._view.currentState === 'real-time') ? 'pause' : 'play';
       if (action === 'pause')
         this.realTime();
     }
@@ -217,7 +217,7 @@ export default class ToolbarUnifed {
       }
       action = (animation.gui === 'real-time') ? 'pause' : 'play';
     } else if (this.type === 'streaming') {
-      if (this._view.runOnLoad === 'real-time') {
+      if (this._view.currentState === 'real-time') {
         this.pause();
         action = 'play';
       } else {
@@ -827,13 +827,13 @@ export default class ToolbarUnifed {
       document.getElementById('webotsProgress').style.display = 'block';
 
     if (typeof this.pauseButton !== 'undefined' && this.playButton.className === 'toolbar-btn icon-pause')
-      this._view.runOnLoad = 'real-time';
+      this._view.currentState = 'real-time';
     else if (typeof this.runButton !== 'undefined' && this.runButton.className === 'toolbar-btn icon-pause')
-      this._view.runOnLoad = 'run';
+      this._view.currentState = 'run';
 
-    const state = this._view.runOnLoad;
+    const state = this._view.currentState;
     this.pause();
-    this._view.runOnLoad = state;
+    this._view.currentState = state;
 
     this.hideToolbar(true);
     let previousOnReady = this._view.onready;
@@ -841,7 +841,7 @@ export default class ToolbarUnifed {
       if (typeof previousOnReady === 'function')
         previousOnReady();
 
-      switch (this._view.runOnLoad) {
+      switch (this._view.currentState) {
         case 'real-time':
           this.realTime();
           break;
@@ -862,14 +862,14 @@ export default class ToolbarUnifed {
     if (this._view.broadcast)
       return;
     this._view.stream.socket.send('pause');
-    this._view.runOnLoad = 'pause';
+    this._view.currentState = 'pause';
   }
 
   realTime(force) {
     if (this._view.broadcast)
       return;
     this._view.stream.socket.send('real-time:' + this._view.timeout);
-    this._view.runOnLoad = 'real-time';
+    this._view.currentState = 'real-time';
   }
 
   _createStreamingTimeIndicator() {
@@ -914,7 +914,7 @@ export default class ToolbarUnifed {
     this.runTooltip = this.runButton.childNodes[0];
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
-    if (this._view.runOnLoad === 'run' || this._view.runOnLoad === 'fast') {
+    if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
       this.runButton.className = 'toolbar-btn icon-pause';
       this.run();
@@ -925,7 +925,7 @@ export default class ToolbarUnifed {
   _triggerRunPauseButton() {
     let action;
     if (this.type === 'streaming') {
-      if (this._view.runOnLoad === 'run' || this._view.runOnLoad === 'fast') {
+      if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
         this.pause();
         action = 'run';
       } else {
@@ -946,7 +946,7 @@ export default class ToolbarUnifed {
     if (this._view.broadcast)
       return;
     this._view.stream.socket.send('fast:' + this._view.timeout);
-    this._view.runOnLoad = 'fast';
+    this._view.currentState = 'fast';
   }
 
   _createWorldSelection() {
@@ -986,7 +986,7 @@ export default class ToolbarUnifed {
         document.getElementById('webotsProgress').style.display = 'block';
       this.hideToolbar(true);
       let previousOnready = this._view.onready;
-      let stateBeforeChange = this._view.runOnLoad;
+      let stateBeforeChange = this._view.currentState;
       this._view.onready = () => {
         if (previousOnready === 'function')
           previousOnready();

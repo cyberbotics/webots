@@ -88,7 +88,7 @@ webots.View = class View {
 
     this.timeout = 60 * 1000; // default to one minute
     this.deadline = this.timeout;
-    this.runOnLoad = false;
+    this.currentState = false;
     this.quitting = false;
   }
 

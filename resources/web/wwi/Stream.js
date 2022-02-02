@@ -82,7 +82,7 @@ export default class Stream {
           document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      this._view.runOnLoad = data;
+      this._view.currentState = data;
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
