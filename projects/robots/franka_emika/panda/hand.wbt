@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.004999895729642994 -0.005777082281237603 -0.9999708127555567 4.856341728646579
-  position -1.0037831863538946 -3.9982596145427376 0.937942461402451
+  orientation 0.1937654065669531 0.003412759203265734 -0.9810419564384409 3.1070382211563854
+  position 0.39794373672084576 0.09355047668775897 0.18914268068797896
 }
 TexturedBackground {
 }
@@ -216,6 +216,35 @@ Robot {
           }
         ]
         name "panda_leftfinger"
+        boundingObject Group {
+          children [
+            Transform {
+              translation 0 0.007 0.045
+              children [
+                Box {
+                  size 0.018 0.014 0.017
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.0185 0.012
+              children [
+                Box {
+                  size 0.02 0.014 0.014
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.0175 0.026
+              rotation 1 0 0 0.523599
+              children [
+                Box {
+                  size 0.018 0.007 0.019
+                }
+              ]
+            }
+          ]
+        }
       }
     }
     DEF panda_finger_joint2 SliderJoint {
@@ -264,6 +293,35 @@ Robot {
           }
         ]
         name "panda_rightfinger"
+        boundingObject Group {
+          children [
+            Transform {
+              translation 0 -0.007 0.045
+              children [
+                Box {
+                  size 0.018 0.014 0.017
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.0185 0.012
+              children [
+                Box {
+                  size 0.02 0.014 0.014
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.0175 0.026
+              rotation 1 0 0 -0.523599
+              children [
+                Box {
+                  size 0.018 0.007 0.019
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   ]
@@ -271,36 +329,29 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0 0.04
-        rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
+        translation 0 0 0.03
         children [
-          Cylinder {
-            height 0.1
-            radius 0.07
+          Box {
+            size 0.04 0.2 0.07
           }
         ]
-      }
-      Sphere {
-        radius 0.07
-      }
-      Sphere {
-        radius 0.07
       }
       Transform {
-        translation 0 0 0.1
-        rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
+        translation 0 0.055 -0.002
         children [
-          Cylinder {
-            height 0.1
-            radius 0.05
+          Box {
+            size 0.057 0.055 0.01
           }
         ]
       }
-      Sphere {
-        radius 0.05
-      }
-      Sphere {
-        radius 0.05
+      Transform {
+        translation 0 0 0.004
+        children [
+          Cylinder {
+            height 0.007
+            radius 0.032
+          }
+        ]
       }
     ]
   }
