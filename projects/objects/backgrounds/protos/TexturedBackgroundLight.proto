@@ -91,7 +91,7 @@ PROTO TexturedBackgroundLight [
       direction = [-0.1, -0.3, 0.3];
       color = [0.9, 0.9, 1.0];
     } else if (fields.texture.value === 'music_hall') {
-      direction = [-0.35, -0.45, -0.1];
+      direction = [-0.78, -0.6, -0.17];
       color = [0.9, 0.9, 1.0];
       intensity = 0.5;
     } else if (fields.texture.value === 'twilight_cloudy_empty') {

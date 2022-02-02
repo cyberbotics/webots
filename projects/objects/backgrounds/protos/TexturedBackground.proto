@@ -70,7 +70,7 @@ PROTO TexturedBackground [
       }
     }
 
-    const extension = isHDR ? 'png' : 'jpg';
+    const extension = (isHDR && texture !== 'music_hall') ? 'png' : 'jpg';
     const path = 'webots://projects/default/worlds/textures/cubic';
 
     if (!isHDR) {
