@@ -43,13 +43,13 @@ export default class InformationPanel {
     parentNode.appendChild(this.informationPanel);
   }
 
-  switchTab(nbr) {
-    if (nbr === 0) {
+  switchTab(number) {
+    if (number=== 0) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#555';
       this.webotsPresentation.style.display = 'none';
       this.simulationDescritption.style.display = 'block';
-    } else if (nbr === 1) {
+    } else if (number=== 1) {
       this.tab0.style.backgroundColor = '#555';
       this.tab1.style.backgroundColor = '#333';
       this.webotsPresentation.style.display = 'block';
