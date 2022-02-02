@@ -434,10 +434,10 @@ This is the API of the `webots-streaming` web component:
     * `real-time:-1`: to play the simulation.
     * `pause`: to pause the simulation.
     * `robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
-* `setWebotsMessageCallback(callback)`: set a function that will be call every time a message is send by webots.
-    * `callback`: the function to be called when a message is received, the text of the message is passed to the function as the only argument.
-* `setWebotsErrorMessageCallback(callback)`: set a function that will be call every time an error is send by webots.
-    * `callback`: the function to be called when an error is received, the text of the message is passed to the function as the only argument.
+* `setWebotsMessageCallback(callback)`: define a function that will be called every time a message is send by webots.
+    * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
+* `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by webots.
+    * `callback`: the function to be called when an error is received, the text of the error is passed to this function as the only argument.
 
 Moreover, the following attributes are available:
 * `data-server`: URL of the server.
@@ -447,7 +447,7 @@ Moreover, the following attributes are available:
 * `data-callback`: function to be executed once the simulation is ready.
 * `data-disconnectCallback`: function to be executed once the web scene is closed.
 * `showQuit`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
-* `showReload `: specify is the reload button must be displayed on the toolbar. Must be called before connect. The reload button is displayed by default.
+* `showReload `: specify is the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 
