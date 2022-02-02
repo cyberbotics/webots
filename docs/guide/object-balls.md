@@ -21,7 +21,7 @@ Ball {
   SFColor    color           1.0 0.54 0.08
   SFFloat    radius          0.0325
   SFFloat    mass            0.055
-  MFVec3f    centerOfMass    [0 -0.0001 0]
+  MFVec3f    centerOfMass    [0 0 -0.0001]
   SFFloat    linearDamping   0.17
   SFFloat    angularDamping  0.33
   SFString   contactMaterial "default"

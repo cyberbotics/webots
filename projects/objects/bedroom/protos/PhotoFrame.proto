@@ -1,0 +1,129 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A photo frame with a customizable picture.
+
+PROTO PhotoFrame [
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 0 1 0
+  field SFString   name               "photo frame"
+  field MFString   pictureUrl         "webots://projects/objects/bedroom/protos/textures/child_picture.jpg" # Url of the photo.
+  field SFNode     frameAppearance    VarnishedPine { colorOverride 0.333333 0.341176 0.32549 textureTransform TextureTransform { rotation 1 } } # Define the appearance of the frame.
+  field SFNode     physics            NULL                          # Is `Solid.physics`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Transform {
+        translation 0.05 3.43455e-07 -8.36465e-08
+        rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
+        children [
+          Transform {
+            translation 0 0.005 0
+            children [
+              DEF FRAME_SHAPE Shape {
+                appearance IS frameAppearance
+                geometry Box {
+                  size 0.15 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.145 0
+            children [
+              USE FRAME_SHAPE
+            ]
+          }
+          Transform {
+            translation 0.08 0.075 0
+            rotation 0 0 1 1.5708
+            children [
+              USE FRAME_SHAPE
+            ]
+          }
+          Transform {
+            translation -0.08 0.075 0
+            rotation 0 0 1 1.5708
+            children [
+              USE FRAME_SHAPE
+            ]
+          }
+          Transform {
+            translation 0 0.075 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url IS pictureUrl
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Plane {
+                  size 0.15 0.15
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.075 0
+            rotation 0 1 0 3.14159
+            children [
+              Shape {
+                appearance OsbWood {
+                }
+                geometry Plane {
+                  size 0.15 0.15
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 1.8746e-07 0.10268 -0.0613397
+            rotation 0.25056306820553154 -0.9351132545462786 0.25056206820525934 -1.6378353071795866
+            children [
+              Shape {
+                appearance VarnishedPine {
+                  colorOverride 0.333333 0.341176 0.32549
+                  textureTransform TextureTransform {
+                    rotation 1
+                  }
+                }
+                geometry Box {
+                  size 0.14 0.001 0.01
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.0124361 3.52492e-08 0.065005
+          rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
+          children [
+            Box {
+              size 0.17 0.15 0.01
+            }
+          ]
+        }
+        Transform {
+          translation -0.0542691 -5.4072e-07 0.0579924
+          rotation -0.2505629426418894 -0.2505639426416605 -0.9351127859368108 -1.6378453071795862
+          children [
+            Box {
+              size 0.01 0.002 0.14
+            }
+          ]
+        }
+      ]
+    }
+    physics IS physics
+  }
+}

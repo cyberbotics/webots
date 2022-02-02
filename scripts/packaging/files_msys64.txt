@@ -44,9 +44,6 @@
 /mingw64/bin/Qt5QmlModels.dll
 /mingw64/bin/Qt5Quick.dll
 /mingw64/bin/Qt5Sensors.dll
-/mingw64/bin/Qt5WebChannel.dll
-/mingw64/bin/Qt5WebKit.dll
-/mingw64/bin/Qt5WebKitWidgets.dll
 /mingw64/bin/Qt5WebSockets.dll
 /mingw64/bin/Qt5Widgets.dll
 /mingw64/bin/Qt5Xml.dll

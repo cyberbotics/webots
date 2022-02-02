@@ -37,7 +37,6 @@ class TestWorldsWarnings(unittest.TestCase):
             'ComposedShader is experimental.',
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
-            'Warning: Release of profile requested but WebEnginePage still not deleted. Expect troubles !',
             self.crashError  # To remove once #6125 is fixed
         ]
         # Get all the worlds from projects
@@ -73,16 +72,15 @@ class TestWorldsWarnings(unittest.TestCase):
         for world in self.worlds:
             print('Testing: %s' % world)
             self.process = Popen([
-                                    self.webotsFullPath,
-                                    '--stdout',
-                                    '--stderr',
-                                    '--mode=pause',
-                                    '--minimize',
-                                    '--batch',
-                                    '--no-sandbox',
-                                    world
-                                 ], stdin=PIPE,
-                                 stdout=PIPE, stderr=PIPE, text=True)
+                self.webotsFullPath,
+                '--stdout',
+                '--stderr',
+                '--mode=pause',
+                '--minimize',
+                '--batch',
+                world
+            ], stdin=PIPE,
+                stdout=PIPE, stderr=PIPE, text=True)
             t = Timer(20.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()
