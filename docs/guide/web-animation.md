@@ -48,7 +48,7 @@ The attributes of `webots-view` are only evaluated once: when the page is loaded
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `getNode(id)`: return the webotsjs node with the corresponding `id` if it exists or undefined.
-    * `id`: the id of the node to get.
+  * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
 * `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
