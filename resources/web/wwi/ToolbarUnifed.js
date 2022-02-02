@@ -136,9 +136,15 @@ export default class ToolbarUnifed {
       this._view.mouseEvents.onMouseLeave();
   }
 
-  hideToolbar() {
+  hideToolbar(force) {
     if (this.toolbar === 'undefined')
       return;
+
+    if (force) {
+      this.toolbar.style.display = 'none';
+      this.forceHidden = true;
+      return;
+    }
 
     let canHide;
 
@@ -173,8 +179,10 @@ export default class ToolbarUnifed {
       this.toolbar.style.display = 'none';
   }
 
-  showToolbar() {
-    if (typeof this.toolbar !== 'undefined')
+  showToolbar(force) {
+    if (force)
+      this.forceHidden = false;
+    if (typeof this.toolbar !== 'undefined' && !this.forceHidden)
       this.toolbar.style.display = 'block';
   }
 
@@ -809,8 +817,12 @@ export default class ToolbarUnifed {
     this.pause();
     this._view.runOnLoad = state;
 
-    this.hideToolbar();
+    this.hideToolbar(true);
+    let previousOnReady = this._view.onready;
     this._view.onready = () => {
+      if (typeof previousOnReady === 'function')
+        previousOnReady();
+
       switch (this._view.runOnLoad) {
         case 'real-time':
           this.realTime();
@@ -820,7 +832,7 @@ export default class ToolbarUnifed {
           this.run();
           break;
       }
-      this.showToolbar();
+      this.showToolbar(true);
     };
     if (reload)
       this._view.stream.socket.send('reload');
@@ -952,6 +964,13 @@ export default class ToolbarUnifed {
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.worldSelect.value + '...';
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
+      this.hideToolbar(true);
+      let previousOnready = this._view.onready;
+      this._view.onready = () => {
+        if (previousOnready === 'function')
+          previousOnready();
+        this.showToolbar(true);
+      };
       this._view.stream.socket.send('load:' + this.worldSelect.value);
     };
   }
