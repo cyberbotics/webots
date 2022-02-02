@@ -10,7 +10,7 @@ var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
 
-function setDeviceModeCallback(switchButton, deviceType) {
+window.setDeviceModeCallback = function (switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
   for (let i = 0; i < commands.length; ++i) {
