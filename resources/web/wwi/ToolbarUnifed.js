@@ -783,11 +783,18 @@ export default class ToolbarUnifed {
   // Streaming functions
 
   _createQuitButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation()));
+    const quitButton = this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation());
+    console.log(this.parentNode);
+    if (!(typeof this.parentNode.showQuit === 'undefined' || this.parentNode.showQuit))
+      quitButton.style.display = 'none';
+    this.toolbarLeft.appendChild(quitButton);
   }
 
   _createReloadButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); }));
+    const reloadButton = this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); });
+    if (!this.parentNode.showReload)
+      reloadButton.style.display = 'none';
+    this.toolbarLeft.appendChild(reloadButton);
   }
 
   reset(reload = false) {
@@ -888,6 +895,8 @@ export default class ToolbarUnifed {
   _createRunButton() {
     this.runButton = this._createToolBarButton('run', 'Run', () => this._triggerRunPauseButton());
     this.runTooltip = this.runButton.childNodes[0];
+    if (!this.parentNode.showRun)
+      this.runButton.style.display = 'none';
     if (this._view.runOnLoad === 'run' || this._view.runOnLoad === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
       this.runButton.className = 'toolbar-btn icon-pause';

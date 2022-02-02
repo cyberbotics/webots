@@ -214,6 +214,7 @@ webots-view .total-time { margin-right: 8px; }
 webots-view #worldSelectionDiv {
   display: inline-flex;
   margin-top: 2px;
+  margin-left: 10px;
 }
 
 webots-view .select-css {
