@@ -45,7 +45,7 @@ void WbRobotWindow::setClientID(const QString &clientID, const QString &robotNam
     mClientID = clientID;
     emit socketOpened();
   } else if (clientID == mClientID && socketStatus == "disconnected")
-    mClientID = "";
+    mClientID = "-1";
 }
 
 bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow) {

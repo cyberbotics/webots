@@ -1137,7 +1137,8 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
 
   QStringList robotWindowNodeNames;
   foreach (WbRobotWindow *robotWindow, mRobotWindows)
-    if (!robotWindow->getClientID().isEmpty())
+    // save only if a client is connected or in connection (empty client) to robotWindow.
+    if (robotWindow->getClientID() != "-1")
       robotWindowNodeNames << robotWindow->robot()->computeUniqueName();
   perspective->setRobotWindowNodeNames(robotWindowNodeNames);
 
@@ -2107,7 +2108,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     WbRobotWindow *currentRobotWindow = NULL;
     foreach (WbRobotWindow *robotWindow, mRobotWindows) {
       if ((robotWindow->robot() == robot)) {  // close only the client of the robot window associated with the robot.
-        if (robotWindow->getClientID() != "")
+        if (robotWindow->getClientID() != "-1" && !robotWindow->getClientID().isEmpty())
           mStreamingServer->closeClient(robotWindow->getClientID());
         currentRobotWindow = robotWindow;
       }
