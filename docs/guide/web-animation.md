@@ -47,6 +47,8 @@ The attributes of `webots-view` are only evaluated once: when the page is loaded
 
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `getNode(id)`: return the webotsjs node with the corresponding id if it exists or undefined.
+    *`id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return true if a view exist, false otherwise.
 * `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
@@ -55,6 +57,11 @@ For more complex interaction with the web component, the following functions are
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `resize()`: automatically resize the web-component.
+* `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not used with simulation.
+  * `nodeId`: the id of the node (for example: 113).
+  * `field`: the field to update. Supported field are: `translation`, `rotation` and the diverse `colors`.
+  * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
+  * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
 
 ### Limitations

@@ -5,7 +5,7 @@ import InformationPanel from './InformationPanel.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 
-export default class ToolbarUnifed {
+export default class Toolbar {
   constructor(view, type, parentNode) {
     this._view = view;
     this.type = type;

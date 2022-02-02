@@ -1,5 +1,5 @@
 import {exitFullscreen} from './fullscreen_handler.js';
-import ToolbarUnifed from './ToolbarUnifed.js';
+import Toolbar from './Toolbar.js';
 import {webots} from './webots.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -23,7 +23,7 @@ export default class WebotsView extends HTMLElement {
 
     this._initialCallbackDone = true;
     this.css = document.createElement('link');
-    this.css.href = '../../../../../webots2/resources/web/wwi/css/toolbar_unified.css';
+    this.css.href = '../../../../../webots2/resources/web/wwi/css/toolbar.css';
     this.css.type = 'text/css';
     this.css.rel = 'stylesheet';
     document.head.appendChild(this.css);
@@ -156,7 +156,7 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this._view.onready = () => {
-        this.toolbar = new ToolbarUnifed(this._view, 'animation', this);
+        this.toolbar = new Toolbar(this._view, 'animation', this);
       };
       this._view.open(scene);
       if (play !== 'undefined' && play === false)
@@ -215,7 +215,7 @@ export default class WebotsView extends HTMLElement {
       this._disconnectCallback = disconnectCallback;
       this._view.onready = () => {
         if (typeof this.toolbar === 'undefined')
-          this.toolbar = new ToolbarUnifed(this._view, 'streaming', this);
+          this.toolbar = new Toolbar(this._view, 'streaming', this);
         if (typeof callback === 'function')
           callback();
       };
@@ -277,7 +277,7 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
 
-      this._view.onready = () => { this.toolbar = new ToolbarUnifed(this._view, 'scene', this); };
+      this._view.onready = () => { this.toolbar = new Toolbar(this._view, 'scene', this); };
       this._view.open(scene);
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();
