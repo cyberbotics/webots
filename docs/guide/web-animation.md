@@ -59,7 +59,7 @@ For more complex interaction with the web component, the following functions are
 * `resize()`: automatically resize the web-component.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not used with simulation.
   * `nodeId`: the id of the node (for example: 113).
-  * `field`: the field to update. Supported field are: `translation`, `rotation` and the diverse `colors`.
+  * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
