@@ -555,8 +555,8 @@ export default class ToolbarUnifed {
     this._timeSlider.id = 'timeSlider';
     document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
     this.toolbar.appendChild(this._timeSlider);
-    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
-    // this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
   }
 
   _updateSlider(event) {
@@ -582,6 +582,27 @@ export default class ToolbarUnifed {
     animation._updateAnimationState(requestedStep);
 
     this._timeSlider.setTime(this._formatTime(animation._data.frames[requestedStep].time));
+  }
+
+  _updateFloatingTimePosition(e) {
+    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = 'visible';
+
+    const bounds = this._timeSlider.shadowRoot.getElementById('range').getBoundingClientRect();
+    let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
+    if (x > 100)
+      x = 100;
+    else if (x < 0)
+      x = 0;
+
+    const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
+    const requestedStep = Math.floor(this._view.animation._data.frames.length * clampedValued / 100);
+    this._timeSlider.setTime(this._formatTime(this._view.animation._data.frames[requestedStep].time));
+
+    this._timeSlider.setFloatingTimePosition(e.clientX);
+  }
+
+  _hideFloatingTimePosition() {
+    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 
   _createAnimationTimeIndicator() {
@@ -965,10 +986,15 @@ export default class ToolbarUnifed {
         document.getElementById('webotsProgress').style.display = 'block';
       this.hideToolbar(true);
       let previousOnready = this._view.onready;
+      let stateBeforeChange = this._view.runOnLoad;
       this._view.onready = () => {
         if (previousOnready === 'function')
           previousOnready();
         this.showToolbar(true);
+        if (stateBeforeChange === 'real-time')
+          this.realTime();
+        else if (stateBeforeChange === 'fast' || stateBeforeChange === 'run')
+          this.run();
       };
       this._view.stream.socket.send('load:' + this.worldSelect.value);
     };
