@@ -61,7 +61,8 @@ export default class ToolbarUnifed {
 
     // Right part
     this._createInfoButton();
-    this._createSettings();
+    if (this._view.mode !== 'mjpeg')
+      this._createSettings();
     this._createFullscreenButtons();
   }
 
@@ -108,9 +109,6 @@ export default class ToolbarUnifed {
     this.toolbar.className = 'toolbar';
     parentNode.appendChild(this.toolbar);
 
-    this.toolbar.addEventListener('mouseover', () => this.showToolbar());
-    this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
-
     this.toolbarLeft = document.createElement('div');
     this.toolbarLeft.className = 'toolbar-left';
     this.toolbarLeft.id = 'toolbar-left';
@@ -121,8 +119,12 @@ export default class ToolbarUnifed {
 
     this.toolbar.appendChild(this.toolbarLeft);
     this.toolbar.appendChild(this.toolbarRight);
-    this._view.mouseEvents.hideToolbar = () => this.hideToolbar();
-    this._view.mouseEvents.showToolbar = () => this.showToolbar();
+    if (typeof this._view.mouseEvents !== 'undefined' && this._view.mode !== 'mjpeg') {
+      this.toolbar.addEventListener('mouseover', () => this.showToolbar());
+      this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
+      this._view.mouseEvents.hideToolbar = () => this.hideToolbar();
+      this._view.mouseEvents.showToolbar = () => this.showToolbar();
+    }
   }
 
   _onMouseLeave(e) {
@@ -310,18 +312,12 @@ export default class ToolbarUnifed {
 
     if (event.target.id === 'settingsButton' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this._settingsPane.style.visibility = 'visible';
-      const settingsButton = document.getElementById('settingsButton');
-      if (settingsButton)
-        settingsButton.style.transform = 'rotate(10deg)';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
     } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
       this._settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
-        const settingsButton = document.getElementById('settingsButton');
-        if (settingsButton)
-          settingsButton.style.transform = '';
         const tooltips = document.getElementsByClassName('tooltip');
         for (let i of tooltips)
           i.style.visibility = '';

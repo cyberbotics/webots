@@ -104,6 +104,8 @@ export default class Stream {
       if (this._view.mode === 'mjpeg') {
         if (document.getElementById('webotsProgress'))
           document.getElementById('webotsProgress').style.display = 'none';
+        if (typeof this._onready === 'function')
+          this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once
       }
     } else if (data === 'reset finished') {
