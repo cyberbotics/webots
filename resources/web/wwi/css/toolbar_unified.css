@@ -155,7 +155,7 @@ webots-view .tooltip {
   white-space: nowrap;
 
   /* Position the tooltip */
-  position: absolute;
+  position: relative;
   bottom: 55px;
 }
 
@@ -165,23 +165,30 @@ webots-view .toolbar-btn:hover .tooltip {
 
 webots-view .reload-tooltip{
   transform: scaleX(-1);
-}
-
-webots-view .play-tooltip, .pause-tooltip {
-  left: 0px;
+  position: absolute;
+  left: -100px;
 }
 
 webots-view .info-tooltip {
-  right: 30px;
+  position: absolute;
+  right: 0px;
   white-space: nowrap;
 }
 
-webots-view .settings-tooltip {
-    right: 30px;
+webots-view .reset-scene-tooltip {
+  position: absolute;
+  right: 0px;
 }
 
-webots-view .fullscreen-tooltip, .partscreen-tooltip, .reset-scene-tooltip {
+webots-view .fullscreen-tooltip {
   white-space: nowrap;
+  position: absolute;
+  right: 0px;
+}
+
+webots-view .partscreen-tooltip {
+  white-space: nowrap;
+  position: absolute;
   right: 0px;
 }
 
