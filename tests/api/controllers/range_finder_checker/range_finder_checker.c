@@ -51,7 +51,8 @@ int main(int argc, char **argv) {
       x = samples_positions[i][0];
       y = samples_positions[i][1];
       v = wb_range_finder_image_get_depth(image, width, x, y);
-      printf("Wrong value at (%d, %d), Received value = %f, Expected value = %f \n", x, y, v,
+      ts_assert_double_in_delta(v, samples_expected_values[i], 0.015,
+                                "Wrong value at (%d, %d), Received value = %f, Expected value = %f", x, y, v,
                                 samples_expected_values[i]);
     }
   } else if (strcmp(argv[1], "range_finder_spherical") == 0) {
