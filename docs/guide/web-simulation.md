@@ -446,7 +446,7 @@ Moreover, the following attributes are available:
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `data-callback`: function to be executed once the simulation is ready.
 * `data-disconnectCallback`: function to be executed once the web scene is closed.
-* `showQuit`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 * `showReload `: specify if the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
