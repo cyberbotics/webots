@@ -28,7 +28,7 @@ jobs:
         os: [windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: openrndr/setup-opengl@v3.3
+    - uses: openrndr/setup-opengl@v1.1
     - uses: msys2/setup-msys2@v2
       with:
         update: false
