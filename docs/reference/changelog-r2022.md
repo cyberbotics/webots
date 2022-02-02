@@ -4,14 +4,16 @@
 Released on XX, XXth, 2022.
 
   - New Features:
-    - Moved the robot windows to the web browser. ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
+    - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
   - New Objects:
-    - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance. ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
+    - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
+  - Enhancements:
+    - Improved the structure of the Nao PROTO ([]()).
   - Dependency Updates
-    - remove WebKit, WebChannel and WebEngine dependencies. ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
+    - remove WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.
