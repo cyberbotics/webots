@@ -74,3 +74,20 @@ I'm feeling that pain right now...
 ##### Luftwaffel [Moderator] 01/19/2022 00:34:22
 feel free to pm me, if you want help right now
 
+##### JoséeMallah 01/20/2022 13:46:41
+Hello everyone!
+
+I am looking to modeling the human gait cycle so to represent the human body and make it walk.
+
+I got the c3d body representation proto, and I was wondering how to actually control the body and make it walk. I am new to webots, and thought that a supervisor might be able to actuate the joints and simulate walking.
+
+Is there any better way to do so - like to control the body itself without using a supervisor? And is the c3d model good for biomechanical simulations?
+
+Thank you
+
+##### Luftwaffel [Moderator] 01/21/2022 02:10:26
+you have to add motors to the joints
+
+##### the-french-bunny 01/21/2022 06:48:51
+hello well met everyone first of all i LOVE the concept of this software a great place to prototype and test robot designs and concepts before attempting production FANTASTIC for both hobbyists, newbies(like myself) and professionals. however as a newbie im having some trouble understanding the design proccess for the robots themselves as i kinda want to design a robot from scratch based on the design of cubli.
+
