@@ -426,14 +426,25 @@ This is the API of the `webots-streaming` web component:
   * `callback`: function to be executed once the simulation is ready.
   * `disconnectCallback`: function to be executed once the web scene is closed.
 * `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
+* `getNode(id)`: return the webotsjs node with the corresponding id if it exists or undefined.
+    *`id`: the id of the node to get.
+* `hasView()`: return true if a view exist, false otherwise.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
+* `resize()`: automatically resize the web-component.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
-* `displayQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
-* `displayRevert(enable)`: specify is the revert button must be displayed on the toolbar. Must be called before connect. The quit button is hidden by default.
 * `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
     *`real-time:-1`: to play the simulation.
     *`pause`: to pause the simulation.
     *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
+* `setWebotsMessageCallback(callback)`: set a function that will be call every time a message is send by webots.
+    *`callback`: the function to be called when a message is received, the text of the message is passed to the function as the only argument.
+* `setWebotsErrorMessageCallback(callback)`: set a function that will be call every time an error is send by webots.
+    *`callback`: the function to be called when an error is received, the text of the message is passed to the function as the only argument.
+* `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not used with simulation.
+    *`nodeId`: the id of the node (for example: 113).
+    *`field`: the field to update. Supported field are: `translation`, `rotation` and the diverse `colors`.
+    *`value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
+    *`render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
 Moreover, the following attributes are available:
 * `data-server`: URL of the server.
@@ -442,6 +453,8 @@ Moreover, the following attributes are available:
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `data-callback`: function to be executed once the simulation is ready.
 * `data-disconnectCallback`: function to be executed once the web scene is closed.
+* `showQuit`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showReload `: specify is the reload button must be displayed on the toolbar. Must be called before connect. The reload button is displayed by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 

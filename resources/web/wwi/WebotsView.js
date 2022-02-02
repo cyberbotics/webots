@@ -119,7 +119,7 @@ export default class WebotsView extends HTMLElement {
       this._view.x3dScene.render();
     }
   }
-  // The value is update only the web side, do not used with simulation.
+  // The value is updated only on the web side, do not used with simulation.
   updateNode(nodeId, field, value, render) {
     if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
       return;
@@ -252,18 +252,6 @@ export default class WebotsView extends HTMLElement {
   showToolbar() {
     if (typeof this.toolbar !== 'undefined')
       this.toolbar.showToolbar(true);
-  }
-
-  displayQuit(enable) {
-    webots.showQuit = enable;
-  }
-
-  displayReload(enable) {
-    webots.showReload = enable;
-  }
-
-  displayRun(enable) {
-    webots.showRun = enable;
   }
 
   sendMessage(message) {
