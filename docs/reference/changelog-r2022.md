@@ -5,6 +5,7 @@
 Released on XX XX, 2022.
   - Enhancements
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
+    - Added a new HDR background: `music_hall` ([#4177](https://github.com/cyberbotics/webots/pull/4177)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
   - Bug fixes
