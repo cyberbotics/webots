@@ -73,6 +73,7 @@ public:
 
   void render();
 
+  void setDepthTexture(WrTexture *depthTexture);
   void setSize(int width, int height);
   void setNear(float nearValue);
   void setFar(float farValue);
@@ -194,6 +195,7 @@ private:
   float mMotionBlurIntensity;
   WrTexture2d *mNoiseMaskTexture;
   WbVector2 mNoiseMaskTextureFactor;
+  WrTexture *mDepthTexture;
 };
 
 #endif

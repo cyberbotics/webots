@@ -24,12 +24,14 @@ public:
   void setup(WrViewport *viewport) override;
   void setFirstRender(float firstRender);
   void setIntensity(float intensity);
+  void setDepthTexture(WrTexture *depthTexture);
 
 private:
   void applyParametersToWren() override;
 
   float mFirstRender;
   float mIntensity;
+  WrTexture *mDepthTexture;
 };
 
 #endif  // WB_WREN_MOTION_BLUR_HPP
