@@ -87,7 +87,6 @@ export default class X3dScene {
     this.renderMinimal();
     clearTimeout(this._renderingTimeout);
     this._loader = undefined;
-    webots.currentView.runOnLoad = false;
   }
 
   _deleteObject(id) {
@@ -113,7 +112,10 @@ export default class X3dScene {
         onLoad();
       }
     };
-    xmlhttp.onerror = document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+    xmlhttp.onerror = () => {
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+    };
     xmlhttp.send();
   }
 
@@ -135,7 +137,7 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = [], automaticMove) {
+  applyPose(pose, appliedFields = []) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
       return appliedFields;
@@ -167,7 +169,7 @@ export default class X3dScene {
     return fields;
   }
 
-  _applyPoseToObject(pose, object, fields, automaticMove) {
+  _applyPoseToObject(pose, object, fields) {
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -292,9 +294,6 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (view.toolBar)
-        view.toolBar.enableToolBarButtons(false);
-
       if (document.getElementById('webotsProgressMessage'))
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
       if (document.getElementById('webotsProgressPercent'))

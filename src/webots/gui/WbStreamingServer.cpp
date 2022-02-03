@@ -352,7 +352,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     } else if (message == "reset") {
       resetSimulation();
       sendToClients("reset finished");
-    } else if (message == "revert")
+    } else if (message == "reload")
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();

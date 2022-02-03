@@ -37,4 +37,8 @@ export default class WbVector4 {
   clone() {
     return new WbVector4(this.x, this.y, this.z, this.w);
   }
+
+  toString() {
+    return this.x + ' ' + this.y + ' ' + this.z + ' ' + this.w;
+  }
 }
