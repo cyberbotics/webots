@@ -810,7 +810,6 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   // motion blur
   if (mMotionBlurIntensity > 0.0f) {
     mWrenMotionBlur[index]->setTextureFormat(mTextureFormat);
-    mWrenMotionBlur[index]->setDepthTexture(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mResultFrameBuffer)));
     mWrenMotionBlur[index]->setup(mCameraViewport[index]);
   }
 

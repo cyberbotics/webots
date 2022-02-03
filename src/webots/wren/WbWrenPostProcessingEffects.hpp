@@ -30,7 +30,7 @@ namespace WbWrenPostProcessingEffects {
   WrPostProcessingEffect *depthOfField(float width, float height, float depthOfFieldTextureWidth,
                                        float depthOfFieldTextureHeight, WrTextureInternalFormat textureFormat,
                                        WrTexture *colorTexture, WrTexture *depthTexture);
-  WrPostProcessingEffect *motionBlur(float width, float height, WrTextureInternalFormat textureFormat, WrTexture *depthTexture);
+  WrPostProcessingEffect *motionBlur(float width, float height, WrTextureInternalFormat textureFormat);
   WrPostProcessingEffect *colorNoise(float width, float height, WrTextureInternalFormat textureFormat);
   WrPostProcessingEffect *rangeNoise(float width, float height, WrTextureInternalFormat textureFormat);
   WrPostProcessingEffect *depthResolution(float width, float height, WrTextureInternalFormat textureFormat);

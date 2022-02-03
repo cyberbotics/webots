@@ -22,7 +22,7 @@
 #include <wren/texture.h>
 #include <wren/viewport.h>
 
-WbWrenMotionBlur::WbWrenMotionBlur() : WbWrenAbstractPostProcessingEffect(), mFirstRender(1.0f), mIntensity(0.0f), mDepthTexture(NULL){
+WbWrenMotionBlur::WbWrenMotionBlur() : WbWrenAbstractPostProcessingEffect(), mFirstRender(1.0f), mIntensity(0.0f) {
 }
 
 void WbWrenMotionBlur::setup(WrViewport *viewport) {
@@ -39,7 +39,7 @@ void WbWrenMotionBlur::setup(WrViewport *viewport) {
   const float width = wr_viewport_get_width(mWrenViewport);
   const float height = wr_viewport_get_height(mWrenViewport);
 
-  mWrenPostProcessingEffect = WbWrenPostProcessingEffects::motionBlur(width, height, mTextureFormat, mDepthTexture);
+  mWrenPostProcessingEffect = WbWrenPostProcessingEffects::motionBlur(width, height, mTextureFormat);
 
   applyParametersToWren();
 
@@ -62,10 +62,6 @@ void WbWrenMotionBlur::setIntensity(float intensity) {
   mIntensity = intensity;
 
   applyParametersToWren();
-}
-
-void WbWrenMotionBlur::setDepthTexture(WrTexture *depthTexture) {
-  mDepthTexture = depthTexture;
 }
 
 void WbWrenMotionBlur::applyParametersToWren() {
