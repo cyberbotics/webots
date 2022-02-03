@@ -14,6 +14,7 @@ PROTO Panda [
   field  SFBool      supervisor      FALSE        # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE         # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE        # Is `Robot.selfCollision`.
+  field  MFNode      endEffectorSlot     PandaHand {}
 ]
 {
   Robot {
@@ -179,11 +180,7 @@ PROTO Panda [
                                                 PandaArmLink7 {}
                                                 DEF panda_link8 Solid {
                                                   translation 0 0 0.107
-                                                  children [
-                                                    Slot {
-                                                      type "panda end-effector"
-                                                    }
-                                                  ]
+                                                  children IS endEffectorSlot
                                                   name "panda_link8"
                                                   boundingObject Group {
                                                     children [
