@@ -159,7 +159,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   if (mMaterialIndex->value() >= (int)scene->mNumMaterials) {
-    warn(tr("Geometry with the color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
+    warn(tr("Geometry with color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
     return;
   }
 
@@ -191,7 +191,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int totalFaces = 0;
   for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[i];
-    if (mName->value() != "" && mName->value() != mesh->mName.data)
+    if (!mName->value().isEmpty() && mName->value() != mesh->mName.data)
       continue;
 
     if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)

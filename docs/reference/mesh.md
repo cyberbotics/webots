@@ -31,6 +31,6 @@ The `name` field defines which sub-mesh is included.
 If the `name` value is an empty string then all sub-meshes are included.
 Note that the `name` field is applied only for Collada files.
 
-The `materialIndex` field defines which color of a sub-mesh is included.
-If the `materialIndex` value is strictly negative then all colors of the sub-mesh are included.
-Note that the `materialIndex` field is applied only for Collada files.
+The `materialIndex` field applies only to Collada files.
+It defines a material for which all the geometries associated with this material will be included.
+If `materialIndex` is strictly negative then all the geometries of the Collada file are included.

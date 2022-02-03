@@ -322,12 +322,12 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
   // export the node
   if (!referenceMeshes) {
     if (importAsSolid)
-      stream += " Solid { ";
+      stream += " Solid {";
     else
-      stream += " Transform { ";
-    stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
+      stream += " Transform {";
+    stream += QString(" translation %1 %2 %3").arg(position[0]).arg(position[1]).arg(position[2]);
     stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
-    stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
+    stream += QString(" scale %1 %2 %3").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
     stream += " children [";
   }
 
@@ -447,21 +447,21 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
 
   if (!referenceMeshes) {
     if (defNeedGroup) {
-      stream += " ] ";
-      stream += " } ";
+      stream += " ]";
+      stream += " }";
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
       addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
                    importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
-    stream += " ] ";
+    stream += " ]";
     if (importAsSolid) {
       stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
       if (importBoundingObjects && node->mNumMeshes > 0)
-        stream += " boundingObject USE SHAPE ";
+        stream += " boundingObject USE SHAPE";
     }
-    stream += " } ";
+    stream += " }";
   }
 }
 
