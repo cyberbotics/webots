@@ -21,28 +21,28 @@ import fnmatch
 
 
 class TestLineEnding(unittest.TestCase):
-  """Unit test of the line endings"""
+    """Unit test of the line endings"""
 
-  def setUp(self):
-    """Get all files to be tested"""
+    def setUp(self):
+        """Get all files to be tested"""
 
-    self.files = []
-    for root_path, _, file_names in os.walk(os.environ['WEBOTS_HOME']):
-      for extension in ('*.proto', '*.wbt', '*.wbo', '*.forest'):
-        for file_name in fnmatch.filter(file_names, extension):
-          self.files.append(os.path.join(root_path, file_name))
+        self.files = []
+        for root_path, _, file_names in os.walk(os.environ['WEBOTS_HOME']):
+            for extension in ('*.proto', '*.wbt', '*.wbo', '*.forest'):
+                for file_name in fnmatch.filter(file_names, extension):
+                    self.files.append(os.path.join(root_path, file_name))
 
-  def test_line_ending(self):
-    """Test that all assets have the correct ending"""
+    def test_line_ending(self):
+        """Test that all assets have the correct ending"""
 
-    invalid_endings = [b'\r\n', b'\r']
-    for file in self.files:
-      with open(file, 'rb') as f:
-        self.assertFalse(
-            any(x in f.read() for x in invalid_endings),
-            msg='Wrong line ending in file: "%s"' % file
-        )
+        invalid_endings = [b'\r\n', b'\r']
+        for file in self.files:
+            with open(file, 'rb') as f:
+                self.assertFalse(
+                    any(x in f.read() for x in invalid_endings),
+                    msg='Wrong line ending in file: "%s"' % file
+                )
 
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()
