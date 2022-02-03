@@ -3129,7 +3129,7 @@ Robotics is great. You actually need all the Maths and Physics you learned in sc
 ##### yash 01/25/2021 14:35:21
 Thank you !
 
-##### Krish 01/25/2021 14:45:56
+##### Rawlmond 01/25/2021 14:45:56
 Is it possible for Webots arena/world to have pictures, animations and GIFs?
 
 If so, how to add them?
@@ -3771,13 +3771,13 @@ I don't understand how, after no tampering on my part, that the file was deleted
 ##### smasud98 01/30/2021 05:29:13
 Hi everyone! I am new to webots and not sure if this is the right place to be asking this question. I am considering getting the Macbook with the M1 chip which uses ARM. I was wondering if anyone knows whether Webots will work well with this. Thanks
 
-##### Krish 01/30/2021 06:03:49
+##### Rawlmond 01/30/2021 06:03:49
 Wait for this year's lineup.
 
 ##### Luftwaffel [Moderator] 01/30/2021 14:23:48
 `@smasud98` This is generally the right place to ask any questions regarding Webots. I think you should be fine with the macbook. While Webots is an x86 program, Apple's Rosetta 2 - x86 emulation seems to be very good and powerful. In general you should ask yourself the question though, whether a macbook is the right tool. If you want to dive deep into programming and development, engineering applications and linux, then it might be more advisable to get an x86 machine.  Perhaps you can tell me what you want to use your laptop for in general. Whether you are willing to switch to linux and/or linux is another big factor.
 
-##### Krish 01/30/2021 15:24:37
+##### Rawlmond 01/30/2021 15:24:37
 Yeah well said.
 
 He told me that he is more interested in getting a Mac than a Linux machine, he says that he has the 2015 Macbook and webots runs very slowly in that.
@@ -4392,14 +4392,14 @@ Thanks `@Darko Lukić` but I don't think I was very clear. I'm a confused by the
 ##### iagsav 02/03/2021 17:38:45
 Hi! please explain how you can add a compass to the e-puck robot?
 
-##### Krish 02/03/2021 18:49:01
+##### Rawlmond 02/03/2021 18:49:01
 `@John520` Did you forget to leave the voice channel?
 
 
 Its been a while
 
 ##### John520 02/03/2021 19:18:15
-`@Krish` Thanks. I forgot about it.
+`@Rawlmond` Thanks. I forgot about it.
 
 ##### Olivier Michel [Cyberbotics] 02/04/2021 07:04:37
 IndexedFaceSet are usually designed as meshes in a 3D modelling software (like Blender or other) and then exported to VRML97, copy/pasted in to the PROTO file.
@@ -5788,7 +5788,7 @@ fatal error: 'webots/robot.h' file not found
 ##### Irunit 02/12/2021 17:22:33
 Hi! I was writing custom scenarios for simulation with the help of a script. But when I reset the simulation the floor node is not removed and can be seen in the scene tree whereas other nodes (entities) are removed. Can anyone please help me with this?
 
-##### Krish 02/12/2021 17:45:49
+##### Rawlmond 02/12/2021 17:45:49
 Can there be a feature added in Webots that can make a drop-down wherever we declare a function or write if-elif-else anywhere in the code so that we can minimize it by pulling it up with the arrow, if we dont need to see it that much.
 
 This will surely decrease the time to scroll up & down, and is also found in most editors.
@@ -7983,7 +7983,7 @@ You can use Supervisor to get the speed field and set it to 0:
 
 [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
-##### Krish 02/25/2021 13:44:36
+##### Rawlmond 02/25/2021 13:44:36
 Is there a way that I can put mirrors in Webots?
 
 I am planning to build a a kaleidoscope.
@@ -8387,7 +8387,7 @@ Hi guys, I am trying to import a harvester into Webots. I imported the green bod
 ##### tbt24 02/27/2021 04:09:19
 Hi, i was just wondering if anyone could tell me how to get a light sensor to differentiate between a green and a red spotlight
 
-##### Krish 02/27/2021 06:14:10
+##### Rawlmond 02/27/2021 06:14:10
 Did you try performing image processing by a camera provided in the robot(if any) and using color detection algorithms, differentiate between colors.
 
 ##### Olivier Michel [Cyberbotics] 02/27/2021 07:57:14
@@ -8396,7 +8396,7 @@ Did you try to set a `colorFilter` to the `LigthSensor` node? [https://www.cyber
 ##### tbt24 02/27/2021 11:30:48
 Unfortunately I only have a light sensor available to me
 
-##### Krish 02/27/2021 11:31:59
+##### Rawlmond 02/27/2021 11:31:59
 What does a light sensor actually do?
 
 I have played with color sensors before, but not a light sensor.
@@ -8437,13 +8437,13 @@ thanks Stefania , this was the problem as you mentioned. , the order wasn't righ
 ![track_belt_convex.png](https://cdn.discordapp.com/attachments/565154703139405824/815916767729156156/track_belt_convex.png)
 %end
 
-##### Krish 03/01/2021 12:04:30
+##### Rawlmond 03/01/2021 12:04:30
 The representation of the wheels looks awesome
 
 ##### moeonethego 03/01/2021 12:53:46
 that's straight from the documentation link : [https://www.cyberbotics.com/doc/reference/track#geometries-animation](https://www.cyberbotics.com/doc/reference/track#geometries-animation)
 
-##### Krish 03/01/2021 12:58:32
+##### Rawlmond 03/01/2021 12:58:32
 Oh 😂
 
 ##### h.sciascia 03/01/2021 14:53:44
@@ -9193,7 +9193,7 @@ It's to compare some results between my Denavit Hartenberg outside webots and th
 ##### Callum98 03/05/2021 14:02:02
 Hi guys, I want my robot to turn for a specified amount of time before stopping, is there a command that tells the robot to perform an action for a set period of time?
 
-##### Krish 03/05/2021 14:05:47
+##### Rawlmond 03/05/2021 14:05:47
 robot.step(time in ms)
 
 
@@ -9205,7 +9205,7 @@ Runs the commands above for 1 second.
 ##### Callum98 03/05/2021 14:12:43
 Yeah that worked thank you man
 
-##### Krish 03/05/2021 14:22:11
+##### Rawlmond 03/05/2021 14:22:11
 Welcome 😁
 
 ##### Yaksa 03/05/2021 20:17:26
@@ -9243,7 +9243,7 @@ Hi, I'm having an issue where my robot does not go in a straight line even thoug
 
 Thanks
 
-##### Krish 03/06/2021 12:48:18
+##### Rawlmond 03/06/2021 12:48:18
 It would happen due to external factors like friction and slipping.
 
 
@@ -17702,16 +17702,16 @@ I downloaded your entire webots\_sim folder and there is many errors.
 
 probably because i'm not on develop
 
-##### lolMan 05/21/2021 08:52:18
+##### Variant L1130 05/21/2021 08:52:18
 I am using webots in ubuntu I am facing this error. I have added circle floor but its not rendering. were sample files are rendering excellently.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/845222461141155850/unknown.png)
 %end
 
 ##### DDaniel [Cyberbotics] 05/21/2021 08:56:14
-`@lolMan` Hi, it's because there's no light source on your world. Add the `Background` node, or `TexturedBackgroundLight` & `TexturedBackground` nodes for example, or something analogous to it
+`@Variant L1130` Hi, it's because there's no light source on your world. Add the `Background` node, or `TexturedBackgroundLight` & `TexturedBackground` nodes for example, or something analogous to it
 
-##### lolMan 05/21/2021 08:58:00
+##### Variant L1130 05/21/2021 08:58:00
 yeah thanks it works.
 
 ##### Maurice Faraj 05/21/2021 10:44:04
@@ -21741,7 +21741,7 @@ Since it isn't signed with a certificate, windows will always complain about it,
 ##### FunkyPants 07/17/2021 09:37:44
 Wow, thanks for working on it so quickly, will test it out on monday!
 
-##### lolMan 07/17/2021 14:16:21
+##### Variant L1130 07/17/2021 14:16:21
 there are two message files for recognition. Which message file is used to get the data of the object ? please do give some short info on this ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/865960120228118539/unknown.png)
@@ -21754,7 +21754,7 @@ I am using the webots-ros interface. And after updating to webots2021b, I got th
 %end
 
 ##### DrVoodoo [Moderator] 07/17/2021 22:57:46
-`@lolMan` recognitionobjects should be a list of recognitionobject
+`@Variant L1130` recognitionobjects should be a list of recognitionobject
 
 
 Recognitionobjects = all the recognized objects
@@ -24366,7 +24366,7 @@ Hi, A question about rolling simulation. When the ball is rolling in the simulat
 ##### Olivier Michel [Cyberbotics] 08/20/2021 06:28:19
 Yes, it should work.
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/20/2021 10:33:37
+##### tx23 08/20/2021 10:33:37
 could someone share a simple robot that can detect objects
 
 ##### Max\_K 08/20/2021 11:53:57
@@ -24564,7 +24564,7 @@ Or do you mean have a world file with a dummy robot to import the actual robot w
 ##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:06:22
 Yes, with Supervisor node, I mean a dummy robot with the supervisor field checked
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/25/2021 13:07:09
+##### tx23 08/25/2021 13:07:09
 need someone to help me in making a simple bot, please dm me if you are willing spend 10 minutes helping a stranger in need
 
 ##### ulrikmf [Premier Service] 08/25/2021 13:07:36
@@ -24821,7 +24821,7 @@ You're doing it right already if you see the orange arrow. Lower the mass just f
 
 Using that method however you don't have much control, if you need  a more precise way of adding an external disturbance, you can use a supervisor: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_add\_force](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_add_force)
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 03:48:59
+##### tx23 08/28/2021 03:48:59
 I imported the 4 wheel robot World and want to run obstacle avoidance controller on it
 
 
@@ -24833,7 +24833,7 @@ How do I import the robot in my world and install the object recognition system 
 ##### rizqi 08/28/2021 03:50:51
 maybe you can insert controller on your robot object on scene tree bar
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 03:51:16
+##### tx23 08/28/2021 03:51:16
 Could you please link a documentation
 
 
@@ -24848,13 +24848,13 @@ when you click your object, in my picture is object vehicle bmwx5, then expand t
 
 i don't know where documentation, because i not read all tutorials. maybe this little help
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/28/2021 04:13:40
+##### tx23 08/28/2021 04:13:40
 Thank you rizqi I'll try it
 
 ##### mironix<inactive> 08/29/2021 12:11:26
 Hello! i'm a newbie to webots - i was wondering is there any crane with wire simulation sample somewhere EDIT: got it! [https://cyberbotics.com/doc/guide/samples-howto#rope-wbt](https://cyberbotics.com/doc/guide/samples-howto#rope-wbt)
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/30/2021 04:27:50
+##### tx23 08/30/2021 04:27:50
 how to add a new controller?
 
 ##### ph504 08/30/2021 04:36:07
@@ -24886,7 +24886,7 @@ and click on it and then you have to browse for your new controller
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/881760053663760424/unknown.png)
 %end
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 08/30/2021 04:40:53
+##### tx23 08/30/2021 04:40:53
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/881760365233459221/unknown.png)
@@ -25199,7 +25199,7 @@ Hi, please check the `wb_supervisor_node_get_position` function:
 ##### FunkyPants 09/02/2021 18:49:44
 Thanks, will check it out
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 09/03/2021 05:50:14
+##### tx23 09/03/2021 05:50:14
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/883227370729930752/unknown.png)
@@ -25209,9 +25209,9 @@ Thanks, will check it out
 I have imported the controller why the robot is not moving??
 
 ##### DDaniel [Cyberbotics] 09/03/2021 06:00:50
-`@17301031_S_M_Abdulla_Al_Mamun` what's the content of the `ifrX.py` controller?
+`@tx23` what's the content of the `ifrX.py` controller?
 
-##### 17301031\_S\_M\_Abdulla\_Al\_Mamun 09/03/2021 06:01:25
+##### tx23 09/03/2021 06:01:25
 [https://pastebin.com/APGHdkdb](https://pastebin.com/APGHdkdb)
 
 ##### chawei2000 09/03/2021 14:51:52
@@ -31860,7 +31860,7 @@ wb\_supervisor\_simulation\_set\_mode(WB\_SUPERVISOR\_SIMULATION\_MODE\_PAUSE)
 ##### tomiio6 11/28/2021 04:18:01
 Thanks 😁
 
-##### NearMonzter 11/29/2021 05:06:09
+##### Angelo Espinoza 11/29/2021 05:06:09
 Hi, does anybody know how can I put all the code related with the motors and sensors in an external file. Currently, I'm trying to do this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/914744016132800573/unknown.png)
@@ -31881,7 +31881,7 @@ The import of `Motor.hpp` should be in the `arm.hpp` file
 ##### onurg57 11/29/2021 12:21:46
 Yeah for example position control of wheels and i want to see time response and frequency response. For example bode plot of the response to identify bandwidth of the control systems
 
-##### NearMonzter 11/29/2021 15:47:49
+##### Angelo Espinoza 11/29/2021 15:47:49
 Thank you for replying. I have changed the header to` arm.hpp `but still getting a similar error
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/914905500372598804/unknown.png)
