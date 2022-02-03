@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.2488943014349313 0.5413481546625918 -0.8031150615924371 1.0451450866471006
-  position -1.4808297956398455 3.9507053906534866 2.2568533418281183
+  orientation 0.1984130255287812 0.7897172727983643 -0.5804988375048041 0.8235226410431655
+  position -2.2725098721963586 3.5010979961564415 2.6936766802017464
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -155,10 +155,10 @@ Robot {
   controller "led_controller"
 }
 PaintBucket {
-  translation 0.6287 1.534 0.77
+  translation -0.8613 2.684 0.74
 }
 PaintBucket {
-  translation 0.869219 1.42295 0.71
+  translation -0.650719 2.80668 0.74
   rotation 0 0 -1 -0.261795307179586
   name "paint bucket(1)"
 }
@@ -225,7 +225,7 @@ Table {
   }
 }
 Transform {
-  translation 0.860001 3.04 0.715
+  translation 0.650001 2.8 0.715
   children [
     Bolt {
       rotation 0 1 0 -1.5707953071795862
@@ -258,7 +258,7 @@ Transform {
   ]
 }
 Transform {
-  translation 0.860001 2.87 0.704
+  translation 0.660001 2.66 0.704
   rotation 0 1 0 -1.5707953071795862
   children [
     Nut {
@@ -286,8 +286,8 @@ Transform {
   ]
 }
 Transform {
-  translation 0.860001 2.74 0.704
-  rotation 0 1 0 -1.5707953071795862
+  translation 0 2.75 0.7
+  rotation 0.5773509358560258 -0.577349935856137 0.577349935856137 2.09439
   children [
     ScrewHole {
       translation 0 0 0
@@ -295,17 +295,7 @@ Transform {
       depth 0.008
     }
     ScrewHole {
-      translation 0 0.05 0
-      radius 0.006
-      depth 0.008
-    }
-    ScrewHole {
-      translation 0 0 0.05
-      radius 0.006
-      depth 0.008
-    }
-    ScrewHole {
-      translation 0 0.05 0.05
+      translation 0 0 -0.1
       radius 0.006
       depth 0.008
     }
@@ -314,12 +304,11 @@ Transform {
       radius 0.006
       depth 0.008
     }
-    ScrewHole {
-      translation 0 0.05 0.1
-      radius 0.006
-      depth 0.008
-    }
   ]
+}
+Wrench {
+  translation 0.76 2.44 0.7
+  rotation 0 0 1 1.0472
 }
 PlatformCart {
   translation 3.14653 3.2966 0
@@ -770,8 +759,14 @@ Wall {
 Panda {
   translation -2.45568e-06 2.2 0.7
   rotation 0 0 1 1.5708
+  controller "panda_arm_demo"
 }
 LincolnMKZSimple {
   translation -0.019942 9.00447 0.4
   rotation 0 0 1 -1.5708053071795867
+}
+PlasticCrate {
+  translation -0.75 2.8 0.72
+  name "plastic crate(2)"
+  size 0.5 0.5 0.2
 }

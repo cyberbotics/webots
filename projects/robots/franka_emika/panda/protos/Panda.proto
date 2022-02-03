@@ -141,7 +141,7 @@ PROTO Panda [
                                         PandaArmLink5 {}
                                         DEF panda_joint6 HingeJoint {
                                           jointParameters HingeJointParameters {
-                                            axis 0 -1 0
+                                            axis 0 1 0
                                           }
                                           device [
                                             RotationalMotor {
