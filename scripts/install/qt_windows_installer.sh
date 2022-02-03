@@ -43,8 +43,4 @@ do
   cp /mingw64/include/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory'
 done
 
-echo installing QtPlatformHeaders...
-mkdir -p include/qt/QtPlatformHeaders/QtPlatformHeaders
-cp /mingw64/include/QtPlatformHeaders/* include/qt/QtPlatformHeaders/QtPlatformHeaders/
-
 echo done.
