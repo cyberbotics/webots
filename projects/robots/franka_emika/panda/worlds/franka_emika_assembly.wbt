@@ -1,0 +1,791 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+  info [
+    "This example uses some of the industrial objects included in Webots to create a factory hall."
+    "The tools, valves and doors are interactive."
+    "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
+  ]
+  title "A factory hall environment"
+  contactProperties [
+    ContactProperties {
+      material1 "tube insertion exercise"
+      material2 "tube insertion exercise"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 1e-05
+    }
+  ]
+}
+DEF VIEWPOINT Viewpoint {
+  orientation 0.32882755307522604 0.36646297084954815 -0.8703891838336932 1.605240395535298
+  position -2.163283849530229 10.769819069032295 7.407374636717283
+  ambientOcclusionRadius 1
+}
+TexturedBackground {
+  texture "factory"
+  skybox FALSE
+}
+Floor {
+  translation 0 5.6 0
+  size 6.95 11.5
+  tileSize 2 2
+  appearance BakelitePlastic {
+    color "braun"
+  }
+}
+SquareManhole {
+  translation 1.45 7.54 -0.048
+  rotation 0 0 -1 -1.5707953071795862
+  name "manhole(1)"
+}
+SquareManhole {
+  translation -1.51 7.54 -0.048
+  rotation 0 0 -1 -1.5707953071795862
+  name "manhole(2)"
+}
+DEF ROOF Transform {
+  translation 1.52 5.545 3.652
+  rotation 0 1 0 3.141592644
+  children [
+    Shape {
+      appearance Plaster {
+        textureTransform TextureTransform {
+          scale 5.7 5.05
+        }
+      }
+      geometry Plane {
+        size 10.1 11.36
+      }
+    }
+  ]
+}
+Transform {
+  translation 3.89076 1.4715 0.71
+  scale 1.5 1.5 1.5
+}
+DEF PLATFORM Transform {
+  translation -1.85 1.31 0
+  children [
+    DEF STAIRS Transform {
+    }
+    Transform {
+      translation 0 -4.15 0
+    }
+  ]
+}
+Cabinet {
+  translation -2.70511 11.1138 0
+  rotation 0 0 -1 1.5708
+  name "cabinet(2)"
+  rowsHeights [
+    2
+  ]
+  columnsWidths [
+    0.5, 0.17, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 1, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Robot {
+  translation 2.425874370818222 11.1304 2.339089653215764
+  children [
+    SolidRoundedBox {
+      translation -0.04 0 0
+      size 0.165 0.01 0.085
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.926 0.912 0.698
+        metalness 0
+      }
+    }
+    SolidRoundedBox {
+      name "rounded box(1)"
+      size 0.08 0.011 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.768 0.627 0
+        metalness 0
+      }
+    }
+    EmergencyButton {
+      translation 0 -0.004 0
+      rotation 0 0 1 -1.5707953071795862
+      includePositionSensor TRUE
+    }
+    SolidRoundedBox {
+      translation -0.08 0 0
+      name "rounded box(2)"
+      size 0.08 0.011 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.811 0.792 0.494
+        metalness 0
+      }
+    }
+    LED {
+      translation -0.08 0 0
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.643 0 0
+            roughness 1
+            metalness 0
+            emissiveIntensity 100
+          }
+          geometry Cylinder {
+            bottom FALSE
+            height 0.013
+            radius 0.024
+            subdivision 64
+          }
+        }
+      ]
+    }
+  ]
+  controller "led_controller"
+}
+PaintBucket {
+  translation 0.6287 1.534 0.77
+}
+PaintBucket {
+  translation -0.0131699 2.4881 1.1
+  rotation 0 0 1 5.497787127
+  name "paint bucket(1)"
+}
+PaintBucket {
+  translation -0.9212956754058321 10.874 0.03
+  rotation 0 0 1 2.356194483
+  name "paint bucket(2)"
+}
+FireExtinguisher {
+  translation 3.3738 6.38451 0
+  rotation 0 0 -1 2.8797932953591734
+}
+DEF FIRE_EXTINGUISHER_PANEL Transform {
+  translation 3.572 6.07451 1.98
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/samples/environments/factory/worlds/textures/fire_extinguisher_panel.jpg"
+          ]
+        }
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+}
+FireExtinguisher {
+  translation 3.249 11.08469 0.58
+  rotation 0 0 1 4.974188353
+  name "fire extinguisher(2)"
+  enablePhysics FALSE
+}
+OfficeTelephone {
+  translation 1.69587 11.0762 1.099
+  rotation -0.25056300542381216 -0.25056300542381216 0.9351130202419243 -1.6378353071795866
+  enablePhysics FALSE
+}
+Table {
+  translation 3.01946 1.86217 0
+  name "table(1)"
+  size 0.8 1.8 0.7
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+Table {
+  translation -0.0805137 1.91217 -2.97055e-05
+  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
+  name "table(4)"
+  size 1.9 2.2 0.7
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+Transform {
+  translation 0.860001 2.45 0.715
+  children [
+    Bolt {
+      rotation 0 1 0 -1.5707953071795862
+    }
+    Bolt {
+      translation -0.05 0 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(1)"
+    }
+    Bolt {
+      translation -0.1 0 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(2)"
+    }
+    Bolt {
+      translation 0 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(3)"
+    }
+    Bolt {
+      translation -0.05 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(4)"
+    }
+    Bolt {
+      translation -0.1 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(5)"
+    }
+  ]
+}
+Transform {
+  translation 0.860001 2.23 0.704
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    Nut {
+    }
+    Nut {
+      translation 0 0.05 0.012
+      name "nut(3)"
+    }
+    Nut {
+      translation 0 0 0.062
+      name "nut(1)"
+    }
+    Nut {
+      translation 0 0.05 0.062
+      name "nut(4)"
+    }
+    Nut {
+      translation 0 0 0.112
+      name "nut(2)"
+    }
+    Nut {
+      translation 0 0.05 0.112
+      name "nut(5)"
+    }
+  ]
+}
+Transform {
+  translation 0.860001 2.07 0.704
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    ScrewHole {
+      translation 0 0 0
+      radius 0.006
+      depth 0.008
+    }
+    ScrewHole {
+      translation 0 0.05 0
+      radius 0.006
+      depth 0.008
+    }
+    ScrewHole {
+      translation 0 0 0.05
+      radius 0.006
+      depth 0.008
+    }
+    ScrewHole {
+      translation 0 0.05 0.05
+      radius 0.006
+      depth 0.008
+    }
+    ScrewHole {
+      translation 0 0 0.1
+      radius 0.006
+      depth 0.008
+    }
+    ScrewHole {
+      translation 0 0.05 0.1
+      radius 0.006
+      depth 0.008
+    }
+  ]
+}
+PlatformCart {
+  translation 3.14653 3.2966 0
+  rotation 0 0 1 -1.5707953071795862
+}
+PlasticCrate {
+  translation 3.18353 3.429186 0.102
+  size 0.6 0.4 0.3
+  mass 2
+}
+PlasticCrate {
+  translation 3.18353 3.039186 0.102
+  name "plastic crate(1)"
+  size 0.6 0.35 0.3
+  mass 2
+}
+PlatformCart {
+  translation 2.88737 4.1704 0
+  rotation 0 0 1 3.14159
+  name "platform cart(1)"
+}
+WoodenBox {
+  translation 2.86243 4.12771 0.4
+  name "wooden box(1)"
+  mass 12
+}
+Wall {
+  translation 0.035 -0.025 0
+  rotation 0 0 1 4.712388966
+  name "wall(21)"
+  size 0.2 7.4 3.65
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 3.7 2.4
+    }
+  }
+}
+Window {
+  translation -3.575 0.665 0
+  size 0.2 1.6 3.652
+  windowSillSize 0.1 0
+  wallAppearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.8 0.8
+    }
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.473
+  }
+}
+Radiator {
+  translation -3.355 0.985 0.37
+  numberOfFins 30
+}
+Window {
+  translation -3.575 9.529 0
+  name "window(1)"
+  size 0.2 1.6 3.652
+  windowSillSize 0.1 0
+  wallAppearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.8 0.8
+    }
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.47
+  }
+}
+Radiator {
+  translation -3.365 9.249 0.33
+  name "radiator(2)"
+}
+Wall {
+  translation 3.575 0.193 0
+  name "wall(9)"
+  size 0.2 0.65 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.325 1.8
+    }
+  }
+}
+Wall {
+  translation 3.575 6.468 0
+  name "wall(10)"
+  size 0.2 0.5 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.25 1.8
+    }
+  }
+}
+Door {
+  translation 3.575 7.218 0
+  rotation 0 0 1 3.14159
+  name "door(1)"
+  size 0.2 1 3.652
+  jointAtLeft FALSE
+  selfClosing TRUE
+  doorAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.47
+  }
+  wallAppearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.5 0.7
+    }
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.47
+  }
+  doorHandle DoorLever {
+    canTurn TRUE
+    jointAtLeft FALSE
+  }
+  doorSlot [
+    Transform {
+      translation 0.027 -0.32 0.024
+      children [
+        Shape {
+          appearance ThreadMetalPlate {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.5 0.5
+            }
+            IBLStrength 1.6
+          }
+          geometry Box {
+            size 0.006 0.3 0.3
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.024 0 -0.554
+      children [
+        Shape {
+          appearance ThreadMetalPlate {
+            textureTransform TextureTransform {
+              scale 1.4 1.3
+            }
+            IBLStrength 2
+          }
+          geometry Box {
+            size 0.006 0.94 0.86
+          }
+        }
+      ]
+    }
+  ]
+}
+Wall {
+  translation 3.575 9.518 0
+  name "wall(3)"
+  size 0.2 3.6 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 1.8 1.8
+    }
+  }
+}
+DEF WINDOW_DOOR_BLOCK Transform {
+  translation 3.575 5.218 0
+  rotation 0 0 1 3.141592644
+  children [
+    Door {
+      rotation 0 0 1 -5.307179586466759e-06
+      name "door(4)"
+      size 0.2 1 3
+      jointAtLeft FALSE
+      doorAppearance GlossyPaint {
+        baseColor 0.58 0.52 0.47
+      }
+      wallAppearance DEF WALL_PLASTIC_APPEARANCE PBRAppearance {
+        baseColor 0.813 0.781 0.753
+        roughnessMap ImageTexture {
+          url [
+            "webots://projects/samples/environments/factory/worlds/textures/plastic_roughness.jpg"
+          ]
+        }
+        metalness 0
+        textureTransform TextureTransform {
+          scale 0.5 0.7
+        }
+      }
+      frameAppearance BrushedAluminium {
+      }
+      doorHandle DoorLever {
+        jointAtLeft FALSE
+      }
+    }
+    Wall {
+      translation 0 -0.75 0
+      name "wall(13)"
+      size 0.2 0.5 3
+      appearance USE WALL_PLASTIC_APPEARANCE
+    }
+    Window {
+      translation 0 1 0
+      name "window(2)"
+      size 0.2 1 3
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation 0 2 0
+      name "window(3)"
+      size 0.2 1 3
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation 0 3 0
+      name "window(4)"
+      size 0.2 1 3
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation 0 4 0
+      name "window(5)"
+      size 0.2 1 3
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Wall {
+      translation 0 4.6 0
+      name "wall(14)"
+      size 0.2 0.2 3
+      appearance USE WALL_PLASTIC_APPEARANCE
+    }
+    Wall {
+      translation 0 1.85 3
+      name "wall(15)"
+      size 0.2 5.7 0.652
+      appearance Plaster {
+        textureTransform TextureTransform {
+          scale 2.85 0.3
+        }
+      }
+    }
+    Transform {
+      translation 0.1 1.85 3
+      children [
+        Shape {
+          appearance DEF WALL_JOINT_APPEARANCE PBRAppearance {
+            baseColor 0.063 0.004 0.004
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.02 5.7 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 1.85 2.405
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 5.7 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 -0.505 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 0.495 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 -0.995 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 1.5 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 2.5 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 3.5 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 4.5 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 4.695 1.5
+      rotation -1 0 0 1.570796322
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 0.02 3 0.01
+          }
+        }
+      ]
+    }
+  ]
+}
+Wall {
+  translation -3.575 10.829 0
+  name "wall(7)"
+  size 0.2 1 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.5 1.8
+    }
+  }
+}
+Wall {
+  translation -3.575 7.669 0
+  name "wall(4)"
+  size 0.2 2.12 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 1.06 1.8
+    }
+  }
+}
+Wall {
+  translation -3.495 5.099 0
+  name "wall(16)"
+  size 0.1 3.05 3.652
+  appearance CorrugatedMetal {
+    colorOverride 0.372 0.72 0.295
+    textureTransform TextureTransform {
+      scale 0.76 0.94
+    }
+  }
+}
+Wall {
+  translation -3.575 2.525 0
+  name "wall(12)"
+  size 0.2 2.12 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 1.06 1.8
+    }
+  }
+}
+Door {
+  translation 2.4249 11.23 0
+  rotation 0 0 1 -1.5707953071795862
+  name "door(2)"
+  size 0.2 1 3.652
+  jointAtLeft FALSE
+  doorAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.47
+  }
+  wallAppearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.5 0.7
+    }
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.58 0.52 0.47
+  }
+  doorHandle DoorLever {
+    jointAtLeft FALSE
+  }
+}
+Wall {
+  translation -0.7751 11.23 0
+  rotation 0 0 -1 1.570796360359173
+  name "wall(5)"
+  size 0.2 5.3999999999999995 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 2.7 1.8
+    }
+  }
+}
+Wall {
+  translation 3.1998 11.23 0
+  rotation 0 0 -1 1.570796360359173
+  name "wall(6)"
+  size 0.2 0.55 3.652
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 0.25 1.8
+    }
+  }
+}
+LincolnMKZSimple {
+  translation -0.0199462 8.57447 0.4
+  rotation 0 0 1 -1.5708053071795867
+}
