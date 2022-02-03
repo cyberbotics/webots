@@ -48,6 +48,8 @@ DESCRIPTION_STATE = 0
 FIELDS_STATE = 1
 BODY_STATE = 2
 
+TAG = 'R2022a'
+
 fileList = []
 upperCategories = {'projects': ['appearances']}
 
@@ -152,6 +154,8 @@ for proto in prioritaryProtoList + fileList:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), ' ' * len(match.group(2)))
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
+
+            fieldsDefinition.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + TAG + '/')
         # count minimum space number between field type and name
         matches = re.finditer(r'.*ield\s+([^ ]*?)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)',
                               fieldsDefinition, re.MULTILINE)
