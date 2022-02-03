@@ -1,0 +1,590 @@
+#VRML_SIM R2022a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Model of a Olli bus.
+
+PROTO EpsonT6Scara [
+  field SFVec3f           translation     0 0 0.01      # Is `Transform.translation`.
+  field SFRotation        rotation        0 0 1 0       # Is `Transform.rotation`.
+  field SFString          name            "EpsonT6Scara"    # Is `Solid.name`.
+  field SFString          controller      ""            # Is `Robot.controller`.
+  field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString          customData      ""            # Is `Robot.customData`.
+  field SFBool            supervisor      FALSE         # Is `Robot.supervisor`.
+  field SFBool            synchronization TRUE          # Is `Robot.synchronization`.
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  customData IS customData
+  supervisor IS supervisor
+  synchronization IS synchronization
+  name IS name
+  model "EpsonT6Scara"
+  children [
+    DEF BASE Group {
+      children [
+        CapScrew {
+          translation 0.02166 0.0493 0.431
+          rotation 0 1 0 1.5708
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation 0.098 0.0493 0.431
+          rotation 0 1 0 1.5708
+          name "cap screw(1)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation 0.098 -0.0507 0.431
+          rotation 0 1 0 1.5708
+          name "cap screw(2)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation 0.0215 -0.0497 0.431
+          rotation 0 1 0 1.5708
+          name "cap screw(3)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0477 -0.0494 0.4091
+          rotation 0 -1 0 -1.0472053071795866
+          name "cap screw(4)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0921 -0.0493 0.3583
+          rotation 0 1 0 0
+          name "cap screw(6)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0934 -0.05565 0.2079
+          rotation 0 1 0 0
+          name "cap screw(8)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0934 -0.05565 0.2382
+          rotation 0 1 0 0
+          name "cap screw(9)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0932 0.05565 0.2383
+          rotation 0 1 0 0
+          name "cap screw(10)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0934 0.05565 0.2078
+          rotation 0 1 0 0
+          name "cap screw(11)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0934 0.05565 -0.0014
+          rotation 0 1 0 0
+          name "cap screw(12)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0934 -0.05569 -0.0014
+          rotation 0 1 0 0
+          name "cap screw(13)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.002
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0921 0.0498 0.3583
+          rotation 0 1 0 0
+          name "cap screw(7)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        CapScrew {
+          translation -0.0477 0.0496 0.4091
+          rotation 0 -1 0 -1.0472053071795866
+          name "cap screw(5)"
+          appearance BrushedAluminium {
+          }
+          screwRadius 0.003
+          screwLength 0.02
+          enablePhysics FALSE
+          enableBoundingObject FALSE
+        }
+        DEF MAIN_BASE Shape {
+          appearance Plaster {
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/epson/T6/protos/meshes/base.obj"
+            ]
+          }
+        }
+        DEF MAIN_CONNECTOR Shape {
+          appearance RoughPolymer {
+            baseColor 0 0 0
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/epson/T6/protos/meshes/main_connector.obj"
+            ]
+          }
+        }
+        DEF CONNECTOR Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.6
+            metalness 0.61
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/epson/T6/protos/meshes/connector.obj"
+            ]
+          }
+        }
+        DEF NUTS Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/epson/T6/protos/meshes/nuts.obj"
+            ]
+          }
+        }
+        DEF BULB_SOCKET Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.6
+            metalness 0.61
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/epson/T6/protos/meshes/bulb_socket.obj"
+            ]
+          }
+        }
+        LED {
+          children [
+            Group {
+              children [
+                PointLight {
+                  attenuation 0 0 1
+                  color 0 0 0
+                  intensity 0.05
+                  location 0 0 0.009
+                  on FALSE
+                  radius 1
+                  castShadows TRUE
+                }
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.270588 0
+                    roughness 0.2
+                    metalness 0.8
+                    transparency 0.01
+                  }
+                  geometry Mesh {
+                    url [
+                      "webots://projects/robots/epson/T6/protos/meshes/bulb.obj"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+          name "espon_led"
+          color [
+            1 0.270588 0
+          ]
+        }
+      ]
+    }
+    DEF COMPLETE_ARM Solid {
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0.06 0 0
+          }
+          device [
+            RotationalMotor {
+              name "base_arm_motor"
+            }
+            PositionSensor {
+              name "base_arm_position_sensor"
+            }
+          ]
+          endPoint Solid {
+            children [
+              DEF BASE_ARM Solid {
+                translation 0.06 0.0045 0.196
+                children [
+                  Shape {
+                    appearance Plaster {
+                    }
+                    geometry Mesh {
+                      url [
+                        "webots://projects/robots/epson/T6/protos/meshes/base_arm.obj"
+                      ]
+                    }
+                  }
+                ]
+                name "base_arm_solid"
+                boundingObject DEF BASE_ARM Transform {
+                  translation 0.15 0 0.025
+                  children [
+                    Box {
+                      size 0.39 0.1 0.05
+                    }
+                  ]
+                }
+              }
+              DEF CABLE Solid {
+                translation 0.06 0 0.423
+                rotation 0 0 1 -1.5708
+                children [
+                  Shape {
+                    appearance RoughPolymer {
+                      baseColor 0 0 0
+                    }
+                    geometry DEF CABLE_MESH Mesh {
+                      url [
+                        "webots://projects/robots/epson/T6/protos/meshes/cable.obj"
+                      ]
+                    }
+                  }
+                ]
+                name "cable_solid"
+                boundingObject USE CABLE_MESH
+              }
+              DEF ARM HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 0 1
+                  anchor 0.37 0 0
+                }
+                device [
+                  RotationalMotor {
+                    name "arm_motor"
+                  }
+                  PositionSensor {
+                    name "arm_position_sensor"
+                  }
+                ]
+                endPoint Solid {
+                  children [
+                    Transform {
+                      translation 0.633 0 0.256
+                      children [
+                        CapScrew {
+                          translation -0.2815 -0.0434 0.0508
+                          rotation 0 1 0 1.5708
+                          name "cap screw(1)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.003
+                          screwLength 0.02
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.2815 0.0431 0.0508
+                          rotation 0 1 0 1.5708
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.003
+                          screwLength 0.02
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.2866 0.019 0.1828
+                          rotation 0 1 0 1.5708
+                          name "cap screw(2)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.00261
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.2866 -0.019 0.1828
+                          rotation 0 1 0 1.5708
+                          name "cap screw(3)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.00261
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.162962 -0.0257 0.1828
+                          rotation 0 1 0 1.5708
+                          name "cap screw(4)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.00261
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.16295 0.0257 0.1828
+                          rotation 0 1 0 1.5708
+                          name "cap screw(5)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.00261
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.3091 -0.01371 0.0509
+                          rotation 0 -1 0 -5.307179586466759e-06
+                          name "cap screw(7)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.0029
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        CapScrew {
+                          translation -0.3091 0.0131 0.0509
+                          rotation 0 -1 0 -5.307179586466759e-06
+                          name "cap screw(6)"
+                          appearance BrushedAluminium {
+                          }
+                          screwRadius 0.0029
+                          screwLength 0.01
+                          enablePhysics FALSE
+                          enableBoundingObject FALSE
+                        }
+                        Shape {
+                          appearance Plaster {
+                          }
+                          geometry Mesh {
+                            url [
+                              "webots://projects/robots/epson/T6/protos/meshes/arm.obj"
+                            ]
+                          }
+                        }
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColorMap ImageTexture {
+                              url [
+                                "textures/metal.jpg"
+                              ]
+                            }
+                            roughness 0.6
+                            metalness 0.61
+                          }
+                          geometry Mesh {
+                            url [
+                              "webots://projects/robots/epson/T6/protos/meshes/arm_nuts.obj"
+                            ]
+                          }
+                        }
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColor 0 0 1
+                            roughness 0.2
+                            metalness 0
+                          }
+                          geometry Mesh {
+                            url [
+                              "webots://projects/robots/epson/T6/protos/meshes/button.obj"
+                            ]
+                          }
+                        }
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColorMap ImageTexture {
+                              url [
+                                "textures/metal.jpg"
+                              ]
+                            }
+                            roughness 0.6
+                            metalness 0.61
+                          }
+                          geometry Mesh {
+                            url [
+                              "webots://projects/robots/epson/T6/protos/meshes/button_socket.obj"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                    DEF LOGO_LEFT Transform {
+                      translation 0.425 -0.0568 0.348
+                      rotation 1 0 0 1.5608
+                      children [
+                        DEF EPSON_LOGO Shape {
+                          appearance PBRAppearance {
+                            baseColorMap ImageTexture {
+                              url [
+                                "webots://projects/robots/epson/T6/protos/textures/epson.png"
+                              ]
+                              repeatT FALSE
+                            }
+                            metalness 0
+                            roughness 1
+                          }
+                          geometry Plane {
+                            size 0.11 0.024
+                          }
+                        }
+                      ]
+                    }
+                    DEF LOGO_RIGHT Transform {
+                      translation 0.425 0.0565 0.348
+                      rotation 0.0035 -0.707 -0.707 3.14158
+                      children [
+                        USE EPSON_LOGO
+                      ]
+                    }
+                    DEF Shaft SliderJoint {
+                      jointParameters JointParameters {
+                      }
+                      device [
+                        LinearMotor {
+                          name "shaft_linear_motor"
+                          minPosition -0.14
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0.633 0 0.54
+                        children [
+                          DEF SHAFT_SHAPE Shape {
+                            appearance BrushedAluminium {
+                            }
+                            geometry Mesh {
+                              url [
+                                "webots://projects/robots/epson/T6/protos/meshes/shaft.obj"
+                              ]
+                            }
+                          }
+                        ]
+                        boundingObject USE SHAFT_SHAPE
+                      }
+                    }
+                  ]
+                  boundingObject DEF ARM_BOUND Transform {
+                    translation 0.471 0 0.355
+                    children [
+                      Box {
+                        size 0.292 0.16 0.2
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+            name "complete_arm_solid"
+          }
+        }
+      ]
+    }
+  ]
+  description "Epson T6 SCARA Robot"
+  boundingObject Transform {
+    translation 0 0 0.208
+    children [
+      Box {
+        size 0.24 0.12 0.453
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 22
+    centerOfMass [
+      -0.05 0 0.1
+    ]
+    inertiaMatrix [
+      0.166204 0.418086 0.55459
+      0 0 0
+    ]
+  }
+  controller IS controller
+  controllerArgs IS controllerArgs
+}
+}
