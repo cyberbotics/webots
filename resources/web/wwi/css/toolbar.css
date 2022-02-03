@@ -342,6 +342,7 @@ webots-view .information-panel .simulation-text {
   height: 198px;
   text-align: left;
   margin-left: 20px;
+  margin-right: 20px;
 }
 
 webots-view .information-panel .simulation-text a {
