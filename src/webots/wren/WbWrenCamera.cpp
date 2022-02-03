@@ -83,8 +83,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionRadialCoeffs(0.0, 0.0),
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
-  mNoiseMaskTexture(NULL),
-  mDepthTexture(NULL) {
+  mNoiseMaskTexture(NULL) {
   for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenBloom[i] = new WbWrenBloom();
     mWrenColorNoise[i] = new WbWrenColorNoise();
@@ -137,10 +136,6 @@ void WbWrenCamera::setSize(int width, int height) {
 
   cleanup();
   init();
-}
-
-void WbWrenCamera::setDepthTexture(WrTexture *depthTexture) {
-  mDepthTexture = depthTexture;
 }
 
 void WbWrenCamera::setNear(float nearValue) {
