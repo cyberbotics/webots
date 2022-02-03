@@ -70,7 +70,6 @@ PROTO TexturedBackground [
       }
     }
 
-    const extension = (isHDR && texture !== 'music_hall') ? 'png' : 'jpg';
     const path = 'webots://projects/default/worlds/textures/cubic';
 
     if (!isHDR) {
@@ -88,22 +87,22 @@ PROTO TexturedBackground [
     skyColor IS skyColor
     %< if (fields.skybox.value) { >%
       backUrl [
-        %<= '"' + path + '/' + texture + '_back.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_back.jpg' + '"' >%
       ]
       bottomUrl [
-        %<= '"' + path + '/' + texture + '_bottom.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_bottom.jpg' + '"' >%
       ]
       frontUrl [
-        %<= '"' + path + '/' + texture + '_front.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_front.jpg' + '"' >%
       ]
       leftUrl [
-        %<= '"' + path + '/' + texture + '_left.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_left.jpg' + '"' >%
       ]
       rightUrl [
-        %<= '"' + path + '/' + texture + '_right.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_right.jpg' + '"' >%
       ]
       topUrl [
-        %<= '"' + path + '/' + topTexture + '_top.' + extension + '"' >%
+        %<= '"' + path + '/' + topTexture + '_top.jpg' + '"' >%
       ]
     %< } >%
     %< if (isHDR) { >%
