@@ -1366,7 +1366,7 @@ ReflectiveSurface {
   SFFloat metalness         0.5
   SFColor emissiveColor     0 0 0
   SFFloat emissiveIntensity 1
-  SFColor baseColorMap      1 1 1
+  SFColor colorOverride     1 1 1
   SFBool  useBaseColorMap   TRUE
   SFNode  textureTransform  NULL
   SFFloat IBLStrength       1
@@ -1379,6 +1379,8 @@ ReflectiveSurface {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ReflectiveSurface Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `useBaseColorMap`: Defines wheather the base color texture should be used or not.
 
@@ -1569,6 +1571,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Rubber {
   SFString  type              "flat"
+  SFColor   colorOverride     1 1 1
   SFNode    textureTransform  NULL
   SFFloat   IBLStrength       1
 }
@@ -1582,6 +1585,8 @@ Rubber {
 ### Rubber Field Summary
 
 - `type`: Defines the rubber type. This field accepts the following values: `"flat"` and `"dotted"`.
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1765,6 +1770,8 @@ A worn scuffed plastic material. The color can be selected using the `colorOverr
 ![ScuffedPlastic](images/appearances/ScuffedPlastic.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ScuffedPlastic {
@@ -2036,6 +2043,8 @@ A worn burlap material. The color can be selected using the `colorOverride` fiel
 ![WornBurlap](images/appearances/WornBurlap.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 WornBurlap {
