@@ -37,7 +37,7 @@ Road {
          SFBool               rightBarrier              FALSE
          SFBool               leftBarrier               FALSE
          SFBool               bottom                    FALSE
-         MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]
+         MFVec3f              wayPoints                 [ 0 0 0, 1 0 0 ]
          MFFloat              roadTilt                  [ 0, 0]
          MFFloat              startingAngle             []
          MFFloat              endingAngle               []
@@ -426,7 +426,7 @@ Crossroad {
   SFString   name             "crossroad"
   SFString   id               ""
   SFFloat    speedLimit       -1.0
-  MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]
+  MFVec3f    shape            [ 0 0 0, 0 1 0, 1 0 0 ]
   MFString   connectedRoadIDs []
   SFBool     boundingObject   FALSE
   SFBool     bottom           FALSE
