@@ -515,7 +515,7 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
+int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &wildcard,
                                             const QDir &rootDirectory, bool recurse, bool inProtos) {
   QDir dir(dirPath);
   if (!dir.exists() || !dir.isReadable()) {
@@ -530,7 +530,7 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
     QStringList filter("*.proto");
     // search in folder
     const QStringList &protoFiles = dir.entryList(filter, QDir::Files, QDir::Name);
-    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), regex, rootDirectory);
+    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), wildcard, rootDirectory);
   }
   // search in subfolders
   QTreeWidgetItem *newFolderItem;
@@ -559,7 +559,7 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
       parentItem->addChild(newFolderItem);
     }
     if (list[i] == "protos" || inProtos || recurse)
-      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", regex, rootDirectory, recurse,
+      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", wildcard, rootDirectory, recurse,
                                       inProtos);
     else
       nNodes = 0;

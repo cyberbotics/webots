@@ -85,9 +85,9 @@ private:
   bool mIsAddingLocalProtos;
   bool mIsAddingExtraProtos;
 
-  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
+  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &widlcard,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
-  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath, const QString &regex,
+  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath, const QString &wildcard,
                 const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
