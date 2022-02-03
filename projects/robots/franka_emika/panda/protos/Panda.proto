@@ -153,7 +153,7 @@ PROTO Panda [
                                         }
                                       ]
                                       endPoint DEF panda_link6 Solid {
-                                        rotation 0.5773502691896258 -0.5773502691896258 0.5773502691896258 2.09439
+                                        rotation 0 -0.707108 0.707108 3.14159
                                         children [
                                           PandaArmLink6 {}
                                           DEF panda_joint7 HingeJoint {
@@ -175,7 +175,7 @@ PROTO Panda [
                                             ]
                                             endPoint DEF panda_link7 Solid {
                                               translation 0.088 0 0
-                                              rotation 1 0 0 1.570796
+                                              rotation 0.862856 -0.357407 0.357407 1.71777
                                               children [
                                                 PandaArmLink7 {}
                                                 DEF panda_link8 Solid {
