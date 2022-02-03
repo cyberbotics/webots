@@ -138,3 +138,4 @@ WoodenChair {
 - `color`: Defines the color of the chair.
 
 - `physics`: Defines the physics of the chair.
+
