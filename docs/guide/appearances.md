@@ -1366,7 +1366,7 @@ ReflectiveSurface {
   SFFloat metalness         0.5
   SFColor emissiveColor     0 0 0
   SFFloat emissiveIntensity 1
-  SFColor colorOverride      1 1 1
+  SFColor colorOverride     1 1 1
   SFBool  useBaseColorMap   TRUE
   SFNode  textureTransform  NULL
   SFFloat IBLStrength       1
