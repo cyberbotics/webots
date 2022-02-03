@@ -33,7 +33,7 @@ class TestLineEnding(unittest.TestCase):
                     self.files.append(os.path.join(root_path, file_name))
 
     def test_line_ending(self):
-        """Test that all assets have the correct ending"""
+        """Test that all assets have the correct line-ending"""
 
         invalid_endings = [b'\r\n', b'\r']
         for file in self.files:
