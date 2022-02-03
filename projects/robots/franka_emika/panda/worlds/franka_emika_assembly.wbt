@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.32882755307522604 0.36646297084954815 -0.8703891838336932 1.605240395535298
-  position -2.163283849530229 10.769819069032295 7.407374636717283
+  orientation 0.20229777315689945 0.26065741520951297 -0.9439985820286253 1.3826862121599144
+  position -0.8863396039377107 6.571924150746483 2.177113741794731
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -45,7 +45,7 @@ SquareManhole {
   name "manhole(2)"
 }
 DEF ROOF Transform {
-  translation 1.52 5.545 3.652
+  translation 0.06 5.545 3.65
   rotation 0 1 0 3.141592644
   children [
     Shape {
@@ -55,7 +55,7 @@ DEF ROOF Transform {
         }
       }
       geometry Plane {
-        size 10.1 11.36
+        size 7.2 11.36
       }
     }
   ]
@@ -158,14 +158,9 @@ PaintBucket {
   translation 0.6287 1.534 0.77
 }
 PaintBucket {
-  translation -0.0131699 2.4881 1.1
-  rotation 0 0 1 5.497787127
+  translation 0.869219 1.42295 0.71
+  rotation 0 0 -1 -0.261795307179586
   name "paint bucket(1)"
-}
-PaintBucket {
-  translation -0.9212956754058321 10.874 0.03
-  rotation 0 0 1 2.356194483
-  name "paint bucket(2)"
 }
 FireExtinguisher {
   translation 3.3738 6.38451 0
@@ -215,10 +210,10 @@ Table {
   }
 }
 Table {
-  translation -0.0805137 1.91217 -2.97055e-05
+  translation -0.0805158 2.64217 -2.62797e-05
   rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
   name "table(4)"
-  size 1.9 2.2 0.7
+  size 1.2 2.2 0.7
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
     baseColor 0.926 0.912 0.698
@@ -230,7 +225,7 @@ Table {
   }
 }
 Transform {
-  translation 0.860001 2.45 0.715
+  translation 0.860001 3.04 0.715
   children [
     Bolt {
       rotation 0 1 0 -1.5707953071795862
@@ -263,7 +258,7 @@ Transform {
   ]
 }
 Transform {
-  translation 0.860001 2.23 0.704
+  translation 0.860001 2.87 0.704
   rotation 0 1 0 -1.5707953071795862
   children [
     Nut {
@@ -291,7 +286,7 @@ Transform {
   ]
 }
 Transform {
-  translation 0.860001 2.07 0.704
+  translation 0.860001 2.74 0.704
   rotation 0 1 0 -1.5707953071795862
   children [
     ScrewHole {
@@ -355,7 +350,7 @@ Wall {
   translation 0.035 -0.025 0
   rotation 0 0 1 4.712388966
   name "wall(21)"
-  size 0.2 7.4 3.65
+  size 0.2 7.2 3.65
   appearance Plaster {
     textureTransform TextureTransform {
       scale 3.7 2.4
@@ -786,6 +781,6 @@ Wall {
   }
 }
 LincolnMKZSimple {
-  translation -0.0199462 8.57447 0.4
+  translation -0.019942 9.00447 0.4
   rotation 0 0 1 -1.5708053071795867
 }
