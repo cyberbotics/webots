@@ -4,7 +4,13 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 01/18/2022 13:29:53
+##### DrakerDG [Moderator] 01/31/2022 07:49:14
+👍
+
+##### Olivier Michel [Cyberbotics] 01/31/2022 07:47:01
+New paper describing a Webots simulation: Fault-tolerant motion planning and generation of quadruped robots synthesized by posture optimization and whole body control. [https://link.springer.com/article/10.1007/s40747-022-00652-6](https://link.springer.com/article/10.1007/s40747-022-00652-6)
+
+
 New employment opportunity for a Webots experienced developer: [https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/](https://www.linkedin.com/jobs/view/robotics-simulation-webots-at-hexagon-search-2880541134/)
 
 
