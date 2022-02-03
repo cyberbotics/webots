@@ -39,7 +39,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LegoWheel {
-  SFVec3f    translation 0 0 0.0219974
+  SFVec3f    translation 0 0.0219974 0
   SFRotation rotation    0 0 1 0
   SFString   name        "LEGO wheel"
 }

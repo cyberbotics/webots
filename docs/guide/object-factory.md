@@ -16,7 +16,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CardboardBox {
-  SFVec3f    translation 0 0 0.3
+  SFVec3f    translation 0 0.3 0
   SFRotation rotation    0 0 1 0
   SFString   name        "cardboard box"
   SFVec3f    size        0.6 0.6 0.6
@@ -131,7 +131,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenBox {
-  SFVec3f    translation         0 0 0.3
+  SFVec3f    translation         0 0.3 0
   SFRotation rotation            0 0 1 0
   SFString   name                "wooden box"
   SFVec3f    size                0.6 0.6 0.6
@@ -205,6 +205,7 @@ ConveyorBelt {
 A controllable conveyor platform.
 The default controller makes it move at a constant speed for a configurable amount of time.
 The conveyor contains 3 controllable LEDs.
+Another controller gives the possibility to set the speed of the belt using the keyboard.
 
 %figure
 
@@ -216,7 +217,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorPlatform {
-   SFVec3f     translation      0 0 0.065
+   SFVec3f     translation      0 0 0
    SFRotation  rotation         0 0 1 0
    SFString    name             "Conveyor platform"
    SFString    model            "Conveyor platform"
@@ -455,7 +456,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PipeSection {
   SFVec3f    translation   0 0 0.25
-  SFRotation rotation      0 0 1 0
+  SFRotation rotation      1 0 0 1.5708
   SFString   name          "pipe section"
   SFFloat    height        0.5
   SFFloat    radius        0.03
@@ -526,7 +527,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation      0 0 0.013
+  SFVec3f    translation      0 0 0.027
   SFRotation rotation         0 0 1 0
   SFString   name             "bolt"
   SFNode     appearance       OldSteel {}
@@ -563,7 +564,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
-  SFVec3f    translation           0 0 0.01
+  SFVec3f    translation           0 0 0.012
   SFRotation rotation              0 0 1 0
   SFString   name                  "cap screw"
   SFNode     appearance            OldSteel {}
@@ -611,7 +612,7 @@ ElectricalPlug {
   SFRotation rotation              0 0 1 0
   SFString   name                  "electrical plug"
   SFColor    color                 1 1 1
-  MFVec3f    cablePath             [0 0 0, -0.03 0 0, -0.03 0 -0.1]
+  MFVec3f    cablePath             [0 0 0, 0 0 -0.03, 0.1 0 -0.03]
   SFBool     enablePhysics         TRUE
   SFBool     enableBoundingObject  TRUE
 }
@@ -676,7 +677,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 EyeScrew {
-  SFVec3f    translation      0 0 0.01
+  SFVec3f    translation      0 0 0.036
   SFRotation rotation         0 0 1 0
   SFString   name             "eye screw"
   SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }
@@ -739,7 +740,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Nut {
-  SFVec3f    translation     0 0 0.012
+  SFVec3f    translation     0 0 0.004
   SFRotation rotation        0 0 1 0
   SFString   name            "nut"
   SFNode     appearance      OldSteel {}
@@ -833,7 +834,7 @@ Derived from [Transform](../reference/transform.md).
 
 ```
 ScrewHole {
-  SFVec3f    translation     0 0 0.2
+  SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFFloat    radius          0.06
   SFFloat    depth           0.1
@@ -886,7 +887,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Washer {
-  SFVec3f    translation     0 0 0.016
+  SFVec3f    translation     0 0 0.001
   SFRotation rotation        0 0 1 0
   SFString   name            "washer"
   SFNode     appearance       OldSteel {}
@@ -1047,4 +1048,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-

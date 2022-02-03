@@ -1223,4 +1223,3 @@ Windmill {
 ### Windmill Field Summary
 
 - `enableBoundingObject`: Defines whether the windmill should have a bounding object.
-
