@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.25600217794235164 0.8083483292895066 -0.53012815754649 1.0821323805357028
-  position -1.5107103907808224 3.176789772488812 3.2162639011968386
+  orientation 0.3205662118526857 -0.18583012725344802 -0.9288188561949989 4.133540292819905
+  position 6.920537981222015 -6.076634047033511 11.857971049223393
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -355,19 +355,6 @@ Wall {
     textureTransform TextureTransform {
       scale 3.7 2.4
     }
-  }
-}
-Window {
-  translation -3.575 0.665 0
-  size 0.2 1.6 3.652
-  windowSillSize 0.1 0
-  wallAppearance Plaster {
-    textureTransform TextureTransform {
-      scale 0.8 0.8
-    }
-  }
-  frameAppearance GlossyPaint {
-    baseColor 0.58 0.52 0.473
   }
 }
 Radiator {
@@ -728,9 +715,9 @@ Wall {
   }
 }
 Wall {
-  translation -3.575 2.525 0
+  translation -3.575 1.725 0
   name "wall(12)"
-  size 0.2 2.12 3.652
+  size 0.2 3.7 3.652
   appearance Plaster {
     textureTransform TextureTransform {
       scale 1.06 1.8
@@ -781,7 +768,7 @@ Wall {
   }
 }
 Panda {
-  translation -7.13734e-08 2.14 0.73
+  translation -2.16184e-06 2.12 0.7
   rotation 0 0 1 -1.5707953071795862
 }
 LincolnMKZSimple {

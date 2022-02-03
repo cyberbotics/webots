@@ -244,6 +244,10 @@ PROTO PandaHand [
               }
             ]
           }
+          physics Physics {
+            density -1
+            mass 0.01053
+          }
         }
       }
       DEF panda_finger_joint2 SliderJoint {
@@ -321,6 +325,10 @@ PROTO PandaHand [
               }
             ]
           }
+          physics Physics {
+            density -1
+            mass 0.01053
+          }
         }
       }
     ]
@@ -355,6 +363,8 @@ PROTO PandaHand [
       ]
     }
     physics Physics {
+      density -1
+      mass 0.67893
     }
   }
 }
