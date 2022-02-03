@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Franka Emika's Panda arm
@@ -26,7 +26,372 @@ PROTO Panda [
     synchronization IS synchronization
     selfCollision IS selfCollision
     children [
-
+      PandaArmLink0 {}
+      DEF panda_joint1 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor 0 0 0.333
+        }
+        device [
+          RotationalMotor {
+            name "panda_joint1"
+            maxVelocity 2.175
+            minPosition -2.8973
+            maxPosition 2.8973
+            maxTorque 87
+          }
+          PositionSensor {
+            name "panda_joint1_sensor"
+          }
+        ]
+        endPoint DEF panda_link1 Solid {
+          translation 0 0 0.333
+          children [
+            PandaArmLink1 {}
+            DEF panda_joint2 HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+              }
+              device [
+                RotationalMotor {
+                  name "panda_joint2"
+                  maxVelocity 2.175
+                  minPosition -1.7628
+                  maxPosition 1.7628
+                  maxTorque 87
+                }
+                PositionSensor {
+                  name "panda_joint2_sensor"
+                }
+              ]
+              endPoint DEF panda_link2 Solid {
+                rotation -1 0 0 1.570796
+                children [
+                  PandaArmLink2 {}
+                  DEF panda_joint3 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 -1 0
+                      anchor 0 -0.316 0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "panda_joint3"
+                        maxVelocity 2.175
+                        minPosition -2.8973
+                        maxPosition 2.8973
+                        maxTorque 87
+                      }
+                      PositionSensor {
+                        name "panda_joint3_sensor"
+                      }
+                    ]
+                    endPoint DEF panda_link3 Solid {
+                      translation 0 -0.316 0
+                      rotation 1 0 0 1.570796
+                      children [
+                        PandaArmLink3 {}
+                        DEF panda_joint4 HingeJoint {
+                          jointParameters HingeJointParameters {
+                            position -1.5708
+                            axis 0 -1 0
+                            anchor 0.0825 0 0
+                          }
+                          device [
+                            RotationalMotor {
+                              name "panda_joint4"
+                              maxVelocity 2.175
+                              minPosition -3.0718
+                              maxPosition -0.0698
+                              maxTorque 87
+                            }
+                            PositionSensor {
+                              name "panda_joint4_sensor"
+                            }
+                          ]
+                          endPoint DEF panda_link4 Solid {
+                            translation 0.0825 0 0
+                            rotation 1 0 0 1.5708
+                            children [
+                              PandaArmLink4 {}
+                              DEF panda_joint5 HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0 1 0
+                                  anchor -0.0825 0.384 0
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "panda_joint5"
+                                    maxVelocity 2.61
+                                    minPosition -2.8973
+                                    maxPosition 2.8973
+                                    maxTorque 12
+                                  }
+                                  PositionSensor {
+                                    name "panda_joint5_sensor"
+                                  }
+                                ]
+                                endPoint DEF panda_link5 Solid {
+                                  translation -0.0825 0.384 0
+                                  rotation -1 0 0 1.570796
+                                  children [
+                                    PandaArmLink5 {}
+                                    DEF panda_joint6 HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 -1 0
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "panda_joint6"
+                                          maxVelocity 2.61
+                                          minPosition -0.0175
+                                          maxPosition 3.7525
+                                          maxTorque 12
+                                        }
+                                        PositionSensor {
+                                          name "panda_joint6_sensor"
+                                        }
+                                      ]
+                                      endPoint DEF panda_link6 Solid {
+                                        rotation 0.5773502691896258 -0.5773502691896258 0.5773502691896258 2.09439
+                                        children [
+                                          PandaArmLink6 {}
+                                          DEF panda_joint7 HingeJoint {
+                                            jointParameters HingeJointParameters {
+                                              axis 0 -1 0
+                                              anchor 0.088 0 0
+                                            }
+                                            device [
+                                              RotationalMotor {
+                                                name "panda_joint7"
+                                                maxVelocity 2.61
+                                                minPosition -2.8973
+                                                maxPosition 2.8973
+                                                maxTorque 12
+                                              }
+                                              PositionSensor {
+                                                name "panda_joint7_sensor"
+                                              }
+                                            ]
+                                            endPoint DEF panda_link7 Solid {
+                                              translation 0.088 0 0
+                                              rotation 1 0 0 1.570796
+                                              children [
+                                                PandaArmLink7 {}
+                                                DEF panda_link8 Solid {
+                                                  translation 0 0 0.107
+                                                  children [
+                                                    Slot {
+                                                      type "panda end-effector"
+                                                    }
+                                                  ]
+                                                  name "panda_link8"
+                                                  boundingObject Group {
+                                                    children [
+                                                      Transform {
+                                                        translation 0 0 -0.03
+                                                        children [
+                                                          Cylinder {
+                                                            height 0.042
+                                                            radius 0.044
+                                                          }
+                                                        ]
+                                                      }
+                                                      Transform {
+                                                        translation 0.0424265 0.0424265 -0.025
+                                                        rotation 0 0 1 0.785398
+                                                        children [
+                                                          Box {
+                                                            size 0.05 0.06 0.03
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                  physics Physics {
+                                                  }
+                                                }
+                                              ]
+                                              name "panda_link7"
+                                              boundingObject Group {
+                                              }
+                                              physics Physics {
+                                              }
+                                            }
+                                          }
+                                        ]
+                                        name "panda_link6"
+                                        boundingObject Group {
+                                          children [
+                                            Transform {
+                                              translation 0.09 -0.015 -3.67321e-08
+                                              rotation 1 0 0 1.5708
+                                              children [
+                                                Capsule {
+                                                  height 0.12
+                                                  radius 0.038
+                                                  subdivision 32
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                        physics Physics {
+                                        }
+                                      }
+                                    }
+                                  ]
+                                  name "panda_link5"
+                                  boundingObject Group {
+                                    children [
+                                      Transform {
+                                        translation 0 0.037 4.07848e-08
+                                        rotation 1 0 0 -1.5707953071795862
+                                        children [
+                                          Capsule {
+                                            height 0.093
+                                            radius 0.048
+                                            subdivision 32
+                                          }
+                                        ]
+                                      }
+                                      Transform {
+                                        translation 0 0.085 -0.104824
+                                        rotation 1 0 0 -0.19
+                                        children [
+                                          Box {
+                                            size 0.05 0.04 0.2
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                  physics Physics {
+                                  }
+                                }
+                              }
+                            ]
+                            name "panda_link4"
+                            boundingObject Group {
+                              children [
+                                Transform {
+                                  children [
+                                    Capsule {
+                                      height 0.12
+                                      radius 0.052
+                                      subdivision 32
+                                    }
+                                  ]
+                                }
+                                Transform {
+                                  translation -0.08 0.115 0
+                                  rotation 1 0 0 -1.5707953071795862
+                                  children [
+                                    Capsule {
+                                      height 0.1
+                                      radius 0.053
+                                      subdivision 32
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                            physics Physics {
+                            }
+                          }
+                        }
+                      ]
+                      name "panda_link3"
+                      boundingObject Group {
+                      }
+                      physics Physics {
+                      }
+                    }
+                  }
+                ]
+                name "panda_link2"
+                boundingObject Group {
+                  children [
+                    Transform {
+                      translation 0 -0.195 0
+                      rotation 1 0 0 -1.5707953071795862
+                      children [
+                        Capsule {
+                          height 0.11
+                          radius 0.055
+                          subdivision 32
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 -0.0696408 0.0406215
+                      rotation 1 0 0 -1.047195307179586
+                      children [
+                        Cylinder {
+                          height 0.16
+                          radius 0.04
+                        }
+                      ]
+                    }
+                  ]
+                }
+                physics Physics {
+                }
+              }
+            }
+          ]
+          name "panda_link1"
+          boundingObject Group {
+            children [
+              Transform {
+                rotation 1 0 0 -1.5707953071795862
+                children [
+                  Capsule {
+                    height 0.15
+                    radius 0.056
+                    subdivision 32
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.0346408 -0.08
+                rotation 1 0 0 0.5236
+                children [
+                  Cylinder {
+                    height 0.2
+                    radius 0.04
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+          }
+        }
+      }
     ]
+    name "panda"
+    boundingObject Group {
+      children [
+        Transform {
+          translation -0.04 0 0.005
+          children [
+            Box {
+              size 0.23 0.16 0.01
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.11
+          children [
+            Cylinder {
+              height 0.22
+              radius 0.056
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+    }
   }
 }
