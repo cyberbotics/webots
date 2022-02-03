@@ -290,7 +290,7 @@ oops, i find the problem, my mistake
 
 I was trying to add in the wrong place
 
-##### Osama Bin Laden 01/07/2022 10:43:37
+##### Dr. Hariprasad M. P 01/07/2022 10:43:37
 Hello all I am facing an issue when loading code into vs code
 
 ##### Luftwaffel [Moderator] 01/09/2022 00:18:11
@@ -303,7 +303,7 @@ Hello everyone, i want to make a plunger like solenoid, any idea to make it?  be
 
 > **Attachment**: [Tak\_berjudul\_5\_540p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/929586918663024650/Tak_berjudul_5_540p.mp4)
 
-##### Osama Bin Laden 01/09/2022 04:56:40
+##### Dr. Hariprasad M. P 01/09/2022 04:56:40
 [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/929599534982647838/unknown.png)
@@ -1148,4 +1148,229 @@ Are you using the `scale` parameter to scale it down? This scaling should only b
 
 ##### Rico Schillings[Sweaty] 01/26/2022 10:02:58
 No I just use `scale` on my created mesh/stl files. I have measured all dimensions from the real car and modified the values in the car.proto (e.g. `trackFront = 0.2` or `wheelbase=0.36`) and also created a new wheel.proto with measured values
+
+##### Olivier Michel [Cyberbotics] 01/26/2022 15:42:38
+Maybe you need also to adapt some other parameters, like the various spring constants, torques, break coefficients, etc.?
+
+##### Rico Schillings[Sweaty] 01/26/2022 15:56:20
+Well, this could be since I dont have adapt all of them. But 1. For some values I dont know exactly what plausible values would be (some are unitless so i dont know the plausible range or on what they depend) and 2. This would Not explain, why the saeon altino have the same Problem when changing from 4x4 to propulsion. I think the other parameters of the altino should be adapted well for the mini car?
+
+##### Timple 01/26/2022 18:33:07
+Importing a python supervisor fails for webots 2022a:
+
+
+
+```
+$ python3 --version
+Python 3.8.10
+$ echo $PYTHONPATH 
+/home/tim/ws/install/my_robot/lib/python3.8/site-packages:/opt/ros/galactic/lib/python3.8/site-packages:/home/tim/repos/ros_command::/usr/local/webots/lib/controller/python38
+$ webots --version
+Webots version: R2022a
+$ echo $WEBOTS_HOME 
+/usr/local/webots
+$ python3 -c 'import controller'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/usr/local/webots/lib/controller/python38/controller.py", line 31, in <module>
+    import _controller
+ImportError: /usr/local/webots/lib/controller/python38/_controller.so: undefined symbol: _ZN6webots5Robot19internalGetInstanceEv
+```
+
+Also when using SNAP version. Can someone confirm this?
+
+##### Olivier Michel [Cyberbotics] 01/27/2022 07:59:10
+I just tried that and it worked fine for me. The only difference is that my `PYTHONPATH` contains only `/usr/local/webots/lib/controller/python38`. Could you also check your `LD_LIBRARY_PATH` and `PATH` environment variables?
+
+
+Even after I typed `source /opt/ros/galactic/setup.bash`, `PYTHONPATH` is changed to `/opt/ros/galactic/lib/python3.8/site-packages:/usr/local/webots/lib/controller/python38` and everything works as expected. So, there is apparently not conflict with `galactic`.
+
+##### Timple 01/27/2022 08:52:00
+Interesting. Colleagues have the same issue. I'll report back later today on your suggestion
+
+##### Rico Schillings[Sweaty] 01/27/2022 11:47:14
+Ok I've tested a lot with different parameters and you're right. After decreasing the wheelDampingConstant to a very low value it seems to work with propulsion. Nevertheless I still have to find more realistic values for those parameters 🙂 Maybe I write a simple genetic optimizer for this 😉 Thanks for your hint to check them
+
+##### Olivier Michel [Cyberbotics] 01/27/2022 11:48:16
+Let me know whatever you find. It would be nice to be able to document it somehow.
+
+##### Rico Schillings[Sweaty] 01/27/2022 11:51:58
+Alright. Since we want to try to use webots for further autonomous plattforms at our university I will optimize them further. As soon as its accurate enough I will also start to use webots to test several learning algorithms to evaluate if we can use it for transfer learning progress (sim2real) 🙂
+
+##### amna 01/28/2022 08:03:18
+Why am I unable to find skin animated characters in R2022a?
+
+##### DDaniel [Cyberbotics] 01/28/2022 08:04:35
+An example should be available under `file > open sample world > humans > skin_animated_humans`
+
+##### amna 01/28/2022 08:05:00
+ok great!
+
+
+What values shall i give to trajectory, speed and step in human.py?
+
+##### DDaniel [Cyberbotics] 01/28/2022 08:33:55
+what is human.py? your own controller? normally you need .BVH files that define the animation the character will play
+
+##### amna 01/28/2022 08:45:48
+`@DDaniel` Yes, it is a controller of pedestrian.
+
+
+It is in python and documentation says to add values of trajectory, speed and step to make the pedestrian move
+
+##### DDaniel [Cyberbotics] 01/28/2022 08:55:02
+pedestrian is a different thing, a sample of that is also available (`file > open sample world > humans > pedestrian`). If you use the pedestrian.py controller you need to specify in the `controllerArgs` field these properties, `--trajectory` specifies the path the human will take, `--speed` the speed it should run at and `--step` the timestep. If you look at that example it should be fairly clear
+
+##### amna 01/28/2022 08:55:52
+ok `@DDaniel` 
+
+got it. Thank You so much
+
+
+`@DDaniel`   I am facing this issue: Traceback (most recent call last):
+
+  File "pedestrian.py", line 16, in <module>
+
+    from controller import Supervisor
+
+  File "C:\Program Files\Webots\lib\controller\python38\controller.py", line 31, in <module>
+
+    import \_controller
+
+ImportError: DLL load failed while importing \_controller: The specified module could not be found.
+
+WARNING: 'pedestrian' controller exited with status: 1.
+
+Traceback (most recent call last):
+
+  File "pedestrian.py", line 16, in <module>
+
+    from controller import Supervisor
+
+  File "C:\Program Files\Webots\lib\controller\python38\controller.py", line 31, in <module>
+
+    import \_controller
+
+ImportError: DLL load failed while importing \_controller: The specified module could not be found.
+
+WARNING: 'pedestrian' controller exited with status: 1.
+
+##### JoséeMallah 01/28/2022 12:59:58
+Hello everyone
+
+Are there any tutorials out there, or anyone who could help me, in doing walking simulations with c3d models?
+
+
+Can I convert it to a robot? Or how to add motors to the joints as someone recommended on the <#565155651395780609> channel?
+
+##### amna 01/28/2022 13:42:38
+`@JoséeMallah` everything is available in samples, check them. File>open sample world>human>c3d
+
+##### Ranga Kulathunga 01/28/2022 16:20:16
+Hi all, how to change makefile when we use C++ for the controller?
+
+##### JoséeMallah 01/29/2022 11:16:26
+Thank you. But I am getting this error:
+
+Traceback (most recent call last):
+
+  File "C:\Program Files\Webots\projects\humans\c3d\controllers\c3d\_viewer\c3d\_viewer.py", line 262, in <module>
+
+    c3dfile = c3dFile(sys.argv[1])
+
+  File "C:\Program Files\Webots\projects\humans\c3d\controllers\c3d\_viewer\c3d\_viewer.py", line 200, in \_\_init\_\_
+
+    for i, points, analog in self.reader.read\_frames():
+
+  File "C:\Program Files\Webots\projects\humans\c3d\controllers\c3d\_viewer\c3d.py", line 853, in read\_frames
+
+    offsets = param.int16\_array[:self.analog\_used, None]
+
+  File "C:\Program Files\Webots\projects\humans\c3d\controllers\c3d\_viewer\c3d.py", line 345, in int16\_array
+
+    return self.\_as\_array('h')
+
+  File "C:\Program Files\Webots\projects\humans\c3d\controllers\c3d\_viewer\c3d.py", line 329, in \_as\_array
+
+    elems.fromstring(self.bytes)
+
+AttributeError: 'array.array' object has no attribute 'fromstring'
+
+WARNING: 'c3d\_viewer' controller exited with status: 1.
+
+
+
+How to solve it?
+
+##### amna 01/29/2022 11:17:34
+`@JoséeMallah` download python 3.8 and add its path to environment variables.
+
+##### JoséeMallah 01/29/2022 11:21:57
+I have 3.9 and it's already in the path
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/936944254335479868/unknown.png)
+%end
+
+##### amna 01/29/2022 11:22:46
+change the slash
+
+##### JoséeMallah 01/29/2022 11:47:01
+Okay, it is solved now. The problem is that apparently python 3.9 does not work here. Downgrading to python 3.8 solved the problem. Thank you `@amna`.
+
+##### amna 01/29/2022 13:08:21
+`@JoséeMallah` 👍🏻
+
+##### Timple 01/31/2022 07:02:22
+So I removed `lld` as linker on my computer. Solved the issue... Thanks for thinking along
+
+## February
+
+##### JoséeMallah 02/01/2022 12:39:01
+Hello everyone
+
+I am working on a prosthesis project. Therefore, I would like to have a human model, maybe a CharacterSkin (simulated using .bvh files), "cut" its leg, and replace it with our prosthesis model.
+
+Is that even possible in Webots? And any idea on how to do so?
+
+##### DDaniel [Cyberbotics] 02/01/2022 17:51:09
+.bvh defines an animation, there's no physics involved. For a physically driven simulation you need to specify the solids corresponding to the bones (and joints)
+
+##### ToKi 02/01/2022 21:06:34
+Hey there,
+
+so I have this older Webots-project for demonstrating line follower robots for a course I'm holding. The model is based on the e-puck model with a normal "infra-red" type sensor set in the groundSensorsSlot. I use a black and white png set as the baseColorMap under RectangleArena/floorAppearance PBRAppearance as the track to follow. I previously had a R2020-version of Webots installed, where the model was still working. Since the students will most likely use the newest version, I today also upgraded to R2022a. Otherwise the model opens and runs fine, but the irSensor now delivers a constant value (1000 with the standard lookup table) Does anyone have any pointers, what might have happened in the last couple of versions? Is there some setting I need to tweak to get it working again? I couldn't find anything directly helpful in the release notes nor online, and playing aroud with the parameters didn't seem to do much either. Thanks!
+
+
+Here's a better picture:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/938180217795645550/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 02/01/2022 21:37:01
+Something like that?
+> **Attachment**: [e-puck\_LF\_V1\_2.mp4](https://cdn.discordapp.com/attachments/565154703139405824/938186202140528710/e-puck_LF_V1_2.mp4)
+
+##### ToKi 02/01/2022 21:38:12
+Yes, just with IR sensors
+
+##### DrakerDG [Moderator] 02/01/2022 21:42:46
+How much IR sensors used in your robot?
+
+##### ToKi 02/01/2022 21:47:14
+I would like to use anywhere from 1-5, I tried with 1 and 5, for the 1 sensor I re-created the whole project from scratch but still got the same issue
+
+
+I was originally using robot.getDistanceSensor() to get the handle to the object, now getDevice, which was deprecated somewhere along the way, not sure if there were some other changes apart from the API-change along the way, and whether it has anything to do with my problem 🙂
+
+##### DDaniel [Cyberbotics] 02/01/2022 21:50:08
+Can you share the world? Can't think of a reason it shouldn't work
+
+##### ToKi 02/01/2022 21:50:57
+Sure, can I just send it to you here?
+
+##### DDaniel [Cyberbotics] 02/01/2022 21:51:02
+Sure
+
+##### ToKi 02/01/2022 22:13:13
+And in case someone with the same problem finds this discussion, check your sensor translation/rotation kids.. Thanks everyone!
 
