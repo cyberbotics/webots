@@ -6,6 +6,7 @@ WorldInfo {
     "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
   ]
   title "A factory hall environment"
+  basicTimeStep 16
   contactProperties [
     ContactProperties {
       material1 "tube insertion exercise"
@@ -18,8 +19,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.1984130255287812 0.7897172727983643 -0.5804988375048041 0.8235226410431655
-  position -2.2725098721963586 3.5010979961564415 2.6936766802017464
+  orientation 0.14889587800056067 0.27989235221436565 -0.9484146185536956 1.0311398417543
+  position -1.3120176831717334 4.168204991780112 1.3745579790161775
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -286,7 +287,45 @@ Transform {
   ]
 }
 Transform {
-  translation 0 2.75 0.7
+  translation 0 2.75 0.73
+  children [
+    SolidBox {
+      size 0.03 0.03 0.06
+      physics Physics {
+        density -1
+        mass 0.2
+      }
+    }
+    Transform {
+      translation 0 -0.1 0
+      children [
+        SolidBox {
+          name "box(2)"
+          size 0.03 0.03 0.06
+          physics Physics {
+            density -1
+            mass 0.2
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.1 0
+      children [
+        SolidBox {
+          name "box(3)"
+          size 0.03 0.03 0.06
+          physics Physics {
+            density -1
+            mass 0.2
+          }
+        }
+      ]
+    }
+  ]
+}
+Transform {
+  translation 0.45 2.75 0.7
   rotation 0.5773509358560258 -0.577349935856137 0.577349935856137 2.09439
   children [
     ScrewHole {
