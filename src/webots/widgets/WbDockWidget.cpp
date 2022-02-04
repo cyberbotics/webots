@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbDockTitleBar.hpp"
 #include "WbDockWidget.hpp"
+
+#include "WbDockTitleBar.hpp"
 
 WbDockWidget::WbDockWidget(QWidget *parent) : QDockWidget(parent) {
   mTitleBar = new WbDockTitleBar(true, this);

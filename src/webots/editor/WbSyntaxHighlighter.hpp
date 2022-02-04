@@ -42,7 +42,7 @@ public:
   };
 
 public slots:
-  void setSearchTextRule(QRegularExpression regularExpression);
+  void setSearchTextRule(const QRegularExpression &regularExpression);
 
 protected:
   explicit WbSyntaxHighlighter(QTextDocument *parent);

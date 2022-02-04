@@ -27,10 +27,10 @@
 #include "WbTextFind.hpp"
 #include "WbWorld.hpp"
 
+#include <QtGui/QAction>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
 
-#include <QtWidgets/QAction>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>

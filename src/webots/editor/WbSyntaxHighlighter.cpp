@@ -72,7 +72,7 @@ WbSyntaxHighlighter::WbSyntaxHighlighter(QTextDocument *parent) : QSyntaxHighlig
   mSearchTextFormat.setBackground(Qt::gray);
 }
 
-void WbSyntaxHighlighter::setSearchTextRule(QRegularExpression regularExpression) {
+void WbSyntaxHighlighter::setSearchTextRule(const QRegularExpression &regularExpression) {
   if (mSearchTextRule == regularExpression)
     return;
 
