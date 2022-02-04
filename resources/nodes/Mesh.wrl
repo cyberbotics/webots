@@ -3,4 +3,5 @@
 Mesh {
   field MFString url [ ]   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node)
   field SFString name ""   # Filter geometries based on the given name (for example, Collada files can contain multiple geometries in a single file).
+  field SFInt32 materialIndex -1   # Filter geometries in Collada files based on the material index (Collada files can contain multiple geometries with different materials).
 }
