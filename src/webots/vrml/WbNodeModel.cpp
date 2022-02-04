@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QMap>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 
 QMap<QString, WbNodeModel *> WbNodeModel::cModels;
@@ -132,7 +133,7 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   while (!stream.atEnd()) {
     line = stream.readLine();
     if (line.startsWith("#")) {
-      if (line.contains(QRegExp("#\\s*VRML(_...|) V(\\d+).(\\d+)")))
+      if (line.contains(QRegularExpression("#\\s*VRML(_...|) V(\\d+).(\\d+)")))
         continue;
       line = line.mid(1).trimmed();  // clean line
       if (!line.isEmpty())

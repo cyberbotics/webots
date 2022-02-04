@@ -24,6 +24,8 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
+#include <QtCore/QRegularExpression>
+
 #include <cassert>
 
 static double cLegacyGravity = 9.81;
@@ -168,11 +170,11 @@ void WbParser::reportFileError(const QString &message) const {
 void WbParser::reportUnexpected(const QString &expected) const {
   const WbToken *const found = mTokenizer->lastToken();
   QString foundWord(found->word());
-  if (foundWord.split(QRegExp("\\s+")).size() == 1)
+  if (foundWord.split(QRegularExpression("\\s+")).size() == 1)
     foundWord = QString("'%1'").arg(foundWord);
 
   QString expectedWord(expected);
-  if (expectedWord.split(QRegExp("\\s+")).size() == 1)
+  if (expectedWord.split(QRegularExpression("\\s+")).size() == 1)
     expectedWord = QString("'%1'").arg(expectedWord);
 
   mTokenizer->reportError(QObject::tr("Expected %1, found %2").arg(expectedWord, foundWord), found);
