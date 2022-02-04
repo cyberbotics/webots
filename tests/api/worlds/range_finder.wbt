@@ -25,6 +25,15 @@ Transform {
   ]
 }
 Transform {
+  translation 0 0.8 -0.75
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
   translation 0 0 -2
   children [
     Shape {
@@ -57,6 +66,7 @@ Robot {
     RangeFinder {
       rotation 0.577349 -0.577349 -0.577349 -2.0944
       fieldOfView 1.5708
+      minRange 1
       maxRange 3
       motionBlur 32
     }
