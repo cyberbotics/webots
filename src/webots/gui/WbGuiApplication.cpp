@@ -136,9 +136,8 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
-    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
-    rx.indexIn(option);
-    const QStringList &capture = rx.capturedTexts();
+    const QRegularExpression rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
+    const QStringList &capture = rx.match(option).capturedTexts();
     // "key" without value case
     if (option == "monitorActivity")
       monitorActivity = true;
@@ -432,12 +431,6 @@ bool WbGuiApplication::setup() {
    **/
   setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 #endif
-
-  /**
-   * Hopefully improved the icon resolution
-   * http://blog.qt.digia.com/blog/2013/04/25/retina-display-support-for-mac-os-ios-and-x11/
-   **/
-  setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 #ifdef _WIN32
   // create main window

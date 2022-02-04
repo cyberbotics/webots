@@ -17,7 +17,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
-#include <QtCore/QTextDecoder>
+#include <QtCore/QStringConverter>
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
@@ -89,8 +89,6 @@ private:
   QProcess *mProcess;
   QLocalSocket *mSocket;
   QByteArray mRequest;
-  QTextDecoder mStdout;
-  QTextDecoder mStderr;
   double mRequestTime;
   bool mHasBeenTerminatedByItself;
   bool mIncompleteRequest;

@@ -87,10 +87,7 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 }
 */
 
-WbController::WbController(WbRobot *robot) :
-  mStdout(QTextCodec::codecForName("UTF-8")),
-  mStderr(QTextCodec::codecForName("UTF-8")),
-  mHasPendingImmediateAnswer(false) {
+WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
@@ -497,11 +494,11 @@ void WbController::appendMessageToConsole(const QString &message, bool useStdout
 }
 
 void WbController::readStdout() {
-  appendMessageToBuffer(mStdout.toUnicode(mProcess->readAllStandardOutput()), &mStdoutBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardOutput()), &mStdoutBuffer);
 }
 
 void WbController::readStderr() {
-  appendMessageToBuffer(mStderr.toUnicode(mProcess->readAllStandardError()), &mStderrBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardError()), &mStderrBuffer);
 }
 
 void WbController::appendMessageToBuffer(const QString &message, QString *buffer) {
@@ -513,7 +510,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
   const QString &text = message;
 #endif
   buffer->append(text);
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
     mStderrNeedsFlush = true;
@@ -525,7 +522,7 @@ void WbController::flushBuffer(QString *buffer) {
   int index = buffer->indexOf('\n');
   while (index != -1) {
     const QString line = buffer->mid(0, index + 1);
-    if (buffer == mStdoutBuffer)
+    if (*buffer == mStdoutBuffer)
       WbLog::appendStdout(line, robot()->name());
     else
       WbLog::appendStderr(line, robot()->name());
@@ -533,7 +530,7 @@ void WbController::flushBuffer(QString *buffer) {
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
   }
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = false;
   else
     mStderrNeedsFlush = false;

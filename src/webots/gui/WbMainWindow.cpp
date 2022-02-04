@@ -86,11 +86,11 @@
 #include <QtNetwork/QHostInfo>
 
 #include <QtGui/QCloseEvent>
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 #include <QtNetwork/QHttpMultiPart>
 #include <QtNetwork/QNetworkReply>
+#include <QtOpenGL/QOpenGLFunctions_3_3_Core>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
@@ -490,7 +490,7 @@ QMenu *WbMainWindow::createFileMenu() {
 
   action = new QAction(terminateWord, this);
   action->setMenuRole(QAction::QuitRole);  // Mac: put the menu respecting the MacOS specifications
-  action->setShortcut(Qt::CTRL + Qt::Key_Q);
+  action->setShortcut(Qt::CTRL | Qt::Key_Q);
   action->setStatusTip(tr("Terminate the Webots application."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::close);
@@ -557,7 +557,7 @@ QMenu *WbMainWindow::createViewMenu() {
   mToggleFullScreenAction->setText(tr("&Fullscreen"));
   mToggleFullScreenAction->setStatusTip(tr("Show the simulation view in fullscreen mode."));
   mToggleFullScreenAction->setToolTip(mToggleFullScreenAction->statusTip());
-  mToggleFullScreenAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F);
+  mToggleFullScreenAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_F);
   mToggleFullScreenAction->setCheckable(true);
   connect(mToggleFullScreenAction, &QAction::toggled, this, &WbMainWindow::toggleFullScreen);
   menu->addAction(mToggleFullScreenAction);
@@ -742,7 +742,7 @@ QMenu *WbMainWindow::createToolsMenu() {
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
-  action->setShortcut(Qt::CTRL + Qt::Key_J);
+  action->setShortcut(Qt::CTRL | Qt::Key_J);
   action->setStatusTip(tr("Restore windows factory layout."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::restoreLayout);

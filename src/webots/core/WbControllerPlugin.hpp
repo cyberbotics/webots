@@ -16,7 +16,6 @@
 #define WB_CONTROLLER_PLUGIN_HPP
 
 class QString;
-class QStringList;
 
 namespace WbControllerPlugin {
 

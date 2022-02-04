@@ -30,6 +30,7 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QIODevice>
 
 void WbMesh::init() {
   mUrl = findMFString("url");

@@ -72,11 +72,11 @@ WbSyntaxHighlighter::WbSyntaxHighlighter(QTextDocument *parent) : QSyntaxHighlig
   mSearchTextFormat.setBackground(Qt::gray);
 }
 
-void WbSyntaxHighlighter::setSearchTextRule(QRegExp regExp) {
-  if (mSearchTextRule == regExp)
+void WbSyntaxHighlighter::setSearchTextRule(QRegularExpression regularExpression) {
+  if (mSearchTextRule == regularExpression)
     return;
 
-  mSearchTextRule = regExp;
+  mSearchTextRule = regularExpression;
   rehighlight();
 }
 
@@ -117,7 +117,7 @@ WbLanguageHighlighter::WbLanguageHighlighter(const WbLanguage *language, QTextDo
 void WbLanguageHighlighter::setDefaultRules(const WbLanguage *language, QVector<HighlightingRule> &highlightingRules) {
   // numbers
   HighlightingRule rule;
-  rule.pattern = QRegExp("\\b[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?[fFlL]?\\b");
+  rule.pattern = QRegularExpression("\\b[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?[fFlL]?\\b");
   rule.format = mNumberFormat;
   highlightingRules.append(rule);
 
@@ -126,17 +126,17 @@ void WbLanguageHighlighter::setDefaultRules(const WbLanguage *language, QVector<
   addWords(language->apiWords(), mApiFormat, highlightingRules);
 
   // double quotes: "abc"
-  rule.pattern = QRegExp("\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"");
+  rule.pattern = QRegularExpression("\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"");
   rule.format = mQuotationFormat;
   highlightingRules.append(rule);
 
   // single quotes: 'a'
-  rule.pattern = QRegExp("\'[^\']*\'");
+  rule.pattern = QRegularExpression("\'[^\']*\'");
   rule.format = mQuotationFormat;
   highlightingRules.append(rule);
 
   // single line comment
-  rule.pattern = QRegExp(language->commentPrefix() + "[^\n]*");
+  rule.pattern = QRegularExpression(language->commentPrefix() + "[^\n]*");
   rule.format = mCommentFormat;
   highlightingRules.append(rule);
 }
@@ -150,7 +150,7 @@ QList<WbSyntaxHighlighter::HighlightedSection> WbLanguageHighlighter::identifySe
   const QString &text, const QVector<HighlightingRule> &highlightingRules) {
   QList<HighlightedSection> sections;
   foreach (const HighlightingRule &rule, highlightingRules) {
-    QRegExp expression(rule.pattern);
+    QRegularExpression expression(rule.pattern);
     int index = expression.indexIn(text);
     while (index >= 0) {
       sections.append(HighlightedSection(index, expression.matchedLength(), rule.format));
@@ -186,14 +186,16 @@ void WbLanguageHighlighter::addWords(const QStringList &words, const QTextCharFo
     assert(!it.peekNext().isEmpty());
 
     HighlightingRule rule;
-    rule.pattern = QRegExp("\\b" + it.next() + "\\b");
+    rule.pattern = QRegularExpression("\\b" + it.next() + "\\b");
     rule.format = format;
     highlightingRules.append(rule);
   }
 }
 
-WbMultiLineCommentHighlighter::WbMultiLineCommentHighlighter(const WbLanguage *language, const QRegExp &commentStartExpression,
-                                                             const QRegExp &commentEndExpression, QTextDocument *parent) :
+WbMultiLineCommentHighlighter::WbMultiLineCommentHighlighter(const WbLanguage *language,
+                                                             const QRegularExpression &commentStartExpression,
+                                                             const QRegularExpression &commentEndExpression,
+                                                             QTextDocument *parent) :
   WbLanguageHighlighter(language, parent),
   mCommentStartExpression(commentStartExpression),
   mCommentEndExpression(commentEndExpression),
@@ -287,12 +289,12 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
 }
 
 WbCHighlighter::WbCHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("/\\*"), QRegExp("\\*/"), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("/\\*"), QRegularExpression("\\*/"), parent) {
   // multiple line comments: /* abc */
   HighlightingRule rule;
   QStringListIterator it(language->preprocessorWords());
   while (it.hasNext()) {
-    rule.pattern = QRegExp(it.next() + "[^\\n]*");
+    rule.pattern = QRegularExpression(it.next() + "[^\\n]*");
     rule.format = mPreprocessorFormat;
     // insert at position so that it has lower priority than single line comment
     mHighlightingRules.insert(mSingleCommentRuleIndex, rule);
@@ -302,12 +304,12 @@ WbCHighlighter::WbCHighlighter(const WbLanguage *language, QTextDocument *parent
 }
 
 WbLuaHighlighter::WbLuaHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("--\\[\\["), QRegExp("\\]\\]"), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("--\\[\\["), QRegularExpression("\\]\\]"), parent) {
   mCommentStartDelimiterLength = 4;
 }
 
 WbPythonHighlighter::WbPythonHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("\"\"\""), QRegExp("\"\"\""), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("\"\"\""), QRegularExpression("\"\"\""), parent) {
   mCommentStartDelimiterLength = 3;
 }
 
@@ -320,10 +322,10 @@ WbProtoHighlighter::WbProtoHighlighter(const WbLanguage *language, QTextDocument
 
   // template start and end patterns
   HighlightingRule rule;
-  rule.pattern = QRegExp("%\\{");
+  rule.pattern = QRegularExpression("%\\{");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
-  rule.pattern = QRegExp("\\}%");
+  rule.pattern = QRegularExpression("\\}%");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
 }

@@ -22,7 +22,6 @@
 #include <QtCore/QObject>
 
 class QMenu;
-class QStringList;
 class QAction;
 
 class WbRecentFilesList : public QObject {

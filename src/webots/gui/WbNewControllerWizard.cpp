@@ -24,7 +24,7 @@
 
 #include <QtCore/QUrl>
 
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QRadioButton>
@@ -222,7 +222,7 @@ QWizardPage *WbNewControllerWizard::createNamePage() {
   page->setSubTitle(tr("Please choose a name for your controller program."));
   QLabel *nameLabel = new QLabel(tr("Controller name:"), page);
   mNameEdit = new WbLineEdit("my_controller", page);
-  mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
+  mNameEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
   QHBoxLayout *layout = new QHBoxLayout(page);
   layout->addWidget(nameLabel);

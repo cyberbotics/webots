@@ -29,7 +29,7 @@
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
@@ -216,7 +216,7 @@ QWizardPage *WbNewProtoWizard::createNamePage() {
 
   QLabel *nameLabel = new QLabel(tr("PROTO name:"), page);
   mNameEdit = new WbLineEdit("MyProto", page);
-  mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
+  mNameEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
   mDescription = new QPlainTextEdit(tr("Describe the functionality of your PROTO here."));

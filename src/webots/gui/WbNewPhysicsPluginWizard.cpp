@@ -20,7 +20,7 @@
 #include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QLabel>
@@ -140,7 +140,7 @@ QWizardPage *WbNewPhysicsPluginWizard::createNamePage() {
 
   QLabel *nameLabel = new QLabel(tr("Plugin name:"), page);
   mNameEdit = new WbLineEdit("my_physics", page);
-  mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
+  mNameEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
   QHBoxLayout *layout = new QHBoxLayout(page);
