@@ -165,22 +165,22 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
-  int UpAxis = 1, UpAxisSign = 1, FrontAxis = 2, FrontAxisSign = 1, CoordAxis = 0, CoordAxisSign = 1;
-  double UnitScaleFactor = 1.0;
+  int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
+  double unitScaleFactor = 1.0;
   if (scene->mMetaData) {
-    scene->mMetaData->Get<int>("UpAxis", UpAxis);
-    scene->mMetaData->Get<int>("UpAxisSign", UpAxisSign);
-    scene->mMetaData->Get<int>("FrontAxis", FrontAxis);
-    scene->mMetaData->Get<int>("FrontAxisSign", FrontAxisSign);
-    scene->mMetaData->Get<int>("CoordAxis", CoordAxis);
-    scene->mMetaData->Get<int>("CoordAxisSign", CoordAxisSign);
-    scene->mMetaData->Get<double>("UnitScaleFactor", UnitScaleFactor);
+    scene->mMetaData->Get<int>("UpAxis", upAxis);
+    scene->mMetaData->Get<int>("UpAxisSign", upAxisSign);
+    scene->mMetaData->Get<int>("FrontAxis", frontAxis);
+    scene->mMetaData->Get<int>("FrontAxisSign", frontAxisSign);
+    scene->mMetaData->Get<int>("CoordAxis", coordAxis);
+    scene->mMetaData->Get<int>("CoordAxisSign", coordAxisSign);
+    scene->mMetaData->Get<double>("UnitScaleFactor", unitScaleFactor);
   }
 
   aiVector3D upVec, forwardVec, rightVec;
-  upVec[UpAxis] = UpAxisSign * (float)UnitScaleFactor;
-  forwardVec[FrontAxis] = FrontAxisSign * (float)UnitScaleFactor;
-  rightVec[CoordAxis] = CoordAxisSign * (float)UnitScaleFactor;
+  upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
+  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
+  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
 
   aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
                   forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
