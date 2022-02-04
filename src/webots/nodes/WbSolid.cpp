@@ -2292,9 +2292,10 @@ void WbSolid::resetPhysics(bool recursive) {
   resetSingleSolidPhysics();
 
   // Recurses through all first level solid descendants
-  if (recursive)
+  if (recursive) {
     foreach (WbSolid *const solid, mSolidChildren)
       solid->resetPhysics();
+  }
 }
 
 void WbSolid::resetSingleSolidPhysics() {

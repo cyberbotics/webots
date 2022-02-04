@@ -20,7 +20,8 @@
 //              and definition of respective undo and redo functions
 //
 
-#include <QtWidgets/QUndoCommand>
+#include <QtGui/QUndoCommand>
+
 #include "WbVariant.hpp"
 
 class WbValue;

@@ -19,6 +19,7 @@
 // Description: a class for highlighting the syntax of text documents
 //
 
+#include <QtCore/QRegularExpression>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
 

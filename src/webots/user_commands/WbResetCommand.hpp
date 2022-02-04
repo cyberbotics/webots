@@ -23,7 +23,7 @@
 //
 
 #include <QtCore/QVector>
-#include <QtWidgets/QUndoCommand>
+#include <QtGui/QUndoCommand>
 
 class WbField;
 

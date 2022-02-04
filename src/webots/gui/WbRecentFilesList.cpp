@@ -13,9 +13,10 @@
 // limitations under the License.
 
 #include "WbRecentFilesList.hpp"
+
 #include "WbPreferences.hpp"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QMenu>
 
 WbRecentFilesList::WbRecentFilesList(int size, QMenu *parent) : QObject(parent) {

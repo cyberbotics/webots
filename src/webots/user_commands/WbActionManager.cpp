@@ -20,7 +20,8 @@
 #ifdef __linux__
 #include <QtCore/QCoreApplication>
 #endif
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
+#include <QtGui/QActionGroup>
 #include <QtWidgets/QApplication>
 
 #include <cassert>

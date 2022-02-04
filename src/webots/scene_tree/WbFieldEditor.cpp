@@ -42,7 +42,7 @@
 #include "WbVector2Editor.hpp"
 #include "WbVector3Editor.hpp"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QStackedLayout>
 #include <QtWidgets/QToolButton>

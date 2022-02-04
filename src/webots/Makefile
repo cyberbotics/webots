@@ -45,7 +45,7 @@ WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INC
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
 WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -isystem external/siphash -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
-WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
+WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_OPENGL_WIDGETS_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
 
 HOSTTYPE ?= $(shell uname -m)
@@ -135,38 +135,39 @@ endif
 
 else ifeq ($(OSTYPE),windows)
 vpath %.c ../controller/c
-WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
-C_SOURCES         += system.c
-LIB_WREN           = ../wren/wren.a ../glad/glad.a
-OPENAL_INCLUDE     = -isystem /mingw64/include
-QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
-QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
-QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
-QT_PRINT_SUPPORT_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
-QT_QML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtQml
-QT_OPENGL_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
-QT_NETWORK_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
-QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
-QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
-FREETYPE_INCLUDE   = -I/mingw64/include/freetype2
-TARGET_PATH       = $(WEBOTS_PATH)/msys64/mingw64/bin
-TARGET            = $(TARGET_PATH)/webots-bin.exe
-CFLAGS            = -isystem /mingw64/lib/libzip/include
-CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
-MOC               = /mingw64/share/qt6/bin/moc
-MOC_FLAGS        += -D_WIN32
-LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
-LD_FLAGS          = -Wl,--enable-auto-import
-EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
-FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config
+WB_NODES_INCLUDE         += $(OPEN_VR_INCLUDE)
+C_SOURCES                += system.c
+LIB_WREN                  = ../wren/wren.a ../glad/glad.a
+OPENAL_INCLUDE            = -isystem /mingw64/include
+QT_CORE_INCLUDE           = -isystem $(WEBOTS_PATH)/include/qt/QtCore
+QT_GUI_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtGui
+QT_WIDGETS_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
+QT_PRINT_SUPPORT_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
+QT_QML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtQml
+QT_OPENGL_INCLUDE         = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
+QT_OPENGL_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGLWidgets
+QT_NETWORK_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
+QT_WEBSOCKETS_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
+QT_XML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtXml
+FREETYPE_INCLUDE          = -I/mingw64/include/freetype2
+TARGET_PATH               = $(WEBOTS_PATH)/msys64/mingw64/bin
+TARGET                    = $(TARGET_PATH)/webots-bin.exe
+CFLAGS                    = -isystem /mingw64/lib/libzip/include
+CXXFLAGS                  = -std=c++11 -D_USE_MATH_DEFINES
+MOC                       = /mingw64/share/qt6/bin/moc
+MOC_FLAGS                += -D_WIN32
+LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQtOpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
+LD_FLAGS                  = -Wl,--enable-auto-import
+EXTRA_CMD                 = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
+FILES_TO_REMOVE           = $(TARGET_PATH)/webots-bin.exe.config
 ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
 # in particular in WbController::setProcessEnvironment(), however increasing the
 # stack size doesn't seems to help, so we need to remove this optimization
-CFLAGS          += -fno-ipa-cp-clone
-LD_FLAGS        += -Wl,-subsystem,windows
+CFLAGS                   += -fno-ipa-cp-clone
+LD_FLAGS                 += -Wl,-subsystem,windows
 else
-EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
+EXTRA_CMD                += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/ode.a
@@ -181,7 +182,7 @@ ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
-WREN_INCLUDE 	  += -Iwren
+WREN_INCLUDE 	    += -Iwren
 INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)

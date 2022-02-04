@@ -16,6 +16,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QRegularExpression>
+
 #include <cassert>
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
@@ -259,7 +261,7 @@ QString WbProject::controllerPathFromDir(const QString &dirPath) {
 
   QString controllersName = controllersDir.dirName();
   QStringList fileNameFilters = WbLanguage::sourceFileExtensions();
-  fileNameFilters.replaceInStrings(QRegExp("^"), controllersName);  // prepend controller name to each item
+  fileNameFilters.replaceInStrings(QRegularExpression("^"), controllersName);  // prepend controller name to each item
 
   // Search into the current controllers directory (perfect match)
   // case sensitive
@@ -274,7 +276,7 @@ QString WbProject::controllerPathFromDir(const QString &dirPath) {
 
   // any source file
   QStringList sourceFileFilters = WbLanguage::sourceFileExtensions();
-  sourceFileFilters.replaceInStrings(QRegExp("^"), "*");                // prepend "*" to each item
+  sourceFileFilters.replaceInStrings(QRegularExpression("^"), "*");     // prepend "*" to each item
   fileList = controllersDir.entryList(sourceFileFilters, QDir::Files);  // case insensitive
   if (!fileList.isEmpty())
     return controllersDir.absoluteFilePath(fileList.at(0));

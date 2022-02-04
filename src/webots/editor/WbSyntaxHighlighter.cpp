@@ -89,10 +89,12 @@ void WbSyntaxHighlighter::highlightSearchText(const QString &text, int offset) {
   if (mSearchTextRule.pattern().isEmpty())
     return;
 
-  int index = mSearchTextRule.indexIn(text);
+  QRegularExpressionMatch match = mSearchTextRule.match(text);
+  int index = match.lastCapturedIndex();
   while (index >= 0) {
-    setFormat(index + offset, mSearchTextRule.matchedLength(), mSearchTextFormat);
-    index = mSearchTextRule.indexIn(text, index + 1);
+    setFormat(index + offset, match.capturedLength(), mSearchTextFormat);
+    match = mSearchTextRule.match(text, index + 1);
+    index = match.lastCapturedIndex();
   }
 }
 
@@ -151,10 +153,13 @@ QList<WbSyntaxHighlighter::HighlightedSection> WbLanguageHighlighter::identifySe
   QList<HighlightedSection> sections;
   foreach (const HighlightingRule &rule, highlightingRules) {
     QRegularExpression expression(rule.pattern);
-    int index = expression.indexIn(text);
+
+    QRegularExpressionMatch match = expression.match(text);
+    int index = match.lastCapturedIndex();
     while (index >= 0) {
-      sections.append(HighlightedSection(index, expression.matchedLength(), rule.format));
-      index = expression.indexIn(text, index + 1);
+      sections.append(HighlightedSection(index, match.capturedLength(), rule.format));
+      match = mSearchTextRule.match(text, index + 1);
+      index = match.lastCapturedIndex();
     }
   }
 
@@ -219,14 +224,17 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
   bool isFirstCommentLine = false;
   if (previousBlockState() != 1) {
     isFirstCommentLine = true;
-    const int singleCommentIndex = mSingleCommentExpression.indexIn(text);
-    startIndex = mCommentStartExpression.indexIn(text);
+    QRegularExpressionMatch match = mSingleCommentExpression.match(text);
+    const int singleCommentIndex = match.lastCapturedIndex();
+    match = mCommentStartExpression.match(text);
+    startIndex = match.lastCapturedIndex();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
 
-      int singleCommentEnd = singleCommentIndex + mSingleCommentExpression.matchedLength();
-      startIndex = mCommentStartExpression.indexIn(text, singleCommentEnd);
+      int singleCommentEnd = singleCommentIndex + match.capturedLength();
+      match = mCommentStartExpression.match(text, singleCommentEnd);
+      startIndex = match.lastCapturedIndex();
     }
   }
 
@@ -234,7 +242,8 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
     int searchIndex = startIndex;
     if (isFirstCommentLine)
       searchIndex += mCommentStartDelimiterLength;
-    int endIndex = mCommentEndExpression.indexIn(text, searchIndex);
+    QRegularExpressionMatch match = mCommentEndExpression.match(text, searchIndex);
+    int endIndex = match.lastCapturedIndex();
     if (endIndex == -1) {
       setCurrentBlockState(1);
       formattedSections.prepend(HighlightedSection(startIndex, text.length() - startIndex, mCommentFormat));
@@ -250,7 +259,7 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
       continue;
     }
 
-    int commentLength = endIndex - startIndex + mCommentEndExpression.matchedLength();
+    int commentLength = endIndex - startIndex + match.capturedLength();
     if (commentLength > 0) {
       if (startIndex == 0 && previousBlockState() == 1) {
         startFormattingIndex = commentLength;
@@ -262,9 +271,10 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
         continue;
       }
     }
-
-    int singleCommentIndex = mSingleCommentExpression.indexIn(text, startIndex + 1);
-    startIndex = mCommentStartExpression.indexIn(text, startIndex + 1);
+    match = mSingleCommentExpression.match(text, startIndex + 1);
+    int singleCommentIndex = match.lastCapturedIndex();
+    match = mCommentStartExpression.match(text, startIndex + 1);
+    startIndex = match.lastCapturedIndex();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
