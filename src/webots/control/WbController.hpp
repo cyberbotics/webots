@@ -17,7 +17,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
-#include <QtCore/QStringConverter>
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
