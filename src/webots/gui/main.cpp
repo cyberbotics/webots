@@ -19,7 +19,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QLocale>
 #include <QtCore/QRegularExpression>
-#include <QtCore/QTextCodec>
 #include <QtCore/QTextStream>
 #include <QtCore/QVector>
 #include <QtGui/QSurfaceFormat>
@@ -111,7 +110,6 @@ int main(int argc, char *argv[]) {
 #endif
 #endif
   QLocale::setDefault(QLocale::c());
-  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));  // so that all QTextStream use UTF-8 encoding by default
 
 #ifdef __linux__
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin

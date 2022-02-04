@@ -119,7 +119,7 @@ private:
   bool saveBuffer(WbTextBuffer *buffer, bool saveAs = false);
   void selectBuffer(WbTextBuffer *buffer);
   void closeBuffer(int tab, bool closeAnyway = false);
-  void highlightSearchText(QRegularExpression regExp);
+  void highlightSearchText(QRegularExpression regularExpression);
 };
 
 #endif

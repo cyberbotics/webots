@@ -27,7 +27,7 @@
 
 #include "../../../include/controller/c/webots/utils/ansi_codes.h"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
 

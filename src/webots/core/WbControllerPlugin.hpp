@@ -15,7 +15,7 @@
 #ifndef WB_CONTROLLER_PLUGIN_HPP
 #define WB_CONTROLLER_PLUGIN_HPP
 
-class QString;
+#include <QtCore/QStringList>
 
 namespace WbControllerPlugin {
 

@@ -23,6 +23,7 @@
 //
 
 #include <QtCore/QFile>
+#include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 #include <QtCore/QVector>

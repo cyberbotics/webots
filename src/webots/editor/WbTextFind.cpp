@@ -72,7 +72,7 @@ bool WbTextFind::findText(const QString &text, int position, FindFlags flags, bo
     findFlags |= QTextDocument::FindWholeWords;
 
   QRegularExpression regularExpression = computeRegularExpression(text, flags);
-  emit findStringChanged(RegularExpression);
+  emit findStringChanged(regularExpression);
   if (cIsLastStringEmpty || text != cFindStringList.first()) {
     addStringToList(text, cFindStringList);
     cIsLastStringEmpty = false;
@@ -107,10 +107,11 @@ void WbTextFind::replace(const QString &before, const QString &after, FindFlags 
 
   QTextCursor cursor = mEditor->textCursor();
   QRegularExpression beforeRegularExpression = computeRegularExpression(before, findFlags);
-  if (beforeRegularExpression.exactMatch(cursor.selectedText())) {
+  QRegularExpressionMatch match = beforeRegularExpression.match(cursor.selectedText());
+  if (match.hasMatch()) {
     QString realAfter;
     if (findFlags & FIND_REGULAR_EXPRESSION)
-      realAfter = expandRegularExpressionReplacement(after, beforeRegularExpression.capturedTexts());
+      realAfter = expandRegularExpressionReplacement(after, match.capturedTexts());
     else
       realAfter = after;
     cursor.insertText(realAfter);
@@ -158,11 +159,11 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
 
     cursor.setPosition(found.selectionStart());
     cursor.setPosition(found.selectionEnd(), QTextCursor::KeepAnchor);
-    beforeRegularExpression.exactMatch(found.selectedText());
+    const QRegularExpressionMatch match = beforeRegularExpression.match(found.selectedText());
 
     QString realAfter;
     if (findFlags & FIND_REGULAR_EXPRESSION)
-      realAfter = expandRegularExpressionReplacement(after, beforeRegularExpression.capturedTexts());
+      realAfter = expandRegularExpressionReplacement(after, match.capturedTexts());
     else
       realAfter = after;
     cursor.insertText(realAfter);
@@ -214,7 +215,6 @@ QRegularExpression WbTextFind::computeRegularExpression(const QString &pattern, 
     expPattern = QRegularExpression::escape(pattern);
   if (flags & FIND_WHOLE_WORDS)
     expPattern = "\\b" + expPattern + "\\b";
-  QRegularExpression regularExpression(expPattern);
-  regularExpression.setCaseSensitivity((flags & FIND_CASE_SENSITIVE) ? Qt::CaseSensitive : Qt::CaseInsensitive);
-  return regularExpression;
+  return QRegularExpression(expPattern, (flags & FIND_CASE_SENSITIVE) ? QRegularExpression::CaseInsensitiveOption :
+                                                                        QRegularExpression::NoPatternOption);
 }

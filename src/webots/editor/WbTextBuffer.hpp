@@ -178,8 +178,6 @@ private:
 
   // manage indentation
   void addNewLine();
-
-  static QString expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts);
 };
 
 #endif
