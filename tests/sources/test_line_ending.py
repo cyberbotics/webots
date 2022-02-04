@@ -25,8 +25,8 @@ SKIPPED_DIRECTORIES = [
 ]
 
 EXTENSIONS_TO_CHECK = [
-    '.proto', '.wbt', '.wbo', '.forest', '.txt', '.md', '.c', '.h', '.cpp', '.hpp', '.py', '.java', '.m', '.motion', '.bvh',
-    '.obj', '.fbx', '.dae'
+    '.proto', '.wbt', '.wbo', '.wbproj', '.forest', '.txt', '.md', '.c', '.h', '.cpp', '.hpp', '.py', '.java', '.m', '.bvh',
+    '.motion', '.obj', '.fbx', '.dae', '.stl'
 ]
 
 
