@@ -19,25 +19,20 @@
 #include "WbSFRotation.hpp"
 #include "WbSFVector3.hpp"
 
+#include <QtCore/QRegularExpression>
+
 #include <assert.h>
 
 void WbHiddenKinematicParameters::createHiddenKinematicParameter(
   WbField *field, WbHiddenKinematicParameters::HiddenKinematicParametersMap &map) {
   // Extract solid and joint indices
-  static const QRegExp rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of the parameter name,
-                                          // e.g. as in rotation_7, position2_13_1
+  static const QRegularExpression rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of the
+                                                     // parameter name, e.g. as in rotation_7, position2_13_1
   const QString parameterName(field->name());
+  const QString str1(rx1.match(parameterName).captured(0));
 
-  rx1.indexIn(parameterName);
-  const QString str1(rx1.cap(0));
-
-  int pos = 0;
-  static const QRegExp rx2("(\\d+)");
-  QStringList indices;
-  while ((pos = rx2.indexIn(str1, pos)) != -1) {
-    indices << rx2.cap(1);
-    pos += rx2.matchedLength();
-  }
+  static const QRegularExpression rx2("(\\d+)");
+  QStringList indices = rx2.match(str1).capturedTexts();
 
   assert(indices.size() > 0);
   const int solidIndex = indices[0].toInt();

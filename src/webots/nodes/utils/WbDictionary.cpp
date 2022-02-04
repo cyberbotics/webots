@@ -31,7 +31,7 @@
 #include <QtCore/QSet>
 #include <cassert>
 
-typedef QMap<QString, WbNode *> Dictionary;
+typedef QMultiMap<QString, WbNode *> Dictionary;
 
 WbDictionary *WbDictionary::cInstance = NULL;
 
