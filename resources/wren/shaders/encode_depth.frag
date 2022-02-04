@@ -11,10 +11,7 @@ uniform float minRange;
 uniform float maxRange;
 
 void main() {
-  if (gl_FragCoord.w == 0.0)
-    floatDepth = FLT_MAX;
-  else
-    floatDepth = gl_FragCoord.z / gl_FragCoord.w;
+  floatDepth = gl_FragCoord.z / gl_FragCoord.w;
 
   if (floatDepth < minRange)
     floatDepth = FLT_MAX;

@@ -20,7 +20,7 @@ void main() {
   vec4 sceneColor = texture(inputTextures[sceneTextureIndex], texUv);
   vec4 lastColor = texture(inputTextures[lastResultTextureIndex], texUv);
 
-  // Non Nvidia renderer fix
+  // Fix for Mesa software renderer
   if (isnan(abs(sceneColor.r)) || isinf(sceneColor.r))
     sceneColor = vec4(FLT_MAX, FLT_MAX, FLT_MAX, 1.0);
   if (isnan(abs(lastColor.r)) || isinf(lastColor.r))
