@@ -118,11 +118,12 @@ PROTO Panda [
                               ]
                               endPoint DEF panda_link4 Solid {
                                 translation 0.0825 0 0
-                                rotation 0.500518 0.612161 -0.612161 2.213468
+                                rotation 0.5661098628752397 0.5828891661867001 -0.5828892202619214 2.1113368158463413
                                 children [
                                   PandaArmLink4 {}
                                   DEF panda_joint5 HingeJoint {
                                     jointParameters HingeJointParameters {
+                                      position -1.6
                                       axis 0 1 0
                                       anchor -0.0825 0.384 0
                                       dampingConstant 0.003
@@ -146,6 +147,7 @@ PROTO Panda [
                                         PandaArmLink5 {}
                                         DEF panda_joint6 HingeJoint {
                                           jointParameters HingeJointParameters {
+                                            position 1.6
                                             axis 0 -1 0
                                             dampingConstant 0.003
                                           }
@@ -162,11 +164,12 @@ PROTO Panda [
                                             }
                                           ]
                                           endPoint DEF panda_link6 Solid {
-                                            rotation 1 0 0 1.570796
+                                            rotation 0.566110229574146 -0.5828891103953294 0.582888919910174 2.111336936951227
                                             children [
                                               PandaArmLink6 {}
                                               DEF panda_joint7 HingeJoint {
                                                 jointParameters HingeJointParameters {
+                                                  position 0.79
                                                   axis 0 -1 0
                                                   anchor 0.088 0 0
                                                   dampingConstant 0.003
@@ -185,7 +188,7 @@ PROTO Panda [
                                                 ]
                                                 endPoint DEF panda_link7 Solid {
                                                   translation 0.088 0 0
-                                                  rotation 1 0 0 1.570796
+                                                  rotation 0.8614190923211578 -0.3591359294777342 0.3591358121139644 1.7194199439154274
                                                   children [
                                                     PandaArmLink7 {}
                                                     DEF panda_link8 Solid {
