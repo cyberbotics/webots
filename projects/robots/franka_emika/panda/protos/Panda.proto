@@ -35,14 +35,15 @@ PROTO Panda [
             jointParameters HingeJointParameters {
               axis 0 0 1
               anchor 0 0 0.333
+              dampingConstant 0.003
             }
             device [
               RotationalMotor {
                 name "panda_joint1"
-                maxVelocity 2.175
-                minPosition -2.8973
-                maxPosition 2.8973
-                maxTorque 87
+                maxVelocity 2.5
+                minPosition -2.9671
+                maxPosition 2.9671
+                maxTorque 87.0
               }
               PositionSensor {
                 name "panda_joint1_sensor"
@@ -55,14 +56,15 @@ PROTO Panda [
                 DEF panda_joint2 HingeJoint {
                   jointParameters HingeJointParameters {
                     axis 0 1 0
+                    dampingConstant 0.003
                   }
                   device [
                     RotationalMotor {
                       name "panda_joint2"
-                      maxVelocity 2.175
-                      minPosition -1.7628
-                      maxPosition 1.7628
-                      maxTorque 87
+                      maxVelocity 2.5
+                      minPosition -1.8326
+                      maxPosition 1.8326
+                      maxTorque 87.0
                     }
                     PositionSensor {
                       name "panda_joint2_sensor"
@@ -76,14 +78,15 @@ PROTO Panda [
                         jointParameters HingeJointParameters {
                           axis 0 -1 0
                           anchor 0 -0.316 0
+                          dampingConstant 0.003
                         }
                         device [
                           RotationalMotor {
                             name "panda_joint3"
-                            maxVelocity 2.175
-                            minPosition -2.8973
-                            maxPosition 2.8973
-                            maxTorque 87
+                            maxVelocity 2.5
+                            minPosition -2.9671
+                            maxPosition 2.9671
+                            maxTorque 87.0
                           }
                           PositionSensor {
                             name "panda_joint3_sensor"
@@ -96,17 +99,18 @@ PROTO Panda [
                             PandaArmLink3 {}
                             DEF panda_joint4 HingeJoint {
                               jointParameters HingeJointParameters {
-                                position -1.5708
+                                position -1.770800
                                 axis 0 -1 0
                                 anchor 0.0825 0 0
+                                dampingConstant 0.003
                               }
                               device [
                                 RotationalMotor {
                                   name "panda_joint4"
-                                  maxVelocity 2.175
-                                  minPosition -3.0718
-                                  maxPosition -0.0698
-                                  maxTorque 87
+                                  maxVelocity 2.5
+                                  minPosition -3.1416
+                                  maxPosition -0.4
+                                  maxTorque 87.0
                                 }
                                 PositionSensor {
                                   name "panda_joint4_sensor"
@@ -114,21 +118,22 @@ PROTO Panda [
                               ]
                               endPoint DEF panda_link4 Solid {
                                 translation 0.0825 0 0
-                                rotation 1 0 0 1.5708
+                                rotation 0.500518 0.612161 -0.612161 2.213468
                                 children [
                                   PandaArmLink4 {}
                                   DEF panda_joint5 HingeJoint {
                                     jointParameters HingeJointParameters {
                                       axis 0 1 0
                                       anchor -0.0825 0.384 0
+                                      dampingConstant 0.003
                                     }
                                     device [
                                       RotationalMotor {
                                         name "panda_joint5"
-                                        maxVelocity 2.61
-                                        minPosition -2.8973
-                                        maxPosition 2.8973
-                                        maxTorque 12
+                                        maxVelocity 3.0
+                                        minPosition -2.9671
+                                        maxPosition 2.9671
+                                        maxTorque 12.0
                                       }
                                       PositionSensor {
                                         name "panda_joint5_sensor"
@@ -141,36 +146,38 @@ PROTO Panda [
                                         PandaArmLink5 {}
                                         DEF panda_joint6 HingeJoint {
                                           jointParameters HingeJointParameters {
-                                            axis 0 1 0
+                                            axis 0 -1 0
+                                            dampingConstant 0.003
                                           }
                                           device [
                                             RotationalMotor {
                                               name "panda_joint6"
-                                              maxVelocity 2.61
-                                              minPosition -0.0175
-                                              maxPosition 3.7525
-                                              maxTorque 12
+                                              maxVelocity 3.0
+                                              minPosition -0.0873
+                                              maxPosition 3.8223
+                                              maxTorque 12.0
                                             }
                                             PositionSensor {
                                               name "panda_joint6_sensor"
                                             }
                                           ]
                                           endPoint DEF panda_link6 Solid {
-                                            rotation 0 -0.707108 0.707108 3.14159
+                                            rotation 1 0 0 1.570796
                                             children [
                                               PandaArmLink6 {}
                                               DEF panda_joint7 HingeJoint {
                                                 jointParameters HingeJointParameters {
                                                   axis 0 -1 0
                                                   anchor 0.088 0 0
+                                                  dampingConstant 0.003
                                                 }
                                                 device [
                                                   RotationalMotor {
                                                     name "panda_joint7"
-                                                    maxVelocity 2.61
-                                                    minPosition -2.8973
-                                                    maxPosition 2.8973
-                                                    maxTorque 12
+                                                    maxVelocity 3.0
+                                                    minPosition -2.9671
+                                                    maxPosition 2.9671
+                                                    maxTorque 12.0
                                                   }
                                                   PositionSensor {
                                                     name "panda_joint7_sensor"
@@ -178,7 +185,7 @@ PROTO Panda [
                                                 ]
                                                 endPoint DEF panda_link7 Solid {
                                                   translation 0.088 0 0
-                                                  rotation 0.862856 -0.357407 0.357407 1.71777
+                                                  rotation 1 0 0 1.570796
                                                   children [
                                                     PandaArmLink7 {}
                                                     DEF panda_link8 Solid {
@@ -218,9 +225,12 @@ PROTO Panda [
                                                   }
                                                   physics Physics {
                                                     density -1
-                                                    mass 7.35522e-01
-                                                    centerOfMass [1.0517e-02 -4.252e-03 6.1597e-02]
-                                                    inertiaMatrix [1.2516e-02 1.0027e-02 4.8150e-03, -4.2800e-04 -1.1960e-03 -7.4100e-04]
+                                                    mass 0.735522
+                                                    centerOfMass [ 0.010517 -0.004252 0.061597 ]
+                                                    inertiaMatrix [
+                                                      1.251600e-02 1.002700e-02 4.815000e-03
+                                                      -4.280000e-04 -1.196000e-03 -7.410000e-04
+                                                    ]
                                                   }
                                                 }
                                               }
@@ -240,8 +250,11 @@ PROTO Panda [
                                             physics Physics {
                                               density -1
                                               mass 1.666555
-                                              centerOfMass [6.0149e-02 -1.4117e-02 -1.0517e-02]
-                                              inertiaMatrix [1.9640e-03 4.3540e-03 5.4330e-03, 1.0900e-04 -1.1580e-03 3.4100e-04]
+                                              centerOfMass [ 0.060149 -0.014117 -0.010517 ]
+                                              inertiaMatrix [
+                                                1.964000e-03 4.354000e-03 5.433000e-03
+                                                1.090000e-04 -1.158000e-03 3.410000e-04
+                                              ]
                                             }
                                           }
                                         }
@@ -274,8 +287,11 @@ PROTO Panda [
                                       physics Physics {
                                         density -1
                                         mass 1.225946
-                                        centerOfMass [-1.1953e-02 4.1065e-02 -3.8437e-02]
-                                        inertiaMatrix [3.5549e-02 2.9474e-02 8.6270e-03, -2.1170e-03 -4.0370e-03 2.2900e-04]
+                                        centerOfMass [ -0.011953 0.041065 -0.038437 ]
+                                        inertiaMatrix [
+                                          3.554900e-02 2.947400e-02 8.627000e-03
+                                          -2.117000e-03 -4.037000e-03 2.290000e-04
+                                        ]
                                       }
                                     }
                                   }
@@ -295,8 +311,11 @@ PROTO Panda [
                                 physics Physics {
                                   density -1
                                   mass 3.587895
-                                  centerOfMass [-5.317e-02 1.04419e-01 2.7454e-02]
-                                  inertiaMatrix [2.5853e-02 1.9552e-02 2.8323e-02, 7.7960e-03 -1.3320e-03 8.6410e-03]
+                                  centerOfMass [ -0.053170 0.104419 0.027454 ]
+                                  inertiaMatrix [
+                                    2.585300e-02 1.955200e-02 2.832300e-02
+                                    7.796000e-03 -1.332000e-03 8.641000e-03
+                                  ]
                                 }
                               }
                             }
@@ -316,8 +335,11 @@ PROTO Panda [
                           physics Physics {
                             density -1
                             mass 3.228604
-                            centerOfMass [2.7518e-02 3.9252e-02 -6.6502e-02]
-                            inertiaMatrix [3.7242e-02 3.6155e-02 1.0830e-02, -4.7610e-03 -1.1396e-02 -1.2805e-02]
+                            centerOfMass [ 0.027518 0.039252 -0.066502 ]
+                            inertiaMatrix [
+                              3.724200e-02 3.615500e-02 1.083000e-02
+                              -4.761000e-03 -1.139600e-02 -1.280500e-02
+                            ]
                           }
                         }
                       }
@@ -351,8 +373,11 @@ PROTO Panda [
                     physics Physics {
                       density -1
                       mass 0.646926
-                      centerOfMass [-0.003141 -0.02872  0.003495]
-                      inertiaMatrix [0.0079620 2.8110e-02 2.5995e-02, -3.9250e-3 1.0254e-02 7.0400e-04]
+                      centerOfMass [ -0.003141 -0.028720 0.003495 ]
+                      inertiaMatrix [
+                        7.962000e-03 2.811000e-02 2.599500e-02
+                        -3.925000e-03 1.025400e-02 7.040000e-04
+                      ]
                     }
                   }
                 }
@@ -385,8 +410,11 @@ PROTO Panda [
               physics Physics {
                 density -1
                 mass 4.970684
-                centerOfMass [0.003875, 0.002081, -0.04762]
-                inertiaMatrix [0.70337 0.70661 0.0091170, -0.00013900 0.0067720 0.019169]
+                centerOfMass [ 0.003875 0.002081 -0.047620 ]
+                inertiaMatrix [
+                  7.033700e-01 7.066100e-01 9.117000e-03
+                  -1.390000e-04 6.772000e-03 1.916900e-02
+                ]
               }
             }
           }
@@ -415,8 +443,11 @@ PROTO Panda [
         physics Physics {
           density -1
           mass 0.629769
-          centerOfMass -0.041018 -0.00014 0.049974
-          inertiaMatrix [0.00315 0.00388 0.004285, 8.2904E-07 0.00015 8.2299E-06]
+          centerOfMass [ -0.041018 -0.000140 0.049974 ]
+          inertiaMatrix [
+            3.150000e-03 3.880000e-03 4.285000e-03
+            8.290400e-07 1.500000e-04 8.229900e-06
+          ]
         }
       }
     ]
