@@ -333,13 +333,15 @@ void WbNewProtoWizard::updateNodeTree() {
   const QStringList nodes = WbNodeModel::baseModelNames();
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
-    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+    if (fileInfo.baseName().contains(QRegularExpression(QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text()),
+                                                        QRegularExpression::CaseInsensitiveOption)))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos
   const QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
-    if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+    if (protoName.contains(QRegularExpression(QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text()),
+                                              QRegularExpression::CaseInsensitiveOption)))
       protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
   }
 
