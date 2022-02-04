@@ -52,6 +52,7 @@ private:
   // user accessible fields
   WbMFString *mUrl;
   WbSFString *mName;
+  WbSFInt *mMaterialIndex;
   WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
@@ -62,6 +63,7 @@ private:
 private slots:
   void updateUrl();
   void updateName();
+  void updateMaterialIndex();
   void downloadUpdate();
 };
 

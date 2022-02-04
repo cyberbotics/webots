@@ -28,7 +28,7 @@ Asphalt {
 
 ### Asphalt Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -96,7 +96,7 @@ BlanketFabric {
 
 ### BlanketFabric Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -129,7 +129,7 @@ BrushedAluminium {
 
 ### BrushedAluminium Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -162,7 +162,7 @@ BrushedSteel {
 
 ### BrushedSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -199,7 +199,7 @@ CarpetFibers {
 
 ### CarpetFibers Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, `"synthetic"`, and `"pattern"`.
 
@@ -234,7 +234,7 @@ CementTiles {
 
 ### CementTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -297,7 +297,7 @@ CorrodedMetal {
 
 ### CorrodedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -330,7 +330,7 @@ CorrugatedMetal {
 
 ### CorrugatedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -363,7 +363,7 @@ CorrugatedPlates {
 
 ### CorrugatedPlates Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -396,7 +396,7 @@ CorrugatedPvc {
 
 ### CorrugatedPvc Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -429,7 +429,7 @@ DamascusSteel {
 
 ### DamascusSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -492,7 +492,7 @@ ElectricConduit {
 
 ### ElectricConduit Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -558,7 +558,7 @@ FlexibleAluminiumDuct {
 
 ### FlexibleAluminiumDuct Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -621,7 +621,7 @@ GalvanizedMetal {
 
 ### GalvanizedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -692,7 +692,7 @@ Grass {
 
 ### Grass Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"artificial_white"`, `"prickly"`, and `"mossy"`.
 
@@ -727,7 +727,7 @@ HammeredCopper {
 
 ### HammeredCopper Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -765,7 +765,7 @@ Leather {
 
 ### Leather Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and `"light"`.
 
@@ -803,7 +803,7 @@ LedStrip {
 
 ### LedStrip Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -838,7 +838,7 @@ Marble {
 
 ### Marble Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -871,7 +871,7 @@ MarbleTiles {
 
 ### MarbleTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -997,7 +997,7 @@ OldPlywood {
 
 ### OldPlywood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1030,7 +1030,7 @@ OldSteel {
 
 ### OldSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1063,7 +1063,7 @@ OsbWood {
 
 ### OsbWood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1096,7 +1096,7 @@ PaintedWood {
 
 ### PaintedWood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1137,7 +1137,7 @@ Parquetry {
 
 - `type`: Defines the parquetry type. This field accepts the following values: `"chequered"`, `"dark strip"`, `"light strip"`, and `"mosaic"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1179,7 +1179,7 @@ Pavement {
 
 - `type`: Defines the pavement type. This field accepts the following values: `"black stone"`, `"braun stone"`, `"braun square stone"`, `"grid"`, `"slate"`, and `"tiles"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1242,7 +1242,7 @@ PerforatedMetal {
 
 ### PerforatedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1275,7 +1275,7 @@ Plaster {
 
 ### Plaster Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1311,7 +1311,7 @@ Plastic {
 
 ### Plastic Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the plastic type. This field accepts the following values: `"rough"` and `"padded"`.
 
@@ -1346,7 +1346,7 @@ PorcelainChevronTiles {
 
 ### PorcelainChevronTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1399,7 +1399,7 @@ ReflectiveSurface {
   SFFloat metalness         0.5
   SFColor emissiveColor     0 0 0
   SFFloat emissiveIntensity 1
-  SFColor baseColorMap      1 1 1
+  SFColor colorOverride     1 1 1
   SFBool  useBaseColorMap   TRUE
   SFNode  textureTransform  NULL
   SFFloat IBLStrength       1
@@ -1412,6 +1412,8 @@ ReflectiveSurface {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ReflectiveSurface Field Summary
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `useBaseColorMap`: Defines wheather the base color texture should be used or not.
 
@@ -1446,7 +1448,7 @@ RoughConcrete {
 
 ### RoughConcrete Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1479,7 +1481,7 @@ RoughOak {
 
 ### RoughOak Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1512,7 +1514,7 @@ RoughPine {
 
 ### RoughPine Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1578,7 +1580,7 @@ Roughcast {
 
 ### Roughcast Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1602,6 +1604,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Rubber {
   SFString  type              "flat"
+  SFColor   colorOverride     1 1 1
   SFNode    textureTransform  NULL
   SFFloat   IBLStrength       1
 }
@@ -1615,6 +1618,8 @@ Rubber {
 ### Rubber Field Summary
 
 - `type`: Defines the rubber type. This field accepts the following values: `"flat"` and `"dotted"`.
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1651,7 +1656,7 @@ RustyMetal {
 
 - `rustLevel`: Defines how much the metal is rusted. This field accepts the following values: `1` and `2`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1714,7 +1719,7 @@ SandyGround {
 
 ### SandyGround Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1748,7 +1753,7 @@ ScratchedPaint {
 
 ### ScratchedPaint Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1783,7 +1788,7 @@ ScrewThread {
 
 ### ScrewThread Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1952,7 +1957,7 @@ ThreadMetalPlate {
 
 - `type`: Defines the motif type on the material. This field accepts the following values: `"oval"` and `"square"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -2021,7 +2026,7 @@ VarnishedPine {
 
 ### VarnishedPine Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -2054,7 +2059,7 @@ WireFence {
 
 ### WireFence Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
