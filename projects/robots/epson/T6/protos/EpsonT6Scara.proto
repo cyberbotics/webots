@@ -22,7 +22,7 @@ Robot {
   supervisor IS supervisor
   synchronization IS synchronization
   name IS name
-  model "EpsonT6Scara"
+  model "EPSON SCARA T6‑602S"
   children [
     DEF BASE Group {
       children [
@@ -181,6 +181,9 @@ Robot {
         }
         DEF MAIN_BASE Shape {
           appearance Plaster {
+            textureTransform TextureTransform {
+              scale 100 100
+            }
           }
           geometry Mesh {
             url [
@@ -202,7 +205,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.6
@@ -227,7 +230,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.6
@@ -245,9 +248,9 @@ Robot {
               children [
                 PointLight {
                   attenuation 0 0 1
-                  color 0 0 0
+                  color 1 0.270588 0
                   intensity 0.05
-                  location 0 0 0.009
+                  location 0.023 0.028 0.451
                   on FALSE
                   radius 1
                   castShadows TRUE
@@ -270,7 +273,7 @@ Robot {
           ]
           name "espon_led"
           color [
-            1 0.270588 0
+            1 0.1 0
           ]
         }
       ]
@@ -285,9 +288,11 @@ Robot {
           device [
             RotationalMotor {
               name "base_arm_motor"
+              minPosition -0.73 # calibrated
+              maxPosition 0.73
             }
             PositionSensor {
-              name "base_arm_position_sensor"
+              name "base_arm_position"
             }
           ]
           endPoint Solid {
@@ -297,6 +302,9 @@ Robot {
                 children [
                   Shape {
                     appearance Plaster {
+                    textureTransform TextureTransform {
+                        scale 100 100
+                      }
                     }
                     geometry Mesh {
                       url [
@@ -306,11 +314,11 @@ Robot {
                   }
                 ]
                 name "base_arm_solid"
-                boundingObject DEF BASE_ARM Transform {
-                  translation 0.15 0 0.025
+                boundingObject DEF BASE_ARM_BOUND Transform {
+                  translation 0.144 0 0.024
                   children [
                     Box {
-                      size 0.39 0.1 0.05
+                      size 0.403 0.1 0.05
                     }
                   ]
                 }
@@ -341,9 +349,11 @@ Robot {
                 device [
                   RotationalMotor {
                     name "arm_motor"
+                    minPosition -0.83 # calibrated
+                    maxPosition 0.83
                   }
                   PositionSensor {
-                    name "arm_position_sensor"
+                    name "arm_position"
                   }
                 ]
                 endPoint Solid {
@@ -440,6 +450,9 @@ Robot {
                         }
                         Shape {
                           appearance Plaster {
+                            textureTransform TextureTransform {
+                              scale 100 100
+                            }
                           }
                           geometry Mesh {
                             url [
@@ -451,7 +464,7 @@ Robot {
                           appearance PBRAppearance {
                             baseColorMap ImageTexture {
                               url [
-                                "textures/metal.jpg"
+                                "webots://projects/default/worlds/textures/metal.jpg"
                               ]
                             }
                             roughness 0.6
@@ -479,7 +492,7 @@ Robot {
                           appearance PBRAppearance {
                             baseColorMap ImageTexture {
                               url [
-                                "textures/metal.jpg"
+                                "webots://projects/default/worlds/textures/metal.jpg"
                               ]
                             }
                             roughness 0.6
@@ -527,31 +540,55 @@ Robot {
                       device [
                         LinearMotor {
                           name "shaft_linear_motor"
-                          minPosition -0.14
+                          minPosition -0.180 # calibrated
+                          maxPosition 0
+                          maxVelocity 1
+                        }
+                        PositionSensor {
+                          name "shaft_linear_position"
                         }
                       ]
                       endPoint Solid {
-                        translation 0.633 0 0.54
+                        translation 0.633 0 0.6
                         children [
-                          DEF SHAFT_SHAPE Shape {
-                            appearance BrushedAluminium {
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 0 1
+                              anchor 0 0 0
                             }
-                            geometry Mesh {
-                              url [
-                                "webots://projects/robots/epson/T6/protos/meshes/shaft.obj"
+                            device [
+                              RotationalMotor {
+                                name "shaft_rotation_motor"
+                                maxVelocity 1.800 # calibrated
+                              }
+                              PositionSensor {
+                                name "shaft_rotation_position"
+                              }
+                            ]
+                            endPoint Solid {
+                              children [
+                                DEF SHAFT_SHAPE Shape {
+                                  appearance BrushedAluminium {
+                                  }
+                                  geometry Mesh {
+                                    url [
+                                      "webots://projects/robots/epson/T6/protos/meshes/shaft.obj"
+                                    ]
+                                  }
+                                }
                               ]
+                              boundingObject USE SHAFT_SHAPE
                             }
                           }
                         ]
-                        boundingObject USE SHAFT_SHAPE
                       }
                     }
                   ]
                   boundingObject DEF ARM_BOUND Transform {
-                    translation 0.471 0 0.355
+                    translation 0.471 0 0.342
                     children [
                       Box {
-                        size 0.292 0.16 0.2
+                        size 0.292 0.126 0.19
                       }
                     ]
                   }
@@ -564,12 +601,12 @@ Robot {
       ]
     }
   ]
-  description "Epson T6 SCARA Robot"
-  boundingObject Transform {
-    translation 0 0 0.208
+  description "4-axis Scara robot, payload is up to 6kg and the reach is 600mm."
+  boundingObject DEF BASE_BOUND Transform {
+    translation 0.013 0 0.208
     children [
       Box {
-        size 0.24 0.12 0.453
+        size 0.216 0.12 0.453
       }
     ]
   }
@@ -577,10 +614,10 @@ Robot {
     density -1
     mass 22
     centerOfMass [
-      -0.05 0 0.1
+      0 0 0
     ]
     inertiaMatrix [
-      0.166204 0.418086 0.55459
+      0.08 0.08 0.08
       0 0 0
     ]
   }
