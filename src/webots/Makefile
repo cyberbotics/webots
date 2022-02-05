@@ -221,7 +221,7 @@ CXXFLAGS += -Wsuggest-override
 endif
 endif
 
-# objects that inherit form QObject (alphabetical order)
+# objects that inherit from QObject (alphabetical order)
 QT_SOURCES = WbAboutBox.cpp \
   WbAbstractAppearance.cpp \
   WbAbstractDragEvent.cpp \
@@ -234,6 +234,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
+	WbAssetCache.cpp \
   WbBackground.cpp \
   WbBallJoint.cpp \
   WbBallJointParameters.cpp \
@@ -337,6 +338,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbMouse.cpp \
   WbMultipleValue.cpp \
   WbMuscle.cpp \
+  WbNetwork.cpp \
   WbNewControllerWizard.cpp \
   WbNewPhysicsPluginWizard.cpp \
   WbNewProjectWizard.cpp \
@@ -511,7 +513,6 @@ OTHER_SOURCES = \
   WbMessageBox.cpp \
   WbMotorSoundManager.cpp \
   WbMultimediaStreamingLimiter.cpp \
-  WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \
   WbNodeUtilities.cpp \

@@ -12,30 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_NETWORK_HPP
-#define WB_NETWORK_HPP
+#ifndef WB_ASSET_CACHE_HPP
+#define WB_ASSET_CACHE_HPP
 
 #include <QtCore/QObject>
 
-class QNetworkAccessManager;
-
-class WbNetwork : public QObject {
+class WbAssetCache : public QObject {
   Q_OBJECT
 
 public:
-  static WbNetwork *instance();
-  QNetworkAccessManager *networkAccessManager();
-  void setProxy();
+  static WbAssetCache *instance();
   void clearCache();
-
-public slots:
-  void updateCache();
+  int size();
 
 private:
   static void cleanup();
-  WbNetwork();
-  ~WbNetwork();
-  QNetworkAccessManager *mNetworkAccessManager;
+  WbAssetCache();
+  ~WbAssetCache();
 };
 
-#endif  // WB_NETWORK_HPP
+#endif  // WB_ASSET_CACHE_HPP
