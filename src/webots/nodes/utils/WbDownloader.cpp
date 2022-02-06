@@ -15,6 +15,7 @@
 #include "WbDownloader.hpp"
 
 #include "WbApplication.hpp"
+#include "WbAssetCache.hpp"
 #include "WbNetwork.hpp"
 #include "WbSimulationState.hpp"
 
@@ -22,8 +23,6 @@
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
-
-#include <QtNetwork/QNetworkDiskCache>
 
 static int gCount = 0;
 static int gComplete = 0;
@@ -121,6 +120,7 @@ void WbDownloader::finished() {
       return;
     }
 
+    /*
     QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
     // We need to replace the expiration date only the first time the asset is downloaded and when it has been refreshed by the
     // cache. The QNetworkRequest::SourceIsFromCacheAttribute attribute present in the reply is not enough because the image is
@@ -133,6 +133,7 @@ void WbDownloader::finished() {
       metaData.setExpirationDate(QDateTime::currentDateTime().addDays(1));
       WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
     }
+    */
   }
 
   gComplete++;

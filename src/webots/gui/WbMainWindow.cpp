@@ -1685,7 +1685,7 @@ void WbMainWindow::upload(char type) {
     infoPart.setBody(iteratorUploadInfo.value().toUtf8());
     multiPart->append(infoPart);
   }
-
+  /*
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
   mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), "Cancel", 0, 100, this);
@@ -1695,6 +1695,7 @@ void WbMainWindow::upload(char type) {
 
   multiPart->setParent(reply);
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
+  */
 }
 
 void WbMainWindow::updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal) {

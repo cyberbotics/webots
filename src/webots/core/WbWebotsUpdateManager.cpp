@@ -48,10 +48,10 @@ void WbWebotsUpdateManager::cleanup() {
 }
 
 void WbWebotsUpdateManager::sendRequest() {
-  QNetworkRequest request;
-  request.setUrl(QUrl("https://api.github.com/repos/cyberbotics/webots/releases/latest"));
-  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
-  connect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished, Qt::UniqueConnection);
+  // QNetworkRequest request;
+  // request.setUrl(QUrl("https://api.github.com/repos/cyberbotics/webots/releases/latest"));
+  // QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
+  // connect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished, Qt::UniqueConnection);
 }
 
 void WbWebotsUpdateManager::downloadReplyFinished() {

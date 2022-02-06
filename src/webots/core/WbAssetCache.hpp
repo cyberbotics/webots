@@ -16,19 +16,35 @@
 #define WB_ASSET_CACHE_HPP
 
 #include <QtCore/QObject>
+#include <QtNetwork/QAbstractNetworkCache>
+#include <QtNetwork/QNetworkCacheMetaData>
 
-class WbAssetCache : public QObject {
+class WbAssetCache : public QAbstractNetworkCache {
   Q_OBJECT
 
 public:
-  static WbAssetCache *instance();
-  void clearCache();
-  int size();
+  explicit WbAssetCache(QObject *parent = nullptr);
+  ~WbAssetCache();
+
+  qint64 cacheSize() const;
+  QIODevice *data(const QUrl &url);
+  void insert(QIODevice *device);
+  QNetworkCacheMetaData metaData(const QUrl &url);
+  QIODevice *prepare(const QNetworkCacheMetaData &metaData);
+  bool remove(const QUrl &url);
+  void updateMetaData(const QNetworkCacheMetaData &metaData);
+
+  QString cacheDirectory() const { return mCacheDirectory; };
+  void setCacheDirectory(const QString &cacheDirectory);
+
+  void setMaximumCacheSize(qint64 size);
+
+public slots:
+  void clear();
 
 private:
-  static void cleanup();
-  WbAssetCache();
-  ~WbAssetCache();
+  qint64 mMaximumCacheSize;
+  QString mCacheDirectory;
 };
 
 #endif  // WB_ASSET_CACHE_HPP
