@@ -49,6 +49,11 @@ jobs:
             DEPENDENCIES_INSTALLATION: "choco install -y cppcheck; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Set git to use LF
+      if: matrix.os == 'windows-2019'
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
     - uses: actions/checkout@v2
       if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
     - name: Set up Python ${{ matrix.python }}
