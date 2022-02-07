@@ -276,7 +276,7 @@ bool WbWorld::save() {
 }
 
 bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
-  assert(fileName.endsWith(".html", QRegularExpression::CaseInsensitiveOption));
+  assert(fileName.endsWith(".html", Qt::CaseInsensitive));
 
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();

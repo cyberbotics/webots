@@ -36,9 +36,9 @@ folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/min
            '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh',
            '/mingw64/lib', '/mingw64/share',
-           '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
-           '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
-           '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
+           '/mingw64/share/qt6', '/mingw64/share/qt6/plugins', '/mingw64/share/qt6/modules',
+           '/mingw64/share/qt6/plugins/imageformats', '/mingw64/share/qt6/plugins/platforms',
+           '/mingw64/share/qt6/plugins/tls', '/mingw64/share/qt6/plugins/styles']
 files = []
 skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll', '/mingw64/bin/libjpeg-8.dll']
 
