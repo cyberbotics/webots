@@ -32,26 +32,20 @@
 /mingw64/bin/libxml2-2.dll
 /mingw64/bin/libxslt-1.dll
 /mingw64/bin/libzzip.dll
-/mingw64/bin/Qt5Core.dll
-/mingw64/bin/Qt5Gui.dll
-/mingw64/bin/Qt5Multimedia.dll
-/mingw64/bin/Qt5MultimediaWidgets.dll
-/mingw64/bin/Qt5Network.dll
-/mingw64/bin/Qt5OpenGL.dll
-/mingw64/bin/Qt5Positioning.dll
-/mingw64/bin/Qt5PrintSupport.dll
-/mingw64/bin/Qt5Qml.dll
-/mingw64/bin/Qt5QmlModels.dll
-/mingw64/bin/Qt5Quick.dll
-/mingw64/bin/Qt5Sensors.dll
-/mingw64/bin/Qt5WebSockets.dll
-/mingw64/bin/Qt5Widgets.dll
-/mingw64/bin/Qt5Xml.dll
-/mingw64/share/qt5/plugins/imageformats/qjpeg.dll
-/mingw64/share/qt5/plugins/platforms/qwindows.dll
-/mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
-/mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
-/mingw64/share/qt5/translations/*.qm
+/mingw64/bin/Qt6Core.dll
+/mingw64/bin/Qt6Gui.dll
+/mingw64/bin/Qt6Network.dll
+/mingw64/bin/Qt6OpenGL.dll
+/mingw64/bin/Qt6OpenGLWidgets.dll
+/mingw64/bin/Qt6PrintSupport.dll
+/mingw64/bin/Qt6Qml.dll
+/mingw64/bin/Qt6WebSockets.dll
+/mingw64/bin/Qt6Widgets.dll
+/mingw64/bin/Qt6Xml.dll
+/mingw64/share/qt6/plugins/imageformats/qjpeg.dll
+/mingw64/share/qt6/plugins/platforms/qwindows.dll
+/mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
+/mingw64/share/qt6/translations/*.qm
 
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
@@ -72,7 +66,7 @@
 # needed run the darwin-op remote control library
 /mingw64/bin/libssh.dll
 /mingw64/bin/libzip.dll
-/mingw64/bin/Qt5Concurrent.dll
+/mingw64/bin/Qt6Concurrent.dll
 
 # needed to compile the darwin-op remote control library
 /mingw64/include/libssh/*.*
