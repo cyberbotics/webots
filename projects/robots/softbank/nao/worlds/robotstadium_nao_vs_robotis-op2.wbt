@@ -51,7 +51,9 @@ DEF GOAL_KEEPER_0 Nao {
   translation -3 0 0.35
   rotation 1 0 0 4.692820414042842e-06
   degreeOfFreedom 21
-  color 0.8 0.8 0.8
+  customColor [
+    0.8 0.8 0.8
+  ]
   controllerArgs [
     "0"
     "0"
@@ -65,7 +67,9 @@ DEF PLAYER_1_0 Nao {
   rotation 1 0 0 4.692820414042842e-06
   name "nao(1)"
   degreeOfFreedom 21
-  color 0.8 0.8 0.8
+  customColor [
+    0.8 0.8 0.8
+  ]
   controllerArgs [
     "1"
     "0"
@@ -82,7 +86,9 @@ DEF PLAYER_2_0 Nao {
   rotation 1 0 0 4.692820414042842e-06
   name "nao(2)"
   degreeOfFreedom 21
-  color 0.8 0.8 0.8
+  customColor [
+    0.8 0.8 0.8
+  ]
   controllerArgs [
     "2"
     "0"
@@ -99,7 +105,9 @@ DEF PLAYER_3_0 Nao {
   rotation 1 0 0 4.692820414042842e-06
   name "nao(3)"
   degreeOfFreedom 21
-  color 0.8 0.8 0.8
+  customColor [
+    0.8 0.8 0.8
+  ]
   controllerArgs [
     "3"
     "0"
@@ -116,7 +124,9 @@ DEF PLAYER_4_0 Nao {
   rotation 1 0 0 4.692820414042842e-06
   name "nao(4)"
   degreeOfFreedom 21
-  color 0.8 0.8 0.8
+  customColor [
+    0.8 0.8 0.8
+  ]
   controllerArgs [
     "4"
     "0"

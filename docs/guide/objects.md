@@ -29,6 +29,7 @@
 - [Garden](object-garden.md)
 - [Gear](object-gear.md)
 - [Geometries](object-geometries.md)
+- [Hospital](object-hospital.md)
 - [Kitchen](object-kitchen.md)
   - [Breakfast](object-kitchen.md#breakfast)
   - [Components](object-kitchen.md#components)

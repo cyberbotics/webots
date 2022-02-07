@@ -36,70 +36,90 @@ DEF PLAYER_RED_0 Nao {
   translation 0.002668 1.616548 0.33293
   rotation 0.00031700009995696274 0.0018080005701015414 0.9999983153210185 1.219204
   name "NAO RED 0"
-  color 1 0 0
+  customColor [
+    1 0 0
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_RED_1 Nao {
   translation 0.039695 -4.189078 0.333007
   rotation 0.002494999823740744 -0.0031489997775389186 0.9999919293555728 1.340107
   name "NAO RED 1"
-  color 1 0 0
+  customColor [
+    1 0 0
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_RED_2 Nao {
   translation -1.209981 1.350146 0.339093
   rotation 0.000828000032238596 0.0011120000432962786 0.9999990389354634 1.791611
   name "NAO RED 2"
-  color 1 0 0
+  customColor [
+    1 0 0
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_RED_3 Nao {
   translation -1.643563 0.367395 0.335768
   rotation 0.0006750002231439731 0.0016980005613310611 0.9999983305830027 1.268013
   name "NAO RED 3"
-  color 1 0 0
+  customColor [
+    1 0 0
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_RED_4 Nao {
   translation 0.641585 -2.664856 0.33427
   rotation 0.0008820001761469187 0.0009070001811397454 0.9999991997128601 2.053411
   name "NAO RED 4"
-  color 1 0 0
+  customColor [
+    1 0 0
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_BLUE_0 Nao {
   translation 0.05 4.309063 0.330154
   rotation 0.0008999996982765018 0.001363999542721276 0.9999986647520039 -1.584002
   name "NAO BLUE 0"
-  color 0 0 1
+  customColor [
+    0 0 1
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_BLUE_1 Nao {
   translation -0.615414 2.721885 0.330931
   rotation 0.0058470004148622355 0.01173300083249164 0.9999140709469057 -0.67116
   name "NAO BLUE 1"
-  color 0 0 1
+  customColor [
+    0 0 1
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_BLUE_2 Nao {
   translation 1.851648 1.485936 0.333735
   rotation -0.010672004937804427 -0.0038960018026317515 0.9999354626577465 -2.708562
   name "NAO BLUE 2"
-  color 0 0 1
+  customColor [
+    0 0 1
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_BLUE_3 Nao {
   translation -1.673646 1.535263 0.344299
   rotation -0.18809393429522647 -0.26455090758735766 0.9458506695964477 0.391796
   name "NAO BLUE 3"
-  color 0 0 1
+  customColor [
+    0 0 1
+  ]
   controller "nao_soccer_player"
 }
 DEF PLAYER_BLUE_4 Nao {
   translation -1.178148 -0.319205 0.307641
   rotation -0.02207399695970446 0.014031998067344975 0.9996578623151329 -0.876202
   name "NAO BLUE 4"
-  color 0 0 1
+  customColor [
+    0 0 1
+  ]
   controller "nao_soccer_player"
 }
 RobocupSoccerBall {

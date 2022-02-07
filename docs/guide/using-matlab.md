@@ -23,7 +23,7 @@ Note that this is similar to calling "matlab" from a terminal (or *Command Promp
 
 On Windows, the MATLAB installer will normally add MATLAB's bin directories to your *Path* environment variable, so usually, Webots will be able to locate MATLAB after a standard installation.
 However, in case it does not work, please make sure that your *Path* environment variable contains this directory (or something slightly different, according to your MATLAB version): `C:\Program Files\MATLAB\R2021b\bin`.
-With older versions of MATLAB (e.g., R0217b), your *Path* environment variable should also include: `C:\Program Files\MATLAB\R2017b\bin\win64`.
+With older versions of MATLAB (e.g., R2017b), your *Path* environment variable should also include: `C:\Program Files\MATLAB\R2017b\bin\win64`.
 
 
 On Linux, the MATLAB installer normally suggests to add a symlink to the "matlab" startup script in the "/usr/local/bin" directory.

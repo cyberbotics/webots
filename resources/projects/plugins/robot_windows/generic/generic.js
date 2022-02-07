@@ -1,15 +1,16 @@
-/* global webots: false */
 /* global DeviceWidget: false */
 /* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
+
+import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
 
 var robotName = '';
 var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
 
-function setDeviceModeCallback(switchButton, deviceType) {
+window.setDeviceModeCallback = function (switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
   for (let i = 0; i < commands.length; ++i) {
@@ -32,7 +33,7 @@ function setDeviceModeCallback(switchButton, deviceType) {
 
 function configure(data) {
   robotName = data.name;
-  window.robotWindow.setTitle('Generic robot window [' + robotName + ']');
+  window.robotWindow.setTitle(robotName + ' robot window');
 
   if (data.devices == null) {
     document.getElementById('no-controller-label').innerHTML = 'No devices.';
@@ -83,8 +84,8 @@ function receive(message, _robot) {
   }
 }
 
-window.onload = function() {
-  window.robotWindow = webots.window();
+window.onload = function () {
+  window.robotWindow = new RobotWindow();
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
   setupWindow();
