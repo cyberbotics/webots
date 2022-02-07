@@ -621,7 +621,7 @@ debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
 
 $(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
-	$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
+	@$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
 	@$(EXTRA_CMD)
 	@echo "# webots compiled in `expr \`date +%s\` - $(START)` seconds"
 
