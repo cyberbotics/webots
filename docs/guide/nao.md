@@ -43,7 +43,7 @@ Nao {
   SFVec3f    translation           0 0 0.334
   SFRotation rotation              0 0 1 0
   SFString   name                  "NAO"
-  SFString   version               "V5 (grey)"
+  SFString   version               "V5 (red)"
   SFInt32    degreeOfFreedom       25
   MFColor    customColor           []
   SFString   controller            "nao_demo"
