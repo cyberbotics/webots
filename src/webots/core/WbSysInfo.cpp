@@ -104,43 +104,7 @@ const QString &WbSysInfo::sysInfo() {
     return sysInfo;
 
 #ifdef _WIN32
-  switch (QSysInfo::windowsVersion()) {
-    case QSysInfo::WV_XP:
-      sysInfo.append("Windows XP");
-      break;
-    case QSysInfo::WV_2003:
-      sysInfo.append("Windows 2003");
-      break;
-    case QSysInfo::WV_VISTA:
-      sysInfo.append("Windows Vista");
-      break;
-    case QSysInfo::WV_WINDOWS7:
-      sysInfo.append("Windows 7");
-      break;
-    case QSysInfo::WV_WINDOWS8:
-      sysInfo.append("Windows 8");
-      break;
-    case QSysInfo::WV_WINDOWS8_1:
-      sysInfo.append("Windows 8.1");
-      break;
-    case QSysInfo::WV_WINDOWS10:  // Or Windows 11
-    {
-      QString version("Windows 10");
-      QString kernelVersion = QSysInfo::kernelVersion();
-      QRegExp rx("[.]");
-      QStringList list = kernelVersion.split(rx, Qt::SkipEmptyParts);
-      if (list.size() == 3) {
-        const int buildNumber = list[2].toInt();
-        if (buildNumber >= 22000)
-          version = "Windows 11";
-      }
-      sysInfo.append(version);
-      break;
-    }
-    default:
-      sysInfo.append("Windows");
-      break;
-  }
+  sysInfo.append(QSysInfo::prettyProductName());
   sysInfo.append(" ");
 
   SYSTEM_INFO winSysInfo;

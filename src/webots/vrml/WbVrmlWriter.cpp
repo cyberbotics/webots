@@ -23,7 +23,6 @@
 #include "WbVersion.hpp"
 
 #include <QtCore/QFileInfo>
-#include <QtCore/QStringListIterator>
 
 WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
   mString(NULL),
