@@ -10,7 +10,7 @@ PROTO Nao [
   field SFString                     name                  "NAO"                 # Is `Solid.name`.
   field SFString{"V3.3", "V4 (orange)", "V4 (blue)",
                  "V5 (red)", "V5 (blue)", "V5 (grey)"}
-                                     version               "V5 (red)"           # Defines the Nao version.
+                                     version               "V5 (red)"            # Defines the Nao version.
   field SFInt32{21, 25}              degreeOfFreedom       25                    # Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
   field MFColor customColor          []                                          # Defines the color of the secondary plastic components.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
