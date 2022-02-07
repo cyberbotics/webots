@@ -92,7 +92,8 @@ export default class Toolbar {
     const button = document.createElement('button');
     button.id = name + 'Button';
     button.className = 'toolbar-btn icon-' + name;
-    button.addEventListener('click', click);
+    if (typeof click === 'function')
+      button.onclick = () => click();
 
     const tooltip = document.createElement('span');
     tooltip.className = 'tooltip ' + name + '-tooltip';
