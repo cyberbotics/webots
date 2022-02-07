@@ -91,3 +91,18 @@ you have to add motors to the joints
 ##### the-french-bunny 01/21/2022 06:48:51
 hello well met everyone first of all i LOVE the concept of this software a great place to prototype and test robot designs and concepts before attempting production FANTASTIC for both hobbyists, newbies(like myself) and professionals. however as a newbie im having some trouble understanding the design proccess for the robots themselves as i kinda want to design a robot from scratch based on the design of cubli.
 
+##### amna 01/28/2022 08:09:16
+What values shall i give to trajectory, speed and step in human.py?
+
+##### Emil Enchev 01/29/2022 07:26:33
+Olivier Michel, it is time for Webots to start to make real robots platform and offered them to independent researchers for remote online testing. Do you understand, Olivier? Robots are usually expensive hardware that few people can afford, therefore the service remote robot rent will blossom if created, especially when the one offering it produces a free virtual robot simulator.
+
+
+Two years earlier, I offered to you the same idea. Now after Covid-19 I hope you grasp it better, Olivier. Robotics is not evolving just because the small number and expensive robot platforms are owned by universities or private companies. Many researchers simply do not have access to them, or have no real financial benefit from developing quality solutions for universities or private companies themselves, as they are paid very low salaries. So, if Webots start to offered different robot platform for time ranting, you can become a mediator between business and researchers of a new kind. For example, now I can show you a Webots simulation to amaze you - who will care about this animation?! If there is a real platform on which to test it, it will probably become a sensation in a few hours. You have to understand this idea very well, and its potential. The truth is that developing the hardware itself is expensive, but it is not groundbreaking engineering achievement. You will find sponsors. When you become a hub of robotic researchers in the future all attention will be focused on you.
+
+
+You can do a survey among your customers and ask them if they are willing to pay to test their final solutions to real robots in a real environment? Let's see the result of it.
+
+
+And you can start with simple and cheap robots first, to test the ranting business potentials.
+
