@@ -19,6 +19,7 @@
 // Description: a class for managing find and replace actions in a text document
 //
 
+#include <QtCore/QRegularExpression>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 

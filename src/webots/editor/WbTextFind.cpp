@@ -14,7 +14,6 @@
 
 #include "WbTextFind.hpp"
 
-#include <QtCore/QRegularExpression>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtWidgets/QPlainTextEdit>
