@@ -17,6 +17,7 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
+#include "WbAssetCache.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -128,6 +129,7 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
+  /*
   if (mDownloader) {
     assert(mDownloader->device() || mDownloader->isCopy());
     if (mDownloader->isCopy())
@@ -138,9 +140,12 @@ bool WbImageTexture::loadTexture() {
     }
     return loadTextureData(mDownloader->device());
   }
-  const QString filePath(path(true));
-  if (filePath.isEmpty())
-    return false;
+  */
+  // const QString filePath(path(true));
+  // if (filePath.isEmpty())
+  //   return false;
+  printf("%s\n", WbAssetCache::instance()->get(path(true)).toUtf8().constData());
+  QString filePath(WbAssetCache::instance()->get(path(true)));
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))
     return false;

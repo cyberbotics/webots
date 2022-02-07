@@ -136,6 +136,9 @@ void WbDownloader::finished() {
     */
   }
 
+  if (mNetworkReply)
+    WbAssetCache::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+
   gComplete++;
   mFinished = true;
   emit complete();

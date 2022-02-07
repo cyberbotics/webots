@@ -54,11 +54,11 @@ QNetworkAccessManager *WbNetwork::networkAccessManager() {
 }
 
 void WbNetwork::updateCache() {
-  WbAssetCache *diskCache = new WbAssetCache();
-  diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets");
-  qint64 value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
-  diskCache->setMaximumCacheSize(value);
-  mNetworkAccessManager->setCache(diskCache);
+  // WbAssetCache *diskCache = new WbAssetCache();
+  // diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets");
+  // qint64 value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
+  // diskCache->setMaximumCacheSize(value);
+  // mNetworkAccessManager->setCache(diskCache);
 }
 
 void WbNetwork::setProxy() {

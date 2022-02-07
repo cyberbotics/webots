@@ -19,31 +19,25 @@
 #include <QtNetwork/QAbstractNetworkCache>
 #include <QtNetwork/QNetworkCacheMetaData>
 
-class WbAssetCache : public QAbstractNetworkCache {
+class WbAssetCache : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbAssetCache(QObject *parent = nullptr);
-  ~WbAssetCache();
-
-  qint64 cacheSize() const;
-  QIODevice *data(const QUrl &url);
-  void insert(QIODevice *device);
-  QNetworkCacheMetaData metaData(const QUrl &url);
-  QIODevice *prepare(const QNetworkCacheMetaData &metaData);
-  bool remove(const QUrl &url);
-  void updateMetaData(const QNetworkCacheMetaData &metaData);
-
-  QString cacheDirectory() const { return mCacheDirectory; };
-  void setCacheDirectory(const QString &cacheDirectory);
-
-  void setMaximumCacheSize(qint64 size);
-
-public slots:
-  void clear();
+  static WbAssetCache *instance();
+  void clearCache();
+  void save(QString url, const QByteArray &content);
+  // QIODevice *get(const QString url);
+  QString get(const QString url);
+  bool isCached(QString url);
 
 private:
-  qint64 mMaximumCacheSize;
+  static void cleanup();
+
+  const QString encodeUrl(QString url);
+  const QString decodeUrl(QString url);
+
+  WbAssetCache();
+  ~WbAssetCache();
   QString mCacheDirectory;
 };
 

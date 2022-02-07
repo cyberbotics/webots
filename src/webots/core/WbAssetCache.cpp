@@ -15,18 +15,139 @@
 #include "WbAssetCache.hpp"
 #include "WbPreferences.hpp"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
-#include <QtNetwork/QNetworkReply>
 
-WbAssetCache::WbAssetCache(QObject *parent) : QAbstractNetworkCache(parent) {
+static WbAssetCache *gInstance = NULL;
+
+void WbAssetCache::cleanup() {
+  delete gInstance;
+}
+
+WbAssetCache *WbAssetCache::instance() {
+  if (gInstance == NULL)
+    gInstance = new WbAssetCache();
+  return gInstance;
+}
+
+WbAssetCache::WbAssetCache() {
   printf("> WbAssetCache()\n");
+  mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
+  QDir dir(mCacheDirectory);
+  if (!dir.exists())
+    dir.mkpath(".");
+
+  qAddPostRoutine(WbAssetCache::cleanup);
 }
 
 WbAssetCache::~WbAssetCache() {
+  gInstance = NULL;
 }
 
-void WbAssetCache::clear() {
+void WbAssetCache::save(const QString url, const QByteArray &content) {
+  printf("> save()\n");
+  // check if file exists already
+  // QString u("https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/TEST/protos/ExternalProtoShape.proto");
+  // printf("E %s\n", encodeUrl(u).toUtf8().constData());
+  // QString d("com.githubusercontent.raw/cyberbotics/webots/R2022a/projects/TEST/protos/ExternalProtoShape.proto");
+  // printf("D %s\n", decodeUrl(d).toUtf8().constData());
+
+  if (!isCached(url)) {
+    // create all the necessary directories
+    QFileInfo fi(mCacheDirectory + encodeUrl(url));
+    fi.absoluteDir().mkpath(".");
+
+    QFile file(fi.absoluteFilePath());
+    if (file.open(QIODevice::WriteOnly)) {
+      file.write(content);
+      file.close();
+    }
+  } else {
+    printf("  already cached\n");
+  }
+
+  /*
+  QFile file(mDestination);
+  if (file.open(QIODevice::WriteOnly)) {
+    // assert(mNetworkReply != NULL);
+    if (mNetworkReply) {
+      file.write(mNetworkReply->readAll());
+    } else {
+      // sanity check
+      QNetworkReply *reply = gUrlCache[mUrl];
+      assert(reply.isFinished());
+      QIODevice *device = WbNetwork::instance()->networkAccessManager()->cache()->data(mUrl);  // cached already
+      device->open(QIODevice::ReadOnly);
+      assert(device->isOpen());
+
+      QFileInfo fi(mDestination);
+      file.write(device->readAll());
+      device->close();
+    }
+    file.close();
+  } else
+    mError = tr("Couldn't write %1 to disk.\n").arg(mDestination);
+  */
+}
+
+QString WbAssetCache::get(const QString url) {
+  printf("> get()\n");
+  return mCacheDirectory + encodeUrl(url);
+}
+/*
+QIODevice *WbAssetCache::get(const QString url) {
+  assert(isCached(url));
+
+  QFile *file = new QFile(mCacheDirectory + encodeUrl(url));
+  file->open(QIODevice::ReadOnly);
+  assert(file->isOpen());
+
+  return file;
+}*/
+
+bool WbAssetCache::isCached(QString url) {
+  QFileInfo fi(mCacheDirectory + encodeUrl(url));
+  return fi.exists();
+}
+
+const QString WbAssetCache::encodeUrl(QString url) {
+  QString encoded = url.replace("https://", "");
+
+  int n = encoded.indexOf("/");
+  QString root = encoded.left(n);
+  encoded.remove(0, n);
+
+  QStringList parts = root.split(".");
+  QStringListIterator it(parts);
+  while (it.hasNext())
+    encoded.insert(0, "." + it.next());
+
+  encoded.remove(0, 1);
+
+  return encoded;
+}
+
+const QString WbAssetCache::decodeUrl(QString url) {
+  QString decoded = url;
+
+  int n = decoded.indexOf("/");
+  QString root = decoded.left(n);
+  QStringList parts = root.split(".");
+
+  decoded.remove(0, n);
+
+  QStringListIterator it(parts);
+  while (it.hasNext())
+    decoded.insert(0, "." + it.next());
+
+  decoded.remove(0, 1);
+  decoded.insert(0, "https://");
+
+  return decoded;
+}
+
+void WbAssetCache::clearCache() {
   printf("> clear()\n");
   QDir dir(mCacheDirectory);
   if (dir.exists()) {
@@ -34,65 +155,4 @@ void WbAssetCache::clear() {
     // recreate directory
     dir.mkpath(".");
   }
-}
-
-qint64 WbAssetCache::cacheSize() const {
-  printf("> cacheSize()\n");
-  // int value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
-  return 0;
-}
-
-QIODevice *WbAssetCache::data(const QUrl &url) {
-  printf("> data()\nn");
-}
-
-void WbAssetCache::insert(QIODevice *device) {
-  printf("> insert()\n");
-
-  assert(device);
-  QNetworkReply *d = dynamic_cast<QNetworkReply *>(device);
-  if (d)
-    printf("URL IS %s\n", d->url().fileName().toUtf8().constData());
-
-  /*
-  device->open(QIODevice::ReadOnly);
-  assert(device->isOpen());
-
-  QFileInfo fi(mDestination);
-  file.write(device->readAll());
-  device->close();
-  */
-}
-
-QNetworkCacheMetaData WbAssetCache::metaData(const QUrl &url) {
-  printf("> metadata()\n");
-}
-
-QIODevice *WbAssetCache::prepare(const QNetworkCacheMetaData &metaData) {
-  printf("> prepare()\n");
-}
-
-bool WbAssetCache::remove(const QUrl &url) {
-  printf("> remove()\n");
-}
-
-void WbAssetCache::updateMetaData(const QNetworkCacheMetaData &metaData) {
-  printf("> updateMetadata()\n");
-}
-
-void WbAssetCache::setCacheDirectory(const QString &cacheDirectory) {
-  printf("> setCacheDirectory()\n");
-
-  mCacheDirectory = cacheDirectory;
-
-  QDir dir(cacheDirectory);
-  if (!dir.exists())
-    dir.mkpath(".");
-}
-
-void WbAssetCache::setMaximumCacheSize(qint64 size) {
-  printf("> setMaximumCacheSize()\n");
-
-  assert(size > 0);
-  mMaximumCacheSize = size;
 }
