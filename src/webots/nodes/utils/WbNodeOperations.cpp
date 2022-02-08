@@ -306,8 +306,8 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     if (node->mNumChildren > 0) {
       for (unsigned int i = 0; i < node->mNumChildren; ++i)
         if (node->mChildren[i]->mNumMeshes > 0)
-          addModelNode(stream, node->mChildren[i], scene, fileName, scaleString, referenceFolder, importTextureCoordinates, importNormals,
-                       importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+          addModelNode(stream, node->mChildren[i], scene, fileName, scaleString, referenceFolder, importTextureCoordinates,
+                       importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
     }
   }
 
@@ -453,8 +453,8 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
-      addModelNode(stream, node->mChildren[i], scene, fileName, scaleString, referenceFolder, importTextureCoordinates, importNormals,
-                   importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+      addModelNode(stream, node->mChildren[i], scene, fileName, scaleString, referenceFolder, importTextureCoordinates,
+                   importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
     stream += " ]";
     if (importAsSolid) {
@@ -471,8 +471,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
                                                                         bool importAsSolid, bool importBoundingObjects) {
   QString stream = "";
   QString scaleString = "1 1 1";
-  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, scaleString, importTextureCoordinates, importNormals,
-                                                                      importAppearances, importAsSolid, importBoundingObjects);
+  WbNodeOperations::OperationResult result =
+    getVrmlFromExternalModel(stream, filename, scaleString, importTextureCoordinates, importNormals, importAppearances,
+                             importAsSolid, importBoundingObjects);
   if (result == FAILURE)
     return FAILURE;
 
@@ -482,7 +483,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   return result;
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename, const QString &scaleString,
+WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
+                                                                             const QString &scaleString,
                                                                              bool importTextureCoordinates, bool importNormals,
                                                                              bool importAppearances, bool importAsSolid,
                                                                              bool importBoundingObjects, bool referenceMeshes) {
@@ -496,8 +498,9 @@ WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QSt
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return FAILURE;
   }
-  addModelNode(stream, scene->mRootNode, scene, filename, scaleString, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
-               importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+  addModelNode(stream, scene->mRootNode, scene, filename, scaleString, QFileInfo(filename).dir().absolutePath(),
+               importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects,
+               referenceMeshes);
   return SUCCESS;
 }
 
