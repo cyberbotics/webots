@@ -37,7 +37,7 @@ public:
   const WbMFVector3 &vector() const { return *mVector; }
   const WbVector3 &vector(int index) const { return mVector->item(index); }
   int vectorSize() const { return mVector->size(); }
-  void setVector(int index, WbVector3 vector) { mVector->setItem(index, vector); }
+  void setVector(int index, const WbVector3 &vector) { mVector->setItem(index, vector); }
 
 private:
   // user accessible fields
