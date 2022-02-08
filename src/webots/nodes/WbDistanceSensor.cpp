@@ -443,7 +443,7 @@ void WbDistanceSensor::setSensorRays() {
     if (mRays[i].geom()) {  // NOT INFRA_RED
       // get ray direction
       const WbVector3 &dir = mRays[i].direction();
-      assert(dir != WbVector3(0, 0, 0));
+      assert(!dir.isNull());
 
       // apply sensor's coordinate system transformation to rays
       WbVector3 r = m.sub3x3MatrixDot(dir);
