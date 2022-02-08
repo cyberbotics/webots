@@ -12,6 +12,7 @@ Released on XX, XXth, 2022.
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
   - Enhancements:
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Added a `scale` field to the `Mesh` node and the `ColladaShapes` PROTO ([#4203](https://github.com/cyberbotics/webots/pull/4203)).
   - Dependency Updates
     - remove WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
 
