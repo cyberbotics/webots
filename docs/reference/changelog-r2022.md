@@ -29,6 +29,7 @@ Released on XX XX, 2022.
     - Fixed `wb_supervisor_world_save` behavior when no argument is provided in non-C APIs ([#4140](https://github.com/cyberbotics/webots/pull/4140)).
     - Fixed the ROS `camera/recognition_objects` topic that was always returning an empty list of objects ([#4139](https://github.com/cyberbotics/webots/pull/4139)).
     - Fixed depths greater than `maxRange` to return `inf` for the `RangeFinder` device ([#4167](https://github.com/cyberbotics/webots/pull/4167)).
+    - Converted missing sample world `gears.wbt` to ENU ([4201](https://github.com/cyberbotics/webots/pull/4201)).
 
 ## Webots R2022a
 Released on December 21th, 2022.
