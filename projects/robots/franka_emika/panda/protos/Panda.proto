@@ -1,20 +1,21 @@
 #VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Franka Emika's Panda arm
-
+# This is a proto file for Franka Emika's Panda arm.
+# The PROTO has been generated from the officially provided xacro description of the robot, available at https://github.com/frankaemika/franka_ros.
+# template language: javascript
 
 PROTO Panda [
-  field  SFVec3f     translation        0 0 0
-  field  SFRotation  rotation           0 0 1 0
-  field  SFString    name               "panda"
-  field  SFString    controller         "void"
-  field  MFString    controllerArgs     []
-  field  SFString    customData         ""
-  field  SFBool      supervisor         FALSE
-  field  SFBool      synchronization    TRUE
-  field  SFBool      selfCollision      FALSE
-  field  MFNode      endEffectorSlot    PandaHand {}
+  field  SFVec3f     translation        0 0 0         # Is `Transform.translation`.
+  field  SFRotation  rotation           0 0 1 0       # Is `Transform.rotation`.
+  field  SFString    name               "panda"       # Is `Solid.name`.
+  field  SFString    controller         "void"        # Is `Robot.controller`.
+  field  MFString    controllerArgs     []            # Is `Robot.controllerArgs`.
+  field  SFString    customData         ""            # Is `Robot.customData`.
+  field  SFBool      supervisor         FALSE         # Is `Robot.supervisor`.
+  field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
+  field  SFBool      selfCollision      FALSE         # Is `Robot.selfCollision`.
+  field  MFNode      endEffectorSlot    PandaHand {}  # Defines the end effector.
 ]
 {
   Robot {
