@@ -127,7 +127,7 @@ class TestCppCheck(unittest.TestCase):
         command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
-        command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled'
+        command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
         # command += ' --xml '  # Uncomment this line to get more information on the errors
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
