@@ -1,11 +1,7 @@
 {
   "default": {
     "colorThreshold": 0.01,
-    "background": [
-      1.0,
-      1.0,
-      1.0
-    ],
+    "background": [1.0, 1.0, 1.0],
     "fields": "rotation 0 1 0 0.3",
     "nodeString": ""
   },
@@ -1684,20 +1680,12 @@
     "nodeString": "  Spot{ translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\" }"
   },
   "projects/robots/franka_emika/panda/protos/Panda.proto": {
-    "background": [
-      0.0,
-      0.0,
-      0.0
-    ],
+    "background": [0.0, 0.0, 0.0],
     "fields": "  translation 0 0 0 rotation 0 0 1 controller \"void\"",
     "nodeString": "  Panda { translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\" }"
   },
   "projects/robots/franka_emika/panda/protos/PandaHand.proto": {
-    "background": [
-      0.0,
-      0.0,
-      0.0
-    ],
+    "background": [0.0, 0.0, 0.0],
     "fields": "  translation 0 0 0 rotation 0 0 1 controller \"void\"",
     "nodeString": " PandaHand {}"
   }

@@ -1,22 +1,10 @@
 #VRML_SIM R2022b utf8
 WorldInfo {
   info [
-    "This example uses some of the industrial objects included in Webots to create a factory hall."
-    "The tools, valves and doors are interactive."
-    "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
+    "This example showcases Franka Emika's Panda robot in a factory setting."
   ]
-  title "A factory hall environment"
+  title "Panda demo"
   basicTimeStep 16
-  contactProperties [
-    ContactProperties {
-      material1 "tube insertion exercise"
-      material2 "tube insertion exercise"
-      coulombFriction [
-        0.5
-      ]
-      softCFM 1e-05
-    }
-  ]
 }
 DEF VIEWPOINT Viewpoint {
   orientation -0.2690187512433882 -0.3484486460314119 0.8978933414155178 4.857941702332701
@@ -157,7 +145,7 @@ Table {
 }
 Table {
   translation 0 2.64217 -2.62797e-05
-  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
+  rotation 0 0 1 1.5708
   name "table(4)"
   size 1.2 2.2 0.7
   feetSize 0.05 0.05
