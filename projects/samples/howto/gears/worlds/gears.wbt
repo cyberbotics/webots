@@ -5,11 +5,10 @@ WorldInfo {
   ]
   title "Gears example"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 1.5707963267948966
-  position 0.2780916968916953 0.0015751684699579721 -0.03763246734023667
+  orientation 0 0 1 4.71238898038469
+  position -0.041748615977272176 0.27118552471245 -0.0005254140023221207
 }
 TexturedBackground {
   texture "empty_office"
@@ -17,11 +16,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Robot {
-  rotation 0 1 0 1.5708
+  rotation 0 0 1 1.5708
   children [
     DEF MOTORIZED HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
       }
       device [
         PositionSensor {
@@ -30,7 +28,6 @@ Robot {
         }
       ]
       endPoint Gear {
-        rotation 1.1127701588714633e-10 -2.5015786939261218e-08 -0.9999999999999996 1.7921184929557338e-05
         appearance PBRAppearance {
           baseColor 0.8 0 0
           roughness 0.5
@@ -44,13 +41,12 @@ Robot {
     }
     DEF PASSIVE HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0.083 0 0
+        anchor 0 0.083 0
         dampingConstant 1e-08
       }
       endPoint Gear {
-        translation 0.083 0 0
-        rotation 0 0 1 0.539999999999999
+        translation 0 0.083 0
+        rotation 1 0 0 0.261799
         appearance PBRAppearance {
           baseColor 0.203922 0.396078 0.643137
           roughness 0.5
