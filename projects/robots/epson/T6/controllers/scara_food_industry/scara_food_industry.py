@@ -24,6 +24,7 @@ ledStatus = True
 merged_tool = False
 fruitType = 0
 
+
 def merge_tool(fruit_id):
     global merged_tool
 
@@ -82,7 +83,7 @@ def ledAnimation():
 
 def animation():
     global fruitType
-    
+
     if supervisor.step(0) == -1:
         return
     arm.setPosition(0.6)
@@ -99,7 +100,7 @@ def animation():
     merge_tool(fruitType)
     shaft_linear.setPosition(0)
     ledAnimation()
-    
+
     if supervisor.step(900) == -1:
         led()
         return
