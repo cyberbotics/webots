@@ -297,6 +297,7 @@ static void motion_actuate(WbMotionRef ref) {
   ROBOT_ASSERT(ref);
 
   int j;
+  // cppcheck-suppress nullPointerRedundantCheck
   for (j = 0; j < ref->n_joints; j++) {
     if (ref->tags[j]) {
       double pos = motion_compute_joint_pos(ref, j);
