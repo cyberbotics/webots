@@ -1,35 +1,38 @@
 #VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/automobile/car
-# Model of a Olli bus.
+# Model of the T6-602S Epson Scara robot.
+# template language: javascript
 
 PROTO EpsonT6Scara [
-  field SFVec3f           translation     0 0 0.01      # Is `Transform.translation`.
-  field SFRotation        rotation        0 0 1 0       # Is `Transform.rotation`.
-  field SFString          name            "EpsonT6Scara"    # Is `Solid.name`.
-  field SFString          controller      ""            # Is `Robot.controller`.
-  field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
-  field SFString          customData      ""            # Is `Robot.customData`.
-  field SFBool            supervisor      FALSE         # Is `Robot.supervisor`.
-  field SFBool            synchronization TRUE          # Is `Robot.synchronization`.
+  field SFVec3f           translation     0 0 0.01        # Is `Transform.translation`.
+  field SFRotation        rotation        0 0 1 0         # Is `Transform.rotation`.
+  field SFString          name            "EpsonT6Scara"  # Is `Solid.name`.
+  field SFString          controller      ""              # Is `Robot.controller`.
+  field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
+  field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
+  field SFString          customData      ""              # Is `Robot.customData`.
+  field SFString          window          ""              # Is `Robot.window`.
+  field SFBool            staticBase      FALSE           # Defines if the scara base should be pinned to the static environment.
+  field MFNode            handSlot        []              # Extends the shaft with new nodes in the hand slot.
+
 ]
 {
 Robot {
   translation IS translation
   rotation IS rotation
-  customData IS customData
-  supervisor IS supervisor
   synchronization IS synchronization
   name IS name
+  window IS window
   model "EPSON SCARA T6‑602S"
+  supervisor IS supervisor
   children [
     DEF BASE Group {
       children [
         CapScrew {
           translation 0.02166 0.0493 0.431
           rotation 0 1 0 1.5708
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -40,7 +43,7 @@ Robot {
           translation 0.098 0.0493 0.431
           rotation 0 1 0 1.5708
           name "cap screw(1)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -51,7 +54,7 @@ Robot {
           translation 0.098 -0.0507 0.431
           rotation 0 1 0 1.5708
           name "cap screw(2)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -62,7 +65,7 @@ Robot {
           translation 0.0215 -0.0497 0.431
           rotation 0 1 0 1.5708
           name "cap screw(3)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -73,7 +76,7 @@ Robot {
           translation -0.0477 -0.0494 0.4091
           rotation 0 -1 0 -1.0472053071795866
           name "cap screw(4)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -84,7 +87,7 @@ Robot {
           translation -0.0921 -0.0493 0.3583
           rotation 0 1 0 0
           name "cap screw(6)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -95,7 +98,7 @@ Robot {
           translation -0.0934 -0.05565 0.2079
           rotation 0 1 0 0
           name "cap screw(8)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -106,7 +109,7 @@ Robot {
           translation -0.0934 -0.05565 0.2382
           rotation 0 1 0 0
           name "cap screw(9)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -117,7 +120,7 @@ Robot {
           translation -0.0932 0.05565 0.2383
           rotation 0 1 0 0
           name "cap screw(10)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -128,7 +131,7 @@ Robot {
           translation -0.0934 0.05565 0.2078
           rotation 0 1 0 0
           name "cap screw(11)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -139,7 +142,7 @@ Robot {
           translation -0.0934 0.05565 -0.0014
           rotation 0 1 0 0
           name "cap screw(12)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -150,7 +153,7 @@ Robot {
           translation -0.0934 -0.05569 -0.0014
           rotation 0 1 0 0
           name "cap screw(13)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.002
           screwLength 0.02
@@ -161,7 +164,7 @@ Robot {
           translation -0.0921 0.0498 0.3583
           rotation 0 1 0 0
           name "cap screw(7)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -172,7 +175,7 @@ Robot {
           translation -0.0477 0.0496 0.4091
           rotation 0 -1 0 -1.0472053071795866
           name "cap screw(5)"
-          appearance BrushedAluminium {
+          appearance GalvanizedMetal {
           }
           screwRadius 0.003
           screwLength 0.02
@@ -202,14 +205,8 @@ Robot {
           }
         }
         DEF CONNECTOR Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "webots://projects/default/worlds/textures/metal.jpg"
-              ]
-            }
-            roughness 0.6
-            metalness 0.61
+          appearance BrushedAluminium {
+            colorOverride 0.533333 0.541176 0.521569
           }
           geometry Mesh {
             url [
@@ -219,6 +216,7 @@ Robot {
         }
         DEF NUTS Shape {
           appearance BrushedAluminium {
+            colorOverride 0.533333 0.541176 0.521569
           }
           geometry Mesh {
             url [
@@ -227,14 +225,8 @@ Robot {
           }
         }
         DEF BULB_SOCKET Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "webots://projects/default/worlds/textures/metal.jpg"
-              ]
-            }
-            roughness 0.6
-            metalness 0.61
+          appearance BrushedAluminium {
+            colorOverride 0.533333 0.541176 0.521569
           }
           geometry Mesh {
             url [
@@ -271,7 +263,7 @@ Robot {
               ]
             }
           ]
-          name "espon_led"
+          name "epson_led"
           color [
             1 0.1 0
           ]
@@ -280,7 +272,7 @@ Robot {
     }
     DEF COMPLETE_ARM Solid {
       children [
-        HingeJoint {
+        DEF LINK1_TRANSFORM HingeJoint {
           jointParameters HingeJointParameters {
             axis 0 0 1
             anchor 0.06 0 0
@@ -341,7 +333,7 @@ Robot {
                 name "cable_solid"
                 boundingObject USE CABLE_MESH
               }
-              DEF ARM HingeJoint {
+              DEF LINK2_TRANSFORM HingeJoint {
                 jointParameters HingeJointParameters {
                   axis 0 0 1
                   anchor 0.37 0 0
@@ -365,7 +357,7 @@ Robot {
                           translation -0.2815 -0.0434 0.0508
                           rotation 0 1 0 1.5708
                           name "cap screw(1)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.003
                           screwLength 0.02
@@ -375,7 +367,7 @@ Robot {
                         CapScrew {
                           translation -0.2815 0.0431 0.0508
                           rotation 0 1 0 1.5708
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.003
                           screwLength 0.02
@@ -386,7 +378,7 @@ Robot {
                           translation -0.2866 0.019 0.1828
                           rotation 0 1 0 1.5708
                           name "cap screw(2)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.00261
                           screwLength 0.01
@@ -397,7 +389,7 @@ Robot {
                           translation -0.2866 -0.019 0.1828
                           rotation 0 1 0 1.5708
                           name "cap screw(3)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.00261
                           screwLength 0.01
@@ -408,7 +400,7 @@ Robot {
                           translation -0.162962 -0.0257 0.1828
                           rotation 0 1 0 1.5708
                           name "cap screw(4)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.00261
                           screwLength 0.01
@@ -419,7 +411,7 @@ Robot {
                           translation -0.16295 0.0257 0.1828
                           rotation 0 1 0 1.5708
                           name "cap screw(5)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.00261
                           screwLength 0.01
@@ -430,7 +422,7 @@ Robot {
                           translation -0.3091 -0.01371 0.0509
                           rotation 0 -1 0 -5.307179586466759e-06
                           name "cap screw(7)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.0029
                           screwLength 0.01
@@ -441,7 +433,7 @@ Robot {
                           translation -0.3091 0.0131 0.0509
                           rotation 0 -1 0 -5.307179586466759e-06
                           name "cap screw(6)"
-                          appearance BrushedAluminium {
+                          appearance GalvanizedMetal {
                           }
                           screwRadius 0.0029
                           screwLength 0.01
@@ -461,14 +453,8 @@ Robot {
                           }
                         }
                         Shape {
-                          appearance PBRAppearance {
-                            baseColorMap ImageTexture {
-                              url [
-                                "webots://projects/default/worlds/textures/metal.jpg"
-                              ]
-                            }
-                            roughness 0.6
-                            metalness 0.61
+                          appearance BrushedAluminium {
+                            colorOverride 0.533333 0.541176 0.521569
                           }
                           geometry Mesh {
                             url [
@@ -489,14 +475,8 @@ Robot {
                           }
                         }
                         Shape {
-                          appearance PBRAppearance {
-                            baseColorMap ImageTexture {
-                              url [
-                                "webots://projects/default/worlds/textures/metal.jpg"
-                              ]
-                            }
-                            roughness 0.6
-                            metalness 0.61
+                          appearance BrushedAluminium {
+                            colorOverride 0.533333 0.541176 0.521569
                           }
                           geometry Mesh {
                             url [
@@ -551,7 +531,7 @@ Robot {
                       endPoint Solid {
                         translation 0.633 0 0.6
                         children [
-                          HingeJoint {
+                          DEF LINK3_TRANSFORM HingeJoint {
                             jointParameters HingeJointParameters {
                               axis 0 0 1
                               anchor 0 0 0
@@ -567,6 +547,10 @@ Robot {
                             ]
                             endPoint Solid {
                               children [
+                                DEF HAND_SLOT Transform {
+                                  translation 0 0 -0.425
+                                  children IS handSlot
+                                }
                                 DEF SHAFT_SHAPE Shape {
                                   appearance BrushedAluminium {
                                   }
@@ -577,7 +561,20 @@ Robot {
                                   }
                                 }
                               ]
-                              boundingObject USE SHAFT_SHAPE
+                              boundingObject DEF SHAFT_BOUND Transform {
+                                translation 0 0 -0.211
+                                children [
+                                  Shape {
+                                    geometry Cylinder {
+                                      height 0.446
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                              }
+                              physics Physics {
+                                density 100
+                              }
                             }
                           }
                         ]
@@ -610,17 +607,19 @@ Robot {
       }
     ]
   }
+  %< if (fields.staticBase.value) { >%
+  physics Physics {
+    density 1500
+  }
+  %< } else { >%
   physics Physics {
     density -1
     mass 22
     centerOfMass [
-      0 0 0
-    ]
-    inertiaMatrix [
-      0.08 0.08 0.08
-      0 0 0
+      0 0 -0.01
     ]
   }
+  %< } >%
   controller IS controller
   controllerArgs IS controllerArgs
 }
