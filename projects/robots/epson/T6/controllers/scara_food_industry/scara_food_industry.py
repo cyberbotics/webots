@@ -1,6 +1,6 @@
 """scara_example controller."""
 
-from controller import Robot, Supervisor
+from controller import Supervisor
 from random import randint
 
 supervisor = Supervisor()
