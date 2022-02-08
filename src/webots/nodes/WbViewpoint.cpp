@@ -272,7 +272,7 @@ bool WbViewpoint::isFollowed(const WbSolid *solid) const {
   return solid == mFollowedSolid;
 }
 
-float WbViewpoint::viewDistanceUnscaling(WbVector3 position) const {
+float WbViewpoint::viewDistanceUnscaling(const WbVector3 &position) const {
   WbVector3 eye = mPosition->value();
   WbVector3 forward = mOrientation->value().direction().normalized();
 
