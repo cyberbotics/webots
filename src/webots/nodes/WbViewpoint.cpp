@@ -150,7 +150,13 @@ WbViewpoint::WbViewpoint(WbTokenizer *tokenizer) : WbBaseNode("Viewpoint", token
   init();
 }
 
-WbViewpoint::WbViewpoint(const WbViewpoint &other) : WbBaseNode(other) {
+WbViewpoint::WbViewpoint(const WbViewpoint &other) :
+  WbBaseNode(other),
+  mSavedPosition(),
+  mSavedOrientation(),
+  mSavedDescription(),
+  mSavedFollow(),
+  mInvisibleNodes() {
   init();
 }
 
