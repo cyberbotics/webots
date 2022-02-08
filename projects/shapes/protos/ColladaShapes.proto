@@ -6,7 +6,7 @@
 
 PROTO ColladaShapes [
   field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node).
-  field SFVec3f  scale  1 1 1  # Resize the mesh by this possibly non-uniform scale. Negative values will mirror the mesh along according planes.
+  field SFVec3f  scale  1 1 1
 ]
 {
   %<
@@ -23,7 +23,7 @@ PROTO ColladaShapes [
     }
     if (scale.y == 0.0) {
       console.error(`All 'scale' coordinates must be not null: y is set to 1.0.`);
-      scale.y = 2.0;
+      scale.y = 1.0;
     }
     if (scale.z == 0.0) {
       console.error(`All 'scale' coordinates must be not null: z is set to 1.0.`);

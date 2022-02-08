@@ -2,7 +2,7 @@
 
 Mesh {
   field MFString url [ ]   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node)
-  field SFVec3f scale 1 1 1   # Resize the mesh by this possibly non-uniform scale. Negative values will mirror the mesh along the according planes.
+  field SFVec3f scale 1 1 1
   field SFString name ""   # Filter geometries based on the given name (for example, Collada files can contain multiple geometries in a single file).
   field SFInt32 materialIndex -1   # Filter geometries in Collada files based on the material index (Collada files can contain multiple geometries with different materials).
 }

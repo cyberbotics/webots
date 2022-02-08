@@ -47,7 +47,7 @@ public:
   OperationResult importVrml(const QString &filename, bool fromSupervisor = false);
   OperationResult importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals,
                                       bool importAppearances, bool importAsSolid, bool importBoundingObjects);
-  OperationResult getVrmlFromExternalModel(QString &stream, const QString &filename, const QString &scaleString,
+  OperationResult getVrmlFromExternalModel(QString &stream, const QString &filename, const QString &scale,
                                            bool importTextureCoordinates, bool importNormals, bool importAppearances,
                                            bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false);
 
@@ -73,7 +73,7 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
-  void onVrmlExportRequested(const QString &filePath, const QString &scaleString);
+  void onVrmlExportRequested(const QString &filePath, const QString &scale);
 
 signals:
   void nodeAdded(WbNode *node);

@@ -166,7 +166,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   // check scale field and reverse faces if necessary
-  WbVector3 scale = WbVector3(1.0, 1.0, 1.0);
+  WbVector3 scale(1.0, 1.0, 1.0);
   if (mScale) {
     scale = mScale->value();
     if (scale.x() == 0.0) {

@@ -24,7 +24,7 @@ WbQjsCollada *WbQjsCollada::instance() {
   return WbQjsCollada::cInstance;
 }
 
-QString WbQjsCollada::getVrmlFromFile(const QString &filePath, const QString &scaleString) {
-  emit WbQjsCollada::instance()->vrmlFromFileRequested(filePath, scaleString);
+QString WbQjsCollada::getVrmlFromFile(const QString &filePath, const QString &scale) {
+  emit WbQjsCollada::instance()->vrmlFromFileRequested(filePath, scale);
   return WbQjsCollada::cVrmlResponse;
 }
