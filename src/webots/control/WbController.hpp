@@ -128,7 +128,7 @@ private slots:
   void warn(const QString &message);
   void error(const QString &message);
   void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-  void processError(QProcess::ProcessError error);
+  void processErrorOccurred(QProcess::ProcessError error);
   void reportControllerNotFound();
   void reportFailedStart();
   void reportMissingCommand(const QString &command);

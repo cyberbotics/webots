@@ -112,8 +112,8 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
-  connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-  connect(mProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
+  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
 }
 
 WbController::~WbController() {
@@ -122,9 +122,8 @@ WbController::~WbController() {
   // exception: don't disconnect readyReadStandard*()
   // signals in order to see the latest log messages
   if (mRobot)
-    disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
-  mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
-  mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
+    disconnect(mRobot);
+  mProcess->disconnect(this);
 
   if (mSocket) {
     mSocket->disconnect();
@@ -614,7 +613,7 @@ void WbController::reportFailedStart() {
   }
 }
 
-void WbController::processError(QProcess::ProcessError error) {
+void WbController::processErrorOccurred(QProcess::ProcessError error) {
   switch (error) {
     case QProcess::FailedToStart:
       reportFailedStart();
