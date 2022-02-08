@@ -39,7 +39,7 @@ The Panda Hand is a gripper from [Franka Emika](https://www.franka.de/) that can
 
 %figure "Panda Hand"
 
-![panda_hand.png](images/robots/franka_emika/panda_hand.thumbnail.png)
+![panda_hand.png](images/robots/franka_emika/panda_hand.png)
 
 %end
 
@@ -47,9 +47,9 @@ The Panda Hand is a gripper from [Franka Emika](https://www.franka.de/) that can
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/universal\_robots/worlds]({{ url.github_tree }}/projects/robots/universal_robots/worlds)".
 
-#### [panda_demo.wbt]({{ url.github_tree }}/projects/robots/franka_emika/panda/worlds/panda_demo.wbt)
+#### [panda.wbt]({{ url.github_tree }}/projects/robots/franka_emika/panda/worlds/panda.wbt)
 
-![panda_demo.wbt.png](images/robots/panda/panda_demo.wbt.thumbnail.jpg) This simulation shows the Franka Emika's Panda robot in a factory environment.
+![panda.wbt.png](images/robots/panda/panda.wbt.png) This simulation shows the Franka Emika's Panda robot in a factory environment.
 The robot is equipped with a Panda Hand gripper.
 
 UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
