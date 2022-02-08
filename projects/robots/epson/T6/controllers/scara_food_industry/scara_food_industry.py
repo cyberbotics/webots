@@ -58,8 +58,6 @@ def unmerge_tool(fruit_id):
             string = fruit.exportString()
             oldPos = fruit.getPose()
             oldPosStr = " translation " + str(oldPos[3]) + " " + str(oldPos[7]) + " " + str(oldPos[11]) + "\n"
-            #newPosStr = "" + str(trans[0] - 0.16 ) + " " + str(trans[1]) + " " + str(trans[2])
-            #string = string.replace(oldPosStr, newPosStr, 1)
             newString = ""
             for line in string.splitlines():
                 if line.startswith("  translation "):
