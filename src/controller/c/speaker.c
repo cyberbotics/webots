@@ -208,6 +208,7 @@ static void speaker_read_answer(WbDevice *d, WbRequest *r) {
       ROBOT_ASSERT(speaker);
       // cppcheck-suppress nullPointerRedundantCheck
       free(speaker->text);
+      // cppcheck-suppress nullPointerRedundantCheck
       speaker->text = NULL;
       break;
     }
