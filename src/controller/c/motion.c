@@ -263,7 +263,7 @@ static WbDeviceTag motion_find_device_tag(const char *joint_name) {
 
 static double motion_compute_joint_pos(WbMotionRef ref, int joint) {
   ROBOT_ASSERT(ref && joint >= 0 && joint < ref->n_joints);
-
+  // cppcheck-suppress nullPointerRedundantCheck
   if (ref->n_poses == 0)
     return UNDEFINED_POSITION;
 
