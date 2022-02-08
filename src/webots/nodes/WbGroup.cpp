@@ -38,7 +38,7 @@ WbGroup::WbGroup(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(
   init();
 }
 
-WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other) {
+WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other), mHiddenKinematicParametersMap() {
   init();
 }
 
