@@ -9,7 +9,7 @@ PROTO PandaHand [
   field  SFString    name            "panda hand"   # Is `Solid.name`.
 ]
 {
-  Solid {
+  DEF GRIPPER Solid {
     translation IS translation
     rotation IS rotation
     name IS name

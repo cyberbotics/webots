@@ -39,7 +39,7 @@ The Panda Hand is a gripper from [Franka Emika](https://www.franka.de/) that can
 
 %figure "Panda Hand"
 
-![panda_hand.png](images/robots/franka_emika/panda_hand.png)
+![panda_hand.png](images/robots/panda/panda_hand.png)
 
 %end
 
