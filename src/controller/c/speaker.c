@@ -205,7 +205,7 @@ static void speaker_read_answer(WbDevice *d, WbRequest *r) {
     }
     case C_SPEAKER_SPEAK_OVER: {
       Speaker *speaker = (Speaker *)d->pdata;
-      ROBOT_ASSERT(speaker != NULL);
+      ROBOT_ASSERT(speaker);
       free(speaker->text);
       speaker->text = NULL;
       break;

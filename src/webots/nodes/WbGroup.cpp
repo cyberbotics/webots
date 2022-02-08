@@ -110,8 +110,7 @@ void WbGroup::recomputeBoundingSphere() const {
   while (it.hasNext()) {
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
     n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
   }
 }
 
