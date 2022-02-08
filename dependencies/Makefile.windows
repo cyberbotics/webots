@@ -107,6 +107,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	@sed -i '/AR= ar rcu/c\AR= ar rc' lua-5.2.3/src/Makefile
 	@echo "# compiling lua"
 	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
 
