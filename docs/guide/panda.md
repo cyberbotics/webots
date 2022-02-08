@@ -37,7 +37,7 @@ Panda {
 
 The Panda Hand is a gripper from [Franka Emika](https://www.franka.de/) that can be added in the `endEffectorSlot` of the `Panda` node to give grasping capability to the robot.
 
-%figure "Panda Hand"
+%figure "Panda Hand Gripper"
 
 ![panda_hand.png](images/robots/panda/panda_hand.thumbnail.png)
 
