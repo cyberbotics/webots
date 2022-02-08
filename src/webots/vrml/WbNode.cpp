@@ -935,9 +935,18 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
-        // qDebug() << field->name() << "->" << alias;
-        field->setAlias(alias);
-        copyAliasValue(field, alias);
+        bool exists = false;
+        foreach (WbField *p, *(gProtoParameterList.last()->params)) {
+          if (p->name() == alias) {
+            exists = true;
+            break;
+          }
+        }
+        if (exists) {
+          field->setAlias(alias);
+          copyAliasValue(field, alias);
+        } else
+          parsingWarn(tr("Field IS reference '%1' has no matching PROTO parameter.").arg(alias));
       } else {
         // field->readValue(tokenizer);
         readFieldValue(field, tokenizer, worldPath);

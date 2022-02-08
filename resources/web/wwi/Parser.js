@@ -106,13 +106,6 @@ export default class Parser {
       renderer.render();
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'none';
-      if (webots.currentView.toolBar) {
-        webots.currentView.toolBar.enableToolBarButtons(true);
-        if (webots.currentView.runOnLoad === 'real-time')
-          webots.currentView.toolBar.realTime(true);
-        else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
-          webots.currentView.toolBar.run(true);
-      }
 
       if (typeof callback === 'function')
         callback();
@@ -250,13 +243,25 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
+    WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+
+    // Update information panel when switching between worlds
+    let webotsView = document.getElementsByTagName('webots-view')[0];
+    if (webotsView && typeof webotsView.toolbar !== 'undefined') {
+      let informationPanel = webotsView.toolbar.informationPanel;
+      if (typeof informationPanel !== 'undefined') {
+        informationPanel.setTitle(WbWorld.instance.title);
+        informationPanel.setDescription(WbWorld.instance.description);
+      }
+    }
     WbWorld.computeUpVector();
   }
 
   _parseViewpoint(node) {
     const id = getNodeAttribute(node, 'id');
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
-    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
+    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
@@ -386,7 +391,7 @@ export default class Parser {
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
-    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
     const transform = new WbTransform(id, isSolid, translation, scale, rotation);
 

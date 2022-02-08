@@ -2,24 +2,24 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="646"
    height="114"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1.1 (50ffc5b540, 2022-01-11)"
    version="1.0"
    sodipodi:docname="icons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/umscht/Schreibtisch/inkscape/sg_icons.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <title
      id="title3009">Iconset for a player</title>
   <defs
@@ -39,16 +39,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568539"
-     inkscape:cx="530.71653"
-     inkscape:cy="37.77582"
+     inkscape:zoom="22.627416"
+     inkscape:cx="178.52238"
+     inkscape:cy="30.118331"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1855"
-     inkscape:window-height="1176"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1848"
+     inkscape:window-height="1136"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
      objecttolerance="11"
      inkscape:snap-intersection-line-segments="false"
      inkscape:object-paths="true"
@@ -58,7 +58,8 @@
      inkscape:snap-global="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-nodes="true"
-     inkscape:snap-smooth-nodes="true">
+     inkscape:snap-smooth-nodes="true"
+     inkscape:pagecheckerboard="0">
     <inkscape:grid
        type="xygrid"
        id="grid3242"
@@ -268,6 +269,18 @@
        id="path3019-5"
        d="m 8,-90.499646 22,11.5 -22,11.5 z"
        style="fill:#000000;fill-opacity:0.09411765;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3019-5-56"
+       d="m 177,-82 4.42059,3 L 177,-76 Z"
+       style="fill:#000000;fill-opacity:0.0941176;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3019-5-56-2"
+       d="M 178.00002,-80.649646 180.4877,-79 l -2.48768,1.650354 z"
+       style="fill:#000000;fill-opacity:0.0941176;stroke:none" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -769,30 +782,6 @@
        id="path3019-5-7-4-4"
        d="m 169.00002,-86.499646 9,5.85 0,3.3 -9,5.85 z"
        style="fill:#000000;fill-opacity:0.09411765;stroke:none" />
-    <rect
-       style="fill:#000000;fill-opacity:0.09411765;stroke:none"
-       id="rect4011-6-7-6-73"
-       width="6"
-       height="18"
-       x="177.00002"
-       y="-87.999649"
-       ry="0" />
-    <rect
-       style="fill:#000000;fill-opacity:0.09411765;stroke:none"
-       id="rect4011-6-5-9-1"
-       width="4"
-       height="16"
-       x="178.00002"
-       y="-86.999649"
-       ry="0" />
-    <rect
-       style="fill:#e8e8e8;fill-opacity:1;stroke:none"
-       id="rect4011-9-0-5"
-       width="2"
-       height="14"
-       x="179.00002"
-       y="-85.999649"
-       ry="0" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -1125,6 +1114,18 @@
        id="path3019-5-9"
        d="m 8,-52.499996 22,11.5 -22,11.5 z"
        style="fill:#000000;fill-opacity:0.1254902;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3019-5-9-7"
+       d="m 177,-44 4.52999,3 L 177,-38 Z"
+       style="fill:#000000;fill-opacity:0.12549;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3019-5-9-7-5"
+       d="M 178,-42.649996 180.5151,-41 178,-39.349996 Z"
+       style="fill:#000000;fill-opacity:0.12549;stroke:none" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -1626,30 +1627,6 @@
        id="path3019-5-7-4-4-5"
        d="m 169,-48.499996 9,5.85 0,3.3 -9,5.85 z"
        style="fill:#000000;fill-opacity:0.09411765;stroke:none" />
-    <rect
-       style="fill:#000000;fill-opacity:0.09411765;stroke:none"
-       id="rect4011-6-7-6-73-6"
-       width="6"
-       height="18"
-       x="177.00002"
-       y="-49.999996"
-       ry="0" />
-    <rect
-       style="fill:#000000;fill-opacity:0.09411765;stroke:none"
-       id="rect4011-6-5-9-1-3"
-       width="4"
-       height="16"
-       x="178.00002"
-       y="-48.999996"
-       ry="0" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="rect4011-9-0-5-7"
-       width="2"
-       height="14"
-       x="179.00002"
-       y="-47.999996"
-       ry="0" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
