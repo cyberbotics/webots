@@ -33,6 +33,7 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mScale = findSFVector3("scale");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -87,6 +88,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mScale, &WbSFVector3::changed, this, &WbMesh::updateScale);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
@@ -163,6 +165,30 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
+  // check scale field and reverse faces if necessary
+  WbVector3 scale = WbVector3(1.0, 1.0, 1.0);
+  if (mScale) {
+    scale = mScale->value();
+    if (scale.x() == 0.0) {
+      warn(tr("All 'scale' coordinates must be not null: x is set to 1.0."));
+      scale.setX(1.0);
+    }
+    if (scale.y() == 0.0) {
+      warn(tr("All 'scale' coordinates must be not null: y is set to 1.0."));
+      scale.setY(1.0);
+    }
+    if (scale.z() == 0.0) {
+      warn(tr("All 'scale' coordinates must be not null: z is set to 1.0."));
+      scale.setZ(1.0);
+    }
+  }
+
+  int faceOrder0 = 0, faceOrder1 = 1, faceOrder2 = 2;
+  if (scale.x() * scale.y() * scale.z() < 0.0) {
+    faceOrder0 = 1;
+    faceOrder1 = 0;
+  }
+
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
   int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
@@ -178,9 +204,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   aiVector3D upVec, forwardVec, rightVec;
-  upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
-  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
-  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
+  upVec[upAxis] = upAxisSign * (float)unitScaleFactor * scale[1];
+  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor * scale[2];
+  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor * scale[0];
 
   aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
                   forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -264,9 +290,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
         if (face.mNumIndices < 3)  // we want to skip lines
           continue;
         assert(face.mNumIndices == 3);
-        indexData[currentIndexIndex++] = face.mIndices[0] + indexOffset;
-        indexData[currentIndexIndex++] = face.mIndices[1] + indexOffset;
-        indexData[currentIndexIndex++] = face.mIndices[2] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[faceOrder0] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[faceOrder1] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[faceOrder2] + indexOffset;
       }
 
       indexOffset += mesh->mNumVertices;
@@ -303,7 +329,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value()).toUtf8();
+  const QByteArray meshPathNameIndex = (path() + mScale->value().toString() + mName->value() + mMaterialIndex->value()).toUtf8();
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
 }
 
@@ -531,6 +557,14 @@ void WbMesh::updateUrl() {
     if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateScale() {
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();

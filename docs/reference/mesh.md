@@ -3,6 +3,7 @@
 ```
 Mesh {
   field MFString url  [ ]
+  field SFVec3f scale 1 1 1
   field SFString name ""
   field SFInt32 materialIndex -1
 }
@@ -26,6 +27,9 @@ If the `url` value starts with `http://` or `https://`, Webots will get the file
 Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
+
+The `scale` field specifies a possibly non-uniform scale. Only non-null values are permitted; null values scale are automatically reset to 1.
+Negative values will mirror the mesh along the according planes.
 
 The `name` field defines which sub-mesh is included.
 If the `name` value is an empty string then all sub-meshes are included.

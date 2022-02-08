@@ -51,6 +51,7 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbSFVector3 *mScale;
   WbSFString *mName;
   WbSFInt *mMaterialIndex;
   WbDownloader *mDownloader;
@@ -62,6 +63,7 @@ private:
 
 private slots:
   void updateUrl();
+  void updateScale();
   void updateName();
   void updateMaterialIndex();
   void downloadUpdate();

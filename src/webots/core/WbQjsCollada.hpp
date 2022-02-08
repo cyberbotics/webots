@@ -25,10 +25,10 @@ public:
   Q_INVOKABLE static WbQjsCollada *instance();
   Q_INVOKABLE WbQjsCollada(){};
 
-  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
+  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath, const QString &scaleString);
 
 signals:
-  void vrmlFromFileRequested(const QString &filePath);
+  void vrmlFromFileRequested(const QString &filePath, const QString &scaleString);
 
 public:
   void setVrmlResponse(const QString &vrml) { WbQjsCollada::cVrmlResponse = vrml; };
