@@ -19,8 +19,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.14889587800056067 0.27989235221436565 -0.9484146185536956 1.0311398417543
-  position -1.3120176831717334 4.168204991780112 1.3745579790161775
+  orientation -0.2690187512433882 -0.3484486460314119 0.8978933414155178 4.857941702332701
+  position -1.9927101125324844 9.253728611278573 5.318491197125936
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -34,6 +34,10 @@ Floor {
   appearance BakelitePlastic {
     color "braun"
   }
+}
+Screwdriver {
+  translation -0.730296 3.02236 0.72
+  rotation 0 0 1 0.785398
 }
 SquareManhole {
   translation 1.45 7.54 -0.048
@@ -96,70 +100,11 @@ Cabinet {
     baseColor 0.729 0.741 0.713
   }
 }
-Robot {
-  translation 2.425874370818222 11.1304 2.339089653215764
-  children [
-    SolidRoundedBox {
-      translation -0.04 0 0
-      size 0.165 0.01 0.085
-      borderRadius 0.005
-      appearance PBRAppearance {
-        baseColor 0.926 0.912 0.698
-        metalness 0
-      }
-    }
-    SolidRoundedBox {
-      name "rounded box(1)"
-      size 0.08 0.011 0.08
-      borderRadius 0.005
-      appearance PBRAppearance {
-        baseColor 0.768 0.627 0
-        metalness 0
-      }
-    }
-    EmergencyButton {
-      translation 0 -0.004 0
-      rotation 0 0 1 -1.5707953071795862
-      includePositionSensor TRUE
-    }
-    SolidRoundedBox {
-      translation -0.08 0 0
-      name "rounded box(2)"
-      size 0.08 0.011 0.08
-      borderRadius 0.005
-      appearance PBRAppearance {
-        baseColor 0.811 0.792 0.494
-        metalness 0
-      }
-    }
-    LED {
-      translation -0.08 0 0
-      rotation 1 0 0 1.5708
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.643 0 0
-            roughness 1
-            metalness 0
-            emissiveIntensity 100
-          }
-          geometry Cylinder {
-            bottom FALSE
-            height 0.013
-            radius 0.024
-            subdivision 64
-          }
-        }
-      ]
-    }
-  ]
-  controller "led_controller"
+PaintBucket {
+  translation -0.8613 2.434 0.74
 }
 PaintBucket {
-  translation -0.8613 2.684 0.74
-}
-PaintBucket {
-  translation -0.650719 2.80668 0.74
+  translation -0.620172 2.57673 0.74
   rotation 0 0 -1 -0.261795307179586
   name "paint bucket(1)"
 }
@@ -216,10 +161,9 @@ Table {
   name "table(4)"
   size 1.2 2.2 0.7
   feetSize 0.05 0.05
-  trayAppearance PBRAppearance {
-    baseColor 0.926 0.912 0.698
-    roughness 0.8
-    metalness 0
+  trayAppearance Parquetry {
+    type "light strip"
+    colorOverride 0.933333 0.933333 0.92549
   }
   legAppearance BrushedAluminium {
     colorOverride 0.333 0.341 0.325
@@ -256,6 +200,36 @@ Transform {
       rotation 0 1 0 -1.5707953071795862
       name "bolt(5)"
     }
+    Bolt {
+      translation 0.05 0 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(6)"
+    }
+    Bolt {
+      translation 0.1 0 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(7)"
+    }
+    Bolt {
+      translation 0.15 0 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(8)"
+    }
+    Bolt {
+      translation 0.15 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(9)"
+    }
+    Bolt {
+      translation 0.1 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(10)"
+    }
+    Bolt {
+      translation 0.05 0.05 0.013
+      rotation 0 1 0 -1.5707953071795862
+      name "bolt(11)"
+    }
   ]
 }
 Transform {
@@ -284,6 +258,30 @@ Transform {
       translation 0 0.05 0.112
       name "nut(5)"
     }
+    Nut {
+      translation 0 0.05 -0.038
+      name "nut(6)"
+    }
+    Nut {
+      translation 0 0.05 -0.088
+      name "nut(7)"
+    }
+    Nut {
+      translation 0 0.05 -0.138
+      name "nut(8)"
+    }
+    Nut {
+      translation 0 0 -0.138
+      name "nut(9)"
+    }
+    Nut {
+      translation 0 0 -0.088
+      name "nut(10)"
+    }
+    Nut {
+      translation 0 0 -0.038
+      name "nut(11)"
+    }
   ]
 }
 Transform {
@@ -291,6 +289,8 @@ Transform {
   children [
     SolidBox {
       size 0.03 0.03 0.06
+      appearance Copper {
+      }
       physics Physics {
         density -1
         mass 0.2
@@ -302,6 +302,8 @@ Transform {
         SolidBox {
           name "box(2)"
           size 0.03 0.03 0.06
+          appearance OldSteel {
+          }
           physics Physics {
             density -1
             mass 0.2
@@ -311,43 +313,21 @@ Transform {
     }
     Transform {
       translation 0 0.1 0
-      children [
-        SolidBox {
-          name "box(3)"
-          size 0.03 0.03 0.06
-          physics Physics {
-            density -1
-            mass 0.2
-          }
-        }
-      ]
-    }
-  ]
-}
-Transform {
-  translation 0.45 2.75 0.7
-  rotation 0.5773509358560258 -0.577349935856137 0.577349935856137 2.09439
-  children [
-    ScrewHole {
-      translation 0 0 0
-      radius 0.006
-      depth 0.008
-    }
-    ScrewHole {
-      translation 0 0 -0.1
-      radius 0.006
-      depth 0.008
-    }
-    ScrewHole {
-      translation 0 0 0.1
-      radius 0.006
-      depth 0.008
     }
   ]
 }
 Wrench {
-  translation 0.76 2.44 0.7
-  rotation 0 0 1 1.0472
+  translation 0.695 2.32742 0.7
+  rotation 0 0 -1 -0.7854053071795866
+}
+Wrench {
+  translation 0.673971 2.46245 0.7
+  rotation 0 0 1 1.309
+  name "wrench(1)"
+}
+Hammer {
+  translation -0.516674 2.9851 0.72
+  rotation 0 0 1 -2.094395307179586
 }
 PlatformCart {
   translation 3.14653 3.2966 0
@@ -805,7 +785,49 @@ LincolnMKZSimple {
   rotation 0 0 1 -1.5708053071795867
 }
 PlasticCrate {
-  translation -0.75 2.8 0.72
+  translation -0.75 2.53 0.72
+  rotation 0 0 1 -0.261795307179586
   name "plastic crate(2)"
   size 0.5 0.5 0.2
+}
+Transform {
+  children [
+    Cabinet {
+      rotation 0 0 1 1.5708
+      name "cabinet(10)"
+      rowsHeights [
+        0.65
+      ]
+      columnsWidths [
+        0.67, 0.17, 0.5, 0.67, 0.17, 0.5
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 1, 1.5)"
+        "LeftSidedDoor (2, 1, 2, 1, 1.5)"
+        "RightSidedDoor (4, 1, 1, 1, 1.5)"
+        "LeftSidedDoor (5, 1, 2, 1, 1.5)"
+      ]
+      primaryAppearance RoughOak {
+        colorOverride 0.827 0.843 0.811
+        textureTransform TextureTransform {
+          rotation 1.5708
+          scale 2 2
+        }
+      }
+      secondaryAppearance GlossyPaint {
+        baseColor 0.806 0.694 0.419
+      }
+    }
+    SolidBox {
+      translation 0 0.13 1.72
+      name "board"
+      size 2.75 0.1 2
+      appearance ThreadMetalPlate {
+        type "square"
+        textureTransform TextureTransform {
+          scale 2 2.75
+        }
+      }
+    }
+  ]
 }

@@ -224,8 +224,6 @@ PROTO Panda [
                                                     }
                                                   ]
                                                   name "panda_link7"
-                                                  boundingObject Group {
-                                                  }
                                                   physics Physics {
                                                     density -1
                                                     mass 0.735522

@@ -20,120 +20,79 @@
 #include <webots/robot.h>
 
 #define TIME_STEP 32
-#define OPEN_HAND 0
-#define CLOSE_HAND 1
 
-static float block_positions[3][3] = {{0.37, -2.7, 2.9}, {0.55, -2.37, 2.75}, {0.74, -1.96, 2.53}};
+static float block_positions[3][3] = {{0.37, -2.7, 2.9}, {0.52, -2.37, 2.73}, {0.74, -1.96, 2.53}};
 static float block_clearings[3][3] = {{-0.1, -2.78, 2.61}, {0.22, -2.48, 2.53}, {0.33, -2.18, 2.35}};
 
-enum Joint { JOINT1, JOINT2, JOINT3, JOINT4, JOINT5, JOINT6, JOINT7, FINGER1, FINGER2 };
+enum Joints { JOINT1, JOINT2, JOINT3, JOINT4, JOINT5, JOINT6, JOINT7, FINGER1, FINGER2 };
 enum Blocks { BLOCK1, BLOCK2, BLOCK3 };
+enum HandCommands { OPEN_HAND, CLOSE_HAND };
 
 static WbDeviceTag motors[9];
-static WbDeviceTag sensors[9];
 
-void hand_control(int state) {
-  if (state == OPEN_HAND) {
+void hand_control(int command) {
+  // based on the state, opens or closes the gripper
+  if (command == OPEN_HAND) {
     wb_motor_set_position(motors[FINGER1], 0.02);
     wb_motor_set_position(motors[FINGER2], 0.02);
   } else {
     wb_motor_set_position(motors[FINGER1], 0.012);
     wb_motor_set_position(motors[FINGER2], 0.012);
   }
-
-  wb_robot_step(TIME_STEP * 20);
+  // delay for the action to take place
+  wb_robot_step(TIME_STEP * 10);
 }
 
 void move_to_block(int block) {
   wb_motor_set_position(motors[JOINT2], block_positions[block][0]);
   wb_motor_set_position(motors[JOINT4], block_positions[block][1]);
   wb_motor_set_position(motors[JOINT6], block_positions[block][2]);
-
-  wb_robot_step(TIME_STEP * 30);
+  // delay for the movement to take place
+  wb_robot_step(TIME_STEP * 20);
 }
 
 void move_to_clearing(int block) {
   wb_motor_set_position(motors[JOINT2], block_clearings[block][0]);
   wb_motor_set_position(motors[JOINT4], block_clearings[block][1]);
   wb_motor_set_position(motors[JOINT6], block_clearings[block][2]);
-
-  wb_robot_step(TIME_STEP * 30);
+  // delay for the movement to take place
+  wb_robot_step(TIME_STEP * 20);
 }
 
-void sequence(int from, int to) {
-  move_to_block(from);
+void sequence(int origin_block, int target_block) {
+  // executes a sequence of actions that moves the origin block to the target block position
+  move_to_block(origin_block);
 
   hand_control(CLOSE_HAND);
 
-  move_to_clearing(from);
+  move_to_clearing(origin_block);
 
-  move_to_clearing(to);
+  move_to_clearing(target_block);
 
-  move_to_block(to);
+  move_to_block(target_block);
 
   hand_control(OPEN_HAND);
 
-  move_to_clearing(to);
+  move_to_clearing(target_block);
 }
 
 int main(int argc, char **argv) {
   wb_robot_init();
 
   char device_name[30];
-
+  // retrive the motor references of all the joints
   for (int i = 0; i < 9; ++i) {
     const char *prefix = i < 7 ? "panda_joint" : "panda_finger_joint";
     int offset = i < 7 ? 0 : 7;
     sprintf(device_name, "%s%d", prefix, i + 1 - offset);
     motors[i] = wb_robot_get_device(device_name);
-    sprintf(device_name, "%s%d_sensor", prefix, i + 1 - offset);
-    sensors[i] = wb_robot_get_device(device_name);
-    wb_position_sensor_enable(sensors[i], TIME_STEP);
   }
-  /*
-  hand_control(OPEN_HAND);
-
-  wb_robot_step(TIME_STEP * 20);
-
-  wb_motor_set_position(motors[JOINT2], 0.55);
-  wb_motor_set_position(motors[JOINT4], -2.37);
-  wb_motor_set_position(motors[JOINT6], 2.75);
-
-  wb_robot_step(TIME_STEP * 20);
-
-  hand_control(CLOSE_HAND);
-  wb_robot_step(TIME_STEP * 20);
-
-  wb_motor_set_position(motors[JOINT2], 0.22);
-  wb_motor_set_position(motors[JOINT4], -2.48);
-  wb_motor_set_position(motors[JOINT6], 2.53);
-
-  wb_robot_step(TIME_STEP * 20);
-
-
-  wb_motor_set_position(motors[JOINT2], -0.1);
-  wb_motor_set_position(motors[JOINT4], -2.78);
-  wb_motor_set_position(motors[JOINT6], 2.61);
-
-  wb_robot_step(TIME_STEP * 20);
-
-  wb_motor_set_position(motors[JOINT2], 0.37);
-  wb_motor_set_position(motors[JOINT4], -2.7);
-  wb_motor_set_position(motors[JOINT6], 2.90);
-
-  wb_robot_step(TIME_STEP * 20);
-
-  hand_control(OPEN_HAND);
-  */
-  // wb_motor_set_position(motors[JOINT2], 0.1);
 
   hand_control(OPEN_HAND);
 
   for (int i = 0; i < 10; ++i) {
     sequence(BLOCK1, BLOCK3);
-
     sequence(BLOCK2, BLOCK1);
-
     sequence(BLOCK3, BLOCK2);
   };
 
