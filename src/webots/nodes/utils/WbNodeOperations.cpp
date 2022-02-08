@@ -300,7 +300,8 @@ static bool addTextureMap(QString &stream, const aiMaterial *material, const QSt
 
 static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName, const QString &scaleString,
                          const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
-                         bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
+                         bool importAppearances, bool importAsSolid, bool importBoundingObjects,
+                         bool referenceMeshes = false) {
   // ColladaShapes check for sub-meshes
   if (referenceMeshes) {
     if (node->mNumChildren > 0) {
