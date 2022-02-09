@@ -49,10 +49,11 @@ namespace {
       dir.setNameFilters(QStringList("*.wbt"));
       QStringList fileList = dir.entryList();
       const QDir projectsDir = QDir(WbStandardPaths::projectsPath());
-      const QRegularExpression re = QRegularExpression(QRegularExpression::wildcardToRegularExpression(wildcard),
-                                                       QRegularExpression::CaseInsensitiveOption);
+      const QRegularExpression regexp = QRegularExpression(
+        QRegularExpression::wildcardToRegularExpression(wildcard, QRegularExpression::UnanchoredWildcardConversion),
+        QRegularExpression::CaseInsensitiveOption);
       foreach (const QString &fileName, fileList) {
-        if (projectsDir.relativeFilePath(dir.path() + fileName).contains(re))
+        if (projectsDir.relativeFilePath(dir.path() + fileName).contains(regexp))
           return true;
       }
       return false;
@@ -82,8 +83,9 @@ namespace {
       dir.setNameFilters(QStringList("*.wbt"));
       QFileInfoList fileInfos = dir.entryInfoList();
       const QDir projectsDir = QDir(WbStandardPaths::projectsPath());
-      const QRegularExpression re = QRegularExpression(QRegularExpression::wildcardToRegularExpression(wildcard),
-                                                       QRegularExpression::CaseInsensitiveOption);
+      const QRegularExpression re = QRegularExpression(
+        QRegularExpression::wildcardToRegularExpression(wildcard, QRegularExpression::UnanchoredWildcardConversion),
+        QRegularExpression::CaseInsensitiveOption);
       foreach (const QFileInfo &fileInfo, fileInfos) {
         if (projectsDir.relativeFilePath(fileInfo.filePath()).contains(re)) {
           FileDataItem *item = new FileDataItem(fileInfo.fileName(), fileInfo);
