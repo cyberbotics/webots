@@ -484,7 +484,7 @@ QString WbNode::extractFieldName(const QString &message) const {
   QString fieldName;
   QRegularExpressionMatch match = QRegularExpression("'(\\w)+'").match(message);
   if (match.hasMatch()) {
-    fieldName = match.captured(1);
+    fieldName = match.captured();
     fieldName = fieldName.mid(1, fieldName.length() - 2);  // remove single quotes
   }
   return fieldName;
@@ -1495,7 +1495,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         const QRegularExpressionMatch match2 = rx2.match(hiddenParameterName);
         tokenizer->ungetToken();
         // if (pos1 != -1 && pos2 != -1 && cHiddenParameterNames.indexOf(rx2.cap(0)) != -1)
-        if (match1.hasMatch() && match2.hasMatch() && cHiddenParameterNames.indexOf(match2.captured(1)) != -1)
+        if (match1.hasMatch() && match2.hasMatch() && cHiddenParameterNames.indexOf(match2.captured()) != -1)
           parameterModel = new WbFieldModel(tokenizer, worldPath);
       } else {
         for (currentParameterIndex = 0; currentParameterIndex < protoFieldModels.size(); ++currentParameterIndex) {
