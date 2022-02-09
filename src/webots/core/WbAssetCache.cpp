@@ -47,11 +47,6 @@ WbAssetCache::~WbAssetCache() {
 
 void WbAssetCache::save(const QString url, const QByteArray &content) {
   printf("> save()\n");
-  // check if file exists already
-  // QString u("https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/TEST/protos/ExternalProtoShape.proto");
-  // printf("E %s\n", encodeUrl(u).toUtf8().constData());
-  // QString d("com.githubusercontent.raw/cyberbotics/webots/R2022a/projects/TEST/protos/ExternalProtoShape.proto");
-  // printf("D %s\n", decodeUrl(d).toUtf8().constData());
 
   if (!isCached(url)) {
     // create all the necessary directories
@@ -66,33 +61,12 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
   } else {
     printf("  already cached\n");
   }
-
-  /*
-  QFile file(mDestination);
-  if (file.open(QIODevice::WriteOnly)) {
-    // assert(mNetworkReply != NULL);
-    if (mNetworkReply) {
-      file.write(mNetworkReply->readAll());
-    } else {
-      // sanity check
-      QNetworkReply *reply = gUrlCache[mUrl];
-      assert(reply.isFinished());
-      QIODevice *device = WbNetwork::instance()->networkAccessManager()->cache()->data(mUrl);  // cached already
-      device->open(QIODevice::ReadOnly);
-      assert(device->isOpen());
-
-      QFileInfo fi(mDestination);
-      file.write(device->readAll());
-      device->close();
-    }
-    file.close();
-  } else
-    mError = tr("Couldn't write %1 to disk.\n").arg(mDestination);
-  */
 }
 
 QString WbAssetCache::get(const QString url) {
   printf("> get()\n");
+  QString loc = mCacheDirectory + encodeUrl(url);
+  printf("  file is at: %s\n", loc.toUtf8().constData());
   return mCacheDirectory + encodeUrl(url);
 }
 /*

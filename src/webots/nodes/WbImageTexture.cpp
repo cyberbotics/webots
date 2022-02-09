@@ -129,6 +129,7 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
+  printf("loadTexture()\n");
   /*
   if (mDownloader) {
     assert(mDownloader->device() || mDownloader->isCopy());
@@ -144,7 +145,8 @@ bool WbImageTexture::loadTexture() {
   // const QString filePath(path(true));
   // if (filePath.isEmpty())
   //   return false;
-  printf("%s\n", WbAssetCache::instance()->get(path(true)).toUtf8().constData());
+
+  printf("requesing from cache: %s\n", path(true).toUtf8().constData());
   QString filePath(WbAssetCache::instance()->get(path(true)));
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))
@@ -155,6 +157,7 @@ bool WbImageTexture::loadTexture() {
 }
 
 bool WbImageTexture::loadTextureData(QIODevice *device) {
+  printf("loadTextureData()\n");
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();

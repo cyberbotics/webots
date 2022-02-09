@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
+#include "WbAssetCache.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -419,7 +420,7 @@ bool WbBackground::loadTexture(int i) {
   const int urlFieldIndex = gCoordinateSystemSwap(i);
   QString url;
   QIODevice *device;
-
+  /*
   if (mDownloader[urlFieldIndex]) {
     url = mUrlFields[urlFieldIndex]->item(0);
     if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
@@ -444,7 +445,31 @@ bool WbBackground::loadTexture(int i) {
       delete device;
       return false;
     }
+  }*/
+
+  if (mDownloader[urlFieldIndex]) {
+    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
+      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
+      delete mDownloader[urlFieldIndex];
+      mDownloader[urlFieldIndex] = NULL;
+      return false;
+    }
+  } else {
+    if (mUrlFields[urlFieldIndex]->size() == 0)
+      return false;
   }
+
+  url = mUrlFields[urlFieldIndex]->item(0);
+
+  printf("requesing from cache: %s\n", url.toUtf8().constData());
+  QString filePath(WbAssetCache::instance()->get(url));
+  device = new QFile(filePath);
+  if (!device->open(QIODevice::ReadOnly)) {
+    warn(tr("Cannot open texture file: '%1'").arg(url));
+    delete device;
+    return false;
+  }
+
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
 
