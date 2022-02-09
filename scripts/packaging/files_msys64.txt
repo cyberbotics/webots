@@ -45,7 +45,11 @@
 /mingw64/share/qt6/plugins/imageformats/qjpeg.dll
 /mingw64/share/qt6/plugins/platforms/qwindows.dll
 /mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
-/mingw64/share/qt6/translations/*.qm
+/mingw64/share/qt6/translations/qt_*.qm
+/mingw64/share/qt6/translations/qtbase_*.qm
+/mingw64/share/qt6/translations/qtbase_*.qm
+/mingw64/share/qt6/translations/qtdeclarative_*.qm
+/mingw64/share/qt6/translations/qtwebsockets_*.qm
 
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
@@ -74,9 +78,10 @@
 /mingw64/include/zipconf.h
 
 # needed to recompile the Qt-based robot windows (darwin-op or automobile)
-/mingw64/bin/moc.exe
+/mingw64/share/qt6/bin/moc.exe
 
 # needed to allow users to create translations in their own language
 /mingw64/bin/linguist.exe
+/mingw64/share/qt6/translations/qtlinguist_*.qm
 /mingw64/bin/lrelease.exe
 /mingw64/bin/lupdate.exe
