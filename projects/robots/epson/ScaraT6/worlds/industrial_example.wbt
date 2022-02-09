@@ -167,6 +167,7 @@ ScaraEpsonT6 {
   rotation 0 0 -1 1.5708
   controller "scara_food_industry"
   supervisor TRUE
+  staticBase TRUE
   handSlot [
     Shape {
       appearance ElectricConduit {

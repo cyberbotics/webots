@@ -7,7 +7,6 @@
 The actuators available are three rotational motors (`base_arm_motor`, `arm_motor` and `shaft_rotation_motor`), a linear motor (`shaft_linear_motor`) and a [LEDs](../reference/led.md) (`epson_led`). The motors have four position sensors named `base_arm_position`, `arm_position` `shaft_rotation_position` and `shaft_linear_position`.
 Maximum range of operation of the different axis in radian:
 > base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
-A [LED](../reference/led.md) can also be controlled.
 ### ScaraEpsonT6 PROTO
 
 Derived from [Robot](../reference/robot.md).
