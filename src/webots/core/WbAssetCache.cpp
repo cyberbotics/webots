@@ -17,6 +17,7 @@
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
@@ -42,7 +43,9 @@ WbAssetCache::WbAssetCache() {
 
   // calculate cache size at startup
   recomputeCacheSize();
-  printf("> cache size is: %lld MB\n", mCacheSize / (1024 * 1024));
+  printf("> cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
+
+  // reduceCacheUsage(10 * 1024 * 1024);
 
   qAddPostRoutine(WbAssetCache::cleanup);
 }
@@ -63,10 +66,10 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
       QFile file(fi.absoluteFilePath());
       if (file.open(QIODevice::WriteOnly)) {
         file.write(content);
-        mCacheSize += file.size();
+        mCacheSizeInBytes += file.size();
         file.close();
       }
-      printf("  cache size is: %lld MB\n", mCacheSize / (1024 * 1024));
+      printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
     } else
       WbLog::warning(tr("\nInvalid generated cache path for remote file: %1").arg(url), true);
   } else {
@@ -80,16 +83,6 @@ QString WbAssetCache::get(const QString url) {
   printf("  file is at: %s\n", loc.toUtf8().constData());
   return mCacheDirectory + urlToPath(url);
 }
-/*
-QIODevice *WbAssetCache::get(const QString url) {
-  assert(isCached(url));
-
-  QFile *file = new QFile(mCacheDirectory + encodeUrl(url));
-  file->open(QIODevice::ReadOnly);
-  assert(file->isOpen());
-
-  return file;
-}*/
 
 bool WbAssetCache::isCached(QString url) {
   QFileInfo fi(mCacheDirectory + urlToPath(url));
@@ -121,6 +114,54 @@ const QString WbAssetCache::pathToUrl(QString url) {
 }
 */
 
+void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
+  if (maxCacheSizeInBytes > mCacheSizeInBytes)
+    return;  // unnecessary to purge cache items
+
+  QFileInfoList list;
+
+  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    list << it.fileInfo();
+  }
+
+  /*
+  printf("BEFORE\n");
+  QListIterator<QFileInfo> itb(list);
+  while (itb.hasNext()) {
+    QFileInfo fi = itb.next();
+    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
+  }
+  */
+
+  std::sort(list.begin(), list.end(), lastReadLessThanComparison);
+
+  QListIterator<QFileInfo> i(list);
+  while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
+    const QFileInfo fi = i.next();
+
+    QDir().remove(fi.absoluteFilePath());  // remove the file
+    QDir().rmpath(fi.absolutePath());      // remove any empty parent directories
+
+    mCacheSizeInBytes -= fi.size();
+    printf(" removed %s [%lld]\n", fi.fileName().toUtf8().constData(), mCacheSizeInBytes);
+  }
+
+  /*
+  printf("AFTER\n");
+  QListIterator<QFileInfo> ita(list);
+  while (ita.hasNext()) {
+    QFileInfo fi = ita.next();
+    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
+  }
+  */
+}
+
+bool WbAssetCache::lastReadLessThanComparison(QFileInfo &f1, QFileInfo &f2) {
+  return f1.lastRead() < f2.lastRead();
+}
+
 void WbAssetCache::clearCache() {
   printf("> clearCache()\n");
   QDir dir(mCacheDirectory);
@@ -130,15 +171,15 @@ void WbAssetCache::clearCache() {
     dir.mkpath(".");
   }
 
-  mCacheSize = 0;
+  mCacheSizeInBytes = 0;
 }
 
 void WbAssetCache::recomputeCacheSize() {
-  mCacheSize = 0;
+  mCacheSizeInBytes = 0;
 
   QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
-    mCacheSize += it.fileInfo().size();
+    mCacheSizeInBytes += it.fileInfo().size();
   }
 }

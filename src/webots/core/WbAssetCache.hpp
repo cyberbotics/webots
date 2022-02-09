@@ -15,6 +15,7 @@
 #ifndef WB_ASSET_CACHE_HPP
 #define WB_ASSET_CACHE_HPP
 
+#include <QtCore/QFileInfo>
 #include <QtCore/QObject>
 #include <QtNetwork/QAbstractNetworkCache>
 #include <QtNetwork/QNetworkCacheMetaData>
@@ -26,15 +27,17 @@ public:
   static WbAssetCache *instance();
   void clearCache();
   void save(QString url, const QByteArray &content);
-  // QIODevice *get(const QString url);
+
   QString get(const QString url);
   bool isCached(QString url);
-  qint64 cacheSize() const { return mCacheSize; };
+  qint64 cacheSize() const { return mCacheSizeInBytes; };
+  void reduceCacheUsage(qint64 maxCacheSizeInBytes);
 
 private:
   static void cleanup();
 
   void recomputeCacheSize();
+  static bool lastReadLessThanComparison(QFileInfo &f1, QFileInfo &f2);
 
   const QString urlToPath(QString url);
   // const QString pathToUrl(QString url);
@@ -42,7 +45,7 @@ private:
   WbAssetCache();
   ~WbAssetCache();
   QString mCacheDirectory;
-  qint64 mCacheSize;
+  qint64 mCacheSizeInBytes;
 };
 
 #endif  // WB_ASSET_CACHE_HPP
