@@ -9,8 +9,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.9
-  orientation 0.27793952112396303 -0.4664737686280524 -0.8397331991646658 5.450137415584857
-  position -1.5106384430197946 -3.0308478591240826 1.9327924772366287
+  orientation 0.22688720072604698 -0.05775430138961527 -0.9722070966711237 3.6702094827050598
+  position 3.0678600071541156 -2.035411236388436 1.8197543605186324
   exposure 1.7
 }
 TexturedBackground {
@@ -131,6 +131,35 @@ CardboardBox {
   name "cardboard box(1)"
   size 0.4 0.6 0.3
 }
+Solid {
+  translation -0.38 2.16 0.06
+  children [
+    DEF GEOM Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "https://raw.githubusercontent.com/cyberbotics/webots/master/projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
+        ]
+      }
+    }
+  ]
+  name "solid(2)"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "water"
+      dragForceCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 200
+    }
+  ]
+}
 Transform {
   translation 1.77 2.67 1.05
   rotation 1 0 0 1.5707996938995747
@@ -163,18 +192,22 @@ SolidBox {
   }
 }
 ScaraEpsonT6 {
-  translation 0.4 -0.34 0.49
+  translation 0.4 -0.33 0.494
   rotation 0 0 -1 1.5708
   controller "scara_food_industry"
   supervisor TRUE
   handSlot [
-    Shape {
-      appearance ElectricConduit {
-      }
-      geometry Cylinder {
-        height 0.04
-        radius 0.11
-      }
+    DEF VACCUM Transform {
+      children [
+        Shape {
+          appearance ElectricConduit {
+          }
+          geometry Cylinder {
+            height 0.04
+            radius 0.11
+          }
+        }
+      ]
     }
   ]
 }
@@ -200,7 +233,7 @@ PlasticCrate {
   mass 1
 }
 PlasticCrate {
-  translation -0.08 -0.82 0.41
+  translation -0.08 -0.82 0.395
   rotation 0 0 1 1.01503e-06
   name "plastic crate(2)"
   size 0.3 0.44 0.1
@@ -208,7 +241,7 @@ PlasticCrate {
   mass 1
 }
 PlasticCrate {
-  translation 0.22214 -0.830233 0.41
+  translation 0.22214 -0.830233 0.395
   rotation 0 0 1 1.01503e-06
   name "plastic crate(3)"
   size 0.3 0.44 0.1
@@ -357,23 +390,27 @@ DEF fruit1 Orange {
   name "orange(21)"
 }
 Orange {
-  translation 0.141124 -0.764816 0.44
+  translation 0.141124 -0.774816 0.44
   name "orange(3)"
 }
 Orange {
-  translation 0.241521 -0.70797 0.455528
+  translation 0.244109 -0.70797 0.445869
   rotation 0 1 0 1.309
   name "orange(4)"
 }
 Orange {
-  translation 0.14483 -0.923383 0.460704
+  translation 0.14233 -0.922713 0.451045
   rotation 0.09269091803692169 0.7040681370061072 -0.7040571370039667 0.369707
   name "orange(5)"
 }
 Orange {
-  translation 0.267814 -0.848559 0.434824
-  rotation 0.09269091803692169 0.7040681370061072 -0.7040571370039667 0.369707
+  translation 0.265314 -0.847889 0.453
   name "orange(6)"
+}
+DEF fruit0 Apple {
+  translation 0.623758 -0.897132 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(10)"
 }
 Apple {
   translation 1.83364 -0.629035 0.45
@@ -418,11 +455,6 @@ Apple {
   translation 0.527099 -0.932775 0.45
   rotation 0 0 1 -0.523595307179586
   name "apple(5)"
-}
-DEF fruit0 Apple {
-  translation 0.623758 -0.897132 0.45
-  rotation 0 0 1 -0.523595307179586
-  name "apple(10)"
 }
 Apple {
   translation 0.704774 -1.00551 0.45

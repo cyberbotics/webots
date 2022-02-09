@@ -600,10 +600,10 @@ Robot {
   ]
   description "4-axis Scara robot, payload is up to 6kg and the reach is 600mm."
   boundingObject DEF BASE_BOUND Transform {
-    translation 0.013 0 0.208
+    translation 0.013 0 0.214
     children [
       Box {
-        size 0.216 0.12 0.453
+        size 0.216 0.12 0.450
       }
     ]
   }
