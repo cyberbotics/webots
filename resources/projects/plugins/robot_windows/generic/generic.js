@@ -3,13 +3,12 @@
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
-import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
 var robotName = '';
 var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
-
 window.setDeviceModeCallback = function (switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
