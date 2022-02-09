@@ -33,8 +33,8 @@ public:
 private:
   static void cleanup();
 
-  const QString encodeUrl(QString url);
-  const QString decodeUrl(QString url);
+  const QString urlToPath(QString url);
+  // const QString pathToUrl(QString url);
 
   WbAssetCache();
   ~WbAssetCache();

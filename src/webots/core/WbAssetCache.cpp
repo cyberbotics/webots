@@ -50,14 +50,17 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
 
   if (!isCached(url)) {
     // create all the necessary directories
-    QFileInfo fi(mCacheDirectory + encodeUrl(url));
-    fi.absoluteDir().mkpath(".");
-
-    QFile file(fi.absoluteFilePath());
-    if (file.open(QIODevice::WriteOnly)) {
-      file.write(content);
-      file.close();
-    }
+    QFileInfo fi(mCacheDirectory + urlToPath(url));
+    bool success = fi.absoluteDir().mkpath(".");
+    if (success) {
+      // save to file
+      QFile file(fi.absoluteFilePath());
+      if (file.open(QIODevice::WriteOnly)) {
+        file.write(content);
+        file.close();
+      }
+    } else
+      printf("ERROR: couldn't create path for cache file\n");  // TODO: proper warning
   } else {
     printf("  already cached\n");
   }
@@ -65,9 +68,9 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
 
 QString WbAssetCache::get(const QString url) {
   printf("> get()\n");
-  QString loc = mCacheDirectory + encodeUrl(url);
+  QString loc = mCacheDirectory + urlToPath(url);
   printf("  file is at: %s\n", loc.toUtf8().constData());
-  return mCacheDirectory + encodeUrl(url);
+  return mCacheDirectory + urlToPath(url);
 }
 /*
 QIODevice *WbAssetCache::get(const QString url) {
@@ -81,28 +84,16 @@ QIODevice *WbAssetCache::get(const QString url) {
 }*/
 
 bool WbAssetCache::isCached(QString url) {
-  QFileInfo fi(mCacheDirectory + encodeUrl(url));
+  QFileInfo fi(mCacheDirectory + urlToPath(url));
   return fi.exists();
 }
 
-const QString WbAssetCache::encodeUrl(QString url) {
-  QString encoded = url.replace("https://", "");
-
-  int n = encoded.indexOf("/");
-  QString root = encoded.left(n);
-  encoded.remove(0, n);
-
-  QStringList parts = root.split(".");
-  QStringListIterator it(parts);
-  while (it.hasNext())
-    encoded.insert(0, "." + it.next());
-
-  encoded.remove(0, 1);
-
-  return encoded;
+const QString WbAssetCache::urlToPath(QString url) {
+  return url.replace("://", "/");
 }
 
-const QString WbAssetCache::decodeUrl(QString url) {
+/*
+const QString WbAssetCache::pathToUrl(QString url) {
   QString decoded = url;
 
   int n = decoded.indexOf("/");
@@ -120,6 +111,7 @@ const QString WbAssetCache::decodeUrl(QString url) {
 
   return decoded;
 }
+*/
 
 void WbAssetCache::clearCache() {
   printf("> clear()\n");
