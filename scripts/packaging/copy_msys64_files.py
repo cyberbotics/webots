@@ -92,5 +92,5 @@ with open('msys64_files.iss', 'w') as iss_file:
         else:
             iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
     # This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
-    iss_file.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
+    iss_file.write('Source: "' + root + '\\mingw64\\share\\qt6\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
                    '"{app}\\msys64\\mingw64\\bin\\platforms"\n')
