@@ -79,7 +79,7 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache
+	+@$(WEBOTS) --update-proto-cache projects
 ifeq ($(OSTYPE),darwin)
 	+@echo "# checking RPATH system"
 	+@./check_rpath.py
