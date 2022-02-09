@@ -47,7 +47,6 @@
 /mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt6/translations/qt_*.qm
 /mingw64/share/qt6/translations/qtbase_*.qm
-/mingw64/share/qt6/translations/qtbase_*.qm
 /mingw64/share/qt6/translations/qtdeclarative_*.qm
 /mingw64/share/qt6/translations/qtwebsockets_*.qm
 
@@ -82,6 +81,6 @@
 
 # needed to allow users to create translations in their own language
 /mingw64/bin/linguist.exe
-/mingw64/share/qt6/translations/qtlinguist_*.qm
+/mingw64/share/qt6/translations/linguist_*.qm
 /mingw64/bin/lrelease.exe
 /mingw64/bin/lupdate.exe
