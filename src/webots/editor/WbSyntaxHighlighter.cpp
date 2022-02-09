@@ -90,12 +90,8 @@ void WbSyntaxHighlighter::highlightSearchText(const QString &text, int offset) {
     return;
 
   QRegularExpressionMatch match = mSearchTextRule.match(text);
-  int index = match.lastCapturedIndex();
-  while (index >= 0) {
-    setFormat(index + offset, match.capturedLength(), mSearchTextFormat);
-    match = mSearchTextRule.match(text, index + 1);
-    index = match.lastCapturedIndex();
-  }
+  for (int index = 0; index <= match.lastCapturedIndex(); index++)
+    setFormat(match.capturedStart() + offset, match.capturedLength(), mSearchTextFormat);
 }
 
 WbLanguageHighlighter::WbLanguageHighlighter(const WbLanguage *language, QTextDocument *parentWidget) :
@@ -152,17 +148,10 @@ QList<WbSyntaxHighlighter::HighlightedSection> WbLanguageHighlighter::identifySe
   const QString &text, const QVector<HighlightingRule> &highlightingRules) {
   QList<HighlightedSection> sections;
   foreach (const HighlightingRule &rule, highlightingRules) {
-    QRegularExpression expression(rule.pattern);
-
-    QRegularExpressionMatch match = expression.match(text);
-    int index = match.lastCapturedIndex();
-    while (index >= 0) {
-      sections.append(HighlightedSection(index, match.capturedLength(), rule.format));
-      match = mSearchTextRule.match(text, index + 1);
-      index = match.lastCapturedIndex();
-    }
+    QRegularExpressionMatch match = QRegularExpression(rule.pattern).match(text);
+    for (int index = 0; index <= match.lastCapturedIndex(); index++)
+      sections.append(HighlightedSection(match.capturedStart(index), match.capturedLength(index), rule.format));
   }
-
   return sections;
 }
 
@@ -225,16 +214,16 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
   if (previousBlockState() != 1) {
     isFirstCommentLine = true;
     QRegularExpressionMatch match = mSingleCommentExpression.match(text);
-    const int singleCommentIndex = match.lastCapturedIndex();
+    const int singleCommentIndex = match.capturedStart();
     match = mCommentStartExpression.match(text);
-    startIndex = match.lastCapturedIndex();
+    startIndex = match.capturedStart();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
 
       int singleCommentEnd = singleCommentIndex + match.capturedLength();
       match = mCommentStartExpression.match(text, singleCommentEnd);
-      startIndex = match.lastCapturedIndex();
+      startIndex = match.capturedStart();
     }
   }
 
@@ -243,7 +232,7 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
     if (isFirstCommentLine)
       searchIndex += mCommentStartDelimiterLength;
     QRegularExpressionMatch match = mCommentEndExpression.match(text, searchIndex);
-    int endIndex = match.lastCapturedIndex();
+    int endIndex = match.capturedStart();
     if (endIndex == -1) {
       setCurrentBlockState(1);
       formattedSections.prepend(HighlightedSection(startIndex, text.length() - startIndex, mCommentFormat));
@@ -272,9 +261,9 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
       }
     }
     match = mSingleCommentExpression.match(text, startIndex + 1);
-    int singleCommentIndex = match.lastCapturedIndex();
+    int singleCommentIndex = match.capturedStart();
     match = mCommentStartExpression.match(text, startIndex + 1);
-    startIndex = match.lastCapturedIndex();
+    startIndex = match.capturedStart();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
