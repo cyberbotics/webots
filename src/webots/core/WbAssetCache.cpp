@@ -13,10 +13,12 @@
 // limitations under the License.
 
 #include "WbAssetCache.hpp"
+#include "WbLog.hpp"
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
 
 static WbAssetCache *gInstance = NULL;
@@ -38,6 +40,10 @@ WbAssetCache::WbAssetCache() {
   if (!dir.exists())
     dir.mkpath(".");
 
+  // calculate cache size at startup
+  recomputeCacheSize();
+  printf("> cache size is: %lld MB\n", mCacheSize / (1024 * 1024));
+
   qAddPostRoutine(WbAssetCache::cleanup);
 }
 
@@ -57,10 +63,12 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
       QFile file(fi.absoluteFilePath());
       if (file.open(QIODevice::WriteOnly)) {
         file.write(content);
+        mCacheSize += file.size();
         file.close();
       }
+      printf("  cache size is: %lld MB\n", mCacheSize / (1024 * 1024));
     } else
-      printf("ERROR: couldn't create path for cache file\n");  // TODO: proper warning
+      WbLog::warning(tr("\nInvalid generated cache path for remote file: %1").arg(url), true);
   } else {
     printf("  already cached\n");
   }
@@ -114,11 +122,21 @@ const QString WbAssetCache::pathToUrl(QString url) {
 */
 
 void WbAssetCache::clearCache() {
-  printf("> clear()\n");
+  printf("> clearCache()\n");
   QDir dir(mCacheDirectory);
   if (dir.exists()) {
     dir.removeRecursively();
     // recreate directory
     dir.mkpath(".");
+  }
+}
+
+void WbAssetCache::recomputeCacheSize() {
+  mCacheSize = 0;
+
+  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    mCacheSize += it.fileInfo().size();
   }
 }

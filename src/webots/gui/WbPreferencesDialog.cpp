@@ -15,6 +15,7 @@
 #include "WbPreferencesDialog.hpp"
 
 #include "WbApplication.hpp"
+#include "WbAssetCache.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
@@ -488,10 +489,8 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
-  layout->addWidget(new QLabel(tr("Amount of cache used : %1 MB.")
-                                 .arg(WbNetwork::instance()->networkAccessManager()->cache()->cacheSize() / (1024 * 1024)),
-                               this),
-                    1, 0);
+  layout->addWidget(
+    new QLabel(tr("Amount of cache used : %1 MB.").arg(WbAssetCache::instance()->cacheSize() / (1024 * 1024)), this), 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
 
   return widget;

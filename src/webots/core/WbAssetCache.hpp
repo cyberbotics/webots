@@ -29,9 +29,12 @@ public:
   // QIODevice *get(const QString url);
   QString get(const QString url);
   bool isCached(QString url);
+  qint64 cacheSize() const { return mCacheSize; };
 
 private:
   static void cleanup();
+
+  void recomputeCacheSize();
 
   const QString urlToPath(QString url);
   // const QString pathToUrl(QString url);
@@ -39,6 +42,7 @@ private:
   WbAssetCache();
   ~WbAssetCache();
   QString mCacheDirectory;
+  qint64 mCacheSize;
 };
 
 #endif  // WB_ASSET_CACHE_HPP
