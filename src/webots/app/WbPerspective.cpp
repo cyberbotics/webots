@@ -116,8 +116,7 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       ls >> mSelectedTab;
       mFilesList.clear();
       const QDir dir(WbProject::current()->dir());
-      // match string literals
-      const QRegularExpression rx("(\"[^\"]*\")");
+      const QRegularExpression rx("(\"[^\"]*\")");  // match string literals
       QRegularExpressionMatch match = rx.match(line);
       while (match.hasMatch()) {
         mFilesList.append(dir.absoluteFilePath(match.captured().remove("\"")));
