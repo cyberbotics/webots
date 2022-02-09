@@ -116,9 +116,13 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       ls >> mSelectedTab;
       mFilesList.clear();
       const QDir dir(WbProject::current()->dir());
-      const QRegularExpression rx("(\"[^\"]*\")");  // to match string literals
-      const QStringList l = rx.match(line).capturedTexts();
-      foreach (QString file, l) { mFilesList.append(dir.absoluteFilePath(file.remove("\""))); }
+      // match string literals
+      const QRegularExpression rx("(\"[^\"]*\")");
+      QRegularExpressionMatch match = rx.match(line);
+      while (match.hasMatch()) {
+        mFilesList.append(dir.absoluteFilePath(match.captured().remove("\"")));
+        match = rx.match(line, match.capturedEnd());
+      }
     } else if (key == "robotWindow:") {
       if (!mRobotWindowNodeNames.isEmpty() || skipNodeIdsOptions)
         continue;
