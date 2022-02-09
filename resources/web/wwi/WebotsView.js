@@ -5,6 +5,7 @@ import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
+webotsView.showReset           // defines whether the reset button should be displayed
 webotsView.showReload          // defines whether the reload button should be displayed
 webotsView.showQuit            // defines whether the quit button should be displayed
 webotsView.showRun             // defines whether the run button should be displayed

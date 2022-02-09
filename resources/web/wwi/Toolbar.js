@@ -883,7 +883,10 @@ export default class Toolbar {
   }
 
   _createResetButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false)));
+    let resetButton = this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false));
+    this.toolbarLeft.appendChild(resetButton);
+    if (!(typeof this.parentNode.showReset === 'undefined' || this.parentNode.showReset))
+      resetButton.style.display = 'none';
   }
 
   _createStepButton() {
