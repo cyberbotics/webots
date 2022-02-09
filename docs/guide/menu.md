@@ -121,6 +121,7 @@
     - [Robotis OP2](robotis-op2.md)
     - [Robotis OP3](robotis-op3.md)
     - [Salamander](salamander.md)
+    - [Scara Epson T6](scara_epson_t6.md)
     - [Shrimp](shrimp.md)
     - [Sojourner](sojourner.md)
     - [Spot](spot.md)

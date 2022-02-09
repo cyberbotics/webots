@@ -4,10 +4,10 @@
 # Model of the T6-602S Epson Scara robot.
 # template language: javascript
 
-PROTO EpsonT6Scara [
+PROTO ScaraEpsonT6 [
   field SFVec3f           translation     0 0 0.01        # Is `Transform.translation`.
   field SFRotation        rotation        0 0 1 0         # Is `Transform.rotation`.
-  field SFString          name            "EpsonT6Scara"  # Is `Solid.name`.
+  field SFString          name            "ScaraEpsonT6"  # Is `Solid.name`.
   field SFString          controller      ""              # Is `Robot.controller`.
   field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
   field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
@@ -24,7 +24,7 @@ Robot {
   synchronization IS synchronization
   name IS name
   window IS window
-  model "EPSON SCARA T6‑602S"
+  model "SCARA EPSON T6‑602S"
   supervisor IS supervisor
   children [
     DEF BASE Group {

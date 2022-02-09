@@ -1,0 +1,44 @@
+## SCARA Epson T6
+
+%robot SCARA Epson T6 images/robots/ScaraT6/model.png
+
+[SCARA Epson T6](https://www.epson.eu/products/robot/scara-t6-series) is a 4-axis robotic arm with three revolute and one prismatic DOF. The chosen model is the T6-602s. It can reach 200mm in vertical, 600mm in horizontal and can handle a payload of maximum 6kg. An end-effector can be choose on its shaft, as a gripper or a suction cup.
+
+The actuators available are three rotational motors (`base_arm_motor`, `arm_motor` and `shaft_rotation_motor`), a linear motor (`shaft_linear_motor`) and a [LEDs](../reference/led.md) (`epson_led`). The motors have four position sensors named `base_arm_position`, `arm_position` `shaft_rotation_position` and `shaft_linear_position`.
+Maximum range of operation of the different axis in radian:
+> base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
+A [LED](../reference/led.md) can also be controlled.
+### ScaraEpsonT6 PROTO
+
+Derived from [Robot](../reference/robot.md).
+
+```
+ScaraEpsonT6 [
+  SFVec3f           translation     0 0 0.01
+  SFRotation        rotation        0 0 1 0
+  SFString          name            "ScaraEpsonT6"
+  SFString          controller      ""
+  MFString          controllerArgs  []
+  SFBool            supervisor      FALSE
+  SFString          customData      ""
+  SFString          window          ""
+  SFBool            staticBase      FALSE
+  MFNode            handSlot        []
+
+]
+```
+
+> **File location**: "WEBOTS\_HOME/projects/robots/epson/ScaraT6/protos/ScaraEpsonT6.proto"
+
+#### ScaraEpsonT6 Field Summary
+
+-  `staticBase`: Defines if the SCARA base should be pinned to the static environment.
+-  `handSlot`: Extends the shaft with new nodes in the hand slot.
+
+### Samples
+
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/ScaraT6/worlds".
+
+#### industrial_example.wbt
+
+![industrial_example.wbt.png](images/robots/ScaraT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup. It is using the `scara_food_industry` controller.

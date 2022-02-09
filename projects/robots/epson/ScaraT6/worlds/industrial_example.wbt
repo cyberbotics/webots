@@ -9,8 +9,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.9
-  orientation 0.24732671760258534 -0.06440352112159926 -0.966789367560003 3.9678794633348473
-  position 2.7452821408052808 -2.684614530625193 2.0157132167201084
+  orientation 0.27793952112396303 -0.4664737686280524 -0.8397331991646658 5.450137415584857
+  position -1.5106384430197946 -3.0308478591240826 1.9327924772366287
   exposure 1.7
 }
 TexturedBackground {
@@ -352,6 +352,10 @@ Orange {
   translation 0.837455 -0.676998 0.44
   name "orange(19)"
 }
+DEF fruit1 Orange {
+  translation 0.677164 -0.812413 0.44
+  name "orange(21)"
+}
 Orange {
   translation 0.141124 -0.764816 0.44
   name "orange(3)"
@@ -415,10 +419,15 @@ Apple {
   rotation 0 0 1 -0.523595307179586
   name "apple(5)"
 }
+DEF fruit0 Apple {
+  translation 0.623758 -0.897132 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(10)"
+}
 Apple {
   translation 0.704774 -1.00551 0.45
   rotation 0 0 1 -0.523595307179586
-  name "apple(10)"
+  name "apple(11)"
 }
 Apple {
   translation 0.794774 -0.84963 0.45
