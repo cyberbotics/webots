@@ -39,7 +39,7 @@ WbLensFlare::WbLensFlare(WbTokenizer *tokenizer) : WbBaseNode("LensFlare", token
   init();
 }
 
-WbLensFlare::WbLensFlare(const WbLensFlare &other) : WbBaseNode(other) {
+WbLensFlare::WbLensFlare(const WbLensFlare &other) : WbBaseNode(other), mWrenLensFlares() {
   init();
 }
 
