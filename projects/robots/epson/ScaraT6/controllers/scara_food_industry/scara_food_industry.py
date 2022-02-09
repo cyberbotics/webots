@@ -36,16 +36,18 @@ def merge_tool(fruit_id):
         fruit = supervisor.getFromDef("fruit" + str(fruit_id))
         vaccum = supervisor.getFromDef("VACCUM")
         if fruit:
-            poses = vaccum.getPosition();
+            poses = vaccum.getPosition()
             fruitTranslation = fruit.getField('translation')
             if fruitTranslation and poses:
-              fruitTranslation.setSFVec3f([poses[0], poses[1], poses[2] - 0.07])
-              fruit.resetPhysics()
+                fruitTranslation.setSFVec3f([poses[0], poses[1], poses[2] - 0.07])
+                fruit.resetPhysics()
+
 
 def ledAnimation():
     global ledStatus
     led.set(ledStatus)
     ledStatus = not(ledStatus)
+
 
 i = 0
 while supervisor.step(timestep) != -1:
@@ -66,12 +68,12 @@ while supervisor.step(timestep) != -1:
             else:
                 base_arm.setPosition(-0.50)
                 arm.setPosition(-0.83)
-        else :
+        else:
             shaft_linear.setPosition(0)
             ledAnimation()
 
     elif i > 150:
-            merge_tool(fruitType)
+        merge_tool(fruitType)
     elif i > 110:
         shaft_linear.setPosition(-0.148)
         ledAnimation()
