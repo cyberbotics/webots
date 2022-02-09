@@ -39,6 +39,6 @@ ScaraEpsonT6 [
 
 You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/ScaraT6/worlds".
 
-#### industrial_example.wbt
+#### industrial\_example.wbt
 
-![industrial_example.wbt.png](images/robots/ScaraT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup. It is using the `scara_food_industry` controller.
+![industrial_example.wbt.png](images/robots/ScaraT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup. It is using the `scara_food_industry` controller
