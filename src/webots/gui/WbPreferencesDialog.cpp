@@ -214,7 +214,7 @@ void WbPreferencesDialog::openFontDialog() {
 }
 
 void WbPreferencesDialog::clearCache() {
-  WbNetwork::instance()->clearCache();
+  WbAssetCache::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
   mTabWidget->removeTab(2);
   mTabWidget->addTab(createNetworkTab(), tr("Network"));

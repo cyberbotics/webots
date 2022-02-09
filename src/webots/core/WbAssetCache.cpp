@@ -129,6 +129,8 @@ void WbAssetCache::clearCache() {
     // recreate directory
     dir.mkpath(".");
   }
+
+  mCacheSize = 0;
 }
 
 void WbAssetCache::recomputeCacheSize() {
