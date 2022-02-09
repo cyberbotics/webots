@@ -242,7 +242,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      QString statement = match.captured(1);
+      QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
