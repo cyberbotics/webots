@@ -109,9 +109,7 @@ int Wrapper::robotStep(int step) {
       continue;
     }
     inputPacket.decode(beginStepTime, outputPacket);
-
-    if (cSuccess)
-      break;
+    break;
   }
   if (!cSuccess)
     return 0;
