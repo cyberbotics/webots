@@ -72,7 +72,10 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
   QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1);                          // remove final backslash
+  if (MSYS2_HOME.isEmpty())
+    MSYS2_HOME = QString(qgetenv("WEBOTS_HOME")) + "\\msys64";
+  else
+    MSYS2_HOME.chop(1);                        // remove final backslash
   qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
   const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt6/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
