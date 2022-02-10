@@ -19,6 +19,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
 #include <QtCore/QDirIterator>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStandardPaths>
 
 static WbAssetCache *gInstance = NULL;
@@ -53,12 +54,14 @@ WbAssetCache::~WbAssetCache() {
   gInstance = NULL;
 }
 
-void WbAssetCache::save(const QString url, const QByteArray &content) {
+bool WbAssetCache::save(const QString url, const QByteArray &content) {
   printf("> save()\n");
 
   if (!isCached(url)) {
+    // sanity check
+    QString path = urlToPath(url);
     // create all the necessary directories
-    QFileInfo fi(mCacheDirectory + urlToPath(url));
+    QFileInfo fi(mCacheDirectory + path);
     bool success = fi.absoluteDir().mkpath(".");
     if (success) {
       // save to file
@@ -69,11 +72,15 @@ void WbAssetCache::save(const QString url, const QByteArray &content) {
         file.close();
       }
       printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
-    } else
-      WbLog::warning(tr("\nInvalid generated cache path for remote file: %1").arg(url), true);
+    } else {
+      WbLog::warning(tr("Impossible to create cache path for remote asset: %1").arg(url), true);
+      return false;
+    }
   } else {
     printf("  already cached\n");
   }
+
+  return true;
 }
 
 QString WbAssetCache::get(const QString url) {
@@ -96,26 +103,26 @@ void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
   if (maxCacheSizeInBytes > mCacheSizeInBytes)
     return;  // unnecessary to purge cache items
 
-  QFileInfoList files;
+  QFileInfoList assets;
 
   QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
-    files << it.fileInfo();
+    assets << it.fileInfo();
   }
 
   /*
   printf("BEFORE\n");
-  QListIterator<QFileInfo> itb(list);
+  QListIterator<QFileInfo> itb(assets);
   while (itb.hasNext()) {
     QFileInfo fi = itb.next();
     printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
   }
   */
 
-  std::sort(files.begin(), files.end(), lastReadLessThan);
+  std::sort(assets.begin(), assets.end(), lastReadLessThan);
 
-  QListIterator<QFileInfo> i(files);
+  QListIterator<QFileInfo> i(assets);
   while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
     const QFileInfo fi = i.next();
 
@@ -128,7 +135,7 @@ void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
 
   /*
   printf("AFTER\n");
-  QListIterator<QFileInfo> ita(list);
+  QListIterator<QFileInfo> ita(assets);
   while (ita.hasNext()) {
     QFileInfo fi = ita.next();
     printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());

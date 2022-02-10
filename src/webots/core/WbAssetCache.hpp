@@ -24,7 +24,7 @@ class WbAssetCache : public QObject {
 public:
   static WbAssetCache *instance();
   void clearCache();
-  void save(QString url, const QByteArray &content);
+  bool save(QString url, const QByteArray &content);
 
   QString get(const QString url);
   bool isCached(QString url);
