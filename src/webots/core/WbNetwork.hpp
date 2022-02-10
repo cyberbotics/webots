@@ -26,10 +26,6 @@ public:
   static WbNetwork *instance();
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
-  void clearCache();
-
-public slots:
-  void updateCache();
 
 private:
   static void cleanup();

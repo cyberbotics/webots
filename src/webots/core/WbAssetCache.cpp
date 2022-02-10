@@ -18,7 +18,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
-#include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
 
@@ -93,37 +92,16 @@ const QString WbAssetCache::urlToPath(QString url) {
   return url.replace("://", "/");
 }
 
-/*
-const QString WbAssetCache::pathToUrl(QString url) {
-  QString decoded = url;
-
-  int n = decoded.indexOf("/");
-  QString root = decoded.left(n);
-  QStringList parts = root.split(".");
-
-  decoded.remove(0, n);
-
-  QStringListIterator it(parts);
-  while (it.hasNext())
-    decoded.insert(0, "." + it.next());
-
-  decoded.remove(0, 1);
-  decoded.insert(0, "https://");
-
-  return decoded;
-}
-*/
-
 void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
   if (maxCacheSizeInBytes > mCacheSizeInBytes)
     return;  // unnecessary to purge cache items
 
-  QFileInfoList list;
+  QFileInfoList files;
 
   QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
-    list << it.fileInfo();
+    files << it.fileInfo();
   }
 
   /*
@@ -135,9 +113,9 @@ void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
   }
   */
 
-  std::sort(list.begin(), list.end(), lastReadLessThanComparison);
+  std::sort(files.begin(), files.end(), lastReadLessThan);
 
-  QListIterator<QFileInfo> i(list);
+  QListIterator<QFileInfo> i(files);
   while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
     const QFileInfo fi = i.next();
 
@@ -158,7 +136,7 @@ void WbAssetCache::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
   */
 }
 
-bool WbAssetCache::lastReadLessThanComparison(QFileInfo &f1, QFileInfo &f2) {
+bool WbAssetCache::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
   return f1.lastRead() < f2.lastRead();
 }
 

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
-#include "WbAssetCache.hpp"
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -46,19 +45,9 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
-    updateCache();
-    connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbNetwork::updateCache);
     setProxy();
   }
   return mNetworkAccessManager;
-}
-
-void WbNetwork::updateCache() {
-  // WbAssetCache *diskCache = new WbAssetCache();
-  // diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets");
-  // qint64 value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
-  // diskCache->setMaximumCacheSize(value);
-  // mNetworkAccessManager->setCache(diskCache);
 }
 
 void WbNetwork::setProxy() {
@@ -91,8 +80,4 @@ void WbNetwork::setProxy() {
   QNetworkProxy::setApplicationProxy(proxy);
   if (mNetworkAccessManager)
     mNetworkAccessManager->setProxy(proxy);
-}
-
-void WbNetwork::clearCache() {
-  mNetworkAccessManager->cache()->clear();
 }

@@ -17,8 +17,6 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QObject>
-#include <QtNetwork/QAbstractNetworkCache>
-#include <QtNetwork/QNetworkCacheMetaData>
 
 class WbAssetCache : public QObject {
   Q_OBJECT
@@ -34,16 +32,15 @@ public:
   void reduceCacheUsage(qint64 maxCacheSizeInBytes);
 
 private:
+  WbAssetCache();
+  ~WbAssetCache();
   static void cleanup();
 
   void recomputeCacheSize();
-  static bool lastReadLessThanComparison(QFileInfo &f1, QFileInfo &f2);
+  static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
 
   const QString urlToPath(QString url);
-  // const QString pathToUrl(QString url);
 
-  WbAssetCache();
-  ~WbAssetCache();
   QString mCacheDirectory;
   qint64 mCacheSizeInBytes;
 };

@@ -234,7 +234,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
-	WbAssetCache.cpp \
+  WbAssetCache.cpp \
   WbBackground.cpp \
   WbBallJoint.cpp \
   WbBallJointParameters.cpp \
