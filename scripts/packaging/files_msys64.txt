@@ -79,11 +79,5 @@
 /mingw64/include/zip.h
 /mingw64/include/zipconf.h
 
-# needed to recompile the Qt-based robot windows (darwin-op or automobile)
+# needed to recompile the Qt-based robot windows (darwin-op)
 /mingw64/share/qt6/bin/moc.exe
-
-# needed to allow users to create translations in their own language
-/mingw64/bin/linguist.exe
-/mingw64/share/qt6/translations/linguist_*.qm
-/mingw64/bin/lrelease.exe
-/mingw64/bin/lupdate.exe
