@@ -1,5 +1,7 @@
 ## SCARA Epson T6
 
+%robot ScaraEpsonT6 images/robots/ScaraEpsonT6/model.png
+
 [SCARA Epson T6](https://www.epson.eu/products/robot/scara-t6-series) is a 4-axis robotic arm with three revolute and one prismatic DOF.
 The chosen model is the T6-602s.
 It can reach 200mm in vertical with the shaft.
