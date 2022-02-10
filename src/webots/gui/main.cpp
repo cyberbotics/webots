@@ -28,6 +28,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <QtCore/QProcess>
 extern "C" {
 // defaults to nVidia instead of Intel graphics on Optimus architectures (commonly found on laptops)
 // unfortunately, the AMD equivalent doesn't seem to exist.
@@ -129,11 +130,15 @@ int main(int argc, char *argv[]) {
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
-    const QString platformPluginPath =
 #ifdef _WIN32
-      webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
+    QProcess process;
+    process.start("cygpath", QStringList{QString("-w"), QString("/")});
+    process.waitForFinished(-1);
+    const QString MSYS2_HOME = process.readAllStandardOutput().trimmed().replace('\\', '/');
+    const QString rootPath = MSYS2_HOME.isEmpty() ? webotsDirPath + "/msys64/" : MSYS2_HOME;
+    const QString platformPluginPath = rootPath + "mingw64/share/qt6/plugins";
 #else
-      webotsDirPath + "/lib/webots/qt/plugins";
+    const QString platformPluginPath = webotsDirPath + "/lib/webots/qt/plugins";
 #endif
     qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
   }
