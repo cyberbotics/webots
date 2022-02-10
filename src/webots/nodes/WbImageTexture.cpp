@@ -17,7 +17,6 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
-#include "WbAssetCache.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -25,6 +24,7 @@
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
 #include "WbSFBool.hpp"
@@ -147,7 +147,7 @@ bool WbImageTexture::loadTexture() {
   //   return false;
 
   printf("requesing from cache: %s\n", path(true).toUtf8().constData());
-  QString filePath(WbAssetCache::instance()->get(path(true)));
+  QString filePath(WbNetwork::instance()->get(path(true)));
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))
     return false;

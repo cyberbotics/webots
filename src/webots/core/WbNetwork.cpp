@@ -13,9 +13,12 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
+#include "WbLog.hpp"
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDateTime>
+#include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkProxy>
@@ -34,6 +37,19 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
+
+  printf("> WbNetwork()\n");
+  mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
+  QDir dir(mCacheDirectory);
+  if (!dir.exists())
+    dir.mkpath(".");
+
+  // calculate cache size at startup
+  recomputeCacheSize();
+  printf("> cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
+
+  // reduceCacheUsage(10 * 1024 * 1024);
+
   qAddPostRoutine(WbNetwork::cleanup);
 }
 
@@ -80,4 +96,119 @@ void WbNetwork::setProxy() {
   QNetworkProxy::setApplicationProxy(proxy);
   if (mNetworkAccessManager)
     mNetworkAccessManager->setProxy(proxy);
+}
+
+bool WbNetwork::save(const QString url, const QByteArray &content) {
+  printf("> save()\n");
+
+  if (!isCached(url)) {
+    // sanity check
+    QString path = urlToPath(url);
+    // create all the necessary directories
+    QFileInfo fi(mCacheDirectory + path);
+    bool success = fi.absoluteDir().mkpath(".");
+    if (success) {
+      // save to file
+      QFile file(fi.absoluteFilePath());
+      if (file.open(QIODevice::WriteOnly)) {
+        file.write(content);
+        mCacheSizeInBytes += file.size();
+        file.close();
+      }
+      printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
+    } else {
+      WbLog::warning(tr("Impossible to create cache path for remote asset: %1").arg(url), true);
+      return false;
+    }
+  } else {
+    printf("  already cached\n");
+  }
+
+  return true;
+}
+
+QString WbNetwork::get(const QString url) {
+  printf("> get()\n");
+  QString loc = mCacheDirectory + urlToPath(url);
+  printf("  file is at: %s\n", loc.toUtf8().constData());
+  return mCacheDirectory + urlToPath(url);
+}
+
+bool WbNetwork::isCached(QString url) {
+  QFileInfo fi(mCacheDirectory + urlToPath(url));
+  return fi.exists();
+}
+
+const QString WbNetwork::urlToPath(QString url) {
+  return url.replace("://", "/");
+}
+
+void WbNetwork::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
+  if (maxCacheSizeInBytes > mCacheSizeInBytes)
+    return;  // unnecessary to purge cache items
+
+  QFileInfoList assets;
+
+  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    assets << it.fileInfo();
+  }
+
+  /*
+  printf("BEFORE\n");
+  QListIterator<QFileInfo> itb(assets);
+  while (itb.hasNext()) {
+    QFileInfo fi = itb.next();
+    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
+  }
+  */
+
+  std::sort(assets.begin(), assets.end(), lastReadLessThan);
+
+  QListIterator<QFileInfo> i(assets);
+  while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
+    const QFileInfo fi = i.next();
+
+    QDir().remove(fi.absoluteFilePath());  // remove the file
+    QDir().rmpath(fi.absolutePath());      // remove any empty parent directories
+
+    mCacheSizeInBytes -= fi.size();
+    printf(" removed %s [%lld]\n", fi.fileName().toUtf8().constData(), mCacheSizeInBytes);
+  }
+
+  /*
+  printf("AFTER\n");
+  QListIterator<QFileInfo> ita(assets);
+  while (ita.hasNext()) {
+    QFileInfo fi = ita.next();
+    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
+  }
+  */
+}
+
+bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
+  return f1.lastRead() < f2.lastRead();
+}
+
+void WbNetwork::clearCache() {
+  printf("> clearCache()\n");
+  QDir dir(mCacheDirectory);
+  if (dir.exists()) {
+    dir.removeRecursively();
+    // recreate directory
+    dir.mkpath(".");
+  }
+
+  mCacheSizeInBytes = 0;
+}
+
+void WbNetwork::recomputeCacheSize() {
+  mCacheSizeInBytes = 0;
+
+  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    mCacheSizeInBytes += it.fileInfo().size();
+  }
 }

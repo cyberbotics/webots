@@ -15,7 +15,6 @@
 #include "WbDownloader.hpp"
 
 #include "WbApplication.hpp"
-#include "WbAssetCache.hpp"
 #include "WbNetwork.hpp"
 #include "WbSimulationState.hpp"
 
@@ -137,7 +136,7 @@ void WbDownloader::finished() {
   }
 
   if (mNetworkReply)
-    if (!WbAssetCache::instance()->save(mUrl.toString(), mNetworkReply->readAll())) {
+    if (!WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll())) {
       mError = tr("Cannot save %1 to cache").arg(mUrl.toString());
       return;
     }

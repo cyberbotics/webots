@@ -16,7 +16,6 @@
 
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
-#include "WbAssetCache.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -24,6 +23,7 @@
 #include "WbMFColor.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFNode.hpp"
@@ -462,7 +462,7 @@ bool WbBackground::loadTexture(int i) {
   url = mUrlFields[urlFieldIndex]->item(0);
 
   printf("requesing from cache: %s\n", url.toUtf8().constData());
-  QString filePath(WbAssetCache::instance()->get(url));
+  QString filePath(WbNetwork::instance()->get(url));
   device = new QFile(filePath);
   if (!device->open(QIODevice::ReadOnly)) {
     warn(tr("Cannot open texture file: '%1'").arg(url));
