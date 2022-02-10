@@ -15,6 +15,8 @@
 #ifndef WB_DOWNLOADER_HPP
 #define WB_DOWNLOADER_HPP
 
+#include "WbNetwork.hpp"
+
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 

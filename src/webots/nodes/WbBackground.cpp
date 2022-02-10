@@ -23,7 +23,6 @@
 #include "WbMFColor.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
-#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFNode.hpp"

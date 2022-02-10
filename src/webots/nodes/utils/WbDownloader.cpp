@@ -15,7 +15,6 @@
 #include "WbDownloader.hpp"
 
 #include "WbApplication.hpp"
-#include "WbNetwork.hpp"
 #include "WbSimulationState.hpp"
 
 #include <QtCore/QDir>

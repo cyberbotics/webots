@@ -24,7 +24,6 @@
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
-#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
 #include "WbSFBool.hpp"
@@ -130,7 +129,6 @@ void WbImageTexture::postFinalize() {
 
 bool WbImageTexture::loadTexture() {
   printf("loadTexture()\n");
-  /*
   if (mDownloader) {
     assert(mDownloader->device() || mDownloader->isCopy());
     if (mDownloader->isCopy())
@@ -141,13 +139,14 @@ bool WbImageTexture::loadTexture() {
     }
     return loadTextureData(mDownloader->device());
   }
-  */
-  // const QString filePath(path(true));
-  // if (filePath.isEmpty())
-  //   return false;
 
-  assert(WbNetwork::instance()->isCached(url));
-  QString filePath(WbNetwork::instance()->get(path(true)));
+  QString filePath;
+  if (WbUrl::isWeb(mUrl->item(0))) {  // TODO: odd.. always zero?
+    assert(WbNetwork::instance()->isCached(path(true)));
+    filePath = WbNetwork::instance()->get(path(true));
+  } else
+    filePath = path(true);  // TODO: ameliorate. path() already checks if url or not
+
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))
     return false;

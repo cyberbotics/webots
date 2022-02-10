@@ -35,6 +35,7 @@
 #include <ode/ode.h>
 
 #include <QtCore/QDataStream>
+#include <QtCore/QFile>
 #include <QtCore/QUrl>
 
 #include <cassert>
@@ -287,9 +288,18 @@ void WbMotor::updateSound() {
   } else if (!mDownloader)
     mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
   else {
-    if (mDownloader->error().isEmpty())
-      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
-    else {
+    if (mDownloader->error().isEmpty()) {
+      assert(WbNetwork::instance()->isCached(mSound->value()));
+      QString filePath(WbNetwork::instance()->get(mSound->value()));
+      QIODevice *device = new QFile(filePath);
+      if (!device->open(QIODevice::ReadOnly)) {
+        warn(tr("Cannot open sound file: '%1'").arg(mSound->value()));
+        delete device;
+        return;
+      }
+
+      mSoundClip = WbSoundEngine::sound(sound, device);
+    } else {
       mSoundClip = NULL;
       warn(mDownloader->error());
     }
