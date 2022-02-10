@@ -62,7 +62,7 @@ WbTreeView::WbTreeView(QWidget *parent) : QTreeView(parent) {
 
   // display an horizontal scroll bar rather than
   // cutting strings with '...' characters
-  header()->setSectionResizeMode(QHeaderView::ResizeToContents);  // Qt5 version
+  header()->setSectionResizeMode(QHeaderView::ResizeToContents);
   header()->setStretchLastSection(false);
   header()->setDefaultSectionSize(10000);
 
