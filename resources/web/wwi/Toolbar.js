@@ -203,6 +203,8 @@ export default class Toolbar {
 
     this.toolbarLeft.appendChild(this.playButton);
     document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
+    if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
+      this.playButton.style.display = 'none';
   }
 
   _triggerPlayPauseButton() {
@@ -890,7 +892,10 @@ export default class Toolbar {
   }
 
   _createStepButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('step', 'Perform one simulation step', () => this.step()));
+    let stepButton = this._createToolBarButton('step', 'Perform one simulation step', () => this.step());
+    this.toolbarLeft.appendChild(stepButton);
+    if (!(typeof this.parentNode.showStep === 'undefined' || this.parentNode.showStep))
+      stepButton.style.display = 'none';
   }
 
   step() {
