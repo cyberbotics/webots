@@ -460,8 +460,8 @@ bool WbBackground::loadTexture(int i) {
   }
 
   url = mUrlFields[urlFieldIndex]->item(0);
+  assert(WbNetwork::instance()->isCached(url));
 
-  printf("requesing from cache: %s\n", url.toUtf8().constData());
   QString filePath(WbNetwork::instance()->get(url));
   device = new QFile(filePath);
   if (!device->open(QIODevice::ReadOnly)) {

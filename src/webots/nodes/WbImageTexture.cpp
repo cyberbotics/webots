@@ -146,7 +146,7 @@ bool WbImageTexture::loadTexture() {
   // if (filePath.isEmpty())
   //   return false;
 
-  printf("requesing from cache: %s\n", path(true).toUtf8().constData());
+  assert(WbNetwork::instance()->isCached(url));
   QString filePath(WbNetwork::instance()->get(path(true)));
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))

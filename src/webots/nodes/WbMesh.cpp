@@ -18,6 +18,7 @@
 #include "WbDownloader.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
@@ -30,6 +31,7 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QFile>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
@@ -135,7 +137,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       downloadAssets();
 
     if (mDownloader->hasFinished()) {
-      const QByteArray data = mDownloader->device()->readAll();
+      assert(WbNetwork::instance()->isCached(filePath));
+      QFile file(WbNetwork::instance()->get(filePath));
+      if (!file.open(QIODevice::ReadOnly))
+        return;
+
+      const QByteArray data = file.readAll();
       const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
       scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
       delete mDownloader;
