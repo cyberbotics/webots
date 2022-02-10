@@ -275,6 +275,7 @@ Robot {
               name "base_arm_motor"
               minPosition -0.73 # calibrated
               maxPosition 0.73
+              maxVelocity 12.82
             }
             PositionSensor {
               name "base_arm_position"
@@ -336,6 +337,7 @@ Robot {
                     name "arm_motor"
                     minPosition -0.83 # calibrated
                     maxPosition 0.83
+                    maxVelocity 12.82
                   }
                   PositionSensor {
                     name "arm_position"
@@ -513,7 +515,6 @@ Robot {
                           name "shaft_linear_motor"
                           minPosition -0.200 # calibrated
                           maxPosition 0
-                          maxVelocity 1
                           maxForce 6
                         }
                         PositionSensor {
