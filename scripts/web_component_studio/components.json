@@ -452,6 +452,16 @@
       }
     },
     {
+      "name": "ScaraEpsonT6",
+      "proto": "ScaraEpsonT6",
+      "translation": "0 0 0",
+      "rotation": "0 0 0 0",
+      "viewpoint": {
+        "orientation": "-0.15212491220673613 0.17208122943104343 0.9732656685425586 1.7205961684934805",
+        "position": "0.08522977504597018 -0.7784466798062476 0.4109026879596729"
+      }
+    },
+    {
       "name": "shrimp",
       "proto": "Shrimp",
       "translation": "0 0 0",
