@@ -17,6 +17,7 @@
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QDateTime>
 #include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
@@ -98,7 +99,7 @@ void WbNetwork::setProxy() {
     mNetworkAccessManager->setProxy(proxy);
 }
 
-bool WbNetwork::save(const QString url, const QByteArray &content) {
+void WbNetwork::save(const QString url, const QByteArray &content) {
   printf("> save()\n");
 
   if (!isCached(url)) {
@@ -118,29 +119,27 @@ bool WbNetwork::save(const QString url, const QByteArray &content) {
       printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
     } else {
       WbLog::warning(tr("Impossible to create cache path for remote asset: %1").arg(url), true);
-      return false;
     }
   } else {
     printf("  already cached\n");
   }
-
-  return true;
 }
 
 QString WbNetwork::get(const QString url) {
   printf("> get()\n");
   QString loc = mCacheDirectory + urlToPath(url);
   printf("  file is at: %s\n", loc.toUtf8().constData());
-  return mCacheDirectory + urlToPath(url);
+  return loc;
 }
 
 bool WbNetwork::isCached(QString url) {
-  QFileInfo fi(mCacheDirectory + urlToPath(url));
-  return fi.exists();
+  return QFileInfo(mCacheDirectory + urlToPath(url)).exists();
 }
 
 const QString WbNetwork::urlToPath(QString url) {
-  return url.replace("://", "/");
+  QString fileName = url.mid(url.lastIndexOf('/') + 1);
+  QString urlHash = QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
+  return urlHash + "/" + fileName;
 }
 
 void WbNetwork::reduceCacheUsage(qint64 maxCacheSizeInBytes) {

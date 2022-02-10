@@ -136,10 +136,7 @@ void WbDownloader::finished() {
   }
 
   if (mNetworkReply)
-    if (!WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll())) {
-      mError = tr("Cannot save %1 to cache").arg(mUrl.toString());
-      return;
-    }
+    WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
 
   gComplete++;
   mFinished = true;

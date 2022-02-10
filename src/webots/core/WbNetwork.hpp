@@ -30,7 +30,7 @@ public:
 
   bool isCached(QString url);
   void clearCache();
-  bool save(QString url, const QByteArray &content);
+  void save(QString url, const QByteArray &content);
   QString get(const QString url);
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
