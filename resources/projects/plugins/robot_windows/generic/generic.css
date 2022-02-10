@@ -27,6 +27,8 @@ h2 {
   position: fixed;
   height: 100%;
   z-index: 2;
+  left: 0px;
+  top: 0px;
   color: white;
   background-color: #444;
 }
