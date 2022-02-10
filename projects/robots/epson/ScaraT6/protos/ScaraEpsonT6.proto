@@ -74,7 +74,7 @@ Robot {
         }
         CapScrew {
           translation -0.0477 -0.0494 0.4091
-          rotation 0 -1 0 -1.0472053071795866
+          rotation 0 1 0 1.0472053071795866
           name "cap screw(4)"
           appearance GalvanizedMetal {
           }
@@ -85,7 +85,6 @@ Robot {
         }
         CapScrew {
           translation -0.0921 -0.0493 0.3583
-          rotation 0 1 0 0
           name "cap screw(6)"
           appearance GalvanizedMetal {
           }
@@ -96,7 +95,6 @@ Robot {
         }
         CapScrew {
           translation -0.0934 -0.05565 0.2079
-          rotation 0 1 0 0
           name "cap screw(8)"
           appearance GalvanizedMetal {
           }
@@ -107,7 +105,6 @@ Robot {
         }
         CapScrew {
           translation -0.0934 -0.05565 0.2382
-          rotation 0 1 0 0
           name "cap screw(9)"
           appearance GalvanizedMetal {
           }
@@ -118,7 +115,6 @@ Robot {
         }
         CapScrew {
           translation -0.0932 0.05565 0.2383
-          rotation 0 1 0 0
           name "cap screw(10)"
           appearance GalvanizedMetal {
           }
@@ -129,7 +125,6 @@ Robot {
         }
         CapScrew {
           translation -0.0934 0.05565 0.2078
-          rotation 0 1 0 0
           name "cap screw(11)"
           appearance GalvanizedMetal {
           }
@@ -140,7 +135,6 @@ Robot {
         }
         CapScrew {
           translation -0.0934 0.05565 -0.0014
-          rotation 0 1 0 0
           name "cap screw(12)"
           appearance GalvanizedMetal {
           }
@@ -151,7 +145,6 @@ Robot {
         }
         CapScrew {
           translation -0.0934 -0.05569 -0.0014
-          rotation 0 1 0 0
           name "cap screw(13)"
           appearance GalvanizedMetal {
           }
@@ -162,7 +155,6 @@ Robot {
         }
         CapScrew {
           translation -0.0921 0.0498 0.3583
-          rotation 0 1 0 0
           name "cap screw(7)"
           appearance GalvanizedMetal {
           }
@@ -173,7 +165,7 @@ Robot {
         }
         CapScrew {
           translation -0.0477 0.0496 0.4091
-          rotation 0 -1 0 -1.0472053071795866
+          rotation 0 1 0 1.0472053071795866
           name "cap screw(5)"
           appearance GalvanizedMetal {
           }
@@ -420,7 +412,6 @@ Robot {
                         }
                         CapScrew {
                           translation -0.3091 -0.01371 0.0509
-                          rotation 0 -1 0 -5.307179586466759e-06
                           name "cap screw(7)"
                           appearance GalvanizedMetal {
                           }
@@ -431,7 +422,6 @@ Robot {
                         }
                         CapScrew {
                           translation -0.3091 0.0131 0.0509
-                          rotation 0 -1 0 -5.307179586466759e-06
                           name "cap screw(6)"
                           appearance GalvanizedMetal {
                           }
@@ -534,7 +524,6 @@ Robot {
                           DEF LINK3_TRANSFORM HingeJoint {
                             jointParameters HingeJointParameters {
                               axis 0 0 1
-                              anchor 0 0 0
                             }
                             device [
                               RotationalMotor {
