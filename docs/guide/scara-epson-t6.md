@@ -11,8 +11,8 @@ An end-effector can be choose on its shaft, as a gripper or a suction cup.
 
 The actuators available are three rotational motors (`base_arm_motor`, `arm_motor` and `shaft_rotation_motor`), a linear motor (`shaft_linear_motor`) and a [LED](../reference/led.md) (`epson_led`).
 The motors have four position sensors named `base_arm_position`, `arm_position` `shaft_rotation_position` and `shaft_linear_position`.
-Maximum range of operation of the different axis in radian:
-> base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
+
+> **Maximum range of operation in radian**: base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
 ### ScaraEpsonT6 PROTO
 
 Derived from [Robot](../reference/robot.md).
@@ -46,4 +46,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### industrial\_example.wbt
 
-![industrial_example.wbt.png](images/robots/ScaraT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
+![industrial_example.wbt.png](images/robots/ScaraEpsonT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
