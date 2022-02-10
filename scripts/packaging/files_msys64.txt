@@ -45,6 +45,9 @@
 /mingw64/share/qt6/plugins/imageformats/qjpeg.dll
 /mingw64/share/qt6/plugins/platforms/qwindows.dll
 /mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
+/mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
+/mingw64/share/qt6/plugins/tls/qopensslbackend.dll
+/mingw64/share/qt6/plugins/tls/qschannelbackend.dll
 /mingw64/share/qt6/translations/qt_*.qm
 /mingw64/share/qt6/translations/qtbase_*.qm
 /mingw64/share/qt6/translations/qtdeclarative_*.qm
