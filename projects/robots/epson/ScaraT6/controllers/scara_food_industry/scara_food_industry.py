@@ -51,10 +51,12 @@ def ledAnimation():
 
 i = 0
 while supervisor.step(timestep) != -1:
+
+    if i%100 == 0:
+        ledAnimation()
     if i == 0:
         arm.setPosition(0.6)
         base_arm.setPosition(0.2)
-        ledAnimation()
     elif i > 450:
         i = -1
     elif i > 400:
@@ -70,12 +72,10 @@ while supervisor.step(timestep) != -1:
                 arm.setPosition(-0.83)
         else:
             shaft_linear.setPosition(0)
-            ledAnimation()
 
     elif i > 150:
         merge_tool(fruitType)
     elif i > 110:
         shaft_linear.setPosition(-0.148)
-        ledAnimation()
 
     i = i + 1

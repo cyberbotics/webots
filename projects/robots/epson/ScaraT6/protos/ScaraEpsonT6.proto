@@ -11,6 +11,7 @@ PROTO ScaraEpsonT6 [
   field SFString          controller      ""              # Is `Robot.controller`.
   field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
   field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
+  field SFBool            synchronization TRUE            # Is `Robot.synchronization`.
   field SFString          customData      ""              # Is `Robot.customData`.
   field SFString          window          ""              # Is `Robot.window`.
   field SFBool            staticBase      FALSE           # Defines if the scara base should be pinned to the static environment.
@@ -328,7 +329,7 @@ Robot {
               DEF LINK2_TRANSFORM HingeJoint {
                 jointParameters HingeJointParameters {
                   axis 0 0 1
-                  anchor 0.37 0 0
+                  anchor 0.37 0 0.23
                 }
                 device [
                   RotationalMotor {
@@ -510,16 +511,17 @@ Robot {
                       device [
                         LinearMotor {
                           name "shaft_linear_motor"
-                          minPosition -0.180 # calibrated
+                          minPosition -0.200 # calibrated
                           maxPosition 0
                           maxVelocity 1
+                          maxForce 6
                         }
                         PositionSensor {
                           name "shaft_linear_position"
                         }
                       ]
                       endPoint Solid {
-                        translation 0.633 0 0.6
+                        translation 0.633 0 0.607
                         children [
                           DEF LINK3_TRANSFORM HingeJoint {
                             jointParameters HingeJointParameters {
@@ -537,7 +539,7 @@ Robot {
                             endPoint Solid {
                               children [
                                 DEF HAND_SLOT Transform {
-                                  translation 0 0 -0.425
+                                  translation 0 0 -0.422
                                   children IS handSlot
                                 }
                                 DEF SHAFT_SHAPE Shape {
@@ -560,9 +562,6 @@ Robot {
                                     }
                                   }
                                 ]
-                              }
-                              physics Physics {
-                                density 100
                               }
                             }
                           }
@@ -596,11 +595,7 @@ Robot {
       }
     ]
   }
-  %< if (fields.staticBase.value) { >%
-  physics Physics {
-    density 1500
-  }
-  %< } else { >%
+  %< if (!fields.staticBase.value) { >%
   physics Physics {
     density -1
     mass 22
