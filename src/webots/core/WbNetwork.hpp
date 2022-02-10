@@ -34,7 +34,7 @@ public:
   QString get(const QString url);
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
-  void reduceCacheUsage(qint64 maxCacheSizeInBytes);
+  void reduceCacheUsage();
 
 private:
   static void cleanup();

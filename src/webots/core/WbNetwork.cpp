@@ -45,11 +45,11 @@ WbNetwork::WbNetwork() {
   if (!dir.exists())
     dir.mkpath(".");
 
-  // calculate cache size at startup
+  // calculate cache size and (possibly) purge part of it when the WbNetwork instance is first created
   recomputeCacheSize();
   printf("> cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
 
-  // reduceCacheUsage(10 * 1024 * 1024);
+  reduceCacheUsage();
 
   qAddPostRoutine(WbNetwork::cleanup);
 }
@@ -137,12 +137,13 @@ bool WbNetwork::isCached(QString url) {
 }
 
 const QString WbNetwork::urlToPath(QString url) {
-  QString fileName = url.mid(url.lastIndexOf('/') + 1);
-  QString urlHash = QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
+  const QString fileName = url.mid(url.lastIndexOf('/') + 1);
+  const QString urlHash = QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
   return urlHash + "/" + fileName;
 }
 
-void WbNetwork::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
+void WbNetwork::reduceCacheUsage() {
+  const qint64 maxCacheSizeInBytes = WbPreferences::instance()->value("Network/cacheSize", 1024).toInt() * 1024 * 1024;
   if (maxCacheSizeInBytes > mCacheSizeInBytes)
     return;  // unnecessary to purge cache items
 
@@ -154,15 +155,7 @@ void WbNetwork::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
     assets << it.fileInfo();
   }
 
-  /*
-  printf("BEFORE\n");
-  QListIterator<QFileInfo> itb(assets);
-  while (itb.hasNext()) {
-    QFileInfo fi = itb.next();
-    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
-  }
-  */
-
+  // sort the files based on lastRead metadata, from oldest to newest
   std::sort(assets.begin(), assets.end(), lastReadLessThan);
 
   QListIterator<QFileInfo> i(assets);
@@ -175,15 +168,6 @@ void WbNetwork::reduceCacheUsage(qint64 maxCacheSizeInBytes) {
     mCacheSizeInBytes -= fi.size();
     printf(" removed %s [%lld]\n", fi.fileName().toUtf8().constData(), mCacheSizeInBytes);
   }
-
-  /*
-  printf("AFTER\n");
-  QListIterator<QFileInfo> ita(assets);
-  while (ita.hasNext()) {
-    QFileInfo fi = ita.next();
-    printf(" %s: %s %lld\n", fi.lastRead().toString().toUtf8().constData(), fi.fileName().toUtf8().constData(), fi.size());
-  }
-  */
 }
 
 bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
@@ -195,7 +179,7 @@ void WbNetwork::clearCache() {
   QDir dir(mCacheDirectory);
   if (dir.exists()) {
     dir.removeRecursively();
-    // recreate directory
+    // recreate cache directory since it gets removed as well by removeRecursively
     dir.mkpath(".");
   }
 
