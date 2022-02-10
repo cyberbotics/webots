@@ -129,6 +129,7 @@ void WbImageTexture::postFinalize() {
 
 bool WbImageTexture::loadTexture() {
   printf("loadTexture()\n");
+  /*
   if (mDownloader) {
     assert(mDownloader->device() || mDownloader->isCopy());
     if (mDownloader->isCopy())
@@ -139,6 +140,7 @@ bool WbImageTexture::loadTexture() {
     }
     return loadTextureData(mDownloader->device());
   }
+  */
 
   QString filePath;
   if (WbUrl::isWeb(mUrl->item(0))) {  // TODO: odd.. always zero?

@@ -473,7 +473,11 @@ void WbSkin::createWrenSkeleton() {
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
     if (mDownloader && mDownloader->hasFinished()) {
-      const QByteArray data = mDownloader->device()->readAll();
+      assert(WbNetwork::instance()->isCached(meshFilePath));
+      QFile file(WbNetwork::instance()->get(meshFilePath));
+      if (!file.open(QIODevice::ReadOnly))
+        return;
+      const QByteArray data = file.readAll();
       const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
       error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
       delete mDownloader;
