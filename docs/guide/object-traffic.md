@@ -604,6 +604,7 @@ PedestrianCrossing {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "pedestrian crossing"
+  SFVec3f    scale                1 1 1
   SFVec2f    size                 20 8
   SFInt32    textureFiltering     4
   SFBool     enableBoundingObject TRUE
