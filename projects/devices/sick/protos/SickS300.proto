@@ -27,41 +27,46 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
     rotation IS rotation
     name IS name
     children [
-      Shape {
-        appearance PBRAppearance {
-          baseColor 0 0 0
-          roughness 0.5
-          metalness 0.2
-        }
-        geometry Mesh {
-          url [
-            "webots://projects/devices/sick/protos/meshes/sick_s300_black.dae"
-          ]
-        }
-      }
-      Shape {
-        appearance PBRAppearance {
-          baseColor 0 0 0
-          roughness 0
-          metalness 1
-        }
-        geometry Mesh {
-          url [
-            "webots://projects/devices/sick/protos/meshes/sick_s300_glass.dae"
-          ]
-        }
-      }
-      Shape {
-        appearance PBRAppearance {
-          baseColor 0.969 0.8 0.016
-          roughness 0.5
-          metalness 0.2
-        }
-        geometry Mesh {
-          url [
-            "webots://projects/devices/sick/protos/meshes/sick_s300_yellow.dae"
-          ]
-        }
+      Transform {
+        rotation 0 0 1 3.14159
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 0.5
+              metalness 0.2
+            }
+            geometry Mesh {
+              url [
+                "webots://projects/devices/sick/protos/meshes/sick_s300_black.dae"
+              ]
+            }
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 0
+              metalness 1
+            }
+            geometry Mesh {
+              url [
+                "webots://projects/devices/sick/protos/meshes/sick_s300_glass.dae"
+              ]
+            }
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.969 0.8 0.016
+              roughness 0.5
+              metalness 0.2
+            }
+            geometry Mesh {
+              url [
+                "webots://projects/devices/sick/protos/meshes/sick_s300_yellow.dae"
+              ]
+            }
+          }
+        ]
       }
     ]
     %< if (fields.enablePhysics.value) { >%
