@@ -7,7 +7,6 @@ export default class RobotWindow {
     let params = location.href.split('?')[1].split('&');
     if (params.length > 1)
       this.wsServer = 'ws' + params[1].substring(4);
-    console.log(this.wsServer)
 
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
