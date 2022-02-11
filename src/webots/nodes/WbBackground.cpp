@@ -532,7 +532,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
     const QString url =
       WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
     if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mIrradianceUrlFields[i]->item(0)));
       return false;
     }
     device = new QFile(url);
