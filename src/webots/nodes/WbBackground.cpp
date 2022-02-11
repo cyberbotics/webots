@@ -180,7 +180,6 @@ WbBackground::~WbBackground() {
 }
 
 void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
-  printf("downloadAsset(%s)\n", url.toUtf8().constData());
   if (!WbUrl::isWeb(url))
     return;
 
@@ -424,59 +423,54 @@ void WbBackground::applyColorToWren(const WbRgb &color) {
 bool WbBackground::loadTexture(int i) {
   if (mTexture[i])
     return true;
-  const int urlFieldIndex = gCoordinateSystemSwap(i);
-  QString url;
-  QIODevice *device;
 
-  if (mDownloader[urlFieldIndex]) {
-    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
-      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
-      delete mDownloader[urlFieldIndex];
-      mDownloader[urlFieldIndex] = NULL;
+  const int urlFieldIndex = gCoordinateSystemSwap(i);
+
+  // if a side is not defined, the texture should not be loaded
+  assert(mUrlFields[urlFieldIndex]->size() != 0);
+
+  QString url = mUrlFields[urlFieldIndex]->item(0);
+  if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
+    else {
+      warn(tr("'%1' is expected to be cached, but is not.").arg(url));
       return false;
     }
   } else {
-    if (mUrlFields[urlFieldIndex]->size() == 0)
+    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
+    if (url == WbUrl::missingTexture() || url.isEmpty()) {
+      warn(tr("Texture not found: '%1'").arg(url));
       return false;
+    }
   }
 
-  url = mUrlFields[urlFieldIndex]->item(0);
-  assert(WbNetwork::instance()->isCached(url));  // if fails: are you using http or webots?
-
-  QString filePath(WbNetwork::instance()->get(url));
-  device = new QFile(filePath);
-  if (!device->open(QIODevice::ReadOnly)) {
-    warn(tr("Cannot open texture file: '%1'").arg(url));
-    delete device;
+  QImageReader imageReader(url);
+  if (!imageReader.canRead()) {
+    warn(tr("Cannot read texture file: '%1'").arg(url));
     return false;
   }
 
-  QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
-
   if (textureSize.width() != textureSize.height()) {
     warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
-    if (!mDownloader[urlFieldIndex])
-      delete device;
     return false;
   }
+
   for (int j = 0; j < 6; j++)
     if (mTexture[j]) {
       if (textureSize.width() == mTextureSize)
         break;
       else {
         warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
-        if (!mDownloader[urlFieldIndex])
-          delete device;
         return false;
       }
     }
+
   mTextureSize = textureSize.width();
   mTexture[i] = new QImage;
   if (!imageReader.read(mTexture[i])) {
     warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-    if (!mDownloader[urlFieldIndex])
-      delete device;
     return false;
   }
 
@@ -487,11 +481,10 @@ bool WbBackground::loadTexture(int i) {
       warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
       delete mTexture[i];
       mTexture[i] = NULL;
-      if (!mDownloader[urlFieldIndex])
-        delete device;
       return false;
     }
   }
+
   mTextureHasAlpha = mTexture[i]->hasAlphaChannel();
   if (mTexture[i]->format() != QImage::Format_ARGB32) {
     QImage tmp = mTexture[i]->convertToFormat(QImage::Format_ARGB32);
@@ -507,75 +500,51 @@ bool WbBackground::loadTexture(int i) {
     QImage tmp = mTexture[i]->transformed(matrix);
     mTexture[i]->swap(tmp);
   }
+
   if (mDownloader[urlFieldIndex]) {
-    delete mDownloader[urlFieldIndex];
+    delete mDownloader[urlFieldIndex];  // TODO: necessary?
     mDownloader[urlFieldIndex] = NULL;
-  } else {
-    device->close();
-    delete device;
   }
+
   return true;
 }
 
 bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceTexture[i])
     return true;
-  const int j = gCoordinateSystemSwap(i);
-  if (mIrradianceUrlFields[j]->size() == 0)
+
+  const int urlFieldIndex = gCoordinateSystemSwap(i);
+
+  if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
-  const int k = j + 6;
-  QIODevice *device;
-  /*
-  QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
-  bool shouldDelete = false;
-  int components;
-  if (device) {
-    if (!mDownloader[k]->error().isEmpty()) {
-      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
-      delete mDownloader[k];
-      mDownloader[k] = NULL;
+
+  QString url = mIrradianceUrlFields[urlFieldIndex]->item(0);
+  if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
+    else {
+      warn(tr("'%1' is expected to be cached, but is not.").arg(url));
       return false;
     }
   } else {
-    const QString url =
-      WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
+    url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
     if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mIrradianceUrlFields[i]->item(0)));
-      return false;
-    }
-    device = new QFile(url);
-    shouldDelete = true;
-    if (!device->open(QIODevice::ReadOnly)) {
-      warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[j]->item(0)));
-      delete device;
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
       return false;
     }
   }
-  */
 
-  QString url = mIrradianceUrlFields[j]->item(0);
-  bool shouldDelete = false;  // TODO: probably not needed anymore
-  int components;
-  assert(WbNetwork::instance()->isCached(url));  // if fails: are you using http or webots?
-
-  QString filePath(WbNetwork::instance()->get(url));
-  device = new QFile(filePath);
-  if (!device->open(QIODevice::ReadOnly)) {
-    warn(tr("Cannot open irradiance file: '%1'").arg(url));
-    delete device;
+  QFile irradianceFile(url);
+  if (!irradianceFile.open(QIODevice::ReadOnly)) {
+    warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[urlFieldIndex]->item(0)));
     return false;
   }
 
-  const QByteArray content = device->readAll();
-  if (shouldDelete) {
-    device->close();
-    delete device;
-  } else {
-    delete mDownloader[k];
-    mDownloader[k] = NULL;
-  }
+  int components;
+  const QByteArray content = irradianceFile.readAll();
   float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &mIrradianceWidth,
                                        &mIrradianceHeight, &components, 0);
+
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
@@ -617,7 +586,14 @@ bool WbBackground::loadIrradianceTexture(int i) {
     stbi_image_free(data);
     data = rotated;
   }
+
   mIrradianceTexture[i] = data;
+
+  if (mDownloader[urlFieldIndex + 6]) {  // TODO: necessary?
+    delete mDownloader[urlFieldIndex + 6];
+    mDownloader[urlFieldIndex + 6] = NULL;
+  }
+
   return true;
 }
 
