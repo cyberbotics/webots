@@ -180,6 +180,11 @@ int main(int argc, char *argv[]) {
 
   QApplication::setAttribute(Qt::AA_Use96Dpi);
 
+#ifdef _WIN32
+  // fixes truncated menus on some screen configurations: https://bugreports.qt.io/browse/QTBUG-98347
+  QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Floor);
+#endif
+
   WbGuiApplication app(argc, argv);
   // Quit the application correctly when receiving POSIX signals.
   signal(SIGINT, quitApplication);  // this signal is working on Windows when Ctrl+C from cmd.exe.
