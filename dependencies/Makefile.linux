@@ -47,8 +47,8 @@ $(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_P
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# downloading $(QT_PACKAGE)"
-	wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "3409b59f2e5f6d0a191bebd4dafea72e" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "edaea63de3772637993cb3facdd51d26" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 

@@ -89,7 +89,10 @@ cp $QT_INSTALLATION_PATH/plugins/printsupport/libcupsprintersupport.so lib/webot
 cp $QT_INSTALLATION_PATH/plugins/tls/*.so                           lib/webots/qt/plugins/tls/
 cp $QT_INSTALLATION_PATH/plugins/xcbglintegrations/libqxcb-glx-integration.so lib/webots/qt/plugins/xcbglintegrations/
 cp $QT_INSTALLATION_PATH/plugins/imageformats/libqjpeg.so           lib/webots/qt/plugins/imageformats/
-cp -r $QT_INSTALLATION_PATH/translations/*                          lib/webots/qt/translations/
+cp -r $QT_INSTALLATION_PATH/translations/qt_*                       lib/webots/qt/translations/
+cp -r $QT_INSTALLATION_PATH/translations/qtbase_*                   lib/webots/qt/translations/
+cp -r $QT_INSTALLATION_PATH/translations/qtdeclarative_*            lib/webots/qt/translations/
+cp -r $QT_INSTALLATION_PATH/translations/qtwebsockets_*             lib/webots/qt/translations/
 
 cd lib/webots
 ln -sf libQt6Concurrent.so.$QT_VERSION        libQt6Concurrent.so.6
