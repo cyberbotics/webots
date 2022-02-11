@@ -205,11 +205,11 @@ DEF TRACKED_ROBOT Robot {
               metalness 0
             }
             geometry Box {
-              size 0.044 0.005 0.03
+              size 0.044 0.03 0.005
             }
           }
           Transform {
-            translation 0 0.003 0
+            translation 0 0 0.003
             children [
               Shape {
                 appearance PBRAppearance {
@@ -218,7 +218,7 @@ DEF TRACKED_ROBOT Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.02 0.006 0.03
+                  size 0.02 0.03 0.006
                 }
               }
             ]

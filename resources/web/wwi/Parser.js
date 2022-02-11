@@ -353,7 +353,6 @@ export default class Parser {
     if (typeof use === 'undefined')
       return;
 
-    const id = getNodeAttribute(node, 'id');
     let result = WbWorld.instance.nodes.get(use);
 
     if (typeof result === 'undefined') {
@@ -363,7 +362,9 @@ export default class Parser {
 
     if (typeof result === 'undefined')
       return;
-
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
