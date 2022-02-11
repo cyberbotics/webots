@@ -43,6 +43,7 @@ export default class X3dScene {
     this._nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this._renderingTimeout);
     this._renderingTimeout = null;
+    setTimeout(() => this.render(), 40);
   }
 
   renderMinimal() {
