@@ -154,6 +154,7 @@ WbCamera::~WbCamera() {
 }
 
 void WbCamera::downloadAssets() {
+  WbAbstractCamera::downloadAssets();
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
     delete mDownloader;
