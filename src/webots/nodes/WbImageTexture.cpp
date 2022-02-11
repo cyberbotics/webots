@@ -262,7 +262,7 @@ void WbImageTexture::updateWrenTexture() {
   }
 
   mWrenTexture = WR_TEXTURE(texture);
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
     delete mDownloader;
   mDownloader = NULL;
 }

@@ -154,9 +154,12 @@ WbCamera::~WbCamera() {
 }
 
 void WbCamera::downloadAssets() {
+  printf("downloadAssets()\n");
   WbAbstractCamera::downloadAssets();
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
+    if (WbNetwork::instance()->isCached(noiseMaskUrl))
+      return;
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
@@ -1098,30 +1101,31 @@ void WbCamera::updateNoiseMaskUrl() {
 
   QString noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
-    QIODevice *device;
     if (WbUrl::isWeb(noiseMaskUrl)) {
-      if (isPostFinalizedCalled() && mDownloader == NULL) {
+      if (isPostFinalizedCalled() && !WbNetwork::instance()->isCached((noiseMaskUrl))) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
         return;
       }
-      assert(mDownloader);
-      if (!mDownloader->error().isEmpty()) {
-        warn(mDownloader->error());
-        delete mDownloader;
-        mDownloader = NULL;
-        return;
-      }
-      device = mDownloader->device();
-      assert(device);
     } else {
       noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
-      device = NULL;
+      if (noiseMaskUrl.isEmpty()) {
+        warn(tr("Noise mask not found: '%1'").arg(noiseMaskUrl));
+        return;
+      }
     }
-    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
+
+    QFile noiseMask(noiseMaskUrl);
+    if (!noiseMask.open(QIODevice::ReadOnly)) {
+      warn(tr("Cannot open noise mask file: '%1'").arg(noiseMaskUrl));
+      return;
+    }
+
+    const QString error = mWrenCamera->setNoiseMask(noiseMask.readAll().constData());
     if (!error.isEmpty())
       parsingWarn(error);
-    delete mDownloader;
+
+    delete mDownloader;  // TODO: necessary?
     mDownloader = NULL;
   }
 }

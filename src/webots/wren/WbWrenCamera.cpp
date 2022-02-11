@@ -327,7 +327,7 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   }
 }
 
-QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device) {
+QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
   if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 
@@ -336,7 +336,7 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *
   mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskTexturePath);
   if (!mNoiseMaskTexture) {
     QImage *image = new QImage();
-    QImageReader *imageReader = device ? new QImageReader(device) : new QImageReader(noiseMaskTexturePath);
+    QImageReader *imageReader = new QImageReader(noiseMaskTexturePath);
     if (!imageReader->read(image)) {
       delete image;
       return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader->errorString());

@@ -57,7 +57,6 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
-  printf("downloadAssets()\n");
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
@@ -128,6 +127,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
                        aiProcess_FlipUVs;
+
   if (WbUrl::isWeb(filePath)) {
     if (!WbNetwork::instance()->isCached(filePath)) {
       downloadAssets();

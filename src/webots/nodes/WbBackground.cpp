@@ -502,7 +502,7 @@ bool WbBackground::loadTexture(int i) {
   }
 
   if (mDownloader[urlFieldIndex]) {
-    delete mDownloader[urlFieldIndex];  // TODO: necessary?
+    delete mDownloader[urlFieldIndex];  // TODO: necessary? is delete in downloadAssets always done?
     mDownloader[urlFieldIndex] = NULL;
   }
 
@@ -589,7 +589,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
 
   mIrradianceTexture[i] = data;
 
-  if (mDownloader[urlFieldIndex + 6]) {  // TODO: necessary?
+  if (mDownloader[urlFieldIndex + 6]) {  // TODO: necessary? is delete in downloadAssets always done?
     delete mDownloader[urlFieldIndex + 6];
     mDownloader[urlFieldIndex + 6] = NULL;
   }
