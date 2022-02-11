@@ -180,8 +180,10 @@ WbBackground::~WbBackground() {
 }
 
 void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
+  printf("downloadAsset(%s)\n", url.toUtf8().constData());
   if (!WbUrl::isWeb(url))
     return;
+
   if (index < 6) {
     delete mTexture[index];
     mTexture[index] = NULL;
@@ -199,11 +201,11 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 }
 
 void WbBackground::downloadAssets() {
+  printf("downloadAssets()\n");
   for (size_t i = 0; i < 6; i++) {
-    if (mUrlFields[i]->size()) {
+    if (mUrlFields[i]->size())
       if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
         downloadAsset(mUrlFields[i]->item(0), i, false);
-    }
     if (mIrradianceUrlFields[i]->size())
       if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
         downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);

@@ -86,11 +86,12 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
+  printf("downloadAssets()\n");
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::instance()->isCached(path()))
+    if (WbNetwork::instance()->isCached(url))
       return;
     if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
@@ -130,26 +131,19 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  printf("loadTexture()\n");
-  /*
-  if (mDownloader) {
-    assert(mDownloader->device() || mDownloader->isCopy());
-    if (mDownloader->isCopy())
-      return false;  // The image should already be in the wren cache.
-    if (!mDownloader->error().isEmpty()) {
-      warn(mDownloader->error());
-      return false;
-    }
-    return loadTextureData(mDownloader->device());
+  const QString &url = mUrl->item(0);
+  printf("loadTexture(%s)\n", url.toUtf8().constData());
+  const bool isWebAsset = WbUrl::isWeb(url);
+  if (isWebAsset && !WbNetwork::instance()->isCached(url)) {
+    return false;
   }
-  */
 
   QString filePath;
-  if (WbUrl::isWeb(mUrl->item(0))) {
-    assert(WbNetwork::instance()->isCached(path(true)));
-    filePath = WbNetwork::instance()->get(path(true));
+  if (isWebAsset) {
+    assert(WbNetwork::instance()->isCached(url));
+    filePath = WbNetwork::instance()->get(url);
   } else
-    filePath = path(true);  // TODO: ameliorate. path() already checks if url or not
+    filePath = path(true);
 
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly))
@@ -225,8 +219,9 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 
 void WbImageTexture::updateWrenTexture() {
   // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
-  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node because
-  // the texture is available in the cache but no reference to it remains as the only reference was immediately deleted
+  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node
+  // because the texture is available in the cache but no reference to it remains as the only reference was immediately
+  // deleted
   if (isPostFinalizedCalled())
     destroyWrenTexture();
 
@@ -311,9 +306,10 @@ void WbImageTexture::updateUrl() {
   }
   if (n > 0) {
     const QString &url = mUrl->item(0);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && mDownloader == NULL) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
+      return;
     }
   }
 

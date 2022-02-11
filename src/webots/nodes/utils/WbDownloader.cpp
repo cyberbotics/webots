@@ -98,6 +98,7 @@ void WbDownloader::download(const QUrl &url) {
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
   assert(mNetworkReply == NULL);
+  printf("will down %s\n", url.toString().toUtf8().constData());
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, mNetworkReply, &QNetworkReply::abort);

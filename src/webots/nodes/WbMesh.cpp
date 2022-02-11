@@ -57,10 +57,13 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
+  printf("downloadAssets()\n");
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      return;
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
@@ -118,13 +121,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   if (filePath.isEmpty())
     return;
 
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());
-    delete mDownloader;
-    mDownloader = NULL;
-    return;
-  }
-
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
@@ -133,22 +129,17 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
                        aiProcess_FlipUVs;
   if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL && !WbNetwork::instance()->isCached(filePath))
+    if (!WbNetwork::instance()->isCached(filePath)) {
       downloadAssets();
-
-    if (mDownloader->hasFinished()) {
-      assert(WbNetwork::instance()->isCached(filePath));
-      QFile file(WbNetwork::instance()->get(filePath));
-      if (!file.open(QIODevice::ReadOnly))
-        return;
-
-      const QByteArray data = file.readAll();
-      const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
-      scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-      delete mDownloader;
-      mDownloader = NULL;
-    } else
       return;
+    }
+
+    QFile file(WbNetwork::instance()->get(filePath));
+    if (!file.open(QIODevice::ReadOnly))
+      return;
+    const QByteArray data = file.readAll();
+    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
     scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
 
@@ -527,12 +518,11 @@ void WbMesh::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
 
-  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
+  const QString &url = mUrl->item(0);
+  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
     // url was changed from the scene tree or supervisor
-    if (!WbNetwork::instance()->isCached(path())) {
-      downloadAssets();
-      return;
-    }
+    downloadAssets();
+    return;
   }
 
   if (areWrenObjectsInitialized()) {

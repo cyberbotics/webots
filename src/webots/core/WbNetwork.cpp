@@ -139,7 +139,7 @@ bool WbNetwork::isCached(QString url) {
 const QString WbNetwork::urlToPath(QString url) {
   const QString fileName = url.mid(url.lastIndexOf('/') + 1);
   const QString urlHash = QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
-  return urlHash + "/" + fileName;
+  return urlHash + "/" + fileName;  // TODO: only for debug, later use hash as file name (no directory, no extension)
 }
 
 void WbNetwork::reduceCacheUsage() {
