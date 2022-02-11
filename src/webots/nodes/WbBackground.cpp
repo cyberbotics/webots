@@ -201,7 +201,6 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 }
 
 void WbBackground::downloadAssets() {
-  printf("downloadAssets()\n");
   for (size_t i = 0; i < 6; i++) {
     if (mUrlFields[i]->size())
       if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
@@ -214,9 +213,16 @@ void WbBackground::downloadAssets() {
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
-  for (int i = 0; i < 12; i++)
-    if (mDownloader[i] && !mDownloader[i]->hasFinished())
+  for (int i = 0; i < 6; ++i) {
+    if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
       return;
+    // check if all irradiance fields (the defined ones) have been cached
+    if (mIrradianceUrlFields[i]->size() == 0)
+      continue;  // irradiance might be defined only for some sides
+    if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
+      return;
+  }
+
   updateCubemap();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -334,12 +340,10 @@ void WbBackground::updateCubemap() {
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
-          const QString &url = mUrlFields[i]->item(0);
-          if (WbUrl::isWeb(url)) {
-            if (mDownloader[i] == NULL && !WbNetwork::instance()->isCached(url)) {
-              downloadAsset(url, i, true);
-              postpone = true;
-            }
+          const QString &textureUrl = mUrlFields[i]->item(0);
+          if (WbUrl::isWeb(textureUrl) && !WbNetwork::instance()->isCached(textureUrl)) {
+            downloadAsset(textureUrl, i, true);
+            postpone = true;
           } else {
             delete mTexture[i];
             mTexture[i] = 0;
@@ -348,10 +352,8 @@ void WbBackground::updateCubemap() {
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
           if (WbUrl::isWeb(irradianceUrl) && !WbNetwork::instance()->isCached(irradianceUrl)) {
-            if (mDownloader[i + 6] == NULL) {
-              downloadAsset(irradianceUrl, i + 6, true);
-              postpone = true;
-            }
+            downloadAsset(irradianceUrl, i + 6, true);
+            postpone = true;
           } else {
             stbi_image_free(mIrradianceTexture[i]);
             mIrradianceTexture[i] = NULL;
@@ -359,6 +361,7 @@ void WbBackground::updateCubemap() {
         }
       }
     }
+
     if (!postpone) {
       bool destroy = false;
       if (irradianceUrlCount > 0 && irradianceUrlCount < 6) {
@@ -424,32 +427,6 @@ bool WbBackground::loadTexture(int i) {
   const int urlFieldIndex = gCoordinateSystemSwap(i);
   QString url;
   QIODevice *device;
-  /*
-  if (mDownloader[urlFieldIndex]) {
-    url = mUrlFields[urlFieldIndex]->item(0);
-    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
-      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
-      delete mDownloader[urlFieldIndex];
-      mDownloader[urlFieldIndex] = NULL;
-      return false;
-    }
-    assert(mDownloader[urlFieldIndex]->device());
-    device = mDownloader[urlFieldIndex]->device();
-  } else {
-    if (mUrlFields[urlFieldIndex]->size() == 0)
-      return false;
-    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[urlFieldIndex]->item(0), false);
-    if (url == WbUrl::missingTexture() || url.isEmpty()) {
-      warn(tr("Texture not found: '%1'").arg(mUrlFields[urlFieldIndex]->item(0)));
-      return false;
-    }
-    device = new QFile(url);
-    if (!device->open(QIODevice::ReadOnly)) {
-      warn(tr("Cannot open texture file: '%1'").arg(url));
-      delete device;
-      return false;
-    }
-  }*/
 
   if (mDownloader[urlFieldIndex]) {
     if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
