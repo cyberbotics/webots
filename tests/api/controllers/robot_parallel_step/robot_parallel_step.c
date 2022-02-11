@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
   // step 1 - 32 ms -> get initial sensor values, robot node/fields and update position
   wb_robot_step_begin(time_step);
 
-  const double *rotation = wb_supervisor_field_get_sf_rotation(rotation_field);
   const double newRotation[4] = {0.0, 1.0, 0.0, 1.5708};
   const double newTranslation[3] = {-0.05, 0.0295, 0.1};
   wb_supervisor_field_set_sf_rotation(rotation_field, newRotation);
@@ -91,7 +90,6 @@ int main(int argc, char **argv) {
     r = wb_camera_image_get_red(image, 1, 0, 0);
     g = wb_camera_image_get_blue(image, 1, 0, 0);
     b = wb_camera_image_get_green(image, 1, 0, 0);
-    int mean = (r + g + b) / 3;
   }
   ts_assert_color_in_delta(r, g, b, 207, 207, 207, 5, "Camera measurement after first pose update is wrong.");
 
