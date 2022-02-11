@@ -3,14 +3,14 @@
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
-import RobotWindow from '../../../../../../../resources/web/wwi/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
 var robotName = '';
 var commands = [];
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
 
-window.setDeviceModeCallback = function (switchButton, deviceType) {
+window.setDeviceModeCallback = function(switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
   for (let i = 0; i < commands.length; ++i) {
@@ -29,7 +29,7 @@ window.setDeviceModeCallback = function (switchButton, deviceType) {
       DeviceWidget.checkboxCallback(checkbox);
     }
   });
-}
+};
 
 function configure(data) {
   robotName = data.name;
@@ -84,7 +84,7 @@ function receive(message, _robot) {
   }
 }
 
-window.onload = function () {
+window.onload = function() {
   window.robotWindow = new RobotWindow();
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
