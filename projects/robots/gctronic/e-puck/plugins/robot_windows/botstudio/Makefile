@@ -91,7 +91,7 @@ ifeq ($(OSTYPE),windows)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
  MOC = /mingw64/share/qt6/bin/moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
 endif
 
@@ -100,7 +100,7 @@ ifeq ($(OSTYPE),linux)
  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__linux__
- DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
 endif
 
