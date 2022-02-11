@@ -190,8 +190,19 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
-  if (!mCacheSize->text().isEmpty())
+
+  if (mCacheSize->text().toInt() < 512 || mCacheSize->text().isEmpty()) {
+    WbMessageBox::info(tr("For optimal performance, at least\n 512 MB of cache are necessary."), this);
+    mTabWidget->removeTab(2);
+    mTabWidget->addTab(createNetworkTab(), tr("Network"));
+    mTabWidget->setCurrentIndex(2);
+    prefs->setValue("Network/cacheSize", 512);
+    WbNetwork::instance()->reduceCacheUsage();
+  } else {
+    WbMessageBox::info(tr("Cache size changed to %1 MB.").arg(mCacheSize->text().toInt()), this);
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+  }
+
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());

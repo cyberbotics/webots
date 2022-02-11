@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbNetwork.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -49,7 +49,7 @@ WbNetwork::WbNetwork() {
   recomputeCacheSize();
   printf("> cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
 
-  reduceCacheUsage();
+  reduceCacheUsage();  // TODO: remove from ephemeral too
 
   qAddPostRoutine(WbNetwork::cleanup);
 }
