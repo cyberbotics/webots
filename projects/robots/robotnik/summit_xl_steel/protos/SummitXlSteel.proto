@@ -135,40 +135,36 @@ PROTO SummitXlSteel [
           translation 0.22249917736358657 -0.20449996661010172 0.0031858493220075766
           rotation 1 0 0 1.5708
           children [
-            DEF INTERIOR_WHEEL Group{
+            DEF INTERIOR_WHEEL Transform {
+              rotation 1 0 0 1.570796
               children [
-                Transform {
-                  rotation 1 0 0 1.570796
-                  children [
-                    Shape {
-                      appearance DEF WHEEL_APPEARANCE PBRAppearance {
-                        baseColor 0.381347 0.381347 0.381347
-                        transparency 0
-                        roughness 0
-                        metalness 0.4
-                        emissiveColor 0.202 0.202 0.202
-                      }
-                      geometry Mesh {
-                        url [
-                          "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_int.dae"
-                        ]
-                      }
-                    }
-                    Shape {
-                      appearance DEF ROLLERS_APPEARANCE PBRAppearance {
-                        baseColor 0.081320 0.081320 0.081320
-                        transparency 0
-                        roughness 0.8
-                        metalness 0
-                        emissiveColor 0 0 0
-                      }
-                      geometry Mesh {
-                        url [
-                          "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_int.dae"
-                        ]
-                      }
-                    }
-                  ]
+                Shape {
+                  appearance DEF WHEEL_APPEARANCE PBRAppearance {
+                    baseColor 0.381347 0.381347 0.381347
+                    transparency 0
+                    roughness 0
+                    metalness 0.4
+                    emissiveColor 0.202 0.202 0.202
+                  }
+                  geometry Mesh {
+                    url [
+                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_int.dae"
+                    ]
+                  }
+                }
+                Shape {
+                  appearance DEF ROLLERS_APPEARANCE PBRAppearance {
+                    baseColor 0.081320 0.081320 0.081320
+                    transparency 0
+                    roughness 0.8
+                    metalness 0
+                    emissiveColor 0 0 0
+                  }
+                  geometry Mesh {
+                    url [
+                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_int.dae"
+                    ]
+                  }
                 }
               ]
             }
@@ -212,28 +208,24 @@ PROTO SummitXlSteel [
           translation 0.2224991777388674 0.20450003337390876 0.0031841200540263536
           rotation 1 0 0 1.5708
           children [
-            DEF EXTERIOR_WHEEL Group{
+            DEF EXTERIOR_WHEEL Transform {
+              rotation 1 0 0 1.570796
               children [
-                Transform {
-                  rotation 1 0 0 1.570796
-                  children [
-                    Shape {
-                      appearance USE WHEEL_APPEARANCE
-                      geometry Mesh {
-                        url [
-                          "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_ext.dae"
-                        ]
-                      }
-                    }
-                    Shape {
-                      appearance USE ROLLERS_APPEARANCE
-                      geometry Mesh {
-                        url [
-                          "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_ext.dae"
-                        ]
-                      }
-                    }
-                  ]
+                Shape {
+                  appearance USE WHEEL_APPEARANCE
+                  geometry Mesh {
+                    url [
+                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_ext.dae"
+                    ]
+                  }
+                }
+                Shape {
+                  appearance USE ROLLERS_APPEARANCE
+                  geometry Mesh {
+                    url [
+                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_ext.dae"
+                    ]
+                  }
                 }
               ]
             }
