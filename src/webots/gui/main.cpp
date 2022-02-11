@@ -94,6 +94,13 @@ static void quitApplication(int sig) {
 
 int main(int argc, char *argv[]) {
 #ifdef _WIN32
+  QProcess process;
+  process.start("cygpath", QStringList{QString("-w"), QString("/")});
+  process.waitForFinished(-1);
+  const QString cygpath = process.readAllStandardOutput().trimmed();
+  const QString MSYS2_HOME = cygpath.isEmpty() ? qEnvironmentVariable("WEBOTS_HOME") + "\\msys64" : cygpath.chopped(1);
+  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python >= 3.8 controllers
+  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins"));
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
@@ -108,8 +115,8 @@ int main(int argc, char *argv[]) {
 #else
   // we need to unbuffer the stderr as _IOLBF is not working in the msys console
   setvbuf(stderr, NULL, _IONBF, 0);
-#endif
-#endif
+#endif  // NDEBUG
+#endif  // _WIN32
   QLocale::setDefault(QLocale::c());
 
 #ifdef __linux__
@@ -130,15 +137,11 @@ int main(int argc, char *argv[]) {
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
+    const QString platformPluginPath =
 #ifdef _WIN32
-    QProcess process;
-    process.start("cygpath", QStringList{QString("-w"), QString("/")});
-    process.waitForFinished(-1);
-    const QString MSYS2_HOME = process.readAllStandardOutput().trimmed().replace('\\', '/');
-    const QString rootPath = MSYS2_HOME.isEmpty() ? webotsDirPath + "/msys64/" : MSYS2_HOME;
-    const QString platformPluginPath = rootPath + "mingw64/share/qt6/plugins";
+      MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins";
 #else
-    const QString platformPluginPath = webotsDirPath + "/lib/webots/qt/plugins";
+      webotsDirPath + "/lib/webots/qt/plugins";
 #endif
     qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
   }
@@ -178,16 +181,12 @@ int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_Use96Dpi);
 
   WbGuiApplication app(argc, argv);
-
   // Quit the application correctly when receiving POSIX signals.
   signal(SIGINT, quitApplication);  // this signal is working on Windows when Ctrl+C from cmd.exe.
 #ifndef _WIN32
   signal(SIGTERM, quitApplication);
   signal(SIGQUIT, quitApplication);
   signal(SIGHUP, quitApplication);
-#endif
-
-#ifndef _WIN32
   // Symptom: locale is wrong in dynamic libraries (i.e. physics plugin)
   // From http://qt-project.org/doc/qt-4.8/qcoreapplication.html :
   //   On Unix/Linux Qt is configured to use the system locale settings by default.
@@ -198,13 +197,12 @@ int main(int argc, char *argv[]) {
   //   QApplication or QCoreApplication to reset the locale that is used for
   //   number formatting to "C"-locale.
   setlocale(LC_NUMERIC, "C");
-#endif
-
 #ifdef __APPLE__
   // 'LANG' can be set in the terminal.
   // - "fr_CH.UTF-8" may cause issues in procedural PROTO nodes.
   // - If "UTF-8" is not set, UTF-8 characters are not handled properly in some libraries, such as FreeType.
   setenv("LANG", "UTF-8", true);
+#endif
 #endif
 
   return app.exec();
