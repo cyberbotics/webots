@@ -896,8 +896,10 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
     parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
-  QString position = mBeltPositions[0].position.toString(WbPrecision::DOUBLE_MAX) + " 0";
-  QString rotation = QString("0 0 -1 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
+  QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
+                     " 0 " +
+                     QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
+  QString rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
   if (writer.isX3d()) {
     writer << "<Transform ";
@@ -932,7 +934,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   for (int i = 1; i < mGeometriesCountField->value(); ++i) {
     position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.x(), WbPrecision::DOUBLE_MAX)) + " 0 " +
                QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.y(), WbPrecision::DOUBLE_MAX));
-    rotation = QString("0 0 -1 %1").arg(WbPrecision::doubleToString(mBeltPositions[i].rotation, WbPrecision::DOUBLE_MAX));
+    rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[i].rotation, WbPrecision::DOUBLE_MAX));
 
     if (writer.isX3d()) {
       writer << "<Transform ";
