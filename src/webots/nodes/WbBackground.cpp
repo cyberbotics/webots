@@ -200,10 +200,13 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 
 void WbBackground::downloadAssets() {
   for (size_t i = 0; i < 6; i++) {
-    if (mUrlFields[i]->size())
-      downloadAsset(mUrlFields[i]->item(0), i, false);
+    if (mUrlFields[i]->size()) {
+      if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
+        downloadAsset(mUrlFields[i]->item(0), i, false);
+    }
     if (mIrradianceUrlFields[i]->size())
-      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
+      if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
+        downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
 
@@ -331,7 +334,7 @@ void WbBackground::updateCubemap() {
         if (hasCompleteBackground) {
           const QString &url = mUrlFields[i]->item(0);
           if (WbUrl::isWeb(url)) {
-            if (mDownloader[i] == NULL) {
+            if (mDownloader[i] == NULL && !WbNetwork::instance()->isCached(url)) {
               downloadAsset(url, i, true);
               postpone = true;
             }
@@ -342,7 +345,7 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-          if (WbUrl::isWeb(irradianceUrl)) {
+          if (WbUrl::isWeb(irradianceUrl) && !WbNetwork::instance()->isCached(irradianceUrl)) {
             if (mDownloader[i + 6] == NULL) {
               downloadAsset(irradianceUrl, i + 6, true);
               postpone = true;
@@ -459,7 +462,7 @@ bool WbBackground::loadTexture(int i) {
   }
 
   url = mUrlFields[urlFieldIndex]->item(0);
-  assert(WbNetwork::instance()->isCached(url));
+  assert(WbNetwork::instance()->isCached(url));  // if fails: are you using http or webots?
 
   QString filePath(WbNetwork::instance()->get(url));
   device = new QFile(filePath);
@@ -542,6 +545,8 @@ bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceUrlFields[j]->size() == 0)
     return true;
   const int k = j + 6;
+  QIODevice *device;
+  /*
   QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
   bool shouldDelete = false;
   int components;
@@ -556,7 +561,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
     const QString url =
       WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
     if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mIrradianceUrlFields[i]->item(0)));
       return false;
     }
     device = new QFile(url);
@@ -567,6 +572,21 @@ bool WbBackground::loadIrradianceTexture(int i) {
       return false;
     }
   }
+  */
+
+  QString url = mIrradianceUrlFields[j]->item(0);
+  bool shouldDelete = false;  // TODO: probably not needed anymore
+  int components;
+  assert(WbNetwork::instance()->isCached(url));  // if fails: are you using http or webots?
+
+  QString filePath(WbNetwork::instance()->get(url));
+  device = new QFile(filePath);
+  if (!device->open(QIODevice::ReadOnly)) {
+    warn(tr("Cannot open irradiance file: '%1'").arg(url));
+    delete device;
+    return false;
+  }
+
   const QByteArray content = device->readAll();
   if (shouldDelete) {
     device->close();

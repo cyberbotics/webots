@@ -100,7 +100,7 @@ void WbNetwork::setProxy() {
 }
 
 void WbNetwork::save(const QString url, const QByteArray &content) {
-  printf("> save()\n");
+  printf("> save(%s)\n", url.toUtf8().constData());
 
   if (!isCached(url)) {
     // sanity check
@@ -126,9 +126,9 @@ void WbNetwork::save(const QString url, const QByteArray &content) {
 }
 
 QString WbNetwork::get(const QString url) {
-  printf("> get()\n");
+  printf("> get(%s)\n", url.toUtf8().constData());
   QString loc = mCacheDirectory + urlToPath(url);
-  printf("  file is at: %s\n", loc.toUtf8().constData());
+  // printf("  file is at: %s\n", loc.toUtf8().constData());
   return loc;
 }
 

@@ -90,6 +90,8 @@ void WbImageTexture::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(path()))
+      return;
     if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
     mDownloader = new WbDownloader(this);
@@ -143,7 +145,7 @@ bool WbImageTexture::loadTexture() {
   */
 
   QString filePath;
-  if (WbUrl::isWeb(mUrl->item(0))) {  // TODO: odd.. always zero?
+  if (WbUrl::isWeb(mUrl->item(0))) {
     assert(WbNetwork::instance()->isCached(path(true)));
     filePath = WbNetwork::instance()->get(path(true));
   } else
@@ -312,7 +314,6 @@ void WbImageTexture::updateUrl() {
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
-      return;
     }
   }
 

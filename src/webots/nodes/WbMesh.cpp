@@ -133,7 +133,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
                        aiProcess_FlipUVs;
   if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL)
+    if (mDownloader == NULL && !WbNetwork::instance()->isCached(filePath))
       downloadAssets();
 
     if (mDownloader->hasFinished()) {
@@ -529,8 +529,10 @@ void WbMesh::updateUrl() {
 
   if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
-    downloadAssets();
-    return;
+    if (!WbNetwork::instance()->isCached(path())) {
+      downloadAssets();
+      return;
+    }
   }
 
   if (areWrenObjectsInitialized()) {
