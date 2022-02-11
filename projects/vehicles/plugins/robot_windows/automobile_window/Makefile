@@ -34,7 +34,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 # Qt linking
 
-CFLAGS += -std=c++11
+CFLAGS += -std=c++17
 MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
 MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
 OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))

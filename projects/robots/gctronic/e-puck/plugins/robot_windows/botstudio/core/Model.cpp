@@ -22,6 +22,8 @@
 #include "RobotFacade.hpp"
 #include "RobotObjectFactory.hpp"
 
+#include <QtCore/QRegularExpression>
+
 Model *Model::cInstance = NULL;
 
 Model *Model::instance() {
@@ -70,7 +72,7 @@ void Model::fromString(const QString &string) {
     throw tr("Header not readable");
 
   QString header = string.left(firstNewLineIndex);
-  QStringList headerList = header.split(QRegExp("[#. ]"), Qt::SkipEmptyParts);
+  QStringList headerList = header.split(QRegularExpression("[#. ]"), Qt::SkipEmptyParts);
   if (headerList.size() == 3 && headerList[0] == "botstudio") {
     int macro = headerList[1].toInt();
     int micro = headerList[2].toInt();

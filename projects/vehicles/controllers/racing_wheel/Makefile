@@ -37,19 +37,19 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 # Qt linking
 
-CFLAGS += -std=c++11
+CFLAGS += -std=c++17
 
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
 endif
 
 ifeq ($(OSTYPE),linux)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
- DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
 endif
 

@@ -23,6 +23,8 @@
 #include "State.hpp"
 #include "Transition.hpp"
 
+#include <QtCore/QRegularExpression>
+
 Automaton::Automaton() : QObject(), mCurrentState(NULL) {
 }
 
@@ -235,7 +237,7 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
-  QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
+  QStringList lines = string.split(QRegularExpression("\n"), Qt::SkipEmptyParts);
 
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {
@@ -278,7 +280,7 @@ QString Automaton::toString() const {
 
 // backward compatibility code
 void Automaton::fromStringVersion3(const QString &string) {
-  QStringList lines = string.split(QRegExp("\n"));
+  QStringList lines = string.split(QRegularExpression("\n"));
 
   lines.removeFirst();  // remove header
 
