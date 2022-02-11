@@ -3129,7 +3129,7 @@ Robotics is great. You actually need all the Maths and Physics you learned in sc
 ##### yash 01/25/2021 14:35:21
 Thank you !
 
-##### Rawlmond 01/25/2021 14:45:56
+##### kRiSh 01/25/2021 14:45:56
 Is it possible for Webots arena/world to have pictures, animations and GIFs?
 
 If so, how to add them?
@@ -3771,13 +3771,13 @@ I don't understand how, after no tampering on my part, that the file was deleted
 ##### smasud98 01/30/2021 05:29:13
 Hi everyone! I am new to webots and not sure if this is the right place to be asking this question. I am considering getting the Macbook with the M1 chip which uses ARM. I was wondering if anyone knows whether Webots will work well with this. Thanks
 
-##### Rawlmond 01/30/2021 06:03:49
+##### kRiSh 01/30/2021 06:03:49
 Wait for this year's lineup.
 
 ##### Luftwaffel [Moderator] 01/30/2021 14:23:48
 `@smasud98` This is generally the right place to ask any questions regarding Webots. I think you should be fine with the macbook. While Webots is an x86 program, Apple's Rosetta 2 - x86 emulation seems to be very good and powerful. In general you should ask yourself the question though, whether a macbook is the right tool. If you want to dive deep into programming and development, engineering applications and linux, then it might be more advisable to get an x86 machine.  Perhaps you can tell me what you want to use your laptop for in general. Whether you are willing to switch to linux and/or linux is another big factor.
 
-##### Rawlmond 01/30/2021 15:24:37
+##### kRiSh 01/30/2021 15:24:37
 Yeah well said.
 
 He told me that he is more interested in getting a Mac than a Linux machine, he says that he has the 2015 Macbook and webots runs very slowly in that.
@@ -4392,14 +4392,14 @@ Thanks `@Darko Lukić` but I don't think I was very clear. I'm a confused by the
 ##### iagsav 02/03/2021 17:38:45
 Hi! please explain how you can add a compass to the e-puck robot?
 
-##### Rawlmond 02/03/2021 18:49:01
+##### kRiSh 02/03/2021 18:49:01
 `@John520` Did you forget to leave the voice channel?
 
 
 Its been a while
 
 ##### John520 02/03/2021 19:18:15
-`@Rawlmond` Thanks. I forgot about it.
+`@kRiSh` Thanks. I forgot about it.
 
 ##### Olivier Michel [Cyberbotics] 02/04/2021 07:04:37
 IndexedFaceSet are usually designed as meshes in a 3D modelling software (like Blender or other) and then exported to VRML97, copy/pasted in to the PROTO file.
@@ -4728,11 +4728,11 @@ can you give some more information on your setup? have you checked if the file t
 
 `@jasper` `@Luftwaffel` I am trying to work on the object detection on Robotis\_op2 on webots. I would like to know which is better YOLO or Open CV. I would also appreciate any open source codes available
 
-##### IceMan 02/06/2021 00:49:15
+##### A.Padmanabhan 02/06/2021 00:49:15
 Hey! I have set all the env variables correctly. Yet when I type "webots" in the terminal, I get an error saying "Command not found, but can be installed with snap". Any idea how to fix this?
 
 ##### Luftwaffel [Moderator] 02/06/2021 10:55:52
-`@IceMan` you have to add an entry in the .bash\_aliases launching the executable
+`@A.Padmanabhan` you have to add an entry in the .bash\_aliases launching the executable
 
 
 `alias webots='/home/simon/webots/webots'`  something like this
@@ -5788,7 +5788,7 @@ fatal error: 'webots/robot.h' file not found
 ##### Irunit 02/12/2021 17:22:33
 Hi! I was writing custom scenarios for simulation with the help of a script. But when I reset the simulation the floor node is not removed and can be seen in the scene tree whereas other nodes (entities) are removed. Can anyone please help me with this?
 
-##### Rawlmond 02/12/2021 17:45:49
+##### kRiSh 02/12/2021 17:45:49
 Can there be a feature added in Webots that can make a drop-down wherever we declare a function or write if-elif-else anywhere in the code so that we can minimize it by pulling it up with the arrow, if we dont need to see it that much.
 
 This will surely decrease the time to scroll up & down, and is also found in most editors.
@@ -7983,7 +7983,7 @@ You can use Supervisor to get the speed field and set it to 0:
 
 [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
-##### Rawlmond 02/25/2021 13:44:36
+##### kRiSh 02/25/2021 13:44:36
 Is there a way that I can put mirrors in Webots?
 
 I am planning to build a a kaleidoscope.
@@ -8387,7 +8387,7 @@ Hi guys, I am trying to import a harvester into Webots. I imported the green bod
 ##### tbt24 02/27/2021 04:09:19
 Hi, i was just wondering if anyone could tell me how to get a light sensor to differentiate between a green and a red spotlight
 
-##### Rawlmond 02/27/2021 06:14:10
+##### kRiSh 02/27/2021 06:14:10
 Did you try performing image processing by a camera provided in the robot(if any) and using color detection algorithms, differentiate between colors.
 
 ##### Olivier Michel [Cyberbotics] 02/27/2021 07:57:14
@@ -8396,7 +8396,7 @@ Did you try to set a `colorFilter` to the `LigthSensor` node? [https://www.cyber
 ##### tbt24 02/27/2021 11:30:48
 Unfortunately I only have a light sensor available to me
 
-##### Rawlmond 02/27/2021 11:31:59
+##### kRiSh 02/27/2021 11:31:59
 What does a light sensor actually do?
 
 I have played with color sensors before, but not a light sensor.
@@ -8437,13 +8437,13 @@ thanks Stefania , this was the problem as you mentioned. , the order wasn't righ
 ![track_belt_convex.png](https://cdn.discordapp.com/attachments/565154703139405824/815916767729156156/track_belt_convex.png)
 %end
 
-##### Rawlmond 03/01/2021 12:04:30
+##### kRiSh 03/01/2021 12:04:30
 The representation of the wheels looks awesome
 
 ##### moeonethego 03/01/2021 12:53:46
 that's straight from the documentation link : [https://www.cyberbotics.com/doc/reference/track#geometries-animation](https://www.cyberbotics.com/doc/reference/track#geometries-animation)
 
-##### Rawlmond 03/01/2021 12:58:32
+##### kRiSh 03/01/2021 12:58:32
 Oh 😂
 
 ##### h.sciascia 03/01/2021 14:53:44
@@ -9193,7 +9193,7 @@ It's to compare some results between my Denavit Hartenberg outside webots and th
 ##### Callum98 03/05/2021 14:02:02
 Hi guys, I want my robot to turn for a specified amount of time before stopping, is there a command that tells the robot to perform an action for a set period of time?
 
-##### Rawlmond 03/05/2021 14:05:47
+##### kRiSh 03/05/2021 14:05:47
 robot.step(time in ms)
 
 
@@ -9205,7 +9205,7 @@ Runs the commands above for 1 second.
 ##### Callum98 03/05/2021 14:12:43
 Yeah that worked thank you man
 
-##### Rawlmond 03/05/2021 14:22:11
+##### kRiSh 03/05/2021 14:22:11
 Welcome 😁
 
 ##### Yaksa 03/05/2021 20:17:26
@@ -9243,7 +9243,7 @@ Hi, I'm having an issue where my robot does not go in a straight line even thoug
 
 Thanks
 
-##### Rawlmond 03/06/2021 12:48:18
+##### kRiSh 03/06/2021 12:48:18
 It would happen due to external factors like friction and slipping.
 
 
@@ -21210,13 +21210,13 @@ I haven't found a good tutorial on ROS with Webots but I think the process for u
 ##### DavidF 07/05/2021 17:12:00
 Thanks! I have done that stuff and found the ROS2 tutorial, but I hoped that there was a good ROS one too 😅
 
-##### amzzzz 07/05/2021 17:51:14
+##### vadivelu 07/05/2021 17:51:14
 Hi everyone! I am new to webots and was wondering if there are some good tutorials for webots on python. I did find a few sample codes here and there in the documentation but nothing concrete. Most of the example(sample world) code is in c or c++ as well. I was wondering If anyone could point me to a decent tutorial or GitHub repo with a few sample codes in python. Would highly appreciate! Thanks in advance.
 
 ##### Alejandro Naranjo 07/05/2021 18:49:00
 I think Soft illusion has very good tutorials here is a link to them: [https://www.youtube.com/c/Softillusion/videos](https://www.youtube.com/c/Softillusion/videos)
 
-##### amzzzz 07/05/2021 18:51:11
+##### vadivelu 07/05/2021 18:51:11
 `@Alejandro Naranjo` thank you so much for the fast reply! This will help a lot. Have a great day/night ahead.
 
 ##### Troy 07/05/2021 20:30:22
@@ -21350,7 +21350,7 @@ The asphalt appearance is predefined. If you want a custom appearance, right-cli
 ##### yanan 07/08/2021 10:25:00
 thanks, Daniel.
 
-##### amzzzz 07/08/2021 12:26:47
+##### vadivelu 07/08/2021 12:26:47
 Hey everyone, I was wondering if anyone had problem to import a config file for a bot,. While importing Config it says "No module named Config". However I did install Config using Pip earlier and its shows that the package has installed. Thanks in advance
 %figure
 ![Screenshot_2021-07-08_at_8.25.36_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/862671056052944935/Screenshot_2021-07-08_at_8.25.36_PM.png)
