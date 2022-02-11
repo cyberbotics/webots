@@ -3,10 +3,7 @@ import {getGETQueryValue} from './request_methods.js';
 export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
-    this.wsServer = 'ws://localhost:1234/';
-    let params = location.href.split('?')[1].split('&');
-    if (params.length > 1)
-      this.wsServer = 'ws' + params[1].substring(4);
+    this.wsServer = decodeURI(getGETQueryValue('url', 'ws://localhost:1234/'));
 
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
