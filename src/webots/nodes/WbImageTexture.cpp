@@ -86,7 +86,6 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
-  printf("downloadAssets()\n");
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
@@ -132,7 +131,6 @@ void WbImageTexture::postFinalize() {
 
 bool WbImageTexture::loadTexture() {
   const QString &url = mUrl->item(0);
-  printf("loadTexture(%s)\n", url.toUtf8().constData());
   const bool isWebAsset = WbUrl::isWeb(url);
   if (isWebAsset && !WbNetwork::instance()->isCached(url)) {
     return false;
@@ -154,7 +152,6 @@ bool WbImageTexture::loadTexture() {
 }
 
 bool WbImageTexture::loadTextureData(QIODevice *device) {
-  printf("loadTextureData()\n");
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();

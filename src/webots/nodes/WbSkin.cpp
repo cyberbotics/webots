@@ -228,7 +228,8 @@ void WbSkin::updateModelUrl() {
       return;
     }
 
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mModelUrl->value()) && mDownloader == NULL) {
+    const QString &url = mModelUrl->value();
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
@@ -460,11 +461,13 @@ void WbSkin::createWrenSkeleton() {
   if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
+  /*
   if (mDownloader && !mDownloader->error().isEmpty()) {
     warn(mDownloader->error());
     delete mDownloader;
     mDownloader = NULL;
   }
+  */
 
   const QString meshFilePath(modelPath());
   WrDynamicMesh **meshes = NULL;
@@ -472,24 +475,26 @@ void WbSkin::createWrenSkeleton() {
   int count;
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
-    if (mDownloader && mDownloader->hasFinished()) {
-      assert(WbNetwork::instance()->isCached(meshFilePath));
+    if (WbNetwork::instance()->isCached(meshFilePath)) {
       QFile file(WbNetwork::instance()->get(meshFilePath));
       if (!file.open(QIODevice::ReadOnly))
         return;
-      const QByteArray data = file.readAll();
+      const QByteArray &data = file.readAll();
       const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
       error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
-      delete mDownloader;
-      mDownloader = NULL;
     } else
       return;
   } else
     error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+
   if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
+
+  if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
+    delete mDownloader;
+  mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();
   for (int i = 0; i < count; ++i) {

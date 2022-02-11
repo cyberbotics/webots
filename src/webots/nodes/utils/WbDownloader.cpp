@@ -118,23 +118,9 @@ void WbDownloader::finished() {
       download(mUrl);
       return;
     }
-
-    /*
-    QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
-    // We need to replace the expiration date only the first time the asset is downloaded and when it has been refreshed by the
-    // cache. The QNetworkRequest::SourceIsFromCacheAttribute attribute present in the reply is not enough because the image is
-    // still loaded from the cache when the expiration date is just refreshed.
-    // The hack we use to detect if the expiration date of an asset is the one set by webots or is the automatic one works as
-    // follows: The automatic expiration date is an <http-date> and thus is in UTC format. The expiration date set by webots is
-    // in local format. So we just need to check the format of the expiration date to know if it needs to be updated or not.
-    if (metaData.expirationDate().toUTC().toString() == metaData.expirationDate().toString()) {
-      // increase expiration date to one day
-      metaData.setExpirationDate(QDateTime::currentDateTime().addDays(1));
-      WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
-    }
-    */
   }
 
+  // cache result
   if (mNetworkReply)
     WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
 
