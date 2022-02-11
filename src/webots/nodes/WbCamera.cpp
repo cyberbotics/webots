@@ -164,6 +164,7 @@ void WbCamera::downloadAssets() {
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+
     mDownloader->download(QUrl(noiseMaskUrl));
   }
 }
@@ -1115,17 +1116,12 @@ void WbCamera::updateNoiseMaskUrl() {
       }
     }
 
-    QFile noiseMask(noiseMaskUrl);
-    if (!noiseMask.open(QIODevice::ReadOnly)) {
-      warn(tr("Cannot open noise mask file: '%1'").arg(noiseMaskUrl));
-      return;
-    }
-
-    const QString error = mWrenCamera->setNoiseMask(noiseMask.readAll().constData());
+    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl);
     if (!error.isEmpty())
       parsingWarn(error);
 
-    delete mDownloader;  // TODO: necessary?
+    if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
+      delete mDownloader;
     mDownloader = NULL;
   }
 }
