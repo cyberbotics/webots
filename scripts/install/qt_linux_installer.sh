@@ -73,10 +73,6 @@ cp $QT_INSTALLATION_PATH/lib/libQt6OpenGL.so.$QT_VERSION            lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6OpenGLWidgets.so.$QT_VERSION     lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6PrintSupport.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6Qml.so.$QT_VERSION               lib/webots/
-cp $QT_INSTALLATION_PATH/lib/libQt6QmlModels.so.$QT_VERSION         lib/webots/
-cp $QT_INSTALLATION_PATH/lib/libQt6Quick.so.$QT_VERSION             lib/webots/
-cp $QT_INSTALLATION_PATH/lib/libQt6QuickWidgets.so.$QT_VERSION      lib/webots/
-cp $QT_INSTALLATION_PATH/lib/libQt6Sql.so.$QT_VERSION               lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6WebSockets.so.$QT_VERSION        lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6Widgets.so.$QT_VERSION           lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt6XcbQpa.so.$QT_VERSION            lib/webots/
@@ -114,14 +110,6 @@ ln -sf libQt6PrintSupport.so.$QT_VERSION      libQt6PrintSupport.so.6
 ln -sf libQt6PrintSupport.so.$QT_VERSION      libQt6PrintSupport.so
 ln -sf libQt6Qml.so.$QT_VERSION               libQt6Qml.so.6
 ln -sf libQt6Qml.so.$QT_VERSION               libQt6Qml.so
-ln -sf libQt6QmlModels.so.$QT_VERSION         libQt6QmlModels.so.6
-ln -sf libQt6QmlModels.so.$QT_VERSION         libQt6QmlModels.so
-ln -sf libQt6Quick.so.$QT_VERSION             libQt6Quick.so.6
-ln -sf libQt6Quick.so.$QT_VERSION             libQt6Quick.so
-ln -sf libQt6QuickWidgets.so.$QT_VERSION      libQt6QuickWidgets.so.6
-ln -sf libQt6QuickWidgets.so.$QT_VERSION      libQt6QuickWidgets.so
-ln -sf libQt6Sql.so.$QT_VERSION               libQt6Sql.so.6
-ln -sf libQt6Sql.so.$QT_VERSION               libQt6Sql.so
 ln -sf libQt6WebSockets.so.$QT_VERSION        libQt6WebSockets.so.6
 ln -sf libQt6WebSockets.so.$QT_VERSION        libQt6WebSockets.so
 ln -sf libQt6Widgets.so.$QT_VERSION           libQt6Widgets.so.6
