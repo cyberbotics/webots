@@ -26,6 +26,10 @@
 
 static WbNetwork *gInstance = NULL;
 
+// cacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
+// persistent nor is it ever complete. It's purpose is to speed up checking and retrieving previously referenced assets.
+static QMap<QString, QString> cacheMap;
+
 void WbNetwork::cleanup() {
   delete gInstance;
 }
@@ -38,6 +42,7 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
+  cacheMap.clear();
 
   printf("> WbNetwork()\n");
   mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
@@ -115,6 +120,8 @@ void WbNetwork::save(const QString url, const QByteArray &content) {
         file.write(content);
         mCacheSizeInBytes += file.size();
         file.close();
+        // save reference in internal representation
+        cacheMap.insert(url, fi.absoluteFilePath());
       }
       printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
     } else {
@@ -126,14 +133,30 @@ void WbNetwork::save(const QString url, const QByteArray &content) {
 }
 
 QString WbNetwork::get(const QString url) {
+  assert(isCached(url));  // the get function should not be called unless we know the file to be cached
+
+  if (cacheMap.contains(url))
+    return cacheMap[url];
+
   printf("> get(%s)\n", url.toUtf8().constData());
-  QString loc = mCacheDirectory + urlToPath(url);
+  QString location = mCacheDirectory + urlToPath(url);
   // printf("  file is at: %s\n", loc.toUtf8().constData());
-  return loc;
+  cacheMap.insert(url, location);
+  return location;
 }
 
 bool WbNetwork::isCached(QString url) {
-  return QFileInfo(mCacheDirectory + urlToPath(url)).exists();
+  if (cacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+    return true;
+
+  // if url is not in the internal representation, check for file existence on disk
+  const QString filePath = mCacheDirectory + urlToPath(url);
+  if (QFileInfo(filePath).exists()) {
+    cacheMap.insert(url, filePath);  // keep track of it in case it gets asked again
+    return true;
+  }
+
+  return false;
 }
 
 const QString WbNetwork::urlToPath(QString url) {
@@ -155,6 +178,9 @@ void WbNetwork::reduceCacheUsage() {
     assets << it.fileInfo();
   }
 
+  // items must also be purged from the internal representation
+  QList<QString> cacheMapValues = cacheMap.values();
+
   // sort the files based on lastRead metadata, from oldest to newest
   std::sort(assets.begin(), assets.end(), lastReadLessThan);
 
@@ -164,6 +190,10 @@ void WbNetwork::reduceCacheUsage() {
 
     QDir().remove(fi.absoluteFilePath());  // remove the file
     QDir().rmpath(fi.absolutePath());      // remove any empty parent directories
+
+    // find key (url) corresponding to path, and remove it from the internal representation
+    const QString key = cacheMap.key(fi.absoluteFilePath());
+    cacheMap.remove(key);
 
     mCacheSizeInBytes -= fi.size();
     printf(" removed %s [%lld]\n", fi.fileName().toUtf8().constData(), mCacheSizeInBytes);
