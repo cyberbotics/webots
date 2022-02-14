@@ -150,11 +150,12 @@ void WbPreferences::setDefaultMatlabCommand() {
   }
 #else
   matlabVersionsWc = "R20???";
-  matlabExecPath = "/bin/matlab";
 #ifdef _WIN32
-  matlabPath = "C:/Program Files/MATLAB/";
+  matlabPath = "C:\\Program Files\\MATLAB\\";
+  matlabExecPath = "\\bin\\win64\\MATLAB.exe";
 #else  // __linux__
   matlabPath = "/usr/local/MATLAB/";
+  matlabExecPath = "/bin/matlab";
 #endif
   QDir matlabDir(matlabPath);
   if (!matlabDir.exists()) {
@@ -168,11 +169,8 @@ void WbPreferences::setDefaultMatlabCommand() {
   foreach (QString version, matlabVersions) { lastVersion = version; }
 
   command = matlabPath + lastVersion;
-#ifdef __linux__
+#if defined __APPLE__ || defined __linux__
   command = command + matlabExecPath;
-#endif
-#ifdef _WIN32
-  command = command + matlabExecPath + ".exe";
 #endif
 
   setDefault("General/matlabCommand", command);
