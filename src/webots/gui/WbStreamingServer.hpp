@@ -44,6 +44,7 @@ public:
   void sendToClients(const QString &message = "");
   void closeClient(const QString &clientID);
   bool getStreamStatus() { return mStream; }
+  int getPort() { return mPort; }
 
 signals:
   void sendRobotWindowClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
@@ -112,6 +113,7 @@ private:
   bool mSsl;
   bool mStream;
   bool mControllerEdit;
+  int mPort;
 };
 
 #endif

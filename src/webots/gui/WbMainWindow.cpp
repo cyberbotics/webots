@@ -2124,7 +2124,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     }
 
     if (currentRobotWindow && currentRobotWindow->robot() == robot)
-      currentRobotWindow->setupPage();
+      currentRobotWindow->setupPage(mStreamingServer->getPort());
   } else {
     const int maxPendingRobotWindows = 3;
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
