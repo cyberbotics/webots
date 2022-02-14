@@ -689,7 +689,7 @@ void WbController::reportFailedStart() {
       matlabDefaultPath = "C:\\Program Files\\MATLAB\\R20XXx\\bin\\win64\\MATLAB.exe";
 #endif
 #endif
-      warn(tr("The default installation path for MATLAB is: %1").arg(matlabPath));
+      warn(tr("The default installation path for MATLAB is: %1").arg(matlabDefaultPath));
 
       break;
     default:

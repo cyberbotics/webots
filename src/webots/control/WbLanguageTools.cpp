@@ -33,7 +33,6 @@ static const QChar PATHS_SEPARATOR(':');
 #endif
 
 static QString gJavaCommand;
-static QString gMatlabCommand;
 
 void WbLanguageTools::prependToPath(const QString &dir, QString &path) {
   if (path.isEmpty())
@@ -193,37 +192,6 @@ QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QPr
 
 const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
-}
-
-const QString &WbLanguageTools::matlabCommand() {
-  if (gMatlabCommand.isEmpty()) {
-#ifdef _WIN32
-    // on Windows there are two MATLAB .exe files, one is located in
-    // bin/matlab.exe and the other one in bin/win64/MATLAB.exe.
-    // bin/matlab.exe is normally in the PATH, but we must call bin/win64/MATLAB.exe
-    // because bin/matlab.exe is just a launcher that causes problem with stdout/stderr
-    // and with the termination of the QProcess.
-    QString PATH = qgetenv("PATH");
-    QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
-    foreach (QString dir, dirs) {
-      if (QDir(dir).exists()) {
-        QString file = dir + "\\win64\\MATLAB.exe";
-        if (QFile::exists(file)) {
-          gMatlabCommand = file;
-          break;
-        }
-      }
-    }
-    if (gMatlabCommand.isEmpty()) {
-      WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                 "from the DOS CMD.EXE console."));
-      gMatlabCommand = "!";
-    }
-#else
-    gMatlabCommand = "matlab";
-#endif
-  }
-  return gMatlabCommand;
 }
 
 const QStringList WbLanguageTools::matlabArguments() {
