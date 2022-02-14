@@ -203,6 +203,8 @@ export default class Toolbar {
 
     this.toolbarLeft.appendChild(this.playButton);
     document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
+    if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
+      this.playButton.style.display = 'none';
   }
 
   _triggerPlayPauseButton() {
@@ -883,11 +885,17 @@ export default class Toolbar {
   }
 
   _createResetButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false)));
+    let resetButton = this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false));
+    this.toolbarLeft.appendChild(resetButton);
+    if (!(typeof this.parentNode.showReset === 'undefined' || this.parentNode.showReset))
+      resetButton.style.display = 'none';
   }
 
   _createStepButton() {
-    this.toolbarLeft.appendChild(this._createToolBarButton('step', 'Perform one simulation step', () => this.step()));
+    let stepButton = this._createToolBarButton('step', 'Perform one simulation step', () => this.step());
+    this.toolbarLeft.appendChild(stepButton);
+    if (!(typeof this.parentNode.showStep === 'undefined' || this.parentNode.showStep))
+      stepButton.style.display = 'none';
   }
 
   step() {

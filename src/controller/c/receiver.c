@@ -112,7 +112,9 @@ static void receiver_enqueue(Receiver *rs, PacketStruct *ps) {
 static PacketStruct *receiver_dequeue(Receiver *rs) {
   ROBOT_ASSERT(rs->queue);
   PacketStruct *ps = rs->queue;
+  // cppcheck-suppress nullPointerRedundantCheck
   rs->queue = rs->queue->next;
+  // cppcheck-suppress nullPointerRedundantCheck
   rs->buffer_used -= ps->size;
   rs->queue_length--;
   return ps;
