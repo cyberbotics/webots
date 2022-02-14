@@ -6,7 +6,7 @@ WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
 
-QT_PACKAGE = qt-5.15.2-release.tar.bz2
+QT_PACKAGE = qt-6.2.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp.zip
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
@@ -35,9 +35,9 @@ cleanse: $(PACKAGES_CLEAN)
 qt-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME)/include/qt/QtPlatformHeaders/QtPlatformHeaders
+qt: $(WEBOTS_HOME)/include/qt/QtCore/QtCore
 
-$(WEBOTS_HOME)/include/qt/QtPlatformHeaders/QtPlatformHeaders: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME)/include/qt/QtCore/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
 
@@ -227,5 +227,5 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "7b357ddff59913c725b3c592375f7443" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "a29f2e1bbeb7681f70574ed8a70a1f34" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
