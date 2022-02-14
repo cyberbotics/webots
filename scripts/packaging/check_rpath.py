@@ -42,7 +42,7 @@ for i in range(len(frameworkFiles)):
     frameworkFiles[i] = re.sub(r"^\.", "", frameworkFiles[i])
     frameworkFiles[i] = re.sub(r"^/", "", frameworkFiles[i])
 controllerFiles = command('find projects resources -name controllers | xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d | '
-                          'grep -v ros | grep -v naoqisim | grep -v thymio2_aseba | '
+                          'grep -v ros | grep -v thymio2_aseba | '
                           'sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | '
                           'perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
 binaryFiles = [

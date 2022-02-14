@@ -42,13 +42,11 @@ done
 mkdir $WEBOTS_HOME/lib/webots/qt/plugins
 mkdir $WEBOTS_HOME/lib/webots/qt/plugins/imageformats
 mkdir $WEBOTS_HOME/lib/webots/qt/plugins/platforms
-mkdir $WEBOTS_HOME/lib/webots/qt/plugins/printsupport
 mkdir $WEBOTS_HOME/lib/webots/qt/plugins/styles
 mkdir $WEBOTS_HOME/lib/webots/qt/plugins/tls
 mkdir $WEBOTS_HOME/lib/webots/qt/libexec
 cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/webots/qt/plugins/imageformats/
 cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/webots/qt/plugins/platforms/
-# cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/webots/qt/plugins/printsupport/
 cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/webots/qt/plugins/styles/
 cp plugins/tls/*.dylib $WEBOTS_HOME/lib/webots/qt/plugins/tls/
 echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/webots/qt/libexec/qt.conf
@@ -62,19 +60,19 @@ cd  $WEBOTS_HOME/Contents/Frameworks/
 
 for fA in "${qtFrameworks[@]}"
 do
-   install_name_tool -id @rpath/Contents/Frameworks/$fA.framework/Versions/Current/$fA $fA.framework/Versions/Current/$fA
-   # install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/Current/$fA
-   # install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/Current/$fA
+   install_name_tool -id @rpath/Contents/Frameworks/$fA.framework/Versions/A/$fA $fA.framework/Versions/A/$fA
+   # install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/A/$fA
+   # install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/A/$fA
    for fB in "${qtFrameworks[@]}"
    do
-     install_name_tool -change @rpath/$fB.framework/Versions/Current/$fB @rpath/Contents/Frameworks/$fB.framework/Versions/Current/$fB $fA.framework/Versions/Current/$fA
+     install_name_tool -change @rpath/$fB.framework/Versions/A/$fB @rpath/Contents/Frameworks/$fB.framework/Versions/A/$fB $fA.framework/Versions/A/$fA
    done
 done
 
 # Render the plugins relative to the executable:
 cd $WEBOTS_HOME/lib/webots/qt/plugins
 
-declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styles/libqmacstyle.dylib")
+declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styles/libqmacstyle.dylib" "tls/libqsecuretransportbackend.dylib" "tls/libqcertonlybackend.dylib")
 
 for lib in "${libs[@]}"
 do
@@ -84,18 +82,18 @@ do
   install_name_tool -add_rpath @loader_path/../../../.. $lib
   for f in "${qtFrameworks[@]}"
   do
-    install_name_tool -change @rpath/$f.framework/Versions/Current/$f @rpath/Contents/Frameworks/$f.framework/Versions/Current/$f $lib
+    install_name_tool -change @rpath/$f.framework/Versions/A/$f @rpath/Contents/Frameworks/$f.framework/Versions/A/$f $lib
   done
 done
 
 # Change the RPATH of the executables
 cd $WEBOTS_HOME/bin/qt
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lrelease
-install_name_tool -change @rpath/QtCore.framework/Versions/Current/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/Current/QtCore lrelease
-install_name_tool -change @rpath/QtXml.framework/Versions/Current/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/Current/QtXml lrelease
+install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/A/QtCore lrelease
+install_name_tool -change @rpath/QtXml.framework/Versions/A/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/A/QtXml lrelease
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
-install_name_tool -change @rpath/QtCore.framework/Versions/Current/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/Current/QtCore lupdate
-install_name_tool -change @rpath/QtXml.framework/Versions/Current/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/Current/QtXml lupdate
+install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/A/QtCore lupdate
+install_name_tool -change @rpath/QtXml.framework/Versions/A/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/A/QtXml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
 
 cd $WEBOTS_HOME
