@@ -148,8 +148,6 @@ lib/webots/libicui18n.so* [linux]
 lib/webots/libicuuc.so* [linux]
 lib/webots/libopenal.so* [linux]
 lib/webots/libopenal.dylib [mac]
-lib/webots/libssl.1.0.0.dylib [mac]
-lib/webots/libcrypto.1.0.0.dylib [mac]
 lib/webots/libassimp.dylib [mac]
 
 lib/webots/qt/ [linux,mac]

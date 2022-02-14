@@ -3,7 +3,6 @@
 /mingw64/bin/libbrotlicommon.dll
 /mingw64/bin/libbrotlidec.dll
 /mingw64/bin/libbz2-1.dll
-/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/bin/libdouble-conversion.dll
 /mingw64/bin/libfreetype-6.dll
 /mingw64/bin/libglib-2.0-0.dll
@@ -24,7 +23,6 @@
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
 /mingw64/bin/libsqlite3-0.dll
-/mingw64/bin/libssl-1_1-x64.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
 /mingw64/bin/libwoff2common.dll
