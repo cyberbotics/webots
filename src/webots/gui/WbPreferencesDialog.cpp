@@ -87,6 +87,8 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   if (mPythonCommand)
     mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  if (mMatlabCommand)
+    mMatlabCommand->setText(prefs->value("General/matlabCommand").toString());
   mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
@@ -147,6 +149,8 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   if (mPythonCommand)
     prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  if (mMatlabCommand)
+    prefs->setValue("General/matlabCommand", mMatlabCommand->text());
   prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
@@ -308,11 +312,16 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
     mPythonCommand = NULL;
   } else
     layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
+  
   // row 7
+  layout->addWidget(new QLabel(tr("Matlab command:"), this), 6, 0);
+  layout->addWidget(mMatlabCommand = new WbLineEdit(this), 6, 1);
+  
+  // row 8
   layout->addWidget(new QLabel(tr("Extra projects path:"), this), 7, 0);
   layout->addWidget(mExtraProjectsPath, 7, 1);
 
-  // row 8
+  // row 9
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
@@ -321,7 +330,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(new QLabel(tr("Warnings:"), this), 8, 0);
   layout->addWidget(mDisableSaveWarningCheckBox, 8, 1);
 
-  // row 9
+  // row 10
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://cyberbotics.com/doc/guide/telemetry"));
@@ -331,7 +340,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(label, 9, 0);
   layout->addWidget(mTelemetryCheckBox, 9, 1);
 
-  // row 10
+  // row 11
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
