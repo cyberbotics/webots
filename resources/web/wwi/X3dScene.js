@@ -14,6 +14,7 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
+    this.remainingRendering = 10; // Each time a render is needed, we ensure that there will be 10 more rendering to avoid gtao artifact
   }
 
   init(texturePathPrefix = '') {
@@ -25,7 +26,7 @@ export default class X3dScene {
     this.destroyWorld();
   }
 
-  render() {
+  render(toRemoveGtaoArtifact) {
     // Set maximum rendering frequency.
     // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
     // and the rendering is performed only at a given maximum frequency.
@@ -34,7 +35,7 @@ export default class X3dScene {
     const currentTime = (new Date()).getTime();
     if (this._nextRenderingTime && this._nextRenderingTime > currentTime) {
       if (!this._renderingTimeout)
-        this._renderingTimeout = setTimeout(() => this.render(), this._nextRenderingTime - currentTime);
+        this._renderingTimeout = setTimeout(() => this.render(toRemoveGtaoArtifact), this._nextRenderingTime - currentTime);
       return;
     }
 
@@ -43,7 +44,14 @@ export default class X3dScene {
     this._nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this._renderingTimeout);
     this._renderingTimeout = null;
-    setTimeout(() => this.render(), 80);
+
+    if (toRemoveGtaoArtifact)
+      --this.remainingRendering;
+    else
+      this.remainingRendering = 10;
+
+    if (this.remainingRendering > 0)
+      setTimeout(() => this.render(true), 80);
   }
 
   renderMinimal() {
