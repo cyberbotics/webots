@@ -763,7 +763,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_5);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_5);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_5);
 #endif
@@ -799,7 +799,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_2);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_2);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_2);
 #endif
@@ -814,7 +814,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_8);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_8);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_8);
 #endif
@@ -829,7 +829,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_4);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_4);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_4);
 #endif
@@ -844,7 +844,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_6);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_6);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_6);
 #endif
@@ -859,7 +859,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_1);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_1);
 #endif
@@ -874,7 +874,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   action->setIcon(icon);
 #ifdef __APPLE__
-  action->setShortcut(Qt::META + Qt::ALT | Qt::Key_7);
+  action->setShortcut(Qt::META | Qt::ALT | Qt::Key_7);
 #else
   action->setShortcut(Qt::ALT | Qt::Key_7);
 #endif

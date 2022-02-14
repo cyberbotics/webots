@@ -48,7 +48,7 @@ mkdir $WEBOTS_HOME/lib/webots/qt/plugins/tls
 mkdir $WEBOTS_HOME/lib/webots/qt/libexec
 cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/webots/qt/plugins/imageformats/
 cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/webots/qt/plugins/platforms/
-cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/webots/qt/plugins/printsupport/
+# cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/webots/qt/plugins/printsupport/
 cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/webots/qt/plugins/styles/
 cp plugins/tls/*.dylib $WEBOTS_HOME/lib/webots/qt/plugins/tls/
 echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/webots/qt/libexec/qt.conf
@@ -63,8 +63,8 @@ cd  $WEBOTS_HOME/Contents/Frameworks/
 for fA in "${qtFrameworks[@]}"
 do
    install_name_tool -id @rpath/Contents/Frameworks/$fA.framework/Versions/Current/$fA $fA.framework/Versions/Current/$fA
-   install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/Current/$fA
-   install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/Current/$fA
+   # install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/Current/$fA
+   # install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/Current/$fA
    for fB in "${qtFrameworks[@]}"
    do
      install_name_tool -change @rpath/$fB.framework/Versions/Current/$fB @rpath/Contents/Frameworks/$fB.framework/Versions/Current/$fB $fA.framework/Versions/Current/$fA
@@ -74,13 +74,13 @@ done
 # Render the plugins relative to the executable:
 cd $WEBOTS_HOME/lib/webots/qt/plugins
 
-declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "printsupport/libcocoaprintersupport.dylib" "styles/libqmacstyle.dylib")
+declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styles/libqmacstyle.dylib")
 
 for lib in "${libs[@]}"
 do
   install_name_tool -id @rpath/lib/webots/qt/plugins/$lib $lib
-  install_name_tool -delete_rpath @executable_path/../Frameworks $lib
-  install_name_tool -delete_rpath @loader_path/../../lib $lib
+  # install_name_tool -delete_rpath @executable_path/../Frameworks $lib
+  # install_name_tool -delete_rpath @loader_path/../../lib $lib
   install_name_tool -add_rpath @loader_path/../../../.. $lib
   for f in "${qtFrameworks[@]}"
   do
