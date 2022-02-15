@@ -50,7 +50,7 @@ export default class X3dScene {
     else
       this.remainingRenderings = 10;
 
-    if (this.remainingRendering > 0)
+    if (this.remainingRenderings > 0)
       setTimeout(() => this.render(true), 80);
   }
 
