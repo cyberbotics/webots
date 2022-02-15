@@ -21,9 +21,9 @@ Webots must be able to access the "matlab" executable (usually a script) in orde
 The absolute path to the executable can be changed in the Webots preferences, in the General tab.
 When Webots is started for the first time, the path is defined to the default installation directory of Matlab, depending on the OS:
 
-* Windows: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
-* Linux: /usr/local/MATLAB/R20XXx/bin/matlab
-* MacOS: /Applications/MATLAB_R20XXx.app
+- *Windows*: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
+- *Linux*: /usr/local/MATLAB/R20XXx/bin/matlab
+- *MacOS*: /Applications/MATLAB_R20XXx.app
 
 By default, the most recent version is chosen.
 If Matlab is installed at a custom path or if another version must be used, the absolute path can be easily filled in.
