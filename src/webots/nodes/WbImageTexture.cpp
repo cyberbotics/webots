@@ -89,7 +89,7 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
-  QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
@@ -301,7 +301,7 @@ void WbImageTexture::updateUrl() {
   }
   if (n > 0) {
     const QString &url = mUrl->item(0);
-    QString completeUrl = WbUrl::computePath(this, "url", url, false);
+    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
 
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
