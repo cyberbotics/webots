@@ -75,8 +75,6 @@ declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styl
 for lib in "${libs[@]}"
 do
   install_name_tool -id @rpath/lib/webots/qt/plugins/$lib $lib
-  # install_name_tool -delete_rpath @executable_path/../Frameworks $lib
-  # install_name_tool -delete_rpath @loader_path/../../lib $lib
   install_name_tool -add_rpath @loader_path/../../../.. $lib
   for f in "${qtFrameworks[@]}"
   do
