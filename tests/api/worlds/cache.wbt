@@ -1,0 +1,58 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.28716059455672516 0.33748982855106063 -0.8964593736240387 1.5186285586874813
+  position -0.5605516607951863 1.7945167122454198 1.2916623205781068
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+TexturedBackgroundLight {
+}
+TexturedBoxShape {
+  textureUrl [
+    "textures/red_texture.jpg"
+  ]
+}
+Robot {
+  translation 0 0.2 0
+  children [
+    Camera {
+      children [
+        TexturedBoxShape {
+          textureUrl [
+            "textures/red_texture.jpg"
+          ]
+        }
+      ]
+    }
+  ]
+}
+Transform {
+  translation 0 -0.2 0
+  children [
+    NestedProtoWithTexture {
+    }
+  ]
+}
+Robot {
+  translation -0.2 0 0
+  children [
+    Camera {
+      name "camera0"
+    }
+    Camera {
+      translation 0 0.2 0
+      name "camera1"
+    }
+    Camera {
+      translation 0 -0.2 0
+      name "camera2"
+    }
+  ]
+  name "TESTER"
+  controller "cache_checker"
+}

@@ -1,0 +1,11 @@
+#VRML_SIM R2022b utf8
+
+PROTO NestedProtoWithTexture
+[
+  field MFString url ["webots://tests/api/worlds/textures/red_texture.jpg"]
+]
+{
+  TexturedBoxShape {
+    textureUrl IS url
+  }
+}
