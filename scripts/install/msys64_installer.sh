@@ -5,18 +5,20 @@
 # --all: install all the optional dependencies
 
 declare -a BASE_PACKAGES=(
-  "make"                      # Makefile
-  "mingw-w64-x86_64-gcc"      # C/C++ compiler
-  "tar"                       # Webots dependencies
-  "unzip"                     # Webots dependencies
-  "zip"                       # robotbenchmark square path
-  "mingw-w64-x86_64-qt5"      # Webots
-  "mingw-w64-x86_64-libzip"   # Webots
-  "mingw-w64-x86_64-libgd"    # Webots (Lua PROTOs)
-  "mingw-w64-x86_64-woff2"    # Webots
-  "liblzma"                   # Webots
-  "mingw-w64-x86_64-ffmpeg"   # Webots movies
-  "mingw-w64-x86_64-dlfcn"    # dependency of ffmpeg
+  "make"                             # Makefile
+  "mingw-w64-x86_64-gcc"             # C/C++ compiler
+  "tar"                              # Webots dependencies
+  "unzip"                            # Webots dependencies
+  "zip"                              # robotbenchmark square path
+  "mingw-w64-x86_64-qt6-base"        # Webots
+  "mingw-w64-x86_64-qt6-declarative" # Webots
+  "mingw-w64-x86_64-qt6-websocket  " # Webots
+  "mingw-w64-x86_64-libzip"          # Webots
+  "mingw-w64-x86_64-libgd"           # Webots (Lua PROTOs)
+  "mingw-w64-x86_64-woff2"           # Webots
+  "liblzma"                          # Webots
+  "mingw-w64-x86_64-ffmpeg"          # Webots movies
+  "mingw-w64-x86_64-dlfcn"           # dependency of ffmpeg
 )
 
 declare -a OPTIONAL_PACKAGES=(
