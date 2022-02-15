@@ -14,6 +14,7 @@
 
 #include "WbUrl.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
@@ -119,11 +120,20 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
     const QString error = QObject::tr("'%1' not found.").arg(url);
-    if (node)
-      node->parsingWarn(error);
-    else
-      WbLog::warning(error, false, WbLog::PARSING);
-    return missing(url);
+
+    if (isLocalUrl(url)) {
+      QString newUrl(url);
+
+      newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                    WbApplicationInfo::branch() + "/");
+      return newUrl;
+    } else {
+      if (node)
+        node->parsingWarn(error);
+      else
+        WbLog::warning(error, false, WbLog::PARSING);
+      return missing(url);
+    }
   }
 
   // check if the url is defined relatively
