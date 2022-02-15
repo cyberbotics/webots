@@ -41,7 +41,7 @@ private:
   WbNetwork();
   ~WbNetwork();
 
-  const QString urlToPath(QString url);
+  const QString urlToHash(QString url);
 
   void recomputeCacheSize();
   static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);

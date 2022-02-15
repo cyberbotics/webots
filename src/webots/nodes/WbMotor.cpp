@@ -291,11 +291,13 @@ void WbMotor::updateSound() {
     downloadAssets();
     return;
   } else {
+    // determine extension from url since for remotely defined assets the cached version doesn't retain this information
+    const QString extension = soundUrl.mid(soundUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(soundUrl)) {
       assert(WbNetwork::instance()->isCached(soundUrl));  // at this point the sound must be in the cache
-      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(soundUrl));
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(soundUrl), extension);
     } else
-      mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", soundUrl));
+      mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", soundUrl), extension);
 
     delete mDownloader;  // TODO: necessary?
     mDownloader = NULL;

@@ -55,9 +55,10 @@ WbContactSound::WbContactSound(const dGeomID &geom1, const dGeomID &geom2, const
     mRollSoundClip = contactProperties->rollSoundClip();
     mSlideSoundClip = contactProperties->slideSoundClip();
   } else {
-    mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(NULL, "bump sound", "sounds/bump.wav"));
-    mRollSoundClip = WbSoundEngine::sound(WbUrl::computePath(NULL, "roll sound", "sounds/roll.wav"));
-    mSlideSoundClip = WbSoundEngine::sound(WbUrl::computePath(NULL, "slide sound", "sounds/slide.wav"));
+    assert(true);  // this point should never be reached
+    mBumpSoundClip = NULL;
+    mRollSoundClip = NULL;
+    mSlideSoundClip = NULL;
   }
 
   mContactTime = 0.001 * WbSimulationState::instance()->time();

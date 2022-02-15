@@ -72,22 +72,18 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
     callback = index == 0 ? &WbContactProperties::updateBumpSound :
                             (index == 1 ? &WbContactProperties::updateRollSound : &WbContactProperties::updateSlideSound);
     connect(mDownloader[index], &WbDownloader::complete, this, callback);
-    printf("connecting\n");
   }
 
-  printf("DOWNLOAD!\n");
   mDownloader[index]->download(QUrl(url));
 }
 
 void WbContactProperties::downloadAssets() {
-  printf("downloadAssets()\n");
   downloadAsset(mBumpSound->value(), 0);
   downloadAsset(mRollSound->value(), 1);
   downloadAsset(mSlideSound->value(), 2);
 }
 
 void WbContactProperties::preFinalize() {
-  printf("PREFIN\n");
   WbBaseNode::preFinalize();
 
   updateCoulombFriction();
@@ -215,41 +211,36 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
-  printf("loading sound: %d | %s | %s || %d\n", index, sound.toUtf8().constData(), name.toUtf8().constData(),
-         WbNetwork::instance()->isCached(sound));
-  if (WbUrl::isWeb(sound) && !WbNetwork::instance()->isCached(sound)) {
-    printf("not cached!\n");
-    downloadAsset(sound, index);  // changed by supervisor
-    return;
-  }
-  WbSoundEngine::clearAllContactSoundSources();
   if (sound.isEmpty()) {
     *clip = NULL;
     return;
   }
+  if (WbUrl::isWeb(sound) && !WbNetwork::instance()->isCached(sound)) {
+    downloadAsset(sound, index);  // changed by supervisor
+    return;
+  }
+  WbSoundEngine::clearAllContactSoundSources();
+  // determine extension from url since for remotely defined assets the cached version doesn't retain this information
+  const QString extension = sound.mid(sound.lastIndexOf('.') + 1).toLower();
+
   if (WbUrl::isWeb(sound)) {
     assert(WbNetwork::instance()->isCached(sound));  // by this point, the asset should be cached
-    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(sound));
+    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(sound), extension);
   } else
-    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound), extension);
 
   // TODO: need to delete?
 }
 
 void WbContactProperties::updateBumpSound() {
-  printf("updateBumpSound\n");
   loadSound(0, mBumpSound->value(), "bumpSound", &mBumpSoundClip);
 }
 
 void WbContactProperties::updateRollSound() {
-  printf("updateRollSound\n");
-
   loadSound(1, mRollSound->value(), "rollSound", &mRollSoundClip);
 }
 
 void WbContactProperties::updateSlideSound() {
-  printf("updateSlideSound\n");
-
   loadSound(2, mSlideSound->value(), "slideSound", &mSlideSoundClip);
 }
 

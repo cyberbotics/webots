@@ -237,7 +237,8 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
       if (!QDir::setCurrent(path))
         this->warn(tr("Cannot change directory to: '%1'").arg(path));
     }
-    WbSoundClip *soundClip = WbSoundEngine::sound(filename, NULL, balance, side);
+    const QString extension = filename.mid(filename.lastIndexOf('.') + 1).toLower();
+    WbSoundClip *soundClip = WbSoundEngine::sound(filename, extension, NULL, balance, side);
     if (!path.isEmpty())
       QDir::setCurrent(initialDir.path());
     if (!soundClip) {

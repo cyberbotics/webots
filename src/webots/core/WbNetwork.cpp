@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbLog.hpp"
 #include "WbNetwork.hpp"
+#include "WbLog.hpp"
 #include "WbPreferences.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -105,30 +105,17 @@ void WbNetwork::setProxy() {
 }
 
 void WbNetwork::save(const QString url, const QByteArray &content) {
-  printf("> save(%s)\n", url.toUtf8().constData());
-
   if (!isCached(url)) {
-    // sanity check
-    QString path = urlToPath(url);
-    // create all the necessary directories
-    QFileInfo fi(mCacheDirectory + path);
-    bool success = fi.absoluteDir().mkpath(".");
-    if (success) {
-      // save to file
-      QFile file(fi.absoluteFilePath());
-      if (file.open(QIODevice::WriteOnly)) {
-        file.write(content);
-        mCacheSizeInBytes += file.size();
-        file.close();
-        // save reference in internal representation
-        cacheMap.insert(url, fi.absoluteFilePath());
-      }
-      printf("  cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
-    } else {
-      WbLog::warning(tr("Impossible to create cache path for remote asset: %1").arg(url), true);
+    // save to file
+    const QString path = mCacheDirectory + urlToHash(url);
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly)) {
+      file.write(content);
+      mCacheSizeInBytes += file.size();
+      file.close();
+      // save reference in internal representation
+      cacheMap.insert(url, path);
     }
-  } else {
-    printf("  already cached\n");
   }
 }
 
@@ -138,8 +125,7 @@ QString WbNetwork::get(const QString url) {
   if (cacheMap.contains(url))
     return cacheMap[url];
 
-  printf("> get(%s)\n", url.toUtf8().constData());
-  QString location = mCacheDirectory + urlToPath(url);
+  const QString location = mCacheDirectory + urlToHash(url);
   // printf("  file is at: %s\n", loc.toUtf8().constData());
   cacheMap.insert(url, location);
   return location;
@@ -150,7 +136,7 @@ bool WbNetwork::isCached(QString url) {
     return true;
 
   // if url is not in the internal representation, check for file existence on disk
-  const QString filePath = mCacheDirectory + urlToPath(url);
+  const QString filePath = mCacheDirectory + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
     cacheMap.insert(url, filePath);  // keep track of it in case it gets asked again
     return true;
@@ -159,10 +145,8 @@ bool WbNetwork::isCached(QString url) {
   return false;
 }
 
-const QString WbNetwork::urlToPath(QString url) {
-  const QString fileName = url.mid(url.lastIndexOf('/') + 1);
-  const QString urlHash = QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
-  return urlHash + "/" + fileName;  // TODO: only for debug, later use hash as file name (no directory, no extension)
+const QString WbNetwork::urlToHash(QString url) {
+  return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
 }
 
 void WbNetwork::reduceCacheUsage() {
@@ -189,7 +173,6 @@ void WbNetwork::reduceCacheUsage() {
     const QFileInfo fi = i.next();
 
     QDir().remove(fi.absoluteFilePath());  // remove the file
-    QDir().rmpath(fi.absolutePath());      // remove any empty parent directories
 
     // find key (url) corresponding to path, and remove it from the internal representation
     const QString key = cacheMap.key(fi.absoluteFilePath());
@@ -205,7 +188,6 @@ bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
 }
 
 void WbNetwork::clearCache() {
-  printf("> clearCache()\n");
   QDir dir(mCacheDirectory);
   if (dir.exists()) {
     dir.removeRecursively();
