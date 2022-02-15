@@ -49,9 +49,9 @@ WbNetwork::WbNetwork() {
   if (!dir.exists())
     dir.mkpath(".");
 
-  // calculate cache size and (possibly) purge part of it when the WbNetwork instance is first created
+  // calculate cache size
   recomputeCacheSize();
-
+  // if necessary purge part of it to enforce maximal cache size defined in the preferences
   reduceCacheUsage();
 
   qAddPostRoutine(WbNetwork::cleanup);
@@ -102,7 +102,7 @@ void WbNetwork::setProxy() {
     mNetworkAccessManager->setProxy(proxy);
 }
 
-void WbNetwork::save(const QString url, const QByteArray &content) {
+void WbNetwork::save(const QString &url, const QByteArray &content) {
   if (!isCached(url)) {
     // save to file
     const QString path = mCacheDirectory + urlToHash(url);
@@ -117,7 +117,7 @@ void WbNetwork::save(const QString url, const QByteArray &content) {
   }
 }
 
-QString WbNetwork::get(const QString url) {
+QString WbNetwork::get(const QString &url) {
   assert(isCached(url));  // the get function should not be called unless we know the file to be cached
 
   if (cacheMap.contains(url))
@@ -129,7 +129,7 @@ QString WbNetwork::get(const QString url) {
   return location;
 }
 
-bool WbNetwork::isCached(QString url) {
+bool WbNetwork::isCached(const QString &url) {
   if (cacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
@@ -143,7 +143,7 @@ bool WbNetwork::isCached(QString url) {
   return false;
 }
 
-const QString WbNetwork::urlToHash(QString url) {
+const QString WbNetwork::urlToHash(const QString &url) {
   return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
 }
 
@@ -159,9 +159,6 @@ void WbNetwork::reduceCacheUsage() {
     it.next();
     assets << it.fileInfo();
   }
-
-  // items must also be purged from the internal representation
-  QList<QString> cacheMapValues = cacheMap.values();
 
   // sort the files based on lastRead metadata, from oldest to newest
   std::sort(assets.begin(), assets.end(), lastReadLessThan);

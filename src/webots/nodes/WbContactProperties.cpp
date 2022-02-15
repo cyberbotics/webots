@@ -62,7 +62,6 @@ WbContactProperties::~WbContactProperties() {
 void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url) || WbNetwork::instance()->isCached(url))
     return;
-  printf("dl asset %d: %s | %d\n", index, url.toUtf8().constData(), WbNetwork::instance()->isCached(url));
 
   if (mDownloader[index] != NULL && mDownloader[index]->device() != NULL)
     delete mDownloader[index];
