@@ -9,7 +9,7 @@ Car {
   #fields specific to Car
   SFString   type                           "traction"
   SFString   engineType                     "combustion"
-  SFString   engineSound                    "sounds/engine.wav"
+  SFString   engineSound                    "webots://projects/vehicles/protos/abstract/sounds/engine.wav"
   SFFloat    engineSoundRpmReference        1000
   SFFloat    brakeCoefficient               500
   SFFloat    time0To100                     10
