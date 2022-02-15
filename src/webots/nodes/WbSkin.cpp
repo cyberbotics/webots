@@ -105,7 +105,7 @@ void WbSkin::downloadAssets() {
     appearance->downloadAssets();
   }
 
-  const QString url = mModelUrl->value();
+  const QString &url = mModelUrl->value();
   if (!url.isEmpty()) {
     const QString completeUrl = WbUrl::computePath(this, "url", url, false);
     if (WbUrl::isWeb(completeUrl)) {
