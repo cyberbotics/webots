@@ -358,7 +358,7 @@ I just created one. Can you try it?
 ##### Luftwaffel [Moderator] 01/25/2021 15:30:06
 seems to work
 
-##### Rawlmond 01/25/2021 15:33:10
+##### kRiSh 01/25/2021 15:33:10
 oh wow, already created.
 
 ##### mayank.kishore 01/25/2021 15:55:58
@@ -1220,7 +1220,7 @@ you could try ikpy. Perhaps it handles 7DOF somewhat well, but I always found it
 ##### row 02/27/2021 18:40:24
 I just tried to run webots on a M1 MacBook Air. It runs flawlessly.
 
-##### Rawlmond 02/27/2021 18:45:03
+##### kRiSh 02/27/2021 18:45:03
 Real or sarcastic?
 
 ##### row 02/27/2021 18:45:22
@@ -1229,7 +1229,7 @@ Real
 
 I got a refurbished M1 Macbook Air base model
 
-##### Rawlmond 02/27/2021 18:45:40
+##### kRiSh 02/27/2021 18:45:40
 Wow, Apple is catching up.
 
 
@@ -1238,7 +1238,7 @@ The 2 years promise would turn one and a half I guess.
 ##### row 02/27/2021 18:46:06
 It's crazy because I think webot is translated in rosetta. it's not even running on native arm
 
-##### Rawlmond 02/27/2021 18:46:36
+##### kRiSh 02/27/2021 18:46:36
 Ahh, really?
 
 ##### row 02/27/2021 18:47:03
@@ -1247,13 +1247,13 @@ Yeah.. I am gonna do more testings once I have the time. But it's mind blowing.
 
 Hopefully we will see a native arm built in the future
 
-##### Rawlmond 02/27/2021 18:49:40
+##### kRiSh 02/27/2021 18:49:40
 Tim Cook OP 😆
 
 ##### Whizbuzzer 02/27/2021 21:10:39
 > Tim Cook OP 😆
 
-`@Rawlmond`  
+`@kRiSh`  
 
 🤣
 
@@ -1542,7 +1542,7 @@ What's that? Which world?
 
 ## April
 
-##### Rawlmond 04/01/2021 11:48:12
+##### kRiSh 04/01/2021 11:48:12
 Is the other wheel pivoted?
 
 ##### Luftwaffel [Moderator] 04/01/2021 21:13:50

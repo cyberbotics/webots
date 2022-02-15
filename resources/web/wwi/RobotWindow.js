@@ -3,7 +3,8 @@ import {getGETQueryValue} from './request_methods.js';
 export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
-    this.wsServer = "ws://localhost:1234/";;
+    this.wsServer = decodeURI(getGETQueryValue('url', 'ws://localhost:1234/'));
+
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
@@ -30,7 +31,7 @@ export default class RobotWindow {
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
     this.socket.onerror = (event) => { };
-    this.send("init robot window");
+    this.send('init robot window');
   }
 
   _onSocketOpen(event) {
@@ -42,13 +43,12 @@ export default class RobotWindow {
     let data = event.data;
     const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
     if (data.startsWith('robot:')) {
-      let message = data.match("\"message\":\"(.*)\",\"name\"")[1];
-      let robot = data.match(",\"name\":\"(.*)\"}")[1];
-      message = message.replace(/\\/g, "");
-      if (this.name == robot) //receive only the messages of our robot.
+      let message = data.match('"message":"(.*)","name"')[1];
+      let robot = data.match(',"name":"(.*)"}')[1];
+      message = message.replace(/\\/g, '');
+      if (this.name === robot) // receive only the messages of our robot.
         this.receive(message, robot);
-    }
-    else if (ignoreData)
+    } else if (ignoreData)
       return 0;
     else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
@@ -62,5 +62,4 @@ export default class RobotWindow {
       this.close();
     }
   }
-
 };
