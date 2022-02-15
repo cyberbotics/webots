@@ -50,7 +50,6 @@ static double angleIRDevices[NUMBER_OF_DISTANCE_SENSORS] = {
 
 // predetermined colors (extending the colors of the Qt namespace)
 static QColor red(200, 0, 0);
-static QColor green(0, 210, 0);
 static QColor blue(0, 0, 200);
 static QColor yellow(200, 200, 0);
 
