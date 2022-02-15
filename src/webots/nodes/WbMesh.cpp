@@ -58,13 +58,14 @@ void WbMesh::downloadAssets() {
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
-  if (WbUrl::isWeb(url)) {
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (WbUrl::isWeb(completeUrl)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
 
-    mDownloader->download(QUrl(url));
+    mDownloader->download(QUrl(completeUrl));
   }
 }
 
