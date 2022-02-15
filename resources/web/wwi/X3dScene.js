@@ -46,9 +46,9 @@ export default class X3dScene {
     this._renderingTimeout = null;
 
     if (toRemoveGtaoArtifact)
-      --this.remainingRendering;
+      --this.remainingRenderings;
     else
-      this.remainingRendering = 10;
+      this.remainingRenderings = 10;
 
     if (this.remainingRendering > 0)
       setTimeout(() => this.render(true), 80);
