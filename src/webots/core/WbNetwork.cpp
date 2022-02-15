@@ -27,7 +27,7 @@
 static WbNetwork *gInstance = NULL;
 
 // cacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
-// persistent nor is it ever complete. It's purpose is to speed up checking and retrieving previously referenced assets.
+// persistent nor is it ever complete. Its purpose is to speed up checking and retrieving previously referenced assets.
 static QMap<QString, QString> cacheMap;
 
 void WbNetwork::cleanup() {
@@ -44,7 +44,6 @@ WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
   cacheMap.clear();
 
-  printf("> WbNetwork()\n");
   mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
   QDir dir(mCacheDirectory);
   if (!dir.exists())
@@ -52,9 +51,8 @@ WbNetwork::WbNetwork() {
 
   // calculate cache size and (possibly) purge part of it when the WbNetwork instance is first created
   recomputeCacheSize();
-  printf("> cache size is: %lld MB\n", mCacheSizeInBytes / (1024 * 1024));
 
-  reduceCacheUsage();  // TODO: remove from ephemeral too
+  reduceCacheUsage();
 
   qAddPostRoutine(WbNetwork::cleanup);
 }
@@ -179,7 +177,6 @@ void WbNetwork::reduceCacheUsage() {
     cacheMap.remove(key);
 
     mCacheSizeInBytes -= fi.size();
-    printf(" removed %s [%lld]\n", fi.fileName().toUtf8().constData(), mCacheSizeInBytes);
   }
 }
 
