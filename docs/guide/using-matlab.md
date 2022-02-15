@@ -27,6 +27,7 @@ When Webots is started for the first time, the path is defined to the default in
 
 By default, the most recent version is chosen.
 If Matlab is installed at a custom path or if another version must be used, the absolute path can be easily filled in.
+For Windows, the executable located in "R20XXx\bin\win64" should be given, and not the one located in "R20XXx\bin".
 
 ### How to Run the Examples?
 
