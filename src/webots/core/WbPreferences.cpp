@@ -153,6 +153,7 @@ void WbPreferences::setDefaultMatlabCommand() {
   QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
 #else  // __linux__
   QString matlabPath = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
   QString matlabExecPath = "/bin/matlab";
 #endif
   QDir matlabDir(matlabPath);
