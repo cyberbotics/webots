@@ -144,7 +144,7 @@ void WbPreferences::setDefaultMatlabCommand() {
   matlabAppWc = "MATLAB_R20???.app";
   QDir matlabDir(matlabPath);
   matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
-  if (matlabApp.empty()) {
+  if (matlabVersions.isEmpty()) {
     setDefault("General/matlabCommand", "");
     return;
   }
@@ -169,7 +169,7 @@ void WbPreferences::setDefaultMatlabCommand() {
   foreach (QString version, matlabVersions) { lastVersion = version; }
 
   command = matlabPath + lastVersion;
-#if defined __APPLE__ || defined __linux__
+#if defined _WIN32 || defined __linux__
   command = command + matlabExecPath;
 #endif
 
