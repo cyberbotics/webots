@@ -674,12 +674,12 @@ void WbController::reportFailedStart() {
       break;
     case WbFileUtil::MATLAB:
       if (mCommand == "!")
-        warn(tr("The Matlab executable field is empty in the Webots preferences (Tools > Preferences... > General). Please "
-                "provide the correct absolute path to the Matlab executable."));
+        warn(tr("The MATLAB executable field is empty in the Webots preferences (Tools > Preferences... > General). Please "
+                "provide the correct absolute path to the MATLAB executable."));
       else
         warn(tr(
-          "The Matlab executable provided in the Webots preferences could not be started. Please provide the correct absolute "
-          "path to the Matlab executable."));
+          "The MATLAB executable provided in the Webots preferences could not be started. Please provide the correct absolute "
+          "path to the MATLAB executable."));
 #ifdef __linux__
       matlabDefaultPath = "/usr/local/MATLAB/R20XXx/bin/matlab";
 #else

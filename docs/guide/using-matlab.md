@@ -17,18 +17,18 @@ Webots {{ webots.version.full }} supports only 64bits MATLAB versions from 2015b
 
 On Windows the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
 
-Webots must be able to access the "matlab" executable (usually a script) in order to execute the controller m-files.
+Webots must be able to access the MATLAB executable (usually a script) in order to execute the controller m-files.
 The absolute path to the executable can be changed in the Webots preferences, in the General tab.
-When Webots is started for the first time, the path is defined to the default installation directory of Matlab, depending on the OS:
+When Webots is started for the first time, the path is defined to the default installation directory of MATLAB, depending on the OS:
 
 - *Windows*: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
 - *Linux*: /usr/local/MATLAB/R20XXx/bin/matlab
 - *MacOS*: /Applications/MATLAB_R20XXx.app
 
 By default, the most recent version is chosen.
-If Matlab is installed at a custom path or if another version must be used, the absolute path can be easily filled in.
+If MATLAB is installed at a custom path or if another version must be used, the absolute path can be easily filled in.
 On Windows, there are two MATLAB.exe files: one is located in "bin\MATLAB.exe" and the other one in "bin\win64\MATLAB.exe".
-"bin\win64\MATLAB.exe" should be used in the preferences, because "bin\MATLAB.exe" is just a launcher that causes problem with stdout/stderr streams and with the termination of the process.
+"bin\win64\MATLAB.exe" should be used in the preferences, because "bin\MATLAB.exe" is just a launcher that causes problems with stdout/stderr streams and with the termination of the process.
 
 ### How to Run the Examples?
 

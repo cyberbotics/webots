@@ -165,10 +165,7 @@ void WbPreferences::setDefaultMatlabCommand() {
   matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
 #endif
 
-  QString lastVersion;
-  foreach (QString version, matlabVersions) { lastVersion = version; }
-
-  command = matlabPath + lastVersion;
+  command = matlabPath + matlabVersions.last();
 #if defined _WIN32 || defined __linux__
   command = command + matlabExecPath;
 #endif

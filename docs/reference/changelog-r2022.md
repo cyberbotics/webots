@@ -7,7 +7,7 @@ Released on XX XX, 2022.
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
     - Added a new HDR background: `music_hall` ([#4177](https://github.com/cyberbotics/webots/pull/4177)).
     - Replaced cubic background PNG images with more efficient JPG images ([#4182](https://github.com/cyberbotics/webots/pull/4182)).
-    - Changed the way Matlab is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
+    - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
   - Bug fixes

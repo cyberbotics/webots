@@ -314,7 +314,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
     layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
 
   // row 7
-  layout->addWidget(new QLabel(tr("Matlab command:"), this), 7, 0);
+  layout->addWidget(new QLabel(tr("MATLAB command:"), this), 7, 0);
   layout->addWidget(mMatlabCommand = new WbLineEdit(this), 7, 1);
 
   // row 8
