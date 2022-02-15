@@ -98,12 +98,17 @@ WbMotor::~WbMotor() {
 }
 
 void WbMotor::downloadAssets() {
-  const QString &sound = mSound->value();
-  if (WbUrl::isWeb(sound)) {
+  const QString &soundUrl = mSound->value();
+  if (WbUrl::isWeb(soundUrl)) {
+    if (WbNetwork::instance()->isCached(soundUrl))
+      return;
+    if (mDownloader != NULL && mDownloader->device() != NULL)
+      delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())
       connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
-    mDownloader->download(QUrl(sound));
+
+    mDownloader->download(QUrl(soundUrl));
   }
 }
 
@@ -279,33 +284,23 @@ void WbMotor::updateControlPID() {
 }
 
 void WbMotor::updateSound() {
-  const QString &sound = mSound->value();
-  if (sound.isEmpty())
+  const QString &soundUrl = mSound->value();
+  if (soundUrl.isEmpty())
     mSoundClip = NULL;
-  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(soundUrl) && !WbNetwork::instance()->isCached(soundUrl)) {
     downloadAssets();
     return;
-  } else if (!mDownloader)
-    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
-  else {
-    if (mDownloader->error().isEmpty()) {
-      assert(WbNetwork::instance()->isCached(mSound->value()));
-      QString filePath(WbNetwork::instance()->get(mSound->value()));
-      QIODevice *device = new QFile(filePath);
-      if (!device->open(QIODevice::ReadOnly)) {
-        warn(tr("Cannot open sound file: '%1'").arg(mSound->value()));
-        delete device;
-        return;
-      }
+  } else {
+    if (WbUrl::isWeb(soundUrl)) {
+      assert(WbNetwork::instance()->isCached(soundUrl));  // at this point the sound must be in the cache
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(soundUrl));
+    } else
+      mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", soundUrl));
 
-      mSoundClip = WbSoundEngine::sound(sound, device);
-    } else {
-      mSoundClip = NULL;
-      warn(mDownloader->error());
-    }
-    delete mDownloader;
+    delete mDownloader;  // TODO: necessary?
     mDownloader = NULL;
   }
+
   WbSoundEngine::clearAllMotorSoundSources();
 }
 
