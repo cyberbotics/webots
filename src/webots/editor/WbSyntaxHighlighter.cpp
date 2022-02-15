@@ -149,7 +149,7 @@ QList<WbSyntaxHighlighter::HighlightedSection> WbLanguageHighlighter::identifySe
   QList<HighlightedSection> sections;
   foreach (const HighlightingRule &rule, highlightingRules) {
     QRegularExpressionMatch match = QRegularExpression(rule.pattern).match(text);
-    for (int index = 0; index <= match.lastCapturedIndex(); index++)
+    for (int index = 0; index <= match.lastCapturedIndex(); ++index)
       sections.append(HighlightedSection(match.capturedStart(index), match.capturedLength(index), rule.format));
   }
   return sections;
