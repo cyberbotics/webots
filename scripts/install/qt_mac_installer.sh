@@ -61,8 +61,6 @@ cd  $WEBOTS_HOME/Contents/Frameworks/
 for fA in "${qtFrameworks[@]}"
 do
    install_name_tool -id @rpath/Contents/Frameworks/$fA.framework/Versions/A/$fA $fA.framework/Versions/A/$fA
-   # install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/A/$fA
-   # install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/A/$fA
    for fB in "${qtFrameworks[@]}"
    do
      install_name_tool -change @rpath/$fB.framework/Versions/A/$fB @rpath/Contents/Frameworks/$fB.framework/Versions/A/$fB $fA.framework/Versions/A/$fA
