@@ -176,8 +176,6 @@ lib/webots/qt/translations/ [linux]
 lib/webots/qt/translations/*.qm [linux]
 lib/webots/qt/libexec/ [linux,mac]
 lib/webots/qt/libexec/qt.conf [linux,mac]
-lib/webots/qt/resources/ [linux]
-lib/webots/qt/resources/icudtl.dat [linux]
 
 resources/
 resources/icons/
