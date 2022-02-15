@@ -14,7 +14,7 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
-    this.remainingRendering = 10; // Each time a render is needed, we ensure that there will be 10 more rendering to avoid gtao artifact
+    this.remainingRendering = 10; // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
   }
 
   init(texturePathPrefix = '') {
