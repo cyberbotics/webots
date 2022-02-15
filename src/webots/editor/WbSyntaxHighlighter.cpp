@@ -90,7 +90,7 @@ void WbSyntaxHighlighter::highlightSearchText(const QString &text, int offset) {
     return;
 
   QRegularExpressionMatch match = mSearchTextRule.match(text);
-  for (int index = 0; index <= match.lastCapturedIndex(); index++)
+  for (int index = 0; index <= match.lastCapturedIndex(); ++index)
     setFormat(match.capturedStart() + offset, match.capturedLength(), mSearchTextFormat);
 }
 
