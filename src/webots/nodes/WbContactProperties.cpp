@@ -60,21 +60,23 @@ WbContactProperties::~WbContactProperties() {
 }
 
 void WbContactProperties::downloadAsset(const QString &url, int index) {
-  printf("dl asset %d: %s\n", index, url.toUtf8().constData());
-  if (!WbUrl::isWeb(url)) {
-    if (WbNetwork::instance()->isCached(url))
-      return;
-    if (mDownloader[index] != NULL && mDownloader[index]->device() != NULL)
-      delete mDownloader[index];
-    mDownloader[index] = new WbDownloader(this);
-    printf("hen\n");
+  if (!WbUrl::isWeb(url) || WbNetwork::instance()->isCached(url))
+    return;
+  printf("dl asset %d: %s | %d\n", index, url.toUtf8().constData(), WbNetwork::instance()->isCached(url));
+
+  if (mDownloader[index] != NULL && mDownloader[index]->device() != NULL)
+    delete mDownloader[index];
+  mDownloader[index] = new WbDownloader(this);
+  if (isPostFinalizedCalled()) {
     void (WbContactProperties::*callback)(void);
     callback = index == 0 ? &WbContactProperties::updateBumpSound :
                             (index == 1 ? &WbContactProperties::updateRollSound : &WbContactProperties::updateSlideSound);
     connect(mDownloader[index], &WbDownloader::complete, this, callback);
-
-    mDownloader[index]->download(QUrl(url));
+    printf("connecting\n");
   }
+
+  printf("DOWNLOAD!\n");
+  mDownloader[index]->download(QUrl(url));
 }
 
 void WbContactProperties::downloadAssets() {
