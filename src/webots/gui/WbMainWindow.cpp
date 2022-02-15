@@ -1584,6 +1584,15 @@ void WbMainWindow::exportHtmlFiles() {
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     const QFileInfo info(fileName);
+
+    QFile file(WbStandardPaths::webotsTmpPath() + "cloud_export.html");
+    file.open(QIODevice::ReadWrite);
+    QByteArray text = file.readAll();
+    text.replace(QByteArray("cloud_export"), QByteArray(info.completeBaseName().toUtf8()));
+    file.seek(0);
+    file.write(text);
+    file.close();
+
     QStringList extensions = {".html", ".x3d"};
     if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists())
       extensions << ".json";
