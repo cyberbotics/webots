@@ -13,7 +13,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-qt6-base"         # Webots
   "mingw-w64-x86_64-qt6-declarative"  # Webots
   "mingw-w64-x86_64-qt6-translations" # Webots
-  "mingw-w64-x86_64-qt6-websocket"    # Webots
+  "mingw-w64-x86_64-qt6-websockets"   # Webots
   "mingw-w64-x86_64-libzip"           # Webots
   "mingw-w64-x86_64-libgd"            # Webots (Lua PROTOs)
   "mingw-w64-x86_64-woff2"            # Webots
