@@ -138,37 +138,34 @@ void WbPreferences::setDefaultPythonCommand() {
 
 void WbPreferences::setDefaultMatlabCommand() {
 #ifdef __APPLE__
-  QString matlabPath = "/Applications/";
-  QString matlabAppWc = "MATLAB_R20???.app";
-  QDir matlabDir(matlabPath);
-  QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
+  const QString matlabPath = "/Applications/";
+  const QString matlabAppWc = "MATLAB_R20???.app";
+  const QDir matlabDir(matlabPath);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
   if (matlabVersions.isEmpty()) {
     setDefault("General/matlabCommand", "");
     return;
   }
 #else
-  QString matlabVersionsWc = "R20???";
+  const QString matlabVersionsWc = "R20???";
 #ifdef _WIN32
-  QString matlabPath = "C:\\Program Files\\MATLAB\\";
-  QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+  const QString matlabPath = "C:\\Program Files\\MATLAB\\";
+  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
 #else  // __linux__
-  QString matlabPath = "/usr/local/MATLAB/";
-  // cppcheck-suppress unreadVariable
-  QString matlabExecPath = "/bin/matlab";
+  const QString matlabPath = "/usr/local/MATLAB/";
+  const QString matlabExecPath = "/bin/matlab";
 #endif
-  QDir matlabDir(matlabPath);
+  const QDir matlabDir(matlabPath);
   if (!matlabDir.exists()) {
     setDefault("General/matlabCommand", "");
     return;
   }
-  QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
 #endif
 
-  QString shortCommand = matlabPath + matlabVersions.last();
+  QString command = matlabPath + matlabVersions.last();
 #if defined _WIN32 || defined __linux__
-  const QString command = shortCommand + matlabExecPath;
-#else
-  const QString command = shortCommand;
+  command = command + matlabExecPath;
 #endif
 
   setDefault("General/matlabCommand", command);
