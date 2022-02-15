@@ -166,7 +166,7 @@ void WbPreferences::setDefaultMatlabCommand() {
 
   QString command = matlabPath + matlabVersions.last();
 #if defined _WIN32 || defined __linux__
-  command = command + matlabExecPath;
+  command += matlabExecPath;
 #endif
 
   setDefault("General/matlabCommand", command);
