@@ -24,7 +24,6 @@
 #include "WbLog.hpp"
 
 #include <QtCore/QRegularExpression>
-
 #include <QtWidgets/QPlainTextEdit>
 
 class QAction;
