@@ -154,7 +154,6 @@ WbCamera::~WbCamera() {
 }
 
 void WbCamera::downloadAssets() {
-  printf("downloadAssets()\n");
   WbAbstractCamera::downloadAssets();
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (WbUrl::isWeb(noiseMaskUrl)) {
@@ -1103,7 +1102,7 @@ void WbCamera::updateNoiseMaskUrl() {
   QString noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
     if (WbUrl::isWeb(noiseMaskUrl)) {
-      if (isPostFinalizedCalled() && !WbNetwork::instance()->isCached((noiseMaskUrl))) {
+      if (isPostFinalizedCalled() && !WbNetwork::instance()->isCached(noiseMaskUrl)) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
         return;
