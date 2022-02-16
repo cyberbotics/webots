@@ -114,6 +114,7 @@ const QString &WbSoundEngine::device() {
 }
 
 bool WbSoundEngine::openAL() {
+  init();
   return gOpenAL;
 }
 
