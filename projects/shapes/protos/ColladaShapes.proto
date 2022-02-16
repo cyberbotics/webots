@@ -6,6 +6,7 @@
 
 PROTO ColladaShapes [
   field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node).
+  field SFBool  ccw  TRUE  # Indicate the order of the vertices. A negative scale might require to change this field.
 ]
 {
   %<
@@ -14,12 +15,17 @@ PROTO ColladaShapes [
       console.error(`The given Collada url (${url}) is not valid.`);
       url = fields.url.defaultValue;
     }
+
+    let ccwString = "TRUE";
+    if (!fields.ccw.value) {
+      ccwString = "FALSE";
+    }
   >%
 
   Group {
     children [
       %< if (url !== '') { >%
-        %<= wbcollada.getVrmlFromFile(url) >%
+        %<= wbcollada.getVrmlFromFile(url, ccwString) >%
       %< } >%
     ]
   }

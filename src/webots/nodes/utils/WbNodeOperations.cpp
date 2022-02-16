@@ -86,10 +86,10 @@ WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipU
   connect(WbQjsCollada::instance(), &WbQjsCollada::vrmlFromFileRequested, this, &WbNodeOperations::onVrmlExportRequested);
 }
 
-void WbNodeOperations::onVrmlExportRequested(const QString &filePath) {
+void WbNodeOperations::onVrmlExportRequested(const QString &filePath, const QString &ccw) {
   QString stream;
   WbNodeOperations::OperationResult result =
-    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
+    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, ccw, true, true, true, false, false, true);
   if (result == WbNodeOperations::OperationResult::FAILURE) {
     WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
                              WbLog::PARSING);
@@ -298,7 +298,7 @@ static bool addTextureMap(QString &stream, const aiMaterial *material, const QSt
   return false;
 }
 
-static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
+static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName, const QString &ccw,
                          const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
                          bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
   // ColladaShapes check for sub-meshes
@@ -306,8 +306,8 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     if (node->mNumChildren > 0) {
       for (unsigned int i = 0; i < node->mNumChildren; ++i)
         if (node->mChildren[i]->mNumMeshes > 0)
-          addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
-                       importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+          addModelNode(stream, node->mChildren[i], scene, fileName, ccw, referenceFolder, importTextureCoordinates,
+                       importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
     }
   }
 
@@ -401,6 +401,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     if (referenceMeshes) {
       stream += " geometry Mesh { ";
       stream += QString(" url \"%1\"").arg(fileName);
+      stream += QString(" ccw %1").arg(ccw);
       stream += QString(" name \"%1\"").arg(mesh->mName.data);
       stream += QString(" materialIndex %1").arg((int)mesh->mMaterialIndex);
       stream += " }";
@@ -452,7 +453,7 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
-      addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
+      addModelNode(stream, node->mChildren[i], scene, fileName, ccw, referenceFolder, importTextureCoordinates, importNormals,
                    importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
     stream += " ]";
@@ -469,8 +470,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
                                                                         bool importNormals, bool importAppearances,
                                                                         bool importAsSolid, bool importBoundingObjects) {
   QString stream = "";
-  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, importTextureCoordinates, importNormals,
-                                                                      importAppearances, importAsSolid, importBoundingObjects);
+  const QString ccw("TRUE");
+  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(
+    stream, filename, ccw, importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects);
   if (result == FAILURE)
     return FAILURE;
 
@@ -481,9 +483,10 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
-                                                                             bool importTextureCoordinates, bool importNormals,
-                                                                             bool importAppearances, bool importAsSolid,
-                                                                             bool importBoundingObjects, bool referenceMeshes) {
+                                                                             const QString &ccw, bool importTextureCoordinates,
+                                                                             bool importNormals, bool importAppearances,
+                                                                             bool importAsSolid, bool importBoundingObjects,
+                                                                             bool referenceMeshes) {
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                               aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
@@ -494,8 +497,9 @@ WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QSt
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return FAILURE;
   }
-  addModelNode(stream, scene->mRootNode, scene, filename, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
-               importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
+  addModelNode(stream, scene->mRootNode, scene, filename, ccw, QFileInfo(filename).dir().absolutePath(),
+               importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects,
+               referenceMeshes);
   return SUCCESS;
 }
 

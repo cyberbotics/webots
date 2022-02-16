@@ -33,6 +33,7 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -87,6 +88,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
@@ -286,7 +288,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
+  mTriangleMeshError =
+    mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex, mCcw->value());
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
@@ -531,6 +534,14 @@ void WbMesh::updateUrl() {
     if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateCcw() {
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();

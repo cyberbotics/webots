@@ -42,7 +42,7 @@ public:
                bool normalPerVertex);
   // to be initialized from a WbMesh
   QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
-               int numberOfVertices, int indexSize);
+               int numberOfVertices, int indexSize, bool counterClockwise);
 
   void cleanup();
 

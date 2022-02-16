@@ -177,7 +177,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 }
 
 QString WbTriangleMesh::init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
-                             int numberOfVertices, int indexSize) {
+                             int numberOfVertices, int indexSize, bool counterClockwise) {
   cleanup();
 
   mTextureCoordinatesValid = texCoord != NULL;
@@ -194,8 +194,18 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
   mNormals.reserve(3 * numberOfVertices);
   mIsNormalCreased.reserve(numberOfVertices);
 
-  for (int i = 0; i < indexSize; ++i)
-    mCoordIndices.append(index[i]);
+  if (!counterClockwise) {
+    // reverse the order of the second and third element
+    // of each triplet of the mCoordIndices and mTmpTexIndices arrays
+    for (int i = 0; i < indexSize; i += 3) {
+      mCoordIndices.append(index[i]);
+      mCoordIndices.append(index[i + 2]);
+      mCoordIndices.append(index[i + 1]);
+    }
+  } else {
+    for (int i = 0; i < indexSize; ++i)
+      mCoordIndices.append(index[i]);
+  }
 
   for (int i = 0; i < numberOfVertices; ++i) {
     const double x = coord[3 * i];
