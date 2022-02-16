@@ -119,15 +119,15 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (!path.isEmpty()) {
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
-    const QString error = QObject::tr("'%1' not found.").arg(url);
 
     if (isLocalUrl(url)) {
       QString newUrl(url);
-
       newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                     WbApplicationInfo::branch() + "/");
       return newUrl;
     }
+    
+    const QString error = QObject::tr("'%1' not found.").arg(url);
     if (node)
       node->parsingWarn(error);
     else
