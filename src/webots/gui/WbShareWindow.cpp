@@ -62,7 +62,7 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QCheckBox *checkBoxSave = new QCheckBox(this);
   checkBoxSave->setFocusPolicy(Qt::NoFocus);
-  checkBoxSave->setText(tr("Save only on local"));
+  checkBoxSave->setText(tr("Save as local files"));
   mainWindow->CheckBoxStatus(false);
   layout->addWidget(checkBoxSave, 6, 0, 1, 1);
 

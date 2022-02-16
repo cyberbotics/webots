@@ -196,7 +196,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this](QString filename, QString content, QString title) {
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this](const QString &filename, const QString &content, const QString &title) {
     if (mSaveCheckboxStatus)
       openUrl(filename, content, title);
     else
@@ -1580,8 +1580,10 @@ void WbMainWindow::exportVrml() {
 }
 
 QString WbMainWindow::exportHtmlFiles() {
-  QString filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
-  if (mSaveCheckboxStatus) {
+  QString filename;
+  if (!mSaveCheckboxStatus)
+    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
+  else {
     WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
     filename = findHtmlFileName("Export HTML File");
     WbSimulationState::instance()->setMode(currentMode);
@@ -1597,8 +1599,7 @@ void WbMainWindow::ShareMenu() {
 }
 
 void WbMainWindow::uploadScene() {
-  QString filename;
-  filename = exportHtmlFiles();
+  const QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
   WbWorld *world = WbWorld::instance();
@@ -1607,7 +1608,7 @@ void WbMainWindow::uploadScene() {
   if (mSaveCheckboxStatus && WbProjectRelocationDialog::validateLocation(this, filename)) {
     const QFileInfo info(filename);
 
-    WbPreferences::instance()->setValue("Directories/www", QFileInfo(filename).absolutePath() + "/");
+    WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
     openUrl(filename,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
@@ -2362,7 +2363,7 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 }
 
 void WbMainWindow::startAnimationRecording() {
-  QString filename = exportHtmlFiles();
+  const QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
