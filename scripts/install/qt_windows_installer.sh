@@ -29,8 +29,9 @@ then
   echo Installing Qt6 version ${PACMAN_AVAILABLE_QT_VERSION[2]}
   pacman -Sy --noconfirm $QT_BASE_PACKAGE
   pacman -Sy --noconfirm mingw-w64-x86_64-qt6-declarative
-  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-websockets
+  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-tools
   pacman -Sy --noconfirm mingw-w64-x86_64-qt6-translations
+  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-websockets
 fi
 
 script_name=$0
