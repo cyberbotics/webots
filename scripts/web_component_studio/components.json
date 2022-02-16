@@ -452,8 +452,8 @@
       }
     },
     {
-      "name": "ScaraEpsonT6",
-      "proto": "ScaraEpsonT6",
+      "name": "scaraEpsonT6",
+      "proto": "scaraEpsonT6",
       "translation": "0 0 0",
       "rotation": "0 0 0 0",
       "viewpoint": {
