@@ -896,6 +896,27 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
     parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
+  if (writer.isX3d()) {
+    const int numGeometries = mGeometriesCountField->value();
+    if (numGeometries > 0) {
+      writer << "<PathList>";
+      for (int i = 0; i < numGeometries; i++) {
+        PathSegment segment = mPathList[i];
+
+        writer << "<PathSegment ";
+        writer << "startPoint='" << segment.startPoint.toString() << "' ";
+        writer << "endPoint='" << segment.endPoint.toString() << "' ";
+        writer << "initialRotation='"
+               << QString("%1").arg(WbPrecision::doubleToString(segment.initialRotation, WbPrecision::DOUBLE_MAX)) << "' ";
+        writer << "radius='" << QString("%1").arg(WbPrecision::doubleToString(segment.radius, WbPrecision::DOUBLE_MAX)) << "' ";
+        writer << "center='" << segment.center.toString() << "' ";
+        writer << "increment='" << segment.increment.toString() << "' ";
+        writer << "></PathSegment>";
+      }
+      writer << "</PathList>";
+    }
+  }
+
   QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
                      " 0 " +
                      QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
