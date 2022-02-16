@@ -91,8 +91,8 @@ def setupWebots():
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
-    command = Command(webotsFullPath + ' --version', redirectionFile='output.txt')
-    command.run()
+    command = Command(webotsFullPath + ' --version')
+    command.run(redirectionFile='output.txt')
     if command.returncode != 0:
         file = open('output.txt', 'r')
         error = file.read()
