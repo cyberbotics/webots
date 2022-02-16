@@ -126,7 +126,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
                                     WbApplicationInfo::branch() + "/");
       return newUrl;
     }
-    
+
     const QString error = QObject::tr("'%1' not found.").arg(url);
     if (node)
       node->parsingWarn(error);
