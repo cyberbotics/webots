@@ -1,6 +1,6 @@
 ## SCARA Epson T6
 
-%robot ScaraEpsonT6 images/robots/ScaraEpsonT6/model.png
+%robot scaraEpsonT6 images/robots/scaraEpsonT6/model.png
 
 [SCARA Epson T6](https://www.epson.eu/products/robot/scara-t6-series) is a 4-axis robotic arm with three revolute and one prismatic DOF.
 The chosen model is the T6-602s.
@@ -13,15 +13,15 @@ The actuators available are three rotational motors (`base_arm_motor`, `arm_moto
 The motors have four position sensors named `base_arm_position`, `arm_position` `shaft_rotation_position` and `shaft_linear_position`.
 
 > **Maximum range of operation in radian**: base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
-### ScaraEpsonT6 PROTO
+### scaraEpsonT6 PROTO
 
 Derived from [Robot](../reference/robot.md).
 
 ```
-ScaraEpsonT6 [
+scaraEpsonT6 [
   SFVec3f           translation     0 0 0.01
   SFRotation        rotation        0 0 1 0
-  SFString          name            "ScaraEpsonT6"
+  SFString          name            "scaraEpsonT6"
   SFString          controller      ""
   MFString          controllerArgs  []
   SFBool            supervisor      FALSE
@@ -33,17 +33,17 @@ ScaraEpsonT6 [
 ]
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/epson/ScaraT6/protos/ScaraEpsonT6.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/epson/scaraEpsonT6/protos/scaraEpsonT6.proto"
 
-#### ScaraEpsonT6 Field Summary
+#### scaraEpsonT6 Field Summary
 
 -  `staticBase`: Defines if the SCARA base should be pinned to the static environment.
 -  `handSlot`: Extends the shaft with new nodes in the hand slot.
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/ScaraT6/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/scaraEpsonT6/worlds".
 
 #### industrial\_example.wbt
 
-![industrial_example.wbt.png](images/robots/ScaraEpsonT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
+![industrial_example.wbt.png](images/robots/scaraEpsonT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
