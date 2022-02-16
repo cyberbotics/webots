@@ -13,6 +13,7 @@ The actuators available are three rotational motors (`base_arm_motor`, `arm_moto
 The motors have four position sensors named `base_arm_position`, `arm_position` `shaft_rotation_position` and `shaft_linear_position`.
 
 > **Maximum range of operation in radian**: base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
+
 ### scaraEpsonT6 PROTO
 
 Derived from [Robot](../reference/robot.md).
