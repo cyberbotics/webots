@@ -385,7 +385,7 @@ export default class Parser {
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
       id = getAnId();
-    const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    const isSolid = getNodeAttribute(node, 'type', '').toLowerCase() === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
@@ -420,7 +420,7 @@ export default class Parser {
     if (typeof id === 'undefined')
       id = getAnId();
 
-    const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
 
     const group = new WbGroup(id, isPropeller);
 

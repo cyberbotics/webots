@@ -3010,7 +3010,7 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     if (!name().isEmpty())
       writer << " name='" << sanitizedName() << "'";
-    writer << " solid='true'";
+    writer << " type='solid'";
   }
 }
 

@@ -1045,6 +1045,6 @@ void WbTrack::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     if (!name().isEmpty())
       writer << " name='" << sanitizedName() << "'";
-    writer << " track='true'";
+    writer << " type='track'";
   }
 }
