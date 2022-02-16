@@ -196,12 +196,13 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this](const QString &filename, const QString &content, const QString &title) {
-    if (mSaveCheckboxStatus)
-      openUrl(filename, content, title);
-    else
-      this->upload('A');
-  });
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
+          [this](const QString &filename, const QString &content, const QString &title) {
+            if (mSaveCheckboxStatus)
+              openUrl(filename, content, title);
+            else
+              this->upload('A');
+          });
 
   WbJoystickInterface::setWindowHandle(winId());
 
@@ -1593,13 +1594,13 @@ QString WbMainWindow::exportHtmlFiles() {
 
 void WbMainWindow::ShareMenu() {
   const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbShareWindow *shareWindow = new WbShareWindow(this);
-  shareWindow->exec();
+  WbShareWindow shareWindow(this);
+  shareWindow.exec();
   WbSimulationState::instance()->setMode(currentMode);
 }
 
 void WbMainWindow::uploadScene() {
-  const QString filename = exportHtmlFiles();
+  QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
   WbWorld *world = WbWorld::instance();
@@ -1724,9 +1725,9 @@ void WbMainWindow::uploadFinished() {
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
 
-    WbLinkWindow *linkWindow = new WbLinkWindow(this);
-    linkWindow->setLabelLink(url);
-    linkWindow->exec();
+    WbLinkWindow linkWindow(this);
+    linkWindow.setLabelLink(url);
+    linkWindow.exec();
   }
   reply->deleteLater();
 }
