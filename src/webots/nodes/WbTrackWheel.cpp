@@ -26,7 +26,7 @@ void WbTrackWheel::init() {
 
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
-  mRotation = new WbSFRotation(WbRotation(1, 0, 0, M_PI_2));
+  mRotation = findSFRotation("rotation");
   mScale = new WbSFVector3(WbVector3(1, 1, 1));
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
