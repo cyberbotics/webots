@@ -2,10 +2,10 @@
 
 PROTO NestedProtoWithTexture
 [
-  field MFString url ["webots://tests/api/worlds/textures/red_texture.jpg"]
+  field MFString url []
 ]
 {
-  TexturedBoxShape {
-    textureUrl IS url
+  ProtoWithTexture {
+    url IS url
   }
 }
