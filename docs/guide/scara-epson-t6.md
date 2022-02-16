@@ -14,7 +14,7 @@ The motors have four position sensors named `base_arm_position`, `arm_position` 
 
 > **Maximum range of operation in radian**: base arm: +/- 0.73, arm: +/- 0.83, shaft (linear): 200 mm, shaft (rotation): +/- 3.1416
 
-### scaraEpsonT6 PROTO
+### ScaraEpsonT6 PROTO
 
 Derived from [Robot](../reference/robot.md).
 
@@ -36,7 +36,7 @@ scaraEpsonT6 [
 
 > **File location**: "WEBOTS\_HOME/projects/robots/epson/scaraEpsonT6/protos/scaraEpsonT6.proto"
 
-#### scaraEpsonT6 Field Summary
+#### ScaraEpsonT6 Field Summary
 
 -  `staticBase`: Defines if the SCARA base should be pinned to the static environment.
 -  `handSlot`: Extends the shaft with new nodes in the hand slot.
@@ -45,6 +45,6 @@ scaraEpsonT6 [
 
 You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/scaraEpsonT6/worlds".
 
-#### industrial\_example.wbt
+#### Industrial\_example.wbt
 
 ![industrial_example.wbt.png](images/robots/scaraEpsonT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
