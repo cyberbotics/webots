@@ -99,7 +99,6 @@ def setupWebots():
         webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
     except IndexError:
         raise RuntimeError('Cannot parse Webots version: ' + command.output)
-    os.remove('output.txt')
 
     command = Command(webotsFullPath + ' --sysinfo')
     command.run()
