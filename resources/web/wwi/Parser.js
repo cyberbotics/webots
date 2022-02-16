@@ -250,6 +250,7 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.timeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.computeUpVector();
   }
 
@@ -388,6 +389,13 @@ export default class Parser {
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+
+    const docUrl = getNodeAttribute(node, 'docUrl');
+    if (typeof docUrl !== 'undefined' && docUrl.includes('trackwheel') && typeof parentNode !== 'undefined') {
+      if (parentNode.numberOfTrackWheel === undefined)
+        parentNode.numberOfTrackWheel = 0;
+      parentNode.numberOfTrackWheel++;
+    }
 
     const transform = new WbTransform(id, isSolid, translation, scale, rotation);
 

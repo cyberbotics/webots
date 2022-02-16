@@ -51,6 +51,7 @@ public:
   void postFinalize() override;
   void prePhysicsStep(double ms) override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbVrmlWriter &writer) const override;
   void setMatrixNeedUpdate() override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
