@@ -12,6 +12,7 @@ declare -a BASE_PACKAGES=(
   "zip"                               # robotbenchmark square path
   "mingw-w64-x86_64-qt6-base"         # Webots
   "mingw-w64-x86_64-qt6-declarative"  # Webots
+  "mingw-w64-x86_64-qt6-tools"        # Webots (translation: lrelease-qt6 and lupdate-qt6)
   "mingw-w64-x86_64-qt6-translations" # Webots
   "mingw-w64-x86_64-qt6-websockets"   # Webots
   "mingw-w64-x86_64-libzip"           # Webots
