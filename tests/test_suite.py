@@ -92,19 +92,13 @@ def setupWebots():
         webotsFullPath = os.path.normpath(webotsFullPath)
 
     command = Command(webotsFullPath + ' --version')
-    command.run(redirectionFile='output.txt')
+    command.run()
     if command.returncode != 0:
-        file = open('output.txt', 'r')
-        error = file.read()
-        file.close()
-        raise RuntimeError('Error when getting the Webots version: ' + error)
+        raise RuntimeError('Error when getting the Webots version: ' + command.output)
     try:
         webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
     except IndexError:
-        file = open('output.txt', 'r')
-        error = file.read()
-        file.close()
-        raise RuntimeError('Cannot parse Webots version: ' + error)
+        raise RuntimeError('Cannot parse Webots version: ' + command.output)
     os.remove('output.txt')
 
     command = Command(webotsFullPath + ' --sysinfo')
