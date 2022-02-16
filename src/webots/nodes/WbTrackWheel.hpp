@@ -43,6 +43,7 @@ public:
   void postFinalize() override;
   void write(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  bool shallExport() const override;
 
   const WbVector2 position() const { return mPosition->value(); }
   double radius() const { return mRadius->value(); }

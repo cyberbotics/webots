@@ -88,6 +88,10 @@ void WbTrackWheel::rotate(double travelledDistance) {
   updateRotation();
 }
 
+bool WbTrackWheel::shallExport() const {
+  return true;
+}
+
 void WbTrackWheel::write(WbVrmlWriter &writer) const {
   if (writer.isUrdf())
     return;

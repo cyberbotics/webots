@@ -28,6 +28,7 @@ import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTransform from './nodes/WbTransform.js';
+import WbPathSegment from './nodes/utils/WbPathSegment.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
@@ -145,6 +146,8 @@ export default class Parser {
       result = this._parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Switch')
       result = this._parseSwitch(node, parentNode);
+    else if (node.tagName === 'PathList')
+      result = this._parsePathList(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -218,8 +221,6 @@ export default class Parser {
     // check if top-level nodes
     if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
       WbWorld.instance.sceneTree.push(result);
-
-    return result;
   }
 
   _parseChildren(node, parentNode, isBoundingObject) {
@@ -228,7 +229,6 @@ export default class Parser {
       if (typeof child.tagName !== 'undefined')
         this._parseNode(child, parentNode, isBoundingObject);
     }
-    return 1;
   }
 
   _parseScene(node) {
@@ -436,7 +436,7 @@ export default class Parser {
     if (typeof id === 'undefined')
       id = getAnId();
 
-    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'fals_parseGeometrye').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     let geometry;
     let appearance;
@@ -860,6 +860,28 @@ export default class Parser {
     parent.boundingObject = boundingObject;
 
     return boundingObject;
+  }
+
+  _parsePathList(node, parentNode) {
+    let segments = [];
+    if (parentNode === 'undefined')
+      return;
+
+    for (let i = 0; i < node.childNodes.length; i++) {
+      const child = node.childNodes[i];
+      if (typeof child.tagName !== 'undefined' && child.tagName === 'PathSegment') {
+        let startPoint = convertStringToVec2(getNodeAttribute(node, 'startPoint', '0 0'));
+        let endPoint = convertStringToVec2(getNodeAttribute(node, 'endPoint', '0 0'));
+        let initialRotation = parseFloat(getNodeAttribute(node, 'initialRotation', '3.1415926535'));
+        let radius = parseFloat(getNodeAttribute(node, 'radius', '0'));
+        let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
+        let increment = convertStringToVec2(getNodeAttribute(node, 'increment', '0 0'));
+
+        let pathSegment = new WbPathSegment(startPoint, endPoint, initialRotation, radius, center, increment);
+        segments.push(pathSegment);
+      }
+    }
+    parentNode.pathList = segments;
   }
 
   _parseAppearance(node, parentId) {
