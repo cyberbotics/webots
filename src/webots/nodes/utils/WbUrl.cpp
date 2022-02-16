@@ -127,13 +127,12 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                     WbApplicationInfo::branch() + "/");
       return newUrl;
-    } else {
-      if (node)
-        node->parsingWarn(error);
-      else
-        WbLog::warning(error, false, WbLog::PARSING);
-      return missing(url);
     }
+    if (node)
+      node->parsingWarn(error);
+    else
+      WbLog::warning(error, false, WbLog::PARSING);
+    return missing(url);
   }
 
   // check if the url is defined relatively
