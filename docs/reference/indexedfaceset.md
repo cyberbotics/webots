@@ -55,7 +55,8 @@ The `texCoordIndex` field must contain at least as many indices as the `coordInd
 If the greatest index in the `texCoordIndex` field is N, then there must be N+1 texture coordinates in the [TextureCoordinate](texturecoordinate.md) node.
 
 The `ccw` field indicates whether the vertices are ordered in a counter-clockwise direction when the mesh is viewed from the outside (TRUE).
-If the order is clockwise, this field value has to be set to FALSE. Be aware that a negative scale can change the order of the vertices.
+If the order is clockwise, this field value has to be set to FALSE.
+Be aware that a negative scale can change the order of the vertices.
 
 The `solid` and `convex` fields are currently ignored in Webots.
 They provide hints about the mesh shape to optimize certain rendering features: whether it is solid and whether it contains convex faces.

@@ -243,10 +243,16 @@ namespace wren {
     assert(mResultProgram);
     assert(!mResultFrameBuffer || mResultFrameBuffer->outputTexture(0));
 
+    // Post processing requires GL_CCW for rendering on the screen
+    unsigned int frontFaceMode = glstate::getFrontFace();
+    glstate::setFrontFace(GL_CCW);
+
     for (size_t i = 0; i < mPasses.size(); ++i)
       mPasses[i]->apply();
 
     renderToResultFrameBuffer();
+
+    glstate::setFrontFace(frontFaceMode);
 
     for (size_t i = 0; i < mPasses.size(); ++i) {
       for (Texture *texture : mPasses[i]->inputTextures()) {
@@ -288,7 +294,6 @@ namespace wren {
     mResultProgram->bind();
     glstate::setDepthMask(false);
     glstate::setDepthTest(false);
-    glstate::setFrontFace(GL_CCW);
     Texture::UsageParams params(Texture::DEFAULT_USAGE_PARAMS);
     params.mIsInterpolationEnabled = false;
     params.mAreMipMapsEnabled = false;

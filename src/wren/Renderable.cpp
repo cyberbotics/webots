@@ -199,6 +199,7 @@ namespace wren {
     mInViewSpace(false),
     mZSortedRendering(false),
     mFaceCulling(true),
+    mFrontFace(true),
     mPointSize(-1.0f) {}
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
@@ -215,6 +216,10 @@ namespace wren {
       glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_POINT_SIZE), mPointSize);
 
     glstate::setCullFace(mFaceCulling);
+    if (mFrontFace)
+      glstate::setFrontFace(GL_CCW);
+    else
+      glstate::setFrontFace(GL_CW);
 
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
@@ -278,6 +283,10 @@ void wr_renderable_set_drawing_mode(WrRenderable *renderable, WrRenderableDrawin
 
 void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
+}
+
+void wr_renderable_set_front_face(WrRenderable *renderable, bool front_face) {
+  reinterpret_cast<wren::Renderable *>(renderable)->setFrontFace(front_face);
 }
 
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows) {

@@ -29,7 +29,8 @@ The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [t
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
 
 The `ccw` field indicates whether the vertices are ordered in a counter-clockwise direction when the mesh is viewed from the outside (TRUE).
-If the order is clockwise, this field value has to be set to FALSE. Be aware that a negative scale can change the order of the vertices.
+If the order is clockwise, this field value has to be set to FALSE.
+Be aware that a negative scale can change the order of the vertices.
 
 The `name` field defines which sub-mesh is included.
 If the `name` value is an empty string then all sub-meshes are included.

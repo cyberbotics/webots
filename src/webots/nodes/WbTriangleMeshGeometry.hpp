@@ -97,6 +97,7 @@ protected:
 
   // WREN
   void buildWrenMesh(bool updateCache);
+  void setCcw(bool ccw);
 
   // ODE
   void applyToOdeData(bool correctSolidMass = true) override;
@@ -121,6 +122,7 @@ private:
   // WREN
   int estimateVertexCount(bool isOutlineMesh = false) const;
   int estimateIndexCount(bool isOutlineMesh = false) const;
+  bool mCcw;
 
   // ODE
   void setOdeTrimeshData();

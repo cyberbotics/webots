@@ -110,6 +110,8 @@ namespace wren {
     unsigned int blendSrcFactor();
     unsigned int blendDestFactor();
 
+    unsigned int getFrontFace();
+
     const char *vendor();
     const char *renderer();
     const char *version();

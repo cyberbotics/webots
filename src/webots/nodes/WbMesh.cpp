@@ -38,6 +38,7 @@ void WbMesh::init() {
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  setCcw(mCcw->value());
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -288,8 +289,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  mTriangleMeshError =
-    mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex, mCcw->value());
+  mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
@@ -540,6 +540,8 @@ void WbMesh::updateUrl() {
 }
 
 void WbMesh::updateCcw() {
+  setCcw(mCcw->value());
+
   if (areWrenObjectsInitialized())
     buildWrenMesh(true);
 

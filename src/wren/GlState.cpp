@@ -760,6 +760,8 @@ namespace wren {
 
     unsigned int activeProgram() { return cActiveProgram; }
 
+    unsigned int getFrontFace() { return cFrontFace; }
+
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer) {
       assert(buffer >= 0 && buffer < WR_GLSL_LAYOUT_UNIFORM_BUFFER_COUNT);
 

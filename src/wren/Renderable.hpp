@@ -60,6 +60,7 @@ namespace wren {
     void setZSortedRendering(bool zSortedRendering) { mZSortedRendering = zSortedRendering; }
     void setFaceCulling(bool faceCulling) { mFaceCulling = faceCulling; }
     void setPointSize(float pointSize) { mPointSize = pointSize; }
+    void setFrontFace(bool frontFace) { mFrontFace = frontFace; }
 
     const glm::mat4 &parentMatrix() const;
     Material *defaultMaterial() const { return mDefaultMaterial; }
@@ -121,6 +122,7 @@ namespace wren {
     bool mInViewSpace;
     bool mZSortedRendering;
     bool mFaceCulling;
+    bool mFrontFace;
     float mPointSize;
 
     primitive::Sphere mBoundingSphereInViewSpace;

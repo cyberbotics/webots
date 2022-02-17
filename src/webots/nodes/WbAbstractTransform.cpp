@@ -364,7 +364,7 @@ void WbAbstractTransform::updateMatrix() const {
   assert(mMatrix);
 
   mMatrix->fromVrml(mTranslation->x(), mTranslation->y(), mTranslation->z(), mRotation->x(), mRotation->y(), mRotation->z(),
-                    mRotation->angle(), mScale->x(), mScale->y(), mScale->z());
+                    mRotation->angle(), abs(mScale->x()), abs(mScale->y()), abs(mScale->z()));
 
   // multiply with upper matrix if any
   WbAbstractTransform *transform = mBaseNode->upperTransform();
