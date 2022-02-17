@@ -26,6 +26,7 @@ DEF USE_CASE_0 Solid {
       size 0.1 0.1 0.1
     }
   ]
+  name "use case 0"
   boundingObject USE PROTO_SHAPE
 }
 DEF USE_CASE_1 Solid {
