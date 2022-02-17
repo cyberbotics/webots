@@ -251,7 +251,7 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
-    WbWorld.instance.timeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
+    WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.computeUpVector();
   }
 

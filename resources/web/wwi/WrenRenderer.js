@@ -28,7 +28,8 @@ export default class WrenRenderer {
 
     try {
       WbWorld.instance.viewpoint.updatePostProcessingParameters();
-
+      if (WbWorld.instance.tracks[0] && WbWorld.instance.tracks[0].isPostFinalizeCalled)
+        WbWorld.instance.tracks[0].animateMesh()
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
       console.error('No Context');
