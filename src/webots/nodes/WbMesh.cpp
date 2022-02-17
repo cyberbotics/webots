@@ -533,6 +533,9 @@ void WbMesh::updateUrl() {
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
 
+  if (isAValidBoundingObject())
+    applyToOdeData();
+
   if (isPostFinalizedCalled())
     emit changed();
 }
