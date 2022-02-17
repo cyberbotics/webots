@@ -514,7 +514,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
-  // sanity check
+  // check url validity
   if (path().isEmpty())
     return;
 
