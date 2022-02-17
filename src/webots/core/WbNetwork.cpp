@@ -118,7 +118,7 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
 }
 
 QString WbNetwork::get(const QString &url) {
-  // cppcheck-suppress "assertWithSideEffect"
+  // cppcheck-suppress assertWithSideEffect
   assert(isCached(url));  // the get function should not be called unless we know the file to be cached
 
   if (cacheMap.contains(url))
