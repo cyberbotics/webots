@@ -1042,7 +1042,7 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
 }
 
 void WbTrack::exportNodeFields(WbVrmlWriter &writer) const {
-  WbTransform::exportNodeFields(writer);
+  WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
       writer << " name='" << sanitizedName() << "'";

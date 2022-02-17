@@ -13,6 +13,7 @@ export default class WbTrack extends WbTransform {
     this.pathList = [];
     this.animationStepSize = 0;
     this.beltPosition = [];
+    this.linearSpeed = -0.1;
   }
 
   postFinalize() {
@@ -34,7 +35,7 @@ export default class WbTrack extends WbTransform {
     if (this.animatedObjectList.length === 0)
       return;
 
-    let stepSize = WbWorld.instance.basicTimeStep/1000;
+    let stepSize = WbWorld.instance.basicTimeStep / 1000 * this.linearSpeed;
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
     for (let i = 0; i < this.animatedObjectList.length; ++i) {

@@ -28,6 +28,7 @@ import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrack from './nodes/WbTrack.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbPathSegment from './nodes/utils/WbPathSegment.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
@@ -386,25 +387,22 @@ export default class Parser {
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
       id = getAnId();
-    const isSolid = getNodeAttribute(node, 'type', '').toLowerCase() === 'solid';
-    const isTrack = getNodeAttribute(node, 'type', '').toLowerCase() === 'track';
+    const type = getNodeAttribute(node, 'type', '').toLowerCase();
+    const isSolid = type === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
 
     let newNode;
-    if (isTrack)
+    if (type === 'track')
       newNode = new WbTrack(id, translation, scale, rotation);
-    else {
+    else if (type === 'trackwheel') {
+      newNode = new WbTrackWheel(id, translation, scale, rotation);
+      if (parentNode.numberOfTrackWheel === undefined)
+        parentNode.numberOfTrackWheel = 0;
+      parentNode.numberOfTrackWheel++;
+    } else
       newNode = new WbTransform(id, isSolid, translation, scale, rotation);
-
-      const docUrl = getNodeAttribute(node, 'docUrl');
-      if (typeof docUrl !== 'undefined' && docUrl.includes('trackwheel') && typeof parentNode !== 'undefined') { // If the transform is a TrackWheel
-        if (parentNode.numberOfTrackWheel === undefined)
-          parentNode.numberOfTrackWheel = 0;
-        parentNode.numberOfTrackWheel++;
-      }
-    }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 

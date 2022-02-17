@@ -111,5 +111,8 @@ void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   rotationFieldValue()->write(writer);
   writer.writeFieldEnd(true);
 
+  if (writer.isX3d())
+    writer << " type='trackWheel'";
+
   WbTransform::exportNodeFields(writer);
 }
