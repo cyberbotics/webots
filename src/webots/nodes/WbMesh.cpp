@@ -514,6 +514,10 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
+  // check url validity
+  if (path().isEmpty())
+    return;
+
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -532,6 +536,9 @@ void WbMesh::updateUrl() {
     if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
+
+  if (isAValidBoundingObject())
+    applyToOdeData();
 
   if (isPostFinalizedCalled())
     emit changed();
