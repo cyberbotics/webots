@@ -881,16 +881,19 @@ export default class Parser {
     if (parentNode === 'undefined')
       return;
 
+    const pathLength = parseFloat(getNodeAttribute(node, 'pathLength', '0'));
+    parentNode.pathLength = pathLength;
+
     for (let i = 0; i < node.childNodes.length; i++) {
       const child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined') {
         if (child.tagName === 'PathSegment') {
-          let startPoint = convertStringToVec2(getNodeAttribute(node, 'startPoint', '0 0'));
-          let endPoint = convertStringToVec2(getNodeAttribute(node, 'endPoint', '0 0'));
-          let initialRotation = parseFloat(getNodeAttribute(node, 'initialRotation', '3.1415926535'));
-          let radius = parseFloat(getNodeAttribute(node, 'radius', '0'));
-          let center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
-          let increment = convertStringToVec2(getNodeAttribute(node, 'increment', '0 0'));
+          let startPoint = convertStringToVec2(getNodeAttribute(child, 'startPoint', '0 0'));
+          let endPoint = convertStringToVec2(getNodeAttribute(child, 'endPoint', '0 0'));
+          let initialRotation = parseFloat(getNodeAttribute(child, 'initialRotation', '3.1415926535'));
+          let radius = parseFloat(getNodeAttribute(child, 'radius', '0'));
+          let center = convertStringToVec2(getNodeAttribute(child, 'center', '0 0'));
+          let increment = convertStringToVec2(getNodeAttribute(child, 'increment', '0 0'));
 
           let pathSegment = new WbPathSegment(startPoint, endPoint, initialRotation, radius, center, increment);
           parentNode.pathList.push(pathSegment);

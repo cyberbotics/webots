@@ -897,7 +897,8 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   }
 
   if (writer.isX3d()) {
-    writer << "<TrackPath>";
+    writer << "<TrackPath pathLength='" << mPathLength;
+    writer << "'>";
   }
 
   QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
