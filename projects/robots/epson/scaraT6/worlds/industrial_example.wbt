@@ -191,7 +191,7 @@ SolidBox {
   appearance GalvanizedMetal {
   }
 }
-scaraEpsonT6 {
+ScaraT6 {
   translation 0.4 -0.33 0.494
   rotation 0 0 -1 1.5708
   controller "scara_food_industry"
