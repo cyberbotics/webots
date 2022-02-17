@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.1736705225227668 0.32955642592116957 -0.9280253831338525 1.032894145825245
-  position -0.9730126909455448 1.0821522537176609 0.5726535850813098
+  position -0.9332539566227366 1.0814317852623836 0.6321330620942577
 }
 Background {
   skyColor [
@@ -35,7 +35,7 @@ DEF TEXTURE_IN_CAMERA Robot {
 DEF TEXTURE_NESTED Transform {
   translation 0 -0.25 0
   children [
-    DEF NESTED_PROTO NestedProtoWithTexture {
+    DEF NESTED_PROTO NestedProtoShapeWithTexture {
       url [
         "webots://tests/api/worlds/textures/red_texture.jpg"
       ]
@@ -80,19 +80,19 @@ DEF MESH_BASE_NODE Solid {
 DEF MESH_IN_PROTO Solid {
   translation 0 -0.25 0.25
   children [
-    DEF SUB_PROTO ProtoWithMesh {
+    DEF PROTO_SHAPE ProtoShapeWithMesh {
       meshUrl [
         "webots://tests/api/worlds/meshes/cube_0.05m.obj"
       ]
     }
   ]
   name "solid1"
-  boundingObject USE SUB_PROTO
+  boundingObject USE PROTO_SHAPE
 }
 DEF MESH_NESTED Solid {
   translation 0 0.25 0.25
   children [
-    DEF NESTED_PROTO NestedProtoWithMesh {
+    DEF NESTED_PROTO NestedProtoShapeWithMesh {
       meshUrl [
         "webots://tests/api/worlds/meshes/cube_0.05m.obj"
       ]

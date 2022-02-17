@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-PROTO NestedProtoWithMesh
+PROTO NestedProtoShapeWithMesh
 [
   field MFString meshUrl []
 ]
 {
-  ProtoWithMesh {
+  ProtoShapeWithMesh {
     meshUrl IS meshUrl
   }
 }

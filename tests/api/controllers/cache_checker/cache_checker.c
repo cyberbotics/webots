@@ -33,8 +33,9 @@ void test_camera_color(int test_number, const int expected_color[3]) {
 
 void test_distance(int test_number, const double expected_distance) {
   for (int i = 0; i < NB_MESHES; ++i) {
-    double distance = wb_distance_sensor_get_value(distance_sensors[i]);
-    printf("%f\n", distance);
+    const double distance = wb_distance_sensor_get_value(distance_sensors[i]);
+    ts_assert_double_in_delta(distance, expected_distance, 1e-5,
+                              "In test %d: wrong mesh is applied (distance is %f instead of %f)", distance, expected_distance);
   }
 }
 
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
   node = wb_supervisor_node_get_from_def("MESH_BASE_NODE.SHAPE.MESH");
   mesh_fields[0] = wb_supervisor_node_get_field(node, "url");
   // get reference of texture in proto
-  node = wb_supervisor_node_get_from_def("MESH_IN_PROTO.SUB_PROTO");
+  node = wb_supervisor_node_get_from_def("MESH_IN_PROTO.PROTO_SHAPE");
   mesh_fields[1] = wb_supervisor_node_get_field(node, "meshUrl");
   // get reference of texture in nested proto
   node = wb_supervisor_node_get_from_def("MESH_NESTED.NESTED_PROTO");
@@ -116,9 +117,18 @@ int main(int argc, char **argv) {
   for (int i = 0; i < NB_MESHES; ++i)
     wb_supervisor_field_set_mf_string(mesh_fields[i], 0, "webots://tests/api/worlds/meshes/cube_0.1m.obj");
 
-  wb_robot_step(200 * TIME_STEP);
+  wb_robot_step(TIME_STEP);
 
-  test_distance(4, 125.0);
+  test_distance(4, 100.0);
+
+  for (int i = 0; i < NB_MESHES; ++i)
+    wb_supervisor_field_set_mf_string(mesh_fields[i], 0, "https://cyberbotics.com/test_suite_assets/cube_0.2m.obj");
+
+  wb_robot_step(TIME_STEP);
+
+  test_distance(4, 50.0);
+
+  wb_robot_step(TIME_STEP);
 
   ts_send_success();
   return EXIT_SUCCESS;
