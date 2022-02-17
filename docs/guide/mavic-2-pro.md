@@ -22,6 +22,7 @@ PROTO Mavic2Pro {
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE
+  MFFloat    battery             []
   MFNode     bodySlot            []
   MFNode     cameraSlot          [ Camera { width 400 height 240 } ]
 }
