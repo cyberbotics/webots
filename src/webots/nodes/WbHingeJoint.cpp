@@ -552,15 +552,15 @@ void WbHingeJoint::updateJointAnchorRepresentation() {
 
   wr_static_mesh_delete(mAnchorMesh);
 
-  float anchor[3];
-  anchor().toFloatArray(anchor);
+  float anchorArray[3];
+  anchor().toFloatArray(anchorArray);
 
   mAnchorMesh = wr_static_mesh_unit_sphere_new(2, true, true);
   wr_renderable_set_mesh(mAnchorRenderable, WR_MESH(mAnchorMesh));
 
-  float scaling = 0.005f * wr_config_get_line_scale();
+  float scaling = 0.004f * wr_config_get_line_scale();
   scaling = scaling > 0.002f ? 0.002f : scaling;
   const float scale[3] = {scaling, scaling, scaling};
   wr_transform_set_scale(mAnchorTransform, scale);
-  wr_transform_set_position(mAnchorTransform, anchor);
+  wr_transform_set_position(mAnchorTransform, anchorArray);
 }
