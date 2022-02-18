@@ -6757,7 +6757,7 @@ thanks
 ##### David Mansolino [Cyberbotics] 03/17/2020 14:55:15
 You're welcome
 
-##### JoanGerard 03/17/2020 15:43:23
+##### joangerard 03/17/2020 15:43:23
 I was experimenting this issue again with the latest version of Webots (R2020a revision 1). [https://github.com/cyberbotics/webots/issues/1118](https://github.com/cyberbotics/webots/issues/1118)
 
 
@@ -6768,13 +6768,13 @@ Oups, do you have a simple procedure to reproduce the issue with a robot distrib
 
 Was it working fin R2020a ?
 
-##### JoanGerard 03/17/2020 15:46:47
+##### joangerard 03/17/2020 15:46:47
 I did not try it with R2020a actually ...
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:46:58
 With R2019b ?
 
-##### JoanGerard 03/17/2020 15:47:50
+##### joangerard 03/17/2020 15:47:50
 the error was there for R2019b
 
 
@@ -6786,13 +6786,13 @@ Unfortunately I do not have a robot distributed within Webots where you can repr
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:49:17
 Ok, maybe can you try with R2020a to make sure it is fixed there ?
 
-##### JoanGerard 03/17/2020 15:49:43
+##### joangerard 03/17/2020 15:49:43
 Ok, I will
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:49:49
 Thank you
 
-##### JoanGerard 03/17/2020 15:59:28
+##### joangerard 03/17/2020 15:59:28
 Could you please provide me the link to download the R2020a version? I cannot find it...
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 16:00:02
@@ -6930,7 +6930,7 @@ how to check that
 ##### David Mansolino [Cyberbotics] 03/18/2020 08:57:51
 The first things to check is wheter you can connect to the robot using the e-puck default tool to the robot, such as this one: [https://www.gctronic.com/doc/index.php/E-Puck#PC\_interface](https://www.gctronic.com/doc/index.php/E-Puck#PC_interface)
 
-##### JoanGerard 03/18/2020 09:30:50
+##### joangerard 03/18/2020 09:30:50
 T
 
 > Ok, maybe can you try with R2020a to make sure it is fixed there ?
@@ -6949,13 +6949,13 @@ this is my robot after 9 minutes of simulation 😟
 ##### David Mansolino [Cyberbotics] 03/18/2020 09:35:05
 Ok, thank you for the test, it would be nice if you could share with us a simple simulation using the e-puck robot (simple differential-wheel robot available in Webots) and a controller reproducing the problem so that we can try to better identify and fix it.
 
-##### JoanGerard 03/18/2020 09:39:30
+##### joangerard 03/18/2020 09:39:30
 ok
 
 ##### David Mansolino [Cyberbotics] 03/18/2020 09:39:41
 thank you.
 
-##### JoanGerard 03/18/2020 10:10:47
+##### joangerard 03/18/2020 10:10:47
 I realized that I need to call "resetPhysics" method and the error does not happen
 
 ##### David Mansolino [Cyberbotics] 03/18/2020 10:23:07
@@ -11240,7 +11240,7 @@ perfect, thank you 🙂
 ##### David Mansolino [Cyberbotics] 04/23/2020 14:44:29
 You're welcome
 
-##### JoanGerard 04/23/2020 16:08:44
+##### joangerard 04/23/2020 16:08:44
 Hello, I've been working with Webots for almost a year now and I feel very happy with the software and the community support. You guys rock!
 
 As part of my Master Thesis at ULB I am working on the subject: "Machine Learning for Probabilistic Robotics with Webots" and I developed a Particle's Filter algorithm together with a visualisation plugin that I would like to share with you. A very small demo can be found on Youtube: [https://www.youtube.com/watch?v=fISDutZca5g](https://www.youtube.com/watch?v=fISDutZca5g) and the code is here: [https://github.com/joangerard/webots-thesis](https://github.com/joangerard/webots-thesis) 
@@ -11264,7 +11264,7 @@ It‘s driving me crazy
 `@kwy` not automatically, but you can use it as texture for the ground and place object manually on it, or write a script to do this, or use ground sensors to detect these black area from your robot controller
 
 
-`@JoanGerard` very nice demo!!! Your robot-window looks very handy and your repository is very well organized (well documented and clean code), this is clearly a good reference for people wanting to use particle filter algorithm in Webots!
+`@joangerard` very nice demo!!! Your robot-window looks very handy and your repository is very well organized (well documented and clean code), this is clearly a good reference for people wanting to use particle filter algorithm in Webots!
 
 
 > Hi! I used the dBodyAddForce  in my physics plugin, but my simulation will crash. When I delete this line, and everything go back to normal. But I do need to add a force on my robot, what can I do? Help!

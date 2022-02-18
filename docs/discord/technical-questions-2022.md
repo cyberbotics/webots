@@ -290,7 +290,7 @@ oops, i find the problem, my mistake
 
 I was trying to add in the wrong place
 
-##### M\_Santhosh 01/07/2022 10:43:37
+##### (⌣\_⌣”) 01/07/2022 10:43:37
 Hello all I am facing an issue when loading code into vs code
 
 ##### Luftwaffel [Moderator] 01/09/2022 00:18:11
@@ -303,7 +303,7 @@ Hello everyone, i want to make a plunger like solenoid, any idea to make it?  be
 
 > **Attachment**: [Tak\_berjudul\_5\_540p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/929586918663024650/Tak_berjudul_5_540p.mp4)
 
-##### M\_Santhosh 01/09/2022 04:56:40
+##### (⌣\_⌣”) 01/09/2022 04:56:40
 [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/929599534982647838/unknown.png)
@@ -1809,4 +1809,428 @@ Thanks! you can open the sample world from webots too
 
 ##### DrVoodoo [Moderator] 02/09/2022 10:07:19
 How do the controllers actually communicate with webots, some sort of network socket? If so, what's the port?
+
+##### josh101 02/09/2022 13:39:23
+I don't suppose anyone has any experience using NAO in WeBots?
+
+##### B̴͌͘r̸̛̐ö̴́̎t̵̤̋ 02/09/2022 14:37:49
+Hi guys, I have a quick question: Do you know why my entire simulation restarts when i call `supervisor.step(1)`?
+
+(For context: I'm calling it like this:
+
+```py
+if self.supervisor.step(self.timestep) == -1):
+  exit()
+
+```  i have checked that it's not just running  `exit()` and even when i call it in a `print` it just restarts)
+
+##### DDaniel [Cyberbotics] 02/09/2022 15:39:58
+The step returns `-1` when webots terminates the controller,  don't you intend to check for `!=` instead?
+
+##### B̴͌͘r̸̛̐ö̴́̎t̵̤̋ 02/09/2022 15:42:08
+Well the problem is that it doesn't return anything, not even -1, because before it can return anything, everything just restarts
+
+##### DDaniel [Cyberbotics] 02/09/2022 15:42:22
+can you share more of the controller?
+
+##### B̴͌͘r̸̛̐ö̴́̎t̵̤̋ 02/09/2022 15:44:17
+It's part of the deepbots project for reinforcement learning in webots:
+
+```py
+def step(self, action):
+        """
+        Default step implementation that contains a Webots step conditional for
+        terminating properly.
+
+        :param action: The agent's action
+        :return: tuple, (observation, reward, is_done, info)
+        """
+        if self.supervisor.step(self.timestep) == -1:
+            exit()
+
+        self.apply_action(action)
+        
+        return (
+            self.get_observations(),
+            self.get_reward(action),
+            self.is_done(),
+            self.get_info(),
+        )
+```
+
+
+```py
+env = TheController()
+while not solved and episodeCount < episodeLimit:
+  observation = env.reset()
+  env.episodeScore = 0
+  for step in range(200):
+    # In training mode the agent samples from the probability distribution, naturally implementing exploration
+    selectedAction, actionProb = agent.work(observation, type_="selectAction")
+    # Step the supervisor to get the current selectedAction's reward, the new observation and whether we reached 
+    # the done condition
+    newObservation, reward, done, info = env.step([selectedAction])
+
+``` and this is where it is called
+
+##### moebius 02/10/2022 03:08:57
+This the .wbo file and the other one is the .stl file, created by the same program. Why is the coordinate system for these two rotated 90 degree about the x axis CW? The worldinfo coordinate system is is ENU, i tried it with the other systems it looks exactly the same. Is there something I'm missing? Thanks!
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/941168834100994078/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/941168834352656404/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 02/10/2022 03:36:07
+Since webots version 2022, the reference of the Y and Z axes changed, now the Y axis is horizontal and the Z axis is vertical.
+
+What version you are use?
+
+##### moebius 02/10/2022 05:24:41
+I'm using 2021B
+
+##### DrakerDG [Moderator] 02/10/2022 05:27:07
+This is the reason why, before the last version, the axes were crossed
+
+
+In 2022a, the Z axis is the vertical
+
+##### moebius 02/10/2022 05:44:18
+but if im using 2021b this shouldn't be an issue right
+
+##### DrakerDG [Moderator] 02/10/2022 05:45:47
+Not at all, It is a different reference only
+
+
+You can make your 3D model and you will rotate it, and all will be fine
+
+##### moebius 02/10/2022 05:48:40
+so i don't need to align the coordinate frames? I do want to use a compass and gps however, would the mismatch not affect it?
+
+##### DrakerDG [Moderator] 02/10/2022 05:52:49
+If you make your project and open it in the same version, you will not any problem.  Only you will need make some additional steps if your open your project in the new webots version
+
+##### moebius 02/10/2022 06:05:39
+oh okay. thank you so much!
+
+##### DrakerDG [Moderator] 02/10/2022 06:05:59
+You welcome!
+
+##### moebius 02/10/2022 06:14:14
+oh another thing, I am not making this node it in webots, a different program is giving the wbo and stl output which i am then importing into webots, so using the compass with this rotated coordinate frame would not cause issues right?
+
+##### DrakerDG [Moderator] 02/10/2022 06:20:30
+Not, but thy it, if you will have some issue, you will can share with as, your type of issues
+
+##### moebius 02/10/2022 06:38:13
+oh okay, thank you!
+
+##### ~E 02/11/2022 15:23:56
+I've programmed a bot with matlab before, but now I'm trying to use python. Can anyone lend a hand or send me in the right direction for finding out how to make this accelerometer work? I can't figure out if it's my code or my bounding for the accelerometer that's messing up my attempt at printing the data to the console.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/941716189556654090/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/941716189892214814/unknown.png)
+%end
+
+##### Rico Schillings[Sweaty] 02/11/2022 15:58:17
+Dont know if this is the problem, but you are missing () in line 36 at "getValues" (should be getValues())..
+
+##### DrakerDG [Moderator] 02/12/2022 04:45:22
+You need initialize the accelerometer and enable this first:
+
+
+
+\# Initialize and enable accelerometer
+
+accel = robot.getDevice('accelerometer')
+
+accel.enable(time\_step)
+
+
+`@Rico Schillings[Sweaty]`  is right, to get the values you need write this:
+
+
+
+acceldata = accel.getValues()
+
+
+\#acceldata is  a vector with x y z values
+
+
+You can obtain the unique value using trigonometry:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/941919151805566996/unknown.png)
+%end
+
+
+[https://www.cyberbotics.com/doc/reference/accelerometer?tab-language=python](https://www.cyberbotics.com/doc/reference/accelerometer?tab-language=python)
+
+##### Dharani Saravanan 02/12/2022 14:35:39
+Hi team, it looks like position sensor data is not right for the highlighted robot arm position. Please help me in getting the right sensor data.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/942066425986695198/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/942066426292875324/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/942066426599051264/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/942066426888474634/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 02/12/2022 15:31:36
+Hi! Can you share all your controller?
+
+##### Dharani Saravanan 02/12/2022 15:51:57
+
+> **Attachment**: [python\_arm\_controller.py](https://cdn.discordapp.com/attachments/565154703139405824/942085631088164924/python_arm_controller.py)
+
+##### DrakerDG [Moderator] 02/12/2022 15:52:27
+Ok, let me check it
+
+
+I did try to run your controller but it result is an error, I don't know why.  I don't have a lot of knowledge in python. However I did try get the position sensors values using c code, and I don't have problems
+> **Attachment**: [URE\_example\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/942100318395699230/URE_example_1.mp4)
+
+
+Maybe I need your world to test your controller.  Can you try obtain the position sensors without your rad2deg function?
+
+##### Dharani Saravanan 02/12/2022 16:58:00
+I tried that too. But I got the same results.
+
+
+This is the world file I am working with
+> **Attachment**: [UR5-kitchen-world.wbt](https://cdn.discordapp.com/attachments/565154703139405824/942103842064060426/UR5-kitchen-world.wbt)
+
+##### DrakerDG [Moderator] 02/12/2022 17:24:23
+Ok, let me try too
+
+
+You made this in webots 2021b, right?
+
+##### Dharani Saravanan 02/12/2022 17:27:59
+yes
+
+##### DrakerDG [Moderator] 02/12/2022 17:28:11
+Ok
+
+##### 안정수 02/12/2022 18:37:02
+How can I visualize a Pointcloud in Rviz using Lidar from webots? Tried using the controller as ros / python , but I don't know how.
+
+##### DrakerDG [Moderator] 02/12/2022 19:02:06
+Hi, your code works
+%figure
+![2022-02-12_1.png](https://cdn.discordapp.com/attachments/565154703139405824/942133481973088346/2022-02-12_1.png)
+%end
+
+
+
+%figure
+![2022-02-12_2.png](https://cdn.discordapp.com/attachments/565154703139405824/942133815709691904/2022-02-12_2.png)
+%end
+
+
+
+> **Attachment**: [ConvertedVideoOutput\_5.mp4](https://cdn.discordapp.com/attachments/565154703139405824/942135151759093780/ConvertedVideoOutput_5.mp4)
+
+
+I did convert to 2022a version and add a table, only
+
+
+
+> **Attachment**: [ConvertedVideoOutput\_11.mp4](https://cdn.discordapp.com/attachments/565154703139405824/942139800255889408/ConvertedVideoOutput_11.mp4)
+
+##### Dharani Saravanan 02/13/2022 13:21:57
+yes changing to version 2022a fixed the issue. Thanks😀
+
+##### waynemartis 02/14/2022 07:36:56
+Can I get the internal model and parameters of the mavic2pro?
+
+##### DrakerDG [Moderator] 02/14/2022 14:55:07
+I understand that what you need is additional information to what can be seen in the structure of the PROTO
+
+
+
+[https://cyberbotics.com/doc/guide/mavic-2-pro](https://cyberbotics.com/doc/guide/mavic-2-pro)
+
+##### Chuong 02/14/2022 21:28:05
+I have had a tough time designing robot. The tasks sound like simple, but I am a beginner. Can you guys help me with moving robot "rectangle", "circle", and "waypoints" ?
+
+##### 안정수 02/15/2022 03:50:24
+Sorry for repeating the question. Is there a way to publish received LidarPoint data to ROS using getPointCloud(data\_type=buffer) function? The data could not be analyzed.
+
+##### Benjamin Hug [Cyberbotics] 02/15/2022 07:34:45
+You should be able to ask a Lidar to publish a PointCloud message in ROS by using a service ([https://github.com/cyberbotics/webots/blob/24050b50b9d1b67799fd40d2fbf127e899a9e749/projects/default/controllers/ros/RosLidar.cpp#L25](https://github.com/cyberbotics/webots/blob/24050b50b9d1b67799fd40d2fbf127e899a9e749/projects/default/controllers/ros/RosLidar.cpp#L25)).
+
+##### ~E 02/15/2022 13:00:06
+Whenever I start my simulation, my robot drops through the floor and jumps back up through it. After the sim has started, the collision works for the most part, except that when it falls over, the wheels no unbind from the side for a split second. Could this be a bounding problem? Or is my robot starting with a >9.81 negative acceleration or something? I'll post a gif in a sec
+
+
+
+%figure
+![Bot2.gif](https://cdn.discordapp.com/attachments/565154703139405824/943131170072326244/Bot2.gif)
+%end
+
+##### DrakerDG [Moderator] 02/15/2022 13:24:54
+Try reducing the value of basicTimeStep from WorldInfo node, for example from 32 to 16
+
+##### ~E 02/15/2022 13:56:07
+How can I get the current step for the program using python? I'm trying to use "step = robot.step()"
+
+
+wait duh I can just add one in the while loop
+
+##### DrakerDG [Moderator] 02/15/2022 14:01:13
+
+%figure
+![unknown-1-1-1.png](https://cdn.discordapp.com/attachments/565154703139405824/943144926307307590/unknown-1-1-1.png)
+%end
+
+
+\# get the time step of the current world.
+
+time\_step = int(robot.getBasicTimeStep())
+
+##### wesllo 02/15/2022 14:16:52
+Hello, I have a question about the automation of the world change and save. Is there a way to force a world save after the simulation is launched? Indeed the WorldSave function returns an error.
+
+```
+The simulation has run!
+Saving the .wbt file will store the current world state: the objects position and rotation and other fields may differ from the original file!
+Do you want to save this modified world?
+```
+
+##### DDaniel [Cyberbotics] 02/15/2022 14:19:17
+If you mean manually using the save button, that's just a warning which you can ignore. The warning is there because more often than not you don't want to save an already started simulation, but there might be situations where you might want to. If you mean saving the world from the controller/supervisor, then you can use the appropriate function: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_world\_save](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_world_save)
+
+##### wesllo 02/15/2022 14:26:11
+thanks <@787796043987025941>. 
+
+Yes, I'm talking about the use of the supervisor's wb\_supervisor\_world\_save function, I need to save even after the simulation has been run, but "The boolean return value indicates the success of the save operation." and the result is always wrong due to the simulation being run.
+
+##### SoTrin 02/15/2022 14:32:05
+Hi,
+
+
+
+Any doc / tutorial about how to import/convert DEM files into Webots? For Gazebo there is [http://gazebosim.org/tutorials/?tut=dem](http://gazebosim.org/tutorials/?tut=dem)
+
+With Webots I have only found this doc: [https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid)
+
+##### DDaniel [Cyberbotics] 02/15/2022 14:37:33
+I've tested and I don't have any issue with it, I can save after the simulation has run without problems. Which version are you using? and which programming language?
+
+##### wesllo 02/15/2022 14:49:02
+webots R2021b with C++
+
+##### Jan Weber 02/15/2022 15:34:03
+Hello,
+
+in a procedural PROTO file I am calculating many field values with a javascript function. These values are used many times with the IS statement. How can I run my function at the beginning of each time step so that all Field values are updated?
+
+Jan
+
+##### Venkat 02/15/2022 16:12:31
+I am trying to use extern controller on the robot(s) I have. The robot is mounted on a linear axis which traverses on one axis. The linear axis is modeled as a robot, so it has its own controller. For the linear axis motion , I use a sliderjoint with "LinearMotor" and "PositionSensor" devices. The structure looks like: LinearAxisRobot (LinearAxisController) -> children -> sliderjoint (LinearMotor and PositionSensor) ->  children -> UR10Robot.. I am trying with "extern" controller for both the robots to have sequential control. URRobot controller works fine with extern controller, that the joints move as expected. But linear axis controller isnt workin properly (from extern controller). The error is "AttributeError : Nonetype object has no attribute 'enable' " (for the position sensor). Is there any way to handle this problem.
+
+Thanks,
+
+Venkatachalam
+
+##### DDaniel [Cyberbotics] 02/15/2022 16:15:28
+A proto file containing javascript template statements is executed and therefore converted to pure VRML before the world is run. If after the load of this PROTO you change one of its parameters (using for instance a supervisor) and this change triggers a regeneration of the PROTO, this occurs automatically. Can you show an example of what you're trying to do?
+
+
+As far as I understood you have a Robot within a Robot, right? If so, the controller of each robot can only access its own devices, not those of the other robot
+
+##### Jan Weber 02/15/2022 16:45:49
+I wrote a javascript function that changes positions of joints when the translation of the robot changes. What I understand after your answer is that with each change the proto is regenerated. And this takes about 0.5s. So my simulation becomes very slow...
+
+So my approach is not useful. I will continue to do it with a supervisor for now.
+
+Since I have to change many joint positions of the robot with the supervisor (with setSFFloat or setMFFloat), my simulation is also slowed down. Is there a way to set multiple values, e.g. an array with a single set command?
+
+##### DDaniel [Cyberbotics] 02/15/2022 16:49:08
+I assume you only need to change the positions once and then you let the motors/controller do the rest right? If so, for this initialization of the joints you can use [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_set\_joint\_position](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_set_joint_position), which is a more proper approach rather than getting the field references and changing them yourself
+
+
+but it still requires calling this function for each joint you wish to set a position
+
+##### Jan Weber 02/15/2022 17:21:50
+My "robot" is the Pedestrian Model. This has no motors. Since I want to simulate many pedestrians (e.g. 100) and each has 14 joints, I have 1400 setSFFloat() calls per time step. I would like to reduce the overhead from the many individual function calls. According to my measurements, setSFVec3f takes a similar amount of time as setSFFloat, so I suspect that the many individual calls have a large overhead.
+
+##### Venkat 02/15/2022 18:37:14
+Yes, I understand that and it works when executed with local controller. The problem is to use extern controller.. 1. since there are more robots in the environment, I am unable to create "Robot()" instance for each robot locally (in local controller). So, I created this instance from the external program and pass this as parameter to the class to instantiate... For the UR10robot, this works fine but not for the Sliderjoint.. I am getting the problem when I try to access "Position Sensors" and their values. I had to change the program to "enable" the position sensors from the method where it is used and not in the class (for UR10 robot and Sliderjoint). For UR10 it is working fine and not for Sliderjoint..
+
+##### ~E 02/16/2022 00:45:40
+Anyone wanna help me tune a PID? I'm having trouble figuring out if the issues I'm having is from bad programming, or bad simulation.
+
+##### DrakerDG [Moderator] 02/16/2022 00:54:51
+Hi! Where you need tune a PID.  Maybe you can be more specific please
+
+
+I used PID in line follower robot in webots
+
+##### ~E 02/16/2022 01:14:18
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/943314312330612766/unknown.png)
+%end
+
+
+self balancing robot
+
+##### DrakerDG [Moderator] 02/16/2022 01:23:05
+OK, it is the same project
+
+
+What process you use to tune the PID?  Have you one?
+
+##### ~E 02/16/2022 01:25:23
+Just trying different numbers
+
+##### DrakerDG [Moderator] 02/16/2022 01:28:52
+OK, maybe you need tuning P first, second I and last D.
+
+
+
+Exist a Manual method that using this order
+
+
+Maybe you need applay this method to balancing robot
+
+
+How to calculate PID values?
+
+##### 안정수 02/16/2022 07:35:53
+yes i already tried it Pointcloud2 Topic is being published but cannot be visualized in Rviz.
+
+##### Benjamin Hug [Cyberbotics] 02/16/2022 07:42:29
+May I ask you to open an issue on [https://github.com/cyberbotics/webots\_ros/issues](https://github.com/cyberbotics/webots_ros/issues) and to explain more in detail how you try to visualise it in RViz ? It will be easier for us to discuss.
+
+##### Venkat 02/16/2022 08:33:14
+Yes, I understand that and it works when executed with local controller.  As in the attached figure, I made the sliderjoint and had a connector as the "endPoint" to the slider joint. To the children of the slider joint is the UR10e robot attached. With this I tried, invoking the controller from "extern" python program. The problem is to use extern controller.. since there are more robots in the environment, I am unable to create "Robot()" instance for each robot locally (in local controller, it threw an error that there could only one robot instance created). So, I created this instance from the external program and pass this as parameter to the class to instantiate... For the UR10robot, this works fine but not for the Sliderjoint.. I got the problem when I try to access "Position Sensors" and their values. I had to change the program to "enable" the position sensors from the method (inside function of the class) where it is used and not in the class (for UR10 robot and Sliderjoint). For UR10 it is working fine and not for Sliderjoint.. But accessing the "device" motor of the slider joint is still throwing a warning that the devices are not found. In the simulation, the robot itself is not moving. 
+
+I would like to know, if we can have a robot with slider joint and write a controller for it. I had this working for local controller.
+
+
+
+~~Also I see now that, when I execute the external python program for only the linear axis, I am getting the following warning: "Failed to attach extern robot controller: no available "<extern> robot controller named "UR10e" found." I made the UR10e controller to be "void" and use extern controller only on the linear axis. I am getting this message when I do so.~~ This problem is due to environment variable error. I would like to solve the problem for error on "Only one instance of robot class should be defined".
+%figure
+![Webots_Robots.jpg](https://cdn.discordapp.com/attachments/565154703139405824/943424773382373436/Webots_Robots.jpg)
+%end
+%figure
+![Webots_Extern.jpg](https://cdn.discordapp.com/attachments/565154703139405824/943424773709516800/Webots_Extern.jpg)
+%end
+
+
+May I know if the AROSYS from RobMoSys is active. I would like to integrate my simulation with model driven robot control and I found this package. [https://github.com/cyberbotics/AROSYS](https://github.com/cyberbotics/AROSYS). It looks interesting for my work and I would like to use it. Kindly advise, Thank you.
 
