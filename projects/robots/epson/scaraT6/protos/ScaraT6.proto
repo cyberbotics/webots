@@ -266,7 +266,7 @@ PROTO ScaraT6 [
       DEF LINK1_HINGEJOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor 0.06 0.005 0.22
+          anchor 0.06 0 0.22
         }
         device [
           RotationalMotor {
