@@ -194,7 +194,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   WbVector3 correctedScale;
   bool b = false;
 
-  if (checkScaleNullValues(correctedScale))
+  if (checkScaleZeroValues(correctedScale))
     b = true;
 
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
