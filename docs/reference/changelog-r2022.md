@@ -12,6 +12,7 @@ Released on XX, XXth, 2022.
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
   - Enhancements:
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Authorized negative scale on the [Transform](transform.md) node and added a `ccw` field on the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
   - Dependency Updates
     - remove WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
 
@@ -33,7 +34,7 @@ Released on XX XX, 2022.
     - Fixed texture of [Camera](camera.md) devices not being retrieved ([#4218](https://github.com/cyberbotics/webots/pull/4218)).
 
 ## Webots R2022a
-Released on December 21th, 2022.
+Released on December 21th, 2021.
 
   - New Features:
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
