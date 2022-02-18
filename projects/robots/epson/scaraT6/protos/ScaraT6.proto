@@ -337,10 +337,9 @@ PROTO ScaraT6 [
                     }
                   ]
                   endPoint DEF ARM Solid {
-                    translation 0.27 0 0
                     children [
                       CapScrew {
-                        translation -0.2815 -0.0434 0.0508
+                        translation -0.02 -0.0434 0.0508
                         rotation 0 1 0 1.5708
                         name "cap screw(1)"
                         appearance GalvanizedMetal {
@@ -351,7 +350,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.2815 0.0431 0.0508
+                        translation -0.02 0.0431 0.0508
                         rotation 0 1 0 1.5708
                         appearance GalvanizedMetal {
                         }
@@ -361,7 +360,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.2866 0.019 0.1828
+                        translation -0.0251 0.019 0.1828
                         rotation 0 1 0 1.5708
                         name "cap screw(2)"
                         appearance GalvanizedMetal {
@@ -372,7 +371,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.2866 -0.019 0.1828
+                        translation -0.0251 -0.019 0.1828
                         rotation 0 1 0 1.5708
                         name "cap screw(3)"
                         appearance GalvanizedMetal {
@@ -383,7 +382,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.162962 -0.0257 0.1828
+                        translation 0.098538 -0.0257 0.1828
                         rotation 0 1 0 1.5708
                         name "cap screw(4)"
                         appearance GalvanizedMetal {
@@ -394,7 +393,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.16295 0.0257 0.1828
+                        translation 0.098538 0.0257 0.1828
                         rotation 0 1 0 1.5708
                         name "cap screw(5)"
                         appearance GalvanizedMetal {
@@ -405,7 +404,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.3091 -0.01371 0.0509
+                        translation -0.0476 -0.01371 0.0509
                         name "cap screw(7)"
                         appearance GalvanizedMetal {
                         }
@@ -415,7 +414,7 @@ PROTO ScaraT6 [
                         enableBoundingObject FALSE
                       }
                       CapScrew {
-                        translation -0.3091 0.0131 0.0509
+                        translation -0.0476 0.0131 0.0509
                         name "cap screw(6)"
                         appearance GalvanizedMetal {
                         }
@@ -469,7 +468,7 @@ PROTO ScaraT6 [
                         }
                       }
                       DEF LOGO_LEFT Transform {
-                        translation -0.192 -0.0568 0.092
+                        translation 0.0695 -0.0568 0.092
                         rotation 1 0 0 1.5608
                         children [
                           DEF EPSON_LOGO Shape {
@@ -490,7 +489,7 @@ PROTO ScaraT6 [
                         ]
                       }
                       DEF LOGO_RIGHT Transform {
-                        translation -0.192 0.0565 0.092
+                        translation 0.0695 0.0565 0.092
                         rotation 0.0035 -0.707 -0.707 3.14158
                         children [
                           USE EPSON_LOGO
@@ -499,6 +498,7 @@ PROTO ScaraT6 [
                       DEF LINK3_HINGEJOINT HingeJoint {
                         jointParameters HingeJointParameters {
                           axis 0 0 1
+                          anchor 0.2615 0 0
                         }
                         device [
                           RotationalMotor {
@@ -510,7 +510,7 @@ PROTO ScaraT6 [
                           }
                         ]
                         endPoint Solid {
-                          translation 0 0 0
+                          translation 0.2615 0 0
                           children [
                             DEF Shaft SliderJoint {
                               jointParameters JointParameters {
@@ -586,7 +586,7 @@ PROTO ScaraT6 [
                     }
                     name "arm_solid"
                     boundingObject DEF ARM_BOUND Transform {
-                      translation -0.16 0 0.087
+                      translation 0.1015 0 0.087
                       children [
                         Box {
                           size 0.292 0.126 0.19
@@ -628,7 +628,7 @@ PROTO ScaraT6 [
       density -1
       mass 18.2 # estimated, calibrated on the total mass, 22kg
       centerOfMass [
-        0 0 0
+        0.1 0 0
       ]
     }
     %< } >%
