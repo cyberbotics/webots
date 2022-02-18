@@ -21,6 +21,6 @@ services:
     tty: true # docker run -t
 
   theia:
-    image: theiaide/theia-python:latest
+    image: joachimhgg/theiatest:test1
     ports:
       - 3000:3000
