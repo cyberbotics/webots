@@ -564,3 +564,15 @@ void WbHingeJoint::updateJointAnchorRepresentation() {
   wr_transform_set_scale(mAnchorTransform, scale);
   wr_transform_set_position(mAnchorTransform, anchorArray);
 }
+
+void WbHingeJoint::updateOptionalRendering(int option) {
+  WbJoint::updateOptionalRendering(option);
+
+  if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
+    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
+      updateJointAnchorRepresentation();
+      wr_node_set_visible(WR_NODE(mAnchorTransform), true);
+    } else
+      wr_node_set_visible(WR_NODE(mAnchorTransform), false);
+  }
+}

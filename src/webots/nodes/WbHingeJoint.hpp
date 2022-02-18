@@ -62,12 +62,14 @@ protected slots:
   void updateStopErp();
   void updateStopCfm();
   virtual void updateAnchor();
+  void updateOptionalRendering(int option) override;
 
 private slots:
   void updateSuspension();
   virtual void updateJointAnchorRepresentation();
 
 private:
+  WbHingeJoint &operator=(const WbHingeJoint &);  // non copyable
   void init();
 
   WrTransform *mAnchorTransform;
