@@ -1,6 +1,6 @@
 ## SCARA Epson T6
 
-%robot scaraT6 images/robots/scaraT6/model.thumbnail.png
+%robot scara_t6 images/robots/scara_t6/model.thumbnail.png
 
 [SCARA Epson T6](https://www.epson.eu/products/robot/scara-t6-series) is a 4-axis robotic arm with three revolute and one prismatic DOF.
 The chosen model is the T6-602s.
@@ -34,7 +34,7 @@ ScaraT6 [
 ]
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/epson/scaraT6/protos/ScaraT6.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/epson/scara_t6/protos/ScaraT6.proto"
 
 #### ScaraT6 Field Summary
 
@@ -43,8 +43,8 @@ ScaraT6 [
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/scaraT6/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epson/scara_t6/worlds".
 
 #### Industrial\_example.wbt
 
-![industrial_example.wbt.png](images/robots/scaraT6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
+![industrial_example.wbt.png](images/robots/scara_t6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
