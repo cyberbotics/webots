@@ -21,7 +21,7 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
+      "anchor": "0.2615 0 0",
       "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
