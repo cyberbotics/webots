@@ -1,17 +1,17 @@
 {
   "devices": [
     {
-      "anchor": "0.37 0 0.23",
+      "anchor": "0.007 0.005 0.1",
       "axis": "0 0 1",
       "maxPosition": 0.83,
       "minPosition": -0.83,
       "name": "arm_motor",
       "position": 0,
-      "transformID": "n532",
+      "transformID": "n533",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.06 0 0",
+      "anchor": "0.06 0.005 0.22",
       "axis": "0 0 1",
       "maxPosition": 0.73,
       "minPosition": -0.73,
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "shaft_rotation_motor",
       "position": 0,
-      "transformID": "n834",
+      "transformID": "n829",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -0.2,
       "name": "shaft_linear_motor",
       "position": 0,
-      "transformID": "n829",
+      "transformID": "n834",
       "type": "LinearMotor"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "name": "arm_position",
-      "transformID": "n532",
+      "transformID": "n533",
       "type": "PositionSensor"
     },
     {
@@ -64,12 +64,12 @@
     },
     {
       "name": "shaft_linear_position",
-      "transformID": "n829",
+      "transformID": "n834",
       "type": "PositionSensor"
     },
     {
       "name": "shaft_rotation_position",
-      "transformID": "n834",
+      "transformID": "n829",
       "type": "PositionSensor"
     }
   ],
