@@ -6,5 +6,5 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 renderingMode: PLAIN
 orthographicViewHeight: 1
-textFiles: 0 "controllers/scara_food_industry/scara_food_industry.py" "controllers/scara_example/scara_example.py"
+textFiles: 0 "controllers/scara_food_industry/scara_food_industry.py" "controllers/scara/scara.py"
 consoles: Console:All:All
