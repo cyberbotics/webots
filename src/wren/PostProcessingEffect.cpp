@@ -288,6 +288,7 @@ namespace wren {
     mResultProgram->bind();
     glstate::setDepthMask(false);
     glstate::setDepthTest(false);
+    glstate::setFrontFace(GL_CCW);
     Texture::UsageParams params(Texture::DEFAULT_USAGE_PARAMS);
     params.mIsInterpolationEnabled = false;
     params.mAreMipMapsEnabled = false;

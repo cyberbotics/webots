@@ -199,7 +199,7 @@ namespace wren {
     mInViewSpace(false),
     mZSortedRendering(false),
     mFaceCulling(true),
-    mFrontFace(WR_RENDERABLE_FRONT_FACE_MODE_CCW),
+    mInvertFrontFace(false),
     mPointSize(-1.0f) {}
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
@@ -217,29 +217,21 @@ namespace wren {
 
     glstate::setCullFace(mFaceCulling);
 
-    unsigned int frontFaceMode = glstate::getFrontFace();
-
-    // if (mFrontFace == WR_RENDERABLE_FRONT_FACE_MODE_CW)
-    glstate::setFrontFace(mFrontFace);
-
-    // if (mFrontFace != WR_RENDERABLE_FRONT_FACE_MODE_CCW) {
-    //   if (glstate::getFrontFace() == GL_CCW)
-    //     glstate::setFrontFace(GL_CW);
-    //   else
-    //     glstate::setFrontFace(GL_CCW);
-    // } else {
-    //   if (glstate::getFrontFace() == GL_CCW)
-    //     glstate::setFrontFace(GL_CW);
-    //   else
-    //     glstate::setFrontFace(GL_CCW);
-    // }
-
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
 
+    const unsigned int frontFaceMode = glstate::getFrontFace();
+    if (mInvertFrontFace) {
+      if (glstate::getFrontFace() == GL_CCW)
+        glstate::setFrontFace(GL_CW);
+      else
+        glstate::setFrontFace(GL_CCW);
+    }
+
     mMesh->render(mDrawingMode);
 
-    glstate::setFrontFace(frontFaceMode);
+    if (mInvertFrontFace)
+      glstate::setFrontFace(frontFaceMode);
 
     if (mDefaultMaterial->hasPremultipliedAlpha())
       glstate::setBlendFunc(blendSrcFactor, blendDestFactor);
@@ -299,9 +291,8 @@ void wr_renderable_set_drawing_mode(WrRenderable *renderable, WrRenderableDrawin
 void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
 }
-
-void wr_renderable_set_front_face(WrRenderable *renderable, WrRenderableFrontFaceMode front_face_mode) {
-  reinterpret_cast<wren::Renderable *>(renderable)->setFrontFace(front_face_mode);
+void wr_renderable_invert_front_face(WrRenderable *renderable, bool invert_front_face) {
+  reinterpret_cast<wren::Renderable *>(renderable)->setInvertFrontFace(invert_front_face);
 }
 
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows) {

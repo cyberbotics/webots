@@ -180,11 +180,9 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
       mResizeManipulator->show();
   }
 
-  // faces orientation
-  if (mCcw)
-    wr_renderable_set_front_face(mWrenRenderable, WrRenderableFrontFaceMode::WR_RENDERABLE_FRONT_FACE_MODE_CCW);
-  else
-    wr_renderable_set_front_face(mWrenRenderable, WrRenderableFrontFaceMode::WR_RENDERABLE_FRONT_FACE_MODE_CW);
+  // Invert faces orientation in OpenGL if needed
+  if (!mCcw)
+    wr_renderable_invert_front_face(mWrenRenderable, true);
 
   // normals representation
   mNormalsMaterial = wr_phong_material_new();
