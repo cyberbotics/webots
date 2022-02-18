@@ -142,7 +142,6 @@ vpath %.c ../controller/c
 WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
 C_SOURCES         += system.c
 LIB_WREN           = ../wren/wren.a ../glad/glad.a
-OPENAL_INCLUDE     = -isystem /mingw64/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui -isystem $(WEBOTS_PATH)/include/qt/QtPlatformHeaders
 QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
