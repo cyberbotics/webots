@@ -494,7 +494,7 @@ void WbHingeJoint::createWrenObjects() {
   WbJoint::createWrenObjects();
 
   // anchor
-  float color[3] = {0.6f, 0.0f, 0.0f};
+  float color[3] = {0.7f, 0.0f, 0.1f};
   mAnchorMaterial = wr_phong_material_new();
   wr_phong_material_set_color(mAnchorMaterial, color);
   wr_material_set_default_program(mAnchorMaterial, WbWrenShaders::lineSetShader());
@@ -550,14 +550,12 @@ void WbHingeJoint::updateJointAnchorRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
 
-  const WbVector3 &anchorVector = anchor();
-
-  float anchor[3];
-  anchorVector.toFloatArray(anchor);
-
   wr_static_mesh_delete(mAnchorMesh);
 
-  mAnchorMesh = wr_static_mesh_unit_sphere_new(1, true, true);
+  float anchor[3];
+  anchor().toFloatArray(anchor);
+
+  mAnchorMesh = wr_static_mesh_unit_sphere_new(2, true, true);
   wr_renderable_set_mesh(mAnchorRenderable, WR_MESH(mAnchorMesh));
 
   float scaling = 0.005f * wr_config_get_line_scale();
