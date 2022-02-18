@@ -22,7 +22,7 @@ Derived from [Robot](../reference/robot.md).
 ScaraT6 [
   SFVec3f           translation     0 0 0.01
   SFRotation        rotation        0 0 1 0
-  SFString          name            "ScaraT6"
+  SFString          name            "Scara T6"
   SFString          controller      ""
   MFString          controllerArgs  []
   SFBool            supervisor      FALSE
