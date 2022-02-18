@@ -150,7 +150,7 @@ void WbVrmlWriter::writeHeader(const QString &title) {
     case X3D:
       *this << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
       *this << "<!DOCTYPE X3D PUBLIC \"ISO//Web3D//DTD X3D 3.0//EN\" \"http://www.web3d.org/specifications/x3d-3.0.dtd\">\n";
-      *this << "<x3d version=\"3.0\" profile=\"Immersive\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" "
+      *this << "<X3D version=\"3.0\" profile=\"Immersive\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" "
                "xsd:noNamespaceSchemaLocation=\"http://www.web3d.org/specifications/x3d-3.0.xsd\">\n";
       *this << "<head>\n";
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
@@ -169,7 +169,7 @@ void WbVrmlWriter::writeHeader(const QString &title) {
 void WbVrmlWriter::writeFooter(const QStringList *info) {
   if (isX3d()) {
     *this << "</Scene>\n";
-    *this << "</x3d>\n";
+    *this << "</X3D>\n";
   } else if (isUrdf())
     *this << "</robot>\n";
 }

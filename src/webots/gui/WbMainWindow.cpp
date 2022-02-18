@@ -196,7 +196,13 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this]() { this->upload('A'); });
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
+          [this](const QString &filename, const QString &content, const QString &title) {
+            if (mSaveCheckboxStatus)
+              openUrl(filename, content, title);
+            else
+              this->upload('A');
+          });
 
   WbJoystickInterface::setWindowHandle(winId());
 
@@ -1574,55 +1580,46 @@ void WbMainWindow::exportVrml() {
   simulationState->resumeSimulation();
 }
 
-void WbMainWindow::exportHtmlFiles() {
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-
-  QString fileName = findHtmlFileName("Export HTML File");
-  if (fileName.isEmpty()) {
+QString WbMainWindow::exportHtmlFiles() {
+  QString filename;
+  if (!mSaveCheckboxStatus)
+    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
+  else {
+    WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+    filename = findHtmlFileName("Export HTML File");
     WbSimulationState::instance()->setMode(currentMode);
-    return;
   }
+  return filename;
+}
 
-  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
-    const QFileInfo info(fileName);
-    QStringList extensions = {".html", ".x3d"};
-    if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists())
-      extensions << ".json";
+void WbMainWindow::ShareMenu() {
+  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  WbShareWindow shareWindow(this);
+  shareWindow.exec();
+  WbSimulationState::instance()->setMode(currentMode);
+}
 
-    const QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
-    QDir dir(textureFolder);
-    if (dir.exists())
-      dir.rename(textureFolder, info.path() + "/textures");
+void WbMainWindow::uploadScene() {
+  QString filename = exportHtmlFiles();
+  if (filename.isEmpty())
+    return;
+  WbWorld *world = WbWorld::instance();
+  world->exportAsHtml(filename, false);
 
-    foreach (const QString extension, extensions)
-      QFile::rename(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension,
-                    info.path() + "/" + info.completeBaseName() + extension);
-    WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
-    openUrl(fileName,
+  if (mSaveCheckboxStatus && WbProjectRelocationDialog::validateLocation(this, filename)) {
+    const QFileInfo info(filename);
+
+    WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
+    openUrl(filename,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
-              .arg(fileName),
+              .arg(filename),
             tr("Export HTML5 Scene"));
-    mLinkWindow->fileSaved();
-  }
-
-  WbSimulationState::instance()->setMode(currentMode);
-}
-
-void WbMainWindow::ShareMenu() {
-  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbShareWindow *shareWindowUi = new WbShareWindow(this);
-  shareWindowUi->exec();
-  WbSimulationState::instance()->setMode(currentMode);
-}
-
-void WbMainWindow::uploadScene() {
-  WbWorld *world = WbWorld::instance();
-  world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "cloud_export.html", false);
-  upload('S');
+  } else
+    upload('S');
 }
 
 void WbMainWindow::upload(char type) {
@@ -1728,9 +1725,9 @@ void WbMainWindow::uploadFinished() {
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
 
-    mLinkWindow = new WbLinkWindow(this);
-    mLinkWindow->setLabelLink(url);
-    mLinkWindow->exec();
+    WbLinkWindow linkWindow(this);
+    linkWindow.setLabelLink(url);
+    linkWindow.exec();
   }
   reply->deleteLater();
 }
@@ -2367,10 +2364,14 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 }
 
 void WbMainWindow::startAnimationRecording() {
+  const QString filename = exportHtmlFiles();
+  if (filename.isEmpty())
+    return;
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
-  WbAnimationRecorder::instance()->start(WbStandardPaths::webotsTmpPath() + "cloud_export.html");
+
+  WbAnimationRecorder::instance()->start(filename);
   toggleAnimationAction(true);
 
   WbSimulationState::instance()->setMode(currentMode);
