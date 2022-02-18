@@ -3623,7 +3623,7 @@ Hi `@Fabien Rohrer` .  If I simply replace « Motor wheels = [] » by « wheels 
 then the following Python error appears:  "NameError: name 'robot' is not defined"
 
 ##### Fabien Rohrer [Moderator] 05/30/2019 20:18:17
-<@272974104523702273> did you defined the « robot » variable above?
+`@Mr. Scruff` did you defined the « robot » variable above?
 
 
 `@Luiz Felipe` are you sure you are above the minimal requirements to run Webots and that your GPU drivers are up to date?
@@ -3681,7 +3681,7 @@ Yes `@Fabien Rohrer` everything was working fine until yesterday but the safe mo
 Hi,
 
 
-<@272974104523702273>: This is already fixed here: [https://github.com/omichel/webots/pull/496](https://github.com/omichel/webots/pull/496)
+`@Mr. Scruff`: This is already fixed here: [https://github.com/omichel/webots/pull/496](https://github.com/omichel/webots/pull/496)
 
 
 Regarding the "from controller import Robot", I believe there is no need to repeat it at this point as it should already be part of your Python controller (e.g., before adding the motor API).
@@ -7570,7 +7570,7 @@ Sorry me again, is there a way to retrieve the bounding box of an node? If so if
 ##### Fabien Rohrer [Moderator] 07/08/2019 18:32:10
 The Supervisor API can be used for retrieving any node field, typically the position or the size IF these fields are open! You can retrieve programmatically all what you sea in the tree view on the left. There is currently no method to retrieve the AABB.
 
-##### MerySgh 07/08/2019 23:40:56
+##### Meryem\_s 07/08/2019 23:40:56
 hello everyone.....how can i add some characters in my webots project ,something like pedestrians in the  road or like  human ...please help me
 
 ##### Fabien Rohrer [Moderator] 07/09/2019 06:57:14
@@ -7817,7 +7817,7 @@ sounds good
 ##### MariusJuston [Moderator] 07/11/2019 19:58:19
 Done: [https://github.com/omichel/webots/issues/711](https://github.com/omichel/webots/issues/711)
 
-##### MerySgh 07/12/2019 01:31:20
+##### Meryem\_s 07/12/2019 01:31:20
 hello everyone , i have a problem of adding pedestrians in my project its give me a error ..please how to solve it
 %figure
 ![error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599050129537892381/error.PNG)
@@ -7836,13 +7836,13 @@ ideally, changing the environment variable will work, but it can be tricky
 
 make sure to restart webots after making changes to your environment variables
 
-##### MerySgh 07/12/2019 01:56:31
+##### Meryem\_s 07/12/2019 01:56:31
 okay i will try
 
 ##### MariusJuston [Moderator] 07/12/2019 01:59:34
-`@MerySgh`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
+`@Meryem_s`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
 
-##### MerySgh 07/12/2019 02:01:43
+##### Meryem\_s 07/12/2019 02:01:43
 what next ?
 %figure
 ![python.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599057772369281029/python.PNG)
@@ -7851,13 +7851,13 @@ what next ?
 ##### MariusJuston [Moderator] 07/12/2019 02:01:58
 Replace the python command with the path of the python exe
 
-##### MerySgh 07/12/2019 02:02:20
+##### Meryem\_s 07/12/2019 02:02:20
 where i can find this this path ?
 
 ##### MariusJuston [Moderator] 07/12/2019 02:02:43
 Wait, have you already added the python path to the environmental variable?
 
-##### MerySgh 07/12/2019 02:03:09
+##### Meryem\_s 07/12/2019 02:03:09
 NOT yet
 
 ##### MariusJuston [Moderator] 07/12/2019 02:03:49
@@ -7866,7 +7866,7 @@ Okay that is good. Is you python a virtual environment?
 ##### ThundrHawk 07/12/2019 02:05:13
 if you're using python37, the path is most likely going to be C:\Users\<user>\AppData\Local\Programs\Python\Python37\python.exe
 
-##### MerySgh 07/12/2019 02:05:46
+##### Meryem\_s 07/12/2019 02:05:46
 `@MariusJuston`  sorry i don't understand you
 
 
@@ -7887,26 +7887,26 @@ Paste that in the  Python command field
 ##### ThundrHawk 07/12/2019 02:07:29
 you're probably not using a virtual environment if you're not programming in an ide
 
-##### MerySgh 07/12/2019 02:10:15
+##### Meryem\_s 07/12/2019 02:10:15
 like this ?
 %figure
 ![python_command.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599059921559879700/python_command.PNG)
 %end
 
 ##### MariusJuston [Moderator] 07/12/2019 02:11:25
-`@MerySgh`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
+`@Meryem_s`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
 
 
-`@MerySgh`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
+`@Meryem_s`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
 
-##### MerySgh 07/12/2019 02:15:29
+##### Meryem\_s 07/12/2019 02:15:29
 mmmmm ok I will try, I'm sorry if you don't understand quickly it's because I'm still beginner I trying to  be adapted to these technical words
 
 ##### MariusJuston [Moderator] 07/12/2019 02:17:21
 No problems. I will be sure to clarify as much as I can.
 
 
-`@MerySgh` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
+`@Meryem_s` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
 
 A virtual environment in python is useful if you have multiple projects and these projects differ. Such a vision processing project and a text editor project. As you can imagine these for two projects you would need very different libraries. If you used a single interpreter you would have to install the libraries to a single python interpreter, meaning that each project would contain both python projects libraries because they are both referencing the same interpreter and you are installing the libraries to a single interpreter. If you use virtual environments it copies over to a new folder a "clean" copy of your python base interpreter as a separate environment. In the previous example, you would create 2 virtual environments: one for the vision processing project and one for the text editor project. That would allow you to install the libraries for the vision processing project and which would only be available to that project and same with the text editor libraries and environment. This allows your python interpreters to be more lightweight and usually makes it easier for IDEs, you also delete these virtual environments without needing to reinstall Python, etc... (this is how I understand it)
 
@@ -8667,7 +8667,7 @@ Please solve it.
 
 I need to make it walk like we do (moving hand while walking)
 
-##### MerySgh 07/21/2019 04:52:19
+##### Meryem\_s 07/21/2019 04:52:19
 Hello is there someone here ?
 
 
@@ -8696,9 +8696,9 @@ Please solve it.
 I need to make it walk like we do (moving hand while walking)
 
 ##### MariusJuston [Moderator] 07/21/2019 14:21:55
-`@MerySgh` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
+`@Meryem_s` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
 
-##### MerySgh 07/21/2019 14:58:03
+##### Meryem\_s 07/21/2019 14:58:03
 So how can i do it ?
 
 ##### MariusJuston [Moderator] 07/21/2019 14:58:30
@@ -8716,7 +8716,7 @@ About omnidirectional wheels the simplest (and most efficient solution) is to us
 `@Deleted User` The shoulder is not moving because the motion file does not contain any value for the shoulders, if you want them to move you have to either use another motion file or modify this motion file to add shoulder value. For more information about motion files please refer to: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
 
 
-`@MerySgh`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
+`@Meryem_s`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
 
 However, if you want one (or more) of the pedestrian to be a 'static' passenger of the car, it is strongly recommended to put it's 'controller' field to `""`, or you can use the 'MotorbikeDriver' ([https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto](https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto)), which is already in the correct position (but in that case it should be 'encapsulated' in a Slot node: [https://cyberbotics.com/doc/reference/slot](https://cyberbotics.com/doc/reference/slot))
 
@@ -16451,18 +16451,18 @@ It's working ! Thank you a lot ! 😄
 ##### David Mansolino [Cyberbotics] 10/31/2019 09:13:13
 You're welcome
 
-##### JoanGerard 10/31/2019 14:22:25
+##### joangerard 10/31/2019 14:22:25
 Hello, I am trying to make a web animation and I would like to see an example online. Webots documentation suggests this site-> [https://robotbenchmark.net/](https://robotbenchmark.net/) but it's not working for me. I cannot enter into any simulation at all. For instance, this site [https://robotbenchmark.net/](https://robotbenchmark.net/)benchmark/viewpoint\_control/simulation.php is a blank page. Do you know if there are any other sites similar to that one where I can find an example?
 
 ##### David Mansolino [Cyberbotics] 10/31/2019 14:25:23
-Hi `@JoanGerard`
+Hi `@joangerard`
 
 
 Can you see the animation on this page for example?
 
 [https://robotbenchmark.net/benchmark/inverted\_pendulum/](https://robotbenchmark.net/benchmark/inverted_pendulum/)
 
-##### JoanGerard 10/31/2019 14:30:24
+##### joangerard 10/31/2019 14:30:24
 oh! wait, I think it should be my internet connection or something because I's working now, my apologies !
 
 ##### David Mansolino [Cyberbotics] 10/31/2019 14:30:48
@@ -16508,16 +16508,16 @@ Oh, sure, I am checking the robot window. Give a minute 😁
 
 Hi `@David Mansolino`, the values shown in the robot window make sense. Thank you very much for your input. I am trying to locate the problem. Will update you later on.
 
-##### JoanGerard 10/31/2019 16:00:38
+##### joangerard 10/31/2019 16:00:38
 How can I re-open the HTML window from Webots once closed?
 
 ##### David Mansolino [Cyberbotics] 10/31/2019 16:10:59
 `@JoHn` you're welcome.
 
 
-`@JoanGerard` from Webots you should be able to re-open it the exact same way you open it the first time (either double-clicking on the robot or right click => Show Robot Window)
+`@joangerard` from Webots you should be able to re-open it the exact same way you open it the first time (either double-clicking on the robot or right click => Show Robot Window)
 
-##### JoanGerard 10/31/2019 16:14:28
+##### joangerard 10/31/2019 16:14:28
 thanks!
 
 
@@ -16554,7 +16554,7 @@ The rock on the left is the standard Rock10cm as defined by  webots. The one on 
 > **Attachment**: [rock\_anamoly\_2\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/639637327664250880/rock_anamoly_2_1.mp4)
 
 ##### David Mansolino [Cyberbotics] 11/01/2019 07:32:42
-`@JoanGerard`, are you sure your robot windows is at the correct location, i.e. `YOUR\_PROJECT/plugins/robot\_windows/YOUR\_ROBOT\_WINDOW\_NAME' and the folder contains a YOUR\_ROBOT\_WINDOW\_NAME.html file ?
+`@joangerard`, are you sure your robot windows is at the correct location, i.e. `YOUR\_PROJECT/plugins/robot\_windows/YOUR\_ROBOT\_WINDOW\_NAME' and the folder contains a YOUR\_ROBOT\_WINDOW\_NAME.html file ?
 
 
 `@buzzlightyear` as any regular program you can simply do a printf (i.e. `printf("Hello World\n");`)
@@ -16597,7 +16597,7 @@ You guys have a nice weekend!
 ##### Olivier Michel [Cyberbotics] 11/01/2019 15:57:59
 Thanks, same for you!
 
-##### JoanGerard 11/01/2019 16:17:19
+##### joangerard 11/01/2019 16:17:19
 do you know what is the equivalent of wbu\_default\_robot\_window\_configure function for python?
 
 ##### David Mansolino [Cyberbotics] 11/01/2019 16:17:50
@@ -16606,13 +16606,13 @@ Let me check
 
 Unforunately it seems the 'wbu\_default\_robot\_window\_*' functions are not  available in other languages than C, but it should be possible to add them, would you be interested in doing this ?
 
-##### JoanGerard 11/01/2019 16:25:49
+##### joangerard 11/01/2019 16:25:49
 This function configures the robot window only right? I think that I may need it in the future but for the moment it's ok
 
 ##### David Mansolino [Cyberbotics] 11/01/2019 16:30:43
 Yes exactly this is just if you want to 'inherit' from the default robot window, but you can of course create your own custom robot-window without using this function.
 
-##### JoanGerard 11/01/2019 16:33:57
+##### joangerard 11/01/2019 16:33:57
 an other question, is there any way of watching to the console.log printed messages when using a robot window?
 
 ##### David Mansolino [Cyberbotics] 11/01/2019 16:36:46
@@ -16624,7 +16624,7 @@ I juste tried and it seems to work fine.
 
 By the way, you should probably have a look at the 'custom\_robot\_window.wbt' world which is a very simple example of custom robot window.
 
-##### JoanGerard 11/01/2019 17:15:19
+##### joangerard 11/01/2019 17:15:19
 You're right. Thank you!
 
 ##### David Mansolino [Cyberbotics] 11/01/2019 17:15:59
@@ -17934,7 +17934,7 @@ I ended up getting it to work by swiching to vscode environment.  Still unsure o
 ##### Fabien Rohrer [Moderator] 11/15/2019 07:49:28
 I recently added documentation about IDEs:  [https://cyberbotics.com/doc/guide/using-your-ide?version=revision](https://cyberbotics.com/doc/guide/using-your-ide?version=revision)
 
-##### JoanGerard 11/15/2019 15:43:23
+##### joangerard 11/15/2019 15:43:23
 Hello, do you know if it is possible to see a plugin in the web simulation?
 
 ##### JoHn 11/15/2019 15:48:36
@@ -17950,12 +17950,12 @@ Hi guys, an issue happens to me frequently when I launch Webots, please see the 
 With the same setup and software, Webots launches fine sometimes, but it also crashes like this sometimes.
 
 ##### Fabien Rohrer [Moderator] 11/15/2019 15:51:02
-`@JoanGerard` Webots allows to stream the content of a simulation to web pages. As explained here: [https://cyberbotics.com/doc/guide/web-streaming](https://cyberbotics.com/doc/guide/web-streaming) What do you mean by plugin?
+`@joangerard` Webots allows to stream the content of a simulation to web pages. As explained here: [https://cyberbotics.com/doc/guide/web-streaming](https://cyberbotics.com/doc/guide/web-streaming) What do you mean by plugin?
 
 ##### JoHn 11/15/2019 15:51:47
 I feel that when I reduce the 'basicTimeStep' in WorldInfo, it could help. But I am not entirely sure about it.
 
-##### JoanGerard 11/15/2019 15:53:27
+##### joangerard 11/15/2019 15:53:27
 `@Fabien Rohrer`  I mean a controller plugin like this one: [https://cyberbotics.com/doc/guide/controller-plugin](https://cyberbotics.com/doc/guide/controller-plugin)
 
 ##### Fabien Rohrer [Moderator] 11/15/2019 15:54:59
@@ -17971,9 +17971,9 @@ Now I set 'basicTimeStep' in WorldInfo to 12, TIME\_STEP of all ServiceClient in
 %end
 
 ##### Fabien Rohrer [Moderator] 11/15/2019 15:58:01
-`@JoanGerard` yes, our web server example can stream the HTML robot windows: [https://cyberbotics.com/doc/guide/web-simulation](https://cyberbotics.com/doc/guide/web-simulation)
+`@joangerard` yes, our web server example can stream the HTML robot windows: [https://cyberbotics.com/doc/guide/web-simulation](https://cyberbotics.com/doc/guide/web-simulation)
 
-##### JoanGerard 11/15/2019 16:01:08
+##### joangerard 11/15/2019 16:01:08
 I am working on a robot positioning prediction using ML techniques and Probabilistic methods so I developed a plugin that shows me the real, odometry, and predicted position of a simple robot in a simple environment and I would like to put it online... I would like to know if there is someone else who is working in the same or similar subject... please contact me if so.
 %figure
 ![Screen_Shot_2019-11-15_at_4.56.49_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/644929889677606912/Screen_Shot_2019-11-15_at_4.56.49_PM.png)
@@ -17982,7 +17982,7 @@ I am working on a robot positioning prediction using ML techniques and Probabili
 ##### JoHn 11/15/2019 16:01:44
 Hi `@Fabien Rohrer`, thank you very much for your response. Yes, I will open the bug report as you instructed.
 
-##### JoanGerard 11/15/2019 17:48:58
+##### joangerard 11/15/2019 17:48:58
 is there any tutorial on how to create a Web Simulation using AWS?
 
 
@@ -17992,10 +17992,10 @@ Do you know why I can't update Webots?
 %end
 
 ##### David Mansolino [Cyberbotics] 11/15/2019 20:24:13
-`@JoanGerard` maybe you are behind a firewall that blocks cyberbotics.com, can you access [https://www.cyberbotics.com/webots\_current\_version.txt](https://www.cyberbotics.com/webots_current_version.txt) ?
+`@joangerard` maybe you are behind a firewall that blocks cyberbotics.com, can you access [https://www.cyberbotics.com/webots\_current\_version.txt](https://www.cyberbotics.com/webots_current_version.txt) ?
 
 
-`@JoanGerard`, About AWS, we are currently actively collaborating with Amazon to integrate Webots in AWS RoboMaker we already have some functional prototype working with ROS2, would you be interested in testing this?
+`@joangerard`, About AWS, we are currently actively collaborating with Amazon to integrate Webots in AWS RoboMaker we already have some functional prototype working with ROS2, would you be interested in testing this?
 
 ##### Dorteel 11/16/2019 13:33:08
 Hi!
@@ -18017,7 +18017,7 @@ I tried restarting the simulation, reloading the world, and restarting WeBots to
 
 It works again, thanks!
 
-##### JoanGerard 11/16/2019 21:09:43
+##### joangerard 11/16/2019 21:09:43
 `@David Mansolino` I do have access to [https://www.cyberbotics.com/webots\_current\_version.txt](https://www.cyberbotics.com/webots_current_version.txt)  but Webots continues giving me that error when I try to update it. Yes, I'm interested in testing that functional prototype.
 
 
@@ -18044,9 +18044,9 @@ Available platform plugins are: xcb.
 /usr/local/webots/webots: line 51:  4815 Aborted                 (core dumped) "$webotsHome/bin/webots-bin" "$@"
 
 ##### David Mansolino [Cyberbotics] 11/17/2019 09:03:42
-`@JoanGerard` are able to launch Webots on your machine (directly, without using the simulation server) ?
+`@joangerard` are able to launch Webots on your machine (directly, without using the simulation server) ?
 
-##### JoanGerard 11/17/2019 12:54:57
+##### joangerard 11/17/2019 12:54:57
 you mean trying to lunch a project manually on my simulation server?
 
 
@@ -18059,9 +18059,9 @@ I'm using Ubuntu 18.04
 `@David Mansolino` 👆
 
 ##### David Mansolino [Cyberbotics] 11/17/2019 14:30:38
-`@JoanGerard` are you using the server version of Ubuntu 18.04 ?
+`@joangerard` are you using the server version of Ubuntu 18.04 ?
 
-##### JoanGerard 11/17/2019 14:32:01
+##### joangerard 11/17/2019 14:32:01
 I am using this version from GCloud:
 
 Ubuntu 18.04 LTS
@@ -18071,7 +18071,7 @@ amd64 bionic image built on 2019-11-13
 ##### David Mansolino [Cyberbotics] 11/17/2019 14:33:45
 Have you installed Webots from the debian, tarball and snap package?
 
-##### JoanGerard 11/17/2019 14:34:55
+##### joangerard 11/17/2019 14:34:55
 I installed from here: [https://cyberbotics.com/doc/guide/installation-procedure#using-advanced-packaging-tool-apt](https://cyberbotics.com/doc/guide/installation-procedure#using-advanced-packaging-tool-apt)
 
 
@@ -18096,7 +18096,7 @@ No indeed, it should just display the version
 
 Are you able to run other GUI application on your machine?
 
-##### JoanGerard 11/17/2019 14:38:15
+##### joangerard 11/17/2019 14:38:15
 I am kind of new with cloud computing so I only see the command line
 
 
@@ -18108,7 +18108,7 @@ Ok, so that might be the problem if you don't have any GUI interfac
 
 In that case you can take inspiration from our Docker procedure to run Webots without GUI: [https://github.com/cyberbotics/webots/wiki/Docker](https://github.com/cyberbotics/webots/wiki/Docker)
 
-##### JoanGerard 11/17/2019 14:42:06
+##### joangerard 11/17/2019 14:42:06
 thanks! I will try to use that instead!
 
 
@@ -18129,7 +18129,7 @@ Yes of course it should be feasible.
 ##### Olivier Michel [Cyberbotics] 11/18/2019 10:06:15
 Hi, I just fixed the terrain generator. It should work now.
 
-##### JoanGerard 11/18/2019 11:04:55
+##### joangerard 11/18/2019 11:04:55
 Hello, I'm still trying to run Webots Simulator without success... 
 
 I receive this information on simulator server even though I'm running a GPU instance with NVIDIA Tesla P100.
@@ -18153,7 +18153,7 @@ I receive this message together with a "WebSocket network error: The operation c
 can you give me a hand with this?
 
 ##### Stefania Pedrazzi [Cyberbotics] 11/18/2019 12:18:22
-Hi `@JoanGerard`, the issue with the GPU detection is not related to the problem connecting to the simulation server. You can check which GPU is detected by webots by running `webots --sysinfo` in a terminal on the simulation server. Are your NVIDIA drivers up-to-date?
+Hi `@joangerard`, the issue with the GPU detection is not related to the problem connecting to the simulation server. You can check which GPU is detected by webots by running `webots --sysinfo` in a terminal on the simulation server. Are your NVIDIA drivers up-to-date?
 
 
 For the connection issue, a first thing to test is to start webots manually on the simulation server and try to connect to it directly using the `streaming_viewer` page ([https://github.com/cyberbotics/webots/tree/revision/resources/web/streaming\_viewer](https://github.com/cyberbotics/webots/tree/revision/resources/web/streaming_viewer))
@@ -18164,7 +18164,7 @@ You can retrieve the exact command used by the simulation server script to start
 
 Please try it and let us know what you get.
 
-##### JoanGerard 11/18/2019 16:00:55
+##### joangerard 11/18/2019 16:00:55
 thanks for your answer so I got these errors below:
 
 
@@ -18222,7 +18222,7 @@ does the performance better in ros 2 or is it the same?
 ##### David Mansolino [Cyberbotics] 11/18/2019 22:16:50
 `@threeal` yes we do expect a better integration and performance, however since the interface is still in development we can't give precise measurements for now.
 
-##### JoanGerard 11/19/2019 01:43:46
+##### joangerard 11/19/2019 01:43:46
 So when I execute webots manually from the simulator server and I use the stream\_viewer example everything works good. 
 
 
@@ -18233,7 +18233,7 @@ The server.sh file needs to be executed with sudo command otherwise the simulato
 %end
 
 ##### Stefania Pedrazzi [Cyberbotics] 11/19/2019 07:20:27
-`@JoanGerard` it is a bad practice to run Webots as root. So please make sure that it works when you start Webots manually without root privileges. Then it seems that you installed Webots from the snap package. We never tested the streaming server with the snap version of Webots and it is very likely that it is doesn't work. I would suggest you to install Webots using the debian or tarball package [https://www.cyberbotics.com/download](https://www.cyberbotics.com/download)
+`@joangerard` it is a bad practice to run Webots as root. So please make sure that it works when you start Webots manually without root privileges. Then it seems that you installed Webots from the snap package. We never tested the streaming server with the snap version of Webots and it is very likely that it is doesn't work. I would suggest you to install Webots using the debian or tarball package [https://www.cyberbotics.com/download](https://www.cyberbotics.com/download)
 
 ##### HE110 11/19/2019 09:16:18
 I programmed by python, but it told me:controller exited successful
@@ -18910,7 +18910,7 @@ Hi `@Dorteel` yes there are the import Supervisor API functions:
 Thank you `@Stefania Pedrazzi` !
 
 ##### Stefania Pedrazzi [Cyberbotics] 11/21/2019 10:46:30
-`@JoanGerard` I tested the streaming server from a docker image and  I could successfully run it using the default Webots image "cyberbotics/webots:R2019b-rev1" (and just adding the "--no-sandbox" options to the Webots command). Maybe this could be an alternative for you as well.
+`@joangerard` I tested the streaming server from a docker image and  I could successfully run it using the default Webots image "cyberbotics/webots:R2019b-rev1" (and just adding the "--no-sandbox" options to the Webots command). Maybe this could be an alternative for you as well.
 
 ##### Dorteel 11/21/2019 12:08:08
 Hi again! I have an issue when trying to set the translation field of a Solid with setSFVec3f, WeBots shuts down. Here is a snippet of the Python code, last line causes the crash:
@@ -19335,7 +19335,7 @@ You're welcome.
 ##### Dorteel 11/25/2019 21:38:55
 Thank you `@Fabien Rohrer` !
 
-##### JoanGerard 11/26/2019 12:05:39
+##### joangerard 11/26/2019 12:05:39
 hello, I am trying to run a simulation with the custom robot of example distance\_sensor.wbt. After X steps I should reset the initial position of my robot to be 0,0,0. I'm using a Supervisor class just like it is shown in the soccer.wbt example but with python. This is my code: 
 
 
@@ -19371,7 +19371,7 @@ We are aware of this severe issue, and we will do our best to solve it quickly: 
 
 Meanwhile, I can only advise you to use the heavy wb\_supervisor\_simulation\_reload() function instead.
 
-##### JoanGerard 11/26/2019 12:29:37
+##### joangerard 11/26/2019 12:29:37
 ok, thank you and good luck solving the issue!
 
 ##### Gautier 11/27/2019 09:25:31

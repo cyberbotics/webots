@@ -326,7 +326,7 @@ Thanks
 ##### Stefania Pedrazzi [Cyberbotics] 10/28/2019 07:18:31
 and you can find a simple example in the distributed samples folder `projects/samples/devices/worlds/track.wbt`
 
-##### JoanGerard 10/28/2019 17:25:02
+##### joangerard 10/28/2019 17:25:02
 Hello, I was trying to run an external robot controller but there is no <external> option while selecting the controller of my robot. I have the Webots R2019a version. 
 
 Maybe this options is not available any more?
@@ -335,12 +335,12 @@ Maybe this options is not available any more?
 %end
 
 ##### Tahir [Moderator] 10/28/2019 17:36:54
-`@JoanGerard` this option is available in R2019b not in R2019a
+`@joangerard` this option is available in R2019b not in R2019a
 
 
 check here [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
 
-##### JoanGerard 10/28/2019 17:49:50
+##### joangerard 10/28/2019 17:49:50
 Thanks `@Tahir` !
 
 ##### HiguchiNakamura 10/30/2019 16:47:51
@@ -2312,4 +2312,73 @@ I've added a tree (pine) to my world, but it is huge and out of proportion to ev
 
 ##### DDaniel [Cyberbotics] 12/23/2021 15:44:20
 You need to add the Pine as a child of the Transform and then scale it down, not the other way around
+
+## 2022
+
+##### Bubble\_13 02/12/2022 03:28:02
+Hello guys I'm a newbie here and also it's my first time using webots. I'm working on a little project on webots and i really need some help cause i don't really know how to go about the software. So as you can see from the picture, this the robot i have modelled on solidworks and imported the stl file on webots, I've converted the robot solid to a robot node and i don't know how to proceed further. All I need to do is move the robot from one end to another and communicate it's real time information like the positions and coordinates with another robot like this so that they have coordination among themselves
+%figure
+![IMG-20220212-WA0000.jpg](https://cdn.discordapp.com/attachments/565155720933146637/941898416747872296/IMG-20220212-WA0000.jpg)
+%end
+
+##### DrakerDG [Moderator] 02/12/2022 03:56:29
+If you know very little about webots, you may want to try something simpler first, refer to the user guide and reference manual to understand how webots work. The project you need is not complicated, but you will understand it better if you do simpler projects in Webots first. In addition to the documentation, Webots has interesting examples that you can review and try to understand how they work to learn about each tool and how to use it.
+
+
+
+[https://www.cyberbotics.com/doc/guide/index](https://www.cyberbotics.com/doc/guide/index)
+
+
+
+[https://www.cyberbotics.com/doc/reference/index](https://www.cyberbotics.com/doc/reference/index)
+
+
+However you need change some things in your 3D design, first you will need take off all mobile parts like the wheels, for example. You need import your wheels in the hinge joint (end point solid) only
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941908351267270697/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941908351825096704/unknown.png)
+%end
+
+##### Bubble\_13 02/12/2022 04:08:36
+Okay i see
+
+##### DrakerDG [Moderator] 02/12/2022 04:11:37
+
+> **Attachment**: [Line\_Follower\_Robot\_V1\_3.mp4](https://cdn.discordapp.com/attachments/565155720933146637/941909382852128799/Line_Follower_Robot_V1_3.mp4)
+
+##### Bubble\_13 02/12/2022 04:12:58
+How did you do this can you please let me know?
+
+##### DrakerDG [Moderator] 02/12/2022 04:17:26
+First, you will need to separate your wheels into another 3D file
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941910849432465428/unknown.png)
+%end
+
+
+Check this documentation is very important
+
+##### Bubble\_13 02/12/2022 04:23:41
+Okay
+
+##### DrakerDG [Moderator] 02/12/2022 04:27:28
+Check the sample worlds. you will find very interesting things.
+
+
+
+After you learn about webots, you will can make a lot of things, you will see
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941913375699521566/unknown.png)
+%end
+
+##### Bubble\_13 02/12/2022 04:39:59
+Alright, thanks
+
+##### DrakerDG [Moderator] 02/12/2022 04:53:02
+You welcome and enjoy it
+
+##### HarpieRapace45 02/16/2022 09:11:49
+Hello everyone, do you know if there is a class diagram for wren available somewhere?
 
