@@ -109,7 +109,7 @@ void WbAbstractTransform::updateTranslationAndRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-bool WbAbstractTransform::checkScaleNullValues(WbVector3 &correctedScale) const {
+bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
   const WbVector3 &s = mScale->value();
   const double x = s.x();
   const double y = s.y();
@@ -119,19 +119,19 @@ bool WbAbstractTransform::checkScaleNullValues(WbVector3 &correctedScale) const 
 
   if (x == 0.0) {
     correctedScale.setX(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be not null: x is set to 1.0."));
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
     b = true;
   }
 
   if (y == 0.0) {
     correctedScale.setY(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be not null: y is set to 1.0."));
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
     b = true;
   }
 
   if (z == 0.0) {
     correctedScale.setZ(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be not null: z is set to 1.0."));
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
     b = true;
   }
 

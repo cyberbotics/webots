@@ -538,9 +538,7 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
     QVector<float> vertices;
     QVector<float> colors;
     const int n = mTriangleMesh->numberOfTriangles();
-    int orientation = 1;
-    if (!mCcw)
-      orientation = -1;
+    const int orientation = mCcw ? 1 : -1;
     const double linescaleAndOrientation = orientation * WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
