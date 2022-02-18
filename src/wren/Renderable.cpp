@@ -199,7 +199,7 @@ namespace wren {
     mInViewSpace(false),
     mZSortedRendering(false),
     mFaceCulling(true),
-    mFrontFace(true),
+    mFrontFace(WR_RENDERABLE_FRONT_FACE_MODE_CCW),
     mPointSize(-1.0f) {}
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
@@ -216,15 +216,30 @@ namespace wren {
       glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_POINT_SIZE), mPointSize);
 
     glstate::setCullFace(mFaceCulling);
-    if (mFrontFace)
-      glstate::setFrontFace(GL_CCW);
-    else
-      glstate::setFrontFace(GL_CW);
+
+    unsigned int frontFaceMode = glstate::getFrontFace();
+
+    // if (mFrontFace == WR_RENDERABLE_FRONT_FACE_MODE_CW)
+    glstate::setFrontFace(mFrontFace);
+
+    // if (mFrontFace != WR_RENDERABLE_FRONT_FACE_MODE_CCW) {
+    //   if (glstate::getFrontFace() == GL_CCW)
+    //     glstate::setFrontFace(GL_CW);
+    //   else
+    //     glstate::setFrontFace(GL_CCW);
+    // } else {
+    //   if (glstate::getFrontFace() == GL_CCW)
+    //     glstate::setFrontFace(GL_CW);
+    //   else
+    //     glstate::setFrontFace(GL_CCW);
+    // }
 
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
 
     mMesh->render(mDrawingMode);
+
+    glstate::setFrontFace(frontFaceMode);
 
     if (mDefaultMaterial->hasPremultipliedAlpha())
       glstate::setBlendFunc(blendSrcFactor, blendDestFactor);
@@ -285,8 +300,8 @@ void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
 }
 
-void wr_renderable_set_front_face(WrRenderable *renderable, bool front_face) {
-  reinterpret_cast<wren::Renderable *>(renderable)->setFrontFace(front_face);
+void wr_renderable_set_front_face(WrRenderable *renderable, WrRenderableFrontFaceMode front_face_mode) {
+  reinterpret_cast<wren::Renderable *>(renderable)->setFrontFace(front_face_mode);
 }
 
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows) {

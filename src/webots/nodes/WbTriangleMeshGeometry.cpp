@@ -182,9 +182,9 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
 
   // faces orientation
   if (mCcw)
-    wr_renderable_set_front_face(mWrenRenderable, true);
+    wr_renderable_set_front_face(mWrenRenderable, WrRenderableFrontFaceMode::WR_RENDERABLE_FRONT_FACE_MODE_CCW);
   else
-    wr_renderable_set_front_face(mWrenRenderable, false);
+    wr_renderable_set_front_face(mWrenRenderable, WrRenderableFrontFaceMode::WR_RENDERABLE_FRONT_FACE_MODE_CW);
 
   // normals representation
   mNormalsMaterial = wr_phong_material_new();
