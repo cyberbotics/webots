@@ -266,7 +266,7 @@ PROTO ScaraT6 [
       DEF LINK1_HINGEJOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor 0.06 0 0
+          anchor 0.06 0.005 0.22
         }
         device [
           RotationalMotor {
@@ -316,27 +316,28 @@ PROTO ScaraT6 [
               ]
               name "cable_solid"
             }
-            DEF LINK2_HINGEJOINT HingeJoint {
-              jointParameters HingeJointParameters {
-                axis 0 0 1
-                anchor 0.37 0 0.23
-              }
-              device [
-                RotationalMotor {
-                  name "arm_motor"
-                  minPosition -0.83 # calibrated
-                  maxPosition 0.83
-                  maxVelocity 12.82 # 300mm per 0.49s
-                  maxTorque 100.0
-                }
-                PositionSensor {
-                  name "arm_position"
-                }
-              ]
-              endPoint DEF ARM Solid {
-                children [
-                  Transform {
-                    translation 0.633 0 0.256
+            Transform{
+              translation 0.363 0 0.256
+              children [
+                DEF LINK2_HINGEJOINT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.007 0.005 0.1
+                  }
+                  device [
+                    RotationalMotor {
+                      name "arm_motor"
+                      minPosition -0.83 # calibrated
+                      maxPosition 0.83
+                      maxVelocity 12.82 # 300mm per 0.49s
+                      maxTorque 100.0
+                    }
+                    PositionSensor {
+                      name "arm_position"
+                    }
+                  ]
+                  endPoint DEF ARM Solid {
+                    translation 0.27 0 0
                     children [
                       CapScrew {
                         translation -0.2815 -0.0434 0.0508
@@ -467,135 +468,140 @@ PROTO ScaraT6 [
                           ]
                         }
                       }
-                    ]
-                  }
-                  DEF LOGO_LEFT Transform {
-                    translation 0.425 -0.0568 0.348
-                    rotation 1 0 0 1.5608
-                    children [
-                      DEF EPSON_LOGO Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "webots://projects/robots/epson/scaraT6/protos/textures/epson.png"
-                            ]
-                            repeatT FALSE
-                          }
-                          metalness 0
-                          roughness 1
-                        }
-                        geometry Plane {
-                          size 0.11 0.024
-                        }
-                      }
-                    ]
-                  }
-                  DEF LOGO_RIGHT Transform {
-                    translation 0.425 0.0565 0.348
-                    rotation 0.0035 -0.707 -0.707 3.14158
-                    children [
-                      USE EPSON_LOGO
-                    ]
-                  }
-                  DEF Shaft SliderJoint {
-                    jointParameters JointParameters {
-                    }
-                    device [
-                      LinearMotor {
-                        name "shaft_linear_motor"
-                        minPosition -0.200 # calibrated
-                        maxPosition 0
-                        maxForce 58.9 # 6kg payload
-                      }
-                      PositionSensor {
-                        name "shaft_linear_position"
-                      }
-                    ]
-                    endPoint Solid {
-                      translation 0.633 0 0.607
-                      children [
-                        DEF LINK3_HINGEJOINT HingeJoint {
-                          jointParameters HingeJointParameters {
-                            axis 0 0 1
-                          }
-                          device [
-                            RotationalMotor {
-                              name "shaft_rotation_motor"
-                              maxVelocity 1.800 # calibrated
-                            }
-                            PositionSensor {
-                              name "shaft_rotation_position"
-                            }
-                          ]
-                          endPoint Solid {
-                            children [
-                              DEF HAND_SLOT Transform {
-                                translation 0 0 -0.422
-                                children IS handSlot
+                      DEF LOGO_LEFT Transform {
+                        translation -0.192 -0.0568 0.092
+                        rotation 1 0 0 1.5608
+                        children [
+                          DEF EPSON_LOGO Shape {
+                            appearance PBRAppearance {
+                              baseColorMap ImageTexture {
+                                url [
+                                  "webots://projects/robots/epson/scaraT6/protos/textures/epson.png"
+                                ]
+                                repeatT FALSE
                               }
-                              DEF SHAFT_SHAPE Shape {
-                                appearance BrushedAluminium {
+                              metalness 0
+                              roughness 1
+                            }
+                            geometry Plane {
+                              size 0.11 0.024
+                            }
+                          }
+                        ]
+                      }
+                      DEF LOGO_RIGHT Transform {
+                        translation -0.192 0.0565 0.092
+                        rotation 0.0035 -0.707 -0.707 3.14158
+                        children [
+                          USE EPSON_LOGO
+                        ]
+                      }
+                      DEF LINK3_HINGEJOINT HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0 0 1
+                        }
+                        device [
+                          RotationalMotor {
+                            name "shaft_rotation_motor"
+                            maxVelocity 1.800 # calibrated
+                          }
+                          PositionSensor {
+                            name "shaft_rotation_position"
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0 0 0
+                          children [
+                            DEF Shaft SliderJoint {
+                              jointParameters JointParameters {
+                              }
+                              device [
+                                LinearMotor {
+                                  name "shaft_linear_motor"
+                                  minPosition -0.200 # calibrated
+                                  maxPosition 0
+                                  maxForce 58.9 # 6kg payload
                                 }
-                                geometry Mesh {
-                                  url [
-                                    "webots://projects/robots/epson/scaraT6/protos/meshes/shaft.obj"
+                                PositionSensor {
+                                  name "shaft_linear_position"
+                                }
+                              ]
+                              endPoint Solid {
+                                children [
+                                  DEF HAND_SLOT Transform {
+                                    translation 0 0 -0.074
+                                    children IS handSlot
+                                  }
+                                  DEF SHAFT Transform {
+                                    translation 0 0 0.348
+                                    children[
+                                      Shape {
+                                        appearance BrushedAluminium {
+                                        }
+                                        geometry Mesh {
+                                          url [
+                                            "webots://projects/robots/epson/scaraT6/protos/meshes/shaft.obj"
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                                name "shaft_solid"
+                                physics Physics{
+                                  density -1
+                                  mass 0.8 # estimated
+                                }
+                                boundingObject DEF SHAFT_BOUND Transform {
+                                  translation 0 0 0.137
+                                  children [
+                                    Shape {
+                                      geometry Cylinder {
+                                        height 0.446
+                                        radius 0.01
+                                      }
+                                  }
                                   ]
                                 }
                               }
+                            }
+                          ]
+                          physics Physics{
+                            density -1
+                            mass 0.001
+                            centerOfMass [
+                              0 0 0
                             ]
-                            name "shaft_solid"
-                            physics Physics{
-                              density -1
-                              mass 0.8 # estimated
-                            }
-                            boundingObject DEF SHAFT_BOUND Transform {
-                              translation 0 0 -0.211
-                              children [
-                                Shape {
-                                  geometry Cylinder {
-                                    height 0.446
-                                    radius 0.01
-                                  }
-                              }
-                              ]
-                            }
+                            inertiaMatrix [
+                              1 1 1
+                              0 0 0
+                            ]
                           }
                         }
-                      ]
-                      physics Physics{
-                        density -1
-                        mass 0.001
-                        centerOfMass [
-                          0 0 0
-                        ]
-                        inertiaMatrix [
-                          1 1 1
-                          0 0 0
-                        ]
                       }
+                    ]
+                    physics Physics{
+                      density -1
+                      mass 1 # estimated
+                    }
+                    name "arm_solid"
+                    boundingObject DEF ARM_BOUND Transform {
+                      translation -0.16 0 0.087
+                      children [
+                        Box {
+                          size 0.292 0.126 0.19
+                        }
+                      ]
                     }
                   }
-                ]
-                physics Physics{
-                  density -1
-                  mass 2.5 # estimated
                 }
-                name "arm_solid"
-                boundingObject DEF ARM_BOUND Transform {
-                  translation 0.471 0 0.342
-                  children [
-                    Box {
-                      size 0.292 0.126 0.19
-                    }
-                  ]
-                }
-              }
+              ]
             }
           ]
           name "base_arm_solid"
           physics Physics{
             density -1
-            mass 1 # estimated
+            mass 2 # estimated
           }
           boundingObject DEF BASE_ARM_BOUND Transform {
             translation 0.204 0.0045 0.22
@@ -620,9 +626,9 @@ PROTO ScaraT6 [
     %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
-      mass 17.7 # estimated, calibrated on the total mass, 22kg
+      mass 18.2 # estimated, calibrated on the total mass, 22kg
       centerOfMass [
-        0 0 -0.01
+        0 0 0
       ]
     }
     %< } >%
