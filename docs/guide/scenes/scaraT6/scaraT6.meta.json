@@ -1,7 +1,7 @@
 {
   "devices": [
     {
-      "anchor": "0.007 0.005 0.1",
+      "anchor": "0.007 0.005 -0.04",
       "axis": "0 0 1",
       "maxPosition": 0.83,
       "minPosition": -0.83,
