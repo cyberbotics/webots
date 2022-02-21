@@ -141,7 +141,7 @@ QFrame#simulationIndicatorFrame {
     stop:0 #e2def9, stop:1 #b8b0e5
   );
   border-radius: 2%;
-  max-height: 13px;
+  max-height: 14px;
   padding: 6px 6px 7px 6px;
   min-width: 140px;
   margin-left: 5px;
