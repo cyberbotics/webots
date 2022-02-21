@@ -36,6 +36,7 @@ private:
   WbLanguageTools() {}
   ~WbLanguageTools() {}
 #if defined __APPLE__ || defined __linux__
+  // cppcheck-suppress unusedPrivateFunction
   static const QString checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log);
 #endif
 #ifdef __APPLE__

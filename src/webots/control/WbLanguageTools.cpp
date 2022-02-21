@@ -135,7 +135,6 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else  // __linux__
-    // cppcheck-suppress unusedPrivateFunction
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
