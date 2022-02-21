@@ -18,6 +18,7 @@ jobs:
     needs: cleanup-runs
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04]
         include:
@@ -79,6 +80,7 @@ jobs:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -110,6 +112,7 @@ jobs:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04]
         include:

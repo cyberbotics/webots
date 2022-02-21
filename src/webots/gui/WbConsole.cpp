@@ -818,7 +818,7 @@ void WbConsole::jumpToError(const QString &errorLine) {
   for (int i = 0; mErrorPatterns[i]; ++i) {
     const QRegularExpression *const exp = mErrorPatterns[i];
     QRegularExpressionMatch match = exp->match(errorLine);
-    if (match.hasMatch()) {                       // FIXME: to be tested
+    if (match.hasMatch()) {
       const QString fileName(match.captured(1));  // first parentheses in regular expression
 
       int line = -1;
