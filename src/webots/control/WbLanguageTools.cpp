@@ -211,6 +211,7 @@ QString WbLanguageTools::matlabCommand() {
   const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
 #else  // __linux__
   const QString matlabPath = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
   const QString matlabExecPath = "/bin/matlab";
 #endif
   const QDir matlabDir(matlabPath);
@@ -227,7 +228,6 @@ QString WbLanguageTools::matlabCommand() {
 #endif
 
   return command;
-  // setDefault("General/matlabCommand", command);
 }
 
 const QStringList WbLanguageTools::matlabArguments() {
