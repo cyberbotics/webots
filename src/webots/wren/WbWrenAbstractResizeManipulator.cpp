@@ -27,7 +27,7 @@
 
 const int WbWrenAbstractResizeManipulator::STANDARD_COORDINATES[3] = {X, Y, Z};
 const WbVector3 WbWrenAbstractResizeManipulator::STANDARD_COORDINATE_VECTORS[3] = {
-  WbVector3(1.0, 0.0, 0.0), WbVector3(0.0, 0.0, 1.0), WbVector3(0.0, 1.0, 0.0)};
+  WbVector3(1.0, 0.0, 0.0), WbVector3(0.0, 1.0, 0.0), WbVector3(0.0, 0.0, 1.0)};
 
 static const char *FILE_PATH_DOUBLE_ARROW = "gl:meshes/double_arrow.obj";
 
@@ -69,8 +69,8 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
   mHandlesShader = WbWrenShaders::handlesShader();
   mHandlesPickingShader = WbWrenShaders::handlesPickingShader();
 
-  const float colors[3][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}};
-  const float axesAmbientColor[3][3] = {{0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.5f}, {0.0f, 0.5f, 0.0f}};
+  const float colors[3][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}};
+  const float axesAmbientColor[3][3] = {{0.5f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f}, {0.0f, 0.0f, 0.5f}};
   const float ones[3] = {1.0f, 1.0f, 1.0f};
   const float zeroes[3] = {0.0f, 0.0f, 0.0f};
 
@@ -90,9 +90,9 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   // We add this tiny offset so that the handles are correctly sorted at rendering
   // (translucent objects are sorted by distance with the camera)
-  const float offset[3][3] = {{0.0001f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0001f}, {0.0f, 0.0001f, 0.0f}};
+  const float offset[3][3] = {{0.0001f, 0.0f, 0.0f}, {0.0f, 0.0001f, 0.0f}, {0.0f, 0.0f, 0.0001f}};
 
-  const float rotation[3][4] = {{1.570796327f, 0.0f, 0.0f, -1.0f}, {1.570796327f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f}};
+  const float rotation[3][4] = {{1.570796327f, 0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, 0.0f, 0.0f}, {1.570796327f, 1.0f, 0.0f, 0.0f}};
 
   QByteArray objFile = QFileInfo(FILE_PATH_DOUBLE_ARROW).absoluteFilePath().toUtf8();
   WrStaticMesh *mesh;
@@ -105,7 +105,7 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   mMeshes.push_back(mesh);
 
-  const int pickerAxis[3] = {WbWrenPicker::HANDLES_X_AXIS, WbWrenPicker::HANDLES_Z_AXIS, WbWrenPicker::HANDLES_Y_AXIS};
+  const int pickerAxis[3] = {WbWrenPicker::HANDLES_X_AXIS, WbWrenPicker::HANDLES_Y_AXIS, WbWrenPicker::HANDLES_Z_AXIS};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
     WrRenderable *renderable = wr_renderable_new();
@@ -132,7 +132,7 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   // Create axes
   const float axesCoordinates[3][6] = {
-    {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}};
+    {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
     WrRenderable *renderable = wr_renderable_new();
@@ -222,9 +222,9 @@ void WbWrenAbstractResizeManipulator::showNormal() {
 }
 
 void WbWrenAbstractResizeManipulator::updateHandleDimensions(const float scaleFactor, const float viewDistanceScale) {
-  const float scale[3][3] = {{scaleFactor, 1.0f, 1.0f}, {1.0f, 1.0f, scaleFactor}, {1.0f, scaleFactor, 1.0f}};
+  const float scale[3][3] = {{scaleFactor, 1.0f, 1.0f}, {1.0f, scaleFactor, 1.0f}, {1.0f, 1.0f, scaleFactor}};
   const float positionOffset = viewDistanceScale * mScale * (scaleFactor - 1.0f);
-  const float position[3][3] = {{positionOffset, 0.0f, 0.0f}, {0.0f, 0.0f, positionOffset}, {0.0f, positionOffset, 0.0f}};
+  const float position[3][3] = {{positionOffset, 0.0f, 0.0f}, {0.0f, positionOffset, 0.0f}, {0.0f, 0.0f, positionOffset}};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
     wr_transform_set_scale(mAxisTransforms[i], scale[i]);
