@@ -346,6 +346,7 @@ if monitorOutputCommand.isRunning():
 
 with open(outputFilename, 'r') as file:
     content = file.read()
+    print(content)
     failures += content.count('FAILURE ')
 
 sys.exit(failures)
