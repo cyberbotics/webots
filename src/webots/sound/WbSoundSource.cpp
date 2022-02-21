@@ -18,7 +18,11 @@
 #include "WbSoundEngine.hpp"
 #include "WbVector3.hpp"
 
+#ifdef __APPLE__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 WbSoundSource::WbSoundSource() {
   if (!WbSoundEngine::openAL())
