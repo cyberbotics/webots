@@ -104,13 +104,18 @@ void WbSkin::downloadAssets() {
     assert(appearance);
     appearance->downloadAssets();
   }
-  if (!mModelUrl->value().isEmpty() && WbUrl::isWeb(mModelUrl->value())) {
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
 
-    mDownloader->download(QUrl(mModelUrl->value()));
+  const QString &url = mModelUrl->value();
+  if (!url.isEmpty()) {
+    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+    if (WbUrl::isWeb(completeUrl)) {
+      delete mDownloader;
+      mDownloader = new WbDownloader(this);
+      if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
+
+      mDownloader->download(QUrl(completeUrl));
+    }
   }
 }
 
@@ -228,8 +233,8 @@ void WbSkin::updateModelUrl() {
       return;
     }
 
-    const QString &url = mModelUrl->value();
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;

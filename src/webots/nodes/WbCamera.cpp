@@ -156,15 +156,18 @@ WbCamera::~WbCamera() {
 void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (WbUrl::isWeb(noiseMaskUrl)) {
-    if (WbNetwork::instance()->isCached(noiseMaskUrl))
-      return;
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+  if (!noiseMaskUrl.isEmpty()) {
+    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+    if (WbUrl::isWeb(completeUrl)) {
+      if (WbNetwork::instance()->isCached(completeUrl))
+        return;
+      delete mDownloader;
+      mDownloader = new WbDownloader(this);
+      if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
 
-    mDownloader->download(QUrl(noiseMaskUrl));
+      mDownloader->download(QUrl(completeUrl));
+    }
   }
 }
 
@@ -1101,21 +1104,22 @@ void WbCamera::updateNoiseMaskUrl() {
 
   QString noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
-    if (WbUrl::isWeb(noiseMaskUrl)) {
-      if (isPostFinalizedCalled() && !WbNetwork::instance()->isCached(noiseMaskUrl)) {
+    QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+    if (WbUrl::isWeb(completeUrl)) {
+      if (isPostFinalizedCalled() && !WbNetwork::instance()->isCached(completeUrl)) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
         return;
       }
     } else {
-      noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+      completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
       if (noiseMaskUrl.isEmpty()) {
-        warn(tr("Noise mask not found: '%1'").arg(noiseMaskUrl));
+        warn(tr("Noise mask not found: '%1'").arg(completeUrl));
         return;
       }
     }
 
-    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl);
+    const QString error = mWrenCamera->setNoiseMask(completeUrl);
     if (!error.isEmpty())
       parsingWarn(error);
 

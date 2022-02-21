@@ -180,7 +180,8 @@ WbBackground::~WbBackground() {
 }
 
 void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
-  if (!WbUrl::isWeb(url))
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (!WbUrl::isWeb(completeUrl))
     return;
 
   if (index < 6) {
@@ -196,7 +197,7 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
 
-  mDownloader[index]->download(QUrl(url));
+  mDownloader[index]->download(QUrl(completeUrl));
 }
 
 void WbBackground::downloadAssets() {
@@ -340,8 +341,9 @@ void WbBackground::updateCubemap() {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &textureUrl = mUrlFields[i]->item(0);
-          if (WbUrl::isWeb(textureUrl) && !WbNetwork::instance()->isCached(textureUrl)) {
-            downloadAsset(textureUrl, i, true);
+          const QString completeUrl = WbUrl::computePath(this, "url", textureUrl, false);
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+            downloadAsset(completeUrl, i, true);
             postpone = true;
           } else {
             delete mTexture[i];
@@ -350,8 +352,9 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-          if (WbUrl::isWeb(irradianceUrl) && !WbNetwork::instance()->isCached(irradianceUrl)) {
-            downloadAsset(irradianceUrl, i + 6, true);
+          const QString completeUrl = WbUrl::computePath(this, "url", irradianceUrl, false);
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+            downloadAsset(completeUrl, i + 6, true);
             postpone = true;
           } else {
             stbi_image_free(mIrradianceTexture[i]);
