@@ -147,7 +147,6 @@ lib/webots/libicudata.so* [linux]
 lib/webots/libicui18n.so* [linux]
 lib/webots/libicuuc.so* [linux]
 lib/webots/libopenal.so* [linux]
-lib/webots/libopenal.dylib [mac]
 lib/webots/libassimp.dylib [mac]
 
 lib/webots/qt/ [linux,mac]
