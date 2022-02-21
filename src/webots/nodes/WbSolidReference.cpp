@@ -31,7 +31,7 @@ WbSolidReference::WbSolidReference(WbTokenizer *tokenizer) : WbBaseNode("SolidRe
   init();
 }
 
-WbSolidReference::WbSolidReference(const WbSolidReference &other) : WbBaseNode(other) {
+WbSolidReference::WbSolidReference(const WbSolidReference &other) : WbBaseNode(other), mSolid() {
   init();
 }
 

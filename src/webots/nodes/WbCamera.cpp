@@ -154,13 +154,18 @@ WbCamera::~WbCamera() {
 }
 
 void WbCamera::downloadAssets() {
+  WbAbstractCamera::downloadAssets();
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (WbUrl::isWeb(noiseMaskUrl)) {
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
-    mDownloader->download(QUrl(noiseMaskUrl));
+  if (!noiseMaskUrl.isEmpty()) {
+    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+
+    if (WbUrl::isWeb(completeUrl)) {
+      delete mDownloader;
+      mDownloader = new WbDownloader(this);
+      if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+      mDownloader->download(QUrl(completeUrl));
+    }
   }
 }
 
@@ -1097,8 +1102,9 @@ void WbCamera::updateNoiseMaskUrl() {
 
   QString noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
+    QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
     QIODevice *device;
-    if (WbUrl::isWeb(noiseMaskUrl)) {
+    if (WbUrl::isWeb(completeUrl)) {
       if (isPostFinalizedCalled() && mDownloader == NULL) {
         // url was changed from the scene tree or supervisor
         downloadAssets();
@@ -1114,10 +1120,10 @@ void WbCamera::updateNoiseMaskUrl() {
       device = mDownloader->device();
       assert(device);
     } else {
-      noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+      completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
       device = NULL;
     }
-    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
+    const QString error = mWrenCamera->setNoiseMask(completeUrl.toUtf8().constData(), device);
     if (!error.isEmpty())
       parsingWarn(error);
     delete mDownloader;

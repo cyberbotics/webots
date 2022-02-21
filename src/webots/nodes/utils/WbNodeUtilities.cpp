@@ -1872,6 +1872,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
     return false;
   }
 
+  const WbTrackWheel *const trackWheel = dynamic_cast<WbTrackWheel *>(n);
+  if (trackWheel) {
+    if (warning)
+      *warning = QObject::tr("TrackWheel nodes cannot be USEd.");
+    return false;
+  }
+
   const WbBallJointParameters *const ballJointParameters = dynamic_cast<WbBallJointParameters *>(n);
   if (ballJointParameters) {
     if (warning)

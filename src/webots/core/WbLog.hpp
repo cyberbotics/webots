@@ -21,6 +21,8 @@
 //   the correct targe, e.g. Webots console, terminal, error dialog
 //
 
+#include <stdio.h>
+
 #include <QtCore/QObject>
 #include <QtCore/QVector>
 
@@ -89,7 +91,7 @@ public:
   static void setConsoleLogsPostponed(bool postponed) { instance()->mConsoleLogsPostponed = postponed; }
   // show messages in console emitted before WbConsole was listening
   static void showPendingConsoleMessages();
-
+  static void toggle(FILE *std_stream);  // disable or enable stderr or stdout
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);

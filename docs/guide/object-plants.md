@@ -2,7 +2,7 @@
 
 ## BunchOfSunFlowers
 
-Five sun flowers into a pot (0.17 x 0.95 x 0.17 m).
+Five sun flowers into a pot (0.17 x 0.17 x 0.95 m).
 
 %figure
 
@@ -36,7 +36,7 @@ BunchOfSunFlowers {
 
 ## PottedTree
 
-A potted tree (0.3 x 1.3 x 0.3 m).
+A potted tree (0.3 x 0.3 x 1.3 m).
 
 %figure
 

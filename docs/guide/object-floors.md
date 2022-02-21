@@ -149,7 +149,7 @@ UnevenTerrain {
   SFVec3f    translation    0 0 0
   SFRotation rotation       0 0 1 0
   SFString   name           "uneven terrain"
-  SFVec3f    size           50 5 50
+  SFVec3f    size           50 50 5
   SFInt32    xDimension     50
   SFInt32    yDimension     50
   SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }

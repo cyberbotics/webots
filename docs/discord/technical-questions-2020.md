@@ -5530,7 +5530,7 @@ just sending to let you know `@David Mansolino`
 ##### David Mansolino [Cyberbotics] 03/03/2020 07:01:36
 Good to know, thank you for the feeback!
 
-##### Cohen 03/03/2020 14:41:28
+##### Deleted User 03/03/2020 14:41:28
 hi, i'm trying to create a new HTML window for a robot, but i only have generic or generic\_window
 
 
@@ -5543,17 +5543,17 @@ do someone have any hints
 thanks in advance
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:45:12
-Hi `@Cohen` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
+Hi `@Deleted User` the choice is computed automatically depending on the robot-window found in the `plugins/robot_windows` folder of your project. You may also find some interesting information here: 
 
 [https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window](https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window)
 
-##### Cohen 03/03/2020 14:46:02
+##### Deleted User 03/03/2020 14:46:02
 ok, no menu to add it, just prepare the file and it's up and running then ?
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:46:49
 Yes, once you have created and compiled the robot window, you should be able to select it from the `window` field o your robot.
 
-##### Cohen 03/03/2020 14:47:11
+##### Deleted User 03/03/2020 14:47:11
 ok let's try it thx
 
 ##### David Mansolino [Cyberbotics] 03/03/2020 14:47:21
@@ -6757,7 +6757,7 @@ thanks
 ##### David Mansolino [Cyberbotics] 03/17/2020 14:55:15
 You're welcome
 
-##### JoanGerard 03/17/2020 15:43:23
+##### joangerard 03/17/2020 15:43:23
 I was experimenting this issue again with the latest version of Webots (R2020a revision 1). [https://github.com/cyberbotics/webots/issues/1118](https://github.com/cyberbotics/webots/issues/1118)
 
 
@@ -6768,13 +6768,13 @@ Oups, do you have a simple procedure to reproduce the issue with a robot distrib
 
 Was it working fin R2020a ?
 
-##### JoanGerard 03/17/2020 15:46:47
+##### joangerard 03/17/2020 15:46:47
 I did not try it with R2020a actually ...
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:46:58
 With R2019b ?
 
-##### JoanGerard 03/17/2020 15:47:50
+##### joangerard 03/17/2020 15:47:50
 the error was there for R2019b
 
 
@@ -6786,13 +6786,13 @@ Unfortunately I do not have a robot distributed within Webots where you can repr
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:49:17
 Ok, maybe can you try with R2020a to make sure it is fixed there ?
 
-##### JoanGerard 03/17/2020 15:49:43
+##### joangerard 03/17/2020 15:49:43
 Ok, I will
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 15:49:49
 Thank you
 
-##### JoanGerard 03/17/2020 15:59:28
+##### joangerard 03/17/2020 15:59:28
 Could you please provide me the link to download the R2020a version? I cannot find it...
 
 ##### David Mansolino [Cyberbotics] 03/17/2020 16:00:02
@@ -6930,7 +6930,7 @@ how to check that
 ##### David Mansolino [Cyberbotics] 03/18/2020 08:57:51
 The first things to check is wheter you can connect to the robot using the e-puck default tool to the robot, such as this one: [https://www.gctronic.com/doc/index.php/E-Puck#PC\_interface](https://www.gctronic.com/doc/index.php/E-Puck#PC_interface)
 
-##### JoanGerard 03/18/2020 09:30:50
+##### joangerard 03/18/2020 09:30:50
 T
 
 > Ok, maybe can you try with R2020a to make sure it is fixed there ?
@@ -6949,13 +6949,13 @@ this is my robot after 9 minutes of simulation 😟
 ##### David Mansolino [Cyberbotics] 03/18/2020 09:35:05
 Ok, thank you for the test, it would be nice if you could share with us a simple simulation using the e-puck robot (simple differential-wheel robot available in Webots) and a controller reproducing the problem so that we can try to better identify and fix it.
 
-##### JoanGerard 03/18/2020 09:39:30
+##### joangerard 03/18/2020 09:39:30
 ok
 
 ##### David Mansolino [Cyberbotics] 03/18/2020 09:39:41
 thank you.
 
-##### JoanGerard 03/18/2020 10:10:47
+##### joangerard 03/18/2020 10:10:47
 I realized that I need to call "resetPhysics" method and the error does not happen
 
 ##### David Mansolino [Cyberbotics] 03/18/2020 10:23:07
@@ -11240,7 +11240,7 @@ perfect, thank you 🙂
 ##### David Mansolino [Cyberbotics] 04/23/2020 14:44:29
 You're welcome
 
-##### JoanGerard 04/23/2020 16:08:44
+##### joangerard 04/23/2020 16:08:44
 Hello, I've been working with Webots for almost a year now and I feel very happy with the software and the community support. You guys rock!
 
 As part of my Master Thesis at ULB I am working on the subject: "Machine Learning for Probabilistic Robotics with Webots" and I developed a Particle's Filter algorithm together with a visualisation plugin that I would like to share with you. A very small demo can be found on Youtube: [https://www.youtube.com/watch?v=fISDutZca5g](https://www.youtube.com/watch?v=fISDutZca5g) and the code is here: [https://github.com/joangerard/webots-thesis](https://github.com/joangerard/webots-thesis) 
@@ -11264,7 +11264,7 @@ It‘s driving me crazy
 `@kwy` not automatically, but you can use it as texture for the ground and place object manually on it, or write a script to do this, or use ground sensors to detect these black area from your robot controller
 
 
-`@JoanGerard` very nice demo!!! Your robot-window looks very handy and your repository is very well organized (well documented and clean code), this is clearly a good reference for people wanting to use particle filter algorithm in Webots!
+`@joangerard` very nice demo!!! Your robot-window looks very handy and your repository is very well organized (well documented and clean code), this is clearly a good reference for people wanting to use particle filter algorithm in Webots!
 
 
 > Hi! I used the dBodyAddForce  in my physics plugin, but my simulation will crash. When I delete this line, and everything go back to normal. But I do need to add a force on my robot, what can I do? Help!
@@ -11415,7 +11415,7 @@ Can anyone say why because I am sure it's going inside if condition but the moto
 
 2. remove the set\_position call inside the if condition
 
-##### Rahul0496 04/26/2020 21:41:29
+##### Yuuki 04/26/2020 21:41:29
 hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
 
@@ -11478,7 +11478,7 @@ P.S: next time use  screen shot instead of camera.
 
 > hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
-`@Rahul0496` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+`@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 ##### pro2017001 04/27/2020 07:15:00
 Hello there
@@ -11494,8 +11494,8 @@ And hoap2 is not working in the simulated environment.
 
 Please guide me how can I use hoap2 robot for walking simulation.
 
-##### Rahul0496 04/27/2020 07:54:08
-> `@Rahul0496` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+##### Yuuki 04/27/2020 07:54:08
+> `@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
@@ -11526,7 +11526,7 @@ I checked and it works for example in `projects/samples/devices/worlds/battery.w
 ##### David Mansolino [Cyberbotics] 04/27/2020 09:00:38
 > `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
-`@Rahul0496` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
+`@Yuuki` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
 
 So that we can investigate and fix the issue. Thank you
 
@@ -20719,7 +20719,7 @@ Unfortunately, I have no idea why your arm is swinging...
 ##### David Mansolino [Cyberbotics] 06/17/2020 13:36:19
 You're welcome
 
-##### David. 06/17/2020 13:59:58
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 13:59:58
 how to initialise and flash leds on epuck in python?
 
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:01:17
@@ -20731,7 +20731,7 @@ and here the documentation about LED in Python:
 
 [https://cyberbotics.com/doc/reference/led?tab-language=python](https://cyberbotics.com/doc/reference/led?tab-language=python)
 
-##### David. 06/17/2020 14:01:29
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:01:29
 i looked at those
 
 
@@ -20740,13 +20740,13 @@ still confused
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:01:53
 Ok so can you be a bit more precise, what is confusing you?
 
-##### David. 06/17/2020 14:02:39
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:02:39
 well for starters, that first link says nothing about LEDs
 
 ##### David Mansolino [Cyberbotics] 06/17/2020 14:04:54
 Yes, but it explains how to retrieve device handles with the Python API (which works the same for all the Devices).
 
-##### David. 06/17/2020 14:05:31
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:05:31
 thisis just for aschool assignmenti dont understand any of that
 
 
@@ -20755,7 +20755,7 @@ and i dont have time to understandit
 ##### Luftwaffel [Moderator] 06/17/2020 14:09:08
 Then I'd suggest asking your teacher
 
-##### David. 06/17/2020 14:09:15
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:09:15
 he isnt available
 
 
@@ -20767,7 +20767,7 @@ can i just get some very high-level instructions here? i just want some leds to 
 ##### Luftwaffel [Moderator] 06/17/2020 14:12:18
 the LEDs are called "led0" and "led1"
 
-##### David. 06/17/2020 14:12:25
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:12:25
 ye
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:15:25
@@ -20778,7 +20778,7 @@ LED0 = robot.getLED('led0')
 
 then you can control the LED using the functions as explained in the documentation (2nd link he sent)
 
-##### David. 06/17/2020 14:23:25
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:23:25
 i put this in the controller and now the epuck wont move
 
 
@@ -20792,7 +20792,7 @@ class LED (Device):
 ##### Luftwaffel [Moderator] 06/17/2020 14:28:32
 I hope you don't take this the wrong way, but you seem to be missing some basics of python programming. Didn't you get proper instructions with this assignment, or the fundamental courses required to writing python code?
 
-##### David. 06/17/2020 14:29:14
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:29:14
 since this lockdown started, online classes were minimalised and we were thrown pretty much in the deep end
 
 
@@ -20801,7 +20801,7 @@ Teacher is pretty unhelpful too
 ##### Luftwaffel [Moderator] 06/17/2020 14:29:31
 that sucks, sorry to hear that
 
-##### David. 06/17/2020 14:30:04
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:30:04
 was just following this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/722820367055323186/unknown.png)
@@ -20810,7 +20810,7 @@ was just following this
 ##### Luftwaffel [Moderator] 06/17/2020 14:30:10
 I really suggest you do a python course. You should really know how objecgt oriented programming works. In python this especially includes classes and how to use them
 
-##### David. 06/17/2020 14:30:40
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:30:40
 I agree but the issue here is my timeframe
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:30:49
@@ -20819,7 +20819,7 @@ there is a free python course here: [https://www.robotigniteacademy.com/en/path/
 
 should be doable in a day
 
-##### David. 06/17/2020 14:31:30
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:31:30
 🤐 I don't have a day unfortunately, this sort of just needs to work
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:31:43
@@ -20834,31 +20834,31 @@ what python controller for the epuck are you using btw?
 
 I doubt you wrote it from the ground up
 
-##### David. 06/17/2020 14:32:58
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:32:58
 No i didnt
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:33:17
 are you using a sample world and controller?
 
-##### David. 06/17/2020 14:33:40
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:33:40
 im using the controller code on [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:34:11
 what about the world file?
 
-##### David. 06/17/2020 14:34:18
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:34:18
 created that
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:34:39
 is it just a blank world with the epuck added?
 
-##### David. 06/17/2020 14:34:48
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:34:48
 and some barrels lol
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:36:20
 watch the video in the meantime, I'll have a quick look
 
-##### David. 06/17/2020 14:36:27
+##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:36:27
 alright
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:54:06
@@ -24031,7 +24031,7 @@ Yes exactly
 
 `@David Mansolino`  thanks , will try it out 👍
 
-##### zeynepp 07/06/2020 11:18:18
+##### Zeynep Öktem 07/06/2020 11:18:18
 Hi. I want to run the example of the Irb robot but I get this error:
 
 
@@ -24043,7 +24043,7 @@ Hi. I want to run the example of the Irb robot but I get this error:
 ##### David Mansolino [Cyberbotics] 07/06/2020 11:19:16
 which version of ikpy and python are you using?
 
-##### zeynepp 07/06/2020 11:19:35
+##### Zeynep Öktem 07/06/2020 11:19:35
 pytho 3.7
 
 
@@ -24056,7 +24056,7 @@ Can you try applying this patch to your controler?
 
 [https://github.com/cyberbotics/webots/pull/1782/files](https://github.com/cyberbotics/webots/pull/1782/files)
 
-##### zeynepp 07/06/2020 11:24:33
+##### Zeynep Öktem 07/06/2020 11:24:33
 I will try, thank you
 
 
@@ -24067,7 +24067,7 @@ That's strange because another user reported the exact same issue and for him it
 
 Are you sure you changed the correct file and it is this one that is been used?
 
-##### zeynepp 07/06/2020 12:01:01
+##### Zeynep Öktem 07/06/2020 12:01:01
 Yes. I tried it on two different computers to make sure.
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:02:07
@@ -24075,13 +24075,13 @@ Ok, thank you for checking it. Can I ask you to test with a beta version of R202
 
 [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### zeynepp 07/06/2020 12:03:54
+##### Zeynep Öktem 07/06/2020 12:03:54
 Of course, I will try
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:04:05
 Perfect, let us know
 
-##### zeynepp 07/06/2020 12:53:05
+##### Zeynep Öktem 07/06/2020 12:53:05
 Thank you so much. It worked in this version.
 
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:53:20
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### ONI 07/07/2020 11:47:56
+##### YASU 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@ONI` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@YASU` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### ONI 07/07/2020 12:09:20
+##### YASU 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -27211,7 +27211,7 @@ Hi! I'm trying to get the bounding object to work for my PROTO, but can't get it
 ##### watchdogs132 07/27/2020 18:36:05
 Hello ,something weird is happening with my tracked robot when it climbs a staircase. In every iteration , my bot seems to stop climbing at the 14th step , before and after that particular step everything goes smoothly . This only happens during ascending .
 
-##### IamTheSpineOfMyBackBodyPain 07/27/2020 19:06:13
+##### yaDadsAsic 07/27/2020 19:06:13
 motinan
 
 ##### chenpixx 07/27/2020 21:25:36
@@ -42011,7 +42011,7 @@ Ah, I missed the second line. Thanks.
 ##### David Mansolino [Cyberbotics] 10/16/2020 13:55:23
 You're welcome 😉
 
-##### IamTheSpineOfMyBackBodyPain 10/16/2020 17:41:29
+##### yaDadsAsic 10/16/2020 17:41:29
 I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
 
 ##### Justin Fisher [Moderator] 10/17/2020 01:24:12

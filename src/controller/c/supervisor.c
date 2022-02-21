@@ -1740,18 +1740,8 @@ bool wb_supervisor_world_save(const char *filename) {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
-  if (filename) {
-    if (!filename[0]) {
-      fprintf(stderr, "Error: %s() called with an empty 'filename' argument.\n", __FUNCTION__);
-      return false;
-    }
-
-    if (strcmp("wbt", wb_file_get_extension(filename)) != 0) {
-      fprintf(stderr, "Error: the target file given to %s() ends with the '.wbt' extension.\n", __FUNCTION__);
-      return false;
-    }
-  } else {
-    fprintf(stderr, "Error: %s() called with a NULL 'filename' argument.\n", __FUNCTION__);
+  if (filename && strcmp("wbt", wb_file_get_extension(filename)) != 0) {
+    fprintf(stderr, "Error: the target file given to %s() should have the '.wbt' extension.\n", __FUNCTION__);
     return false;
   }
 

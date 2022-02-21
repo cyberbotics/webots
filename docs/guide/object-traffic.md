@@ -54,7 +54,7 @@ CautionSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ CautionPanel { translation 0 -0.17 0 } ]
+  MFNode     signBoards   [ CautionPanel { translation 0 0 -0.17 } ]
 }
 ```
 
@@ -95,7 +95,7 @@ ControlledStreetLight {
   SFFloat    beamWidth    1.1
   MFColor    color        [ 1 0.9 0.8 ]
   SFFloat    cutOffAngle  1.4
-  SFVec3f    direction    0 -1 -0.1
+  SFVec3f    direction    0.1 0 -1
   SFFloat    radius       1000
   SFBool     castShadows  FALSE
 }
@@ -289,7 +289,7 @@ ExitSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ ExitPanel { translation 0 -0.051 0 } ]
+  MFNode     signBoards   [ ExitPanel { translation 0 0 -0.051 } ]
 }
 ```
 
@@ -505,7 +505,7 @@ OrderSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ OrderPanel { translation 0 -0.175 -0.026 } ]
+  MFNode     signBoards   [ OrderPanel { translation 0.026 0 -0.175  } ]
 }
 ```
 
@@ -604,6 +604,7 @@ PedestrianCrossing {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "pedestrian crossing"
+  SFVec3f    scale                1 1 1
   SFVec2f    size                 20 8
   SFInt32    textureFiltering     4
   SFBool     enableBoundingObject TRUE
@@ -783,7 +784,7 @@ SpeedLimitSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ SpeedLimitPanel { translation 0 0 -0.023 } ]
+  MFNode     signBoards   [ SpeedLimitPanel { translation 0.023 0 0 } ]
 }
 ```
 
@@ -856,7 +857,7 @@ StopSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ StopPanel { translation 0 -0.097 0 } ]
+  MFNode     signBoards   [ StopPanel { translation 0 0 -0.097 } ]
 }
 ```
 
@@ -896,7 +897,7 @@ StreetLight {
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
   SFFloat    cutOffAngle   1.4
-  SFVec3f    direction     0 -1 -0.1
+  SFVec3f    direction     0.1 0 -1
   SFBool     on            TRUE
   SFFloat    radius        1000
   SFFloat    intensity     30

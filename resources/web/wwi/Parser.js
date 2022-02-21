@@ -253,8 +253,19 @@ export default class Parser {
     WbWorld.computeUpVector();
   }
 
+  _parseId(node) {
+    if (typeof node === 'undefined')
+      return;
+
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    return id;
+  }
+
   _parseViewpoint(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
@@ -270,7 +281,7 @@ export default class Parser {
   }
 
   _parseBackground(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
@@ -353,7 +364,6 @@ export default class Parser {
     if (typeof use === 'undefined')
       return;
 
-    const id = getNodeAttribute(node, 'id');
     let result = WbWorld.instance.nodes.get(use);
 
     if (typeof result === 'undefined') {
@@ -363,6 +373,7 @@ export default class Parser {
 
     if (typeof result === 'undefined')
       return;
+    const id = this._parseId(node);
 
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
@@ -380,9 +391,8 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
+
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -407,9 +417,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
 
@@ -431,9 +439,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -495,9 +501,7 @@ export default class Parser {
   }
 
   _parseBillboard(node, parentNode) {
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const billboard = new WbBillboard(id);
 
@@ -512,7 +516,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
@@ -537,7 +541,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
@@ -562,7 +566,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
@@ -586,7 +590,7 @@ export default class Parser {
   }
 
   _parseFog(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
     const fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
@@ -608,9 +612,7 @@ export default class Parser {
       return use;
     }
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     let geometry;
     if (node.tagName === 'Box')
@@ -866,9 +868,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     // Get the Material tag.
     const materialNode = node.getElementsByTagName('Material')[0];
@@ -913,9 +913,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
     const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
@@ -939,7 +937,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     let url = getNodeAttribute(node, 'url', '');
     url = url.slice(1, url.length - 1);
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
@@ -972,7 +970,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
 
     const baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     const transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
@@ -1061,7 +1059,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
     const rotation = parseFloat(getNodeAttribute(node, 'rotation', '0'));
     const scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1'));

@@ -48,6 +48,8 @@ DESCRIPTION_STATE = 0
 FIELDS_STATE = 1
 BODY_STATE = 2
 
+TAG = 'R2022a'
+
 fileList = []
 upperCategories = {'projects': ['appearances']}
 
@@ -183,6 +185,9 @@ for proto in prioritaryProtoList + fileList:
                 fieldString = re.sub(r'\s*(#.*)', '', match.group(), 0, re.MULTILINE)
                 # remove intial '*field' string
                 fieldString = re.sub(r'^\s*.*field\s', '  ', fieldString, 0, re.MULTILINE)
+                # update urls
+                fieldString = fieldString.replace(
+                    'webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + TAG + '/')
                 # remove unwanted spaces between field type and field name (if needed)
                 if spacesToRemove > 0:
                     fieldString = fieldString.replace(fieldType + ' ' * spacesToRemove, fieldType)
