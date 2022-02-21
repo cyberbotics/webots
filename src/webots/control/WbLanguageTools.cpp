@@ -134,7 +134,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-#elif __linux__
+#else  // __linux__
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
@@ -201,7 +201,6 @@ QString WbLanguageTools::matlabCommand() {
   const QDir matlabDir(matlabPath);
   const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
   if (matlabVersions.isEmpty()) {
-    // setDefault("General/matlabCommand", "");
     return "";
   }
 #else
@@ -216,7 +215,6 @@ QString WbLanguageTools::matlabCommand() {
 #endif
   const QDir matlabDir(matlabPath);
   if (!matlabDir.exists()) {
-    // setDefault("General/matlabCommand", "");
     return "";
   }
   const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
