@@ -194,6 +194,42 @@ const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
 }
 
+QString WbLanguageTools::matlabCommand() {
+#ifdef __APPLE__
+  const QString matlabPath = "/Applications/";
+  const QString matlabAppWc = "MATLAB_R20???.app";
+  const QDir matlabDir(matlabPath);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
+  if (matlabVersions.isEmpty()) {
+    // setDefault("General/matlabCommand", "");
+    return "";
+  }
+#else
+  const QString matlabVersionsWc = "R20???";
+#ifdef _WIN32
+  const QString matlabPath = "C:\\Program Files\\MATLAB\\";
+  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+#else  // __linux__
+  const QString matlabPath = "/usr/local/MATLAB/";
+  const QString matlabExecPath = "/bin/matlab";
+#endif
+  const QDir matlabDir(matlabPath);
+  if (!matlabDir.exists()) {
+    // setDefault("General/matlabCommand", "");
+    return "";
+  }
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+#endif
+
+  QString command = matlabPath + matlabVersions.last();
+#if defined _WIN32 || defined __linux__
+  command += matlabExecPath;
+#endif
+
+  return command;
+  // setDefault("General/matlabCommand", command);
+}
+
 const QStringList WbLanguageTools::matlabArguments() {
   QStringList arguments("-nosplash");
   arguments << "-nodesktop";

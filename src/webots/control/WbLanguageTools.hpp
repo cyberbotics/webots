@@ -26,7 +26,7 @@ public:
   static const QStringList pythonArguments();
   static const QString &javaCommand();
   static const QStringList javaArguments();
-  static const QString &matlabCommand();
+  static QString matlabCommand();
   static const QStringList matlabArguments();
 
   // add dir in front of path, in a platform independent way
