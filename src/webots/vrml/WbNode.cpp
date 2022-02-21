@@ -806,7 +806,7 @@ void WbNode::notifyParameterChanged() {
 
 int WbNode::findSubFieldIndex(const WbField *const searched) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true, false, false));
+  QList<WbNode *> list(subNodes(true, true, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
@@ -820,7 +820,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
 
 WbField *WbNode::findSubField(int index, WbNode *&parent) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true, false, false));
+  QList<WbNode *> list(subNodes(true, true, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
