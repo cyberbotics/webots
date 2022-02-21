@@ -106,3 +106,10 @@ You can do a survey among your customers and ask them if they are willing to pay
 
 And you can start with simple and cheap robots first, to test the ranting business potentials.
 
+## February
+
+##### Robokashi 02/12/2022 01:08:58
+My company would .. Currently the only way to test simulated software on multiple robots is to find partners, which can be challenging.
+
+Unfortunately, I think what you suggest would require massive investment (money, time, HR).
+

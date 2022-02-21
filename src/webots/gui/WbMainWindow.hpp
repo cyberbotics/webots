@@ -84,8 +84,9 @@ public slots:
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
-  void exportHtmlFiles();
 
+  QString exportHtmlFiles();
+  void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
   void uploadScene();
   void startAnimationRecording();
 
@@ -218,7 +219,7 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbStreamingServer *mStreamingServer;
-  WbLinkWindow *mLinkWindow;
+  bool mSaveCheckboxStatus;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
