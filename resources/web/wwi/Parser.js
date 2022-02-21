@@ -292,14 +292,12 @@ export default class Parser {
       if (typeof backgroundUrl[i] === 'undefined') {
         areUrlsPresent = false;
         break;
-      } else {
-        console.log(backgroundUrl[i][0])
-        backgroundUrl[i] = backgroundUrl[i].slice(1, backgroundUrl[i].length - 1);
-      }
+      } else
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
     }
 
     this.cubeImages = [];
-    if (backgroundUrl[1]) {
+    if (areUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[0], false, 90).then(image => { this.cubeImages[0] = image; }));
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[1], false, -90).then(image => { this.cubeImages[4] = image; }));
@@ -325,14 +323,13 @@ export default class Parser {
     backgroundIrradianceUrl[4] = getNodeAttribute(node, 'rightIrradianceUrl');
     backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
 
-    let areIrradianceUrlsPresent = true
+    let areIrradianceUrlsPresent = true;
     for (let i = 0; i < 6; i++) {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
-      } else {
-        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].slice(1, backgroundIrradianceUrl[i].length - 1);
-      }
+      } else
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
@@ -955,7 +952,8 @@ export default class Parser {
 
     const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
-    url = url.slice(1, url.length - 1);
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
