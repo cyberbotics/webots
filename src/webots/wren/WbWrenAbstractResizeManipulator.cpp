@@ -223,9 +223,9 @@ void WbWrenAbstractResizeManipulator::showNormal() {
 }
 
 void WbWrenAbstractResizeManipulator::updateHandleDimensions(const float scaleFactor, const float viewDistanceScale) {
-  const float scale[3][3] = {{scaleFactor, 1.0f, 1.0f}, {1.0f, scaleFactor, 1.0f}, {1.0f, 1.0f, scaleFactor}};
+  const float scale[3][3] = {{scaleFactor, 1.0f, 1.0f}, {1.0f, 1.0f, scaleFactor}, {1.0f, scaleFactor, 1.0f}};
   const float positionOffset = viewDistanceScale * mScale * (scaleFactor - 1.0f);
-  const float position[3][3] = {{positionOffset, 0.0f, 0.0f}, {0.0f, positionOffset, 0.0f}, {0.0f, 0.0f, positionOffset}};
+  const float position[3][3] = {{positionOffset, 0.0f, 0.0f}, {0.0f, 0.0f, positionOffset}, {0.0f, positionOffset, 0.0f}};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
     wr_transform_set_scale(mAxisTransforms[i], scale[i]);
