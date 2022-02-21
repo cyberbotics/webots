@@ -18,7 +18,7 @@
 
 from async_process import AsyncProcess
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates, NVMLError
+    nvmlDeviceGetUtilizationRates, NVMLError
 
 import asyncio
 import errno
@@ -258,8 +258,8 @@ class Client:
                         f.write('RUN make\n')
                     f.close()
                 logging.info('created Dockerfile')
-                image = subprocess.getoutput(f'docker build -q --build-arg TMP_PATH={self.project_instance_path} . ')
-                command = 'docker run --net host'
+                image = subprocess.getoutput(f'docker-compose build -q --build-arg TMP_PATH={self.project_instance_path} . ')
+                command = 'docker-compose run --net host'
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
