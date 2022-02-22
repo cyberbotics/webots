@@ -19,7 +19,7 @@
  *                tracked robot.
  *
  *                The Coulomb friction value set in the WorldInfo contactProperties
- *                has a big influence on the behvaviour of the robot and especially
+ *                has a big influence on the behavior of the robot and especially
  *                on the turning motion.
  */
 
