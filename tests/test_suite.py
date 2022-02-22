@@ -49,7 +49,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+testGroups = ['api']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -318,20 +318,6 @@ for groupName in testGroups:
         with open(webotsStdErrFilename) as f:
             for line in f:
                 appendToOutputFile(line)
-                if '(core dumped)' in line:
-                    seg_fault_line = line[0:line.find(' Segmentation fault')]
-                    pid = int(seg_fault_line[seg_fault_line.rfind(' ') + 1:])
-                    core_dump_file = '/tmp/core_webots-bin.' + str(pid)
-                    if os.path.exists(core_dump_file):
-                        appendToOutputFile(subprocess.check_output([
-                            'gdb', '--batch', '--quiet', '-ex', 'bt', '-ex',
-                            'quit', '../bin/webots-bin', core_dump_file
-                        ]))
-                        os.remove(core_dump_file)
-                    else:
-                        appendToOutputFile(
-                            'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
-                        )
 
 appendToOutputFile('\n' + finalMessage + '\n')
 
@@ -346,7 +332,16 @@ if monitorOutputCommand.isRunning():
 
 with open(outputFilename, 'r') as file:
     content = file.read()
-    print(content)
     failures += content.count('FAILURE ')
+
+
+print('--- STDOUT ---')
+with open(webotsStdOutFilename) as f:
+    content = f.read()
+    print(content)
+print('--- STDERR ---')
+with open(webotsStdErrFilename) as f:
+    content = f.read()
+    print(content)
 
 sys.exit(failures)
