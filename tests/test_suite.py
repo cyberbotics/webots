@@ -49,7 +49,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api']
+testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows

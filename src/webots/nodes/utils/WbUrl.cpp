@@ -126,10 +126,11 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     }
     if (isLocalUrl(url)) {
       QString newUrl(url);
-      printf(">>> build remote url: %s | %s\n", WbApplicationInfo::repo().toUtf8().constData(),
-             WbApplicationInfo::branch().toUtf8().constData());
-      newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                    WbApplicationInfo::branch() + "/");
+      WbVersion version = WbApplicationInfo::version();
+      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+      QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+      printf(">>> build remote url: %s", newUrl.toUtf8().constData());
       return newUrl;
     }
 

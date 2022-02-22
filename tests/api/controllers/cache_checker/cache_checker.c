@@ -87,17 +87,7 @@ int main(int argc, char **argv) {
 
   // test textures
   const int expected_red_color[3] = {210, 32, 40};
-  test_camera_color(1, expected_red_color);
-
-  wb_robot_step(TIME_STEP);
-
-  for (int i = 0; i < NB_TEXTURES; ++i)
-    wb_supervisor_field_set_mf_string(texture_fields[i], 0, "webots://tests/api/worlds/textures/green_texture.jpg");
-
-  wb_robot_step(TIME_STEP);
-
-  const int expected_green_color[3] = {44, 223, 40};
-  test_camera_color(2, expected_green_color);
+  test_camera_color(0, expected_red_color);
 
   wb_robot_step(TIME_STEP);
 
@@ -107,26 +97,19 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   const int expected_blue_color[3] = {27, 48, 237};
-  test_camera_color(3, expected_blue_color);
+  test_camera_color(1, expected_blue_color);
 
   // test meshes
-  test_distance(4, 125.0);
+  test_distance(2, 125.0);
 
   wb_robot_step(TIME_STEP);
-
-  for (int i = 0; i < NB_MESHES; ++i)
-    wb_supervisor_field_set_mf_string(mesh_fields[i], 0, "webots://tests/api/worlds/meshes/cube_0.1m.obj");
-
-  wb_robot_step(TIME_STEP);
-
-  test_distance(4, 100.0);
 
   for (int i = 0; i < NB_MESHES; ++i)
     wb_supervisor_field_set_mf_string(mesh_fields[i], 0, "https://cyberbotics.com/test_suite_assets/cube_0.2m.obj");
 
   wb_robot_step(TIME_STEP);
 
-  test_distance(4, 50.0);
+  test_distance(3, 50.0);
 
   wb_robot_step(TIME_STEP);
 
