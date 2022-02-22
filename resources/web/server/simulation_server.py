@@ -240,6 +240,7 @@ class Client:
 
         def runWebotsInThread(client):
             global config
+            DockerWorld = f'{config["projectsDir"]}/worlds/{self.world}'
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
 
@@ -254,19 +255,32 @@ class Client:
                 webotsCommand += f';multimediaServer={config["multimediaServer"]}'
             if 'multimediaStream' in config:
                 webotsCommand += f';multimediaStream={config["multimediaStream"]}'
-            webotsCommand += f'\\" {world}\"'
+            webotsCommand += f'\\" {DockerWorld}\"'
 
             if config['docker']:
-                # create a Dockerfile if not provided in the project folder
+
+                # create environment variables
                 os.chdir(self.project_instance_path)
-                envVarDocker = ''
+                with open(world) as world_file:
+                    version = world_file.readline().split()[1]
+                from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                makeProject = int(os.path.isfile('Makefile') == True)
+                envVarDocker = f'IMAGE={from_image}\nPROJECT_PATH={config["projectsDir"]}\nMAKE={makeProject}\n'
+                envVarDocker += f'PORT={port}\n {webotsCommand}'
+
+                if 'SSH_CONNECTION' in os.environ:
+                    xauth = f'/tmp/.docker-{port}.xauth'
+                    os.system('touch ' + xauth)
+                    display = os.environ['DISPLAY']
+                    os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
+                    os.system(f'chmod 777 {xauth}')
+                    envVarDocker += f'DISPLAY={display}\n XAUTH={xauth}\n'
+                f = open('.env', 'w')
+                f.write(envVarDocker)
+                f.close()
+
+                # create a Dockerfile if not provided in the project folder
                 if not os.path.isfile('Dockerfile'):
-                    with open(world) as world_file:
-                        version = world_file.readline().split()[1]
-                        from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                        envVarDocker += f'IMAGE={from_image}\n'
-                    makeProject = int(os.path.isfile('Makefile') == True)
-                    envVarDocker += f'MAKE={makeProject}\n'
                     # to be moved on cyberbotics' server
                     os.system(
                         "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/Dockerfile")
@@ -278,20 +292,7 @@ class Client:
                         "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/docker-compose.yml")
                     logging.info('created docker-compose.yml')
 
-                if 'SSH_CONNECTION' in os.environ:
-                    xauth = f'/tmp/.docker-{port}.xauth'
-                    os.system('touch ' + xauth)
-                    display = os.environ['DISPLAY']
-                    os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
-                    os.system(f'chmod 777 {xauth}')
-                    envVarDocker += f'DISPLAY={display}\n XAUTH={xauth}\n'
-                envVarDocker += f'PORT={port}\n'
-                envVarDocker += webotsCommand
-                f = open('.env', 'w')
-                f.write(envVarDocker)
-                f.close()
-
-                command = 'docker-compose up'
+                command = 'docker-compose up --build'
             else:
                 command = webotsCommand
             try:
