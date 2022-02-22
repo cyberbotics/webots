@@ -242,64 +242,78 @@ class Client:
             global config
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
+
+            webotsCommand = f'WEBOTS=\"{config["webots"]} --batch --mode=pause '
+            # the MJPEG stream won't work if the Webots window is minimized
+            if not hasattr(self, 'mode') or self.mode == 'x3d':
+                webotsCommand += '--minimize --no-rendering '
+            webotsCommand += f'--stream=\\"port={port};monitorActivity'
+            if hasattr(self, 'mode'):
+                webotsCommand += f';mode={self.mode}'
+            if 'multimediaServer' in config:
+                webotsCommand += f';multimediaServer={config["multimediaServer"]}'
+            if 'multimediaStream' in config:
+                webotsCommand += f';multimediaStream={config["multimediaStream"]}'
+            webotsCommand += f'\\" {world}\"'
+
             if config['docker']:
                 # create a Dockerfile if not provided in the project folder
                 os.chdir(self.project_instance_path)
+                envVarDocker = ''
                 if not os.path.isfile('Dockerfile'):
                     with open(world) as world_file:
                         version = world_file.readline().split()[1]
                         from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                        logging.info(f'FROM docker image {from_image}')
-                    f = open('Dockerfile', 'w')
-                    f.write(f'FROM {from_image}\n')
-                    f.write(f'RUN mkdir -p {self.project_instance_path}\n')
-                    f.write(f'COPY . {self.project_instance_path}\n')
-                    if os.path.isfile('Makefile'):
-                        f.write('RUN make\n')
-                    f.close()
-                logging.info('created Dockerfile')
-                image = subprocess.getoutput(f'docker-compose build -q --build-arg TMP_PATH={self.project_instance_path} . ')
-                command = 'docker-compose run --net host'
+                        envVarDocker += f'IMAGE={from_image}\n'
+                    makeProject = int(os.path.isfile('Makefile') == True)
+                    envVarDocker += f'MAKE={makeProject}\n'
+                    # os.system("cp {config['webotsHome']}/resources/web/server/Dockerfile .")
+                    os.system(
+                        "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/Dockerfile")
+                    logging.info('created Dockerfile')
+
+                # create a docker-compose if not provided in the project folder
+                if not os.path.isfile('docker-compose.yml'):
+                    # os.system("cp {config['webotsHome']}/resources/web/server/docker_compose.yml .")
+                    os.system(
+                        "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/docker-compose.yml")
+                    logging.info('created docker-compose.yml')
+
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
-                    command += f' -e DISPLAY={display} -e XAUTHORITY={xauth} -v {xauth}:{xauth}'
-                else:
-                    command += ' --gpus=all -e DISPLAY'
+                    envVarDocker += f'DISPLAY={display}\n XAUTH={xauth}\n'
+                envVarDocker += f'PORT={port}\n'
+                envVarDocker += webotsCommand
+                f = open('.env', 'w')
+                f.write(envVarDocker)
+                f.close()
 
-                command += f' -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p {port}:{port} {image} '
+                command = 'docker-compose up'
             else:
-                command = ''
-            command += f'{config["webots"]} --batch --mode=pause '
-            # the MJPEG stream won't work if the Webots window is minimized
-            if not hasattr(self, 'mode') or self.mode == 'x3d':
-                command += '--minimize --no-rendering '
-            command += f'--stream="port={port};monitorActivity'
-            if hasattr(self, 'mode'):
-                command += f';mode={self.mode}'
-            if 'multimediaServer' in config:
-                command += f';multimediaServer={config["multimediaServer"]}'
-            if 'multimediaStream' in config:
-                command += f';multimediaStream={config["multimediaStream"]}'
-            command += f'" {world}'
+                command = webotsCommand
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
                                                          stderr=subprocess.STDOUT,
                                                          bufsize=1, universal_newlines=True)
             except Exception:
-                logging.error(f'Unable to start Webots: {command}')
+                logging.error(f'Unable to start Webots: {webotsCommand}')
                 return
-            logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{command}"')
+            logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{webotsCommand}"')
             while 1:
                 if client.webots_process is None:
                     logging.warning('Client connection closed or killed')
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
+                if line:
+                    logging.info(line)
+                if '|' in line:  # docker-compose format
+                    line = line.split()[2]
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
