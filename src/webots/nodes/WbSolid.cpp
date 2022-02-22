@@ -387,8 +387,6 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
         return false;
       const int jointIndex = i.key();
       assert(jointIndex < mJointChildren.length());
-      if (jointIndex >= mJointChildren.length())
-        return false;
       WbJoint *const joint = dynamic_cast<WbJoint *>(mJointChildren.at(jointIndex));
       if (!joint)
         return false;
