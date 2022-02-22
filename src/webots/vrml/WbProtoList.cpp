@@ -59,8 +59,8 @@ WbProtoList::~WbProtoList() {
 
 void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos) {
   QDir dir(dirPath);
-  if (!dir.exists() || !dir.isReadable())
-    // no PROTO nodes
+  if (!dir.exists() || !dir.isReadable() || dirPath == WbStandardPaths::resourcesPath() + "templates")
+    // no PROTO nodes or skipped directories
     return;
 
   // search in folder
