@@ -134,7 +134,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-#else  // Linux
+#else  // __linux__
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
@@ -192,6 +192,40 @@ QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QPr
 
 const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
+}
+
+QString WbLanguageTools::matlabCommand() {
+#ifdef __APPLE__
+  const QString matlabPath = "/Applications/";
+  const QString matlabAppWc = "MATLAB_R20???.app";
+  const QDir matlabDir(matlabPath);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
+  if (matlabVersions.isEmpty()) {
+    return "";
+  }
+#else
+  const QString matlabVersionsWc = "R20???";
+#ifdef _WIN32
+  const QString matlabPath = "C:\\Program Files\\MATLAB\\";
+  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+#else  // __linux__
+  const QString matlabPath = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
+  const QString matlabExecPath = "/bin/matlab";
+#endif
+  const QDir matlabDir(matlabPath);
+  if (!matlabDir.exists()) {
+    return "";
+  }
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+#endif
+
+  QString command = matlabPath + matlabVersions.last();
+#if defined _WIN32 || defined __linux__
+  command += matlabExecPath;
+#endif
+
+  return command;
 }
 
 const QStringList WbLanguageTools::matlabArguments() {

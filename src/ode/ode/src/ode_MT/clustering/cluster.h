@@ -150,7 +150,7 @@ public:
     void propagateGeomTriMeshSetData(dxGeom *g, dTriMeshDataID data, dGeomTriMeshSetDataFunction* _func);
     void propagateGeomSphereSetRadius(dxGeom *g, dReal radius, dGeomSphereSetRadiusFunction* _func);
     void propagatePlaneParams(dxGeom *g, dReal a, dReal b, dReal c, dReal d, dGeomPlaneSetParamsFunction* _func);
-
+    void propagateOffsetChange(dxGeom *g);
 };
 
 #endif
