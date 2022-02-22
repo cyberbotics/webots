@@ -386,8 +386,6 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
       if (!p)
         return false;
       const int jointIndex = i.key();
-      // FIXME: the following assert fails when running
-      // tests/physics/worlds/check_saved_hidden_parameters.wbt
       assert(jointIndex < mJointChildren.length());
       if (jointIndex >= mJointChildren.length())
         return false;

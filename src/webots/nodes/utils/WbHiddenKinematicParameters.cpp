@@ -30,10 +30,7 @@ void WbHiddenKinematicParameters::createHiddenKinematicParameter(
                                                      // parameter name, e.g. as in rotation_7, position2_13_1
   const QString parameterName(field->name());
   const QString str1(rx1.match(parameterName).captured());
-
-  static const QRegularExpression rx2("(\\d+)");
-  QStringList indices = rx2.match(str1).capturedTexts();
-
+  const QStringList indices = str1.split('_', Qt::SkipEmptyParts);
   assert(indices.size() > 0);
   const int solidIndex = indices[0].toInt();
   HiddenKinematicParameters *const hkp = map.value(solidIndex, NULL);
