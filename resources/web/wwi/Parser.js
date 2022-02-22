@@ -279,69 +279,74 @@ export default class Parser {
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
-    let backUrl = getNodeAttribute(node, 'backUrl');
-    let bottomUrl = getNodeAttribute(node, 'bottomUrl');
-    let frontUrl = getNodeAttribute(node, 'frontUrl');
-    let leftUrl = getNodeAttribute(node, 'leftUrl');
-    let rightUrl = getNodeAttribute(node, 'rightUrl');
-    let topUrl = getNodeAttribute(node, 'topUrl');
+    let backgroundUrl = [];
+    backgroundUrl[0] = getNodeAttribute(node, 'backUrl');
+    backgroundUrl[1] = getNodeAttribute(node, 'bottomUrl');
+    backgroundUrl[2] = getNodeAttribute(node, 'frontUrl');
+    backgroundUrl[3] = getNodeAttribute(node, 'leftUrl');
+    backgroundUrl[4] = getNodeAttribute(node, 'rightUrl');
+    backgroundUrl[5] = getNodeAttribute(node, 'topUrl');
+
+    let areUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundUrl[i] === 'undefined') {
+        areUrlsPresent = false;
+        break;
+      } else
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+    }
 
     this.cubeImages = [];
-    if (typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined') {
-      backUrl = backUrl.slice(1, backUrl.length - 1);
-      bottomUrl = bottomUrl.slice(1, bottomUrl.length - 1);
-      frontUrl = frontUrl.slice(1, frontUrl.length - 1);
-      leftUrl = leftUrl.slice(1, leftUrl.length - 1);
-      rightUrl = rightUrl.slice(1, rightUrl.length - 1);
-      topUrl = topUrl.slice(1, topUrl.length - 1);
-
+    if (areUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backUrl, false, 90).then(image => { this.cubeImages[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl, false, -90).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl, false, -90).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl, false, 180).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topUrl, false, -90).then(image => { this.cubeImages[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0], false, 90).then(image => { this.cubeImages[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1], false, -90).then(image => { this.cubeImages[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2], false, -90).then(image => { this.cubeImages[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3], false, 180).then(image => { this.cubeImages[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[4]).then(image => { this.cubeImages[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5], false, -90).then(image => { this.cubeImages[5] = image; }));
       } else {
-        this._promises.push(loadTextureData(this._prefix, topUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backUrl).then(image => { this.cubeImages[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5]).then(image => { this.cubeImages[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0]).then(image => { this.cubeImages[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1]).then(image => { this.cubeImages[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2]).then(image => { this.cubeImages[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3]).then(image => { this.cubeImages[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[4]).then(image => { this.cubeImages[0] = image; }));
       }
     }
 
-    let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
-    let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
-    let frontIrradianceUrl = getNodeAttribute(node, 'frontIrradianceUrl');
-    let leftIrradianceUrl = getNodeAttribute(node, 'leftIrradianceUrl');
-    let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
-    let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
+    let backgroundIrradianceUrl = [];
+    backgroundIrradianceUrl[0] = getNodeAttribute(node, 'backIrradianceUrl');
+    backgroundIrradianceUrl[1] = getNodeAttribute(node, 'bottomIrradianceUrl');
+    backgroundIrradianceUrl[2] = getNodeAttribute(node, 'frontIrradianceUrl');
+    backgroundIrradianceUrl[3] = getNodeAttribute(node, 'leftIrradianceUrl');
+    backgroundIrradianceUrl[4] = getNodeAttribute(node, 'rightIrradianceUrl');
+    backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
 
+    let areIrradianceUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundIrradianceUrl[i] === 'undefined') {
+        areIrradianceUrlsPresent = false;
+        break;
+      } else
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+    }
     this.irradianceCubeURL = [];
-    if (typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined') {
-      backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length - 1);
-      bottomIrradianceUrl = bottomIrradianceUrl.slice(1, bottomIrradianceUrl.length - 1);
-      frontIrradianceUrl = frontIrradianceUrl.slice(1, frontIrradianceUrl.length - 1);
-      leftIrradianceUrl = leftIrradianceUrl.slice(1, leftIrradianceUrl.length - 1);
-      rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length - 1);
-      topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
-
+    if (areIrradianceUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
       } else {
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true).then(image => { this.irradianceCubeURL[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true).then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true).then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true).then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true).then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true).then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[0] = image; }));
       }
     }
 
@@ -947,7 +952,8 @@ export default class Parser {
 
     const id = getNodeAttribute(node, 'id');
     let url = getNodeAttribute(node, 'url', '');
-    url = url.slice(1, url.length - 1);
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
