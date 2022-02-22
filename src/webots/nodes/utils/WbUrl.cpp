@@ -111,17 +111,23 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   QString path;
-  if (isLocalUrl(url))
+  if (isLocalUrl(url)) {
     path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-  else if (QDir::isAbsolutePath(url))  // check if the url is an absolute path
+    printf(">> local url, should be at: %s\n", path.toUtf8().constData());
+  } else if (QDir::isAbsolutePath(url)) {  // check if the url is an absolute path
     path = QDir::cleanPath(url);
+    printf(">> not local, should be at: %s\n", path.toUtf8().constData());
+  }
 
   if (!path.isEmpty()) {
-    if (QFileInfo(path).exists())
+    if (QFileInfo(path).exists()) {
+      printf(">>> doesnt exist\n");
       return checkIsFile(node, field, path);
-
+    }
     if (isLocalUrl(url)) {
       QString newUrl(url);
+      printf(">>> build remote url: %s | %s\n", WbApplicationInfo::repo().toUtf8().constData(),
+             WbApplicationInfo::branch().toUtf8().constData());
       newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                     WbApplicationInfo::branch() + "/");
       return newUrl;
