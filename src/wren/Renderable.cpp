@@ -223,7 +223,7 @@ namespace wren {
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
     if (mInvertFrontFace) {
-      if (glstate::getFrontFace() == GL_CCW)
+      if (frontFaceMode == GL_CCW)
         glstate::setFrontFace(GL_CW);
       else
         glstate::setFrontFace(GL_CCW);
@@ -292,6 +292,7 @@ void wr_renderable_set_drawing_mode(WrRenderable *renderable, WrRenderableDrawin
 void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
 }
+
 void wr_renderable_invert_front_face(WrRenderable *renderable, bool invert_front_face) {
   reinterpret_cast<wren::Renderable *>(renderable)->setInvertFrontFace(invert_front_face);
 }

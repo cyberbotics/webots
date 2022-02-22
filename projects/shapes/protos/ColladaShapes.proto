@@ -6,7 +6,7 @@
 
 PROTO ColladaShapes [
   field SFString url ""    # URL of a Collada file (similar to ImageTexture node).
-  field SFBool   ccw TRUE  # Indicate the order of the vertices. A negative scale might require to change this field.
+  field SFBool   ccw TRUE  # Indicate the order of the vertices. Change this value will flip the faces of the meshes.
 ]
 {
   %<
