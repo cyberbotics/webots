@@ -31,5 +31,4 @@ services:
     volumes:
       - ${XAUTH:-/dev/null}:${XAUTH:-/dev/null}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /tmp:/tmp
 
