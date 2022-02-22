@@ -24,7 +24,6 @@
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbVersion.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
