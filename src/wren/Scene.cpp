@@ -707,10 +707,18 @@ namespace wren {
     glstate::setDepthFunc(GL_LESS);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for negative scale
+    glm::vec3 scale = shadowVolume->renderable()->parent()->scale();
+    if (scale.x * scale.y * scale.z < 0.0) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    }
 
     // Compute silhouette without caps
     shadowVolume->computeSilhouette(light, false);
@@ -727,10 +735,18 @@ namespace wren {
     glstate::setDepthFunc(GL_GEQUAL);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for negative scale
+    glm::vec3 scale = shadowVolume->renderable()->parent()->scale();
+    if (scale.x * scale.y * scale.z < 0.0) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    }
 
     // Compute silhouette with caps
     shadowVolume->computeSilhouette(light, true);

@@ -76,7 +76,7 @@ namespace wren {
     WrRenderableDrawingOrder drawingOrder() const { return mDrawingOrder; }
     bool isInViewSpace() const { return mInViewSpace; }
     bool zSortedRendering() const;
-
+    bool invertFrontFace() const { return mInvertFrontFace; }
     void render(const ShaderProgram *program = NULL);
     void renderWithoutMaterial(const ShaderProgram *program);
 

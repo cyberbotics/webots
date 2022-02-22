@@ -220,6 +220,7 @@ namespace wren {
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
 
+    // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
     if (mInvertFrontFace) {
       if (glstate::getFrontFace() == GL_CCW)
