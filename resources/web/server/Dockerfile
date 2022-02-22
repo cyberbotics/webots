@@ -1,6 +1,6 @@
 ARG FROM_IMAGE
 FROM $FROM_IMAGE
-ARG MAKE
-RUN mkdir -p webots-project
-COPY . webots-project
-RUN if [ $MAKE = "1" ] ; then cd webots-project && make ; fi
+ARG MAKE, PROJECT_PATH
+RUN mkdir -p $PROJECT_PATH
+COPY . $PROJECT_PATH
+RUN if [ $MAKE = "1" ] ; then cd $PROJECT_PATH && make ; fi
