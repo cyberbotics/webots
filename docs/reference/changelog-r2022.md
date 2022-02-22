@@ -13,6 +13,7 @@ Released on XX, XXth, 2022.
   - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements:
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
   - Dependency Updates
     - remove WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
 
