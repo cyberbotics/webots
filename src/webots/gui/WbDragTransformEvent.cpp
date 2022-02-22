@@ -173,7 +173,7 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->applyChangesToWren();
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  WbVector3 scale = mSelectedTransform->scale();
+  const WbVector3 &scale = mSelectedTransform->scale();
   matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   // local offset
@@ -215,7 +215,7 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedTransform->position());
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  WbVector3 scale = mSelectedTransform->scale();
+  const WbVector3 &scale = mSelectedTransform->scale();
   matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
