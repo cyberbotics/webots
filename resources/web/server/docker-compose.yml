@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - FROM_IMAGE=$IMAGE
+        - MAKE=$MAKE
     command: $WEBOTS
     deploy:
       resources:
