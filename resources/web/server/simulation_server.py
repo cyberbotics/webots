@@ -267,14 +267,13 @@ class Client:
                         envVarDocker += f'IMAGE={from_image}\n'
                     makeProject = int(os.path.isfile('Makefile') == True)
                     envVarDocker += f'MAKE={makeProject}\n'
-                    # os.system("cp {config['webotsHome']}/resources/web/server/Dockerfile .")
+                    # to be moved on cyberbotics' server
                     os.system(
                         "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/Dockerfile")
                     logging.info('created Dockerfile')
 
                 # create a docker-compose if not provided in the project folder
                 if not os.path.isfile('docker-compose.yml'):
-                    # os.system("cp {config['webotsHome']}/resources/web/server/docker_compose.yml .")
                     os.system(
                         "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/docker-compose.yml")
                     logging.info('created docker-compose.yml')
