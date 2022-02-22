@@ -136,7 +136,6 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
     WrRenderable *renderable = wr_renderable_new();
-    wr_renderable_set_scene_culling(renderable, false);
     mRenderables.push_back(renderable);
 
     mesh = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);

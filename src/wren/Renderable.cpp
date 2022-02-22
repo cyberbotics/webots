@@ -305,6 +305,7 @@ void wr_renderable_set_receive_shadows(WrRenderable *renderable, bool receive_sh
   reinterpret_cast<wren::Renderable *>(renderable)->setReceiveShadows(receive_shadows);
 }
 
+// only used for rendering axis systems, without it they might disappear near the edges of the viewport.
 void wr_renderable_set_scene_culling(WrRenderable *renderable, bool culling) {
   reinterpret_cast<wren::Renderable *>(renderable)->setSceneCulling(culling);
 }
