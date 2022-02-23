@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   webots:
-    container_name: $PROJECT_PATH
+    container_name: $INSTANCE
     build:
       context: .
       dockerfile: Dockerfile
