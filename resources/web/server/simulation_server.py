@@ -244,18 +244,18 @@ class Client:
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
 
-            webotsCommand = f'WEBOTS=\"{config["webots"]} --batch --mode=pause '
+            webotsCommand = f'{config["webots"]} --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
                 webotsCommand += '--minimize --no-rendering '
-            webotsCommand += f'--stream=\\"port={port};monitorActivity'
+            webotsCommand += f'--stream=\"port={port};monitorActivity'
             if hasattr(self, 'mode'):
                 webotsCommand += f';mode={self.mode}'
             if 'multimediaServer' in config:
                 webotsCommand += f';multimediaServer={config["multimediaServer"]}'
             if 'multimediaStream' in config:
                 webotsCommand += f';multimediaStream={config["multimediaStream"]}'
-            webotsCommand += f'\\" {DockerWorld}\"'
+            webotsCommand += f'\" '
 
             if config['docker']:
 
@@ -264,37 +264,48 @@ class Client:
                 with open(world) as world_file:
                     version = world_file.readline().split()[1]
                 from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                makeProject = int(os.path.isfile('Makefile') == True)
-                envVarDocker = f'IMAGE={from_image}\nPROJECT_PATH={config["projectsDir"]}\nMAKE={makeProject}\n'
-                envVarDocker += f'PORT={port}\n {webotsCommand}'
-
+                makeProject = int(os.path.isfile('Makefile'))
+                envVarDocker = {
+                    "IMAGE": from_image,
+                    "PROJECT_PATH": config["projectsDir"],
+                    "MAKE": makeProject,
+                    "PORT": port,
+                    "WEBOTS": '\"' + webotsCommand.replace('\"', '\\"') + f'{DockerWorld}\"'
+                }
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
-                    envVarDocker += f'DISPLAY={display}\n XAUTH={xauth}\n'
-                f = open('.env', 'w')
-                f.write(envVarDocker)
-                f.close()
+                    envVarDocker["DISPLAY"] = display
+                    envVarDocker["XAUTH"] = xauth
+                else:
+                    envVarDocker["XAUTH"] = '/dev/null'
+
+                with open('.env', 'w') as env_file:
+                    for key, value in envVarDocker.items():
+                        env_file.write(f'{key}={value}\n')
+                env_file.close()
 
                 # create a Dockerfile if not provided in the project folder
                 if not os.path.isfile('Dockerfile'):
                     # to be moved on cyberbotics' server
                     os.system(
-                        "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/Dockerfile")
+                        "wget https://raw.githubusercontent.com/cyberbotics/webots/"
+                        "enhancement-theia-implementation/resources/web/server/Dockerfile")
                     logging.info('created Dockerfile')
 
                 # create a docker-compose if not provided in the project folder
                 if not os.path.isfile('docker-compose.yml'):
                     os.system(
-                        "wget https://raw.githubusercontent.com/cyberbotics/webots/enhancement-theia-implementation/resources/web/server/docker-compose.yml")
+                        "wget https://raw.githubusercontent.com/cyberbotics/webots/"
+                        "enhancement-theia-implementation/resources/web/server/docker-compose.yml")
                     logging.info('created docker-compose.yml')
 
-                command = 'docker-compose up --build'
+                command = 'docker-compose up'
             else:
-                command = webotsCommand
+                command = webotsCommand + world
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
@@ -304,7 +315,7 @@ class Client:
                 logging.error(f'Unable to start Webots: {webotsCommand}')
                 return
             logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{webotsCommand}"')
-            while 1:
+            while True:
                 if client.webots_process is None:
                     logging.warning('Client connection closed or killed')
                     # client connection closed or killed
