@@ -94,22 +94,11 @@ hello well met everyone first of all i LOVE the concept of this software a great
 ##### amna 01/28/2022 08:09:16
 What values shall i give to trajectory, speed and step in human.py?
 
-##### Emil Enchev 01/29/2022 07:26:33
-Olivier Michel, it is time for Webots to start to make real robots platform and offered them to independent researchers for remote online testing. Do you understand, Olivier? Robots are usually expensive hardware that few people can afford, therefore the service remote robot rent will blossom if created, especially when the one offering it produces a free virtual robot simulator.
-
-
-Two years earlier, I offered to you the same idea. Now after Covid-19 I hope you grasp it better, Olivier. Robotics is not evolving just because the small number and expensive robot platforms are owned by universities or private companies. Many researchers simply do not have access to them, or have no real financial benefit from developing quality solutions for universities or private companies themselves, as they are paid very low salaries. So, if Webots start to offered different robot platform for time ranting, you can become a mediator between business and researchers of a new kind. For example, now I can show you a Webots simulation to amaze you - who will care about this animation?! If there is a real platform on which to test it, it will probably become a sensation in a few hours. You have to understand this idea very well, and its potential. The truth is that developing the hardware itself is expensive, but it is not groundbreaking engineering achievement. You will find sponsors. When you become a hub of robotic researchers in the future all attention will be focused on you.
-
-
-You can do a survey among your customers and ask them if they are willing to pay to test their final solutions to real robots in a real environment? Let's see the result of it.
-
-
-And you can start with simple and cheap robots first, to test the ranting business potentials.
-
 ## February
 
-##### Robokashi 02/12/2022 01:08:58
-My company would .. Currently the only way to test simulated software on multiple robots is to find partners, which can be challenging.
+##### Luftwaffel [Moderator] 02/22/2022 17:25:36
+This reply might be a bit late, but if you still want help, could you clarify your question a bit? Do you have troubles with how to add nodes together in Webots? Or is the issue  unrelated to software and more on general design of a robot?
 
-Unfortunately, I think what you suggest would require massive investment (money, time, HR).
+
+<@&568329906048598039> the void controller seems to be broken in the latest nightly build (21/2/2022). On ubuntu 20.04 installed with tarball.  this test world just has unmodified ur3e with void controller and it crashes. EDIT: ENV variable was set incorrectly, sorry for the confusion
 
