@@ -122,8 +122,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
     if (isLocalUrl(url)) {
       QString newUrl(url);
-      newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                    WbApplicationInfo::branch() + "/");
+      const WbVersion &version = WbApplicationInfo::version();
+      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+      const QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
       return newUrl;
     }
 
