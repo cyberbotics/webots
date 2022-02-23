@@ -30,6 +30,8 @@ class Nao (Robot):
         self.sideStepRight = Motion('../../motions/SideStepRight.motion')
         self.turnLeft60 = Motion('../../motions/TurnLeft60.motion')
         self.turnRight60 = Motion('../../motions/TurnRight60.motion')
+        self.taichi = Motion('../../motions/Taichi.motion')
+        self.wipeForhead= Motion('../../motions/WipeForehead.motion')
 
     def startMotion(self, motion):
         # interrupt current motion
@@ -195,6 +197,8 @@ class Nao (Robot):
         print('[PageUp][PageDown]: open/close hands')
         print('[7][8][9]: change all leds RGB color')
         print('[0]: turn all leds off')
+        print('[T]: perform a taichi move')
+        print('[w]: wipe its forehead')
         print('[H]: print this help message')
 
     def findAndEnableDevices(self):
@@ -331,6 +335,10 @@ class Nao (Robot):
                 self.printFootBumpers()
             elif key == ord('U'):
                 self.printUltrasoundSensors()
+            elif key == ord('T'):
+                self.startMotion(self.taichi)
+            elif key == ord('W'):
+                self.startMotion(self.wipeForhead)
             elif key == Keyboard.HOME:
                 self.printCameraImage(self.cameraTop)
             elif key == Keyboard.END:

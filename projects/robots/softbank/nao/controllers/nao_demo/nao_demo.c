@@ -58,7 +58,8 @@ static WbDeviceTag RShoulderPitch;
 static WbDeviceTag LShoulderPitch;
 
 // motion file handles
-static WbMotionRef hand_wave, forwards, backwards, side_step_left, side_step_right, turn_left_60, turn_right_60;
+static WbMotionRef hand_wave, forwards, backwards, side_step_left, side_step_right, turn_left_60, turn_right_60, taichi,
+  wipeForehead;
 static WbMotionRef currently_playing = NULL;
 
 static double maxPhalanxMotorPosition[PHALANX_MAX];
@@ -151,6 +152,8 @@ static void load_motion_files() {
   side_step_right = wbu_motion_new("../../motions/SideStepRight.motion");
   turn_left_60 = wbu_motion_new("../../motions/TurnLeft60.motion");
   turn_right_60 = wbu_motion_new("../../motions/TurnRight60.motion");
+  taichi = wbu_motion_new("../../motions/Taichi.motion");
+  wipeForehead = wbu_motion_new("../../motions/WipeForehead.motion");
 }
 
 static void start_motion(WbMotionRef motion) {
@@ -335,6 +338,8 @@ static void print_help() {
   printf("[PageUp][PageDown]: open/close hands\n");
   printf("[7][8][9]: change all leds RGB color\n");
   printf("[0]: turn all leds off\n");
+  printf("[T]: perform a taichi move\n");
+  printf("[W]: wipe its forehead\n");
   printf("[H]: print this help message\n");
 }
 
@@ -390,6 +395,12 @@ static void run_command(int key) {
       break;
     case 'U':
       print_ultrasound_sensors();
+      break;
+    case 'T':
+      start_motion(taichi);
+      break;
+    case 'W':
+      start_motion(wipeForehead);
       break;
     case WB_KEYBOARD_HOME:
       print_camera_image(CameraTop);
