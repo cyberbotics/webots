@@ -4,6 +4,7 @@ services:
 
   webots:
     image: $INSTANCE
+    container_name: $INSTANCE
     build:
       context: .
       dockerfile: Dockerfile
