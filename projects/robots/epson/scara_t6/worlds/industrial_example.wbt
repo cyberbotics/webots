@@ -1,0 +1,514 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+  info [
+    "A SCARA Epson T6 sorting fruits with a suction cup in a food industry setting."
+  ]
+  title "SCARA robot in food industry"
+  basicTimeStep 8
+  physicsDisableAngularThreshold 0.1
+}
+Viewpoint {
+  fieldOfView 0.9
+  orientation 0.18793470204092078 -0.04691206835612319 -0.9810605514499809 3.6743968176728012
+  position 4.001999429639437 -2.35724694298558 1.8428479644180809
+  exposure 1.7
+}
+TexturedBackground {
+  texture "factory"
+}
+Floor {
+  translation 0.75 0 0
+  size 7.5 5
+  appearance ThreadMetalPlate {
+  }
+}
+SquareManhole {
+  translation 0.560459 -1.782 -0.03
+  rotation 0 0 1 -1.5707963071795863
+}
+Table {
+  translation 3.097723 2.013972 0
+  size 1.8 0.7 0.8
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+WoodenChair {
+  translation 2.921084 1.648051 0
+  rotation 0 0 1 2.0944
+}
+Transform {
+  translation 2.52024 2.10889 0.796
+  rotation 0 0 1 -1.3089953071795861
+  children [
+    Monitor {
+    }
+  ]
+}
+Keyboard {
+  translation 2.59421 1.8802 0.8
+  rotation 0 0 1 1.8326
+}
+DesktopComputer {
+  translation 2.331033 2.125086 0
+  rotation 0 0 -1 1.5708
+}
+ComputerMouse {
+  translation 2.90217 1.90622 0.81
+  rotation 0 0 -1 -1.5707953071795862
+  mass 0
+}
+Table {
+  translation -1.419911 -0.81333 0
+  rotation 0 0 1 -1.5707963071795863
+  name "table(1)"
+  size 1.8 0.7 0.8
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+OfficeTelephone {
+  translation -1.34381 -0.209288 0.8
+  rotation 0 0 1 -2.3561953071795863
+  enablePhysics FALSE
+}
+Wrench {
+  translation -1.23886 -0.5886 0.8
+  rotation 0 0 1 -2.6179953071795863
+}
+Hammer {
+  translation -1.60381 -0.359288 0.81
+  rotation 0 0 1 1.5708
+}
+PlatformCart {
+  translation 0.927687 1.793317 0
+  rotation 0 0 1 -2.8797933071795865
+}
+Radiator {
+  translation 0.528902 2.341308 0.33
+  rotation 0 0 1 -1.5707963071795863
+  numberOfFins 16
+}
+WoodenPalletStack {
+  translation 2.8 0.16 0
+  rotation 0 0 1 -1.5707953071795862
+  palletNumber 5
+  palletSize 0.8 1 0.11
+}
+Cabinet {
+  translation -0.41 2.47 0
+  rotation 0 0 1 -1.5707953071795862
+  name "cabinet(1)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+CardboardBox {
+  translation -1.21 2.18 0.3
+}
+CardboardBox {
+  translation -1.198389 2.100678 0.75
+  rotation 0 0 1 2.094395
+  name "cardboard box(1)"
+  size 0.4 0.6 0.3
+}
+Solid {
+  translation -0.38 2.16 0.06
+  children [
+    DEF GEOM Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "webots://projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
+        ]
+      }
+    }
+  ]
+  name "solid(2)"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "water"
+      dragForceCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 200
+    }
+  ]
+}
+Transform {
+  translation 1.77 2.67 1.05
+  rotation 1 0 0 1.5707996938995747
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.23 0.3 0.01
+      }
+    }
+  ]
+}
+SolidBox {
+  translation 0.345 -0.2464 0.215
+  rotation 1 0 0 4.692820414042842e-06
+  size 1.5 0.4 0.54
+  appearance GalvanizedMetal {
+  }
+}
+SolidBox {
+  translation -0.015 -0.8323 0.2
+  rotation 0 0 1 -1.5707953071795862
+  name "box(2)"
+  size 0.77 0.8 0.39
+  appearance GalvanizedMetal {
+  }
+}
+ScaraT6 {
+  translation 0.4 -0.33 0.494
+  rotation 0 0 -1 1.5708
+  controller "scara_food_industry"
+  supervisor TRUE
+  staticBase TRUE
+  handSlot [
+    DEF VACCUM Transform {
+      children [
+        Shape {
+          appearance ElectricConduit {
+          }
+          geometry Cylinder {
+            height 0.04
+            radius 0.11
+          }
+        }
+      ]
+    }
+  ]
+}
+FireExtinguisher {
+  translation -0.75771 1.79 0
+  rotation 0 0 -1 1.5708
+}
+ConveyorBelt {
+  translation 2.48 -0.83 0
+  rotation 0 0 1 3.14159
+  size 4.12 0.7 0.4
+  appearance CorrugatedMetal {
+    textureTransform TextureTransform {
+      scale 6 3.1
+    }
+  }
+  borderHeight 0.1
+  speed 0.1
+}
+PlasticCrate {
+  translation 0.58 0.42 0
+  size 0.6 0.45 0.4
+  mass 1
+}
+PlasticCrate {
+  translation -0.08 -0.82 0.395
+  rotation 0 0 1 1.01503e-06
+  name "plastic crate(2)"
+  size 0.3 0.44 0.1
+  color 0.913725 0.72549 0.431373
+  mass 1
+}
+PlasticCrate {
+  translation 0.22214 -0.830233 0.395
+  rotation 0 0 1 1.01503e-06
+  name "plastic crate(3)"
+  size 0.3 0.44 0.1
+  color 0.913725 0.72549 0.431373
+  mass 1
+}
+PlasticCrate {
+  translation -0.1 0.42 0
+  name "plastic crate(1)"
+  size 0.6 0.45 0.4
+  color 0.827451 0.843137 0.811765
+  mass 1
+}
+DEF WALL1 Transform {
+  translation 0.75 2.5 1
+  rotation 1 0 0 1.5708
+  children [
+    DEF wall_long Shape {
+      appearance Roughcast {
+      }
+      geometry Plane {
+        size 7.5 2
+      }
+    }
+  ]
+}
+DEF WALL2 Transform {
+  translation 0.75 -2.5 1
+  rotation 1 0 0 -1.5708
+  children [
+    USE wall_long
+  ]
+}
+DEF WALL3 Transform {
+  translation 4.5 0 1
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+  children [
+    DEF wall_short Shape {
+      appearance Roughcast {
+      }
+      geometry Plane {
+        size 5 2
+      }
+    }
+  ]
+}
+DEF WALL4 Transform {
+  translation -3 0 1
+  rotation 0.5773506025225371 0.5773496025232256 0.5773506025225371 2.0944
+  children [
+    USE wall_short
+  ]
+}
+Transform {
+  translation 4.5 -0.83 0.65
+  children [
+    Shape {
+      appearance Plastic {
+        colorOverride 0 0 0
+      }
+      geometry Box {
+        size 0.001 0.7 0.5
+      }
+    }
+  ]
+}
+Orange {
+  translation 0.525834 -1.07997 0.44
+  name "orange(2)"
+}
+Orange {
+  translation 1.58807 -0.833874 0.44
+  name "orange(7)"
+}
+Orange {
+  translation 1.54699 -0.990903 0.44
+  name "orange(24)"
+}
+Orange {
+  translation 1.17992 -0.738513 0.44
+  name "orange(13)"
+}
+Orange {
+  translation 2.58229 -1.01985 0.44
+  name "orange(10)"
+}
+Orange {
+  translation 3.06296 -0.726633 0.44
+  name "orange(11)"
+}
+Orange {
+  translation 3.35401 -0.891637 0.44
+  name "orange(12)"
+}
+Orange {
+  translation 3.67228 -0.909649 0.44
+  name "orange(17)"
+}
+Orange {
+  translation 4.17121 -0.948107 0.44
+  name "orange(16)"
+}
+Orange {
+  translation 3.01257 -0.999581 0.44
+  name "orange(15)"
+}
+Orange {
+  translation 1.80125 -0.978805 0.44
+  name "orange(9)"
+}
+Orange {
+  translation 2.0482 -0.853736 0.44
+  name "orange(18)"
+}
+Orange {
+  translation 0.527005 -0.59888 0.44
+  name "orange(1)"
+}
+Orange {
+  translation 0.89708 -0.999981 0.44
+  name "orange(8)"
+}
+Orange {
+  translation 0.701031 -0.619505 0.44
+  rotation 0 1 0 0.523599
+  name "orange(14)"
+}
+Orange {
+  translation 1.06056 -0.965735 0.44
+  name "orange(20)"
+}
+Orange {
+  translation 0.979007 -0.724324 0.44
+  name "orange(23)"
+}
+Orange {
+  translation 0.519285 -0.762303 0.44
+  name "orange(22)"
+}
+Orange {
+  translation 0.837455 -0.676998 0.44
+  name "orange(19)"
+}
+DEF fruit1 Orange {
+  translation 0.677164 -0.812413 0.44
+  name "orange(21)"
+}
+Orange {
+  translation 0.141124 -0.774816 0.44
+  name "orange(3)"
+}
+Orange {
+  translation 0.244109 -0.70797 0.445869
+  rotation 0 1 0 1.309
+  name "orange(4)"
+}
+Orange {
+  translation 0.14233 -0.922713 0.451045
+  rotation 0.09269091803692169 0.7040681370061072 -0.7040571370039667 0.369707
+  name "orange(5)"
+}
+Orange {
+  translation 0.265314 -0.847889 0.453
+  name "orange(6)"
+}
+DEF fruit0 Apple {
+  translation 0.623758 -0.897132 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(10)"
+}
+Apple {
+  translation 1.83364 -0.629035 0.45
+  rotation 0 0 1 -0.523595307179586
+}
+Apple {
+  translation 1.20145 -0.95923 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(15)"
+}
+Apple {
+  translation 2.24739 -0.796399 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(6)"
+}
+Apple {
+  translation 2.70197 -0.898415 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(7)"
+}
+Apple {
+  translation 3.56635 -0.773122 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(14)"
+}
+Apple {
+  translation 2.39677 -0.941142 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(8)"
+}
+Apple {
+  translation 3.87772 -1.06219 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(12)"
+}
+Apple {
+  translation 4.23807 -0.665014 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(13)"
+}
+Apple {
+  translation 0.527099 -0.932775 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(5)"
+}
+Apple {
+  translation 0.704774 -1.00551 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(11)"
+}
+Apple {
+  translation 0.794774 -0.84963 0.45
+  rotation 0.9999999999897413 1.7334099999822177e-06 -4.184819999957069e-06 -0.785395307179586
+  name "apple(9)"
+}
+Apple {
+  translation 0.947486 -0.846641 0.45
+  rotation 0.11734400095887651 0.4379360035785941 -0.8913150072833806 0.584052
+  name "apple(16)"
+}
+Apple {
+  translation 1.12263 -0.614939 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(17)"
+}
+Apple {
+  translation 1.36413 -0.798103 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(18)"
+}
+Apple {
+  translation 1.34757 -1.00584 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(19)"
+}
+Apple {
+  translation 1.62579 -0.70485 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(20)"
+}
+Apple {
+  translation -0.00714131 -0.706077 0.45
+  rotation 0.46112910766674226 -0.5893351376009307 -0.6633581548841968 -2.1588553071795866
+  name "apple(1)"
+}
+Apple {
+  translation -0.162059 -0.915421 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(2)"
+}
+Apple {
+  translation -0.133885 -0.736342 0.45
+  rotation 0 0 1 -0.523595307179586
+  name "apple(4)"
+}
+Apple {
+  translation -0.0126866 -0.903111 0.45
+  rotation 1 0 0 -1.3089953071795861
+  name "apple(3)"
+}
