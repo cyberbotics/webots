@@ -255,7 +255,7 @@ class Client:
                 webotsCommand += f';multimediaServer={config["multimediaServer"]}'
             if 'multimediaStream' in config:
                 webotsCommand += f';multimediaStream={config["multimediaStream"]}'
-            webotsCommand += f'\" '
+            webotsCommand += '\" '
 
             if config['docker']:
 
@@ -265,12 +265,13 @@ class Client:
                     version = world_file.readline().split()[1]
                 from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
                 makeProject = int(os.path.isfile('Makefile'))
+                webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{DockerWorld}\"'
                 envVarDocker = {
                     "IMAGE": from_image,
                     "PROJECT_PATH": config["projectsDir"],
                     "MAKE": makeProject,
                     "PORT": port,
-                    "WEBOTS": '\"' + webotsCommand.replace('\"', '\\"') + f'{DockerWorld}\"'
+                    "WEBOTS": webotsCommand
                 }
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
@@ -286,7 +287,6 @@ class Client:
                 with open('.env', 'w') as env_file:
                     for key, value in envVarDocker.items():
                         env_file.write(f'{key}={value}\n')
-                env_file.close()
 
                 # create a Dockerfile if not provided in the project folder
                 if not os.path.isfile('Dockerfile'):
@@ -305,7 +305,8 @@ class Client:
 
                 command = 'docker-compose up'
             else:
-                command = webotsCommand + world
+                webotsCommand += world
+                command = webotsCommand
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
