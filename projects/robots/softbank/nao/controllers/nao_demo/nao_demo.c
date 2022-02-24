@@ -450,20 +450,21 @@ int main() {
   // walk forwards
   wbu_motion_set_loop(hand_wave, true);
   wbu_motion_play(hand_wave);
+  currently_playing = hand_wave;
 
   // until a key is pressed
   int key = -1;
   do {
     simulation_step();
     key = wb_keyboard_get_key();
-  } while (key >= 0);
+  } while (key <= 0);
 
   // stop looping this motion
   wbu_motion_set_loop(hand_wave, false);
 
   // read keyboard and execute user commands
   while (1) {
-    if (key >= 0)
+    if (key > 0)
       run_command(key);
 
     simulation_step();
