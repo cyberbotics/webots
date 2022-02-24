@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -217,6 +217,8 @@ thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
 webotsArguments = '--mode=fast --stdout --stderr --batch'
+if sys.platform != 'win32':
+    webotsArguments += ' --no-sandbox'
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 
@@ -318,6 +320,20 @@ for groupName in testGroups:
         with open(webotsStdErrFilename) as f:
             for line in f:
                 appendToOutputFile(line)
+                if '(core dumped)' in line:
+                    seg_fault_line = line[0:line.find(' Segmentation fault')]
+                    pid = int(seg_fault_line[seg_fault_line.rfind(' ') + 1:])
+                    core_dump_file = '/tmp/core_webots-bin.' + str(pid)
+                    if os.path.exists(core_dump_file):
+                        appendToOutputFile(subprocess.check_output([
+                            'gdb', '--batch', '--quiet', '-ex', 'bt', '-ex',
+                            'quit', '../bin/webots-bin', core_dump_file
+                        ]))
+                        os.remove(core_dump_file)
+                    else:
+                        appendToOutputFile(
+                            'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
+                        )
 
 appendToOutputFile('\n' + finalMessage + '\n')
 
@@ -333,15 +349,5 @@ if monitorOutputCommand.isRunning():
 with open(outputFilename, 'r') as file:
     content = file.read()
     failures += content.count('FAILURE ')
-
-
-print('--- STDOUT ---')
-with open(webotsStdOutFilename) as f:
-    content = f.read()
-    print(content)
-print('--- STDERR ---')
-with open(webotsStdErrFilename) as f:
-    content = f.read()
-    print(content)
 
 sys.exit(failures)
