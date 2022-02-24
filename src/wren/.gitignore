@@ -1,1 +1,4 @@
 functions_to_export.txt
+wrenjs.js
+wrenjs.wasm
+wrenjs.data
