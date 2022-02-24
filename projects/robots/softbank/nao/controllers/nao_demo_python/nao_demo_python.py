@@ -197,7 +197,7 @@ class Nao (Robot):
         print('[PageUp][PageDown]: open/close hands')
         print('[7][8][9]: change all leds RGB color')
         print('[0]: turn all leds off')
-        print('[T]: perform a taichi move')
+        print('[T]: perform Tai chi movements')
         print('[w]: wipe its forehead')
         print('[H]: print this help message')
 
