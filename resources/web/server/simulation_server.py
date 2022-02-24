@@ -296,14 +296,15 @@ class Client:
                         "enhancement-theia-implementation/resources/web/server/Dockerfile")
                     logging.info('created Dockerfile')
 
-                # create a docker-compose if not provided in the project folder
-                if not os.path.isfile('docker-compose.yml'):
-                    os.system(
-                        "wget https://raw.githubusercontent.com/cyberbotics/webots/"
-                        "enhancement-theia-implementation/resources/web/server/docker-compose.yml")
-                    logging.info('created docker-compose.yml')
+                # create a docker-compose
+                if os.path.isfile('docker-compose.yml'):
+                    logging.warning('overwrite local docker-compose.yml')
+                os.system(
+                    "wget -O https://raw.githubusercontent.com/cyberbotics/webots/"
+                    "enhancement-theia-implementation/resources/web/server/docker-compose.yml")
+                logging.info('created docker-compose.yml')
 
-                command = 'docker-compose up'
+                command = 'docker-compose up --scale webots=3'
             else:
                 webotsCommand += world
                 command = webotsCommand
@@ -362,7 +363,7 @@ class Client:
 
     def kill_webots(self):
         """Force the termination of Webots."""
-        if self.webots_process:
+        """ if self.webots_process:
             logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
             if sys.platform == 'darwin':
                 self.webots_process.kill()
@@ -373,7 +374,7 @@ class Client:
                 except subprocess.TimeoutExpired:
                     logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
                     self.webots_process.kill()
-            self.webots_process = None
+            self.webots_process = None """
 
 
 class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
