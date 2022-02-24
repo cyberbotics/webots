@@ -30,7 +30,7 @@ class Nao (Robot):
         self.sideStepRight = Motion('../../motions/SideStepRight.motion')
         self.turnLeft60 = Motion('../../motions/TurnLeft60.motion')
         self.turnRight60 = Motion('../../motions/TurnRight60.motion')
-        self.taichi = Motion('../../motions/Taichi.motion')
+        self.taiChi = Motion('../../motions/TaiChi.motion')
         self.wipeForhead = Motion('../../motions/WipeForehead.motion')
 
     def startMotion(self, motion):
@@ -296,6 +296,7 @@ class Nao (Robot):
     def run(self):
         self.handWave.setLoop(True)
         self.handWave.play()
+        self.currentlyPlaying = self.handWave
 
         # until a key is pressed
         key = -1
@@ -336,7 +337,7 @@ class Nao (Robot):
             elif key == ord('U'):
                 self.printUltrasoundSensors()
             elif key == ord('T'):
-                self.startMotion(self.taichi)
+                self.startMotion(self.taiChi)
             elif key == ord('W'):
                 self.startMotion(self.wipeForhead)
             elif key == Keyboard.HOME:
