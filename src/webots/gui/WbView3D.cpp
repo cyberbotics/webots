@@ -2054,11 +2054,9 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
     WbRobot *pickedRobot = dynamic_cast<WbRobot *>(node);
     if (pickedRobot == NULL && node != NULL)
       pickedRobot = WbNodeUtilities::findRobotAncestor(node);
-    if (pickedRobot) {
+    if (pickedRobot)
       mPickedMatter = pickedRobot;
-      if (!mIsRemoteMouseEvent)
-        emit showRobotWindowRequest();
-    } else
+    else
       mPickedMatter = WbNodeUtilities::findUpperMatter(node);
   }
 }
