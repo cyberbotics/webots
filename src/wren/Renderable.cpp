@@ -222,12 +222,8 @@ namespace wren {
 
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
-    if (mInvertFrontFace) {
-      if (frontFaceMode == GL_CCW)
-        glstate::setFrontFace(GL_CW);
-      else
-        glstate::setFrontFace(GL_CCW);
-    }
+    if (mInvertFrontFace)
+      glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
 
     mMesh->render(mDrawingMode);
 
