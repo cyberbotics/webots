@@ -117,7 +117,7 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
   }
 }
 
-QString WbNetwork::get(const QString &url) {
+const QString WbNetwork::get(const QString &url) const {
   // cppcheck-suppress assertWithSideEffect
   assert(isCached(url));  // the 'get' function should not be called unless we know the file to be cached
 
@@ -130,7 +130,7 @@ QString WbNetwork::get(const QString &url) {
   return location;
 }
 
-bool WbNetwork::isCached(const QString &url) {
+bool WbNetwork::isCached(const QString &url) const {
   if (cacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
@@ -144,14 +144,15 @@ bool WbNetwork::isCached(const QString &url) {
   return false;
 }
 
-const QString WbNetwork::urlToHash(const QString &url) {
+// cppcheck-suppress functionStatic
+const QString WbNetwork::urlToHash(const QString &url) const {
   return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
 }
 
 void WbNetwork::reduceCacheUsage() {
   const qint64 maxCacheSizeInBytes = WbPreferences::instance()->value("Network/cacheSize", 1024).toInt() * 1024 * 1024;
   if (maxCacheSizeInBytes > mCacheSizeInBytes)
-    return;  // unnecessary to purge any cache items
+    return;  // unnecessary to purge any cached assets
 
   QFileInfoList assets;
 

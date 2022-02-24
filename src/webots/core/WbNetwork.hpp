@@ -25,10 +25,10 @@ public:
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
 
-  bool isCached(const QString &url);
+  bool isCached(const QString &url) const;
   void clearCache();
   void save(const QString &url, const QByteArray &content);
-  QString get(const QString &url);
+  const QString get(const QString &url) const;
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
   void reduceCacheUsage();
@@ -38,10 +38,10 @@ private:
   WbNetwork();
   ~WbNetwork();
 
-  const QString urlToHash(const QString &url);
-
   void recomputeCacheSize();
   static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
+
+  const QString urlToHash(const QString &url) const;
 
   QString mCacheDirectory;
   qint64 mCacheSizeInBytes;
