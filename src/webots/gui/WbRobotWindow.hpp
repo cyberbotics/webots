@@ -26,7 +26,7 @@ public:
 
   WbRobot *robot() { return mRobot; }
   const QString getClientID() { return mClientID; }
-  void setupPage();
+  void setupPage(int port);
 
 public slots:
   void setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);

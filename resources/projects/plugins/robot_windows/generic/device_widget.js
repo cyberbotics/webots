@@ -116,7 +116,7 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
   const mean = 0.5 * (maxValue + minValue);
   const step = 0.01 * (maxValue - minValue); // 1%
   const slider = appendNewElement(device.name + '-content',
-    '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
+    '<input type="range" orient="vertical" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
     ' class="motor-slider"' + customStyle +
     ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +

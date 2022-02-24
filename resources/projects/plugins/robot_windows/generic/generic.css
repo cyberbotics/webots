@@ -1,5 +1,5 @@
 body {
-  width: 100%;
+  width: 99%;
   height: 100%;
   font-family: Arial, sans-serif;
 }
@@ -27,6 +27,8 @@ h2 {
   position: fixed;
   height: 100%;
   z-index: 2;
+  left: 0px;
+  top: 0px;
   color: white;
   background-color: #444;
 }
@@ -235,11 +237,18 @@ h2 {
 .motor-slider {
   position: absolute;
   z-index: 1;
-  width: 202px;
-  bottom: 117px;
-  left: 237px;
-  height: 10px;
-  transform: rotate(-90deg);
+  width: 10px;
+  top: 10px;
+  right: 0px;
+  height: 209px;
+  -webkit-appearance: slider-vertical;
+}
+.motor-slider-right {
+  right: auto;
+  left: 13px;
+}
+.motor-slider::-webkit-slider-runnable-track {
+  -webkit-appearance: slider-vertical;
 }
 .motor-slider-right {
   right: auto;
