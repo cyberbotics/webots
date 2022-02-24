@@ -526,6 +526,11 @@ void WbSkin::createWrenSkeleton() {
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
     wr_renderable_set_scene_culling(renderable, false);
 
+    // used for rendering range finder camera
+    WrMaterial *depthMaterial = wr_phong_material_new();
+    wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
+    wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
+
     // used for rendering segmentation camera
     WrMaterial *segmentationMaterial = wr_phong_material_new();
     wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
@@ -535,6 +540,7 @@ void WbSkin::createWrenSkeleton() {
 
     mMaterials.push_back(material);
     mSegmentationMaterials.push_back(segmentationMaterial);
+    mEncodeDepthMaterials.push_back(depthMaterial);
     mMeshes.push_back(meshes[i]);
     mMaterialNames.push_back(QString(materialNames[i]));
     mRenderables.push_back(renderable);
@@ -634,6 +640,10 @@ void WbSkin::deleteWrenSkeleton() {
   for (WrMaterial *material : mMaterials)
     wr_material_delete(material);
 
+  // delete encode depth material
+  for (WrMaterial *depthMaterial : mEncodeDepthMaterials)
+    wr_material_delete(depthMaterial);
+
   // delete camera segmentation material
   for (WrMaterial *segmentationMaterial : mSegmentationMaterials)
     wr_material_delete(segmentationMaterial);
@@ -650,6 +660,7 @@ void WbSkin::deleteWrenSkeleton() {
   mRenderables.clear();
   mMaterials.clear();
   mSegmentationMaterials.clear();
+  mEncodeDepthMaterials.clear();
   mMeshes.clear();
   mBoneTransforms.clear();
   mBonesMap.clear();

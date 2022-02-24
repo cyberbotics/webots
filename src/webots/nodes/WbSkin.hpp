@@ -105,6 +105,7 @@ private:
   QStringList mMaterialNames;
   QVector<WrMaterial *> mMaterials;
   QVector<WrMaterial *> mSegmentationMaterials;
+  QVector<WrMaterial *> mEncodeDepthMaterials;
   QVector<WrDynamicMesh *> mMeshes;
 
   WrStaticMesh *mBoneMesh;
