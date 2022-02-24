@@ -59,7 +59,7 @@ static WbDeviceTag LShoulderPitch;
 
 // motion file handles
 static WbMotionRef hand_wave, forwards, backwards, side_step_left, side_step_right, turn_left_60, turn_right_60, taichi,
-  wipeForehead;
+  wipe_forehead;
 static WbMotionRef currently_playing = NULL;
 
 static double maxPhalanxMotorPosition[PHALANX_MAX];
