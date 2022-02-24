@@ -1,10 +1,18 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-  <script>
+  <meta charset='UTF-8'>
+  <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
+
+  <script type="module">
+    import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+    // Initialize the robot window
+    window.robotWindow = new RobotWindow();
+  </script>
+
+  <script type="text/javascript">
     window.onload = () => {
-      // Initialize the robot window
-      const robotWindow = webots.window('e-puck');
 
       // Receive messages from the controller and show them in the robot window
       robotWindow.receive = (message) => {

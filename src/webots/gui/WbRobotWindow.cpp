@@ -26,16 +26,15 @@
 WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
 }
 
-void WbRobotWindow::setupPage() {
+void WbRobotWindow::setupPage(int port) {
   QString windowFileName = mRobot->windowFile("html");
-  const QString port = WbPreferences::instance()->value("port", 1234).toString();
   if (windowFileName.isEmpty()) {
     mRobot->parsingWarn(tr("No HTML robot window is set in the 'window' field."));
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
 
-  openOnWebBrowser("http://localhost:" + port + windowFileName + "?name=" + mRobot->name(),
+  openOnWebBrowser("http://localhost:" + QString::number(port) + windowFileName + "?name=" + mRobot->name(),
                    WbPreferences::instance()->value("RobotWindow/browser").toString(),
                    WbPreferences::instance()->value("RobotWindow/newBrowserWindow").toBool());
 }
