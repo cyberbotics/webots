@@ -452,6 +452,16 @@
       }
     },
     {
+      "name": "ScaraT6",
+      "proto": "ScaraT6",
+      "translation": "0 0 0",
+      "rotation": "0 0 0 0",
+      "viewpoint": {
+        "orientation": "-0.1972686334046767 -0.213781478031957 0.9567562730001425 4.5177685586727305",
+        "position": "0.4563460186348823 1.1079577096870512 0.8510370558284897"
+      }
+    },
+    {
       "name": "shrimp",
       "proto": "Shrimp",
       "translation": "0 0 0",

@@ -258,7 +258,7 @@ class Client:
                         f.write('RUN make\n')
                     f.close()
                 logging.info('created Dockerfile')
-                image = subprocess.getoutput('docker build -q .')
+                image = subprocess.getoutput(f'docker build -q --build-arg TMP_PATH={self.project_instance_path} . ')
                 command = 'docker run --net host'
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'

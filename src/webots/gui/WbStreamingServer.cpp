@@ -20,6 +20,7 @@
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -78,10 +79,16 @@ void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
 }
 
 void WbStreamingServer::start(int port) {
+  mPort = port;
   try {
     create(port);
   } catch (const QString &e) {
     WbLog::error(tr("Error when creating the TCP streaming server on port %1: %2").arg(port).arg(e));
+    if ((WbPreferences::instance()->value("Streaming/port", 1234).toInt() + 10) > port) {
+      mPort++;
+      WbLog::warning(tr("Trying again with port %1").arg(mPort));
+      start(mPort);
+    }
     return;
   }
   if (mStream)
