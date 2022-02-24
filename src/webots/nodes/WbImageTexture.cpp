@@ -133,22 +133,18 @@ void WbImageTexture::postFinalize() {
 bool WbImageTexture::loadTexture() {
   const QString &url = mUrl->item(0);
   const bool isWebAsset = WbUrl::isWeb(url);
-  if (isWebAsset && !WbNetwork::instance()->isCached(url)) {
-    printf("> %s not cached\n", url.toUtf8().constData());
+  if (isWebAsset && !WbNetwork::instance()->isCached(url))
     return false;
-  }
 
   QString filePath;
-  if (isWebAsset) {
-    assert(WbNetwork::instance()->isCached(url));
+  if (isWebAsset)
     filePath = WbNetwork::instance()->get(url);
-    printf("> %s is cached, at path: %s\n", url.toUtf8().constData(), filePath.toUtf8().constData());
-  } else
+  else
     filePath = path(true);
 
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
-    printf("> couldn't read it\n");
+    warn(tr("Texture file could not be read: %1").arg(filePath));
     return false;
   }
   const bool r = loadTextureData(&file);
@@ -264,7 +260,7 @@ void WbImageTexture::updateWrenTexture() {
   }
 
   mWrenTexture = WR_TEXTURE(texture);
-  if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
+  if (mDownloader != NULL && mDownloader->device() != NULL)
     delete mDownloader;
   mDownloader = NULL;
 }
@@ -307,9 +303,7 @@ void WbImageTexture::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
   if (n > 0) {
-    const QString &url = mUrl->item(0);
-    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
-    printf("%s became %s\n", url.toUtf8().constData(), completeUrl.toUtf8().constData());
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();

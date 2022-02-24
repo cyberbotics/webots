@@ -336,7 +336,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbMouse.cpp \
   WbMultipleValue.cpp \
   WbMuscle.cpp \
-  WbNetwork.cpp \
   WbNewControllerWizard.cpp \
   WbNewPhysicsPluginWizard.cpp \
   WbNewProjectWizard.cpp \
@@ -511,6 +510,7 @@ OTHER_SOURCES = \
   WbMessageBox.cpp \
   WbMotorSoundManager.cpp \
   WbMultimediaStreamingLimiter.cpp \
+  WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \
   WbNodeUtilities.cpp \

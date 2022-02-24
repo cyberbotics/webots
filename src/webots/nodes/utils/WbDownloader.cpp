@@ -43,8 +43,7 @@ WbDownloader::WbDownloader(QObject *parent) :
   mNetworkReply(NULL),
   mFinished(false),
   mOffline(false),
-  mCopy(false),
-  mIsBackground(false) {
+  mCopy(false) {
   gCount++;
 }
 
@@ -68,17 +67,14 @@ void WbDownloader::download(const QUrl &url) {
 
   mUrl = url;
 
-  if (gUrlCache.contains(mUrl) && !mIsBackground &&
-      (mUrl.toString().endsWith(".png", Qt::CaseInsensitive) || url.toString().endsWith(".jpg", Qt::CaseInsensitive))) {
-    if (!(mOffline == true && mCopy == false)) {
-      mCopy = true;
-      QNetworkReply *reply = gUrlCache[mUrl];
-      if (reply && !reply->isFinished())
-        connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-      else
-        finished();
-      return;
-    }
+  if (gUrlCache.contains(mUrl) && !(mOffline == true && mCopy == false)) {
+    mCopy = true;
+    QNetworkReply *reply = gUrlCache[mUrl];
+    if (reply && !reply->isFinished())
+      connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+    else
+      finished();
+    return;
   }
 
   if (!gDownloading) {

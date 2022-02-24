@@ -16,13 +16,10 @@
 #define WB_NETWORK_HPP
 
 #include <QtCore/QFileInfo>
-#include <QtCore/QObject>
 
 class QNetworkAccessManager;
 
-class WbNetwork : public QObject {
-  Q_OBJECT
-
+class WbNetwork {
 public:
   static WbNetwork *instance();
   QNetworkAccessManager *networkAccessManager();

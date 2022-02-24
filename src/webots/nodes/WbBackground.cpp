@@ -193,7 +193,6 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   }
   delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
-  mDownloader[index]->setIsBackground(true);  // TODO: is distinction necessary? Can't treat is as any other texture?
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
 
@@ -202,12 +201,10 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 
 void WbBackground::downloadAssets() {
   for (size_t i = 0; i < 6; i++) {
-    if (mUrlFields[i]->size())
-      if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
-        downloadAsset(mUrlFields[i]->item(0), i, false);
-    if (mIrradianceUrlFields[i]->size())
-      if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
-        downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
+    if (mUrlFields[i]->size() && !WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
+      downloadAsset(mUrlFields[i]->item(0), i, false);
+    if (mIrradianceUrlFields[i]->size() && !WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
+      downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
 
@@ -340,8 +337,7 @@ void WbBackground::updateCubemap() {
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
-          const QString &textureUrl = mUrlFields[i]->item(0);
-          const QString completeUrl = WbUrl::computePath(this, "url", textureUrl, false);
+          const QString completeUrl = WbUrl::computePath(this, "url", mUrlFields[i]->item(0), false);
           if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
             downloadAsset(completeUrl, i, true);
             postpone = true;
@@ -351,8 +347,7 @@ void WbBackground::updateCubemap() {
           }
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
-          const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-          const QString completeUrl = WbUrl::computePath(this, "url", irradianceUrl, false);
+          const QString completeUrl = WbUrl::computePath(this, "url", mIrradianceUrlFields[i]->item(0), false);
           if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
             downloadAsset(completeUrl, i + 6, true);
             postpone = true;
@@ -428,8 +423,7 @@ bool WbBackground::loadTexture(int i) {
     return true;
 
   const int urlFieldIndex = gCoordinateSystemSwap(i);
-
-  // if a side is not defined, the texture should not be loaded
+  // if a side is not defined, it should not even attempt to load the texture
   assert(mUrlFields[urlFieldIndex]->size() != 0);
 
   QString url = mUrlFields[urlFieldIndex]->item(0);
@@ -454,7 +448,7 @@ bool WbBackground::loadTexture(int i) {
     return false;
   }
 
-  QSize textureSize = imageReader.size();
+  const QSize textureSize = imageReader.size();
   if (textureSize.width() != textureSize.height()) {
     warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
     return false;
@@ -505,7 +499,7 @@ bool WbBackground::loadTexture(int i) {
   }
 
   if (mDownloader[urlFieldIndex]) {
-    delete mDownloader[urlFieldIndex];  // TODO: necessary? is delete in downloadAssets always done?
+    delete mDownloader[urlFieldIndex];
     mDownloader[urlFieldIndex] = NULL;
   }
 
@@ -517,14 +511,13 @@ bool WbBackground::loadIrradianceTexture(int i) {
     return true;
 
   const int urlFieldIndex = gCoordinateSystemSwap(i);
-
   if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
 
   QString url = mIrradianceUrlFields[urlFieldIndex]->item(0);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
-      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
+      url = WbNetwork::instance()->get(url);
     else {
       warn(tr("'%1' is expected to be cached, but is not.").arg(url));
       return false;
@@ -592,7 +585,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
 
   mIrradianceTexture[i] = data;
 
-  if (mDownloader[urlFieldIndex + 6]) {  // TODO: necessary? is delete in downloadAssets always done?
+  if (mDownloader[urlFieldIndex + 6]) {
     delete mDownloader[urlFieldIndex + 6];
     mDownloader[urlFieldIndex + 6] = NULL;
   }

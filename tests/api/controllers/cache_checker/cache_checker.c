@@ -16,7 +16,6 @@ static WbDeviceTag distance_sensors[NB_MESHES];
 
 void test_camera_color(int test_number, const int expected_color[3]) {
   int r, g, b;
-
   const int width = wb_camera_get_width(cameras[0]);
 
   for (int i = 0; i < NB_TEXTURES; ++i) {
@@ -41,8 +40,6 @@ void test_distance(int test_number, const double expected_distance) {
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
-
-  char device_name[20];
 
   WbNodeRef node;
   WbFieldRef texture_fields[NB_TEXTURES];
@@ -71,6 +68,8 @@ int main(int argc, char **argv) {
   mesh_fields[2] = wb_supervisor_node_get_field(node, "meshUrl");
 
   // initialize devices
+  char device_name[20];
+
   for (int i = 0; i < NB_TEXTURES; ++i) {
     sprintf(device_name, "camera%d", i);
     cameras[i] = wb_robot_get_device(device_name);

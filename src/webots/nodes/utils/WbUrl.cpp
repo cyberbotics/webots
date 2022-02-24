@@ -111,26 +111,21 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   QString path;
-  if (isLocalUrl(url)) {
+  if (isLocalUrl(url))
     path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-    printf(">> local url, should be at: %s\n", path.toUtf8().constData());
-  } else if (QDir::isAbsolutePath(url)) {  // check if the url is an absolute path
+  else if (QDir::isAbsolutePath(url))  // check if the url is an absolute path
     path = QDir::cleanPath(url);
-    printf(">> not local, should be at: %s\n", path.toUtf8().constData());
-  }
 
   if (!path.isEmpty()) {
-    if (QFileInfo(path).exists()) {
-      printf(">>> doesnt exist\n");
+    if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
-    }
+
     if (isLocalUrl(url)) {
       QString newUrl(url);
-      WbVersion version = WbApplicationInfo::version();
+      const WbVersion &version = WbApplicationInfo::version();
       // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-      QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
       newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
-      printf(">>> build remote url: %s", newUrl.toUtf8().constData());
       return newUrl;
     }
 

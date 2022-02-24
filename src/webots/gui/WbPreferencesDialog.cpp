@@ -197,9 +197,6 @@ void WbPreferencesDialog::accept() {
 
   if (mCacheSize->text().toInt() < 512 || mCacheSize->text().isEmpty()) {
     WbMessageBox::info(tr("For optimal performance, at least\n 512 MB of cache are necessary."), this);
-    mTabWidget->removeTab(2);
-    mTabWidget->addTab(createNetworkTab(), tr("Network"));
-    mTabWidget->setCurrentIndex(2);
     prefs->setValue("Network/cacheSize", 512);
     WbNetwork::instance()->reduceCacheUsage();
   } else {

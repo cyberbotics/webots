@@ -338,9 +338,8 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
   if (!mNoiseMaskTexture) {
     // if not in wren cache, load from disk (either locally available or cache)
     QFile noiseMask(noiseMaskUrl);
-    if (!noiseMask.open(QIODevice::ReadOnly)) {
+    if (!noiseMask.open(QIODevice::ReadOnly))
       return tr("Cannot open noise mask file: '%1'").arg(noiseMaskUrl);
-    }
 
     QImage *image = new QImage();
     QImageReader *imageReader = new QImageReader(noiseMaskUrl);

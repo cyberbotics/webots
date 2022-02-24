@@ -119,14 +119,14 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
 
 QString WbNetwork::get(const QString &url) {
   // cppcheck-suppress assertWithSideEffect
-  assert(isCached(url));  // the get function should not be called unless we know the file to be cached
+  assert(isCached(url));  // the 'get' function should not be called unless we know the file to be cached
 
   if (cacheMap.contains(url))
     return cacheMap[url];
 
   const QString location = mCacheDirectory + urlToHash(url);
-  // printf("  file is at: %s\n", loc.toUtf8().constData());
   cacheMap.insert(url, location);
+
   return location;
 }
 
@@ -137,7 +137,7 @@ bool WbNetwork::isCached(const QString &url) {
   // if url is not in the internal representation, check for file existence on disk
   const QString filePath = mCacheDirectory + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
-    cacheMap.insert(url, filePath);  // keep track of it in case it gets asked again
+    cacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
     return true;
   }
 
@@ -151,7 +151,7 @@ const QString WbNetwork::urlToHash(const QString &url) {
 void WbNetwork::reduceCacheUsage() {
   const qint64 maxCacheSizeInBytes = WbPreferences::instance()->value("Network/cacheSize", 1024).toInt() * 1024 * 1024;
   if (maxCacheSizeInBytes > mCacheSizeInBytes)
-    return;  // unnecessary to purge cache items
+    return;  // unnecessary to purge any cache items
 
   QFileInfoList assets;
 
@@ -168,7 +168,7 @@ void WbNetwork::reduceCacheUsage() {
   while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
     const QFileInfo fi = i.next();
 
-    QDir().remove(fi.absoluteFilePath());  // remove the file
+    QDir().remove(fi.absoluteFilePath());  // remove the file from disk
 
     // find key (url) corresponding to path, and remove it from the internal representation
     const QString key = cacheMap.key(fi.absoluteFilePath());

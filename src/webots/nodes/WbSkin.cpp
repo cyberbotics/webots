@@ -466,14 +466,6 @@ void WbSkin::createWrenSkeleton() {
   if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
-  /*
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());
-    delete mDownloader;
-    mDownloader = NULL;
-  }
-  */
-
   const QString meshFilePath(modelPath());
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
@@ -497,7 +489,7 @@ void WbSkin::createWrenSkeleton() {
     return;
   }
 
-  if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
+  if (mDownloader != NULL && mDownloader->device() != NULL)
     delete mDownloader;
   mDownloader = NULL;
 

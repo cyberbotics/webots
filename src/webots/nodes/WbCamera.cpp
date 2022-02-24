@@ -1123,7 +1123,7 @@ void WbCamera::updateNoiseMaskUrl() {
     if (!error.isEmpty())
       parsingWarn(error);
 
-    if (mDownloader != NULL && mDownloader->device() != NULL)  // TODO: necessary?
+    if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
     mDownloader = NULL;
   }
