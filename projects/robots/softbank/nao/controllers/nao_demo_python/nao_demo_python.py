@@ -31,7 +31,7 @@ class Nao (Robot):
         self.turnLeft60 = Motion('../../motions/TurnLeft60.motion')
         self.turnRight60 = Motion('../../motions/TurnRight60.motion')
         self.taichi = Motion('../../motions/Taichi.motion')
-        self.wipeForhead= Motion('../../motions/WipeForehead.motion')
+        self.wipeForhead = Motion('../../motions/WipeForehead.motion')
 
     def startMotion(self, motion):
         # interrupt current motion
