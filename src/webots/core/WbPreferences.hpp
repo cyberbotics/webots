@@ -50,7 +50,6 @@ private:
   QString findPreviousSettingsLocation() const;
   void setDefault(const QString &key, const QVariant &value);
   void setDefaultPythonCommand();
-  void setDefaultMatlabCommand();
 
   QString mCompanyName;
   QString mApplicationName;
