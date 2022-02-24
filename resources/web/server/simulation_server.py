@@ -365,6 +365,7 @@ class Client:
     def kill_webots(self):
         """Force the termination of Webots or concerning Docker services."""
         if config['docker']:
+            os.chdir(self.project_instance_path)
             os.system("docker-compose down --rmi local")
         else:
             if self.webots_process:
