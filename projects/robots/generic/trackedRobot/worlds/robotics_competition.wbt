@@ -23,8 +23,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.23947392171070464 0.2229271227631228 0.9449633531291312 1.7448534313378754
-  position -1.842320728141438 6.878565283059597 0.8623968573688024
+  orientation -0.17044036784910988 -0.12399932312010782 0.9775347814135389 4.445867802017747
+  position 0.1393554806536173 18.877556751053145 7.038159716853404
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -1018,7 +1018,7 @@ DEF DOUBLE_DOOR Solid {
         dampingConstant 10
       }
       endPoint Solid {
-        translation -0.001000059593074476 1.0147851448039091e-08 0
+        translation -0.0010000602270433534 1.0255807314507592e-08 0
         children [
           DEF BOX Transform {
             translation -0.175 -0.43 1
@@ -1122,7 +1122,7 @@ DEF DOUBLE_DOOR Solid {
         dampingConstant 10
       }
       endPoint Solid {
-        translation -0.000999999671977836 0.8799999902249677 0
+        translation -0.0009999996684882384 0.879999990120978 0
         rotation 0 0 -1 0
         children [
           DEF BOX Transform {
@@ -1349,7 +1349,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
   rotation 0 0 1 3.141592644
   children [
     Door {
-      hidden translation_5 0.0010000170389359575 -5.344844566934626e-09 0
+      hidden translation_5 0.001000017309395279 -5.4296833695843816e-09 0
       rotation 0 0 1 3.14159
       name "door(4)"
       size 0.2 1 3
@@ -1883,7 +1883,7 @@ DEF DOUBLE_DOOR Solid {
         dampingConstant 10
       }
       endPoint Solid {
-        translation -2.4724270963893957e-08 4.238448925164562e-09 0
+        translation -2.5358226629634828e-08 4.347127102732884e-09 0
         children [
           DEF BOX Transform {
             translation -0.175 -0.43 1
@@ -1987,7 +1987,7 @@ DEF DOUBLE_DOOR Solid {
         dampingConstant 10
       }
       endPoint Solid {
-        translation -0.000999999671977836 0.8799999902249885 0
+        translation -0.0009999996684882384 0.879999990120999 0
         rotation 0 0 -1 0
         children [
           DEF BOX Transform {

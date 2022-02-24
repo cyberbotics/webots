@@ -27,7 +27,7 @@ Robot {
       children [
         DEF GEOM_1 Shape {
           appearance Plastic {
-            colorOverride 0.333333 0.341176 0.32549
+            colorOverride 0.180392 0.203922 0.211765
           }
           geometry Cylinder {
             height 0.52
@@ -42,7 +42,7 @@ Robot {
       children [
         Shape {
           appearance Plastic {
-            colorOverride 0.333333 0.341176 0.32549
+            colorOverride 0.180392 0.203922 0.211765
           }
           geometry Cylinder {
             height 0.52
@@ -57,7 +57,7 @@ Robot {
       children [
         DEF GEOM Shape {
           appearance Plastic {
-            colorOverride 0.333333 0.341176 0.32549
+            colorOverride 0.180392 0.203922 0.211765
           }
           geometry Box {
             size 1.22 0.52 0.32
@@ -306,24 +306,9 @@ Robot {
       geometriesCount 40
     }
     DEF CAMERA Transform {
-      translation 0.54 -0.01 0.17
+      translation 0.54 0 0.117
       rotation 0 0 1 3.14159
       children [
-        DEF BASE Solid {
-          children [
-            Shape {
-              appearance Plastic {
-                colorOverride 0.180392 0.203922 0.211765
-              }
-              geometry Mesh {
-                url [
-                  "webots://projects/robots/generic/trackedRobot/protos/meshes/camera_base.obj"
-                ]
-              }
-            }
-          ]
-          name "solid(1)"
-        }
         DEF CAMERA_TILT HingeJoint {
           jointParameters HingeJointParameters {
             axis 0 0 1
@@ -332,10 +317,26 @@ Robot {
           device [
             RotationalMotor {
               name "camera_tilt_motor"
+              minPosition -3.14159
+              maxPosition 3.14159
             }
           ]
           endPoint Solid {
             children [
+              DEF LENS Transform {
+                translation -0.0255 0 0.2735
+                rotation 0 1 0 -1.5707953071795862
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.001
+                      radius 0.0023
+                    }
+                  }
+                ]
+              }
               DEF SHAFT Transform {
                 children [
                   Shape {
@@ -353,7 +354,7 @@ Robot {
               DEF CAMERA_PAN HingeJoint {
                 jointParameters HingeJointParameters {
                   axis 0 1 0
-                  anchor 0 0 0.1905
+                  anchor 0 0 0.273
                 }
                 device [
                   RotationalMotor {
@@ -375,12 +376,44 @@ Robot {
                       }
                     }
                     Camera {
-                      translation -0.02 0 0.188
+                      translation -0.02 0 0.273
                       rotation 0 0 1 3.14156
                     }
                   ]
                 }
               }
+            ]
+          }
+        }
+      ]
+    }
+    DEF ANTENNA_1 Transform {
+      translation -0.773 -0.137 0.023
+      rotation 0.11611260301955266 0.17784936149720515 -0.9771834362263105 1.58783
+      children [
+        Shape {
+          appearance Plastic {
+            colorOverride 0.180392 0.203922 0.211765
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/generic/trackedRobot/protos/meshes/antenna.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF ANTENNA_2 Transform {
+      translation -0.773 0.137 0.023
+      rotation -0.14253600610763875 -0.08370290358665233 -0.9862440422603559 1.56261
+      children [
+        Shape {
+          appearance Plastic {
+            colorOverride 0.180392 0.203922 0.211765
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/generic/trackedRobot/protos/meshes/antenna.obj"
             ]
           }
         }
