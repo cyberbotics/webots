@@ -271,6 +271,7 @@ class Client:
                     "PROJECT_PATH": config["projectsDir"],
                     "MAKE": makeProject,
                     "PORT": port,
+                    "COMPOSE_PROJECT_NAME": str(id(self)),
                     "WEBOTS": webotsCommand
                 }
                 if 'SSH_CONNECTION' in os.environ:
@@ -300,11 +301,11 @@ class Client:
                 if os.path.isfile('docker-compose.yml'):
                     logging.warning('overwrite local docker-compose.yml')
                 os.system(
-                    "wget -O https://raw.githubusercontent.com/cyberbotics/webots/"
+                    "wget --backups=1 https://raw.githubusercontent.com/cyberbotics/webots/"
                     "enhancement-theia-implementation/resources/web/server/docker-compose.yml")
                 logging.info('created docker-compose.yml')
 
-                command = 'docker-compose up --scale webots=3'
+                command = 'docker-compose up --build --no-color'
             else:
                 webotsCommand += world
                 command = webotsCommand
@@ -326,7 +327,7 @@ class Client:
                 if line:
                     logging.info(line)
                 if '|' in line:  # docker-compose format
-                    line = line.split()[2]
+                    line = line[line.index('|') + 2:]
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
@@ -362,19 +363,22 @@ class Client:
         self.on_webots_quit()
 
     def kill_webots(self):
-        """Force the termination of Webots."""
-        """ if self.webots_process:
-            logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
-            if sys.platform == 'darwin':
-                self.webots_process.kill()
-            else:
-                self.webots_process.terminate()
-                try:
-                    self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
-                except subprocess.TimeoutExpired:
-                    logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
+        """Force the termination of Webots or concerning Docker services."""
+        if config['docker']:
+            os.system("docker-compose down --rmi local")
+        else:
+            if self.webots_process:
+                logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
+                if sys.platform == 'darwin':
                     self.webots_process.kill()
-            self.webots_process = None """
+                else:
+                    self.webots_process.terminate()
+                    try:
+                        self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
+                    except subprocess.TimeoutExpired:
+                        logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
+                        self.webots_process.kill()
+                self.webots_process = None
 
 
 class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
