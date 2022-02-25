@@ -38,8 +38,7 @@ public:
 
   // to be initialized from a WbIndexedFaceSet
   QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
-               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
-               bool normalPerVertex);
+               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool normalPerVertex);
   // to be initialized from a WbMesh
   QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
                int numberOfVertices, int indexSize);
@@ -88,7 +87,6 @@ private:
   }
 
   void cleanupTmpArrays();
-  void reverseIndexOrder();
 
   bool mValid;
   bool mTextureCoordinatesValid;
