@@ -21,6 +21,7 @@
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
 #include "WbLight.hpp"
+#include "WbNetwork.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"

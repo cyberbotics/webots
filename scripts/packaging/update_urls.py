@@ -24,10 +24,10 @@ from pathlib import Path
 
 
 def replace_url(file, tag):
-    with open(file, 'r', encoding='utf-8') as fd:  # encoding must be specified or fails on windows
+    with open(file, 'r') as fd:
         content = fd.read()
     content = content.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/')
-    with open(file, 'w', newline='\n', encoding='utf-8') as fd:  # encoding must be specified or fails on windows
+    with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
 

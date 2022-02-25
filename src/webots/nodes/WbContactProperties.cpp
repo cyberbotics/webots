@@ -16,6 +16,7 @@
 
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbNetwork.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
@@ -225,8 +226,6 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     *clip = WbSoundEngine::sound(WbNetwork::instance()->get(sound), extension);
   } else
     *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound), extension);
-
-  // TODO: need to delete?
 }
 
 void WbContactProperties::updateBumpSound() {

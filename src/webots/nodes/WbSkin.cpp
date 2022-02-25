@@ -20,6 +20,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
+#include "WbNetwork.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbResizeManipulator.hpp"

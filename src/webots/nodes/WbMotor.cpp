@@ -24,6 +24,7 @@
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMuscle.hpp"
+#include "WbNetwork.hpp"
 #include "WbPropeller.hpp"
 #include "WbRobot.hpp"
 #include "WbSensor.hpp"
@@ -35,7 +36,6 @@
 #include <ode/ode.h>
 
 #include <QtCore/QDataStream>
-#include <QtCore/QFile>
 #include <QtCore/QUrl>
 
 #include <cassert>
