@@ -5,7 +5,8 @@
 # template language: javascript
 
 PROTO ColladaShapes [
-  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node).
+  field SFString url ""    # URL of a Collada file (similar to ImageTexture node).
+  field SFBool   ccw TRUE  # Indicate the order of the vertices. Change this value will flip the faces of the meshes.
 ]
 {
   %<
@@ -14,12 +15,14 @@ PROTO ColladaShapes [
       console.error(`The given Collada url (${url}) is not valid.`);
       url = fields.url.defaultValue;
     }
+
+    const ccwString = (fields.ccw.value) ? "TRUE" : "FALSE";
   >%
 
   Group {
     children [
       %< if (url !== '') { >%
-        %<= wbcollada.getVrmlFromFile(url) >%
+        %<= wbcollada.getVrmlFromFile(url, ccwString) >%
       %< } >%
     ]
   }
