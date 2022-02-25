@@ -59,7 +59,7 @@ protected:
   int mHandleNumber;
   WbWrenAbstractResizeManipulator *mManipulator;
   double mResizeRatio;
-  double mAbsoluteScaleRatio;
+  double mTotalScaleRatio;
   double mMouseOffset;
   double mGeomCenterOffset;
   double mSizeValue;
