@@ -144,7 +144,7 @@ bool WbNetwork::isCached(const QString &url) const {
   return false;
 }
 
-const QString WbNetwork::urlToHash(const QString &url) const {
+const QString WbNetwork::urlToHash(const QString &url) {
   return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
 }
 

@@ -41,7 +41,7 @@ private:
   void recomputeCacheSize();
   static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
 
-  static const QString urlToHash(const QString &url) const;
+  static const QString urlToHash(const QString &url);
 
   QString mCacheDirectory;
   qint64 mCacheSizeInBytes;
