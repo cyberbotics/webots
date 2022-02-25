@@ -21,6 +21,10 @@
 class WbBoundingSphere;
 class WbSFString;
 class WbDownloader;
+struct WrTransform;
+struct WrStaticMesh;
+struct WrRenderable;
+struct WrMaterial;
 
 class WbColladaShape : public WbBaseNode {
   Q_OBJECT
@@ -45,7 +49,20 @@ private:
   WbNode *clone() const override { return new WbColladaShape(*this); }
   void init();
 
+  // Ray tracing
+  mutable WbBoundingSphere *mBoundingSphere;
+
   WbSFString *mUrl;
+
+  QVector<WrRenderable *> mRenderables;
+  QVector<WrMaterial *> mMaterials;
+  QVector<WrStaticMesh *> mMeshes;
+
+  QString colladaPath() const;
+
+  void updateShape();
+  void createWrenMeshes();
+  void deleteWrenMeshes();
 };
 
 #endif

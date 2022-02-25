@@ -1,0 +1,15 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.155625995757012 0.49432819007524337 0.8552310740037293 0.7054414408187369
+  position -1.3270474718592808 -0.8314558501717135 0.5425776684992261
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+ColladaShape {
+  url "webots://projects/default/worlds/meshes/base_link.dae"
+}

@@ -232,6 +232,7 @@ void WbSkin::updateModelUrl() {
              .arg(supportedExtensions.join("', '")));
       return;
     }
+    // TODO: shouldn't this be done before trying to open it?
     const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
