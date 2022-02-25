@@ -607,12 +607,11 @@ void WbController::reportFailedStart() {
       break;
     case WbFileUtil::MATLAB:
       if (mCommand == "!")
-        warn(tr("The MATLAB executable field is empty in the Webots preferences (Tools > Preferences... > General). Please "
-                "provide the correct absolute path to the MATLAB executable."));
+        warn(tr("Webots could not find the MATLAB executable in the system. Please provide the correct absolute path to the "
+                "MATLAB executable in the Webots preferences (Tools > Preferences... > General)."));
       else
-        warn(tr(
-          "The MATLAB executable provided in the Webots preferences could not be started. Please provide the correct absolute "
-          "path to the MATLAB executable."));
+        warn(tr("The MATLAB executable provided in the Webots preferences (Tools > Preferences... > General) could not be "
+                "started. Please provide the correct absolute path to the MATLAB executable."));
 #ifdef __linux__
       matlabDefaultPath = "/usr/local/MATLAB/R20XXx/bin/matlab";
 #else
@@ -622,7 +621,7 @@ void WbController::reportFailedStart() {
       matlabDefaultPath = "C:\\Program Files\\MATLAB\\R20XXx\\bin\\win64\\MATLAB.exe";
 #endif
 #endif
-      warn(tr("The default installation path for MATLAB is: %1").arg(matlabDefaultPath));
+      warn(tr("The preference can be left empty to use the default MATLAB installation path: %1").arg(matlabDefaultPath));
 
       break;
     case WbFileUtil::DOCKER:
@@ -747,12 +746,16 @@ void WbController::startMatlab() {
     warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
     return;
   }
-  if (mMatlabCommand.isEmpty()) {
-    mCommand = "!";
-    return;
-  }
 
-  mCommand = mMatlabCommand;
+  if (mMatlabCommand.isEmpty()) {
+    mCommand = WbLanguageTools::matlabCommand();
+
+    if (mCommand.isEmpty()) {
+      mCommand = "!";
+      return;
+    }
+  } else
+    mCommand = mMatlabCommand;
 
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"

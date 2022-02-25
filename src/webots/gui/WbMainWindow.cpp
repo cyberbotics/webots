@@ -386,7 +386,7 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mStreamingServer) {
     mStreamingServer->setMainWindow(this);
-    if (mStreamingServer->getStreamStatus()) {
+    if (mStreamingServer->streamStatus()) {
       WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
       if (multimediaStreamingServer)
         multimediaStreamingServer->setView3D(mSimulationView->view3D());
@@ -2121,7 +2121,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     }
 
     if (currentRobotWindow && currentRobotWindow->robot() == robot)
-      currentRobotWindow->setupPage(mStreamingServer->getPort());
+      currentRobotWindow->setupPage(mStreamingServer->port());
   } else {
     const int maxPendingRobotWindows = 3;
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
