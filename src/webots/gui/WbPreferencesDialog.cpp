@@ -196,7 +196,7 @@ void WbPreferencesDialog::accept() {
     WbNetwork::instance()->setProxy();
 
   if (mCacheSize->text().toInt() < 512 || mCacheSize->text().isEmpty()) {
-    WbMessageBox::info(tr("For optimal performance, at least\n 512 MB of cache are necessary."), this);
+    WbMessageBox::info(tr("For optimal performance, at least\n512 MB of cache are necessary."), this);
     prefs->setValue("Network/cacheSize", 512);
     WbNetwork::instance()->reduceCacheUsage();
   } else {
