@@ -63,6 +63,7 @@ public:
   virtual WrTexture *getWrenTexture();
 
 protected:
+  void exportURDFJoint(WbVrmlWriter &writer) const override;
   void setup() override;
   void render() override;
   bool needToRender() const override;
