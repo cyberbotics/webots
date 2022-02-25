@@ -1,4 +1,3 @@
-filename=docker-compose.yml (This line will be erased before build)
 ARG FROM_IMAGE
 FROM $FROM_IMAGE
 ARG MAKE, PROJECT_PATH
