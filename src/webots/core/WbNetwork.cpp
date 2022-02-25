@@ -144,7 +144,6 @@ bool WbNetwork::isCached(const QString &url) const {
   return false;
 }
 
-// cppcheck-suppress functionStatic
 const QString WbNetwork::urlToHash(const QString &url) const {
   return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
 }
