@@ -44,6 +44,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Charger";
     case WB_NODE_COLOR:
       return "Color";
+    case WB_NODE_COLLADA_SHAPE:
+      return "ColladaShape";
     case WB_NODE_COMPASS:
       return "Compass";
     case WB_NODE_CONE:

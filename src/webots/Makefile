@@ -246,6 +246,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbCamera.cpp \
   WbCapsule.cpp \
   WbCharger.cpp \
+  WbColladaShape.cpp \
   WbColor.cpp \
   WbColorEditor.cpp \
   WbCompass.cpp \

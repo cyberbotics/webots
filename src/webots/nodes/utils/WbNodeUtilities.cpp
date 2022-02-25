@@ -312,6 +312,8 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+        if (nodeName == "ColladaShape")
+          return true;
         if (nodeName == "PointLight")
           return true;
         if (nodeName == "SpotLight")
@@ -525,6 +527,8 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+        if (nodeName == "ColladaShape")
+          return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))
           // only Group, Transform and Shape allowed
@@ -602,6 +606,7 @@ namespace {
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
 
+        // TODO: can we put collada in bounding object?
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;

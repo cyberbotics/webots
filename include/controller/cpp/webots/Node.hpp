@@ -37,6 +37,7 @@ namespace webots {
       BILLBOARD,
       BOX,
       CAPSULE,
+      COLLADA_SHAPE,
       COLOR,
       CONE,
       COORDINATE,

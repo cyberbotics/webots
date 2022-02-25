@@ -1,0 +1,5 @@
+# The ColladaShape node defines a geometry and appearance from a '.dae' file.
+
+ColladaShape {
+  field SFString  url  ""
+}
