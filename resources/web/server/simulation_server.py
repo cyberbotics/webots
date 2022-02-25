@@ -305,6 +305,7 @@ class Client:
                             volume = line.split(':')[1]
                             dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
                             envVarDocker["THEIA_V"] = volume
+                            envVarDocker["THEIA_PORT"] = port+1
                             logging.info(f'volume: {volume}')
 
                 if not os.path.exists(dockerComposePath):

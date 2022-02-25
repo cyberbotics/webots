@@ -1,5 +1,8 @@
 version: "3.8"
 
+volumes:
+  controller_data:
+
 services:
 
   webots:
@@ -31,10 +34,11 @@ services:
     volumes:
       - ${XAUTH:-/dev/null}:${XAUTH:-/dev/null}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - controller_data:/usr/local/$THEIA_V:rw
 
   theia:
     image: joachimhgg/theiatest:test1
     ports:
-      - 3000:3000
-    volume:
-      - /usr/local/webots/$THEIA_V:/usr/local/webots/$THEIA_V:rw
+      - $THEIA_PORT:3000
+    volumes:
+      - controller_data:/home/project/webot-project:rw
