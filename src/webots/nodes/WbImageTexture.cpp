@@ -136,11 +136,7 @@ bool WbImageTexture::loadTexture() {
   if (isWebAsset && !WbNetwork::instance()->isCached(url))
     return false;
 
-  QString filePath;
-  if (isWebAsset)
-    filePath = WbNetwork::instance()->get(url);
-  else
-    filePath = path(true);
+  const QString filePath = isWebAsset ? WbNetwork::instance()->get(url) : path(true);
 
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
