@@ -232,8 +232,9 @@ class Client:
 
     def cleanup_webots_instance(self):
         """Cleanup the local Webots project not used any more by the client."""
-        if self.project_instance_path:
-            shutil.rmtree(self.project_instance_path)
+        if id(self):
+            shutil.rmtree(config['instancesPath'] + str(id(self)))
+        logging.info(f'DELETE FOLDER {self.project_instance_path}')
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
@@ -258,7 +259,6 @@ class Client:
             webotsCommand += '\" '
 
             if config['docker']:
-
                 # create environment variables
                 os.chdir(self.project_instance_path)
                 with open(world) as world_file:
@@ -285,25 +285,42 @@ class Client:
                 else:
                     envVarDocker["XAUTH"] = '/dev/null'
 
+                # create a Dockerfile if not provided in the project folder
+                dockerfilePath = config['dockerComposeDir'] + '/Dockerfile.default'
+
+                if not os.path.isfile('Dockerfile'):
+                    if os.path.exists(dockerfilePath):
+                        os.system(f'cp {dockerfilePath} ./Dockerfile')
+                    else:
+                        logging.error(f"miss Dockerfile.default in {config['dockerComposeDir']}")
+                        return
+
+                # create a docker-compose
+                dockerComposePath = ''
+                if os.path.exists('webots.yml'):
+                    with open('webots.yml', 'r') as webotsYml_file:
+                        data = webotsYml_file.read().splitlines(True)
+                    for line in data:
+                        if line.startswith("theia:"):
+                            volume = line.split(':')[1]
+                            dockerComposePath = config['dockerComposeDir'] + "/docker-compose-theia.yml"
+                            envVarDocker["THEIA_V"] = volume
+                            logging.info(f'volume: {volume}')
+
+                if not os.path.exists(dockerComposePath):
+                    dockerComposePath = config['dockerComposeDir'] + "/docker-compose-default.yml"
+
+                if os.path.exists(dockerComposePath):
+                    os.system(f'cp {dockerComposePath} ./docker-compose.yml')
+                else:
+                    logging.error(f"miss docker-compose-default.yml in {config['dockerComposeDir']}")
+                    return
+                logging.info(f'docker-compose.yml created from {dockerComposePath}')
+
+                # create a .env file
                 with open('.env', 'w') as env_file:
                     for key, value in envVarDocker.items():
                         env_file.write(f'{key}={value}\n')
-
-                # create a Dockerfile if not provided in the project folder
-                if not os.path.isfile('Dockerfile'):
-                    # to be moved on cyberbotics' server
-                    os.system(
-                        "wget https://raw.githubusercontent.com/cyberbotics/webots/"
-                        "enhancement-theia-implementation/resources/web/server/Dockerfile")
-                    logging.info('created Dockerfile')
-
-                # create a docker-compose
-                if os.path.isfile('docker-compose.yml'):
-                    logging.warning('overwrite local docker-compose.yml')
-                os.system(
-                    "wget --backups=1 https://raw.githubusercontent.com/cyberbotics/webots/"
-                    "enhancement-theia-implementation/resources/web/server/docker-compose.yml")
-                logging.info('created docker-compose.yml')
 
                 command = 'docker-compose up --build --no-color'
             else:

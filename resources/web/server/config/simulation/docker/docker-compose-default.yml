@@ -16,7 +16,7 @@ services:
         reservations:
           devices:
             - capabilities:
-              - gpu
+                - gpu
     environment:
       - DISPLAY=$DISPLAY
       - XAUTHORITY=$XAUTH
@@ -24,11 +24,10 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
     ports:
-        - '$PORT:$PORT'
+      - '$PORT:$PORT'
     privileged: true
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
       - ${XAUTH:-/dev/null}:${XAUTH:-/dev/null}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-
