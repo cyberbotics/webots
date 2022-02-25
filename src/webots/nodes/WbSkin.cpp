@@ -503,7 +503,6 @@ void WbSkin::createWrenSkeleton() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    wr_renderable_set_scene_culling(renderable, false);
 
     wr_transform_attach_child(mRenderablesTransform, WR_NODE(renderable));
 
