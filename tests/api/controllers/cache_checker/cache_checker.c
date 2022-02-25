@@ -34,7 +34,7 @@ void test_distance(int test_number, const double expected_distance) {
   for (int i = 0; i < NB_MESHES; ++i) {
     const double distance = wb_distance_sensor_get_value(distance_sensors[i]);
     ts_assert_double_in_delta(distance, expected_distance, 1e-5,
-                              "In test %d: wrong mesh is applied (distance is %f instead of %f)", distance, expected_distance);
+                              "In test %d: wrong mesh %d is applied (distance is %f instead of %f)", test_number, i, distance, expected_distance);
   }
 }
 
