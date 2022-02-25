@@ -286,13 +286,13 @@ class Client:
                     envVarDocker["XAUTH"] = '/dev/null'
 
                 # create a Dockerfile if not provided in the project folder
-                dockerfilePath = config['dockerComposeDir'] + '/Dockerfile.default'
+                dockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
 
                 if not os.path.isfile('Dockerfile'):
                     if os.path.exists(dockerfilePath):
                         os.system(f'cp {dockerfilePath} ./Dockerfile')
                     else:
-                        logging.error(f"miss Dockerfile.default in {config['dockerComposeDir']}")
+                        logging.error(f"miss Dockerfile.default in {config['dockerConfDir']}")
                         return
 
                 # create a docker-compose
@@ -303,17 +303,17 @@ class Client:
                     for line in data:
                         if line.startswith("theia:"):
                             volume = line.split(':')[1]
-                            dockerComposePath = config['dockerComposeDir'] + "/docker-compose-theia.yml"
+                            dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
                             envVarDocker["THEIA_V"] = volume
                             logging.info(f'volume: {volume}')
 
                 if not os.path.exists(dockerComposePath):
-                    dockerComposePath = config['dockerComposeDir'] + "/docker-compose-default.yml"
+                    dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
 
                 if os.path.exists(dockerComposePath):
                     os.system(f'cp {dockerComposePath} ./docker-compose.yml')
                 else:
-                    logging.error(f"miss docker-compose-default.yml in {config['dockerComposeDir']}")
+                    logging.error(f"miss docker-compose-default.yml in {config['dockerConfDir']}")
                     return
                 logging.info(f'docker-compose.yml created from {dockerComposePath}')
 
