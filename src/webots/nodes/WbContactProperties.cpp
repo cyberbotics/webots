@@ -20,8 +20,6 @@
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
-enum { BUMP, ROLL, SLIDE };
-
 void WbContactProperties::init() {
   mMaterial1 = findSFString("material1");
   mMaterial2 = findSFString("material2");
