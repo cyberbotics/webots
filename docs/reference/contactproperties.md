@@ -2,19 +2,19 @@
 
 ```
 ContactProperties {
-  SFString material1          "default"                                           # any string
-  SFString material2          "default"                                           # any string
-  MFFloat  coulombFriction    1                                                   # [0, inf)
-  SFVec2f  frictionRotation   0 0                                                 # any positive vector
-  SFVec3f  rollingFriction    0 0 0                                               # rolling/spinning friction
-  SFFloat  bounce             0.5                                                 # [0, 1]
-  SFFloat  bounceVelocity     0.01                                                # [0, inf)
-  MFFloat  forceDependentSlip 0                                                   # [0, inf)
-  SFFloat  softERP            0.2                                                 # [0, 1]
-  SFFloat  softCFM            0.001                                               # (0, inf)
-  SFString bumpSound          "webots://projects/default/worlds/sounds/bump.wav"  # any string
-  SFString rollSound          "webots://projects/default/worlds/sounds/roll.wav"  # any string
-  SFString slideSound         "webots://projects/default/worlds/sounds/slide.wav" # any string
+  SFString material1          "default"                                                                                             # any string
+  SFString material2          "default"                                                                                             # any string
+  MFFloat  coulombFriction    1                                                                                                     # [0, inf)
+  SFVec2f  frictionRotation   0 0                                                                                                   # any positive vector
+  SFVec3f  rollingFriction    0 0 0                                                                                                 # rolling/spinning friction
+  SFFloat  bounce             0.5                                                                                                   # [0, 1]
+  SFFloat  bounceVelocity     0.01                                                                                                  # [0, inf)
+  MFFloat  forceDependentSlip 0                                                                                                     # [0, inf)
+  SFFloat  softERP            0.2                                                                                                   # [0, 1]
+  SFFloat  softCFM            0.001                                                                                                 # (0, inf)
+  SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/bump.wav" # any string
+  SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/roll.wav" # any string
+  SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/slide.wav"# any string
 }
 ```
 
