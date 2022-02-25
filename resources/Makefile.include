@@ -185,9 +185,8 @@ endif
 # the objects files result from the C or C++ sources
 SOURCES_DIRECTORIES = $(sort $(dir $(C_SOURCES) $(CXX_SOURCES)))
 OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
-ifdef WREN
 OBJECTS_EMCC = $(addprefix $(BUILD_GOAL_DIR_EMCC)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
-endif
+
 # automatic flags settings
 ifeq ($(BUILD_TYPE),physics)
  USE_ODE = true
@@ -225,9 +224,7 @@ TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS) $(WREN_TARGET)
 SUPPORTED_TARGETS = all release debug profile
 ifeq ($(MAKECMDGOALS),)
  GOAL = release
-ifdef WREN
  GOAL_EMCC = emcc
-endif
 else
  ifdef MAIN_TARGET
   ifeq ($(MAKECMDGOALS),$(MAIN_TARGET))
@@ -250,9 +247,8 @@ endif
 # build directory
 BUILD_DIR = build
 BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
-ifdef WREN
 BUILD_GOAL_DIR_EMCC = $(BUILD_DIR)/$(GOAL_EMCC)
-endif
+
 ifdef GOAL
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
 endif
@@ -567,6 +563,8 @@ $(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
 clean:
 	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
-	$(SILENT)rm $(WEBOTS_HOME_PATH)/src/wren/wrenjs.js $(WEBOTS_HOME_PATH)/src/wren/wrenjs.data $(WEBOTS_HOME_PATH)/src/wren/wrenjs.wasm  $(WEBOTS_HOME_PATH)/src/wren/functions_to_export.txt > /dev/null 2>&1 || :
-	$(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
-	$(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
+  ifdef WREN
+	  $(SILENT)rm $(WEBOTS_HOME_PATH)/src/wren/wrenjs.js $(WEBOTS_HOME_PATH)/src/wren/wrenjs.data $(WEBOTS_HOME_PATH)/src/wren/wrenjs.wasm  $(WEBOTS_HOME_PATH)/src/wren/functions_to_export.txt > /dev/null 2>&1 || :
+	  $(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
+  endif
+  $(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
