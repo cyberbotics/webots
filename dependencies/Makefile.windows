@@ -107,6 +107,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	@sed -i '/AR= ar rcu/c\AR= ar rc' lua-5.2.3/src/Makefile
 	@echo "# compiling lua"
 	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
 
@@ -146,7 +147,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 	@wget -qq "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "60a412e55d54bb8bf95c7cd728fb4d9a" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "9b0dce0cbabc887eca320b7d20b42f0f" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 
 lua-gd-clean:
@@ -163,6 +164,6 @@ $(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
-	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)" 
+	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
 	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "0a54dcc518d331a853f77fb66ebf75e9" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"

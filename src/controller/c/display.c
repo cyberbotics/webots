@@ -855,7 +855,7 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
     message_enqueue(d, m);
     d->save_orders = o;
   }
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 

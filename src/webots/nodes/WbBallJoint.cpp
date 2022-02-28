@@ -811,7 +811,7 @@ void WbBallJoint::updateJointAxisRepresentation() {
 
 void WbBallJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    warn(tr("Exporting 'BallJoint' nodes to URDF is currently not supported"));
+    this->warn("Exporting 'BallJoint' nodes to URDF is currently not supported");
     return;
   }
   WbBasicJoint::writeExport(writer);

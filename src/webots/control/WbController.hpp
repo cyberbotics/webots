@@ -118,6 +118,7 @@ private:
   void startPython();
   void startMatlab();
   void startBotstudio();
+  void startDocker();
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);

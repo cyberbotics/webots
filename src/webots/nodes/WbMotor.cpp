@@ -80,7 +80,7 @@ WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevi
   init();
 }
 
-WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other) {
+WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other), mChangedAssociatedDevices() {
   init();
 }
 
@@ -345,7 +345,6 @@ void WbMotor::setTargetPosition(double position) {
   }
 
   mUserControl = false;
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
@@ -358,7 +357,6 @@ void WbMotor::setVelocity(double velocity) {
     mTargetVelocity = mTargetVelocity >= 0.0 ? m : -m;
   }
 
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
@@ -617,6 +615,9 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mTargetPosition;
   stream << (double)mTargetVelocity;
   stream << (double)mMultiplier->value();
+  stream << (int)mCoupledMotors.size();
+  for (int i = 0; i < mCoupledMotors.size(); ++i)
+    stream << (WbDeviceTag)mCoupledMotors[i]->tag();
   mNeedToConfigure = false;
 }
 

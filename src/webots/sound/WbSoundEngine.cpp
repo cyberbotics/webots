@@ -44,8 +44,10 @@
 
 static WbWorld *gWorld = NULL;
 static WbViewpoint *gViewpoint = NULL;
+static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
+static QString gDevice;
 static ALCdevice *gDefaultDevice = NULL;
 static ALCcontext *gContext = NULL;
 static QList<WbSoundClip *> gSounds;
@@ -75,12 +77,13 @@ static void cleanup() {
 }
 
 static void init() {
+  static bool initialized = false;
+  if (initialized)  // init was already done
+    return;
+  initialized = true;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
-
-  if (gDefaultDevice || gMute)  // init was already done or sound is mute
-    return;
-  qAddPostRoutine(cleanup);
+  WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)
@@ -93,10 +96,25 @@ static void init() {
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    gDevice = QString(defaultDeviceName);
   } catch (const QString &e) {
-    WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    WbLog::toggle(stderr);
+    WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    return;
   }
+  WbLog::toggle(stderr);
+  gOpenAL = true;
+  qAddPostRoutine(cleanup);
   WbSoundEngine::updateListener();
+}
+
+const QString &WbSoundEngine::device() {
+  init();
+  return (const QString &)gDevice;
+}
+
+bool WbSoundEngine::openAL() {
+  return gOpenAL;
 }
 
 void WbSoundEngine::setWorld(WbWorld *world) {

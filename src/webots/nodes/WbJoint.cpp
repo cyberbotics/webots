@@ -20,6 +20,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
+#include "WbSolidReference.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -321,6 +322,11 @@ const QString WbJoint::urdfName() const {
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
+    if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
+      this->warn("Exporting a Joint node with a SolidRefernce endpoint to URDF is not supported.");
+      return;
+    }
+
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();

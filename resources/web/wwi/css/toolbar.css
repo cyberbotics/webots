@@ -1,0 +1,531 @@
+@import "fonts.css";
+
+body {
+  scroll-behavior: smooth;
+}
+
+webots-view {
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+webots-view .webots3DView {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+}
+
+webots-view #webotsProgress {
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 160px);
+  top: calc(50% - 84px);
+  background-color: white;
+  width:300px;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+webots-view .webots-label {
+  position: absolute;
+  white-space: pre;
+  z-index: 1;
+}
+
+webots-view .toolbar {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  z-index: 2;
+  bottom: 0px;
+}
+
+webots-view .toolbar-left {
+  position: absolute;
+  bottom: 0px;
+  left: 1%;
+  height: 40px;
+}
+
+webots-view .toolbar-right {
+  position: absolute;
+  bottom: 0px;
+  height: 40px;
+  right: 1%;
+}
+
+webots-view .webots-streaming-time {
+  color: rgba(240, 240, 240, 1);
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgb(0,0,0);
+  font-family: monospace;
+  line-height: normal;
+  position: relative;
+  height: 29px;
+  white-space: nowrap;
+  display: inline-block;
+  float: left;
+  top: 11px;
+}
+
+/* Buttons */
+webots-view .toolbar-btn {
+  float: left;
+  height: 36px;
+  width: 36px;
+  box-sizing: border-box;
+  margin: 0 1px;
+  border:none;
+  box-shadow: none;
+
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid transparent;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-image: url(../images/icons.svg);
+
+  cursor: pointer;
+  outline:none;
+}
+
+webots-view .toolbar-btn:hover {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+webots-view .icon-play        { background-position:   -2px -2px }
+webots-view .icon-pause       { background-position:  -40px -2px }
+webots-view .icon-step        { background-position:  -78px -2px }
+webots-view .icon-run         { background-position: -154px -2px }
+webots-view .icon-reset       { background-position: -192px -2px}
+webots-view .icon-reset-scene { background-position: -192px -2px}
+webots-view .icon-info        { background-position: -306px -2px }
+webots-view .icon-settings    { background-position: -382px -2px }
+webots-view .icon-fullscreen  { background-position: -420px -2px }
+webots-view .icon-partscreen  { background-position: -458px -2px }
+
+webots-view .icon-play:hover,
+webots-view .icon-pause:hover,
+webots-view .icon-step:hover,
+webots-view .icon-run:hover,
+webtos-view .icon-reset:hover,
+webots-view .icon-reset-scene:hover,
+webots-view .icon-info:hover,
+webots-view .icon-settings:hover,
+webots-view .icon-fullscreen:hover,
+webots-view .icon-partscreen:hover,
+webots-view .toolbar-reload:hover {
+  background-position-y: -40px;
+}
+
+webots-view .icon-quit {
+  background-size: 28px;
+  background-image: url(../images/quit.png);
+  margin-top:3px;
+  margin-left: 5px;
+}
+
+webots-view .icon-quit:hover {
+  background-image: url(../images/quit_hover.png)
+}
+
+webots-view .icon-reload {
+  transform: scaleX(-1);
+  background-position: -496px -2px;
+}
+
+webots-view .icon-info {
+  width: 28px;
+}
+
+/* Tooltips */
+
+webots-view .tooltip {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: rgb(240, 240, 240);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Arial';
+  text-shadow: 0 0 2px black;
+  border-radius: 2px;
+  padding: 5px 10px;
+  white-space: nowrap;
+
+  /* Position the tooltip */
+  position: relative;
+  bottom: 55px;
+}
+
+webots-view .toolbar-btn:hover .tooltip {
+  visibility: visible;
+}
+
+webots-view .reload-tooltip{
+  transform: scaleX(-1);
+  position: absolute;
+  left: -100px;
+}
+
+webots-view .info-tooltip {
+  position: absolute;
+  right: 0px;
+  white-space: nowrap;
+}
+
+webots-view .reset-scene-tooltip {
+  position: absolute;
+  right: 0px;
+}
+
+webots-view .fullscreen-tooltip {
+  white-space: nowrap;
+  position: absolute;
+  right: 0px;
+}
+
+webots-view .partscreen-tooltip {
+  white-space: nowrap;
+  position: absolute;
+  right: 0px;
+}
+
+/* Time Indicator */
+
+webots-view .current-time, .total-time, .time-divider {
+  display: inline-block;
+  padding: 11px 3px;
+  color: rgba(240, 240, 240, 1);
+  font-family: 'verdana';
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgb(0,0,0);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+webots-view .current-time { margin-left: 8px; }
+
+webots-view .total-time { margin-right: 8px; }
+
+/* World selection */
+
+webots-view #worldSelectionDiv {
+  display: inline-flex;
+  margin-top: 2px;
+  margin-left: 10px;
+}
+
+webots-view .select-css {
+  position: relative;
+  align-self: center;
+  padding: 0.4em 1.8em 0.3em 0.4em;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 0.5em;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right .7em top 55%, 0 0;
+  background-size: .65em auto, 100%;
+  filter: grayscale(1);
+  font-size: 14px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: Arial,Helvetica,sans-serif;
+  top: 3px;
+  cursor: pointer;
+
+}
+/* Hide arrow icon in IE browsers */
+webots-view .select-css::-ms-expand {
+  display: none;
+}
+/* Hide dashed box when on focus in Firefox browsers */
+webots-view .select-css:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+/* Set options to normal weight */
+webots-view .select-css option {
+  font-weight:normal;
+}
+
+/* Information panel */
+
+webots-view .information-panel {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 220px);
+  background-color: #333;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 300px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Helvetica;
+  display: none;
+  pointer-events: auto;
+}
+
+webots-view .information-panel a {
+  font-size: 12px;
+  color: white;
+  font-style: italic;
+  text-decoration: none;
+}
+
+webots-view .information-panel a:hover {
+  text-decoration: underline;
+}
+
+webots-view .information-panel h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+webots-view .information-panel .cloud {
+  font-size: 12px;
+}
+
+webots-view .information-panel .info-tabs-bar {
+  height: 28px;
+  background-color: #555;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+  height: 28px;
+  position: absolute;
+  color: white;
+  background-color: #333;
+  border-width: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px #333 solid;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab:hover {
+  border-bottom: 1px solid red;
+}
+
+webots-view .information-panel .info-tabs-bar .tab0 {
+  left: 0px;
+}
+
+webots-view .information-panel .info-tabs-bar .tab1 {
+  right: 0px;
+  background-color: #555;
+}
+
+webots-view .information-panel .simulation-text {
+  margin-top: 5px;
+  overflow-y: auto;
+  height: 198px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+webots-view .information-panel .simulation-text a {
+  font-size: inherit;
+}
+
+/* Settings */
+
+webots-view .settings-pane {
+  position: absolute;
+  bottom: 55px;
+  right: 1%;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  background: rgba(0,0,0, 0.7);
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
+}
+
+webots-view ul {
+  padding-left: 0px;
+}
+
+webots-view li {
+  display: block;
+  clear: both;
+  padding: 1px 8px 1px 8px;
+  position: relative;
+}
+webots-view li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+webots-view .spacer {
+  display: inline-block;
+  min-width: 30px;
+}
+
+webots-view .setting-text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 30px;
+  font-weight: 450;
+  font-size: 14px;
+  float: right;
+  pointer-events: none;
+  color: white;
+}
+
+webots-view .arrow-right{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  top: 11px;
+  right: 17px;
+  pointer-events: none;
+}
+
+/* Speed and gtao pane */
+webots-view .first-li {
+  border-bottom: 1px solid grey;
+  padding-left: 19px;
+}
+
+webots-view .check-speed, .check-gtao{
+  display: inline-block;
+  min-width: 12px;
+  pointer-events: none;
+}
+
+webots-view .setting-span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 5px;
+  pointer-events: none;
+  color: white;
+}
+
+webots-view .arrow-left{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 11px;
+  left: 11px;
+}
+
+/* Shadow switch */
+
+webots-view .switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 17px;
+  top: 10px;
+  right: 11px;
+  pointer-events: none;
+}
+
+webots-view .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+webots-view .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  pointer-events: none;
+}
+
+webots-view .slider:before {
+  position: absolute;
+  content: "";
+  height: 21px;
+  width: 21px;
+  left: -3px;
+  top: -2px;
+  background-color: #ccc;
+  pointer-events: none;
+}
+
+webots-view input:checked + .slider {
+  background-color: red;
+  pointer-events: none;
+}
+
+webots-view input:focus + .slider {
+  box-shadow: 0 0 1px red;
+  pointer-events: none;
+}
+
+webots-view input:checked + .slider:before {
+  -webkit-transform: translateX(23px);
+  -ms-transform: translateX(23px);
+  transform: translateX(23px);
+  background-color: white;
+  pointer-events: none;
+}
+
+webots-view .slider.round {
+  border-radius: 17px;
+  pointer-events: none;
+}
+
+webots-view .slider.round:before {
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* MJPEG */
+
+webots-view #remoteScene {
+  background: white;
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  /* get rid of whitespace after #remoteScene image */
+  display: block;
+}

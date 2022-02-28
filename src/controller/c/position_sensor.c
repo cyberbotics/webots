@@ -186,7 +186,7 @@ static WbDeviceTag position_sensor_get_associated_device(WbDeviceTag tag, int de
 
   robot_mutex_lock_step();
   p->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag result = p->requested_device_tag;
   robot_mutex_unlock_step();
   return result;

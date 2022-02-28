@@ -14,6 +14,7 @@
 
 #include "WbUrl.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
@@ -118,6 +119,16 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (!path.isEmpty()) {
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
+
+    if (isLocalUrl(url)) {
+      QString newUrl(url);
+      const WbVersion &version = WbApplicationInfo::version();
+      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+      const QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+      return newUrl;
+    }
+
     const QString error = QObject::tr("'%1' not found.").arg(url);
     if (node)
       node->parsingWarn(error);

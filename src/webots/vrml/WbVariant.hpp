@@ -56,7 +56,7 @@ public:
   bool isEmpty() const { return mType == -1; }
   virtual void clear();
 
-  const QString toStringRepresentation(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const;
+  const QString toSimplifiedStringRepresentation(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const;
 
   // setters
   virtual void setBool(bool b);

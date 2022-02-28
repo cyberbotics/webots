@@ -207,7 +207,7 @@ If the light sensor device is disabled or the first measurement is not available
   - The **Show Pen Painting Rays** allows you to display, or to hide, the rays in which the pen devices paint.
 These rays are drawn as violet lines if painting is enabled, otherwise as gray lines.
 
-  - The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes. The color of a normal is magenta if it was not creased using the [IndexedFaceSet](../reference/indexedfaceset.md) `creaseAngle`, otherwise, it is yellow. The length of the normal representation is proportional to the [WorldInfo](../reference/worldinfo.md) `lineScale` parameter.  
+  - The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes. The color of a normal is magenta if it was not creased using the [IndexedFaceSet](../reference/indexedfaceset.md) `creaseAngle`, otherwise, it is yellow. The length of the normal representation is proportional to the [WorldInfo](../reference/worldinfo.md) `lineScale` parameter.
 
   - The **Show Radar Frustums** allows you to display, or to hide, the radar frustum.
 If the radar device is enabled the frustum is drawn in blue, otherwise if the radar is disabled or the first measurement is not available yet, the frustum is drawn in gray.
@@ -235,7 +235,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
 
   - The **Disable 3D View Context Menu** option prevents opening the node context menu when right-clicking on the 3D window.
   But the context menu can still be open right-clicking on the node in the scene tree.
-  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.  
+  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.
 
   - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles or the `SHIFT + mouse drag/mouse wheel` method.
   Objects can still be moved by changing the translation and rotation fields from the scene tree.
@@ -339,6 +339,12 @@ Then, Webots will ask you to enter the name of your controller and finally it wi
 - The **New Physics Plugin...** menu item will let you create a new physics plugin for your project.
 Webots asks you to choose a programming language (C or C++) and a name for the new physics plugin.
 Then it creates a directory, a template source code file and a Makefile in your current project.
+
+- The **New Proto...** menu item will let you create a new PROTO for your project.
+Webots asks you to define a name for the PROTO node, the tags that should be included (if any), and the base node from which the PROTO itself will inherit.
+Based on the choice of base node, Webots will ask you which among its fields should be exposed (i.e visible from the scene tree) and will create the necessary parameters accordingly.
+Then, Webots will propose you to open the PROTO file in the text editor, so that you can continue to edit it.
+Finally, you will be able to insert an instance of your new PROTO in the scene tree as you would do for any other PROTO.
 
 ### Help Menu
 

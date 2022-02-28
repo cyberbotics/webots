@@ -5,7 +5,7 @@
 # template language: javascript
 
 PROTO Plastic [
-  field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
+  field SFColor  colorOverride    1 1 1         # Defines the color to be multiplied with the texture color.
   field SFString{"rough", "padded"}
                  type             "rough"       # Defines the plastic type.
   field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.

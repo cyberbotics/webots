@@ -1,7 +1,6 @@
 #include <ode/ode.h>
 #include <plugins/physics.h>
 
-#include <stdio.h> /* FILENAME_MAX */
 #ifdef WINDOWS
 #include <direct.h>
 #define GetCurrentDir _getcwd
@@ -30,7 +29,7 @@
 
 static dWorldID main_world = 0;
 static int step_counter = 0;
-static char current_path[FILENAME_MAX];
+static char current_path[1024];
 static bool message_sent = false;
 
 static void send_message(const char *msg, bool success) {
@@ -66,7 +65,7 @@ void webots_physics_step() {
     send_message("World badly defined", false);
 
   if (step_counter == 100) {
-    char filename[FILENAME_MAX];
+    char filename[sizeof(current_path) + 8];
     snprintf(filename, sizeof(filename), "%s%code.dif", current_path, SEP);
 
     FILE *f = fopen(filename, "w");

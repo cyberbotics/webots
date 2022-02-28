@@ -139,7 +139,6 @@ void WbRobot::init() {
   mBattery = findMFDouble("battery");
   mCpuConsumption = findSFDouble("cpuConsumption");
   mSelfCollision = findSFBool("selfCollision");
-  mShowWindow = findSFBool("showWindow");
   mWindow = findSFString("window");
   mRemoteControl = findSFString("remoteControl");
 
@@ -778,7 +777,7 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   stream.writeRawData(n.constData(), n.size() + 1);
 
   // show the robot window at step 0
-  stream << (unsigned char)(mShowWindow->value() || mShowWindowMessage);
+  stream << (unsigned char)(mShowWindowMessage);
   stream << (unsigned char)(!windowFile().isEmpty());
   stream << (int)computeSimulationMode();
 

@@ -32,7 +32,7 @@ export default class Stream {
   _onSocketOpen(event) {
     let mode = this._view.mode;
     if (mode === 'mjpeg')
-      mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight - 48); // subtract toolbar height
+      mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
 
     else if (this._view.broadcast)
       mode += ';broadcast';
@@ -68,8 +68,6 @@ export default class Stream {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('pause:') || data === 'paused by client') {
-      if (this._view.toolBar !== null)
-        this._view.toolBar.setMode('pause');
       // Update timeout.
       if (data.startsWith('pause:')) {
         this._view.isAutomaticallyPaused = undefined;
@@ -84,10 +82,7 @@ export default class Stream {
           document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      if (this._view.toolBar) {
-        this._view.toolBar.setMode(data);
-        this._view.runOnLoad = data;
-      } else
+      this._view.currentState = data;
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
@@ -107,27 +102,23 @@ export default class Stream {
       if (this._view.mode === 'mjpeg') {
         if (document.getElementById('webotsProgress'))
           document.getElementById('webotsProgress').style.display = 'none';
+        if (typeof this._onready === 'function')
+          this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once
       }
-
-      if (typeof this._onready === 'function')
-        this._onready();
     } else if (data === 'reset finished') {
       this._view.resetSimulation();
       if (typeof this._view.x3dScene !== 'undefined' && typeof this._view.multimediaClient === 'undefined')
         this._view.x3dScene.resetViewpoint();
-      if (webots.currentView.toolBar)
-        webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this._onready === 'function')
         this._onready();
     } else if (data.startsWith('time: ')) {
       this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       if (document.getElementById('webotsClock'))
         document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
-    } else if (data === 'delete world') {
+    } else if (data === 'delete world')
       this._view.destroyWorld();
-      webots.currentView.toolBar.enableToolBarButtons(false);
-    } else {
+    else {
       let messagedProcessed = false;
       if (typeof this._view.multimediaClient !== 'undefined')
         messagedProcessed = this._view.multimediaClient.processServerMessage(data);

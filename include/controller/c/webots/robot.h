@@ -69,6 +69,8 @@ int wb_robot_init_msvc();  // internally, this function just calls wb_robot_init
 #define wb_robot_init() (setvbuf(stdout, NULL, _IONBF, 0), setvbuf(stderr, NULL, _IONBF, 0), wb_robot_init_msvc())
 #endif
 
+int wb_robot_step_begin(int duration);  // milliseconds
+int wb_robot_step_end();
 int wb_robot_step(int duration);  // milliseconds
 
 #ifdef __CYGWIN__  // In that case, we need to flush explicitly the stdout/stdin streams otherwise they are buffered
@@ -97,7 +99,6 @@ WbDeviceTag wb_robot_get_device(const char *name);
 // Introspection API
 int wb_robot_get_number_of_devices();
 WbDeviceTag wb_robot_get_device_by_index(int index);
-WbNodeType wb_robot_get_type();
 
 // robot battery API
 void wb_robot_battery_sensor_enable(int sampling_period);

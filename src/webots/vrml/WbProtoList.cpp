@@ -205,3 +205,27 @@ QStringList WbProtoList::fileList() {
     list << model->fileName();
   return list;
 }
+
+QStringList WbProtoList::fileList(int cache) {
+  QStringList list;
+
+  QFileInfoList availableProtoFiles;
+  switch (cache) {
+    case RESOURCES_PROTO_CACHE:
+      availableProtoFiles << gResourcesProtoCache;
+      break;
+    case PROJECTS_PROTO_CACHE:
+      availableProtoFiles << gProjectsProtoCache;
+      break;
+    case EXTRA_PROTO_CACHE:
+      availableProtoFiles << gExtraProtoCache;
+      break;
+    default:
+      return list;
+  }
+
+  foreach (const QFileInfo &fi, availableProtoFiles)
+    list.append(fi.baseName());
+
+  return list;
+}

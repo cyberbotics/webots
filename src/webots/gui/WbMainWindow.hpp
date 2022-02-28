@@ -32,6 +32,7 @@ class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
+class WbRobotWindow;
 class WbSimulationView;
 class WbStreamingServer;
 
@@ -68,6 +69,8 @@ public:
 
   void restorePreferredGeometry(bool minimizedOnStart = false);
 
+  void deleteRobotWindow(WbRobot *robot);
+
 signals:
   void restartRequested();
   void splashScreenCloseRequested();
@@ -81,8 +84,9 @@ public slots:
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
-  void exportHtmlFiles();
 
+  QString exportHtmlFiles();
+  void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
   void uploadScene();
   void startAnimationRecording();
 
@@ -123,6 +127,7 @@ private slots:
   void newProjectDirectory();
   void newRobotController();
   void newPhysicsPlugin();
+  void newProto();
   void openPreferencesDialog();
   void openWebotsUpdateDialogFromStartup();
   void openWebotsUpdateDialogFromMenu();
@@ -149,7 +154,13 @@ private slots:
   void uploadFinished();
 
 private:
-  void showHtmlRobotWindow(WbRobot *);
+  void showHtmlRobotWindow(WbRobot *robot);
+  void closeClientRobotWindow(WbRobot *robot);
+  void onSocketOpened();
+  QList<WbRobotWindow *> mRobotWindows;
+  QList<WbRobot *> mRobotsWaitingForWindowToOpen;
+  bool mOnSocketOpen;
+
   int mExitStatus;
   QList<WbConsole *> mConsoles;
   WbBuildEditor *mTextEditor;
@@ -208,7 +219,7 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbStreamingServer *mStreamingServer;
-  WbLinkWindow *mLinkWindow;
+  bool mSaveCheckboxStatus;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
@@ -219,8 +230,6 @@ private slots:
   void maximizeDock();
   void minimizeDock();
   void setWidgetMaximized(QWidget *widget, bool maximized);
-  void removeHtmlRobotWindow(WbNode *node);
-  void handleNewRobotInsertion(WbRobot *robot);
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();

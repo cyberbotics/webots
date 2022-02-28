@@ -67,7 +67,7 @@ cd $WEBOTS_HOME
 ./equirectangular_to_cubemap.py --help
 
 ./equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.png
-./equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 1042 --height 1042
+./equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 1024 --height 1024
 ```
 
 ## Typical Usage

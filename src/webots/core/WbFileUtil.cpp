@@ -181,37 +181,6 @@ void WbFileUtil::searchDirectoryNameRecursively(QStringList &results, const QStr
   }
 }
 
-const QString &WbFileUtil::extension(FileType t) {
-  static QString unknownExtension = "";
-  static QString classExtension = ".class";
-  static QString jarExtension = ".jar";
-  static QString pythonExtension = ".py";
-  static QString matlabExtension = ".m";
-  static QString botstudioExtension = ".bsg";
-  static QString textExtension = ".txt";
-  switch (t) {
-    case WbFileUtil::EXECUTABLE:
-      return WbStandardPaths::executableExtension();
-    case WbFileUtil::CLASS:
-      return classExtension;
-    case WbFileUtil::JAR:
-      return jarExtension;
-    case WbFileUtil::PYTHON:
-      return pythonExtension;
-    case WbFileUtil::MATLAB:
-      return matlabExtension;
-    case WbFileUtil::BOTSTUDIO:
-      return botstudioExtension;
-    case WbFileUtil::TEXT:
-      return textExtension;
-    case WbFileUtil::UNKNOWN:
-      return unknownExtension;
-    default:
-      assert(0);
-      return unknownExtension;
-  }
-}
-
 bool WbFileUtil::isDirectoryWritable(const QString &path) {
   QDir dir(path);
   // find existing parent directory

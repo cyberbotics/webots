@@ -14,6 +14,7 @@
 # - noon_cloudy_countryside
 # - noon_park_empty
 # - mountains
+# - music_hall
 # - stadium
 # - stadium_dry
 #
@@ -30,7 +31,7 @@
 # template language: javascript
 
 PROTO TexturedBackgroundLight [
-  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "mountains", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "stadium", "stadium_dry", "twilight_cloudy_empty"}
+  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "mountains", "music_hall", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "stadium", "stadium_dry", "twilight_cloudy_empty"}
                  texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
   field SFFloat  luminosity     1            # Multiplies the `Light.intensity` field.
   field SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
@@ -89,6 +90,10 @@ PROTO TexturedBackgroundLight [
     else if (fields.texture.value === 'noon_sunny_garden') {
       direction = [-0.1, -0.3, 0.3];
       color = [0.9, 0.9, 1.0];
+    } else if (fields.texture.value === 'music_hall') {
+      direction = [-0.78, -0.6, -0.17];
+      color = [0.9, 0.9, 1.0];
+      intensity = 0.5;
     } else if (fields.texture.value === 'twilight_cloudy_empty') {
       direction = [1, -0.2, -0.7];
       color = [1.0, 0.75, 0.5];

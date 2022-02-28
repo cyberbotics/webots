@@ -14,6 +14,7 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
+    this.remainingRenderings = 10; // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
   }
 
   init(texturePathPrefix = '') {
@@ -25,7 +26,7 @@ export default class X3dScene {
     this.destroyWorld();
   }
 
-  render() {
+  render(toRemoveGtaoArtifact) {
     // Set maximum rendering frequency.
     // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
     // and the rendering is performed only at a given maximum frequency.
@@ -34,7 +35,7 @@ export default class X3dScene {
     const currentTime = (new Date()).getTime();
     if (this._nextRenderingTime && this._nextRenderingTime > currentTime) {
       if (!this._renderingTimeout)
-        this._renderingTimeout = setTimeout(() => this.render(), this._nextRenderingTime - currentTime);
+        this._renderingTimeout = setTimeout(() => this.render(toRemoveGtaoArtifact), this._nextRenderingTime - currentTime);
       return;
     }
 
@@ -43,6 +44,14 @@ export default class X3dScene {
     this._nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this._renderingTimeout);
     this._renderingTimeout = null;
+
+    if (toRemoveGtaoArtifact)
+      --this.remainingRenderings;
+    else
+      this.remainingRenderings = 10;
+
+    if (this.remainingRenderings > 0)
+      setTimeout(() => this.render(true), 80);
   }
 
   renderMinimal() {
@@ -87,7 +96,6 @@ export default class X3dScene {
     this.renderMinimal();
     clearTimeout(this._renderingTimeout);
     this._loader = undefined;
-    webots.currentView.runOnLoad = false;
   }
 
   _deleteObject(id) {
@@ -113,7 +121,10 @@ export default class X3dScene {
         onLoad();
       }
     };
-    xmlhttp.onerror = document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+    xmlhttp.onerror = () => {
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+    };
     xmlhttp.send();
   }
 
@@ -135,7 +146,7 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = [], automaticMove) {
+  applyPose(pose, appliedFields = []) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
       return appliedFields;
@@ -167,7 +178,7 @@ export default class X3dScene {
     return fields;
   }
 
-  _applyPoseToObject(pose, object, fields, automaticMove) {
+  _applyPoseToObject(pose, object, fields) {
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -292,9 +303,6 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (view.toolBar)
-        view.toolBar.enableToolBarButtons(false);
-
       if (document.getElementById('webotsProgressMessage'))
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
       if (document.getElementById('webotsProgressPercent'))

@@ -56,12 +56,6 @@ QWidget#DocumentationWebView {
   border: auto;
 }
 
-QWidget#HtmlRobotWindow * {
-  background-color: auto;
-  color: auto;
-  border: auto;
-}
-
 QFrame#consoleTitleBar {
   background: #2a2a2a;
 }
@@ -536,6 +530,19 @@ WbConsole {
 QPlainTextEdit#ConsoleEdit {
   background: #222;
   color: #fff;
+}
+
+QPlainTextEdit#ProtoDescription {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+QPlainTextEdit#ProtoDescription:focus {
+  border-color: #9b93ff;
+  background-color: #333;
 }
 
 /* color editor */

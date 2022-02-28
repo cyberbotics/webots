@@ -1,5 +1,7 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Square Path';
 let benchmarkPerformance = 0;
 
@@ -33,7 +35,7 @@ squareContext.fillStyle = '#FF0000';
 let lastX = 0;
 let lastY = 0;
 
-webots.window('square_path').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   // updates the metric
   if (message.startsWith('update:')) {
     let segmentIndex = 7;

@@ -116,7 +116,6 @@ signals:
   void mainRenderingEnded(bool fromPhysics);
   void mouseDoubleClicked(QMouseEvent *event);
   void screenshotReady(QImage image);
-  void showRobotWindowRequest();
   void applicationActionsUpdateRequested();
   void contextMenuRequested(const QPoint &pos);
 

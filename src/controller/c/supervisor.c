@@ -1236,7 +1236,7 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
   is_field_immediate_message = request->type != SET;  // set operations are postponed
 }
 
-static void field_operation_with_data(WbFieldStruct *f, int action, int index, union WbFieldData data) {
+static void field_operation_with_data(WbFieldStruct *f, int action, int index, union WbFieldData data, const char *function) {
   robot_mutex_lock_step();
   WbFieldRequest *r;
   for (r = field_requests_list_head; r; r = r->next) {
@@ -1270,25 +1270,26 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
                                                             // pending get request should remain
   create_and_append_field_request(f, action, index, data, true);
   if (action != SET)  // Only setter can be postponed. The getter, import and remove actions have to be applied immediately.
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(function);
+
   assert(action != GET || sent_field_get_request == NULL);
   robot_mutex_unlock_step();
 }
 
-static void field_operation(WbFieldStruct *f, int action, int index) {
+static void field_operation(WbFieldStruct *f, int action, int index, const char *function) {
   union WbFieldData data;
   data.sf_string = NULL;
-  field_operation_with_data(f, action, index, data);
+  field_operation_with_data(f, action, index, data, function);
 }
 
-static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool check_type, int *index, bool is_importing,
+static bool check_field(WbFieldRef f, const char *function, WbFieldType type, bool check_type, int *index, bool is_importing,
                         bool check_type_internal) {
-  if (!robot_check_supervisor(func))
+  if (!robot_check_supervisor(function))
     return false;
 
   if (!f) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with NULL 'field' argument.\n", func);
+      fprintf(stderr, "Error: %s() called with NULL 'field' argument.\n", function);
     return false;
   }
 
@@ -1303,18 +1304,18 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     field = field->next;
   }
   if (!found) {
-    fprintf(stderr, "Error: %s() called with invalid 'field' argument.\n", func);
+    fprintf(stderr, "Error: %s() called with invalid 'field' argument.\n", function);
     return false;
   }
 
   if (check_type_internal && ((WbFieldStruct *)f)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", func);
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", function);
     return false;
   }
 
   if (check_type && ((WbFieldStruct *)f)->type != type) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", func, wb_supervisor_field_get_type_name(f));
+      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", function, wb_supervisor_field_get_type_name(f));
     return false;
   }
 
@@ -1324,7 +1325,7 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     int offset = is_importing ? 0 : -1;
 
     if (*index < -(count + 1 + offset) || *index > (count + offset)) {
-      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", func, *index,
+      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", function, *index,
               -count - 1 - offset, count + offset);
       return false;
     }
@@ -1439,7 +1440,7 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
   l->y = y;
   l->size = size;
   l->color = color_and_transparency;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1456,7 +1457,7 @@ void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name) {
   robot_mutex_lock_step();
   save_node_state_node_ref = node;
   save_node_state_name = state_name;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   save_node_state_node_ref = NULL;
   save_node_state_name = NULL;
   robot_mutex_unlock_step();
@@ -1475,7 +1476,7 @@ void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name) {
   robot_mutex_lock_step();
   reset_node_state_node_ref = node;
   reset_node_state_name = state_name;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   reset_node_state_node_ref = NULL;
   reset_node_state_name = NULL;
   robot_mutex_unlock_step();
@@ -1499,7 +1500,7 @@ void wb_supervisor_export_image(const char *filename, int quality) {
   free(export_image_filename);
   export_image_filename = supervisor_strdup(filename);
   export_image_quality = quality;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1539,7 +1540,7 @@ void wb_supervisor_movie_start_recording(const char *filename, int width, int he
   movie_quality = quality;
   movie_acceleration = acceleration;
   movie_caption = caption;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1549,7 +1550,7 @@ void wb_supervisor_movie_stop_recording() {
 
   robot_mutex_lock_step();
   movie_stop = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1558,7 +1559,7 @@ bool wb_supervisor_movie_is_ready() {
     return false;
 
   robot_mutex_lock_step();
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 
   return movie_status == WB_SUPERVISOR_MOVIE_READY || movie_status > WB_SUPERVISOR_MOVIE_SAVING;
@@ -1569,7 +1570,7 @@ bool wb_supervisor_movie_failed() {
     return true;
 
   robot_mutex_lock_step();
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 
   return movie_status > WB_SUPERVISOR_MOVIE_SAVING;
@@ -1627,7 +1628,7 @@ bool wb_supervisor_animation_start_recording(const char *filename) {
   robot_mutex_lock_step();
   free(animation_filename);
   animation_filename = supervisor_strdup(filename);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 
   return animation_start_status;
@@ -1641,7 +1642,7 @@ bool wb_supervisor_animation_stop_recording() {
 
   robot_mutex_lock_step();
   animation_stop = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 
   return animation_stop_status;
@@ -1654,7 +1655,7 @@ void wb_supervisor_simulation_quit(int status) {
   robot_mutex_lock_step();
   simulation_quit = true;
   simulation_quit_status = status;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1664,7 +1665,7 @@ void wb_supervisor_simulation_reset() {
 
   robot_mutex_lock_step();
   simulation_reset = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1693,7 +1694,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode) {
   robot_mutex_lock_step();
   robot_set_simulation_mode(mode);
   simulation_change_mode = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1703,7 +1704,7 @@ void wb_supervisor_simulation_reset_physics() {
 
   robot_mutex_lock_step();
   simulation_reset_physics = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1725,7 +1726,7 @@ void wb_supervisor_world_load(const char *filename) {
 
   robot_mutex_lock_step();
   world_to_load = filename;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1740,18 +1741,8 @@ bool wb_supervisor_world_save(const char *filename) {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
-  if (filename) {
-    if (!filename[0]) {
-      fprintf(stderr, "Error: %s() called with an empty 'filename' argument.\n", __FUNCTION__);
-      return false;
-    }
-
-    if (strcmp("wbt", wb_file_get_extension(filename)) != 0) {
-      fprintf(stderr, "Error: the target file given to %s() ends with the '.wbt' extension.\n", __FUNCTION__);
-      return false;
-    }
-  } else {
-    fprintf(stderr, "Error: %s() called with a NULL 'filename' argument.\n", __FUNCTION__);
+  if (filename && strcmp("wbt", wb_file_get_extension(filename)) != 0) {
+    fprintf(stderr, "Error: the target file given to %s() should have the '.wbt' extension.\n", __FUNCTION__);
     return false;
   }
 
@@ -1763,7 +1754,7 @@ bool wb_supervisor_world_save(const char *filename) {
 
   robot_mutex_lock_step();
   save_filename = supervisor_strdup(filename);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 
   return save_status;
@@ -1775,7 +1766,7 @@ void wb_supervisor_world_reload() {
 
   robot_mutex_lock_step();
   world_reload = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -1812,14 +1803,14 @@ int wb_supervisor_node_get_id(WbNodeRef node) {
   return node->id;
 }
 
-static WbNodeRef node_get_from_id(int id) {
+static WbNodeRef node_get_from_id(int id, const char *function) {
   robot_mutex_lock_step();
 
   WbNodeRef result = find_node_by_id(id);
   if (!result) {
     WbNodeRef node_list_before = node_list;
     node_id = id;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(function);
     if (node_list != node_list_before)
       result = node_list;
     else
@@ -1839,7 +1830,7 @@ WbNodeRef wb_supervisor_node_get_from_id(int id) {
     return NULL;
   }
 
-  return node_get_from_id(id);
+  return node_get_from_id(id, __FUNCTION__);
 }
 
 WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
@@ -1859,7 +1850,7 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
     // otherwise: need to talk to Webots
     node_def_name = def;
     node_id = -1;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     if (node_id >= 0)
       result = find_node_by_id(node_id);
     node_def_name = NULL;
@@ -1887,7 +1878,7 @@ WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag) {
     allow_search_in_proto = true;
     node_tag = tag;
     node_id = -1;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     if (node_id >= 0)
       result = find_node_by_id(node_id);
     node_tag = -1;
@@ -1941,7 +1932,7 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def)
     node_def_name = def;
     node_id = -1;
     proto_id = node->id;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     if (node_id >= 0) {
       result = find_node_by_id(node_id);
       if (result) {
@@ -1968,7 +1959,7 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node) {
   }
 
   allow_search_in_proto = true;
-  WbNodeRef parent_node = node_get_from_id(node->parent_id);
+  WbNodeRef parent_node = node_get_from_id(node->parent_id, __FUNCTION__);
   allow_search_in_proto = false;
   return parent_node;
 }
@@ -1982,7 +1973,7 @@ WbNodeRef wb_supervisor_node_get_selected() {
   WbNodeRef result = NULL;
   node_get_selected = true;
   node_id = -1;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   if (node_id >= 0)
     result = find_node_by_id(node_id);
   node_id = -1;
@@ -2004,7 +1995,7 @@ const double *wb_supervisor_node_get_position(WbNodeRef node) {
 
   robot_mutex_lock_step();
   position_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   position_node_ref = NULL;
   robot_mutex_unlock_step();
   return node->position ? node->position : invalid_vector;  // will be (NaN, NaN, NaN) if n is not derived from Transform
@@ -2022,7 +2013,7 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
 
   robot_mutex_lock_step();
   orientation_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   orientation_node_ref = NULL;
   robot_mutex_unlock_step();
   return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
@@ -2059,7 +2050,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   pose_requested = true;
   pose.from_node = from_node;
   pose.to_node = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   pose_requested = false;
   robot_mutex_unlock_step();
   return pose.pose;
@@ -2077,7 +2068,7 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 
   robot_mutex_lock_step();
   center_of_mass_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   center_of_mass_node_ref = NULL;
   robot_mutex_unlock_step();
   return node->center_of_mass ? node->center_of_mass : invalid_vector;  // will be NULL if n is not a Solid
@@ -2110,7 +2101,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 
   robot_mutex_lock_step();
   contact_points_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
@@ -2143,7 +2134,7 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
     node->contact_points_include_descendants = contact_points_include_descendants;
     robot_mutex_lock_step();
     contact_points_node_ref = node;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     contact_points_node_ref = NULL;
     robot_mutex_unlock_step();
   }
@@ -2151,7 +2142,7 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
   if (!node->contact_points[descendants].points || index >= node->contact_points[descendants].n)
     return NULL;
   allow_search_in_proto = true;
-  WbNodeRef result = node_get_from_id(node->contact_points[descendants].points[index].node_id);
+  WbNodeRef result = node_get_from_id(node->contact_points[descendants].points[index].node_id, __FUNCTION__);
   allow_search_in_proto = false;
   return result;
 }
@@ -2183,7 +2174,7 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   robot_mutex_lock_step();
   contact_points_node_ref = node;
   contact_points_include_descendants = include_descendants;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
@@ -2214,7 +2205,7 @@ WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool inclu
   robot_mutex_lock_step();
   contact_points_node_ref = node;
   contact_points_include_descendants = include_descendants;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
@@ -2234,7 +2225,7 @@ bool wb_supervisor_node_get_static_balance(WbNodeRef node) {
 
   robot_mutex_lock_step();
   static_balance_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   static_balance_node_ref = NULL;
   robot_mutex_unlock_step();
 
@@ -2318,7 +2309,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
@@ -2355,7 +2346,7 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
     requested_field_index = index;
     node_ref = node->id;
     allow_search_in_proto = true;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
@@ -2391,7 +2382,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
@@ -2417,7 +2408,7 @@ int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   requested_node_number_of_fields = true;
   node_ref = node->id;
   node_number_of_fields = -1;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
   robot_mutex_unlock_step();
   if (node_number_of_fields > 0)
@@ -2440,7 +2431,7 @@ int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   node_ref = node->id;
   node_number_of_fields = -1;
   allow_search_in_proto = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
   allow_search_in_proto = false;
   robot_mutex_unlock_step();
@@ -2479,7 +2470,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
     requested_field_name = field_name;
     node_ref = node->id;
     allow_search_in_proto = true;
-    wb_robot_flush_unlocked();
+    wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
@@ -2510,7 +2501,7 @@ void wb_supervisor_node_remove(WbNodeRef node) {
 
   robot_mutex_lock_step();
   node_to_remove = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -2526,7 +2517,7 @@ const char *wb_supervisor_node_export_string(WbNodeRef node) {
 
   robot_mutex_lock_step();
   export_string_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   export_string_node_ref = NULL;
   robot_mutex_unlock_step();
 
@@ -2547,7 +2538,7 @@ const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
   free(node->solid_velocity);
   node->solid_velocity = NULL;
   get_velocity_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   get_velocity_node_ref = NULL;
   robot_mutex_unlock_step();
   // cppcheck-suppress knownConditionTrueFalse
@@ -2570,7 +2561,7 @@ void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]) {
   robot_mutex_lock_step();
   set_velocity_node_ref = node;
   solid_velocity = velocity;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   set_velocity_node_ref = NULL;
   solid_velocity = NULL;
   robot_mutex_unlock_step();
@@ -2588,7 +2579,7 @@ void wb_supervisor_node_reset_physics(WbNodeRef node) {
 
   robot_mutex_lock_step();
   reset_physics_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   reset_physics_node_ref = NULL;
   robot_mutex_unlock_step();
 }
@@ -2605,7 +2596,7 @@ void wb_supervisor_node_restart_controller(WbNodeRef node) {
 
   robot_mutex_lock_step();
   restart_controller_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   restart_controller_node_ref = NULL;
   robot_mutex_unlock_step();
 }
@@ -2638,7 +2629,7 @@ void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visi
   set_visibility_node_ref = node;
   set_visibility_from_node_ref = from;
   node_visible = visible;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   set_visibility_node_ref = NULL;
   set_visibility_from_node_ref = NULL;
   robot_mutex_unlock_step();
@@ -2656,7 +2647,7 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node) {
 
   robot_mutex_lock_step();
   move_viewpoint_node_ref = node;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   move_viewpoint_node_ref = NULL;
   robot_mutex_unlock_step();
 }
@@ -2678,7 +2669,7 @@ void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool re
   add_force_node_ref = node;
   add_force_or_torque = force;
   add_force_or_torque_relative = relative;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   add_force_node_ref = NULL;
   add_force_or_torque = NULL;
   robot_mutex_unlock_step();
@@ -2705,7 +2696,7 @@ void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force
   add_force_or_torque = force;
   add_force_offset = offset;
   add_force_or_torque_relative = relative;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   add_force_with_offset_node_ref = NULL;
   add_force_or_torque = NULL;
   add_force_offset = NULL;
@@ -2729,7 +2720,7 @@ void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool 
   add_torque_node_ref = node;
   add_force_or_torque = torque;
   add_force_or_torque_relative = relative;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   add_torque_node_ref = NULL;
   add_force_or_torque = NULL;
   robot_mutex_unlock_step();
@@ -2787,7 +2778,7 @@ void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int 
   set_joint_node_ref = node;
   set_joint_position = position;
   set_joint_index = index;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   set_joint_node_ref = NULL;
   robot_mutex_unlock_step();
 }
@@ -2798,7 +2789,7 @@ bool wb_supervisor_virtual_reality_headset_is_used() {
 
   robot_mutex_lock_step();
   virtual_reality_headset_is_used_request = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   virtual_reality_headset_is_used_request = false;
   robot_mutex_unlock_step();
   return virtual_reality_headset_is_used;
@@ -2812,7 +2803,7 @@ const double *wb_supervisor_virtual_reality_headset_get_position() {
   virtual_reality_headset_position_request = true;
   free(virtual_reality_headset_position);
   virtual_reality_headset_position = NULL;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   virtual_reality_headset_position_request = false;
   robot_mutex_unlock_step();
   return virtual_reality_headset_position ? virtual_reality_headset_position : invalid_vector;
@@ -2826,7 +2817,7 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
   virtual_reality_headset_orientation_request = true;
   free(virtual_reality_headset_orientation);
   virtual_reality_headset_orientation = NULL;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   virtual_reality_headset_orientation_request = false;
   robot_mutex_unlock_step();
   return virtual_reality_headset_orientation ? virtual_reality_headset_orientation : invalid_vector;
@@ -2880,7 +2871,7 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
   contact_point_change_tracking.include_descendants = include_descendants;
   node->contact_points[descendants].last_update = -DBL_MAX;
   node->contact_points[descendants].sampling_period = sampling_period;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
@@ -2899,7 +2890,7 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
   contact_point_change_tracking.node = node;
   contact_point_change_tracking.enable = false;
   contact_point_change_tracking.include_descendants = include_descendants;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
@@ -2918,7 +2909,7 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
   field_change_tracking.sampling_period = sampling_period;
   field_change_tracking.enable = true;
   field_change_tracking_requested = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   field_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
@@ -2931,7 +2922,7 @@ void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
   field_change_tracking.field = field;
   field_change_tracking.enable = false;
   field_change_tracking_requested = true;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   field_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
@@ -2982,7 +2973,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
 
   assert(pose_collection);
 
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
@@ -3007,7 +2998,7 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = false;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking.node = NULL;
   robot_mutex_unlock_step();
 }
@@ -3016,7 +3007,7 @@ bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, false))
     return false;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_bool;
 }
 
@@ -3024,7 +3015,7 @@ int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false, false))
     return 0;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_int32;
 }
 
@@ -3032,7 +3023,7 @@ double wb_supervisor_field_get_sf_float(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false, false))
     return 0.0;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_float;
 }
 
@@ -3040,7 +3031,7 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false, false))
     return NULL;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec2f;
 }
 
@@ -3048,7 +3039,7 @@ const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
     return NULL;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
 }
 
@@ -3056,7 +3047,7 @@ const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false, false))
     return NULL;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_rotation;
 }
 
@@ -3064,7 +3055,7 @@ const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false, false))
     return NULL;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
 }
 
@@ -3072,7 +3063,7 @@ const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false, false))
     return "";
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_string;
 }
 
@@ -3080,7 +3071,7 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false, false))
     return NULL;
 
-  field_operation(field, GET, -1);
+  field_operation(field, GET, -1, __FUNCTION__);
   int id = ((WbFieldStruct *)field)->data.sf_node_uid;
   if (id <= 0)
     return NULL;
@@ -3094,7 +3085,7 @@ bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false, false))
     return 0;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_bool;
 }
 
@@ -3102,7 +3093,7 @@ int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false, false))
     return 0;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_int32;
 }
 
@@ -3110,7 +3101,7 @@ double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false, false))
     return 0.0;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_float;
 }
 
@@ -3118,7 +3109,7 @@ const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false, false))
     return NULL;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec2f;
 }
 
@@ -3126,7 +3117,7 @@ const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false, false))
     return NULL;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
 }
 
@@ -3134,7 +3125,7 @@ const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false, false))
     return NULL;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
 }
 
@@ -3142,7 +3133,7 @@ const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false, false))
     return NULL;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_rotation;
 }
 
@@ -3150,7 +3141,7 @@ const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false, false))
     return "";
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   return ((WbFieldStruct *)field)->data.sf_string;
 }
 
@@ -3158,7 +3149,7 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF_NODE, true, &index, false, false))
     return NULL;
 
-  field_operation(field, GET, index);
+  field_operation(field, GET, index, __FUNCTION__);
   WbNodeRef result = find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
   if (result && ((WbFieldStruct *)field)->is_proto_internal)
     result->is_proto_internal = true;
@@ -3171,7 +3162,7 @@ void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
 
   union WbFieldData data;
   data.sf_bool = value;
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_sf_int32(WbFieldRef field, int value) {
@@ -3180,7 +3171,7 @@ void wb_supervisor_field_set_sf_int32(WbFieldRef field, int value) {
 
   union WbFieldData data;
   data.sf_int32 = value;
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_sf_float(WbFieldRef field, double value) {
@@ -3192,7 +3183,7 @@ void wb_supervisor_field_set_sf_float(WbFieldRef field, double value) {
 
   union WbFieldData data;
   data.sf_float = value;
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_sf_vec2f(WbFieldRef field, const double values[2]) {
@@ -3205,7 +3196,7 @@ void wb_supervisor_field_set_sf_vec2f(WbFieldRef field, const double values[2]) 
   union WbFieldData data;
   data.sf_vec2f[0] = values[0];
   data.sf_vec2f[1] = values[1];
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_sf_vec3f(WbFieldRef field, const double values[3]) {
@@ -3219,7 +3210,7 @@ void wb_supervisor_field_set_sf_vec3f(WbFieldRef field, const double values[3]) 
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 static bool isValidRotation(const double r[4]) {
@@ -3243,7 +3234,7 @@ void wb_supervisor_field_set_sf_rotation(WbFieldRef field, const double values[4
   data.sf_rotation[1] = values[1];
   data.sf_rotation[2] = values[2];
   data.sf_rotation[3] = values[3];
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 static bool isValidColor(const double rgb[3]) {
@@ -3268,7 +3259,7 @@ void wb_supervisor_field_set_sf_color(WbFieldRef field, const double values[3]) 
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_sf_string(WbFieldRef field, const char *value) {
@@ -3282,7 +3273,7 @@ void wb_supervisor_field_set_sf_string(WbFieldRef field, const char *value) {
 
   union WbFieldData data;
   data.sf_string = supervisor_strdup(value);
-  field_operation_with_data(field, SET, -1, data);
+  field_operation_with_data(field, SET, -1, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_bool(WbFieldRef field, int index, bool value) {
@@ -3291,7 +3282,7 @@ void wb_supervisor_field_set_mf_bool(WbFieldRef field, int index, bool value) {
 
   union WbFieldData data;
   data.sf_bool = value;
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_int32(WbFieldRef field, int index, int value) {
@@ -3300,7 +3291,7 @@ void wb_supervisor_field_set_mf_int32(WbFieldRef field, int index, int value) {
 
   union WbFieldData data;
   data.sf_int32 = value;
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_float(WbFieldRef field, int index, double value) {
@@ -3312,7 +3303,7 @@ void wb_supervisor_field_set_mf_float(WbFieldRef field, int index, double value)
 
   union WbFieldData data;
   data.sf_float = value;
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
@@ -3325,7 +3316,7 @@ void wb_supervisor_field_set_mf_vec2f(WbFieldRef field, int index, const double 
   union WbFieldData data;
   data.sf_vec2f[0] = values[0];
   data.sf_vec2f[1] = values[1];
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
@@ -3339,7 +3330,7 @@ void wb_supervisor_field_set_mf_vec3f(WbFieldRef field, int index, const double 
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_rotation(WbFieldRef field, int index, const double values[4]) {
@@ -3359,7 +3350,7 @@ void wb_supervisor_field_set_mf_rotation(WbFieldRef field, int index, const doub
   data.sf_rotation[1] = values[1];
   data.sf_rotation[2] = values[2];
   data.sf_rotation[3] = values[3];
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_color(WbFieldRef field, int index, const double values[3]) {
@@ -3380,7 +3371,7 @@ void wb_supervisor_field_set_mf_color(WbFieldRef field, int index, const double 
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_set_mf_string(WbFieldRef field, int index, const char *value) {
@@ -3394,7 +3385,7 @@ void wb_supervisor_field_set_mf_string(WbFieldRef field, int index, const char *
 
   union WbFieldData data;
   data.sf_string = supervisor_strdup(value);
-  field_operation_with_data(field, SET, index, data);
+  field_operation_with_data(field, SET, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value) {
@@ -3403,7 +3394,7 @@ void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value)
 
   union WbFieldData data;
   data.sf_bool = value;
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value) {
@@ -3412,7 +3403,7 @@ void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value)
 
   union WbFieldData data;
   data.sf_int32 = value;
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double value) {
@@ -3424,7 +3415,7 @@ void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double val
 
   union WbFieldData data;
   data.sf_float = value;
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
@@ -3437,7 +3428,7 @@ void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const doub
   union WbFieldData data;
   data.sf_vec2f[0] = values[0];
   data.sf_vec2f[1] = values[1];
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
@@ -3451,7 +3442,7 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const double values[4]) {
@@ -3471,7 +3462,7 @@ void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const d
   data.sf_rotation[1] = values[1];
   data.sf_rotation[2] = values[2];
   data.sf_rotation[3] = values[3];
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const double values[3]) {
@@ -3492,7 +3483,7 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
   data.sf_vec3f[0] = values[0];
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value) {
@@ -3506,7 +3497,7 @@ void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const cha
 
   union WbFieldData data;
   data.sf_string = supervisor_strdup(value);
-  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
+  field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
 }
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
@@ -3518,7 +3509,7 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
   if (!check_field(field, __FUNCTION__, WB_MF, false, &index, false, true))
     return;
 
-  field_operation(field, REMOVE, index);
+  field_operation(field, REMOVE, index, __FUNCTION__);
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
@@ -3577,7 +3568,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   union WbFieldData data;
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, position, data, false);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -3613,7 +3604,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, position, data, false);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -3630,7 +3621,7 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false, true))
     return;
 
-  field_operation(field, REMOVE, -1);
+  field_operation(field, REMOVE, -1, __FUNCTION__);
   field->count = 0;
 }
 
@@ -3673,7 +3664,7 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, -1, data, false);
   imported_node_id = -1;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   if (imported_node_id >= 0)
     field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();
@@ -3706,7 +3697,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
   imported_node_id = -1;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   if (imported_node_id >= 0)
     field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();

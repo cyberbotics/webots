@@ -27,7 +27,6 @@ PROTO RobotisOp2Hinge2 [
   field MFFloat    battery         []                     # Is `Robot.battery`.
   field SFNode     jersey          NULL                   # Extends the robot with a jersey: typically RobotisJersey.proto.
   field SFInt32    channel         0                      # Defines the channel for the `Emitter` and `Receiver` devices.
-  field SFBool     showWindow      FALSE                  # Is `Robot.showWindow`.
   field SFBool     backlash        FALSE                  # Enables backlash on all joints.
   field MFNode     bodySlot        []                     # Extends the robot with new nodes in the body slot.
   field MFNode     headSlot        []                     # Extends the robot with new nodes in the head slot.
@@ -53,7 +52,6 @@ PROTO RobotisOp2Hinge2 [
     battery         IS battery
     jersey          IS jersey
     channel         IS channel
-    showWindow      IS showWindow
     backlash        IS backlash
     bodySlot        IS bodySlot
     headSlot        IS headSlot

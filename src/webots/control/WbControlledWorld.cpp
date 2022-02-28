@@ -102,6 +102,10 @@ WbControlledWorld::~WbControlledWorld() {
   delete mServer;
 }
 
+const QString WbControlledWorld::server() {
+  return mServer->fullServerName();
+}
+
 void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
   if (!robot)
     return;

@@ -622,9 +622,9 @@ PublicToilet {
 
 - `height`: Defines the height of the toilet.
 
-- `length`: Defines the lenght of the toilet.
+- `length`: Defines the length of the toilet.
 
-- `width`: Defines the wdith of the toilet.
+- `width`: Defines the width of the toilet.
 
 - `backDisplayTexture`: Defines the texture used on the back display.
 
@@ -905,3 +905,4 @@ WorkTrashContainer {
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
+

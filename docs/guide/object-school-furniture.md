@@ -32,7 +32,7 @@ Blackboard {
 
 ## Book
 
-A book (0.2 x 0.02 x 0.15 m).
+A book (0.02 x 0.15 x 0.2 m).
 
 %figure
 
@@ -90,3 +90,4 @@ Clock {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+

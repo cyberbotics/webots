@@ -1,6 +1,8 @@
-/* global webots */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
-webots.window('pan_tilt_camera_view').receive = function(message, robot) {
+window.robotWindow = new RobotWindow();
+
+window.robotWindow.receive = function(message, robot) {
   // image format: image[<device name>]:<URI image data>
   if (message.startsWith('image')) {
     const label = message.substring(message.indexOf('[') + 1, message.indexOf(']'));

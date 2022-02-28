@@ -126,7 +126,7 @@ Then both robots rotate their handles simultaneously, hence the light robot gets
 Then the light robot gets passed over another time by the second heavy robot and so on...
 All the robots in this simulation use the same controller; the different behaviors are selected according to the robot's name.
 
-### [coupled\_motor.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motor.wbt)
+### [coupled\_motors.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motors.wbt)
 
 **Keywords**: [Motor](../reference/motor.md), coupled motor, multiplier
 

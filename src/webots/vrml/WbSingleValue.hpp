@@ -34,7 +34,7 @@ public:
   // return generic value
   virtual WbVariant variantValue() const = 0;
   QString toString(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const override {
-    return variantValue().toStringRepresentation(level);
+    return variantValue().toSimplifiedStringRepresentation(level);
   }
 
 protected:

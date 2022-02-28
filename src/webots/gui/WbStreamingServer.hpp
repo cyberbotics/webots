@@ -35,12 +35,19 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
+  WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit, bool stream);
   virtual ~WbStreamingServer();
 
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
   virtual void start(int port);
+  void sendToClients(const QString &message = "");
+  void closeClient(const QString &clientID);
+  bool streamStatus() { return mStream; }
+  int port() { return mPort; }
+
+signals:
+  void sendRobotWindowClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
 
 protected slots:
   void newWorld();
@@ -56,13 +63,12 @@ protected:
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket);
+  virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
   void computeEditableControllers();
-  void sendToClients(const QString &message = "");
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
 
@@ -105,7 +111,9 @@ private:
   bool mMonitorActivity;
   bool mDisableTextStreams;
   bool mSsl;
+  bool mStream;
   bool mControllerEdit;
+  int mPort;
 };
 
 #endif

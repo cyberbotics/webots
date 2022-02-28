@@ -57,7 +57,7 @@ else
  ros: $(CXX_SOURCES:.cxx=.d)
 endif
 
-$(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) ROS_HEADERS include/templateHeader.h include/templateRequest.h include/templateResponse.h
+$(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) include/templateHeader.h include/templateRequest.h include/templateResponse.h
 
 $(GENERATED_HEADERS): $(SERVICE_HEADERS) $(MESSAGE_HEADERS)
 
@@ -68,10 +68,6 @@ include/messages/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/msg/%.msg include
 include/services/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
 	@echo "# generating service header" $(notdir $<)
 	$(SILENT)$(PYTHON_COMMAND) headersFromSRV.py $<
-
-ROS_HEADERS: $(GENERATED_HEADERS)
-	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
-	+@cp -f include/RecognitionObjects.h include/webots_ros/RecognitionObjects.h
 
 INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 
