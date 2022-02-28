@@ -384,6 +384,7 @@ class Client:
         if config['docker']:
             os.chdir(self.project_instance_path)
             os.system("docker-compose down -v --rmi all")
+            os.system("docker system prune --volumes -f")  # remove unused images, volumes or networks
         else:
             if self.webots_process:
                 logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
@@ -773,7 +774,7 @@ def main():
     if 'webotsHome' not in config:
         config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     if config['docker']:
-        config['webots'] = '/usr/local/webots'
+        config['webots'] = '/usr/local/webots/webots'
         config['projectsDir'] = '/usr/local/webots-project'
     else:
         config['webots'] = config['webotsHome']
