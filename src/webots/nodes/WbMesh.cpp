@@ -33,10 +33,12 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  setCcw(mCcw->value());
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -88,6 +90,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
@@ -539,6 +542,16 @@ void WbMesh::updateUrl() {
 
   if (isAValidBoundingObject())
     applyToOdeData();
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateCcw() {
+  setCcw(mCcw->value());
+
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();
