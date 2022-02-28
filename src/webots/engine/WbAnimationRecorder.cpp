@@ -29,6 +29,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
 
+#include <cassert>
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
@@ -299,21 +300,20 @@ void WbAnimationRecorder::updateCommandsAfterNodeDeletion(QObject *node) {
 
 void WbAnimationRecorder::update() {
   double currentTime = WbSimulationState::instance()->time();
-  if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-    const QString data = computeUpdateData();
-    if (data.isEmpty())
-      return;
+  assert(currentTime > mLastUpdateTime);
+  const QString data = computeUpdateData();
+  if (data.isEmpty())
+    return;
 
-    QTextStream out(mFile);
+  QTextStream out(mFile);
 
-    if (!mFirstFrame)
-      out << ",\n";
+  if (!mFirstFrame)
+    out << ",\n";
 
-    out << data;
+  out << data;
 
-    mFirstFrame = false;
-    mLastUpdateTime = currentTime;
-  }
+  mFirstFrame = false;
+  mLastUpdateTime = currentTime;
 }
 
 QString WbAnimationRecorder::computeUpdateData(bool force) {

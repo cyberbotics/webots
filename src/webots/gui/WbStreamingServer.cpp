@@ -40,6 +40,8 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
+#include <cassert>
+
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit,
@@ -473,11 +475,11 @@ void WbStreamingServer::sendUpdatePackageToClients() {
 
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-    if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      foreach (QWebSocket *client, mWebSocketClients)
-        pauseClientIfNeeded(client);
-      mLastUpdateTime = currentTime;
-    }
+    assert(currentTime > mLastUpdateTime);
+
+    foreach (QWebSocket *client, mWebSocketClients)
+      pauseClientIfNeeded(client);
+    mLastUpdateTime = currentTime;
   }
 }
 
