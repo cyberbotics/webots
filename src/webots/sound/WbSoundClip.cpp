@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 
 #include "WbSoundClip.hpp"
 
+#include "WbPreferences.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbWaveFile.hpp"
 
 #include <QtCore/QObject>
@@ -24,11 +26,13 @@ WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), m
 }
 
 WbSoundClip::~WbSoundClip() {
-  if (mBuffer)
+  if (mBuffer && WbSoundEngine::openAL())
     alDeleteBuffers(1, &mBuffer);
 }
 
 void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
+  if (!WbSoundEngine::openAL())
+    return;
   WbWaveFile wave(filename, device);
   wave.loadFromFile(side);
   if (wave.nChannels() > 1)
@@ -41,6 +45,9 @@ void WbSoundClip::load(const QString &filename, QIODevice *device, double balanc
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
+  if (!WbSoundEngine::openAL())
+    return;
+
   ALuint buffer = 0;
 
   try {

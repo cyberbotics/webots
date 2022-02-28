@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -963,24 +963,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtSql.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtSql QtSql\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebChannel.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebChannel QtWebChannel\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngine.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngine QtWebEngine\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngineCore.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngineCore QtWebEngineCore\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "ln -Fs Versions/5/Helpers Helpers\n");
-      fprintf(fd, "ln -Fs Versions/5/Resources Resources\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngineWidgets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngineWidgets QtWebEngineWidgets\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtWebSockets.framework\n");

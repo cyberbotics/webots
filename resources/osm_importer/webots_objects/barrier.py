@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ from osm_objects import OSMCoord
 from utils.misc_utils import extract_float_from_string, length2D
 
 
-RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
+RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
 
 
 class Barrier(WebotsObject):

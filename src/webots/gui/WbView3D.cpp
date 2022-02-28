@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2054,11 +2054,9 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
     WbRobot *pickedRobot = dynamic_cast<WbRobot *>(node);
     if (pickedRobot == NULL && node != NULL)
       pickedRobot = WbNodeUtilities::findRobotAncestor(node);
-    if (pickedRobot) {
+    if (pickedRobot)
       mPickedMatter = pickedRobot;
-      if (!mIsRemoteMouseEvent)
-        emit showRobotWindowRequest();
-    } else
+    else
       mPickedMatter = WbNodeUtilities::findUpperMatter(node);
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   bool disableTextStreams = false;
   bool ssl = false;
   bool controllerEdit = false;
-  int port = 1234;
+  int port = WbPreferences::instance()->value("Streaming/port", 1234).toInt();
   QString mode = "x3d";
 
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
@@ -194,8 +194,8 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
-  bool logPerformanceMode = false;
-  bool batch = false, stream = false;
+  bool logPerformanceMode = false, batch = false;
+  mStream = false;
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -243,7 +243,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--stream")) {
-      stream = true;
+      mStream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
@@ -278,16 +278,7 @@ void WbGuiApplication::parseArguments() {
         logPerformanceMode = true;
       } else
         cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
-    }
-#ifndef _WIN32
-    else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
-             arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
-             arg.startsWith("--remote-debugging-port=")) {
-      // Silently ignore the awesome QWebEngine debugging tools:
-      // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
-    }
-#endif
-    else if (arg.startsWith("-")) {
+    } else if (arg.startsWith("-")) {
       cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
       cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       mTask = FAILURE;
@@ -302,7 +293,7 @@ void WbGuiApplication::parseArguments() {
     }
   }
 
-  if (stream && !batch)
+  if (mStream && !batch)
     cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
 
   if (logPerformanceMode) {
@@ -380,6 +371,11 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
+
+  if (!mStream) {  // create streaming server for robot window if not in stream mode.
+    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
+    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port", 1234).toInt());
+  }
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the

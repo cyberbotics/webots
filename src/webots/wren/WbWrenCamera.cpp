@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -387,7 +387,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
   if (mIsColor)
     mBackgroundColor = color;
   else
-    mBackgroundColor = WbRgb(mMaxRange, mMaxRange, mMaxRange);
+    mBackgroundColor = WbRgb(INFINITY, INFINITY, INFINITY);
 
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};

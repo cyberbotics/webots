@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -443,7 +443,7 @@ void WbDistanceSensor::setSensorRays() {
     if (mRays[i].geom()) {  // NOT INFRA_RED
       // get ray direction
       const WbVector3 &dir = mRays[i].direction();
-      assert(dir != WbVector3(0, 0, 0));
+      assert(!dir.isNull());
 
       // apply sensor's coordinate system transformation to rays
       WbVector3 r = m.sub3x3MatrixDot(dir);

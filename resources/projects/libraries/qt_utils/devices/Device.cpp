@@ -56,7 +56,7 @@ Device::Device(WbDeviceTag tag) : mTag(tag), mType(WB_NODE_NO_NODE), mName(""), 
         break;
     }
   } else {  // robot
-    mType = wb_robot_get_type();
+    mType = WB_NODE_ROBOT;
     mName = QString::fromUtf8(wb_robot_get_name());
   }
 }

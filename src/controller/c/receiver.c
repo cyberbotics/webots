@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,9 @@ static void receiver_enqueue(Receiver *rs, PacketStruct *ps) {
 static PacketStruct *receiver_dequeue(Receiver *rs) {
   ROBOT_ASSERT(rs->queue);
   PacketStruct *ps = rs->queue;
+  // cppcheck-suppress nullPointerRedundantCheck
   rs->queue = rs->queue->next;
+  // cppcheck-suppress nullPointerRedundantCheck
   rs->buffer_used -= ps->size;
   rs->queue_length--;
   return ps;

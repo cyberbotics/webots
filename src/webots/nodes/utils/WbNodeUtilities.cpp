@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1869,6 +1869,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   if (jointParameters) {
     if (warning)
       *warning = QObject::tr("JointParameters nodes cannot be USEd.");
+    return false;
+  }
+
+  const WbTrackWheel *const trackWheel = dynamic_cast<WbTrackWheel *>(n);
+  if (trackWheel) {
+    if (warning)
+      *warning = QObject::tr("TrackWheel nodes cannot be USEd.");
     return false;
   }
 

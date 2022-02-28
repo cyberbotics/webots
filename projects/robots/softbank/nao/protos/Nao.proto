@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
@@ -8,9 +8,11 @@ PROTO Nao [
   field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.
   field SFRotation                   rotation              0 0 1 0               # Is `Transform.rotation`.
   field SFString                     name                  "NAO"                 # Is `Solid.name`.
-  field SFString{"3.3","4.0", "5.0"} version               "5.0"                 # Defines the Nao version; either "3.3","4.0" or "5.0".
+  field SFString{"V3.3", "V4 (orange)", "V4 (blue)",
+                 "V5 (red)", "V5 (blue)", "V5 (grey)"}
+                                     version               "V5 (red)"            # Defines the Nao version.
   field SFInt32{21, 25}              degreeOfFreedom       25                    # Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
-  field SFColor                      color                 0.878 0 0.204         # Defines the diffuseColor of the secondary `Material`.
+  field MFColor customColor          []                                          # Defines the color of the secondary plastic components.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
   field MFString                     controllerArgs        []                    # Is `Robot.controllerArgs`.
   field SFString                     customData            ""                    # Is `Robot.customData`.
@@ -41,18 +43,56 @@ PROTO Nao [
 {
   %<
     // version check
-    const version = fields.version.value;
-    const color = fields.color.value;
+    let version_string = fields.version.value;
+    let color = { r: 0.5, g: 0.5, b: 0.5};  // light grey
+    let version = 3.3;
+    let hand_version = '3.3';
+    if (version_string.startsWith('V4')) {
+      version = 4;
+      hand_version = '4.0';
+      if (version_string.endsWith('(orange)')) {
+        color.r = 0.914;
+        color.g = 0.361;
+        color.b = 0.067;
+      } else {  // assuming blue
+        color.r = 0;
+        color.g = 0.36;
+        color.b = 0.524;
+      }
+    } else if (version_string.startsWith('V5')) {
+      version = 5;
+      hand_version = '5.0';
+      if (version_string.endsWith('(red)')) {
+        color.r = 0.88;
+        color.g = 0.01;
+        color.b = 0.14;
+      } else if (version_string.endsWith('(blue)')) {
+        color.r = 0.114;
+        color.g = 0.282;
+        color.b = 0.655;
+      } // else assuming grey
+    }
+    const custom_colors = fields.customColor.value;
+    if (custom_colors.length > 0)
+      color = custom_colors[0];
+    if (custom_colors.length > 1)
+      console.log('Warning: customColor contains more than one color, ignoring extra colors.');
 
     // degreeOfFreedom check
     let realistic_hands = true;
-    if (version !== '5.0') {
+    if (version < 5) {
       if (fields.degreeOfFreedom.value === 21)
         realistic_hands = false;
     }
     // computer Nao model
     const hValue = realistic_hands ? '25' : '21';
-    const model = 'NAO_H' + hValue + '_V' + version.replace('.', '');
+    const model = 'NAO_H' + hValue + '_V' + fields.version.value.replace('.', '');
+    // field of view of cameras
+    let fieldOfView;
+    if (version === 3.3)
+      fieldOfView = 0.8342;
+    else
+      fieldOfView = 1.064;
   >%
   Robot {
     translation IS translation
@@ -787,7 +827,7 @@ PROTO Nao [
               ]
             }
             Camera {
-              %< if (version === '3.3') { >%
+              %< if (version === 3.3) { >%
                 translation 0.0539 0 0.0679
                 rotation -0.663002 0.347645 0.663001 0.000005
               %< } else { >%
@@ -795,11 +835,7 @@ PROTO Nao [
                 rotation -0.000190 1 0.000196 0.020946
               %< } >%
               name "CameraTop"
-              %< if (version === '3.3') { >%
-                fieldOfView 0.8342
-              %< } else { >%
-                fieldOfView 1.064
-              %< } >%
+              fieldOfView %<= fieldOfView >%
               width IS cameraWidth
               height IS cameraHeight
               antiAliasing IS cameraAntiAliasing
@@ -809,7 +845,7 @@ PROTO Nao [
               near 0.002
             }
             Camera {
-              %< if (version === '3.3') { >%
+              %< if (version === 3.3) { >%
                 translation 0.0488 0 0.02381
                 rotation 0 1 0 0.698134
               %< } else { >%
@@ -817,7 +853,7 @@ PROTO Nao [
                 rotation 0 1 0 0.692901
               %< } >%
               name "CameraBottom"
-              fieldOfView IS cameraFieldOfView
+              fieldOfView %<= fieldOfView >%
               width IS cameraWidth
               height IS cameraHeight
               near 0.002
@@ -1190,9 +1226,7 @@ PROTO Nao [
                 }
               ]
               name "Face/Led/Right"
-              color [
-
-              ]
+              color []
               gradual TRUE
             }
             DEF LEFT_EYE_LED LED {
@@ -1216,9 +1250,7 @@ PROTO Nao [
                 }
               ]
               name "Face/Led/Left"
-              color [
-
-              ]
+              color []
               gradual TRUE
             }
             DEF RIGHT_EAR_LED LED {
@@ -1535,7 +1567,7 @@ PROTO Nao [
           }
           physics Physics {
             density -1
-            %< if (version === '3.3') { >%
+            %< if (version === 3.3) { >%
               mass 0.57995
               centerOfMass [
                 0.00107525 0 0.045443
@@ -1543,7 +1575,7 @@ PROTO Nao [
               inertiaMatrix [
                 0.000602529 0.0019956 0.00226957, -1.19245e-05 2.79999e-06 7.82114e-06
               ]
-            %< } else if (version === '4.0') { >%
+            %< } else if (version === 4) { >%
               mass 0.66975
               centerOfMass [
                 -0.00101 0 0.04489
@@ -2013,7 +2045,7 @@ PROTO Nao [
                     }
                     %< if (realistic_hands) { >%
                       endPoint NaoRightWristH25Realistic {
-                        version IS version
+                        version "%<= hand_version >%"
                         contactMaterial IS contactMaterial
                         fingerContactMaterial IS fingerContactMaterial
                         fingerRadius IS fingerRadius
@@ -2023,7 +2055,7 @@ PROTO Nao [
                       }
                     %< } else { >%
                       endPoint NaoRightWristH21 {
-                        version IS version
+                        version "%<= hand_version >%"
                         contactMaterial IS contactMaterial
                         color %<= color.r >% %<= color.g >% %<= color.b >%
                         handSlot IS rightHandSlot
@@ -2037,7 +2069,7 @@ PROTO Nao [
                 }
                 physics Physics {
                   density -1
-                  %< if (version === '3.3') { >%
+                  %< if (version === 3.3) { >%
                     mass 0.05971
                     centerOfMass [
                       -0.0256 1e-05 -0.00019
@@ -2045,7 +2077,7 @@ PROTO Nao [
                     inertiaMatrix [
                       0.00000550319 0.00006225405 0.00006325124, 0.00000002243 0.00000001534 -0.00000000559
                     ]
-                  %< } else if (version === '4.0') { >%
+                  %< } else if (version === 4) { >%
                     mass 0.06483
                     centerOfMass [
                       -0.02744 0 -0.00014
@@ -2080,7 +2112,7 @@ PROTO Nao [
           }
           physics Physics {
             density -1
-            %< if (version === '3.3') { >%
+            %< if (version === 3.3) { >%
               mass 0.19305
               centerOfMass [
                 0.0113738 0.00536634 0.000479675
@@ -2088,7 +2120,7 @@ PROTO Nao [
               inertiaMatrix [
                 0.00031896 0.000136456 0.000221373, -6.80768e-05 3.98663e-06 6.89016e-06
               ]
-            %< } else if (version === '4.0') { >%
+            %< } else if (version === 4) { >%
               mass 0.23281
               centerOfMass [
                 0.0161051 0.00476814 0.00228146
@@ -2555,7 +2587,7 @@ PROTO Nao [
                     }
                     %< if (realistic_hands) { >%
                       endPoint NaoLeftWristH25Realistic {
-                        version IS version
+                        version "%<= hand_version >%"
                         contactMaterial IS contactMaterial
                         fingerContactMaterial IS fingerContactMaterial
                         fingerRadius IS fingerRadius
@@ -2565,7 +2597,7 @@ PROTO Nao [
                       }
                     %< } else { >%
                       endPoint NaoLeftWristH21 {
-                        version IS version
+                        version "%<= hand_version >%"
                         contactMaterial IS contactMaterial
                         color %<= color.r >% %<= color.g >% %<= color.b >%
                         handSlot IS leftHandSlot
@@ -2577,7 +2609,7 @@ PROTO Nao [
                 boundingObject USE ELBOW_BO
                 physics Physics {
                   density -1
-                  %< if (version === '3.3') { >%
+                  %< if (version === 3.3) { >%
                     mass 0.05971
                     centerOfMass [
                       -0.0256 -1e-05 -0.00019
@@ -2585,7 +2617,7 @@ PROTO Nao [
                     inertiaMatrix[
                       0.00000550319 0.00006225405 0.00006325124, -0.00000002243 0.00000001534 0.00000000559
                     ]
-                  %< } else if (version === '4.0') { >%
+                  %< } else if (version === 4) { >%
                     mass 0.06483
                     centerOfMass [
                       -0.02744 0 -0.00014
@@ -2617,7 +2649,7 @@ PROTO Nao [
           }
           physics Physics {
             density -1
-            %< if (version === '3.3') { >%
+            %< if (version === 3.3) { >%
               mass 0.19305
               centerOfMass [
                 0.0113738 -0.00536634 0.000479675
@@ -2625,7 +2657,7 @@ PROTO Nao [
               inertiaMatrix [
                 0.00031896 0.000136456 0.000221373, 6.80424e-05 -3.12161e-06 8.16186e-06
               ]
-            %< } else if (version === '4.0') { >%
+            %< } else if (version === 4) { >%
               mass 0.23281
               centerOfMass [
                 0.0161051 -0.00476814 0.00228146
@@ -2652,7 +2684,7 @@ PROTO Nao [
             maxVelocity 4.16174
             minPosition -1.14529
             maxPosition 0.740718
-            maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+            maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
           }
           PositionSensor {
             name "RHipYawPitchS"
@@ -2946,7 +2978,7 @@ PROTO Nao [
                   maxVelocity 4.16174
                   minPosition -0.738274
                   maxPosition 0.449597
-                  maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+                  maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
                 }
                 PositionSensor {
                   name "RHipRollS"
@@ -3041,7 +3073,7 @@ PROTO Nao [
                         maxVelocity 6.40239
                         minPosition -1.77378
                         maxPosition 0.48398
-                        maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                        maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                       }
                       PositionSensor {
                         name "RHipPitchS"
@@ -3297,7 +3329,7 @@ PROTO Nao [
                               maxVelocity 6.40239
                               minPosition -0.0923279
                               maxPosition 2.11255
-                              maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                              maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                             }
                             PositionSensor {
                               name "RKneePitchS"
@@ -3688,7 +3720,7 @@ PROTO Nao [
                                     maxVelocity 6.40239
                                     minPosition -1.1863
                                     maxPosition 0.932006
-                                    maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                                    maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                                   }
                                   PositionSensor {
                                     name "RAnklePitchS"
@@ -3759,7 +3791,7 @@ PROTO Nao [
                                           maxVelocity 4.16174
                                           minPosition -0.768992
                                           maxPosition 0.397935
-                                          maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+                                          maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
                                         }
                                         PositionSensor {
                                           name "RAnkleRollS"
@@ -4041,8 +4073,7 @@ PROTO Nao [
                                               }
                                             ]
                                             name "RFoot/Led"
-                                            color [
-                                            ]
+                                            color []
                                             gradual TRUE
                                           }
                                           DEF RFOOT_RBUMPER TouchSensor {
@@ -4120,7 +4151,7 @@ PROTO Nao [
                                         }
                                         physics Physics {
                                           density -1
-                                          %< if (version === '3.3') { >%
+                                          %< if (version === 3.3) { >%
                                             mass 0.08118
                                             centerOfMass [
                                               0.0254 -0.00332 -0.03241
@@ -4128,7 +4159,7 @@ PROTO Nao [
                                             inertiaMatrix [
                                               0.00026961204 0.00064387818 0.00052519167, 0.00000587690 0.00013924446 -0.00052519167
                                             ]
-                                          %< } else if (version === '4.0') { >%
+                                          %< } else if (version === 4) { >%
                                             mass 0.08127
                                             centerOfMass [
                                               0.02542 -0.0033 -0.03239
@@ -4155,7 +4186,7 @@ PROTO Nao [
                                   }
                                   physics Physics {
                                     density -1
-                                    %< if (version === '3.3') { >%
+                                    %< if (version === 3.3) { >%
                                       mass 0.13892
                                       centerOfMass [
                                         0.00142 -0.00028 0.00638
@@ -4163,7 +4194,7 @@ PROTO Nao [
                                       inertiaMatrix [
                                         0.00003882614 0.00007211571 0.00005352041, 0.00000004711 0.00000221327 -0.00000000686
                                       ]
-                                    %< } else if (version === '4.0') { >%
+                                    %< } else if (version === 4) { >%
                                       mass 0.13416
                                       centerOfMass [
                                         0.00045 -0.00029 0.00685
@@ -4196,7 +4227,7 @@ PROTO Nao [
                             }
                             physics Physics {
                               density -1
-                              %< if (version === '3.3') { >%
+                              %< if (version === 3.3) { >%
                                 mass 0.29159
                                 centerOfMass [
                                   0.00422 -0.00252 -0.04868
@@ -4204,7 +4235,7 @@ PROTO Nao [
                                 inertiaMatrix [
                                   0.00115382550 0.00110377729 0.00018861038, -0.00000077529 0.00003231279 -0.00004396728
                                 ]
-                              %< } else if (version === '4.0') { >%
+                              %< } else if (version === 4) { >%
                                 mass 0.29142
                                 centerOfMass [
                                   0.00453 -0.00225 -0.04936
@@ -4237,7 +4268,7 @@ PROTO Nao [
                       }
                       physics Physics {
                         density -1
-                        %< if (version === '3.3') { >%
+                        %< if (version === 3.3) { >%
                           mass 0.39421
                           centerOfMass [
                             0.00132 -0.00235 -0.05352
@@ -4245,7 +4276,7 @@ PROTO Nao [
                           inertiaMatrix [
                             0.00163011959 0.00159269948 0.00030120888, -0.00000031939 0.00008287048 -0.0004333919
                           ]
-                        %< } else if (version === '4.0') { >%
+                        %< } else if (version === 4) { >%
                           mass 0.38968
                           centerOfMass [
                             0.00138 -0.00221 -0.05373
@@ -4277,7 +4308,7 @@ PROTO Nao [
                 }
                 physics Physics {
                   density -1
-                  %< if (version === '3.3') { >%
+                  %< if (version === 3.3) { >%
                     mass 0.1353
                     centerOfMass [
                       -0.01649 -0.00029 -0.00475
@@ -4285,7 +4316,7 @@ PROTO Nao [
                     inertiaMatrix [
                       0.00002791129 0.00010146847 0.00009209165, -0.00000004765 -0.00000530958 -0.00000000007
                     ]
-                  %< } else if (version === '4.0') { >%
+                  %< } else if (version === 4) { >%
                     mass 0.13053
                     centerOfMass [
                       -0.01549 -0.00029 -0.00515
@@ -4313,7 +4344,7 @@ PROTO Nao [
           }
           physics Physics {
             density -1
-            %< if (version === '3.3') { >%
+            %< if (version === 3.3) { >%
               mass 0.07117
               centerOfMass [
                 -0.00766 0.012 0.02717
@@ -4321,7 +4352,7 @@ PROTO Nao [
               inertiaMatrix [
                 0.00008997164 0.00010552250 0.00006688382, 0.00000500214 0.00001273548 -0.00002770075
               ]
-            %< } else if (version === '4.0') { >%
+            %< } else if (version === 4) { >%
               mass 0.06981
               centerOfMass [
                 -0.00781 0.01114 0.02661
@@ -4348,7 +4379,7 @@ PROTO Nao [
             maxVelocity 4.16174
             minPosition -1.14529
             maxPosition 0.740718
-            maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+            maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
           }
           PositionSensor {
             name "LHipYawPitchS"
@@ -4642,7 +4673,7 @@ PROTO Nao [
                   maxVelocity 4.16174
                   minPosition -0.379435
                   maxPosition 0.79046
-                  maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+                  maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
                 }
                 PositionSensor {
                   name "LHipRollS"
@@ -4662,7 +4693,7 @@ PROTO Nao [
                         maxVelocity 6.40239
                         minPosition -1.77378
                         maxPosition 0.48398
-                        maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                        maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                       }
                       PositionSensor {
                         name "LHipPitchS"
@@ -4918,7 +4949,7 @@ PROTO Nao [
                               maxVelocity 6.40239
                               minPosition -0.0923279
                               maxPosition 2.11255
-                              maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                              maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                             }
                             PositionSensor {
                               name "LKneePitchS"
@@ -5203,7 +5234,7 @@ PROTO Nao [
                                     maxVelocity 6.40239
                                     minPosition -1.18944
                                     maxPosition 0.922581
-                                    maxTorque %<= (version === '3.3') ? 8 : 9.8 >%
+                                    maxTorque %<= (version === 3.3) ? 8 : 9.8 >%
                                   }
                                   PositionSensor {
                                     name "LAnklePitchS"
@@ -5224,7 +5255,7 @@ PROTO Nao [
                                           maxVelocity 4.16174
                                           minPosition -0.397880
                                           maxPosition 0.769001
-                                          maxTorque %<= (version === '3.3') ? 12 : 14.8 >%
+                                          maxTorque %<= (version === 3.3) ? 12 : 14.8 >%
                                         }
                                         PositionSensor {
                                           name "LAnkleRollS"
@@ -5500,8 +5531,7 @@ PROTO Nao [
                                               }
                                             ]
                                             name "LFoot/Led"
-                                            color [
-                                            ]
+                                            color []
                                             gradual TRUE
                                           }
                                           DEF LFOOT_LBUMPER TouchSensor {
@@ -5570,7 +5600,7 @@ PROTO Nao [
                                         }
                                         physics Physics {
                                           density -1
-                                          %< if (version === '3.3') { >%
+                                          %< if (version === 3.3) { >%
                                             mass 0.08118
                                             centerOfMass [
                                               0.0254 0.00332 -0.03241
@@ -5578,7 +5608,7 @@ PROTO Nao [
                                             inertiaMatrix[
                                               0.00026961204 0.00064387818 0.00052519167, -0.00000587690 0.00013924446 0.00001887096
                                             ]
-                                          %< } else if (version === '4.0') { >%
+                                          %< } else if (version === 4) { >%
                                             mass 0.08127
                                             centerOfMass [
                                               0.02542 0.0033 -0.03239
@@ -5603,7 +5633,7 @@ PROTO Nao [
                                   boundingObject USE ANKLE_PITCH_BO
                                   physics Physics {
                                     density -1
-                                    %< if (version === '3.3') { >%
+                                    %< if (version === 3.3) { >%
                                       mass 0.13892
                                       centerOfMass [
                                         0.00142 0.00028 0.00638
@@ -5611,7 +5641,7 @@ PROTO Nao [
                                       inertiaMatrix [
                                         0.00003882614 0.00007211571 0.00005352041, -0.00000004711 0.00000221327 0.00000000686
                                       ]
-                                    %< } else if (version === '4.0') { >%
+                                    %< } else if (version === 4) { >%
                                       mass 0.13416
                                       centerOfMass [
                                         0.00045 0.00029 0.00685
@@ -5636,7 +5666,7 @@ PROTO Nao [
                             boundingObject USE TIBIA_BO
                             physics Physics {
                               density -1
-                              %< if (version === '3.3') { >%
+                              %< if (version === 3.3) { >%
                                 mass 0.29159
                                 centerOfMass [
                                   0.00422 0.00252 -0.04868
@@ -5644,7 +5674,7 @@ PROTO Nao [
                                 inertiaMatrix [
                                   0.00115382550 0.00110377729 0.00018861038, 0.00000077529 0.00003231279 0.00004396728
                                 ]
-                              %< } else if (version === '4.0') { >%
+                              %< } else if (version === 4) { >%
                                 mass 0.29142
                                 centerOfMass [
                                   0.00453 0.00225 -0.04936
@@ -5669,7 +5699,7 @@ PROTO Nao [
                       boundingObject USE FEMUR_BO
                       physics Physics {
                         density -1
-                        %< if (version === '3.3') { >%
+                        %< if (version === 3.3) { >%
                           mass 0.39421
                           centerOfMass [
                             0.00132 0.00235 -0.05352
@@ -5677,7 +5707,7 @@ PROTO Nao [
                           inertiaMatrix [
                             0.00163011959 0.00159269948 0.00030120888, 0.00000031939 0.00008287048 0.00004333919
                           ]
-                        %< } else if (version === '4.0') { >%
+                        %< } else if (version === 4) { >%
                           mass 0.38968
                           centerOfMass [
                             0.00138 0.00221 -0.05373
@@ -5702,7 +5732,7 @@ PROTO Nao [
                 boundingObject USE HIP_ROLL_BO
                 physics Physics {
                   density -1
-                  %< if (version === '3.3') { >%
+                  %< if (version === 3.3) { >%
                     mass 0.1353
                     centerOfMass [
                       -0.01649 0.00029 -0.00475
@@ -5710,7 +5740,7 @@ PROTO Nao [
                     inertiaMatrix [
                       0.00002791129 0.00010146847 0.00009209165, 0.00000004765 -0.00000530958 0.00000000007
                     ]
-                  %< } else if (version === '4.0') { >%
+                  %< } else if (version === 4) { >%
                     mass 0.13053
                     centerOfMass [
                       -0.01549 0.00029 -0.00515
@@ -5738,7 +5768,7 @@ PROTO Nao [
           }
           physics Physics {
             density -1
-            %< if (version === '3.3') { >%
+            %< if (version === 3.3) { >%
               mass 0.07117
               centerOfMass [
                 -0.00766 -0.012 0.02717
@@ -5746,7 +5776,7 @@ PROTO Nao [
               inertiaMatrix [
                 0.00008997164 0.00010552250 0.00006688382, -0.00000500214 0.00001273548 0.00002770075
               ]
-            %< } else if (version === '4.0') { >%
+            %< } else if (version === 4) { >%
               mass 0.06981
               centerOfMass [
                 -0.00781 -0.01114 0.02661
@@ -5794,7 +5824,7 @@ PROTO Nao [
     }
     physics Physics {
       density -1
-      %< if (version === '3.3') { >%
+      %< if (version === 3.3) { >%
         mass 1.03948
         centerOfMass [
           -0.00415 0.00007 0.04258
@@ -5802,7 +5832,7 @@ PROTO Nao [
         inertiaMatrix [
           0.00496741976 0.00479135246 0.00159784829, 0.00001247398 0.00016446814 -0.00002477669
         ]
-      %<  } else if (version === '4.0') { >%
+      %<  } else if (version === 4) { >%
         mass 1.04956
         centerOfMass [
           -0.00413 0 0.04342

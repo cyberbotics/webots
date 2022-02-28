@@ -16,6 +16,7 @@ Supported values for the `texture` field:
 - noon\_cloudy\_countryside
 - noon\_park\_empty
 - mountains
+- music\_hall
 - stadium
 - stadium\_dry
 
@@ -54,7 +55,7 @@ TexturedBackground {
 
 ### TexturedBackground Field Summary
 
-- `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
+- `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"music_hall"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
 
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
 
@@ -75,6 +76,7 @@ Supported values for the `texture` field:
 - noon\_cloudy\_countryside
 - noon\_park\_empty
 - mountains
+- music\_hall
 - stadium
 - stadium\_dry
 
@@ -112,9 +114,8 @@ TexturedBackgroundLight {
 
 ### TexturedBackgroundLight Field Summary
 
-- `texture`: Should be equivalent to the 'texture' field of the TexturedBackground. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
+- `texture`: Should be equivalent to the 'texture' field of the TexturedBackground. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"music_hall"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
 
 - `luminosity`: Multiplies the `Light.intensity` field.
 
 - `castShadows`: Defines whether the light should cast shadows.
-

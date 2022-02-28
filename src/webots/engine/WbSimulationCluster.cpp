@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -738,6 +738,11 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       odeGeomData2->setLastChangeTime(0.0);
   }
 
+  if (b1 && odeGeomData1->enableForContactPoint())
+    dBodyEnable(b1);
+
+  if (b2 && odeGeomData2->enableForContactPoint())
+    dBodyEnable(b2);
   // no need to create contact joints for contacts between disable bodies and kinematic solids
   const bool b1Disabled = b1 && !dBodyIsEnabled(b1);
   const bool b2Disabled = b2 && !dBodyIsEnabled(b2);

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #include "WbDamping.hpp"
 #include "WbJoint.hpp"
 #include "WbOdeContext.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbPhysics.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidUtilities.hpp"
@@ -436,8 +437,14 @@ bool WbSolidMerger::isSet() const {
 
 void WbSolidMerger::setBodyArtificiallyDisabled(bool disabled) {
   mBodyArtificiallyDisabled = disabled;
-  if (disabled)
+  if (disabled) {
     dBodyDisable(mBody);
-  else
+    dGeomID g = mSolid->odeGeom();
+    if (g) {
+      WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(g));
+      if (odeGeomData)
+        odeGeomData->setEnableForContactPoint(true);
+    }
+  } else
     dBodyEnable(mBody);
 }

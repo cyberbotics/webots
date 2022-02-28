@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Physics-based model of the Surveyor SRV-1 robot (Surveyor Corp.). The track system is emulated with a series of 5 wheels for each of the two tracks."

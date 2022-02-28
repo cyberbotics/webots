@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -199,6 +199,7 @@ namespace wren {
     mInViewSpace(false),
     mZSortedRendering(false),
     mFaceCulling(true),
+    mInvertFrontFace(false),
     mPointSize(-1.0f) {}
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
@@ -219,7 +220,15 @@ namespace wren {
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
 
+    // to render cw and ccw meshes
+    const unsigned int frontFaceMode = glstate::getFrontFace();
+    if (mInvertFrontFace)
+      glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
+
     mMesh->render(mDrawingMode);
+
+    if (mInvertFrontFace)
+      glstate::setFrontFace(frontFaceMode);
 
     if (mDefaultMaterial->hasPremultipliedAlpha())
       glstate::setBlendFunc(blendSrcFactor, blendDestFactor);
@@ -280,6 +289,10 @@ void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
 }
 
+void wr_renderable_invert_front_face(WrRenderable *renderable, bool invert_front_face) {
+  reinterpret_cast<wren::Renderable *>(renderable)->setInvertFrontFace(invert_front_face);
+}
+
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows) {
   reinterpret_cast<wren::Renderable *>(renderable)->setCastShadows(cast_shadows);
 }
@@ -288,6 +301,7 @@ void wr_renderable_set_receive_shadows(WrRenderable *renderable, bool receive_sh
   reinterpret_cast<wren::Renderable *>(renderable)->setReceiveShadows(receive_shadows);
 }
 
+// only used for rendering axis systems, without it they might disappear near the edges of the viewport.
 void wr_renderable_set_scene_culling(WrRenderable *renderable, bool culling) {
   reinterpret_cast<wren::Renderable *>(renderable)->setSceneCulling(culling);
 }
@@ -318,7 +332,7 @@ WrMaterial *wr_renderable_get_material(WrRenderable *renderable, const char *nam
 }
 
 void wr_renderable_get_bounding_sphere(WrRenderable *renderable, float *sphere) {
-  const wren::primitive::Sphere s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
+  const wren::primitive::Sphere &s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
   sphere[0] = s.mCenter.x;
   sphere[1] = s.mCenter.y;
   sphere[2] = s.mCenter.z;

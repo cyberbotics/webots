@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -489,7 +489,7 @@ endif
 ### Rule to make the executable file from C/C++ objects
 ###-----------------------------------------------------------------------------
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
-	@echo "# linking" $(OBJECTS) $(notdir $@)
+	@echo "# linking" $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 ifdef WREN
 	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o $(WRENJS_DIR)/wrenjs.js

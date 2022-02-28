@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import re
 from projection import Projection
 
 
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg'
 
 
 def get_world_size(minlat, minlon, maxlat, maxlon):
@@ -34,7 +34,7 @@ def get_world_size(minlat, minlon, maxlat, maxlon):
 def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2022a utf8\n")
+    file.write("#VRML_SIM R2022b utf8\n")
     file.write("WorldInfo {\n")
     file.write("  info [\n")
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")

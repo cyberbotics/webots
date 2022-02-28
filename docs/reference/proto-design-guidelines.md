@@ -18,7 +18,7 @@ For example the `SmallWoodenChair` PROTO should be defined in a file named `Smal
 PROTO nodes should be oriented in a way they appear nicely in a ENU coordinate system (which is the default in [WorldInfo](worldinfo.md)).
 If an object has at least two sides defined (for example up and front) it should be oriented using the FLU system:
 - **F**orward direction along the positive X-axis,
-- **L**eft direction along the positive Y-axis, and 
+- **L**eft direction along the positive Y-axis, and
 - **U**p direction along the positive Z-axis.
 
 Typical candidates for the FLU system are a TV set, a rubber duck, or a robot.
@@ -48,7 +48,7 @@ It currently supports three possible options: `deprecated`, `hidden` and `nonDet
 - `hidden` tells Webots not to display this PROTO in the Add Node dialog when the user wants to insert a new PROTO.
 Hidden PROTO nodes are typically used as sub-PROTO nodes, that is they are used from another PROTO file, but not directly from a world file.
 - `nonDeterministic` tells Webots that this PROTO may yield a different result with each execution.
-This is typically the case if randomness is involved in the execution of the PROTO, which most commonly occurs if a time-based seed is used in the random process. 
+This is typically the case if randomness is involved in the execution of the PROTO, which most commonly occurs if a time-based seed is used in the random process.
 
 #### Documentation
 
@@ -138,7 +138,7 @@ It is better to use more descriptive names, like `left arm pivot`.
 Here is a simple example of a good PROTO declaration (the implementation is not shown):
 
 ```
-#VRML_SIM R2020b utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A color pencil

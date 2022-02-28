@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ QString WbMultipleValue::toString(WbPrecision::Level level) const {
 
 QString WbMultipleValue::itemToString(int index, WbPrecision::Level level) const {
   assert(index >= 0 && index < size());
-  return variantValue(index).toStringRepresentation(level);
+  return variantValue(index).toSimplifiedStringRepresentation(level);
 }
 
 bool WbMultipleValue::valueAtIndexEqualsSingleValue(int index, const WbValue *other) const {

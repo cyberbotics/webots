@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A television (1 x 0.6 x 0.1 m).
@@ -49,6 +49,7 @@ Robot {
       }
     }
     LED {
+     rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
       children [
         Shape {
           appearance PBRAppearance {

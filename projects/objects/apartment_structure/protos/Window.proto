@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable window including walls above and below.
@@ -58,11 +58,11 @@ PROTO Window [
 
     let reset = true;
     if (windowHeight <= 2 * frameSize.z)
-      console.error('\'frameSize.y\' is too big in comparison to \'windowHeight\'.');
+      console.error('\'frameSize.z\' is too big in comparison to \'windowHeight\'.');
     else if (windowHeight + bottomWallHeight > size.z)
       console.error('\'windowHeight\' and \'bottomWallHeight\' are too big in comparison to \'size.z\'.');
-    else if (size.x <= 2 * frameSize.x)
-      console.error('\'frameSize.x\' is too big in comparison to \'size.x\'.');
+    else if (size.y <= 2 * frameSize.y)
+      console.error('\'frameSize.y\' is too big in comparison to \'size.y\'.');
     else
       reset = false;
 

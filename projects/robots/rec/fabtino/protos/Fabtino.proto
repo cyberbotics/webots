@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/fabtino
@@ -28,7 +28,8 @@ PROTO Fabtino [
     synchronization IS synchronization
     name IS name
     children [
-      Group {
+      Transform {
+        rotation 0.57735 0.57735 0.57735 2.09439
         children [
           Shape {
             appearance DEF LIGHT_GRAY PBRAppearance {
@@ -74,7 +75,8 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.285061 -0.235818 0.035257
           children [
-            DEF WHEEL_FR Group {
+            DEF WHEEL_FR Transform {
+              rotation 0 0 1 -1.570796
               children [
                 Shape {
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -137,7 +139,8 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.284897 -0.238057 0.03513
           children [
-            DEF WHEEL_BR Group {
+            DEF WHEEL_BR Transform {
+              rotation 0 0 1 -1.570796
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE
@@ -189,7 +192,7 @@ PROTO Fabtino [
           translation 0.284897 0.238057 0.03513
           children [
             DEF WHEEL_FL Transform {
-              rotation 0 0 1 3.141592653589793
+              rotation 0 0 1 1.570796
               children [
                 Shape {
                   appearance USE ROLLERS_APPEARANCE
@@ -233,7 +236,7 @@ PROTO Fabtino [
           translation -0.285061 0.235818 0.035257
           children [
             DEF WHEEL_BL Transform {
-              rotation 0 0 1 3.141592653589793
+              rotation 0 0 1 1.570796
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE

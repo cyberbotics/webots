@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -103,7 +103,11 @@ WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {
   init();
 }
 
-WbRadar::WbRadar(const WbRadar &other) : WbSolidDevice(other) {
+WbRadar::WbRadar(const WbRadar &other) :
+  WbSolidDevice(other),
+  mRadarTargets(),
+  mInvalidRadarTargets(),
+  mRadarTargetsPreviousTranslations() {
   init();
 }
 

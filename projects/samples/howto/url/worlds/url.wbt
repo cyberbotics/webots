@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Example uses of assets download from a URL, including sounds, textures and meshes."
@@ -21,7 +21,7 @@ Background {
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_back.png"
   ]
   bottomUrl [
-    "webots://projects/default/worlds/textures/cubic/mountains_bottom.png"
+    "webots://projects/default/worlds/textures/cubic/mountains_bottom.jpg"
   ]
   frontUrl [
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.png"

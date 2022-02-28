@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
@@ -202,6 +203,7 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("System: %1").arg(WbSysInfo::sysInfo()).toUtf8().constData() << endl;
   cout << tr("Processor: %1").arg(WbSysInfo::processor()).toUtf8().constData() << endl;
   cout << tr("Number of cores: %1").arg(WbSysInfo::coreCount()).toUtf8().constData() << endl;
+  cout << tr("OpenAL device: %1").arg(WbSoundEngine::device()).toUtf8().constData() << endl;
 
   // create simply an OpenGL context
   QMainWindow mainWindow;

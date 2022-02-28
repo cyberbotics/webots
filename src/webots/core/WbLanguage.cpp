@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -318,7 +318,6 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_robot_get_device "
                                      "wb_robot_get_device_by_index "
                                      "wb_robot_get_number_of_devices "
-                                     "wb_robot_get_type "
                                      "wb_robot_get_model "
                                      "wb_robot_get_mode "
                                      "wb_robot_get_name "
@@ -336,6 +335,8 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_robot_set_custom_data "
                                      "wb_robot_set_mode "
                                      "wb_robot_step "
+                                     "wb_robot_step_begin "
+                                     "wb_robot_step_end "
                                      "wb_robot_task_new "
                                      "wb_robot_wait_for_user_input_event "
                                      "wb_robot_window_custom_function "

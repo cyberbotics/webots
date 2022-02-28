@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ namespace webots {
     typedef enum { SIMULATION_MODE_PAUSE = 0, SIMULATION_MODE_REAL_TIME, SIMULATION_MODE_FAST } SimulationMode;
 
     Supervisor() : Robot() {}
+    static Supervisor *getSupervisorInstance();
     virtual ~Supervisor();
     virtual void simulationQuit(int status);
     virtual void simulationReset();

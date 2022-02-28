@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -245,15 +245,15 @@ QToolBar *WbSimulationView::createToolBar() {
 
   mToolBar->addSeparator();
 
+  mToolBar->addAction(mTakeScreenshotAction);
+  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
+
   mToolBar->addAction(mMovieAction);
   mToolBar->widgetForAction(mMovieAction)->setObjectName("menuButton");
 
   action = manager->action(WbAction::ANIMATION);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
-
-  mToolBar->addAction(mTakeScreenshotAction);
-  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
 
   mToolBar->addSeparator();
 
@@ -478,6 +478,10 @@ void WbSimulationView::updateVisibility() {
 }
 
 void WbSimulationView::unmuteSound() {
+  if (!WbSoundEngine::openAL()) {
+    WbLog::warning("no audio device found.");
+    return;
+  }
   WbPreferences::instance()->setValue("Sound/mute", false);
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   if (mode != WbSimulationState::FAST && WbSimulationState::instance()->isRendering())

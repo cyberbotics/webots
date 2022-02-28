@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -203,5 +203,29 @@ QStringList WbProtoList::fileList() {
   QStringList list;
   foreach (WbProtoModel *model, gCurrent->mModels)
     list << model->fileName();
+  return list;
+}
+
+QStringList WbProtoList::fileList(int cache) {
+  QStringList list;
+
+  QFileInfoList availableProtoFiles;
+  switch (cache) {
+    case RESOURCES_PROTO_CACHE:
+      availableProtoFiles << gResourcesProtoCache;
+      break;
+    case PROJECTS_PROTO_CACHE:
+      availableProtoFiles << gProjectsProtoCache;
+      break;
+    case EXTRA_PROTO_CACHE:
+      availableProtoFiles << gExtraProtoCache;
+      break;
+    default:
+      return list;
+  }
+
+  foreach (const QFileInfo &fi, availableProtoFiles)
+    list.append(fi.baseName());
+
   return list;
 }

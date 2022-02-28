@@ -1,6 +1,7 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   basicTimeStep 8
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel material"
@@ -9,11 +10,10 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.11557297011013826 0.9538647509090101 0.2771009302640705 3.72576
-  position -0.569827 0.725051 -0.769219
+  orientation 0.938608372339704 0.05773892548854658 0.34011842034391465 4.70163844511325
+  position -1.748605365238676 0.7711193165098691 -0.5761128805191615
   follow "tracked robot"
 }
 Background {
@@ -90,7 +90,6 @@ DEF ROBOT1 Robot {
           radius 0.115
           children [
             Transform {
-              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance Appearance {
@@ -116,7 +115,6 @@ DEF ROBOT1 Robot {
           radius 0.115
           children [
             Transform {
-              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance Appearance {
@@ -167,7 +165,7 @@ DEF ROBOT1 Robot {
           }
         }
         geometry Box {
-          size 0.02 0.01 0.03
+          size 0.02 0.03 0.01
         }
       }
       geometriesCount 30

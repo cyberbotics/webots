@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ void WbTriangleMeshGeometry::init() {
   mNormalsMesh = NULL;
   mNormalsMaterial = NULL;
   mNormalsRenderable = NULL;
+  mCcw = true;
 }
 
 WbTriangleMeshGeometry::WbTriangleMeshGeometry(const QString &modelName, WbTokenizer *tokenizer) :
@@ -148,6 +149,10 @@ void WbTriangleMeshGeometry::deleteWrenRenderable() {
   WbGeometry::deleteWrenRenderable();
 }
 
+void WbTriangleMeshGeometry::setCcw(bool ccw) {
+  mCcw = ccw;
+}
+
 void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   if (updateCache) {
     WbTriangleMeshCache::releaseTriangleMesh(this);
@@ -174,6 +179,10 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
     if (resizeManipulator)
       mResizeManipulator->show();
   }
+
+  // Invert faces orientation in OpenGL if needed
+  if (!mCcw)
+    wr_renderable_invert_front_face(mWrenRenderable, true);
 
   // normals representation
   mNormalsMaterial = wr_phong_material_new();
@@ -529,7 +538,8 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
     QVector<float> vertices;
     QVector<float> colors;
     const int n = mTriangleMesh->numberOfTriangles();
-    const double linescale = WbWorld::instance()->worldInfo()->lineScale();
+    const int orientation = mCcw ? 1 : -1;
+    const double linescaleAndOrientation = orientation * WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
         const double x = mTriangleMesh->vertex(t, v, 0);
@@ -539,9 +549,9 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-        vertices.push_back(x + linescale * mTriangleMesh->normal(t, v, 0));
-        vertices.push_back(y + linescale * mTriangleMesh->normal(t, v, 1));
-        vertices.push_back(z + linescale * mTriangleMesh->normal(t, v, 2));
+        vertices.push_back(x + linescaleAndOrientation * mTriangleMesh->normal(t, v, 0));
+        vertices.push_back(y + linescaleAndOrientation * mTriangleMesh->normal(t, v, 1));
+        vertices.push_back(z + linescaleAndOrientation * mTriangleMesh->normal(t, v, 2));
 
         float color[3] = {1.0, 0.0, 0.0};
         if (mTriangleMesh->isNormalCreased(t, v))

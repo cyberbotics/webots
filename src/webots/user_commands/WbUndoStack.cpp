@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,9 +50,6 @@ void WbUndoStack::push(QUndoCommand *cmd) {
   mClearRequest = false;
 
   QUndoStack::push(cmd);
-
-  if (mClearRequest)
-    clear();
 
   updateActions();
   // notify the scene tree that some fields changed in order to update the

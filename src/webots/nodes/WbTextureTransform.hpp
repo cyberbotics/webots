@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ public:
   // animation functions
   void translate(const WbVector2 &offset);
   WbVector2 translation() { return mTranslation->value(); }
-  void setTransaltion(WbVector2 translation) { mTranslation->setValue(translation); }
+  void setTranslation(WbVector2 translation) { mTranslation->setValue(translation); }
 
   // export
   QStringList fieldsToSynchronizeWithX3D() const override;

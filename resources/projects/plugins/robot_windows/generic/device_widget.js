@@ -116,7 +116,7 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
   const mean = 0.5 * (maxValue + minValue);
   const step = 0.01 * (maxValue - minValue); // 1%
   const slider = appendNewElement(device.name + '-content',
-    '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
+    '<input type="range" orient="vertical" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
     ' class="motor-slider"' + customStyle +
     ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +
@@ -306,7 +306,12 @@ DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
       if (checkbox && value.update.length > 0)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     } else if (value.image && widget.image) {
-      widget.image.style.backgroundImage = 'url("' + value.image + '")';
+      const img = new Image();
+      img.src = value.image;
+      img.decode()
+      .then(() => {
+        widget.image.style.backgroundImage = 'url("' + img.src + '")';
+      })
       if (checkbox)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
       if (value.cloudPointEnabled !== undefined) {

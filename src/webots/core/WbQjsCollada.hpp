@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ public:
   Q_INVOKABLE static WbQjsCollada *instance();
   Q_INVOKABLE WbQjsCollada(){};
 
-  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
+  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath, const QString &ccw);
 
 signals:
-  void vrmlFromFileRequested(const QString &filePath);
+  void vrmlFromFileRequested(const QString &filePath, const QString &ccw);
 
 public:
   void setVrmlResponse(const QString &vrml) { WbQjsCollada::cVrmlResponse = vrml; };

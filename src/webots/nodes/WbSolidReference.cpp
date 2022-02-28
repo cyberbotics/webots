@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ WbSolidReference::WbSolidReference(WbTokenizer *tokenizer) : WbBaseNode("SolidRe
   init();
 }
 
-WbSolidReference::WbSolidReference(const WbSolidReference &other) : WbBaseNode(other) {
+WbSolidReference::WbSolidReference(const WbSolidReference &other) : WbBaseNode(other), mSolid() {
   init();
 }
 

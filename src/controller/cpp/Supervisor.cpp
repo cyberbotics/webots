@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,18 @@ using namespace webots;
 Supervisor::~Supervisor() {
   Field::cleanup();
   Node::cleanup();
+}
+
+Supervisor *Supervisor::getSupervisorInstance() {
+  if (cInstance) {
+    if (!dynamic_cast<Supervisor *>(cInstance)) {
+      cerr << "A Robot instance is already present, it cannot be casted to Supervisor" << endl;
+      return NULL;
+    }
+    return static_cast<Supervisor *>(cInstance);
+  }
+  cInstance = new Supervisor();
+  return static_cast<Supervisor *>(cInstance);
 }
 
 void Supervisor::simulationQuit(int status) {

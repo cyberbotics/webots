@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -350,20 +350,8 @@ void wb_robot_window_step(int time_step) {
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
-    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
-    const char *filename = "camera.jpg";
-    int pid = getpid();
-    int l = strlen(path) + strlen(filename) + 2 + 11;  // 11 = max length of an integer: -2147483648
-    char *full_path = (char *)malloc(l);
-    snprintf(full_path, l, "%s/%d%s", path, pid, filename);
-    wb_camera_save_image(camera, full_path, 90);
-    for (i = 0; i < l; i++)
-      if (full_path[i] == '\\')
-        full_path[i] = '/';
-    snprintf(update, UPDATE_SIZE, "file:///%s", full_path);
-    free(full_path);
-  } else
-    snprintf(update, UPDATE_SIZE, "camera.jpg");
+    wbu_default_robot_window_update();  // we send all the update to get the image in base64.
+  }
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 

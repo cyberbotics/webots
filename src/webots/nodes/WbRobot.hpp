@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -123,8 +123,6 @@ public:
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
-
-  bool isShowWindowFieldEnabled() const { return mShowWindow->value(); }
   // return the absolute file name of the robot window file, if it exists
   QString windowFile(const QString &extension = "html");
   void showWindow();  // show the Qt-based controller robot window (to be deprecated)
@@ -176,7 +174,6 @@ private:
   WbMFDouble *mBattery;
   WbSFDouble *mCpuConsumption;
   WbSFBool *mSelfCollision;
-  WbSFBool *mShowWindow;
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -104,13 +104,18 @@ void WbSkin::downloadAssets() {
     assert(appearance);
     appearance->downloadAssets();
   }
-  if (!mModelUrl->value().isEmpty() && WbUrl::isWeb(mModelUrl->value())) {
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
 
-    mDownloader->download(QUrl(mModelUrl->value()));
+  const QString &url = mModelUrl->value();
+  if (!url.isEmpty()) {
+    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+    if (WbUrl::isWeb(completeUrl)) {
+      delete mDownloader;
+      mDownloader = new WbDownloader(this);
+      if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
+
+      mDownloader->download(QUrl(completeUrl));
+    }
   }
 }
 
@@ -227,8 +232,8 @@ void WbSkin::updateModelUrl() {
              .arg(supportedExtensions.join("', '")));
       return;
     }
-
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mModelUrl->value()) && mDownloader == NULL) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
@@ -496,7 +501,6 @@ void WbSkin::createWrenSkeleton() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    wr_renderable_set_scene_culling(renderable, false);
 
     wr_transform_attach_child(mRenderablesTransform, WR_NODE(renderable));
 

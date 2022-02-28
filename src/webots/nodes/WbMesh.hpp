@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,7 +51,9 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbSFBool *mCcw;
   WbSFString *mName;
+  WbSFInt *mMaterialIndex;
   WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
@@ -61,7 +63,9 @@ private:
 
 private slots:
   void updateUrl();
+  void updateCcw();
   void updateName();
+  void updateMaterialIndex();
   void downloadUpdate();
 };
 

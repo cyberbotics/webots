@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@
 """Webots simulation server."""
 
 from async_process import AsyncProcess
-from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
                    nvmlDeviceGetUtilizationRates, NVMLError
-from requests import session
 
 import asyncio
 import errno
@@ -29,7 +27,9 @@ import logging
 import os
 import psutil
 import re
+import requests
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
@@ -40,8 +40,7 @@ import tornado.httpserver
 import tornado.web
 import tornado.websocket
 import traceback
-import socket
-import zipfile
+
 if sys.platform == 'win32':
     import wmi
 elif sys.platform == 'darwin':
@@ -107,27 +106,27 @@ class Snapshot:
             return
         global monitorFile
         file = open(monitorFile, 'a')
-        file.write(str(self.data['Timestamp']) + ", ")
-        file.write(str(self.data['Webots running']) + ", ")
-        file.write(str(self.data['Webots idle']) + ", ")
-        file.write(str(self.data['CPU load']) + ", ")
-        file.write(str(self.data['CPU memory']) + ", ")
-        file.write(str(self.data['GPU load compute']) + ", ")
-        file.write(str(self.data['GPU load memory']) + ", ")
-        file.write(str(self.data['GPU memory']) + ", ")
-        file.write(str(self.data['Swap']) + ", ")
-        file.write(str(self.data['Disk']) + ", ")
-        file.write(str(self.data['Network sent']) + ", ")
-        file.write(str(self.data['Network received']) + "\n")
+        file.write(f'{self.data["Timestamp"]}, ')
+        file.write(f'{self.data["Webots running"]}, ')
+        file.write(f'{self.data["Webots idle"]}, ')
+        file.write(f'{self.data["CPU load"]}, ')
+        file.write(f'{self.data["CPU memory"]}, ')
+        file.write(f'{self.data["GPU load compute"]}, ')
+        file.write(f'{self.data["GPU load memory"]}, ')
+        file.write(f'{self.data["GPU memory"]}, ')
+        file.write(f'{self.data["Swap"]}, ')
+        file.write(f'{self.data["Disk"]}, ')
+        file.write(f'{self.data["Network sent"]}, ')
+        file.write(f'{self.data["Network received"]}\n')
         file.close()
 
 
 class Client:
     """This class represents an instance of connected client."""
 
-    def __init__(self, client_websocket=None):
+    def __init__(self, websocket=None):
         """Create an instance of client."""
-        self.client_websocket = client_websocket
+        self.websocket = websocket
         self.streaming_server_port = 0
         self.webots_process = None
         self.on_webots_quit = None
@@ -138,119 +137,97 @@ class Client:
 
     def __del__(self):
         """Destroy an instance of client."""
-        if self.client_websocket:
-            self.client_websocket.close()
+        if self.websocket:
+            self.websocket.close()
         self.kill_webots()
         self.cleanup_webots_instance()
 
     def setup_project(self):
+        global config
+        global current_load
         self.project_instance_path = config['instancesPath'] + str(id(self))
-        if hasattr(self, 'url'):
-            if self.url.startswith('webots://github.com/'):
-                return self.setup_project_from_github()
-            elif self.url.startswith('file:///'):
-                return self.setup_project_from_file()
-            else:
-                logging.error('Unsupported url protocol: ' + self.url)
-                return False
-        else:
-            return self.setup_project_from_zip()
-
-    def setup_project_from_file(self):
-        # url is like "file:///home/cyberbotics/webots/projects/robots/softbank/nao/worlds/nao_room.wbt"
-        if not self.url.endswith('.wbt'):
-            logging.error('Wrong Webots URL: missing world file in ' + self.url)
+        if not hasattr(self, 'url'):
+            logging.error('Missing URL.')
             return False
-        self.world = os.path.basename(self.url[7:])  # skipping 'file://'
-        path = self.url[7:-len(self.world) - 7]  # and removing '/worlds/*.wbt' at the end
-        print("world = " + self.world)
-        print("path = " + path)
-        print("project_instance_path = " + self.project_instance_path)
-        shutil.copytree(path, self.project_instance_path)
-        return True
+        if not self.url.startswith('https://github.com/'):
+            logging.error(f'Unsupported URL protocol: {self.url}')
+            return False
+        if 'allowedRepositories' in config and not self.url.startswith(tuple(config['allowedRepositories'])):
+            if not config['docker']:
+                logging.error('Docker not enabled: cannot host foreign simulations.')
+                return False
+            if config['shareIdleTime'] == 0:
+                logging.error('This simulation server is not configured to share idle time.')
+                return False
+            if current_load > config['shareIdleTime']:
+                logging.error(f'Cannot share idle time when current load is above threshold: {current_load}.')
+                return False
+            if 'blockedRepositories' in config and self.url.startswith(tuple(config['bannedRepositories'])):
+                logging.error(f'Cannot run simulation from blocked repository: {self.url}')
+                return False
+
+        return self.setup_project_from_github()
 
     def setup_project_from_github(self):
-        parts = self.url[20:].split('/')
+        parts = self.url[19:].split('/')
         length = len(parts)
         if length < 6:
-            logging.error('Wrong Webots URL')
+            logging.error('Wrong Webots simulation URL')
             return False
         username = parts[0]
         repository = parts[1]
-        tag_or_branch = parts[2]
-        tag_or_branch_name = parts[3]
+        if parts[2] != 'blob':
+            logging.error('Missing blob in Webots simulation URL')
+        version = parts[3]  # tag or branch name
         folder = '/'.join(parts[4:length - 2])
         project = '' if length == 6 else '/' + parts[length - 3]
         if parts[length - 2] != 'worlds':
-            logging.error('Missing worlds folder in Webots URL')
+            logging.error('Missing worlds folder in Webots simulation URL')
             return False
         filename = parts[length - 1]
         if filename[-4:] != '.wbt':
-            logging.error('Wrong Webots URL: missing world file in ' + filename[-4:])
+            logging.error('Missing world file in Webots simulation URL')
             return False
         self.world = filename
-        url = 'https://github.com/' + username + '/' + repository + '/'
-        if tag_or_branch == 'tag':
-            url += 'tags/' + tag_or_branch_name
-        elif tag_or_branch == 'branch':
-            url += 'trunk' if tag_or_branch_name == 'master' else 'branches/' + tag_or_branch_name
-        else:
-            logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
-            return False
+        mkdir_p(self.project_instance_path)
+        os.chdir(self.project_instance_path)
+        # get the default branch name
+        repository_url = f'https://git@github.com/{username}/{repository}.git'
+        default_branch = subprocess.getoutput(f'git ls-remote --quiet --symref {repository_url}'
+                                              ' HEAD | head -1 | cut -f1 | cut -d/ -f3')
+        url = f'https://github.com/{username}/{repository}/'
+        if version == default_branch:
+            url += 'trunk'
+        else:  # determine if version is a branch or a tag
+            type = subprocess.getoutput(f'git ls-remote --quiet {repository_url} {version} | cut -f2 | cut -d/ -f2')
+            if type == 'heads':  # branch
+                url += 'branches/' + version
+            elif type == 'tags':
+                url += 'tags/' + version
+            else:
+                logging.error(f'Cannot determine if "{version}" is a branch or a tag: ${type}')
         url += '/' + folder
         try:
             path = os.getcwd()
         except OSError:
             path = False
-        mkdir_p(self.project_instance_path)
-        os.chdir(self.project_instance_path)
         command = AsyncProcess(['svn', 'export', url])
-        sys.stdout.write('$ svn export ' + url + '\n')
-        sys.stdout.flush()
+        logging.info(f'$ svn export {url}')
         while True:
             output = command.run()
             if output[0] == 'x':
                 break
             if output[0] == '2':  # stderr
-                sys.stdout.write("\033[0;31m")  # ANSI red color
-            sys.stdout.write(output[1:])
-            if output[0] == '2':  # stderr
-                sys.stdout.write("\033[0m")  # reset ANSI code
-            sys.stdout.flush()
-        logging.info('Done')
-        if tag_or_branch == 'branch' and tag_or_branch_name == 'master' and folder == '':
+                logging.error(output[1:].strip('\n'))
+            else:  # stdout
+                logging.info(output[1:].strip('\n'))
+        if version == default_branch and folder == '':
             os.rename('trunk', repository)
+        self.project_instance_path += project
+        logging.info('Done')
         if path:
             os.chdir(path)
-        self.project_instance_path += project
-        return True
 
-    def setup_project_from_zip(self):
-        """Setup a local Webots project to be run by the client."""
-        shutil.copytree(os.path.join(config['projectsDir'], self.app) + '/', self.project_instance_path)
-        hostFile = open(self.project_instance_path + "/host.txt", 'w')
-        hostFile.write(self.host)
-        hostFile.close()
-        if self.user1Id:
-            payload = {'project': self.app, 'key': self.key,
-                       'user1Id': self.user1Id, 'user1Name': self.user1Name, 'user1Authentication': self.user1Authentication,
-                       'user2Id': self.user2Id, 'user2Name': self.user2Name, 'customData': self.customData}
-            with session() as c:
-                response = c.post(self.host + '/ajax/download-project.php', data=payload)
-                if response.content.startswith(b'Error:'):
-                    error = response.content.decode('utf-8')
-                    if error.startswith('Error: no such directory: '):
-                        return True  # Use the default directory instead
-                    logging.error("Failed to download project: " + error + "(host = " + self.host + ")")
-                    return False
-                fp = BytesIO(response.content)
-                try:
-                    with zipfile.ZipFile(fp, 'r') as zfp:
-                        zfp.extractall(self.project_instance_path)
-                except zipfile.BadZipfile:
-                    logging.error("Bad ZIP file:\n" + response.content.decode('utf-8'))
-                    return False
-                chmod_python_and_executable_files(self.project_instance_path)
         return True
 
     def cleanup_webots_instance(self):
@@ -263,50 +240,75 @@ class Client:
 
         def runWebotsInThread(client):
             global config
-            world = self.project_instance_path + '/worlds/' + self.world
+            world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
-            command = config['webots'] + ' --batch --mode=pause '
+            if config['docker']:
+                # create a Dockerfile if not provided in the project folder
+                os.chdir(self.project_instance_path)
+                if not os.path.isfile('Dockerfile'):
+                    with open(world) as world_file:
+                        version = world_file.readline().split()[1]
+                        from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                        logging.info(f'FROM docker image {from_image}')
+                    f = open('Dockerfile', 'w')
+                    f.write(f'FROM {from_image}\n')
+                    f.write(f'RUN mkdir -p {self.project_instance_path}\n')
+                    f.write(f'COPY . {self.project_instance_path}\n')
+                    if os.path.isfile('Makefile'):
+                        f.write('RUN make\n')
+                    f.close()
+                logging.info('created Dockerfile')
+                image = subprocess.getoutput(f'docker build -q --build-arg TMP_PATH={self.project_instance_path} . ')
+                command = 'docker run --net host'
+                if 'SSH_CONNECTION' in os.environ:
+                    xauth = f'/tmp/.docker-{port}.xauth'
+                    os.system('touch ' + xauth)
+                    display = os.environ['DISPLAY']
+                    os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
+                    os.system(f'chmod 777 {xauth}')
+                    command += f' -e DISPLAY={display} -e XAUTHORITY={xauth} -v {xauth}:{xauth}'
+                else:
+                    command += ' --gpus=all -e DISPLAY'
+
+                command += f' -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p {port}:{port} {image} '
+            else:
+                command = ''
+            command += f'{config["webots"]} --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
                 command += '--minimize --no-rendering '
-            command += '--stream="port=' + str(port) + ';monitorActivity'
+            command += f'--stream="port={port};monitorActivity'
             if hasattr(self, 'mode'):
-                command += ';mode=' + self.mode
-            if not hasattr(self, 'url'):
-                if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
-                    command += ';controllerEdit'
+                command += f';mode={self.mode}'
             if 'multimediaServer' in config:
-                command += ';multimediaServer=' + config['multimediaServer']
+                command += f';multimediaServer={config["multimediaServer"]}'
             if 'multimediaStream' in config:
-                command += ';multimediaStream=' + config['multimediaStream']
-            if config['ssl']:
-                command += ';ssl'
-            command += '" ' + world
+                command += f';multimediaStream={config["multimediaStream"]}'
+            command += f'" {world}'
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
                                                          stderr=subprocess.STDOUT,
                                                          bufsize=1, universal_newlines=True)
             except Exception:
-                logging.error('Unable to start Webots: ' + command)
+                logging.error(f'Unable to start Webots: {command}')
                 return
-            logging.info('[%d] Webots [%d] started: "%s"' % (id(client), client.webots_process.pid, command))
+            logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{command}"')
             while 1:
                 if client.webots_process is None:
+                    logging.warning('Client connection closed or killed')
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
+                    logging.info('Webots world is loaded, ready to receive connections')
                     break
-            if 'fullyQualifiedDomainName' not in config:
-                hostname = client.client_websocket.request.host.split(':')[0]
-            else:
-                hostname = config['fullyQualifiedDomainName']
-            protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
+            hostname = config['server']
+            protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
-            message = 'webots:' + protocol + '//' + hostname + separator + str(port)
-            client.client_websocket.write_message(message)
+            message = f'webots:{protocol}//{hostname}{separator}{port}'
+            client.websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 if client.webots_process is None:
                     break
@@ -316,7 +318,7 @@ class Client:
                 elif line == 'real-time' or line == 'step':
                     client.idle = False
                 elif line == '.':
-                    client.client_websocket.write_message('.')
+                    client.websocket.write_message('.')
             client.on_exit()
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
@@ -327,7 +329,7 @@ class Client:
     def on_exit(self):
         """Callback issued when Webots quits."""
         if self.webots_process:
-            logging.warning('[%d] Webots [%d] exited' % (id(self), self.webots_process.pid))
+            logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] exited')
             self.webots_process.wait()
             self.webots_process = None
         self.on_webots_quit()
@@ -335,7 +337,7 @@ class Client:
     def kill_webots(self):
         """Force the termination of Webots."""
         if self.webots_process:
-            logging.warning('[%d] Webots [%d] was killed' % (id(self), self.webots_process.pid))
+            logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
             if sys.platform == 'darwin':
                 self.webots_process.kill()
             else:
@@ -343,7 +345,7 @@ class Client:
                 try:
                     self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
                 except subprocess.TimeoutExpired:
-                    logging.warning('[%d] ERROR killing Webots [%d]' % (id(self), self.webots_process.pid))
+                    logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
                     self.webots_process.kill()
             self.webots_process = None
 
@@ -358,10 +360,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     @classmethod
-    def find_client_from_websocket(self, client_websocket):
+    def find_client_from_websocket(self, websocket):
         """Return client associated with a websocket."""
         for client in self.clients:
-            if client.client_websocket == client_websocket:
+            if client.websocket == websocket:
                 return client
         return None
 
@@ -371,7 +373,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         port = config['port'] + 1
         while True:
             if port > config['port'] + config['maxConnections']:
-                logging.error("Too many open connections (>" + str(config['maxConnections']) + ")")
+                logging.error(f'Too many open connections (>{config["maxConnections"]})')
                 return 0
             found = False
             for client in self.clients:
@@ -389,9 +391,9 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
             except socket.error as e:
                 found = False
                 if e.errno == errno.EADDRINUSE:
-                    logging.info('Port ' + str(port) + ' is already in use.')
+                    logging.info(f'Port {port} is already in use.')
                 else:  # something else raised the socket.error exception
-                    logging.info('Port ' + str(port) + ': ' + e)
+                    logging.info(f'Port {port}: {e}')
             finally:
                 testSocket.close()
                 if found:
@@ -402,15 +404,15 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         """Open a new connection for an incoming client."""
         self.set_nodelay(True)
         logging.info(self.request.host)
-        client = Client(client_websocket=self)
+        client = Client(websocket=self)
         ClientWebSocketHandler.clients.add(client)
-        logging.info('[%d] New client' % (id(client),))
+        logging.info(f'[{id(client)}] New client')
 
     def on_close(self):
         """Close connection after client leaves."""
         client = ClientWebSocketHandler.find_client_from_websocket(self)
         if client:
-            logging.info('[%d] Client disconnected' % (id(client),))
+            logging.info(f'[{id(client)}] Client disconnected')
             client.kill_webots()
             if client in ClientWebSocketHandler.clients:
                 ClientWebSocketHandler.clients.remove(client)
@@ -421,71 +423,29 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         client = ClientWebSocketHandler.find_client_from_websocket(self)
         if client:
             data = json.loads(message)
-            if 'init' in data:
-                # setup client
-                client.streaming_server_port = ClientWebSocketHandler.next_available_port()
-                logging.info('data[init]=%s' % data['init'])
-                client.host = data['init'][0]
-                client.app = data['init'][1]
-                client.world = data['init'][2]
-                client.user1Id = data['init'][3]
-                client.user1Name = data['init'][4]
-                client.user1Authentication = data['init'][5]
-                client.user2Id = data['init'][6]
-                client.user2Name = data['init'][7]
-                client.customData = data['init'][8]
-                client.idle = True
-                # Check that client.host is allowed
-                host = client.host[8:] if client.host.startswith('https://') else client.host[7:]
-                n = host.find(':')
-                if n > 0:
-                    host = host[:n]
-                keyFilename = os.path.join(config['keyDir'], host)
-                if os.path.isfile(keyFilename):
-                    try:
-                        keyFile = open(keyFilename, "r")
-                    except IOError:
-                        logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
-                        client.client_websocket.close()
-                        return
-                    client.key = keyFile.readline().rstrip(os.linesep)
-                    keyFile.close()
-                else:
-                    logging.warning("No key for: " + host)
-                logging.info('[%d] Setup client %s %s '
-                             '(remote ip: %s, streaming_server_port: %s)'
-                             % (id(client),
-                                client.app,
-                                client.world,
-                                self.request.remote_ip,
-                                client.streaming_server_port))
-                self.start_client()
-            elif "reset controller" in data:
-                relativeFilename = '/controllers/' + data['reset controller']
-                shutil.copyfile(config['projectsDir'] + '/' + client.app + relativeFilename,
-                                client.project_instance_path + '/' + relativeFilename)
-                self.write_message('reset controller: ' + data['reset controller'])
-                logging.info('[%d] Reset file %s '
-                             '(remote ip: %s, streaming_server_port: %s)'
-                             % (id(client),
-                                data['reset controller'],
-                                self.request.remote_ip,
-                                client.streaming_server_port))
+            if 'reset controller' in data:
+                relativeFilename = f'/controllers/{data["reset controller"]}'
+                shutil.copyfile(f'{config["projectsDir"]}/{client.app}{relativeFilename}',
+                                f'{client.project_instance_path}/{relativeFilename}')
+                self.write_message(f'reset controller: {data["reset controller"]}')
+                logging.info(f'[{id(client)}] Reset file {data["reset controller"]} '
+                             f'(remote ip: {self.request.remote_ip}, '
+                             f'streaming_server_port: {client.streaming_server_port})')
             elif 'start' in data:  # checkout a github folder and run a simulation in there
                 client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 client.url = data['start']['url']
                 if 'mode' in data['start']:
                     client.mode = data['start']['mode']
                     if client.mode not in ['x3d', 'mjpeg']:
-                        logging.warning("Unsupported client mode: " + client.mode)
-                logging.info('Starting simulation from ' + client.url)
+                        logging.warning(f'Unsupported client mode: {client.mode}')
+                logging.info(f'Starting simulation from {client.url}')
                 self.start_client()
 
     def on_webots_quit(self):
         """Cleanup websocket connection."""
         client = ClientWebSocketHandler.find_client_from_websocket(self)
-        if client and client.client_websocket:
-            client.client_websocket.close()
+        if client and client.websocket:
+            client.websocket.close()
 
     def start_client(self):
         """Start Webots."""
@@ -513,9 +473,19 @@ class MonitorHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Write the web page content."""
+        def percent(value):
+            level = 150 + value
+            if value <= 50:
+                red = '%0.2x' % int(level * value / 50)
+                green = '%0.2x' % int(level)
+            else:
+                red = '%0.2x' % int(level)
+                green = '%0.2x' % int(level - level * (value - 50) / 50)
+            return f'<font color="#{red}{green}00">{value}%</font>'
         global cpu_load
         global gpu_load_compute
-        global gpu_load_memory
+        global gpu_ram_usage
+        global swap
         memory = psutil.virtual_memory()
         swap = psutil.swap_memory()
         if nvidia:
@@ -523,28 +493,29 @@ class MonitorHandler(tornado.web.RequestHandler):
             gpu = nvmlDeviceGetName(nvmlHandle).decode('utf-8')
             gpu_memory = nvmlDeviceGetMemoryInfo(nvmlHandle)
             gpu_ram = round(gpu_memory.total / (1024 * 1048576), 2)
-            gpu += " - " + str(gpu_ram) + "GB"
+            gpu += f' - {gpu_ram}GB'
         else:
-            gpu = "Not recognized"
-        ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + "GB"
-        ram += " (swap: " + str(int(round(float(swap.total) / (1024 * 1048576)))) + "GB)"
+            gpu = 'Not recognized'
+        ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + 'GB'
+        ram += f' &mdash; <b>swap:</b> {percent(swap.percent)}'
+        ram += f' of {int(round(float(swap.total) / (1024 * 1048576)))}GB'
         real_cores = psutil.cpu_count(False)
         cores_ratio = int(psutil.cpu_count(True) / real_cores)
-        cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
+        cores = f' ({cores_ratio}x {real_cores} cores)'
         if sys.platform.startswith('linux'):
             distribution = distro.linux_distribution()
-            os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
-            command = "cat /proc/cpuinfo"
+            os_name = f'Linux {distribution[0]} {distribution[1]} {distribution[2]}'
+            command = 'cat /proc/cpuinfo'
             all_info = subprocess.check_output(command, shell=True).decode('utf-8').strip()
-            for line in all_info.split("\n"):
-                if "model name" in line:
-                    cpu = re.sub(".*model name.*:", "", line, 1)
+            for line in all_info.split('\n'):
+                if 'model name' in line:
+                    cpu = re.sub('.*model name.*:', '', line, 1)
                     break
         elif sys.platform == 'win32':
             computer = wmi.WMI()
             os_info = computer.Win32_OperatingSystem()[0]
             cpu = computer.Win32_Processor()[0].Name
-            os_name = os_info.Name.split('|')[0] + ", version " + os_info.Version
+            os_name = os_info.Name.split('|')[0] + ', version ' + os_info.Version
         elif sys.platform == 'darwin':
             os_name = 'macOS ' + platform.mac_ver()[0]
             os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
@@ -553,28 +524,55 @@ class MonitorHandler(tornado.web.RequestHandler):
         else:  # unknown platform
             os_name = 'Unknown'
             cpu = 'Unknown'
-        self.write("<!DOCTYPE html>\n")
-        self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>")
-        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022a/css/monitor.css'></head>\n")
-        self.write("<body><h1>Webots simulation server: " + socket.getfqdn() + "</h1>")
-        self.write("<h2>Host: " + os_name + "</h2>\n")
-        self.write("<p><b>CPU load: %g%%</b><br>\n" % cpu_load)
-        self.write(cpu + cores + "</p>\n")
-        self.write("<p><b>GPU load compute: %g%% &mdash; load memory: %g%%</b><br>\n" %
-                   (gpu_load_compute, gpu_load_memory))
-        self.write(gpu + "</p>\n")
-        self.write("<p><b>RAM:</b><br>" + ram + "</p>\n")
-        self.write("<canvas id='graph' height='400' width='1024'></canvas>\n")
-        self.write("<script src='https://cyberbotics.com/harry-plotter/0.9f/harry.min.js'></script>\n")
-        self.write("<script>\n")
-        self.write("window.onload = function() {\n")
+        self.write('<!DOCTYPE html>\n')
+        self.write('<html><head><meta charset="utf-8"/><title>Webots simulation server</title>')
+        self.write('<link rel="stylesheet" type="text/css" href="https://cyberbotics.com/wwi/R2022b/css/monitor.css">')
+        self.write('</head>\n<body><h1>')
+        if 'title' in config:
+            self.write(config['title'])
+        else:
+            self.write('Webots simulation server')
+        self.write('</h1>')
+        if 'description' in config:
+            self.write(f'<p>{config["description"]}</p>')
+        self.write(f'<h2>Current load: {percent(current_load)}</h2>')
+        self.write(f'<p><b>Host:</b> {os_name} ({socket.getfqdn()})</p>\n')
+        self.write(f'<p><b>CPU load:</b> {percent(cpu_load)}<br>\n')
+        self.write(f'{cpu} {cores}</p>\n')
+        self.write(f'<p><b>GPU load compute:</b> {percent(gpu_load_compute)}')
+        self.write(f' &mdash; <b>RAM usage:</b> {percent(gpu_ram_usage)}<br>\n')
+        self.write(f'{gpu}</p>\n')
+        self.write(f'<p><b>RAM:</b> {ram}</p>\n')
+        if 'allowedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Allowed Repositories</th></thead>\n')
+            for repository in config['allowedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
+            self.write('</table>')
+        if 'blockedRepositories' in config:
+            self.write('<table class="bordered"><thead><tr><th>Blocked Repositories</th></thead>\n')
+            for repository in config['blockedRepositories']:
+                self.write(f'<tr><td><a href="{repository}">{repository}</a></td></tr>')
+            self.write('</table>')
+        if 'notify' in config:
+            self.write(f'<table class="bordered"><thead><tr><th>Share Idle Time: {config["shareIdleTime"]}%</th></thead>\n')
+            for notify in config['notify']:
+                slash = notify.find('/', 8)
+                if slash > -1:
+                    notify = notify[0:slash]
+                self.write(f'<tr><td><a href="{notify}">{notify}</a></td></tr>')
+            self.write('</table>')
+        self.write('<br>')
+        self.write('<canvas id="graph" height="400" width="1024"></canvas>\n')
+        self.write('<script src="https://cyberbotics.com/harry-plotter/0.9f/harry.min.js"></script>\n')
+        self.write('<script>\n')
+        self.write('window.onload = function() {\n')
 
         def appendData(label):
             global snapshots
-            d = "{title:'" + label + "',values:["
+            d = f"{{title:'{label}',values:["
             for s in snapshots:
-                d += str(s.data[label]) + ','
-            return d[:-1] + "]},"
+                d += f'{s.data[label]},'
+            return f'{d[:-1]}]}},'
 
         datas = ''
         datas += appendData('Webots running')
@@ -590,9 +588,9 @@ class MonitorHandler(tornado.web.RequestHandler):
         datas += appendData('Network received')
 
         datas = datas[:-1]  # remove the last coma
-        self.write("  plotter({\n")
+        self.write('  plotter({\n')
         self.write("    canvas: 'graph',\n")
-        self.write("    datas:[ " + datas + "],\n")
+        self.write(f'    datas:[{datas}],\n')
         self.write("""
      labels:{
         ypos:"left",
@@ -616,9 +614,9 @@ class MonitorHandler(tornado.web.RequestHandler):
         axis:"x"
      }
   });""")
-        self.write("}\n")
-        self.write("</script>\n")
-        self.write("</body></html>")
+        self.write('}\n')
+        self.write('</script>\n')
+        self.write('</body></html>')
 
 
 def update_snapshot():
@@ -628,6 +626,7 @@ def update_snapshot():
     global network_received
     global cpu_load
     global gpu_load_compute
+    global gpu_ram_usage
     global gpu_load_memory
     memory = psutil.virtual_memory()
     swap = psutil.swap_memory()
@@ -676,12 +675,8 @@ def update_snapshot():
     snapshot.data['Network sent'] = network_sent_rate
     snapshot.data['Network received'] = network_received_rate
     snapshot.write()
-    current_load = 0
-    for key, value in snapshot.data.items():
-        if key == 'Timestamp':
-            continue
-        if value > current_load:
-            current_load = value
+    # current_load reflects the maximum of CPU/swap/GPU/VRAM usage in percent
+    current_load = max(cpu_load, swap.percent, gpu_load_compute, gpu_ram_usage)
     snapshots.append(snapshot)
     if len(snapshots) > 600:  # display data for the last 10 minutes
         del snapshots[0]
@@ -693,18 +688,21 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:                     local port on which the server is listening (launching webots instances).
-    # fullyQualifiedDomainName: hostname of the server (from the Internet).
-    # portRewrite:              true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
-    # projectsDir:              directory in which projects are located.
-    # webotsHome:               directory in which Webots is installed (WEBOTS_HOME)
-    # maxConnections:           maximum number of simultaneous Webots instances.
-    # sslKey:                   private key for a SSL enabled server.
-    # sslCertificate:           certificate for a SSL enabled server.
-    # keyDir:                   directory where the host keys needed for validation are stored.
-    # logDir:                   directory where the log files are written.
-    # monitorLogEnabled:        specify if the monitor data have to be stored in a file.
-    # debug:                    debug mode (output to stdout).
+    # server:              fully qualilified domain name of simulation server
+    # ssl:                 for https/wss URL (true by default)
+    # port:                local port on which the server is listening
+    # portRewrite:         port rewritten in the URL by apache (true by default)
+    # docker:              launch webots inside a docker (false by default)
+    # allowedRepositories: list of allowed GitHub simulation repositories
+    # blockedRepositories: list of blocked GitHub simulation repositories
+    # shareIdleTime:       maximum load for running non-allowed repositories
+    # notify:              webservices to be notified about the server status
+    # projectsDir:         directory in which projects are located
+    # webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
+    # maxConnections:      maximum number of simultaneous Webots instances
+    # logDir:              directory where the log files are written
+    # monitorLogEnabled:   store monitor data in a file (true by default)
+    # debug:               output debug information to stdout (false by default)
     #
     global config
     global snapshots
@@ -716,6 +714,11 @@ def main():
     network_sent = n.bytes_sent
     network_received = n.bytes_recv
     snapshots = []
+    if 'docker' not in config:
+        config['docker'] = False
+    if config['docker']:
+        if 'SSH_CONNECTION' not in os.environ:
+            os.system('xhost +local:root')
     if 'webotsHome' not in config:
         config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     config['webots'] = config['webotsHome']
@@ -729,17 +732,12 @@ def main():
         config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
     else:
         config['projectsDir'] = expand_path(config['projectsDir'])
-    if 'keyDir' not in config:
-        config['keyDir'] = 'key'
-    else:
-        config['keyDir'] = expand_path(config['keyDir'])
     if 'port' not in config:
         config['port'] = 2000
     if 'maxConnections' not in config:
         config['maxConnections'] = 100
     if 'debug' not in config:
         config['debug'] = False
-    os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
     if os.path.exists(config['instancesPath']):
@@ -752,6 +750,8 @@ def main():
     root_logger.setLevel(logging.DEBUG)
 
     config['logDir'] = 'log' if 'logDir' not in config else expand_path(config['logDir'])
+    if not os.path.isabs(config['logDir']):
+        config['logDir'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), config['logDir'])
     simulationLogDir = os.path.join(config['logDir'], 'simulation')
     logFile = os.path.join(simulationLogDir, 'output.log')
     try:
@@ -763,7 +763,7 @@ def main():
         file_handler.setLevel(logging.INFO)
         root_logger.addHandler(file_handler)
     except (OSError, IOError) as e:
-        sys.exit("Log file '" + logFile + "' cannot be created: " + str(e))
+        sys.exit(f'Log file {logFile} cannot be created: {e}')
     # disable tornado.access INFO logs
     tornado_access_log = logging.getLogger('tornado.access')
     tornado_access_log.setLevel(logging.WARNING)
@@ -777,42 +777,79 @@ def main():
             if not os.path.exists(simulationLogDir):
                 os.makedirs(simulationLogDir)
             file = open(monitorFile, 'w')
-            file.write("Timestamp, Webots running, Webots idle, CPU load, CPU memory, "
-                       "GPU load compute, GPU load memory, GPU memory, Swap, Disk, Network sent, Network received\n")
+            file.write('Timestamp, Webots running, Webots idle, CPU load, CPU memory, '
+                       'GPU load compute, GPU load memory, GPU memory, Swap, Disk, Network sent, Network received\n')
             file.close()
         except (OSError, IOError) as e:
-            logging.error("Log file '" + monitorFile + "' cannot be created: " + str(e))
+            logging.error(f'Log file {monitorFile} cannot be created: {e}')
 
     # startup janus server if needed
     if 'multimediaServer' in config:
         subprocess.Popen(["/opt/janus/bin/janus"])
 
+    if 'notify' not in config:
+        config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']
+    elif isinstance(config['notify'], str):
+        config['notify'] = [config['notify']]
+
+    if 'shareIdleTime' not in config:
+        config['shareIdleTime'] = 50
+
+    if 'ssl' not in config:
+        config['ssl'] = True
+
+    if 'portRewrite' not in config:
+        config['portRewrite'] = True
+
+    if 'server' not in config:
+        config['server'] = 'localhost'
+        logging.error('Warning: server name not defined in configuration file.')
+
+    url = 'https' if config['ssl'] else 'http'
+    url += '://' + config['server']
+    url += '/' if config['portRewrite'] else ':'
+    url += str(config['port'])
+
+    for server in config['notify']:
+        allowedRepositories = ','.join(config['allowedRepositories']) if 'allowedRepositories' in config else ''
+        retry = 6  # try once and retries 5 times if needed
+        while retry > 0:
+            error = False
+            try:
+                x = requests.post(server, data={'url': url,
+                                                'shareIdleTime': config['shareIdleTime'],
+                                                'allowedRepositories': allowedRepositories})
+            except requests.exceptions.RequestException as e:
+                error = f'Request exception: {e}'
+            except requests.exceptions.HTTPError as e:
+                error = f'HTTP error: {e}'
+            except requests.exceptions.ConnectionError as e:
+                error = f'Connection error: {e}'
+            except requests.exceptions.Timeout as e:
+                error = f'Timeout error: {e}'
+            finally:
+                if error:
+                    retry -= 1
+                    logging.warning(f'{error}\n')
+                    if retry > 0:
+                        logging.info(f'Retrying ({6 - retry}/5) in 5 seconds...\n')
+                    else:
+                        logging.error('Giving up\n')
+                    time.sleep(5)
+                else:
+                    retry = 0
+        logging.info(x.text)
+
     # startup the server
-    logging.info("Running simulation server on port %d" % config['port'])
+    logging.info(f"Running simulation server on port {config['port']}")
 
     handlers = []
     handlers.append((r'/monitor', MonitorHandler))
     handlers.append((r'/client', ClientWebSocketHandler))
     handlers.append((r'/load', LoadHandler))
     application = tornado.web.Application(handlers)
-    if 'sslCertificate' in config and 'sslKey' in config:
-        config['ssl'] = True
-        ssl_certificate = os.path.abspath(expand_path(config['sslCertificate']))
-        ssl_key = os.path.abspath(expand_path(config['sslKey']))
-        ssl_options = {"certfile": ssl_certificate, "keyfile": ssl_key}
-        http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
-    else:
-        config['ssl'] = False
-        http_server = tornado.httpserver.HTTPServer(application)
-    if 'portRewrite' not in config:
-        config['portRewrite'] = False
+    http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(config['port'])
-    message = "Simulation server running on port %d (" % config['port']
-    if not config['ssl']:
-        message += 'no '
-    message += 'SSL)'
-    print(message)
-    sys.stdout.flush()
     try:
         nvmlInit()
         nvidia = True
@@ -834,20 +871,22 @@ if sys.platform == 'win32' and sys.version_info >= (3, 8):
 
 if sys.platform == 'linux':
     # kill all the existing instances of Webots to avoid conflicts with web socket port
-    os.system("killall -q webots-bin")
+    os.system('killall -q webots-bin')
 
 # specify the display to ensure Webots can be executed even if this script is started remotely from a ssh session
-if "DISPLAY" not in os.environ:
-    os.environ["DISPLAY"] = ":0"
+if 'DISPLAY' not in os.environ:
+    os.environ['DISPLAY'] = ":0"
 # ensure we are in the script directory
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 argc = len(sys.argv)
 if argc == 1:
-    config_json = 'config/simulation/default.json'
+    config_json = 'config/simulation/local.json'
 elif argc == 2:
     config_json = sys.argv[1]
 else:
     sys.exit('Too many arguments.')
+if not os.path.isabs(config_json):
+    config_json = os.path.join(os.path.dirname(os.path.abspath(__file__)), config_json)
 with open(config_json) as config_file:
     config = json.load(config_file)
 if __name__ == '__main__':

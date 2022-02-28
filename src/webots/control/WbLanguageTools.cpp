@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ static const QChar PATHS_SEPARATOR(':');
 #endif
 
 static QString gJavaCommand;
-static QString gMatlabCommand;
 
 void WbLanguageTools::prependToPath(const QString &dir, QString &path) {
   if (path.isEmpty())
@@ -135,7 +134,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-#else  // Linux
+#else  // __linux__
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
@@ -195,35 +194,38 @@ const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
 }
 
-const QString &WbLanguageTools::matlabCommand() {
-  if (gMatlabCommand.isEmpty()) {
-#ifdef _WIN32
-    // on Windows there are two MATLAB .exe files, one is located in
-    // bin/matlab.exe and the other one in bin/win64/MATLAB.exe.
-    // bin/matlab.exe is normally in the PATH, but we must call bin/win64/MATLAB.exe
-    // because bin/matlab.exe is just a launcher that causes problem with stdout/stderr
-    // and with the termination of the QProcess.
-    QString PATH = qgetenv("PATH");
-    QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
-    foreach (QString dir, dirs) {
-      if (QDir(dir).exists()) {
-        QString file = dir + "\\win64\\MATLAB.exe";
-        if (QFile::exists(file)) {
-          gMatlabCommand = file;
-          break;
-        }
-      }
-    }
-    if (gMatlabCommand.isEmpty()) {
-      WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                 "from the DOS CMD.EXE console."));
-      gMatlabCommand = "!";
-    }
-#else
-    gMatlabCommand = "matlab";
-#endif
+QString WbLanguageTools::matlabCommand() {
+#ifdef __APPLE__
+  const QString matlabPath = "/Applications/";
+  const QString matlabAppWc = "MATLAB_R20???.app";
+  const QDir matlabDir(matlabPath);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
+  if (matlabVersions.isEmpty()) {
+    return "";
   }
-  return gMatlabCommand;
+#else
+  const QString matlabVersionsWc = "R20???";
+#ifdef _WIN32
+  const QString matlabPath = "C:\\Program Files\\MATLAB\\";
+  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+#else  // __linux__
+  const QString matlabPath = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
+  const QString matlabExecPath = "/bin/matlab";
+#endif
+  const QDir matlabDir(matlabPath);
+  if (!matlabDir.exists()) {
+    return "";
+  }
+  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+#endif
+
+  QString command = matlabPath + matlabVersions.last();
+#if defined _WIN32 || defined __linux__
+  command += matlabExecPath;
+#endif
+
+  return command;
 }
 
 const QStringList WbLanguageTools::matlabArguments() {

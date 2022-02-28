@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,14 +89,15 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
-  if (WbUrl::isWeb(url)) {
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
 
-    mDownloader->download(QUrl(url));
+    mDownloader->download(QUrl(completeUrl));
   }
 }
 
@@ -300,7 +301,9 @@ void WbImageTexture::updateUrl() {
   }
   if (n > 0) {
     const QString &url = mUrl->item(0);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && mDownloader == NULL) {
+    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       return;

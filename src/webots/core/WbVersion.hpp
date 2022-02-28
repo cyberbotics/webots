@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,8 @@ public:
   int majorNumber() const { return mMajor; }
   int minorNumber() const { return mMinor; }
   int revisionNumber() const { return mRevision; }
+  const QString &commit() const { return mCommit; }
+
   // Write version in a verbose way
   // if revision is false, only major and minor information are included.
   // In general the string will have the form "8.6.3".

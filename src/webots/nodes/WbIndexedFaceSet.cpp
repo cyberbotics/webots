@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ void WbIndexedFaceSet::init() {
   mNormalIndex = findMFInt("normalIndex");
   mTexCoordIndex = findMFInt("texCoordIndex");
   mCreaseAngle = findSFDouble("creaseAngle");
+  setCcw(mCcw->value());
 }
 
 WbIndexedFaceSet::WbIndexedFaceSet(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("IndexedFaceSet", tokenizer) {
@@ -102,10 +103,9 @@ void WbIndexedFaceSet::reset(const QString &id) {
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
-  mTriangleMeshError =
-    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL,
-                        mNormalIndex, texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(),
-                        mCcw->value(), mNormalPerVertex->value());
+  mTriangleMeshError = mTriangleMesh->init(
+    coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL, mNormalIndex,
+    texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
@@ -230,6 +230,8 @@ void WbIndexedFaceSet::updateTexCoord() {
 }
 
 void WbIndexedFaceSet::updateCcw() {
+  setCcw(mCcw->value());
+
   buildWrenMesh(true);
 
   emit changed();

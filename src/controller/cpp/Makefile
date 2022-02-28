@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -77,9 +77,10 @@ CPPSRC = Accelerometer.cpp \
 
 OBJECTS = $(CPPSRC:.cpp=.o)
 CPPOBJS = $(addprefix $(OBJDIR)/, $(OBJECTS))
+DEPENDENCIES = $(addprefix $(OBJDIR)/,$(notdir $(CPPSRC:.cpp=.d)))
 
 ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is either of those
--include $(addprefix $(OBJDIR)/,$(notdir $(CPPSRC:.cpp=.d)))
+-include $(DEPENDENCIES)
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -123,8 +124,6 @@ $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
 $(LIBCONTROLLER):
 	@echo "Warning: $(LIBCONTROLLER) doesn't exist, rebuild it first."
 
--include $(DEPENDENCIES)
-
 # cpp compilation rule
 $(OBJDIR)/%.o:%.cpp
 	@echo "# compiling "$<
@@ -133,7 +132,8 @@ $(OBJDIR)/%.o:%.cpp
 # dependency rule
 $(OBJDIR)/%.d:%.cpp
 	@echo "# updating "$(notdir $@)
-	@$(CXX) $(CPPINCLUDES) -MM $< > $@
+	@printf $(OBJDIR)/ > $@
+	@$(CXX) $(CPPINCLUDES) -MM $< >> $@
 
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a *.def *.exp

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,10 +15,12 @@
 #include "WbLog.hpp"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMetaType>
 #include <QtCore/QUrl>
-#include <cstdlib>
 
 static WbLog *gInstance = NULL;
 
@@ -234,4 +236,24 @@ void WbLog::showPendingConsoleMessages() {
   foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
     emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
+}
+
+void WbLog::toggle(FILE *std_stream) {
+#ifndef _WIN32  // this doesn't work on Windows
+  static int fd[3] = {0, 0, 0};
+  const int no = fileno(std_stream);
+  assert(no >= 1);  // it shouldn't be stdin
+  fflush(std_stream);
+  if (fd[no] == 0) {
+    static FILE *stream;  // to make cppcheck happy about resource leak
+    fd[no] = dup(no);
+    stream = freopen("/dev/null", "w", std_stream);
+    if (!stream)
+      fprintf(stderr, "Failed to mute %s.", (no == 1) ? "stdout" : "stderr");
+  } else {
+    dup2(fd[no], no);
+    close(fd[no]);
+    fd[no] = 0;
+  }
+#endif
 }

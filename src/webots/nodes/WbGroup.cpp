@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ WbGroup::WbGroup(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(
   init();
 }
 
-WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other) {
+WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other), mHiddenKinematicParametersMap() {
   init();
 }
 
@@ -110,8 +110,7 @@ void WbGroup::recomputeBoundingSphere() const {
   while (it.hasNext()) {
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
     n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
   }
 }
 

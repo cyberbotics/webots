@@ -33,11 +33,11 @@ cleanse: $(PACKAGES_CLEAN)
 	@cp .clang-format-9 $@
 
 qt-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+qt: $(WEBOTS_HOME)/include/qt/QtPlatformHeaders/QtPlatformHeaders
 
-$(WEBOTS_HOME)/resources/web/local/qwebchannel.js: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME)/include/qt/QtPlatformHeaders/QtPlatformHeaders: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
 
@@ -47,7 +47,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@$(WGET) $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "dfb29356a85d567b7ad4dd460dfcfed7" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-
 
 assimp-clean:
 	@rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME_LIB)/libassimp.dylib
@@ -228,5 +227,5 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "7b357ddff59913c725b3c592375f7443" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "a29f2e1bbeb7681f70574ed8a70a1f34" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)

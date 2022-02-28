@@ -11,7 +11,9 @@ uniform float minRange;
 uniform float maxRange;
 
 void main() {
+  // w component is for normalization of x y z, it cannot be equal to 0
   floatDepth = gl_FragCoord.z / gl_FragCoord.w;
+
   if (floatDepth < minRange)
     floatDepth = FLT_MAX;
   if (floatDepth >= maxRange)

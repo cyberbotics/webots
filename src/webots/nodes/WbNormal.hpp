@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public:
   const WbMFVector3 &vector() const { return *mVector; }
   const WbVector3 &vector(int index) const { return mVector->item(index); }
   int vectorSize() const { return mVector->size(); }
-  void setVector(int index, WbVector3 vector) { mVector->setItem(index, vector); }
+  void setVector(int index, const WbVector3 &vector) { mVector->setItem(index, vector); }
 
 private:
   // user accessible fields

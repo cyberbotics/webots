@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -357,7 +357,7 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   if (mBottom->value()) {
     std::pair<bool, double> intersection =
       WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0.0, 0.0, -1.0), WbVector3(0.0, 0.0, -h / 2.0)), true);
-    if (mBottom->value() && intersection.first && intersection.second > 0.0 && intersection.second < d) {
+    if (intersection.first && intersection.second > 0.0 && intersection.second < d) {
       const WbVector3 &p = origin + intersection.second * direction;
       if (p.x() * p.x() + p.y() * p.y() <= radius2) {
         d = intersection.second;

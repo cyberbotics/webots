@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -180,7 +180,8 @@ WbBackground::~WbBackground() {
 }
 
 void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
-  if (!WbUrl::isWeb(url))
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (!WbUrl::isWeb(completeUrl))
     return;
   if (index < 6) {
     delete mTexture[index];
@@ -195,7 +196,7 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
 
-  mDownloader[index]->download(QUrl(url));
+  mDownloader[index]->download(QUrl(completeUrl));
 }
 
 void WbBackground::downloadAssets() {
@@ -330,9 +331,10 @@ void WbBackground::updateCubemap() {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &url = mUrlFields[i]->item(0);
-          if (WbUrl::isWeb(url)) {
+          const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+          if (WbUrl::isWeb(completeUrl)) {
             if (mDownloader[i] == NULL) {
-              downloadAsset(url, i, true);
+              downloadAsset(completeUrl, i, true);
               postpone = true;
             }
           } else {
@@ -342,9 +344,10 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-          if (WbUrl::isWeb(irradianceUrl)) {
+          const QString completeUrl = WbUrl::computePath(this, "url", irradianceUrl, false);
+          if (WbUrl::isWeb(completeUrl)) {
             if (mDownloader[i + 6] == NULL) {
-              downloadAsset(irradianceUrl, i + 6, true);
+              downloadAsset(completeUrl, i + 6, true);
               postpone = true;
             }
           } else {
@@ -532,7 +535,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
     const QString url =
       WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
     if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mUrlFields[i]->item(0)));
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mIrradianceUrlFields[j]->item(0)));
       return false;
     }
     device = new QFile(url);

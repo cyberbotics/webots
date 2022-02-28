@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."

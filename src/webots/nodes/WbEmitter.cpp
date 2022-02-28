@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ WbEmitter::WbEmitter(WbTokenizer *tokenizer) : WbSolidDevice("Emitter", tokenize
   init();
 }
 
-WbEmitter::WbEmitter(const WbEmitter &other) : WbSolidDevice(other) {
+WbEmitter::WbEmitter(const WbEmitter &other) : WbSolidDevice(other), mQueue() {
   init();
 }
 

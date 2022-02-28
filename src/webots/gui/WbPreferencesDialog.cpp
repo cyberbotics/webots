@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -87,6 +87,8 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   if (mPythonCommand)
     mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  if (mMatlabCommand)
+    mMatlabCommand->setText(prefs->value("General/matlabCommand").toString());
   mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
@@ -110,6 +112,10 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mHttpProxyUsername->setText(prefs->value("Network/httpProxyUsername").toString());
   mHttpProxyPassword->setText(prefs->value("Network/httpProxyPassword").toString());
   mLanguageCombo->setFocus();
+
+  // robot window
+  mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
+  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -147,6 +153,8 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   if (mPythonCommand)
     prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  if (mMatlabCommand)
+    prefs->setValue("General/matlabCommand", mMatlabCommand->text());
   prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
@@ -188,6 +196,10 @@ void WbPreferencesDialog::accept() {
     WbNetwork::instance()->setProxy();
   if (!mCacheSize->text().isEmpty())
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+  if (!mUploadUrl->text().isEmpty())
+    prefs->setValue("Network/uploadUrl", mUploadUrl->text());
+  prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
+  prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -308,35 +320,40 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
     mPythonCommand = NULL;
   } else
     layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
+
   // row 7
-  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 7, 0);
-  layout->addWidget(mExtraProjectsPath, 7, 1);
+  layout->addWidget(new QLabel(tr("MATLAB command:"), this), 7, 0);
+  layout->addWidget(mMatlabCommand = new WbLineEdit(this), 7, 1);
 
   // row 8
+  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 8, 0);
+  layout->addWidget(mExtraProjectsPath, 8, 1);
+
+  // row 9
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
        "current world was modified by either changing the viewpoint,\ndragging, rotating, applying a force or applying a "
        "torque to an object. It will however\nstill display a warning if the world was modified from the scene tree."));
-  layout->addWidget(new QLabel(tr("Warnings:"), this), 8, 0);
-  layout->addWidget(mDisableSaveWarningCheckBox, 8, 1);
+  layout->addWidget(new QLabel(tr("Warnings:"), this), 9, 0);
+  layout->addWidget(mDisableSaveWarningCheckBox, 9, 1);
 
-  // row 9
+  // row 10
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://cyberbotics.com/doc/guide/telemetry"));
   QLabel *label =
     new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
-  layout->addWidget(label, 9, 0);
-  layout->addWidget(mTelemetryCheckBox, 9, 1);
+  layout->addWidget(label, 10, 0);
+  layout->addWidget(mTelemetryCheckBox, 10, 1);
 
-  // row 10
+  // row 11
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 10, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 10, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 11, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 11, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);
@@ -348,6 +365,10 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   QWidget *widget = new QWidget(this);
   QGridLayout *layout = new QGridLayout(widget);
 
+  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  layout->setSpacing(40);
+  layout->setContentsMargins(20, 50, 0, 0);
+
   // row 0
   mAmbientOcclusionCombo = new QComboBox(this);
   mAmbientOcclusionCombo->addItem(tr("Disabled"));
@@ -356,7 +377,7 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mAmbientOcclusionCombo->addItem(tr("High"));
   mAmbientOcclusionCombo->addItem(tr("Ultra"));
   layout->addWidget(new QLabel(tr("Ambient Occlusion:"), this), 0, 0);
-  layout->addWidget(mAmbientOcclusionCombo, 0, 1, Qt::AlignLeft);
+  layout->addWidget(mAmbientOcclusionCombo, 0, 1);
 
   // row 1
   mTextureQualityCombo = new QComboBox(this);
@@ -364,23 +385,23 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mTextureQualityCombo->addItem(tr("Medium"));
   mTextureQualityCombo->addItem(tr("High"));
   layout->addWidget(new QLabel(tr("Texture Quality:"), this), 1, 0);
-  layout->addWidget(mTextureQualityCombo, 1, 1, Qt::AlignLeft);
+  layout->addWidget(mTextureQualityCombo, 1, 1);
 
   // row 2
   mTextureFilteringCombo = new QComboBox(this);
   for (int i = 0; i < 6; ++i)
     mTextureFilteringCombo->addItem(QString::number(i));
   layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
-  layout->addWidget(mTextureFilteringCombo, 2, 1, Qt::AlignLeft);
+  layout->addWidget(mTextureFilteringCombo, 2, 1);
 
   // row 3
   layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
   mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
-  layout->addWidget(mDisableShadowsCheckBox, 3, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableShadowsCheckBox, 3, 1);
 
   // row 4
   mDisableAntiAliasingCheckBox = new QCheckBox(tr("Disable anti-aliasing"), this);
-  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1);
 
   return widget;
 }
@@ -390,11 +411,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
+  QGroupBox *upload = new QGroupBox(tr("Web Services"), this);
+  upload->setObjectName("networkGroupBox");
+  QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
-  network->addWidget(cache, 1, 1);
+  network->addWidget(upload, 1, 1);
+  network->addWidget(cache, 2, 1);
 
   // Proxy
   QGridLayout *layout = new QGridLayout(proxy);
@@ -426,6 +450,39 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   mHttpProxyPassword->setEchoMode(QLineEdit::PasswordEchoOnEdit);
   layout->addWidget(new QLabel(tr("Password:"), this), 4, 0);
   layout->addWidget(mHttpProxyPassword, 4, 1);
+
+  // Upload
+  layout = new QGridLayout(upload);
+
+  // row 0
+  mUploadUrl = new WbLineEdit(this);
+  mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
+  layout->addWidget(new QLabel(tr("Simulation upload service:"), this), 1, 0);
+  layout->addWidget(mUploadUrl, 1, 1);
+
+  // row 1
+  mBrowserProgram = new WbLineEdit(this);
+  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
+  mBrowserProgram->setMinimumWidth(270);
+  layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 2, 0);
+  layout->addWidget(mBrowserProgram, 2, 1);
+#ifdef __linux__
+  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
+#elif defined(_WIN32)
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or msedge (default if empty)"));
+#else  // macOS
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or safari (default if empty)"));
+#endif
+
+  // row 2
+  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
+  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
+    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+    if (mBrowserProgram->text().isEmpty())
+      mNewBrowserWindow->setChecked(false);
+  });
+  layout->addWidget(mNewBrowserWindow, 3, 1);
 
   // Cache
   layout = new QGridLayout(cache);

@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Example of Stewart platform demonstrating the combination of misc Joints and Motors nodes"

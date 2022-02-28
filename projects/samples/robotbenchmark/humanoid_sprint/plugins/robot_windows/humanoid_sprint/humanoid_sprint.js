@@ -1,9 +1,13 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Humanoid Sprint';
 let humanoidSprintTimeString;
 let humanoidSprintTime;
 
-webots.window('humanoid_sprint').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('time:')) {
     humanoidSprintTime = parseFloat(message.substr(5));
     humanoidSprintTimeString = parseSecondsIntoReadableTime(humanoidSprintTime);

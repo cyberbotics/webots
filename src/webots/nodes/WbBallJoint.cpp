@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -811,7 +811,7 @@ void WbBallJoint::updateJointAxisRepresentation() {
 
 void WbBallJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    warn(tr("Exporting 'BallJoint' nodes to URDF is currently not supported"));
+    this->warn("Exporting 'BallJoint' nodes to URDF is currently not supported");
     return;
   }
   WbBasicJoint::writeExport(writer);

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ static WbView3D *gView3D = NULL;
 
 WbMultimediaStreamingServer::WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl,
                                                          bool controllerEdit) :
-  WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit),
+  WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit, true),
   mImageWidth(-1),
   mImageHeight(-1),
   mImageUpdateTimeStep(50),
