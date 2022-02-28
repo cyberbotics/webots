@@ -94,6 +94,7 @@ void WbSoundSource::setSoundClip(const WbSoundClip *clip) {
     return;
   alSourcei(mSource, AL_BUFFER, clip->openALBuffer());
 }
+
 void WbSoundSource::setPitch(double pitch) {
   if (!WbSoundEngine::openAL())
     return;
