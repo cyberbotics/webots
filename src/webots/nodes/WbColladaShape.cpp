@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbSFString.hpp"
+#include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
 #include "WbWrenShaders.hpp"
 
@@ -117,19 +118,51 @@ void WbColladaShape::createWrenMeshes() {
     return;
   }
 
-  const aiNode *node = scene->mRootNode;
+  aiNode *node = scene->mRootNode;
 
-  if (node->mNumChildren > 0) {
-    for (unsigned int i = 0; i < node->mNumChildren; ++i) {
-      printf("found: %d meshes\n", node->mChildren[i]->mNumMeshes);
-      for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-        const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-        const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+  // Assimp fix for up_axis
+  // Adapted from https://github.com/assimp/assimp/issues/849
+  int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
+  double unitScaleFactor = 1.0;
+  if (scene->mMetaData) {
+    scene->mMetaData->Get<int>("UpAxis", upAxis);
+    scene->mMetaData->Get<int>("UpAxisSign", upAxisSign);
+    scene->mMetaData->Get<int>("FrontAxis", frontAxis);
+    scene->mMetaData->Get<int>("FrontAxisSign", frontAxisSign);
+    scene->mMetaData->Get<int>("CoordAxis", coordAxis);
+    scene->mMetaData->Get<int>("CoordAxisSign", coordAxisSign);
+    scene->mMetaData->Get<double>("UnitScaleFactor", unitScaleFactor);
+  }
 
-        if (mesh->mNumVertices > 100000)
-          warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
-                 arg(mesh->mName.C_Str()));
-      }
+  aiVector3D upVec, forwardVec, rightVec;
+  upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
+  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
+  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
+
+  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
+                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+  node->mTransformation = mat;
+
+  for (unsigned int i = 0; i < node->mNumChildren; ++i) {
+    printf("node %d (%s) has %d meshes (and %d children)\n", i, node->mName.C_Str(), node->mChildren[i]->mNumMeshes,
+           node->mNumChildren);
+
+    // count total number of vertices and faces of the current node
+    int totalVertices = 0;
+    int totalFaces = 0;
+    for (unsigned int j = 0; j < node->mNumChildren[i]->mNumMeshes; ++j) {
+      const aiMesh *mesh = scene->mMeshes[i];
+      totalVertices += mesh->mNumVertices;
+      totalFaces += mesh->mNumFaces;
+    }
+
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+
+      if (mesh->mNumVertices > 100000)
+        warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+               .arg(mesh->mName.C_Str()));
     }
   }
 }
