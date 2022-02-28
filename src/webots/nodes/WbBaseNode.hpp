@@ -135,7 +135,7 @@ protected:
   bool isUrdfRootLink() const override;
   virtual WbVector3 exportURDFRotation(const WbMatrix3 &rotationMatrix) const { return rotationMatrix.toEulerAnglesZYX(); }
 
-  void exportURDFJoint(WbVrmlWriter &writer) const override;
+  void exportUrdfJoint(WbVrmlWriter &writer) const override;
 
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values

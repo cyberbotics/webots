@@ -941,11 +941,11 @@ void WbCamera::render() {
 }
 
 WbVector3 WbCamera::exportURDFRotation(const WbMatrix3 &rotationMatrix) const {
-  WbVector3 rotationEuler = rotationMatrix.toEulerAnglesZYX();
+  WbVector3 eulerRotation = rotationMatrix.toEulerAnglesZYX();
   // Webots defines the camera frame as FLU but ROS desfines it as RDF (Right-Down-Forward)
-  rotationEuler[0] -= M_PI / 2;
-  rotationEuler[2] -= M_PI / 2;
-  return rotationEuler;
+  eulerRotation[0] -= M_PI / 2;
+  eulerRotation[2] -= M_PI / 2;
+  return eulerRotation;
 }
 
 /////////////////////
