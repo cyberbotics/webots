@@ -40,8 +40,6 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
-#include <cassert>
-
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit,
@@ -474,12 +472,8 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-    assert(currentTime > mLastUpdateTime);
-
     foreach (QWebSocket *client, mWebSocketClients)
       pauseClientIfNeeded(client);
-    mLastUpdateTime = currentTime;
   }
 }
 
@@ -612,7 +606,6 @@ void WbStreamingServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
-  mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }
 

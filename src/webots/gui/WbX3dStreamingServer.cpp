@@ -29,8 +29,6 @@
 #include <QtCore/QFileInfo>
 #include <QtWebSockets/QWebSocket>
 
-#include <cassert>
-
 WbX3dStreamingServer::WbX3dStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
   WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit, true),
   mX3dWorldGenerationTime(-1.0) {
@@ -128,9 +126,6 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-    assert(currentTime > mLastUpdateTime);
-
     const QString &state = WbAnimationRecorder::instance()->computeUpdateData(false);
     if (!state.isEmpty()) {
       foreach (QWebSocket *client, mWebSocketClients) {
@@ -138,7 +133,6 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
         pauseClientIfNeeded(client);
       }
     }
-    mLastUpdateTime = currentTime;
   }
 }
 
@@ -213,7 +207,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
-  mLastUpdateTime = -1.0;
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
