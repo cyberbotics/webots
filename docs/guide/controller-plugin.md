@@ -68,13 +68,15 @@ Robot windows are implemented in HTML and provide the following features:
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`. 
 3. They are web-ready, hence they use a web browser to display robot windows.
 
-A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt). It demonstrates how to establish a two-way communication between a robot window and a Python controller.
+A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt).
+It demonstrates how to establish a two-way communication between a robot window and a Python controller.
 
 To create a similar robot window for your project follow these steps:
 1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
 2. The file is a typical HTML document that can contain JavaScript and CSS.
-However, in addition to the standard JavaScript library, a `robotWindow` object has to be imported. It exposes an interface to allow communication with a robot controller.
-Therefore, you can check usage examples of `window.robotWindow.receive` and `window.robotWindow.send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
+However, in addition to the standard JavaScript library, a `robotWindow` object has to be imported.
+It exposes an interface to allow communication with a robot controller.
+You can check usage examples of `window.robotWindow.receive` and `window.robotWindow.send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
 3. The robot window needs to be registered in the robot's node.
 Find your robot in the scene tree, select a `window` field, click select and choose `<robot window name>`.
 4. To send and receive data inside the controller you have to use `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
