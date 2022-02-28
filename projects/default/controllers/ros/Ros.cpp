@@ -102,7 +102,6 @@ Ros::~Ros() {
   mGetWorldPathService.shutdown();
   mGetBasicTimeStepService.shutdown();
   mGetNumberOfDevicesService.shutdown();
-  mGetTypeService.shutdown();
   mSetModeService.shutdown();
   mWwiReceiveTextService.shutdown();
   mWwiSendTextService.shutdown();
@@ -204,7 +203,6 @@ void Ros::launchRos(int argc, char **argv) {
   mGetBasicTimeStepService = mNodeHandle->advertiseService("robot/get_basic_time_step", &Ros::getBasicTimeStepCallback, this);
   mGetNumberOfDevicesService =
     mNodeHandle->advertiseService("robot/get_number_of_devices", &Ros::getNumberOfDevicesCallback, this);
-  mGetTypeService = mNodeHandle->advertiseService("robot/get_type", &Ros::getTypeCallback, this);
   mSetModeService = mNodeHandle->advertiseService("robot/set_mode", &Ros::setModeCallback, this);
   mWwiReceiveTextService = mNodeHandle->advertiseService("robot/wwi_receive_text", &Ros::wwiReceiveTextCallback, this);
   mWwiSendTextService = mNodeHandle->advertiseService("robot/wwi_send_text", &Ros::wwiSendTextCallback, this);
@@ -589,12 +587,6 @@ bool Ros::getBasicTimeStepCallback(webots_ros::get_float::Request &req, webots_r
 bool Ros::getNumberOfDevicesCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
   assert(mRobot);
   res.value = mRobot->getNumberOfDevices();
-  return true;
-}
-
-bool Ros::getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
-  assert(mRobot);
-  res.value = mRobot->getType();
   return true;
 }
 
