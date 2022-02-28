@@ -241,7 +241,6 @@ class Client:
 
         def runWebotsInThread(client):
             global config
-            DockerWorld = f'{config["projectsDir"]}/worlds/{self.world}'
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
 
@@ -265,7 +264,7 @@ class Client:
                     version = world_file.readline().split()[1]
                 webots_default_image = f'cyberbotics/webots:{version}-ubuntu20.04'
                 makeProject = int(os.path.isfile('Makefile'))
-                webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{DockerWorld}\"'
+                webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{config["projectsDir"]}/worlds/{self.world}\"'
                 envVarDocker = {
                     "IMAGE": webots_default_image,
                     "PROJECT_PATH": config["projectsDir"],
@@ -285,6 +284,7 @@ class Client:
                 else:
                     envVarDocker["XAUTH"] = '/dev/null'
 
+                config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
                 # create a Dockerfile if not provided in the project folder
                 dockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
 
@@ -463,7 +463,8 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         if client:
             logging.info(f'[{id(client)}] Client disconnected')
             client.kill_webots()
-            client.cleanup_webots_instance()
+            if config['docker']:
+                client.cleanup_webots_instance()
             if client in ClientWebSocketHandler.clients:
                 ClientWebSocketHandler.clients.remove(client)
                 del client
@@ -771,17 +772,21 @@ def main():
             os.system('xhost +local:root')
     if 'webotsHome' not in config:
         config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
-    config['webots'] = config['webotsHome']
-    if sys.platform == 'darwin':
-        config['webots'] += '/Contents/MacOS/webots'
-    elif sys.platform == 'win32':
-        config['webots'] += '/msys64/mingw64/bin/webots.exe'
-    else:  # linux
-        config['webots'] += '/webots'
-    if 'projectsDir' not in config:
-        config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
+    if config['docker']:
+        config['webots'] = '/usr/local/webots'
+        config['projectsDir'] = '/usr/local/webots-project'
     else:
-        config['projectsDir'] = expand_path(config['projectsDir'])
+        config['webots'] = config['webotsHome']
+        if sys.platform == 'darwin':
+            config['webots'] += '/Contents/MacOS/webots'
+        elif sys.platform == 'win32':
+            config['webots'] += '/msys64/mingw64/bin/webots.exe'
+        else:  # linux
+            config['webots'] += '/webots'
+        if 'projectsDir' not in config:
+            config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
+        else:
+            config['projectsDir'] = expand_path(config['projectsDir'])
     if 'port' not in config:
         config['port'] = 2000
     if 'maxConnections' not in config:
