@@ -29,7 +29,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
 
-#include <cassert>
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
