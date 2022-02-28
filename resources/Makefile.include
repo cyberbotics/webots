@@ -186,6 +186,7 @@ endif
 SOURCES_DIRECTORIES = $(sort $(dir $(C_SOURCES) $(CXX_SOURCES)))
 OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
 OBJECTS_EMCC = $(addprefix $(BUILD_GOAL_DIR_EMCC)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
+
 # automatic flags settings
 ifeq ($(BUILD_TYPE),physics)
  USE_ODE = true
@@ -213,7 +214,11 @@ ifneq ($(C_SOURCES)$(CXX_SOURCES),)
   endif
  endif
 endif
-TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS)
+ifdef WREN
+ WREN_TARGET = wrenjs.js
+endif
+
+TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS) $(WREN_TARGET)
 
 # goal
 SUPPORTED_TARGETS = all release debug profile
@@ -243,6 +248,7 @@ endif
 BUILD_DIR = build
 BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
 BUILD_GOAL_DIR_EMCC = $(BUILD_DIR)/$(GOAL_EMCC)
+
 ifdef GOAL
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
 endif
@@ -491,11 +497,15 @@ endif
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(OBJECTS) $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
-ifdef WREN
-	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o $(WRENJS_DIR)/wrenjs.js
-endif
+
 endif
 ### End ifdef MAIN_TARGET
+
+ifdef WREN
+$(WREN_TARGET): $(OBJECTS_EMCC)
+	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' -o wrenjs.js
+	$(SILENT) cp wrenjs.js wrenjs.wasm wrenjs.data $(WRENJS_DIR)/ > /dev/null 2>&1
+endif
 
 ###-----------------------------------------------------------------------------
 ### Rules to make automatic dependencies adapted from the GNU make info file
@@ -539,18 +549,22 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
-EMCC_FILE = $(BUILD_GOAL_DIR_EMCC)/$(notdir $@)
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
-ifdef WREN
-	$(SILENT)emcc -O3 -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(EMCC_FILE)
-endif
+
+$(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
+	@echo "# compiling with emcc " $(notdir $<)
+	$(SILENT)emcc -O3 -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(@)
+
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory
 ###-----------------------------------------------------------------------------
 clean:
 	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
-	$(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
-	$(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
+  ifdef WREN
+	 $(SILENT)rm $(WEBOTS_HOME_PATH)/src/wren/wrenjs.js $(WEBOTS_HOME_PATH)/src/wren/wrenjs.data $(WEBOTS_HOME_PATH)/src/wren/wrenjs.wasm  $(WEBOTS_HOME_PATH)/src/wren/functions_to_export.txt > /dev/null 2>&1 || :
+	 $(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
+  endif
+  $(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
