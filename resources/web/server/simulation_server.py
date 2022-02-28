@@ -263,11 +263,11 @@ class Client:
                 os.chdir(self.project_instance_path)
                 with open(world) as world_file:
                     version = world_file.readline().split()[1]
-                from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                webots_default_image = f'cyberbotics/webots:{version}-ubuntu20.04'
                 makeProject = int(os.path.isfile('Makefile'))
                 webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{DockerWorld}\"'
                 envVarDocker = {
-                    "IMAGE": from_image,
+                    "IMAGE": webots_default_image,
                     "PROJECT_PATH": config["projectsDir"],
                     "MAKE": makeProject,
                     "PORT": port,

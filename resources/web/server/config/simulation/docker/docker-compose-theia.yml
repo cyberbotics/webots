@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - FROM_IMAGE=$IMAGE
+        - WEBOTS_DEFAULT_IMAGE=$IMAGE
         - PROJECT_PATH=$PROJECT_PATH
         - MAKE=$MAKE
     command: $WEBOTS
