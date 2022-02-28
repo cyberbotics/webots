@@ -472,12 +472,8 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-    if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      foreach (QWebSocket *client, mWebSocketClients)
-        pauseClientIfNeeded(client);
-      mLastUpdateTime = currentTime;
-    }
+    foreach (QWebSocket *client, mWebSocketClients)
+      pauseClientIfNeeded(client);
   }
 }
 
@@ -610,7 +606,6 @@ void WbStreamingServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
-  mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }
 
