@@ -94,8 +94,6 @@ void WbDownloader::download(const QUrl &url) {
   else
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
-  assert(mNetworkReply == NULL);
-
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, mNetworkReply, &QNetworkReply::abort);
@@ -118,8 +116,13 @@ void WbDownloader::finished() {
   }
 
   // cache result
-  if (mNetworkReply)
-    WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+  if (mNetworkReply && mNetworkReply->error()) {
+    mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
+    disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
+  } else {
+    if (mNetworkReply)
+      WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+  }
 
   gComplete++;
   mFinished = true;

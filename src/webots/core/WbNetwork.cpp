@@ -191,6 +191,7 @@ void WbNetwork::clearCache() {
   }
 
   mCacheSizeInBytes = 0;
+  cacheMap.clear();
 }
 
 void WbNetwork::recomputeCacheSize() {

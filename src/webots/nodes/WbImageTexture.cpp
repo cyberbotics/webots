@@ -87,13 +87,12 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
+  printf("downloadassets\n");
   if (mUrl->size() == 0)
     return;
-  const QString &url(mUrl->item(0));
-  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
-  if (WbUrl::isWeb(url)) {
-    if (WbNetwork::instance()->isCached(completeUrl))
-      return;
+
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader != NULL && mDownloader->device() != NULL)
       delete mDownloader;
     mDownloader = new WbDownloader(this);
@@ -132,13 +131,18 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
+  printf("loadTexture\n");
+  if (mDownloader && !mDownloader->error().isEmpty()) {
+    warn(mDownloader->error());  // failure downloading or file does not exist (404)
+    return false;
+  }
+
   const QString &url = mUrl->item(0);
   const bool isWebAsset = WbUrl::isWeb(url);
   if (isWebAsset && !WbNetwork::instance()->isCached(url))
     return false;
 
   const QString filePath = isWebAsset ? WbNetwork::instance()->get(url) : path(true);
-
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
     warn(tr("Texture file could not be read: %1").arg(filePath));
@@ -213,6 +217,7 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 }
 
 void WbImageTexture::updateWrenTexture() {
+  printf("updateWrenTexture\n");
   // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
   // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node
   // because the texture is available in the cache but no reference to it remains as the only reference was immediately
@@ -293,6 +298,7 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
+  printf("updateUrl\n");
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -301,7 +307,7 @@ void WbImageTexture::updateUrl() {
   }
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       return;

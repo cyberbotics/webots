@@ -39,7 +39,7 @@ void WbContactProperties::init() {
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
   mSlideSoundClip = NULL;
-  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++)
+  for (int i = 0; i < 3; ++i)
     mDownloader[i] = NULL;
 }
 
@@ -209,10 +209,16 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
+  if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
+    warn(mDownloader[index]->error());
+    return;
+  }
+
   if (sound.isEmpty()) {
     *clip = NULL;
     return;
   }
+
   if (WbUrl::isWeb(sound) && !WbNetwork::instance()->isCached(sound)) {
     downloadAsset(sound, index);  // changed by supervisor
     return;
