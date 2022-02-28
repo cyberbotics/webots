@@ -63,7 +63,7 @@ public:
   virtual WrTexture *getWrenTexture();
 
 protected:
-  WbVector3 exportURDFRotation(WbMatrix3 rotationMatrix) const override;
+  WbVector3 exportURDFRotation(const WbMatrix3 &rotationMatrix) const override;
   void setup() override;
   void render() override;
   bool needToRender() const override;

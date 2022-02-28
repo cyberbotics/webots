@@ -133,7 +133,7 @@ public slots:
 
 protected:
   bool isUrdfRootLink() const override;
-  virtual WbVector3 exportURDFRotation(WbMatrix3 rotationMatrix) const { return rotationMatrix.toEulerAnglesZYX(); }
+  virtual WbVector3 exportURDFRotation(const WbMatrix3 &rotationMatrix) const { return rotationMatrix.toEulerAnglesZYX(); }
 
   void exportURDFJoint(WbVrmlWriter &writer) const override;
 
