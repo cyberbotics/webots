@@ -295,7 +295,7 @@ class Client:
                         logging.error(f"miss Dockerfile.default in {config['dockerConfDir']}")
                         return
 
-                # create a docker-compose
+                # create a docker-compose.yml
                 dockerComposePath = ''
                 if os.path.exists('webots.yml'):
                     with open('webots.yml', 'r') as webotsYml_file:
@@ -305,8 +305,7 @@ class Client:
                             volume = line.split(':')[1]
                             dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
                             envVarDocker["THEIA_V"] = volume
-                            envVarDocker["THEIA_PORT"] = port+1
-                            logging.info(f'volume: {volume}')
+                            envVarDocker["THEIA_PORT"] = port + 500
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
@@ -381,10 +380,10 @@ class Client:
         self.on_webots_quit()
 
     def kill_webots(self):
-        """Force the termination of Webots or concerning Docker services."""
+        """Force the termination of Webots or relative Docker service(s)."""
         if config['docker']:
             os.chdir(self.project_instance_path)
-            os.system("docker-compose down --rmi local")
+            os.system("docker-compose down -v --rmi all")
         else:
             if self.webots_process:
                 logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
@@ -464,6 +463,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         if client:
             logging.info(f'[{id(client)}] Client disconnected')
             client.kill_webots()
+            client.cleanup_webots_instance()
             if client in ClientWebSocketHandler.clients:
                 ClientWebSocketHandler.clients.remove(client)
                 del client

@@ -3,4 +3,7 @@ FROM $FROM_IMAGE
 ARG MAKE, PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
-RUN if [ $MAKE = "1" ] ; then cd $PROJECT_PATH && make ; fi
+RUN if [ "$MAKE" = "1" ]; then \
+    cd $PROJECT_PATH && \
+    make ; \
+    fi
