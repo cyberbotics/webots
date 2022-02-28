@@ -170,6 +170,11 @@ void Ros::launchRos(int argc, char **argv) {
   }
 
   ROS_INFO("Robot's unique name is %s.", mRobotName.c_str());
+  if (mRosNameSpace != "") {
+    ROS_INFO("Robot's unique namespace is %s.", mRosNameSpace.c_str());
+  } else {
+    ROS_INFO("Robot does not have a namespace");
+  }
   ros::init(argc, argv, mRobotName);
 
   if (!ros::master::check()) {
