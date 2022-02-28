@@ -66,7 +66,7 @@ Robot windows are implemented in HTML and provide the following features:
 1. They rely on HTML layout and JavaScript programming.
 2. They communicate directly with the robot controller using two JavaScript functions: `window.robotWindow.receive` and `window.robotWindow.send`.
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`. 
-3. They are web-ready, hence they are using a web browser to display robot windows.
+3. They are web-ready, hence they use a web browser to display robot windows.
 
 A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt). It demonstrates how to establish a two-way communication between a robot window and a Python controller.
 
