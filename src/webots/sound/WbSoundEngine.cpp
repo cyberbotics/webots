@@ -165,8 +165,13 @@ void WbSoundEngine::setPause(bool pause) {
 }
 
 void WbSoundEngine::updateListener() {
+#ifdef __APPLE__  // macOS bug described at https://developer.apple.com/forums/thread/104309
+  // It affects only Apple OpenAL, not OpenAL soft:
+  // alListenerf(AL_GAIN, 0) doesn't work, it should be replaced with alListenerf(AL_GAIN, 0.0001f)
+  alListenerf(AL_GAIN, (gMute || gVolume == 0)? 0.0001f : 0.01f * gVolume);
+#else
   alListenerf(AL_GAIN, gMute ? 0.0f : 0.01f * gVolume);
-
+#endif
   if (gMute || gVolume == 0)
     return;
 
