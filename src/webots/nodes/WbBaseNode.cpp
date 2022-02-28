@@ -282,7 +282,7 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
     if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
       const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
       translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-      rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
+      rotationEuler = exportURDFRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
     }
 
     translation += writer.jointOffset();

@@ -940,44 +940,12 @@ void WbCamera::render() {
   }
 }
 
-void WbCamera::exportURDFJoint(WbVrmlWriter &writer) const {
-  if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
-    WbVector3 translation;
-    WbVector3 rotationEuler;
-    const WbNode *const upperLinkRoot = findUrdfLinkRoot();
-
-    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
-      const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
-      translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-      rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
-    }
-
-    // Webots defines the camera frame as FLU but ROS desfines it as RDF (Right-Down-Forward)
-    rotationEuler[0] -= M_PI / 2;
-    rotationEuler[2] -= M_PI / 2;
-
-    translation += writer.jointOffset();
-    writer.setJointOffset(WbVector3(0.0, 0.0, 0.0));
-
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());
-
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(upperLinkRoot->urdfName());
-    writer.indent();
-    writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
-    writer.indent();
-    writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
-    writer.decreaseIndent();
-
-    writer.indent();
-    writer << "</joint>\n";
-    writer.decreaseIndent();
-  }
+WbVector3 WbCamera::exportURDFRotation(WbMatrix3 rotationMatrix) const {
+  WbVector3 rotationEuler = rotationMatrix.toEulerAnglesZYX();
+  // Webots defines the camera frame as FLU but ROS desfines it as RDF (Right-Down-Forward)
+  rotationEuler[0] -= M_PI / 2;
+  rotationEuler[2] -= M_PI / 2;
+  return rotationEuler;
 }
 
 /////////////////////
