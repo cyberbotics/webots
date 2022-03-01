@@ -58,8 +58,12 @@ ifeq ($(OSTYPE),linux)
     OSARCH = x86_64
   endif
   ifeq ($(OSTYPE),linux)
-    ifneq (, $(shell which lsb_release))
-      UBUNTU_VERSION:=$(shell lsb_release -sr)
+    ifeq ($(SNAP_NAME), webots)
+      UBUNTU_VERSION=20.04
+    else
+      ifneq (, $(shell which lsb_release))
+        UBUNTU_VERSION:=$(shell lsb_release -sr)
+      endif
     endif
   endif
 endif
