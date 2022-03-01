@@ -1223,7 +1223,9 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "rm -rf debian\n");
       break;
     case SNAP: {
-      const char *usr_lib_x68_64_linux_gnu[] = {"libraw1394.so.11",
+      const char *usr_lib_x68_64_linux_gnu[] = {"libblas.so.3",  // netconvert (sumo)
+                                                "liblapack.so.3", // netconvert (sumo)
+                                                "libraw1394.so.11",
                                                 "libvpx.so.6",
                                                 "libx264.so.155",
                                                 "libavcodec.so.58",
