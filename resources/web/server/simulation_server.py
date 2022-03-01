@@ -234,7 +234,6 @@ class Client:
         """Cleanup the local Webots project not used any more by the client."""
         if id(self):
             shutil.rmtree(config['instancesPath'] + str(id(self)))
-        logging.info(f'DELETE FOLDER {self.project_instance_path}')
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
@@ -322,7 +321,7 @@ class Client:
                     for key, value in envVarDocker.items():
                         env_file.write(f'{key}={value}\n')
 
-                command = 'docker-compose up --build --no-color'
+                command = f'docker-compose -f {self.project_instance_path}/docker-compose.yml up --build --no-color'
             else:
                 webotsCommand += world
                 command = webotsCommand
@@ -382,9 +381,15 @@ class Client:
     def kill_webots(self):
         """Force the termination of Webots or relative Docker service(s)."""
         if config['docker']:
-            os.chdir(self.project_instance_path)
-            os.system("docker-compose down -v --rmi all")
-            os.system("docker system prune --volumes -f")  # remove unused images, volumes or networks
+            os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
+            # remove dangling images, stopped containers, build cache, volumes and networks
+            os.system("docker system prune --volumes -f")
+            # remove unused _webots images
+            available_images = os.popen(
+                "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
+            running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
+            unused_images = ' '.join([i for i in available_images if i not in running_images])
+            os.system(f"docker image rm {unused_images}")
         else:
             if self.webots_process:
                 logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
