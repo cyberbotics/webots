@@ -4,6 +4,7 @@
 Released on XX, XXth, 2022.
 
   - New Features:
+    - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259))
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
