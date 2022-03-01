@@ -19,7 +19,6 @@
 
 from controller import Robot
 import sys
-import optparse
 try:
     import numpy as np
 except ImportError:
