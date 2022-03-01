@@ -79,7 +79,7 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache
+	+@$(WEBOTS) --update-proto-cache=projects
 ifeq ($(OSTYPE),darwin)
 	+@echo "# checking RPATH system"
 	+@./check_rpath.py
@@ -95,8 +95,6 @@ endif
 	+@rm files_projects.txt
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
-	+@pacman --noconfirm -S mingw-w64-x86_64-lerc  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
-	+@pacman --noconfirm -S mingw-w64-x86_64-md4c  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
 	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
 endif
 	+@echo "# done for" $(OSTYPE)

@@ -32,6 +32,7 @@ class WbTextBuffer;
 class WbTextFind;
 
 class QPrinter;
+class QRegularExpression;
 class QTabWidget;
 class QToolBar;
 
@@ -118,7 +119,7 @@ private:
   bool saveBuffer(WbTextBuffer *buffer, bool saveAs = false);
   void selectBuffer(WbTextBuffer *buffer);
   void closeBuffer(int tab, bool closeAnyway = false);
-  void highlightSearchText(QRegExp regExp);
+  void highlightSearchText(QRegularExpression regularExpression);
 };
 
 #endif

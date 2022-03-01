@@ -17,8 +17,9 @@
 
 #include "WbRenderingDevice.hpp"
 
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QWindow>
+#include <QtOpenGL/QOpenGLFunctions_3_3_Core>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif

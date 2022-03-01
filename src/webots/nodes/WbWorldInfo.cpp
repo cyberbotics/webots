@@ -34,6 +34,8 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <QtCore/QRegularExpression>
+
 void WbWorldInfo::init(const WbVersion *version) {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
@@ -369,9 +371,9 @@ void WbWorldInfo::updateContactProperties() {
 // e.g. '"Aldebaran's >"' to '"Aldebaran&#39;s &gt;"'
 static QString forgeHtmlEscapedString(const QString &s) {
   QString r = s;
-  r = r.replace(QRegExp("^\""), "").replace(QRegExp("\"$"), "");  // remove first and last double quotes
-  r = r.toHtmlEscaped().replace("'", "&#39;");                    // replace the problematic HTML characters by their codes
-  return QString("\"%1\"").arg(r);                                // restore the suffix and prefix double quotes
+  r = r.replace(QRegularExpression("^\""), "").replace(QRegularExpression("\"$"), "");  // remove first and last double quotes
+  r = r.toHtmlEscaped().replace("'", "&#39;");  // replace the problematic HTML characters by their codes
+  return QString("\"%1\"").arg(r);              // restore the suffix and prefix double quotes
 }
 
 void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {

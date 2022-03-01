@@ -43,15 +43,17 @@ namespace {
   // function telling if a given directory contains (recursively) at least one
   // file finishing with ".wbt", located inside a "worlds" directory and matching regex
   // stopping search at "protos", "controllers", "protos", "plugins", etc. directories
-  bool directoryContainsWbtFile(QDir dir, const QString &regex) {
+  bool directoryContainsWbtFile(QDir dir, const QString &wildcard) {
     if (dir.dirName() == "worlds") {
       dir.setFilter(QDir::Files);
       dir.setNameFilters(QStringList("*.wbt"));
       QStringList fileList = dir.entryList();
       const QDir projectsDir = QDir(WbStandardPaths::projectsPath());
-      const QRegExp re = QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard);
+      const QRegularExpression regexp = QRegularExpression(
+        QRegularExpression::wildcardToRegularExpression(wildcard, QRegularExpression::UnanchoredWildcardConversion),
+        QRegularExpression::CaseInsensitiveOption);
       foreach (const QString &fileName, fileList) {
-        if (projectsDir.relativeFilePath(dir.path() + fileName).contains(re))
+        if (projectsDir.relativeFilePath(dir.path() + fileName).contains(regexp))
           return true;
       }
       return false;
@@ -60,12 +62,12 @@ namespace {
     QFileInfoList fileInfos = dir.entryInfoList();
     foreach (const QFileInfo &fileInfo, fileInfos)
       if (fileInfo.fileName() == "worlds")
-        return directoryContainsWbtFile(QDir(fileInfo.filePath()), regex);
+        return directoryContainsWbtFile(QDir(fileInfo.filePath()), wildcard);
     // from here, no "worlds" folder was found, so we need to explore deeper all folders
     foreach (const QFileInfo &fileInfo, fileInfos)
       if (skipDirs.contains(fileInfo.fileName()))
         return false;
-      else if (directoryContainsWbtFile(QDir(fileInfo.filePath()), regex))
+      else if (directoryContainsWbtFile(QDir(fileInfo.filePath()), wildcard))
         return true;
     return false;
   }
@@ -75,13 +77,15 @@ namespace {
   // - skip recursively empty directories
   // - skip "worlds" layers (but passing through them anyway)
   // - stop search at "protos", "controllers", "plugins" and other similar folders
-  void populateTreeModel(int &itemCounter, QStandardItem *parent, QDir dir, const QString &regex) {
+  void populateTreeModel(int &itemCounter, QStandardItem *parent, QDir dir, const QString &wildcard) {
     if (dir.dirName() == "worlds") {
       dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
       dir.setNameFilters(QStringList("*.wbt"));
       QFileInfoList fileInfos = dir.entryInfoList();
       const QDir projectsDir = QDir(WbStandardPaths::projectsPath());
-      const QRegExp re = QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard);
+      const QRegularExpression re = QRegularExpression(
+        QRegularExpression::wildcardToRegularExpression(wildcard, QRegularExpression::UnanchoredWildcardConversion),
+        QRegularExpression::CaseInsensitiveOption);
       foreach (const QFileInfo &fileInfo, fileInfos) {
         if (projectsDir.relativeFilePath(fileInfo.filePath()).contains(re)) {
           FileDataItem *item = new FileDataItem(fileInfo.fileName(), fileInfo);
@@ -103,15 +107,15 @@ namespace {
     }
     foreach (const QString &dirName, dirList) {
       QDir childDir(QString("%1/%2").arg(dir.absolutePath()).arg(dirName));
-      if (directoryContainsWbtFile(childDir, regex)) {
+      if (directoryContainsWbtFile(childDir, wildcard)) {
         if (dirName == "projects")  // skip the 'projects' directory in 'resources'
           continue;
         else if (dirName == "worlds")  // skip this directory layer
-          populateTreeModel(itemCounter, parent, childDir, regex);
+          populateTreeModel(itemCounter, parent, childDir, wildcard);
         else {
           QStandardItem *item = new QStandardItem(dirName);
           parent->appendRow(item);
-          populateTreeModel(itemCounter, item, childDir, regex);
+          populateTreeModel(itemCounter, item, childDir, wildcard);
         }
       }
     }
