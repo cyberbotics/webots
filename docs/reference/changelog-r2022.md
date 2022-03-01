@@ -12,6 +12,7 @@ Released on XX, XXth, 2022.
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
   - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements:
+    - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
