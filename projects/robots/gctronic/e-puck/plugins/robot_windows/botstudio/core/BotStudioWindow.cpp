@@ -30,7 +30,8 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QTextStream>
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
+#include <QtGui/QActionGroup>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QFileDialog>

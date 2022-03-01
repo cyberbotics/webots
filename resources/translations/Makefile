@@ -37,8 +37,8 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 WEBOTS_SRC_PATH = $(WEBOTS_HOME_PATH)/src/webots
 
 ifeq ($(OSTYPE),windows)
-LUPDATE = lupdate
-LRELEASE = lrelease
+LUPDATE = lupdate-qt6
+LRELEASE = lrelease-qt6
 else
 QT_BINARIES_PATH = $(WEBOTS_HOME_PATH)/bin/qt
 

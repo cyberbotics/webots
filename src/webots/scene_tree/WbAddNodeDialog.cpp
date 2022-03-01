@@ -32,6 +32,7 @@
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGroupBox>
@@ -183,7 +184,7 @@ QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
   if (mNewNodeType == PROTO || mNewNodeType == USE) {
     // return only proto/use name without model name
-    return modelName.split(QRegExp("\\W+"))[0];
+    return modelName.split(QRegularExpression("\\W+"))[0];
   }
   return modelName;
 }
@@ -410,12 +411,16 @@ void WbAddNodeDialog::buildTree() {
 
   QTreeWidgetItem *item = NULL;
 
+  const QRegularExpression regexp(
+    QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text(), QRegularExpression::UnanchoredWildcardConversion),
+    QRegularExpression::CaseInsensitiveOption);
+
   // add valid basic nodes
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
   foreach (const QString &basicNodeName, basicNodes) {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
-    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)) &&
+    if (fileInfo.baseName().contains(regexp) &&
         WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
                                            QStringList(fileInfo.baseName()))) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
@@ -440,7 +445,7 @@ void WbAddNodeDialog::buildTree() {
       const QString &currentDefName = defNode->defName();
       const QString &currentModelName = defNode->modelName();
       const QString &currentFullDefName = currentDefName + " (" + currentModelName + ")";
-      if (!currentFullDefName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+      if (!currentFullDefName.contains(regexp))
         continue;
       if (mField->hasRestrictedValues() &&
           (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(defNode->nodeModelName())))
@@ -466,7 +471,7 @@ void WbAddNodeDialog::buildTree() {
   // add project PROTO
   if (lprotosItem) {
     mIsAddingLocalProtos = true;
-    addProtosFromDirectory(lprotosItem, WbProject::current()->path() + "/protos/", mFindLineEdit->text(),
+    addProtosFromDirectory(lprotosItem, WbProject::current()->path() + "/protos/", regexp,
                            QDir(WbProject::current()->path() + "/protos/"));
     mIsAddingLocalProtos = false;
   }
@@ -475,14 +480,14 @@ void WbAddNodeDialog::buildTree() {
   if (aprotosItem) {
     mIsAddingExtraProtos = true;
     const QString &extraProjectsPath = WbPreferences::instance()->value("General/extraProjectsPath").toString();
-    addProtosFromDirectory(aprotosItem, extraProjectsPath, mFindLineEdit->text(), QDir(extraProjectsPath));
+    addProtosFromDirectory(aprotosItem, extraProjectsPath, regexp, QDir(extraProjectsPath));
     mIsAddingExtraProtos = false;
   }
 
   // add Webots PROTO
   int nWProtosNodes = 0;
-  nWProtosNodes = addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), mFindLineEdit->text(),
-                                         QDir(WbStandardPaths::projectsPath()));
+  nWProtosNodes =
+    addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
   mTree->addTopLevelItem(nodesItem);
   if (mUsesItem)
     mTree->addTopLevelItem(mUsesItem);
@@ -512,8 +517,9 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
-                                            const QDir &rootDirectory, bool recurse, bool inProtos) {
+int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,
+                                            const QRegularExpression &regexp, const QDir &rootDirectory, bool recurse,
+                                            bool inProtos) {
   QDir dir(dirPath);
   if (!dir.exists() || !dir.isReadable()) {
     // no protos node
@@ -527,7 +533,7 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
     QStringList filter("*.proto");
     // search in folder
     const QStringList &protoFiles = dir.entryList(filter, QDir::Files, QDir::Name);
-    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), regex, rootDirectory);
+    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), regexp, rootDirectory);
   }
   // search in subfolders
   QTreeWidgetItem *newFolderItem;
@@ -556,7 +562,7 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
       parentItem->addChild(newFolderItem);
     }
     if (list[i] == "protos" || inProtos || recurse)
-      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", regex, rootDirectory, recurse,
+      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", regexp, rootDirectory, recurse,
                                       inProtos);
     else
       nNodes = 0;
@@ -572,10 +578,9 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
 }
 
 int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
-                               const QString &regex, const QDir &rootDirectory) {
+                               const QRegularExpression &regexp, const QDir &rootDirectory) {
   QTreeWidgetItem *item;
   int nAddedNodes = 0;
-
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
   foreach (const QString protoFile, protoList) {
     const QString protoFilePath(dirPath + "/" + protoFile);
@@ -599,8 +604,7 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
       continue;
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    if (!rootDirectory.relativeFilePath(protoFilePath).contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)) &&
-        !protoCachedInfo->baseType().contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)))
+    if (!rootDirectory.relativeFilePath(protoFilePath).contains(regexp) && !protoCachedInfo->baseType().contains(regexp))
       continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.

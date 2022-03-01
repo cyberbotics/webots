@@ -25,11 +25,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
         include:
-          - os: ubuntu-18.04
-            JAVA_VERSION: "11"
-            ROS_DISTRO: "melodic"
           - os: ubuntu-20.04
             JAVA_VERSION: "16"
             ROS_DISTRO: "noetic"
@@ -58,18 +55,13 @@ jobs:
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
     - name: Prepare Webots Controller Deployment
-      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-18.04' }}
+      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
     - name: Deploy Webots Controller
-      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-18.04' }}
+      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
       run: scripts/packaging/sync_controller_lib.sh
-    - name: Rename Webots Tarball Package
-      if: ${{ matrix.os == 'ubuntu-18.04' }}
-      run: |
-        sudo apt install --yes rename
-        rename 's/\.tar.bz2$/_ubuntu-18.04.tar.bz2/' distribution/*.tar.bz2
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
@@ -94,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -124,11 +116,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
         include:
-          - os: ubuntu-18.04
-            ROS_DISTRO: melodic
-            python: 2.7
           - os: ubuntu-20.04
             ROS_DISTRO: noetic
             python: 3.6
@@ -189,7 +178,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

@@ -29,7 +29,7 @@
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
@@ -216,7 +216,7 @@ QWizardPage *WbNewProtoWizard::createNamePage() {
 
   QLabel *nameLabel = new QLabel(tr("PROTO name:"), page);
   mNameEdit = new WbLineEdit("MyProto", page);
-  mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
+  mNameEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
   mDescription = new QPlainTextEdit(tr("Describe the functionality of your PROTO here."));
@@ -331,15 +331,18 @@ void WbNewProtoWizard::updateNodeTree() {
 
   // list of all available base nodes
   const QStringList nodes = WbNodeModel::baseModelNames();
+  const QRegularExpression regexp(
+    QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text(), QRegularExpression::UnanchoredWildcardConversion),
+    QRegularExpression::CaseInsensitiveOption);
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
-    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+    if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos
   const QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
-    if (protoName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+    if (protoName.contains(regexp))
       protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
   }
 

@@ -191,9 +191,9 @@ void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
-  QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
+  QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
-    const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    const QString &requestedUrl(tokens[1].replace(QRegularExpression("^/"), ""));
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       bool hasEtag = false;
       QString etag;
@@ -381,7 +381,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       if (controllerDir.exists()) {
         // retrieve main controller filename first and other source files afterwards
         QStringList filterNames = WbLanguage::sourceFileExtensions();
-        filterNames.replaceInStrings(QRegExp("^"), controller);  // prepend controller name to each item
+        filterNames.replaceInStrings(QRegularExpression("^"), controller);  // prepend controller name to each item
         QStringList matchingSourceFiles = controllerDir.entryList(filterNames, QDir::Files);
         QString mainControllerFilename;
         if (!matchingSourceFiles.isEmpty()) {
@@ -391,7 +391,7 @@ void WbStreamingServer::processTextMessage(QString message) {
         // send other controller files
         filterNames =
           WbLanguage::sourceFileExtensions() + WbLanguage::headerFileExtensions() + WbLanguage::dataFileExtensions();
-        filterNames.replaceInStrings(QRegExp("^"), "*");
+        filterNames.replaceInStrings(QRegularExpression("^"), "*");
         matchingSourceFiles = controllerDir.entryList(filterNames, QDir::Files);
         matchingSourceFiles.removeOne(mainControllerFilename);
         foreach (QString matchingSourceFile, matchingSourceFiles) {
@@ -406,7 +406,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       const QString &controllerName = controllerFile.split("/")[0];
       if (!isControllerEditAllowed(controllerName))
         return;
-      const QFileInfo &fi(WbProject::current()->path() + "controllers/" + controllerFile);
+      const QFileInfo fi(WbProject::current()->path() + "controllers/" + controllerFile);
       const QString &filename = fi.fileName();
       if (fi.isFile() && fi.exists() && filename != "runtime.ini")
         sendFileToClient(client, "controller", controllerName, fi.absolutePath(), filename);
@@ -439,7 +439,7 @@ void WbStreamingServer::processTextMessage(QString message) {
         WbLog::error(tr("Streaming server: cannot write controller file: %1.").arg(fullFilename));
         return;
       }
-      const QStringRef &content = message.midRef(message.indexOf('\n') + 1);
+      const QStringView &content = message.mid(message.indexOf('\n') + 1);
       file.write(content.toUtf8());
       file.close();
     } else
