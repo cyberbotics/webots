@@ -19,7 +19,7 @@ services:
                 - gpu
     environment:
       - DISPLAY=$DISPLAY
-      - XAUTHORITY=$XAUTH
+      - XAUTHORITY=$XAUTHORITY
       - QT_X11_NO_MITSHM=1
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -29,5 +29,5 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
-      - ${XAUTH:-/dev/null}:${XAUTH:-/dev/null}
+      - $XAUTHORITY:$XAUTHORITY
       - /tmp/.X11-unix:/tmp/.X11-unix:rw

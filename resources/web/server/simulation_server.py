@@ -279,9 +279,9 @@ class Client:
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
                     envVarDocker["DISPLAY"] = display
-                    envVarDocker["XAUTH"] = xauth
+                    envVarDocker["XAUTHORITY"] = xauth
                 else:
-                    envVarDocker["XAUTH"] = '/dev/null'
+                    envVarDocker["XAUTHORITY"] = '/dev/null'
 
                 config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
                 # create a Dockerfile if not provided in the project folder
@@ -382,14 +382,15 @@ class Client:
         """Force the termination of Webots or relative Docker service(s)."""
         if config['docker']:
             os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
-            # remove dangling images, stopped containers, build cache, volumes and networks
-            os.system("docker system prune --volumes -f")
             # remove unused _webots images
             available_images = os.popen(
                 "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
             running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
             unused_images = ' '.join([i for i in available_images if i not in running_images])
-            os.system(f"docker image rm {unused_images}")
+            if unused_images:
+                os.system(f"docker image rm {unused_images}")
+            # remove dangling images, stopped containers, build cache, volumes and networks
+            os.system("docker system prune --volumes -f")
         else:
             if self.webots_process:
                 logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
