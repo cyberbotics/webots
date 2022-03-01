@@ -19,6 +19,7 @@
 // Description: a class for managing find and replace actions in a text document
 //
 
+#include <QtCore/QRegularExpression>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 
@@ -45,7 +46,7 @@ public:
   static FindFlags lastFindFlags() { return cLastFindFlags; }
 
 signals:
-  void findStringChanged(QRegExp regExp);
+  void findStringChanged(QRegularExpression regularExpression);
 
 private:
   QPlainTextEdit *mEditor;
@@ -57,9 +58,9 @@ private:
   void addStringToList(const QString &s, QStringList &list);
 
   bool findText(const QString &text, int position, FindFlags flags, bool backwards);
-  QString expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts);
-  QTextCursor find(QTextDocument *document, const QRegExp &expr, int from, QTextDocument::FindFlags options) const;
-  static QRegExp computeRegExp(const QString &pattern, FindFlags flags);
+  QString expandRegularExpressionReplacement(const QString &replaceText, const QStringList &capturedTexts);
+  QTextCursor find(QTextDocument *document, const QRegularExpression &expr, int from, QTextDocument::FindFlags options) const;
+  static QRegularExpression computeRegularExpression(const QString &pattern, FindFlags flags);
 };
 
 #endif
