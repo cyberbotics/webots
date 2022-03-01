@@ -223,6 +223,8 @@ class Client:
                 logging.info(output[1:].strip('\n'))
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
+        if project == '':
+            project = '/' + repository
         self.project_instance_path += project
         logging.info('Done')
         if path:
