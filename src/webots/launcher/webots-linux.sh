@@ -47,7 +47,6 @@ if [[ ! -z "$SNAP" ]]
 then
 mkdir -p "$XDG_RUNTIME_DIR"
 export QTCOMPOSE=$SNAP/usr/share/X11/locale
-unset GTK_MODULES
 fi
 
 if [[ -z "$TMPDIR" ]]
