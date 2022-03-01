@@ -18,7 +18,11 @@
 #include "WbSoundEngine.hpp"
 #include "WbVector3.hpp"
 
+#ifdef __APPLE__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 WbSoundSource::WbSoundSource() {
   if (!WbSoundEngine::openAL())
@@ -90,6 +94,7 @@ void WbSoundSource::setSoundClip(const WbSoundClip *clip) {
     return;
   alSourcei(mSource, AL_BUFFER, clip->openALBuffer());
 }
+
 void WbSoundSource::setPitch(double pitch) {
   if (!WbSoundEngine::openAL())
     return;

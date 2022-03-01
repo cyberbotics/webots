@@ -42,7 +42,7 @@ const QString &WbApplicationInfo::branch() {
   static bool firstCall = true;
   if (firstCall) {
     const QString branch("resources/branch.txt");
-    branchName = getInfoFromFile(&branch);
+    branchName = getInfoFromFile(branch);
   }
   return branchName;
 }
@@ -52,12 +52,12 @@ const QString &WbApplicationInfo::repo() {
   static bool firstCall = true;
   if (firstCall) {
     const QString repo("resources/repo.txt");
-    repoName = getInfoFromFile(&repo);
+    repoName = getInfoFromFile(repo);
   }
   return repoName;
 }
 
-const QString WbApplicationInfo::getInfoFromFile(const QString *name) {
+const QString WbApplicationInfo::getInfoFromFile(const QString &name) {
   QString result;
   QFile file(WbStandardPaths::webotsHomePath() + name);
   if (file.open(QIODevice::ReadOnly)) {

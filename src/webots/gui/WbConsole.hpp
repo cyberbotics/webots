@@ -23,10 +23,10 @@
 #include "WbDockWidget.hpp"
 #include "WbLog.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QPlainTextEdit>
 
 class QAction;
-class QRegExp;
 class WbFindReplaceDialog;
 class WbTextFind;
 class WbSyntaxHighlighter;
@@ -47,7 +47,7 @@ signals:
   void levelDisabled(const QString &level);
 
 public slots:
-  void updateSearchTextHighlighting(QRegExp regExp);
+  void updateSearchTextHighlighting(QRegularExpression regularExpression);
 
 protected:
   void keyPressEvent(QKeyEvent *event) override;
@@ -64,7 +64,7 @@ private:
 
 private slots:
   void showCustomContextMenu(const QPoint &pt);
-  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
+  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegularExpression()); }
   void handleFilterChange();
   void handleLevelChange();
 };
@@ -148,7 +148,7 @@ private:
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   QStringList mEnabledFilters, mEnabledLevels;
   ConsoleEdit *mEditor;
-  QRegExp **mErrorPatterns;
+  QRegularExpression **mErrorPatterns;
   QString mForegroundColor;
   QString mBackgroundColor;
   QString mConsoleName;
@@ -160,7 +160,7 @@ private:
   QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);
-  QRegExp **createErrorMatchingPatterns() const;
+  QRegularExpression **createErrorMatchingPatterns() const;
   void updateTitle();
 
   void openFindDialog();

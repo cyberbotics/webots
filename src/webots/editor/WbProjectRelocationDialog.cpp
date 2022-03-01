@@ -369,7 +369,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy only the needed texture files
   const QStringList &textureList = world->listTextureFiles();
   foreach (const QString &textureFile, textureList) {
-    const QFileInfo &fi(textureFile);
+    const QFileInfo fi(textureFile);
     targetPathDir.mkpath(fi.path());
     if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
       result++;
