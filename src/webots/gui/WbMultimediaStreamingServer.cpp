@@ -397,17 +397,6 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
 }
 
 void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
-
   const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
   QJsonObject infoObject;
   infoObject.insert("window", currentWorldInfo->window());

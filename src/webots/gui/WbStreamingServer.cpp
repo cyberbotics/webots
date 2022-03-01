@@ -679,5 +679,15 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
     worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
   client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
 
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots) {
+    if (!robot->window().isEmpty()) {
+      QJsonObject windowObject;
+      windowObject.insert("robot", robot->name());
+      windowObject.insert("window", robot->window());
+      const QJsonDocument windowDocument(windowObject);
+      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
+    }
+  }
   client->sendTextMessage("scene load completed");
 }
