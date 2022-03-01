@@ -280,8 +280,6 @@ class Client:
                     os.system(f'chmod 777 {xauth}')
                     envVarDocker["DISPLAY"] = display
                     envVarDocker["XAUTHORITY"] = xauth
-                else:
-                    envVarDocker["XAUTHORITY"] = '/dev/null'
 
                 config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
                 # create a Dockerfile if not provided in the project folder

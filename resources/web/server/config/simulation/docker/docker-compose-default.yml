@@ -29,5 +29,5 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
-      - $XAUTHORITY:$XAUTHORITY
+      - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
