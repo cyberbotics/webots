@@ -104,6 +104,8 @@ private:
   QVector<WrRenderable *> mRenderables;
   QStringList mMaterialNames;
   QVector<WrMaterial *> mMaterials;
+  QVector<WrMaterial *> mSegmentationMaterials;
+  QVector<WrMaterial *> mEncodeDepthMaterials;
   QVector<WrDynamicMesh *> mMeshes;
 
   WrStaticMesh *mBoneMesh;
@@ -131,6 +133,8 @@ private:
   QString modelPath() const;
   void updateModel();
   void applyToScale() override;
+
+  void setSegmentationColor(const WbRgb &color);
 
 private slots:
   virtual void updateTranslation();
