@@ -435,22 +435,29 @@ static void add_ros_dependencies(const char *path) {
           path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #elif defined(WEBOTS_UBUNTU_20_04)
+  fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n",
+          path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #endif
 }
 
@@ -1223,8 +1230,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "rm -rf debian\n");
       break;
     case SNAP: {
-      const char *usr_lib_x68_64_linux_gnu[] = {"libblas.so.3",  // netconvert (sumo)
-                                                "liblapack.so.3", // netconvert (sumo)
+      const char *usr_lib_x68_64_linux_gnu[] = {"libblas.so.3",    // netconvert (sumo)
+                                                "liblapack.so.3",  // netconvert (sumo)
                                                 "libraw1394.so.11",
                                                 "libvpx.so.6",
                                                 "libx264.so.155",
