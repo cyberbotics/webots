@@ -57,7 +57,7 @@
 
 #include <cassert>
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QScrollArea>

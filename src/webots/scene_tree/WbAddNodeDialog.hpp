@@ -29,6 +29,7 @@ class QLabel;
 class QLineEdit;
 class QPlainTextEdit;
 class QPushButton;
+class QRegularExpression;
 class QTreeWidget;
 class QTreeWidgetItem;
 
@@ -85,10 +86,10 @@ private:
   bool mIsAddingLocalProtos;
   bool mIsAddingExtraProtos;
 
-  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
+  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
-  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath, const QString &regex,
-                const QDir &rootDirectory);
+  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
+                const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 };

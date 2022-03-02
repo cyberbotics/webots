@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbDockWidget.hpp"
+
 #include "WbDockTitleBar.hpp"
 
 WbDockWidget::WbDockWidget(QWidget *parent) : QDockWidget(parent) {
@@ -41,7 +42,7 @@ void WbDockWidget::setMaximized(bool maximized) {
   if (maximized)
     setFeatures(QDockWidget::NoDockWidgetFeatures);
   else
-    setFeatures(QDockWidget::AllDockWidgetFeatures);
+    setFeatures(DockWidgetClosable | DockWidgetMovable | DockWidgetFloatable);
 
   mTitleBar->setMaximized(maximized);
 }
