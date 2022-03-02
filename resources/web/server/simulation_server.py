@@ -247,7 +247,7 @@ class Client:
             port = client.streaming_server_port
             asyncio.set_event_loop(asyncio.new_event_loop())
             if not os.path.exists(world):
-                error = f"error: {world} does not exist."
+                error = f"error: {self.world} does not exist."
                 logging.error(error)
                 client.websocket.write_message(error)
                 return
@@ -292,11 +292,11 @@ class Client:
 
                 config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
                 # create a Dockerfile if not provided in the project folder
-
+                defaultDockerfilePath = ''
                 if not os.path.isfile('Dockerfile'):
-                    dockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
-                    if os.path.exists(dockerfilePath):
-                        os.system(f'cp {dockerfilePath} ./Dockerfile')
+                    defaultDockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
+                    if os.path.exists(defaultDockerfilePath):
+                        os.system(f'cp {defaultDockerfilePath} ./Dockerfile')
                     else:
                         error = f"error: Miss Dockerfile.default in {config['dockerConfDir']}"
                         logging.error(error)
@@ -355,6 +355,11 @@ class Client:
                 line = client.webots_process.stdout.readline().rstrip()
                 if line:
                     logging.info(line)
+                    if not (defaultDockerfilePath or "theia" in line):
+                        client.websocket.write_message(f'docker: {line}')
+                    if defaultDockerfilePath and "not found" in line:
+                        client.websocket.write_message("error: Image version {version} not available using Dockerfile.default")
+                        return
                 if '|' in line:  # docker-compose format
                     line = line[line.index('|') + 2:]
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections

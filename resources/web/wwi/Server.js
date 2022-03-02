@@ -89,8 +89,9 @@ export default class Server {
       // nothing to do
     } else if (message.indexOf('error:') === 0){
       this.onError();
-      let errorMessage = data.substring(6).trim();
-      alert('Session server error: ' + errorMessage);
+      alert('Session server ' + message);
+    } else if (message.indexOf('docker:') === 0){
+      console.log(message)
     } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }
