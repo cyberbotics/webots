@@ -53,14 +53,14 @@ jobs:
         git config --global core.autocrlf false
         git config --global core.eol lf
     - uses: actions/checkout@v2
-      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || (github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
+      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
     - name: Set up Python ${{ matrix.python }}
       if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
-      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || (github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
+      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
