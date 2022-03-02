@@ -358,7 +358,9 @@ class Client:
                     if not (defaultDockerfilePath or "theia" in line):
                         client.websocket.write_message(f'docker: {line}')
                     if defaultDockerfilePath and "not found" in line:
-                        client.websocket.write_message("error: Image version {version} not available using Dockerfile.default")
+                        client.websocket.write_message(
+                            f"error: Image version {version} not available on Cyberbotics' dockerHub. "
+                            f"Add the appropriate Dockerfile to your project.")
                         return
                 if '|' in line:  # docker-compose format
                     line = line[line.index('|') + 2:]
