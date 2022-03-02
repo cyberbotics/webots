@@ -130,6 +130,7 @@ class Client:
         self.streaming_server_port = 0
         self.webots_process = None
         self.on_webots_quit = None
+        self.error = 0
         self.project_instance_path = ''
         self.app = ''
         self.world = ''
@@ -244,6 +245,12 @@ class Client:
             global config
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
+            asyncio.set_event_loop(asyncio.new_event_loop())
+            if not os.path.exists(world):
+                error = f"error: {world} does not exist."
+                logging.error(error)
+                client.websocket.write_message(error)
+                return
 
             webotsCommand = f'{config["webots"]} --batch --mode=pause '
             # the MJPEG stream won't work if the Webots window is minimized
@@ -285,13 +292,15 @@ class Client:
 
                 config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
                 # create a Dockerfile if not provided in the project folder
-                dockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
 
                 if not os.path.isfile('Dockerfile'):
+                    dockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
                     if os.path.exists(dockerfilePath):
                         os.system(f'cp {dockerfilePath} ./Dockerfile')
                     else:
-                        logging.error(f"miss Dockerfile.default in {config['dockerConfDir']}")
+                        error = f"error: Miss Dockerfile.default in {config['dockerConfDir']}"
+                        logging.error(error)
+                        client.websocket.write_message(error)
                         return
 
                 # create a docker-compose.yml
@@ -312,7 +321,9 @@ class Client:
                 if os.path.exists(dockerComposePath):
                     os.system(f'cp {dockerComposePath} ./docker-compose.yml')
                 else:
-                    logging.error(f"miss docker-compose-default.yml in {config['dockerConfDir']}")
+                    error = f"error: Miss docker-compose-default.yml in {config['dockerConfDir']}"
+                    logging.error(error)
+                    client.websocket.write_message(error)
                     return
                 logging.info(f'docker-compose.yml created from {dockerComposePath}')
 
@@ -331,7 +342,9 @@ class Client:
                                                          stderr=subprocess.STDOUT,
                                                          bufsize=1, universal_newlines=True)
             except Exception:
-                logging.error(f'Unable to start Webots: {webotsCommand}')
+                error = f"error: Unable to start Webots: {webotsCommand}"
+                logging.error(error)
+                client.websocket.write_message(error)
                 return
             logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{webotsCommand}"')
             while True:
@@ -350,7 +363,6 @@ class Client:
             hostname = config['server']
             protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
-            asyncio.set_event_loop(asyncio.new_event_loop())
             message = f'webots:{protocol}//{hostname}{separator}{port}'
             client.websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
@@ -364,6 +376,7 @@ class Client:
                 elif line == '.':
                     client.websocket.write_message('.')
             client.on_exit()
+
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
             threading.Thread(target=runWebotsInThread, args=(self,)).start()

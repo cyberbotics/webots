@@ -87,6 +87,11 @@ export default class Server {
       console.log('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
     else if (message === '.') { // received every 5 seconds when Webots is running
       // nothing to do
+    } else if (message.indexOf('error:') === 0){
+      this.onError();
+      let errorMessage = data.substring(6).trim();
+      errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
+      alert('Session server error: ' + errorMessage);
     } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }

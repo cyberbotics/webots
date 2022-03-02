@@ -4,7 +4,6 @@ volumes:
   controller_data:
 
 services:
-
   webots:
     build:
       context: .
@@ -41,4 +40,4 @@ services:
     ports:
       - $THEIA_PORT:3000
     volumes:
-      - controller_data:/home/project/webot-project:rw
+      - controller_data:/home/project/webots-project:rw
