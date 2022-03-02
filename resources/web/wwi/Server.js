@@ -90,7 +90,6 @@ export default class Server {
     } else if (message.indexOf('error:') === 0){
       this.onError();
       let errorMessage = data.substring(6).trim();
-      errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
       alert('Session server error: ' + errorMessage);
     } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
