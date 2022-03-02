@@ -390,6 +390,7 @@ webots-view li {
   padding: 1px 8px 1px 8px;
   position: relative;
 }
+
 webots-view li:hover {
   background: #222;
   cursor: pointer;
@@ -544,6 +545,50 @@ webots-view #remoteScene {
 
 /* Floating Robot Window*/
 
+webots-view .robotwindow-pane {
+  position: absolute;
+  bottom: 55px;
+  right: 115px;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  background: rgba(0,0,0, 0.7);
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
+}
+
+webots-view .robotwindow-pane h3{
+  padding-left: 7px;
+  color: #aaa;
+}
+
+webots-view .robotwindow-pane-spacer {
+  display: inline-block;
+  min-width: 75px;
+}
+
+webots-view .robotwindow-pane-li {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+webots-view .robotwindow-pane-switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 17px;
+  top: 10px;
+  right: 11px;
+  pointer-events: none;
+}
+
 webots-view .floating-robotwindow {
   background-color: rgba(0, 0, 0, 0.6);
   top: 50px;
@@ -556,8 +601,6 @@ webots-view .floating-robotwindow {
 webots-view .floating-robotwindow:nth-child(n){
   background-color: rgba(n*50, 0, 0, 0.6);
 }
-
-
 
 webots-view .floating-robotwindow-header {
   background-color: rgba(0, 0, 0, 0.6);

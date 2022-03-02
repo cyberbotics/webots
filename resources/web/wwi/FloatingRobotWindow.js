@@ -1,6 +1,5 @@
 export default class FloatingRobotWindow {
     constructor(parentNode, name) {
-        console.log("New Branch")
         this.floatingRobotWindow = document.createElement('div');
         this.floatingRobotWindow.className = 'floating-robotwindow';
         this.floatingRobotWindow.id = name;
@@ -17,11 +16,10 @@ export default class FloatingRobotWindow {
         this.headerText.innerHTML = 'Robot Window: ' + name;
         this.floatingRobotWindowHeader.appendChild(this.headerText);
 
-        let headerQuit = document.createElement('button');
-        headerQuit.className = ('close-robotwindow');
-        headerQuit.innerHTML = ('&times');
-        headerQuit.addEventListener('mouseup', _ => this.changeVisibility());
-        this.floatingRobotWindowHeader.appendChild(headerQuit);
+        this.headerQuit = document.createElement('button');
+        this.headerQuit.className = 'close-robotwindow close-robotwindow-'+name;
+        this.headerQuit.innerHTML = ('&times');
+        this.floatingRobotWindowHeader.appendChild(this.headerQuit);
 
         let floatingRobotWindowContent = document.createElement('div');
         floatingRobotWindowContent.className = 'floating-robotwindow-content';
@@ -33,6 +31,10 @@ export default class FloatingRobotWindow {
         floatingRobotWindowContent.appendChild(contentText);
 
         this.dragElement(document.getElementById(name));
+    }
+
+    getID() {
+        return this.floatingRobotWindow.id;
     }
 
     getWidth() {

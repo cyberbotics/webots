@@ -247,8 +247,62 @@ export default class Toolbar {
   _createRobotwindowButton() {
     this.robotwindowButton = this._createToolBarButton('robotwindow', 'Robot window');
     this.toolbarRight.appendChild(this.robotwindowButton);
-    this.robotwindowButton.addEventListener('mouseup', _ => this._changeRobotwindowsVisibility());
+    this.robotwindowButton.addEventListener('mouseup', _ => this._changeRobotwindowPaneVisibility());
+    this._createRobotwindowPane();
     this._createRobotwindows();
+    //window.addEventListener('click', _ => this._closeRobotwindowPaneOnClick(_));
+  }
+    
+  _createRobotwindowPane() {
+    this.robotwindowPane = document.createElement('div');
+    this.robotwindowPane.className = 'robotwindow-pane';
+    this.robotwindowPane.id = 'robotwindow-pane';
+    this.robotwindowPane.innerHTML = '<h3> Robot Windows </h3>';
+    this.robotwindowPane.style.visibility = 'hidden';
+    this.parentNode.appendChild(this.robotwindowPane);
+
+    this.robotwindowList = document.createElement('ul');
+    this.robotwindowList.id = 'robotwindow-list';
+    this.robotwindowPane.appendChild(this.robotwindowList);
+  }
+
+  _closeRobotwindowPaneOnClick() {
+    this.robotwindowPane.style.visibility = 'hidden';
+  }
+
+  _addRobotwindowToPane(name) {
+    const robotwindowLi = document.createElement('li');
+    robotwindowLi.className = 'robotwindow-pane-li';
+    robotwindowLi.id = 'enable-robotwindow-'+name;
+    this.robotwindowList.appendChild(robotwindowLi);
+
+    let label = document.createElement('span');
+    label.className = 'robotwindow-span';
+    label.innerHTML = name;
+    robotwindowLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'robotwindow-pane-spacer';
+    robotwindowLi.appendChild(label);
+
+    const button = document.createElement('label');
+    button.className = 'robotwindow-pane-switch';
+    button.id = 'button-'+name;
+
+    robotwindowLi.appendChild(button);
+
+    label = document.createElement('input');
+    label.type = 'checkbox';
+    label.checked = false;
+    button.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'slider round';
+    button.appendChild(label);
+
+    robotwindowLi.onclick = _ => {
+      this._changeRobotwindowVisibility(name)
+    };
   }
 
   _createRobotwindows() {
@@ -256,12 +310,26 @@ export default class Toolbar {
     this.floatingRobotWindowContainer.className = 'floating-robotwindow-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
-    // Add function to get robotwindow list
-    const rw_list = ['OroBot', 'Nao', 'Thymio'];
+    // Add a way to get robotwindow list
     this.robotwindows = [];
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
+      WbWorld.instance.robots.forEach(function(window,name) {
+        console.log("Robot: "+name+"\nWindow: "+window)
+      });
+
+      WbWorld.instance.robots.forEach((window,name) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, name)));
+      WbWorld.instance.robots.forEach((window,name) => this._addRobotwindowToPane(name));
+    }
+
+    /*
+    const rw_list = ['OroBot', 'OroBot(1)'];
     rw_list.forEach((rw) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, rw)));
+    rw_list.forEach((rw) => this._addRobotwindowToPane(rw));
+    */
+
     const windowOffset = 20;
     this.robotwindows.forEach((rw,n) => {
+      rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotwindowVisibility(rw.getID()));
       if (n>0) {
         var width_sum = 0;
         for (var i=0; i<n; i++) {
@@ -274,15 +342,20 @@ export default class Toolbar {
     });
   }
 
-  _changeRobotwindowsVisibility() {
-    const visibilityArray = [];
-    this.robotwindows.forEach((rw) => visibilityArray.push(rw.getVisibility()));
-    const allEqual = !!visibilityArray.reduce(function(a, b){return (a === b) ? a : NaN;});
-    
-    if (allEqual)
-      this.robotwindows.forEach((rw) => rw.changeVisibility());
+  _changeRobotwindowPaneVisibility() {
+    if (this.robotwindowPane.style.visibility == 'hidden')
+      this.robotwindowPane.style.visibility = 'visible';
     else
-      this.robotwindows.forEach((rw) => rw.setVisibility('visible'));
+      this.robotwindowPane.style.visibility = 'hidden';
+  }
+
+  _changeRobotwindowVisibility(name) {
+    document.getElementById('button-'+name).click();
+
+    if(document.getElementById(name).style.visibility == 'hidden')
+      document.getElementById(name).style.visibility = 'visible';
+    else
+      document.getElementById(name).style.visibility = 'hidden';
   }
 
   _createInfoButton() {
