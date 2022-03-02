@@ -20,7 +20,7 @@ layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[3];
-uniform int inverseNormals;
+uniform int reverseNormals;
 
 struct DirectionalLight {
   vec4 colorAndIntensity;
@@ -85,8 +85,7 @@ void main() {
   vec3 diffuseTotal = vec3(0.0);
   vec3 specularTotal = vec3(0.0);
 
-  // vec3 fragmentNormal = (inverseNormals > 0) ? normalize(-normalTransformed) : normalize(normalTransformed);
-  vec3 fragmentNormal = normalize(normalTransformed);
+  vec3 fragmentNormal = (reverseNormals > 0) ? normalize(-normalTransformed) : normalize(normalTransformed);
   fragNormal = vec4(fragmentNormal, 1.0) * 0.5 + 0.5;
   vec3 viewDirection = normalize(-fragmentPosition);
 

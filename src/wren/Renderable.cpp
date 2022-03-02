@@ -224,32 +224,24 @@ namespace wren {
 
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
+    glm::vec3 scale = parent()->scale();
     if (mInvertFrontFace) {
       glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
 
-      // glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_INVERSE_NORMALS), 1);
-
-      // mEffectiveMaterial
-
-      GLint loc = glGetUniformLocation(program->glName(), "inverseNormals");
-      if (loc != -1) {
-        glUniform1i(loc, 1);
+      if (scale.x * scale.y * scale.z >= 0.0) {
+        GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1) {
+          glUniform1i(location, 1);
+        }
       }
-
-      // program->setCustomUniformValue("inverseNormals", 1);
-      // program->bind();
-
-      // wr_post_processing_effect_pass_set_program_parameter(mLensFlarePass, "uGhostDispersal",
-      //                                                  reinterpret_cast<const char *>(&mDispersal));
-
-      // wr_shader_program_set_custom_uniform_value(program, "inverseNormals", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-      //                                            const char *value);
-
-      // wr_shader_program_set_custom_uniform_value(mHandlesShader, "screenScale", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-      //                                            reinterpret_cast<const char *>(&mScale));
-
-      // glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_POINT_SIZE), mPointSize);
-    }  // else {
+    } else {
+      if (scale.x * scale.y * scale.z < 0.0) {
+        GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1) {
+          glUniform1i(location, 1);
+        }
+      }
+    }
 
     mMesh->render(mDrawingMode);
 
