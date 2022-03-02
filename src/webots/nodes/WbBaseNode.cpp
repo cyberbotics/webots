@@ -273,16 +273,16 @@ bool WbBaseNode::isUrdfRootLink() const {
   return false;
 }
 
-void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
+void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
   if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
     WbVector3 translation;
-    WbVector3 rotationEuler;
+    WbVector3 eulerRotation;
     const WbNode *const upperLinkRoot = findUrdfLinkRoot();
 
     if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
       const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
       translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-      rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
+      eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
     }
 
     translation += writer.jointOffset();
@@ -300,7 +300,7 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
                 .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
+                .arg(eulerRotation.toString(WbPrecision::FLOAT_ROUND_6));
     writer.decreaseIndent();
 
     writer.indent();
