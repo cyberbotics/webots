@@ -26292,20 +26292,20 @@ The controllers are started automatically. You just have to make sure that the `
 ##### Laojiang 07/22/2020 10:00:14
 OK,thank you
 
-##### culurciello 07/22/2020 13:27:27
+##### EUGE 07/22/2020 13:27:27
 Hi Guys, I added a Pioneer3Gripper to a UR-5 robot and when I move the robot the gripper falls apart (see pic). What can I do to fix this? Also is there a simple 2-finger alternative gripper I can use with the UR robots? Thanks a lot for all your kind help~
 %figure
 ![gripper_problem.jpg](https://cdn.discordapp.com/attachments/565154703139405824/735488182455369768/gripper_problem.jpg)
 %end
 
 ##### Stefania Pedrazzi [Cyberbotics] 07/22/2020 13:44:41
-Hi `@culurciello`, quickly tested on the latest version in the `ure.wbt` world just replacing the default gripper with the Pioneer3Gripper and it seems to work fine.
+Hi `@EUGE`, quickly tested on the latest version in the `ure.wbt` world just replacing the default gripper with the Pioneer3Gripper and it seems to work fine.
 
 Which Webots version are you using?
 
 Did you save and revert your world after adding the gripper?
 
-##### culurciello 07/22/2020 14:38:34
+##### EUGE 07/22/2020 14:38:34
 `@Stefania Pedrazzi` thank you so much you are very kind. Using Webots R2020 r1. here is the world we use:
 > **Attachment**: [ur5\_grip.wbt](https://cdn.discordapp.com/attachments/565154703139405824/735506078011228190/ur5_grip.wbt)
 
@@ -26319,7 +26319,7 @@ Hey guys, for some reason webots crashes when the Robot.step(duration) method is
 `@GeoCSBI`: not sure how to help you. Did you modify anything to your controller or simulation?
 
 ##### Stefania Pedrazzi [Cyberbotics] 07/22/2020 15:11:58
-> `@culurciello` Am also getting this warning: WARNING: DEF ARM UR5e (PROTO) > DEF GRIPPER Pioneer3Gripper (PROTO) > DEF LIFT\_SLIDER SliderJoint > DEF LIFT Solid > DEF LEFT\_FINGER\_SLIDER SliderJoint > LinearMotor: too low requested position: -0.0845174 < 0
+> `@EUGE` Am also getting this warning: WARNING: DEF ARM UR5e (PROTO) > DEF GRIPPER Pioneer3Gripper (PROTO) > DEF LIFT\_SLIDER SliderJoint > DEF LIFT Solid > DEF LEFT\_FINGER\_SLIDER SliderJoint > LinearMotor: too low requested position: -0.0845174 < 0
 
 This seems a problem of your controller program that requires an invalid position to the gripper motor.
 
@@ -26509,7 +26509,7 @@ Understood, thank you a lot !
 ##### David Mansolino [Moderator] 07/23/2020 13:36:02
 You're welcome
 
-##### culurciello 07/23/2020 15:07:35
+##### EUGE 07/23/2020 15:07:35
 > This seems a problem of your controller program that requires an invalid position to the gripper motor.
 
 > About your world, you didn't send the controller. But I moved the arm using the robot window (double click on the robot and then move the joints using the sliders) and it works correctly.
@@ -26558,7 +26558,7 @@ If you want to be able to dynamically change the controller from the web scene, 
 
 > `@Stefania Pedrazzi` see file here for a controller that replicates my proble: as the arm moves, the gripper falls apart (and falls completely apart in some other cases)
 
-`@culurciello` let's continue the discussion on : [https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831](https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831)
+`@EUGE` let's continue the discussion on : [https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831](https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831)
 
 ##### watchdogs132 07/24/2020 06:18:07
 Hello . I have imported my .wrl file to .wbt using Blender ,  my bot shows up accurately on Webot ,with all the nodes as shape . But when I put one of the shape nodes (say the wheel)as the child node of a robot node , ideally I want the axes of the child node to be totally aligned with the wheel but that is not the case. There is a major offset . How can I fix this? . This offset axes problem is with all the shape nodes .
@@ -32034,7 +32034,7 @@ Hey, How can I capture the vision of camera with opencv in webots? I want to app
 
 this should help 🙂
 
-##### culurciello 08/19/2020 19:35:01
+##### EUGE 08/19/2020 19:35:01
 Hi, I need to mark a point in space in the GUI to debug. How can I do that?
 
 Thanks a lot@
@@ -32054,7 +32054,7 @@ Hi,  Can i transfer the results of the simulations for my real robot?
 
 > E
 
-`@culurciello` the simplest solution is to create a shape (e.g. a small sphere) at the location you want to mark.
+`@EUGE` the simplest solution is to create a shape (e.g. a small sphere) at the location you want to mark.
 
 ##### Luiz Felipe 08/20/2020 07:04:01
 Hi, I am running my simulation in a headless server (supercomputer) using docker and checking the simulation via webots stream. In relation to the simulation speed, is it possible to check it via console? How much speed up can I expect running my simulation in a computer with a more powerful GPU and processor? (I think the simulation speed is going to be also bounded by the physics engine right?)
@@ -32118,14 +32118,14 @@ Is the default coordinate system in webots in meters?
 
 ok, my bad, its actually indicated everywhere 😄
 
-##### culurciello 08/20/2020 12:21:48
+##### EUGE 08/20/2020 12:21:48
 Thansk a lot guys, am trying to mark a point in space for a Ur-5 robot to reach to. We use python code. I used a small cube before, but was hoping for a more elegant solution to mark a point. If any. No prob otherwise. Thansk a lot for your kind help!
 
 ##### creative 08/20/2020 12:52:13
 `@David Mansolino` hi! I use ros control 10 epucks in webots, how do I set time\_step?thanks!
 
 ##### alxy 08/20/2020 13:05:01
-`@culurciello` Not sure if that is exactly what you are looking fro, but there is an example where a robotic arm follows a target balll like object. You can drag and drop the target in the arm follows: [https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb](https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb)
+`@EUGE` Not sure if that is exactly what you are looking fro, but there is an example where a robotic arm follows a target balll like object. You can drag and drop the target in the arm follows: [https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb](https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb)
 
 ##### Luftwaffel [Moderator] 08/20/2020 13:35:12
 `@alxy` I just created a universal IK controller. It is not yet merged, but you can check it out here: [https://github.com/cyberbotics/community-projects/tree/Simon-Steinmann-IK](https://github.com/cyberbotics/community-projects/tree/Simon-Steinmann-IK)
@@ -32588,8 +32588,8 @@ i meant the mirobot one
 
 but good to see you creating PRs 🙂
 
-##### culurciello 08/20/2020 18:06:31
-> `@culurciello` Not sure if that is exactly what you are looking fro, but there is an example where a robotic arm follows a target balll like object. You can drag and drop the target in the arm follows: [https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb](https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb)
+##### EUGE 08/20/2020 18:06:31
+> `@EUGE` Not sure if that is exactly what you are looking fro, but there is an example where a robotic arm follows a target balll like object. You can drag and drop the target in the arm follows: [https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb](https://github.com/cyberbotics/webots/tree/master/projects/robots/abb/irb)
 
 `@alxy` thanks a lot, yes that is one good way to do it
 
@@ -35250,7 +35250,7 @@ ok thank you
 ##### Stefania Pedrazzi [Cyberbotics] 09/03/2020 13:02:06
 you're welcome
 
-##### culurciello 09/03/2020 16:45:55
+##### EUGE 09/03/2020 16:45:55
 hi guys does any of you have a model of a lathe where you can insert a rod into?
 
 ##### dimple.bhuta 09/04/2020 05:33:03
@@ -35353,7 +35353,7 @@ What should I change to get rid of this warning
 ##### David Mansolino [Moderator] 09/04/2020 06:00:38
 > hi guys does any of you have a model of a lathe where you can insert a rod into?
 
-`@culurciello` unfortunately we don't have it, but you can of course create your own model
+`@EUGE` unfortunately we don't have it, but you can of course create your own model
 
 
 `@dimple.bhuta`, the 'controllerArgs' field is now a MFString (multiple string field), you should therefore change your PROTO like this to avoid this warning (untested):
@@ -36659,7 +36659,7 @@ alright... thank you very much `@David Mansolino`
 ##### David Mansolino [Moderator] 09/10/2020 10:32:25
 You're welcome
 
-##### culurciello 09/10/2020 13:25:41
+##### EUGE 09/10/2020 13:25:41
 Hi, I have added a gripper to the UR5 and wanted to modify the arm chain with the gripper so that IK would work. But I am not sure how to add the new link to the arm chain. Is there a doc that can help me? Thanks a lot
 > **Attachment**: [ur5\_grip.wbt](https://cdn.discordapp.com/attachments/565154703139405824/753607130237370400/ur5_grip.wbt)
 
@@ -36667,9 +36667,9 @@ Hi, I have added a gripper to the UR5 and wanted to modify the arm chain with th
 when you say 'modify the arm chain' ? Which IK are you using? Are you refeering the the ikpy chain module?
 
 ##### Luftwaffel [Moderator] 09/10/2020 13:47:06
-`@culurciello` are you runnng linux?
+`@EUGE` are you runnng linux?
 
-##### culurciello 09/10/2020 13:54:31
+##### EUGE 09/10/2020 13:54:31
 Mac OS X
 
 
@@ -36685,7 +36685,7 @@ yes the ikpy Chain
 ##### David Mansolino [Moderator] 09/10/2020 13:57:48
 In that case, I would recommend checking this example which use ikpy too and compute the armchain dynamically from the robot definition: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
 
-##### culurciello 09/10/2020 14:01:28
+##### EUGE 09/10/2020 14:01:28
 Thank you `@David Mansolino` I have looked at taht. Maybe a better question is How can in troduce an offset at the end of the arm chain?
 
 ##### David Mansolino [Moderator] 09/10/2020 14:05:11
@@ -36698,7 +36698,7 @@ you can use this controller
 
 I already added the correct last\_link\_vector for the robot. For other robots, you might wanna reset it to 'None'
 
-##### culurciello 09/10/2020 14:46:34
+##### EUGE 09/10/2020 14:46:34
 wow, thank you `@David Mansolino` `@Luftwaffel` you guys are the best!
 
 ##### David Mansolino [Moderator] 09/10/2020 14:46:45
@@ -36707,7 +36707,7 @@ You're welcome 😉
 ##### Luftwaffel [Moderator] 09/10/2020 14:47:15
 [https://tenor.com/view/wink-and-point-finger-guns-wink-supernatural-dean-gif-12682706](https://tenor.com/view/wink-and-point-finger-guns-wink-supernatural-dean-gif-12682706)
 
-##### culurciello 09/10/2020 14:48:20
+##### EUGE 09/10/2020 14:48:20
 I have to say I found Webots technical help one of the best: fast response, very precise,  and most responsive
 
 
@@ -40515,7 +40515,7 @@ Thank you for the support with the 3D LiDAR. I will implement it and report the 
 
 (In case you're curious, when my students' robots accomplish some objectives, I use the code I pasted in above to flip a spinning celebratory gold coin up in the air, sort of like in Super Mario Brothers.  The coin looks quite a lot like my discord avatar picture, which is also a sort of depiction of their robots.)
 
-##### culurciello 10/01/2020 22:54:58
+##### EUGE 10/01/2020 22:54:58
 My ur10 IK code does not work, and I have tried many combinations. Yes tried PROTO and yes tried to generate armChain on the fly. Both do not work on ur10. Anyone knows why?
 > **Attachment**: [ur10\_ik\_test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/761360542363287582/ur10_ik_test.wbt)
 
@@ -40670,10 +40670,10 @@ nvm, still much slower
 
 I'm not sure the AABB is working properly then
 
-##### culurciello 10/02/2020 15:56:54
+##### EUGE 10/02/2020 15:56:54
 > My ur10 IK code does not work, and I have tried many combinations. Yes tried PROTO and yes tried to generate armChain on the fly. Both do not work on ur10. Anyone knows why?
 
-`@culurciello`
+`@EUGE`
 > **Attachment**: [ur10\_ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/761617717400698891/ur10_ik_test.py)
 
 
@@ -40686,7 +40686,7 @@ I have the robot completely seperated, and it does not change anything with the 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/761617800220901386/unknown.png)
 %end
 
-##### culurciello 10/02/2020 15:57:31
+##### EUGE 10/02/2020 15:57:31
 just fixed it
 > **Attachment**: [ur10\_ik\_test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/761617873231151114/ur10_ik_test.wbt)
 
@@ -44341,19 +44341,19 @@ At some point I'll likely make that Python utility available to the Webots commu
 ##### eeeloisee 10/30/2020 04:31:16
 `@Justin Fisher` That makes sense!! Sorry, I didn't realize it was as simple as organizing it this way. And thanks for the example - these really help! It looks like I will be doing it the long way since I'm just using C haha
 
-##### culurciello 10/30/2020 17:14:20
+##### EUGE 10/30/2020 17:14:20
 How can you move or rotate a bounding object?
 
 ##### Justin Fisher [Moderator] 10/30/2020 17:14:39
 put it inside a transform node
 
-##### culurciello 10/30/2020 17:15:14
+##### EUGE 10/30/2020 17:15:14
 thanks a lot,
 
 ##### Justin Fisher [Moderator] 10/30/2020 17:15:23
 (by which I mean, making the boundingObject field contain a transform node which itself contains the shape(s) that you needed to move/rotate)
 
-##### culurciello 10/30/2020 17:20:37
+##### EUGE 10/30/2020 17:20:37
 Thank you -
 
 ##### Justin Fisher [Moderator] 10/30/2020 18:06:18
@@ -47836,7 +47836,7 @@ Thank you in advance
 ##### owongcho 12/14/2020 21:18:25
 I am now able to do it now. I didnt know I can use the controller's functionality in the supervisor too
 
-##### culurciello 12/14/2020 23:24:44
+##### EUGE 12/14/2020 23:24:44
 Hi, what is the best way to instrument a robot with IK? I was looking at [https://github.com/cyberbotics/pyikfast](https://github.com/cyberbotics/pyikfast) but I am not using Docker and it is unclear how to compile without... any help much appreciated and thank you
 
 
@@ -48041,7 +48041,7 @@ Tested on R2020b-rev1 and R2021a with the same result.
 ##### Olivier Michel [Cyberbotics] 12/16/2020 16:07:27
 Can you please report this in an issue with all the necessary details so that we can reproduce it?
 
-##### culurciello 12/16/2020 16:16:47
+##### EUGE 12/16/2020 16:16:47
 Does anyone have a working inverse kinematics IK example for a UR-10? I was able to make a ur-5 work, but not the UR-10. Here are working files for ur-5
 > **Attachment**: [ur5\_ik\_test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/788801813989163028/ur5_ik_test.wbt)
 
@@ -48050,14 +48050,14 @@ Does anyone have a working inverse kinematics IK example for a UR-10? I was able
 > **Attachment**: [ur5\_ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/788801854087757824/ur5_ik_test.py)
 
 ##### Darko Lukić [Moderator] 12/16/2020 16:19:46
-`@culurciello` I believe `@Luftwaffel` is an expert in IK and Webots robotic arms. He may already have a working example for UR-10.
+`@EUGE` I believe `@Luftwaffel` is an expert in IK and Webots robotic arms. He may already have a working example for UR-10.
 
 
-`@culurciello` You don't have to specify the ikpy chain manually, you can use `getUrdf()`:
+`@EUGE` You don't have to specify the ikpy chain manually, you can use `getUrdf()`:
 
 [https://github.com/cyberbotics/webots/blob/671849daaa2a16202af4636103480e43747072c5/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py#L41](https://github.com/cyberbotics/webots/blob/671849daaa2a16202af4636103480e43747072c5/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py#L41)
 
-##### culurciello 12/16/2020 16:46:21
+##### EUGE 12/16/2020 16:46:21
 `@Darko Lukić` thanks a lot, if you guys can help it is really a great Xmas present`@Luftwaffel` - my current not working status is:
 > **Attachment**: [ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/788809254777651200/ik_test.py)
 
@@ -48377,7 +48377,7 @@ a.foo() # hello world!
 ##### hugos 12/18/2020 11:54:25
 Ok i'll try that thanks !;)
 
-##### culurciello 12/18/2020 17:19:58
+##### EUGE 12/18/2020 17:19:58
 Is there an easy and quick way to modify robot initial pos from def: DEF ARM UR5e {
 
   hidden position\_0\_0 0
@@ -48430,7 +48430,7 @@ what do the numbers in hidden pos and rotation mean?
 ##### Darko Lukić [Moderator] 12/18/2020 17:24:14
 Hidden fields mean that the simulation state is saved during the simulation run. You should avoid saving the world during the run as it may lead to the undesired behavior afterwards. I suggest you to delete all hidden fields.
 
-##### culurciello 12/18/2020 17:36:40
+##### EUGE 12/18/2020 17:36:40
 Thankss `@Darko Lukić` how do you set a robot arm position for example?
 
 ##### Rishi 12/19/2020 06:30:40

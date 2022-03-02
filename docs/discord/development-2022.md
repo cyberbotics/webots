@@ -38,7 +38,7 @@ the IK solvers for pyikfast are also broken
 
 Did the robot models change?
 
-##### [Red Dragons] Mat198 01/18/2022 00:24:18
+##### Mat198 01/18/2022 00:24:18
 Is this the ABB IRB 4600? The coordenate system changed.
 
 ##### Luftwaffel [Moderator] 01/18/2022 00:24:30
@@ -68,7 +68,7 @@ Currently I have a somewhat complexer controller, providing an algorithm to pick
 
 I think it would make sense to put those 2 features into the c++ portion. Making it much simpler to use for the user. (and faster)
 
-##### [Red Dragons] Mat198 01/19/2022 00:33:56
+##### Mat198 01/19/2022 00:33:56
 I'm feeling that pain right now...
 
 ##### Luftwaffel [Moderator] 01/19/2022 00:34:22
@@ -101,4 +101,78 @@ This reply might be a bit late, but if you still want help, could you clarify yo
 
 
 <@&568329906048598039> the void controller seems to be broken in the latest nightly build (21/2/2022). On ubuntu 20.04 installed with tarball.  this test world just has unmodified ur3e with void controller and it crashes. EDIT: ENV variable was set incorrectly, sorry for the confusion
+
+## March
+
+##### Craig 03/01/2022 22:17:50
+I have built a custom robot and set all the joints to have a minStop/maxStop value. The joints are using velocity control and work as expected until they reach one of the stops, at which point I get robot confetti as every joint explodes out. My basicTimeStep is 1.
+
+Does anyone know what is happening? This is my first robot and I don't have a lot of experience with Webots so I expect the issue is on my end.
+
+##### DrakerDG [Moderator] 03/01/2022 22:20:37
+If is possible, share your world to check it and understand it better
+
+##### Craig 03/01/2022 22:39:16
+wbt file?
+
+##### Luftwaffel [Moderator] 03/01/2022 22:39:57
+`@Craig` zip your project folder
+
+##### Craig 03/01/2022 22:47:11
+The controller is external to the project and can't be shared, so to reproduce command the "Shoulder Motor" to move 1.745 rad/s until it jams before its maxStop, then -1.745 rad/s. The confetti occurs when it returns to its initial position. My best guess is the inertia is carrying it past the stop
+> **Attachment**: [ConfettiBot.zip](https://cdn.discordapp.com/attachments/565155651395780609/948350720397148200/ConfettiBot.zip)
+
+##### Luftwaffel [Moderator] 03/01/2022 22:48:30
+cant you share the controller?
+
+##### Craig 03/01/2022 22:49:03
+No, but I can rewrite with a simple demo one
+
+##### Luftwaffel [Moderator] 03/01/2022 22:49:26
+and you hard linked many assets, you should include all assets in your project folder and link relative paths
+
+##### Craig 03/01/2022 22:50:16
+The mesh files? My bad, I'll send them with the basic controller
+
+##### Luftwaffel [Moderator] 03/01/2022 22:50:52
+There are many warnings, that you specify both, the mass and density. So it uses the mass instead of density. When using mass, it is vital to have the correct inertia matrix
+
+
+If you dont want to do that, you can specify a density and webots will calculate the inertia matrix assuming a uniform material filling your collision geometry
+
+
+This might be your culprit. A torque of 10 million Nm.... that is just WAY too much
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/948352397980344340/unknown.png)
+%end
+
+
+check what a realistic value would be for the type of motors you would use
+
+##### Craig 03/01/2022 22:56:44
+I was having trouble getting things moving so I used order of magnitude values. I apparently did not go back and fix when I set the weights.
+
+##### Luftwaffel [Moderator] 03/01/2022 22:57:26
+you should also add these limits to the motors, not just the joints
+
+##### Craig 03/01/2022 22:58:10
+I originally set the weight when I was working with primitives, I did not update when I got the mesh modules. I can correct this and the torque values
+
+##### Luftwaffel [Moderator] 03/01/2022 22:58:42
+just use density, unless you calculate the exact weight and moment of inertia matrix
+
+
+for density values ranging from 200-1000 are realistic  for arms and structural elements (1000 being the density of water)
+
+##### Craig 03/01/2022 22:59:59
+That explains part of my confusion, the documentation was talking about min/max stops and positions, but I couldn't find any min/max position fields. I'll definitely correct that as well
+
+##### Luftwaffel [Moderator] 03/01/2022 23:00:52
+[https://cyberbotics.com/doc/reference/motor?version=R2022a](https://cyberbotics.com/doc/reference/motor?version=R2022a)
+
+##### Craig 03/01/2022 23:01:43
+It sounds like there is a lot to fix after a quick first pass, I'll go back and rework the model to use more realistic values. My bet is that it will fix the issue. Thanks! This was very helpful
+
+##### Luftwaffel [Moderator] 03/01/2022 23:02:12
+you're welcome 🙂
 

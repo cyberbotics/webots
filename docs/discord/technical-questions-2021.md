@@ -2967,7 +2967,7 @@ The `saveExperimentData` function is a placeholder function, you should implemen
 ##### JSK 01/22/2021 11:00:23
 ok
 
-##### msoyer34 01/22/2021 22:44:43
+##### smsmsm 01/22/2021 22:44:43
 Hey guys, I would like to ask a question
 
 
@@ -3005,7 +3005,7 @@ I am sorry for stupid question. Why Y axis stands for vertical direction? This I
 ##### Luftwaffel [Moderator] 01/23/2021 09:30:41
 In world info you can change the coordinate system from nue to enu (or create a new world through the wizard with that)
 
-##### msoyer34 01/23/2021 13:56:04
+##### smsmsm 01/23/2021 13:56:04
 Thank you Simon for your responses. I am using NX for my design and I export my design as OBJ. But it seems it doesnt work properly in webots.
 
 
@@ -27845,7 +27845,7 @@ this is an example in python on how to spawn a sphere. You should be able to tra
 ##### FlamingToaster 09/29/2021 18:36:51
 Thank you, this looks like exactly what i need!
 
-##### Mlungost 09/29/2021 19:02:57
+##### thegodsmile 09/29/2021 19:02:57
 I have a question regarding position sensors. I was watching a "Position Sensor in Webots Tutorial", but it didn't answer my questions on obtaining the robot's translation using code.
 
 say your robot is a vehicle. 
@@ -27872,7 +27872,7 @@ You have 3 general options:
 
 If you want to do it without GPS sensors and in a real-world way, I would recommend reading up on SLAM
 
-##### Mlungost 09/29/2021 19:46:23
+##### thegodsmile 09/29/2021 19:46:23
 thank you Simon. teaching moment and with options 👍
 
 ##### Benjamin Hug [Cyberbotics] 09/30/2021 07:03:50
@@ -30241,7 +30241,7 @@ while robot.step(timestep) != -1:
 
     pass`
 
-##### [Red Dragons] Mat198 11/09/2021 21:11:47
+##### Mat198 11/09/2021 21:11:47
 It's possible to import files written in C in a C++ code. I don't know exactly how but i saw that in openCV if I remember correctly
 
 ##### DDaniel [Cyberbotics] 11/09/2021 21:13:31
@@ -30250,19 +30250,19 @@ the joint is already at position 0.005, so it won't move
 ##### Shivanshu 11/09/2021 21:14:36
 Can you give me some insight on how to rotate a hinge?
 
-##### [Red Dragons] Mat198 11/09/2021 21:16:30
+##### Mat198 11/09/2021 21:16:30
 You want to rotate it like a whell?
 
 ##### Shivanshu 11/09/2021 21:16:47
 I want to open it like a door
 
-##### [Red Dragons] Mat198 11/09/2021 21:18:38
+##### Mat198 11/09/2021 21:18:38
 Just set the Position to an open state (90° = pi/2 rad) then wait some time or set a condition to a close state (0°)
 
 ##### Shivanshu 11/09/2021 21:19:03
 I need not set a velocity?
 
-##### [Red Dragons] Mat198 11/09/2021 21:19:32
+##### Mat198 11/09/2021 21:19:32
 motor.setPosition(1.5)
 
 Wait
@@ -31747,19 +31747,19 @@ Hello all, im want to add a display device that shows the current position of th
 ##### SeanLuTW 11/26/2021 00:32:37
 Can I directly set the position of a motor to designated value using Supervisor?
 
-##### [Red Dragons] Mat198 11/26/2021 00:42:36
+##### Mat198 11/26/2021 00:42:36
 Position in space or the motor angle?
 
 ##### SeanLuTW 11/26/2021 00:43:01
 Motor angle
 
-##### [Red Dragons] Mat198 11/26/2021 00:47:09
+##### Mat198 11/26/2021 00:47:09
 There is no need to use the supervisor
 
 ##### SeanLuTW 11/26/2021 00:52:50
 If using `Motor.setPosition()`, the angle of the motor will rotate to the target angle steply like a real motor, while what I want is to neglect the physics simulation and directly make the angle of the motor to the target value.
 
-##### [Red Dragons] Mat198 11/26/2021 01:01:42
+##### Mat198 11/26/2021 01:01:42
 Got it. Never did that. My suggestion is to use an solid and just set the orientation with supervisor
 
 ##### brownie 11/26/2021 03:10:57
@@ -31812,7 +31812,7 @@ Hi guys. Velodyne VLP-16, I am trying to do autonomous driving using this lidar.
 ##### onurg57 11/26/2021 14:18:24
 Hi. I'm new at webots and previously, i havent used any robotic simulator before. I wonder how can i do performance test on webots. For example position accuracy of mobile robot or its torque etc?
 
-##### [Red Dragons] Mat198 11/26/2021 15:22:29
+##### Mat198 11/26/2021 15:22:29
 You need to be more specific about what you wanna do. Are you doing position control of the wheels? To simulate the torque you need to set the friction force related to the ground and the motors parameters.
 
 ##### AP\_LISC 11/27/2021 17:08:17
@@ -32144,7 +32144,7 @@ Please don't repost the same question on different channels.
 ##### L4RG 12/03/2021 14:37:06
 understood, my bad. I'll delete one of them right away!
 
-##### [Red Dragons] Mat198 12/03/2021 15:00:06
+##### Mat198 12/03/2021 15:00:06
 Is it possible to create solids with supervisor? I need 60 spheres and it's terrible to create and set the names by hand
 
 ##### Benjamin Délèze [Cyberbotics] 12/03/2021 15:04:42
@@ -32213,7 +32213,7 @@ There is a `get_pose` service:
 
 [https://cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb\_supervisor\_node\_get\_pose](https://cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb_supervisor_node_get_pose)
 
-##### [Red Dragons] Mat198 12/06/2021 12:47:32
+##### Mat198 12/06/2021 12:47:32
 How can I import an proto node that I created for my project? The importMFNodeFromString(-1,"nodeName{}) returns none and a message: " Skipped unknow 'nodeName' node or PROTO". The node works as intended when I add it manually
 
 ##### weyho 12/06/2021 13:07:26
@@ -32322,7 +32322,7 @@ Hi everyone, I want to integrate a touch sensor to the gripper of the youBot. Bu
 ![tsensor.png](https://cdn.discordapp.com/attachments/565154703139405824/918146968138690570/tsensor.png)
 %end
 
-##### [Red Dragons] Mat198 12/08/2021 15:21:26
+##### Mat198 12/08/2021 15:21:26
 You want to measure contact force?
 
 ##### drl\_bot 12/08/2021 16:22:53
@@ -32872,7 +32872,7 @@ hi
 
 Can webots simulate weather conditions?
 
-##### [Red Dragons] Mat198 12/19/2021 11:53:17
+##### Mat198 12/19/2021 11:53:17
 You can add wind by editing the physics plugin an variable light. I have no idea about rain
 
 ##### 語季 12/19/2021 11:54:53
@@ -32888,7 +32888,7 @@ Hi guys, how can I get the position of any solidBox? any suggestion?  I tried th
 
         print("KukaBox is at position: %g %g %g" % (values[0], values[1], values[2]))
 
-##### [Red Dragons] Mat198 12/19/2021 18:23:20
+##### Mat198 12/19/2021 18:23:20
 That should have worked. What kind of error message are you getting?
 
 ##### drl\_bot 12/19/2021 18:24:29
@@ -32918,7 +32918,7 @@ the error I get:
 
 [traj\_controller] AttributeError: type object 'object' has no attribute '\_\_getattr\_\_'
 
-##### [Red Dragons] Mat198 12/19/2021 18:32:21
+##### Mat198 12/19/2021 18:32:21
 Try: 
 
 supervisor = Supervisor() # Make sure the supervisor option is check in simulation
