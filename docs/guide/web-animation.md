@@ -41,6 +41,7 @@ The following attributes are available:
 * `data-scene`: the name of the .x3d file containing the 3d scene.
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
+* `data-callback`: a function to be executed once the scene is loaded.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
