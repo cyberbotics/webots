@@ -401,7 +401,8 @@ class Client:
     def kill_webots(self):
         """Force the termination of Webots or relative Docker service(s)."""
         if config['docker']:
-            os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
+            if os.path.exists(f"{self.project_instance_path}/docker-compose.yml"):
+                os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
             # remove unused _webots images
             available_images = os.popen(
                 "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
