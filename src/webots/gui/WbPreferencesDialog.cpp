@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
+#include <QtGui/QKeyEvent>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
@@ -44,6 +45,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 
 static QStringList gStartupModes;
@@ -121,6 +123,12 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 WbPreferencesDialog::~WbPreferencesDialog() {
 }
 
+void WbPreferencesDialog::keyPressEvent(QKeyEvent *event) {
+  if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+    return;
+  QDialog::keyPressEvent(event);
+}
+
 void WbPreferencesDialog::accept() {
   WbPreferences *prefs = WbPreferences::instance();
 
@@ -195,14 +203,7 @@ void WbPreferencesDialog::accept() {
   if (changed)
     WbNetwork::instance()->setProxy();
 
-  if (mCacheSize->text().toInt() < 512 || mCacheSize->text().isEmpty()) {
-    WbMessageBox::info(tr("For optimal performance, at least\n512 MB of cache are necessary."), this);
-    prefs->setValue("Network/cacheSize", 512);
-    WbNetwork::instance()->reduceCacheUsage();
-  } else {
-    WbMessageBox::info(tr("Cache size changed to %1 MB.").arg(mCacheSize->text().toInt()), this);
-    prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
-  }
+  prefs->setValue("Network/cacheSize", mCacheSize->value());
 
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
@@ -496,9 +497,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout = new QGridLayout(cache);
 
   // row 0
-  mCacheSize = new WbLineEdit(this);
-  mCacheSize->setValidator(new QIntValidator(0, 65535));
-  mCacheSize->setText(WbPreferences::instance()->value("Network/cacheSize", 1024).toString());
+  mCacheSize = new QSpinBox(this);
+  mCacheSize->setRange(0, 65535);
+  mCacheSize->setValue(WbPreferences::instance()->value("Network/cacheSize", 1024).toInt());
+  connect(mCacheSize, &QSpinBox::editingFinished, [=]() {
+    if (mCacheSize->value() < 512) {
+      mCacheSize->setValue(512);
+    }
+  });
   layout->addWidget(new QLabel(tr("Set the size of the cache (in MB):"), this), 0, 0);
   layout->addWidget(mCacheSize, 0, 1);
 
