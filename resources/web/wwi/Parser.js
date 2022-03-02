@@ -1180,7 +1180,7 @@ function convertStringToQuaternion(string) {
 }
 
 function convertStringToFloatArray(string) {
-  const stringList = string.replace(/[^a-zA-Z0-9.\- ]/g, ' ').split(/\s/).filter(element => element);
+  const stringList = string.replaceAll(',', ' ').split(/\s/).filter(element => element);
   if (stringList)
     return stringList.map(element => parseFloat(element));
 }
