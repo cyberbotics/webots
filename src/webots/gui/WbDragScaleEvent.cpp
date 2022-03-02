@@ -40,7 +40,7 @@ WbRescaleCylinderEvent::WbRescaleCylinderEvent(const QPoint &initialMousePositio
 
 void WbRescaleCylinderEvent::addActionInUndoStack() {
   WbUndoStack::instance()->push(
-    new WbResizeCommand(mCylinder, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+    new WbResizeCommand(mCylinder, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleCylinderEvent::apply(const QPoint &currentMousePosition) {
@@ -62,8 +62,8 @@ void WbRescaleCylinderEvent::apply(const QPoint &currentMousePosition) {
   }
 
   mCylinder->setHeight(resizedHeight);
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the capsule
@@ -74,8 +74,7 @@ WbRescaleCapsuleEvent::WbRescaleCapsuleEvent(const QPoint &initialMousePosition,
 }
 
 void WbRescaleCapsuleEvent::addActionInUndoStack() {
-  WbUndoStack::instance()->push(
-    new WbResizeCommand(mCapsule, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+  WbUndoStack::instance()->push(new WbResizeCommand(mCapsule, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleCapsuleEvent::apply(const QPoint &currentMousePosition) {
@@ -97,8 +96,8 @@ void WbRescaleCapsuleEvent::apply(const QPoint &currentMousePosition) {
   }
 
   mCapsule->setHeight(resizedHeight);
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the box
@@ -109,16 +108,15 @@ WbRescaleBoxEvent::WbRescaleBoxEvent(const QPoint &initialMousePosition, WbViewp
 }
 
 void WbRescaleBoxEvent::addActionInUndoStack() {
-  WbUndoStack::instance()->push(
-    new WbResizeCommand(mBox, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+  WbUndoStack::instance()->push(new WbResizeCommand(mBox, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleBoxEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
   const WbVector3 &rescaledSize = mResizeRatio * mBox->size();
   mBox->setSize(rescaledSize);
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the plane
@@ -129,8 +127,7 @@ WbRescalePlaneEvent::WbRescalePlaneEvent(const QPoint &initialMousePosition, WbV
 }
 
 void WbRescalePlaneEvent::addActionInUndoStack() {
-  WbUndoStack::instance()->push(
-    new WbResizeCommand(mPlane, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+  WbUndoStack::instance()->push(new WbResizeCommand(mPlane, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescalePlaneEvent::apply(const QPoint &currentMousePosition) {
@@ -143,8 +140,8 @@ void WbRescalePlaneEvent::apply(const QPoint &currentMousePosition) {
   }
 
   mPlane->setSize(rescaledSize);
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the cone
@@ -156,8 +153,7 @@ WbRescaleConeEvent::WbRescaleConeEvent(const QPoint &initialMousePosition, WbVie
 }
 
 void WbRescaleConeEvent::addActionInUndoStack() {
-  WbUndoStack::instance()->push(
-    new WbResizeCommand(mCone, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+  WbUndoStack::instance()->push(new WbResizeCommand(mCone, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleConeEvent::apply(const QPoint &currentMousePosition) {
@@ -178,8 +174,8 @@ void WbRescaleConeEvent::apply(const QPoint &currentMousePosition) {
   }
 
   mCone->setHeight(resizedHeight);
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the elevation grid
@@ -191,7 +187,7 @@ WbRescaleElevationGridEvent::WbRescaleElevationGridEvent(const QPoint &initialMo
 
 void WbRescaleElevationGridEvent::addActionInUndoStack() {
   WbUndoStack::instance()->push(
-    new WbResizeCommand(mElevationGrid, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+    new WbResizeCommand(mElevationGrid, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleElevationGridEvent::apply(const QPoint &currentMousePosition) {
@@ -220,8 +216,8 @@ void WbRescaleElevationGridEvent::apply(const QPoint &currentMousePosition) {
 
   mElevationGrid->setHeightScaleFactor(mResizeRatio);
 
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Drags scaling the indexed face set
@@ -233,7 +229,7 @@ WbRescaleIndexedFaceSetEvent::WbRescaleIndexedFaceSetEvent(const QPoint &initial
 
 void WbRescaleIndexedFaceSetEvent::addActionInUndoStack() {
   WbUndoStack::instance()->push(
-    new WbResizeCommand(mIndexedFaceSet, WbVector3(mAbsoluteScaleRatio, mAbsoluteScaleRatio, mAbsoluteScaleRatio)));
+    new WbResizeCommand(mIndexedFaceSet, WbVector3(mTotalScaleRatio, mTotalScaleRatio, mTotalScaleRatio)));
 }
 
 void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
@@ -247,8 +243,8 @@ void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
   mIndexedFaceSet->rescale(WbVector3(mResizeRatio, mResizeRatio, mResizeRatio));
 
   // update global resize values
-  mAbsoluteScaleRatio *= mResizeRatio;
-  mManipulator->updateHandleDimensions(mAbsoluteScaleRatio, mViewDistanceUnscaling);
+  mTotalScaleRatio *= mResizeRatio;
+  mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
 }
 
 // Moves a scale handle by dragging the mouse and changes the scale field accordingly //
@@ -299,8 +295,8 @@ void WbDragScaleHandleEvent::computeHandlesPositions(const QPoint &currentMouseP
   const WbMatrix4 &matrix = mTransform->matrix();
 
   WbMatrix3 unscaledMatrix = matrix.extracted3x3Matrix();
-  WbVector3 absoluteScale = matrix.scale();
-  unscaledMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  WbVector3 scale = mTransform->scale();
+  unscaledMatrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   attachedHandlePos = matrix.translation() + unscaledMatrix * (mTotalScale * mViewDistanceUnscaling *
                                                                mManipulator->relativeHandlePosition(mHandleNumber));
@@ -309,7 +305,7 @@ void WbDragScaleHandleEvent::computeHandlesPositions(const QPoint &currentMouseP
   const float zEye = mViewpoint->zEye(attachedHandlePos);
   localMousePos = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), zEye);
   localMousePos = matrix.pseudoInversed(localMousePos);
-  localMousePos /= absoluteScale;
+  localMousePos /= scale;
 }
 
 void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {

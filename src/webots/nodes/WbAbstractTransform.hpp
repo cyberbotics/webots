@@ -147,7 +147,7 @@ protected:
   // A specific scale check is done in the WbSolid class
   WbSFVector3 *mScale;
   bool checkScale(int constraintType = 0, bool warning = false);
-  bool checkScalePositivity(WbVector3 &correctedScale) const;
+  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
   bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
   bool checkScaleUniformity(bool warning = false);
   virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;

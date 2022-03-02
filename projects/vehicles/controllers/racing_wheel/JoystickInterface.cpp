@@ -85,7 +85,6 @@ void JoystickInterface::init(webots::Driver *driver, const char *configFile) {
          << endl;
 
   QSettings settings(configFile, QSettings::IniFormat);
-  settings.setIniCodec("UTF-8");
   for (int i = 0; i < NAXIS; ++i)
     mAxesMap[axesNames[i]] = settings.value(QString("Axis/") + QString(axesNames[i]), -1).toInt();
   for (int i = 0; i < NAXIS; ++i) {

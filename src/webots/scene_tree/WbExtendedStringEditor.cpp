@@ -192,7 +192,7 @@ void WbExtendedStringEditor::editInTextEditor() {
 
   // Filters
   QStringList filterNames = WbLanguage::sourceFileExtensions();
-  filterNames.replaceInStrings(QRegExp("^"), stringValue());  // prepend controller name to each item
+  filterNames.replaceInStrings(QRegularExpression("^"), stringValue());  // prepend controller name to each item
 
   QStringList matchingSourceFiles;
   // Searches into the current projects plugins directory or controllers directory

@@ -30,13 +30,16 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QIODevice>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  setCcw(mCcw->value());
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -88,6 +91,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
@@ -304,7 +308,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value()).toUtf8();
+  const QByteArray meshPathNameIndex = (path() + mName->value() + QString::number(mMaterialIndex->value())).toUtf8();
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
 }
 
@@ -539,6 +543,16 @@ void WbMesh::updateUrl() {
 
   if (isAValidBoundingObject())
     applyToOdeData();
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateCcw() {
+  setCcw(mCcw->value());
+
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();

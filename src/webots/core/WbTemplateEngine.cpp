@@ -236,18 +236,18 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
+  // QRegularExpression explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      QString statement = match.captured(0);
+      QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
-      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != QString(";"))
         statement.insert(statement.size() - 2, ";");
       else
         statement.append(";\n");
