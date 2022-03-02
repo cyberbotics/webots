@@ -8,6 +8,7 @@ export default class RobotWindow {
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
     this.connect();
+    console.log("RobotWindow loaded");
   };
 
   send(message) {

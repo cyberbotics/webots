@@ -2,6 +2,7 @@ import Animation from './Animation.js';
 import AnimationSlider from './AnimationSlider.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import InformationPanel from './InformationPanel.js';
+import FloatingRobotWindow from './FloatingRobotWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -30,7 +31,6 @@ export default class Toolbar {
     this._createAnimationTimeIndicator();
 
     // Right part
-    this._createInfoButton();
     this._createSettings();
     this._createFullscreenButtons();
   }
@@ -60,6 +60,7 @@ export default class Toolbar {
       this.toolbarLeft.style.visibility = 'hidden';
 
     // Right part
+    this._createRobotwindowButton();
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
@@ -241,6 +242,47 @@ export default class Toolbar {
   _playKeyboardHandler(e) {
     if (e.code === 'KeyK')
       this._triggerPlayPauseButton();
+  }
+
+  _createRobotwindowButton() {
+    this.robotwindowButton = this._createToolBarButton('robotwindow', 'Robot window');
+    this.toolbarRight.appendChild(this.robotwindowButton);
+    this.robotwindowButton.addEventListener('mouseup', _ => this._changeRobotwindowsVisibility());
+    this._createRobotwindows();
+  }
+
+  _createRobotwindows() {
+    this.floatingRobotWindowContainer = document.createElement('div');
+    this.floatingRobotWindowContainer.className = 'floating-robotwindow-container';
+    this.parentNode.appendChild(this.floatingRobotWindowContainer);
+
+    // Add function to get robotwindow list
+    const rw_list = ['OroBot', 'Nao', 'Thymio'];
+    this.robotwindows = [];
+    rw_list.forEach((rw) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, rw)));
+    const windowOffset = 20;
+    this.robotwindows.forEach((rw,n) => {
+      if (n>0) {
+        var width_sum = 0;
+        for (var i=0; i<n; i++) {
+          width_sum += (this.robotwindows[i].getWidth()+20);
+        }
+        rw.setPosition(windowOffset+width_sum, windowOffset)
+      } else {
+        rw.setPosition(windowOffset, windowOffset);
+      }
+    });
+  }
+
+  _changeRobotwindowsVisibility() {
+    const visibilityArray = [];
+    this.robotwindows.forEach((rw) => visibilityArray.push(rw.getVisibility()));
+    const allEqual = !!visibilityArray.reduce(function(a, b){return (a === b) ? a : NaN;});
+    
+    if (allEqual)
+      this.robotwindows.forEach((rw) => rw.changeVisibility());
+    else
+      this.robotwindows.forEach((rw) => rw.setVisibility('visible'));
   }
 
   _createInfoButton() {
