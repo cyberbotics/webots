@@ -29,6 +29,8 @@
 #include "Transform.hpp"
 #include "UniformBuffer.hpp"
 
+#include <wren/shader_program.h>
+
 #include <wren/renderable.h>
 
 #ifdef __EMSCRIPTEN__
@@ -71,7 +73,7 @@ namespace wren {
 
   bool Renderable::zSortedRendering() const { return mZSortedRendering || mDefaultMaterial->isTranslucent(); }
 
-  void Renderable::render(const ShaderProgram *program) {
+  void Renderable::render(ShaderProgram *program) {
     if (!mEffectiveMaterial)
       return;
 
@@ -80,12 +82,12 @@ namespace wren {
     // Only bind material program if no override program has been specified
     mEffectiveMaterial->bind(!program);
 
-    const ShaderProgram *effectiveProgram = program ? program : mEffectiveMaterial->effectiveProgram();
+    ShaderProgram *effectiveProgram = program ? program : mEffectiveMaterial->effectiveProgram();
 
     setupAndRender(effectiveProgram);
   }
 
-  void Renderable::renderWithoutMaterial(const ShaderProgram *program) {
+  void Renderable::renderWithoutMaterial(ShaderProgram *program) {
     assert(program);
     assert(mMesh);
 
@@ -204,7 +206,7 @@ namespace wren {
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
 
-  void Renderable::setupAndRender(const ShaderProgram *program) {
+  void Renderable::setupAndRender(ShaderProgram *program) {
     // Few Renderables use premultiplied alpha, if this is the case then
     // save current blend state and restore it after rendering
     const unsigned int blendSrcFactor = glstate::blendSrcFactor();
@@ -222,8 +224,32 @@ namespace wren {
 
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
-    if (mInvertFrontFace)
+    if (mInvertFrontFace) {
       glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
+
+      // glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_INVERSE_NORMALS), 1);
+
+      // mEffectiveMaterial
+
+      GLint loc = glGetUniformLocation(program->glName(), "inverseNormals");
+      if (loc != -1) {
+        glUniform1i(loc, 1);
+      }
+
+      // program->setCustomUniformValue("inverseNormals", 1);
+      // program->bind();
+
+      // wr_post_processing_effect_pass_set_program_parameter(mLensFlarePass, "uGhostDispersal",
+      //                                                  reinterpret_cast<const char *>(&mDispersal));
+
+      // wr_shader_program_set_custom_uniform_value(program, "inverseNormals", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+      //                                            const char *value);
+
+      // wr_shader_program_set_custom_uniform_value(mHandlesShader, "screenScale", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+      //                                            reinterpret_cast<const char *>(&mScale));
+
+      // glUniform1f(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_POINT_SIZE), mPointSize);
+    }  // else {
 
     mMesh->render(mDrawingMode);
 

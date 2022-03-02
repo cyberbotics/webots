@@ -18,6 +18,7 @@ layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
+uniform int inverseNormals;
 
 struct PBRInfo {
   float NdotL;                // cos angle between normal and light direction
@@ -209,8 +210,8 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 }
 
 void main() {
-  vec3 viewFragmentNormal = normalize(fragmentNormal);
-
+  vec3 viewFragmentNormal = (inverseNormals > 0) ? normalize(-fragmentNormal) : normalize(fragmentNormal);
+  // vec3 viewFragmentNormal = normalize(fragmentNormal);
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists

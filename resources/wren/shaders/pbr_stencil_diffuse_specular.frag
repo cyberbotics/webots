@@ -15,6 +15,7 @@ in vec2 penTexUv;
 out vec4 fragColor;
 
 uniform sampler2D inputTextures[9];
+uniform int inverseNormals;
 
 struct PBRInfo {
   float NdotL;                // cos angle between normal and light direction
@@ -178,7 +179,8 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 
 void main() {
   // sample from normal map if one exists
-  vec3 viewFragmentNormal = normalize(fragmentNormal);
+  vec3 viewFragmentNormal = (inverseNormals > 0) ? normalize(-fragmentNormal) : normalize(fragmentNormal);
+  // vec3 viewFragmentNormal = normalize(fragmentNormal);
   if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
     viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
 
