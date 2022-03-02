@@ -67,9 +67,9 @@ export default class WebotsView extends HTMLElement {
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
           this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
         else if (typeof scene !== 'undefined' && scene !== '')
-          this.loadScene(scene, isMobileDevice);
+          this.loadScene(scene, isMobileDevice, this.dataset.onready);
         else if (typeof server !== 'undefined' && server !== '')
-          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
+          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectcallback, this.dataset.disconnectcallback);
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
@@ -221,9 +221,16 @@ export default class WebotsView extends HTMLElement {
           this.toolbar = new Toolbar(this._view, 'streaming', this);
         if (typeof callback === 'function')
           callback();
+        else if (typeof callback === 'string')
+          eval(callback);
       };
       this._view.open(server, mode);
-      this._view.onquit = () => this._disconnect();
+      this._view.onquit = () => {
+        if (typeof callback === 'function')
+          disconnectCallback();
+        else if (typeof callback === 'string')
+          eval(disconnectCallback);
+      };
 
       this._closeWhenDOMElementRemoved();
     }
@@ -263,14 +270,13 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Scene functions
-  loadScene(scene, isMobileDevice) {
+  loadScene(scene, isMobileDevice, callback) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
-
     if (!this.initializationComplete)
-      setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
+      setTimeout(() => this.loadScene(scene, isMobileDevice, callback), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -280,7 +286,13 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
 
-      this._view.onready = () => { this.toolbar = new Toolbar(this._view, 'scene', this); };
+      this._view.onready = () => {
+        this.toolbar = new Toolbar(this._view, 'scene', this);
+        if (typeof callback === 'function')
+          callback();
+        else if (typeof callback === 'string')
+          eval(callback);
+      };
       this._view.open(scene);
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();
