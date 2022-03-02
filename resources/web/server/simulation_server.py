@@ -130,7 +130,6 @@ class Client:
         self.streaming_server_port = 0
         self.webots_process = None
         self.on_webots_quit = None
-        self.error = 0
         self.project_instance_path = ''
         self.app = ''
         self.world = ''
