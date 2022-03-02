@@ -95,5 +95,17 @@ P-Rob3 {
     }
   ]
 }
+E-puck {
+  translation 0 0 -0.48
+  rotation 1 0 0 -1.5707953071795862
+  controller "robot_urdf"
+  controllerArgs [
+    "epuck"
+  ]
+  turretSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
 TestSuiteSupervisor {
 }
