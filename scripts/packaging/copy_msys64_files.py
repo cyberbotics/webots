@@ -33,12 +33,11 @@ dependencies = list(set(  # use a set to make sure to avoid duplication
 # add specific folder dependencies needed by Webots
 folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
            '/mingw64/include',
-           '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh',
            '/mingw64/lib', '/mingw64/share',
-           '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
-           '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
-           '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
+           '/mingw64/share/qt6', '/mingw64/share/qt6/plugins', '/mingw64/share/qt6/translations',
+           '/mingw64/share/qt6/plugins/imageformats', '/mingw64/share/qt6/plugins/platforms',
+           '/mingw64/share/qt6/plugins/tls', '/mingw64/share/qt6/plugins/styles']
 files = []
 skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll', '/mingw64/bin/libjpeg-8.dll']
 
@@ -91,6 +90,3 @@ with open('msys64_files.iss', 'w') as iss_file:
             iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '\\cpp"\n')
         else:
             iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
-    # This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
-    iss_file.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
-                   '"{app}\\msys64\\mingw64\\bin\\platforms"\n')

@@ -774,16 +774,16 @@ void WbTextBuffer::updateFont() {
   mLineNumberArea->setFont(font);
 }
 
-void WbTextBuffer::updateSearchTextHighlighting(QRegExp regExp) {
-  if (regExp.isEmpty())
+void WbTextBuffer::updateSearchTextHighlighting(QRegularExpression regularExpression) {
+  if (regularExpression.pattern().isEmpty())
     disconnect(this, &QPlainTextEdit::selectionChanged, this, &WbTextBuffer::resetSearchTextHighlighting);
 
-  mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regularExpression);
 
-  if (!regExp.isEmpty())
+  if (!regularExpression.pattern().isEmpty())
     connect(this, &QPlainTextEdit::selectionChanged, this, &WbTextBuffer::resetSearchTextHighlighting, Qt::UniqueConnection);
 }
 
 void WbTextBuffer::resetSearchTextHighlighting() {
-  updateSearchTextHighlighting(QRegExp());
+  updateSearchTextHighlighting(QRegularExpression());
 }

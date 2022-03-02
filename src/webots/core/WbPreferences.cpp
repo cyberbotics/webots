@@ -174,7 +174,7 @@ QString WbPreferences::findPreviousSettingsLocation() const {
 #ifdef _WIN32
   const QString registryRootLocation = QString("\\HKEY_CURRENT_USER\\SOFTWARE\\%1\\").arg(mCompanyName);
   potentialLocations = WbWindowsRegistry(registryRootLocation).subKeys();
-  potentialLocations.replaceInStrings(QRegExp("^"), registryRootLocation);
+  potentialLocations.replaceInStrings(QRegularExpression("^"), registryRootLocation);
 #else
 
 #ifdef __APPLE__

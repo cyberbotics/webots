@@ -17,7 +17,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
-#include <QtCore/QTextDecoder>
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
@@ -89,8 +88,6 @@ private:
   QProcess *mProcess;
   QLocalSocket *mSocket;
   QByteArray mRequest;
-  QTextDecoder mStdout;
-  QTextDecoder mStderr;
   double mRequestTime;
   bool mHasBeenTerminatedByItself;
   bool mIncompleteRequest;
@@ -131,7 +128,7 @@ private slots:
   void warn(const QString &message);
   void error(const QString &message);
   void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-  void processError(QProcess::ProcessError error);
+  void processErrorOccurred(QProcess::ProcessError error);
   void reportControllerNotFound();
   void reportFailedStart();
   void reportMissingCommand(const QString &command);

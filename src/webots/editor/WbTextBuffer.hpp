@@ -26,9 +26,10 @@ class WbClipboard;
 
 class QCompleter;
 class QFileSystemWatcher;
+class QRegularExpression;
 class QResizeEvent;
-class WbSyntaxHighlighter;
 
+class WbSyntaxHighlighter;
 class LineNumberArea;
 class WbLanguage;
 
@@ -109,7 +110,7 @@ public:
   void lineNumberAreaPaintEvent(QPaintEvent *event);
   int lineNumberAreaWidth();
 
-  void updateSearchTextHighlighting(QRegExp regExp);
+  void updateSearchTextHighlighting(QRegularExpression regularExpression);
   const QColor &apiColor() const { return mApiColor; }
   const QColor &commentColor() const { return mCommentColor; }
   const QColor &keywordColor() const { return mKeywordColor; }
@@ -177,8 +178,6 @@ private:
 
   // manage indentation
   void addNewLine();
-
-  static QString expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts);
 };
 
 #endif

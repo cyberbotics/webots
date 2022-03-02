@@ -68,14 +68,6 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
-  QProcess process;
-  process.start("cygpath", QStringList{QString("-w"), QString("/")});
-  process.waitForFinished(-1);
-  QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1);                          // remove final backslash
-  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
-  const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
-  QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
 
@@ -136,9 +128,6 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
-    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
-    rx.indexIn(option);
-    const QStringList &capture = rx.capturedTexts();
     // "key" without value case
     if (option == "monitorActivity")
       monitorActivity = true;
@@ -148,33 +137,36 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
       ssl = true;
     else if (option == "controllerEdit")
       controllerEdit = true;
-    else if (capture.size() == 3) {
-      const QString &key = capture[1];
-      const QString &value = capture[2];
-      if (key == "port") {
-        bool ok;
-        const int tmpPort = value.toInt(&ok);
-        if (ok)
-          port = tmpPort;
-        else {
-          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-          cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
-          mTask = FAILURE;
-        }
-      } else if (key == "mode") {
-        if (value != "x3d" && value != "mjpeg") {
-          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-          cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
-          mTask = FAILURE;
-        } else if (value == "mjpeg")
-          mode = "mjpeg";
-      } else {
+    else {
+      const QStringList list = option.split('=', Qt::SkipEmptyParts);
+      if (list.size() != 2) {
         cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
         mTask = FAILURE;
+      } else {
+        const QString &key = list[0];
+        const QString &value = list[1];
+        if (key == "port") {
+          bool ok;
+          const int tmpPort = value.toInt(&ok);
+          if (ok)
+            port = tmpPort;
+          else {
+            cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+            cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
+            mTask = FAILURE;
+          }
+        } else if (key == "mode") {
+          if (value != "x3d" && value != "mjpeg") {
+            cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+            cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
+            mTask = FAILURE;
+          } else if (value == "mjpeg")
+            mode = "mjpeg";
+        } else {
+          cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
+          mTask = FAILURE;
+        }
       }
-    } else {
-      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
-      mTask = FAILURE;
     }
   }
   if (mTask == FAILURE) {
@@ -432,12 +424,6 @@ bool WbGuiApplication::setup() {
    **/
   setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 #endif
-
-  /**
-   * Hopefully improved the icon resolution
-   * http://blog.qt.digia.com/blog/2013/04/25/retina-display-support-for-mac-os-ios-and-x11/
-   **/
-  setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 #ifdef _WIN32
   // create main window

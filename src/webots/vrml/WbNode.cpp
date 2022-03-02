@@ -294,9 +294,10 @@ WbNode::WbNode(const WbNode &other) :
 
       // connect fields to PROTO parameters
       if (gInstantiateMode) {
-        if (!mIsNestedProtoNode || !mIsProtoDescendant)
+        if (!mIsNestedProtoNode || !mIsProtoDescendant) {
           foreach (WbField *parameter, mParameters)
             redirectAliasedFields(parameter, this, other.mProto->isDerived());
+        }
       }
 
       gProtoParameterNodeFlag = previousProtoParameterFlag;
@@ -481,13 +482,11 @@ QString WbNode::fullPath(const QString &fieldName, QString &parameterName) const
 QString WbNode::extractFieldName(const QString &message) const {
   // extract field name
   QString fieldName;
-  QRegularExpression regExp("'(\\w)+'");
-  QRegularExpressionMatch match = regExp.match(message);
+  QRegularExpressionMatch match = QRegularExpression("'(\\w)+'").match(message);
   if (match.hasMatch()) {
-    fieldName = match.captured(0);
+    fieldName = match.captured();
     fieldName = fieldName.mid(1, fieldName.length() - 2);  // remove single quotes
   }
-
   return fieldName;
 }
 
@@ -1486,14 +1485,17 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
-        static const QRegExp rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of the parameter
-                                                // name, e.g. as in rotation_7, position2_13_1
+        static const QRegularExpression rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of the
+                                                           // parameter name, e.g. as in rotation_7, position2_13_1
         const QString &hiddenParameterName(tokenizer->peekWord());
-        const int pos1 = rx1.indexIn(hiddenParameterName);
-        static const QRegExp rx2("^[A-Za-z]+\\d?");
-        const int pos2 = rx2.indexIn(hiddenParameterName);
+        // const int pos1 = rx1.indexIn(hiddenParameterName);
+        const QRegularExpressionMatch match1 = rx1.match(hiddenParameterName);
+        static const QRegularExpression rx2("^[A-Za-z]+\\d?");
+        // const int pos2 = rx2.indexIn(hiddenParameterName);
+        const QRegularExpressionMatch match2 = rx2.match(hiddenParameterName);
         tokenizer->ungetToken();
-        if (pos1 != -1 && pos2 != -1 && cHiddenParameterNames.indexOf(rx2.cap(0)) != -1)
+        // if (pos1 != -1 && pos2 != -1 && cHiddenParameterNames.indexOf(rx2.cap(0)) != -1)
+        if (match1.hasMatch() && match2.hasMatch() && cHiddenParameterNames.indexOf(match2.captured()) != -1)
           parameterModel = new WbFieldModel(tokenizer, worldPath);
       } else {
         for (currentParameterIndex = 0; currentParameterIndex < protoFieldModels.size(); ++currentParameterIndex) {
