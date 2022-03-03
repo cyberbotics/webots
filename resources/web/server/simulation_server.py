@@ -311,7 +311,7 @@ class Client:
                         if line.startswith("theia:"):
                             volume = line.split(':')[1]
                             dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
-                            envVarDocker["THEIA_V"] = volume
+                            envVarDocker["THEIA_VOLUME"] = volume
                             envVarDocker["THEIA_PORT"] = port + 500
 
                 if not os.path.exists(dockerComposePath):
@@ -421,7 +421,7 @@ class Client:
                     try:
                         self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
                     except subprocess.TimeoutExpired:
-                        logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
+                        logging.warning(f'[{id(self)}] Error killing Webots [{self.webots_process.pid}]')
                         self.webots_process.kill()
                 self.webots_process = None
 
