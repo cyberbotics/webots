@@ -41,7 +41,6 @@ The following attributes are available:
 * `data-scene`: the name of the .x3d file containing the 3d scene.
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
-* `data-onready`: a function to be executed once the scene is loaded.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
@@ -57,13 +56,13 @@ For more complex interaction with the web component, the following functions are
   * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
   * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
-
 
 ### Limitations
 
