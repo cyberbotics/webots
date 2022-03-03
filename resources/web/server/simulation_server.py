@@ -352,17 +352,18 @@ class Client:
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
-                if line:
-                    logging.info(line)
-                    if not (defaultDockerfilePath or "theia" in line):
-                        client.websocket.write_message(f'docker: {line}')
-                    if defaultDockerfilePath and "not found" in line:
-                        client.websocket.write_message(
-                            f"error: Image version {version} not available on Cyberbotics' dockerHub. "
-                            f"Please, add the appropriate Dockerfile to your project.")
-                        return
-                if '|' in line:  # docker-compose format
-                    line = line[line.index('|') + 2:]
+                if config['docker']:
+                    if line:
+                        logging.info(line)
+                        if not (defaultDockerfilePath or "theia" in line):
+                            client.websocket.write_message(f'docker: {line}')
+                        if defaultDockerfilePath and "not found" in line:
+                            client.websocket.write_message(
+                                f"error: Image version {version} not available on Cyberbotics' dockerHub. "
+                                f"Please, add the appropriate Dockerfile to your project.")
+                            return
+                    if '|' in line:  # docker-compose format
+                        line = line[line.index('|') + 2:]
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
