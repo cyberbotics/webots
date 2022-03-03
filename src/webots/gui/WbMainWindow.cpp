@@ -87,11 +87,11 @@
 #include <QtNetwork/QHostInfo>
 
 #include <QtGui/QCloseEvent>
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 #include <QtNetwork/QHttpMultiPart>
 #include <QtNetwork/QNetworkReply>
+#include <QtOpenGL/QOpenGLFunctions_3_3_Core>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
@@ -495,7 +495,7 @@ QMenu *WbMainWindow::createFileMenu() {
 
   action = new QAction(terminateWord, this);
   action->setMenuRole(QAction::QuitRole);  // Mac: put the menu respecting the MacOS specifications
-  action->setShortcut(Qt::CTRL + Qt::Key_Q);
+  action->setShortcut(Qt::CTRL | Qt::Key_Q);
   action->setStatusTip(tr("Terminate the Webots application."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::close);
@@ -562,7 +562,7 @@ QMenu *WbMainWindow::createViewMenu() {
   mToggleFullScreenAction->setText(tr("&Fullscreen"));
   mToggleFullScreenAction->setStatusTip(tr("Show the simulation view in fullscreen mode."));
   mToggleFullScreenAction->setToolTip(mToggleFullScreenAction->statusTip());
-  mToggleFullScreenAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F);
+  mToggleFullScreenAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_F);
   mToggleFullScreenAction->setCheckable(true);
   connect(mToggleFullScreenAction, &QAction::toggled, this, &WbMainWindow::toggleFullScreen);
   menu->addAction(mToggleFullScreenAction);
@@ -747,7 +747,7 @@ QMenu *WbMainWindow::createToolsMenu() {
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
-  action->setShortcut(Qt::CTRL + Qt::Key_J);
+  action->setShortcut(Qt::CTRL | Qt::Key_J);
   action->setStatusTip(tr("Restore windows factory layout."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::restoreLayout);
@@ -2267,21 +2267,6 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   if (isMinimized())
     return;
 
-#ifdef __APPLE__
-  // Note: this platform dependent cases are caused by the fact that
-  // the event loop and the OpenGL context management is slightly different
-  // between the different OS and that Windows uses QtWebKit and the other OS use
-  // QtWebEngine (OpengGL). These callbacks about updating the world loading dialog
-  // are called during the object finalization, and the OpenGL context should
-  // be dealt in a clean way.
-  const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-  QOpenGLContext context;
-  if (needToChangeContext) {
-    WbWrenOpenGlContext::doneWren();
-    context.makeCurrent(windowHandle());
-  }
-#endif
-
   mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
@@ -2291,15 +2276,7 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
   connect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
           &WbApplication::setWorldLoadingCanceled);
-
-#ifdef __APPLE__
-  if (needToChangeContext) {
-    context.doneCurrent();
-    WbWrenOpenGlContext::makeWrenCurrent();
-  }
-#else
   QApplication::processEvents();
-#endif
 }
 
 void WbMainWindow::deleteWorldLoadingProgressDialog() {
@@ -2313,52 +2290,15 @@ void WbMainWindow::deleteWorldLoadingProgressDialog() {
 
 void WbMainWindow::setWorldLoadingProgress(const int progress) {
   if (mWorldLoadingProgressDialog) {
-#ifdef __APPLE__
-    // This function can be called when the WREN OpenGL context is active.
-    // When Qt updates the GUI, it can change the OpenGL context.
-    // Therefore it's important to handle correctly the OpenGL context here.
-    const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-    QOpenGLContext context;
-    if (needToChangeContext) {
-      WbWrenOpenGlContext::doneWren();
-      context.makeCurrent(windowHandle());
-    }
-#endif
-
     mWorldLoadingProgressDialog->setValue(progress);
-
-#ifdef __APPLE__
-    if (needToChangeContext) {
-      context.doneCurrent();
-      WbWrenOpenGlContext::makeWrenCurrent();
-    }
-#else
     QApplication::processEvents();
-#endif
   }
 }
 
 void WbMainWindow::setWorldLoadingStatus(const QString &status) {
   if (mWorldLoadingProgressDialog) {
-#ifdef __APPLE__
-    const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-    QOpenGLContext context;
-    if (needToChangeContext) {
-      WbWrenOpenGlContext::doneWren();
-      context.makeCurrent(windowHandle());
-    }
-#endif
-
     mWorldLoadingProgressDialog->setLabelText(status);
-
-#ifdef __APPLE__
-    if (needToChangeContext) {
-      context.doneCurrent();
-      WbWrenOpenGlContext::makeWrenCurrent();
-    }
-#else
     QApplication::processEvents();
-#endif
   }
 }
 

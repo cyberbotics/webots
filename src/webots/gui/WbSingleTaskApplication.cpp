@@ -29,9 +29,10 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
-#include <QtOpenGL/QGLWidget>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtWidgets/QMainWindow>
 
 #ifdef __APPLE__
@@ -96,7 +97,7 @@ void WbSingleTaskApplication::convertProto() const {
       cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
-    userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
+    userParameters[pair[0]] = pair[1].replace(QRegularExpression("^\"*"), "").replace(QRegularExpression("\"*$"), "");
   }
 
   // Parse PROTO
@@ -207,8 +208,8 @@ void WbSingleTaskApplication::showSysInfo() const {
 
   // create simply an OpenGL context
   QMainWindow mainWindow;
-  QGLWidget glWidget(&mainWindow);
-  mainWindow.setCentralWidget(&glWidget);
+  QOpenGLWidget openGlWidget(&mainWindow);
+  mainWindow.setCentralWidget(&openGlWidget);
   mainWindow.show();
 
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.

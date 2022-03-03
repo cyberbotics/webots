@@ -24,7 +24,7 @@ namespace WbApplicationInfo {
   const QString &branch();
   const QString &repo();
   unsigned int releaseDate();  // returns the UNIX time stamp of the compilation date
-  const QString getInfoFromFile(const QString *name);
+  const QString getInfoFromFile(const QString &name);
 }  // namespace WbApplicationInfo
 
 #endif
