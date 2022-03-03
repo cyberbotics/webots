@@ -58,7 +58,6 @@ export default class RobotWindow {
       if (this.socket)
         this.socket.close();
       window.close();
-      this.close();
     }
   }
 };
