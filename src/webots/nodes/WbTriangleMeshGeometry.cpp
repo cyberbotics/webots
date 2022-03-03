@@ -61,6 +61,10 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 }
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
+  destroyWrenMesh();
+}
+
+void WbTriangleMeshGeometry::destroyWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
@@ -83,10 +87,11 @@ void WbTriangleMeshGeometry::preFinalize() {
 }
 
 WbTriangleMeshCache::TriangleMeshInfo WbTriangleMeshGeometry::createTriangleMesh() {
+  printf("createTriangleMesh\n");
   delete mTriangleMesh;
   mTriangleMesh = new WbTriangleMesh();
   updateTriangleMesh(false);
-
+  printf("done create\n");
   return WbTriangleMeshCache::TriangleMeshInfo(mTriangleMesh);
 }
 
@@ -98,6 +103,7 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
+  printf("createWrenObjects\n");
   if (WbNodeUtilities::findContainingProto(this))
     updateTriangleMesh(false);
 

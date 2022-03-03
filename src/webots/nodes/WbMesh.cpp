@@ -60,23 +60,26 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
+  printf("dl\n");
   if (mUrl->size() == 0)
     return;
-  const QString &url(mUrl->item(0));
-  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
-  if (WbUrl::isWeb(completeUrl)) {
-    if (WbNetwork::instance()->isCached(completeUrl))
-      return;
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
 
-    mDownloader->download(QUrl(completeUrl));
-  }
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader != NULL && mDownloader->device() != NULL)
+    delete mDownloader;
+  mDownloader = new WbDownloader(this);
+  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+    connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
+
+  printf("download!\n");
+  mDownloader->download(QUrl(completeUrl));
 }
 
 void WbMesh::downloadUpdate() {
+  printf("dl update\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
@@ -86,6 +89,7 @@ void WbMesh::downloadUpdate() {
 }
 
 void WbMesh::preFinalize() {
+  printf("prefin\n");
   WbTriangleMeshGeometry::preFinalize();
 
   updateUrl();
@@ -94,6 +98,7 @@ void WbMesh::preFinalize() {
 void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
+  printf("connect\n");
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
@@ -121,10 +126,12 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 }
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
+  printf("updateTri\n");
   const QString filePath(path());
   if (filePath.isEmpty())
     return;
 
+  printf("load mesh\n");
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
@@ -134,6 +141,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
+    printf("isweb\n");
     if (!WbNetwork::instance()->isCached(filePath)) {
       downloadAssets();
       return;
@@ -147,8 +155,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     const QByteArray data = file.readAll();
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-  } else
+  } else {
+    printf("islocal\n");
     scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
+  }
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -305,6 +315,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   delete[] normalData;
   delete[] texCoordData;
   delete[] indexData;
+  printf("done update tri\n");
 }
 
 uint64_t WbMesh::computeHash() const {
@@ -518,22 +529,34 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
-  // check url validity
-  if (path().isEmpty())
-    return;
-
+  printf("updateUrl %s\n", WbUrl::computePath(this, "url", mUrl->item(0), false).toUtf8().constData());
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
+    mUrl->blockSignals(true);
     mUrl->setItem(i, item.replace("\\", "/"));
+    mUrl->blockSignals(false);
   }
 
-  const QString &url = mUrl->item(0);
-  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
-    // url was changed from the scene tree or supervisor
-    downloadAssets();
-    return;
+  if (n > 0) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        // TODO: since the url is invalid the currently loaded mesh should be removed (if any)
+        // destroyWrenMesh();
+        printf("error\n");
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        printf("not cached\n");
+        downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
+    }
   }
 
   if (areWrenObjectsInitialized()) {

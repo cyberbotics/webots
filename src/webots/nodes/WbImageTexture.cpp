@@ -291,6 +291,7 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
+  printf("imtex updateUrl\n");
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
