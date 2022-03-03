@@ -70,7 +70,7 @@ class Mavic (Robot):
             motor.setPosition(float('inf'))
             motor.setVelocity(1)
 
-        self.current_pose = 6 * [0]  # X,Y,Z, yaw, pitch, roll
+        self.current_pose = 6 * [0]  # X, Y, Z, yaw, pitch, roll
         self.target_position = [0, 0, 0]
         self.target_index = 0
         self.target_altitude = 0
@@ -143,7 +143,7 @@ class Mavic (Robot):
         yaw_disturbance = 0
 
         # Specify the patrol coordinates
-        waypoints = [[-30, 20], [-60, 20],  [-60, 10], [-30, 5]]
+        waypoints = [[-30, 20], [-60, 20], [-60, 10], [-30, 5]]
         # target altitude of the robot in meters
         self.target_altitude = 15
 
