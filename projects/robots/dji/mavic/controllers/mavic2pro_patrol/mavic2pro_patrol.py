@@ -151,9 +151,9 @@ class Mavic (Robot):
 
             # Read sensors
             roll, pitch, yaw = self.imu.getRollPitchYaw()
-            Xpos, Ypos, altitude = self.gps.getValues()
+            x_pos, y_pos, altitude = self.gps.getValues()
             roll_acceleration, pitch_acceleration, _ = self.gyro.getValues()
-            self.set_position([Xpos, Ypos, altitude, roll, pitch, yaw])
+            self.set_position([x_pos, y_pos, altitude, roll, pitch, yaw])
 
             if altitude > self.target_altitude - 1:
                 # as soon as it reach the target altitude, compute the disturbances to go to the given waypoints.
@@ -162,24 +162,16 @@ class Mavic (Robot):
                         waypoints)
                     t1 = self.getTime()
 
-            roll_input = self.K_ROLL_P * \
-                clamp(roll, -1, 1) + roll_acceleration + roll_disturbance
-            pitch_input = self.K_PITCH_P * \
-                clamp(pitch, -1, 1) + pitch_acceleration + pitch_disturbance
+            roll_input = self.K_ROLL_P * clamp(roll, -1, 1) + roll_acceleration + roll_disturbance
+            pitch_input = self.K_PITCH_P * clamp(pitch, -1, 1) + pitch_acceleration + pitch_disturbance
             yaw_input = yaw_disturbance
-            clamped_difference_altitude = clamp(
-                self.target_altitude - altitude + self.K_VERTICAL_OFFSET, -1, 1)
-            vertical_input = self.K_VERTICAL_P * \
-                pow(clamped_difference_altitude, 3.0)
+            clamped_difference_altitude = clamp(self.target_altitude - altitude + self.K_VERTICAL_OFFSET, -1, 1)
+            vertical_input = self.K_VERTICAL_P * pow(clamped_difference_altitude, 3.0)
 
-            front_left_motor_input = self.K_VERTICAL_THRUST + \
-                vertical_input - yaw_input + pitch_input - roll_input
-            front_right_motor_input = self.K_VERTICAL_THRUST + \
-                vertical_input + yaw_input + pitch_input + roll_input
-            rear_left_motor_input = self.K_VERTICAL_THRUST + \
-                vertical_input + yaw_input - pitch_input - roll_input
-            rear_right_motor_input = self.K_VERTICAL_THRUST + \
-                vertical_input - yaw_input - pitch_input + roll_input
+            front_left_motor_input = self.K_VERTICAL_THRUST + vertical_input - yaw_input + pitch_input - roll_input
+            front_right_motor_input = self.K_VERTICAL_THRUST + vertical_input + yaw_input + pitch_input + roll_input
+            rear_left_motor_input = self.K_VERTICAL_THRUST + vertical_input + yaw_input - pitch_input - roll_input
+            rear_right_motor_input = self.K_VERTICAL_THRUST + vertical_input - yaw_input - pitch_input + roll_input
 
             self.front_left_motor.setVelocity(front_left_motor_input)
             self.front_right_motor.setVelocity(-front_right_motor_input)
