@@ -67,8 +67,7 @@ vec4 SRGBtoLINEAR(vec4 srgbIn) {
 }
 
 void main() {
-  vec3 fragmentNormalOriented = (reverseNormals > 0) ? normalize(-fragmentNormal) : normalize(fragmentNormal);
-  fragNormal = vec4(normalize(fragmentNormalOriented), 1.0) * 0.5 + 0.5;
+  fragNormal = vec4(normalize((reverseNormals > 0) ? -fragmentNormal : fragmentNormal), 1.0) * 0.5 + 0.5;
 
   vec3 ambientColor = vec3(lights.ambientLight) * material.ambient.xyz;
 

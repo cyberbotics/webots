@@ -82,7 +82,7 @@ void main() {
   vec3 diffuseTotal = vec3(0.0);
   vec3 specularTotal = vec3(0.0);
 
-  vec3 fragmentNormal = (reverseNormals > 0) ? normalize(-normalTransformed) : normalize(normalTransformed);
+  vec3 fragmentNormal = normalize((reverseNormals > 0) ? -normalTransformed : normalTransformed);
   vec3 viewDirection = normalize(-fragmentPosition);
 
   // Apply directional light if active

@@ -77,8 +77,8 @@ namespace wren {
     bool isInViewSpace() const { return mInViewSpace; }
     bool zSortedRendering() const;
     bool invertFrontFace() const { return mInvertFrontFace; }
-    void render(ShaderProgram *program = NULL);
-    void renderWithoutMaterial(ShaderProgram *program);
+    void render(const ShaderProgram *program = NULL);
+    void renderWithoutMaterial(const ShaderProgram *program);
 
     void recomputeBoundingSphereInViewSpace(const glm::mat4 &viewMatrix);
     const primitive::Sphere &boundingSphereInViewSpace() const { return mBoundingSphereInViewSpace; }
@@ -98,7 +98,7 @@ namespace wren {
     Renderable();
     virtual ~Renderable();
 
-    void setupAndRender(ShaderProgram *program);
+    void setupAndRender(const ShaderProgram *program);
     void updateShadowVolumeCaster();
     void computeMostInfluentialLights();
 

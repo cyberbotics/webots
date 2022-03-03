@@ -111,10 +111,8 @@ namespace wren {
     const std::vector<Mesh::Edge> &edges = mesh->edges();
 
     // if negative scale xor cw triangles, reverse normals
-    bool reverseNormal = false;
     glm::vec3 scale = mRenderable->parent()->scale();
-    if (mRenderable->invertFrontFace() != (scale.x * scale.y * scale.z < 0.0))
-      reverseNormal = true;
+    const bool revertNormal = (mRenderable->invertFrontFace() != (scale.x * scale.y * scale.z < 0.0));
 
     mRenderable->mesh()->bindShadowVolume();
 
@@ -173,7 +171,7 @@ namespace wren {
           glm::vec3 normal = triangle.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle.mVertexIndices);
-          if (reverseNormal)
+          if (revertNormal)
             normal = -normal;
 
           triangle.mIsFacingLight = glm::dot(lightDirectionInModelSpace, normal) < 0.0f;
@@ -193,7 +191,7 @@ namespace wren {
           glm::vec3 normal = triangle0.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle0.mVertexIndices);
-          if (reverseNormal)
+          if (revertNormal)
             normal = -normal;
 
           triangle0.mIsFacingLight = glm::dot(lightDirectionInModelSpace, normal) < 0.0f;
@@ -204,7 +202,7 @@ namespace wren {
             glm::vec3 triangleNormal = triangle1.mNormal;
             if (mesh->isDynamic())
               triangleNormal = computeNormal(mesh, triangle1.mVertexIndices);
-            if (reverseNormal)
+            if (revertNormal)
               triangleNormal = -triangleNormal;
 
             triangle1.mIsFacingLight = glm::dot(lightDirectionInModelSpace, triangleNormal) < 0.0f;
@@ -277,7 +275,7 @@ namespace wren {
           glm::vec3 normal = triangle.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle.mVertexIndices);
-          if (reverseNormal)
+          if (revertNormal)
             normal = -normal;
 
           const glm::vec3 lightToObject =
@@ -303,7 +301,7 @@ namespace wren {
           glm::vec3 triangleNormal = triangle0.mNormal;
           if (mesh->isDynamic())
             triangleNormal = computeNormal(mesh, triangle0.mVertexIndices);
-          if (reverseNormal)
+          if (revertNormal)
             triangleNormal = -triangleNormal;
 
           triangle0.mIsFacingLight =
@@ -316,7 +314,7 @@ namespace wren {
             glm::vec3 normal = triangle1.mNormal;
             if (mesh->isDynamic())
               normal = computeNormal(mesh, triangle1.mVertexIndices);
-            if (reverseNormal)
+            if (revertNormal)
               normal = -normal;
 
             triangle1.mIsFacingLight =

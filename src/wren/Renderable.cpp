@@ -73,7 +73,7 @@ namespace wren {
 
   bool Renderable::zSortedRendering() const { return mZSortedRendering || mDefaultMaterial->isTranslucent(); }
 
-  void Renderable::render(ShaderProgram *program) {
+  void Renderable::render(const ShaderProgram *program) {
     if (!mEffectiveMaterial)
       return;
 
@@ -82,12 +82,12 @@ namespace wren {
     // Only bind material program if no override program has been specified
     mEffectiveMaterial->bind(!program);
 
-    ShaderProgram *effectiveProgram = program ? program : mEffectiveMaterial->effectiveProgram();
+    const ShaderProgram *effectiveProgram = program ? program : mEffectiveMaterial->effectiveProgram();
 
     setupAndRender(effectiveProgram);
   }
 
-  void Renderable::renderWithoutMaterial(ShaderProgram *program) {
+  void Renderable::renderWithoutMaterial(const ShaderProgram *program) {
     assert(program);
     assert(mMesh);
 
@@ -206,7 +206,7 @@ namespace wren {
 
   Renderable::~Renderable() { delete mShadowVolumeCaster; }
 
-  void Renderable::setupAndRender(ShaderProgram *program) {
+  void Renderable::setupAndRender(const ShaderProgram *program) {
     // Few Renderables use premultiplied alpha, if this is the case then
     // save current blend state and restore it after rendering
     const unsigned int blendSrcFactor = glstate::blendSrcFactor();

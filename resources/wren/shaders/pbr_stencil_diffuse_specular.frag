@@ -179,7 +179,7 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 
 void main() {
   // sample from normal map if one exists
-  vec3 viewFragmentNormal = (reverseNormals > 0) ? normalize(-fragmentNormal) : normalize(fragmentNormal);
+  vec3 viewFragmentNormal = normalize((reverseNormals > 0) ? -fragmentNormal : fragmentNormal);
   if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
     viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
 

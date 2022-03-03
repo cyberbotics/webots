@@ -103,8 +103,8 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
 }
 
 void main() {
-  vec3 viewFragmentNormal = (reverseNormals > 0) ? normalize(-fragmentNormal) : normalize(fragmentNormal);
-  fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 1.0;
+  vec3 viewFragmentNormal = normalize((reverseNormals > 0) ? -fragmentNormal : fragmentNormal);
+  fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists
   if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
