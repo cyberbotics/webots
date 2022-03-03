@@ -297,7 +297,7 @@ class Client:
                     if os.path.exists(defaultDockerfilePath):
                         os.system(f'cp {defaultDockerfilePath} ./Dockerfile')
                     else:
-                        error = f"error: Miss Dockerfile.default in {config['dockerConfDir']}"
+                        error = f"error: Missing Dockerfile.default in {config['dockerConfDir']}"
                         logging.error(error)
                         client.websocket.write_message(error)
                         return
@@ -359,7 +359,7 @@ class Client:
                     if defaultDockerfilePath and "not found" in line:
                         client.websocket.write_message(
                             f"error: Image version {version} not available on Cyberbotics' dockerHub. "
-                            f"Add the appropriate Dockerfile to your project.")
+                            f"Please, add the appropriate Dockerfile to your project.")
                         return
                 if '|' in line:  # docker-compose format
                     line = line[line.index('|') + 2:]

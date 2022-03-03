@@ -33,7 +33,7 @@ services:
     volumes:
       - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - controller_data:/usr/local/$THEIA_V:rw
+      - controller_data:/usr/local/$THEIA_VOLUME:rw
 
   theia:
     image: joachimhgg/theiatest:test1
