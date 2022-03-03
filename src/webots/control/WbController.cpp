@@ -87,10 +87,7 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 }
 */
 
-WbController::WbController(WbRobot *robot) :
-  mStdout(QTextCodec::codecForName("UTF-8")),
-  mStderr(QTextCodec::codecForName("UTF-8")),
-  mHasPendingImmediateAnswer(false) {
+WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
@@ -115,8 +112,8 @@ WbController::WbController(WbRobot *robot) :
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
-  connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-  connect(mProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
+  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
 }
 
 WbController::~WbController() {
@@ -125,9 +122,8 @@ WbController::~WbController() {
   // exception: don't disconnect readyReadStandard*()
   // signals in order to see the latest log messages
   if (mRobot)
-    disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
-  mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
-  mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
+    disconnect(mRobot);
+  mProcess->disconnect(this);
 
   if (mSocket) {
     mSocket->disconnect();
@@ -499,11 +495,11 @@ void WbController::appendMessageToConsole(const QString &message, bool useStdout
 }
 
 void WbController::readStdout() {
-  appendMessageToBuffer(mStdout.toUnicode(mProcess->readAllStandardOutput()), &mStdoutBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardOutput()), &mStdoutBuffer);
 }
 
 void WbController::readStderr() {
-  appendMessageToBuffer(mStderr.toUnicode(mProcess->readAllStandardError()), &mStderrBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardError()), &mStderrBuffer);
 }
 
 void WbController::appendMessageToBuffer(const QString &message, QString *buffer) {
@@ -515,7 +511,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
   const QString &text = message;
 #endif
   buffer->append(text);
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
     mStderrNeedsFlush = true;
@@ -527,7 +523,7 @@ void WbController::flushBuffer(QString *buffer) {
   int index = buffer->indexOf('\n');
   while (index != -1) {
     const QString line = buffer->mid(0, index + 1);
-    if (buffer == mStdoutBuffer)
+    if (*buffer == mStdoutBuffer)
       WbLog::appendStdout(line, robot()->name());
     else
       WbLog::appendStderr(line, robot()->name());
@@ -535,7 +531,7 @@ void WbController::flushBuffer(QString *buffer) {
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
   }
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = false;
   else
     mStderrNeedsFlush = false;
@@ -635,7 +631,7 @@ void WbController::reportFailedStart() {
   }
 }
 
-void WbController::processError(QProcess::ProcessError error) {
+void WbController::processErrorOccurred(QProcess::ProcessError error) {
   switch (error) {
     case QProcess::FailedToStart:
       reportFailedStart();

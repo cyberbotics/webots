@@ -811,7 +811,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
       objectsMap.insert(pixelSurface, mRecognizedObjects.at(i));
     }
     mRecognizedObjects.clear();
-    QMapIterator<int, WbRecognizedObject *> i(objectsMap);
+    QMultiMapIterator<int, WbRecognizedObject *> i(objectsMap);
     i.toBack();
     while (i.hasPrevious() && mRecognizedObjects.size() < recognition()->maxObjects()) {
       i.previous();
