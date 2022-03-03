@@ -87,7 +87,6 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
-  printf("downloadassets\n");
   if (mUrl->size() == 0)
     return;
 
@@ -131,12 +130,6 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  printf("loadTexture\n");
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());  // failure downloading or file does not exist (404)
-    return false;
-  }
-
   const QString &url = mUrl->item(0);
   const bool isWebAsset = WbUrl::isWeb(url);
   if (isWebAsset && !WbNetwork::instance()->isCached(url))
@@ -217,7 +210,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 }
 
 void WbImageTexture::updateWrenTexture() {
-  printf("updateWrenTexture\n");
   // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
   // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node
   // because the texture is available in the cache but no reference to it remains as the only reference was immediately
@@ -298,19 +290,28 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
-  printf("updateUrl\n");
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
   }
+
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
-      // url was changed from the scene tree or supervisor
-      downloadAssets();
-      return;
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        // since the url is invalid the currently loaded texture should be removed (if any)
+        destroyWrenTexture();
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
     }
   }
 
