@@ -210,7 +210,7 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 }
 
 void main() {
-  vec3 viewFragmentNormal = normalize((reverseNormals > 0) ? -fragmentNormal : fragmentNormal);
+  vec3 viewFragmentNormal = normalize(reverseNormals > 0 ? -fragmentNormal : fragmentNormal);
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists

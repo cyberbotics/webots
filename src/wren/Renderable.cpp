@@ -229,17 +229,15 @@ namespace wren {
       glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
 
       if (scale.x * scale.y * scale.z >= 0.0) {
-        GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
-        if (location != -1) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
           glUniform1i(location, 1);
-        }
       }
     } else {
       if (scale.x * scale.y * scale.z < 0.0) {
-        GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
-        if (location != -1) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
           glUniform1i(location, 1);
-        }
       }
     }
 
