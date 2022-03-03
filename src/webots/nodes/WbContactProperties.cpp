@@ -209,29 +209,33 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
-  if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
-    warn(mDownloader[index]->error());
-    return;
+  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
+      warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
+      *clip = NULL;
+      return;
+    }
+    if (!WbNetwork::instance()->isCached(completeUrl)) {
+      downloadAsset(completeUrl, index);  // changed by supervisor
+      return;
+    }
   }
 
-  if (sound.isEmpty()) {
+  if (completeUrl.isEmpty()) {
     *clip = NULL;
     return;
   }
 
-  if (WbUrl::isWeb(sound) && !WbNetwork::instance()->isCached(sound)) {
-    downloadAsset(sound, index);  // changed by supervisor
-    return;
-  }
   WbSoundEngine::clearAllContactSoundSources();
   // determine extension from url since for remotely defined assets the cached version doesn't retain this information
   const QString extension = sound.mid(sound.lastIndexOf('.') + 1).toLower();
 
-  if (WbUrl::isWeb(sound)) {
-    assert(WbNetwork::instance()->isCached(sound));  // by this point, the asset should be cached
-    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(sound), extension);
+  if (WbUrl::isWeb(completeUrl)) {
+    assert(WbNetwork::instance()->isCached(completeUrl));  // by this point, the asset should be cached
+    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
   } else
-    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound), extension);
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl), extension);
 }
 
 void WbContactProperties::updateBumpSound() {
