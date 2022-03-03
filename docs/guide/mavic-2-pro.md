@@ -42,5 +42,5 @@ You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots
 #### mavic\_2\_pro.wbt
 
 ![mavic_2_pro.wbt.png](images/robots/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
-The controller `mavic2pro.c` allows you to control the drone, after it has taken off, with the keyboard of your computer.
-The controller `mavic2pro_patrol.py` shows how to move to specific world coordinates using its GPS, imu and gyroscope.
+The `mavic2pro.c` controller allows you to control the drone, after it has taken off, with the keyboard of your computer.
+The `mavic2pro_patrol.py` controller shows how to move to specific world coordinates using its GPS, imu and gyroscope.
