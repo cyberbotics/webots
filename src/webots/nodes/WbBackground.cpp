@@ -703,7 +703,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
                                                                 "/" + WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-      const QFileInfo &cubeInfo(url);
+      const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         backgroundFileNames[i] =
           WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
@@ -727,7 +727,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
                                               WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-      const QFileInfo &cubeInfo(url);
+      const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         irradianceFileNames[i] =
           WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);

@@ -28,6 +28,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
+#include <QtCore/QRegularExpression>
 
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
@@ -398,7 +399,7 @@ void WbAnimationRecorder::start(const QString &fileName) {
   connect(world, &WbWorld::destroyed, this, &WbAnimationRecorder::stop);
 
   mAnimationFilename = fileName;
-  mAnimationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
+  mAnimationFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".json");
 
   try {
     const bool success = world->exportAsHtml(fileName, true);

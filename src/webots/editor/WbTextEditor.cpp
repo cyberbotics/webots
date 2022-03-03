@@ -25,10 +25,11 @@
 #include "WbVariant.hpp"
 
 #include <QtCore/QDir>
+#include <QtCore/QRegularExpression>
+#include <QtGui/QAction>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QTabBar>
 #include <QtWidgets/QTabWidget>
@@ -54,7 +55,7 @@ WbTextEditor::WbTextEditor(QWidget *parent, const QString &toolBarAlign) : WbDoc
   QAction *action = toggleViewAction();
   action->setText("&Text Editor");
   action->setStatusTip("Toggle the view of the text editor.");
-  action->setShortcut(Qt::CTRL + Qt::Key_E);
+  action->setShortcut(Qt::CTRL | Qt::Key_E);
 
   connectActions();
   mToolBar = createToolBar();
@@ -453,10 +454,10 @@ void WbTextEditor::deleteReplaceDialog() {
   mReplaceDialog = NULL;
 }
 
-void WbTextEditor::highlightSearchText(QRegExp regExp) {
+void WbTextEditor::highlightSearchText(QRegularExpression regularExpression) {
   WbTextBuffer *buffer = dynamic_cast<WbTextBuffer *>(mTabWidget->currentWidget());
   if (buffer)
-    buffer->updateSearchTextHighlighting(regExp);
+    buffer->updateSearchTextHighlighting(regularExpression);
 }
 
 void WbTextEditor::goToLine() {
@@ -475,7 +476,7 @@ void WbTextEditor::print() {
     mPrinter = new QPrinter(QPrinter::HighResolution);
   QPrintDialog *dialog = new QPrintDialog(mPrinter, this);
   if (mCurrentBuffer->textCursor().hasSelection())
-    dialog->addEnabledOption(QAbstractPrintDialog::PrintSelection);
+    dialog->setOption(QAbstractPrintDialog::PrintSelection, true);
   dialog->setWindowTitle(tr("Print Document"));
   if (dialog->exec() == QDialog::Accepted)
     mCurrentBuffer->print(mPrinter);
