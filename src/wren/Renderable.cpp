@@ -231,13 +231,13 @@ namespace wren {
       if (scale.x * scale.y * scale.z >= 0.0) {
         const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
         if (location != -1)
-          glUniform1i(location, 1);
+          glUniform1i(location, true);
       }
     } else {
       if (scale.x * scale.y * scale.z < 0.0) {
         const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
         if (location != -1)
-          glUniform1i(location, 1);
+          glUniform1i(location, true);
       }
     }
 
