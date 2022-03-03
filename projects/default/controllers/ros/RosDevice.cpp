@@ -28,12 +28,10 @@ RosDevice::~RosDevice() {
 
 void RosDevice::init() {
   if (mDevice && mEnableDefaultServices) {
-    mGetModel = mRos->nodeHandle()->advertiseService(mRos->name() + '/' + fixedDeviceName() + "/get_model",
-                                                     &RosDevice::getModelCallback, this);
-    mGetName = mRos->nodeHandle()->advertiseService(mRos->name() + '/' + fixedDeviceName() + "/get_name",
-                                                    &RosDevice::getNameCallback, this);
-    mGetNodeType = mRos->nodeHandle()->advertiseService(mRos->name() + '/' + fixedDeviceName() + "/get_node_type",
-                                                        &RosDevice::getNodeTypeCallback, this);
+    mGetModel = mRos->nodeHandle()->advertiseService(fixedDeviceName() + "/get_model", &RosDevice::getModelCallback, this);
+    mGetName = mRos->nodeHandle()->advertiseService(fixedDeviceName() + "/get_name", &RosDevice::getNameCallback, this);
+    mGetNodeType =
+      mRos->nodeHandle()->advertiseService(fixedDeviceName() + "/get_node_type", &RosDevice::getNodeTypeCallback, this);
   }
 }
 
