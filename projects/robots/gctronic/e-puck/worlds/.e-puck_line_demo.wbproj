@@ -8,4 +8,3 @@ orthographicViewHeight: 1
 textFiles: 0 "controllers/e-puck_line_demo/e-puck_line_demo.c"
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All
-renderingDevicePerspectives: e-puck:camera;0;1;0.00110011;0.00138122

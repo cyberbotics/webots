@@ -8,7 +8,7 @@ export default class RobotWindow {
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
     this.connect();
-    console.log("RobotWindow loaded");
+    this.robotWindowLocation = "undefined";
   };
 
   send(message) {
@@ -41,6 +41,7 @@ export default class RobotWindow {
 
   _onSocketMessage(event) {
     let data = event.data;
+    this.robotWindowLocation = event.data;
     const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
     if (data.startsWith('robot:')) {
       let message = data.match('"message":"(.*)","name"')[1];

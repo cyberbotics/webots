@@ -564,6 +564,7 @@ webots-view .robotwindow-pane {
 
 webots-view .robotwindow-pane h3{
   padding-left: 7px;
+  padding-right: 7px;
   color: #aaa;
 }
 
@@ -596,29 +597,28 @@ webots-view .floating-robotwindow {
   position: absolute;
   display: block;
   border-radius: 5px;
-}
-
-webots-view .floating-robotwindow:nth-child(n){
-  background-color: rgba(n*50, 0, 0, 0.6);
+  resize: both;
+  overflow: hidden;
+  width: 250px;
+  height: 200px;
 }
 
 webots-view .floating-robotwindow-header {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4);
   color: white;
-  padding: 1px 5px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   cursor: move;
 }
 
-webots-view .text-robotwindow {
+webots-view .floating-robotwindow-text {
   margin-left: 10px;
   font-size: 16px;
 }
 
-webots-view .close-robotwindow {
+webots-view .floating-robotwindow-close {
   position: relative;
   top: 0;
   right: 0;
@@ -629,17 +629,21 @@ webots-view .close-robotwindow {
   color: #aaa;
   cursor: pointer;
   font-size: 20px;
-  margin-left: 20px;
+  margin-right: 3px;
 }
 
-webots-view .close-robotwindow:hover {
+webots-view .floating-robotwindow-close:hover {
   color: white;
 }
 
-/* TO DELETE*/
-webots-view .temp-class {
-  margin-left: 10px;
-  margin-right: 10px;
-  font-size: 16px;
-  color: #bbb;
+.floating-robotwindow-content {
+  height: calc(100% - 55px);
+}
+
+.floating-robotwindow-content iframe {
+  background-color: white;
+  border: 0;
+  margin: 15px;
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
 }

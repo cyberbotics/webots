@@ -239,15 +239,6 @@ export default class Parser {
       this.gtaoNoiseTexture.isTranslucent = true;
     }));
 
-    const transforms = node.getElementsByTagName('Transform');
-    for (var i=0; i<transforms.length; i++) {
-      if (transforms[i].getAttribute('docUrl')) {
-        if (transforms[i].getAttribute('docUrl').endsWith('robot')) {
-          WbWorld.instance.robots.set(transforms[i].getAttribute('name'), transforms[i].getAttribute('window'));
-        }
-      }
-    }
-
     WbWorld.instance.scene = new WbScene();
   }
 
@@ -429,6 +420,12 @@ export default class Parser {
       parentNode.children.push(transform);
     }
 
+    if (node.hasAttribute('robot') && node.getAttribute('robot')==='true') {
+      let window = 'generic';
+      if (node.hasAttribute('window'))
+        window = node.getAttribute('window');
+      WbWorld.instance.robots.set(node.getAttribute('name'), window);
+    }
     return transform;
   }
 

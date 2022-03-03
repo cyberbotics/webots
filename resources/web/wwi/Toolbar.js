@@ -256,7 +256,6 @@ export default class Toolbar {
   _createRobotwindowPane() {
     this.robotwindowPane = document.createElement('div');
     this.robotwindowPane.className = 'robotwindow-pane';
-    this.robotwindowPane.id = 'robotwindow-pane';
     this.robotwindowPane.innerHTML = '<h3> Robot Windows </h3>';
     this.robotwindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotwindowPane);
@@ -267,7 +266,12 @@ export default class Toolbar {
   }
 
   _closeRobotwindowPaneOnClick() {
-    this.robotwindowPane.style.visibility = 'hidden';
+    if (this.robotwindowPane.style.visibility === 'visible') {
+      console.log("Clicked while visible");
+      this.robotwindowPane.style.visibility = 'hidden';
+    } else {
+      console.log("Clicked while hidden");
+    }
   }
 
   _addRobotwindowToPane(name) {
@@ -310,35 +314,23 @@ export default class Toolbar {
     this.floatingRobotWindowContainer.className = 'floating-robotwindow-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
-    // Add a way to get robotwindow list
+    let robotwindowUrl = this._view.server.replace("ws:","");
     this.robotwindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach(function(window,name) {
-        console.log("Robot: "+name+"\nWindow: "+window)
-      });
-
-      WbWorld.instance.robots.forEach((window,name) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, name)));
+      WbWorld.instance.robots.forEach((window,name) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, name, window, robotwindowUrl)));
       WbWorld.instance.robots.forEach((window,name) => this._addRobotwindowToPane(name));
     }
-
-    /*
-    const rw_list = ['OroBot', 'OroBot(1)'];
-    rw_list.forEach((rw) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, rw)));
-    rw_list.forEach((rw) => this._addRobotwindowToPane(rw));
-    */
 
     const windowOffset = 20;
     this.robotwindows.forEach((rw,n) => {
       rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotwindowVisibility(rw.getID()));
-      if (n>0) {
+      if(n) {
         var width_sum = 0;
-        for (var i=0; i<n; i++) {
+        for (var i=0; i<n; i++)
           width_sum += (this.robotwindows[i].getWidth()+20);
-        }
         rw.setPosition(windowOffset+width_sum, windowOffset)
-      } else {
+      } else
         rw.setPosition(windowOffset, windowOffset);
-      }
     });
   }
 
@@ -350,6 +342,7 @@ export default class Toolbar {
   }
 
   _changeRobotwindowVisibility(name) {
+
     document.getElementById('button-'+name).click();
 
     if(document.getElementById(name).style.visibility == 'hidden')
@@ -384,8 +377,9 @@ export default class Toolbar {
   }
 
   _closeInfoOnClick(event) {
-    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target))
+    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target)) {
       this.informationPanel.informationPanel.style.display = 'none';
+    }
   }
 
   _createSettings() {

@@ -1,5 +1,5 @@
 export default class FloatingRobotWindow {
-    constructor(parentNode, name) {
+    constructor(parentNode, name, window, url) {
         this.floatingRobotWindow = document.createElement('div');
         this.floatingRobotWindow.className = 'floating-robotwindow';
         this.floatingRobotWindow.id = name;
@@ -8,16 +8,15 @@ export default class FloatingRobotWindow {
         
         this.floatingRobotWindowHeader = document.createElement('div');
         this.floatingRobotWindowHeader.className = 'floating-robotwindow-header';
-        this.floatingRobotWindowHeader.id = 'robotwindow-id';
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowHeader);
 
         this.headerText = document.createElement('p');
-        this.headerText.className = ('text-robotwindow');
+        this.headerText.className = 'floating-robotwindow-text';
         this.headerText.innerHTML = 'Robot Window: ' + name;
         this.floatingRobotWindowHeader.appendChild(this.headerText);
 
         this.headerQuit = document.createElement('button');
-        this.headerQuit.className = 'close-robotwindow close-robotwindow-'+name;
+        this.headerQuit.className = 'floating-robotwindow-close';
         this.headerQuit.innerHTML = ('&times');
         this.floatingRobotWindowHeader.appendChild(this.headerQuit);
 
@@ -25,10 +24,10 @@ export default class FloatingRobotWindow {
         floatingRobotWindowContent.className = 'floating-robotwindow-content';
         this.floatingRobotWindow.appendChild(floatingRobotWindowContent);
 
-        let contentText = document.createElement('p');
-        contentText.className = 'temp-class';
-        contentText.innerHTML = 'Robot window goes in here <br> Lots of information <br> wow <br> Look at this robot window';
-        floatingRobotWindowContent.appendChild(contentText);
+        let robotWindow = document.createElement('iframe');
+        robotWindow.className = name+"-robotwindow";
+        robotWindow.src = url+"/robot_windows/"+window+"/"+window+".html?name="+name;
+        floatingRobotWindowContent.appendChild(robotWindow);
 
         this.dragElement(document.getElementById(name));
     }
