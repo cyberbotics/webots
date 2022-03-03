@@ -316,7 +316,7 @@ protected:
   // Methods related to URDF export
   WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
   virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
-  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
+  virtual void exportUrdfJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }

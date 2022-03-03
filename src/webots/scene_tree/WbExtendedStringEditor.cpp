@@ -556,6 +556,7 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       break;
     case MESH_URL:
       selectFile("meshes", "Meshes", "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
+      break;
     case SKIN_URL:
       selectFile("meshes", "Meshes", "*.fbx *.FBX");
       break;
