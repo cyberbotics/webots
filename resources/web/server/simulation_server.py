@@ -295,7 +295,7 @@ class Client:
                 if not os.path.isfile('Dockerfile'):
                     defaultDockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
                     if os.path.exists(defaultDockerfilePath):
-                        os.system(f'cp {defaultDockerfilePath} ./Dockerfile')
+                        os.system(f'ln -s {defaultDockerfilePath} ./Dockerfile')
                     else:
                         error = f"error: Missing Dockerfile.default in {config['dockerConfDir']}"
                         logging.error(error)
@@ -318,7 +318,7 @@ class Client:
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
 
                 if os.path.exists(dockerComposePath):
-                    os.system(f'cp {dockerComposePath} ./docker-compose.yml')
+                    os.system(f'ln -s {dockerComposePath} ./docker-compose.yml')
                 else:
                     error = f"error: Miss docker-compose-default.yml in {config['dockerConfDir']}"
                     logging.error(error)
