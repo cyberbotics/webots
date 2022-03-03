@@ -16,9 +16,8 @@
 
 RosPen::RosPen(Pen *pen, Ros *ros) : RosDevice(pen, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mWriteServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/write", &RosPen::writeCallback);
-  mSetInkColorServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_ink_color", &RosPen::setInkColorCallback);
+  mWriteServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/write", &RosPen::writeCallback);
+  mSetInkColorServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_ink_color", &RosPen::setInkColorCallback);
   mPen = pen;
 }
 
