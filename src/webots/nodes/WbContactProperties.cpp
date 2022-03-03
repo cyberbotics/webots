@@ -214,6 +214,9 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
       *clip = NULL;
+      // downloader needs to be deleted in case the url is switched back to something valid
+      delete mDownloader[index];
+      mDownloader[index] = NULL;
       return;
     }
     if (!WbNetwork::instance()->isCached(completeUrl)) {
