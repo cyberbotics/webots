@@ -53,6 +53,7 @@ private:
   WbMFString *mUrl;
   WbSFString *mName;
   WbSFInt *mMaterialIndex;
+  bool mIsCollada;
   WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
