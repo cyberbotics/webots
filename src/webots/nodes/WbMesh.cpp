@@ -523,7 +523,7 @@ void WbMesh::updateUrl() {
   if (path().isEmpty())
     return;
 
-  mIsCollada = path().mid(path().lastIndexOf('.') + 1).toLower() == "dae" ? true : false;
+  mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
 
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
