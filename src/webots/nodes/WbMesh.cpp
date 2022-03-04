@@ -30,13 +30,16 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QIODevice>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  setCcw(mCcw->value());
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -58,13 +61,14 @@ void WbMesh::downloadAssets() {
   if (mUrl->size() == 0)
     return;
   const QString &url(mUrl->item(0));
-  if (WbUrl::isWeb(url)) {
+  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (WbUrl::isWeb(completeUrl)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
 
-    mDownloader->download(QUrl(url));
+    mDownloader->download(QUrl(completeUrl));
   }
 }
 
@@ -87,6 +91,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
 }
@@ -303,7 +308,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPathNameIndex = (path() + mName->value() + mMaterialIndex->value()).toUtf8();
+  const QByteArray meshPathNameIndex = (path() + mName->value() + QString::number(mMaterialIndex->value())).toUtf8();
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
 }
 
@@ -513,6 +518,10 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
+  // check url validity
+  if (path().isEmpty())
+    return;
+
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -531,6 +540,19 @@ void WbMesh::updateUrl() {
     if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
+
+  if (isAValidBoundingObject())
+    applyToOdeData();
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateCcw() {
+  setCcw(mCcw->value());
+
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();

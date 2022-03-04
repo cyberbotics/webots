@@ -16,6 +16,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QSpacerItem>
 
@@ -58,6 +59,14 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   layout->addWidget(pushButtonScene, 5, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
+
+  QCheckBox *checkBoxSave = new QCheckBox(this);
+  checkBoxSave->setFocusPolicy(Qt::NoFocus);
+  checkBoxSave->setText(tr("Save as local files"));
+  mainWindow->CheckBoxStatus(false);
+  layout->addWidget(checkBoxSave, 6, 0, 1, 1);
+
+  connect(checkBoxSave, &QCheckBox::stateChanged, mainWindow, &WbMainWindow::CheckBoxStatus);
   connect(pushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
   connect(pushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
   connect(pushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
@@ -79,14 +88,6 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   mLabelLink->setOpenExternalLinks(true);
   mLabelLink->setMinimumHeight(15);
   layout->addWidget(mLabelLink, 0, 0, 1, 1);
-
-  mPushButtonSave = new QPushButton(this);
-  mPushButtonSave->setGeometry(QRect(10, 90, 181, 25));
-  mPushButtonSave->setFocusPolicy(Qt::NoFocus);
-  mPushButtonSave->setText(tr("Also save a local copy..."));
-
-  WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
-  connect(mPushButtonSave, &QPushButton::clicked, mainWindow, &WbMainWindow::exportHtmlFiles);
 }
 
 void WbLinkWindow::reject() {
@@ -97,12 +98,6 @@ void WbLinkWindow::reject() {
     QFile::remove(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension);
 
   QDialog::reject();
-}
-
-void WbLinkWindow::fileSaved() {
-  mPushButtonSave->setEnabled(false);
-  mPushButtonSave->setText(tr("local copy saved"));
-  mPushButtonSave->setStyleSheet("color: gray;");
 }
 
 void WbLinkWindow::setLabelLink(QString url) {

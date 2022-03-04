@@ -42,7 +42,7 @@ The corresponding command line instruction will have the form:
 
     ``<controller_program_name> "controllerArgs[0]" "controllerArgs[1]" ...``
 
-    In case of C, C++, and Java controller programs the values are passed as arguments of the `main` function or method.
+    In case of C, C++, Python and Java controller programs the values are passed as arguments of the `main` function or method.
 
 - `customData`: this field may contain any user data, for example parameters corresponding to the configuration of the robot.
 It can be read from the robot controller using the `wb_robot_get_custom_data` function and can be written using the `wb_robot_set_custom_data` function.

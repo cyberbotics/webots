@@ -87,10 +87,7 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 }
 */
 
-WbController::WbController(WbRobot *robot) :
-  mStdout(QTextCodec::codecForName("UTF-8")),
-  mStderr(QTextCodec::codecForName("UTF-8")),
-  mHasPendingImmediateAnswer(false) {
+WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
@@ -115,8 +112,8 @@ WbController::WbController(WbRobot *robot) :
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
-  connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-  connect(mProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
+  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
 }
 
 WbController::~WbController() {
@@ -125,9 +122,8 @@ WbController::~WbController() {
   // exception: don't disconnect readyReadStandard*()
   // signals in order to see the latest log messages
   if (mRobot)
-    disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
-  mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
-  mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
+    disconnect(mRobot);
+  mProcess->disconnect(this);
 
   if (mSocket) {
     mSocket->disconnect();
@@ -468,6 +464,8 @@ void WbController::setProcessEnvironment() {
 #endif
     env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
+    if (mMatlabCommand.isEmpty())
+      mMatlabCommand = WbPreferences::instance()->value("General/matlabCommand", "").toString();
     // these variables are read by lib/matlab/launcher.m
     env.insert("WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
     env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
@@ -497,11 +495,11 @@ void WbController::appendMessageToConsole(const QString &message, bool useStdout
 }
 
 void WbController::readStdout() {
-  appendMessageToBuffer(mStdout.toUnicode(mProcess->readAllStandardOutput()), &mStdoutBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardOutput()), &mStdoutBuffer);
 }
 
 void WbController::readStderr() {
-  appendMessageToBuffer(mStderr.toUnicode(mProcess->readAllStandardError()), &mStderrBuffer);
+  appendMessageToBuffer(QString::fromUtf8(mProcess->readAllStandardError()), &mStderrBuffer);
 }
 
 void WbController::appendMessageToBuffer(const QString &message, QString *buffer) {
@@ -513,7 +511,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
   const QString &text = message;
 #endif
   buffer->append(text);
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
     mStderrNeedsFlush = true;
@@ -525,7 +523,7 @@ void WbController::flushBuffer(QString *buffer) {
   int index = buffer->indexOf('\n');
   while (index != -1) {
     const QString line = buffer->mid(0, index + 1);
-    if (buffer == mStdoutBuffer)
+    if (*buffer == mStdoutBuffer)
       WbLog::appendStdout(line, robot()->name());
     else
       WbLog::appendStderr(line, robot()->name());
@@ -533,7 +531,7 @@ void WbController::flushBuffer(QString *buffer) {
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
   }
-  if (buffer == mStdoutBuffer)
+  if (*buffer == mStdoutBuffer)
     mStdoutNeedsFlush = false;
   else
     mStderrNeedsFlush = false;
@@ -583,7 +581,7 @@ void WbController::reportMissingCommand(const QString &command) {
 
 void WbController::reportFailedStart() {
   warn(tr("failed to start: %1").arg(commandLine()));
-
+  QString matlabDefaultPath;
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
       QFileInfo fi(mCommand);
@@ -608,7 +606,23 @@ void WbController::reportFailedStart() {
       reportMissingCommand("python");
       break;
     case WbFileUtil::MATLAB:
-      reportMissingCommand("matlab");
+      if (mCommand == "!")
+        warn(tr("Webots could not find the MATLAB executable in the system. Please provide the correct absolute path to the "
+                "MATLAB executable in the Webots preferences (Tools > Preferences... > General)."));
+      else
+        warn(tr("The MATLAB executable provided in the Webots preferences (Tools > Preferences... > General) could not be "
+                "started. Please provide the correct absolute path to the MATLAB executable."));
+#ifdef __linux__
+      matlabDefaultPath = "/usr/local/MATLAB/R20XXx/bin/matlab";
+#else
+#ifdef __APPLE__
+      matlabDefaultPath = "/Applications/MATLAB_R20XXx.app";
+#else  // _WIN32
+      matlabDefaultPath = "C:\\Program Files\\MATLAB\\R20XXx\\bin\\win64\\MATLAB.exe";
+#endif
+#endif
+      warn(tr("The preference can be left empty to use the default MATLAB installation path: %1").arg(matlabDefaultPath));
+
       break;
     case WbFileUtil::DOCKER:
       reportMissingCommand("docker");
@@ -617,7 +631,7 @@ void WbController::reportFailedStart() {
   }
 }
 
-void WbController::processError(QProcess::ProcessError error) {
+void WbController::processErrorOccurred(QProcess::ProcessError error) {
   switch (error) {
     case QProcess::FailedToStart:
       reportFailedStart();
@@ -732,10 +746,14 @@ void WbController::startMatlab() {
     warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
     return;
   }
+
   if (mMatlabCommand.isEmpty()) {
     mCommand = WbLanguageTools::matlabCommand();
-    if (mCommand == "!")  // Matlab 64 bit not available
+
+    if (mCommand.isEmpty()) {
+      mCommand = "!";
       return;
+    }
   } else
     mCommand = mMatlabCommand;
 

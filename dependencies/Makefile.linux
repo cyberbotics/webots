@@ -6,7 +6,7 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 
-QT_VERSION = 5.15.2
+QT_VERSION = 6.2.3
 QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OIS_PACKAGE = libOIS.1.4.tar.bz2
@@ -38,9 +38,9 @@ endif
 qt-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/webots-qt-*-linux64-release.tar.bz2 $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME_LIB)/libQt* $(WEBOTS_HOME_LIB)/libicu* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME_LIB)/libQt5Core.so.$(QT_VERSION)
+qt: $(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION)
 
-$(WEBOTS_HOME_LIB)/libQt5Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) -C $(WEBOTS_HOME)
 
@@ -48,7 +48,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# downloading $(QT_PACKAGE)"
 	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "fa88e2be4491ff6b2b96de3068a0ae49" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "edaea63de3772637993cb3facdd51d26" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -115,7 +115,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "2a05b1e86e88a43756a754a69e82a20f" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "13ce4d080f1db578cb2b73206b52e4cb" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 lua-gd-clean:

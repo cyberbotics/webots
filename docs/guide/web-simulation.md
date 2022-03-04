@@ -428,6 +428,8 @@ This is the API of the `webots-streaming` web component:
 * `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hasView()`: return true if a view exist, false otherwise.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
+* `ondisconnect()`: a function that can be overridden. It will be called when the simulation disconnects.
+* `onready()`: a function that can be overridden. It will be called once the simulation is loaded.
 * `resize()`: automatically resize the web-component.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
 * `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
@@ -444,10 +446,11 @@ Moreover, the following attributes are available:
 * `data-mode`: `x3d` or `mjpeg`.
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
-* `data-callback`: function to be executed once the simulation is ready.
-* `data-disconnectCallback`: function to be executed once the web scene is closed.
-* `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showPlay`: specify if the play button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 * `showReload `: specify if the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
+* `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 

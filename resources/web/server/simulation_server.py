@@ -18,7 +18,7 @@
 
 from async_process import AsyncProcess
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates, NVMLError
+    nvmlDeviceGetUtilizationRates, NVMLError
 
 import asyncio
 import errno
@@ -223,6 +223,8 @@ class Client:
                 logging.info(output[1:].strip('\n'))
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
+        if project == '':
+            project = '/' + repository
         self.project_instance_path += project
         logging.info('Done')
         if path:
@@ -232,8 +234,8 @@ class Client:
 
     def cleanup_webots_instance(self):
         """Cleanup the local Webots project not used any more by the client."""
-        if self.project_instance_path:
-            shutil.rmtree(self.project_instance_path)
+        if id(self):
+            shutil.rmtree(config['instancesPath'] + str(id(self)))
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
@@ -242,71 +244,132 @@ class Client:
             global config
             world = f'{self.project_instance_path}/worlds/{self.world}'
             port = client.streaming_server_port
+            asyncio.set_event_loop(asyncio.new_event_loop())
+            if not os.path.exists(world):
+                error = f"error: {self.world} does not exist."
+                logging.error(error)
+                client.websocket.write_message(error)
+                return
+
+            webotsCommand = f'{config["webots"]} --batch --mode=pause '
+            # the MJPEG stream won't work if the Webots window is minimized
+            if not hasattr(self, 'mode') or self.mode == 'x3d':
+                webotsCommand += '--minimize --no-rendering '
+            webotsCommand += f'--stream=\"port={port};monitorActivity'
+            if hasattr(self, 'mode'):
+                webotsCommand += f';mode={self.mode}'
+            if 'multimediaServer' in config:
+                webotsCommand += f';multimediaServer={config["multimediaServer"]}'
+            if 'multimediaStream' in config:
+                webotsCommand += f';multimediaStream={config["multimediaStream"]}'
+            webotsCommand += '\" '
+
             if config['docker']:
-                # create a Dockerfile if not provided in the project folder
+                # create environment variables
                 os.chdir(self.project_instance_path)
-                if not os.path.isfile('Dockerfile'):
-                    with open(world) as world_file:
-                        version = world_file.readline().split()[1]
-                        from_image = f'cyberbotics/webots:{version}-ubuntu20.04'
-                        logging.info(f'FROM docker image {from_image}')
-                    f = open('Dockerfile', 'w')
-                    f.write(f'FROM {from_image}\n')
-                    f.write(f'RUN mkdir -p {self.project_instance_path}\n')
-                    f.write(f'COPY . {self.project_instance_path}\n')
-                    if os.path.isfile('Makefile'):
-                        f.write('RUN make\n')
-                    f.close()
-                logging.info('created Dockerfile')
-                image = subprocess.getoutput('docker build -q .')
-                command = 'docker run --net host'
+                with open(world) as world_file:
+                    version = world_file.readline().split()[1]
+                webots_default_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                makeProject = int(os.path.isfile('Makefile'))
+                webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{config["projectsDir"]}/worlds/{self.world}\"'
+                envVarDocker = {
+                    "IMAGE": webots_default_image,
+                    "PROJECT_PATH": config["projectsDir"],
+                    "MAKE": makeProject,
+                    "PORT": port,
+                    "COMPOSE_PROJECT_NAME": str(id(self)),
+                    "WEBOTS": webotsCommand
+                }
                 if 'SSH_CONNECTION' in os.environ:
                     xauth = f'/tmp/.docker-{port}.xauth'
                     os.system('touch ' + xauth)
                     display = os.environ['DISPLAY']
                     os.system(f"xauth nlist {display} | sed -s 's/^..../ffff/' | xauth -f {xauth} nmerge -")
                     os.system(f'chmod 777 {xauth}')
-                    command += f' -e DISPLAY={display} -e XAUTHORITY={xauth} -v {xauth}:{xauth}'
-                else:
-                    command += ' --gpus=all -e DISPLAY'
+                    envVarDocker["DISPLAY"] = display
+                    envVarDocker["XAUTHORITY"] = xauth
 
-                command += f' -v /tmp/.X11-unix:/tmp/.X11-unix:rw -p {port}:{port} {image} '
+                config['dockerConfDir'] = config['webotsHome'] + '/resources/web/server/config/simulation/docker'
+                # create a Dockerfile if not provided in the project folder
+                defaultDockerfilePath = ''
+                if not os.path.isfile('Dockerfile'):
+                    defaultDockerfilePath = config['dockerConfDir'] + '/Dockerfile.default'
+                    if os.path.exists(defaultDockerfilePath):
+                        os.system(f'ln -s {defaultDockerfilePath} ./Dockerfile')
+                    else:
+                        error = f"error: Missing Dockerfile.default in {config['dockerConfDir']}"
+                        logging.error(error)
+                        client.websocket.write_message(error)
+                        return
+
+                # create a docker-compose.yml
+                dockerComposePath = ''
+                if os.path.exists('webots.yml'):
+                    with open('webots.yml', 'r') as webotsYml_file:
+                        data = webotsYml_file.read().splitlines(True)
+                    for line in data:
+                        if line.startswith("theia:"):
+                            volume = line.split(':')[1]
+                            dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
+                            envVarDocker["THEIA_VOLUME"] = volume
+                            envVarDocker["THEIA_PORT"] = port + 500
+
+                if not os.path.exists(dockerComposePath):
+                    dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
+
+                if os.path.exists(dockerComposePath):
+                    os.system(f'ln -s {dockerComposePath} ./docker-compose.yml')
+                else:
+                    error = f"error: Miss docker-compose-default.yml in {config['dockerConfDir']}"
+                    logging.error(error)
+                    client.websocket.write_message(error)
+                    return
+                logging.info(f'docker-compose.yml created from {dockerComposePath}')
+
+                # create a .env file
+                with open('.env', 'w') as env_file:
+                    for key, value in envVarDocker.items():
+                        env_file.write(f'{key}={value}\n')
+
+                command = f'docker-compose -f {self.project_instance_path}/docker-compose.yml up --build --no-color'
             else:
-                command = ''
-            command += f'{config["webots"]} --batch --mode=pause '
-            # the MJPEG stream won't work if the Webots window is minimized
-            if not hasattr(self, 'mode') or self.mode == 'x3d':
-                command += '--minimize --no-rendering '
-            command += f'--stream="port={port};monitorActivity'
-            if hasattr(self, 'mode'):
-                command += f';mode={self.mode}'
-            if 'multimediaServer' in config:
-                command += f';multimediaServer={config["multimediaServer"]}'
-            if 'multimediaStream' in config:
-                command += f';multimediaStream={config["multimediaStream"]}'
-            command += f'" {world}'
+                webotsCommand += world
+                command = webotsCommand
             try:
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
                                                          stderr=subprocess.STDOUT,
                                                          bufsize=1, universal_newlines=True)
             except Exception:
-                logging.error(f'Unable to start Webots: {command}')
+                error = f"error: Unable to start Webots: {webotsCommand}"
+                logging.error(error)
+                client.websocket.write_message(error)
                 return
-            logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{command}"')
-            while 1:
+            logging.info(f'[{id(client)}] Webots [{client.webots_process.pid}] started: "{webotsCommand}"')
+            while True:
                 if client.webots_process is None:
                     logging.warning('Client connection closed or killed')
                     # client connection closed or killed
                     return
                 line = client.webots_process.stdout.readline().rstrip()
+                if config['docker']:
+                    if line:
+                        logging.info(line)
+                        if not (defaultDockerfilePath or "theia" in line):
+                            client.websocket.write_message(f'docker: {line}')
+                        if defaultDockerfilePath and "not found" in line:
+                            client.websocket.write_message(
+                                f"error: Image version {version} not available on Cyberbotics' dockerHub. "
+                                f"Please, add the appropriate Dockerfile to your project.")
+                            return
+                    if '|' in line:  # docker-compose format
+                        line = line[line.index('|') + 2:]
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
             hostname = config['server']
             protocol = 'wss:' if config['ssl'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
-            asyncio.set_event_loop(asyncio.new_event_loop())
             message = f'webots:{protocol}//{hostname}{separator}{port}'
             client.websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
@@ -320,6 +383,7 @@ class Client:
                 elif line == '.':
                     client.websocket.write_message('.')
             client.on_exit()
+
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
             threading.Thread(target=runWebotsInThread, args=(self,)).start()
@@ -335,19 +399,32 @@ class Client:
         self.on_webots_quit()
 
     def kill_webots(self):
-        """Force the termination of Webots."""
-        if self.webots_process:
-            logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
-            if sys.platform == 'darwin':
-                self.webots_process.kill()
-            else:
-                self.webots_process.terminate()
-                try:
-                    self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
-                except subprocess.TimeoutExpired:
-                    logging.warning(f'[{id(self)}] ERROR killing Webots [{self.webots_process.pid}]')
+        """Force the termination of Webots or relative Docker service(s)."""
+        if config['docker']:
+            if os.path.exists(f"{self.project_instance_path}/docker-compose.yml"):
+                os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
+            # remove unused _webots images
+            available_images = os.popen(
+                "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
+            running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
+            unused_images = ' '.join([i for i in available_images if i not in running_images])
+            if unused_images:
+                os.system(f"docker image rm {unused_images}")
+            # remove dangling images, stopped containers, build cache, volumes and networks
+            os.system("docker system prune --volumes -f")
+        else:
+            if self.webots_process:
+                logging.warning(f'[{id(self)}] Webots [{self.webots_process.pid}] was killed')
+                if sys.platform == 'darwin':
                     self.webots_process.kill()
-            self.webots_process = None
+                else:
+                    self.webots_process.terminate()
+                    try:
+                        self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
+                    except subprocess.TimeoutExpired:
+                        logging.warning(f'[{id(self)}] Error killing Webots [{self.webots_process.pid}]')
+                        self.webots_process.kill()
+                self.webots_process = None
 
 
 class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -414,6 +491,8 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         if client:
             logging.info(f'[{id(client)}] Client disconnected')
             client.kill_webots()
+            if config['docker']:
+                client.cleanup_webots_instance()
             if client in ClientWebSocketHandler.clients:
                 ClientWebSocketHandler.clients.remove(client)
                 del client
@@ -721,17 +800,21 @@ def main():
             os.system('xhost +local:root')
     if 'webotsHome' not in config:
         config['webotsHome'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
-    config['webots'] = config['webotsHome']
-    if sys.platform == 'darwin':
-        config['webots'] += '/Contents/MacOS/webots'
-    elif sys.platform == 'win32':
-        config['webots'] += '/msys64/mingw64/bin/webots.exe'
-    else:  # linux
-        config['webots'] += '/webots'
-    if 'projectsDir' not in config:
-        config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
+    if config['docker']:
+        config['webots'] = '/usr/local/webots/webots'
+        config['projectsDir'] = '/usr/local/webots-project'
     else:
-        config['projectsDir'] = expand_path(config['projectsDir'])
+        config['webots'] = config['webotsHome']
+        if sys.platform == 'darwin':
+            config['webots'] += '/Contents/MacOS/webots'
+        elif sys.platform == 'win32':
+            config['webots'] += '/msys64/mingw64/bin/webots.exe'
+        else:  # linux
+            config['webots'] += '/webots'
+        if 'projectsDir' not in config:
+            config['projectsDir'] = config['webotsHome'] + '/projects/samples/robotbenchmark'
+        else:
+            config['projectsDir'] = expand_path(config['projectsDir'])
     if 'port' not in config:
         config['port'] = 2000
     if 'maxConnections' not in config:

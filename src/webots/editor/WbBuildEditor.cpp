@@ -27,7 +27,7 @@
 
 #include "../../../include/controller/c/webots/utils/ansi_codes.h"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
 
@@ -73,7 +73,7 @@ void WbBuildEditor::createActions() {
   action->setText(tr("C&lean"));
   action->setStatusTip(tr("Remove intermediate build files."));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::Key_F7);
+  action->setShortcut(Qt::SHIFT | Qt::Key_F7);
   action->setIcon(icon);
   connect(action, &QAction::triggered, this, &WbBuildEditor::clean);
 
@@ -88,7 +88,7 @@ void WbBuildEditor::createActions() {
   action->setText(tr("Cross-compilation cl&ean"));
   action->setStatusTip(tr("Remove intermediate cross-compilation files."));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::Key_F8);
+  action->setShortcut(Qt::SHIFT | Qt::Key_F8);
   connect(action, &QAction::triggered, this, &WbBuildEditor::cleanCrossCompilation);
 
   action = mMakeJarAction = new QAction(this);

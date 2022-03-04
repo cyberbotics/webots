@@ -54,6 +54,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/robotis-op2/icon.png)      | [Robotis OP2](robotis-op2.md)             | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/robotis-op3/icon.png)      | [Robotis OP3](robotis-op3.md)             | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/salamander/icon.png)       | [Salamander](salamander.md)               | EPFL / BioRob        | *Bio-inspired robot*              |
+| ![icon.png](images/robots/scara_t6/icon.png)          | [Scara T6](scara-epson-t6.md)              | Epson                | *SCARA robot*                     |
 | ![icon.png](images/robots/shrimp/icon.png)           | [Shrimp](shrimp.md)                       | BlueBotics           | *Six-wheeled robot*               |
 | ![icon.png](images/robots/sojourner/icon.png)        | [Sojourner](sojourner.md)                 | Nasa                 | *Six-wheeled robot*               |
 | ![icon.png](images/robots/spot/icon.png)             | [Spot](spot.md)                           | Boston Dynamics      | *Dog-like robot*                  |

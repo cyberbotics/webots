@@ -63,7 +63,6 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
-#include <QtCore/QStringListIterator>
 #include <QtCore/QTextStream>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
@@ -283,7 +282,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   simulationState->pauseSimulation();
 
   QString x3dFilename = fileName;
-  x3dFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".x3d");
+  x3dFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d");
 
   bool success = true;
   QFileInfo fo(fileName);
@@ -299,8 +298,8 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     const WbMFString &info = WbWorld::instance()->worldInfo()->info();
     for (int i = 0; i < info.size(); ++i) {
       QString line = info.itemToString(i, WbPrecision::DOUBLE_MAX);
-      line.replace(QRegExp("^\""), "");
-      line.replace(QRegExp("\"$"), "");
+      line.replace(QRegularExpression("^\""), "");
+      line.replace(QRegularExpression("\"$"), "");
       infoString += line + "\n";
     }
 
@@ -313,16 +312,18 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);
     templateValues << QPair<QString, QString>(
-      "%x3dName%", fileName.split('/').last().replace(QRegExp(".html$", Qt::CaseInsensitive), ".x3d"));
+      "%x3dName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
     if (animation)
       templateValues << QPair<QString, QString>(
-        "%jsonName%", fileName.split('/').last().replace(QRegExp(".html$", Qt::CaseInsensitive), ".json"));
+        "%jsonName%",
+        fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".json"));
     else
       templateValues << QPair<QString, QString>("%jsonName%", "");
 
     if (cX3DMetaFileExport) {
       QString metaFilename = fileName;
-      metaFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".meta.json");
+      metaFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".meta.json");
       createX3DMetaFile(metaFilename);
     }
 

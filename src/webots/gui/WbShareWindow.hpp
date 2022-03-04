@@ -37,13 +37,11 @@ public:
   explicit WbLinkWindow(QWidget *parent = NULL);
   virtual ~WbLinkWindow() {}
 
-  void fileSaved();
   void setLabelLink(QString url);
 
 private:
   QGroupBox *mGroupBoxLink;
   QLabel *mLabelLink;
-  QPushButton *mPushButtonSave;
   void reject() override;
 };
 

@@ -41,8 +41,6 @@
 #include <wren/renderable.h>
 #include <wren/transform.h>
 
-static const WbQuaternion TRACK_PAD_TRANSFORM(WbVector3(1, 0, 0), -M_PI_2);
-
 void WbTrack::init() {
   mDeviceField = findMFNode("device");
   mTextureAnimationField = findSFVector2("textureAnimation");
@@ -528,7 +526,7 @@ void WbTrack::updateAnimatedGeometries() {
     float position[3];
     float rotation[4];
     WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
-    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rotation);
 
     WrTransform *transform = wr_transform_new();
     wr_transform_set_position(transform, position);
@@ -656,7 +654,7 @@ void WbTrack::animateMesh() {
     float position[3];
     float rotation[4];
     WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
-    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rotation);
 
     wr_transform_set_position(mBeltElements[i], position);
     wr_transform_set_orientation(mBeltElements[i], rotation);
@@ -898,8 +896,10 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
     parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
-  QString position = mBeltPositions[0].position.toString(WbPrecision::DOUBLE_MAX) + " 0";
-  QString rotation = QString("0 0 -1 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
+  QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
+                     " 0 " +
+                     QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
+  QString rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
   if (writer.isX3d()) {
     writer << "<Transform ";
@@ -932,14 +932,15 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   }
 
   for (int i = 1; i < mGeometriesCountField->value(); ++i) {
-    position = mBeltPositions[i].position.toString(WbPrecision::DOUBLE_MAX) + " 0";
-    rotation = QString("0 0 -1 %1").arg(WbPrecision::doubleToString(mBeltPositions[i].rotation, WbPrecision::DOUBLE_MAX));
+    position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.x(), WbPrecision::DOUBLE_MAX)) + " 0 " +
+               QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.y(), WbPrecision::DOUBLE_MAX));
+    rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[i].rotation, WbPrecision::DOUBLE_MAX));
 
     if (writer.isX3d()) {
       writer << "<Transform ";
       writer << "translation='" << position << "' ";
       writer << "rotation='" << rotation << "'>";
-      writer << "<Transform USE='" << QString::number(node->uniqueId()) << "'></Transform>";
+      writer << "<Group USE='" << QString::number(node->uniqueId()) << "'></Group>";
       writer << "</Transform>";
     } else {
       writer.indent();

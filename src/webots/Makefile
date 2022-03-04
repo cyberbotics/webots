@@ -45,7 +45,7 @@ WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INC
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
 WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -isystem external/siphash -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
-WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
+WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_OPENGL_WIDGETS_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
 
 HOSTTYPE ?= $(shell uname -m)
@@ -73,12 +73,12 @@ PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
-OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 QT_CORE_INCLUDE    = -isystem $(FRAMEWORKS)/QtCore.framework/Headers
 QT_GUI_INCLUDE     = -isystem $(FRAMEWORKS)/QtGui.framework/Headers
 QT_WIDGETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWidgets.framework/Headers
 QT_OPENGL_INCLUDE  = -isystem $(FRAMEWORKS)/QtOpenGL.framework/Headers
-QT_PRINT_SUPPORT_INCLUDE  = -isystem $(FRAMEWORKS)/QtPrintSupport.framework/Headers
+QT_OPENGL_WIDGETS_INCLUDE = -isystem $(FRAMEWORKS)/QtOpenGLWidgets.framework/Headers
+QT_PRINT_SUPPORT_INCLUDE = -isystem $(FRAMEWORKS)/QtPrintSupport.framework/Headers
 QT_QML_INCLUDE     = -isystem $(FRAMEWORKS)/QtQml.framework/Headers
 QT_NETWORK_INCLUDE = -isystem $(FRAMEWORKS)/QtNetwork.framework/Headers
 QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
@@ -86,9 +86,9 @@ QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
 GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
-LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
+LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenAL -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtOpenGLWidgets -framework QtWebSockets -framework QtWidgets -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
 CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
@@ -114,6 +114,7 @@ QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
 QT_PRINT_SUPPORT_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
 QT_QML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtQml
 QT_OPENGL_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
+QT_OPENGL_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGLWidgets
 QT_NETWORK_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
 QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
@@ -122,7 +123,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5Xml -lopenal -lGL -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
@@ -135,38 +136,38 @@ endif
 
 else ifeq ($(OSTYPE),windows)
 vpath %.c ../controller/c
-WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
-C_SOURCES         += system.c
-LIB_WREN           = ../wren/wren.a ../glad/glad.a
-OPENAL_INCLUDE     = -isystem /mingw64/include
-QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
-QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui -isystem $(WEBOTS_PATH)/include/qt/QtPlatformHeaders
-QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
-QT_PRINT_SUPPORT_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
-QT_QML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtQml
-QT_OPENGL_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
-QT_NETWORK_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
-QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
-QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
-FREETYPE_INCLUDE   = -I/mingw64/include/freetype2
-TARGET_PATH       = $(WEBOTS_PATH)/msys64/mingw64/bin
-TARGET            = $(TARGET_PATH)/webots-bin.exe
-CFLAGS            = -isystem /mingw64/lib/libzip/include
-CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
-MOC               = moc
-MOC_FLAGS        += -D_WIN32
-LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5Qml -lQt5Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
-LD_FLAGS          = -Wl,--enable-auto-import
-EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
-FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config
+WB_NODES_INCLUDE         += $(OPEN_VR_INCLUDE)
+C_SOURCES                += system.c
+LIB_WREN                  = ../wren/wren.a ../glad/glad.a
+QT_CORE_INCLUDE           = -isystem $(WEBOTS_PATH)/include/qt/QtCore
+QT_GUI_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtGui
+QT_WIDGETS_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
+QT_PRINT_SUPPORT_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
+QT_QML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtQml
+QT_OPENGL_INCLUDE         = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
+QT_OPENGL_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGLWidgets
+QT_NETWORK_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
+QT_WEBSOCKETS_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
+QT_XML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtXml
+FREETYPE_INCLUDE          = -I/mingw64/include/freetype2
+TARGET_PATH               = $(WEBOTS_PATH)/msys64/mingw64/bin
+TARGET                    = $(TARGET_PATH)/webots-bin.exe
+CFLAGS                    = -isystem /mingw64/lib/libzip/include
+CXXFLAGS                  = -std=c++11 -D_USE_MATH_DEFINES
+MOC                       = /mingw64/share/qt6/bin/moc
+MOC_FLAGS                += -D_WIN32
+LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
+LD_FLAGS                  = -Wl,--enable-auto-import
+EXTRA_CMD                 = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
+FILES_TO_REMOVE           = $(TARGET_PATH)/webots-bin.exe.config
 ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
 # in particular in WbController::setProcessEnvironment(), however increasing the
 # stack size doesn't seems to help, so we need to remove this optimization
-CFLAGS          += -fno-ipa-cp-clone
-LD_FLAGS        += -Wl,-subsystem,windows
+CFLAGS                   += -fno-ipa-cp-clone
+LD_FLAGS                 += -Wl,-subsystem,windows
 else
-EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
+EXTRA_CMD                += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/ode.a
@@ -181,7 +182,7 @@ ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
-WREN_INCLUDE 	  += -Iwren
+WREN_INCLUDE      += -Iwren
 INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)
@@ -212,7 +213,7 @@ BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR))
 endif
 
 CFLAGS += -Wall -Wpointer-arith -Wcast-align -Wwrite-strings
-CXXFLAGS += -DQT_NO_DEBUG
+CXXFLAGS += -std=c++17 -DQT_NO_DEBUG
 
 ifneq ($(OSTYPE),darwin) # Clang has these warnings by default
 GCC_VER_GREATER_OR_EQUAL_TO_5_DOT_4 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 50400)

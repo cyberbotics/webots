@@ -36,9 +36,9 @@ Using the "roscpp" library, it provides these Webots functions mostly as ROS ser
 The list of services and messages can be found [here](http://docs.ros.org/noetic/api/webots_ros/html/index-msg.html).
 
 During simulation there can be multiple instances of robots or devices and other Webots applications connected to the ROS network.
-Therefore the controller uses a specific syntax to declare its services or topics on the network: `[robot_unique_name]/[device_name]/[service/topic_name]`.
+Therefore the controller uses a specific syntax to declare its services or topics on the network: `[robot_name_space]/[device_name]/[service/topic_name]`.
 
-`[robot_unique_name]`: in order to avoid any misunderstanding between different instances of the same robot, the name of the robot is followed by the ID of the process and the IP address of the computer.
+`[robot_name_space]`: ROS namespace to group services, topics and parameters.
 
 `[device_name]`: since the same function can refer to different devices, this field shows you which device it refers to.
 
@@ -64,7 +64,7 @@ In the following table you can find the list of `ros` controller arguments.
 | Argument | Description |
 | -------- | ----------- |
 | `--ROS_MASTER_URI=<address>` | Specify the URI address of the machine where `roscore` is running. |
-| `--name=<robot_unique_name>` | Specify a predefined [robot\_unique\_name] to be used for services and topics. Note that you are then responsible for avoiding any name clashes between the different robot controllers. |
+| `--name=<robot_unique_name>` | Specify a predefined [robot\_unique\_name] to be used as namespace for services and topics. Note that you are then responsible for avoiding any name clashes between the different robot controllers. |
 | `--synchronize`   | By default the `ros` controller is not blocking the simulation even if no ROS node is connected to it. In order to synchronize the simulation with the ROS node, the `--synchronize` argument can be specified, so that the simulation will not run as long as the robot `time_step` service is not called. |
 | `--clock`   | Publish the Webots time using the `clock` topic. |
 | `--use-sim-time` | Specify that the Webots time should be used as ROS time. To work correctly you should also define the `--clock` argument and set the ROS parameter `use_sim_time` to true. |
@@ -74,6 +74,11 @@ In the following table you can find the list of `ros` controller arguments.
 
 
 %end
+
+
+> **Note**: By default, the robot's namespace is empty and its name is followed by the ID of the process and the IP address of the computer. Setting `--name` in the controller arguments will set the robot namespace as well as the robot name.
+
+> **Note**: `clock` topic is under global namespace. Therefore in order to avoid any conflicts, only one robot should set `--clock` flag in multirobot simulations.
 
 If you want to access the controller from another machine and `roscore` isn't running on the same machine as Webots, you will need to edit the ROS\_MASTER\_URI variable.
 This can be done by editing your environment variables, setting `--ROS_MASTER_URI=<address>` in the controller arguments (see [table](#ros-controller-arguments)) or with a `runtime.ini` file in the controller directory.

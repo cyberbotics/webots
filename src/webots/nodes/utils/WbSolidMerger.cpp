@@ -17,6 +17,7 @@
 #include "WbDamping.hpp"
 #include "WbJoint.hpp"
 #include "WbOdeContext.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbPhysics.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidUtilities.hpp"
@@ -436,8 +437,14 @@ bool WbSolidMerger::isSet() const {
 
 void WbSolidMerger::setBodyArtificiallyDisabled(bool disabled) {
   mBodyArtificiallyDisabled = disabled;
-  if (disabled)
+  if (disabled) {
     dBodyDisable(mBody);
-  else
+    dGeomID g = mSolid->odeGeom();
+    if (g) {
+      WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(g));
+      if (odeGeomData)
+        odeGeomData->setEnableForContactPoint(true);
+    }
+  } else
     dBodyEnable(mBody);
 }

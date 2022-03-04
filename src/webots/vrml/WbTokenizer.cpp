@@ -317,7 +317,7 @@ QString WbTokenizer::readWord() {
     int commentCharIndex = 0;  // count consecutive '-' characters
     bool shortComment = false;
     bool longComment = false;
-    QChar stringStart = 0;
+    QChar stringStart = '\0';
     int finalEscapeCharactersCount = 0;
     while (!word.endsWith(close)) {
       mChar = readChar();
@@ -358,10 +358,10 @@ QString WbTokenizer::readWord() {
 
       if (!shortComment && !longComment) {
         if (stringStart == mChar && finalEscapeCharactersCount % 2 == 0)
-          stringStart = 0;
-        else if (stringStart == 0 && (mChar == "'" || mChar == "\""))
+          stringStart = '\0';
+        else if (stringStart == '\0' && (mChar == '\'' || mChar == '\"'))
           stringStart = mChar;
-        if (mChar == "\\")
+        if (mChar == '\\')
           finalEscapeCharactersCount += 1;
         else
           finalEscapeCharactersCount = 0;
