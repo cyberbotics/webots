@@ -807,7 +807,7 @@ void WbController::startDocker() {
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
   if (WbBinaryIncubator::copyBinaryAndDependencies(filename) == WbBinaryIncubator::FILE_REMOVE_ERROR) {
-    warn(tr("An error occured during the copy of controller '%1'. An older version will be executed.\n"
+    warn(tr("An error occurred during the copy of controller '%1'. An older version will be executed.\n"
             "Please close any running instances of the controller and reload the world.")
            .arg(filename));
     return;

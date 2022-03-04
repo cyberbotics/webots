@@ -308,11 +308,15 @@ class Client:
                     with open('webots.yml', 'r') as webotsYml_file:
                         data = webotsYml_file.read().splitlines(True)
                     for line in data:
-                        if line.startswith("theia:"):
-                            volume = line.split(':')[1]
-                            dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
-                            envVarDocker["THEIA_VOLUME"] = volume
-                            envVarDocker["THEIA_PORT"] = port + 500
+                        if line.startswith("dockerCompose:"):
+                            info = line.split(':')
+                            if info[1].startswith("theia"):
+                                volume = info[2]
+                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
+                                envVarDocker["THEIA_VOLUME"] = volume
+                                envVarDocker["THEIA_PORT"] = port + 500
+                            elif info[1].startswith("competition"):
+                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-competition.yml"
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
