@@ -98,9 +98,6 @@ void WbMesh::createResizeManipulator() {
 }
 
 bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const {
-  if (!mIsCollada)
-    return false;
-
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
   aiNode *node = NULL;
