@@ -39,12 +39,7 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) :
-  QObject(parent),
-  mNetworkReply(NULL),
-  mFinished(false),
-  mOffline(false),
-  mCopy(false) {
+WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mCopy(false) {
   gCount++;
 }
 
@@ -59,6 +54,7 @@ WbDownloader::~WbDownloader() {
     gCount--;
 }
 
+// TODO: if nobody uses it, delete
 QIODevice *WbDownloader::device() const {
   return dynamic_cast<QIODevice *>(mNetworkReply);
 }
@@ -68,7 +64,9 @@ void WbDownloader::download(const QUrl &url) {
 
   mUrl = url;
 
-  if (gUrlCache.contains(mUrl) && !(mOffline == true && mCopy == false)) {
+  printf(">> contains: %d\n", gUrlCache.contains(mUrl));
+  if (gUrlCache.contains(mUrl) && !mCopy) {
+    printf("COPY!\n");
     mCopy = true;
     QNetworkReply *reply = gUrlCache[mUrl];
     if (reply && !reply->isFinished())
@@ -89,12 +87,10 @@ void WbDownloader::download(const QUrl &url) {
   QNetworkRequest request;
   request.setUrl(url);
   mFinished = false;
-  if (mOffline)
-    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
-  else
-    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
+  assert(mNetworkReply == NULL);
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
+  printf("connect to finish\n");
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, mNetworkReply, &QNetworkReply::abort);
 
@@ -102,26 +98,16 @@ void WbDownloader::download(const QUrl &url) {
 }
 
 void WbDownloader::finished() {
-  if (!mCopy) {
-    assert(mNetworkReply);
-    if (mNetworkReply->error())
-      mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
-    disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
-    if (!mError.isEmpty() && !mOffline) {
-      mError = QString();
-      mOffline = true;
-      download(mUrl);
-      return;
-    }
-  }
-
+  printf("finished\n");
   // cache result
   if (mNetworkReply && mNetworkReply->error()) {
     mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
     disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
   } else {
-    if (mNetworkReply)
+    if (!mCopy) {  // only save to disk the primary download, copies don't need to
+      assert(mNetworkReply != NULL);
       WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+    }
   }
 
   gComplete++;

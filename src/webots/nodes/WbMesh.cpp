@@ -60,7 +60,7 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
-  printf("dl\n");
+  printf("downloadAssets\n");
   if (mUrl->size() == 0)
     return;
 
@@ -68,7 +68,7 @@ void WbMesh::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
   mDownloader = new WbDownloader(this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
@@ -89,7 +89,6 @@ void WbMesh::downloadUpdate() {
 }
 
 void WbMesh::preFinalize() {
-  printf("prefin\n");
   WbTriangleMeshGeometry::preFinalize();
 
   updateUrl();
@@ -98,7 +97,6 @@ void WbMesh::preFinalize() {
 void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
-  printf("connect\n");
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
@@ -529,7 +527,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
-  printf("updateUrl %s\n", WbUrl::computePath(this, "url", mUrl->item(0), false).toUtf8().constData());
+  printf("%p updateUrl %s\n", this, WbUrl::computePath(this, "url", mUrl->item(0), false).toUtf8().constData());
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -542,6 +540,10 @@ void WbMesh::updateUrl() {
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
     if (WbUrl::isWeb(completeUrl)) {
+      printf("mDown %p\n", mDownloader);
+      if (mDownloader)
+        printf("err %d %s\n", !mDownloader->error().isEmpty(), mDownloader->error().toUtf8().constData());
+
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
         // TODO: since the url is invalid the currently loaded mesh should be removed (if any)
