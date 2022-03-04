@@ -264,6 +264,7 @@ export default class WebotsView extends HTMLElement {
 
   // Scene functions
   loadScene(scene, isMobileDevice) {
+    console.log("LOADING SCENE");
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
@@ -292,6 +293,7 @@ export default class WebotsView extends HTMLElement {
   }
 
   _closeScene() {
+    console.log("Closing Scene");
     if (typeof this.toolbar !== 'undefined') {
       this.toolbar.removeToolbar();
       this.toolbar = undefined;

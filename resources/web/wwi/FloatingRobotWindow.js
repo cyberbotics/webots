@@ -17,6 +17,7 @@ export default class FloatingRobotWindow {
 
         this.headerQuit = document.createElement('button');
         this.headerQuit.className = 'floating-robotwindow-close';
+        this.headerQuit.id = 'close-'+name;
         this.headerQuit.innerHTML = ('&times');
         this.floatingRobotWindowHeader.appendChild(this.headerQuit);
 
