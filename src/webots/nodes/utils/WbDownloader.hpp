@@ -51,6 +51,7 @@ private:
 
 private slots:
   void finished();
+  void destroyed();
   static void displayPopUp();
 };
 
