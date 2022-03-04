@@ -111,7 +111,7 @@ namespace wren {
     const std::vector<Mesh::Edge> &edges = mesh->edges();
 
     // if negative scale xor cw triangles, reverse normals
-    glm::vec3 scale = mRenderable->parent()->scale();
+    const glm::vec3 &scale = mRenderable->parent()->scale();
     const bool revertNormal = (mRenderable->invertFrontFace() != (scale.x * scale.y * scale.z < 0.0));
 
     mRenderable->mesh()->bindShadowVolume();

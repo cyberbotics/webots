@@ -224,7 +224,7 @@ namespace wren {
 
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
-    glm::vec3 scale = parent()->scale();
+    const glm::vec3 &scale = parent()->scale();
     if (mInvertFrontFace) {
       glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
 
