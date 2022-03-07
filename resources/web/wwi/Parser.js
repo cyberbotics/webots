@@ -111,7 +111,7 @@ export default class Parser {
         callback();
 
       if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
-        document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotwindows();
+        document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotWindows();
 
       console.timeEnd('Loaded in: ');
     });

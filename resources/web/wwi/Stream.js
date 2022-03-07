@@ -57,7 +57,7 @@ export default class Stream {
     if (data.startsWith('robot:'))
       return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
     else if (data.startsWith('robot window:')) {
-      //this._view.addRobotwindow(data.substring('robot window:'.length));
+      //this._view.add(data.substring('robot window:'.length));
       return 0;
     } else if (data.startsWith('stdout:')) {
       this._view.onstdout(data.substring('stdout:'.length));

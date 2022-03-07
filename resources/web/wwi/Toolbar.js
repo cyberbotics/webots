@@ -60,7 +60,7 @@ export default class Toolbar {
       this.toolbarLeft.style.visibility = 'hidden';
 
     // Right part
-    this._createRobotwindowButton();
+    this._createRobotWindowButton();
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
@@ -145,7 +145,7 @@ export default class Toolbar {
       return;
     }
 
-    if (this.robotwindowPane.style.visibility === 'visible')
+    if (this.robotWindowPane.style.visibility === 'visible')
       return;
 
     let canHide;
@@ -248,54 +248,54 @@ export default class Toolbar {
       this._triggerPlayPauseButton();
   }
 
-  _createRobotwindowButton() {
-    this.robotwindowButton = this._createToolBarButton('robotwindow', 'Robot windows (w)');
-    this.toolbarRight.appendChild(this.robotwindowButton);
-    this.robotwindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotwindows(), {once: true});
-    document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotwindowPaneKeyboardHandler(_, true), {once: true});
+  _createRobotWindowButton() {
+    this.robotWindowButton = this._createToolBarButton('robotWindow', 'Robot windows (w)');
+    this.toolbarRight.appendChild(this.robotWindowButton);
+    this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
+    document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
     this.keydownRefW = undefined;
-    window.addEventListener('click', _ => this._closeRobotwindowPaneOnClick(_));
+    window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
   }
     
-  _createRobotwindowPane() {
-    this.robotwindowPane = document.createElement('div');
-    this.robotwindowPane.className = 'robotwindow-pane';
-    this.robotwindowPane.innerHTML = '<h3> Robot Windows </h3>';
-    this.robotwindowPane.style.visibility = 'hidden';
-    this.parentNode.appendChild(this.robotwindowPane);
+  _createRobotWindowPane() {
+    this.robotWindowPane = document.createElement('div');
+    this.robotWindowPane.className = 'robotWindow-pane';
+    this.robotWindowPane.innerHTML = '<h3> Robot Windows </h3>';
+    this.robotWindowPane.style.visibility = 'hidden';
+    this.parentNode.appendChild(this.robotWindowPane);
 
-    this.robotwindowList = document.createElement('ul');
-    this.robotwindowList.id = 'robotwindow-list';
-    this.robotwindowPane.appendChild(this.robotwindowList);
+    this.robotWindowList = document.createElement('ul');
+    this.robotWindowList.id = 'robotWindow-list';
+    this.robotWindowPane.appendChild(this.robotWindowList);
   }
 
-  _closeRobotwindowPaneOnClick(event) {
-    if (event.srcElement.id !== 'robotwindowButton' && this.robotwindowPane.style.visibility === 'visible') {
-      if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robotwindow")))
-        this.robotwindowPane.style.visibility = 'hidden';
+  _closeRobotWindowPaneOnClick(event) {
+    if (event.srcElement.id !== 'robotWindowButton' && this.robotWindowPane.style.visibility === 'visible') {
+      if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robotWindow")))
+        this.robotWindowPane.style.visibility = 'hidden';
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
     }
   }
 
-  _addRobotwindowToPane(name) {
-    const robotwindowLi = document.createElement('li');
-    robotwindowLi.className = 'robotwindow-pane-li';
-    robotwindowLi.id = 'enable-robotwindow-'+name;
-    this.robotwindowList.appendChild(robotwindowLi);
+  _addRobotWindowToPane(name) {
+    const robotWindowLi = document.createElement('li');
+    robotWindowLi.className = 'robotWindow-pane-li';
+    robotWindowLi.id = 'enable-robotWindow-'+name;
+    this.robotWindowList.appendChild(robotWindowLi);
 
     let label = document.createElement('span');
-    label.className = 'robotwindow-span';
+    label.className = 'robotWindow-span';
     label.innerHTML = name;
-    robotwindowLi.appendChild(label);
+    robotWindowLi.appendChild(label);
 
     label = document.createElement('div');
-    label.className = 'robotwindow-pane-spacer';
-    robotwindowLi.appendChild(label);
+    label.className = 'robotWindow-pane-spacer';
+    robotWindowLi.appendChild(label);
 
     const button = document.createElement('label');
-    button.className = 'robotwindow-pane-switch';
-    robotwindowLi.appendChild(button);
+    button.className = 'robotWindow-pane-switch';
+    robotWindowLi.appendChild(button);
 
     label = document.createElement('input');
     label.id = 'button-'+name;
@@ -307,78 +307,78 @@ export default class Toolbar {
     label.className = 'slider round';
     button.appendChild(label);
 
-    robotwindowLi.onclick = _ => {
-      this._changeRobotwindowVisibility(name)
+    robotWindowLi.onclick = _ => {
+      this._changeRobotWindowVisibility(name)
     };
   }
 
-  _createRobotwindows() {
+  _createRobotWindows() {
     this.floatingRobotWindowContainer = document.createElement('div');
-    this.floatingRobotWindowContainer.className = 'floating-robotwindow-container';
+    this.floatingRobotWindowContainer.className = 'floating-robotWindow-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
-    let robotwindowUrl = this._view.server.replace("ws:","");
-    this.robotwindows = [];
+    let robotWindowUrl = this._view.server.replace("ws:","");
+    this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((robot) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robot.window, robotwindowUrl)));
-      WbWorld.instance.robots.forEach((robot) => this._addRobotwindowToPane(robot.name));
+      WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robot.window, robotWindowUrl)));
+      WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
     }
 
     const windowOffset = 20;
-    this.robotwindows.forEach((rw,n) => {
+    this.robotWindows.forEach((rw,n) => {
       rw.floatingRobotWindow.addEventListener('mouseover', () => this.showToolbar());
-      rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotwindowVisibility(rw.getID()));
+      rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotWindowVisibility(rw.getID()));
       if(n) {
         var width_sum = 0;
         for (var i=0; i<n; i++)
-          width_sum += (this.robotwindows[i].getWidth()+20);
+          width_sum += (this.robotWindows[i].getWidth()+20);
         rw.setPosition(windowOffset+width_sum, windowOffset)
       } else
         rw.setPosition(windowOffset, windowOffset);
     });
   }
 
-  _refreshRobotwindowContent() {
+  _refreshRobotWindowContent() {
     console.log("refreshing iframes");
-    this.robotwindows.forEach((rw) => document.getElementById(rw.name+'-robotwindow').src = document.getElementById(rw.name+'-robotwindow').src);
+    this.robotWindows.forEach((rw) => document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src);
   }
 
-  reloadRobotwindows() {
-    this.removeRobotwindows();
-    this._createRobotwindowPane();
-    this._createRobotwindows();
+  reloadRobotWindows() {
+    this.removeRobotWindows();
+    this._createRobotWindowPane();
+    this._createRobotWindows();
   }
 
-  removeRobotwindows() {
-    if (typeof this.robotwindowPane !== 'undefined')
-      this.robotwindowPane.remove();
+  removeRobotWindows() {
+    if (typeof this.robotWindowPane !== 'undefined')
+      this.robotWindowPane.remove();
     if (typeof this.floatingRobotWindowContainer !== 'undefined')  
       this.floatingRobotWindowContainer.remove();
   }
 
-  _changeRobotwindowPaneVisibility() {
-    if (this.robotwindowPane.style.visibility == 'hidden') {
-      this.robotwindowPane.style.visibility = 'visible';
+  _changeRobotWindowPaneVisibility() {
+    if (this.robotWindowPane.style.visibility == 'hidden') {
+      this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = 'hidden';
     }
     else {
-      this.robotwindowPane.style.visibility = 'hidden';
+      this.robotWindowPane.style.visibility = 'hidden';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = '';
     }
   }
 
-  _robotwindowPaneKeyboardHandler(e, isFirst) {
+  _robotWindowPaneKeyboardHandler(e, isFirst) {
     if (e.code === 'KeyW') {
       if (isFirst)
-        this._showAllRobotwindows();
+        this._showAllRobotWindows();
       else
-        this._changeRobotwindowPaneVisibility();
+        this._changeRobotWindowPaneVisibility();
     }
   }
 
-  _changeRobotwindowVisibility(name) {
+  _changeRobotWindowVisibility(name) {
     if(document.getElementById(name).style.visibility == 'hidden') {
       document.getElementById('button-'+name).checked = true;
       document.getElementById(name).style.visibility = 'visible';
@@ -388,15 +388,15 @@ export default class Toolbar {
     }
   }
 
-  _showAllRobotwindows() {
+  _showAllRobotWindows() {
     document.removeEventListener('keydown', this.keydownRefWFirst);
     this.keydownRefWFirst = undefined;
-    this.robotwindowButton.removeEventListener('mouseup', this.mouseupRefWFirst);
+    this.robotWindowButton.removeEventListener('mouseup', this.mouseupRefWFirst);
     this.mouseupRefWFirst = undefined;
-    this._changeRobotwindowPaneVisibility();
-    this.robotwindows.forEach((rw) => this._changeRobotwindowVisibility(rw.getID()));
-    this.robotwindowButton.addEventListener('mouseup', _ => this._changeRobotwindowPaneVisibility());
-    document.addEventListener('keydown', this.keydownRefW = _ => this._robotwindowPaneKeyboardHandler(_, false));
+    this._changeRobotWindowPaneVisibility();
+    this.robotWindows.forEach((rw) => this._changeRobotWindowVisibility(rw.getID()));
+    this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility());
+    document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
 
   _createInfoButton() {
@@ -1016,7 +1016,7 @@ export default class Toolbar {
     else
       this._view.stream.socket.send('reset');
 
-    this._refreshRobotwindowContent();
+    this._refreshRobotWindowContent();
   }
 
   pause() {

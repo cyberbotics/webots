@@ -5,32 +5,32 @@ export default class FloatingRobotWindow {
         this.url = url;
 
         this.floatingRobotWindow = document.createElement('div');
-        this.floatingRobotWindow.className = 'floating-robotwindow';
+        this.floatingRobotWindow.className = 'floating-robotWindow';
         this.floatingRobotWindow.id = name;
         this.floatingRobotWindow.style.visibility = 'hidden';
         parentNode.appendChild(this.floatingRobotWindow);
         
         this.floatingRobotWindowHeader = document.createElement('div');
-        this.floatingRobotWindowHeader.className = 'floating-robotwindow-header';
+        this.floatingRobotWindowHeader.className = 'floating-robotWindow-header';
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowHeader);
 
         this.headerText = document.createElement('p');
-        this.headerText.className = 'floating-robotwindow-text';
+        this.headerText.className = 'floating-robotWindow-text';
         this.headerText.innerHTML = 'Robot Window: ' + name;
         this.floatingRobotWindowHeader.appendChild(this.headerText);
 
         this.headerQuit = document.createElement('button');
-        this.headerQuit.className = 'floating-robotwindow-close';
+        this.headerQuit.className = 'floating-robotWindow-close';
         this.headerQuit.id = 'close-'+name;
         this.headerQuit.innerHTML = ('&times');
         this.floatingRobotWindowHeader.appendChild(this.headerQuit);
 
         this.floatingRobotWindowContent = document.createElement('div');
-        this.floatingRobotWindowContent.className = 'floating-robotwindow-content';
+        this.floatingRobotWindowContent.className = 'floating-robotWindow-content';
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowContent);
 
         let robotWindow = document.createElement('iframe');
-        robotWindow.id = this.name+"-robotwindow";
+        robotWindow.id = this.name+"-robotWindow";
         robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
         this.floatingRobotWindowContent.appendChild(robotWindow);
 

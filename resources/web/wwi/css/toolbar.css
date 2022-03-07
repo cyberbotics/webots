@@ -113,7 +113,7 @@ webots-view .icon-info        { background-position: -306px -2px }
 webots-view .icon-settings    { background-position: -382px -2px }
 webots-view .icon-fullscreen  { background-position: -420px -2px }
 webots-view .icon-partscreen  { background-position: -458px -2px }
-webots-view .icon-robotwindow { background-position: -610px -2px }
+webots-view .icon-robotWindow { background-position: -648px -2px }
 
 webots-view .icon-play:hover,
 webots-view .icon-pause:hover,
@@ -125,7 +125,7 @@ webots-view .icon-info:hover,
 webots-view .icon-settings:hover,
 webots-view .icon-fullscreen:hover,
 webots-view .icon-partscreen:hover,
-webots-view .icon-robotwindow:hover,
+webots-view .icon-robotWindow:hover,
 webots-view .toolbar-reload:hover {
   background-position-y: -40px;
 }
@@ -150,7 +150,7 @@ webots-view .icon-info {
   width: 28px;
 }
 
-webots-view .icon-robotwindow {
+webots-view .icon-robotWindow {
   width: 28px;
 }
 
@@ -184,7 +184,7 @@ webots-view .reload-tooltip{
   left: -100px;
 }
 
-webots-view .robotwindow-tooltip {
+webots-view .robotWindow-tooltip {
   position: absolute;
   right: 0px;
   white-space: nowrap;
@@ -545,7 +545,7 @@ webots-view #remoteScene {
 
 /* Floating Robot Window*/
 
-webots-view .robotwindow-pane {
+webots-view .robotWindow-pane {
   position: absolute;
   bottom: 55px;
   right: 115px;
@@ -563,25 +563,25 @@ webots-view .robotwindow-pane {
   z-index: 3;
 }
 
-webots-view .robotwindow-pane h3{
+webots-view .robotWindow-pane h3{
   padding-left: 7px;
   padding-right: 7px;
   color: #aaa;
 }
 
-webots-view .robotwindow-pane-spacer {
+webots-view .robotWindow-pane-spacer {
   display: inline-block;
   min-width: 75px;
 }
 
-webots-view .robotwindow-pane-li {
+webots-view .robotWindow-pane-li {
   margin-top: 5px;
   margin-bottom: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-webots-view .robotwindow-pane-switch {
+webots-view .robotWindow-pane-switch {
   position: absolute;
   display: inline-block;
   width: 40px;
@@ -591,7 +591,7 @@ webots-view .robotwindow-pane-switch {
   pointer-events: none;
 }
 
-webots-view .floating-robotwindow {
+webots-view .floating-robotWindow {
   background-color: rgba(0, 0, 0, 0.6);
   top: 50px;
   left: 50px;
@@ -602,9 +602,11 @@ webots-view .floating-robotwindow {
   overflow: hidden;
   width: 250px;
   height: 200px;
+  min-height: 44px;
+  min-width: 200px;
 }
 
-webots-view .floating-robotwindow-header {
+webots-view .floating-robotWindow-header {
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
   display: flex;
@@ -614,12 +616,12 @@ webots-view .floating-robotwindow-header {
   cursor: move;
 }
 
-webots-view .floating-robotwindow-text{
+webots-view .floating-robotWindow-text{
   margin-left: 10px;
   font-size: 14px;
 }
 
-webots-view .floating-robotwindow-close {
+webots-view .floating-robotWindow-close {
   position: relative;
   top: -7px;
   background-color: transparent;
@@ -629,15 +631,15 @@ webots-view .floating-robotwindow-close {
   font-size: 20px;
 }
 
-webots-view .floating-robotwindow-close:hover {
+webots-view .floating-robotWindow-close:hover {
   color: white;
 }
 
-.floating-robotwindow-content {
+.floating-robotWindow-content {
   height: calc(100% - 45px);
 }
 
-.floating-robotwindow-content iframe {
+.floating-robotWindow-content iframe {
   background-color: white;
   border: 0;
   margin: 10px;
