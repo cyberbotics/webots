@@ -30,7 +30,7 @@ export default class FloatingRobotWindow {
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowContent);
 
         let robotWindow = document.createElement('iframe');
-        robotWindow.className = this.name+"-robotwindow";
+        robotWindow.id = this.name+"-robotwindow";
         robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
         this.floatingRobotWindowContent.appendChild(robotWindow);
 

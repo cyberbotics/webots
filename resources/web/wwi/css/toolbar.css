@@ -616,7 +616,7 @@ webots-view .floating-robotwindow-header {
 
 webots-view .floating-robotwindow-text{
   margin-left: 10px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 webots-view .floating-robotwindow-close {
@@ -634,7 +634,7 @@ webots-view .floating-robotwindow-close:hover {
 }
 
 .floating-robotwindow-content {
-  height: calc(100% - 40px);
+  height: calc(100% - 45px);
 }
 
 .floating-robotwindow-content iframe {

@@ -338,13 +338,22 @@ export default class Toolbar {
     });
   }
 
+  _refreshRobotwindowContent() {
+    console.log("refreshing iframes");
+    this.robotwindows.forEach((rw) => document.getElementById(rw.name+'-robotwindow').src = document.getElementById(rw.name+'-robotwindow').src);
+  }
+
   reloadRobotwindows() {
-    if (typeof this.robotwindowPane !== 'undefined')
-      this.robotwindowPane.remove();
-    if (typeof this.robotwindowPane !== 'undefined')  
-      this.floatingRobotWindowContainer.remove();
+    this.removeRobotwindows();
     this._createRobotwindowPane();
     this._createRobotwindows();
+  }
+
+  removeRobotwindows() {
+    if (typeof this.robotwindowPane !== 'undefined')
+      this.robotwindowPane.remove();
+    if (typeof this.floatingRobotWindowContainer !== 'undefined')  
+      this.floatingRobotWindowContainer.remove();
   }
 
   _changeRobotwindowPaneVisibility() {
@@ -1006,6 +1015,8 @@ export default class Toolbar {
       this._view.stream.socket.send('reload');
     else
       this._view.stream.socket.send('reset');
+
+    this._refreshRobotwindowContent();
   }
 
   pause() {

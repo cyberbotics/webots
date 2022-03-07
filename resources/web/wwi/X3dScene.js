@@ -77,6 +77,9 @@ export default class X3dScene {
   }
 
   destroyWorld() {
+    if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+      document.getElementsByTagName('webots-view')[0].toolbar.removeRobotwindows();
+
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;
       while (index >= 0) {
