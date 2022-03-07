@@ -11,7 +11,7 @@ export default class WbWorld {
 
     this.billboards = [];
     this.readyForUpdates = false;
-    this.robots = new Map();
+    this.robots = [];
   }
 
   static init() {

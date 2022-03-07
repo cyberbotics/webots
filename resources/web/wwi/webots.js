@@ -228,7 +228,6 @@ webots.View = class View {
   // Functions for internal use.
 
   updateWorldList(currentWorld, worlds) {
-    console.log("World list updated");
     if (this.broadcast)
       // Do not show world list if in broadcast mode,
       // where multiple users can connect to the same Webots instance.

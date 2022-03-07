@@ -110,6 +110,9 @@ export default class Parser {
       if (typeof callback === 'function')
         callback();
 
+      if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+        document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotwindows();
+
       console.timeEnd('Loaded in: ');
     });
   }
@@ -422,10 +425,15 @@ export default class Parser {
 
     if (node.hasAttribute('robot') && node.getAttribute('robot')==='true') {
       let window = 'generic';
+      let name = node.getAttribute('name');
+      let id = node.getAttribute('id');
+
       if (node.hasAttribute('window'))
         window = node.getAttribute('window');
-      WbWorld.instance.robots.set(node.getAttribute('name'), window);
+
+      WbWorld.instance.robots.push({id: id, name: name, window: window});
     }
+    
     return transform;
   }
 

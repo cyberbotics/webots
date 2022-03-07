@@ -560,6 +560,7 @@ webots-view .robotwindow-pane {
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
   border-radius: 2px;
+  z-index: 3;
 }
 
 webots-view .robotwindow-pane h3{
@@ -613,23 +614,19 @@ webots-view .floating-robotwindow-header {
   cursor: move;
 }
 
-webots-view .floating-robotwindow-text {
+webots-view .floating-robotwindow-text{
   margin-left: 10px;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 webots-view .floating-robotwindow-close {
   position: relative;
-  top: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
+  top: -7px;
   background-color: transparent;
   border: none;
   color: #aaa;
   cursor: pointer;
   font-size: 20px;
-  margin-right: 3px;
 }
 
 webots-view .floating-robotwindow-close:hover {
@@ -637,13 +634,13 @@ webots-view .floating-robotwindow-close:hover {
 }
 
 .floating-robotwindow-content {
-  height: calc(100% - 55px);
+  height: calc(100% - 40px);
 }
 
 .floating-robotwindow-content iframe {
   background-color: white;
   border: 0;
-  margin: 15px;
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
 }

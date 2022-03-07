@@ -65,6 +65,7 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
+
   }
 
   removeToolbar() {
@@ -253,8 +254,6 @@ export default class Toolbar {
     this.robotwindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotwindows(), {once: true});
     document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotwindowPaneKeyboardHandler(_, true), {once: true});
     this.keydownRefW = undefined;
-    this._createRobotwindowPane();
-    this._createRobotwindows();
     window.addEventListener('click', _ => this._closeRobotwindowPaneOnClick(_));
   }
     
@@ -321,8 +320,8 @@ export default class Toolbar {
     let robotwindowUrl = this._view.server.replace("ws:","");
     this.robotwindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((window,name) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, name, window, robotwindowUrl)));
-      WbWorld.instance.robots.forEach((window,name) => this._addRobotwindowToPane(name));
+      WbWorld.instance.robots.forEach((robot) => this.robotwindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robot.window, robotwindowUrl)));
+      WbWorld.instance.robots.forEach((robot) => this._addRobotwindowToPane(robot.name));
     }
 
     const windowOffset = 20;
@@ -337,6 +336,15 @@ export default class Toolbar {
       } else
         rw.setPosition(windowOffset, windowOffset);
     });
+  }
+
+  reloadRobotwindows() {
+    if (typeof this.robotwindowPane !== 'undefined')
+      this.robotwindowPane.remove();
+    if (typeof this.robotwindowPane !== 'undefined')  
+      this.floatingRobotWindowContainer.remove();
+    this._createRobotwindowPane();
+    this._createRobotwindows();
   }
 
   _changeRobotwindowPaneVisibility() {

@@ -105,6 +105,15 @@ export default class X3dScene {
 
     object.delete();
 
+    WbWorld.instance.robots.forEach((robot, i) => {
+      if (robot.id === 'n'+id) {
+        WbWorld.instance.robots.splice(i,1);
+      }
+    });
+
+    if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+      document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotwindows();
+
     this.render();
   }
 

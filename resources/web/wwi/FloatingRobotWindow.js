@@ -1,5 +1,9 @@
 export default class FloatingRobotWindow {
     constructor(parentNode, name, window, url) {
+        this.name = name;
+        this.window = window;
+        this.url = url;
+
         this.floatingRobotWindow = document.createElement('div');
         this.floatingRobotWindow.className = 'floating-robotwindow';
         this.floatingRobotWindow.id = name;
@@ -21,14 +25,14 @@ export default class FloatingRobotWindow {
         this.headerQuit.innerHTML = ('&times');
         this.floatingRobotWindowHeader.appendChild(this.headerQuit);
 
-        let floatingRobotWindowContent = document.createElement('div');
-        floatingRobotWindowContent.className = 'floating-robotwindow-content';
-        this.floatingRobotWindow.appendChild(floatingRobotWindowContent);
+        this.floatingRobotWindowContent = document.createElement('div');
+        this.floatingRobotWindowContent.className = 'floating-robotwindow-content';
+        this.floatingRobotWindow.appendChild(this.floatingRobotWindowContent);
 
         let robotWindow = document.createElement('iframe');
-        robotWindow.className = name+"-robotwindow";
-        robotWindow.src = url+"/robot_windows/"+window+"/"+window+".html?name="+name;
-        floatingRobotWindowContent.appendChild(robotWindow);
+        robotWindow.className = this.name+"-robotwindow";
+        robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
+        this.floatingRobotWindowContent.appendChild(robotWindow);
 
         this.dragElement(document.getElementById(name));
     }

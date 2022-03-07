@@ -8,8 +8,3 @@ renderingMode: PLAIN
 orthographicViewHeight: 1
 textFiles: 0 "controllers/spot_moving_demo/spot_moving_demo.c"
 consoles: Console:All:All
-renderingDevicePerspectives: Spot:left flank camera;0;0.0842593;0.827458;0.779343
-renderingDevicePerspectives: Spot:left head camera;1;0.159722;0;0
-renderingDevicePerspectives: Spot:rear camera;0;0.0847222;0.826531;0.778169
-renderingDevicePerspectives: Spot:right flank camera;0;0.0842593;0.827458;0.779343
-renderingDevicePerspectives: Spot:right head camera;1;0.161111;0.683453;0
