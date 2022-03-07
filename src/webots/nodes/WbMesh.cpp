@@ -39,6 +39,7 @@ void WbMesh::init() {
   mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
+  mIsCollada = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
   setCcw(mCcw->value());
@@ -166,12 +167,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  if (mName->value() != "" && !checkIfNameExists(scene, mName->value())) {
+  if (mIsCollada && mName->value() != "" && !checkIfNameExists(scene, mName->value())) {
     warn(tr("Geometry with the name \"%1\" doesn't exist in the mesh.").arg(mName->value()));
     return;
   }
 
-  if (mMaterialIndex->value() >= (int)scene->mNumMaterials) {
+  if (mIsCollada && mMaterialIndex->value() >= (int)scene->mNumMaterials) {
     warn(tr("Geometry with color index \"%1\" doesn't exist in the mesh.").arg(mMaterialIndex->value()));
     return;
   }
@@ -204,10 +205,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int totalFaces = 0;
   for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[i];
-    if (!mName->value().isEmpty() && mName->value() != mesh->mName.data)
+    if (mIsCollada && !mName->value().isEmpty() && mName->value() != mesh->mName.data)
       continue;
 
-    if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+    if (mIsCollada && mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
       continue;
 
     totalVertices += mesh->mNumVertices;
@@ -244,10 +245,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      if (mName->value() != "" && mName->value() != mesh->mName.data)
+      if (mIsCollada && mName->value() != "" && mName->value() != mesh->mName.data)
         continue;
 
-      if (mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
+      if (mIsCollada && mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
         continue;
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
@@ -317,8 +318,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QByteArray meshPathNameIndex = (path() + mName->value() + QString::number(mMaterialIndex->value())).toUtf8();
-  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.constData(), meshPathNameIndex.size());
+  const QString meshPathNameIndex = path() + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
+  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
 }
 
 void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
@@ -528,6 +529,12 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 
 void WbMesh::updateUrl() {
   printf("%p updateUrl %s\n", this, WbUrl::computePath(this, "url", mUrl->item(0), false).toUtf8().constData());
+  // check url validity
+  if (path().isEmpty())
+    return;
+
+  mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
+
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -585,6 +592,9 @@ void WbMesh::updateCcw() {
 }
 
 void WbMesh::updateName() {
+  if (!mIsCollada)
+    return;
+
   if (areWrenObjectsInitialized())
     buildWrenMesh(true);
 
@@ -593,6 +603,9 @@ void WbMesh::updateName() {
 }
 
 void WbMesh::updateMaterialIndex() {
+  if (!mIsCollada)
+    return;
+
   if (areWrenObjectsInitialized())
     buildWrenMesh(true);
 

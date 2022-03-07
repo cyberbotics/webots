@@ -124,6 +124,13 @@ void WbDownloader::finished() {
     emit WbApplication::instance()->setWorldLoadingProgress(progress());
 }
 
+void WbDownloader::destroyed() {
+  mNetworkReply = NULL;
+  mError = QString();
+  mOffline = true;
+  download(mUrl);
+}
+
 void WbDownloader::displayPopUp() {
   if (gDownloading) {
     WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
