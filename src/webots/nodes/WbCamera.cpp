@@ -291,13 +291,13 @@ void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, do
   for (int i = 0; i < mRecognizedObjects.size(); ++i) {
     const WbVector2 positionOnImage = mRecognizedObjects.at(i)->positionOnImage();
     const WbVector2 pixelsSize = mRecognizedObjects.at(i)->pixelSize();
-    if (overlayX < positionOnImage.x() - pixelsSize.x() / 2)
+    if (overlayX < positionOnImage.x() - pixelsSize.x() * 0.5)
       continue;
-    if (overlayX > positionOnImage.x() + pixelsSize.x() / 2)
+    if (overlayX > positionOnImage.x() + pixelsSize.x() * 0.5)
       continue;
-    if (overlayY < positionOnImage.y() - pixelsSize.y() / 2)
+    if (overlayY < positionOnImage.y() - pixelsSize.y() * 0.5)
       continue;
-    if (overlayY > positionOnImage.y() + pixelsSize.y() / 2)
+    if (overlayY > positionOnImage.y() + pixelsSize.y() * 0.5)
       continue;
     objectIndex = i;
     break;

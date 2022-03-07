@@ -60,7 +60,6 @@ QIODevice *WbDownloader::device() const {
 }
 
 void WbDownloader::download(const QUrl &url) {
-  printf("download %s\n", url.toString().toUtf8().constData());
   WbSimulationState::instance()->pauseSimulation();
 
   mUrl = url;
@@ -98,7 +97,10 @@ void WbDownloader::download(const QUrl &url) {
 void WbDownloader::finished() {
   // cache result
   if (mNetworkReply && mNetworkReply->error()) {
-    mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
+    mError = tr("Cannot download %1, error code: %2: %2")
+               .arg(mUrl.toString())
+               .arg(mNetworkReply->error())
+               .arg(mNetworkReply->errorString());
   } else {
     if (!mCopy) {  // only save to disk the primary download, copies don't need to
       assert(mNetworkReply != NULL);
