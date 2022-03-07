@@ -61,7 +61,6 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
-  printf("downloadAssets\n");
   if (mUrl->size() == 0)
     return;
 
@@ -71,16 +70,15 @@ void WbMesh::downloadAssets() {
 
   if (mDownloader != NULL)
     delete mDownloader;
+
   mDownloader = new WbDownloader(this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
 
-  printf("download!\n");
   mDownloader->download(QUrl(completeUrl));
 }
 
 void WbMesh::downloadUpdate() {
-  printf("dl update\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
@@ -91,8 +89,6 @@ void WbMesh::downloadUpdate() {
 
 void WbMesh::preFinalize() {
   WbTriangleMeshGeometry::preFinalize();
-
-  updateUrl();
 }
 
 void WbMesh::postFinalize() {
@@ -102,6 +98,8 @@ void WbMesh::postFinalize() {
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
+
+  updateUrl();
 }
 
 void WbMesh::createResizeManipulator() {
@@ -125,12 +123,10 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 }
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
-  printf("updateTri\n");
   const QString filePath(path());
   if (filePath.isEmpty())
     return;
 
-  printf("load mesh\n");
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
@@ -140,7 +136,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
-    printf("isweb\n");
     if (!WbNetwork::instance()->isCached(filePath)) {
       downloadAssets();
       return;
@@ -154,10 +149,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     const QByteArray data = file.readAll();
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-  } else {
-    printf("islocal\n");
+  } else
     scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
-  }
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -314,7 +307,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   delete[] normalData;
   delete[] texCoordData;
   delete[] indexData;
-  printf("done update tri\n");
 }
 
 uint64_t WbMesh::computeHash() const {
@@ -528,7 +520,6 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
-  printf("%p updateUrl %s\n", this, WbUrl::computePath(this, "url", mUrl->item(0), false).toUtf8().constData());
   // check url validity
   if (path().isEmpty())
     return;
@@ -547,21 +538,19 @@ void WbMesh::updateUrl() {
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
     if (WbUrl::isWeb(completeUrl)) {
-      printf("mDown %p\n", mDownloader);
-      if (mDownloader)
-        printf("err %d %s\n", !mDownloader->error().isEmpty(), mDownloader->error().toUtf8().constData());
-
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
         // TODO: since the url is invalid the currently loaded mesh should be removed (if any)
-        // destroyWrenMesh();
-        printf("error\n");
+        deleteWrenRenderable();
+        wr_static_mesh_delete(mWrenMesh);
+        mWrenMesh = NULL;
+        // END TODO: just a test
         delete mDownloader;
         mDownloader = NULL;
         return;
       }
+
       if (!WbNetwork::instance()->isCached(completeUrl)) {
-        printf("not cached\n");
         downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }
