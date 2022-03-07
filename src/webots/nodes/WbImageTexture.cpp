@@ -94,8 +94,9 @@ void WbImageTexture::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
+
   mDownloader = new WbDownloader(this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
@@ -255,7 +256,7 @@ void WbImageTexture::updateWrenTexture() {
   }
 
   mWrenTexture = WR_TEXTURE(texture);
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
   mDownloader = NULL;
 }
@@ -291,11 +292,17 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
+  // check url validity
+  if (path().isEmpty())
+    return;
+
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
+    mUrl->blockSignals(true);
     mUrl->setItem(i, item.replace("\\", "/"));
+    mUrl->blockSignals(false);
   }
 
   if (n > 0) {
@@ -309,6 +316,7 @@ void WbImageTexture::updateUrl() {
         mDownloader = NULL;
         return;
       }
+
       if (!WbNetwork::instance()->isCached(completeUrl)) {
         downloadAssets();  // url was changed from the scene tree or supervisor
         return;

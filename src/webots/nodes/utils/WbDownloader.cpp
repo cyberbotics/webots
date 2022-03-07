@@ -60,6 +60,7 @@ QIODevice *WbDownloader::device() const {
 }
 
 void WbDownloader::download(const QUrl &url) {
+  printf("download %s\n", url.toString().toUtf8().constData());
   WbSimulationState::instance()->pauseSimulation();
 
   mUrl = url;
