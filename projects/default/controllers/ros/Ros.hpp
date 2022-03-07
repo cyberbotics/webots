@@ -49,6 +49,7 @@ public:
   ros::NodeHandle *nodeHandle() { return mNodeHandle; }
   int stepSize() const { return mStepSize; }
   const std::string &name() const { return mRobotName; }
+  const std::string &rosNameSpace() const { return mRosNameSpace; }
   Device *getDevice(const std::string &name);
 
   static std::string fixedNameString(const std::string &name);
@@ -122,6 +123,7 @@ private:
   bool mUseWebotsSimTime;
   bool mAutoPublish;
   bool mUseRosControl;
+  std::string mRosNameSpace;
   std::string mRobotDescriptionPrefix;
   bool mSetRobotDescription;
   highlevel::RosControl *mRosControl;

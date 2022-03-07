@@ -25,9 +25,11 @@ namespace wren {
 
   CustomUniformBase::CustomUniformBase(const std::string &name) : mName(name), mLocation(-1) {}
 
-  void CustomUniformBase::upload(float value) const { glUniform1f(mLocation, value); }
-
   void CustomUniformBase::upload(int value) const { glUniform1i(mLocation, value); }
+
+  void CustomUniformBase::upload(bool value) const { glUniform1i(mLocation, value); }
+
+  void CustomUniformBase::upload(float value) const { glUniform1f(mLocation, value); }
 
   void CustomUniformBase::upload(const glm::vec2 &value) const { glUniform2fv(mLocation, 1, glm::value_ptr(value)); }
 

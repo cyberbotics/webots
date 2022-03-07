@@ -29,6 +29,8 @@
 #include "Transform.hpp"
 #include "UniformBuffer.hpp"
 
+#include <wren/shader_program.h>
+
 #include <wren/renderable.h>
 
 #ifdef __EMSCRIPTEN__
@@ -222,8 +224,22 @@ namespace wren {
 
     // to render cw and ccw meshes
     const unsigned int frontFaceMode = glstate::getFrontFace();
-    if (mInvertFrontFace)
+    const glm::vec3 &scale = parent()->scale();
+    if (mInvertFrontFace) {
       glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
+
+      if (scale.x * scale.y * scale.z >= 0.0) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
+          glUniform1i(location, true);
+      }
+    } else {
+      if (scale.x * scale.y * scale.z < 0.0) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
+          glUniform1i(location, true);
+      }
+    }
 
     mMesh->render(mDrawingMode);
 
