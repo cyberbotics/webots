@@ -53,7 +53,7 @@ Webots environment variables needed by extern controllers:
 >> launcher
 ```
 
-space
+&nbsp;
 
 **Java**: Add the following options to the `java` command line launching the Java controller:
 - `-classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\my_project\controllers\MyController\`
@@ -78,6 +78,8 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                            |
 | WEBOTS\_VERSION (for MATLAB)                          | `R2022a revision 1`                              |
 
+&nbsp;
+
 **MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
 ```matlab
@@ -88,6 +90,8 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 >> cd('lib/controller/matlab')
 >> launcher
 ```
+
+&nbsp;
 
 **Java**: Add the following options to the `java` command line launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
@@ -113,6 +117,8 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                             |
 | WEBOTS\_VERSION (for MATLAB)                          | `R2022a revision 1`                               |
 
+&nbsp;
+
 **MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
 ```matlab
@@ -123,6 +129,8 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 >> cd('lib/controller/matlab')
 >> launcher
 ```
+
+&nbsp;
 
 **Java**: Add the following options to the `java` command line launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
