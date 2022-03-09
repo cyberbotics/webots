@@ -60,7 +60,7 @@ export default class Toolbar {
       this.toolbarLeft.style.visibility = 'hidden';
 
     // Right part
-    //this._createRobotWindowButton();
+    this._createRobotWindowButton();
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
@@ -249,13 +249,17 @@ export default class Toolbar {
   }
 
   _createRobotWindowButton() {
-    this.robotWindowButton = this._createToolBarButton('robotWindow', 'Robot windows (w)');
-    this.toolbarRight.appendChild(this.robotWindowButton);
-    this.reloadRobotWindows();
-    this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
-    document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
-    this.keydownRefW = undefined;
-    window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
+    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
+      if (WbWorld.instance.robots.length > 0) {
+        this.robotWindowButton = this._createToolBarButton('robotWindow', 'Robot windows (w)');
+        this.toolbarRight.appendChild(this.robotWindowButton);
+        this.loadRobotWindows();
+        this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
+        document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
+        this.keydownRefW = undefined;
+        window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
+      }
+    }
   }
     
   _createRobotWindowPane() {
@@ -342,16 +346,14 @@ export default class Toolbar {
   }
 
   _refreshRobotWindowContent() {
-    if (this.robotWindows) {
-      this.robotWindows.forEach((rw) => {
-        if (typeof document.getElementById(rw.name+'-robotWindow').src !== 'undefined') {
-          document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src;
-        }
-      });
-    }
+    this.robotWindows.forEach((rw) => {
+      if (typeof document.getElementById(rw.name+'-robotWindow').src !== 'undefined') {
+        document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src;
+      }
+    });
   }
 
-  reloadRobotWindows() {
+  loadRobotWindows() {
     this.removeRobotWindows();
     this._createRobotWindowPane();
     this._createRobotWindows();
@@ -402,7 +404,8 @@ export default class Toolbar {
     this.robotWindowButton.removeEventListener('mouseup', this.mouseupRefWFirst);
     this.mouseupRefWFirst = undefined;
     this._changeRobotWindowPaneVisibility();
-    this.robotWindows.forEach((rw) => this._changeRobotWindowVisibility(rw.getID()));
+    if (this.robotWindows)
+      this.robotWindows.forEach((rw) => this._changeRobotWindowVisibility(rw.getID()));
     this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility());
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
@@ -1024,13 +1027,13 @@ export default class Toolbar {
     else
       this._view.stream.socket.send('reset');
 
-    this._refreshRobotWindowContent();
+    if (this.robotWindows)
+      this._refreshRobotWindowContent();
   }
 
   pause() {
     if (this._view.broadcast)
       return;
-    console.log("Sending message: 'pause'");
     this._view.stream.socket.send('pause');
     this._view.currentState = 'pause';
   }
@@ -1038,7 +1041,6 @@ export default class Toolbar {
   realTime(force) {
     if (this._view.broadcast)
       return;
-    console.log("Sending message: 'real-time: "+this._view.timeout+"'");
     this._view.stream.socket.send('real-time:' + this._view.timeout);
     this._view.currentState = 'real-time';
   }

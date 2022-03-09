@@ -114,8 +114,8 @@ export default class X3dScene {
       }
     });
 
-    if (document.getElementById('robotWindow-button') !== null)
-      document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotWindows();
+    if (document.getElementById('robotWindowButton') !== null)
+      document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
 
     this.render();
   }
