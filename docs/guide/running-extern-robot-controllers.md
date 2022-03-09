@@ -53,6 +53,8 @@ Webots environment variables needed by extern controllers:
 >> launcher
 ```
 
+space
+
 **Java**: Add the following options to the `java` command line launching the Java controller:
 - `-classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\my_project\controllers\MyController\`
 - `-Djava.library.path=$WEBOTS_HOME\lib\controller\java`
@@ -134,6 +136,8 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 %tab-end
 
 %end
+
+&nbsp;
 
 Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
 Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
