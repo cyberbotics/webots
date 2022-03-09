@@ -40,7 +40,7 @@ Webots environment variables needed by extern controllers:
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)              | `my_robot_controller`                                                     |
 | WEBOTS\_VERSION (for MATLAB)                       | `R2022a revision 1`                                                       |
 
-
+&nbsp;
 
 **MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
