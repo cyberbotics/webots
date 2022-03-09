@@ -503,6 +503,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   connect(mCacheSize, &QSpinBox::editingFinished, [=]() {
     if (mCacheSize->value() < 512) {
       mCacheSize->setValue(512);
+      WbMessageBox::info(tr("At least 512 MB of cache are necessary."), this);
     }
   });
   layout->addWidget(new QLabel(tr("Set the size of the cache (in MB):"), this), 0, 0);
