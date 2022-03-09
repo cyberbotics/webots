@@ -118,8 +118,6 @@ void WbColladaShape::createWrenMeshes() {
     return;
   }
 
-  aiNode *node = scene->mRootNode;
-
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
   int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
@@ -139,24 +137,199 @@ void WbColladaShape::createWrenMeshes() {
   forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
   rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
 
-  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
-                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-  node->mTransformation = mat;
+  // aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
+  //                forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+  // node->mTransformation = mat;
 
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+
+  aiNode *node;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+
+    printf("node %s has %d meshes and %d children \n", node->mName.C_Str(), node->mNumMeshes, node->mNumChildren);
+
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+      printf("  mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
+             mesh->mMaterialIndex);
+
+      if (mesh->mNumVertices > 100000)
+        warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+               .arg(mesh->mName.C_Str()));
+
+      aiMatrix4x4 transform;
+      aiNode *current = node;
+      while (current != NULL) {
+        transform *= current->mTransformation;
+        current = current->mParent;
+      }
+
+      // compute absolute transform of this node from all the parents
+      const int totalVertices = mesh->mNumVertices;
+      const int totalFaces = mesh->mNumFaces;
+
+      // create the arrays
+      int currentCoordIndex = 0;
+      double *const coordData = new double[3 * totalVertices];
+      int currentNormalIndex = 0;
+      double *const normalData = new double[3 * totalVertices];
+      int currentTexCoordIndex = 0;
+      double *const texCoordData = new double[2 * totalVertices];
+      int currentIndexIndex = 0;
+      unsigned int *const indexData = new unsigned int[3 * totalFaces];
+
+      for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+        // extract the coordinate
+        const aiVector3D vertice = transform * mesh->mVertices[j];
+        coordData[currentCoordIndex++] = vertice[0];
+        coordData[currentCoordIndex++] = vertice[1];
+        coordData[currentCoordIndex++] = vertice[2];
+        // extract the normal
+        const aiVector3D normal = transform * mesh->mNormals[j];
+        normalData[currentNormalIndex++] = normal[0];
+        normalData[currentNormalIndex++] = normal[1];
+        normalData[currentNormalIndex++] = normal[2];
+        // extract the texture coordinate
+        if (mesh->HasTextureCoords(0)) {
+          texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].x;
+          texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].y;
+        } else {
+          texCoordData[currentTexCoordIndex++] = 0.5;
+          texCoordData[currentTexCoordIndex++] = 0.5;
+        }
+      }
+
+      // create the index array
+      for (size_t j = 0; j < mesh->mNumFaces; ++j) {
+        const aiFace face = mesh->mFaces[j];
+        if (face.mNumIndices < 3)  // we want to skip lines
+          continue;
+        assert(face.mNumIndices == 3);
+        indexData[currentIndexIndex++] = face.mIndices[0];  // + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[1];  // + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[2];  // + indexOffset;
+      }
+
+      WbTriangleMesh *mTriangleMesh = new WbTriangleMesh();
+      bool issueWarnings = true;  // TMP
+
+      QString mTriangleMeshError =
+        mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
+
+      if (issueWarnings) {
+        foreach (QString warning, mTriangleMesh->warnings())
+          warn(warning);
+
+        if (!mTriangleMeshError.isEmpty())
+          warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
+      }
+
+      delete[] coordData;
+      delete[] normalData;
+      delete[] texCoordData;
+      delete[] indexData;
+    }
+
+    // add all the children of this node to the queue
+    for (size_t i = 0; i < node->mNumChildren; ++i)
+      queue.push_back(node->mChildren[i]);
+  }
+
+  /*
   for (unsigned int i = 0; i < node->mNumChildren; ++i) {
-    printf("node %d (%s) has %d meshes (and %d children)\n", i, node->mName.C_Str(), node->mChildren[i]->mNumMeshes,
-           node->mNumChildren);
+    printf("node %d (%s) has %d meshes (and %d children) || %d\n", i, node->mChildren[i]->mName.C_Str(),
+           node->mChildren[i]->mNumMeshes, node->mChildren[i]->mNumChildren);
+    if (node->mChildren[i]->HasMeshes())
+
+    const aiMesh *mesh = scene->mMeshes[i];
+    const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+    printf("mesh %d: %s (%p) has %d vertices\n", i, mesh->mName.C_Str(), mesh, mesh->mNumVertices);
+    printf("  material %d: (%p)\n", i, material);
+
+    if (mesh->mNumVertices > 100000)
+      warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+             .arg(mesh->mName.C_Str()));
+
+    const int totalVertices = mesh->mNumVertices;
+    const int totalFaces = mesh->mNumFaces;
+
+
+    // create the arrays
+    int currentCoordIndex = 0;
+    double *const coordData = new double[3 * totalVertices];
+    int currentNormalIndex = 0;
+    double *const normalData = new double[3 * totalVertices];
+    int currentTexCoordIndex = 0;
+    double *const texCoordData = new double[2 * totalVertices];
+    int currentIndexIndex = 0;
+    unsigned int *const indexData = new unsigned int[3 * totalFaces];
+
+    aiMatrix4x4 transform;
+    aiNode *current = node;
+    while (current != NULL) {
+      transform *= current->mTransformation;
+      current = current->mParent;
+    }
+
+    for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+      // extract the coordinate
+      const aiVector3D vertice = transform * mesh->mVertices[j];
+      coordData[currentCoordIndex++] = vertice[0];
+      coordData[currentCoordIndex++] = vertice[1];
+      coordData[currentCoordIndex++] = vertice[2];
+      // extract the normal
+      const aiVector3D normal = transform * mesh->mNormals[j];
+      normalData[currentNormalIndex++] = normal[0];
+      normalData[currentNormalIndex++] = normal[1];
+      normalData[currentNormalIndex++] = normal[2];
+      // extract the texture coordinate
+      if (mesh->HasTextureCoords(0)) {
+        texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].x;
+        texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].y;
+      } else {
+        texCoordData[currentTexCoordIndex++] = 0.5;
+        texCoordData[currentTexCoordIndex++] = 0.5;
+      }
+    }
+
+    // create the index array
+    for (size_t j = 0; j < mesh->mNumFaces; ++j) {
+      const aiFace face = mesh->mFaces[j];
+      if (face.mNumIndices < 3)  // we want to skip lines
+        continue;
+      assert(face.mNumIndices == 3);
+      indexData[currentIndexIndex++] = face.mIndices[0] + indexOffset;
+      indexData[currentIndexIndex++] = face.mIndices[1] + indexOffset;
+      indexData[currentIndexIndex++] = face.mIndices[2] + indexOffset;
+    }
+  }
+  */
+
+  /*
+  for (unsigned int i = 0; i < node->mNumChildren; ++i) {
+    printf("node %d (%s) has %d meshes (and %d children) || %d\n", i, node->mChildren[i]->mName.C_Str(),
+           node->mChildren[i]->mNumMeshes, node->mChildren[i]->mNumChildren);
 
     // count total number of vertices and faces of the current node
+
     int totalVertices = 0;
     int totalFaces = 0;
-    for (unsigned int j = 0; j < node->mNumChildren[i]->mNumMeshes; ++j) {
+
+    for (unsigned int j = 0; j < node->mChildren[i]->mNumMeshes; ++j) {
       const aiMesh *mesh = scene->mMeshes[i];
       totalVertices += mesh->mNumVertices;
       totalFaces += mesh->mNumFaces;
     }
 
-    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+    if (node->mChildren[i]->mNumMeshes == 0)
+      continue;
+
+    for (unsigned int i = 0; i < node->mChildren[i]->mNumMeshes; ++i) {
+      printf("  mesh %d ", i )
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
@@ -165,6 +338,7 @@ void WbColladaShape::createWrenMeshes() {
                .arg(mesh->mName.C_Str()));
     }
   }
+  */
 }
 
 void WbColladaShape::deleteWrenMeshes() {

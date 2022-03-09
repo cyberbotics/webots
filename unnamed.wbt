@@ -11,5 +11,5 @@ Background {
   ]
 }
 ColladaShape {
-  url "webots://projects/default/worlds/meshes/base_link.dae"
+  url "webots://projects/default/worlds/meshes/visual/link_3.dae"
 }
