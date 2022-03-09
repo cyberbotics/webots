@@ -222,7 +222,6 @@ export default class WebotsView extends HTMLElement {
           callback();
       };
       this._view.open(server, mode);
-      this._view.server = server;
       this._view.onquit = () => this._disconnect();
 
       this._closeWhenDOMElementRemoved();

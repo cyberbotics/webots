@@ -65,30 +65,27 @@ export default class FloatingRobotWindow {
         return this.floatingRobotWindow.style.visibility;
     }
 
-    dragElement(elmnt) {
+    dragElement(rw) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-        elmnt.firstChild.onmousedown = dragMouseDown;
+        rw.firstChild.onmousedown = dragMouseDown;
 
-        function dragMouseDown(e) {
-            e = e || window.event;
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
+        function dragMouseDown(event) {
+            event.preventDefault();
+            pos1 = event.clientX;
+            pos2 = event.clientY;
             document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
+            document.onmousemove = robotWindowDrag;
         }
 
-        function elementDrag(e) {
-            e = e || window.event;
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        function robotWindowDrag(event) {
+            event.preventDefault();
+            pos3 = pos1 - event.clientX;
+            pos4 = pos2 - event.clientY;
+            pos1 = event.clientX;
+            pos2 = event.clientY;
+            rw.style.top = (rw.offsetTop - pos4) + "px";
+            rw.style.left = (rw.offsetLeft - pos3) + "px";
         }
 
         function closeDragElement() {

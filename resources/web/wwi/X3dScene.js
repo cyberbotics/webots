@@ -77,7 +77,7 @@ export default class X3dScene {
   }
 
   destroyWorld() {
-    if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' && typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
       document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -114,7 +114,7 @@ export default class X3dScene {
       }
     });
 
-    if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+    if (document.getElementById('robotWindow-button') !== null)
       document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotWindows();
 
     this.render();

@@ -4,6 +4,7 @@ export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
     this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1).replace('https://', 'wss://').replace('http://', 'ws://');
+    console.log("Robot Window Server: "+this.wsServer);
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];

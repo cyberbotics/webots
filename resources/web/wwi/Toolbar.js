@@ -60,7 +60,7 @@ export default class Toolbar {
       this.toolbarLeft.style.visibility = 'hidden';
 
     // Right part
-    this._createRobotWindowButton();
+    //this._createRobotWindowButton();
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
@@ -145,7 +145,7 @@ export default class Toolbar {
       return;
     }
 
-    if (this.robotWindowPane.style.visibility === 'visible')
+    if (typeof this.robotWindowPane !== 'undefined' && this.robotWindowPane.style.visibility === 'visible')
       return;
 
     let canHide;
@@ -251,6 +251,7 @@ export default class Toolbar {
   _createRobotWindowButton() {
     this.robotWindowButton = this._createToolBarButton('robotWindow', 'Robot windows (w)');
     this.toolbarRight.appendChild(this.robotWindowButton);
+    this.reloadRobotWindows();
     this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
     document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
     this.keydownRefW = undefined;
@@ -260,7 +261,7 @@ export default class Toolbar {
   _createRobotWindowPane() {
     this.robotWindowPane = document.createElement('div');
     this.robotWindowPane.className = 'robotWindow-pane';
-    this.robotWindowPane.innerHTML = '<h3> Robot Windows </h3>';
+    this.robotWindowPane.innerHTML = '<h3 class="robotWindow-pane-title"> Robot Windows </h3>';
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
@@ -301,6 +302,7 @@ export default class Toolbar {
     label.id = 'button-'+name;
     label.type = 'checkbox';
     label.checked = false;
+    label.style.display = 'none';
     button.appendChild(label);
 
     label = document.createElement('span');
@@ -317,7 +319,8 @@ export default class Toolbar {
     this.floatingRobotWindowContainer.className = 'floating-robotWindow-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
-    let robotWindowUrl = this._view.server.replace("ws:","");
+    var robotWindowUrl = this._view.x3dScene.prefix.slice(0,-1);
+
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robot.window, robotWindowUrl)));
@@ -339,8 +342,13 @@ export default class Toolbar {
   }
 
   _refreshRobotWindowContent() {
-    console.log("refreshing iframes");
-    this.robotWindows.forEach((rw) => document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src);
+    if (this.robotWindows) {
+      this.robotWindows.forEach((rw) => {
+        if (typeof document.getElementById(rw.name+'-robotWindow').src !== 'undefined') {
+          document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src;
+        }
+      });
+    }
   }
 
   reloadRobotWindows() {
@@ -1022,6 +1030,7 @@ export default class Toolbar {
   pause() {
     if (this._view.broadcast)
       return;
+    console.log("Sending message: 'pause'");
     this._view.stream.socket.send('pause');
     this._view.currentState = 'pause';
   }
@@ -1029,6 +1038,7 @@ export default class Toolbar {
   realTime(force) {
     if (this._view.broadcast)
       return;
+    console.log("Sending message: 'real-time: "+this._view.timeout+"'");
     this._view.stream.socket.send('real-time:' + this._view.timeout);
     this._view.currentState = 'real-time';
   }

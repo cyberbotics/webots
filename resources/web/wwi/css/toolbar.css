@@ -113,7 +113,7 @@ webots-view .icon-info        { background-position: -306px -2px }
 webots-view .icon-settings    { background-position: -382px -2px }
 webots-view .icon-fullscreen  { background-position: -420px -2px }
 webots-view .icon-partscreen  { background-position: -458px -2px }
-webots-view .icon-robotWindow { background-position: -648px -2px }
+webots-view .icon-robotWindow { background-position: -654px -2px }
 
 webots-view .icon-play:hover,
 webots-view .icon-pause:hover,
@@ -563,10 +563,14 @@ webots-view .robotWindow-pane {
   z-index: 3;
 }
 
-webots-view .robotWindow-pane h3{
+webots-view .robotWindow-pane-title{
   padding-left: 7px;
   padding-right: 7px;
+  padding-top: 10px;
   color: #aaa;
+  height: 35px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 webots-view .robotWindow-pane-spacer {
@@ -614,11 +618,13 @@ webots-view .floating-robotWindow-header {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   cursor: move;
+  height: 45px;
 }
 
 webots-view .floating-robotWindow-text{
   margin-left: 10px;
   font-size: 14px;
+  margin-top: 12px;
 }
 
 webots-view .floating-robotWindow-close {

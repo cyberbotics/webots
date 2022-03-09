@@ -110,7 +110,7 @@ export default class Parser {
       if (typeof callback === 'function')
         callback();
 
-      if (typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+      if (document.getElementById('robotWindow-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.reloadRobotWindows();
 
       console.timeEnd('Loaded in: ');
