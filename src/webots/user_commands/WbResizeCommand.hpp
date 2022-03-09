@@ -22,7 +22,7 @@
 
 #include "WbVector3.hpp"
 
-#include <QtWidgets/QUndoCommand>
+#include <QtGui/QUndoCommand>
 
 class WbGeometry;
 

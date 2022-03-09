@@ -15,6 +15,7 @@
 #include "WbCamera.hpp"
 
 #include "WbAffinePlane.hpp"
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
@@ -811,7 +812,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
       objectsMap.insert(pixelSurface, mRecognizedObjects.at(i));
     }
     mRecognizedObjects.clear();
-    QMapIterator<int, WbRecognizedObject *> i(objectsMap);
+    QMultiMapIterator<int, WbRecognizedObject *> i(objectsMap);
     i.toBack();
     while (i.hasPrevious() && mRecognizedObjects.size() < recognition()->maxObjects()) {
       i.previous();
@@ -937,6 +938,14 @@ void WbCamera::render() {
     mSegmentationCamera->render();
     mSegmentationImageChanged = true;
   }
+}
+
+WbVector3 WbCamera::urdfRotation(const WbMatrix3 &rotationMatrix) const {
+  WbVector3 eulerRotation = rotationMatrix.toEulerAnglesZYX();
+  // Webots defines the camera frame as FLU but ROS desfines it as RDF (Right-Down-Forward)
+  eulerRotation[0] -= M_PI / 2;
+  eulerRotation[2] -= M_PI / 2;
+  return eulerRotation;
 }
 
 /////////////////////

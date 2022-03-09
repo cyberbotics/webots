@@ -192,7 +192,7 @@ void WbExtendedStringEditor::editInTextEditor() {
 
   // Filters
   QStringList filterNames = WbLanguage::sourceFileExtensions();
-  filterNames.replaceInStrings(QRegExp("^"), stringValue());  // prepend controller name to each item
+  filterNames.replaceInStrings(QRegularExpression("^"), stringValue());  // prepend controller name to each item
 
   QStringList matchingSourceFiles;
   // Searches into the current projects plugins directory or controllers directory
@@ -556,6 +556,7 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       break;
     case MESH_URL:
       selectFile("meshes", "Meshes", "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
+      break;
     case SKIN_URL:
       selectFile("meshes", "Meshes", "*.fbx *.FBX");
       break;

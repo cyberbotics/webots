@@ -39,19 +39,10 @@ WbNodeReader::WbNodeReader(Mode mode) : mMode(mode), mIsReadingBoundingObject(fa
   gCallStack.push(this);
 }
 
-// Since Qt 5.6.0, QStack::pop() gives a warning on Windows and recent versions of Ubuntu which we want to silence
-// FIXME: these pragma should be removed when the problem is fixed in Qt
-#ifndef __APPLE__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-overflow"
-#endif
 WbNodeReader::~WbNodeReader() {
   assert(!gCallStack.isEmpty());
   gCallStack.pop();
 }
-#ifndef __APPLE__
-#pragma GCC diagnostic pop
-#endif
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
   if (mMode == NORMAL)

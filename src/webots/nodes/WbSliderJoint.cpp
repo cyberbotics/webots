@@ -316,7 +316,7 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
     const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
     writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
-    const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
+    const WbVector3 eulerRotation = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
     const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
 
     writer.increaseIndent();
@@ -333,7 +333,7 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
                 .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
+                .arg(eulerRotation.toString(WbPrecision::FLOAT_ROUND_6));
     writer.indent();
     const WbMotor *m = motor();
     if (m) {

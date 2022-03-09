@@ -20,8 +20,8 @@
 //
 
 #include <QtCore/QMutex>
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QWindow>
+#include <QtOpenGL/QOpenGLFunctions_3_3_Core>
 
 class WbMultimediaStreamingServer;
 

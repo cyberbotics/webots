@@ -173,8 +173,8 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->applyChangesToWren();
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 absoluteScale = matrix.scale();
-  matrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbVector3 &scale = mSelectedTransform->scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   // local offset
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
@@ -215,8 +215,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedTransform->position());
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 absoluteScale = matrix.scale();
-  matrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbVector3 &scale = mSelectedTransform->scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   const double zEye = mViewpoint->zEye(attachedHandlePosition);

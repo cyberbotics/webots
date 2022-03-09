@@ -386,6 +386,7 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
       if (!p)
         return false;
       const int jointIndex = i.key();
+      assert(jointIndex < mJointChildren.length());
       WbJoint *const joint = dynamic_cast<WbJoint *>(mJointChildren.at(jointIndex));
       if (!joint)
         return false;
@@ -2292,9 +2293,10 @@ void WbSolid::resetPhysics(bool recursive) {
   resetSingleSolidPhysics();
 
   // Recurses through all first level solid descendants
-  if (recursive)
+  if (recursive) {
     foreach (WbSolid *const solid, mSolidChildren)
       solid->resetPhysics();
+  }
 }
 
 void WbSolid::resetSingleSolidPhysics() {
@@ -2913,7 +2915,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
                               const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
@@ -2994,7 +2996,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
+              exportUrdfShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
           }
         }
       }
