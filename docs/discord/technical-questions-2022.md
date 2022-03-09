@@ -2993,3 +2993,386 @@ Thank you so much
 
 Did anyone visualize point cloud in python from lidar sensors ?
 
+##### Missaw 03/02/2022 14:11:43
+Hello everyone, I will have regarding access to my controller. I am currently working on macos. But the error tells me that it can't load the "controller" module but I don't understand, why? Thank you in advance for your answers.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948583387742998538/unknown.png)
+%end
+
+##### Baya19 03/02/2022 14:13:38
+try to install numpy
+
+##### Missaw 03/02/2022 14:14:53
+Yeah that's what I tried to do several times but basically they tell me it's already installed on my machine
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948584716515307601/unknown.png)
+%end
+
+
+in fact I have a problem with the reading of the controller
+
+##### zev 03/02/2022 14:22:19
+This is because python 3.10 is not supported by default, you can add the webots modules python 3.9 in your PYTHONPATH environment variable. Or you can just use python 3.9 instead
+
+##### Missaw 03/02/2022 14:24:21
+okey , i will try to test this, thx 🙂
+
+
+Unfortunately, I still have the same problem 😦
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948593983943237672/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948594135768657960/unknown.png)
+%end
+
+##### Yannnick3 [Cyberbotics] 03/02/2022 15:07:57
+It seems like the version of python in which numpy is installed is not the same as the one used by Webots. Try to install numpy with the following command `python3.9 -m pip install --upgrade numpy`
+
+##### Robokashi 03/02/2022 16:54:41
+Hi, is there an alternative way to specify which robot a controller should target without using the environment variables ([https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)) ?
+
+
+
+I would like to be able to specify this directly in the controller. I tried using \_putenv right after the main() but it is ignored.
+
+
+
+I am using Windows 10. Thanks !
+
+
+I would suggest you avoid using pip install xxx syntax. You can't easily be sure which version of python is going to be used.
+
+
+
+Try python --version to check if the python version known to your path is the one you want to use, and if it is, run "python -m pip install numpy".
+
+
+I can see when you ran "pip install numpy" there was a mention of 3.8, whereas you use 3.9 so this might be your problem.
+
+##### emrys 03/02/2022 17:34:11
+Hello everyone! i have a problem with webots whenever i try to run a java code. I tried changing the path to jdk, i updated java to the latest version but it still keeps appearing and idk how to solve it. Can somebody please help?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948634340550668308/unknown.png)
+%end
+
+
+and i also have this problem that whenever i try to open a project other than mine, every object changes its place and whole world gets pretty complicated
+
+##### amna 03/03/2022 01:31:06
+How can we keep the drones inside a boundary like if I want drone to do not cross the wall then how can I do that? Please help! `@DrakerDG`
+
+##### Mat198 03/03/2022 02:47:59
+You can create walls with solid > collision > shape > box to create an invisible room. You also need to turn on the drone collision. If you don't know how to do that just send me a private message :)
+
+##### Missaw 03/03/2022 08:29:21
+I have retry this command , but i have others error ....
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948859623358742548/unknown.png)
+%end
+
+##### KENPACHI 03/03/2022 09:01:47
+Hey, I'm working on a snake robot and I'm trying to emit signals from my head module to the rest of the body. but I'm running into this error, which says 
+
+"Error: wb\_emitter\_send(): invalid argument: data = NULL.
+
+TypeError: expected bytes, float found"
+
+
+
+code snippet:
+
+while robot.step(TIME\_STEP) != -1:
+
+      for i in range(1,n) : 
+
+        Ac = 1
+
+        lat\_angle = Ac*math.sin(omg*i+w*t)
+
+        dor\_angle = e*Ac*math.sin(omg*i+w*t+off)
+
+        emitter.setChannel(i)
+
+        if i%2 !=0:
+
+          emitter.send(lat\_angle)          
+
+        else:
+
+          emitter.send(dor\_angle)
+
+
+
+***********NEED HELP *************
+
+##### Luftwaffel [Moderator] 03/03/2022 09:03:09
+`@KENPACHI` take a look at this sample world and controller. It should show you how to implement it
+> **Attachment**: [emitter\_receiver\_test.rar](https://cdn.discordapp.com/attachments/565154703139405824/948868121391923260/emitter_receiver_test.rar)
+
+
+line 2 and 27 are the important part
+
+
+that you are missing
+
+##### amna 03/03/2022 09:05:00
+How to turn on drone collision?
+
+##### KENPACHI 03/03/2022 09:05:27
+Got it! trying it right now!
+
+
+Working! thanks a lot.
+
+##### Luftwaffel [Moderator] 03/03/2022 09:18:13
+You are welcome!
+
+##### Mat198 03/03/2022 09:50:39
+Which drone are you using?
+
+##### amna 03/03/2022 09:51:03
+mavic from dji
+
+##### Yannnick3 [Cyberbotics] 03/03/2022 10:19:20
+I saw many people having the same issue as you on M1 macs. Is it your case? What I would suggest is to try to use Python 3.8 in Webots and see if the problem persists.
+
+##### Missaw 03/03/2022 10:20:29
+yes I have mac M1 😅
+
+
+I'm going to try version 3.8 now
+
+
+thx
+
+##### Yannnick3 [Cyberbotics] 03/03/2022 10:22:27
+You could try to follow this SO thread for example to fix the issue : [https://stackoverflow.com/questions/65336789/numpy-build-fail-in-m1-big-sur-11-1](https://stackoverflow.com/questions/65336789/numpy-build-fail-in-m1-big-sur-11-1)
+
+##### Missaw 03/03/2022 10:33:00
+always the same problems with the version 3.8 ....
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/948890743643209748/unknown.png)
+%end
+
+##### tokia 03/03/2022 17:38:50
+Is there a 2 finger gripper available in webots compatible for UR5
+
+##### DrakerDG [Moderator] 03/03/2022 19:17:33
+I think not, I remember one PROTO with 3 fingers, but it is possible to adapt one or make a new one
+
+
+Some options to adapt
+%figure
+![coupled_motors.png](https://cdn.discordapp.com/attachments/565154703139405824/949026719115927552/coupled_motors.png)
+%end
+
+##### Mat198 03/03/2022 23:26:58
+You are running on windows? If so open the cmd and try -> python -m pip install numpy
+
+##### Luftwaffel [Moderator] 03/04/2022 00:26:00
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects) there is the robotiq 2 finger gripper included here
+
+##### tokia 03/04/2022 00:26:32
+yessssssssssssssssssss thank you i didnt know this existed
+
+##### Luftwaffel [Moderator] 03/04/2022 00:27:16
+there is also a bunch of robot arms I added, such as the majority of kuka robots
+
+##### tokia 03/04/2022 00:37:34
+I modelled and made bounding box groups for all the robocup@work manipulation objects into webots, so I could add them to that once my project is working
+
+##### Luftwaffel [Moderator] 03/04/2022 00:38:14
+that would be great 🙂
+
+##### amna 03/04/2022 10:54:17
+How to reduce the voice of the robots? `@DrakerDG`
+
+##### Missaw 03/04/2022 10:57:10
+no , I'm into macos 😅
+
+##### giaco\_mz 03/05/2022 06:52:45
+How can I save my robotic system with its controllers without the world to load it in other simulation/world?
+
+##### Mat198 03/05/2022 16:11:08
+Just save it as a protonode with the .wbo extension. You can just copy and paste the controller in the correct folder or create another controller and paste the code.
+
+##### Ranga Kulathunga 03/06/2022 11:23:29
+Thank you very much for your response. I have worked on those but I was unable to see that the vehicle controlled by Webots is present in SUMO GUI interface. Do you have any idea or method to add a Webots vehicle into the SUMO simulation environment?
+
+##### pipppoo 03/06/2022 17:32:37
+Hi, I'm trying to follow the first tutorial on the webots website. However, when creating the first controller (python) I get this error:
+
+
+
+INFO: epuck\_go\_forward: Starting controller: python3 -u epuck\_go\_forward.py
+
+Traceback (most recent call last):
+
+  File "epuck\_go\_forward.py", line 1, in <module>
+
+    from controller import Robot, Motor
+
+  File "/usr/local/webots/lib/controller/python38/controller.py", line 31, in <module>
+
+    import \_controller
+
+ImportError: /usr/local/webots/lib/controller/python38/\_controller.so: undefined symbol: \_ZN6webots5Robot19internalGetInstanceEv
+
+WARNING: 'epuck\_go\_forward' controller exited with status: 1.
+
+
+
+Can somebody help me please?
+
+
+Update: I found the solution:
+
+
+
+export LD\_LIBRARY\_PATH=/usr/local/webots/lib/controller:$LD\_LIBRARY\_PATH
+
+##### chrikatz 03/07/2022 11:19:48
+Hi! I am currently working on W2022a and the webots\_ros2\_driver. Similiarly to the tesla\_driver and the mavik\_driver I built up a simulation. Everything is working fine, except that I am not able to evaluate supervisor functions as getPosition() etc although my vehicle has it's supervisor field set to active. Can somebody help me with my problem? Or is there any example available in the webots\_ros2 package which I can reuse to get a supevisory plugin? Thanks in advance!
+
+##### Mat198 03/07/2022 12:37:30
+Did you set like thing = supervisor.getFromDef("thing")
+
+
+
+Then
+
+
+
+Pos =thing.getPosition()?
+
+##### chrikatz 03/07/2022 12:48:02
+I am not able to run "from controller import Supervisor" in my driver.py and therefore not able to run the code you recommended. The error is the following:ImportError: /usr/local/webots/lib/controller/python38/\_controller.so: undefined symbol: \_ZNK6webots5Robot7getTypeEv
+
+##### DDaniel [Cyberbotics] 03/07/2022 12:53:40
+are you sure your WEBOTS\_HOME environmental variable points to the correct webots folder (did you install multiple versions of webots)?
+
+##### Benjamin Hug [Cyberbotics] 03/07/2022 12:55:38
+This has been fixed after the release of Webots R2022a, therfore I invite you to download one of the nightly build ([https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)).
+
+##### moebius 03/07/2022 23:40:42
+Hi, when i am using the webots recording feature while running the simulations in headless mode with xvfb-run , the recordings are all blank, is there a way around it? Also when i record it in gui mode, the quality is pretty bad ( the quality parameter cannot seem to be set above 60, it doesn't record otherwise and this is something i saw mentioned in an issue on github as well)
+
+##### Luftwaffel [Moderator] 03/08/2022 01:19:34
+Well it needs to render in order to record a video. So headless will not work. As for the quality, make sure the resolution is high enough. You might also have turned down a lot of the "nice" rendering options, or it is not supported (I am assuming you are using docker containers without gpu acceleration?)
+
+##### moebius 03/08/2022 06:09:40
+yes currently running it headless on docker containers without gpu acceleration but will run it on gpus soon.  Is there  any workaround to record it in headless mode, in situations like this?
+
+##### Luftwaffel [Moderator] 03/08/2022 06:52:09
+software render on cpu is crappy always. You really need that gpu acceleration for anything visual. That includes visual sensors as well (lidar, camera etc.)
+
+
+what do you need to record?
+
+
+or why?
+
+##### moebius 03/08/2022 07:31:54
+so we want to run batches of simulations, and since those will be running on docker containers, we want the ability to record them as well
+
+##### Luftwaffel [Moderator] 03/08/2022 07:35:13
+add cameras in the simulation
+
+
+that way you can explicitly controll all aspects of it
+
+##### moebius 03/08/2022 17:12:03
+okay so if i add cameras, i can record videos in headless mode as well??
+
+##### Luftwaffel [Moderator] 03/08/2022 18:06:46
+Yeah, but you need to do it through the controller. But perhaps wait for an <@&568329906048598039> dev to answer. There might be other solutions
+
+##### Robokashi 03/08/2022 19:49:23
+Hi ! I am trying to build MoveIt2 on Windows using the recently provided information (deep thanks to whoever wrote/made that available !).
+
+I am running into an issue when building, as cmake complains I don't have pkgconfig installed. Is it supposed to come with the ROS2 install ?
+
+##### Luftwaffel [Moderator] 03/08/2022 20:34:34
+You have to install all dependencies
+
+
+I think I ran into the exact issue as well. Just Google the specific error / missing package
+
+##### moebius 03/08/2022 20:44:22
+I want the wheels to move with the front half of the car, as i set the rotation of the servo in the middle part. This is the current .wbo. Should i change the bounding box, for the endpoint to also include the names of the solids ? or do they need to be children nodes, and if so, should the HingeJoint and Tire solids be under a subassembly?? (i don't know how to do that)
+
+```
+DEF pivotcar Robot {
+                children [
+                    DEF hinge0_servo_servo_h HingeJoint {
+                                jointParameters HingeJointParameters {
+                                                position 0
+                                                anchor 0.    0.017 0.021
+                                                axis -7.96e-04 -1.00e+00  0.00e+00
+                                            }
+                                device [
+                                        RotationalMotor {  
+                                        name "hinge0_servo_servo_h"
+                                        controlPID 0.01 0 0
+                                        maxVelocity 25
+                                        }
+                                    ]
+                                endPoint DEF car1_sheathsplit1_split Solid {
+                        children [ 
+                            DEF car1_sheathsplit1_split Shape 
+
+                    {   appearance PBRAppearance { baseColor 0 0 0 roughness 1.0 metalness 0.0 name "generic_material"}
+                        geometry IndexedFaceSet { the geometry}
+                            ] 
+                        contactMaterial "default"  
+                        boundingObject USE car1_sheathsplit1_split 
+                        physics Physics {
+                        density 1 
+                        mass 0.3}
+
+                        }
+```
+%figure
+![Screenshot_from_2022-03-06_19-50-42.png](https://cdn.discordapp.com/attachments/565154703139405824/950856526376087593/Screenshot_from_2022-03-06_19-50-42.png)
+%end
+%figure
+![Screenshot_from_2022-03-06_19-50-36.png](https://cdn.discordapp.com/attachments/565154703139405824/950856526589988934/Screenshot_from_2022-03-06_19-50-36.png)
+%end
+
+
+will do, thank you!
+
+##### Olivier Michel [Cyberbotics] 03/09/2022 07:12:30
+Instead of recording movies, I would recommend you to record 3D animations: it works in headless mode and provides a better way to examine the result of a simulation (as you can zoom and change the viewpoint).
+
+##### moebius 03/09/2022 07:37:28
+Oh alright, I'll look into this thank you!
+
+##### Baya19 03/09/2022 10:42:08
+Hi guys, what software did u use to see point cloud from a lidar sensor ? ROS,cloudcomapre ... ?
+
+##### Benjamin Hug [Cyberbotics] 03/09/2022 10:56:04
+You can see them in Webots by hitting `Ctrl+F8` or by going in `View`>`Optional Rendering`>`Show Lidar Point Cloud`.
+
+##### Baya19 03/09/2022 11:48:59
+I need the pictures of point cloud
+
+##### Ranga Kulathunga 03/09/2022 11:51:13
+Hi all! I have worked on sumo\_interface, highway, highway\_overtake examples that are connected to SUMO  but I was unable to see that the vehicle controlled by Webots is present in SUMO GUI interface. Do you have any idea or method to add a Webots vehicle into the SUMO simulation environment?
+
