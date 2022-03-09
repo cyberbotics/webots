@@ -38,7 +38,7 @@ Webots environment variables needed by extern controllers:
 | PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
 | WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)              | `my_robot_controller`                                                     |
-| WEBOTS\_VERSION (for MATLAB)                       | `R2022a revision 1`                                                       |
+| WEBOTS\_VERSION (for MATLAB)                       | `{{ webots.version.full }}`                                               |
 
 &nbsp;
 
@@ -47,7 +47,7 @@ Webots environment variables needed by extern controllers:
 ```matlab
 >> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', 'R2022a revision 1')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
 >> cd(getenv('WEBOTS_HOME'))
 >> cd('lib/controller/matlab')
 >> launcher
@@ -76,7 +76,7 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 | PYTHONIOENCODING (for Python)                         | `UTF-8`                                          |
 | WEBOTS\_PROJECT (for MATLAB)                          | `/home/my_username/my_folder/my_webots_project`  |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                            |
-| WEBOTS\_VERSION (for MATLAB)                          | `R2022a revision 1`                              |
+| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                      |
 
 &nbsp;
 
@@ -85,7 +85,7 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 ```matlab
 >> setenv('WEBOTS_PROJECT','/home/my_username/my_folder/my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', 'R2022a revision 1')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
 >> cd(getenv('WEBOTS_HOME'))
 >> cd('lib/controller/matlab')
 >> launcher
@@ -115,7 +115,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 | PYTHONIOENCODING (for Python)                         | `UTF-8`                                           |
 | WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`  |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                             |
-| WEBOTS\_VERSION (for MATLAB)                          | `R2022a revision 1`                               |
+| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                       |
 
 &nbsp;
 
@@ -124,7 +124,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 ```matlab
 >> setenv('WEBOTS_PROJECT','/Users/my_username/my_folder/my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', 'R2022a revision 1')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
 >> cd(getenv('WEBOTS_HOME'))
 >> cd('lib/controller/matlab')
 >> launcher
