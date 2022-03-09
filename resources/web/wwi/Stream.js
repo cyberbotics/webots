@@ -53,6 +53,8 @@ export default class Stream {
   }
 
   _onSocketMessage(event) {
+    if (!event.data.startsWith('application/json:'))
+      console.log("SOCKET MESSAGE: \n"+event.data+"\n");
     let data = event.data;
     if (data.startsWith('robot:'))
       return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
