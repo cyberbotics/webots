@@ -98,11 +98,15 @@ WbMotor::~WbMotor() {
 }
 
 void WbMotor::downloadAssets() {
-  const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
+  const QString &sound = mSound->value();
+  if (sound.isEmpty())
+    return;
+
+  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
   mDownloader = new WbDownloader(this);
   if (isPostFinalizedCalled())
@@ -283,39 +287,35 @@ void WbMotor::updateControlPID() {
 }
 
 void WbMotor::updateSound() {
-  const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
-
-  if (WbUrl::isWeb(completeUrl)) {
-    if (mDownloader && !mDownloader->error().isEmpty()) {
-      warn(mDownloader->error());  // failure downloading or file does not exist (404)
-      mSoundClip = NULL;
-      // downloader needs to be deleted in case the url is switched back to something valid
-      delete mDownloader;
-      mDownloader = NULL;
-      return;
-    }
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
-      downloadAssets();
-      return;
-    }
-  }
-
-  if (completeUrl.isEmpty()) {
+  const QString &sound = mSound->value();
+  if (sound.isEmpty()) {
     mSoundClip = NULL;
-    return;
+  } else {
+    const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
+
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        mSoundClip = NULL;
+        // downloader needs to be deleted in case the url is switched back to something valid
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        downloadAssets();
+        return;
+      }
+    }
+
+    // at this point the sound must be available (locally or in the cache).
+    // determine extension from url since for remotely defined assets the cached version does not retain this information
+    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+    if (WbUrl::isWeb(completeUrl))
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    else
+      mSoundClip = WbSoundEngine::sound(completeUrl, extension);
   }
-
-  // at this point the sound must be available (locally or in the cache).
-  // determine extension from url since for remotely defined assets the cached version does not retain this information
-  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
-  if (WbUrl::isWeb(completeUrl))
-    mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-  else
-    mSoundClip = WbSoundEngine::sound(completeUrl, extension);
-
-  // delete mDownloader;
-  // mDownloader = NULL;
-
   WbSoundEngine::clearAllMotorSoundSources();
 }
 

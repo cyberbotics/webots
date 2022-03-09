@@ -97,7 +97,7 @@ void WbDownloader::download(const QUrl &url) {
 void WbDownloader::finished() {
   // cache result
   if (mNetworkReply && mNetworkReply->error()) {
-    mError = tr("Cannot download %1, error code: %2: %2")
+    mError = tr("Cannot download %1, error code: %2: %3")
                .arg(mUrl.toString())
                .arg(mNetworkReply->error())
                .arg(mNetworkReply->errorString());

@@ -62,7 +62,7 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(url) || WbNetwork::instance()->isCached(url))
     return;
 
-  if (mDownloader[index] != NULL && mDownloader[index]->device() != NULL)
+  if (mDownloader[index] != NULL)
     delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
   if (isPostFinalizedCalled()) {
@@ -209,6 +209,11 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
+  if (sound.isEmpty()) {
+    *clip = NULL;
+    return;
+  }
+
   const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
@@ -223,11 +228,6 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
       downloadAsset(completeUrl, index);  // changed by supervisor
       return;
     }
-  }
-
-  if (completeUrl.isEmpty()) {
-    *clip = NULL;
-    return;
   }
 
   WbSoundEngine::clearAllContactSoundSources();

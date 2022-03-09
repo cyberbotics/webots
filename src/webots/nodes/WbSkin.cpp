@@ -513,7 +513,7 @@ void WbSkin::createWrenSkeleton() {
     return;
   }
 
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
   mDownloader = NULL;
 
