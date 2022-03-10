@@ -91,8 +91,9 @@ void WbStreamingServer::start(int port) {
     }
     return;
   }
-  if (mStream)
+  if (mStream) {
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
+  }
 }
 
 void WbStreamingServer::sendToJavascript(const QByteArray &string) {
@@ -246,10 +247,14 @@ void WbStreamingServer::onNewWebSocketConnection() {
     connect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
     connect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
     mWebSocketClients << client;
-    if (mStream)
+    if (mStream) {
       WbLog::info(tr("Streaming server: New client [%1] (%2 connected client(s)).")
                     .arg(clientToId(client))
                     .arg(mWebSocketClients.size()));
+      client->sendTextMessage(tr("Streaming server: New client [%1] (%2 connected client(s)).")
+                    .arg(clientToId(client))
+                    .arg(mWebSocketClients.size()));
+    }
   }
 }
 
@@ -289,8 +294,10 @@ void WbStreamingServer::processTextMessage(QString message) {
       name = jsonDocument.object().value("name").toString();
       robotMessage = jsonDocument.object().value("message").toString();
     }
-    if (mStream)
+    if (mStream) {
       WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(robotMessage));
+      client->sendTextMessage(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(robotMessage));
+    }
 
     if (robotMessage == "init robot window") {
       sendToClients();
@@ -461,10 +468,14 @@ void WbStreamingServer::socketDisconnected() {
     emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
     mWebSocketClients.removeAll(client);
     client->deleteLater();
-    if (mStream)
+    if (mStream) {
       WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
                     .arg(clientToId(client))
                     .arg(mWebSocketClients.size()));
+      client->sendTextMessage(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
+                    .arg(clientToId(client))
+                    .arg(mWebSocketClients.size()));
+    }
   }
 }
 
