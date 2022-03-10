@@ -34,8 +34,9 @@ namespace wren {
     virtual void uploadValue() const = 0;
 
   protected:
-    void upload(float value) const;
+    void upload(bool value) const;
     void upload(int value) const;
+    void upload(float value) const;
     void upload(const glm::vec2 &value) const;
     void upload(const glm::vec3 &value) const;
     void upload(const glm::vec4 &value) const;

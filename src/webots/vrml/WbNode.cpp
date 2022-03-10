@@ -1218,7 +1218,7 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
     exportNodeSubNodes(writer);
     exportNodeFooter(writer);
     if (isUrdfRootLink() && nodeModelName() != "Robot")
-      exportURDFJoint(writer);
+      exportUrdfJoint(writer);
   } else {
     exportNodeContents(writer);
     exportNodeFooter(writer);
