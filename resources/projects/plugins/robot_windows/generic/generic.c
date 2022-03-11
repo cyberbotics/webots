@@ -30,10 +30,10 @@ void wb_robot_window_step(int time_step) {
             wbu_generic_robot_window_parse_device_command(first_word, command);
         }
       }
+      const int current_message_length = strlen(message) + 1;
+      character_read += current_message_length;
+      message += current_message_length;
     }
-    const int current_message_length = strlen(message) + 1;
-    character_read += current_message_length;
-    message += current_message_length;
   }
 
   if (!wbu_generic_robot_window_needs_update())

@@ -102,6 +102,7 @@ typedef struct {
   int wwi_message_to_send_size;
   const char *wwi_message_to_send;
   int wwi_message_received_size;
+  int wwi_buffer_size;
   char *wwi_message_received;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
@@ -447,7 +448,10 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_WWI_MESSAGE:
       n = request_read_int32(r);
-      robot.wwi_message_received = realloc(robot.wwi_message_received, robot.wwi_message_received_size + n);
+      if (robot.wwi_buffer_size < robot.wwi_message_received_size + n) {
+        robot.wwi_message_received = realloc(robot.wwi_message_received, robot.wwi_message_received_size + n);
+        robot.wwi_buffer_size = robot.wwi_message_received_size;
+      }
       memcpy(robot.wwi_message_received + robot.wwi_message_received_size, request_read_data(r, n), n);
       robot.wwi_message_received_size += n;
       break;
@@ -1086,6 +1090,7 @@ int wb_robot_init() {  // API initialization
   robot.wwi_message_to_send_size = 0;
   robot.wwi_message_received = NULL;
   robot.wwi_message_received_size = 0;
+  robot.wwi_buffer_size = 0;
   robot.simulation_mode = -1;
 
   // receive a configure message for the robot and devices
