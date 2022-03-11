@@ -15,11 +15,14 @@
 #include "WbColladaShape.hpp"
 
 #include "WbAbstractAppearance.hpp"
+#include "WbAppearance.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbSFString.hpp"
-#include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
+#include "WbWorld.hpp"
+#include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
 #include <QtCore/QFileInfo>
@@ -28,6 +31,7 @@
 #include <wren/node.h>
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
+#include <wren/transform.h>
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -53,7 +57,7 @@ WbColladaShape::WbColladaShape(const WbNode &other) : WbBaseNode(other) {
 
 WbColladaShape::~WbColladaShape() {
   if (areWrenObjectsInitialized())
-    deleteWrenMeshes();
+    deleteWrenObjects();
 
   delete mBoundingSphere;
 }
@@ -100,19 +104,33 @@ void WbColladaShape::updateUrl() {
 }
 
 void WbColladaShape::updateShape() {
-  createWrenMeshes();
+  createWrenObjects();
   // update appearance?
+  // WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
-void WbColladaShape::createWrenMeshes() {
-  deleteWrenMeshes();
+void WbColladaShape::createWrenObjects() {
+  WbBaseNode::createWrenObjects();
+
+  deleteWrenObjects();  // TODO: create and delete?
+
+  // Assimp::Importer importer;
+  // importer.SetPropertyInteger(
+  //  AI_CONFIG_PP_RVC_FLAGS,
+  //  aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);  // TODO: needed?
+
+  // const aiScene *scene =
+  //  importer.ReadFile(colladaPath().toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
+  //                                                           aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
 
   Assimp::Importer importer;
-  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
-                              aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
-  const aiScene *scene =
-    importer.ReadFile(colladaPath().toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
-                                                             aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
+                                                        aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
+  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                       aiProcess_FlipUVs;
+  const aiScene *scene = importer.ReadFile(colladaPath().toStdString().c_str(), flags);
+
   if (!scene) {
     warn(tr("Invalid data, please verify collada file: %1").arg(importer.GetErrorString()));
     return;
@@ -137,9 +155,9 @@ void WbColladaShape::createWrenMeshes() {
   forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
   rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
 
-  // aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
-  //                forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-  // node->mTransformation = mat;
+  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
+                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+  scene->mRootNode->mTransformation = mat;
 
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
@@ -174,11 +192,11 @@ void WbColladaShape::createWrenMeshes() {
 
       // create the arrays
       int currentCoordIndex = 0;
-      double *const coordData = new double[3 * totalVertices];
+      float *const coordData = new float[3 * totalVertices];
       int currentNormalIndex = 0;
-      double *const normalData = new double[3 * totalVertices];
+      float *const normalData = new float[3 * totalVertices];
       int currentTexCoordIndex = 0;
-      double *const texCoordData = new double[2 * totalVertices];
+      float *const texCoordData = new float[2 * totalVertices];
       int currentIndexIndex = 0;
       unsigned int *const indexData = new unsigned int[3 * totalFaces];
 
@@ -214,19 +232,18 @@ void WbColladaShape::createWrenMeshes() {
         indexData[currentIndexIndex++] = face.mIndices[2];  // + indexOffset;
       }
 
-      WbTriangleMesh *mTriangleMesh = new WbTriangleMesh();
-      bool issueWarnings = true;  // TMP
+      // const float arrowVertices[12] = {0.0f, 0.9f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.0f};
+      // const float arrowNormals[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+      // const unsigned int arrowIndices[12] = {2, 1, 0, 0, 3, 2, 0, 1, 2, 2, 3, 0};
+      // WrStaticMesh *staticMesh =
+      //  wr_static_mesh_new(12, 12, arrowVertices, arrowNormals, arrowNormals, arrowNormals, arrowIndices, false);
 
-      QString mTriangleMeshError =
-        mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
+      // TODO: vertex_count and index_count always equal? (totalVertices)
+      // TODO: handle outline
+      WrStaticMesh *staticMesh =
+        wr_static_mesh_new(totalVertices, totalVertices, coordData, normalData, texCoordData, texCoordData, indexData, false);
 
-      if (issueWarnings) {
-        foreach (QString warning, mTriangleMesh->warnings())
-          warn(warning);
-
-        if (!mTriangleMeshError.isEmpty())
-          warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
-      }
+      mWrenMeshes.push_back(staticMesh);
 
       delete[] coordData;
       delete[] normalData;
@@ -239,123 +256,53 @@ void WbColladaShape::createWrenMeshes() {
       queue.push_back(node->mChildren[i]);
   }
 
-  /*
-  for (unsigned int i = 0; i < node->mNumChildren; ++i) {
-    printf("node %d (%s) has %d meshes (and %d children) || %d\n", i, node->mChildren[i]->mName.C_Str(),
-           node->mChildren[i]->mNumMeshes, node->mChildren[i]->mNumChildren);
-    if (node->mChildren[i]->HasMeshes())
+  printf("create WREN objects, size %lld\n", mWrenMeshes.size());
+  for (int i = 0; i < mWrenMeshes.size(); ++i) {
+    WrRenderable *renderable = wr_renderable_new();
+    WrMaterial *material = wr_phong_material_new();  // WbAppearance::fillWrenDefaultMaterial(NULL);
+    wr_renderable_set_material(renderable, material, NULL);
+    wr_material_set_default_program(material, WbWrenShaders::lineSetShader());
+    wr_renderable_set_mesh(renderable, WR_MESH(mWrenMeshes[i]));
+    wr_renderable_set_receive_shadows(renderable, true);
+    wr_renderable_set_cast_shadows(renderable, false);  // TODO: handle shadows, mCastShadows?
+    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
 
-    const aiMesh *mesh = scene->mMeshes[i];
-    const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-    printf("mesh %d: %s (%p) has %d vertices\n", i, mesh->mName.C_Str(), mesh, mesh->mNumVertices);
-    printf("  material %d: (%p)\n", i, material);
+    WrTransform *transform = wr_transform_new();
+    wr_transform_attach_child(wrenNode(), WR_NODE(transform));
+    setWrenNode(transform);
+    wr_transform_attach_child(transform, WR_NODE(renderable));
+    // wr_transform_set_scale(boneTransform, scale); // TODO: handle scale?
+    wr_node_set_visible(WR_NODE(transform), true);
 
-    if (mesh->mNumVertices > 100000)
-      warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
-             .arg(mesh->mName.C_Str()));
-
-    const int totalVertices = mesh->mNumVertices;
-    const int totalFaces = mesh->mNumFaces;
-
-
-    // create the arrays
-    int currentCoordIndex = 0;
-    double *const coordData = new double[3 * totalVertices];
-    int currentNormalIndex = 0;
-    double *const normalData = new double[3 * totalVertices];
-    int currentTexCoordIndex = 0;
-    double *const texCoordData = new double[2 * totalVertices];
-    int currentIndexIndex = 0;
-    unsigned int *const indexData = new unsigned int[3 * totalFaces];
-
-    aiMatrix4x4 transform;
-    aiNode *current = node;
-    while (current != NULL) {
-      transform *= current->mTransformation;
-      current = current->mParent;
-    }
-
-    for (size_t j = 0; j < mesh->mNumVertices; ++j) {
-      // extract the coordinate
-      const aiVector3D vertice = transform * mesh->mVertices[j];
-      coordData[currentCoordIndex++] = vertice[0];
-      coordData[currentCoordIndex++] = vertice[1];
-      coordData[currentCoordIndex++] = vertice[2];
-      // extract the normal
-      const aiVector3D normal = transform * mesh->mNormals[j];
-      normalData[currentNormalIndex++] = normal[0];
-      normalData[currentNormalIndex++] = normal[1];
-      normalData[currentNormalIndex++] = normal[2];
-      // extract the texture coordinate
-      if (mesh->HasTextureCoords(0)) {
-        texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].x;
-        texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].y;
-      } else {
-        texCoordData[currentTexCoordIndex++] = 0.5;
-        texCoordData[currentTexCoordIndex++] = 0.5;
-      }
-    }
-
-    // create the index array
-    for (size_t j = 0; j < mesh->mNumFaces; ++j) {
-      const aiFace face = mesh->mFaces[j];
-      if (face.mNumIndices < 3)  // we want to skip lines
-        continue;
-      assert(face.mNumIndices == 3);
-      indexData[currentIndexIndex++] = face.mIndices[0] + indexOffset;
-      indexData[currentIndexIndex++] = face.mIndices[1] + indexOffset;
-      indexData[currentIndexIndex++] = face.mIndices[2] + indexOffset;
-    }
+    // TODO: segmentation + rangefinder
+    // TODO: pickable?
+    // TODO: should be moved elsewhere
+    mWrenMaterials.push_back(material);
+    mWrenRenderables.push_back(renderable);
+    mWrenTransforms.push_back(transform);
   }
-  */
-
-  /*
-  for (unsigned int i = 0; i < node->mNumChildren; ++i) {
-    printf("node %d (%s) has %d meshes (and %d children) || %d\n", i, node->mChildren[i]->mName.C_Str(),
-           node->mChildren[i]->mNumMeshes, node->mChildren[i]->mNumChildren);
-
-    // count total number of vertices and faces of the current node
-
-    int totalVertices = 0;
-    int totalFaces = 0;
-
-    for (unsigned int j = 0; j < node->mChildren[i]->mNumMeshes; ++j) {
-      const aiMesh *mesh = scene->mMeshes[i];
-      totalVertices += mesh->mNumVertices;
-      totalFaces += mesh->mNumFaces;
-    }
-
-    if (node->mChildren[i]->mNumMeshes == 0)
-      continue;
-
-    for (unsigned int i = 0; i < node->mChildren[i]->mNumMeshes; ++i) {
-      printf("  mesh %d ", i )
-      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-
-      if (mesh->mNumVertices > 100000)
-        warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
-               .arg(mesh->mName.C_Str()));
-    }
-  }
-  */
 }
 
-void WbColladaShape::deleteWrenMeshes() {
-  for (WrRenderable *renderable : mRenderables) {
+void WbColladaShape::deleteWrenObjects() {
+  printf("> delete wren meshes\n");
+  for (WrRenderable *renderable : mWrenRenderables) {
     wr_material_delete(wr_renderable_get_material(renderable, "picking"));
     wr_node_delete(WR_NODE(renderable));
   }
 
-  for (WrStaticMesh *mesh : mMeshes)
+  for (WrStaticMesh *mesh : mWrenMeshes)
     wr_static_mesh_delete(mesh);
 
-  for (WrMaterial *material : mMaterials)
+  for (WrMaterial *material : mWrenMaterials)
     wr_material_delete(material);
 
-  mRenderables.clear();
-  mMeshes.clear();
-  mMaterials.clear();
+  for (WrTransform *transform : mWrenTransforms)
+    wr_node_delete(WR_NODE(transform));
+
+  mWrenRenderables.clear();
+  mWrenMeshes.clear();
+  mWrenMaterials.clear();
+  mWrenTransforms.clear();
 }
 
 QString WbColladaShape::colladaPath() const {
