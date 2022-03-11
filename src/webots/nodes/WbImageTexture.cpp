@@ -94,13 +94,16 @@ void WbImageTexture::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
-  if (mDownloader != NULL)
+  if (mDownloader != NULL){
+    printf("DELETE %s\n" ,completeUrl.toUtf8().constData());
     delete mDownloader;
+  }
 
   mDownloader = new WbDownloader(this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
 
+  //printf("DOWNLOAD %s\n",completeUrl.toUtf8().constData());
   mDownloader->download(QUrl(completeUrl));
 }
 

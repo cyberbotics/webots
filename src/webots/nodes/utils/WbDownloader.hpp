@@ -49,7 +49,7 @@ private:
 
 private slots:
   void finished();
-  void destroyed();
+  void errorOccurred(int code);
   static void displayPopUp();
 };
 

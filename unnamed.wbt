@@ -1,0 +1,144 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+  # contactProperties [
+  #   ContactProperties {
+  #   }
+  # ]
+}
+Viewpoint {
+  orientation 0.1351658833658706 0.8375655907516643 -0.5293524961334739 0.5918227091956427
+  position -6.048338249835836 1.9117661438708091 3.8328755830863774
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+Transform {
+  translation 0 0.18 0
+  children [
+    Shape {
+      appearance DEF APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/default/worlds/textures/asphalt.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 -0.21 0
+  children [
+    Shape {
+      appearance USE APP
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+}
+Transform {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/default/worlds/textures/asphalt.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 1 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_base_color.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_normal.jpg"
+          ]
+        }
+            occlusionMap ImageTexture {
+        url [
+          "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_occlusion.jpg"
+        ]
+        filtering 5
+      }
+          roughnessMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_roughness.jpg"
+      ]
+      filtering 5
+    }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+}
+# Transform {
+#   translation 0 0.25 1
+#   children [
+#     Shape {
+#       appearance PBRAppearance {
+#       }
+#       geometry Mesh {
+#         url [
+#           "https://cyberbotics.com/test_suite_assets/cube_0.2m.obj"
+#         ]
+#       }
+#     }
+#   ]
+# }
+# Transform {
+#   translation 0 -0.21 1
+#   children [
+#     Shape {
+#       appearance PBRAppearance {
+#       }
+#       geometry DEF MESH Mesh {
+#         url [
+#           "https://cyberbotics.com/test_suite_assets/cube_0.2m.obj"
+#         ]
+#       }
+#     }
+#   ]
+# }
+# Transform {
+#   translation 0 0 1
+#   children [
+#     Shape {
+#       appearance PBRAppearance {
+#       }
+#       geometry USE MESH
+#     }
+#   ]
+# }
+#Robot {
+#  children [
+#    HingeJoint {
+#      device [
+#        RotationalMotor {
+#        }
+#      ]
+#    }
+#  ]
+#}
+WoodenPallet{}
