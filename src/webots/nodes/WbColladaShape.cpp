@@ -116,12 +116,12 @@ void WbColladaShape::createWrenObjects() {
 
   // Assimp::Importer importer;
   // importer.SetPropertyInteger(
-  //  AI_CONFIG_PP_RVC_FLAGS,
-  //  aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);  // TODO: needed?
+  //   AI_CONFIG_PP_RVC_FLAGS,
+  //   aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);  // TODO: needed?
 
   // const aiScene *scene =
-  //  importer.ReadFile(colladaPath().toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
-  //                                                           aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
+  //   importer.ReadFile(colladaPath().toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
+  //                                                            aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
@@ -175,7 +175,11 @@ void WbColladaShape::createWrenObjects() {
       printf("  mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
              mesh->mMaterialIndex);
 
-      if (mesh->mNumVertices > 100000)
+      // compute absolute transform of this node from all the parents
+      const int vertices = mesh->mNumVertices;
+      const int faces = mesh->mNumFaces;
+
+      if (vertices > 100000)
         warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                .arg(mesh->mName.C_Str()));
 
@@ -186,19 +190,15 @@ void WbColladaShape::createWrenObjects() {
         current = current->mParent;
       }
 
-      // compute absolute transform of this node from all the parents
-      const int totalVertices = mesh->mNumVertices;
-      const int totalFaces = mesh->mNumFaces;
-
       // create the arrays
       int currentCoordIndex = 0;
-      float *const coordData = new float[3 * totalVertices];
+      float *const coordData = new float[3 * vertices];
       int currentNormalIndex = 0;
-      float *const normalData = new float[3 * totalVertices];
+      float *const normalData = new float[3 * vertices];
       int currentTexCoordIndex = 0;
-      float *const texCoordData = new float[2 * totalVertices];
+      float *const texCoordData = new float[2 * vertices];
       int currentIndexIndex = 0;
-      unsigned int *const indexData = new unsigned int[3 * totalFaces];
+      unsigned int *const indexData = new unsigned int[3 * faces];
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
@@ -227,21 +227,19 @@ void WbColladaShape::createWrenObjects() {
         if (face.mNumIndices < 3)  // we want to skip lines
           continue;
         assert(face.mNumIndices == 3);
-        indexData[currentIndexIndex++] = face.mIndices[0];  // + indexOffset;
-        indexData[currentIndexIndex++] = face.mIndices[1];  // + indexOffset;
-        indexData[currentIndexIndex++] = face.mIndices[2];  // + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[0];
+        indexData[currentIndexIndex++] = face.mIndices[1];
+        indexData[currentIndexIndex++] = face.mIndices[2];
       }
 
-      // const float arrowVertices[12] = {0.0f, 0.9f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.0f};
-      // const float arrowNormals[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-      // const unsigned int arrowIndices[12] = {2, 1, 0, 0, 3, 2, 0, 1, 2, 2, 3, 0};
-      // WrStaticMesh *staticMesh =
-      //  wr_static_mesh_new(12, 12, arrowVertices, arrowNormals, arrowNormals, arrowNormals, arrowIndices, false);
+      // int vertex_count, int index_count, const float *coord_data, const float *normal_data,
+      // const float *tex_coord_data, const float *unwrapped_tex_coord_data, const unsigned int *index_data, bool outline
 
-      // TODO: vertex_count and index_count always equal? (totalVertices)
+      // TODO: vertex_count and index_count always equal? (vertices)
       // TODO: handle outline
+
       WrStaticMesh *staticMesh =
-        wr_static_mesh_new(totalVertices, totalVertices, coordData, normalData, texCoordData, texCoordData, indexData, false);
+        wr_static_mesh_new(vertices, currentIndexIndex, coordData, normalData, texCoordData, texCoordData, indexData, false);
 
       mWrenMeshes.push_back(staticMesh);
 

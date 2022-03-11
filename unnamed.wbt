@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.16023668657708715 0.2197688239598392 0.9623023788238838 1.2967930836580621
-  position -0.31342564706414844 -1.097785887408386 0.5191755052176139
+  orientation -0.14554015347627247 0.208791466127685 0.9670698978865773 1.249093858177948
+  position -0.17069000168689685 -1.172810238629805 0.6567301904968432
 }
 Background {
   skyColor [
@@ -11,15 +11,13 @@ Background {
   ]
 }
 ColladaShape {
-  url "/home/daniel/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
+  url "/home/nctrl/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
 }
 Transform {
   translation 0.4 0 0
   children [
     ColladaShapes {
-      url "/home/daniel/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
+      url "/home/nctrl/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
     }
   ]
-}
-Solid {
 }
