@@ -447,10 +447,9 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_WWI_MESSAGE:
       n = request_read_int32(r);
-      if (n > robot.wwi_message_received_size)
-        robot.wwi_message_received = realloc(robot.wwi_message_received, n);
-      robot.wwi_message_received_size = n;
-      memcpy(robot.wwi_message_received, request_read_data(r, n), n);
+      robot.wwi_message_received = realloc(robot.wwi_message_received, robot.wwi_message_received_size + n);
+      memcpy(robot.wwi_message_received + robot.wwi_message_received_size, request_read_data(r, n), n);
+      robot.wwi_message_received_size += n;
       break;
     case C_ROBOT_SIMULATION_CHANGE_MODE:
       robot.simulation_mode = request_read_int32(r);
