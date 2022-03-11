@@ -31,10 +31,12 @@ export default class FloatingRobotWindow {
         this.floatingRobotWindowContent.className = 'floating-robotWindow-content';
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowContent);
 
-        let robotWindow = document.createElement('iframe');
-        robotWindow.id = this.name+"-robotWindow";
-        robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
-        this.floatingRobotWindowContent.appendChild(robotWindow);
+        //let robotWindow = document.createElement('iframe');
+        //robotWindow.id = this.name+"-robotWindow";
+        //robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
+        //this.floatingRobotWindowContent.appendChild(robotWindow);
+
+        let robotWindow = 
 
         this.dragElement(document.getElementById(name));
     }
