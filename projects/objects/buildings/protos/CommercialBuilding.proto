@@ -19,12 +19,12 @@ PROTO CommercialBuilding [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/orange_building_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/orange_building_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/orange_building_roughness.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/orange_building_roughness.png"
             ]
           }          
         }

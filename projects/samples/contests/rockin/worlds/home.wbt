@@ -33,7 +33,7 @@ DEF GROUND Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/parquetry.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/parquetry.jpg"
           ]
         }
         roughness 0.5
@@ -69,7 +69,7 @@ DEF GROUND Solid {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/interlaced_parquetry.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/interlaced_parquetry.jpg"
               ]
             }
             roughness 0.5
@@ -102,7 +102,7 @@ DEF CEIL Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/roughcast.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -144,7 +144,7 @@ DEF BATHROOM_STICKER Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "webots://projects/samples/contests/rockin/worlds/textures/bathroom_tiles.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/contests/rockin/worlds/textures/bathroom_tiles.jpg"
       ]
     }
     roughness 0.5

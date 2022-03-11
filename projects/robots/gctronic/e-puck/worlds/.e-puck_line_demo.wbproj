@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000001c60000011201000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "../../../webots/projects/robots/gctronic/e-puck/controllers/e-puck_line_demo/e-puck_line_demo.c"
+textFiles: -1
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: e-puck:camera;1;1;0;0

@@ -117,7 +117,7 @@ DEF PANEL Transform {
       appearance PBRAppearance {
         baseColorMap DEF TEXTURE ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/lightwood.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/lightwood.jpg"
           ]
         }
         roughness 0.5
@@ -286,7 +286,7 @@ Robot {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/howto/texture_change/worlds/textures/mybot.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/texture_change/worlds/textures/mybot.png"
           ]
         }
         roughness 0.5

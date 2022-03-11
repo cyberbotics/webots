@@ -69,7 +69,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/asphalt.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 1
@@ -326,7 +326,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/ladybug.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/ladybug.png"
           ]
           filtering 5
         }
@@ -353,7 +353,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/steel_floor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/steel_floor.jpg"
           ]
         }
         roughness 0.5

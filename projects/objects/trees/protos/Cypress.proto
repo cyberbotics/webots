@@ -25,12 +25,12 @@ PROTO Cypress [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/cypress_trunk.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/cypress_trunk.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/cypress_trunk_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/cypress_trunk_normal.jpg"
             ]
           }
           roughness 0.85
@@ -80,7 +80,7 @@ PROTO Cypress [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/cypress_leaves.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/cypress_leaves.png"
             ]
           }
           metalness 0

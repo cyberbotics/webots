@@ -39,13 +39,13 @@ PROTO ToyotaPriusWheel [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

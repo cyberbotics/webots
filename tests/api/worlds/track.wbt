@@ -97,7 +97,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "webots://projects/default/worlds/textures/chessboard.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }
@@ -122,7 +122,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "webots://projects/default/worlds/textures/chessboard.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }

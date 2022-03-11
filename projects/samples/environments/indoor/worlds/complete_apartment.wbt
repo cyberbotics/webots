@@ -497,7 +497,7 @@ DEF KITCHEN_BLOCK Transform {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/roughcast.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/roughcast.jpg"
               ]
             }
             roughness 0.5
@@ -552,7 +552,7 @@ DEF KITCHEN_BLOCK Transform {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/wood.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/wood.jpg"
               ]
             }
             roughness 0.5
@@ -576,7 +576,7 @@ DEF KITCHEN_BLOCK Transform {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "webots://projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
               ]
             }
             roughness 0.5

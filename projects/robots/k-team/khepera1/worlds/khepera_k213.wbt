@@ -108,7 +108,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -149,7 +149,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -191,7 +191,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -233,7 +233,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5

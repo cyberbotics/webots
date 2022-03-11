@@ -9,7 +9,7 @@
 
 
 PROTO RobotisJersey [
-  field MFString jerseyTexture "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_red.png"
+  field MFString jerseyTexture "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_red.png"
   field SFColor  jerseyColor   1 1 1
 ]
 {

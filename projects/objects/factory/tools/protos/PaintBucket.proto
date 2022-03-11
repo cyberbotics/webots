@@ -1387,7 +1387,7 @@ PROTO PaintBucket [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/tools/protos/textures/paint_can.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/tools/protos/textures/paint_can.jpg"
                 ]
                 filtering 5
               }

@@ -31,7 +31,7 @@ DEF TATAMI Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/fujitsu/hoap2/worlds/textures/fujitsu.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fujitsu/hoap2/worlds/textures/fujitsu.png"
           ]
         }
         roughness 0.5

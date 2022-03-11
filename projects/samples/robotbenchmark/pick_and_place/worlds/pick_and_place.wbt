@@ -64,7 +64,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/concrete.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/pick_and_place/worlds/textures/concrete.jpg"
       ]
     }
     roughness 1
@@ -254,7 +254,7 @@ DEF CONVEYOR_BELT Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/conveyor_belt_rubber.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/pick_and_place/worlds/textures/conveyor_belt_rubber.jpg"
               ]
             }
             roughness 1
@@ -510,7 +510,7 @@ DEF MACHINERY Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/factory_logo.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/pick_and_place/worlds/textures/factory_logo.png"
               ]
             }
           }
@@ -640,7 +640,7 @@ PlatformCart {
                   appearance DEF CUBE_BOX_APPEARANCE PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/cardboard.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/pick_and_place/worlds/textures/cardboard.jpg"
                       ]
                     }
                     roughness 1

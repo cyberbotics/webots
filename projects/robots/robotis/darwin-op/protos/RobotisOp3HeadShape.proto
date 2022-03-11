@@ -116,22 +116,22 @@ PROTO RobotisOp3HeadShape [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotis/darwin-op/protos/textures/op3_head_base_color.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_metalness.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotis/darwin-op/protos/textures/op3_head_metalness.png"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_roughness.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotis/darwin-op/protos/textures/op3_head_roughness.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotis/darwin-op/protos/textures/op3_head_normal.jpg"
             ]
           }
         }

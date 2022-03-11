@@ -1266,7 +1266,7 @@ DEF R1 E-puck {
   turretSlot [
     DEF EPUCK_FLAG E-puckFlag {
       image [
-        "webots://projects/samples/contests/ratslife/protos/e-puck/textures/rat1.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/contests/ratslife/protos/e-puck/textures/rat1.jpg"
       ]
     }
   ]
@@ -1279,7 +1279,7 @@ Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/contests/ratslife/worlds/textures/ground_tiles.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/contests/ratslife/worlds/textures/ground_tiles.png"
           ]
           filtering 0
         }

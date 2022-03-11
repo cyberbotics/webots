@@ -40,27 +40,27 @@ PROTO TinkerbotsGrabber [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
               ]
             }
           }

@@ -148,7 +148,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/sand.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -170,7 +170,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/sand.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -1245,29 +1245,29 @@ DEF SALAMANDER Robot {
     Skin {
       translation 0 0 0.38
       rotation 0.5773489358556708 -0.5773509358554485 -0.5773509358554485 -2.094395307179586
-      modelUrl "webots://projects/samples/rendering/worlds/skins/salamander.fbx"
+      modelUrl "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/worlds/skins/salamander.fbx"
       appearance [
         PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/worlds/textures/salamander_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/worlds/textures/salamander_base_color.jpg"
             ]
           }
           roughness 0.2
           roughnessMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/worlds/textures/salamander_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/worlds/textures/salamander_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/worlds/textures/salamander_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/worlds/textures/salamander_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/worlds/textures/salamander_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/worlds/textures/salamander_occlusion.jpg"
             ]
           }
           name "skin"

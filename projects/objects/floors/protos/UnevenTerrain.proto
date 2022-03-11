@@ -19,7 +19,7 @@ PROTO UnevenTerrain [
   field SFInt32    perlinNOctaves 3                                                                  # Defines the number of octaves of the perlin noise.
 
   # Deprecated in Webots R2019a
-  deprecatedField MFString   texture        "webots://projects/default/worlds/textures/sand.jpg"
+  deprecatedField MFString   texture        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/sand.jpg"
   # Deprecated in Webots R2020b
   deprecatedField SFVec2f    textureScale   1.0 1.0
 ]

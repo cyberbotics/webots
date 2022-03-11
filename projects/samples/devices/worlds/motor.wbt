@@ -161,7 +161,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/devices/worlds/textures/compass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/textures/compass.jpg"
           ]
         }
         roughness 1
@@ -203,7 +203,7 @@ SolidBox {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/wood.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/wood.jpg"
       ]
     }
     roughness 1

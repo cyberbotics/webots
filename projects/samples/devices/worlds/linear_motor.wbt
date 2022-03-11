@@ -66,7 +66,7 @@ DEF ROBOT Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/devices/worlds/textures/ruler.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/textures/ruler.png"
           ]
         }
         roughness 1

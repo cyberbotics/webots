@@ -47,7 +47,7 @@ PROTO HandSanitizer [
           baseColor 0.933333 0.933333 0.92549
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/hospital/protos/textures/hand_sanitizer.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/hospital/protos/textures/hand_sanitizer.jpg"
             ]
           }
           roughness 1

@@ -50,7 +50,7 @@ PROTO Fountain [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/default/worlds/textures/rock.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0
@@ -91,7 +91,7 @@ PROTO Fountain [
         appearance DEF PIPE PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/default/worlds/textures/rock.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0
@@ -126,7 +126,7 @@ PROTO Fountain [
             appearance DEF SURFACES PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/default/worlds/textures/rock.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/rock.jpg"
                 ]
               }
               metalness 0

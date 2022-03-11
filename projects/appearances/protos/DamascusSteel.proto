@@ -13,17 +13,17 @@ PROTO DamascusSteel [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/damascus_steel/damascus_steel_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/damascus_steel/damascus_steel_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/damascus_steel/damascus_steel_normal.jpg"
       ]
     }
     normalMapFactor 1

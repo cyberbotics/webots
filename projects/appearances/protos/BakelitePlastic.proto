@@ -13,12 +13,12 @@ PROTO BakelitePlastic [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_base_color_' + fields.color.value + '.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_base_color_' + fields.color.value + '.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_roughness.jpg"
       ]
     }
     metalness 0

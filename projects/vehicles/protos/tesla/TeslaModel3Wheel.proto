@@ -26,27 +26,27 @@ PROTO TeslaModel3Wheel [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_base_color.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_wheels_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_wheels_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_metallic.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_wheels_metallic.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_wheels_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_wheels_occlusion.jpg"
               ]
             }
           }

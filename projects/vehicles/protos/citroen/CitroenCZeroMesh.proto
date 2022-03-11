@@ -5,7 +5,7 @@
 
 PROTO CitroenCZeroMesh [
   field     SFColor    color             0.85 0.85 0.05
-  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/plate.jpg"
 ]
 {
   Group {
@@ -4809,12 +4809,12 @@ PROTO CitroenCZeroMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -4931,12 +4931,12 @@ PROTO CitroenCZeroMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
                 ]
               }
             }

@@ -13,12 +13,12 @@ PROTO TeslaModel3Windows [
       transparency 0.15
       normalMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_glass_normal.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_glass_normal.jpg"
         ]
       }
       occlusionMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_glass_occlusion.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_glass_occlusion.jpg"
         ]
       }
     }

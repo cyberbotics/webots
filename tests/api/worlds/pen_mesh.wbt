@@ -31,7 +31,7 @@ DEF BOARD Solid {
       }
       geometry Mesh {
         url [
-          "webots://projects/default/worlds/meshes/suzanne.obj"
+          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

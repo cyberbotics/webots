@@ -91,7 +91,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/ground_grass.jpg"
       ]
     }
     roughness 1
@@ -1463,7 +1463,7 @@ DEF SIGNS Solid {
         OrderPanel {
           translation 0.026 0 -0.175
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
         }
       ]
@@ -1476,7 +1476,7 @@ DEF SIGNS Solid {
         OrderPanel {
           translation 0.026 0 -0.175
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
         }
       ]
@@ -1488,7 +1488,7 @@ DEF SIGNS Solid {
         OrderPanel {
           translation 0.026 0 -0.175
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
         }
       ]
@@ -1501,7 +1501,7 @@ DEF SIGNS Solid {
         OrderPanel {
           translation 0.026 0 -0.175
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
         }
       ]
@@ -1513,7 +1513,7 @@ DEF SIGNS Solid {
         SpeedLimitPanel {
           translation 0.023 0 0
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
         }
       ]
@@ -1526,7 +1526,7 @@ DEF SIGNS Solid {
         SpeedLimitPanel {
           translation 0.023 0 0
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
         }
       ]
@@ -1539,7 +1539,7 @@ DEF SIGNS Solid {
         SpeedLimitPanel {
           translation 0.023 0 0
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
         }
       ]
@@ -1551,7 +1551,7 @@ DEF SIGNS Solid {
         SpeedLimitPanel {
           translation 0.023 0 0
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
         }
       ]
@@ -1563,7 +1563,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1576,7 +1576,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1589,7 +1589,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1602,7 +1602,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1614,7 +1614,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1627,7 +1627,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1640,7 +1640,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1653,7 +1653,7 @@ DEF SIGNS Solid {
         CautionPanel {
           translation 0 0 -0.17
           signImage [
-            "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
         }
       ]
@@ -1671,7 +1671,7 @@ DEF SIGNS Solid {
           height 4
           length 5.5
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
           ]
         }
       ]
@@ -1691,7 +1691,7 @@ DEF SIGNS Solid {
           height 4
           length 4.4
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg"
           ]
         }
       ]
@@ -1711,7 +1711,7 @@ DEF SIGNS Solid {
           height 4
           length 5.5
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
           ]
         }
       ]
@@ -1731,7 +1731,7 @@ DEF SIGNS Solid {
           height 4
           length 4.4
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg"
           ]
         }
       ]
@@ -1762,7 +1762,7 @@ DEF SIGNS Solid {
         HighwaySign {
           translation 0 -3.34 0
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
           ]
         }
       ]
@@ -1772,7 +1772,7 @@ DEF SIGNS Solid {
           height 2.5
           length 3
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
           ]
         }
       ]
@@ -1782,7 +1782,7 @@ DEF SIGNS Solid {
           name "highway sign(2)"
           height 3.5
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
           ]
         }
       ]
@@ -1792,7 +1792,7 @@ DEF SIGNS Solid {
           height 2.5
           length 3
           texture [
-            "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
           ]
         }
       ]

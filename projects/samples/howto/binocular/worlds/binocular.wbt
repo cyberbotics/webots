@@ -72,7 +72,7 @@ DEF WOOD_BOX Solid {
         baseColor 0.74902 0.74902 0.74902
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/lightwood.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/lightwood.jpg"
           ]
         }
         roughness 0.5
@@ -267,7 +267,7 @@ Robot {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/howto/binocular/worlds/textures/mybot.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/binocular/worlds/textures/mybot.png"
           ]
         }
         roughness 0.5

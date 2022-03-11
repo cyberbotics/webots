@@ -266,27 +266,27 @@ PROTO TinkerbotsDistanceSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_normal.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_normal.png"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_occlusion.jpg"
               ]
             }
           }

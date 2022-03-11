@@ -23,21 +23,21 @@ Solid {
       appearance DEF GREEN_APPEARANCE PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/robotstadium/protos/textures/field_quarter_base_color.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/robotstadium/protos/textures/field_quarter_normal.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_occlusion.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/robotstadium/protos/textures/field_quarter_occlusion.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
@@ -77,7 +77,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/cyberbotics_logo.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/robotstadium/protos/textures/cyberbotics_logo.png"
           ]
         }
         textureTransform TextureTransform {
@@ -126,7 +126,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/webots_logo.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/robotstadium/protos/textures/webots_logo.png"
           ]
         }
         textureTransform TextureTransform {

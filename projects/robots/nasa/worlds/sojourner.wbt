@@ -40,7 +40,7 @@ DEF FLAG Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/nasa/worlds/textures/panel.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/worlds/textures/panel.jpg"
               ]
             }
             roughness 1

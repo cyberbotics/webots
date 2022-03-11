@@ -34,17 +34,17 @@ PROTO Laptop [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_base_color.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_screen_base_color.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_roughness.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_screen_roughness.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_normal.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_screen_normal.jpg"
                   ]
                 }
                 metalness 0
@@ -119,17 +119,17 @@ PROTO Laptop [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_keyboard_base_color.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_keyboard_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/laptop_keyboard_occlusion.jpg"
             ]
           }
           metalness 0

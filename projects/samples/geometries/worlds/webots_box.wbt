@@ -17,7 +17,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/geometries/worlds/textures/webots_box.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/geometries/worlds/textures/webots_box.png"
           ]
         }
         roughness 0.5

@@ -15,7 +15,7 @@ PROTO Roughcast [
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/roughcast/roughcast_normal.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/roughcast/roughcast_normal.png"
       ]
     }
     IBLStrength IS IBLStrength

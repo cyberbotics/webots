@@ -25,21 +25,21 @@ PROTO StonePavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
       ]
       filtering 5
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
       ]
       filtering 5
     }
@@ -47,7 +47,7 @@ PROTO StonePavement [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
       ]
       filtering 5
     }

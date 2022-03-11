@@ -19,7 +19,7 @@ PROTO Mirror [
   field SFNode     frameAppearance VarnishedPine {}  # Defines the appearance of the mirror frame.
 
   # Deprecated in Webots R2019a
-  hiddenField MFString   frameTexture    ["webots://projects/default/worlds/textures/wood.jpg"]
+  hiddenField MFString   frameTexture    ["https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/wood.jpg"]
 ]
 {
   %<

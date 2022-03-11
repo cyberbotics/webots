@@ -94,7 +94,7 @@ DEF GROUND Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/ground.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/ground.jpg"
           ]
         }
         roughness 0.5
@@ -245,10 +245,10 @@ RoadIntersection {
   ]
   startRoadsNumberOfLanes 4
   startRoadsStartLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   startRoadsLine [
     RoadLine {
@@ -347,10 +347,10 @@ RoadIntersection {
   ]
   startRoadsNumberOfLanes 4
   startRoadsStartLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   startRoadsLine [
     RoadLine {
@@ -892,7 +892,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/turn_left.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_left.jpg"
       ]
     }
   ]
@@ -909,7 +909,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/bump.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/bump.jpg"
       ]
     }
   ]
@@ -922,7 +922,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -935,7 +935,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
       ]
     }
   ]
@@ -957,7 +957,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/no_right_turn.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_right_turn.jpg"
       ]
     }
   ]
@@ -970,7 +970,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/no_pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/no_pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -999,7 +999,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
     }
   ]
@@ -1012,7 +1012,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
     }
   ]
@@ -1025,7 +1025,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
     }
   ]
@@ -1038,7 +1038,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
     }
   ]
@@ -1050,7 +1050,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/one_way_sign_left.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/us/one_way_sign_left.jpg"
       ]
     }
   ]
@@ -1233,7 +1233,7 @@ HighwayPole {
       height 4
       length 5.5
       texture [
-        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -1243,7 +1243,7 @@ HighwayPole {
       height 2.5
       length 3
       texture [
-        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]

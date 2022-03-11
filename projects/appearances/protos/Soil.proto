@@ -15,23 +15,23 @@ PROTO Soil [
     baseColor IS color
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_base_color.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_roughness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_normal.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_occlusion.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

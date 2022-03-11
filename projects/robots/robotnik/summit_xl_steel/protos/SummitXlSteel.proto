@@ -39,7 +39,7 @@ PROTO SummitXlSteel [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chassis.dae"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chassis.dae"
           ]
         }
       }
@@ -56,7 +56,7 @@ PROTO SummitXlSteel [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas.stl"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas.stl"
               ]
             }
           }
@@ -70,7 +70,7 @@ PROTO SummitXlSteel [
             appearance USE DARKGREY
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas_front.stl"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas_front.stl"
               ]
             }
           }
@@ -84,7 +84,7 @@ PROTO SummitXlSteel [
             appearance USE DARKGREY
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/robotnik_logo_chasis.stl"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/robotnik_logo_chasis.stl"
               ]
             }
           }
@@ -148,7 +148,7 @@ PROTO SummitXlSteel [
                   }
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_int.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_int.dae"
                     ]
                   }
                 }
@@ -162,7 +162,7 @@ PROTO SummitXlSteel [
                   }
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_int.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_int.dae"
                     ]
                   }
                 }
@@ -215,7 +215,7 @@ PROTO SummitXlSteel [
                   appearance USE WHEEL_APPEARANCE
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_ext.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_ext.dae"
                     ]
                   }
                 }
@@ -223,7 +223,7 @@ PROTO SummitXlSteel [
                   appearance USE ROLLERS_APPEARANCE
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_ext.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_ext.dae"
                     ]
                   }
                 }
@@ -362,7 +362,7 @@ PROTO SummitXlSteel [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra.dae"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra.dae"
                   ]
                 }
               }
@@ -372,7 +372,7 @@ PROTO SummitXlSteel [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra_cover.dae"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra_cover.dae"
                   ]
                 }
               }

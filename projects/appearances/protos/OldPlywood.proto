@@ -13,19 +13,19 @@ PROTO OldPlywood [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/old_plywood/old_plywood_base_color.jpg"
       ]
     }
     metalness 0
     roughness 0.5
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/old_plywood/old_plywood_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/old_plywood/old_plywood_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

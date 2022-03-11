@@ -70,7 +70,7 @@ PROTO HokuyoUrg04lx [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/hokuyo/protos/textures/urg-04lx.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/devices/hokuyo/protos/textures/urg-04lx.jpg"
                 ]
               }
             }

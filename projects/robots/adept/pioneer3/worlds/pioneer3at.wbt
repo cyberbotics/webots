@@ -28,7 +28,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
       ]
     }
     roughness 1
@@ -46,7 +46,7 @@ DEF OBSTACLE_1 Solid {
         baseColor 0.898039 0.898039 0.898039
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/rock.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/rock.jpg"
           ]
         }
         roughness 1

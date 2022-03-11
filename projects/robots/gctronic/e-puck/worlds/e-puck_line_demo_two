@@ -1,0 +1,174 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+  info [
+    "This behavior-based controller allows the e-puck robot to follow the black line, avoid obstacles and recover its path afterwards."
+    "This model of the e-puck is equipped with ground sensors, located at the front of the e-puck."
+    "Thanks to Jean-Christophe Zufferey (EPFL-LIS)."
+  ]
+  title "E-Puck Line Follow (two robots)"
+  lineScale 0.04
+}
+Viewpoint {
+  orientation 0.2973297925999149 0.7340866194253786 -0.6105012937030608 0.9954396280428267
+  position -1.2988687050786933 1.0952009539672214 1.7997248198378328
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 0 0 -1 3.67802e-06
+  floorSize 0.9 0.9
+  floorTileSize 0.9 0.9
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/gctronic/e-puck/worlds/textures/floor.png"
+      ]
+    }
+    roughness 0.2
+    metalness 0
+  }
+  wallHeight 0.05
+}
+DEF OBSTACLE1 Solid {
+  translation 0.0776232 0.203622 0.025
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOX1
+}
+DEF OBSTACLE2 Solid {
+  translation -0.0799842 0.034818 0.025
+  rotation 0 0 1 3.82203
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.501961 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.08 0.08 0.05
+      }
+    }
+  ]
+  name "pink box"
+  boundingObject USE BOX2
+}
+DEF OBSTACLE3 Solid {
+  translation 0.10039 -0.131264 0.025
+  rotation 0 0 1 -0.14926530717958642
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.501961 0.501961 0.501961
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.05 0.2 0.05
+      }
+    }
+  ]
+  name "gray box"
+  boundingObject USE BOX3
+}
+DEF EPUCK E-puck {
+  translation 0.0114912 -0.169656 -4.44089e-16
+  rotation 0 0 1 3.0708
+  controller "e-puck_line_demo"
+  groundSensorsSlot [
+    E-puckGroundSensors {
+    }
+  ]
+}
+RectangleArena {
+  translation 1 0 0
+  rotation 0 0 1 -1.5708
+  floorSize 0.9 0.9
+  floorTileSize 0.9 0.9
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/gctronic/e-puck/worlds/textures/floor.png"
+      ]
+    }
+    roughness 0.2
+    metalness 0
+  }
+  wallHeight 0.05
+}
+DEF OBSTACLE4 Solid {
+  translation 1.192401 -0.0871577 0.025
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 0.6 0.1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "yellow box"
+  boundingObject USE BOX1
+}
+DEF OBSTACLE5 Solid {
+  translation 1.0327153 0.0677406 0.025
+  rotation 0 0 1 3.82203
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.1 1 0.1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.08 0.08 0.05
+      }
+    }
+  ]
+  name "green box"
+  boundingObject USE BOX2
+}
+DEF OBSTACLE6 Solid {
+  translation 0.889698 -0.116597 0.025
+  rotation 0 0 1 13.7261
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.1 0.1 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.05 0.2 0.05
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject USE BOX3
+}
+DEF EPUCK E-puck {
+  translation 0.825 -0.012 0
+  rotation 0 0 1 1.5
+  controller "e-puck_line_demo"
+  groundSensorsSlot [
+    E-puckGroundSensors {
+    }
+  ]
+}

@@ -23,7 +23,7 @@ DEF GROUND Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "webots://projects/samples/demos/worlds/textures/moon/moon_ground.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/moon/moon_ground.jpg"
       ]
     }
     roughness 1
@@ -56,7 +56,7 @@ DEF EARTH Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/demos/worlds/textures/moon/earth.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/moon/earth.png"
           ]
         }
         roughness 0.5

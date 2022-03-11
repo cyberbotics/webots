@@ -13,27 +13,27 @@ PROTO MetalStainlessSteelCable [
     occlusionMapStrength 5
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_metalness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

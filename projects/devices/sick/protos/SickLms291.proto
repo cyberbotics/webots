@@ -27,12 +27,12 @@ PROTO SickLms291 [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/sick/protos/textures/sick_lms291.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/devices/sick/protos/textures/sick_lms291.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/devices/sick/protos/textures/sick_lms291_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/devices/sick/protos/textures/sick_lms291_roughness.jpg"
                 ]
               }
             }

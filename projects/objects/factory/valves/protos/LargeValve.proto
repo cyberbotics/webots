@@ -60,12 +60,12 @@ PROTO LargeValve [
                     roughness 0.4
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/factory/valves/protos/textures/valve_handle.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/valves/protos/textures/valve_handle.jpg"
                       ]
                     }
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/objects/factory/valves/protos/textures/valve_handle_normal.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/valves/protos/textures/valve_handle_normal.jpg"
                       ]
                     }
                     normalMapFactor 0.65

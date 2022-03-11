@@ -9,7 +9,7 @@ PROTO RegularAppearance [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/robots/boston_dynamics/atlas/protos/textures/atlas.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/boston_dynamics/atlas/protos/textures/atlas.jpg"
       ]
     }
     roughness 0.3

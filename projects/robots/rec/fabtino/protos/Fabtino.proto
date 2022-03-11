@@ -39,7 +39,7 @@ PROTO Fabtino [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/rec/fabtino/protos/meshes/base_central.dae"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/base_central.dae"
               ]
             }
           }
@@ -51,7 +51,7 @@ PROTO Fabtino [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/rec/fabtino/protos/meshes/base.dae"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/base.dae"
               ]
             }
           }
@@ -86,7 +86,7 @@ PROTO Fabtino [
                   }
                   geometry DEF WHEEL_RIGHT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/wheel1.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/wheel1.dae"
                     ]
                   }
                 }
@@ -98,7 +98,7 @@ PROTO Fabtino [
                   }
                   geometry DEF ROLLERS_RIGHT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/rollers1.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/rollers1.dae"
                     ]
                   }
                 }
@@ -146,7 +146,7 @@ PROTO Fabtino [
                   appearance USE WHEEL_APPEARANCE
                   geometry DEF WHEEL_LEFT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/wheel2.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/wheel2.dae"
                     ]
                   }
                 }
@@ -154,7 +154,7 @@ PROTO Fabtino [
                   appearance USE ROLLERS_APPEARANCE
                   geometry DEF ROLLERS_LEFT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/rollers2.dae"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/rec/fabtino/protos/meshes/rollers2.dae"
                     ]
                   }
                 }

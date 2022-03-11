@@ -31,7 +31,7 @@ PROTO TinkerbotsCubieTriangle [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color IS color
-            occlusionMapUrl "webots://projects/robots/kinematics/tinkerbots/protos/textures/cubie_triangle_occlusion.jpg"
+            occlusionMapUrl "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/cubie_triangle_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

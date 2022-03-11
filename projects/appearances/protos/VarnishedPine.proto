@@ -13,20 +13,20 @@ PROTO VarnishedPine [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
       ]
       filtering 5
     }
@@ -34,7 +34,7 @@ PROTO VarnishedPine [
     normalMapFactor 0.5
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
       ]
       filtering 5
     }

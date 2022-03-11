@@ -53,7 +53,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/interlaced_parquetry.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/interlaced_parquetry.jpg"
       ]
     }
     roughness 1
@@ -121,7 +121,7 @@ E-puck {
                   baseColor 0.8 0.8 0.8
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/default/worlds/textures/wood.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/wood.jpg"
                     ]
                   }
                   roughness 1
@@ -144,7 +144,7 @@ E-puck {
                   baseColor 0.8 0.8 0.8
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/inverted_pendulum/worlds/textures/red_rubber.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/inverted_pendulum/worlds/textures/red_rubber.jpg"
                     ]
                   }
                   roughness 1

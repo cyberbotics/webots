@@ -8,7 +8,7 @@ PROTO LandscapePainting [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "landscape painting"
   field SFColor    color       1 1 1                              # Defines the color of the painting.
-  field MFString   textureUrl  "webots://projects/objects/paintings/protos/textures/landscape_painting.jpg"  # Defines the texure used for the painting.
+  field MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/paintings/protos/textures/landscape_painting.jpg"  # Defines the texure used for the painting.
 ]
 {
 Solid {
@@ -22,14 +22,14 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_roughness.jpg"
+          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/paintings/protos/textures/canvas_roughness.jpg"
         }
         metalness 0
         normalMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_normal.jpg"
+          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/paintings/protos/textures/canvas_normal.jpg"
         }
         occlusionMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_occlusion.jpg"
+          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/paintings/protos/textures/canvas_occlusion.jpg"
         }
       }
       geometry IndexedFaceSet {

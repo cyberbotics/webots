@@ -51,27 +51,27 @@ PROTO SquarePathPioneer3dx [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_metalness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_occlusion.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/body_3dx_occlusion.jpg"
                 ]
               }
             }
@@ -276,7 +276,7 @@ PROTO SquarePathPioneer3dx [
                   roughness 1
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/square_path/protos/textures/serial_plug.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/serial_plug.jpg"
                     ]
                   }
                 }
@@ -358,12 +358,12 @@ PROTO SquarePathPioneer3dx [
                   metalness 0
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/square_path/protos/textures/top_3dx_base_color.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/top_3dx_base_color.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/square_path/protos/textures/top_3dx_normal.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/top_3dx_normal.jpg"
                     ]
                   }
                   normalMapFactor 0.1
@@ -458,22 +458,22 @@ PROTO SquarePathPioneer3dx [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_base_color.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_roughness.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_roughness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_normal.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_normal.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_occlusion.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/caster_wheel_occlusion.jpg"
                         ]
                       }
                     }
@@ -667,22 +667,22 @@ PROTO SquarePathPioneer3dx [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_base_color.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_base_color.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_roughness.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_roughness.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_normal.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_normal.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_occlusion.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/square_path/protos/textures/smooth_rubber_occlusion.jpg"
                   ]
                 }
               }

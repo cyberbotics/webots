@@ -90,7 +90,7 @@ DEF OUTSIDE_WEST_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -140,7 +140,7 @@ DEF OUTSIDE_WEST_WALL_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -183,7 +183,7 @@ DEF OUTSIDE_SOUTH_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -233,7 +233,7 @@ DEF OUTSIDE_EAST_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -283,7 +283,7 @@ DEF OUTSIDE_EAST_WALL_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -325,7 +325,7 @@ DEF OUTSIDE_NORTH_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -400,7 +400,7 @@ DEF INSIDE_SMALL_WALL_TEX Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -442,7 +442,7 @@ DEF INSIDE_SMALL_WALL_TEX_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -542,7 +542,7 @@ DEF EPFL_LOGO_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/epfl_logo.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/epfl_logo.png"
           ]
         }
         roughness 1
@@ -571,7 +571,7 @@ DEF LIS_LOGO Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/epfl/lis/worlds/textures/logo.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/epfl/lis/worlds/textures/logo.png"
           ]
         }
         roughness 1

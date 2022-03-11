@@ -17,7 +17,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/samples/curriculum/worlds/textures/arena_floor.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/curriculum/worlds/textures/arena_floor.jpg"
       ]
     }
     roughness 1
@@ -27,7 +27,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/samples/curriculum/worlds/textures/arena_wall.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/curriculum/worlds/textures/arena_wall.jpg"
       ]
     }
     roughness 1

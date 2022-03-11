@@ -17,7 +17,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/curriculum/worlds/textures/dance_floor.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/curriculum/worlds/textures/dance_floor.jpg"
           ]
         }
         roughness 1

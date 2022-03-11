@@ -25,7 +25,7 @@ PROTO JetBotRaspberryPiCamera [
           DEF BOARD TexturedBoxShape {
             size 0.001 0.024 0.024
             textureUrl [
-              "webots://projects/robots/nvidia/jetbot/protos/textures/raspberry_pi_camera.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nvidia/jetbot/protos/textures/raspberry_pi_camera.jpg"
             ]
           }
         ]

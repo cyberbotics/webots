@@ -28,7 +28,7 @@ DEF BOX1 Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
           ]
         }
         roughness 0.5
@@ -53,7 +53,7 @@ DEF BOX2 Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
           ]
         }
         roughness 0.5
@@ -76,7 +76,7 @@ DEF PLANE Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
           ]
         }
         roughness 0.5

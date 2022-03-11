@@ -14,25 +14,25 @@ PROTO TireRubber [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_base_color.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_roughness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_normal.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_normal.jpg"' >%
       ]
     }
     normalMapFactor 8
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_occlusion.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/tire_rubber/' + fields.type.value + '_tire_rubber_occlusion.jpg"' >%
       ]
     }
     occlusionMapStrength 8

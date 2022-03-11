@@ -107,7 +107,7 @@ PROTO WashingMachine [
               baseColor 0.988 0.988 0.988
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/bathroom/protos/textures/washing_machine_buttons.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/bathroom/protos/textures/washing_machine_buttons.jpg"
                 ]
               }
               roughness 0.5

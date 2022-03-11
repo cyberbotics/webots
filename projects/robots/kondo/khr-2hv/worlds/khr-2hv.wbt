@@ -41,7 +41,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/robots/kondo/khr-2hv/worlds/textures/kondo_logo.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-2hv/worlds/textures/kondo_logo.jpg"
       ]
     }
     roughness 1

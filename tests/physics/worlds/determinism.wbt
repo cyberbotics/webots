@@ -32,7 +32,7 @@ DEF CAPSULE Solid {
         }
         texture ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/tagged_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         textureTransform TextureTransform {

@@ -10,7 +10,7 @@ PROTO Bed [
   field SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }                                                      # Defines the appearance of the frame.
   field SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the mattress.
   field SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the pillows.
-  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "webots://projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
+  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
 ]
 {
   Solid {

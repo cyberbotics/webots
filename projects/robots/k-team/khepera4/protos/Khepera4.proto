@@ -118,22 +118,22 @@ PROTO Khepera4 [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_top_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_top_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_top_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_top_roughness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_top_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_top_occlusion.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_top_occlusion.jpg"
                 ]
               }
             }
@@ -163,7 +163,7 @@ PROTO Khepera4 [
               roughness 0.3
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_right_sticker.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_right_sticker.png"
                 ]
               }
             }
@@ -193,7 +193,7 @@ PROTO Khepera4 [
               roughness 0.3
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_left_sticker.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_left_sticker.png"
                 ]
               }
             }
@@ -240,28 +240,28 @@ PROTO Khepera4 [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_metalness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_normal.jpg"
                 ]
               }
               normalMapFactor 0.5
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_occlusion.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/k-team/khepera4/protos/textures/khepera4_bottom_occlusion.jpg"
                 ]
               }
             }

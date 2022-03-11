@@ -641,11 +641,11 @@ webots-view .floating-robotWindow-close:hover {
   color: white;
 }
 
-.floating-robotWindow-content {
+webots-view .floating-robotWindow-content {
   height: calc(100% - 45px);
 }
 
-.floating-robotWindow-content iframe {
+webots-view .floating-robotWindow-content iframe {
   background-color: white;
   border: 0;
   margin: 10px;

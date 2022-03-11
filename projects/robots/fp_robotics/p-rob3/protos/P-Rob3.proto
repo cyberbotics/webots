@@ -606,7 +606,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -637,7 +637,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -663,7 +663,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -689,7 +689,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -715,7 +715,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -738,7 +738,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -761,7 +761,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -784,7 +784,7 @@ PROTO P-Rob3 [
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
+                                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
                                                     ]
                                                   }
                                                   roughness 1

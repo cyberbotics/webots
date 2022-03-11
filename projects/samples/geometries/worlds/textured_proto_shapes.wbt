@@ -18,7 +18,7 @@ DEF TEXTURED_BOX Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/tagged_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 0.5
@@ -38,7 +38,7 @@ DEF TEXTURED_BOX_SHAPE Solid {
     TexturedBoxShape {
       size 0.4 0.1 0.2
       textureUrl [
-        "webots://projects/default/worlds/textures/tagged_wall.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
       ]
       textureMapping "metric"
       faceColor 0.219608 0.588235 0.141176

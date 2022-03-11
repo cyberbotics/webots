@@ -748,7 +748,7 @@ PROTO BoeBot [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/parallax/boebot/protos/textures/very-top.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/parallax/boebot/protos/textures/very-top.jpg"
                     ]
                   }
                   metalness 0
@@ -820,7 +820,7 @@ PROTO BoeBot [
                       roughness 0.7
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/parallax/boebot/protos/textures/electronic-box.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/parallax/boebot/protos/textures/electronic-box.jpg"
                         ]
                       }
                     }

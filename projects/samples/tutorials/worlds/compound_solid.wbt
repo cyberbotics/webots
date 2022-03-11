@@ -29,7 +29,7 @@ DEF BALL Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/red_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/red_brick_wall.jpg"
           ]
         }
         roughness 0.5

@@ -17,7 +17,7 @@ PROTO PingPongBallScaled [
           roughness 1
           baseColorMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/protos/textures/pingpong_logo.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/rendering/protos/textures/pingpong_logo.jpg"
             ]
           }
           textureTransform TextureTransform {

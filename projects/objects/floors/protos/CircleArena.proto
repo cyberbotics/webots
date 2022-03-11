@@ -18,8 +18,8 @@ PROTO CircleArena [
   field SFInt32    subdivision     48                              # Defines the subdivision of the wall cylinder.
 
   # Deprecated in R2019a
-  hiddenField MFString   floorTextureUrl "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "webots://projects/default/worlds/textures/metal.jpg"
+  hiddenField MFString   floorTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
   # Deprecated in R2019-rev2
   hiddenField SFVec2f    wallTileSize 0.5 0.5
 ]

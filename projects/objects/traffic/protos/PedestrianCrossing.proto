@@ -35,7 +35,7 @@ PROTO PedestrianCrossing [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/traffic/protos/textures/crossing.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/crossing.png"
                 ]
                 filtering IS textureFiltering
               }

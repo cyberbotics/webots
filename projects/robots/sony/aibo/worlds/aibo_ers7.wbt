@@ -23,7 +23,7 @@ DEF GROUND Solid {
           appearance DEF GREEN_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
               ]
             }
             roughness 0.5
@@ -579,7 +579,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/station_pattern.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/sony/aibo/worlds/textures/station_pattern.png"
               ]
             }
             roughness 0.5
@@ -708,7 +708,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/target.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/sony/aibo/worlds/textures/target.png"
               ]
             }
             roughness 0.5

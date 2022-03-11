@@ -70,7 +70,7 @@ PROTO TexturedBackground [
       }
     }
 
-    const path = 'webots://projects/default/worlds/textures/cubic';
+    const path = 'https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/cubic';
 
     if (!isHDR) {
       let availableHdr = ''

@@ -52,10 +52,8 @@ export default class RobotWindow {
         this.receive(message, robot);
     } else if (ignoreData)
       return 0;
-    else {
-      return 0;
-      //console.log('WebSocket error: Unknown message received: "' + data + '"');
-    }
+    else 
+      console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
 
   _onSocketClose(event) {

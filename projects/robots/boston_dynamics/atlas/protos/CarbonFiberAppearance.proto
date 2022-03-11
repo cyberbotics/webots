@@ -9,7 +9,7 @@ PROTO CarbonFiberAppearance [
 PBRAppearance {
   baseColorMap ImageTexture {
     url [
-      "webots://projects/robots/boston_dynamics/atlas/protos/textures/atlas_carbon_fiber.jpg"
+      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/boston_dynamics/atlas/protos/textures/atlas_carbon_fiber.jpg"
     ]
   }
   metalness 0
