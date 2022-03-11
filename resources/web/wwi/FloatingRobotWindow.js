@@ -7,9 +7,7 @@ export default class FloatingRobotWindow {
         this.floatingRobotWindow = document.createElement('div');
         this.floatingRobotWindow.className = 'floating-robotWindow';
         this.floatingRobotWindow.id = name;
-        this.floatingRobotWindow.style.visibility = 'visible';
-        this.floatingRobotWindow.style.height = '300px';
-        this.floatingRobotWindow.style.width = '600px'
+        this.floatingRobotWindow.style.visibility = 'hidden';
         parentNode.appendChild(this.floatingRobotWindow);
         
         this.floatingRobotWindowHeader = document.createElement('div');
@@ -31,12 +29,10 @@ export default class FloatingRobotWindow {
         this.floatingRobotWindowContent.className = 'floating-robotWindow-content';
         this.floatingRobotWindow.appendChild(this.floatingRobotWindowContent);
 
-        //let robotWindow = document.createElement('iframe');
-        //robotWindow.id = this.name+"-robotWindow";
-        //robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
-        //this.floatingRobotWindowContent.appendChild(robotWindow);
-
-        let robotWindow = 
+        let robotWindow = document.createElement('iframe');
+        robotWindow.id = this.name+"-robotWindow";
+        robotWindow.src = this.url+"/robot_windows/"+this.window+"/"+this.window+".html?name="+this.name;
+        this.floatingRobotWindowContent.appendChild(robotWindow);
 
         this.dragElement(document.getElementById(name));
     }

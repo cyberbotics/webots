@@ -9,8 +9,8 @@ WorldInfo {
   lineScale 0.04
 }
 Viewpoint {
-  orientation 0.2973297925999149 0.7340866194253786 -0.6105012937030608 0.9954396280428267
-  position -1.2988687050786933 1.0952009539672214 1.7997248198378328
+  orientation 0.3033006428007802 0.5673235641843599 -0.7656060955855747 1.0486870658792384
+  position -1.9740043184209837 2.3564507001970667 2.4718659811662262
   follow "e-puck"
 }
 TexturedBackground {
@@ -19,6 +19,7 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   rotation 0 0 -1 3.67802e-06
+  name "arena"
   floorSize 0.9 0.9
   floorTileSize 0.9 0.9
   floorAppearance PBRAppearance {
@@ -97,6 +98,7 @@ DEF EPUCK E-puck {
 RectangleArena {
   translation 1 0 0
   rotation 0 0 1 -1.5708
+  name "arena(1)"
   floorSize 0.9 0.9
   floorTileSize 0.9 0.9
   floorAppearance PBRAppearance {
@@ -166,6 +168,7 @@ DEF OBSTACLE6 Solid {
 DEF EPUCK E-puck {
   translation 0.825 -0.012 0
   rotation 0 0 1 1.5
+  name "e-puck(1)"
   controller "e-puck_line_demo"
   groundSensorsSlot [
     E-puckGroundSensors {
