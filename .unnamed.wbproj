@@ -4,6 +4,7 @@ simulationViewPerspectives: 000000ff000000010000000200000118000004ca010000000201
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc0100000002010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
+renderingMode: PLAIN
 orthographicViewHeight: 1
 textFiles: -1
 consoles: Console:All:All

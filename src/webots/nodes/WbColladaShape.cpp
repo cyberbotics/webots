@@ -171,7 +171,6 @@ void WbColladaShape::createWrenObjects() {
 
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
       printf("  mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
              mesh->mMaterialIndex);
 
@@ -247,6 +246,47 @@ void WbColladaShape::createWrenObjects() {
       delete[] normalData;
       delete[] texCoordData;
       delete[] indexData;
+
+      // retrieve material properties
+      const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+      const float baseColor[] = {1.0f, 0.0f, 0.0f};
+      float emissiveColor[3] = {0.0f, 0.0f, 0.0f};
+      float roughness = 1.0, transparency = 0.0;
+      QString name("PBRAppearance");
+
+      for (unsigned int j = 0; j < material->mNumProperties; ++j) {
+        float values[3];
+        float value;
+        unsigned int count = 3;
+
+        // aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, baseColor, &count);
+        aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, values, &count);
+
+        if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &value) == AI_SUCCESS)
+          roughness = 1.0 - value;
+        else if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS_STRENGTH, &value) == AI_SUCCESS)
+          roughness = 1.0 - value / 100.0;
+        else if (aiGetMaterialFloat(material, AI_MATKEY_REFLECTIVITY, &value) == AI_SUCCESS)
+          roughness = 1.0 - value;
+        if (aiGetMaterialFloat(material, AI_MATKEY_OPACITY, &value) == AI_SUCCESS)
+          transparency = 1.0 - value;
+        aiString nameProperty;
+        if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
+          name = nameProperty.C_Str();
+      }
+
+      // create material
+      WrMaterial *mat = wr_pbr_material_new();
+      wr_material_set_stencil_ambient_emissive_program(mat, WbWrenShaders::pbrStencilAmbientEmissiveShader());
+      wr_material_set_stencil_diffuse_specular_program(mat, WbWrenShaders::pbrStencilDiffuseSpecularShader());
+      wr_pbr_material_set_base_color(mat, baseColor);
+      // wr_pbr_material_set_emissive_color(mat, emissiveColor);
+      wr_material_set_default_program(mat, WbWrenShaders::pbrShader());
+
+      float backcolor[] = {0.0, 1.0, 0.0};
+      wr_pbr_material_set_all_parameters(mat, backcolor, baseColor, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, emissiveColor, 1.0);
+
+      mWrenMaterials.push_back(mat);
     }
 
     // add all the children of this node to the queue
@@ -257,9 +297,7 @@ void WbColladaShape::createWrenObjects() {
   printf("create WREN objects, size %lld\n", mWrenMeshes.size());
   for (int i = 0; i < mWrenMeshes.size(); ++i) {
     WrRenderable *renderable = wr_renderable_new();
-    WrMaterial *material = wr_phong_material_new();  // WbAppearance::fillWrenDefaultMaterial(NULL);
-    wr_renderable_set_material(renderable, material, NULL);
-    wr_material_set_default_program(material, WbWrenShaders::lineSetShader());
+    wr_renderable_set_material(renderable, mWrenMaterials[i], NULL);
     wr_renderable_set_mesh(renderable, WR_MESH(mWrenMeshes[i]));
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, false);  // TODO: handle shadows, mCastShadows?
@@ -275,7 +313,6 @@ void WbColladaShape::createWrenObjects() {
     // TODO: segmentation + rangefinder
     // TODO: pickable?
     // TODO: should be moved elsewhere
-    mWrenMaterials.push_back(material);
     mWrenRenderables.push_back(renderable);
     mWrenTransforms.push_back(transform);
   }
