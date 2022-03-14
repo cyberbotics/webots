@@ -35,6 +35,10 @@
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
 
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>  // TODO: this enough?
+#include <assimp/Importer.hpp>
+
 static WrTextureRtt *cBrdfTexture = NULL;
 static int cInstanceCounter = 0;
 
@@ -66,6 +70,62 @@ WbPbrAppearance::WbPbrAppearance(const WbPbrAppearance &other) : WbAbstractAppea
 
 WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(other) {
   init();
+}
+
+WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppearance("PBRAppearance", material) {
+  aiColor3D baseColor(1.0f, 1.0f, 1.0f);
+  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
+  mBaseColor = new WbSFColor(baseColor[0], baseColor[1], baseColor[2]);
+  printf("    baseColor [1 1 1] -> [%f %f %f]\n", baseColor[0], baseColor[1], baseColor[2]);
+
+  aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
+  material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
+  mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
+  printf("    emissiveColor [0 0 0] -> [%f %f %f]\n", emissiveColor[0], emissiveColor[1], emissiveColor[2]);
+
+  float opacity = 1.0f;
+  material->Get(AI_MATKEY_OPACITY, opacity);
+  mTransparency = new WbSFDouble(1.0f - opacity);
+  printf("    transparency [0] -> [%f]\n", mTransparency->value());
+
+  float roughness = 1.0f;
+  if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness;
+  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness / 100.0;
+  else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness;
+  mRoughness = new WbSFDouble(roughness);
+  printf("    roughness [1] -> [%f]\n", mRoughness->value());
+
+  mMetalness = new WbSFDouble(1.0);
+  mIblStrength = new WbSFDouble(1.0);
+  mNormalMapFactor = new WbSFDouble(1.0);
+  mOcclusionMapStrength = new WbSFDouble(1.0);
+  mEmissiveIntensity = new WbSFDouble(1.0);
+
+  mBaseColorMap = new WbSFNode();
+  mRoughnessMap = new WbSFNode();
+  mMetalnessMap = new WbSFNode();
+  mNormalMap = new WbSFNode();
+  mOcclusionMap = new WbSFNode();
+  mEmissiveColorMap = new WbSFNode();
+
+  // float roughness = 0.0f;
+  // material->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness);
+
+  // float metalness = 1.0f;
+  // material->Get(AI_MATKEY_METALLIC_FACTOR);
+
+  delete mBaseColor;
+  delete mEmissiveColor;
+  delete mTransparency;
+  delete mRoughness;
+  delete mMetalness;
+  delete mIblStrength;
+  delete mNormalMapFactor;
+  delete mOcclusionMapStrength;
+  delete mEmissiveIntensity;
 }
 
 WbPbrAppearance::~WbPbrAppearance() {
@@ -396,6 +456,7 @@ double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVe
 }
 
 void WbPbrAppearance::updateCubeMap() {
+  printf("updateCubeMap\n");
   if (isPostFinalizedCalled())
     emit changed();
 }
@@ -406,6 +467,7 @@ void WbPbrAppearance::updateBaseColor() {
 }
 
 void WbPbrAppearance::updateBackgroundColor() {
+  printf("updateBackgroundColor\n");
   if (isPostFinalizedCalled())
     emit changed();
 }

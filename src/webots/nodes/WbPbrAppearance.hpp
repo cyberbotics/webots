@@ -20,6 +20,8 @@
 
 class WbImageTexture;
 
+class aiMaterial;
+
 struct WrMaterial;
 
 class WbPbrAppearance : public WbAbstractAppearance {
@@ -30,6 +32,7 @@ public:
   explicit WbPbrAppearance(WbTokenizer *tokenizer = NULL);
   WbPbrAppearance(const WbPbrAppearance &other);
   explicit WbPbrAppearance(const WbNode &other);
+  WbPbrAppearance(const aiMaterial *material);
   virtual ~WbPbrAppearance();
 
   // reimplemented public functions

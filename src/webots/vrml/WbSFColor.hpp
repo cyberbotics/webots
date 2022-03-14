@@ -27,6 +27,7 @@ class WbSFColor : public WbSingleValue {
   Q_OBJECT
 
 public:
+  explicit WbSFColor(double r, double b, double g) : mValue(WbRgb(r, g, b)){};
   WbSFColor(WbTokenizer *tokenizer, const QString &worldPath) { readSFColor(tokenizer, worldPath); }
   WbSFColor(const WbSFColor &other) : mValue(other.mValue) {}
   virtual ~WbSFColor() {}

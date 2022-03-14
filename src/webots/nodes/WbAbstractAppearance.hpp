@@ -21,6 +21,8 @@
 class WbSFNode;
 class WbTextureTransform;
 
+class aiMaterial;
+
 struct WrMaterial;
 
 class WbAbstractAppearance : public WbBaseNode {
@@ -49,6 +51,7 @@ protected:
   WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbAbstractAppearance(const WbAbstractAppearance &other);
   WbAbstractAppearance(const WbNode &other);
+  WbAbstractAppearance(const QString &modelName, const aiMaterial *material);
 
   WbSFNode *mTextureTransform;
 

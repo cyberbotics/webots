@@ -18,6 +18,10 @@
 #include "WbTextureTransform.hpp"
 #include "WbVector2.hpp"
 
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>  // TODO: this enough?
+#include <assimp/Importer.hpp>
+
 void WbAbstractAppearance::init() {
   mName = findSFString("name");
   mTextureTransform = findSFNode("textureTransform");
@@ -35,6 +39,16 @@ WbAbstractAppearance::WbAbstractAppearance(const WbAbstractAppearance &other) : 
 
 WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(other) {
   init();
+}
+
+WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) : WbBaseNode(modelName, NULL) {
+  aiString name("PBRAppearance");
+  material->Get(AI_MATKEY_NAME, name);
+  mName = new WbSFString(QString(name.C_Str()));
+  mNameValue = mName->value();
+  mTextureTransform = new WbSFNode();
+  delete mName;
+  delete mTextureTransform;
 }
 
 void WbAbstractAppearance::preFinalize() {
