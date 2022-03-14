@@ -215,13 +215,14 @@ robot.wwiSendText("stop")
 # Wait for record message.
 timestep = int(robot.getBasicTimeStep())
 while robot.step(timestep) != -1:
-    message = robot.wwiReceiveText()
-    if message:
-        if message.startswith("record:"):
-            record = robotbenchmarkRecord(message, "visual_tracking", hitRate)
-            robot.wwiSendText(record)
-            break
-        elif message == "exit":
-            break
+    messages = robot.wwiReceiveStrings()
+    if messages:
+        for message in messages:
+            if message.startswith("record:"):
+                record = robotbenchmarkRecord(message, "visual_tracking", hitRate)
+                robot.wwiSendText(record)
+                break
+            elif message == "exit":
+                break
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

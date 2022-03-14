@@ -61,13 +61,14 @@ while robot.step(timestep) != -1:
                 forceStep = forceStep - 1
     else:
         # wait for record message
-        message = robot.wwiReceiveText()
-        if message:
-            if message.startswith("record:"):
-                record = robotbenchmarkRecord(message, "inverted_pendulum", time)
-                robot.wwiSendText(record)
-                break
-            elif message == "exit":
-                break
+        messages = robot.wwiReceiveStrings()
+        if messages:
+            for message in messages:
+                if message.startswith("record:"):
+                    record = robotbenchmarkRecord(message, "inverted_pendulum", time)
+                    robot.wwiSendText(record)
+                    break
+                elif message == "exit":
+                    break
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)
