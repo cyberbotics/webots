@@ -68,6 +68,8 @@ void WbColladaShape::downloadAssets() {
 void WbColladaShape::preFinalize() {
   WbBaseNode::preFinalize();
 
+  updateUrl();
+
   mBoundingSphere = new WbBoundingSphere(this);
 }
 
@@ -77,8 +79,6 @@ void WbColladaShape::postFinalize() {
   connect(mUrl, &WbSFString::changed, this, &WbColladaShape::updateUrl);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
-
-  updateUrl();
 }
 
 void WbColladaShape::updateUrl() {
@@ -252,17 +252,18 @@ void WbColladaShape::createWrenObjects() {
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
       WbPbrAppearance *pbr = new WbPbrAppearance(material);
+      pbr->preFinalize();
+      mPbrAppearances.push_back(pbr);
 
       WrMaterial *mat = wr_pbr_material_new();
       pbr->modifyWrenMaterial(mat);
       mWrenMaterials.push_back(mat);
-      delete pbr;
     }
-
-    // add all the children of this node to the queue
-    for (size_t i = 0; i < node->mNumChildren; ++i)
-      queue.push_back(node->mChildren[i]);
   }
+
+  // TODO: needed?
+  for (int i = 0; i < mPbrAppearances.size(); ++i)
+    mPbrAppearances[i]->preFinalize();
 
   printf("create WREN objects, size %lld\n", mWrenMeshes.size());
   for (int i = 0; i < mWrenMeshes.size(); ++i) {
@@ -301,6 +302,9 @@ void WbColladaShape::deleteWrenObjects() {
   for (WrMaterial *material : mWrenMaterials)
     wr_material_delete(material);
 
+  for (WbPbrAppearance *appearance : mPbrAppearances)
+    delete appearance;
+
   for (WrTransform *transform : mWrenTransforms)
     wr_node_delete(WR_NODE(transform));
 
@@ -308,6 +312,8 @@ void WbColladaShape::deleteWrenObjects() {
   mWrenMeshes.clear();
   mWrenMaterials.clear();
   mWrenTransforms.clear();
+
+  mPbrAppearances.clear();
 }
 
 QString WbColladaShape::colladaPath() const {

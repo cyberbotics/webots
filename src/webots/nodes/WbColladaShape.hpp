@@ -21,6 +21,7 @@
 class WbBoundingSphere;
 class WbSFString;
 class WbDownloader;
+class WbPbrAppearance;
 
 struct WrTransform;
 struct WrStaticMesh;
@@ -59,6 +60,7 @@ private:
   QVector<WrMaterial *> mWrenMaterials;
   QVector<WrStaticMesh *> mWrenMeshes;
   QVector<WrTransform *> mWrenTransforms;
+  QVector<WbPbrAppearance *> mPbrAppearances;
 
   QString colladaPath() const;
 
