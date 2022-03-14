@@ -319,7 +319,7 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  int length = 0;
+  int length;
   const char *message = wb_robot_wwi_receive(&length);
   int character_read = 0;
   while (character_read < length) {
