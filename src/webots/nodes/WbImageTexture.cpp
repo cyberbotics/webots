@@ -109,6 +109,7 @@ void WbImageTexture::downloadAssets() {
 }
 
 void WbImageTexture::downloadUpdate() {
+  printf("  downloadUpdate\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -321,7 +322,7 @@ void WbImageTexture::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
         downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }
