@@ -20,11 +20,12 @@ timestep = int(robot.getBasicTimeStep())
 
 while robot.step(timestep) != -1:
     # Receive a message from the robot window
-    message = robot.wwiReceiveText()
+    messages = robot.wwiReceiveStrings()
 
-    if message:
-        # Print the message if not None
-        print(message)
+    if messages:
+        for message in messages:
+            # Print the message if not None
+            print(message)
 
-        # Send a message back to the robot window
-        robot.wwiSendText(message)
+            # Send a message back to the robot window
+            robot.wwiSendText(message)
