@@ -1056,6 +1056,8 @@ class AnsiCodes(object):
       }
       SWIG_PYTHON_THREAD_END_BLOCK;
     }
+    else
+      Py_INCREF(ret); // to fix https://stackoverflow.com/questions/69588623/my-python-program-crashes-with-fatal-python-error-deallocating-none-what-doe
     return ret;
   }
 
