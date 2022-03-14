@@ -35,18 +35,15 @@ int WbDownloader::progress() {
 }
 
 void WbDownloader::reset() {
-  printf("RESET\n");
   gCount = 0;
   gComplete = 0;
 }
 
 WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mCopy(false) {
   gCount++;
-  printf("--- gCount: %d\n", gCount);
 }
 
 WbDownloader::~WbDownloader() {
-  printf("DESTRO\n");
   if (mNetworkReply != NULL) {
     mNetworkReply->deleteLater();
     if (gUrlCache.contains(mUrl))
@@ -57,10 +54,6 @@ WbDownloader::~WbDownloader() {
     gCount--;
 }
 
-void WbDownloader::errorOccurred(int code) {
-  printf("ERROR %d FOR %s\n", code, mUrl.toString().toUtf8().constData());
-}
-
 void WbDownloader::download(const QUrl &url) {
   WbSimulationState::instance()->pauseSimulation();
 
@@ -69,21 +62,11 @@ void WbDownloader::download(const QUrl &url) {
   if (gUrlCache.contains(mUrl) && !mCopy) {
     mCopy = true;
     QNetworkReply *reply = gUrlCache[mUrl];
-    if(reply) {
-      finished();
-      printf(" DONE ALREADY %s\n", mUrl.toString().toUtf8().constData());
-    }
-    /*
-    if (reply && !reply->isFinished()){
+    if (reply && !reply->isFinished())
       connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-      connect(reply, &QNetworkReply::errorOccurred, this, &WbDownloader::errorOccurred, Qt::UniqueConnection);
-      printf(" UNFINISHED %s\n", mUrl.toString().toUtf8().constData());
-    }
-    else{
+    else
       finished();
-      printf(" DONE ALREADY %s\n", mUrl.toString().toUtf8().constData());
-    }
-    */
+
     return;
   }
 
@@ -101,7 +84,6 @@ void WbDownloader::download(const QUrl &url) {
   mFinished = false;
 
   assert(mNetworkReply == NULL);
-  //printf("download %s\n", mUrl.toString().toUtf8().constData());
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, mNetworkReply, &QNetworkReply::abort);
@@ -110,7 +92,6 @@ void WbDownloader::download(const QUrl &url) {
 }
 
 void WbDownloader::finished() {
-  printf("finished %d %s %d/%d\n", mCopy, mUrl.toString().toUtf8().constData(), gComplete, gCount );
   // cache result
   if (mNetworkReply && mNetworkReply->error()) {
     mError = tr("Cannot download %1, error code: %2: %3")
@@ -125,7 +106,6 @@ void WbDownloader::finished() {
   }
 
   gComplete++;
-  //printf("----- gComplete %d\n", gComplete);
   mFinished = true;
   emit complete();
 
