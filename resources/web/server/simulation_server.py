@@ -406,7 +406,8 @@ class Client:
             if os.path.exists(f"{self.project_instance_path}/docker-compose.yml"):
                 os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
             # remove unused _webots images
-            available_images = os.popen("docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
+            available_images = os.popen(
+                "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
             running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
             unused_images = ' '.join([i for i in available_images if i not in running_images])
             if unused_images:
