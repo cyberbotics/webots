@@ -315,8 +315,6 @@ class Client:
                                 dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
                                 envVarDocker["THEIA_VOLUME"] = volume
                                 envVarDocker["THEIA_PORT"] = port + 500
-                            elif info[1].startswith("competition"):
-                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-competition.yml"
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
@@ -412,8 +410,8 @@ class Client:
             running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
             unused_images = ' '.join([i for i in available_images if i not in running_images])
             if unused_images:
-              os.system(f"docker image rm {unused_images}")
-	    # remove dangling images, stopped containers, build cache, volumes and networks
+                os.system(f"docker image rm {unused_images}")
+            # remove dangling images, stopped containers, build cache, volumes and networks
             os.system("docker system prune --volumes -f")
         else:
             if self.webots_process:
