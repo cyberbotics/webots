@@ -319,21 +319,29 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
-    if (!wbu_generic_robot_window_handle_messages(message)) {
-      char *tokens = strdup(message);
-      char *token = NULL;
-      while ((token = wbu_string_strsep(&tokens, ","))) {
-        char *command = strdup(token);
-        char *first_word = wbu_string_strsep(&command, ":");
-        if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
-          parse_command(first_word, command);
+  int length = 0;
+  const char *message = wb_robot_wwi_receive(&length);
+  int character_read = 0;
+  while (character_read < length) {
+    if (message) {
+      if (!wbu_generic_robot_window_handle_messages(message)) {
+        char *tokens = strdup(message);
+        char *token = NULL;
+        while ((token = wbu_string_strsep(&tokens, ","))) {
+          char *command = strdup(token);
+          char *first_word = wbu_string_strsep(&command, ":");
+          if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
+            parse_command(first_word, command);
+        }
       }
+      if (strncmp(message, "configure", 9) == 0)
+        // Additional configuration for the automobile robot window
+        configure_automobile_robot_window();
+
+      const int current_message_length = strlen(message) + 1;
+      character_read += current_message_length;
+      message += current_message_length;
     }
-    if (strncmp(message, "configure", 9) == 0)
-      // Additional configuration for the automobile robot window
-      configure_automobile_robot_window();
   }
 
   if (!wbu_generic_robot_window_needs_update())
