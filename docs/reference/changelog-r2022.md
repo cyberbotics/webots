@@ -44,6 +44,7 @@ Released on XX XX, 2022.
     - Fixed a bug that caused an object to sink into the ground after moving it with a supervisor ([#4070](https://github.com/cyberbotics/webots/pull/4070)).
     - Fixed bug where the [Skin](skin.md) node was invisible both to segmentation and `RangeFinder` devices ([#4281](https://github.com/cyberbotics/webots/pull/4281)).
     - Fixed measurements close to the near plane for the [RangeFinder](rangefinder.md) device ([#4309](https://github.com/cyberbotics/webots/pull/4309)).
+    - Fixed bug where updating the url of a [Mesh](mesh.md) node resulted in multiple updated being issued ([#4325](https://github.com/cyberbotics/webots/pull/4325)).
 
 ## Webots R2022a
 Released on December 21th, 2021.
