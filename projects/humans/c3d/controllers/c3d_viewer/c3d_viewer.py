@@ -268,48 +268,48 @@ offsetTime = 0
 
 while supervisor.step(timestep) != -1:
     # check for messages from the robot-window
-    message = supervisor.wwiReceiveText()
-    while message:
-        value = message.split(':')
-        action = value[0]
-        if action == 'disable':
-            for i in range(1, len(value)):
-                c3dfile.pointRepresentations[value[i]]['visible'] = False
-                c3dfile.pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
-        elif action == 'enable':
-            for i in range(1, len(value)):
-                c3dfile.pointRepresentations[value[i]]['visible'] = True
-                c3dfile.pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
-        elif action == 'radius':
-            for i in range(2, len(value)):
-                c3dfile.pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
-        elif action == 'color':
-            h = value[1].lstrip('#')
-            color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
-            for i in range(2, len(value)):
-                c3dfile.pointRepresentations[value[i]]['color'].setSFColor(color)
-        elif action == 'graphs':
-            if value[2] == 'true':
-                enableValueGraphs.append(value[1])
+    messages = supervisor.wwiReceiveStrings()
+    if messages:
+        for message in messages:
+            value = message.split(':')
+            action = value[0]
+            if action == 'disable':
+                for i in range(1, len(value)):
+                    c3dfile.pointRepresentations[value[i]]['visible'] = False
+                    c3dfile.pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
+            elif action == 'enable':
+                for i in range(1, len(value)):
+                    c3dfile.pointRepresentations[value[i]]['visible'] = True
+                    c3dfile.pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
+            elif action == 'radius':
+                for i in range(2, len(value)):
+                    c3dfile.pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
+            elif action == 'color':
+                h = value[1].lstrip('#')
+                color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+                for i in range(2, len(value)):
+                    c3dfile.pointRepresentations[value[i]]['color'].setSFColor(color)
+            elif action == 'graphs':
+                if value[2] == 'true':
+                    enableValueGraphs.append(value[1])
+                else:
+                    enableValueGraphs.remove(value[1])
+            elif action == 'body_transparency':
+                c3dfile.bodyTransparency = float(value[1])
+                c3dfile.bodyTransparencyField.setSFFloat(c3dfile.bodyTransparency)
+            elif action == 'speed':
+                playbackSpeed = float(value[1])
+                offsetTime = supervisor.getTime()
+                totalFrameCoutner = 0
+            elif action == 'c3dfile':
+                file = tempfile.NamedTemporaryFile(mode='wb', delete=False, suffix='.c3d')
+                file.write(base64.b64decode(value[1]))
+                file.close()
+                del c3dfile
+                c3dfile = c3dFile(file.name)
+                os.remove(file.name)
             else:
-                enableValueGraphs.remove(value[1])
-        elif action == 'body_transparency':
-            c3dfile.bodyTransparency = float(value[1])
-            c3dfile.bodyTransparencyField.setSFFloat(c3dfile.bodyTransparency)
-        elif action == 'speed':
-            playbackSpeed = float(value[1])
-            offsetTime = supervisor.getTime()
-            totalFrameCoutner = 0
-        elif action == 'c3dfile':
-            file = tempfile.NamedTemporaryFile(mode='wb', delete=False, suffix='.c3d')
-            file.write(base64.b64decode(value[1]))
-            file.close()
-            del c3dfile
-            c3dfile = c3dFile(file.name)
-            os.remove(file.name)
-        else:
-            print(message)
-        message = supervisor.wwiReceiveText()
+                print(message)
 
     # play the required frame (if needed)
     step = int(playbackSpeed * (supervisor.getTime() - offsetTime) / c3dfile.frameStep - totalFrameCoutner)
