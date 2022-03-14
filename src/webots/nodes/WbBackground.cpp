@@ -192,7 +192,10 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
     stbi_image_free(mIrradianceTexture[index - 6]);
     mIrradianceTexture[index - 6] = NULL;
   }
-  delete mDownloader[index];
+
+  if (mDownloader[index] && mDownloader[index]->hasFinished())
+    delete mDownloader[index];
+
   mDownloader[index] = new WbDownloader(this);
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
@@ -201,7 +204,7 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 }
 
 void WbBackground::downloadAssets() {
-  for (size_t i = 0; i < 6; i++) {
+  for (int i = 0; i < 6; ++i) {
     if (mUrlFields[i]->size() && !WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
       downloadAsset(mUrlFields[i]->item(0), i, false);
     if (mIrradianceUrlFields[i]->size() && !WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
@@ -211,7 +214,10 @@ void WbBackground::downloadAssets() {
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
-  for (int i = 0; i < 6; ++i) {
+  for (int i = 0; i < 12; ++i) {
+    if (mDownloader[i] && !mDownloader[i]->hasFinished())
+      return;
+    /*
     if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
       return;
     // check if all irradiance fields (the defined ones) have been cached
@@ -219,6 +225,7 @@ void WbBackground::downloadUpdate() {
       continue;  // irradiance might be defined only for some sides
     if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
       return;
+    */
   }
 
   updateCubemap();
@@ -339,7 +346,7 @@ void WbBackground::updateCubemap() {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString completeUrl = WbUrl::computePath(this, "url", mUrlFields[i]->item(0), false);
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i] == NULL) {
             downloadAsset(completeUrl, i, true);
             postpone = true;
           } else {
@@ -349,7 +356,7 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString completeUrl = WbUrl::computePath(this, "url", mIrradianceUrlFields[i]->item(0), false);
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i + 6] == NULL) {
             downloadAsset(completeUrl, i + 6, true);
             postpone = true;
           } else {
@@ -432,8 +439,13 @@ bool WbBackground::loadTexture(int i) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
     else {
-      warn(tr("'%1' is expected to be cached, but is not.").arg(url));
-      return false;
+      if (mDownloader[i] && !mDownloader[i]->error().isEmpty()) {
+        warn(mDownloader[i]->error());
+        return false;
+      } else {
+        assert(false);  // at this point, the asset must be in the cache
+        return false;
+      }
     }
   } else {
     url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
@@ -520,8 +532,13 @@ bool WbBackground::loadIrradianceTexture(int i) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
     else {
-      warn(tr("'%1' is expected to be cached, but is not.").arg(url));
-      return false;
+      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty()) {
+        warn(mDownloader[i + 6]->error());
+        return false;
+      } else {
+        assert(false);  // at this point, the asset must be in the cache
+        return false;
+      }
     }
   } else {
     url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
