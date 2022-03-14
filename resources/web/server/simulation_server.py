@@ -408,13 +408,12 @@ class Client:
             if os.path.exists(f"{self.project_instance_path}/docker-compose.yml"):
                 os.system(f"docker-compose -f {self.project_instance_path}/docker-compose.yml down -v")
             # remove unused _webots images
-            available_images = os.popen(
-                "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
+            available_images = os.popen("docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
             running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
             unused_images = ' '.join([i for i in available_images if i not in running_images])
             if unused_images:
-                os.system(f"docker image rm {unused_images}")
-            # remove dangling images, stopped containers, build cache, volumes and networks
+              os.system(f"docker image rm {unused_images}")
+	    # remove dangling images, stopped containers, build cache, volumes and networks
             os.system("docker system prune --volumes -f")
         else:
             if self.webots_process:
@@ -491,15 +490,18 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         """Close connection after client leaves."""
+        def async_kill_client(self, client):
+            if client:
+                logging.info(f'[{id(client)}] Client disconnected')
+                client.kill_webots()
+                if config['docker']:
+                    client.cleanup_webots_instance()
+                if client in ClientWebSocketHandler.clients:
+                    ClientWebSocketHandler.clients.remove(client)
+                    del client
+
         client = ClientWebSocketHandler.find_client_from_websocket(self)
-        if client:
-            logging.info(f'[{id(client)}] Client disconnected')
-            client.kill_webots()
-            if config['docker']:
-                client.cleanup_webots_instance()
-            if client in ClientWebSocketHandler.clients:
-                ClientWebSocketHandler.clients.remove(client)
-                del client
+        threading.Thread(target=async_kill_client, args=(self, client,)).start()
 
     def on_message(self, message):
         """Receive message from client."""
