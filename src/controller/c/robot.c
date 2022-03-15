@@ -104,7 +104,7 @@ typedef struct {
   int wwi_received_messages_size;
   int wwi_reception_buffer_size;
   char *wwi_reception_buffer;
-  bool wwi_reset_read_head;
+  bool wwi_reset_reading_head;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
@@ -791,7 +791,7 @@ int wb_robot_step_begin(int duration) {
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
-  robot.wwi_reset_read_head = true;
+  robot.wwi_reset_reading_head = true;
 
   if (!robot.client_exit)
     html_robot_window_step(duration);
@@ -1095,7 +1095,7 @@ int wb_robot_init() {  // API initialization
   robot.wwi_reception_buffer = NULL;
   robot.wwi_received_messages_size = 0;
   robot.wwi_reception_buffer_size = 0;
-  robot.wwi_reset_read_head = true;
+  robot.wwi_reset_reading_head = true;
   robot.simulation_mode = -1;
 
   // receive a configure message for the robot and devices
@@ -1190,8 +1190,8 @@ const char *wb_robot_wwi_receive_text() {
   static int length;
   static int character_read = 0;
   static const char *message;
-  if (robot.wwi_reset_read_head) {
-    robot.wwi_reset_read_head = false;
+  if (robot.wwi_reset_reading_head) {
+    robot.wwi_reset_reading_head = false;
     character_read = 0;
     message = wb_robot_wwi_receive(&length);
   }
