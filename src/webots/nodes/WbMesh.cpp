@@ -61,6 +61,8 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
+  static int k = 0;
+  printf("downloadAssetss %d\n", k++);
   if (mUrl->size() == 0)
     return;
 
@@ -68,7 +70,7 @@ void WbMesh::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
-  if (mDownloader != NULL)
+  if (mDownloader != NULL && mDownloader->hasFinished())
     delete mDownloader;
 
   mDownloader = new WbDownloader(this);
@@ -79,6 +81,8 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
+  printf("downloadUpdate\n");
+
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
@@ -137,8 +141,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   if (WbUrl::isWeb(filePath)) {
     if (!WbNetwork::instance()->isCached(filePath)) {
-      downloadAssets();
-      return;
+      if (mDownloader == NULL)  // never attempted to download it, try now
+        downloadAssets();
+      return;  // download already attempted, asset may not reachable or network is offline
     }
 
     QFile file(WbNetwork::instance()->get(filePath));
@@ -520,6 +525,8 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
+  static int u = 0;
+  printf("updateUrl %d\n", u++);
   // check url validity
   if (path().isEmpty())
     return;
@@ -550,7 +557,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
         downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }

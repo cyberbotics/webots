@@ -88,7 +88,7 @@ WbImageTexture::~WbImageTexture() {
 
 void WbImageTexture::downloadAssets() {
   static int k = 0;
-  printf("downloadAssets %d\n", k++);
+  // printf("downloadAssets %d\n", k++);
   if (mUrl->size() == 0)
     return;
 
@@ -97,7 +97,7 @@ void WbImageTexture::downloadAssets() {
     return;
 
   if (mDownloader && mDownloader->hasFinished()) {
-    printf("DELETE %s\n", completeUrl.toUtf8().constData());
+    // printf("DELETE %s\n", completeUrl.toUtf8().constData());
     delete mDownloader;
   }
 
@@ -109,7 +109,7 @@ void WbImageTexture::downloadAssets() {
 }
 
 void WbImageTexture::downloadUpdate() {
-  printf("  downloadUpdate\n");
+  // printf("  downloadUpdate\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }

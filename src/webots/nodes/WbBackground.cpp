@@ -217,15 +217,6 @@ void WbBackground::downloadUpdate() {
   for (int i = 0; i < 12; ++i) {
     if (mDownloader[i] && !mDownloader[i]->hasFinished())
       return;
-    /*
-    if (!WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
-      return;
-    // check if all irradiance fields (the defined ones) have been cached
-    if (mIrradianceUrlFields[i]->size() == 0)
-      continue;  // irradiance might be defined only for some sides
-    if (!WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
-      return;
-    */
   }
 
   updateCubemap();
