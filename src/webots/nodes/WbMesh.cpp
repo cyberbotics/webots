@@ -61,8 +61,6 @@ WbMesh::~WbMesh() {
 }
 
 void WbMesh::downloadAssets() {
-  static int k = 0;
-  printf("downloadAssetss %d\n", k++);
   if (mUrl->size() == 0)
     return;
 
@@ -81,8 +79,6 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
-  printf("downloadUpdate\n");
-
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
@@ -525,8 +521,6 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbMesh::updateUrl() {
-  static int u = 0;
-  printf("updateUrl %d\n", u++);
   // check url validity
   if (path().isEmpty())
     return;
