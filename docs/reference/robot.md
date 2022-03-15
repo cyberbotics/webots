@@ -2363,4 +2363,4 @@ The message is received using the `webots.window("<robot window name>").receive`
 
 >**note** [Python]: the `wwiReceiveStrings` function returns a list of strings. It is recommended to use it to not miss a message instead of `wwiReceiveText` that returns only the first message.
 
->**note** [C, Cpp]: it is better to use the `wb_robot_wwi_receive` and `wwiReceive` instead of `wb_robot_wwi_receive_text` and `wwiReceiveText` to avoid missing messages as the two last functions only return the first message and not the whole buffer of messages.
+>**note** [C, C++]: it is better to use the `wb_robot_wwi_receive` (or `wwiReceive` in C++) instead of `wb_robot_wwi_receive_text` (or `wwiReceiveText` in C++) to avoid missing messages as the later function only returns the first message and not the whole buffer of messages.
