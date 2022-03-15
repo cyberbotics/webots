@@ -11,10 +11,8 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  int length;
-  const char *message = wb_robot_wwi_receive(&length);
-  int character_read = 0;
-  while (character_read < length && message) {
+  const char *message = wb_robot_wwi_receive_text();
+  while (message) {
     if (!wbu_generic_robot_window_handle_messages(message)) {
       // JavaScript -> C protocol description:
       //   [deviceName:commandTag[=commadState][,]]*
@@ -29,9 +27,7 @@ void wb_robot_window_step(int time_step) {
           wbu_generic_robot_window_parse_device_command(first_word, command);
       }
     }
-    const int current_message_length = strlen(message) + 1;
-    character_read += current_message_length;
-    message += current_message_length;
+    message = wb_robot_wwi_receive_text();
   }
 
   if (!wbu_generic_robot_window_needs_update())
