@@ -519,7 +519,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
     else {
-      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty
+      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty())
         warn(mDownloader[i + 6]->error());
       return false;  // should not move past this point unless the file is available in the cache
     }
