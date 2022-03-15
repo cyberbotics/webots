@@ -192,14 +192,15 @@ while time < MAX_TIME and not inEmergencyLane and not collided and not sumoFailu
     distance = roadPath.project(positionPoint) - initialDistance
     supervisor.wwiSendText("update: " + str(time) + " {0:.3f}".format(distance))
     # check if sensors visualization should be enabled/disabled
-    messages = supervisor.wwiReceiveStrings()
-    if messages:
-        for message in messages:
-            if message.startswith("sensors visualization:"):
-                if message.endswith("false"):
-                    enable_sensors_visualization(supervisor, False)
-                elif message.endswith("true"):
-                    enable_sensors_visualization(supervisor, True)
+    message = supervisor.wwiReceiveText()
+    while message:
+        if message.startswith("sensors visualization:"):
+            if message.endswith("false"):
+                enable_sensors_visualization(supervisor, False)
+            elif message.endswith("true"):
+                enable_sensors_visualization(supervisor, True)
+        message = supervisor.wwiReceiveText()
+
 
 supervisor.wwiSendText("stop")
 
@@ -218,14 +219,14 @@ distance = round(roadPath.project(Point((position[0], position[1]))) - initialDi
 
 while supervisor.step(timestep) != -1:
     # wait for record message
-    messages = supervisor.wwiReceiveStrings()
-    if messages:
-        for message in messages:
-            if message.startswith("record:"):
-                record = robotbenchmarkRecord(message, "highway_driving", distance)
-                supervisor.wwiSendText(record)
-                break
-            elif message == "exit":
-                break
+    message = supervisor.wwiReceiveText()
+    while message:
+        if message.startswith("record:"):
+            record = robotbenchmarkRecord(message, "highway_driving", distance)
+            supervisor.wwiSendText(record)
+            break
+        elif message == "exit":
+            break
+        message = supervisor.wwiReceiveText()
 
 supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)
