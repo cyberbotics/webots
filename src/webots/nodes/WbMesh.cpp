@@ -549,7 +549,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
         downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }
