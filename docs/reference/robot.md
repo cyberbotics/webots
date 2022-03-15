@@ -2305,6 +2305,7 @@ from controller import Robot
 class Robot:
     def wwiSendText(self, text):
     def wwiReceiveText(self):
+    def wwiReceiveStrings(self):
     # ...
 ```
 
@@ -2359,3 +2360,7 @@ The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot 
 The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
 > **note** [Java, Python, MATLAB, ROS]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, MATLAB, or ROS API.
+
+>**note** [Python]: the `wwiReceiveStrings` function returns a list of strings. It is recommended to use it to not miss a message instead of `wwiReceiveText` that returns only the first message.
+
+>**note** [C, Cpp]: it is better to use the `wb_robot_wwi_receive` and `wwiReceive` instead of `wb_robot_wwi_receive_text` and `wwiReceiveText` to avoid missing messages as the two last functions only return the first message and not the whole buffer of messages.
