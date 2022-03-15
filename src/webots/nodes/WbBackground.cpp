@@ -430,13 +430,9 @@ bool WbBackground::loadTexture(int i) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
     else {
-      if (mDownloader[i] && !mDownloader[i]->error().isEmpty()) {
+      if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
-        return false;
-      } else {
-        assert(false);  // at this point, the asset must be in the cache
-        return false;
-      }
+      return false;  // should not reach this point unless the file is available locally or in the cache
     }
   } else {
     url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);

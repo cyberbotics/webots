@@ -541,11 +541,9 @@ void WbMesh::updateUrl() {
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        // TODO: since the url is invalid the currently loaded mesh should be removed (if any)
         deleteWrenRenderable();
         wr_static_mesh_delete(mWrenMesh);
         mWrenMesh = NULL;
-        // END TODO: just a test
         delete mDownloader;
         mDownloader = NULL;
         return;
