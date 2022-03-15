@@ -22,6 +22,7 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
 #include <stdarg.h>
@@ -114,6 +115,7 @@ static unsigned int current_step_duration = 0;
 static bool should_abort_simulation_waiting = false;
 static bool waiting_for_step_begin = false;
 static bool waiting_for_step_end = false;
+static int stdout_read = -1;
 
 // Static functions
 static void init_robot_window_library() {
@@ -560,7 +562,7 @@ void robot_abort(const char *format, ...) {
   va_start(args, format);
   vsprintf(message, format, args);
   va_end(args);
-  fprintf(stderr, "abort: %s\n", message);
+  fprintf(stderr, "Abort: %s\n", message);
   robot_send_request(0);
   robot_read_data();
   exit(EXIT_FAILURE);
@@ -862,6 +864,13 @@ int wb_robot_step_end() {
 }
 
 int wb_robot_step(int duration) {
+  if (stdout_read != -1) {
+    _flushall();  // we need to flush the pipes
+    robot.console_text = malloc(1024);
+    robot.console_stream = 0;
+    int len = _eof(stdout_read) ? 0 : _read(stdout_read, robot.console_text, 1023);
+    robot.console_text[len] = '\0';
+  }
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
 
@@ -1034,7 +1043,7 @@ int wb_robot_init() {  // API initialization
       char retry[256];
       snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
       if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seems to be ready yet: (retry count %d)\n", trial);
+        fprintf(stderr, "Webots doesn't seem to be ready yet: (retry count %d)\n", trial);
         sleep(1);
       } else {
         char buffer[1024];
@@ -1065,6 +1074,13 @@ int wb_robot_init() {  // API initialization
     exit(EXIT_FAILURE);
   }
   free(pipe);
+
+  if (getenv("WEBOTS_STDOUT_REDIRECT")) {
+    int fds[2];
+    _pipe(fds, 1024, O_TEXT);
+    _dup2(fds[1], 1);  // 1 is stdout
+    stdout_read = fds[0];
+  }
 
   // robot device
   robot.n_device = 1;
