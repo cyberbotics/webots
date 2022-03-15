@@ -10,6 +10,8 @@ export default class Toolbar {
     this._view = view;
     this.type = type;
     this.parentNode = parentNode;
+    this.minWidth = 0;
+
     this._createToolbar(parentNode);
     if (type === 'animation')
       this.createAnimationToolbar();
@@ -17,6 +19,8 @@ export default class Toolbar {
       this.createSceneToolbar();
     else if (type === 'streaming')
       this.createStreamingToolbar();
+
+    parentNode.style.minWidth = this.minWidth + 'px';
   }
 
   createAnimationToolbar() {
@@ -56,8 +60,10 @@ export default class Toolbar {
     this._createPlayButton();
     this._createRunButton();
     this._createWorldSelection();
-    if (this._view.broadcast)
+    if (this._view.broadcast) {
       this.toolbarLeft.style.visibility = 'hidden';
+      this.minWidth = 0;
+    }
 
     // Right part
     this._createInfoButton();
@@ -205,6 +211,8 @@ export default class Toolbar {
     document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
+
+    this.minWidth +=41
   }
 
   _triggerPlayPauseButton() {
@@ -248,6 +256,7 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.infoButton);
     this._createInformation();
     window.addEventListener('click', _ => this._closeInfoOnClick(_));
+    this.minWidth += 41;
   }
 
   _createInformation() {
@@ -275,7 +284,7 @@ export default class Toolbar {
 
   _createSettings() {
     this.toolbarRight.appendChild(this._createToolBarButton('settings', 'Settings'));
-
+    this.minWidth += 41;
     this._createSettingsPane();
   }
 
@@ -520,6 +529,8 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this._exitFullscreenButton);
     this._exitFullscreenButton.style.display = 'none';
 
+    this.minWidth += 41;
+
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
     document.addEventListener('keydown', this.keydownRefF = _ => this._fullscrenKeyboardHandler(_));
   }
@@ -646,6 +657,8 @@ export default class Toolbar {
 
     if (typeof this._timeSlider !== 'undefined')
       this._timeSlider.setOffset(offset);
+
+    this.minWidth += 110;
   }
 
   _formatTime(time) {
@@ -798,6 +811,7 @@ export default class Toolbar {
 
   _createRestoreViewpointButton() {
     this.toolbarRight.appendChild(this._createToolBarButton('reset-scene', 'Reset the Scene', () => this._resetViewpoint()));
+    this.minWidth += 41;
   }
 
   // Streaming functions
@@ -806,6 +820,9 @@ export default class Toolbar {
     const quitButton = this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation());
     if (!(typeof this.parentNode.showQuit === 'undefined' || this.parentNode.showQuit))
       quitButton.style.display = 'none';
+    else
+      this.minWidth += 41;
+
     this.toolbarLeft.appendChild(quitButton);
   }
 
@@ -813,6 +830,8 @@ export default class Toolbar {
     const reloadButton = this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); });
     if (!this.parentNode.showReload)
       reloadButton.style.display = 'none';
+    else
+      this.minWidth += 41;
     this.toolbarLeft.appendChild(reloadButton);
   }
 
@@ -882,6 +901,7 @@ export default class Toolbar {
     clock.title = 'Current simulation time';
     clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
     this.toolbarLeft.appendChild(clock);
+    this.minWidth += 105;
   }
 
   _createResetButton() {
@@ -889,6 +909,8 @@ export default class Toolbar {
     this.toolbarLeft.appendChild(resetButton);
     if (!(typeof this.parentNode.showReset === 'undefined' || this.parentNode.showReset))
       resetButton.style.display = 'none';
+    else
+      this.minWidth += 41;
   }
 
   _createStepButton() {
@@ -896,6 +918,8 @@ export default class Toolbar {
     this.toolbarLeft.appendChild(stepButton);
     if (!(typeof this.parentNode.showStep === 'undefined' || this.parentNode.showStep))
       stepButton.style.display = 'none';
+    else
+      this.minWidth += 41;
   }
 
   step() {
@@ -922,6 +946,8 @@ export default class Toolbar {
     this.runTooltip = this.runButton.childNodes[0];
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
+    else
+      this.minWidth += 41;
     if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
       this.runButton.className = 'toolbar-btn icon-pause';
@@ -961,20 +987,18 @@ export default class Toolbar {
     this.worldSelectionDiv = document.createElement('div');
     this.worldSelectionDiv.id = 'worldSelectionDiv';
     this.toolbarLeft.appendChild(this.worldSelectionDiv);
-    this.createWorldSelect();
+    if (this.createWorldSelect() !== -1)
+      this.minWidth += 270;
   }
 
   createWorldSelect() {
     const worlds = this._view.worlds;
     if (typeof worlds === 'undefined' || worlds.length <= 1)
-      return;
+      return -1;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
     this.worldSelect.classList.add('select-css');
     this.worldSelectionDiv.appendChild(this.worldSelect);
-
-    if (typeof worlds === 'undefined')
-      return;
 
     for (let i in worlds) {
       const option = document.createElement('option');
