@@ -48,5 +48,5 @@ WoodenBox {
 }
 E-puck {
   rotation 0 0 1 1.57
-  controller "e-puck"
+  controller "<extern>"
 }
