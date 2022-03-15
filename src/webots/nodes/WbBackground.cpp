@@ -432,7 +432,7 @@ bool WbBackground::loadTexture(int i) {
     else {
       if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
-      return false;  // should not reach this point unless the file is available locally or in the cache
+      return false;  // should not move past this point unless the file is available in the cache
     }
   } else {
     url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
@@ -519,13 +519,9 @@ bool WbBackground::loadIrradianceTexture(int i) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
     else {
-      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty()) {
+      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty
         warn(mDownloader[i + 6]->error());
-        return false;
-      } else {
-        assert(false);  // at this point, the asset must be in the cache
-        return false;
-      }
+      return false;  // should not move past this point unless the file is available in the cache
     }
   } else {
     url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
