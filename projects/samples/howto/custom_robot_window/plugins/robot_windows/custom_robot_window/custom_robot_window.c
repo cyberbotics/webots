@@ -37,10 +37,8 @@ void wb_robot_window_init() {
 // A simulation step occurred.
 void wb_robot_window_step(int time_step) {
   // Window initialization: get some robot devices.
-  int length;
-  const char *message = wb_robot_wwi_receive(&length);
-  int character_read = 0;
-  while (character_read < length && message) {
+  const char *message = wb_robot_wwi_receive_text();
+  while (message) {
     if (strcmp(message, "stop motors") == 0) {
       // Stop the motors.
       printf("Received 'stop motors' message from JavaScript\n");
@@ -53,9 +51,7 @@ void wb_robot_window_step(int time_step) {
       // This should not occur.
       fprintf(stderr, "Unkown message: '%s'\n", message);
 
-    const int current_message_length = strlen(message) + 1;
-    character_read += current_message_length;
-    message += current_message_length;
+    message = wb_robot_wwi_receive_text();
   }
 
   // Actually stop the motors.

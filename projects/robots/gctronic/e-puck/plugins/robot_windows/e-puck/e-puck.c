@@ -160,10 +160,8 @@ static void upload_progress_callback(int i, int j) {
 
 void wb_robot_window_step(int time_step) {
   int i;
-  int length;
-  const char *message = wb_robot_wwi_receive(&length);
-  int character_read = 0;
-  while (character_read < length && message) {
+  const char *message = wb_robot_wwi_receive_text();
+  while (message) {
     if (strcmp(message, "configure") == 0) {
       send_ports();
       wbu_default_robot_window_configure();
@@ -230,9 +228,7 @@ void wb_robot_window_step(int time_step) {
     } else
       fprintf(stderr, "received unknown message from robot window: %s\n", message);
 
-    const int current_message_length = strlen(message) + 1;
-    character_read += current_message_length;
-    message += current_message_length;
+    message = wb_robot_wwi_receive_text();
   }
   if (!configured)
     return;

@@ -122,10 +122,8 @@ int main(int argc, char *argv[]) {
 
   // get record information
   while (wb_robot_step(time_step) != -1) {
-    int length;
-    const char *message = wb_robot_wwi_receive(&length);
-    int character_read = 0;
-    while (character_read < length && message) {
+    const char *message = wb_robot_wwi_receive_text();
+    while (message) {
       if (strncmp(message, "record:", 7) == 0) {
         // because the smallest record is the best, we send a negative value here
         robotbenchmark_record(message, "humanoid_sprint", -record);
@@ -133,9 +131,7 @@ int main(int argc, char *argv[]) {
       } else if (strcmp(message, "exit") == 0)
         break;
 
-      const int current_message_length = strlen(message) + 1;
-      character_read += current_message_length;
-      message += current_message_length;
+      message = wb_robot_wwi_receive_text();
     }
   }
 

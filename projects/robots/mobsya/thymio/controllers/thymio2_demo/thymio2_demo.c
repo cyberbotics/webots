@@ -160,10 +160,8 @@ int main(int argc, char **argv) {
   for (i = 0; i < N_BUTTONS; i++)
     buttons_pressed[i] = false;
   while (wb_robot_step(TIME_STEP) != -1) {
-    int length;
-    const char *message = wb_robot_wwi_receive(&length);
-    int character_read = 0;
-    while (character_read < length && message) {
+    const char *message = wb_robot_wwi_receive_text();
+    while (message) {
       if (strcmp(message, "configure") == 0)
         wbu_default_robot_window_configure();
       else if (strncmp(message, "mousedown ", 10) == 0) {
@@ -184,9 +182,8 @@ int main(int argc, char **argv) {
           buttons_pressed[i] = false;
       } else
         printf("received unknown message from robot window: %s\n", message);
-      const int current_message_length = strlen(message) + 1;
-      character_read += current_message_length;
-      message += current_message_length;
+
+      message = wb_robot_wwi_receive_text();
     }
     double time = wb_robot_get_time();
 
