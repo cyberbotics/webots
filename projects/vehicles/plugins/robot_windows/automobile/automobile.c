@@ -31,8 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static const char *wheelMotorNames[] = {"right_front_wheel", "left_front_wheel",
-                                        "right_rear_wheel", "left_rear_wheel"};
+static const char *wheelMotorNames[] = {"right_front_wheel", "left_front_wheel", "right_rear_wheel", "left_rear_wheel"};
 static WbDeviceTag *wheelMotors = NULL;
 
 enum DriverInfo {
@@ -227,7 +226,7 @@ static void append_overview_data(WbuDriverControlMode control_mode) {
     if (encoder_value == encoder_value) {
       snprintf(buf, 32, "%.17g", encoder_value);
       buffer_append(buf);
-    } else // NaN
+    } else  // NaN
       buffer_append("0");
     buffer_append("}");
   }
@@ -305,22 +304,20 @@ static void append_encoders_data() {
   snprintf(buf, 32, "%.3f", wb_robot_get_time());
   buffer_append(buf);
   buffer_append(",\"value\": [");
-  snprintf(buf, 32, "%.17g,",
-           wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_RIGHT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g,",
-           wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_LEFT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_FRONT_LEFT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g,",
-           wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_RIGHT));
+  snprintf(buf, 32, "%.17g,", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_RIGHT));
   buffer_append(buf);
-  snprintf(buf, 32, "%.17g",
-           wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_LEFT));
+  snprintf(buf, 32, "%.17g", wbu_car_get_wheel_encoder(WBU_CAR_WHEEL_REAR_LEFT));
   buffer_append(buf);
   buffer_append("]}");
 }
 
-void wb_robot_window_init() { wbu_generic_robot_window_init(); }
+void wb_robot_window_init() {
+  wbu_generic_robot_window_init();
+}
 
 void wb_robot_window_step(int time_step) {
   int length;
@@ -333,8 +330,7 @@ void wb_robot_window_step(int time_step) {
       while ((token = wbu_string_strsep(&tokens, ","))) {
         char *command = strdup(token);
         char *first_word = wbu_string_strsep(&command, ":");
-        if (!wbu_generic_robot_window_parse_device_control_command(first_word,
-                                                                   command))
+        if (!wbu_generic_robot_window_parse_device_control_command(first_word, command))
           parse_command(first_word, command);
       }
     }
@@ -377,4 +373,6 @@ void wb_robot_window_step(int time_step) {
   free_buffer();
 }
 
-void wb_robot_window_cleanup() { free(wheelMotors); }
+void wb_robot_window_cleanup() {
+  free(wheelMotors);
+}
