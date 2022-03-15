@@ -160,73 +160,80 @@ static void upload_progress_callback(int i, int j) {
 
 void wb_robot_window_step(int time_step) {
   int i;
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
-    if (strcmp(message, "configure") == 0) {
-      send_ports();
-      wbu_default_robot_window_configure();
-      configured = true;
-    } else if (strcmp(message, "enable") == 0) {
-      wb_camera_enable(camera, time_step);
-      wb_accelerometer_enable(accelerometer, time_step);
-      wb_gyro_enable(gyro, time_step);
-      wb_position_sensor_enable(position_sensors[0], time_step);
-      wb_position_sensor_enable(position_sensors[1], time_step);
-      for (i = 0; i < N_SENSORS; i++) {
-        wb_distance_sensor_enable(ps[i], time_step);
-        wb_light_sensor_enable(ls[i], time_step);
-      }
-      if (tof != 0)
-        wb_distance_sensor_enable(tof, time_step);
-      // optional ground sensors
-      for (i = 0; i < gs_sensors_count; i++)
-        wb_distance_sensor_enable(gs[i], time_step);
-    } else if (strcmp(message, "refresh") == 0)
-      send_ports();
-    else if (strcmp(message, "simulation") == 0)
-      wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
-    else if (strncmp(message, "remote control ", 15) == 0)
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[15]);
-    else if (strncmp(message, "upload ", 7) == 0) {
-      char *port;
-      const char *p = &message[7];
-      int n = strchr(p, ' ') - p;
-      port = (char *)malloc(n + 1);
-      strncpy(port, p, n);
-      port[n] = '\0';
-      struct UploaderData upload;
-      upload.command = UPLOADER_DATA_CONNECT;
-      upload.data = port;
-      wb_remote_control_custom_function(&upload);
-      free(port);
-      const char *data = &message[8 + n];
-      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
-      const char *filename = "e-puck.hex";
-      char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
-      sprintf(full_path, "%s%s", path, filename);
-      FILE *fd = fopen(full_path, "wb");
-      if (fd == NULL)
-        fprintf(stderr, "Cannot open %s for writting\n", full_path);
-      else {
-        fwrite(data, 1, strlen(data), fd);
-        fclose(fd);
-        upload.command = UPLOADER_DATA_SEND_FILE;
-        upload.robot_id = 100;
-        upload.data = full_path;
-        upload.progress_callback = upload_progress_callback;
+  int length;
+  const char *message = wb_robot_wwi_receive(&length);
+  int character_read = 0;
+  while (character_read < length) {
+    if (message) {
+      if (strcmp(message, "configure") == 0) {
+        send_ports();
+        wbu_default_robot_window_configure();
+        configured = true;
+      } else if (strcmp(message, "enable") == 0) {
+        wb_camera_enable(camera, time_step);
+        wb_accelerometer_enable(accelerometer, time_step);
+        wb_gyro_enable(gyro, time_step);
+        wb_position_sensor_enable(position_sensors[0], time_step);
+        wb_position_sensor_enable(position_sensors[1], time_step);
+        for (i = 0; i < N_SENSORS; i++) {
+          wb_distance_sensor_enable(ps[i], time_step);
+          wb_light_sensor_enable(ls[i], time_step);
+        }
+        if (tof != 0)
+          wb_distance_sensor_enable(tof, time_step);
+        // optional ground sensors
+        for (i = 0; i < gs_sensors_count; i++)
+          wb_distance_sensor_enable(gs[i], time_step);
+      } else if (strcmp(message, "refresh") == 0)
+        send_ports();
+      else if (strcmp(message, "simulation") == 0)
+        wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
+      else if (strncmp(message, "remote control ", 15) == 0)
+        wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[15]);
+      else if (strncmp(message, "upload ", 7) == 0) {
+        char *port;
+        const char *p = &message[7];
+        int n = strchr(p, ' ') - p;
+        port = (char *)malloc(n + 1);
+        strncpy(port, p, n);
+        port[n] = '\0';
+        struct UploaderData upload;
+        upload.command = UPLOADER_DATA_CONNECT;
+        upload.data = port;
         wb_remote_control_custom_function(&upload);
-        upload.command = UPLOADER_DATA_DISCONNECT;
-        wb_remote_control_custom_function(&upload);
-      }
-      free(full_path);
-    } else if (strncmp(message, "connect ", 8) == 0) {
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[8]);
-      fprintf(stderr, "Connected to %s\n", &message[8]);
-    } else if (strncmp(message, "disconnect", 10) == 0) {
-      wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
-      fprintf(stderr, "Disconnected from e-puck2\n");
-    } else
-      fprintf(stderr, "received unknown message from robot window: %s\n", message);
+        free(port);
+        const char *data = &message[8 + n];
+        const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
+        const char *filename = "e-puck.hex";
+        char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
+        sprintf(full_path, "%s%s", path, filename);
+        FILE *fd = fopen(full_path, "wb");
+        if (fd == NULL)
+          fprintf(stderr, "Cannot open %s for writting\n", full_path);
+        else {
+          fwrite(data, 1, strlen(data), fd);
+          fclose(fd);
+          upload.command = UPLOADER_DATA_SEND_FILE;
+          upload.robot_id = 100;
+          upload.data = full_path;
+          upload.progress_callback = upload_progress_callback;
+          wb_remote_control_custom_function(&upload);
+          upload.command = UPLOADER_DATA_DISCONNECT;
+          wb_remote_control_custom_function(&upload);
+        }
+        free(full_path);
+      } else if (strncmp(message, "connect ", 8) == 0) {
+        wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[8]);
+        fprintf(stderr, "Connected to %s\n", &message[8]);
+      } else if (strncmp(message, "disconnect", 10) == 0) {
+        wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
+        fprintf(stderr, "Disconnected from e-puck2\n");
+      } else
+        fprintf(stderr, "received unknown message from robot window: %s\n", message);
+      const int current_message_length = strlen(message) + 1;
+      character_read += current_message_length;
+      message += current_message_length;
+    }
   }
   if (!configured)
     return;
