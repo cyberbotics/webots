@@ -95,7 +95,7 @@ However, in this case, you need to setup a build configuration to handle both th
 An example is provided [here]({{ url.github_tree }}/projects/vehicles/controllers/ros_automobile) to create a specific controller for controlling a vehicle.
 
 An even more generic solution, is to use an [extern controller](running-extern-robot-controllers.md) and run the controller as a regular ROS node on the ROS side.
-A very simple example is provided [here]({{ url.github_tree }}/projects/languages/ros/webots_ros/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
+A very simple example is provided [here](https://github.com/cyberbotics/webots_ros/blob/master/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
 A launch file is available to launch Webots with the correct world file, the extern controller and a simple ROS node moving the robot straight as long as there is no obstacle (detected using the front [DistanceSensor](../reference/distancesensor.md)), it can be launched with:
 ```
 roslaunch webots_ros webots_ros_python.launch
