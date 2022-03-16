@@ -2361,7 +2361,7 @@ The message is received using the `webots.window("<robot window name>").receive`
 The `wb_robot_wwi_send_text` function returns the first message present in the buffer of received messages and moves its reading head to the next one. To read the full buffer, you should call repeatedly this function until it returns `NULL`:
 ```
 const char *message = wb_robot_wwi_receive_text();
-while (message){
+while (message) {
   // to something with the message.
 
   message = wb_robot_wwi_receive_text();
