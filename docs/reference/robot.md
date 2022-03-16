@@ -2358,7 +2358,7 @@ The message is sent using the `webots.window("<robot window name>").send` method
 The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot controller to send a message to a JavaScript function running in the HTML robot window.
 The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
-The `wb_robot_wwi_send_text` returns the first message present in the buffer of received messages and moves its reading head to the next one. To read the full buffer, you can proceed like:
+The `wb_robot_wwi_send_text` function returns the first message present in the buffer of received messages and moves its reading head to the next one. To read the full buffer, you should call repeatedly this function until it returns `NULL`:
 ```
 const char *message = wb_robot_wwi_receive_text();
 while (message){
