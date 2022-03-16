@@ -228,9 +228,6 @@ void WbPreferencesDialog::openFontDialog() {
 void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
-  mTabWidget->removeTab(2);
-  mTabWidget->addTab(createNetworkTab(), tr("Network"));
-  mTabWidget->setCurrentIndex(2);
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
