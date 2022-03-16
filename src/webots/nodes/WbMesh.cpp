@@ -144,7 +144,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
     QFile file(WbNetwork::instance()->get(filePath));
     if (!file.open(QIODevice::ReadOnly)) {
-      warn(tr("Mesh file could not be read: %1").arg(filePath));
+      warn(tr("Mesh file could not be read: '%1'").arg(filePath));
       return;
     }
     const QByteArray data = file.readAll();
