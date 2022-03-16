@@ -31,6 +31,7 @@
 #include <string.h>  // strlen
 #include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
+#include <webots/console.h>
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
