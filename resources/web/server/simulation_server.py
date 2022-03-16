@@ -308,11 +308,13 @@ class Client:
                     with open('webots.yml', 'r') as webotsYml_file:
                         data = webotsYml_file.read().splitlines(True)
                     for line in data:
-                        if line.startswith("theia:"):
-                            volume = line.split(':')[1]
-                            dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
-                            envVarDocker["THEIA_VOLUME"] = volume
-                            envVarDocker["THEIA_PORT"] = port + 500
+                        if line.startswith("dockerCompose:"):
+                            info = line.split(':')
+                            if info[1].startswith("theia"):
+                                volume = info[2]
+                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
+                                envVarDocker["THEIA_VOLUME"] = volume
+                                envVarDocker["THEIA_PORT"] = port + 500
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
@@ -487,15 +489,18 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         """Close connection after client leaves."""
+        def async_kill_client(self, client):
+            if client:
+                logging.info(f'[{id(client)}] Client disconnected')
+                client.kill_webots()
+                if config['docker']:
+                    client.cleanup_webots_instance()
+                if client in ClientWebSocketHandler.clients:
+                    ClientWebSocketHandler.clients.remove(client)
+                    del client
+
         client = ClientWebSocketHandler.find_client_from_websocket(self)
-        if client:
-            logging.info(f'[{id(client)}] Client disconnected')
-            client.kill_webots()
-            if config['docker']:
-                client.cleanup_webots_instance()
-            if client in ClientWebSocketHandler.clients:
-                ClientWebSocketHandler.clients.remove(client)
-                del client
+        threading.Thread(target=async_kill_client, args=(self, client,)).start()
 
     def on_message(self, message):
         """Receive message from client."""

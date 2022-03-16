@@ -44,6 +44,7 @@ paths = []
 paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
 paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.wbt'))
 paths.extend(Path(WEBOTS_HOME + '/tests').rglob('*.wbt'))
+paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
 
 with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
     paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
