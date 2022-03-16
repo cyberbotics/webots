@@ -26,8 +26,8 @@ extern "C" {
 
 void wb_robot_wwi_send(const char *data, int size);
 const char *wb_robot_wwi_receive(int *size);
+const char *wb_robot_wwi_receive_text();
 #define wb_robot_wwi_send_text(t) wb_robot_wwi_send(t, strlen(t) + 1)
-#define wb_robot_wwi_receive_text() wb_robot_wwi_receive(NULL)
 
 #ifdef __cplusplus
 }

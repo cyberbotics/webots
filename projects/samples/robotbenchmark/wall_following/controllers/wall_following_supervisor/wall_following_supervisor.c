@@ -130,9 +130,8 @@ int main(int argc, char **argv) {
     int waiting_answer = 1;
 
     do {
-      const char *answer_message = wb_robot_wwi_receive_text();
-
-      if (answer_message) {
+      const char *answer_message;
+      while ((answer_message = wb_robot_wwi_receive_text())) {
         if (strncmp(answer_message, "record:", 7) == 0) {
           robotbenchmark_record(answer_message, "wall_following", metric->performance);
           waiting_answer = 0;
