@@ -4,7 +4,8 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c6000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
+renderingMode: PLAIN
 orthographicViewHeight: 1
 textFiles: 0 "controllers/boomer/boomer.c"
+robotWindow: vehicle
 consoles: Console:All:All
-renderingDevicePerspectives: vehicle:camera;1;2;0;0.542253

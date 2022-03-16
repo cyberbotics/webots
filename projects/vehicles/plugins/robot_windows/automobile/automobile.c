@@ -320,8 +320,8 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  const char *message = wb_robot_wwi_receive_text();
-  while (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (!wbu_generic_robot_window_handle_messages(message)) {
       char *tokens = strdup(message);
       char *token = NULL;
@@ -335,8 +335,6 @@ void wb_robot_window_step(int time_step) {
     if (strncmp(message, "configure", 9) == 0)
       // Additional configuration for the automobile robot window
       configure_automobile_robot_window();
-
-    message = wb_robot_wwi_receive_text();
   }
 
   if (!wbu_generic_robot_window_needs_update())

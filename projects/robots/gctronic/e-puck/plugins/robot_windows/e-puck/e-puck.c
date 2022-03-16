@@ -37,7 +37,8 @@
 
 #include "../../remote_controls/e-puck_bluetooth/UploaderData.hpp"
 
-static WbDeviceTag ps[8], ls[8], tof, accelerometer, gyro, camera, gs[3], motors[2], position_sensors[2];
+static WbDeviceTag ps[8], ls[8], tof, accelerometer, gyro, camera, gs[3],
+    motors[2], position_sensors[2];
 static const int N_SENSORS = sizeof(ps) / sizeof(WbDeviceTag);
 static int gs_sensors_count = 0;
 static bool configured = false;
@@ -86,7 +87,7 @@ static void send_ports() {
     text[k++] = ' ';
     for (j = 0; j < strlen(ports[i]); j++) {
       if (ports[i][j] == '\\')
-        text[k++] = '\\';  // escape character
+        text[k++] = '\\'; // escape character
       text[k++] = ports[i][j];
     }
   }
@@ -160,8 +161,8 @@ static void upload_progress_callback(int i, int j) {
 
 void wb_robot_window_step(int time_step) {
   int i;
-  const char *message = wb_robot_wwi_receive_text();
-  while (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (strcmp(message, "configure") == 0) {
       send_ports();
       wbu_default_robot_window_configure();
@@ -200,7 +201,8 @@ void wb_robot_window_step(int time_step) {
       wb_remote_control_custom_function(&upload);
       free(port);
       const char *data = &message[8 + n];
-      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
+      const char *path =
+          wbu_system_short_path(wbu_system_webots_tmp_path(false));
       const char *filename = "e-puck.hex";
       char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
       sprintf(full_path, "%s%s", path, filename);
@@ -226,9 +228,8 @@ void wb_robot_window_step(int time_step) {
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
       fprintf(stderr, "Disconnected from e-puck2\n");
     } else
-      fprintf(stderr, "received unknown message from robot window: %s\n", message);
-
-    message = wb_robot_wwi_receive_text();
+      fprintf(stderr, "received unknown message from robot window: %s\n",
+              message);
   }
   if (!configured)
     return;
@@ -295,7 +296,8 @@ void wb_robot_window_step(int time_step) {
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
-  if (areDevicesReady && wb_position_sensor_get_sampling_period(position_sensors[0])) {
+  if (areDevicesReady &&
+      wb_position_sensor_get_sampling_period(position_sensors[0])) {
     const double value = wb_position_sensor_get_value(position_sensors[0]);
     if (isnan(value))
       snprintf(update, UPDATE_SIZE, "left_wheel_position ");
@@ -306,7 +308,8 @@ void wb_robot_window_step(int time_step) {
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
-  if (areDevicesReady && wb_position_sensor_get_sampling_period(position_sensors[1])) {
+  if (areDevicesReady &&
+      wb_position_sensor_get_sampling_period(position_sensors[1])) {
     const double value = wb_position_sensor_get_value(position_sensors[1]);
     if (isnan(value))
       snprintf(update, UPDATE_SIZE, "right_wheel_position ");
@@ -322,7 +325,7 @@ void wb_robot_window_step(int time_step) {
     const char name[3] = "XYZ";
     update[0] = '\0';
     for (i = 0; i < 3; ++i) {
-      char s[9];  // "[+-]\d\d\.\d\d\d \0"
+      char s[9]; // "[+-]\d\d\.\d\d\d \0"
       if (isnan(values[i]))
         sprintf(s, "%c ", name[i]);
       else
@@ -339,7 +342,7 @@ void wb_robot_window_step(int time_step) {
     const char name[4] = "Gyro";
     update[0] = '\0';
     for (i = 0; i < 3; ++i) {
-      char s[12];  // "[+-]\d\d\.\d\d\d \0"
+      char s[12]; // "[+-]\d\d\.\d\d\d \0"
       if (isnan(values[i]))
         sprintf(s, "%c ", name[i]);
       else
@@ -352,7 +355,8 @@ void wb_robot_window_step(int time_step) {
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
-    wbu_default_robot_window_update();  // we send all the update to get the image in base64.
+    wbu_default_robot_window_update(); // we send all the update to get the
+                                       // image in base64.
   }
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
@@ -381,6 +385,4 @@ void wb_robot_window_step(int time_step) {
   free(update_message);
 }
 
-void wb_robot_window_cleanup() {
-  cleanup_ports();
-}
+void wb_robot_window_cleanup() { cleanup_ports(); }

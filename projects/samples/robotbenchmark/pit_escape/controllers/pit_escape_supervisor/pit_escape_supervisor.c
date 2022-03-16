@@ -74,15 +74,13 @@ int main(int argc, char **argv) {
   bool waiting_answer = true;
 
   do {
-    const char *answer_message = wb_robot_wwi_receive_text();
-    while (answer_message) {
+    const char *answer_message;
+    while ((answer_message = wb_robot_wwi_receive_text())) {
       if (strncmp(answer_message, "record:", 7) == 0) {
         robotbenchmark_record(answer_message, "pit_escape", metric);
         waiting_answer = false;
       } else if (strcmp(answer_message, "exit") == 0)
         waiting_answer = false;
-
-      answer_message = wb_robot_wwi_receive_text();
     }
 
   } while (wb_robot_step(time_step) != -1 && waiting_answer);
