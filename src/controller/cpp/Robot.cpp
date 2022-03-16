@@ -596,7 +596,7 @@ const char *Robot::wwiReceive(int *size) {
 }
 
 string Robot::wwiReceiveText() {
-  const char *text = wb_robot_wwi_receive(NULL);
+  const char *text = wb_robot_wwi_receive_text();
   if (text)
     return string(text);
   else
