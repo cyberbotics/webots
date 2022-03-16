@@ -289,20 +289,11 @@ export default class Toolbar {
     robotWindowLi.id = 'enable-robotWindow-'+name;
     this.robotWindowList.appendChild(robotWindowLi);
 
-    let label = document.createElement('span');
-    label.className = 'robotWindow-span';
-    label.innerHTML = name;
-    robotWindowLi.appendChild(label);
-
-    label = document.createElement('div');
-    label.className = 'robotWindow-pane-spacer';
-    robotWindowLi.appendChild(label);
-
     const button = document.createElement('label');
     button.className = 'robotWindow-pane-switch';
     robotWindowLi.appendChild(button);
 
-    label = document.createElement('input');
+    let label = document.createElement('input');
     label.id = 'button-'+name;
     label.type = 'checkbox';
     label.checked = false;
@@ -310,8 +301,18 @@ export default class Toolbar {
     button.appendChild(label);
 
     label = document.createElement('span');
-    label.className = 'slider round';
+    label.className = 'visibility-dot';
     button.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'robotWindow-pane-spacer';
+    robotWindowLi.appendChild(label);
+
+    label = document.createElement('span');
+    label.id = 'enable-robotWindow-text-'+name;
+    label.className = 'robotWindow-span';
+    label.innerHTML = name;
+    robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {
       this._changeRobotWindowVisibility(name)

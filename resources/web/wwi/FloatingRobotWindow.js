@@ -67,30 +67,62 @@ export default class FloatingRobotWindow {
 
     dragElement(rw) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        var pageHeight = rw.parentNode.parentNode.parentNode.offsetHeight;
+        var containerHeight = rw.parentNode.parentNode.offsetHeight;
+        var containerWidth = rw.parentNode.parentNode.offsetWidth;
+        var topOffset = 0, leftOffset = 0;
 
         rw.firstChild.onmousedown = dragMouseDown;
 
         function dragMouseDown(event) {
+            rw.lastElementChild.style.pointerEvents = 'none';
+
+            pageHeight = rw.parentNode.parentNode.parentNode.offsetHeight;
+            containerHeight = rw.parentNode.parentNode.offsetHeight;
+
             event.preventDefault();
+
             pos1 = event.clientX;
             pos2 = event.clientY;
+
+            topOffset = pos2 - rw.offsetTop
+            leftOffset = pos1 - rw.offsetLeft;
+
             document.onmouseup = closeDragElement;
             document.onmousemove = robotWindowDrag;
         }
 
         function robotWindowDrag(event) {
             event.preventDefault();
+
             pos3 = pos1 - event.clientX;
             pos4 = pos2 - event.clientY;
             pos1 = event.clientX;
             pos2 = event.clientY;
-            rw.style.top = (rw.offsetTop - pos4) + "px";
-            rw.style.left = (rw.offsetLeft - pos3) + "px";
+
+            let top = rw.offsetTop - pos4;
+            let left = rw.offsetLeft - pos3
+            let bottom = top + rw.offsetHeight;
+            let right = left + rw.offsetWidth;
+
+            if (top<0 || event.clientY<topOffset)
+                top = 0;
+            else if (bottom>containerHeight || event.clientY>containerHeight-rw.offsetHeight+topOffset)
+                top = containerHeight-rw.offsetHeight;
+            
+            if (left<0 || event.clientX<leftOffset)
+                left = 0;
+            else if (right>containerWidth || event.clientX>containerWidth-rw.offsetWidth+leftOffset)
+                left = containerWidth-rw.offsetWidth;
+
+            rw.style.top = top + "px";
+            rw.style.left = left + "px";
         }
 
         function closeDragElement() {
             document.onmouseup = null;
             document.onmousemove = null;
+            rw.lastElementChild.style.pointerEvents = 'auto';
         }
     }
 }

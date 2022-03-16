@@ -569,43 +569,52 @@ webots-view .robotWindow-pane-title{
   padding-top: 10px;
   color: #aaa;
   height: 35px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
 }
 
 webots-view .robotWindow-pane-spacer {
   display: inline-block;
-  min-width: 75px;
+  min-width: 15px;
 }
 
 webots-view .robotWindow-pane-li {
   margin-top: 5px;
   margin-bottom: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 webots-view .robotWindow-pane-switch {
   position: absolute;
   display: inline-block;
-  width: 40px;
-  height: 17px;
-  top: 10px;
-  right: 11px;
   pointer-events: none;
+  top: 11px;
+}
+
+webots-view .visibility-dot {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  width: 6px;
+  height: 6px;
+  left: 0;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+webots-view input:checked + .visibility-dot {
+  background-color: red;
 }
 
 webots-view .floating-robotWindow {
   background-color: rgba(0, 0, 0, 0.6);
-  top: 50px;
-  left: 50px;
   position: absolute;
   display: block;
   border-radius: 5px;
   resize: both;
   overflow: hidden;
-  width: 250px;
   height: 200px;
+  width: 250px;
   min-height: 44px;
   min-width: 200px;
 }
@@ -629,7 +638,7 @@ webots-view .floating-robotWindow-text{
 
 webots-view .floating-robotWindow-close {
   position: relative;
-  top: -7px;
+  top: -10px;
   background-color: transparent;
   border: none;
   color: #aaa;
@@ -651,4 +660,8 @@ webots-view .floating-robotWindow-content iframe {
   margin: 10px;
   width: calc(100% - 20px);
   height: calc(100% - 20px);
+}
+
+webots-view .unclickable {
+  pointer-events: none;
 }
