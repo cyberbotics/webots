@@ -41,13 +41,14 @@ export default class FloatingRobotWindow {
         return this.floatingRobotWindow.id;
     }
 
-    getWidth() {
-        return this.floatingRobotWindow.clientWidth;
+    setSize(w, h) {
+        this.floatingRobotWindow.style.width = w.toString()+'px';
+        this.floatingRobotWindow.style.height = h.toString()+'px';
     }
 
     setPosition(xPos, yPos) {
-        this.floatingRobotWindow.style.top = yPos.toString()+'px';
         this.floatingRobotWindow.style.left = xPos.toString()+'px';
+        this.floatingRobotWindow.style.top = yPos.toString()+'px';
     }
 
     changeVisibility() {
@@ -73,6 +74,7 @@ export default class FloatingRobotWindow {
         var topOffset = 0, leftOffset = 0;
 
         rw.firstChild.onmousedown = dragMouseDown;
+        rw.addEventListener('resize', function(event) {console.log("Risizing "+event.srcId);});
 
         function dragMouseDown(event) {
             rw.lastElementChild.style.pointerEvents = 'none';

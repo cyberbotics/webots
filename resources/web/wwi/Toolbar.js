@@ -332,17 +332,24 @@ export default class Toolbar {
       WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
     }
 
-    const windowOffset = 20;
-    this.robotWindows.forEach((rw,n) => {
+    const viewWidth = this.parentNode.offsetWidth, viewHeight = this.parentNode.offsetHeight;
+    const robotWindowWidth = 250, robotWindowHeight = 200, margin = 20;
+    var numCol = 0, numRow = 0;
+
+    this.robotWindows.forEach((rw, n) => {
       rw.floatingRobotWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotWindowVisibility(rw.getID()));
-      if(n) {
-        var width_sum = 0;
-        for (var i=0; i<n; i++)
-          width_sum += (this.robotWindows[i].getWidth()+20);
-        rw.setPosition(windowOffset+width_sum, windowOffset)
-      } else
-        rw.setPosition(windowOffset, windowOffset);
+ 
+      if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
+        numRow++; 
+        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight )
+          numRow = 0;
+        numCol = 0;
+      }
+
+      rw.setSize(robotWindowWidth, robotWindowHeight);
+      rw.setPosition(margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
+      numCol++;     
     });
   }
 

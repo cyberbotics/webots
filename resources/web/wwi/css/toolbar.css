@@ -589,7 +589,7 @@ webots-view .robotWindow-pane-switch {
   position: absolute;
   display: inline-block;
   pointer-events: none;
-  top: 11px;
+  top: 12px;
 }
 
 webots-view .visibility-dot {
@@ -613,8 +613,6 @@ webots-view .floating-robotWindow {
   border-radius: 5px;
   resize: both;
   overflow: hidden;
-  height: 200px;
-  width: 250px;
   min-height: 44px;
   min-width: 200px;
 }
