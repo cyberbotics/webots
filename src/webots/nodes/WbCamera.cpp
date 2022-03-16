@@ -158,7 +158,7 @@ WbCamera::~WbCamera() {
 void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
 
-  QString noiseMaskUrl = mNoiseMaskUrl->value();
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
     const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
     if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
