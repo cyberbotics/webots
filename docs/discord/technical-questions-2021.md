@@ -11891,7 +11891,7 @@ Hello to all! I am developing a basic simulator to be able to develop an autonom
 
 I don't understand what I'm doing wrong. Is it a bug?
 
-##### Urmom 03/30/2021 14:02:36
+##### GeLO 03/30/2021 14:02:36
 Hi, Just wondering does anyone know how to draw in Webots? Im trying to draw a rectangle or a straight line but I have some errors and here's my code. Thank you so much and have a great day
 
 
@@ -11928,7 +11928,7 @@ And my error
 ##### Olivier Michel [Cyberbotics] 03/30/2021 14:04:22
 You need to equip your Robot with a Display device named "ground\_display"...
 
-##### Urmom 03/30/2021 15:21:08
+##### GeLO 03/30/2021 15:21:08
 Hi Olivier, I did but I still have the error
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/826476145507696700/unknown.png)
@@ -11942,7 +11942,7 @@ Have you tried?
 
 [https://github.com/cyberbotics/webots\_ros2](https://github.com/cyberbotics/webots_ros2)
 
-##### Urmom 03/30/2021 15:25:40
+##### GeLO 03/30/2021 15:25:40
 I see thanks Olivier!
 
 ##### Adra 03/30/2021 15:25:52
@@ -12195,7 +12195,7 @@ Hello,everyone. Do anyone have a link or model of an environment for warehouse f
 ##### Joanna 04/01/2021 19:01:17
 Yes,I am aware of factory environment. But anyway, thanks Daniel. Was just kinda sure that somebody has already sucha Kinda environment "typical warehouse " since most of mobile robotics work is done in warehouses . Will see if somebody has it maybe.
 
-##### Urmom 04/01/2021 19:51:49
+##### GeLO 04/01/2021 19:51:49
 Hi Olivier, So I changed the Solid node to a Display, and the ground supposed to be white but it showing a different color. Im just wondering If you know how to draw a simple rectangle in webots. Thank you so much Olivier
 
 
@@ -12240,7 +12240,7 @@ base being the robot (copied it from some of my code)
 
 np being numpy. For other languages you gonna have to figure it out yourself 😉
 
-##### deleted 04/01/2021 22:14:14
+##### Deleted User 04/01/2021 22:14:14
 hey, i want to make a robot that has leg joints controlled by servos
 
 
@@ -12252,7 +12252,7 @@ what would be my solution to this?
 ##### Luftwaffel [Moderator] 04/01/2021 23:29:13
 you are asking inside of webots?
 
-##### deleted 04/01/2021 23:50:03
+##### Deleted User 04/01/2021 23:50:03
 no, physically
 
 ##### Luftwaffel [Moderator] 04/02/2021 00:10:50
@@ -12261,7 +12261,7 @@ this is the webots discord, I'm sure there is robotics servers and forums 🙂
 
 perhaps adding spring tension or something
 
-##### deleted 04/02/2021 00:30:26
+##### Deleted User 04/02/2021 00:30:26
 yeah i just assumed that people here would know that.. since its something you would have to consider while designing a robot lol
 
 ##### Luftwaffel [Moderator] 04/02/2021 00:48:25
@@ -28172,7 +28172,7 @@ There is some threading involved, maybe that might cause the issue somehow.
 
 Furthermore, I get no error messages in the terminal, so there is not much to go after there, at least not without adding some homemade tracings
 
-##### BananaJuic3 10/08/2021 12:29:40
+##### inbananawethrust 10/08/2021 12:29:40
 does webots run with windows 10 + ros2?
 
 
@@ -28185,9 +28185,9 @@ I understand this is a super easy question for u, and it might be included in th
 but i tried unity for ros2 and it wasnt a great experience.
 
 ##### Benjamin Hug [Cyberbotics] 10/08/2021 12:36:19
-`@BananaJuic3` Yes you can use Webots with Windows 10 and ROS2 🙂
+`@inbananawethrust` Yes you can use Webots with Windows 10 and ROS2 🙂
 
-##### BananaJuic3 10/08/2021 12:36:33
+##### inbananawethrust 10/08/2021 12:36:33
 oh thank god
 
 
@@ -28949,7 +28949,7 @@ Thank's in advance and excuse me for my English
 ##### Solenoid 10/22/2021 00:34:59
 `@DDaniel` Thank you for the insights. That really seems like a basic feature needing some work... I could get the robot in the required configuration for my task.
 
-##### BananaJuic3 10/22/2021 05:03:34
+##### inbananawethrust 10/22/2021 05:03:34
 Hello, am trying to add a touch sensor to each of the four legs in the robot spot
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/900972630746738688/unknown.png)
@@ -28973,7 +28973,7 @@ I added touch sensors to "spots" foot which will be a great addition to anyone d
 ##### Olivier Michel [Cyberbotics] 10/22/2021 10:25:27
 Simply create a new PR to submit your contribution: [https://github.com/cyberbotics/webots/edit/develop/projects/robots/boston\_dynamics/spot/protos/SpotLeftLeg.proto](https://github.com/cyberbotics/webots/edit/develop/projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto)
 
-##### BananaJuic3 10/22/2021 10:27:02
+##### inbananawethrust 10/22/2021 10:27:02
 Thank you!
 
 ##### D3cpt 10/22/2021 14:11:47
@@ -29045,7 +29045,7 @@ Hi all, I came across this error message in Webots when importing numpy on my M1
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/901254376029560832/unknown.png)
 %end
 
-##### BananaJuic3 10/24/2021 11:33:34
+##### inbananawethrust 10/24/2021 11:33:34
 Yeah that might be a possibility. I'll let u know after running a few tests
 
 ##### D3cpt 10/25/2021 09:15:44
