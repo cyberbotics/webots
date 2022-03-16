@@ -228,6 +228,7 @@ void WbPreferencesDialog::openFontDialog() {
 void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
+  mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -509,8 +510,9 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
-  layout->addWidget(
-    new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this), 1, 0);
+  mCacheSizeLabel =
+    new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this);
+  layout->addWidget(mCacheSizeLabel, 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
 
   return widget;

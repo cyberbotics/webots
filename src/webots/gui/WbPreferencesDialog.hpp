@@ -30,6 +30,7 @@ class QSpinBox;
 class QDialogButtonBox;
 class QTabWidget;
 class QKeyEvent;
+class QLabel;
 
 class WbPreferencesDialog : public QDialog {
   Q_OBJECT
@@ -68,6 +69,7 @@ private:
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
   QSpinBox *mCacheSize;
+  QLabel *mCacheSizeLabel;
 
   QStringList mValidThemeFilenames;
 
