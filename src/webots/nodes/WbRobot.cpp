@@ -977,7 +977,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       if (!message.endsWith('\n'))
         message += '\n';
       // cppcheck-suppress knownConditionTrueFalse
-      emit appendMessageToConsole(message, streamChannel == 0);
+      emit appendMessageToConsole(message, streamChannel == 1);  // 1 is stdout
       return;
     }
     case C_ROBOT_WWI_MESSAGE: {

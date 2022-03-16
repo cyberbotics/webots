@@ -608,10 +608,10 @@ void robot_toggle_remote(WbDevice *d, WbRequest *r) {
 
 void robot_console_print(const char *text, int stream) {
   const int n = strlen(text) + 1;
-  if (stream == 1) {
+  if (stream == WB_STDOUT) {
     robot.console_stdout = malloc(n);
     memcpy(robot.console_stdout, text, n);
-  } else if (stream == 2) {
+  } else if (stream == WB_STDERR) {
     robot.console_stderr = malloc(n);
     memcpy(robot.console_stderr, text, n);
   }

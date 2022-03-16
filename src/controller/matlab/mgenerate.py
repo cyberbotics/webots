@@ -592,8 +592,8 @@ def main(args=None):
     gen(FUNC, "wbu_system_short_path(path)")
 
     # constants
-    gen_const("WB_STDOUT", "0")
-    gen_const("WB_STDERR", "1")
+    gen_const("WB_STDOUT", "1")
+    gen_const("WB_STDERR", "2")
 
     gen_const("WB_CHANNEL_BROADCAST", "-1")
 
