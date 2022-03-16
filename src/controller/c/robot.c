@@ -77,8 +77,8 @@ typedef struct {
   unsigned char client_exit;
   unsigned char webots_exit;  // WEBOTS_EXIT_FALSE, WEBOTS_EXIT_NOW or WEBOTS_EXIT_LATER
   double basic_time_step;
-  char console_stream;
-  char *console_text;
+  char *console_stdout;
+  char *console_stderr;
   char *project_path;
   char *world_path;
   char *model;
@@ -116,6 +116,7 @@ static bool should_abort_simulation_waiting = false;
 static bool waiting_for_step_begin = false;
 static bool waiting_for_step_end = false;
 static int stdout_read = -1;
+static int stderr_read = -1;
 
 // Static functions
 static void init_robot_window_library() {
@@ -178,8 +179,10 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.controller_name = NULL;
   free(robot.custom_data);
   robot.custom_data = NULL;
-  free(robot.console_text);
-  robot.console_text = NULL;
+  free(robot.console_stdout);
+  robot.console_stdout = NULL;
+  free(robot.console_stderr);
+  robot.console_stderr = NULL;
   free(robot.wwi_message_received);
   robot.wwi_message_received = NULL;
   robot_window_cleanup();
@@ -204,13 +207,21 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     request_write_string(req, robot.custom_data);
     robot.dataNeedToWriteRequest = false;
   }
-  if (robot.console_text) {
+  if (robot.console_stdout) {
     request_write_uchar(req, C_CONSOLE_MESSAGE);
-    request_write_uchar(req, robot.console_stream);
-    request_write_uint32(req, strlen(robot.console_text) + 1);
-    request_write_string(req, robot.console_text);
-    free(robot.console_text);
-    robot.console_text = NULL;
+    request_write_uchar(req, 1);
+    request_write_uint32(req, strlen(robot.console_stdout) + 1);
+    request_write_string(req, robot.console_stdout);
+    free(robot.console_stdout);
+    robot.console_stdout = NULL;
+  }
+  if (robot.console_stderr) {
+    request_write_uchar(req, C_CONSOLE_MESSAGE);
+    request_write_uchar(req, 2);
+    request_write_uint32(req, strlen(robot.console_stderr) + 1);
+    request_write_string(req, robot.console_stderr);
+    free(robot.console_stderr);
+    robot.console_stderr = NULL;
   }
   if (robot.client_exit) {
     request_write_uchar(req, C_ROBOT_CLIENT_EXIT_NOTIFY);
@@ -592,9 +603,13 @@ void robot_toggle_remote(WbDevice *d, WbRequest *r) {
 
 void robot_console_print(const char *text, int stream) {
   const int n = strlen(text) + 1;
-  robot.console_text = malloc(n);
-  memcpy(robot.console_text, text, n);
-  robot.console_stream = stream;
+  if (stream == 1) {
+    robot.console_stdout = malloc(n);
+    memcpy(robot.console_stdout, text, n);
+  } else if (stream == 2) {
+    robot.console_stderr = malloc(n);
+    memcpy(robot.console_stderr, text, n);
+  }
   if (wb_robot_step(0) == -1) {
     robot_quit();
     exit(EXIT_SUCCESS);
@@ -864,12 +879,18 @@ int wb_robot_step_end() {
 }
 
 int wb_robot_step(int duration) {
-  if (stdout_read != -1) {
+  if (stdout_read != -1 || stderr_read != -1) {
     _flushall();  // we need to flush the pipes
-    robot.console_text = malloc(1024);
-    robot.console_stream = 0;
-    int len = _eof(stdout_read) ? 0 : _read(stdout_read, robot.console_text, 1023);
-    robot.console_text[len] = '\0';
+    if (stdout_read != -1) {
+      robot.console_stdout = malloc(1024);
+      int len = _eof(stdout_read) ? 0 : _read(stdout_read, robot.console_stdout, 1023);
+      robot.console_stdout[len] = '\0';
+    }
+    if (stderr_read != -1) {
+      robot.console_stderr = malloc(1024);
+      int len = _eof(stderr_read) ? 0 : _read(stderr_read, robot.console_stderr, 1023);
+      robot.console_stderr[len] = '\0';
+    }
   }
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
@@ -1017,7 +1038,8 @@ int wb_robot_init() {  // API initialization
   robot.webots_exit = WEBOTS_EXIT_FALSE;
   robot.battery_value = NAN;
   robot.battery_sampling_period = 0;  // initially disabled
-  robot.console_text = NULL;
+  robot.console_stdout = NULL;
+  robot.console_stderr = NULL;
   robot.urdf = NULL;
   robot.urdf_prefix = NULL;
   robot.need_urdf = false;
@@ -1080,6 +1102,12 @@ int wb_robot_init() {  // API initialization
     _pipe(fds, 1024, O_TEXT);
     _dup2(fds[1], 1);  // 1 is stdout
     stdout_read = fds[0];
+  }
+  if (getenv("WEBOTS_STDERR_REDIRECT")) {
+    int fds[2];
+    _pipe(fds, 1024, O_TEXT);
+    _dup2(fds[1], 2);  // 2 is stderr
+    stderr_read = fds[0];
   }
 
   // robot device
