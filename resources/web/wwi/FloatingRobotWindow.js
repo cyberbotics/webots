@@ -79,6 +79,7 @@ export default class FloatingRobotWindow {
 
             pageHeight = rw.parentNode.parentNode.parentNode.offsetHeight;
             containerHeight = rw.parentNode.parentNode.offsetHeight;
+            containerWidth = rw.parentNode.parentNode.offsetWidth;
 
             event.preventDefault();
 
