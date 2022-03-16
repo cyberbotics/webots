@@ -92,7 +92,7 @@ public:
   void setLensDistortionCenter(const WbVector2 &center);
   void setRadialLensDistortionCoefficients(const WbVector2 &coefficients);
   void setTangentialLensDistortionCoefficients(const WbVector2 &coefficients);
-  QString setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device);
+  QString setNoiseMask(const QString &noiseMaskUrl);
 
   void enableCopying(bool enable);
   WbRgb copyPixelColourValue(int x, int y);
