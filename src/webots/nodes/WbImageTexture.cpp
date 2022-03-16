@@ -140,7 +140,7 @@ bool WbImageTexture::loadTexture() {
   const QString filePath = isWebAsset ? WbNetwork::instance()->get(url) : path(true);
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
-    warn(tr("Texture file could not be read: %1").arg(filePath));
+    warn(tr("Texture file could not be read: '%1'").arg(filePath));
     return false;
   }
   const bool r = loadTextureData(&file);
