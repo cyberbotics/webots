@@ -703,6 +703,10 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
     // notify three.js if a default mapping is used to prevent issue https://github.com/cyberbotics/webots/issues/752
     writer << " defaultMapping=\'true\'";
 
+  writer << " ccw=\'";
+  writer << mCcw;
+  writer << "\'";
+
   writer << " coordIndex=\'";
 
   for (int i = 0; i < indexCount; ++i) {
