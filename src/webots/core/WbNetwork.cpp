@@ -26,9 +26,9 @@
 
 static WbNetwork *gInstance = NULL;
 
-// cacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
+// gCacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
 // persistent nor is it ever complete. Its purpose is to speed up checking and retrieving previously referenced assets.
-static QMap<QString, QString> cacheMap;
+static QMap<QString, QString> gCacheMap;
 
 void WbNetwork::cleanup() {
   delete gInstance;
@@ -42,7 +42,7 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
-  cacheMap.clear();
+  gCacheMap.clear();
 
   mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
   QDir dir(mCacheDirectory);
@@ -113,7 +113,7 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
       mCacheSizeInBytes += file.size();
       file.close();
       // save reference in internal representation
-      cacheMap.insert(url, path);
+      gCacheMap.insert(url, path);
     }
   }
 }
@@ -122,23 +122,23 @@ const QString WbNetwork::get(const QString &url) const {
   // cppcheck-suppress assertWithSideEffect
   assert(isCached(url));  // the 'get' function should not be called unless we know that the file is cached
 
-  if (cacheMap.contains(url))
-    return cacheMap[url];
+  if (gCacheMap.contains(url))
+    return gCacheMap[url];
 
   const QString location = mCacheDirectory + urlToHash(url);
-  cacheMap.insert(url, location);
+  gCacheMap.insert(url, location);
 
   return location;
 }
 
 bool WbNetwork::isCached(const QString &url) const {
-  if (cacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+  if (gCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
   // if url is not in the internal representation, check for file existence on disk
   const QString filePath = mCacheDirectory + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
-    cacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
+    gCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
     return true;
   }
 
@@ -172,8 +172,8 @@ void WbNetwork::reduceCacheUsage() {
     QDir().remove(fi.absoluteFilePath());  // remove the file from disk
 
     // find key (url) corresponding to path, and remove it from the internal representation
-    const QString key = cacheMap.key(fi.absoluteFilePath());
-    cacheMap.remove(key);
+    const QString key = gCacheMap.key(fi.absoluteFilePath());
+    gCacheMap.remove(key);
 
     mCacheSizeInBytes -= fi.size();
   }
@@ -192,7 +192,7 @@ void WbNetwork::clearCache() {
   }
 
   mCacheSizeInBytes = 0;
-  cacheMap.clear();
+  gCacheMap.clear();
 }
 
 void WbNetwork::recomputeCacheSize() {
