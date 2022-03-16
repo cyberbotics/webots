@@ -216,7 +216,7 @@ robot.wwiSendText("stop")
 timestep = int(robot.getBasicTimeStep())
 while robot.step(timestep) != -1:
     message = robot.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             record = robotbenchmarkRecord(message, "visual_tracking", hitRate)
             robot.wwiSendText(record)
