@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   bool configured = false, received = false;
   ts_setup(argv[0]);
 
-  while (!configured) { // receive message sent by the robot window.
+  while (!configured) {  // receive message sent by the robot window.
     wb_robot_step(TIME_STEP);
     const char *configure_message;
     while ((configure_message = wb_robot_wwi_receive_text())) {
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  while (!received) { // receive message sent by Webots.
+  while (!received) {  // receive message sent by Webots.
     wb_robot_step(TIME_STEP);
     const char *test_message;
     while ((test_message = wb_robot_wwi_receive_text())) {
