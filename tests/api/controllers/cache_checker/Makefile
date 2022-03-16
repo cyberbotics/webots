@@ -12,19 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller import Robot
-
-
-robot = Robot()
-timestep = int(robot.getBasicTimeStep())
-
-while robot.step(timestep) != -1:
-    # Receive a message from the robot window
-    message = robot.wwiReceiveText()
-    while message:
-        # Print the message if not None
-        print(message)
-
-        # Send a message back to the robot window
-        robot.wwiSendText(message)
-        message = robot.wwiReceiveText()
+null :=
+space := $(null) $(null)
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.include

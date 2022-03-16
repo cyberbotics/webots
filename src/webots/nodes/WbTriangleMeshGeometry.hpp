@@ -87,6 +87,8 @@ protected:
   WbTriangleMeshGeometry(const WbTriangleMeshGeometry &other);
   WbTriangleMeshGeometry(const WbNode &other);
 
+  void destroyWrenMesh();
+
   virtual int indexSize() const { return 0; }
   void exportNodeContents(WbVrmlWriter &writer) const override;
   bool exportNodeHeader(WbVrmlWriter &writer) const override;

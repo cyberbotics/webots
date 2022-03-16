@@ -102,8 +102,10 @@ typedef struct {
   int pin;
   int wwi_message_to_send_size;
   const char *wwi_message_to_send;
-  int wwi_message_received_size;
-  char *wwi_message_received;
+  int wwi_received_messages_size;
+  int wwi_reception_buffer_size;
+  char *wwi_reception_buffer;
+  bool wwi_reset_reading_head;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
@@ -183,8 +185,8 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.console_stdout = NULL;
   free(robot.console_stderr);
   robot.console_stderr = NULL;
-  free(robot.wwi_message_received);
-  robot.wwi_message_received = NULL;
+  free(robot.wwi_reception_buffer);
+  robot.wwi_reception_buffer = NULL;
   robot_window_cleanup();
   remote_control_cleanup();
   free(robot.urdf);
@@ -460,10 +462,13 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_WWI_MESSAGE:
       n = request_read_int32(r);
-      if (n > robot.wwi_message_received_size)
-        robot.wwi_message_received = realloc(robot.wwi_message_received, n);
-      robot.wwi_message_received_size = n;
-      memcpy(robot.wwi_message_received, request_read_data(r, n), n);
+      const int new_size = robot.wwi_received_messages_size + n;
+      if (robot.wwi_reception_buffer_size < new_size) {
+        robot.wwi_reception_buffer = realloc(robot.wwi_reception_buffer, new_size);
+        robot.wwi_reception_buffer_size = new_size;
+      }
+      memcpy(robot.wwi_reception_buffer + robot.wwi_received_messages_size, request_read_data(r, n), n);
+      robot.wwi_received_messages_size += n;
       break;
     case C_ROBOT_SIMULATION_CHANGE_MODE:
       robot.simulation_mode = request_read_int32(r);
@@ -803,6 +808,8 @@ int wb_robot_step_begin(int duration) {
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
+  robot.wwi_reset_reading_head = true;
+
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
@@ -1129,8 +1136,10 @@ int wb_robot_init() {  // API initialization
   robot.has_html_robot_window = false;
   robot.wwi_message_to_send = NULL;
   robot.wwi_message_to_send_size = 0;
-  robot.wwi_message_received = NULL;
-  robot.wwi_message_received_size = 0;
+  robot.wwi_reception_buffer = NULL;
+  robot.wwi_received_messages_size = 0;
+  robot.wwi_reception_buffer_size = 0;
+  robot.wwi_reset_reading_head = true;
   robot.simulation_mode = -1;
 
   // receive a configure message for the robot and devices
@@ -1209,16 +1218,36 @@ void wb_robot_wwi_send(const char *data, int size) {
 }
 
 const char *wb_robot_wwi_receive(int *size) {
-  if (robot.wwi_message_received_size) {
+  if (robot.wwi_received_messages_size) {
     if (size)
-      *size = robot.wwi_message_received_size;
-    robot.wwi_message_received_size = 0;
-    return robot.wwi_message_received;
+      *size = robot.wwi_received_messages_size;
+    robot.wwi_received_messages_size = 0;
+    return robot.wwi_reception_buffer;
   } else {
     if (size)
       *size = 0;
     return NULL;
   }
+}
+
+const char *wb_robot_wwi_receive_text() {
+  static int length;
+  static int character_read = 0;
+  static const char *message;
+  if (robot.wwi_reset_reading_head) {
+    robot.wwi_reset_reading_head = false;
+    character_read = 0;
+    message = wb_robot_wwi_receive(&length);
+  }
+
+  if (character_read < length && message) {
+    const int current_message_length = strlen(message) + 1;
+    character_read += current_message_length;
+    const char *current_message = message;
+    message += current_message_length;
+    return current_message;
+  } else
+    return NULL;
 }
 
 WbSimulationMode robot_get_simulation_mode() {
