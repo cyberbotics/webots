@@ -1113,15 +1113,10 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective =
-    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
-  if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
-    perspective->setMainWindowState(saveState());
-  if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
-      perspective->simulationViewState()[1].isEmpty())
+  perspective->setMainWindowState(saveState());
+  if (perspective->simulationViewState()[0].isEmpty() || perspective->simulationViewState()[1].isEmpty())
     perspective->setSimulationViewState(mSimulationView->saveState());
-  if (saveScreenPerspective)
-    perspective->setMinimizedState(mMinimizedDockState);
+  perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);
@@ -1160,19 +1155,19 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
   perspective->setConsolesSettings(settingsList);
 
-  if (saveScreenPerspective) {
-    // save rendering devices perspective
-    const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
-    foreach (const WbRenderingDevice *device, renderingDevices) {
-      if (device->overlay() != NULL)
-        perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
-    }
-
-    // save rendering devices perspective of external window
-    WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+  // save rendering devices perspective
+  const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
+  foreach (const WbRenderingDevice *device, renderingDevices) {
+    if (device->overlay() != NULL)
+      perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
   }
 
-  if (!saveToFile)
+  // save rendering devices perspective of external window
+  WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+
+  const bool disableSavePerspective =
+    WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
+  if (!saveToFile || disableSavePerspective)
     return false;
 
   // save our new perspective in the file
