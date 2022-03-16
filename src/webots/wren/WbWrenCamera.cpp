@@ -345,7 +345,7 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
     QImageReader *imageReader = new QImageReader(noiseMaskUrl);
     if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load %1: %2").arg(noiseMaskUrl).arg(imageReader->errorString());
+      return tr("Cannot load '%1': %2").arg(noiseMaskUrl).arg(imageReader->errorString());
     }
     delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
