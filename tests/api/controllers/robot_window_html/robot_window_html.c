@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
 
   while (!configured) { // receive message sent by the robot window.
     wb_robot_step(TIME_STEP);
-    const char *message;
-    while ((message = wb_robot_wwi_receive_text())) {
+    const char *configure_message;
+    while ((configure_message = wb_robot_wwi_receive_text())) {
       if (strcmp(configure_message, "configure") == 0) {
         configured = true;
         wb_robot_wwi_send_text(
@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
 
   while (!received) { // receive message sent by Webots.
     wb_robot_step(TIME_STEP);
-    const char *message;
-    while ((message = wb_robot_wwi_receive_text())) {
+    const char *test_message;
+    while ((test_message = wb_robot_wwi_receive_text())) {
       if (strcmp(test_message,
                  "Answer: test wwi functions from complete_test controller.") ==
           0)
