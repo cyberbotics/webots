@@ -41,7 +41,7 @@ while (supervisor.step(timestep) != -1 and
 
     # Recovers current time and position/orientation of the robot.
     pos = pioneer.getPosition()
-    pos2d = [pos[0], pos[2]]
+    pos2d = [pos[0], -pos[1]]
 
     orientation = pioneer.getOrientation()
     time = supervisor.getTime()
