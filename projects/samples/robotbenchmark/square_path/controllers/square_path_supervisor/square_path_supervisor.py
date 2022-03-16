@@ -62,7 +62,7 @@ supervisor.wwiSendText('stop')
 # Wait for credentials sent by the robot window.
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             performance = metric.getPerformance()
             record = robotbenchmarkRecord(message, "square_path", performance)
