@@ -449,7 +449,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_WWI_MESSAGE:
       n = request_read_int32(r);
-      int new_size = robot.wwi_received_messages_size + n;
+      const int new_size = robot.wwi_received_messages_size + n;
       if (robot.wwi_reception_buffer_size < new_size) {
         robot.wwi_reception_buffer = realloc(robot.wwi_reception_buffer, new_size);
         robot.wwi_reception_buffer_size = new_size;
