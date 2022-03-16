@@ -3376,3 +3376,567 @@ I need the pictures of point cloud
 ##### Ranga Kulathunga 03/09/2022 11:51:13
 Hi all! I have worked on sumo\_interface, highway, highway\_overtake examples that are connected to SUMO  but I was unable to see that the vehicle controlled by Webots is present in SUMO GUI interface. Do you have any idea or method to add a Webots vehicle into the SUMO simulation environment?
 
+##### moebius 03/09/2022 18:49:15
+how do i do this via the python API? I can't seem to find this in the documentation
+
+
+ok i found it, but the output is really bad, i can't see anything
+%figure
+![Screenshot_from_2022-03-09_11-52-28.png](https://cdn.discordapp.com/attachments/565154703139405824/951206012642267166/Screenshot_from_2022-03-09_11-52-28.png)
+%end
+
+##### cuz why not? 03/10/2022 00:23:17
+Hello, I have a pretty simple question with the installation; whenever I try to open the Webots app, it just crashes, without explanation. No error sign or anything, just crashes. Does anybody know how to fix this?
+
+##### Mat198 03/10/2022 00:27:00
+Do you have minimum requirements? Witch SO are you using?
+
+##### cuz why not? 03/10/2022 00:41:23
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951278560876822558/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951278561149485096/unknown.png)
+%end
+
+##### Mat198 03/10/2022 00:43:54
+Do you have a graphic card? I use webots on Win10 and it's fine
+
+
+Type dxdiag in the windows menu to see
+
+##### cuz why not? 03/10/2022 00:50:41
+I'm using Windows 10 and my graphics card is NVIDIA Quadro K1200
+
+##### Mat198 03/10/2022 01:01:39
+Sure. Hardware definitely isn't the problem
+
+
+Did you try to reinstall and reset your computer?
+
+
+Are you installing the last version?
+
+##### Robokashi 03/10/2022 04:02:46
+Are you accessing the computer remotely?
+
+##### giaco\_mz 03/10/2022 09:08:28
+there is a way to see the variable inside the simualtion in a different window?or the only way is to print it on console?
+
+
+*variables
+
+
+there will be possible otherwise to link,in some way, Spyder or other IDE to Webots?. So if Webots doesn't have this possibility hard-code implemented there is some work-around to do to overcome this problem?
+
+##### Rico Schillings[Sweaty] [Moderator] 03/10/2022 20:26:10
+May the robot Window is something you are looking for. Rightclick on the robot in left World view, Show robot Window. Here you can find several default informations but you can also add Individual coded views and infos to it
+
+##### Naxi 03/10/2022 21:01:08
+Hi! I'm trying to spawn a node with a supervisor controller, using a .wbo file ,both are in the same folder. But when I run the controller, it only looks for the node file within the WEBOTS\_HOME path, and doesn't take into account the relative path to the controller. I'm working on a catkin workspace on an external C++ controller, and so far I've been able to access other nodes in the scene tree without issues
+
+##### Luftwaffel [Moderator] 03/10/2022 21:01:58
+you have to get a handle to the current working directory
+
+##### Naxi 03/10/2022 21:17:39
+That did it, thanks!
+
+##### KENPACHI 03/10/2022 22:33:17
+I'm trying to track the center of mass of my bot, what would be the best way to do that?
+
+##### DDaniel [Cyberbotics] 03/10/2022 22:36:02
+You can use a supervisor to retrieve that information using [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_center\_of\_mass](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_center_of_mass)
+
+##### KENPACHI 03/10/2022 22:42:33
+I'm using webots just for a week now, I'm not sure how I use that code to track my bot.
+
+##### Luftwaffel [Moderator] 03/10/2022 22:44:04
+what language are you using?
+
+##### KENPACHI 03/10/2022 22:44:11
+python
+
+##### Luftwaffel [Moderator] 03/10/2022 22:44:42
+okay, so in webots make sure you set ïs SUpervisor" to true
+
+##### KENPACHI 03/10/2022 22:46:14
+did that
+
+##### Luftwaffel [Moderator] 03/10/2022 22:46:20
+then in your controller, instead of 
+
+`from controller import Robot`
+
+you do
+
+`from controller import Supervisor`
+
+and initialize it as `robot = Supervisor()`
+
+
+all robot commands work the same, but you have access to all supervisor functions on top of that
+
+
+Now you need a handle to the node you want. If you want a handle to the robot itself you can do:
+
+`robot_node = robot.getSelf()`
+
+
+then to get the center of mass you do
+
+`center_of_mass = robot_node.getCenterOfMass()`
+
+
+this should be a vector [x, y, z] of the center of mass in world coordinates
+
+##### KENPACHI 03/10/2022 22:50:18
+I'll give that a try
+
+
+Thank you
+
+##### Luftwaffel [Moderator] 03/10/2022 22:50:32
+let us know how it goes
+
+##### KENPACHI 03/10/2022 22:52:20
+I am getting the coordinates now!
+
+
+my bot is a snake at the moment, and my head is the supervisor
+
+
+so are these coordinates the center of the whole bot or just the head?
+
+##### Luftwaffel [Moderator] 03/10/2022 22:53:49
+it should be the combined center of mass of everything that is inside your node, so your robot with all its chilldren
+
+
+but better to verify
+
+##### KENPACHI 03/10/2022 22:55:32
+ohhh, I have them as separate modules. module 1 is the supervisor
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951614314870083604/unknown.png)
+%end
+
+
+so I think I'll be getting the coordinates of the first module.
+
+##### Luftwaffel [Moderator] 03/10/2022 22:56:08
+they are independent from each other? each with its own controller?
+
+##### KENPACHI 03/10/2022 22:56:58
+just one controller, with the supervisor emitting the motor rotation values
+
+##### Luftwaffel [Moderator] 03/10/2022 22:58:07
+but the other modules need a controller to receive them right?
+
+##### KENPACHI 03/10/2022 22:58:16
+yes!
+
+##### Luftwaffel [Moderator] 03/10/2022 22:58:25
+so every one of them has its own controller
+
+##### KENPACHI 03/10/2022 22:58:42
+correct
+
+##### Luftwaffel [Moderator] 03/10/2022 22:58:58
+yeah, then this does not work
+
+
+I'm guessing you want to dynamically link and seperate modules during the simulation?
+
+##### KENPACHI 03/10/2022 23:01:03
+they are all linked to eachother with a motor, I just want to track the center of mass of the bot so maybe I could train it to optimize it's gait parameters.
+
+
+would I be able to pick a module as it's center and track that
+
+##### Luftwaffel [Moderator] 03/10/2022 23:01:46
+Is there a reason the have to be defined as individual robots and not a single robot?
+
+##### KENPACHI 03/10/2022 23:02:57
+I'd be controlling each point motor individually
+
+
+based on a sine wave
+
+##### Luftwaffel [Moderator] 03/10/2022 23:03:22
+they can all be inside the same robot for that
+
+##### KENPACHI 03/10/2022 23:03:31
+oh
+
+##### Luftwaffel [Moderator] 03/10/2022 23:03:47
+the only reason to have it as separate robots would be swarm robots
+
+
+that can dynamically link up
+
+##### KENPACHI 03/10/2022 23:04:05
+it's not a swarm
+
+##### Luftwaffel [Moderator] 03/10/2022 23:04:15
+but if the robot in its configuration is fixed, just add them as children
+
+##### KENPACHI 03/10/2022 23:04:43
+how would the controller change in that case?
+
+##### Luftwaffel [Moderator] 03/10/2022 23:05:12
+you just need one controller and you initiallize all its motors and address them
+
+
+is it rotational motors?
+
+##### KENPACHI 03/10/2022 23:05:49
+oh alright, I'll check it out
+
+##### Luftwaffel [Moderator] 03/10/2022 23:06:02
+make sure the motors have unique names
+
+##### KENPACHI 03/10/2022 23:06:17
+but at the moment if I need to track the center module, is there any way?
+
+##### Luftwaffel [Moderator] 03/10/2022 23:07:08
+manually by getting all the center of masses and calculating the combined one
+
+
+Just put it all in the same robot. you will save yourself tons of hassle
+
+##### KENPACHI 03/10/2022 23:08:09
+haha, will try
+
+
+thank you very much.
+
+##### Luftwaffel [Moderator] 03/10/2022 23:09:35
+`from controller import Supervisor, Node
+
+
+
+supervisor = Supervisor()
+
+timeStep = int(supervisor.getBasicTimeStep())
+
+
+
+\# --------------------------------------------------------------------
+
+\# Initialize the arm motors and sensors. This is a generic code block
+
+\# and works with any robotic arm.
+
+n = supervisor.getNumberOfDevices()
+
+motors = []
+
+sensors = []
+
+for i in range(n):
+
+    device = supervisor.getDeviceByIndex(i)
+
+    print(device.getName(), '   - NodeType:', device.getNodeType())
+
+    # if device is a rotational motor (uncomment line above to get a list of all robot devices)
+
+    if device.getNodeType() == Node.\_\_dict\_\_['ROTATIONAL\_MOTOR']:
+
+        motors.append(device)
+
+        sensor = device.getPositionSensor()
+
+        try:
+
+            sensor.getName()
+
+            sensors.append(sensor)
+
+            sensor.enable(timeStep)
+
+        except Exception as e:
+
+            print('Rotational Motor: ' + device.getName() +
+
+                  ' has no Position Sensor')
+
+\# --------------------------------------------------------------------`
+
+
+
+You can use this generic code to initialize all rotational motors and put them into a list
+
+##### giaco\_mz 03/11/2022 05:46:14
+Thanks :) i find also that is possible to link visual studio and pycharm as IDE. But i need to understand better the debugging on it and what you can check .
+
+##### pipppoo 03/11/2022 06:44:52
+Hi, is there any way to improve the simulated lidar point cloud (see jumps, especially at larger distances)? Resolution is already = -1.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951732422335135864/unknown.png)
+%end
+
+##### swadhin20 03/11/2022 07:23:34
+Hello everyone, I am new to this server as well as webots. I am looking for an answer to this question: is it possible to create a custom world directly from a python script. For instance, is it possible to create a random polygon shaped boundary wall using python? or add random number of robots and set its properties through the python script?
+
+##### Swadhin 03/11/2022 07:29:11
+If so, can you please redirect me to some related example projects.
+
+##### DDaniel [Cyberbotics] 03/11/2022 07:44:50
+Hi, yes you can use a supervisor to spawn objects into the world, this tutorial goes through it: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
+
+As for the polygons, if they are pre-defined objects you can save them as .wbo files and spawn them into the world in the same manner as explained in the tutorial, or alternatively spawn them from a string that describes their shape
+
+##### Swadhin 03/11/2022 07:46:14
+Great! Thank you I will check this out. 😀
+
+##### giaco\_mz 03/11/2022 07:57:38
+I see the default ones, but how can i add individual coded views and infos to Robot Window?
+
+
+in particular what i missing is the receiver and emitter infos, but also know other variables infos there (user defined variable) would be great.
+
+##### Rico Schillings[Sweaty] [Moderator] 03/11/2022 08:04:36
+a nice introduction for custom windows is here. I meant there also exist a minimal tutorial how to get started with custom windows but i cant find it now..
+
+
+
+[https://www.cyberbotics.com/doc/reference/robot-window-plugin](https://www.cyberbotics.com/doc/reference/robot-window-plugin)
+
+##### giaco\_mz 03/11/2022 08:05:46
+the link is broken, can you check it please?
+
+
+It shows...
+
+Webots Reference Manual R2022a
+
+404: Not Found
+
+##### Rico Schillings[Sweaty] [Moderator] 03/11/2022 08:07:25
+Should work now
+
+##### giaco\_mz 03/11/2022 08:08:28
+Yes thx :). Could anyone please show to me piece of code where he/she shows the emitter/receiver infos inside robot window ?
+
+##### Naxi 03/11/2022 13:35:48
+Hi all, I've been searching through the documentation but I didn't find anything about this.. Is it possible to set USE/DEF keywords (besides the get\_from\_def method) within a supervisor to modify nodes?
+
+##### kimmcg 03/11/2022 13:47:29
+I've been working on a c-based pid controller for a small quadcopter, and I wrapped that with SWIG to a python  module for students to use in the python based webots controller
+
+ The problem is, is that when I use the c based controller, the drone flies fine, but when I try the python controller with the same 
+
+ wrapped c controller, I get the following error in the console: 
+
+`WARNING: The current physics step could not be computed correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep.` 
+
+The bounding boxes are already simple shapes (just a single cilinder), and I only have 4 joints, and I tried reducing the basic time step to 16 already. Also I get regular values for all four motors from the SWIG wrapped controller.
+
+Hope that anybody could give me some more pointers to look at.
+
+##### sHiiNe 03/11/2022 23:41:41
+Hi all, we're trying to revitalise some code we've been left for a ROS2/e-puck platform project on webots - it depends on the `E-puck_enu.proto` file which appears to have been deleted from the `webots_ros` repository in commit `54005fe5fbf0ae4d9bb12479076ee9ba3687f664` - the commit message implies the functionality is now elsewhere. If this is so, how can we adapt the code to work with the latest version of webots/the `webots_ros2` tool?
+
+##### mouselet2017 03/12/2022 09:11:38
+Is there any way to get the device from supervisor? I haven't found any way so far, if it works I hope someone can show me a demo. Thanks!!!😭 😭
+
+##### Swadhin 03/12/2022 09:46:07
+Can anyone please tell how to use the USE "DFE name" with boundingObject in supervisor code?
+
+##### DDaniel [Cyberbotics] 03/12/2022 09:47:04
+The same way you do for a Robot, Supervisor is just a Robot with additional powers
+
+
+what do you mean? What are you trying to do?
+
+
+Since 2022a everything was converted to FLU/ENU by default, so you should be able to use the normal E-puck.proto
+
+##### Swadhin 03/12/2022 09:48:03
+I want to reuse the shape DFE in solids boundingObject in my supervisor script
+
+
+Using the importMFNodeString
+
+##### DDaniel [Cyberbotics] 03/12/2022 09:49:11
+You're importing a shape object from string?
+
+##### Swadhin 03/12/2022 09:50:08
+Yea, there I want to specify the boundingObject as the "USE shapeobject" which was previously specified
+
+##### swadhin20 03/12/2022 09:50:28
+children\_field.importMFNodeFromString(-1, 'DEF wall Solid {name    "wall", translation     0 0 0, children    DEF wall\_shape Shape {appearance  PBRAppearance { } , geometry   Box {size  0.01 1 0.2}}}, boundingObject   USE')
+
+
+something like this
+
+##### DDaniel [Cyberbotics] 03/12/2022 09:51:17
+should be `boundingObject USE wall_shape`
+
+##### swadhin20 03/12/2022 09:51:20
+in boundingObject I want to use the wall\_shape
+
+
+I tried this, its not working]
+
+
+It is showing Null
+
+##### DDaniel [Cyberbotics] 03/12/2022 09:52:31
+can you copy the actual code? Might be missing a closing bracket after `wall_shape`
+
+##### swadhin20 03/12/2022 09:52:56
+from controller import Supervisor
+
+import numpy as np
+
+
+
+TIME\_STEP = 32
+
+
+
+supervisor = Supervisor()  # create Supervisor instance
+
+
+
+root\_node = supervisor.getRoot()
+
+children\_field = root\_node.getField('children')
+
+
+
+children\_field.importMFNodeFromString(-1, 'DEF BB-8 BB-8 {name    "BB-8",controller      "void", translation     0 0 0}')
+
+children\_field.importMFNodeFromString(-1, 'DEF wall Solid {name    "wall", translation     0 0 0, children    DEF wall\_shape Shape {appearance  PBRAppearance { } , geometry   Box {size  0.01 1 0.2}}}, boundingObject   USE wall\_shape')
+
+\# wall = supervisor.getFromDef('wall')
+
+\# wall\_child\_field = wall.getField('children')
+
+\# wall\_child\_field.importMFNodeFromString(-1, 'DEF wall\_shape Shape { }')
+
+\# wall\_shape = supervisor.getFromDef('wall\_shape')
+
+\# wall\_shape\_appearance = wall\_shape.getField('appearance')
+
+\# wall\_shape\_geo = wall\_shape.getField('geometry')
+
+\# wall\_shape\_appearance.importMFNodeFromString(-1, 'PBRAppearance { }')
+
+\# wall\_shape\_geo.importMFNodeFromString(-1, 'Box {size    0.01 1 0.5}')
+
+wall\_bounding\_field = wall.getField('boundingObject')
+
+wall\_bounding\_field.importMFNodeFromString(-1, 'USE wall\_shape')
+
+\# [CODE PLACEHOLDER 1]
+
+
+
+i = 0
+
+
+
+bb8\_node = supervisor.getFromDef('BB-8')
+
+print(children\_field)
+
+while supervisor.step(TIME\_STEP) != -1:
+
+    # [CODE PLACEHOLDER 2]
+
+    if i<=5:
+
+        children\_field.importMFNodeFromString(-1, 'DEF BB-8'+str(i) + ' BB-8 {name    "BB-8",controller      "void", translation     '+ str(5*np.random.random())+' '+ str(5*np.random.random())+' '+ str(5*np.random.random())+' '+'}')
+
+    if i == 0:
+
+        translation\_field = bb8\_node.getField('translation')
+
+        new\_value = [2.5, 0, 0]
+
+        translation\_field.setSFVec3f(new\_value)
+
+    if i == 10:
+
+        bb8\_node.remove()
+
+    if i == 20:
+
+        children\_field.importMFNodeFromString(-1, 'Nao { }')
+
+
+
+
+
+    i += 1
+
+
+you are right...
+
+
+I think I ammissing a bracket
+
+
+Yes, it works!
+
+##### Ranga Kulathunga 03/13/2022 06:02:32
+Hi all, how position and orientation of a Webots vehicle can be updated in SUMO GUI?
+
+##### Kormit 03/14/2022 10:13:42
+Hi, I'm running Webots on Arch linux and recently (probably because of a package update), robot windows no longer work (I cannot see them, the panel is just the ui color). Could someone help me out with what could potentially be the problem?
+
+##### Baya19 03/14/2022 10:24:54
+Hi guys how can i make webots faster ? i'm runnning a simulation with lidar and drones and the world is becoming too slow
+
+##### DDaniel [Cyberbotics] 03/14/2022 10:25:37
+are you printing a lot of information to the console?
+
+##### Baya19 03/14/2022 10:25:48
+Yes
+
+
+I'm exporting info to  a file
+
+##### DDaniel [Cyberbotics] 03/14/2022 10:28:34
+to file should be fine, but if you print a lot of info to the webots console it slows down noticeably. You can start webots with: `--stdout --stderr` to print to the terminal instead
+
+##### Baya19 03/14/2022 11:11:51
+I stopped printing but it still slow
+
+##### kimmcg 03/14/2022 11:54:56
+Just an reminder here for my issue last friday, i think it was a bit lost in the list. I had a bit too much printing  problem too but that didn't solve my issue either.  Wonder if it is maybe better to put this as an github issue? Seems to be quite weird that I can't control the quadcopter from python with the exact same controller
+
+##### DDaniel [Cyberbotics] 03/14/2022 12:43:51
+Yes feel free to open an issue about it on github, if you can provide a minimal example that showcases the issue even better.
+
+I didn't understand why you're not using directly the webot's Python API though, it already uses SWIG to wrap the C API.
+
+##### kimmcg 03/14/2022 12:46:01
+ah Ii think you are misunderstanding me in that bit. I wrote a custom controller in C, that is just an PID controller, but I didn't write that again fully in python. So it is only the rotational motor velocities that I'm computing with that swig wrapped c controller, but I still use the webots python api to set those motors to those velocities
+
+
+It is a bit convoluted, I know.. but the course that I'm writing this for don't have experience with C.
+
+
+I could rewrite the controller fully in python just to check it out if the SWIG conversion did something wrong, but I hope that I could do the same for the actual c-based controllers directly from the firmware, so that is sort of software in the loop.
+
+##### DDaniel [Cyberbotics] 03/14/2022 12:51:44
+ok I see, then yes I suggest you open an issue on github. If you can provide a minimal example we are able to reproduce we can look into it, it's a bit hard to say what's wrong otherwise
+
+##### kimmcg 03/14/2022 12:59:55
+I'll give it a try to make an minimal example, but not sure if I can make it more minimal than it is already. I'll post an issue about it.
+
+##### thomas pesquet 03/14/2022 13:47:07
+[Motion from Controller] Hello, I'd like to make a motion of waves and of an oil slicks upon a sea (cube of fluid). Does someone know where I can find more informations about the motion API (Python) ?
+
+What kind of motion file can be used ?
+
+##### kimmcg 03/14/2022 16:13:46
+You know what... it seems that I have fixed the problem.... just the simple mistake of not turning the motors in the right direction... so it was not supposed to go anywhere in the first place. Still a weird issue but I'm unblocked now!
+
+##### Naxi 03/16/2022 13:06:19
+Hi, I'm managing different robot models from many packages and I want to have a supervisor to spawn them all, is it possible to import a node from a proto file which is not in the webots library nor in the /protos directory of the supervisor project?
+

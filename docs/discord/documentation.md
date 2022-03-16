@@ -2242,7 +2242,7 @@ No problem. Your contribution is welcome.
 ##### mironix<inactive> 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 
-##### BananaJuic3 10/25/2021 08:56:49
+##### inbananawethrust 10/25/2021 08:56:49
 I got a question regarding the **Position Sensor**
 
 
