@@ -139,7 +139,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     if (!WbNetwork::instance()->isCached(filePath)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
-      return;  // download already attempted, asset may not reachable or network is offline
+      return;
     }
 
     QFile file(WbNetwork::instance()->get(filePath));
