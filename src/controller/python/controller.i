@@ -1035,32 +1035,6 @@ class AnsiCodes(object):
 %rename ("__internalGetDeviceTagFromName") webots::Robot::getDeviceTagFromName;
 
 %extend webots::Robot {
-
-  PyObject *wwiReceiveStrings() {
-    int length;
-    const char* messages = $self->wwiReceive(&length);
-    int numberOfWorlds = 0;
-    PyObject *ret = Py_None;
-    if(length > 0) {
-      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
-      for (int i = 0; i < length; i++) {
-        if (messages[i] == '\0')
-          numberOfWorlds++;
-      }
-
-      ret = PyList_New(numberOfWorlds);
-      for (int i = 0; i < numberOfWorlds; i++) {
-        PyObject *message = PyUnicode_FromString(messages);
-        PyList_SetItem(ret, i, message);
-        messages += strlen(messages) + 1;
-      }
-      SWIG_PYTHON_THREAD_END_BLOCK;
-    }
-    else
-      Py_INCREF(ret); // to fix https://stackoverflow.com/questions/69588623/my-python-program-crashes-with-fatal-python-error-deallocating-none-what-doe
-    return ret;
-  }
-
   %pythoncode %{
     __devices = []
     joystick = Joystick()

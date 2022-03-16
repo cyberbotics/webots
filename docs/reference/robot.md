@@ -2305,7 +2305,6 @@ from controller import Robot
 class Robot:
     def wwiSendText(self, text):
     def wwiReceiveText(self):
-    def wwiReceiveStrings(self):
     # ...
 ```
 
@@ -2359,8 +2358,15 @@ The message is sent using the `webots.window("<robot window name>").send` method
 The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot controller to send a message to a JavaScript function running in the HTML robot window.
 The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
+The `wb_robot_wwi_send_text` returns the first message present in the buffer of received messages and moves its reading head to the next one. To read the full buffer, you can proceed like:
+```
+const char * message = wb_robot_wwi_receive_text();
+while (message){
+  // to something with the message.
+
+  message = wb_robot_wwi_receive_text();
+}
+```
+The reading head will be reset to the beginning of the buffer of received messages each time a time step is done.
+
 > **note** [Java, Python, MATLAB, ROS]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, MATLAB, or ROS API.
-
->**note** [Python]: the `wwiReceiveStrings` function returns a list of strings. It is recommended to use it to not miss a message instead of `wwiReceiveText` that returns only the first message.
-
->**note** [C, C++]: it is better to use the `wb_robot_wwi_receive` (or `wwiReceive` in C++) instead of `wb_robot_wwi_receive_text` (or `wwiReceiveText` in C++) to avoid missing messages as the later function only returns the first message and not the whole buffer of messages.
