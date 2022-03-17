@@ -31,6 +31,7 @@ export default class Toolbar {
     this._createAnimationTimeIndicator();
 
     // Right part
+    this._createInfoButton();
     this._createSettings();
     this._createFullscreenButtons();
   }
