@@ -1114,8 +1114,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveE
   }
 
   perspective->setMainWindowState(saveState());
-  if (perspective->simulationViewState()[0].isEmpty() || perspective->simulationViewState()[1].isEmpty())
-    perspective->setSimulationViewState(mSimulationView->saveState());
+  perspective->setSimulationViewState(mSimulationView->saveState());
   perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
