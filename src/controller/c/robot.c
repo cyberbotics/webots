@@ -57,7 +57,6 @@
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
-#define pipe(a, b, c) _pipe(a, b, c)
 #else
 #include <pthread.h>
 #endif
@@ -1108,13 +1107,21 @@ int wb_robot_init() {  // API initialization
 
   if (getenv("WEBOTS_STDOUT_REDIRECT")) {
     int fds[2];
-    pipe(fds, 1024, O_TEXT);
+#ifdef WIN32
+    _pipe(fds, 1024, O_TEXT);
+#else
+    pipe(fds);
+#endif
     dup2(fds[1], 1);  // 1 is stdout
     stdout_read = fds[0];
   }
   if (getenv("WEBOTS_STDERR_REDIRECT")) {
     int fds[2];
-    pipe(fds, 1024, O_TEXT);
+#ifdef WIN32
+    _pipe(fds, 1024, O_TEXT);
+#else
+    pipe(fds);
+#endif
     dup2(fds[1], 2);  // 2 is stderr
     stderr_read = fds[0];
   }
