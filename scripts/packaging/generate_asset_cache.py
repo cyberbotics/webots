@@ -33,7 +33,6 @@ if len(sys.argv) != 2:
 else:
     tag = sys.argv[1]
 
-
 # retrieve all files that potentially contain assets
 paths = []
 paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
@@ -43,7 +42,6 @@ paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
 
 with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
     paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
-
 
 # retrieve the urls of the assets themselves
 base_url = f'https://raw.githubusercontent.com/cyberbotics/webots/{tag}/'
@@ -57,7 +55,6 @@ for path in paths:
     assets = re.findall(rf'({base_url}[^ ]*\.(?:{possible_extensions}))', content)
     asset_urls = list(set(asset_urls + assets))
 
-
 # create and fill asset folder
 if os.path.exists('assets'):
     raise RuntimeError('Error, folder \'assets\' should not exist already but it does')
@@ -70,7 +67,6 @@ for asset in asset_urls:
     local_url = asset.replace(rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}', WEBOTS_HOME)
     # copy to asset folder
     shutil.copyfile(local_url, './assets/' + hash)
-
 
 # generate zip file
 shutil.make_archive('assets', 'zip', 'assets')
