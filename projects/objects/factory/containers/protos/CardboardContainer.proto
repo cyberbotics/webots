@@ -1,0 +1,190 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A cardboard box.
+# template language: javascript
+
+PROTO CardboardContainer [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        "cardboard container"
+  field SFVec3f    size        0.2 0.1 0.15           # Defines the size of the cardboard container.
+  field SFFloat    mass        0                      # Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+  field SFBool     locked      FALSE                  # Is `Solid.locked`.
+  field SFBool     lid         TRUE                   # Defines if the container should have a lid or not.
+]
+{
+%<
+  let size = fields.size.value;
+  let volume = size.x * size.y * size.z;
+  let mass = fields.mass.value;
+
+  if (size.x <= 0) {
+    console.error('\'size.x\' equal or less than 0. Value changed to 0.2.');
+    size.x = 0.2;
+  }
+
+  if (size.y < 0) {
+    console.error('\'size.y\' equal or less than 0. Value changed to 0.1');
+    size.y = 0.1;
+  }
+
+  if (size.z < 0) {
+    console.error('\'size.z\' equal or less than 0. Value changed to 0.15.');
+    size.z = 0.15;
+  }
+>%
+
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF BOX Group {
+      children [
+        DEF BEHIND Transform {
+          translation %<= -(size.x / 2 + 0.0005) >% 0 %<= (size.z / 2) - 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+                type "side1"
+              }
+              geometry Box {
+                size 0.001 %<= size.y + 0.002>% %<= size.z >%
+              }
+            }
+          ]
+        }
+        DEF FRONT Transform {
+          translation %<= size.x / 2 + 0.0005 >% 0 %<= (size.z / 2) - 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+                type "side1"
+              }
+              geometry Box {
+                size 0.001 %<= size.y + 0.002>% %<= size.z >%
+              }
+            }
+          ]
+        }
+        DEF RIGHT Transform {
+          translation 0 %<= -(size.y / 2 + 0.0005) >% %<= (size.z / 2) - 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+              }
+              geometry Box {
+                size %<= size.x >% 0.001 %<= size.z >%
+              }
+            }
+          ]
+        }
+        DEF LEFT Transform {
+          translation 0 %<= size.y / 2 + 0.0005 >% %<= (size.z / 2) - 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+                type "side3"
+              }
+              geometry Box {
+                size %<= size.x >% 0.001 %<= size.z >%
+              }
+            }
+          ]
+          translationStep 0
+        }
+        DEF BOTTOM Transform {
+          children [
+            Shape {
+              appearance Cardboard {
+                type "bottom"
+              }
+              geometry Box {
+                size  %<= size.x >% %<= size.y >% 0.001
+              }
+            }
+          ]
+        }
+        %< if (fields.lid.value) { >%
+        DEF TOP Transform {
+          translation 0 %<= (Math.sin(0.785) * (size.y/2)) + (size.y / 2) >% %<= size.z - (Math.cos(0.785) * (size.y/2)) >%
+          rotation 1 0 0 -0.785
+          children [
+            Shape {
+              appearance Cardboard {
+              }
+              geometry Box {
+                size %<= size.x >% %<= size.y >% 0.001
+              }
+            }
+          ]
+        }
+        %< } >%
+      ]
+    }
+  ]
+  name IS name
+  model "cardboard box"
+  boundingObject Group {
+    children [
+      DEF BO_BOTTOM Transform {
+        children [
+          Box {
+            size %<= size.x >% %<= size.y >% 0.003
+          }
+        ]
+      }
+      %< if (fields.lid.value) { >%
+      DEF BO_TOP Transform {
+        translation 0 %<= (Math.sin(0.785) * (size.y/2)) + (size.y / 2) >% %<= size.z - (Math.cos(0.785) * (size.y/2)) >%
+        rotation 1 0 0 -0.785
+        children [
+          Box {
+            size %<= size.x >% %<= size.y >% 0.003
+          }
+        ]
+      }
+      %< } >%
+      DEF BO_LEFT Transform {
+        translation 0 %<= size.y / 2 + 0.0005 >% %<= (size.z / 2) - 0.0005 >%
+        children [
+          Box {
+            size %<= size.x >% 0.003 %<= size.z >%
+          }
+        ]
+      }
+      DEF BO_RIGHT Transform {
+        translation 0 %<= -(size.y / 2 + 0.0005) >% %<= (size.z / 2) - 0.0005 >%
+        children [
+          Box {
+            size %<= size.x >% 0.003 %<= size.z >%
+          }
+        ]
+      }
+      DEF BO_FRONT Transform {
+        translation %<= size.x / 2 + 0.0005 >% 0 %<= (size.z / 2) - 0.0005 >%
+        children [
+          Box {
+            size 0.003 %<= size.y + 0.002>% %<= size.z >%
+          }
+        ]
+      }
+      DEF BO_BEHIND Transform {
+        translation %<= -(size.x / 2 + 0.0005) >% 0 %<= (size.z / 2) - 0.0005 >%
+        children [
+          Box {
+            size 0.003 %<= size.y + 0.002>% %<= size.z >%
+          }
+        ]
+      }
+    ]
+  }
+  %< if (mass > 0) { >%
+  physics Physics {
+    density -1
+    mass %<= mass>%
+  }
+  %< } >%
+  locked IS locked
+}
+}
