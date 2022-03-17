@@ -23,8 +23,10 @@ while webots_process.poll() is None:
     if line.startswith('start:'):
         split = line.split(':')
         name = split[1]
-        os.environ['WEBOTS_CONTROLLER_NAME'] = name
+        os.environ['WEBOTS_ROBOT_NAME'] = name
+        os.environ['WEBOTS_SERVER'] = split[2]
         os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
+        os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
         controller = controllers[name] if name in controllers else ''
         print('starting ' + controller)
         if not controller:

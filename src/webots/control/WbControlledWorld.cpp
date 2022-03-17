@@ -137,9 +137,7 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
   if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
     if (robot->controllerName() == "<extern>") {
       mRobotsWaitingExternController.append(robot);
-      std::cout << "start:" << robot->name().toUtf8().constData() << ":"
-                << "\n"
-                << std::flush;
+      std::cout << "start:" << robot->name().toUtf8().constData() << ":" << server().toUtf8().constData() << "\n" << std::flush;
     }
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
