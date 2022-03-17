@@ -35,9 +35,11 @@
 
 GPipe *g_pipe_new(const char *name) {  // used by Webots 7
   const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
-  int robot_id = 0;
+  int robot_id;
   if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0])
     sscanf(WEBOTS_ROBOT_ID, "%d", &robot_id);
+  else
+    robot_id = 0;
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
