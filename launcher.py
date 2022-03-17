@@ -1,12 +1,25 @@
 import os
 import subprocess
+import sys
 
 
 WEBOTS_HOME = os.environ['WEBOTS_HOME']
-os.environ['PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['PATH']
-command = 'webots --stream="monitorActivity"'
+if sys.platform == 'win32':
+    os.environ['PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['PATH']
+elif sys.platform == 'darwin':
+    if 'DYLD_LIBRARY_PATH' in os.environ:
+        os.environ['DYLD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['DYLD_LIBRARY_PATH']
+    else:
+        os.environ['DYLD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller')
+else:  # linux
+    if 'LD_LIBRARY_PATH' in os.environ:
+        os.environ['LD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['LD_LIBRARY_PATH']
+    else:
+        os.environ['LD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller')
+command = os.path.join(WEBOTS_HOME, 'webots')
+command += ' --stream="monitorActivity"'
 controllers = {
-  "e-puck": r"projects\robots\gctronic\e-puck\controllers\e-puck\e-puck.exe"
+  "e-puck": "projects/robots/gctronic/e-puck/controllers/e-puck/e-puck"
 }
 try:
     webots_process = subprocess.Popen(command.split(),
@@ -33,7 +46,7 @@ while webots_process.poll() is None:
             continue
         controller_path = os.path.join(WEBOTS_HOME, os.path.dirname(controller))
         os.chdir(controller_path)
-        controller_process = subprocess.Popen([os.path.basename(controller)],
+        controller_process = subprocess.Popen([os.path.join(WEBOTS_HOME, controller)],
                                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                               bufsize=1, universal_newlines=True
                                               )
