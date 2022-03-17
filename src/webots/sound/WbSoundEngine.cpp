@@ -218,7 +218,7 @@ void WbSoundEngine::updateAfterPhysicsStep() {
   WbMotorSoundManager::update();
 }
 
-WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double balance, int side) {
+WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, QIODevice *device, double balance, int side) {
   if (url.isEmpty())
     return NULL;
   init();
@@ -228,7 +228,7 @@ WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double 
   }
   WbSoundClip *sound = new WbSoundClip;
   try {
-    sound->load(url, device, balance, side);
+    sound->load(url, extension, device, balance, side);
     gSounds << sound;
     return sound;
   } catch (const QString &e) {
