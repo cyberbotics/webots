@@ -87,7 +87,6 @@ export default class FloatingRobotWindow {
 
             pos1 = event.clientX;
             pos2 = event.clientY;
-
             topOffset = pos2 - rw.offsetTop
             leftOffset = pos1 - rw.offsetLeft;
 
