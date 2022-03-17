@@ -33,22 +33,22 @@ PROTO Pioneer3at [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/body_3at_base_color.jpg"
+                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/body_3at_roughness.jpg"
+                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_roughness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/body_3at_normal.jpg"
+                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/body_3at_occlusion.jpg"
+                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_occlusion.jpg"
                 ]
               }
             }
@@ -142,17 +142,17 @@ PROTO Pioneer3at [
                     roughness 0.9
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/cross_tire_base_color.jpg"
+                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_base_color.jpg"
                       ]
                     }
                     normalMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/cross_tire_normal.jpg"
+                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_normal.jpg"
                       ]
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/cross_tire_occlusion.jpg"
+                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_occlusion.jpg"
                       ]
                     }
                   }
@@ -515,7 +515,7 @@ PROTO Pioneer3at [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/adept/pioneer3/protos/textures/top_3at_base_color.jpg"
+                  "webots://projects/robots/adept/pioneer3/protos/textures/top_3at_base_color.jpg"
                 ]
               }
             }

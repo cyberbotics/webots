@@ -119,7 +119,7 @@ SolidBox {
     baseColor 0 0 0
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5
@@ -134,7 +134,7 @@ SolidBox {
     baseColor 0 0 0
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5

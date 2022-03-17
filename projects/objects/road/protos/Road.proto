@@ -278,13 +278,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -341,13 +341,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -395,9 +395,9 @@ PROTO Road [
                     baseColorMap ImageTexture {
                       url [
                       %< if (typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) { >%
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_base_color.png"
+                        "webots://projects/objects/road/protos/textures/line_base_color.png"
                       %< } else { >%
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_base_color_dashed.png"
+                        "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
                       %< } >%
                       ]
                       filtering 5
@@ -406,13 +406,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -798,7 +798,7 @@ PROTO Road [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/painted_arrows.png"
+                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -806,13 +806,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -863,7 +863,7 @@ PROTO Road [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/painted_arrows.png"
+                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -871,13 +871,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }

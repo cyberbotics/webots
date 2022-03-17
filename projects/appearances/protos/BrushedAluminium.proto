@@ -13,17 +13,17 @@ PROTO BrushedAluminium [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
       ]
     }
     normalMapFactor 1

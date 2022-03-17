@@ -18,7 +18,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/picaxe/microbot/worlds/textures/floor.png"
+        "webots://projects/robots/picaxe/microbot/worlds/textures/floor.png"
       ]
     }
     roughness 1

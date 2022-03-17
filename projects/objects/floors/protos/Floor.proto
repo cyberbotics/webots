@@ -14,7 +14,7 @@ PROTO Floor [
   field SFNode     appearance      Parquetry { type "chequered" }  # Defines the appearance of the floor.
 
   # Deprecated in R2019a
-  hiddenField MFString   texture  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   texture  "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
 ]
 {
   %<

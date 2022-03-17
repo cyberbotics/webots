@@ -18,7 +18,7 @@ PROTO Blackboard [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/school_furniture/protos/textures/blackboard.jpg"
+              "webots://projects/objects/school_furniture/protos/textures/blackboard.jpg"
             ]
           }
           roughness 1

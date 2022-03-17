@@ -42,27 +42,27 @@ PROTO TinkerbotsPivot [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_normal.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_normal.png"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_occlusion.jpg"
               ]
             }
           }
@@ -156,27 +156,27 @@ PROTO TinkerbotsPivot [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_base_color.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_base_color.png"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_roughness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_roughness.png"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_metalness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_metalness.png"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_normal.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_normal.png"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_occlusion.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_occlusion.jpg"
                     ]
                   }
                 }

@@ -21,7 +21,7 @@ DEF CAPSULE1 Solid {
       appearance DEF APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 1
@@ -334,7 +334,7 @@ DEF GROUND1 Solid {
       appearance DEF GROUND_APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/lightwood.jpg"
+            "webots://projects/default/worlds/textures/lightwood.jpg"
           ]
         }
         roughness 1

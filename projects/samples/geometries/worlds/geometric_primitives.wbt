@@ -228,7 +228,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

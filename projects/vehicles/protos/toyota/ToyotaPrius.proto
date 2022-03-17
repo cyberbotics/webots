@@ -11,7 +11,7 @@ PROTO ToyotaPrius [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.1 0.15 0.18
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"

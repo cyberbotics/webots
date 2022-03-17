@@ -24,7 +24,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/grid.png"
+        "webots://projects/default/worlds/textures/grid.png"
       ]
     }
     roughness 1
@@ -421,7 +421,7 @@ DEF BOX_A Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/gantry/A.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/A.png"
           ]
         }
         roughness 1
@@ -444,7 +444,7 @@ DEF BOX_B Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/gantry/B.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/B.png"
           ]
         }
         roughness 1
@@ -467,7 +467,7 @@ DEF BOX_C Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/gantry/C.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/C.png"
           ]
         }
         roughness 1
@@ -491,7 +491,7 @@ DEF PLATFORM_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/gantry/1.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/1.png"
           ]
         }
         roughness 1
@@ -513,7 +513,7 @@ DEF PLATFORM_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/gantry/2.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/2.png"
           ]
         }
         roughness 1

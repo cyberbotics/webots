@@ -24,7 +24,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -38,7 +38,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -73,7 +73,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -498,7 +498,7 @@ DEF B1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -625,7 +625,7 @@ DEF B2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -749,7 +749,7 @@ DEF B3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -873,7 +873,7 @@ DEF Y1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -997,7 +997,7 @@ DEF Y2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -1121,7 +1121,7 @@ DEF Y3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1

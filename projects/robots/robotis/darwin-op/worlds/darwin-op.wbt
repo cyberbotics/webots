@@ -34,7 +34,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/carpet.jpg"
+        "webots://projects/default/worlds/textures/carpet.jpg"
       ]
     }
     roughness 1

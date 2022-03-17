@@ -13,24 +13,24 @@ PROTO Plaster [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/plaster/plaster_base_color.jpg"
+        "webots://projects/appearances/protos/textures/plaster/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/plaster/plaster_roughness.jpg"
+        "webots://projects/appearances/protos/textures/plaster/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/plaster/plaster_normal.jpg"
+        "webots://projects/appearances/protos/textures/plaster/plaster_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/plaster/plaster_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/plaster/plaster_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

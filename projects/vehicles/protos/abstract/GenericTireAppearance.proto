@@ -11,22 +11,22 @@ PROTO GenericTireAppearance [
     roughness 0.8
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+        "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+        "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+        "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+        "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
       ]
     }
   }

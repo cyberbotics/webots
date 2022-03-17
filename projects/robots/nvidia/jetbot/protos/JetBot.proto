@@ -46,7 +46,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nvidia/jetbot/protos/meshes/chassis.stl"
+                    "webots://projects/robots/nvidia/jetbot/protos/meshes/chassis.stl"
                   ]
                 }
               }
@@ -196,7 +196,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nvidia/jetbot/protos/meshes/power_bank.stl"
+                    "webots://projects/robots/nvidia/jetbot/protos/meshes/power_bank.stl"
                   ]
                 }
               }
@@ -214,7 +214,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nvidia/jetbot/protos/meshes/display.stl"
+                    "webots://projects/robots/nvidia/jetbot/protos/meshes/display.stl"
                   ]
                 }
               }
@@ -326,7 +326,7 @@ PROTO JetBot [
               }
               geometry Mesh {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nvidia/jetbot/protos/meshes/wheel.stl"
+                  "webots://projects/robots/nvidia/jetbot/protos/meshes/wheel.stl"
                 ]
               }
             }

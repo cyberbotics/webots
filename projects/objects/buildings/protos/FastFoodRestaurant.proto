@@ -73,9 +73,9 @@ PROTO FastFoodRestaurant [
     }
     let outerWallTexture;
     if (brand === 'subway' || brand === 'momo')
-      outerWallTexture = '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/subway_outer_wall.jpg"';
+      outerWallTexture = '"webots://projects/objects/buildings/protos/textures/subway_outer_wall.jpg"';
     else
-      outerWallTexture = '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/KFC_outer_wall.jpg"';
+      outerWallTexture = '"webots://projects/objects/buildings/protos/textures/KFC_outer_wall.jpg"';
   >%
   Solid {
     translation IS translation
@@ -98,7 +98,7 @@ PROTO FastFoodRestaurant [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
+                    "webots://projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
                   ]
                 }
                 roughness 1
@@ -136,12 +136,12 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/fastfood_counter.jpg"
+                        "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
                       ]
                     }
                     emissiveColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/fastfood_counter.jpg"
+                        "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
                       ]
                     }
                     roughness 1
@@ -172,11 +172,11 @@ PROTO FastFoodRestaurant [
                     baseColorMap DEF FRONT_TEXTURE ImageTexture {
                       %< if (numberOfSides === 2 && (brand === 'subway' || brand === 'momo')) { >%
                           url [
-                            %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/' + brand + '_front.png"' >%
+                            %<= '"webots://projects/objects/buildings/protos/textures/' + brand + '_front.png"' >%
                           ]
                       %< } else { >%
                           url [
-                            %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/' + brand + '.png"' >%
+                            %<= '"webots://projects/objects/buildings/protos/textures/' + brand + '.png"' >%
                           ]
                       %< } >%
                       filtering 0
@@ -225,7 +225,7 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/fastfood_ceiling.jpg"
+                        "webots://projects/objects/buildings/protos/textures/fastfood_ceiling.jpg"
                       ]
                     }
                     roughness 1
@@ -258,7 +258,7 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/fastfood_floor.jpg"
+                        "webots://projects/objects/buildings/protos/textures/fastfood_floor.jpg"
                       ]
                     }
                     roughness 1
@@ -386,7 +386,7 @@ PROTO FastFoodRestaurant [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/gravel.jpg"
+                  "webots://projects/objects/buildings/protos/textures/gravel.jpg"
                 ]
               }
               roughness 1

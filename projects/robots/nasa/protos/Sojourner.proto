@@ -40,22 +40,22 @@ PROTO Sojourner [
                   roughness 0.2
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/protos/textures/gold_leaf_base_color.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/protos/textures/gold_leaf_roughness.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_roughness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/protos/textures/gold_leaf_normal.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/protos/textures/gold_leaf_occlusion.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_occlusion.jpg"
                     ]
                   }
                 }
@@ -83,7 +83,7 @@ PROTO Sojourner [
                   roughness 0.5
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/nasa/protos/textures/sojourner_metal.jpg"
+                      "webots://projects/robots/nasa/protos/textures/sojourner_metal.jpg"
                     ]
                   }
                 }

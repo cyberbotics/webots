@@ -19,16 +19,16 @@ PROTO Desk [
         appearance PBRAppearance {
         baseColor IS color
         baseColorMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/tables/protos/textures/desk.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk.jpg"
         }
         roughnessMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/tables/protos/textures/desk_roughness.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/tables/protos/textures/desk_metalness.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/tables/protos/textures/desk_normal.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk_normal.jpg"
         }
       }
       geometry IndexedFaceSet {

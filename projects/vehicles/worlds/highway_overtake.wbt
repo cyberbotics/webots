@@ -371,7 +371,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -382,7 +382,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -392,7 +392,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -403,7 +403,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -420,7 +420,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -431,7 +431,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -441,7 +441,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -452,7 +452,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -469,7 +469,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -480,7 +480,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -490,7 +490,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -501,7 +501,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -518,7 +518,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -529,7 +529,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -539,7 +539,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -550,7 +550,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -567,7 +567,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -578,7 +578,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -588,7 +588,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -599,7 +599,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -616,7 +616,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -627,7 +627,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -637,7 +637,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -648,7 +648,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -665,7 +665,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -676,7 +676,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -686,7 +686,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -697,7 +697,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -714,7 +714,7 @@ HighwayPole {
     HighwaySign {
       translation 0 -5.35 0
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -725,7 +725,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -735,7 +735,7 @@ HighwayPole {
       name "highway sign(2)"
       height 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -746,7 +746,7 @@ HighwayPole {
       height 1.7
       length 3.5
       texture [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]
@@ -759,7 +759,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/ground_grass.jpg"
+            "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
           ]
         }
         roughness 0.5

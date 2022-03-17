@@ -30,7 +30,7 @@ DEF GRIPPER Robot {
             baseColor 0.933333 0.933333 0.92549
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/roughcast.jpg"
+                "webots://projects/default/worlds/textures/roughcast.jpg"
               ]
             }
             roughness 0.5
@@ -76,7 +76,7 @@ DEF GRIPPER Robot {
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/support.obj"
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
                   ]
                 }
               }
@@ -93,7 +93,7 @@ DEF GRIPPER Robot {
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/support.obj"
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
                   ]
                 }
               }
@@ -136,14 +136,14 @@ DEF GRIPPER Robot {
                         baseColor 0.729412 0.741176 0.713725
                         baseColorMap ImageTexture {
                           url [
-                            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                            "webots://projects/default/worlds/textures/metal.jpg"
                           ]
                         }
                         roughness 0.8
                       }
                       geometry Mesh {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/linkage.obj"
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
                         ]
                       }
                     }
@@ -183,7 +183,7 @@ DEF GRIPPER Robot {
                                 }
                                 geometry Mesh {
                                   url [
-                                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/right_angle.obj"
+                                    "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
                                   ]
                                 }
                               }
@@ -299,7 +299,7 @@ DEF GRIPPER Robot {
                       appearance USE METAL_APPEARANCE
                       geometry Mesh {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/linkage.obj"
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
                         ]
                       }
                     }
@@ -334,7 +334,7 @@ DEF GRIPPER Robot {
                             appearance USE FINGER_APPEARANCE
                             geometry Mesh {
                               url [
-                                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/meshes/right_angle.obj"
+                                "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
                               ]
                             }
                           }

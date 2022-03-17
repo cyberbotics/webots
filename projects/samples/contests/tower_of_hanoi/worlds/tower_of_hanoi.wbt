@@ -234,7 +234,7 @@ YoubotFlag {
   rotation 0 0 1 3.14
   name "youBot flag(2)"
   textureURL [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/contests/tower_of_hanoi/protos/textures/flag_tmp.png"
+    "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_tmp.png"
   ]
   locked TRUE
 }
@@ -242,7 +242,7 @@ YoubotFlag {
   translation -1.16913 -0.675 0
   rotation 0 0 1 3.14157
   textureURL [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/contests/tower_of_hanoi/protos/textures/flag_goal.png"
+    "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_goal.png"
   ]
   locked TRUE
 }

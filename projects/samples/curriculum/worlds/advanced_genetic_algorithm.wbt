@@ -24,7 +24,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/texture_grid.png"
+            "webots://projects/default/worlds/textures/texture_grid.png"
           ]
         }
         roughness 0.5

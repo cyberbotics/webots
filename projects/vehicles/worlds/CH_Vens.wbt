@@ -90,7 +90,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/dry_land.jpg"
+            "webots://projects/vehicles/worlds/textures/dry_land.jpg"
           ]
         }
         roughness 1
@@ -126,7 +126,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -159,7 +159,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -188,7 +188,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -215,7 +215,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -242,7 +242,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -283,7 +283,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -310,7 +310,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -347,7 +347,7 @@ DEF Route_du_Sommet Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -373,7 +373,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -409,7 +409,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -432,7 +432,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -460,7 +460,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -490,7 +490,7 @@ DEF Chemin_de_la_Vibesse Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -522,7 +522,7 @@ DEF Charrire_Est Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -552,7 +552,7 @@ DEF Chemin_de_la_Chapelle Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -578,7 +578,7 @@ DEF Chemin_des_Raccards Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -605,7 +605,7 @@ DEF Charrire_Sud Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -633,7 +633,7 @@ DEF Chemin_de_Planchamp Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -658,7 +658,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -699,7 +699,7 @@ DEF Chemin_de_Planchamp Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -729,7 +729,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -755,7 +755,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -786,7 +786,7 @@ DEF Route_de_Vens Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -811,7 +811,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -847,7 +847,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -890,7 +890,7 @@ DEF Route_du_Col_des_Planches Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -916,7 +916,7 @@ DEF Route_du_Milieu Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -948,7 +948,7 @@ DEF Route_du_Sommet Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -978,7 +978,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1006,7 +1006,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1042,7 +1042,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1077,7 +1077,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1122,7 +1122,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1164,7 +1164,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1194,7 +1194,7 @@ DEF Route_du_Fond Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8

@@ -20,7 +20,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/chessboard.jpg"
+            "webots://projects/default/worlds/textures/chessboard.jpg"
           ]
         }
         roughness 1
@@ -47,7 +47,7 @@ DEF WALL_1 Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/varnished_wood.jpg"
+                "webots://projects/default/worlds/textures/varnished_wood.jpg"
               ]
             }
             roughness 1
@@ -104,7 +104,7 @@ DEF SPINNING_TOP Solid {
           appearance DEF TIP_APPEARANCE PBRAppearance {
             baseColorMap DEF BLACK_LINE_TEXTURE ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/spinning_top/worlds/textures/black_line.jpg"
+                "webots://projects/samples/howto/spinning_top/worlds/textures/black_line.jpg"
               ]
             }
             roughness 1
@@ -163,7 +163,7 @@ DEF SPINNING_TOP Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/spinning_top/worlds/textures/black_line.jpg"
+                "webots://projects/samples/howto/spinning_top/worlds/textures/black_line.jpg"
               ]
             }
             roughness 1
@@ -336,7 +336,7 @@ DEF WOODEN_ICO_SPHERE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/desktop_wood.jpg"
+            "webots://projects/default/worlds/textures/desktop_wood.jpg"
           ]
         }
         roughness 1
@@ -376,7 +376,7 @@ DEF LIZARDS_CUBE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/spinning_top/worlds/textures/lizards_cube.jpg"
+            "webots://projects/samples/howto/spinning_top/worlds/textures/lizards_cube.jpg"
           ]
         }
         roughness 1
@@ -447,7 +447,7 @@ DEF COIN Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/howto/spinning_top/worlds/textures/franc.jpg"
+            "webots://projects/samples/howto/spinning_top/worlds/textures/franc.jpg"
           ]
         }
         roughness 0.4

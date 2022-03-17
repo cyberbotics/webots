@@ -334,7 +334,7 @@ Robot {
                     baseColor 0.729412 0.741176 0.713725
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/grid.png"
+                        "webots://projects/default/worlds/textures/grid.png"
                       ]
                     }
                     roughness 0.2
@@ -355,7 +355,7 @@ Robot {
                     baseColor 0.729412 0.741176 0.713725
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/grid.png"
+                        "webots://projects/default/worlds/textures/grid.png"
                       ]
                     }
                     roughness 0.2

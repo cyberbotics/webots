@@ -287,7 +287,7 @@ Robot {
       width 400
       height 300
       antiAliasing TRUE
-      noiseMaskUrl "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/textures/noise_mask.png"
+      noiseMaskUrl "webots://projects/samples/devices/worlds/textures/noise_mask.png"
     }
   ]
   name "MyBot"

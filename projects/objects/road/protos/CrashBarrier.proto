@@ -63,12 +63,12 @@ PROTO CrashBarrier [
     horizontalBarAppearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_crash_barrier_bar.jpg"
+          "webots://projects/objects/road/protos/textures/road_crash_barrier_bar.jpg"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_crash_barrier_bar_roughness.jpg"
+          "webots://projects/objects/road/protos/textures/road_crash_barrier_bar_roughness.jpg"
         ]
       }
       textureTransform TextureTransform {

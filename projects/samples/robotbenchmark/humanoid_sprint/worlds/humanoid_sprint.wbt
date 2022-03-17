@@ -65,19 +65,19 @@ DEF TRACK Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_base_color.jpg"
+        "webots://projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_base_color.jpg"
       ]
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_roughness.jpg"
+        "webots://projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_normal.jpg"
+        "webots://projects/samples/robotbenchmark/humanoid_sprint/worlds/textures/nao_10m_track_normal.jpg"
       ]
     }
   }

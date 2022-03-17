@@ -24,7 +24,7 @@ DEF ROBOT TemplateRobot {
       appearance PBRAppearance {
         baseColorMap DEF TEXTURE ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/water.jpg"
+            "webots://projects/default/worlds/textures/water.jpg"
           ]
         }
       }

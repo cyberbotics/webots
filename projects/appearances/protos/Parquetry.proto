@@ -21,21 +21,21 @@ PROTO Parquetry [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_base_color.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_base_color.jpg"' >%
       ]
     }
     roughness 1
     %< if (fields.type.value !== 'dark strip') { >%
     roughnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_roughness.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_roughness.jpg"' >%
       ]
     }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_normal.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_normal.jpg"' >%
       ]
     }
     normalMapFactor 1
@@ -43,7 +43,7 @@ PROTO Parquetry [
     %< if (fields.type.value !== 'light strip') { >%
     occlusionMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_occlusion.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_occlusion.jpg"' >%
       ]
     }
     %< } >%

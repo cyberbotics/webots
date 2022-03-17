@@ -19,7 +19,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/lego/mindstorms/worlds/textures/line.png"
+        "webots://projects/robots/lego/mindstorms/worlds/textures/line.png"
       ]
     }
     roughness 1

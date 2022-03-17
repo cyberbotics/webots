@@ -138,7 +138,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
+            "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
           ]
         }
         roughness 1
@@ -146,7 +146,7 @@ Solid {
       }
       geometry Mesh {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
+          "webots://projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
         ]
       }
     }

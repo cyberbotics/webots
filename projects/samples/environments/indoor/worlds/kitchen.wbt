@@ -488,7 +488,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -510,7 +510,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/wood.jpg"
+            "webots://projects/default/worlds/textures/wood.jpg"
           ]
         }
         roughness 0.5
@@ -534,7 +534,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
+            "webots://projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
           ]
         }
         roughness 0.5
@@ -750,7 +750,7 @@ JamJar {
   rotation 0 0 1 2.62768
   name "jam jar(1)"
   textureLidUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
   ]
 }
 JamJar {
@@ -767,14 +767,14 @@ CerealBox {
   rotation 0 0 1 2.87916
   name "cereal box(2)"
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
   ]
 }
 CerealBox {
   translation 1.85996 -0.607243 0.889608
   rotation 0 0 1 2.87972
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
   ]
 }
 BiscuitBox {

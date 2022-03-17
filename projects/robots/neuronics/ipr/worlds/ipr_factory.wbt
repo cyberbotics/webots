@@ -514,7 +514,7 @@ Robot {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/neuronics/ipr/worlds/textures/conveyor_belt.png"
+                "webots://projects/robots/neuronics/ipr/worlds/textures/conveyor_belt.png"
               ]
             }
             roughness 0.5

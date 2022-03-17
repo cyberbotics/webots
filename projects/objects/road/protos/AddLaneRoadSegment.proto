@@ -215,9 +215,9 @@ PROTO AddLaneRoadSegment [
                 baseColorMap ImageTexture {
                   url [
                   %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value !== 'dashed') { >%
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_base_color.png"
+                    "webots://projects/objects/road/protos/textures/line_base_color.png"
                   %< } else { >%
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_base_color_dashed.png"
+                    "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
                   %< } >%
                   ]
                   filtering 5
@@ -226,13 +226,13 @@ PROTO AddLaneRoadSegment [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_normal.jpg"
+                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }

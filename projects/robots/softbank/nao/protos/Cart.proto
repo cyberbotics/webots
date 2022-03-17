@@ -106,7 +106,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/lightwood.jpg"
+                "webots://projects/default/worlds/textures/lightwood.jpg"
               ]
             }
             metalness 0
@@ -127,7 +127,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/lightwood.jpg"
+                "webots://projects/default/worlds/textures/lightwood.jpg"
               ]
             }
             metalness 0
@@ -148,7 +148,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.4
@@ -169,7 +169,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.4
@@ -187,7 +187,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.4
@@ -208,7 +208,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.4
@@ -226,7 +226,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                "webots://projects/default/worlds/textures/metal.jpg"
               ]
             }
             roughness 0.4
@@ -258,7 +258,7 @@ Solid {
                   roughness 0.4
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -290,7 +290,7 @@ Solid {
                   roughness 0.4
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -310,7 +310,7 @@ Solid {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                    "webots://projects/default/worlds/textures/metal.jpg"
                   ]
                 }
                 roughness 0.4
@@ -353,7 +353,7 @@ Solid {
                   roughness 0.4
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -381,7 +381,7 @@ Solid {
                   roughness 0.4
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -404,7 +404,7 @@ Solid {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                        "webots://projects/default/worlds/textures/metal.jpg"
                       ]
                     }
                     roughness 0.4
@@ -425,7 +425,7 @@ Solid {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+                        "webots://projects/default/worlds/textures/metal.jpg"
                       ]
                     }
                     roughness 0.4

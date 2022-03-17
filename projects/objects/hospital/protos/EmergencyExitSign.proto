@@ -33,7 +33,7 @@ PROTO EmergencyExitSign [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/hospital/protos/textures/fire_exit.jpg"
+              "webots://projects/objects/hospital/protos/textures/fire_exit.jpg"
             ]
           }
           metalness 0

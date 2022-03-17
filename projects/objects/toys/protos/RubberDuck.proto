@@ -43,7 +43,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/RubberDuck/meshes/beak.obj"
+              url "webots://projects/objects/toys/protos/RubberDuck/meshes/beak.obj"
             }
           }
         ]
@@ -57,7 +57,7 @@ PROTO RubberDuck [
               roughness 0.7
             }
             geometry Mesh {
-              url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/RubberDuck/meshes/body.obj"
+              url "webots://projects/objects/toys/protos/RubberDuck/meshes/body.obj"
             }
           }
         ]
@@ -70,14 +70,14 @@ PROTO RubberDuck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/RubberDuck/textures/eye.jpg"
+                  "webots://projects/objects/toys/protos/RubberDuck/textures/eye.jpg"
                 ]
               }
               metalness 0
               roughness 0.4
             }
             geometry Mesh {
-              url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/toys/protos/RubberDuck/meshes/eye.obj"
+              url "webots://projects/objects/toys/protos/RubberDuck/meshes/eye.obj"
             }
           }
         ]

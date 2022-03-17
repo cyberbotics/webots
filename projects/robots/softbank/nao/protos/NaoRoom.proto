@@ -104,7 +104,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
+                "webots://projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
               ]
             }
             metalness 0
@@ -121,7 +121,7 @@ Solid {
       rotation 0.707106 0.707108 0 -3.14158
       dimension 0.01 0.8 1.8
       textureUrl [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
+        "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
       ]
     }
     DEF SOUTH_DOOR_HANDLE Transform {
@@ -178,7 +178,7 @@ Solid {
       translation -1.99 1 0.9
       dimension 0.01 0.8 1.8
       textureUrl [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/softbank/nao/protos/textures/entree_door.jpg"
+        "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
       ]
     }
     DEF WEST_DOOR_HANDLE Transform {

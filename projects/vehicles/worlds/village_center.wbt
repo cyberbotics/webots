@@ -186,7 +186,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/ground_grass.jpg"
+            "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
           ]
         }
         roughness 1
@@ -274,7 +274,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -298,7 +298,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -322,7 +322,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -346,7 +346,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -370,7 +370,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -394,7 +394,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/old_brick_wall.jpg"
+                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -596,7 +596,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -626,7 +626,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -651,7 +651,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -842,7 +842,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -866,7 +866,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -897,7 +897,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -921,7 +921,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -958,7 +958,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -982,7 +982,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -1011,7 +1011,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
     }
   ]
@@ -1024,7 +1024,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1037,7 +1037,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1050,7 +1050,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/end_limit_50.png"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/end_limit_50.png"
       ]
     }
   ]
@@ -1063,7 +1063,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
     }
   ]
@@ -1076,7 +1076,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1229,8 +1229,8 @@ DEF ROAD_6 Road {
     -2.935
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 3
 }
@@ -1263,14 +1263,14 @@ DEF ROAD_2 Road {
     -1.211033
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 8
   turnLanesForward "throught|right;"
@@ -1294,8 +1294,8 @@ Road {
     1.170758
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1321,8 +1321,8 @@ Road {
     -1.413268
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1351,8 +1351,8 @@ Road {
     0.930324
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
 }
@@ -1379,8 +1379,8 @@ DEF ROAD_3 Road {
     1.61293
   ]
   startLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1410,8 +1410,8 @@ DEF ROAD_1 Road {
     -0.432099
   ]
   endLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 32
   rightBorderBoundingObject TRUE
@@ -1443,8 +1443,8 @@ DEF ROAD_5 Road {
     2.502945
   ]
   endLine [
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_triangle.png"
-    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 8
 }
@@ -2315,7 +2315,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2349,7 +2349,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2384,7 +2384,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2419,7 +2419,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2454,7 +2454,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2489,7 +2489,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2524,7 +2524,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/gray_brick_wall.jpg"
+            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -3051,7 +3051,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -3425,7 +3425,7 @@ DEF HEDGES Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/hedges.png"
+            "webots://projects/vehicles/worlds/textures/hedges.png"
           ]
         }
         roughness 0.5
@@ -3463,7 +3463,7 @@ DEF HEDGES Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/worlds/textures/hedges.png"
+            "webots://projects/vehicles/worlds/textures/hedges.png"
           ]
         }
         roughness 0.5

@@ -36,7 +36,7 @@ PROTO Khr3hv [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/torso.jpg"
+              "webots://projects/robots/kondo/khr-3hv/protos/textures/torso.jpg"
             ]
           }
         }
@@ -89,7 +89,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/head.jpg"
+                    "webots://projects/robots/kondo/khr-3hv/protos/textures/head.jpg"
                   ]
                 }
               }
@@ -155,7 +155,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/shoulder.jpg"
+                    "webots://projects/robots/kondo/khr-3hv/protos/textures/shoulder.jpg"
                   ]
                 }
               }
@@ -202,7 +202,7 @@ PROTO Khr3hv [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/arm.jpg"
+                          "webots://projects/robots/kondo/khr-3hv/protos/textures/arm.jpg"
                         ]
                       }
                     }
@@ -249,7 +249,7 @@ PROTO Khr3hv [
                             metalness 0
                             baseColorMap ImageTexture {
                               url [
-                                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/elbow.jpg"
+                                "webots://projects/robots/kondo/khr-3hv/protos/textures/elbow.jpg"
                               ]
                             }
                           }
@@ -319,7 +319,7 @@ PROTO Khr3hv [
                                   metalness 0
                                   baseColorMap ImageTexture {
                                     url [
-                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/forearm.jpg"
+                                      "webots://projects/robots/kondo/khr-3hv/protos/textures/forearm.jpg"
                                     ]
                                   }
                                 }
@@ -789,7 +789,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/waist.jpg"
+                    "webots://projects/robots/kondo/khr-3hv/protos/textures/waist.jpg"
                   ]
                 }
               }
@@ -836,7 +836,7 @@ PROTO Khr3hv [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/femurHead1.jpg"
+                          "webots://projects/robots/kondo/khr-3hv/protos/textures/femurHead1.jpg"
                         ]
                       }
                     }
@@ -883,7 +883,7 @@ PROTO Khr3hv [
                             metalness 0
                             baseColorMap ImageTexture {
                               url [
-                                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/femurHead2.jpg"
+                                "webots://projects/robots/kondo/khr-3hv/protos/textures/femurHead2.jpg"
                               ]
                             }
                           }
@@ -929,7 +929,7 @@ PROTO Khr3hv [
                                   metalness 0
                                   baseColorMap ImageTexture {
                                     url [
-                                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/femur.jpg"
+                                      "webots://projects/robots/kondo/khr-3hv/protos/textures/femur.jpg"
                                     ]
                                   }
                                 }
@@ -975,7 +975,7 @@ PROTO Khr3hv [
                                         metalness 0
                                         baseColorMap ImageTexture {
                                           url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/crus.jpg"
+                                            "webots://projects/robots/kondo/khr-3hv/protos/textures/crus.jpg"
                                           ]
                                         }
                                       }
@@ -1022,7 +1022,7 @@ PROTO Khr3hv [
                                               metalness 0
                                               baseColorMap ImageTexture {
                                                 url [
-                                                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/ankle.jpg"
+                                                  "webots://projects/robots/kondo/khr-3hv/protos/textures/ankle.jpg"
                                                 ]
                                               }
                                             }
@@ -1069,7 +1069,7 @@ PROTO Khr3hv [
                                                     metalness 0
                                                     baseColorMap ImageTexture {
                                                       url [
-                                                        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/kondo/khr-3hv/protos/textures/foot.jpg"
+                                                        "webots://projects/robots/kondo/khr-3hv/protos/textures/foot.jpg"
                                                       ]
                                                     }
                                                   }

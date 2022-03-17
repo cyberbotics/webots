@@ -202,7 +202,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -245,7 +245,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }

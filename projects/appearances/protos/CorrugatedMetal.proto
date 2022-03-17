@@ -13,28 +13,28 @@ PROTO CorrugatedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/corrugated_metal/corrugated_metal_base_color.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_metal/corrugated_metal_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/corrugated_metal/corrugated_metal_roughness.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_metal/corrugated_metal_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/corrugated_metal/corrugated_metal_metalness.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_metal/corrugated_metal_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/corrugated_metal/corrugated_metal_normal.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_metal/corrugated_metal_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/corrugated_metal/corrugated_metal_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_metal/corrugated_metal_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

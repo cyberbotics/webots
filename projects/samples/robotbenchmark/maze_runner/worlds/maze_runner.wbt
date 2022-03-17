@@ -52,7 +52,7 @@ Table {
   trayAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/maze_runner/worlds/textures/table_top.jpg"
+        "webots://projects/samples/robotbenchmark/maze_runner/worlds/textures/table_top.jpg"
       ]
     }
     roughness 1
@@ -232,7 +232,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/square_block_parquetry.jpg"
+        "webots://projects/default/worlds/textures/square_block_parquetry.jpg"
       ]
     }
     roughness 1
@@ -304,7 +304,7 @@ DEF CEILING Solid {
         baseColor 0.415686 0.647059 0.545098
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/robotbenchmark/maze_runner/worlds/textures/wall.jpg"
+            "webots://projects/samples/robotbenchmark/maze_runner/worlds/textures/wall.jpg"
           ]
         }
         roughness 0.5

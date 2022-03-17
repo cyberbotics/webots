@@ -448,7 +448,7 @@ DEF WATER_FLOW_ANIMATION Robot {
             baseColor 0.5 1 1
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/geometries/worlds/textures/water_flow.jpg"
+                "webots://projects/samples/geometries/worlds/textures/water_flow.jpg"
               ]
             }
             transparency 0.6000000238418579

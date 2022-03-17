@@ -66,23 +66,23 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/containers/protos/textures/wooden_box_base_color.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/containers/protos/textures/wooden_box_roughness.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/containers/protos/textures/wooden_box_normal.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/factory/containers/protos/textures/wooden_box_occlusion.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_occlusion.jpg"
           ]
         }
       }

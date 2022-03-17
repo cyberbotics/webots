@@ -9,7 +9,7 @@ PROTO LincolnMKZSimple [
   field       SFRotation rotation                       0 0 1 0
   field       SFColor    color                          0.541 0.541 0.541
   field       MFColor    recognitionColors              [ 0.541 0.541 0.541 ]
-  field       MFString   plate                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/plate.jpg"
+  field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
   field       SFString   name                           "vehicle"
   field       SFString   controller                     ""
   field       MFString   controllerArgs                 [ ]
@@ -161,22 +161,22 @@ PROTO LincolnMKZSimple [
             appearance DEF DETAILS_APP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                 ]
               }
             }
@@ -262,12 +262,12 @@ PROTO LincolnMKZSimple [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
                 ]
               }
             }

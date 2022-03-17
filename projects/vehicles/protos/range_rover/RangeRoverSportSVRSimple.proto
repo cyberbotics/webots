@@ -10,7 +10,7 @@ PROTO RangeRoverSportSVRSimple [
   field       SFColor    color                          0.0 0.25 0.65
   field       SFColor    secondaryColor                 0.1 0.1 0.1
   field       MFColor    recognitionColors              [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
-  field       MFString   plate                          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/plate.jpg"
+  field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
   field       SFString   name                           "vehicle"
   field       SFString   controller                     ""
   field       MFString   controllerArgs                 [ ]
@@ -214,22 +214,22 @@ PROTO RangeRoverSportSVRSimple [
               baseColor 0.7 0.7 0.7
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
                 ]
               }
             }

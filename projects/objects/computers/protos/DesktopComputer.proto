@@ -20,11 +20,11 @@ PROTO DesktopComputer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/computer_base_color.jpg"
+              "webots://projects/objects/computers/protos/textures/computer_base_color.jpg"
             ]
           }
           metalnessMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/computers/protos/textures/computer_metalness.jpg"
+            url "webots://projects/objects/computers/protos/textures/computer_metalness.jpg"
           }
           roughness 0.4
         }

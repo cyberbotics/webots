@@ -215,7 +215,7 @@ PROTO BungalowStyleHouse [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/tiled.jpg"
+                  "webots://projects/objects/buildings/protos/textures/tiled.jpg"
                 ]
               }
               roughness 1

@@ -96,7 +96,7 @@ PROTO ModernHouse [
                 appearance DEF ROOF_APP PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/gravel.jpg"
+                      "webots://projects/objects/buildings/protos/textures/gravel.jpg"
                     ]
                   }
                   metalness 0

@@ -22,7 +22,7 @@ PROTO TrafficCone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/traffic/protos/textures/cone.jpg"
+              "webots://projects/objects/traffic/protos/textures/cone.jpg"
             ]
           }
           roughness 0.35

@@ -25,12 +25,12 @@ PROTO Pine [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/pine_leaves.png"
+              "webots://projects/objects/trees/protos/textures/pine_leaves.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/pine_leaves_normal.jpg"
+              "webots://projects/objects/trees/protos/textures/pine_leaves_normal.jpg"
             ]
           }
           roughness 0.85
@@ -59,7 +59,7 @@ PROTO Pine [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/pine_trunk.jpg"
+              "webots://projects/objects/trees/protos/textures/pine_trunk.jpg"
             ]
           }
           metalness 0

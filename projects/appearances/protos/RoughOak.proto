@@ -13,25 +13,25 @@ PROTO RoughOak [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/rough_oak/rough_oak_base_color.jpg"
+        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/rough_oak/rough_oak_roughness.jpg"
+        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/rough_oak/rough_oak_normal.jpg"
+        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_normal.jpg"
       ]
     }
     normalMapFactor 0.5
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/rough_oak/rough_oak_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

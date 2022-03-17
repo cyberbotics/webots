@@ -10,10 +10,10 @@ PROTO GenericDoorAppearance [
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
-      url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/apartment_structure/protos/textures/door_base_color.jpg"
+      url "webots://projects/objects/apartment_structure/protos/textures/door_base_color.jpg"
     }
     normalMap ImageTexture {
-      url "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/apartment_structure/protos/textures/door_normal.jpg"
+      url "webots://projects/objects/apartment_structure/protos/textures/door_normal.jpg"
     }
     metalness 0
     roughness 0.25

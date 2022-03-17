@@ -24,7 +24,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
+        "webots://projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
       ]
     }
     roughness 1

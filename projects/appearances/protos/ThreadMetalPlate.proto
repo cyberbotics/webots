@@ -16,27 +16,27 @@ PROTO ThreadMetalPlate [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

@@ -11,17 +11,17 @@ PROTO Copper [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/copper/copper_base_color.jpg"
+        "webots://projects/appearances/protos/textures/copper/copper_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/copper/copper_roughness.jpg"
+        "webots://projects/appearances/protos/textures/copper/copper_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/appearances/protos/textures/copper/copper_metalness.jpg"
+        "webots://projects/appearances/protos/textures/copper/copper_metalness.jpg"
       ]
     }
     IBLStrength IS IBLStrength

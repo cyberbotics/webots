@@ -39,7 +39,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/square_block_parquetry.jpg"
+        "webots://projects/default/worlds/textures/square_block_parquetry.jpg"
       ]
     }
     roughness 1

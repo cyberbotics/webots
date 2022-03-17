@@ -14,12 +14,12 @@ PROTO TeslaModel3FrontLights [
       emissiveIntensity 90
       normalMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_glass_normal.jpg"
+          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_glass_normal.jpg"
         ]
       }
       occlusionMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/tesla/textures/tesla_model3_glass_occlusion.jpg"
+          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_glass_occlusion.jpg"
         ]
       }
     }

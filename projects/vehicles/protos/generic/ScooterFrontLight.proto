@@ -11,7 +11,7 @@ PROTO ScooterFrontLight [
       roughness 0.4
       baseColorMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/antifog.jpg"
+          "webots://projects/vehicles/protos/textures/antifog.jpg"
         ]
       }
     }

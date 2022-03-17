@@ -23,27 +23,27 @@ PROTO Swing [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/garden/protos/textures/swing_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/swing_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/garden/protos/textures/swing_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/swing_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/garden/protos/textures/swing_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/swing_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/garden/protos/textures/swing_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/swing_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/garden/protos/textures/swing_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/swing_occlusion.jpg"
             ]
           }
         }

@@ -21,7 +21,7 @@ SolidBox {
   appearance DEF SQUARE_ARENA_APPEARANCE_A PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+        "webots://projects/default/worlds/textures/metal.jpg"
       ]
     }
     roughness 1
@@ -44,7 +44,7 @@ SolidBox {
   appearance DEF SQUARE_ARENA_APPEARANCE_B PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/default/worlds/textures/metal.jpg"
+        "webots://projects/default/worlds/textures/metal.jpg"
       ]
     }
     roughness 1
@@ -380,7 +380,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/samples/devices/worlds/textures/white256.png"
+                "webots://projects/samples/devices/worlds/textures/white256.png"
               ]
               filtering 0
             }

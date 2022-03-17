@@ -5,7 +5,7 @@
 
 PROTO ToyotaPriusMesh [
   field     SFColor    color             0.1 0.15 0.18
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
 ]
 {
   Group {
@@ -8719,13 +8719,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }
@@ -8753,13 +8753,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

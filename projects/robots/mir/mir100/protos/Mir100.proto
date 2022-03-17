@@ -39,7 +39,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/mir_100_base.obj"
+                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base.obj"
               ]
             }
           }
@@ -47,7 +47,7 @@ PROTO Mir100 [
             appearance USE WHITE
             geometry Mesh {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/mir_100_inside.obj"
+                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_inside.obj"
               ]
             }
           }
@@ -57,7 +57,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/mir_100_logos.dae"
+                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_logos.dae"
               ]
             }
           }
@@ -67,7 +67,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/mir_100_base_corners.dae"
+                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base_corners.dae"
               ]
             }
           }
@@ -77,7 +77,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/mir_100_top_plugs.dae"
+                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_top_plugs.dae"
               ]
             }
           }
@@ -135,7 +135,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/textures/camera.png"
+                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
                 ]
               }
               textureTransform TextureTransform {
@@ -160,7 +160,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/textures/camera.png"
+                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
                 ]
               }
             }
@@ -402,7 +402,7 @@ PROTO Mir100 [
               }
               geometry Mesh {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/robots/mir/mir100/protos/meshes/caster_wheel_base.dae"
+                  "webots://projects/robots/mir/mir100/protos/meshes/caster_wheel_base.dae"
                 ]
               }
             }

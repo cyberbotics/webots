@@ -93,9 +93,9 @@ Solid {
         baseColorMap ImageTexture {
           url [
           %< if (fields.withSnow.value) { >%
-            %<= '"' + "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' >%
+            %<= '"' + "webots://projects/objects/trees/protos/textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' >%
           %< } else { >%
-            %<= '"' + "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/trees/protos/textures/" + treeType[type] + '"' >%
+            %<= '"' + "webots://projects/objects/trees/protos/textures/" + treeType[type] + '"' >%
           %< } >%
           ]
           repeatS FALSE

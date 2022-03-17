@@ -18,12 +18,12 @@ PROTO UBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/red_and_white_building.jpg"
+              "webots://projects/objects/buildings/protos/textures/red_and_white_building.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/8bb3cb7ff/projects/objects/buildings/protos/textures/red_and_white_building_roughness.png"
+              "webots://projects/objects/buildings/protos/textures/red_and_white_building_roughness.png"
             ]
           }
           metalness 0
