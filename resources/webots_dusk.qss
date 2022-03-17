@@ -828,7 +828,9 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
-  background: #222;
+  background: rgb(222,222,222);
+  border-radius: 3px;
+  color: black;
 }
 
 QProgressBar::chunk {
