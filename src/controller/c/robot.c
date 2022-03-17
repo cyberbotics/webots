@@ -140,7 +140,8 @@ static int stream_pipe_create(int stream) {
 void stream_pipe_read(int fd, char **buffer) {
   if (fd == -1)
     return;
-  *buffer = malloc(1024);
+  assert(*buffer == NULL);
+  *buffer = malloc(1024);  // FIXME: buffer is limited to 1024 bytes
 #ifdef _WIN32
   int len = eof(fd) ? 0 : read(fd, *buffer, 1023);
 #else
@@ -239,7 +240,7 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     request_write_string(req, robot.custom_data);
     robot.dataNeedToWriteRequest = false;
   }
-  if (robot.console_stdout) {
+  if (robot.console_stdout && robot.console_stdout[0]) {
     request_write_uchar(req, C_CONSOLE_MESSAGE);
     request_write_uchar(req, 1);
     request_write_uint32(req, strlen(robot.console_stdout) + 1);
@@ -247,7 +248,7 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     free(robot.console_stdout);
     robot.console_stdout = NULL;
   }
-  if (robot.console_stderr) {
+  if (robot.console_stderr && robot.console_stderr[0]) {
     request_write_uchar(req, C_CONSOLE_MESSAGE);
     request_write_uchar(req, 2);
     request_write_uint32(req, strlen(robot.console_stderr) + 1);
