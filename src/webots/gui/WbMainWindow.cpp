@@ -1098,10 +1098,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveEvent) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return false;
+    return;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1165,13 +1165,13 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   // save rendering devices perspective of external window
   WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
 
-  const bool disableSavePerspective =
-    WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
-  if (!saveToFile || disableSavePerspective)
-    return false;
+  // when saving using the save button, the disabler is bypassed
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE") && !isSaveEvent)
+    return;
 
   // save our new perspective in the file
-  return perspective->save();
+  if (saveToFile)
+    perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1469,8 +1469,7 @@ void WbMainWindow::saveWorld() {
 
   mSimulationView->applyChanges();
   if (world->save()) {
-    if (!savePerspective(false, true))
-      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    savePerspective(false, true, true);
     updateWindowTitle();
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
@@ -1504,8 +1503,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
-      if (!savePerspective(false, true))
-        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      savePerspective(false, true, true);
       updateWindowTitle();
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
