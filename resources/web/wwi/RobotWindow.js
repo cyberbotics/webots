@@ -4,12 +4,10 @@ export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
     this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1).replace('https://', 'wss://').replace('http://', 'ws://');
-    console.log("Robot Window Server: "+this.wsServer);
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
     this.connect();
-    this.robotWindowLocation = "undefined";
   };
 
   send(message) {
@@ -42,7 +40,6 @@ export default class RobotWindow {
 
   _onSocketMessage(event) {
     let data = event.data;
-    this.robotWindowLocation = event.data;
     const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
     if (data.startsWith('robot:')) {
       let message = data.match('"message":"(.*)","name"')[1];
@@ -52,7 +49,7 @@ export default class RobotWindow {
         this.receive(message, robot);
     } else if (ignoreData)
       return 0;
-    else 
+    else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
 
