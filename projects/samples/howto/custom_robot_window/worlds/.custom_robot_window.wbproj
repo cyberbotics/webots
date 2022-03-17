@@ -6,4 +6,6 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "plugins/robot_windows/custom_robot_window/custom_robot_window.html" "plugins/robot_windows/custom_robot_window/custom_robot_window.css" "plugins/robot_windows/custom_robot_window/custom_robot_window.js" "plugins/robot_windows/custom_robot_window/custom_robot_window.c"
+robotWindow: e-puck
 consoles: Console:All:All
+renderingDevicePerspectives: e-puck:camera;0;0.820513;0.0162866;0.00867679
