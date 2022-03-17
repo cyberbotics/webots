@@ -108,6 +108,9 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
 
     this._computeWrenRenderable();
 
+    if (!this.ccw)
+      _wr_renderable_invert_front_face(this._wrenRenderable, true);
+
     // normals representation
     this._normalsMaterial = _wr_phong_material_new();
     _wr_material_set_default_program(this._normalsMaterial, WbWrenShaders.lineSetShader());
