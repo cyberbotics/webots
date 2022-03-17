@@ -828,10 +828,6 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
-  border-radius: 3px;
-  height: 6px;
-  margin: 10px;
-  color: transparent;
   background: #222;
 }
 
