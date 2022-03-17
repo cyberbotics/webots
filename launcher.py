@@ -4,19 +4,20 @@ import sys
 
 
 WEBOTS_HOME = os.environ['WEBOTS_HOME']
+path = os.path.join(WEBOTS_HOME, 'lib', 'controller')
 if sys.platform == 'win32':
-    os.environ['PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['PATH']
+    os.environ['PATH'] = path + os.pathsep + os.environ['PATH']
 elif sys.platform == 'darwin':
     if 'DYLD_LIBRARY_PATH' in os.environ:
-        os.environ['DYLD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['DYLD_LIBRARY_PATH']
+        os.environ['DYLD_LIBRARY_PATH'] = path + os.pathsep + os.environ['DYLD_LIBRARY_PATH']
     else:
-        os.environ['DYLD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller')
+        os.environ['DYLD_LIBRARY_PATH'] = path
 else:  # linux
     if 'LD_LIBRARY_PATH' in os.environ:
-        os.environ['LD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller') + os.pathsep + os.environ['LD_LIBRARY_PATH']
+        os.environ['LD_LIBRARY_PATH'] = path + os.pathsep + os.environ['LD_LIBRARY_PATH']
     else:
-        os.environ['LD_LIBRARY_PATH'] = os.path.join(WEBOTS_HOME, 'lib', 'controller')
-command = os.path.join(WEBOTS_HOME, 'webots')
+        os.environ['LD_LIBRARY_PATH'] = path
+command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
 command += ' --stream="monitorActivity"'
 controllers = {
   "e-puck": "projects/robots/gctronic/e-puck/controllers/e-puck/e-puck"
