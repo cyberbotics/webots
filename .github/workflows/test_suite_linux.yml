@@ -54,7 +54,6 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
-        ls -la distribution/
     - name: Prepare Webots Controller Deployment
       if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
       uses: webfactory/ssh-agent@v0.5.3
