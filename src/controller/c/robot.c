@@ -891,12 +891,24 @@ int wb_robot_step(int duration) {
     fflush(NULL);  // we need to flush the pipes
     if (stdout_read != -1) {
       robot.console_stdout = malloc(1024);
+#ifdef _WIN32
       int len = eof(stdout_read) ? 0 : read(stdout_read, robot.console_stdout, 1023);
+#else
+      int len = read(stdout_read, robot.console_stdout, 1023);
+      if (len == -1)
+        len = 0;
+#endif
       robot.console_stdout[len] = '\0';
     }
     if (stderr_read != -1) {
       robot.console_stderr = malloc(1024);
+#ifdef _WIN32
       int len = eof(stderr_read) ? 0 : read(stderr_read, robot.console_stderr, 1023);
+#else
+      int len = read(stderr_read, robot.console_stderr, 1023);
+      if (len == -1)
+        len = 0;
+#endif
       robot.console_stderr[len] = '\0';
     }
   }
@@ -1110,7 +1122,11 @@ int wb_robot_init() {  // API initialization
 #ifdef WIN32
     _pipe(fds, 1024, O_TEXT);
 #else
-    pipe(fds);
+    if (pipe(fds) == -1) {
+      fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT\n");
+      exit(EXIT_FAILURE);
+    }
+    fcntl(fds[0], F_SETFL, O_NONBLOCK);
 #endif
     dup2(fds[1], 1);  // 1 is stdout
     stdout_read = fds[0];
@@ -1120,7 +1136,11 @@ int wb_robot_init() {  // API initialization
 #ifdef WIN32
     _pipe(fds, 1024, O_TEXT);
 #else
-    pipe(fds);
+    if (pipe(fds) == -1) {
+      fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDERR_REDIRECT\n");
+      exit(EXIT_FAILURE);
+    }
+    fcntl(fds[0], F_SETFL, O_NONBLOCK);
 #endif
     dup2(fds[1], 2);  // 2 is stderr
     stderr_read = fds[0];
