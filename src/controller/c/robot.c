@@ -57,6 +57,7 @@
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
+#define pipe(a, b, c) _pipe(a, b, c)
 #else
 #include <pthread.h>
 #endif
@@ -891,12 +892,12 @@ int wb_robot_step(int duration) {
     fflush(NULL);  // we need to flush the pipes
     if (stdout_read != -1) {
       robot.console_stdout = malloc(1024);
-      int len = _eof(stdout_read) ? 0 : _read(stdout_read, robot.console_stdout, 1023);
+      int len = eof(stdout_read) ? 0 : read(stdout_read, robot.console_stdout, 1023);
       robot.console_stdout[len] = '\0';
     }
     if (stderr_read != -1) {
       robot.console_stderr = malloc(1024);
-      int len = _eof(stderr_read) ? 0 : _read(stderr_read, robot.console_stderr, 1023);
+      int len = eof(stderr_read) ? 0 : read(stderr_read, robot.console_stderr, 1023);
       robot.console_stderr[len] = '\0';
     }
   }
@@ -1059,13 +1060,13 @@ int wb_robot_init() {  // API initialization
   wb_mouse_init();
 
   const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  char *pipe;
+  char *pipe_name;
   int success = 0;
   if (WEBOTS_SERVER && WEBOTS_SERVER[0]) {
-    pipe = strdup(WEBOTS_SERVER);
-    success = scheduler_init(pipe);
+    pipe_name = strdup(WEBOTS_SERVER);
+    success = scheduler_init(pipe_name);
   } else {
-    pipe = NULL;
+    pipe_name = NULL;
     int trial = 0;
     while (!should_abort_simulation_waiting) {
       trial++;
@@ -1085,7 +1086,7 @@ int wb_robot_init() {  // API initialization
           else {
             success = scheduler_init(buffer);
             if (success) {
-              pipe = strdup(buffer);
+              pipe_name = strdup(buffer);
               break;
             } else
               fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
@@ -1098,23 +1099,23 @@ int wb_robot_init() {  // API initialization
     }
   }
   if (!success) {
-    if (!pipe)
+    if (!pipe_name)
       fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
-    free(pipe);
+    free(pipe_name);
     exit(EXIT_FAILURE);
   }
-  free(pipe);
+  free(pipe_name);
 
   if (getenv("WEBOTS_STDOUT_REDIRECT")) {
     int fds[2];
-    _pipe(fds, 1024, O_TEXT);
-    _dup2(fds[1], 1);  // 1 is stdout
+    pipe(fds, 1024, O_TEXT);
+    dup2(fds[1], 1);  // 1 is stdout
     stdout_read = fds[0];
   }
   if (getenv("WEBOTS_STDERR_REDIRECT")) {
     int fds[2];
-    _pipe(fds, 1024, O_TEXT);
-    _dup2(fds[1], 2);  // 2 is stderr
+    pipe(fds, 1024, O_TEXT);
+    dup2(fds[1], 2);  // 2 is stderr
     stderr_read = fds[0];
   }
 
