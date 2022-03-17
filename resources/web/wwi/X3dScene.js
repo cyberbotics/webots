@@ -154,7 +154,7 @@ export default class X3dScene {
       this._loader = new Parser(this.prefix);
 
     this._loader.parse(x3dObject, this.renderer, parentNode, callback);
-    
+
     this.render();
   }
 
