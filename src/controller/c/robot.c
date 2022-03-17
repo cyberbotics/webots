@@ -888,7 +888,7 @@ int wb_robot_step_end() {
 
 int wb_robot_step(int duration) {
   if (stdout_read != -1 || stderr_read != -1) {
-    _flushall();  // we need to flush the pipes
+    fflush(NULL);  // we need to flush the pipes
     if (stdout_read != -1) {
       robot.console_stdout = malloc(1024);
       int len = _eof(stdout_read) ? 0 : _read(stdout_read, robot.console_stdout, 1023);
