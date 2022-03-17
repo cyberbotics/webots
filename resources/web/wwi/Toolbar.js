@@ -445,9 +445,8 @@ export default class Toolbar {
   }
 
   _closeInfoOnClick(event) {
-    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target)) {
+    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target))
       this.informationPanel.informationPanel.style.display = 'none';
-    }
   }
 
   _createSettings() {
