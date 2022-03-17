@@ -74,3 +74,5 @@ for asset in asset_urls:
 
 # generate zip file
 shutil.make_archive('assets', 'zip', 'assets')
+shutil.move('assets.zip', WEBOTS_HOME + '/distribution/assets.zip')
+shutil.rmtree('assets')
