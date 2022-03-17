@@ -222,7 +222,7 @@ CXXFLAGS += -Wsuggest-override
 endif
 endif
 
-# objects that inherit form QObject (alphabetical order)
+# objects that inherit from QObject (alphabetical order)
 QT_SOURCES = WbAboutBox.cpp \
   WbAbstractAppearance.cpp \
   WbAbstractDragEvent.cpp \

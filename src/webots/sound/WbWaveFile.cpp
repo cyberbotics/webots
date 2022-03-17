@@ -195,10 +195,8 @@ void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   mDevice = NULL;
 }
 
-void WbWaveFile::loadFromFile(int side) {
-  const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
-
-  if (suffix == "wav") {
+void WbWaveFile::loadFromFile(const QString &extension, int side) {
+  if (extension == "wav") {
     if (mDevice)
       loadConvertedFile(side);
     else
@@ -220,7 +218,7 @@ void WbWaveFile::loadFromFile(int side) {
   const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";
   QString inputFilename;
   if (mDevice) {
-    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + suffix;
+    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + extension;
     QFile input(inputFilename);
     input.open(QFile::WriteOnly);
     input.write(mDevice->readAll());

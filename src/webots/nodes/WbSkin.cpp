@@ -20,6 +20,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -255,9 +256,9 @@ void WbSkin::updateModelUrl() {
              .arg(supportedExtensions.join("', '")));
       return;
     }
-    // TODO: shouldn't this be done before trying to open it?
+
     const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && mDownloader == NULL) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
@@ -489,32 +490,32 @@ void WbSkin::createWrenSkeleton() {
   if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());
-    delete mDownloader;
-    mDownloader = NULL;
-  }
-
   const QString meshFilePath(modelPath());
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
-    if (mDownloader && mDownloader->hasFinished()) {
-      const QByteArray data = mDownloader->device()->readAll();
+    if (WbNetwork::instance()->isCached(meshFilePath)) {
+      QFile file(WbNetwork::instance()->get(meshFilePath));
+      if (!file.open(QIODevice::ReadOnly))
+        return;
+      const QByteArray &data = file.readAll();
       const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
       error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
-      delete mDownloader;
-      mDownloader = NULL;
     } else
       return;
   } else
     error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+
   if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
+
+  if (mDownloader != NULL)
+    delete mDownloader;
+  mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();
   for (int i = 0; i < count; ++i) {

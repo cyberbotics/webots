@@ -160,8 +160,8 @@ static void upload_progress_callback(int i, int j) {
 
 void wb_robot_window_step(int time_step) {
   int i;
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (strcmp(message, "configure") == 0) {
       send_ports();
       wbu_default_robot_window_configure();
