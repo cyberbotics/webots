@@ -69,13 +69,12 @@ robot.wwiSendText("stop")
 while robot.step(timestep) != -1:
     # wait for record message
     message = robot.wwiReceiveText()
-    while message:
+    if message:
         if message.startswith("record:"):
             record = robotbenchmarkRecord(message, "pick_and_place", -time)
             robot.wwiSendText(record)
             break
         elif message == "exit":
             break
-        message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

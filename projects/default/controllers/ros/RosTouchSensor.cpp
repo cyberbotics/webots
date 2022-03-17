@@ -20,9 +20,10 @@
 RosTouchSensor::RosTouchSensor(TouchSensor *touchSensor, Ros *ros) : RosSensor(touchSensor->getName(), touchSensor, ros) {
   mTouchSensor = touchSensor;
 
-  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type", &RosTouchSensor::getTypeCallback);
-  mLookupTableServer =
-    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
+  mTypeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + "/get_type",
+                                               &RosTouchSensor::getTypeCallback);
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
 }
 
 RosTouchSensor::~RosTouchSensor() {
@@ -36,15 +37,15 @@ RosTouchSensor::~RosTouchSensor() {
 ros::Publisher RosTouchSensor::createPublisher() {
   if (mTouchSensor->getType() == TouchSensor::FORCE) {
     webots_ros::Float64Stamped type;
-    std::string topicName = RosDevice::fixedDeviceName() + "/value";
+    std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
     return RosDevice::rosAdvertiseTopic(topicName, type);
   } else if (mTouchSensor->getType() == TouchSensor::FORCE3D) {
     geometry_msgs::WrenchStamped type;
-    std::string topicName = RosDevice::fixedDeviceName() + "/values";
+    std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
     return RosDevice::rosAdvertiseTopic(topicName, type);
   } else {  // TouchSensor::BUMPER
     webots_ros::BoolStamped type;
-    std::string topicName = RosDevice::fixedDeviceName() + "/value";
+    std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
     return RosDevice::rosAdvertiseTopic(topicName, type);
   }
 }
@@ -54,19 +55,19 @@ void RosTouchSensor::publishValue(ros::Publisher publisher) {
   if (mTouchSensor->getType() == TouchSensor::BUMPER) {
     webots_ros::BoolStamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
     value.data = mTouchSensor->getValue();
     publisher.publish(value);
   } else if (mTouchSensor->getType() == TouchSensor::FORCE) {
     webots_ros::Float64Stamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
     value.data = mTouchSensor->getValue();
     publisher.publish(value);
   } else if (mTouchSensor->getType() == TouchSensor::FORCE3D) {
     geometry_msgs::WrenchStamped value;
     value.header.stamp = ros::Time::now();
-    value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
     value.wrench.force.x = mTouchSensor->getValues()[0];
     value.wrench.force.y = mTouchSensor->getValues()[1];
     value.wrench.force.z = mTouchSensor->getValues()[2];

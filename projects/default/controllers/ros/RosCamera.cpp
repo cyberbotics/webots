@@ -24,33 +24,45 @@ RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), ca
 
   mCamera = camera;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosCamera::getInfoCallback);
-  mFocusInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_focus_info", &RosCamera::getFocusInfoCallback);
-  mZoomInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_zoom_info", &RosCamera::getZoomInfoCallback);
-  mImageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/save_image", &RosCamera::saveImageCallback);
-  mSetFovServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_fov", &RosCamera::setFovCallback);
-  mSetFocalDistanceServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_focal_distance", &RosCamera::setFocalDistanceCallback);
-  mSetExposureServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_exposure", &RosCamera::setExposureCallback);
-  mGetExposureServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_exposure", &RosCamera::getExposureCallback);
-  mHasRecognitionServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/has_recognition", &RosCamera::hasRecognitionCallback);
+  mInfoServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_info", &RosCamera::getInfoCallback);
+  mFocusInfoServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_focus_info", &RosCamera::getFocusInfoCallback);
+  mZoomInfoServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_zoom_info", &RosCamera::getZoomInfoCallback);
+  mImageServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/save_image", &RosCamera::saveImageCallback);
+  mSetFovServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_fov", &RosCamera::setFovCallback);
+  mSetFocalDistanceServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_focal_distance",
+                                                           &RosCamera::setFocalDistanceCallback);
+  mSetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_exposure", &RosCamera::setExposureCallback);
+  mGetExposureServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_exposure", &RosCamera::getExposureCallback);
+  mHasRecognitionServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/has_recognition",
+                                                         &RosCamera::hasRecognitionCallback);
 
-  mHasRecognitionSegmentationServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/recognition_has_segmentation",
-                                                                     &RosCamera::hasRecognitionSegmentationCallback);
+  mHasRecognitionSegmentationServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + fixedDeviceName + "/recognition_has_segmentation", &RosCamera::hasRecognitionSegmentationCallback);
   if (camera->hasRecognition()) {
-    mRecognitionEnableServer =
-      RosDevice::rosAdvertiseService(fixedDeviceName + "/recognition_enable", &RosCamera::recognitionEnableCallback);
-    mRecognitionSamplingPeriodServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/recognition_get_sampling_period",
-                                                                      &RosCamera::recognitionSamplingPeriodCallback);
-    mEnableRecognitionSegmentationServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/recognition_enable_segmentation",
-                                                                          &RosCamera::enableRecognitionSegmentationCallback);
-    mDisableRecognitionSegmentationServer = RosDevice::rosAdvertiseService(
-      fixedDeviceName + "/recognition_disable_segmentation", &RosCamera::disableRecognitionSegmentationCallback);
-    mIsRecognitionSegmentationEnabledServer = RosDevice::rosAdvertiseService(
-      fixedDeviceName + "/recognition_is_segmentation_enabled", &RosCamera::isRecognitionSegmentationEnabledCallback);
-    mSaveRecognitionSegmentationImageServer = RosDevice::rosAdvertiseService(
-      fixedDeviceName + "/recognition_save_segmentation_image", &RosCamera::saveRecognitionSegmentationImageCallback);
+    mRecognitionEnableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_enable",
+                                                              &RosCamera::recognitionEnableCallback);
+    mRecognitionSamplingPeriodServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_get_sampling_period",
+                                     &RosCamera::recognitionSamplingPeriodCallback);
+    mEnableRecognitionSegmentationServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_enable_segmentation",
+                                     &RosCamera::enableRecognitionSegmentationCallback);
+    mDisableRecognitionSegmentationServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_disable_segmentation",
+                                     &RosCamera::disableRecognitionSegmentationCallback);
+    mIsRecognitionSegmentationEnabledServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_is_segmentation_enabled",
+                                     &RosCamera::isRecognitionSegmentationEnabledCallback);
+    mSaveRecognitionSegmentationImageServer =
+      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/recognition_save_segmentation_image",
+                                     &RosCamera::saveRecognitionSegmentationImageCallback);
   }
 }
 
@@ -86,7 +98,7 @@ ros::Publisher RosCamera::createImagePublisher(const std::string &name) {
   type.encoding = sensor_msgs::image_encodings::BGRA8;
   // type.is_bigendian = 0;
   type.step = sizeof(char) * 4 * mCamera->getWidth();
-  return RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/" + name, type);
+  return RosDevice::rosAdvertiseTopic(mRos->name() + '/' + RosDevice::fixedDeviceName() + "/" + name, type);
 }
 
 // get image from the Camera and publish it
@@ -94,7 +106,7 @@ void RosCamera::publishValue(ros::Publisher publisher) {
   const unsigned char *colorImage = mCamera->getImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
   image.height = mCamera->getHeight();
   image.width = mCamera->getWidth();
   image.encoding = sensor_msgs::image_encodings::BGRA8;
@@ -112,7 +124,7 @@ void RosCamera::publishAuxiliaryValue() {
     const CameraRecognitionObject *cameraObjects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObjects objects;
     objects.header.stamp = ros::Time::now();
-    objects.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName() + "/recognition_objects";
+    objects.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_objects";
     for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
       webots_ros::RecognitionObject object;
       object.position.x = cameraObjects[i].position[0];
@@ -140,7 +152,7 @@ void RosCamera::publishAuxiliaryValue() {
       const unsigned char *colorImage = mCamera->getRecognitionSegmentationImage();
       sensor_msgs::Image image;
       image.header.stamp = ros::Time::now();
-      image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
+      image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
       image.height = mCamera->getHeight();
       image.width = mCamera->getWidth();
       image.encoding = sensor_msgs::image_encodings::BGRA8;
@@ -223,7 +235,8 @@ bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, web
     std::string deviceNameFixed = RosDevice::fixedDeviceName();
     webots_ros::RecognitionObjects type;
     type.header.frame_id = deviceNameFixed;
-    mRecognitionObjectsPublisher = RosDevice::rosAdvertiseTopic(deviceNameFixed + "/recognition_objects", type);
+    mRecognitionObjectsPublisher =
+      RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/recognition_objects", type);
   } else {
     ROS_WARN("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
     res.success = false;

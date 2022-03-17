@@ -16,15 +16,22 @@
 
 RosSpeaker::RosSpeaker(Speaker *speaker, Ros *ros) : RosDevice(speaker, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mStopServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/stop", &RosSpeaker::stopCallback);
-  mGetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
-  mGetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
-  mSetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
-  mSetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
-  mSpeakServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
-  mPlayServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
-  mIsSpeakingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
-  mIsPlayingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
+  mStopServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/stop", &RosSpeaker::stopCallback);
+  mGetEngineServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
+  mGetLanguageServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
+  mSetEngineServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
+  mSetLanguageServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
+  mSpeakServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
+  mPlayServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
+  mIsSpeakingServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
+  mIsPlayingServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
   mSpeaker = speaker;
 }
 

@@ -41,7 +41,7 @@ while (supervisor.step(timestep) != -1 and
 
     # Recovers current time and position/orientation of the robot.
     pos = pioneer.getPosition()
-    pos2d = [pos[0], -pos[1]]
+    pos2d = [pos[0], pos[2]]
 
     orientation = pioneer.getOrientation()
     time = supervisor.getTime()
@@ -62,13 +62,12 @@ supervisor.wwiSendText('stop')
 # Wait for credentials sent by the robot window.
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
-    while message:
+    if message:
         if message.startswith("record:"):
             performance = metric.getPerformance()
             record = robotbenchmarkRecord(message, "square_path", performance)
             supervisor.wwiSendText(record)
         elif message == "exit":
             break
-        message = supervisor.wwiReceiveText()
 
 supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

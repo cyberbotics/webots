@@ -15,14 +15,12 @@
 #include "RosSensor.hpp"
 
 RosSensor::RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices) :
-  RosDevice(device, ros, enableDefaultServices),
-  mFrameIdPrefix("") {
+  RosDevice(device, ros, enableDefaultServices) {
   std::string fixedDeviceName = Ros::fixedNameString(deviceName);
-  mSensorEnableServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/enable", &RosSensor::sensorEnableCallback);
-  mSamplingPeriodServer =
-    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_sampling_period", &RosSensor::samplingPeriodCallback);
-  if (mRos->rosNameSpace() != "")
-    mFrameIdPrefix = mRos->rosNameSpace() + "/";
+  mSensorEnableServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/enable", &RosSensor::sensorEnableCallback);
+  mSamplingPeriodServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_sampling_period",
+                                                         &RosSensor::samplingPeriodCallback);
 }
 
 RosSensor::~RosSensor() {

@@ -21,11 +21,12 @@
 RosPositionSensor::RosPositionSensor(PositionSensor *positionSensor, Ros *ros) :
   RosSensor(positionSensor->getName(), positionSensor, ros) {
   mPositionSensor = positionSensor;
-  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type", &RosPositionSensor::getTypeCallback);
-  mGetBrakeNameServer =
-    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_brake_name", &RosPositionSensor::getBrakeNameCallback);
-  mGetMotorNameServer =
-    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_motor_name", &RosPositionSensor::getMotorNameCallback);
+  mTypeServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_type",
+                                               &RosPositionSensor::getTypeCallback);
+  mGetBrakeNameServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_brake_name",
+                                                       &RosPositionSensor::getBrakeNameCallback);
+  mGetMotorNameServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_motor_name",
+                                                       &RosPositionSensor::getMotorNameCallback);
 }
 
 RosPositionSensor::~RosPositionSensor() {
@@ -36,7 +37,7 @@ RosPositionSensor::~RosPositionSensor() {
 // creates a publisher for position sensor value with a {double} as message type
 ros::Publisher RosPositionSensor::createPublisher() {
   webots_ros::Float64Stamped type;
-  std::string topicName = RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -44,7 +45,7 @@ ros::Publisher RosPositionSensor::createPublisher() {
 void RosPositionSensor::publishValue(ros::Publisher publisher) {
   webots_ros::Float64Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
   value.data = mPositionSensor->getValue();
   publisher.publish(value);
 }

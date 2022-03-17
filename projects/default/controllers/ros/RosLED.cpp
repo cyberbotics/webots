@@ -16,8 +16,8 @@
 
 RosLED::RosLED(LED *led, Ros *ros) : RosDevice(led, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_led", &RosLED::setCallback);
-  mGetServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_led", &RosLED::getCallback);
+  mSetServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_led", &RosLED::setCallback);
+  mGetServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_led", &RosLED::getCallback);
   mLED = led;
 }
 

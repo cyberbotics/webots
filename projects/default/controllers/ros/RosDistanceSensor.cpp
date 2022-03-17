@@ -18,16 +18,16 @@
 RosDistanceSensor::RosDistanceSensor(DistanceSensor *distanceSensor, Ros *ros) :
   RosSensor(distanceSensor->getName(), distanceSensor, ros) {
   mDistanceSensor = distanceSensor;
-  mMinValueServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_min_value",
+  mMinValueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_min_value",
                                                    &RosDistanceSensor::getMinValueCallback);
-  mMaxValueServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_max_value",
+  mMaxValueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_max_value",
                                                    &RosDistanceSensor::getMaxValueCallback);
-  mApertureServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_aperture",
+  mApertureServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_aperture",
                                                    &RosDistanceSensor::getApertureCallback);
-  mLookupTableServer =
-    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosDistanceSensor::getLookupTable);
-  mTypeServer =
-    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_type", &RosDistanceSensor::getTypeCallback);
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosDistanceSensor::getLookupTable);
+  mTypeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_type",
+                                               &RosDistanceSensor::getTypeCallback);
 }
 
 RosDistanceSensor::~RosDistanceSensor() {
@@ -42,7 +42,7 @@ RosDistanceSensor::~RosDistanceSensor() {
 // creates a publisher for distance sensor value with a {double} as message type
 ros::Publisher RosDistanceSensor::createPublisher() {
   sensor_msgs::Range type;
-  std::string topicName = RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -50,7 +50,7 @@ ros::Publisher RosDistanceSensor::createPublisher() {
 void RosDistanceSensor::publishValue(ros::Publisher publisher) {
   sensor_msgs::Range value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
   if (mDistanceSensor->getType() == DistanceSensor::SONAR)
     value.radiation_type = 0;
   else if (mDistanceSensor->getType() == DistanceSensor::INFRA_RED)

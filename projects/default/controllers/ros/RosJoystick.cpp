@@ -19,19 +19,23 @@ RosJoystick::RosJoystick(Joystick *joystick, Ros *ros) : RosSensor("joystick", N
   mJoystick = joystick;
   mAxesValuePublisher = NULL;
   mPovsValuePublisher = NULL;
-  mGetModelServer = RosDevice::rosAdvertiseService("joystick/get_model", &RosJoystick::getModelCallback);
-  mGetNumberOfAxesServer = RosDevice::rosAdvertiseService("joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
-  mGetNumberOfPovsServer = RosDevice::rosAdvertiseService("joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
-  mIsConnectedServer = RosDevice::rosAdvertiseService("joystick/is_connected", &RosJoystick::isConnectedCallback);
+  mGetModelServer = RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_model", &RosJoystick::getModelCallback);
+  mGetNumberOfAxesServer =
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_number_of_axes", &RosJoystick::getNumberOfAxesCallback);
+  mGetNumberOfPovsServer =
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/get_number_of_povs", &RosJoystick::getNumberOfPovsCallback);
+  mIsConnectedServer =
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/is_connected", &RosJoystick::isConnectedCallback);
   mSetConstantForceServer =
-    RosDevice::rosAdvertiseService("joystick/set_constant_force", &RosJoystick::setConstantForceCallback);
-  mSetConstantForceDurationServer =
-    RosDevice::rosAdvertiseService("joystick/set_constant_force_duration", &RosJoystick::setConstantForceDurationCallback);
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_constant_force", &RosJoystick::setConstantForceCallback);
+  mSetConstantForceDurationServer = RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_constant_force_duration",
+                                                                   &RosJoystick::setConstantForceDurationCallback);
   mSetAutoCenteringGainServer =
-    RosDevice::rosAdvertiseService("joystick/set_auto_centering_gain", &RosJoystick::setAutoCenteringCallback);
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_auto_centering_gain", &RosJoystick::setAutoCenteringCallback);
   mSetResistanceGainServer =
-    RosDevice::rosAdvertiseService("joystick/set_resistance_gain", &RosJoystick::setResistanceGainCallback);
-  mSetForceAxisServer = RosDevice::rosAdvertiseService("joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_resistance_gain", &RosJoystick::setResistanceGainCallback);
+  mSetForceAxisServer =
+    RosDevice::rosAdvertiseService((ros->name()) + "/joystick/set_force_axis", &RosJoystick::setForceAxisCallback);
 }
 
 RosJoystick::~RosJoystick() {
@@ -60,7 +64,7 @@ RosJoystick::~RosJoystick() {
 // creates a publisher for joystick values with a webots_ros/Int8Stamped as message type
 ros::Publisher RosJoystick::createPublisher() {
   webots_ros::Int8Stamped type;
-  std::string topicName = "joystick/pressed_button";
+  std::string topicName = mRos->name() + "/joystick/pressed_button";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -68,7 +72,7 @@ ros::Publisher RosJoystick::createPublisher() {
 void RosJoystick::publishValue(ros::Publisher publisher) {
   webots_ros::Int8Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mFrameIdPrefix + "joystick";
+  value.header.frame_id = mRos->name() + "/joystick";
   int button = mJoystick->getPressedButton();
   while (button >= 0) {
     value.data = button;
@@ -91,7 +95,7 @@ void RosJoystick::publishAuxiliaryValue() {
       for (int i = 0; i < axesNumber; ++i) {
         std::ostringstream s;
         s << i;
-        mAxesValuePublisher[i] = RosDevice::rosAdvertiseTopic("joystick/axis" + s.str(), value);
+        mAxesValuePublisher[i] = RosDevice::rosAdvertiseTopic(mRos->name() + "/joystick/axis" + s.str(), value);
       }
     }
   }
@@ -99,7 +103,7 @@ void RosJoystick::publishAuxiliaryValue() {
   // publish the axes value
   if (mAxesValuePublisher && axesNumber > 0) {
     for (int i = 0; i < axesNumber; ++i) {
-      value.header.frame_id = mFrameIdPrefix + "joystick";
+      value.header.frame_id = mRos->name() + "/joystick";
       value.data = mJoystick->getAxisValue(i);
       mAxesValuePublisher[i].publish(value);
     }
@@ -112,7 +116,7 @@ void RosJoystick::publishAuxiliaryValue() {
       for (int i = 0; i < povsNumber; ++i) {
         std::ostringstream s;
         s << i;
-        mPovsValuePublisher[i] = RosDevice::rosAdvertiseTopic("joystick/pov" + s.str(), value);
+        mPovsValuePublisher[i] = RosDevice::rosAdvertiseTopic(mRos->name() + "/joystick/pov" + s.str(), value);
       }
     }
   }
@@ -120,7 +124,7 @@ void RosJoystick::publishAuxiliaryValue() {
   // publish the point of views value
   if (mPovsValuePublisher && povsNumber > 0) {
     for (int i = 0; i < povsNumber; ++i) {
-      value.header.frame_id = mFrameIdPrefix + "joystick";
+      value.header.frame_id = mRos->name() + "/joystick";
       value.data = mJoystick->getPovValue(i);
       mPovsValuePublisher[i].publish(value);
     }

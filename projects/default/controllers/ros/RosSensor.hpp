@@ -50,7 +50,6 @@ protected:
   };
 
   std::vector<publisherDetails> mPublishList;
-  std::string mFrameIdPrefix;
 
 private:
   ros::ServiceServer mSensorEnableServer;
