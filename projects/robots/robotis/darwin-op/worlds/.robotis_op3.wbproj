@@ -5,7 +5,6 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "webots/projects/robots/robotis/darwin-op/controllers/op3_motion_player/Op3MotionPlayer.cpp"
-robotWindow: e-puck
+textFiles: 0 "controllers/op3_motion_player/Op3MotionPlayer.cpp"
 consoles: Console:All:All
 renderingDevicePerspectives: ROBOTIS OP3:Camera;1;0.588889;0;0
