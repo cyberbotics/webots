@@ -122,6 +122,35 @@ static int stdout_read = -1;
 static int stderr_read = -1;
 
 // Static functions
+static int stream_pipe_create(int stream) {
+  int fds[2];
+#ifdef WIN32
+  _pipe(fds, 1024, O_TEXT);
+#else
+  if (pipe(fds) == -1) {
+    fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT\n");
+    exit(EXIT_FAILURE);
+  }
+  fcntl(fds[0], F_SETFL, O_NONBLOCK);
+#endif
+  dup2(fds[1], stream);
+  return fds[0];
+}
+
+void stream_pipe_read(int fd, char **buffer) {
+  if (fd == -1)
+    return;
+  *buffer = malloc(1024);
+#ifdef _WIN32
+  int len = eof(fd) ? 0 : read(fd, *buffer, 1023);
+#else
+  int len = read(fd, *buffer, 1023);
+  if (len == -1)
+    len = 0;
+#endif
+  (*buffer)[len] = '\0';
+}
+
 static void init_robot_window_library() {
   if (robot_window_is_initialized())
     return;
@@ -889,28 +918,8 @@ int wb_robot_step_end() {
 int wb_robot_step(int duration) {
   if (stdout_read != -1 || stderr_read != -1) {
     fflush(NULL);  // we need to flush the pipes
-    if (stdout_read != -1) {
-      robot.console_stdout = malloc(1024);
-#ifdef _WIN32
-      int len = eof(stdout_read) ? 0 : read(stdout_read, robot.console_stdout, 1023);
-#else
-      int len = read(stdout_read, robot.console_stdout, 1023);
-      if (len == -1)
-        len = 0;
-#endif
-      robot.console_stdout[len] = '\0';
-    }
-    if (stderr_read != -1) {
-      robot.console_stderr = malloc(1024);
-#ifdef _WIN32
-      int len = eof(stderr_read) ? 0 : read(stderr_read, robot.console_stderr, 1023);
-#else
-      int len = read(stderr_read, robot.console_stderr, 1023);
-      if (len == -1)
-        len = 0;
-#endif
-      robot.console_stderr[len] = '\0';
-    }
+    stream_pipe_read(stdout_read, &(robot.console_stdout));
+    stream_pipe_read(stderr_read, &(robot.console_stderr));
   }
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
@@ -1117,34 +1126,10 @@ int wb_robot_init() {  // API initialization
   }
   free(pipe_name);
 
-  if (getenv("WEBOTS_STDOUT_REDIRECT")) {
-    int fds[2];
-#ifdef WIN32
-    _pipe(fds, 1024, O_TEXT);
-#else
-    if (pipe(fds) == -1) {
-      fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT\n");
-      exit(EXIT_FAILURE);
-    }
-    fcntl(fds[0], F_SETFL, O_NONBLOCK);
-#endif
-    dup2(fds[1], 1);  // 1 is stdout
-    stdout_read = fds[0];
-  }
-  if (getenv("WEBOTS_STDERR_REDIRECT")) {
-    int fds[2];
-#ifdef WIN32
-    _pipe(fds, 1024, O_TEXT);
-#else
-    if (pipe(fds) == -1) {
-      fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDERR_REDIRECT\n");
-      exit(EXIT_FAILURE);
-    }
-    fcntl(fds[0], F_SETFL, O_NONBLOCK);
-#endif
-    dup2(fds[1], 2);  // 2 is stderr
-    stderr_read = fds[0];
-  }
+  if (getenv("WEBOTS_STDOUT_REDIRECT"))
+    stdout_read = stream_pipe_create(1);
+  if (getenv("WEBOTS_STDERR_REDIRECT"))
+    stderr_read = stream_pipe_create(2);
 
   // robot device
   robot.n_device = 1;
