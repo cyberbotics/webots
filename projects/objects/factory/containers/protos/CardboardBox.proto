@@ -68,73 +68,73 @@ Solid {
   rotation IS rotation
   children [
   DEF BACK Transform {
-    translation %<= -(size.x / 2 - 0.0005) >% 0 0
+    translation %<= -(size.x / 2 - 0.00025) >% 0 0
     children [
       Shape {
         appearance Cardboard {
           type "back"
         }
         geometry Box {
-          size 0.001 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+          size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
         }
       }
     ]
   }
   DEF FRONT Transform {
-    translation %<= size.x / 2 - 0.0005 >% 0 0
+    translation %<= size.x / 2 - 0.00025 >% 0 0
     children [
       Shape {
         appearance Cardboard {
           type "front"
         }
         geometry Box {
-          size 0.001 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+          size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
         }
       }
     ]
   }
   DEF RIGHT Transform {
-    translation 0 %<= -(size.y / 2 - 0.0005) >% 0
+    translation 0 %<= -(size.y / 2 - 0.00025) >% 0
     children [
       Shape {
         appearance Cardboard {
           type "right"
         }
         geometry Box {
-          size %<= size.x - 0.0001 >% 0.001 %<= size.z - 0.0001 >%
+          size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
         }
       }
     ]
   }
   DEF LEFT Transform {
-    translation 0 %<= size.y / 2 - 0.0005 >% 0
+    translation 0 %<= size.y / 2 - 0.00025 >% 0
     children [
       Shape {
         appearance Cardboard {
           type "left"
         }
         geometry Box {
-          size %<= size.x - 0.0001 >% 0.001 %<= size.z - 0.0001 >%
+          size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
         }
       }
     ]
     translationStep 0
   }
   DEF BOTTOM Transform {
-    translation 0 0 %<= -size.z / 2 + 0.0005 >%
+    translation 0 0 %<= -size.z / 2 + 0.00025 >%
     children [
       Shape {
         appearance Cardboard {
           type "bottom"
         }
         geometry Box {
-          size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.001
+          size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
         }
       }
     ]
   }
   DEF TOP Transform {
-      translation %<= -size.x / 2>% 0 %<= (size.z / 2) - 0.0005 >%
+      translation %<= -size.x / 2>% 0 %<= (size.z / 2) - 0.00025 >%
       rotation 0 1 0 %<= -fields.lidAngle.value >%
       children [
         Transform {
@@ -145,7 +145,7 @@ Solid {
                 type "top"
               }
               geometry Box {
-                size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.001
+                size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
               }
             }
           ]
@@ -155,10 +155,83 @@ Solid {
   ]
   name IS name
   model "cardboard box"
+  %< if (fields.lidAngle.value === 0) { >%
   boundingObject Box {
     size %<= size.x >% %<= size.y >% %<= size.z >%
   }
-  %< if (mass > 0) { >%
+  %< } else {>%
+  boundingObject Group {
+    children [
+    DEF BACK Transform {
+      translation %<= -(size.x / 2 - 0.0005) >% 0 0
+      children [
+        Shape {
+          appearance Cardboard {
+            type "back"
+          }
+          geometry Box {
+            size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+          }
+        }
+      ]
+    }
+    DEF FRONT Transform {
+      translation %<= size.x / 2 - 0.0005 >% 0 0
+      children [
+        Shape {
+          appearance Cardboard {
+            type "front"
+          }
+          geometry Box {
+            size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+          }
+        }
+      ]
+    }
+    DEF RIGHT Transform {
+      translation 0 %<= -(size.y / 2 - 0.0005) >% 0
+      children [
+        Shape {
+          appearance Cardboard {
+            type "right"
+          }
+          geometry Box {
+            size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
+          }
+        }
+      ]
+    }
+    DEF LEFT Transform {
+      translation 0 %<= size.y / 2 - 0.0005 >% 0
+      children [
+        Shape {
+          appearance Cardboard {
+            type "left"
+          }
+          geometry Box {
+            size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
+          }
+        }
+      ]
+      translationStep 0
+    }
+    DEF BOTTOM Transform {
+      translation 0 0 %<= -size.z / 2 + 0.0005 >%
+      children [
+        Shape {
+          appearance Cardboard {
+            type "bottom"
+          }
+          geometry Box {
+            size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.003
+          }
+        }
+      ]
+    }
+    ]
+  }
+  %< }
+  if (mass > 0) { >%
   physics Physics {
     density -1
     mass %<= mass>%
