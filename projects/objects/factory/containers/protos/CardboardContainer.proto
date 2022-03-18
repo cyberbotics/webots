@@ -34,7 +34,6 @@ PROTO CardboardContainer [
     size.z = 0.15;
   }
 >%
-
 Solid {
   translation IS translation
   rotation IS rotation
