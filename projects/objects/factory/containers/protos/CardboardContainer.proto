@@ -164,7 +164,7 @@ Solid {
         translation %<= size.x / 2 + 0.0005 >% 0 %<= (size.z / 2) - 0.0005 >%
         children [
           Box {
-            size 0.003 %<= size.y + 0.002>% %<= size.z >%
+            size 0.003 %<= size.y + 0.002 >% %<= size.z >%
           }
         ]
       }
