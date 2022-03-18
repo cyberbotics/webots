@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
+##### DDaniel [Cyberbotics] 03/11/2022 10:53:27
+**OpenDR: An Open Toolkit for Enabling High Performance, Low Footprint Deep Learning for Robotics.** New paper describing the architecture of the OpenDR toolkit. Cyberbotics (Webots) is a member of the OpenDR consortium. [https://arxiv.org/pdf/2203.00403.pdf](https://arxiv.org/pdf/2203.00403.pdf)
+
 ##### DrakerDG [Moderator] 01/31/2022 07:49:14
 👍
 
