@@ -184,7 +184,7 @@ webots-view .reload-tooltip{
   left: -100px;
 }
 
-webots-view .robotWindow-tooltip {
+webots-view .robot-window-tooltip {
   position: absolute;
   right: 0px;
   white-space: nowrap;
@@ -543,9 +543,9 @@ webots-view #remoteScene {
   display: block;
 }
 
-/* Floating Robot Window*/
+/* Floating robot window*/
 
-webots-view .robotWindow-pane {
+webots-view .robot-window-pane {
   position: absolute;
   bottom: 55px;
   right: 115px;
@@ -563,7 +563,7 @@ webots-view .robotWindow-pane {
   z-index: 3;
 }
 
-webots-view .robotWindow-pane-title{
+webots-view .robot-window-pane-title{
   padding-left: 7px;
   padding-right: 7px;
   padding-top: 10px;
@@ -573,19 +573,19 @@ webots-view .robotWindow-pane-title{
   font-weight: 700;
 }
 
-webots-view .robotWindow-pane-spacer {
+webots-view .robot-window-pane-spacer {
   display: inline-block;
   min-width: 15px;
 }
 
-webots-view .robotWindow-pane-li {
+webots-view .robot-window-pane-li {
   margin-top: 5px;
   margin-bottom: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-webots-view .robotWindow-pane-switch {
+webots-view .robot-window-pane-switch {
   position: absolute;
   display: inline-block;
   pointer-events: none;
@@ -606,7 +606,7 @@ webots-view input:checked + .visibility-dot {
   background-color: red;
 }
 
-webots-view .floating-robotWindow {
+webots-view .floating-robot-window {
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   display: block;
@@ -617,7 +617,7 @@ webots-view .floating-robotWindow {
   min-width: 200px;
 }
 
-webots-view .floating-robotWindow-header {
+webots-view .floating-robot-window-header {
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
   display: flex;
@@ -628,13 +628,13 @@ webots-view .floating-robotWindow-header {
   height: 45px;
 }
 
-webots-view .floating-robotWindow-text{
+webots-view .floating-robot-window-text{
   margin-left: 10px;
   font-size: 14px;
   margin-top: 12px;
 }
 
-webots-view .floating-robotWindow-close {
+webots-view .floating-robot-window-close {
   position: relative;
   top: -10px;
   background-color: transparent;
@@ -644,15 +644,15 @@ webots-view .floating-robotWindow-close {
   font-size: 20px;
 }
 
-webots-view .floating-robotWindow-close:hover {
+webots-view .floating-robot-window-close:hover {
   color: white;
 }
 
-webots-view .floating-robotWindow-content {
+webots-view .floating-robot-window-content {
   height: calc(100% - 45px);
 }
 
-webots-view .floating-robotWindow-content iframe {
+webots-view .floating-robot-window-content iframe {
   background-color: white;
   border: 0;
   margin: 10px;

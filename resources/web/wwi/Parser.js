@@ -423,7 +423,7 @@ export default class Parser {
       parentNode.children.push(transform);
     }
 
-    if (node.hasAttribute('robot') && node.getAttribute('robot')==='true') {
+    if (node.hasAttribute('robot') && node.getAttribute('robot') === 'true') {
       let window = 'generic';
       let name = node.getAttribute('name');
       let id = node.getAttribute('id');

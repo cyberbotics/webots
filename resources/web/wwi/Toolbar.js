@@ -265,19 +265,19 @@ export default class Toolbar {
     
   _createRobotWindowPane() {
     this.robotWindowPane = document.createElement('div');
-    this.robotWindowPane.className = 'robotWindow-pane';
-    this.robotWindowPane.innerHTML = '<h3 class="robotWindow-pane-title"> Robot Windows </h3>';
+    this.robotWindowPane.className = 'robot-window-pane';
+    this.robotWindowPane.innerHTML = '<h3 class="robot-window-pane-title">Robot Windows</h3>';
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
     this.robotWindowList = document.createElement('ul');
-    this.robotWindowList.id = 'robotWindow-list';
+    this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
   }
 
   _closeRobotWindowPaneOnClick(event) {
     if (event.srcElement.id !== 'robotWindowButton' && this.robotWindowPane.style.visibility === 'visible') {
-      if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robotWindow")))
+      if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robot-window")))
         this.robotWindowPane.style.visibility = 'hidden';
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
@@ -286,16 +286,16 @@ export default class Toolbar {
 
   _addRobotWindowToPane(name) {
     const robotWindowLi = document.createElement('li');
-    robotWindowLi.className = 'robotWindow-pane-li';
-    robotWindowLi.id = 'enable-robotWindow-'+name;
+    robotWindowLi.className = 'robot-window-pane-li';
+    robotWindowLi.id = 'enable-robot-window-' + name;
     this.robotWindowList.appendChild(robotWindowLi);
 
     const button = document.createElement('label');
-    button.className = 'robotWindow-pane-switch';
+    button.className = 'robot-window-pane-switch';
     robotWindowLi.appendChild(button);
 
     let label = document.createElement('input');
-    label.id = 'button-'+name;
+    label.id = 'button-' + name;
     label.type = 'checkbox';
     label.checked = false;
     label.style.display = 'none';
@@ -306,12 +306,12 @@ export default class Toolbar {
     button.appendChild(label);
 
     label = document.createElement('div');
-    label.className = 'robotWindow-pane-spacer';
+    label.className = 'robot-window-pane-spacer';
     robotWindowLi.appendChild(label);
 
     label = document.createElement('span');
-    label.id = 'enable-robotWindow-text-'+name;
-    label.className = 'robotWindow-span';
+    label.id = 'enable-robot-window-text-' + name;
+    label.className = 'robot-window-span';
     label.innerHTML = name;
     robotWindowLi.appendChild(label);
 
@@ -322,7 +322,7 @@ export default class Toolbar {
 
   _createRobotWindows() {
     this.floatingRobotWindowContainer = document.createElement('div');
-    this.floatingRobotWindowContainer.className = 'floating-robotWindow-container';
+    this.floatingRobotWindowContainer.className = 'floating-robot-window-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
     var robotWindowUrl = this._view.x3dScene.prefix.slice(0,-1);
@@ -343,7 +343,7 @@ export default class Toolbar {
  
       if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
         numRow++; 
-        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight )
+        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight)
           numRow = 0;
         numCol = 0;
       }
@@ -356,8 +356,8 @@ export default class Toolbar {
 
   _refreshRobotWindowContent() {
     this.robotWindows.forEach((rw) => {
-      if (typeof document.getElementById(rw.name+'-robotWindow').src !== 'undefined') {
-        document.getElementById(rw.name+'-robotWindow').src = document.getElementById(rw.name+'-robotWindow').src;
+      if (typeof document.getElementById(rw.name + '-robot-window').src !== 'undefined') {
+        document.getElementById(rw.name + '-robot-window').src = document.getElementById(rw.name + '-robot-window').src;
       }
     });
   }
@@ -376,7 +376,7 @@ export default class Toolbar {
   }
 
   _changeRobotWindowPaneVisibility() {
-    if (this.robotWindowPane.style.visibility == 'hidden') {
+    if (this.robotWindowPane.style.visibility === 'hidden') {
       this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = 'hidden';
@@ -398,11 +398,11 @@ export default class Toolbar {
   }
 
   _changeRobotWindowVisibility(name) {
-    if(document.getElementById(name).style.visibility == 'hidden') {
-      document.getElementById('button-'+name).checked = true;
+    if(document.getElementById(name).style.visibility === 'hidden') {
+      document.getElementById('button-' + name).checked = true;
       document.getElementById(name).style.visibility = 'visible';
     } else {
-      document.getElementById('button-'+name).checked = false;
+      document.getElementById('button-' + name).checked = false;
       document.getElementById(name).style.visibility = 'hidden';
     }
   }
