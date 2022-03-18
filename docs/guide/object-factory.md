@@ -38,7 +38,13 @@ CardboardBox {
 
 ### CardboardContainer
 
-A cardboard box.
+A cardboard empty box.
+
+%figure
+
+![CardboardContainer](images/objects/containers/CardboardContainer/model.thumbnail.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
@@ -63,7 +69,7 @@ CardboardContainer {
 
 - `size`: Defines the size of the cardboard container.
 
-- `mass`: Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+- `mass`: Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard container.
 
 - `lid`: Defines if the container should have a lid or not.
 
