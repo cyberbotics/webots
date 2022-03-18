@@ -2716,7 +2716,7 @@ Ok, many thanks. I will try.
 
 Ok, many thanks. I will try.
 
-##### Mlungost 09/22/2021 18:22:37
+##### thegodsmile 09/22/2021 18:22:37
 hello all, when running this code in C i get no errors, but nothing displays on the console.
 
 
@@ -2728,13 +2728,13 @@ hello all, when running this code in C i get no errors, but nothing displays on 
 ##### DDaniel [Cyberbotics] 09/22/2021 18:46:51
 <@837512744210661457> are you calling `wb_robot_step` at some point after this snippet?
 
-##### Mlungost 09/22/2021 18:50:53
+##### thegodsmile 09/22/2021 18:50:53
 yes, this is within a larger feedback loop` while (wb_robot_step(TIME_STEP) != -1) `
 
 ##### DDaniel [Cyberbotics] 09/22/2021 18:55:17
 Oh, it's just that it's `\n` not `/n`
 
-##### Mlungost 09/22/2021 18:59:56
+##### thegodsmile 09/22/2021 18:59:56
 ahh man. thanks Daniel. Genius. Subtle errors like that tend to get overlooked when you been coding all day. it's displaying now
 
 ## October
