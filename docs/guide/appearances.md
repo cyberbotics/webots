@@ -183,7 +183,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Cardboard {
   SFColor  colorOverride    1 1 1
-  SFString type             "side4"
+  SFString type             "back"
   SFNode   textureTransform NULL
   SFFloat  IBLStrength      1
 }
@@ -198,7 +198,7 @@ Cardboard {
 
 - `colorOverride`: Defines the color to be multiplied with the texture color.
 
-- `type`: Defines the grass type. This field accepts the following values: `"top"`, `"bottom"`, `"side1"`, `"side2"`, `"side3"`, and `"side4"`.
+- `type`: Defines the cardboard face. This field accepts the following values: `"top"`, `"bottom"`, `"left"`, `"right"`, `"front"`, and `"back"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 

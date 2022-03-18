@@ -22,6 +22,7 @@ CardboardBox {
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
   SFBool     locked      FALSE
+  SFFloat    lidAngle    0
 }
 ```
 
@@ -36,42 +37,7 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
-### CardboardContainer
-
-A cardboard empty box.
-
-%figure
-
-![CardboardContainer](images/objects/containers/CardboardContainer/model.thumbnail.png)
-
-%end
-
-Derived from [Solid](../reference/solid.md).
-
-```
-CardboardContainer {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFString   name        "cardboard container"
-  SFVec3f    size        0.2 0.1 0.15
-  SFFloat    mass        0
-  SFBool     locked      FALSE
-  SFBool     lid         TRUE
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/CardboardContainer.proto]({{ url.github_tree }}/projects/objects/factory/containers/protos/CardboardContainer.proto)"
-
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
-
-#### CardboardContainer Field Summary
-
-- `size`: Defines the size of the cardboard container.
-
-- `mass`: Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard container.
-
-- `lid`: Defines if the container should have a lid or not.
+- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 close the box and use a single boundingObject, preventing it from containing objects.
 
 ### MetalStorageBox
 
