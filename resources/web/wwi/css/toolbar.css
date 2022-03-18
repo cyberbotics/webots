@@ -113,7 +113,7 @@ webots-view .icon-info        { background-position: -306px -2px }
 webots-view .icon-settings    { background-position: -382px -2px }
 webots-view .icon-fullscreen  { background-position: -420px -2px }
 webots-view .icon-partscreen  { background-position: -458px -2px }
-webots-view .icon-robotWindow { background-position: -654px -2px }
+webots-view .icon-robot-window { background-position: -654px -2px }
 
 webots-view .icon-play:hover,
 webots-view .icon-pause:hover,
@@ -125,7 +125,7 @@ webots-view .icon-info:hover,
 webots-view .icon-settings:hover,
 webots-view .icon-fullscreen:hover,
 webots-view .icon-partscreen:hover,
-webots-view .icon-robotWindow:hover,
+webots-view .icon-robot-window:hover,
 webots-view .toolbar-reload:hover {
   background-position-y: -40px;
 }
@@ -150,7 +150,7 @@ webots-view .icon-info {
   width: 28px;
 }
 
-webots-view .icon-robotWindow {
+webots-view .icon-robot-window {
   width: 28px;
 }
 

@@ -99,7 +99,7 @@ export default class Toolbar {
 
   _createToolBarButton(name, tooltipText, click) {
     const button = document.createElement('button');
-    button.id = name + 'Button';
+    button.id = name + '-button';
     button.className = 'toolbar-btn icon-' + name;
     if (typeof click === 'function')
       button.onclick = () => click();
@@ -158,7 +158,7 @@ export default class Toolbar {
     let canHide;
 
     let isPlaying = true;
-    if (document.getElementById('playButton') && document.getElementById('playButton').className !== 'toolbar-btn icon-pause')
+    if (document.getElementById('play-button') && document.getElementById('play-button').className !== 'toolbar-btn icon-pause')
       isPlaying = false;
 
     let settingsPane = true;
@@ -177,8 +177,8 @@ export default class Toolbar {
 
       canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
     } else if (this.type === 'streaming') {
-      if (document.getElementById('runButton'))
-        isPlaying = isPlaying || document.getElementById('runButton').className === 'toolbar-btn icon-pause';
+      if (document.getElementById('run-button'))
+        isPlaying = isPlaying || document.getElementById('run-button').className === 'toolbar-btn icon-pause';
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
@@ -260,7 +260,7 @@ export default class Toolbar {
   _createRobotWindowButton() {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       if (WbWorld.instance.robots.length > 0) {
-        this.robotWindowButton = this._createToolBarButton('robotWindow', 'Robot windows (w)');
+        this.robotWindowButton = this._createToolBarButton('robot-window', 'Robot windows (w)');
         this.toolbarRight.appendChild(this.robotWindowButton);
         this.loadRobotWindows();
         this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
@@ -284,7 +284,7 @@ export default class Toolbar {
   }
 
   _closeRobotWindowPaneOnClick(event) {
-    if (event.srcElement.id !== 'robotWindowButton' && this.robotWindowPane.style.visibility === 'visible') {
+    if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
       if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robot-window")))
         this.robotWindowPane.style.visibility = 'hidden';
         for (let i of document.getElementsByClassName('tooltip'))
@@ -498,7 +498,7 @@ export default class Toolbar {
         speedPanelHidden = false;
     }
 
-    if (event.target.id === 'settingsButton' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+    if (event.target.id === 'settings-button' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this._settingsPane.style.visibility = 'visible';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
