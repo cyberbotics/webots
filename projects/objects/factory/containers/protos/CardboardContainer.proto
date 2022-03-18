@@ -40,12 +40,12 @@ Solid {
   children [
     DEF BOX Group {
       children [
-        DEF BEHIND Transform {
+        DEF BACK Transform {
           translation %<= -(size.x / 2 + 0.0005) >% 0 %<= (size.z / 2) - 0.0005 >%
           children [
             Shape {
               appearance Cardboard {
-                type "side1"
+                type "back"
               }
               geometry Box {
                 size 0.001 %<= size.y + 0.002 >% %<= size.z >%
@@ -58,7 +58,7 @@ Solid {
           children [
             Shape {
               appearance Cardboard {
-                type "side1"
+                type "front"
               }
               geometry Box {
                 size 0.001 %<= size.y + 0.002 >% %<= size.z >%
@@ -71,6 +71,7 @@ Solid {
           children [
             Shape {
               appearance Cardboard {
+                type "right"
               }
               geometry Box {
                 size %<= size.x >% 0.001 %<= size.z >%
@@ -83,7 +84,7 @@ Solid {
           children [
             Shape {
               appearance Cardboard {
-                type "side3"
+                type "left"
               }
               geometry Box {
                 size %<= size.x >% 0.001 %<= size.z >%
@@ -111,6 +112,7 @@ Solid {
           children [
             Shape {
               appearance Cardboard {
+                type "top"
               }
               geometry Box {
                 size %<= size.x >% %<= size.y >% 0.001
