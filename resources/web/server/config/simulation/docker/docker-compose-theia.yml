@@ -36,7 +36,7 @@ services:
       - controller_data:/usr/local/$THEIA_VOLUME:rw
 
   theia:
-    image: joachimhgg/theiatest:test1
+    image: benjamindeleze/theia-test:test3
     ports:
       - $THEIA_PORT:3000
     volumes:
