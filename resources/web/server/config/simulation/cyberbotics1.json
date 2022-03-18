@@ -1,18 +1,6 @@
 {
-  "server": "cyberbotics1.epfl.ch",
-  "description": "Cyberbotics test simulation server (beta)",
-  "port": 2500,
-  "allowedRepositories": [
-    "https://github.com/cyberbotics/webots/",
-    "https://github.com/cyberbotics/syllabus/",
-    "https://github.com/ThomasOliverKimble"
-  ],
-  "notify": [
-    "https://beta.webots.cloud/ajax/server/setup.php"
-  ],
-  "webotsHome": "/home/cyberbotics/webots-develop",
-  "logDir": "/home/cyberbotics/webots-develop/resources/web/server/log/",
-  "monitorLogEnabled": true,
-  "debug": true,
-  "docker": true
+  "port": 2000,
+  "projectsDir": "/home/cyberbotics/streaming_projects",
+  "logDir": "log/",
+  "monitorLogEnabled": true
 }
