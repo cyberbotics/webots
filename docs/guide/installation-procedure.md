@@ -361,7 +361,7 @@ Extract the *assets.zip* archive to:
 
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
 
-***Note:*** the folder `assets` itself needs to be present.
+***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
 
 %tab-end
 
@@ -371,7 +371,7 @@ Extract the *assets.zip* archive to:
 
 `~/.cache/Cyberbotics/Webots`
 
-***Note:*** the folder `assets` itself needs to be present.
+***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
 
 %tab-end
 
@@ -381,7 +381,7 @@ Extract the *assets.zip* archive to:
 
 `~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
 
-***Note:*** the folder `assets` itself needs to be present.
+***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
 
 %tab-end
 
