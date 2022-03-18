@@ -25,7 +25,10 @@ function init() {
 
 function connect() {
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-  document.getElementsByTagName('webots-view')[0].connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, onConnect, onDisconnect);
+  const webotsView = document.getElementsByTagName('webots-view')[0];
+  webotsView.onready = onConnect;
+  webotsView.ondisconnect = onDisconnect;
+  webotsView.connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;

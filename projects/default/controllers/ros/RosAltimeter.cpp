@@ -26,7 +26,7 @@ RosAltimeter::~RosAltimeter() {
 // creates a publisher for altimeter value with a {Float64}
 ros::Publisher RosAltimeter::createPublisher() {
   webots_ros::Float64Stamped type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -34,7 +34,7 @@ ros::Publisher RosAltimeter::createPublisher() {
 void RosAltimeter::publishValue(ros::Publisher publisher) {
   webots_ros::Float64Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.data = mAltimeter->getValue();
   publisher.publish(value);
 }

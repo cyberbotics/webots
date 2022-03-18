@@ -61,6 +61,10 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 }
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
+  destroyWrenMesh();
+}
+
+void WbTriangleMeshGeometry::destroyWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
@@ -86,7 +90,6 @@ WbTriangleMeshCache::TriangleMeshInfo WbTriangleMeshGeometry::createTriangleMesh
   delete mTriangleMesh;
   mTriangleMesh = new WbTriangleMesh();
   updateTriangleMesh(false);
-
   return WbTriangleMeshCache::TriangleMeshInfo(mTriangleMesh);
 }
 
@@ -699,6 +702,10 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
   if (mTriangleMesh && !mTriangleMesh->areTextureCoordinatesValid())
     // notify three.js if a default mapping is used to prevent issue https://github.com/cyberbotics/webots/issues/752
     writer << " defaultMapping=\'true\'";
+
+  writer << " ccw=\'";
+  writer << mCcw;
+  writer << "\'";
 
   writer << " coordIndex=\'";
 

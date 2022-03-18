@@ -298,6 +298,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
+
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR], '../../../resources/wren/shaders/pbr.vert', '../../../resources/wren/shaders/pbr.frag');
     }
 
@@ -335,6 +338,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PBR);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
+
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], '../../../resources/wren/shaders/pbr_stencil_ambient_emissive.vert', '../../../resources/wren/shaders/pbr_stencil_ambient_emissive.frag');
     }
 
@@ -367,6 +373,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
+
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], '../../../resources/wren/shaders/pbr_stencil_diffuse_specular.vert', '../../../resources/wren/shaders/pbr_stencil_diffuse_specular.frag');
     }
 
@@ -388,6 +397,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
+
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG], '../../../resources/wren/shaders/phong.vert', '../../../resources/wren/shaders/phong.frag');
     }
 
@@ -407,6 +419,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], '../../../resources/wren/shaders/phong_stencil_ambient_emissive.vert', '../../../resources/wren/shaders/phong_stencil_ambient_emissive.frag');
     }
@@ -428,6 +443,9 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
       _wr_shader_program_use_uniform_buffer(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], Enum.WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+      const defaultBoolValue = false;
+      Module.ccall('wr_shader_program_create_custom_uniform', null, ['number', 'string', 'number', 'number'], [WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], 'reverseNormals', Enum.WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, _wrjs_pointerOnFloat(defaultBoolValue)]);
 
       WbWrenShaders.buildShader(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], '../../../resources/wren/shaders/phong_stencil_diffuse_specular.vert', '../../../resources/wren/shaders/phong_stencil_diffuse_specular.frag');
     }

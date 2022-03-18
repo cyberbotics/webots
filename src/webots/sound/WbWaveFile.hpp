@@ -24,7 +24,7 @@ public:
   WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate);
   virtual ~WbWaveFile();
 
-  void loadFromFile(int side = 0);
+  void loadFromFile(const QString &extension, int side = 0);
 
   void loadConvertedFile(int side);
   void loadConvertedFile(int side, const QString &filename);

@@ -23,8 +23,6 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
-#include <QtNetwork/QNetworkDiskCache>
-
 static int gCount = 0;
 static int gComplete = 0;
 static bool gDownloading = false;
@@ -41,13 +39,7 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) :
-  QObject(parent),
-  mNetworkReply(NULL),
-  mFinished(false),
-  mOffline(false),
-  mCopy(false),
-  mIsBackground(false) {
+WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mCopy(false) {
   gCount++;
 }
 
@@ -62,26 +54,20 @@ WbDownloader::~WbDownloader() {
     gCount--;
 }
 
-QIODevice *WbDownloader::device() const {
-  return dynamic_cast<QIODevice *>(mNetworkReply);
-}
-
 void WbDownloader::download(const QUrl &url) {
   WbSimulationState::instance()->pauseSimulation();
 
   mUrl = url;
 
-  if (gUrlCache.contains(mUrl) && !mIsBackground &&
-      (mUrl.toString().endsWith(".png", Qt::CaseInsensitive) || url.toString().endsWith(".jpg", Qt::CaseInsensitive))) {
-    if (!(mOffline == true && mCopy == false)) {
-      mCopy = true;
-      QNetworkReply *reply = gUrlCache[mUrl];
-      if (reply && !reply->isFinished())
-        connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-      else
-        finished();
-      return;
-    }
+  if (gUrlCache.contains(mUrl) && !mCopy) {
+    mCopy = true;
+    QNetworkReply *reply = gUrlCache[mUrl];
+    if (reply && !reply->isFinished())
+      connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+    else
+      finished();
+
+    return;
   }
 
   if (!gDownloading) {
@@ -92,13 +78,10 @@ void WbDownloader::download(const QUrl &url) {
     gTimer->setSingleShot(true);
     gTimer->start();
   }
+
   QNetworkRequest request;
   request.setUrl(url);
   mFinished = false;
-  if (mOffline)
-    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
-  else
-    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
   assert(mNetworkReply == NULL);
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
@@ -109,29 +92,16 @@ void WbDownloader::download(const QUrl &url) {
 }
 
 void WbDownloader::finished() {
-  if (!mCopy) {
-    assert(mNetworkReply);
-    if (mNetworkReply->error())
-      mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
-    disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
-    if (!mError.isEmpty() && !mOffline) {
-      mError = QString();
-      mOffline = true;
-      download(mUrl);
-      return;
-    }
-
-    QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
-    // We need to replace the expiration date only the first time the asset is downloaded and when it has been refreshed by the
-    // cache. The QNetworkRequest::SourceIsFromCacheAttribute attribute present in the reply is not enough because the image is
-    // still loaded from the cache when the expiration date is just refreshed.
-    // The hack we use to detect if the expiration date of an asset is the one set by webots or is the automatic one works as
-    // follows: The automatic expiration date is an <http-date> and thus is in UTC format. The expiration date set by webots is
-    // in local format. So we just need to check the format of the expiration date to know if it needs to be updated or not.
-    if (metaData.expirationDate().toUTC().toString() == metaData.expirationDate().toString()) {
-      // increase expiration date to one day
-      metaData.setExpirationDate(QDateTime::currentDateTime().addDays(1));
-      WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
+  // cache result
+  if (mNetworkReply && mNetworkReply->error()) {
+    mError = tr("Cannot download '%1', error code: %2: %3")
+               .arg(mUrl.toString())
+               .arg(mNetworkReply->error())
+               .arg(mNetworkReply->errorString());
+  } else {
+    if (!mCopy) {  // only save to disk the primary download, copies don't need to
+      assert(mNetworkReply != NULL);
+      WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
     }
   }
 

@@ -69,7 +69,7 @@ export default class WebotsView extends HTMLElement {
         else if (typeof scene !== 'undefined' && scene !== '')
           this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
-          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
+          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice);
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
@@ -160,6 +160,8 @@ export default class WebotsView extends HTMLElement {
         this._view = new webots.View(this, isMobileDevice);
       this._view.onready = () => {
         this.toolbar = new Toolbar(this._view, 'animation', this);
+        if (typeof this.onready === 'function')
+          this.onready();
       };
       this._view.open(scene);
       if (play !== 'undefined' && play === false)
@@ -195,16 +197,14 @@ export default class WebotsView extends HTMLElement {
    * mode : x3d or mjpeg
    * broadcast: boolean
    * isMobileDevice: boolean
-   * callback: function
-   * disconnectCallback: function. It needs to be passed there and not in disconnect because disconnect can be called from inside the web-component
    */
-  connect(server, mode, broadcast, isMobileDevice, callback, disconnectCallback) {
+  connect(server, mode, broadcast, isMobileDevice) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
 
     if (!this.initializationComplete)
-      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, callback, disconnectCallback), 500);
+      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -215,16 +215,17 @@ export default class WebotsView extends HTMLElement {
       this._view.broadcast = broadcast;
       this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
-      this._disconnectCallback = disconnectCallback;
       this._view.onready = () => {
         if (typeof this.toolbar === 'undefined')
           this.toolbar = new Toolbar(this._view, 'streaming', this);
-        if (typeof callback === 'function')
-          callback();
+        if (typeof this.onready === 'function')
+          this.onready();
       };
       this._view.open(server, mode);
-      this._view.onquit = () => this._disconnect();
-
+      this._view.onquit = () => {
+        if (typeof this.ondisconnect === 'function')
+          this.ondisconnect();
+      };
       this._closeWhenDOMElementRemoved();
     }
   }
@@ -243,8 +244,8 @@ export default class WebotsView extends HTMLElement {
     if (this._view.mode === 'mjpeg')
       this._view.multimediaClient = undefined;
 
-    if (typeof this._disconnectCallback === 'function')
-      this._disconnectCallback();
+    if (typeof this.ondisconnect === 'function')
+      this.ondisconnect();
   }
 
   hideToolbar() {
@@ -268,7 +269,6 @@ export default class WebotsView extends HTMLElement {
       console.error('No x3d file defined');
       return;
     }
-
     if (!this.initializationComplete)
       setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
     else {
@@ -280,7 +280,11 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
 
-      this._view.onready = () => { this.toolbar = new Toolbar(this._view, 'scene', this); };
+      this._view.onready = () => {
+        this.toolbar = new Toolbar(this._view, 'scene', this);
+        if (typeof this.onready === 'function')
+          this.onready();
+      };
       this._view.open(scene);
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();

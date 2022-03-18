@@ -1366,8 +1366,13 @@ void WbRobot::startController() {
 }
 
 void WbRobot::receiveFromJavascript(const QByteArray &message) {
-  delete mMessageFromWwi;
-  mMessageFromWwi = new QByteArray(message);
+  if (mMessageFromWwi) {
+    mMessageFromWwi->append('\0');
+    mMessageFromWwi->append(QByteArray(message));
+  } else {
+    delete mMessageFromWwi;
+    mMessageFromWwi = new QByteArray(message);
+  }
   emit immediateMessageAdded();
 }
 

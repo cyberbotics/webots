@@ -710,9 +710,8 @@ namespace wren {
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
 
-    // Special case for negative scale
-    glm::vec3 scale = shadowVolume->renderable()->parent()->scale();
-    if (scale.x * scale.y * scale.z < 0.0) {
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
       glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
       glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
     } else {
@@ -738,9 +737,8 @@ namespace wren {
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
 
-    // Special case for negative scale
-    glm::vec3 scale = shadowVolume->renderable()->parent()->scale();
-    if (scale.x * scale.y * scale.z < 0.0) {
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
       glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
       glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
     } else {
