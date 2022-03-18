@@ -14,229 +14,228 @@ PROTO CardboardBox [
   field SFFloat    lidAngle    0                # Defines the opening of the cardboard box in radians. A value equal to 0 close the box and use a single boundingObject, preventing it from containing objects.
 ]
 {
-%<
-  let size = fields.size.value;
-  let volume = size.x * size.y * size.z;
-  let mass = fields.mass.value;
-  if (volume < 0.000001 || volume > 1) {
-    size = fields.size.defaultValue;
-    console.error('Box volume outside of range [ 1 cm3 ; 1 m3 ]. \'size\' value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
-  }
+  %<
+    let size = fields.size.value;
+    let volume = size.x * size.y * size.z;
+    let mass = fields.mass.value;
+    if (volume < 0.000001 || volume > 1) {
+      size = fields.size.defaultValue;
+      console.error('Box volume outside of range [ 1 cm3 ; 1 m3 ]. \'size\' value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+      }
 
-  const max_size = 2.5;
-  const min_size = 0.01;
+    const max_size = 2.5;
+    const min_size = 0.01;
 
-  if (size.x > max_size) {
-    console.error('\'size.x\' greater than maximal size (' + max_size + '). Value clamped.');
-    size.x = max_size;
-  } else if (size.x < min_size) {
-    console.error('\'size.x\' less than minimal size (' + min_size + '). Value clamped.');
-    size.x = min_size;
-  }
+    if (size.x > max_size) {
+      console.error('\'size.x\' greater than maximal size (' + max_size + '). Value clamped.');
+      size.x = max_size;
+    } else if (size.x < min_size) {
+      console.error('\'size.x\' less than minimal size (' + min_size + '). Value clamped.');
+      size.x = min_size;
+    }
 
-  if (size.y > max_size) {
-    console.error('\'size.y\' greater than maximal size (' + max_size + '). Value clamped.');
-    size.y = max_size;
-  } else if (size.y < min_size) {
-    console.error('\'size.y\' less than minimal size (' + min_size + '). Value clamped.');
-    size.y = min_size;
-  }
+    if (size.y > max_size) {
+      console.error('\'size.y\' greater than maximal size (' + max_size + '). Value clamped.');
+      size.y = max_size;
+    } else if (size.y < min_size) {
+      console.error('\'size.y\' less than minimal size (' + min_size + '). Value clamped.');
+      size.y = min_size;
+    }
 
-  if (size.z > max_size) {
-    console.error('\'size.z\' greater than maximal size (' + max_size + '). Value clamped.');
-    size.z = max_size;
-  } else if (size.z < min_size) {
-    console.error('\'size.z\' less than minimal size (' + min_size + '). Value clamped.');
-    size.z = min_size;
-  }
+    if (size.z > max_size) {
+      console.error('\'size.z\' greater than maximal size (' + max_size + '). Value clamped.');
+      size.z = max_size;
+    } else if (size.z < min_size) {
+      console.error('\'size.z\' less than minimal size (' + min_size + '). Value clamped.');
+      size.z = min_size;
+    }
 
-  // we want the mass for a 1cm3 box be comprised between 0.1 and 10 g inclusive
-  // and the mass for a 1m3 box be comprised between 1 and 100 kg, hence the
-  // following min_mass and max_mass values:
-  let min_mass = Math.pow(volume, 2/3);
-  let max_mass = min_mass * 100;
-  if (mass > 0 && mass < min_mass) {
-    console.error('\'mass\' less than minimal value (' + min_mass + '). Value clamped.');
-    mass = min_mass;
-  } else if (mass > max_mass) {
-    console.error('\'mass\' greater than maximal value (' + max_mass + '). Value clamped.');
-    mass = max_mass;
-  }
->%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  children [
-  DEF BACK Transform {
-    translation %<= -(size.x / 2 - 0.00025) >% 0 0
+    // we want the mass for a 1cm3 box be comprised between 0.1 and 10 g inclusive
+    // and the mass for a 1m3 box be comprised between 1 and 100 kg, hence the
+    // following min_mass and max_mass values:
+    let min_mass = Math.pow(volume, 2/3);
+    let max_mass = min_mass * 100;
+    if (mass > 0 && mass < min_mass) {
+      console.error('\'mass\' less than minimal value (' + min_mass + '). Value clamped.');
+      mass = min_mass;
+    } else if (mass > max_mass) {
+      console.error('\'mass\' greater than maximal value (' + max_mass + '). Value clamped.');
+      mass = max_mass;
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
     children [
-      Shape {
-        appearance Cardboard {
-          type "back"
-        }
-        geometry Box {
-          size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
-        }
+      DEF BACK Transform {
+        translation %<= -(size.x / 2 - 0.00025) >% 0 0
+        children [
+          Shape {
+            appearance Cardboard {
+              type "back"
+            }
+            geometry Box {
+              size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+            }
+          }
+        ]
+      }
+      DEF FRONT Transform {
+        translation %<= size.x / 2 - 0.00025 >% 0 0
+        children [
+          Shape {
+            appearance Cardboard {
+            type "front"
+            }
+            geometry Box {
+              size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+            }
+          }
+        ]
+      }
+      DEF RIGHT Transform {
+        translation 0 %<= -(size.y / 2 - 0.00025) >% 0
+        children [
+          Shape {
+            appearance Cardboard {
+              type "right"
+            }
+            geometry Box {
+              size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
+            }
+          }
+        ]
+      }
+      DEF LEFT Transform {
+        translation 0 %<= size.y / 2 - 0.00025 >% 0
+        children [
+          Shape {
+            appearance Cardboard {
+              type "left"
+            }
+            geometry Box {
+              size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
+            }
+          }
+        ]
+      }
+      DEF BOTTOM Transform {
+        translation 0 0 %<= -size.z / 2 + 0.00025 >%
+        children [
+          Shape {
+            appearance Cardboard {
+              type "bottom"
+            }
+            geometry Box {
+              size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
+            }
+          }
+        ]
+      }
+      DEF TOP Transform {
+        translation %<= -size.x / 2>% 0 %<= (size.z / 2) - 0.00025 >%
+        rotation 0 1 0 %<= -fields.lidAngle.value >%
+        children [
+          Transform {
+            translation %<= size.x / 2>% 0 0
+            children [
+              Shape {
+                appearance Cardboard {
+                  type "top"
+                }
+                geometry Box {
+                  size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
-  }
-  DEF FRONT Transform {
-    translation %<= size.x / 2 - 0.00025 >% 0 0
-    children [
-      Shape {
-        appearance Cardboard {
-          type "front"
-        }
-        geometry Box {
-          size 0.0005 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
-        }
-      }
-    ]
-  }
-  DEF RIGHT Transform {
-    translation 0 %<= -(size.y / 2 - 0.00025) >% 0
-    children [
-      Shape {
-        appearance Cardboard {
-          type "right"
-        }
-        geometry Box {
-          size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
-        }
-      }
-    ]
-  }
-  DEF LEFT Transform {
-    translation 0 %<= size.y / 2 - 0.00025 >% 0
-    children [
-      Shape {
-        appearance Cardboard {
-          type "left"
-        }
-        geometry Box {
-          size %<= size.x - 0.0001 >% 0.0005 %<= size.z - 0.0001 >%
-        }
-      }
-    ]
-    translationStep 0
-  }
-  DEF BOTTOM Transform {
-    translation 0 0 %<= -size.z / 2 + 0.00025 >%
-    children [
-      Shape {
-        appearance Cardboard {
-          type "bottom"
-        }
-        geometry Box {
-          size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
-        }
-      }
-    ]
-  }
-  DEF TOP Transform {
-      translation %<= -size.x / 2>% 0 %<= (size.z / 2) - 0.00025 >%
-      rotation 0 1 0 %<= -fields.lidAngle.value >%
+    name IS name
+    model "cardboard box"
+    %< if (fields.lidAngle.value === 0) { >%
+    boundingObject Box {
+      size %<= size.x >% %<= size.y >% %<= size.z >%
+    }
+    %< } else {>%
+    boundingObject Group {
       children [
-        Transform {
-          translation %<= size.x / 2>% 0 0
+        DEF BACK Transform {
+          translation %<= -(size.x / 2 - 0.0005) >% 0 0
           children [
             Shape {
               appearance Cardboard {
-                type "top"
+                type "back"
               }
               geometry Box {
-                size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
+                size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+              }
+            }
+          ]
+        }
+        DEF FRONT Transform {
+          translation %<= size.x / 2 - 0.0005 >% 0 0
+          children [
+            Shape {
+              appearance Cardboard {
+                type "front"
+              }
+              geometry Box {
+                size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
+              }
+            }
+          ]
+        }
+        DEF RIGHT Transform {
+          translation 0 %<= -(size.y / 2 - 0.0005) >% 0
+          children [
+            Shape {
+              appearance Cardboard {
+                type "right"
+              }
+              geometry Box {
+                size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
+              }
+            }
+          ]
+        }
+        DEF LEFT Transform {
+          translation 0 %<= size.y / 2 - 0.0005 >% 0
+          children [
+            Shape {
+              appearance Cardboard {
+                type "left"
+              }
+              geometry Box {
+                size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
+              }
+            }
+          ]
+          translationStep 0
+        }
+        DEF BOTTOM Transform {
+          translation 0 0 %<= -size.z / 2 + 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+                type "bottom"
+              }
+              geometry Box {
+                size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.003
               }
             }
           ]
         }
       ]
     }
-  ]
-  name IS name
-  model "cardboard box"
-  %< if (fields.lidAngle.value === 0) { >%
-  boundingObject Box {
-    size %<= size.x >% %<= size.y >% %<= size.z >%
-  }
-  %< } else {>%
-  boundingObject Group {
-    children [
-    DEF BACK Transform {
-      translation %<= -(size.x / 2 - 0.0005) >% 0 0
-      children [
-        Shape {
-          appearance Cardboard {
-            type "back"
-          }
-          geometry Box {
-            size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
-          }
-        }
-      ]
-    }
-    DEF FRONT Transform {
-      translation %<= size.x / 2 - 0.0005 >% 0 0
-      children [
-        Shape {
-          appearance Cardboard {
-            type "front"
-          }
-          geometry Box {
-            size 0.003 %<= size.y - 0.0001 >% %<= size.z - 0.0001 >%
-          }
-        }
-      ]
-    }
-    DEF RIGHT Transform {
-      translation 0 %<= -(size.y / 2 - 0.0005) >% 0
-      children [
-        Shape {
-          appearance Cardboard {
-            type "right"
-          }
-          geometry Box {
-            size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
-          }
-        }
-      ]
-    }
-    DEF LEFT Transform {
-      translation 0 %<= size.y / 2 - 0.0005 >% 0
-      children [
-        Shape {
-          appearance Cardboard {
-            type "left"
-          }
-          geometry Box {
-            size %<= size.x - 0.0001 >% 0.003 %<= size.z - 0.0001 >%
-          }
-        }
-      ]
-      translationStep 0
-    }
-    DEF BOTTOM Transform {
-      translation 0 0 %<= -size.z / 2 + 0.0005 >%
-      children [
-        Shape {
-          appearance Cardboard {
-            type "bottom"
-          }
-          geometry Box {
-            size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.003
-          }
-        }
-      ]
-    }
-    ]
-  }
   %< }
-  if (mass > 0) { >%
-  physics Physics {
-    density -1
-    mass %<= mass>%
+    if (mass > 0) { >%
+    physics Physics {
+      density -1
+      mass %<= mass>%
+    }
+    %< } >%
+    locked IS locked
   }
-  %< } >%
-  locked IS locked
-}
 }
