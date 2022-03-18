@@ -106,7 +106,7 @@ Solid {
         }
         %< if (fields.lid.value) { >%
         DEF TOP Transform {
-          translation 0 %<= (Math.sin(0.785) * (size.y/2)) + (size.y / 2) >% %<= size.z - (Math.cos(0.785) * (size.y/2)) >%
+          translation 0 %<= (Math.sin(0.785) * (size.y / 2)) + (size.y / 2) >% %<= size.z - (Math.cos(0.785) * (size.y / 2)) >%
           rotation 1 0 0 -0.785
           children [
             Shape {
