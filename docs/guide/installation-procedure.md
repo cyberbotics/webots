@@ -343,7 +343,7 @@ Then, macOS should propose to open the application anyway (see [this figure](#un
 More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
 You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
 
-### Asset cache download
+### Asset Cache Download
 
 From Webots 2021b, the necessary assets used in a world are downloaded on the fly as they are requested, and cached for subsequent usage.
 This allows to progressively download the assets as they are needed instead of downloading them all up-front, hence reducing the size of the distributions.
@@ -351,11 +351,13 @@ From Webots 2022b a zip version of the entire cache is also available for downlo
 This is beneficial for an offline usage of Webots or to mount it as a volume in a docker setting.
 
 1. Download the `assets.zip` archive corresponding to your Webots version from the [releases](https://github.com/cyberbotics/webots/releases) page on github.
-2. Depending on your operating system, extract the `assets.zip` archive to the default location of the Webots cache, which is shown below for different systems.
+2. Depending on your operating system, the default location of the Webots cache is shown below.
 
 %tab-component "os"
 
 %tab "Windows"
+
+Extract the `assets.zip` archive to:
 
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
 
@@ -363,13 +365,17 @@ This is beneficial for an offline usage of Webots or to mount it as a volume in 
 
 %tab "Linux"
 
+Extract the `assets.zip` archive to:
+
 `~/.cache/Cyberbotics/Webots`
 
 %tab-end
 
 %tab "macOS"
 
-`~/Library/Caches/Cyberbotics/Webots", "/Library/Caches/Cyberbotics/Webots`
+Extract the `assets.zip` archive to:
+
+`~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
 
 %tab-end
 
