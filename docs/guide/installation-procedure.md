@@ -381,6 +381,8 @@ Extract the `assets.zip` archive to:
 
 %end
 
+&nbsp;
+
 ***Note:*** the folder `assets` itself needs to be present.
 
 In summary, for instance on Linux the expected structure should look something like:
