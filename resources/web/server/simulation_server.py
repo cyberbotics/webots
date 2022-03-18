@@ -315,8 +315,6 @@ class Client:
                                 dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
                                 envVarDocker["THEIA_VOLUME"] = volume
                                 envVarDocker["THEIA_PORT"] = port + 500
-                            elif info[1].startswith("competition"):
-                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-competition.yml"
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"

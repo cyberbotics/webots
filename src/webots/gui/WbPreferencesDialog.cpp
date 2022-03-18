@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
+#include <QtGui/QKeyEvent>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
@@ -44,6 +45,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 
 static QStringList gStartupModes;
@@ -121,6 +123,12 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 WbPreferencesDialog::~WbPreferencesDialog() {
 }
 
+void WbPreferencesDialog::keyPressEvent(QKeyEvent *event) {
+  if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+    return;
+  QDialog::keyPressEvent(event);
+}
+
 void WbPreferencesDialog::accept() {
   WbPreferences *prefs = WbPreferences::instance();
 
@@ -194,8 +202,9 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
-  if (!mCacheSize->text().isEmpty())
-    prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+
+  prefs->setValue("Network/cacheSize", mCacheSize->value());
+
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
@@ -219,9 +228,7 @@ void WbPreferencesDialog::openFontDialog() {
 void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
-  mTabWidget->removeTab(2);
-  mTabWidget->addTab(createNetworkTab(), tr("Network"));
-  mTabWidget->setCurrentIndex(2);
+  mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -488,19 +495,24 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout = new QGridLayout(cache);
 
   // row 0
-  mCacheSize = new WbLineEdit(this);
-  mCacheSize->setValidator(new QIntValidator(0, 65535));
-  mCacheSize->setText(WbPreferences::instance()->value("Network/cacheSize", 1024).toString());
+  mCacheSize = new QSpinBox(this);
+  mCacheSize->setRange(0, 65535);
+  mCacheSize->setValue(WbPreferences::instance()->value("Network/cacheSize", 1024).toInt());
+  connect(mCacheSize, &QSpinBox::editingFinished, [=]() {
+    if (mCacheSize->value() < 512) {
+      mCacheSize->setValue(512);
+      WbMessageBox::info(tr("At least 512 MB of cache are necessary."), this);
+    }
+  });
   layout->addWidget(new QLabel(tr("Set the size of the cache (in MB):"), this), 0, 0);
   layout->addWidget(mCacheSize, 0, 1);
 
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
-  layout->addWidget(new QLabel(tr("Amount of cache used : %1 MB.")
-                                 .arg(WbNetwork::instance()->networkAccessManager()->cache()->cacheSize() / (1024 * 1024)),
-                               this),
-                    1, 0);
+  mCacheSizeLabel =
+    new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this);
+  layout->addWidget(mCacheSizeLabel, 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
 
   return widget;

@@ -1,0 +1,8 @@
+{
+  "server": "cyberbotics1.epfl.ch",
+  "port": 1998,
+  "simulationServers": [
+    "cyberbotics1.epfl.ch/2500"
+  ],
+  "debug": true
+}

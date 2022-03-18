@@ -182,7 +182,7 @@ private:
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
-  const QByteArray *mMessageFromWwi;
+  QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
   bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;

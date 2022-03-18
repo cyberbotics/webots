@@ -32,7 +32,7 @@ public:
   const QString &filename() const { return mFilename; }
   int side() const { return mSide; }
   double balance() const { return mBalance; }
-  void load(const QString &filename, QIODevice *device = NULL, double balance = 0, int side = 0);
+  void load(const QString &filename, const QString &extension, QIODevice *device = NULL, double balance = 0, int side = 0);
   void load(const WbWaveFile *wave);
   unsigned int openALBuffer() const { return mBuffer; }
 
