@@ -23,7 +23,7 @@ It is even possible to read the standard input stream (`stdin`) like with any st
 In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
 Please refer to the documentation of your operating system to set environment variables.
 
-Generic Webots environment variables needed for all the controller languages:
+Webots environment variables needed by extern controllers:
 
 %tab-component "os"
 
@@ -34,6 +34,35 @@ Generic Webots environment variables needed for all the controller languages:
 | Path (all controllers)                             | add `%WEBOTS_HOME%\lib\controller`                                        |
 | Path (all controllers except Python >= 3.8)        | add `%WEBOTS_HOME%\msys64\mingw64\bin`                                    |
 | Path (for C++, Python < 3.8, and Java controllers) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
+| PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python3X`                              |
+| PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
+| WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
+| WEBOTS\_CONTROLLER\_NAME (for MATLAB)              | `my_robot_controller`                                                     |
+| WEBOTS\_VERSION (for MATLAB)                       | `{{ webots.version.full }}`                                               |
+
+&nbsp;
+
+**MATLAB**: Here is an example of what you should enter in the MATLAB console:
+
+```matlab
+>> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
+>> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
+>> cd(getenv('WEBOTS_HOME'))
+>> cd('lib/controller/matlab')
+>> launcher
+```
+
+&nbsp;
+
+**Java**: Add the following options to the `java` command line launching the Java controller:
+- `-classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\my_project\controllers\MyController\`
+- `-Djava.library.path=$WEBOTS_HOME\lib\controller\java`
+
+For example to launch the `Driver` Java controller, type:
+```bash
+java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\projects\languages\java\controllers\Driver\ -Djava.library.path=$WEBOTS_HOME\lib\controller\java Driver
+```
 
 %tab-end
 
@@ -43,48 +72,28 @@ Generic Webots environment variables needed for all the controller languages:
 |-------------------------------------------------------|--------------------------------------------------|
 | WEBOTS\_HOME                                          | `/usr/local/webots`                              |
 | LD\_LIBRARY\_PATH (not needed for Python controllers) | add `${WEBOTS_HOME}/lib/controller`              |
+| PYTHONPATH (for Python)                               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
+| PYTHONIOENCODING (for Python)                         | `UTF-8`                                          |
+| WEBOTS\_PROJECT (for MATLAB)                          | `/home/my_username/my_folder/my_webots_project`  |
+| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                            |
+| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                      |
 
-%tab-end
+&nbsp;
 
-%tab "macOS"
+**MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
-| Environment Variable                                    | Typical Value                                    |
-|---------------------------------------------------------|--------------------------------------------------|
-| WEBOTS\_HOME                                            | `/Applications/Webots.app`                       |
-| DYLD\_LIBRARY\_PATH                                     | add `${WEBOTS_HOME}/lib/controller`              |
+```matlab
+>> setenv('WEBOTS_PROJECT','/home/my_username/my_folder/my_webots_project')
+>> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
+>> cd(getenv('WEBOTS_HOME'))
+>> cd('lib/controller/matlab')
+>> launcher
+```
 
-%tab-end
+&nbsp;
 
-%end
-
-Specific setup depending on the controller language:
-
-
-%tab-component "language"
-
-%tab "C"
-
-No specific setup is needed.
-
-%tab-end
-
-%tab "C++"
-
-No specific setup is needed.
-
-%tab-end
-
-%tab "Python"
-| Version               | Environment Variable     | Typical Value                                     |
-|--------------         |--------------------------|---------------------------------------------------|
-| Python 3.X            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`      |
-| Python Homebrew 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
-| all                   | PYTHONIOENCODING         | `UTF-8`                                           |
-%tab-end
-
-%tab "Java"
-
-Add the following options to the `java` command line launching the Java controller:
+**Java**: Add the following options to the `java` command line launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
 - `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
@@ -92,32 +101,51 @@ For example to launch the `Driver` Java controller, type:
 ```bash
 java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
 ```
+
 %tab-end
 
+%tab "macOS"
 
-%tab "MATLAB"
+| Environment Variable                                  | Typical Value                                     |
+|-------------------------------------------------------|---------------------------------------------------|
+| WEBOTS\_HOME                                          | `/Applications/Webots.app`                        |
+| DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/lib/controller`               |
+| PYTHONPATH (for the official python.org Python)       | add `${WEBOTS_HOME}/lib/controller/python3X`      |
+| PYTHONPATH (for the Homebrew Python)                  | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
+| PYTHONIOENCODING (for Python)                         | `UTF-8`                                           |
+| WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`  |
+| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                             |
+| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                       |
 
-| Environment Variable     | Typical Value                                     |
-|--------------------------|---------------------------------------------------|
-| WEBOTS\_PROJECT          | `C:\Users\MyUsername\my_folder\my_webots_project` |
-| WEBOTS\_CONTROLLER\_NAME | `my_robot_controller`                             |
-| WEBOTS\_VERSION          | `R2020a revision 1`                               |
+&nbsp;
 
-
-Here is an example of what you should enter in the MATLAB console:
+**MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
 ```matlab
->> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
+>> setenv('WEBOTS_PROJECT','/Users/my_username/my_folder/my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', 'R2020a revision 1')
+>> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
 >> cd(getenv('WEBOTS_HOME'))
 >> cd('lib/controller/matlab')
 >> launcher
 ```
 
+&nbsp;
+
+**Java**: Add the following options to the `java` command line launching the Java controller:
+- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
+- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
+
+For example to launch the `Driver` Java controller, type:
+```bash
+java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
+```
+
 %tab-end
 
 %end
+
+&nbsp;
 
 Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
 Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
