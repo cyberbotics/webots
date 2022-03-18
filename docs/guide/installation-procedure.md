@@ -387,6 +387,8 @@ Extract the *assets.zip* archive to:
 
 %end
 
+&nbsp;
+
 In summary, for instance on Linux the expected structure should look something like:
 
 ```
