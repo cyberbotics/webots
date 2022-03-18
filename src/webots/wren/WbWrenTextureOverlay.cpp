@@ -200,11 +200,11 @@ bool WbWrenTextureOverlay::applyDimensionsToWren(bool showIfNeeded) {
   const float overlayRatio = overlayWidth / overlayHeight;
 
   if (overlayWidth >= view3dWidth || overlayHeight >= view3dHeight) {
-    if (overlayWidth > overlayHeight) {
+    if (overlayWidth >= view3dWidth && overlayHeight < view3dHeight) {
       overlayWidth = view3dWidth - 2.0f * cBorderSizeHorizontal;
       overlayHeight = overlayWidth / overlayRatio;
       mPixelSize = view3dWidth / mWidth;
-    } else {
+    } else if (overlayHeight >= view3dHeight) {
       overlayHeight = view3dHeight - 2.0f * cBorderSizeVertical;
       overlayWidth = overlayHeight * overlayRatio;
       mPixelSize = view3dHeight / mHeight;
