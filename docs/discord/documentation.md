@@ -2200,7 +2200,7 @@ It works for me
 ##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
 No, the documentation in only available online.
 
-##### Mlungost 09/30/2021 09:02:52
+##### thegodsmile 09/30/2021 09:02:52
 trying to download the Cyberbotics' Robot Curriculum.. does anyone have a working link or copy?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/893060315972001802/unknown.png)
@@ -2209,13 +2209,13 @@ trying to download the Cyberbotics' Robot Curriculum.. does anyone have a workin
 ##### Olivier Michel [Cyberbotics] 09/30/2021 09:04:00
 [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum)
 
-##### Mlungost 09/30/2021 09:08:27
+##### thegodsmile 09/30/2021 09:08:27
 thank you.  do you have a PDF version? the PDF version link on the website is broke
 
 ##### Olivier Michel [Cyberbotics] 09/30/2021 09:09:33
 [https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf)
 
-##### Mlungost 09/30/2021 09:10:04
+##### thegodsmile 09/30/2021 09:10:04
 thank you.
 
 ##### mironix<inactive> 10/16/2021 15:36:06
@@ -2242,7 +2242,7 @@ No problem. Your contribution is welcome.
 ##### mironix<inactive> 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 
-##### BananaJuic3 10/25/2021 08:56:49
+##### inbananawethrust 10/25/2021 08:56:49
 I got a question regarding the **Position Sensor**
 
 
@@ -2381,4 +2381,7 @@ You welcome and enjoy it
 
 ##### HarpieRapace45 02/16/2022 09:11:49
 Hello everyone, do you know if there is a class diagram for wren available somewhere?
+
+##### seenu 02/24/2022 14:24:00
+Please share detailed documentation for cross compilation, transfer .hex file via bluetooth in ubuntu
 
