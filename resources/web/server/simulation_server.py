@@ -411,11 +411,12 @@ class Client:
                 self.webots_process = None
 
             # remove unused _webots images
-            available_images = os.popen("docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
+            available_images = os.popen(
+                "docker images --filter=reference='*_webots:*' --format '{{.Repository}}'").read().split('\n')
             running_images = os.popen("docker ps --format '{{.Image}}'").read().split('\n')
             unused_images = ' '.join([i for i in available_images if i not in running_images])
             if unused_images:
-              os.system(f"docker image rm {unused_images}")
+                os.system(f"docker image rm {unused_images}")
 	    # remove dangling images, stopped containers, build cache, volumes and networks
             os.system("docker system prune --volumes -f")
         else:
