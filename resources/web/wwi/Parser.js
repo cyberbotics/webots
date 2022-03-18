@@ -744,40 +744,40 @@ export default class Parser {
   }
 
   _parseIndexedFaceSet(node, id) {
-    const coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
-    const coordIndex = coordIndexStr.map(Number).filter(el => { return el !== -1; });
+    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    if (coordIndex)
+      coordIndex = coordIndex.filter(element => { return element !== -1; });
 
-    const normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
-    const normalIndex = normalIndexStr.map(Number).filter(el => { return el !== -1; });
+    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    if (normalIndex)
+      normalIndex = normalIndex.filter(element => { return element !== -1; });
 
-    const texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
-    const texCoordIndex = texCoordIndexStr.map(Number).filter(el => { return el !== -1; });
+    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
+    if (texCoordIndex)
+      texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
     if (typeof coordinate !== 'undefined') {
-      const coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
-      const coord = coordStr.map(el => parseFloat(el));
-      for (let i = 0; i < coord.length; i = i + 3)
-        coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
+      const coords = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
+      for (let i = 0; i < coords.length; i = i + 3)
+        coordArray.push(new WbVector3(coords[i], coords[i + 1], coords[i + 2]));
     }
 
     const texCoordArray = [];
     const textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
     if (typeof textureCoordinate !== 'undefined') {
-      const texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
-      const texCoord = texcoordsStr.map(el => parseFloat(el));
-      for (let i = 0; i < texCoord.length; i = i + 2)
-        texCoordArray.push(new WbVector2(texCoord[i], texCoord[i + 1]));
+      const texCoords = convertStringToFloatArray(getNodeAttribute(textureCoordinate, 'point', ''));
+      for (let i = 0; i < texCoords.length; i = i + 2)
+        texCoordArray.push(new WbVector2(texCoords[i], texCoords[i + 1]));
     }
 
     const normalArray = [];
     const normalNode = node.getElementsByTagName('Normal')[0];
     if (typeof normalNode !== 'undefined') {
-      const normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
-      const normal = normalStr.map(el => parseFloat(el));
-      for (let i = 0; i < normal.length; i = i + 3)
-        normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
+      const normals = convertStringToFloatArray(getNodeAttribute(normalNode, 'vector', ''));
+      for (let i = 0; i < normals.length; i = i + 3)
+        normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
     }
 
     const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
@@ -794,13 +794,13 @@ export default class Parser {
     if (typeof coordinate === 'undefined')
       return undefined;
 
-    const indicesStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);
+    const indicesStr = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
 
-    const verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const verticesStr = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
 
     const coord = [];
     for (let i = 0; i < verticesStr.length; i += 3)
-      coord.push(new WbVector3(parseFloat(verticesStr[i]), parseFloat(verticesStr[i + 1]), parseFloat(verticesStr[i + 2])));
+      coord.push(new WbVector3(verticesStr[i], verticesStr[i + 1], verticesStr[i + 2]));
 
     const coordIndex = indicesStr.map(Number);
 
@@ -821,7 +821,7 @@ export default class Parser {
     const ySpacing = parseFloat(getNodeAttribute(node, 'ySpacing', '1'));
     const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    const height = heightStr.split(' ').map(Number);
+    const height = convertStringToFloatArray(heightStr);
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
@@ -835,12 +835,11 @@ export default class Parser {
     if (typeof coordinate === 'undefined')
       return;
 
-    const coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
 
-    if (typeof coordStrArray === 'undefined')
+    if (typeof coordArray === 'undefined')
       return;
 
-    const coordArray = coordStrArray.map(Number);
     const coord = [];
     for (let i = 0; i < coordArray.length; i += 3)
       coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
@@ -848,9 +847,8 @@ export default class Parser {
     const colorNode = node.getElementsByTagName('Color')[0];
     let color;
     if (typeof colorNode !== 'undefined') {
-      const colorStrArray = getNodeAttribute(colorNode, 'color', '').trim().split(/\s/);
-      if (typeof colorStrArray !== 'undefined') {
-        const colorArray = colorStrArray.map(Number);
+      const colorArray = convertStringToFloatArray(getNodeAttribute(colorNode, 'color', ''));
+      if (typeof colorArray !== 'undefined') {
         color = [];
         for (let i = 0; i < colorArray.length; i += 3)
           color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
@@ -1192,19 +1190,25 @@ function getNodeAttribute(node, attributeName, defaultValue) {
   return defaultValue;
 }
 
-function convertStringToVec2(s) {
-  s = s.split(/\s/);
-  return new WbVector2(parseFloat(s[0]), parseFloat(s[1]));
+function convertStringToVec2(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector2(string[0], string[1]);
 }
 
-function convertStringToVec3(s) {
-  s = s.split(/\s/);
-  return new WbVector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+function convertStringToVec3(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector3(string[0], string[1], string[2]);
 }
 
-function convertStringToQuaternion(s) {
-  const pos = s.split(/\s/);
-  return new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
+function convertStringToQuaternion(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector4(string[0], string[1], string[2], string[3]);
+}
+
+function convertStringToFloatArray(string) {
+  const stringList = string.replaceAll(',', ' ').split(/\s/).filter(element => element);
+  if (stringList)
+    return stringList.map(element => parseFloat(element));
 }
 
 function rotateHDR(image, rotate) {

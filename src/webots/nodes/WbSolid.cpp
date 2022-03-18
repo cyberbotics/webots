@@ -2915,7 +2915,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
                               const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
@@ -2996,7 +2996,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
+              exportUrdfShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
           }
         }
       }

@@ -15,12 +15,14 @@
 #include "WbCamera.hpp"
 
 #include "WbAffinePlane.hpp"
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
 #include "WbLight.hpp"
+#include "WbNetwork.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -155,17 +157,21 @@ WbCamera::~WbCamera() {
 
 void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
-  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {
-    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
 
-    if (WbUrl::isWeb(completeUrl)) {
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
+    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+      return;
+
+    if (mDownloader != NULL)
       delete mDownloader;
-      mDownloader = new WbDownloader(this);
-      if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-        connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
-      mDownloader->download(QUrl(completeUrl));
-    }
+
+    mDownloader = new WbDownloader(this);
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+
+    mDownloader->download(QUrl(completeUrl));
   }
 }
 
@@ -288,13 +294,13 @@ void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, do
   for (int i = 0; i < mRecognizedObjects.size(); ++i) {
     const WbVector2 positionOnImage = mRecognizedObjects.at(i)->positionOnImage();
     const WbVector2 pixelsSize = mRecognizedObjects.at(i)->pixelSize();
-    if (overlayX < positionOnImage.x() - pixelsSize.x() / 2)
+    if (overlayX < positionOnImage.x() - pixelsSize.x() * 0.5)
       continue;
-    if (overlayX > positionOnImage.x() + pixelsSize.x() / 2)
+    if (overlayX > positionOnImage.x() + pixelsSize.x() * 0.5)
       continue;
-    if (overlayY < positionOnImage.y() - pixelsSize.y() / 2)
+    if (overlayY < positionOnImage.y() - pixelsSize.y() * 0.5)
       continue;
-    if (overlayY > positionOnImage.y() + pixelsSize.y() / 2)
+    if (overlayY > positionOnImage.y() + pixelsSize.y() * 0.5)
       continue;
     objectIndex = i;
     break;
@@ -939,6 +945,14 @@ void WbCamera::render() {
   }
 }
 
+WbVector3 WbCamera::urdfRotation(const WbMatrix3 &rotationMatrix) const {
+  WbVector3 eulerRotation = rotationMatrix.toEulerAnglesZYX();
+  // Webots defines the camera frame as FLU but ROS desfines it as RDF (Right-Down-Forward)
+  eulerRotation[0] -= M_PI / 2;
+  eulerRotation[2] -= M_PI / 2;
+  return eulerRotation;
+}
+
 /////////////////////
 //  Update methods //
 /////////////////////
@@ -1097,38 +1111,37 @@ void WbCamera::updateBloomThreshold() {
 }
 
 void WbCamera::updateNoiseMaskUrl() {
-  if (!hasBeenSetup())
+  if (!hasBeenSetup() || mNoiseMaskUrl->value().isEmpty())
     return;
 
-  QString noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
-    QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
-    QIODevice *device;
-    if (WbUrl::isWeb(completeUrl)) {
-      if (isPostFinalizedCalled() && mDownloader == NULL) {
-        // url was changed from the scene tree or supervisor
-        downloadAssets();
-        return;
-      }
-      assert(mDownloader);
-      if (!mDownloader->error().isEmpty()) {
-        warn(mDownloader->error());
-        delete mDownloader;
-        mDownloader = NULL;
-        return;
-      }
-      device = mDownloader->device();
-      assert(device);
-    } else {
-      completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
-      device = NULL;
+  // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+  QString url = mNoiseMaskUrl->value();
+  mNoiseMaskUrl->blockSignals(true);
+  mNoiseMaskUrl->setValue(url.replace("\\", "/"));
+  mNoiseMaskUrl->blockSignals(false);
+
+  QString noiseMaskPath;
+  const QString completeUrl = WbUrl::computePath(this, "url", mNoiseMaskUrl->value(), false);
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader && !mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());  // failure downloading or file does not exist (404)
+      delete mDownloader;
+      mDownloader = NULL;
+      return;
     }
-    const QString error = mWrenCamera->setNoiseMask(completeUrl.toUtf8().constData(), device);
-    if (!error.isEmpty())
-      parsingWarn(error);
-    delete mDownloader;
-    mDownloader = NULL;
-  }
+
+    if (!WbNetwork::instance()->isCached(completeUrl)) {
+      downloadAssets();  // url was changed from the scene tree or supervisor
+      return;
+    }
+
+    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
+  } else
+    noiseMaskPath = completeUrl;
+
+  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
+  if (!error.isEmpty())
+    parsingWarn(error);
 }
 
 bool WbCamera::isFrustumEnabled() const {
