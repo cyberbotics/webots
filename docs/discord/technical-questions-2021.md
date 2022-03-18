@@ -2967,7 +2967,7 @@ The `saveExperimentData` function is a placeholder function, you should implemen
 ##### JSK 01/22/2021 11:00:23
 ok
 
-##### msoyer34 01/22/2021 22:44:43
+##### smsmsm 01/22/2021 22:44:43
 Hey guys, I would like to ask a question
 
 
@@ -3005,7 +3005,7 @@ I am sorry for stupid question. Why Y axis stands for vertical direction? This I
 ##### Luftwaffel [Moderator] 01/23/2021 09:30:41
 In world info you can change the coordinate system from nue to enu (or create a new world through the wizard with that)
 
-##### msoyer34 01/23/2021 13:56:04
+##### smsmsm 01/23/2021 13:56:04
 Thank you Simon for your responses. I am using NX for my design and I export my design as OBJ. But it seems it doesnt work properly in webots.
 
 
@@ -11891,7 +11891,7 @@ Hello to all! I am developing a basic simulator to be able to develop an autonom
 
 I don't understand what I'm doing wrong. Is it a bug?
 
-##### Urmom 03/30/2021 14:02:36
+##### GeLO 03/30/2021 14:02:36
 Hi, Just wondering does anyone know how to draw in Webots? Im trying to draw a rectangle or a straight line but I have some errors and here's my code. Thank you so much and have a great day
 
 
@@ -11928,7 +11928,7 @@ And my error
 ##### Olivier Michel [Cyberbotics] 03/30/2021 14:04:22
 You need to equip your Robot with a Display device named "ground\_display"...
 
-##### Urmom 03/30/2021 15:21:08
+##### GeLO 03/30/2021 15:21:08
 Hi Olivier, I did but I still have the error
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/826476145507696700/unknown.png)
@@ -11942,7 +11942,7 @@ Have you tried?
 
 [https://github.com/cyberbotics/webots\_ros2](https://github.com/cyberbotics/webots_ros2)
 
-##### Urmom 03/30/2021 15:25:40
+##### GeLO 03/30/2021 15:25:40
 I see thanks Olivier!
 
 ##### Adra 03/30/2021 15:25:52
@@ -12195,7 +12195,7 @@ Hello,everyone. Do anyone have a link or model of an environment for warehouse f
 ##### Joanna 04/01/2021 19:01:17
 Yes,I am aware of factory environment. But anyway, thanks Daniel. Was just kinda sure that somebody has already sucha Kinda environment "typical warehouse " since most of mobile robotics work is done in warehouses . Will see if somebody has it maybe.
 
-##### Urmom 04/01/2021 19:51:49
+##### GeLO 04/01/2021 19:51:49
 Hi Olivier, So I changed the Solid node to a Display, and the ground supposed to be white but it showing a different color. Im just wondering If you know how to draw a simple rectangle in webots. Thank you so much Olivier
 
 
@@ -12240,7 +12240,7 @@ base being the robot (copied it from some of my code)
 
 np being numpy. For other languages you gonna have to figure it out yourself 😉
 
-##### deleted 04/01/2021 22:14:14
+##### Deleted User 04/01/2021 22:14:14
 hey, i want to make a robot that has leg joints controlled by servos
 
 
@@ -12252,7 +12252,7 @@ what would be my solution to this?
 ##### Luftwaffel [Moderator] 04/01/2021 23:29:13
 you are asking inside of webots?
 
-##### deleted 04/01/2021 23:50:03
+##### Deleted User 04/01/2021 23:50:03
 no, physically
 
 ##### Luftwaffel [Moderator] 04/02/2021 00:10:50
@@ -12261,7 +12261,7 @@ this is the webots discord, I'm sure there is robotics servers and forums 🙂
 
 perhaps adding spring tension or something
 
-##### deleted 04/02/2021 00:30:26
+##### Deleted User 04/02/2021 00:30:26
 yeah i just assumed that people here would know that.. since its something you would have to consider while designing a robot lol
 
 ##### Luftwaffel [Moderator] 04/02/2021 00:48:25
@@ -27845,7 +27845,7 @@ this is an example in python on how to spawn a sphere. You should be able to tra
 ##### FlamingToaster 09/29/2021 18:36:51
 Thank you, this looks like exactly what i need!
 
-##### Mlungost 09/29/2021 19:02:57
+##### thegodsmile 09/29/2021 19:02:57
 I have a question regarding position sensors. I was watching a "Position Sensor in Webots Tutorial", but it didn't answer my questions on obtaining the robot's translation using code.
 
 say your robot is a vehicle. 
@@ -27872,7 +27872,7 @@ You have 3 general options:
 
 If you want to do it without GPS sensors and in a real-world way, I would recommend reading up on SLAM
 
-##### Mlungost 09/29/2021 19:46:23
+##### thegodsmile 09/29/2021 19:46:23
 thank you Simon. teaching moment and with options 👍
 
 ##### Benjamin Hug [Cyberbotics] 09/30/2021 07:03:50
@@ -28172,7 +28172,7 @@ There is some threading involved, maybe that might cause the issue somehow.
 
 Furthermore, I get no error messages in the terminal, so there is not much to go after there, at least not without adding some homemade tracings
 
-##### BananaJuic3 10/08/2021 12:29:40
+##### inbananawethrust 10/08/2021 12:29:40
 does webots run with windows 10 + ros2?
 
 
@@ -28185,9 +28185,9 @@ I understand this is a super easy question for u, and it might be included in th
 but i tried unity for ros2 and it wasnt a great experience.
 
 ##### Benjamin Hug [Cyberbotics] 10/08/2021 12:36:19
-`@BananaJuic3` Yes you can use Webots with Windows 10 and ROS2 🙂
+`@inbananawethrust` Yes you can use Webots with Windows 10 and ROS2 🙂
 
-##### BananaJuic3 10/08/2021 12:36:33
+##### inbananawethrust 10/08/2021 12:36:33
 oh thank god
 
 
@@ -28949,7 +28949,7 @@ Thank's in advance and excuse me for my English
 ##### Solenoid 10/22/2021 00:34:59
 `@DDaniel` Thank you for the insights. That really seems like a basic feature needing some work... I could get the robot in the required configuration for my task.
 
-##### BananaJuic3 10/22/2021 05:03:34
+##### inbananawethrust 10/22/2021 05:03:34
 Hello, am trying to add a touch sensor to each of the four legs in the robot spot
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/900972630746738688/unknown.png)
@@ -28973,7 +28973,7 @@ I added touch sensors to "spots" foot which will be a great addition to anyone d
 ##### Olivier Michel [Cyberbotics] 10/22/2021 10:25:27
 Simply create a new PR to submit your contribution: [https://github.com/cyberbotics/webots/edit/develop/projects/robots/boston\_dynamics/spot/protos/SpotLeftLeg.proto](https://github.com/cyberbotics/webots/edit/develop/projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto)
 
-##### BananaJuic3 10/22/2021 10:27:02
+##### inbananawethrust 10/22/2021 10:27:02
 Thank you!
 
 ##### D3cpt 10/22/2021 14:11:47
@@ -29045,7 +29045,7 @@ Hi all, I came across this error message in Webots when importing numpy on my M1
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/901254376029560832/unknown.png)
 %end
 
-##### BananaJuic3 10/24/2021 11:33:34
+##### inbananawethrust 10/24/2021 11:33:34
 Yeah that might be a possibility. I'll let u know after running a few tests
 
 ##### D3cpt 10/25/2021 09:15:44
@@ -30241,7 +30241,7 @@ while robot.step(timestep) != -1:
 
     pass`
 
-##### [Red Dragons] Mat198 11/09/2021 21:11:47
+##### Mat198 11/09/2021 21:11:47
 It's possible to import files written in C in a C++ code. I don't know exactly how but i saw that in openCV if I remember correctly
 
 ##### DDaniel [Cyberbotics] 11/09/2021 21:13:31
@@ -30250,19 +30250,19 @@ the joint is already at position 0.005, so it won't move
 ##### Shivanshu 11/09/2021 21:14:36
 Can you give me some insight on how to rotate a hinge?
 
-##### [Red Dragons] Mat198 11/09/2021 21:16:30
+##### Mat198 11/09/2021 21:16:30
 You want to rotate it like a whell?
 
 ##### Shivanshu 11/09/2021 21:16:47
 I want to open it like a door
 
-##### [Red Dragons] Mat198 11/09/2021 21:18:38
+##### Mat198 11/09/2021 21:18:38
 Just set the Position to an open state (90° = pi/2 rad) then wait some time or set a condition to a close state (0°)
 
 ##### Shivanshu 11/09/2021 21:19:03
 I need not set a velocity?
 
-##### [Red Dragons] Mat198 11/09/2021 21:19:32
+##### Mat198 11/09/2021 21:19:32
 motor.setPosition(1.5)
 
 Wait
@@ -31747,19 +31747,19 @@ Hello all, im want to add a display device that shows the current position of th
 ##### SeanLuTW 11/26/2021 00:32:37
 Can I directly set the position of a motor to designated value using Supervisor?
 
-##### [Red Dragons] Mat198 11/26/2021 00:42:36
+##### Mat198 11/26/2021 00:42:36
 Position in space or the motor angle?
 
 ##### SeanLuTW 11/26/2021 00:43:01
 Motor angle
 
-##### [Red Dragons] Mat198 11/26/2021 00:47:09
+##### Mat198 11/26/2021 00:47:09
 There is no need to use the supervisor
 
 ##### SeanLuTW 11/26/2021 00:52:50
 If using `Motor.setPosition()`, the angle of the motor will rotate to the target angle steply like a real motor, while what I want is to neglect the physics simulation and directly make the angle of the motor to the target value.
 
-##### [Red Dragons] Mat198 11/26/2021 01:01:42
+##### Mat198 11/26/2021 01:01:42
 Got it. Never did that. My suggestion is to use an solid and just set the orientation with supervisor
 
 ##### brownie 11/26/2021 03:10:57
@@ -31812,7 +31812,7 @@ Hi guys. Velodyne VLP-16, I am trying to do autonomous driving using this lidar.
 ##### onurg57 11/26/2021 14:18:24
 Hi. I'm new at webots and previously, i havent used any robotic simulator before. I wonder how can i do performance test on webots. For example position accuracy of mobile robot or its torque etc?
 
-##### [Red Dragons] Mat198 11/26/2021 15:22:29
+##### Mat198 11/26/2021 15:22:29
 You need to be more specific about what you wanna do. Are you doing position control of the wheels? To simulate the torque you need to set the friction force related to the ground and the motors parameters.
 
 ##### AP\_LISC 11/27/2021 17:08:17
@@ -32144,7 +32144,7 @@ Please don't repost the same question on different channels.
 ##### L4RG 12/03/2021 14:37:06
 understood, my bad. I'll delete one of them right away!
 
-##### [Red Dragons] Mat198 12/03/2021 15:00:06
+##### Mat198 12/03/2021 15:00:06
 Is it possible to create solids with supervisor? I need 60 spheres and it's terrible to create and set the names by hand
 
 ##### Benjamin Délèze [Cyberbotics] 12/03/2021 15:04:42
@@ -32213,7 +32213,7 @@ There is a `get_pose` service:
 
 [https://cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb\_supervisor\_node\_get\_pose](https://cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb_supervisor_node_get_pose)
 
-##### [Red Dragons] Mat198 12/06/2021 12:47:32
+##### Mat198 12/06/2021 12:47:32
 How can I import an proto node that I created for my project? The importMFNodeFromString(-1,"nodeName{}) returns none and a message: " Skipped unknow 'nodeName' node or PROTO". The node works as intended when I add it manually
 
 ##### weyho 12/06/2021 13:07:26
@@ -32322,7 +32322,7 @@ Hi everyone, I want to integrate a touch sensor to the gripper of the youBot. Bu
 ![tsensor.png](https://cdn.discordapp.com/attachments/565154703139405824/918146968138690570/tsensor.png)
 %end
 
-##### [Red Dragons] Mat198 12/08/2021 15:21:26
+##### Mat198 12/08/2021 15:21:26
 You want to measure contact force?
 
 ##### drl\_bot 12/08/2021 16:22:53
@@ -32872,7 +32872,7 @@ hi
 
 Can webots simulate weather conditions?
 
-##### [Red Dragons] Mat198 12/19/2021 11:53:17
+##### Mat198 12/19/2021 11:53:17
 You can add wind by editing the physics plugin an variable light. I have no idea about rain
 
 ##### 語季 12/19/2021 11:54:53
@@ -32888,7 +32888,7 @@ Hi guys, how can I get the position of any solidBox? any suggestion?  I tried th
 
         print("KukaBox is at position: %g %g %g" % (values[0], values[1], values[2]))
 
-##### [Red Dragons] Mat198 12/19/2021 18:23:20
+##### Mat198 12/19/2021 18:23:20
 That should have worked. What kind of error message are you getting?
 
 ##### drl\_bot 12/19/2021 18:24:29
@@ -32918,7 +32918,7 @@ the error I get:
 
 [traj\_controller] AttributeError: type object 'object' has no attribute '\_\_getattr\_\_'
 
-##### [Red Dragons] Mat198 12/19/2021 18:32:21
+##### Mat198 12/19/2021 18:32:21
 Try: 
 
 supervisor = Supervisor() # Make sure the supervisor option is check in simulation
