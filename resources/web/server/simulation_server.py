@@ -417,7 +417,7 @@ class Client:
             unused_images = ' '.join([i for i in available_images if i not in running_images])
             if unused_images:
                 os.system(f"docker image rm {unused_images}")
-	    # remove dangling images, stopped containers, build cache, volumes and networks
+            # remove dangling images, stopped containers, build cache, volumes and networks
             os.system("docker system prune --volumes -f")
         else:
             if self.webots_process:
