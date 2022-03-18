@@ -342,3 +342,51 @@ Then, macOS should propose to open the application anyway (see [this figure](#un
 
 More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
 You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
+
+### Asset cache download
+
+From Webots 2021b, the necessary assets used in a world are downloaded on the fly as they are requested, and cached for subsequent usage.
+This allows to progressively download the assets as they are needed instead of downloading them all up-front, hence reducing the size of the distributions.
+From Webots 2022b a zip version of the entire cache is also available for download, meaning instead of letting Webots build it over time it can be used directly.
+This is beneficial for an offline usage of Webots or to mount it as a volume in a docker setting.
+
+1. Download the `assets.zip` archive corresponding to your Webots version from the [releases](https://github.com/cyberbotics/webots/releases) page on github.
+2. Depending on your operating system, extract the `assets.zip` archive to the default location of the Webots cache, which is shown below for different systems.
+
+%tab-component "os"
+
+%tab "Windows"
+
+`C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
+
+%tab-end
+
+%tab "Linux"
+
+`~/.cache/Cyberbotics/Webots`
+
+%tab-end
+
+%tab "macOS"
+
+`~/Library/Caches/Cyberbotics/Webots", "/Library/Caches/Cyberbotics/Webots`
+
+%tab-end
+
+%end
+
+***Note:*** the folder `assets` itself needs to be present.
+
+In summary, for instance on Linux the expected structure should look something like:
+
+```
+~/.cache/Cyberbotics/Webots/assets/
+├── 0033b105637903b72be80210f36ad6d4efac8813
+├── 05599e9eefd659b2a2c0e4393ef60d1024b977ef
+├── 103be80357b69185ac460c11e0d8a9d39b76d804
+├── 11b83067b8ca597dbf24593f3790b3df8fa6b87c
+├── 123a565fefa525671b4af73b7667a89d2c05ddd6
+├── 1c004aaa4706ef38c764f5df1e17344035fe74fe
+...
+
+```
