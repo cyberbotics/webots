@@ -361,6 +361,8 @@ Extract the *assets.zip* archive to:
 
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
 
+***Note:*** the folder `assets` itself needs to be present.
+
 %tab-end
 
 %tab "Linux"
@@ -368,6 +370,8 @@ Extract the *assets.zip* archive to:
 Extract the *assets.zip* archive to:
 
 `~/.cache/Cyberbotics/Webots`
+
+***Note:*** the folder `assets` itself needs to be present.
 
 %tab-end
 
@@ -377,13 +381,11 @@ Extract the *assets.zip* archive to:
 
 `~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
 
+***Note:*** the folder `assets` itself needs to be present.
+
 %tab-end
 
 %end
-
-&nbsp;
-
-***Note:*** the folder `assets` itself needs to be present.
 
 In summary, for instance on Linux the expected structure should look something like:
 
