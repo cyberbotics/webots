@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A cardboard box.
+# A cardboard empty box.
 # template language: javascript
 
 PROTO CardboardContainer [
@@ -9,7 +9,7 @@ PROTO CardboardContainer [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "cardboard container"
   field SFVec3f    size        0.2 0.1 0.15           # Defines the size of the cardboard container.
-  field SFFloat    mass        0                      # Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+  field SFFloat    mass        0                      # Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard container.
   field SFBool     locked      FALSE                  # Is `Solid.locked`.
   field SFBool     lid         TRUE                   # Defines if the container should have a lid or not.
 ]

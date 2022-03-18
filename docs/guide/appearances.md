@@ -168,6 +168,42 @@ BrushedSteel {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
+## Cardboard
+
+A cardboard material containing several types that can make a box if combined.
+
+%figure
+
+![Cardboard](images/appearances/Cardboard.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Cardboard {
+  SFColor  colorOverride    1 1 1
+  SFString type             "side4"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Cardboard.proto]({{ url.github_tree }}/projects/appearances/protos/Cardboard.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Cardboard Field Summary
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
+
+- `type`: Defines the grass type. This field accepts the following values: `"top"`, `"bottom"`, `"side1"`, `"side2"`, `"side3"`, and `"side4"`.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
 ## CarpetFibers
 
 A woolen carpet material.
@@ -1804,6 +1840,8 @@ A worn scuffed plastic material. The color can be selected using the `colorOverr
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 ScuffedPlastic {
   SFColor colorOverride    1 1 1
@@ -2074,6 +2112,8 @@ A worn burlap material. The color can be selected using the `colorOverride` fiel
 ![WornBurlap](images/appearances/WornBurlap.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 WornBurlap {

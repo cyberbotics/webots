@@ -36,6 +36,37 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
+### CardboardContainer
+
+A cardboard box.
+
+Derived from [Solid](../reference/solid.md).
+
+```
+CardboardContainer {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 0 1 0
+  SFString   name        "cardboard container"
+  SFVec3f    size        0.2 0.1 0.15
+  SFFloat    mass        0
+  SFBool     locked      FALSE
+  SFBool     lid         TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/containers/protos/CardboardContainer.proto]({{ url.github_tree }}/projects/objects/factory/containers/protos/CardboardContainer.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### CardboardContainer Field Summary
+
+- `size`: Defines the size of the cardboard container.
+
+- `mass`: Defines the mass of the cardboard container in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+
+- `lid`: Defines if the container should have a lid or not.
+
 ### MetalStorageBox
 
 A metal storage box.
