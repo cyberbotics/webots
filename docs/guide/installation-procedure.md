@@ -357,7 +357,7 @@ This is beneficial for an offline usage of Webots or to mount it as a volume in 
 
 %tab "Windows"
 
-Extract the `assets.zip` archive to:
+Extract the *assets.zip* archive to:
 
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
 
@@ -365,7 +365,7 @@ Extract the `assets.zip` archive to:
 
 %tab "Linux"
 
-Extract the `assets.zip` archive to:
+Extract the *assets.zip* archive to:
 
 `~/.cache/Cyberbotics/Webots`
 
@@ -373,7 +373,7 @@ Extract the `assets.zip` archive to:
 
 %tab "macOS"
 
-Extract the `assets.zip` archive to:
+Extract the *assets.zip* archive to:
 
 `~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
 
