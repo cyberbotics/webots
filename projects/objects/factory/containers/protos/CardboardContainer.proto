@@ -48,7 +48,7 @@ Solid {
                 type "side1"
               }
               geometry Box {
-                size 0.001 %<= size.y + 0.002>% %<= size.z >%
+                size 0.001 %<= size.y + 0.002 >% %<= size.z >%
               }
             }
           ]
