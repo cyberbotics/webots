@@ -39,7 +39,7 @@ static QString gPreviousPath = QString();
 static WbProject *gCurrentProject = NULL;
 static WbProject *gSystemProject = NULL;
 static WbProject *gDefaultProject = NULL;
-static WbProject *gExtraDefaultProject = NULL;
+static QList<WbProject *> *gExtraProjects = NULL;
 
 void WbProject::cleanupCurrentProject() {
   delete gCurrentProject;
@@ -47,10 +47,6 @@ void WbProject::cleanupCurrentProject() {
 
 void WbProject::cleanupDefaultProject() {
   delete gDefaultProject;
-}
-
-void WbProject::cleanupExtraDefaultProject() {
-  delete gExtraDefaultProject;
 }
 
 void WbProject::cleanupSystemProject() {
@@ -75,14 +71,38 @@ WbProject *WbProject::defaultProject() {
   return gDefaultProject;
 }
 
-WbProject *WbProject::extraDefaultProject() {
-  if (gExtraDefaultProject == NULL && !WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() &&
-      QDir(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/").exists()) {
-    gExtraDefaultProject =
-      new WbProject(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/");
-    qAddPostRoutine(WbProject::cleanupExtraDefaultProject);
+QList<WbProject *> *WbProject::extraProjects() {
+  if (gExtraProjects == NULL) {
+    gExtraProjects = new QList<WbProject *>();
+    // collect extra project paths in a QSet to avoid duplicate entries
+    QSet<QString> projectPaths;
+
+    if (!WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty()) {
+      foreach (const QString &path, WbPreferences::instance()
+                                      ->value("General/extraProjectsPath")
+                                      .toString()
+                                      .split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << path;
+    }
+
+    if (!qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").isEmpty()) {
+      foreach (const QString &path,
+               qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << path;
+    }
+
+    foreach (const QString &projectPath, projectPaths)
+      *gExtraProjects << new WbProject(projectPath);
+
+    qAddPostRoutine(WbProject::cleanupExtraProjects);
   }
-  return gExtraDefaultProject;
+  return gExtraProjects;
+}
+
+void WbProject::cleanupExtraProjects() {
+  foreach (WbProject *extraProject, *gExtraProjects)
+    delete extraProject;
+  delete gExtraProjects;
 }
 
 WbProject *WbProject::system() {
