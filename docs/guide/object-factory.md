@@ -37,7 +37,7 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
-- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 closes the box and uses a simple box for the boundingObject, preventing it from containing objects.
+- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 closes the box and uses a simple box for the bounding object, preventing it from containing objects.
 
 ### MetalStorageBox
 
