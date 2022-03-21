@@ -184,10 +184,6 @@ QLabel#dockWidgetTitleText {
   background: transparent;
 }
 
-QProgressBar {
-  qproperty-alignment: 'AlignHCenter | AlignVCenter';
-}
-
 /* menu buttons */
 
 QToolBar {
@@ -835,6 +831,7 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
+  text-align: center;
   background: rgb(222,222,222);
   border-radius: 3px;
   color: black;
