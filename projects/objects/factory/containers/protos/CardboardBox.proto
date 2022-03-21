@@ -133,21 +133,22 @@ PROTO CardboardBox [
         ]
       }
       DEF TOP Transform {
-        translation %<= -size.x / 2>% 0 %<= (size.z / 2) - 0.00025 >%
+        %<
+          let position = {x:0, y:0, z:0}
+          let angle = fields.lidAngle.value;
+          position.x = -((size.x/2) - Math.cos(angle) * (size.x/2));
+          position.z = (size.z / 2) - 0.00025 + Math.sin(angle) * (size.x/2);
+        >%
+        translation %<= position.x >% %<= position.y >% %<= position.z >%
         rotation 0 1 0 %<= -fields.lidAngle.value >%
         children [
-          Transform {
-            translation %<= size.x / 2>% 0 0
-            children [
-              Shape {
-                appearance Cardboard {
-                  type "top"
-                }
-                geometry Box {
-                  size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
-                }
-              }
-            ]
+          Shape {
+            appearance Cardboard {
+              type "top"
+            }
+            geometry Box {
+              size %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.0005
+            }
           }
         ]
       }
@@ -216,6 +217,20 @@ PROTO CardboardBox [
         }
         DEF BOTTOM Transform {
           translation 0 0 %<= -size.z / 2 + 0.0005 >%
+          children [
+            Shape {
+              appearance Cardboard {
+                type "bottom"
+              }
+              geometry Box {
+                size  %<= size.x - 0.0001 >% %<= size.y - 0.0001 >% 0.003
+              }
+            }
+          ]
+        }
+        DEF TOP Transform {
+          translation %<= position.x >% %<= position.y >% %<= position.z >%
+          rotation 0 1 0 %<= -fields.lidAngle.value >%
           children [
             Shape {
               appearance Cardboard {
