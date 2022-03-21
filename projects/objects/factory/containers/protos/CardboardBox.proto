@@ -136,7 +136,7 @@ PROTO CardboardBox [
         %<
           let position = {x:0, y:0, z:0}
           let angle = fields.lidAngle.value;
-          position.x = -((size.x/2) - Math.cos(angle) * (size.x/2));
+          position.x = -((size.x / 2) - Math.cos(angle) * (size.x / 2));
           position.z = (size.z / 2) - 0.00025 + Math.sin(angle) * (size.x/2);
         >%
         translation %<= position.x >% %<= position.y >% %<= position.z >%
