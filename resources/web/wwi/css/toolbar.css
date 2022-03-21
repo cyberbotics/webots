@@ -543,7 +543,67 @@ webots-view #remoteScene {
   display: block;
 }
 
-/* Floating robot window*/
+/* Floating windows*/
+
+webots-view .floating-window {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  display: block;
+  border-radius: 5px;
+  resize: both;
+  overflow: hidden;
+  min-height: 44px;
+  min-width: 200px;
+}
+
+webots-view .floating-window-header {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: move;
+  height: 45px;
+}
+
+webots-view .floating-window-text{
+  margin-left: 10px;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+webots-view .floating-window-close {
+  position: relative;
+  top: -10px;
+  background-color: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+webots-view .floating-window-close:hover {
+  color: white;
+}
+
+webots-view .floating-window-content {
+  height: calc(100% - 45px);
+}
+
+webots-view .floating-window-content iframe {
+  background-color: white;
+  border: 0;
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+}
+
+webots-view .unclickable {
+  pointer-events: none;
+}
+
+/* Floating robot windows*/
 
 webots-view .robot-window-pane {
   position: absolute;
@@ -604,62 +664,4 @@ webots-view .visibility-dot {
 
 webots-view input:checked + .visibility-dot {
   background-color: red;
-}
-
-webots-view .floating-robot-window {
-  background-color: rgba(0, 0, 0, 0.6);
-  position: absolute;
-  display: block;
-  border-radius: 5px;
-  resize: both;
-  overflow: hidden;
-  min-height: 44px;
-  min-width: 200px;
-}
-
-webots-view .floating-robot-window-header {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  cursor: move;
-  height: 45px;
-}
-
-webots-view .floating-robot-window-text{
-  margin-left: 10px;
-  font-size: 14px;
-  margin-top: 12px;
-}
-
-webots-view .floating-robot-window-close {
-  position: relative;
-  top: -10px;
-  background-color: transparent;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-webots-view .floating-robot-window-close:hover {
-  color: white;
-}
-
-webots-view .floating-robot-window-content {
-  height: calc(100% - 45px);
-}
-
-webots-view .floating-robot-window-content iframe {
-  background-color: white;
-  border: 0;
-  margin: 10px;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
-}
-
-webots-view .unclickable {
-  pointer-events: none;
 }

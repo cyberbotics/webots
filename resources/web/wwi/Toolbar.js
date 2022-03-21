@@ -330,14 +330,14 @@ export default class Toolbar {
 
   _createRobotWindows() {
     this.floatingRobotWindowContainer = document.createElement('div');
-    this.floatingRobotWindowContainer.className = 'floating-robot-window-container';
+    this.floatingRobotWindowContainer.className = 'floating-window-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
     var robotWindowUrl = this._view.x3dScene.prefix.slice(0,-1);
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robot.window, robotWindowUrl)));
+      WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.floatingRobotWindowContainer, robot.name, robotWindowUrl, robot.window)));
       WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
     }
 
@@ -345,8 +345,8 @@ export default class Toolbar {
     const robotWindowWidth = 250, robotWindowHeight = 200, margin = 20;
     var numCol = 0, numRow = 0;
 
-    this.robotWindows.forEach((rw, n) => {
-      rw.floatingRobotWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.robotWindows.forEach((rw) => {
+      rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotWindowVisibility(rw.getID()));
  
       if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
@@ -371,6 +371,7 @@ export default class Toolbar {
   }
 
   loadRobotWindows() {
+    console.log("Loading windows...");
     this.removeRobotWindows();
     this._createRobotWindowPane();
     this._createRobotWindows();
