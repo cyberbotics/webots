@@ -150,12 +150,6 @@ public:
   bool nodeGetPoseCallback(webots_ros::node_get_pose::Request &req, webots_ros::node_get_pose::Response &res);
   bool nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                    webots_ros::node_get_center_of_mass::Response &res);
-  bool nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
-                                            webots_ros::node_get_number_of_contact_points::Response &res);
-  bool nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
-                                   webots_ros::node_get_contact_point::Response &res);
-  bool nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
-                                       webots_ros::node_get_contact_point_node::Response &res);
   bool nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
                                     webots_ros::node_get_contact_points::Response &res);
   bool nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
@@ -274,9 +268,6 @@ private:
   ros::ServiceServer mNodeGetOrientationServer;
   ros::ServiceServer mNodeGetPoseServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;
-  ros::ServiceServer mNodeGetNumberOfContactPointsServer;
-  ros::ServiceServer mNodeGetContactPointServer;
-  ros::ServiceServer mNodeGetContactPointNodeServer;
   ros::ServiceServer mNodeGetContactPointsServer;
   ros::ServiceServer mNodeEnableContactPointsTrackingServer;
   ros::ServiceServer mNodeDisableContactPointsTrackingServer;
