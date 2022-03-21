@@ -2344,7 +2344,6 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
   robot_mutex_lock_step();
   // search if field is already present in field_list
   WbFieldRef result = find_field_by_id(node->id, index, true);
-  result = 0;
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
