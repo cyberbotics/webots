@@ -159,7 +159,7 @@ PROTO CardboardBox [
     boundingObject Box {
       size %<= size.x >% %<= size.y >% %<= size.z >%
     }
-    %< } else {>%
+    %< } else { >%
     boundingObject Group {
       children [
         DEF BACK Transform {
