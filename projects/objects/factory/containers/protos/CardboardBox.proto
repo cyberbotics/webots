@@ -248,7 +248,7 @@ PROTO CardboardBox [
     if (mass > 0) { >%
     physics Physics {
       density -1
-      mass %<= mass>%
+      mass %<= mass >%
     }
     %< } >%
     locked IS locked
