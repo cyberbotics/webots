@@ -119,3 +119,4 @@ TexturedBackgroundLight {
 - `luminosity`: Multiplies the `Light.intensity` field.
 
 - `castShadows`: Defines whether the light should cast shadows.
+
