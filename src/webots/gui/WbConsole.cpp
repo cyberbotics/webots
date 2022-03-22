@@ -37,7 +37,6 @@
 #include <QtWidgets/QStyle>
 
 #include <cassert>
-#include <iostream>
 
 #include <ode/ode.h>  // for message handlers
 
@@ -333,17 +332,6 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   delete clearAction;
   delete menu;
 }
-
-static bool gStdoutTee = false;
-static bool gStderrTee = false;
-
-void WbConsole::enableStdOutRedirectToTerminal() {
-  gStdoutTee = true;
-};
-
-void WbConsole::enableStdErrRedirectToTerminal() {
-  gStderrTee = true;
-};
 
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
@@ -734,41 +722,23 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   switch (level) {
     case WbLog::INFO:
     case WbLog::DEBUG:
-      if (gStdoutTee) {
-        std::cout << message.toUtf8().constData() << "\n";
-        std::cout.flush();
-      } else {
-        handlePossibleAnsiEscapeSequences(message, level);
-        if (popup)
-          WbMessageBox::info(message, this);
-      }
+      handlePossibleAnsiEscapeSequences(message, level);
+      if (popup)
+        WbMessageBox::info(message, this);
       break;
     case WbLog::WARNING:
     case WbLog::ERROR:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData() << "\n";
-      else {
-        handlePossibleAnsiEscapeSequences(message, level);
-        if (popup)
-          WbMessageBox::warning(message, this);
-      }
+      handlePossibleAnsiEscapeSequences(message, level);
+      if (popup)
+        WbMessageBox::warning(message, this);
       break;
     case WbLog::STDOUT:
-      if (gStdoutTee) {
-        std::cout << message.toUtf8().constData();
-        std::cout.flush();
-      } else
-        handlePossibleAnsiEscapeSequences(message, level);
+      handlePossibleAnsiEscapeSequences(message, level);
       break;
     case WbLog::STDERR:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData();
-      else
-        handlePossibleAnsiEscapeSequences(message, level);
+      handlePossibleAnsiEscapeSequences(message, level);
       break;
     case WbLog::FATAL:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData();
       handlePossibleAnsiEscapeSequences(message, level);
       if (popup)
         WbMessageBox::critical(message, this);

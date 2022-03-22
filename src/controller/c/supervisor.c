@@ -2836,13 +2836,10 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
-    return false;
-
-  if (((((WbFieldStruct *)field)->type) & WB_MF) != WB_MF) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() can only be used with multiple fields (MF).\n", __FUNCTION__);
     return -1;
-  }
+
+  if (((((WbFieldStruct *)field)->type) & WB_MF) != WB_MF)
+    return -1;
 
   return ((WbFieldStruct *)field)->count;
 }

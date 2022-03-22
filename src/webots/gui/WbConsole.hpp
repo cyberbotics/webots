@@ -92,10 +92,6 @@ public:
   // parse compilation error line
   void jumpToError(const QString &errorLine);
 
-  // enable redirecting messages to the terminal
-  static void enableStdOutRedirectToTerminal();
-  static void enableStdErrRedirectToTerminal();
-
   const QString &errorColor() const { return mErrorColor; }
   const QString &infoColor() const { return mInfoColor; }
 
