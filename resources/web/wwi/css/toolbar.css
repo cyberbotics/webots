@@ -64,9 +64,9 @@ webots-view .toolbar-right {
 
 webots-view .webots-streaming-time {
   color: rgba(240, 240, 240, 1);
-  font-size: 14px;
-  text-shadow: 1px 1px 1px rgb(0,0,0);
-  font-family: monospace;
+  font-size: 16px;
+  text-shadow: 1px 1px 1px rgb(0,0,0,0);
+  font-family: Tahoma;
   line-height: normal;
   position: relative;
   height: 29px;
@@ -74,84 +74,128 @@ webots-view .webots-streaming-time {
   display: inline-block;
   float: left;
   top: 11px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /* Buttons */
+
 webots-view .toolbar-btn {
   float: left;
   height: 36px;
-  width: 36px;
+  width: 44px;
   box-sizing: border-box;
-  margin: 0 1px;
+  padding: 4px 8px;
   border:none;
   box-shadow: none;
-
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   border: 2px solid transparent;
   background-color: transparent;
   background-repeat: no-repeat;
-  background-image: url(../images/icons.svg);
-
   cursor: pointer;
   outline:none;
 }
 
-webots-view .toolbar-btn:hover {
-  box-shadow: none;
-  background-color: transparent;
+webots-view .icon-play {
+  margin-top: 4px;
+  margin-left: -2px;
+  width: 22px;
+  height: 22px;
+  background: #f0f0f0;
+  transition: all 0.2s ease-in-out;
+  clip-path: polygon(0 0, 50% 25%, 50% 75%, 50% 75%, 50% 25%, 100% 50%, 100% 50%, 0 100%);
 }
 
-webots-view .icon-play        { background-position:   -2px -2px }
-webots-view .icon-pause       { background-position:  -40px -2px }
-webots-view .icon-step        { background-position:  -78px -2px }
-webots-view .icon-run         { background-position: -154px -2px }
-webots-view .icon-reset       { background-position: -192px -2px}
-webots-view .icon-reset-scene { background-position: -192px -2px}
-webots-view .icon-info        { background-position: -306px -2px }
-webots-view .icon-settings    { background-position: -382px -2px }
-webots-view .icon-fullscreen  { background-position: -420px -2px }
-webots-view .icon-partscreen  { background-position: -458px -2px }
-webots-view .icon-robot-window { background-position: -654px -2px }
-
-webots-view .icon-play:hover,
-webots-view .icon-pause:hover,
-webots-view .icon-step:hover,
-webots-view .icon-run:hover,
-webtos-view .icon-reset:hover,
-webots-view .icon-reset-scene:hover,
-webots-view .icon-info:hover,
-webots-view .icon-settings:hover,
-webots-view .icon-fullscreen:hover,
-webots-view .icon-partscreen:hover,
-webots-view .icon-robot-window:hover,
-webots-view .toolbar-reload:hover {
-  background-position-y: -40px;
+webots-view .icon-run {
+  margin-top: 0px;
+  margin-left: -2px;
+  width: 22px;
+  height: 22px;
+  background: #f0f0f0;
+  transition: all 0.2s ease-in-out;
+  clip-path: polygon(0 0, 50% 25%, 50% 75%, 50% 75%, 50% 25%, 100% 50%, 100% 50%, 0 100%);
 }
 
-webots-view .icon-quit {
-  background-size: 28px;
-  background-image: url(../images/quit.png);
-  margin-top:3px;
-  margin-left: 5px;
+webots-view .icon-pause {
+  margin-top: 0px;
+  margin-left: -2px;
+  width: 22px;
+  height: 22px;
+  background: #f0f0f0;
+  transition: all 0.2s ease-in-out;
+  clip-path: polygon(0 0, 40% 0, 40% 100%, 60% 100%, 60% 0%, 100% 0, 100% 100%, 0 100%);
 }
 
-webots-view .icon-quit:hover {
-  background-image: url(../images/quit_hover.png)
+webots-view .icon {
+  display: block;
+  height: 32px; 
+  width: 32px;
+  margin-top: -1px;
+  margin-left: -8px;
+  pointer-events: none;
 }
 
-webots-view .icon-reload {
-  transform: scaleX(-1);
-  background-position: -496px -2px;
+webots-view .icon-step         {background-image: url(../images/icons/step.svg);}
+webots-view .icon-run          {background-image: url(../images/icons/step.svg);}
+webots-view .icon-reset        {background-image: url(../images/icons/reset.svg);}
+webots-view .icon-reload       {background-image: url(../images/icons/reload.svg);}
+webots-view .icon-quit         {background-image: url(../images/icons/quit.svg);}
+webots-view .icon-info         {background-image: url(../images/icons/info.svg);}
+webots-view .icon-settings     {background-image: url(../images/icons/settings.svg);}
+webots-view .icon-fullscreen   {background-image: url(../images/icons/fullscreen.svg);}
+webots-view .icon-partscreen   {background-image: url(../images/icons/partscreen.svg);}
+webots-view .icon-robot-window {background-image: url(../images/icons/robot-window.svg);}
+
+webots-view .icon {
+  transition: all 0.1s ease-in-out;
 }
 
-webots-view .icon-info {
-  width: 28px;
+webots-view .toolbar-btn:focus .icon-robot-window, 
+  .toolbar-btn:focus .icon-info,
+  .toolbar-btn:focus .icon-quit {
+  animation: animation-scale-down 0.3s;
 }
 
-webots-view .icon-robot-window {
-  width: 28px;
+webots-view .toolbar-btn:active .icon-robot-window, 
+  .toolbar-btn:active .icon-info,
+  .toolbar-btn:active .icon-quit {
+  animation: none;
+}
+
+webots-view .toolbar-btn:focus .icon-settings {
+  animation: animation-rotate 0.3s;
+}
+
+webots-view .toolbar-btn:active .icon-settings {
+  animation: none
+}
+
+webots-view .toolbar-btn:hover .icon-fullscreen {
+  animation: animation-scale-up 0.5s;
+}
+
+webots-view .toolbar-btn:hover .icon-partscreen {
+  animation: animation-scale-down 0.5s;
+}
+
+@keyframes animation-scale-down {
+  0%    {transform: scale(1);}
+  50%   {transform: scale(0.9);}
+  100%  {transform: scale(1);}
+}
+
+@keyframes animation-scale-up {
+  0%    {transform: scale(1);}
+  50%   {transform: scale(1.1);}
+  100%  {transform: scale(1);}
+}
+
+@keyframes animation-rotate {
+  0%    {transform: rotate(0deg);}
+  50%   {transform: rotate(20deg);}
+  100%  {transform: rotate(0deg);}
 }
 
 /* Tooltips */
@@ -168,49 +212,49 @@ webots-view .tooltip {
   border-radius: 2px;
   padding: 5px 10px;
   white-space: nowrap;
-
-  /* Position the tooltip */
-  position: relative;
-  bottom: 55px;
-}
-
-webots-view .toolbar-btn:hover .tooltip {
-  visibility: visible;
-}
-
-webots-view .reload-tooltip{
-  transform: scaleX(-1);
   position: absolute;
-  left: -100px;
-}
-
-webots-view .robot-window-tooltip {
-  position: absolute;
-  right: 0px;
   white-space: nowrap;
-}
-
-webots-view .info-tooltip {
-  position: absolute;
-  right: 0px;
-  white-space: nowrap;
-}
-
-webots-view .reset-scene-tooltip {
-  position: absolute;
-  right: 0px;
+  bottom: 50px;
 }
 
 webots-view .fullscreen-tooltip {
-  white-space: nowrap;
-  position: absolute;
   right: 0px;
 }
 
 webots-view .partscreen-tooltip {
-  white-space: nowrap;
-  position: absolute;
   right: 0px;
+}
+
+webots-view .settings-tooltip {
+  right: 32px;
+}
+
+webots-view .info-tooltip {
+  right: 34px;
+}
+
+webots-view .robot-window-tooltip {
+  right: 88px;
+}
+
+webots-view .quit-tooltip {
+  left: 0px;
+}
+
+webots-view .reset-tooltip {
+  left: 105px;
+}
+
+webots-view .play-tooltip {
+  left: 185px;
+}
+
+webots-view .step-tooltip {
+  left: 155px;
+}
+
+webots-view .toolbar-btn:hover .tooltip {
+  visibility: visible;
 }
 
 /* Time Indicator */
@@ -221,7 +265,7 @@ webots-view .current-time, .total-time, .time-divider {
   color: rgba(240, 240, 240, 1);
   font-family: 'verdana';
   font-size: 14px;
-  text-shadow: 1px 1px 1px rgb(0,0,0);
+  text-shadow: 1px 1px 1px rgb(0,0,0,0);
   user-select: none;
   -webkit-user-select: none;
 }
@@ -241,9 +285,9 @@ webots-view #worldSelectionDiv {
 webots-view .select-css {
   position: relative;
   align-self: center;
-  padding: 0.4em 1.8em 0.3em 0.4em;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: 0.5em;
+  padding: 0.3em 1.8em 0.3em 0.3em;
+  border: 1px solid rgb(170, 170, 170, 0);
+  border-radius: 0.3em;
   background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
   background-repeat: no-repeat, repeat;
   background-position: right .7em top 55%, 0 0;
@@ -254,7 +298,7 @@ webots-view .select-css {
   -webkit-appearance: none;
   appearance: none;
   font-family: Arial,Helvetica,sans-serif;
-  top: 3px;
+  top: 5px;
   cursor: pointer;
 
 }
@@ -426,6 +470,7 @@ webots-view .arrow-right{
 }
 
 /* Speed and gtao pane */
+
 webots-view .first-li {
   border-bottom: 1px solid grey;
   padding-left: 19px;
@@ -462,10 +507,10 @@ webots-view .arrow-left{
 webots-view .switch {
   position: absolute;
   display: inline-block;
-  width: 40px;
-  height: 17px;
-  top: 10px;
-  right: 11px;
+  width: 28px;
+  height: 14px;
+  top: 9px;
+  right: 12px;
   pointer-events: none;
 }
 
@@ -483,19 +528,21 @@ webots-view .slider {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #aaa;
   pointer-events: none;
+  transition: background-color 0.2s ease-in-out;
 }
 
 webots-view .slider:before {
   position: absolute;
   content: "";
-  height: 21px;
-  width: 21px;
-  left: -3px;
-  top: -2px;
-  background-color: #ccc;
+  height: 16px;
+  width: 16px;
+  left: -2px;
+  top: -1px;
+  background-color: #fff;
   pointer-events: none;
+  transition: transform 0.1s ease-in-out;
 }
 
 webots-view input:checked + .slider {
@@ -509,15 +556,15 @@ webots-view input:focus + .slider {
 }
 
 webots-view input:checked + .slider:before {
-  -webkit-transform: translateX(23px);
-  -ms-transform: translateX(23px);
-  transform: translateX(23px);
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
   background-color: white;
   pointer-events: none;
 }
 
 webots-view .slider.round {
-  border-radius: 17px;
+  border-radius: 14px;
   pointer-events: none;
 }
 
@@ -546,7 +593,7 @@ webots-view #remoteScene {
 /* Floating windows*/
 
 webots-view .floating-window {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   display: block;
   border-radius: 5px;

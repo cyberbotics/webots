@@ -50,15 +50,15 @@ export default class Toolbar {
   }
 
   createStreamingToolbar() {
-    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
 
     // Left part
     this._createQuitButton();
     this._createReloadButton();
     this._createStreamingTimeIndicator();
     this._createResetButton();
-    this._createStepButton();
     this._createPlayButton();
+    this._createStepButton();
     this._createRunButton();
     this._createWorldSelection();
     if (this._view.broadcast) {
@@ -100,13 +100,25 @@ export default class Toolbar {
   _createToolBarButton(name, tooltipText, click) {
     const button = document.createElement('button');
     button.id = name + '-button';
-    button.className = 'toolbar-btn icon-' + name;
+    button.className = 'toolbar-btn';
     if (typeof click === 'function')
       button.onclick = () => click();
 
+    if (name === 'play' || name === 'run') {
+      const buttonElement = document.createElement('div');
+      buttonElement.id = name + '-button-id';
+      buttonElement.className = 'icon-' + name;
+      button.appendChild(buttonElement);
+    } else {
+      const buttonElement = document.createElement('span');
+      buttonElement.id = name + '-button-id';
+      buttonElement.className = 'icon icon-' + name;
+      button.appendChild(buttonElement);
+    }
+
     const tooltip = document.createElement('span');
-    tooltip.className = 'tooltip ' + name + '-tooltip';
     tooltip.id = name + 'Tooltip';
+    tooltip.className = 'tooltip ' + name + '-tooltip';
     tooltip.innerHTML = tooltipText;
     button.appendChild(tooltip);
 
@@ -158,7 +170,7 @@ export default class Toolbar {
     let canHide;
 
     let isPlaying = true;
-    if (document.getElementById('play-button') && document.getElementById('play-button').className !== 'toolbar-btn icon-pause')
+    if (document.getElementById('play-button-id') && document.getElementById('play-button-id').className !== 'icon-pause')
       isPlaying = false;
 
     let settingsPane = true;
@@ -178,7 +190,7 @@ export default class Toolbar {
       canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
     } else if (this.type === 'streaming') {
       if (document.getElementById('run-button'))
-        isPlaying = isPlaying || document.getElementById('run-button').className === 'toolbar-btn icon-pause';
+        isPlaying = isPlaying || document.getElementById('run-button-id').className === 'icon-pause';
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
@@ -206,10 +218,11 @@ export default class Toolbar {
     }
 
     this.playButton = this._createToolBarButton('play', 'Play (k)', () => this._triggerPlayPauseButton());
-    this.playTooltip = this.playButton.childNodes[0];
+    this.playButtonElement = this.playButton.childNodes[0];
+    this.playTooltip = this.playButton.childNodes[1];
 
     if (action === 'pause') {
-      this.playButton.className = 'toolbar-btn icon-pause';
+      this.playButtonElement.className = 'icon-pause';
       this.playTooltip.innerHTML = 'Pause (k)';
     }
 
@@ -245,11 +258,11 @@ export default class Toolbar {
 
     if (typeof this.runButton !== 'undefined') {
       this.runTooltip.innerHTML = 'Run';
-      this.runButton.className = 'toolbar-btn icon-run';
+      this.runButtonElement.className = 'icon-run';
     }
 
     this.playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
-    this.playButton.className = 'toolbar-btn icon-' + action;
+    this.playButtonElement.className = 'icon-' + action;
   }
 
   _playKeyboardHandler(e) {
@@ -382,7 +395,7 @@ export default class Toolbar {
       this.floatingRobotWindowContainer.remove();
   }
 
-  _changeRobotWindowPaneVisibility(e) {
+  _changeRobotWindowPaneVisibility(event) {
     if (this.robotWindowPane.style.visibility === 'hidden') {
       this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
@@ -390,7 +403,7 @@ export default class Toolbar {
     }
     else {
       this.robotWindowPane.style.visibility = 'hidden';
-      if ((e !== 'undefined') && !e.srcElement.id.startsWith("settings")) {
+      if (event !== 'undefined' && !event.srcElement.id.startsWith("settings")) {
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
       }
@@ -424,7 +437,7 @@ export default class Toolbar {
     this._changeRobotWindowPaneVisibility();
     if (this.robotWindows)
       this.robotWindows.forEach((rw) => this._changeRobotWindowVisibility(rw.getID()));
-    this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility());
+    this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility(_));
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
 
@@ -1026,9 +1039,9 @@ export default class Toolbar {
     if (document.getElementById('webotsProgress'))
       document.getElementById('webotsProgress').style.display = 'block';
 
-    if (typeof this.pauseButton !== 'undefined' && this.playButton.className === 'toolbar-btn icon-pause')
+    if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
-    else if (typeof this.runButton !== 'undefined' && this.runButton.className === 'toolbar-btn icon-pause')
+    else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause')
       this._view.currentState = 'run';
 
     const state = this._view.currentState;
@@ -1110,12 +1123,12 @@ export default class Toolbar {
 
     if (typeof this.playButton !== 'undefined') {
       this.playTooltip.innerHTML = 'Play (k)';
-      this.playButton.className = 'toolbar-btn icon-play';
+      this.playButtonElement.className = 'icon-play';
     }
 
     if (typeof this.runButton !== 'undefined') {
       this.runTooltip.innerHTML = 'Run';
-      this.runButton.className = 'toolbar-btn icon-run';
+      this.runButtonElement.className = 'icon-run';
     }
 
     this.pause();
@@ -1125,14 +1138,15 @@ export default class Toolbar {
 
   _createRunButton() {
     this.runButton = this._createToolBarButton('run', 'Run', () => this._triggerRunPauseButton());
-    this.runTooltip = this.runButton.childNodes[0];
+    this.runButtonElement = this.runButton.childNodes[0];
+    this.runTooltip = this.runButton.childNodes[1];
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
     else
       this.minWidth += 41;
     if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
-      this.runButton.className = 'toolbar-btn icon-pause';
+      this.runButtonElement.className = 'icon-pause';
       this.run();
     }
     this.toolbarLeft.appendChild(this.runButton);
@@ -1151,11 +1165,11 @@ export default class Toolbar {
     }
     if (typeof this.playButton !== 'undefined') {
       this.playTooltip.innerHTML = 'Play (k)';
-      this.playButton.className = 'toolbar-btn icon-play';
+      this.playButtonElement.className = 'icon-play';
     }
 
     this.runTooltip.innerHTML = action.charAt(0).toUpperCase() + action.slice(1);
-    this.runButton.className = 'toolbar-btn icon-' + action;
+    this.runButtonElement.className = 'icon-' + action;
   }
 
   run() {

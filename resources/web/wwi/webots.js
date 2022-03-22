@@ -350,7 +350,7 @@ webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
     ms = '00' + ms;
   else if (ms < 100)
     ms = '0' + ms;
-  return h + ':' + m + ':' + s + ':' + ms;
+  return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
 };
 
 export {webots};
