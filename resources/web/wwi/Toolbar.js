@@ -67,6 +67,7 @@ export default class Toolbar {
     }
 
     // Right part
+    this._createIdeButton();
     this._createRobotWindowButton();
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
@@ -216,8 +217,8 @@ export default class Toolbar {
     document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
-
-    this.minWidth += 41;
+    else
+      this.minWidth += 41;
   }
 
   _triggerPlayPauseButton() {
@@ -256,6 +257,16 @@ export default class Toolbar {
       this._triggerPlayPauseButton();
   }
 
+  _createIdeButton() {
+    this.ideButton = this._createToolBarButton('ide', 'Theia IDE', () => this._displayInformationWindow());
+    this.toolbarRight.appendChild(this.infoButton);
+    this._createInformation();
+    if (this.parentNode.showIde)
+      this.ideButton.style.display = 'none';
+    else
+      this.minWidth += 41;
+  }
+
   _createRobotWindowButton() {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       if (WbWorld.instance.robots.length > 0) {
@@ -266,6 +277,10 @@ export default class Toolbar {
         document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
         this.keydownRefW = undefined;
         window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
+        if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
+          this.robotWindowButton.style.display = 'none';
+        else
+          this.minWidth += 41;
       }
     }
   }

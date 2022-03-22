@@ -141,6 +141,12 @@ webots-view .icon-quit:hover {
   background-image: url(../images/quit_hover.png)
 }
 
+webots-view .icon-ide {
+  background-size: 28px;
+  background-image: url(../images/IDE.png);
+  margin-top:4px;
+  margin-left: 5px;
+}
 webots-view .icon-reload {
   transform: scaleX(-1);
   background-position: -496px -2px;
