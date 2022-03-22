@@ -22,6 +22,7 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <assert.h>
 #include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
