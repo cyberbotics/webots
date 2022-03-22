@@ -114,21 +114,19 @@ void WbLog::warning(const QString &message, const QString &name, bool popup) {
 }
 
 void WbLog::error(const QString &message, const QString &name, bool popup) {
-  if (gStderrTee)
-    std::cerr << "ERROR: " << message.toUtf8().constData() << "\n" << std::flush;
+  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
+  const char *header = "ERROR: ";
+  if (gStderrTee || numberOfReceivers == 0)
+    std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
     return;
   }
 
-  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
   if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
-    instance()->emitLog(ERROR, "ERROR: " + message, popup, name);
-  else {
-    if (!gStderrTee && numberOfReceivers == 0)
-      std::cerr << "ERROR: " << message.toUtf8().constData() << "\n" << std::flush;
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, name, ERROR);
-  }
+    instance()->emitLog(ERROR, header + message, popup, name);
+  else
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, header + message, name, ERROR);
 }
 
 void WbLog::fatal(const QString &message) {
