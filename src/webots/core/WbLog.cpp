@@ -99,8 +99,8 @@ void WbLog::info(const QString &message, const QString &name, bool popup) {
 }
 
 void WbLog::warning(const QString &message, const QString &name, bool popup) {
-  if (gStdoutTee)
-    std::cout << "WARNING: " << message.toUtf8().constData() << "\n" << std::flush;
+  if (gStderrTee)
+    std::cerr << "WARNING: " << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
     return;
