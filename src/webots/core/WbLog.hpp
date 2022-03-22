@@ -76,6 +76,10 @@ public:
   // display message and terminate Webots
   static void fatal(const QString &message);
 
+  // enable redirecting messages to the terminal
+  static void enableStdOutRedirectToTerminal();
+  static void enableStdErrRedirectToTerminal();
+
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
   static void appendStdout(const QString &message, Filter filter = WEBOTS_OTHERS);
