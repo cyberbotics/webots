@@ -109,7 +109,7 @@ webots-view .icon-play {
 }
 
 webots-view .icon-run {
-  margin-top: 0px;
+  margin-top: 4px;
   margin-left: -2px;
   width: 22px;
   height: 22px;
@@ -119,7 +119,7 @@ webots-view .icon-run {
 }
 
 webots-view .icon-pause {
-  margin-top: 0px;
+  margin-top: 4px;
   margin-left: -2px;
   width: 22px;
   height: 22px;
