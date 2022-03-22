@@ -42,15 +42,15 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
-static bool gStdoutTee = false;
-static bool gStderrTee = false;
+static bool gStdoutRedirect = false;
+static bool gStderrRedirect = false;
 
 void WbLog::enableStdOutRedirectToTerminal() {
-  gStdoutTee = true;
+  gStdoutRedirect = true;
 };
 
 void WbLog::enableStdErrRedirectToTerminal() {
-  gStderrTee = true;
+  gStderrRedirect = true;
 };
 
 void WbLog::debug(const QString &message, bool popup, Filter filter) {
@@ -86,7 +86,7 @@ void WbLog::debug(const QString &message, const QString &name, bool popup) {
 
 void WbLog::info(const QString &message, const QString &name, bool popup) {
   const char *header = "INFO: ";
-  if (gStdoutTee)
+  if (gStdoutRedirect)
     std::cout << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, INFO);
@@ -102,7 +102,7 @@ void WbLog::info(const QString &message, const QString &name, bool popup) {
 
 void WbLog::warning(const QString &message, const QString &name, bool popup) {
   const char *header = "WARNING: ";
-  if (gStderrTee)
+  if (gStderrRedirect)
     std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
@@ -119,7 +119,7 @@ void WbLog::warning(const QString &message, const QString &name, bool popup) {
 void WbLog::error(const QString &message, const QString &name, bool popup) {
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
   const char *header = "ERROR: ";
-  if (gStderrTee || numberOfReceivers == 0)
+  if (gStderrRedirect || numberOfReceivers == 0)
     std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
@@ -189,13 +189,13 @@ void WbLog::appendStderr(const QString &message, Filter filter) {
 }
 
 void WbLog::appendStdout(const QString &message, const QString &name) {
-  if (gStdoutTee)
+  if (gStdoutRedirect)
     std::cout << message.toUtf8().constData() << std::flush;
   emit instance()->logEmitted(STDOUT, message, false, name);
 }
 
 void WbLog::appendStderr(const QString &message, const QString &name) {
-  if (gStderrTee)
+  if (gStderrRedirect)
     std::cerr << message.toUtf8().constData() << std::flush;
   emit instance()->logEmitted(STDERR, message, false, name);
 }
