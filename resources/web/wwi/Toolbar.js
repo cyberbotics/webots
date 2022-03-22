@@ -262,7 +262,7 @@ export default class Toolbar {
     this.ideButton = this._createToolBarButton('ide', 'Theia IDE', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
-    if (this.parentNode.showIde)
+    if (!this.parentNode.showIde && !this._view.theia)
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
@@ -285,7 +285,7 @@ export default class Toolbar {
 
     ideWindow.setSize(robotWindowWidth, robotWindowHeight);
     ideWindow.setPosition(margin, margin);
-    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(ideWindow.getID())
+    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(ideWindow.getID());
   }
 
   _createRobotWindowButton() {
