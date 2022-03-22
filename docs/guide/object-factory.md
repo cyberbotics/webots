@@ -22,6 +22,7 @@ CardboardBox {
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
   SFBool     locked      FALSE
+  SFFloat    lidAngle    0
 }
 ```
 
@@ -35,6 +36,8 @@ CardboardBox {
 - `size`: Defines the size of the cardboard box.
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+
+- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 closes the box and uses a simple box for the bounding object, preventing it from containing objects.
 
 ### MetalStorageBox
 
