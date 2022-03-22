@@ -72,7 +72,6 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
-
   }
 
   removeToolbar() {
@@ -218,7 +217,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
 
-    this.minWidth +=41
+    this.minWidth += 41;
   }
 
   _triggerPlayPauseButton() {
@@ -270,7 +269,7 @@ export default class Toolbar {
       }
     }
   }
-    
+
   _createRobotWindowPane() {
     this.robotWindowPane = document.createElement('div');
     this.robotWindowPane.className = 'robot-window-pane';
@@ -285,10 +284,10 @@ export default class Toolbar {
 
   _closeRobotWindowPaneOnClick(event) {
     if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
-      if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robot-window")))
+      if (!(event.srcElement.id.startsWith('close-') || event.srcElement.id.startsWith('enable-robot-window')))
         this.robotWindowPane.style.visibility = 'hidden';
-        for (let i of document.getElementsByClassName('tooltip'))
-          i.style.visibility = '';
+      for (let i of document.getElementsByClassName('tooltip'))
+        i.style.visibility = '';
     }
   }
 
@@ -324,7 +323,7 @@ export default class Toolbar {
     robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {
-      this._changeRobotWindowVisibility(name)
+      this._changeRobotWindowVisibility(name);
     };
   }
 
@@ -333,7 +332,7 @@ export default class Toolbar {
     this.floatingRobotWindowContainer.className = 'floating-window-container';
     this.parentNode.appendChild(this.floatingRobotWindowContainer);
 
-    var robotWindowUrl = this._view.x3dScene.prefix.slice(0,-1);
+    const robotWindowUrl = this._view.x3dScene.prefix.slice(0, -1);
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
@@ -341,16 +340,20 @@ export default class Toolbar {
       WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
     }
 
-    const viewWidth = this.parentNode.offsetWidth, viewHeight = this.parentNode.offsetHeight;
-    const robotWindowWidth = 250, robotWindowHeight = 200, margin = 20;
-    var numCol = 0, numRow = 0;
+    const viewWidth = this.parentNode.offsetWidth;
+    const viewHeight = this.parentNode.offsetHeight;
+    const robotWindowWidth = 250;
+    const robotWindowHeight = 200;
+    const margin = 20;
+    let numCol = 0;
+    let numRow = 0;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotWindowVisibility(rw.getID()));
- 
+
       if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
-        numRow++; 
+        numRow++;
         if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight)
           numRow = 0;
         numCol = 0;
@@ -358,20 +361,19 @@ export default class Toolbar {
 
       rw.setSize(robotWindowWidth, robotWindowHeight);
       rw.setPosition(margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
-      numCol++;     
+      numCol++;
     });
   }
 
   _refreshRobotWindowContent() {
     this.robotWindows.forEach((rw) => {
-      if (typeof document.getElementById(rw.name + '-robot-window').src !== 'undefined') {
+      if (typeof document.getElementById(rw.name + '-robot-window').src !== 'undefined')
         document.getElementById(rw.name + '-robot-window').src = document.getElementById(rw.name + '-robot-window').src;
-      }
     });
   }
 
   loadRobotWindows() {
-    console.log("Loading windows...");
+    console.log('Loading windows...');
     this.removeRobotWindows();
     this._createRobotWindowPane();
     this._createRobotWindows();
@@ -380,7 +382,7 @@ export default class Toolbar {
   removeRobotWindows() {
     if (typeof this.robotWindowPane !== 'undefined')
       this.robotWindowPane.remove();
-    if (typeof this.floatingRobotWindowContainer !== 'undefined')  
+    if (typeof this.floatingRobotWindowContainer !== 'undefined')
       this.floatingRobotWindowContainer.remove();
   }
 
@@ -389,8 +391,7 @@ export default class Toolbar {
       this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = 'hidden';
-    }
-    else {
+    } else {
       this.robotWindowPane.style.visibility = 'hidden';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = '';
@@ -407,7 +408,7 @@ export default class Toolbar {
   }
 
   _changeRobotWindowVisibility(name) {
-    if(document.getElementById(name).style.visibility === 'hidden') {
+    if (document.getElementById(name).style.visibility === 'hidden') {
       document.getElementById('button-' + name).checked = true;
       document.getElementById(name).style.visibility = 'visible';
     } else {
