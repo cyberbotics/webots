@@ -12,6 +12,7 @@ Released on XX, XXth, 2022.
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
   - New Objects:
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
+    - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
   - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements:
     - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
@@ -33,6 +34,7 @@ Released on XX XX, 2022.
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
   - Bug fixes
+    - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)). 
     - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
     - Fixed insufficient value sanity check in Solid's `postPhysicsStep` resulting in exploding [Track](track.md) ([#4133](https://github.com/cyberbotics/webots/pull/4133)).
     - Fixed `wb_supervisor_world_save` behavior when no argument is provided in non-C APIs ([#4140](https://github.com/cyberbotics/webots/pull/4140)).
