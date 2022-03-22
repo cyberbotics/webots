@@ -256,9 +256,9 @@ void WbGuiApplication::parseArguments() {
       }
       parseStreamArguments(serverArgument);
     } else if (arg == "--stdout")
-      WbConsole::enableStdOutRedirectToTerminal();
+      WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
-      WbConsole::enableStdErrRedirectToTerminal();
+      WbLog::enableStdErrRedirectToTerminal();
     else if (arg.startsWith("--log-performance")) {
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
