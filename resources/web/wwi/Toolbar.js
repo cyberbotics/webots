@@ -321,9 +321,7 @@ export default class Toolbar {
   _closeRobotWindowPaneOnClick(event) {
     if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
       if (!(event.srcElement.id.startsWith('close-') || event.srcElement.id.startsWith('enable-robot-window')))
-        this.robotWindowPane.style.visibility = 'hidden';
-      for (let i of document.getElementsByClassName('tooltip'))
-        i.style.visibility = '';
+        this._changeRobotWindowPaneVisibility(event);
     }
   }
 
@@ -409,7 +407,6 @@ export default class Toolbar {
   }
 
   loadRobotWindows() {
-    console.log('Loading windows...');
     this.removeRobotWindows();
     this._createRobotWindowPane();
     this._createRobotWindows();
@@ -422,15 +419,17 @@ export default class Toolbar {
       this.floatingRobotWindowContainer.remove();
   }
 
-  _changeRobotWindowPaneVisibility() {
+  _changeRobotWindowPaneVisibility(e) {
     if (this.robotWindowPane.style.visibility === 'hidden') {
       this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
         i.style.visibility = 'hidden';
     } else {
       this.robotWindowPane.style.visibility = 'hidden';
-      for (let i of document.getElementsByClassName('tooltip'))
-        i.style.visibility = '';
+      if ((e !== 'undefined') && !e.srcElement.id.startsWith('settings')) {
+        for (let i of document.getElementsByClassName('tooltip'))
+          i.style.visibility = '';
+      }
     }
   }
 
@@ -439,7 +438,7 @@ export default class Toolbar {
       if (isFirst)
         this._showAllRobotWindows();
       else
-        this._changeRobotWindowPaneVisibility();
+        this._changeRobotWindowPaneVisibility(e);
     }
   }
 
@@ -549,8 +548,10 @@ export default class Toolbar {
       this._settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         const tooltips = document.getElementsByClassName('tooltip');
-        for (let i of tooltips)
-          i.style.visibility = '';
+        if ((event !== 'undefined') && !event.srcElement.id.startsWith('robot-window')) {
+          for (let i of tooltips)
+            i.style.visibility = '';
+        }
       }
     }
 
