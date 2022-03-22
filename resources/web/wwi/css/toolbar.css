@@ -159,16 +159,21 @@ webots-view .toolbar-btn:focus .icon-robot-window,
   animation: animation-scale-down 0.3s;
 }
 
-webots-view .toolbar-btn:focus .icon-settings,
-  .toolbar-btn:focus .icon-reset-scene {
-  animation: animation-rotate 0.3s;
-}
-
 webots-view .toolbar-btn:active .icon-robot-window, 
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
   .toolbar-btn:active .icon-settings,
+  .toolbar-btn:active .icon-reset-scene {
+  animation: none;
+}
+
+webots-view .toolbar-btn:focus .icon-settings,
+  .toolbar-btn:focus .icon-reset-scene {
+  animation: animation-rotate 0.3s;
+}
+
+webots-view .toolbar-btn:active .icon-settings,
   .toolbar-btn:active .icon-reset-scene {
   animation: none;
 }
