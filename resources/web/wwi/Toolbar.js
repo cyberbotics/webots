@@ -2,6 +2,7 @@ import Animation from './Animation.js';
 import AnimationSlider from './AnimationSlider.js';
 import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
 import InformationPanel from './InformationPanel.js';
+import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -258,13 +259,33 @@ export default class Toolbar {
   }
 
   _createIdeButton() {
-    this.ideButton = this._createToolBarButton('ide', 'Theia IDE', () => this._displayInformationWindow());
-    this.toolbarRight.appendChild(this.infoButton);
-    this._createInformation();
+    this.ideButton = this._createToolBarButton('ide', 'Theia IDE', undefined);
+    this.toolbarRight.appendChild(this.ideButton);
+    this._createIde();
     if (this.parentNode.showIde)
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
+  }
+  _createIde() {
+    this.floatingIdeContainer = document.createElement('div');
+    this.floatingIdeContainer.className = 'floating-window-container';
+    this.parentNode.appendChild(this.floatingIdeContainer);
+
+    const url = this._view.x3dScene.prefix.slice(0, -1);
+
+    let ideWindow = new FloatingIde(this.floatingIdeContainer, 'ide', url);
+
+    const robotWindowWidth = 500;
+    const robotWindowHeight = 500;
+    const margin = 20;
+
+    ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(ideWindow.getID()));
+
+    ideWindow.setSize(robotWindowWidth, robotWindowHeight);
+    ideWindow.setPosition(margin, margin);
+    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(ideWindow.getID())
   }
 
   _createRobotWindowButton() {
@@ -317,7 +338,7 @@ export default class Toolbar {
     robotWindowLi.appendChild(button);
 
     let label = document.createElement('input');
-    label.id = 'button-' + name;
+    label.id = name + '-button';
     label.type = 'checkbox';
     label.checked = false;
     label.style.display = 'none';
@@ -338,7 +359,7 @@ export default class Toolbar {
     robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {
-      this._changeRobotWindowVisibility(name);
+      this._changeFloatingWindowVisibility(name);
     };
   }
 
@@ -365,7 +386,7 @@ export default class Toolbar {
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-      rw.headerQuit.addEventListener('mouseup', _ => this._changeRobotWindowVisibility(rw.getID()));
+      rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getID()));
 
       if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
         numRow++;
@@ -422,13 +443,17 @@ export default class Toolbar {
     }
   }
 
-  _changeRobotWindowVisibility(name) {
-    if (document.getElementById(name).style.visibility === 'hidden') {
-      document.getElementById('button-' + name).checked = true;
-      document.getElementById(name).style.visibility = 'visible';
-    } else {
-      document.getElementById('button-' + name).checked = false;
-      document.getElementById(name).style.visibility = 'hidden';
+  _changeFloatingWindowVisibility(name) {
+    const floatingWindow = document.getElementById(name);
+    const floatingWindowButton = document.getElementById(name);
+    if (floatingWindow && floatingWindowButton) {
+      if (document.getElementById(name).style.visibility === 'hidden') {
+        document.getElementById(name + '-button').checked = true;
+        document.getElementById(name).style.visibility = 'visible';
+      } else {
+        document.getElementById(name + '-button').checked = false;
+        document.getElementById(name).style.visibility = 'hidden';
+      }
     }
   }
 
@@ -439,7 +464,7 @@ export default class Toolbar {
     this.mouseupRefWFirst = undefined;
     this._changeRobotWindowPaneVisibility();
     if (this.robotWindows)
-      this.robotWindows.forEach((rw) => this._changeRobotWindowVisibility(rw.getID()));
+      this.robotWindows.forEach((rw) => this._changeFloatingWindowVisibility(rw.getID()));
     this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility());
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }

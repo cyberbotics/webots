@@ -1,9 +1,8 @@
 import FloatingWindow from './FloatingWindow.js';
 
 export default class FloatingIDE extends FloatingWindow {
-  constructor(parentNode, name, url, windowName) {
+  constructor(parentNode, name, url) {
     super(parentNode, name, url);
-    this.window = windowName;
 
     this.headerText.innerHTML = 'IDE';
 
