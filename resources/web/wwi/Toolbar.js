@@ -72,7 +72,6 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
-
   }
 
   removeToolbar() {
