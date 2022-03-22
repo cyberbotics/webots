@@ -986,10 +986,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
                                           sent_field_get_request->field->node_unique_id == field_node_id &&
                                           sent_field_get_request->field->id == field_id;
-        const bool is_proto_internal =
-          (sent_field_get_request && sent_field_get_request->field) ? sent_field_get_request->field->is_proto_internal : false;
         WbFieldStruct *f =
-          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id, is_proto_internal);
+          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id, false);
         if (f) {
           switch (f->type) {
             case WB_SF_BOOL:
