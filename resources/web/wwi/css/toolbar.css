@@ -138,8 +138,8 @@ webots-view .icon {
 }
 
 webots-view .icon-step         {background-image: url(../images/icons/step.svg);}
-webots-view .icon-run          {background-image: url(../images/icons/step.svg);}
 webots-view .icon-reset        {background-image: url(../images/icons/reset.svg);}
+webots-view .icon-reset-scene  {background-image: url(../images/icons/reload.svg);}
 webots-view .icon-reload       {background-image: url(../images/icons/reload.svg);}
 webots-view .icon-quit         {background-image: url(../images/icons/quit.svg);}
 webots-view .icon-info         {background-image: url(../images/icons/info.svg);}
@@ -159,19 +159,18 @@ webots-view .toolbar-btn:focus .icon-robot-window,
   animation: animation-scale-down 0.3s;
 }
 
-webots-view .toolbar-btn:active .icon-robot-window, 
-  .toolbar-btn:active .icon-info,
-  .toolbar-btn:active .icon-quit,
-  .toolbar-btn:active .icon-step {
-  animation: none;
-}
-
-webots-view .toolbar-btn:focus .icon-settings {
+webots-view .toolbar-btn:focus .icon-settings,
+  .toolbar-btn:focus .icon-reset-scene {
   animation: animation-rotate 0.3s;
 }
 
-webots-view .toolbar-btn:active .icon-settings {
-  animation: none
+webots-view .toolbar-btn:active .icon-robot-window, 
+  .toolbar-btn:active .icon-info,
+  .toolbar-btn:active .icon-quit,
+  .toolbar-btn:active .icon-step,
+  .toolbar-btn:active .icon-settings,
+  .toolbar-btn:active .icon-reset-scene {
+  animation: none;
 }
 
 webots-view .toolbar-btn:hover .icon-fullscreen {
@@ -216,43 +215,28 @@ webots-view .tooltip {
   white-space: nowrap;
   position: absolute;
   white-space: nowrap;
-  bottom: 50px;
+  bottom: 55px;
 }
 
-webots-view .fullscreen-tooltip {
+webots-view .fullscreen-tooltip, .partscreen-tooltip {
   right: 0px;
 }
 
-webots-view .partscreen-tooltip {
-  right: 0px;
-}
-
-webots-view .settings-tooltip {
-  right: 32px;
-}
-
-webots-view .info-tooltip {
-  right: 34px;
-}
-
-webots-view .robot-window-tooltip {
-  right: 88px;
+webots-view .settings-tooltip,
+  .info-tooltip,
+  .robot-window-tooltip,
+  .reset-scene-tooltip {
+  transform: translateX(-55%);
 }
 
 webots-view .quit-tooltip {
   left: 0px;
 }
 
-webots-view .reset-tooltip {
-  left: 105px;
-}
-
-webots-view .play-tooltip {
-  left: 185px;
-}
-
-webots-view .step-tooltip {
-  left: 155px;
+webots-view .reset-tooltip,
+  .play-tooltip,
+  .step-tooltip {
+  transform: translateX(-55%);
 }
 
 webots-view .toolbar-btn:hover .tooltip {

@@ -50,7 +50,7 @@ export default class Toolbar {
   }
 
   createStreamingToolbar() {
-    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
 
     // Left part
     this._createQuitButton();
