@@ -44,7 +44,7 @@ static void RedirectIOToConsole() {
       return;  // attempt to use the parent's console
     (void)freopen("CONOUT$", "w", stdout);
     (void)freopen("CONOUT$", "w", stderr);
-    (void)freopen("CONIN$", "w", stdin);
+    (void)freopen("CONIN$", "r", stdin);
   }
 }
 #endif
