@@ -91,6 +91,7 @@ void WbImageTexture::downloadAssets() {
     return;
 
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  printf("downloadAssets: mUrl %s -> completeUrl %s\n", mUrl->item(0).toUtf8().constData(), completeUrl.toUtf8().constData());
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -293,6 +294,7 @@ void WbImageTexture::destroyWrenTexture() {
 
 void WbImageTexture::updateUrl() {
   // check url validity
+  printf("updateUrl: path %s\n", path().toUtf8().constData());
   if (path().isEmpty())
     return;
 
@@ -307,6 +309,7 @@ void WbImageTexture::updateUrl() {
 
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    printf("updateUrl: mUrl %s -> completeUrl %s\n", mUrl->item(0).toUtf8().constData(), completeUrl.toUtf8().constData());
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
