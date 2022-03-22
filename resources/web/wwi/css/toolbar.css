@@ -154,13 +154,15 @@ webots-view .icon {
 
 webots-view .toolbar-btn:focus .icon-robot-window, 
   .toolbar-btn:focus .icon-info,
-  .toolbar-btn:focus .icon-quit {
+  .toolbar-btn:focus .icon-quit,
+  .toolbar-btn:focus .icon-step {
   animation: animation-scale-down 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-robot-window, 
   .toolbar-btn:active .icon-info,
-  .toolbar-btn:active .icon-quit {
+  .toolbar-btn:active .icon-quit,
+  .toolbar-btn:active .icon-step {
   animation: none;
 }
 
