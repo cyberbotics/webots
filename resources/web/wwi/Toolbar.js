@@ -297,7 +297,6 @@ export default class Toolbar {
   }
 
   _closeRobotWindowPaneOnClick(event) {
-    //console.log(event.srcElement.id);
     if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
       if (!(event.srcElement.id.startsWith("close-") || event.srcElement.id.startsWith("enable-robot-window")))
         this._changeRobotWindowPaneVisibility(event);
