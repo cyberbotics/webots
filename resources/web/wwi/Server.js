@@ -21,7 +21,7 @@ export default class Server {
   }
 
   connect() {
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
@@ -57,7 +57,7 @@ export default class Server {
   }
 
   onError() {
-    document.getElementById('webotsProgress').style.display = 'none';
+    document.getElementById('webots-progress').style.display = 'none';
     this._view.onquit()
   }
 
@@ -67,7 +67,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Starting simulation...';
   }

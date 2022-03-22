@@ -10,7 +10,7 @@ webots-view {
   position: relative;
 }
 
-webots-view .webots3DView {
+webots-view .webots-3d-view {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -19,7 +19,7 @@ webots-view .webots3DView {
   display: flex;
 }
 
-webots-view #webotsProgress {
+webots-view #webots-progress {
   z-index: 1;
   position: absolute;
   text-align: center;
@@ -232,7 +232,7 @@ webots-view .total-time { margin-right: 8px; }
 
 /* World selection */
 
-webots-view #worldSelectionDiv {
+webots-view #world-selection-div {
   display: inline-flex;
   margin-top: 2px;
   margin-left: 10px;

@@ -134,8 +134,8 @@ export default class X3dScene {
       }
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'File not found.';
     };
     xmlhttp.send();
   }
@@ -283,8 +283,8 @@ export default class X3dScene {
         data = data.substring(data.indexOf(':') + 1);
         const frame = JSON.parse(data);
         view.time = frame.time;
-        if (document.getElementById('webotsClock'))
-          document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
+        if (document.getElementById('webots-clock'))
+          document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
@@ -315,12 +315,12 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
-      if (document.getElementById('webotsProgressPercent'))
-        document.getElementById('webotsProgressPercent').innerHTML = '';
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Loading 3D scene...';
+      if (document.getElementById('webots-progress-percent'))
+        document.getElementById('webots-progress-percent').innerHTML = '';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
