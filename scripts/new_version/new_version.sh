@@ -108,6 +108,7 @@ then
 
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window/c3d_viewer_window.html
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/vehicles/plugins/robot_windows/automobile/automobile.html
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/robots/gctronic/e-puck/plugins/robot_windows/e-puck/e-puck.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/tests/api/controllers/supervisor_animation/animation.html
 
   echo "wwi resources on the cyberbotics FTP should be updated."
