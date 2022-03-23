@@ -355,30 +355,26 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
       QString name("PBRAppearance");
       float roughness = 1.0, transparency = 0.0;
-      for (unsigned int j = 0; j < material->mNumProperties; ++j) {
-        float values[3];
-        float value;
-        unsigned int count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, values, &count) == AI_SUCCESS && count == 3)
-          baseColor = WbVector3(values[0], values[1], values[2]);
-        count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, values, &count) == AI_SUCCESS && count == 3)
-          emissiveColor = WbVector3(values[0], values[1], values[2]);
-        if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &value) == AI_SUCCESS)
-          roughness = 1.0 - value;
-        else if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS_STRENGTH, &value) == AI_SUCCESS)
-          roughness = 1.0 - value / 100.0;
-        else if (aiGetMaterialFloat(material, AI_MATKEY_REFLECTIVITY, &value) == AI_SUCCESS)
-          roughness = 1.0 - value;
-        if (aiGetMaterialFloat(material, AI_MATKEY_OPACITY, &value) == AI_SUCCESS)
-          transparency = 1.0 - value;
-        aiString nameProperty;
-        if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
-          name = nameProperty.C_Str();
-        // Uncomment this part to print all the properties of this material
-        // qDebug() << propertyName << property->mData << property->mSemantic << property->mIndex << property->mDataLength
-        //          << property->mType;
-      }
+      float values[3];
+      float value;
+      unsigned int count = 3;
+      if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, values, &count) == AI_SUCCESS && count == 3)
+        baseColor = WbVector3(values[0], values[1], values[2]);
+      count = 3;
+      if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, values, &count) == AI_SUCCESS && count == 3)
+        emissiveColor = WbVector3(values[0], values[1], values[2]);
+      if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &value) == AI_SUCCESS)
+        roughness = 1.0 - value;
+      else if (aiGetMaterialFloat(material, AI_MATKEY_SHININESS_STRENGTH, &value) == AI_SUCCESS)
+        roughness = 1.0 - value / 100.0;
+      else if (aiGetMaterialFloat(material, AI_MATKEY_REFLECTIVITY, &value) == AI_SUCCESS)
+        roughness = 1.0 - value;
+      if (aiGetMaterialFloat(material, AI_MATKEY_OPACITY, &value) == AI_SUCCESS)
+        transparency = 1.0 - value;
+      aiString nameProperty;
+      if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
+        name = nameProperty.C_Str();
+
       stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
       stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
       stream += " name \"" + name + "\"";
