@@ -673,3 +673,10 @@ Can you please review the PR and approve it if you believe it is better now?
 ##### Luftwaffel [Moderator] 03/10/2022 01:26:40
 `@Olivier Michel` done. Much better now
 
+##### kimmcg 03/18/2022 15:19:02
+Hi all, There wasn't really a show and tell channel, but I figured I place it here. Here is the Crazyflie flying with velocity control by the keyboard 😁 I still want to work on some ROS twist message intergration and some general fixes, but this has an python and c controller.  It is currently at this github repo: [https://github.com/bitcraze/crazyflie-simulation/](https://github.com/bitcraze/crazyflie-simulation/) but in the coming months I'll work on a PR for the webots repo.
+> **Attachment**: [crazyflie\_world\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/954398533111394304/crazyflie_world_2.mp4)
+
+
+I also want to make a better environment for it as well then this arena. perhaps something with some range finders, rooms and wall following?
+
