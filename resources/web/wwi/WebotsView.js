@@ -5,7 +5,7 @@ import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
-webotsView.showIde            // defines whether the IDE button should be displayed.
+webotsView.showIde             // defines whether the IDE button should be displayed.
 webotsView.showPlay            // defines whether the play button should be displayed.
 webotsView.showQuit            // defines whether the quit button should be displayed.
 webotsView.showReload          // defines whether the reload button should be displayed.
