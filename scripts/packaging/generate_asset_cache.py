@@ -33,6 +33,9 @@ if len(sys.argv) != 2:
 else:
     tag = sys.argv[1]
 
+with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as f:
+    folder_name = f'assets-{f.readline().strip()}'
+
 # retrieve all files that potentially contain assets
 paths = []
 paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
@@ -56,19 +59,19 @@ for path in paths:
     asset_urls = list(set(asset_urls + assets))
 
 # create and fill asset folder
-if os.path.exists('assets'):
-    raise RuntimeError('Error, folder \'assets\' should not exist already but it does')
+if os.path.exists(folder_name):
+    raise RuntimeError(f'Error, folder \'{folder_name}\' should not exist already but it does')
 
-os.mkdir('assets')
+os.mkdir(folder_name)
 for asset in asset_urls:
     # generate hash of the remote url
     hash = hashlib.sha1(asset.encode('utf-8')).hexdigest()
     # determine location of the file locally
     local_url = asset.replace(rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}', WEBOTS_HOME)
     # copy to asset folder
-    shutil.copyfile(local_url, './assets/' + hash)
+    shutil.copyfile(local_url, f'./{folder_name}/{hash}')
 
 # generate zip file
-shutil.make_archive('assets', 'zip', 'assets')
-shutil.move('assets.zip', WEBOTS_HOME + '/distribution/assets.zip')
-shutil.rmtree('assets')
+shutil.make_archive(folder_name, 'zip', folder_name)
+shutil.move(f'{folder_name}.zip', f'{WEBOTS_HOME}/distribution/{folder_name}.zip')
+shutil.rmtree(folder_name)
