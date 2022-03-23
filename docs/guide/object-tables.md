@@ -2,7 +2,7 @@
 
 ## Desk
 
-A desk (1.2 x 0.7 x 0.72 m).
+A desk (0.7 x 1.2 x 0.72 m).
 
 %figure
 
@@ -108,3 +108,4 @@ Table {
 - `trayAppearance`: Defines the appearance of the tray.
 
 - `legAppearance`: Defines the appearance of the feet.
+

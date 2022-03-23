@@ -498,22 +498,11 @@ WbDevice *robot_get_robot_device() {
   return robot.device[0];
 }
 
-static const char *robot_get_type_name() {
-  switch (robot.device[0]->node) {
-    case WB_NODE_ROBOT:
-      return "Robot";
-    default:
-      ROBOT_ASSERT(0);
-  }
-
-  return NULL;
-}
-
 int robot_check_supervisor(const char *func_name) {
   if (robot.is_supervisor)
     return 1;  // OK
 
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
+  fprintf(stderr, "Error: ignoring illegal call to %s() in a 'Robot' controller.\n", func_name);
   fprintf(stderr, "Error: this function can only be used in a 'Supervisor' controller.\n");
   return 0;
 }
@@ -685,10 +674,6 @@ void wb_robot_mutex_delete(WbMutexRef m) {
 }
 
 // end of multi-task API
-
-WbNodeType wb_robot_get_type() {
-  return robot.device[0]->node;
-}
 
 void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
   if (mode != WB_MODE_SIMULATION && mode != WB_MODE_REMOTE_CONTROL) {

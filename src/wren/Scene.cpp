@@ -657,7 +657,7 @@ namespace wren {
       mShadowVolumeProgram->bind();
 
       Camera *camera = mCurrentViewport->camera();
-      const primitive::Plane farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
+      const primitive::Plane &farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
 
       const primitive::Aabb &cameraAabb = camera->aabb();
       glm::vec3 cameraToLightInv;

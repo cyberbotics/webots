@@ -10,8 +10,11 @@ layout(location = 1) out float outputDepth;
 uniform float minRange;
 uniform float maxRange;
 
+in float distToCamera;
+
 void main() {
-  floatDepth = gl_FragCoord.z / gl_FragCoord.w;
+  floatDepth = distToCamera;
+
   if (floatDepth < minRange)
     floatDepth = FLT_MAX;
   if (floatDepth >= maxRange)

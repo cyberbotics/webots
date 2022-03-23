@@ -190,9 +190,9 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
-            # speaker test not working on travis/github action because of missing sound drivers
+            # speaker test not working on github action because of missing sound drivers
             if (not filename.endswith('_temp.wbt') and
-                    not (('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and filename.endswith('speaker.wbt'))):
+                    not ('GITHUB_ACTIONS' in os.environ and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
                 worldsCount += 1
 

@@ -150,7 +150,13 @@ WbViewpoint::WbViewpoint(WbTokenizer *tokenizer) : WbBaseNode("Viewpoint", token
   init();
 }
 
-WbViewpoint::WbViewpoint(const WbViewpoint &other) : WbBaseNode(other) {
+WbViewpoint::WbViewpoint(const WbViewpoint &other) :
+  WbBaseNode(other),
+  mSavedPosition(),
+  mSavedOrientation(),
+  mSavedDescription(),
+  mSavedFollow(),
+  mInvisibleNodes() {
   init();
 }
 
@@ -272,7 +278,7 @@ bool WbViewpoint::isFollowed(const WbSolid *solid) const {
   return solid == mFollowedSolid;
 }
 
-float WbViewpoint::viewDistanceUnscaling(WbVector3 position) const {
+float WbViewpoint::viewDistanceUnscaling(const WbVector3 &position) const {
   WbVector3 eye = mPosition->value();
   WbVector3 forward = mOrientation->value().direction().normalized();
 

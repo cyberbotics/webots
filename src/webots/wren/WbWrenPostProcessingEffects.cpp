@@ -237,6 +237,9 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::motionBlur(float width, flo
 
   wr_post_processing_effect_connect(motionBlur, pass, 0, pass, 1);
 
+  wr_post_processing_effect_pass_set_input_texture_wrap_mode(pass, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+  wr_post_processing_effect_pass_set_input_texture_wrap_mode(pass, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+
   wr_post_processing_effect_set_result_program(motionBlur, WbWrenShaders::passThroughShader());
 
   return motionBlur;

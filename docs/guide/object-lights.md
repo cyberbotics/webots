@@ -2,7 +2,7 @@
 
 ## CeilingLight
 
-A ceiling light (0.19 x 0.8 x 0.19 m).
+A ceiling light (0.19 x 0.19 x 0.8 m).
 
 %figure
 
@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CeilingLight {
-  SFVec3f    translation                0 2.4 0
+  SFVec3f    translation                0 0 2.4
   SFRotation rotation                   0 0 1 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
@@ -68,7 +68,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CeilingSpotLight {
-  SFVec3f    translation               0 1.0 0
+  SFVec3f    translation               0 0 1
   SFRotation rotation                  0 0 1 0
   SFString   name                      "ceiling light"
   SFNode     supportAppearance         DamascusSteel { }
@@ -110,7 +110,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 ConstructionLamp {
-  SFVec3f    translation               0 0.07 0
+  SFVec3f    translation               0 0 0.07
   SFRotation rotation                  0 0 1 0
   SFString   name                      "construction lamp"
   SFNode     supportAppearance         MetalPipePaint { }
@@ -171,7 +171,7 @@ DoubleFluorescentLamp {
 
 ## FloorLight
 
-A floor light (0.19 x 1.6 x 0.19 m).
+A floor light (0.19 x 0.19 x 1.6 m).
 
 %figure
 

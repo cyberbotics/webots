@@ -65,3 +65,4 @@ Ramp30deg {
 ### Ramp30deg Field Summary
 
 - `color`: Defines the color of the ramp.
+

@@ -16,6 +16,7 @@
 
 #include "WbOdeContext.hpp"
 #include "WbPreferences.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 
 #include <QtCore/QElapsedTimer>
@@ -134,6 +135,7 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
     out << "System: " << WbSysInfo::sysInfo() << "\n";
     out << "Processor: " << WbSysInfo::processor() << "\n";
     out << "Number of cores: " << WbSysInfo::coreCount() << "\n";
+    out << "OpenAL devices: " << WbSoundEngine::device() << "\n";
     out << "OpenGL vendor: " << WbSysInfo::openGLVendor() << "\n";
     out << "OpenGL renderer: " << WbSysInfo::openGLRenderer() << "\n";
     out << "OpenGL version: " << WbSysInfo::openGLVersion() << "\n";

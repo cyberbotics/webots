@@ -81,7 +81,6 @@ private:
   bool getWorldPathCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getBasicTimeStepCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getNumberOfDevicesCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
-  bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool setModeCallback(webots_ros::robot_set_mode::Request &req, webots_ros::robot_set_mode::Response &res);
   bool wwiReceiveTextCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool wwiSendTextCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
@@ -111,7 +110,6 @@ private:
   ros::ServiceServer mGetWorldPathService;
   ros::ServiceServer mGetBasicTimeStepService;
   ros::ServiceServer mGetNumberOfDevicesService;
-  ros::ServiceServer mGetTypeService;
   ros::ServiceServer mSetModeService;
   ros::ServiceServer mWwiReceiveTextService;
   ros::ServiceServer mWwiSendTextService;

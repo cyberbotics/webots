@@ -1,0 +1,17 @@
+#VRML_SIM R2022a utf8
+
+PROTO ProtoShape [
+  field SFVec3f    size     1 1 1
+]
+{
+  Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 0.988235 0.913725 0.309804
+      }
+    }
+    geometry DEF B0 Box {
+      size IS size
+    }
+  }
+}

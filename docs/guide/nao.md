@@ -15,7 +15,7 @@ This is due to some bugs in the simulator SDK that are not being fixed by SoftBa
 
 ### Movie Presentation
 
-![youtube video](https://www.youtube.com/watch?v=NQmEjpr6wOA)
+![youtube video](https://www.youtube.com/watch?v=DDMky8PATKM)
 
 ### Nao Models
 

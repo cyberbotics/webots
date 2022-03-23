@@ -44,7 +44,7 @@ DEF TRACKED_ROBOT Robot {
       translation 0 0.07 0
       scale 0.5 0.5 0.5
       children [
-        DEF WHEEL1 TrackWheel {
+        DEF WHEEL1_LEFT TrackWheel {
           position -0.3 0.015
           radius 0.092
           children [
@@ -71,14 +71,14 @@ DEF TRACKED_ROBOT Robot {
             }
           ]
         }
-        DEF WHEEL2 TrackWheel {
+        DEF WHEEL2_LEFT TrackWheel {
           position 0.288 0.015
           radius 0.092
           children [
             USE TRACK_WHEEL_BIG
           ]
         }
-        DEF WHEEL3 TrackWheel {
+        DEF WHEEL3_LEFT TrackWheel {
           position 0.185 -0.088
           radius 0.04
           children [
@@ -105,28 +105,28 @@ DEF TRACKED_ROBOT Robot {
             }
           ]
         }
-        DEF WHEEL4 TrackWheel {
+        DEF WHEEL4_LEFT TrackWheel {
           position 0.09135 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL5 TrackWheel {
+        DEF WHEEL5_LEFT TrackWheel {
           position -0.00245 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL6 TrackWheel {
+        DEF WHEEL6_LEFT TrackWheel {
           position -0.09625 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL7 TrackWheel {
+        DEF WHEEL7_LEFT TrackWheel {
           position -0.19 -0.088
           radius 0.04
           children [
@@ -205,11 +205,11 @@ DEF TRACKED_ROBOT Robot {
               metalness 0
             }
             geometry Box {
-              size 0.044 0.005 0.03
+              size 0.044 0.03 0.005
             }
           }
           Transform {
-            translation 0 0.003 0
+            translation 0 0 0.003
             children [
               Shape {
                 appearance PBRAppearance {
@@ -218,7 +218,7 @@ DEF TRACKED_ROBOT Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.02 0.006 0.03
+                  size 0.02 0.03 0.006
                 }
               }
             ]
@@ -227,17 +227,59 @@ DEF TRACKED_ROBOT Robot {
       }
       geometriesCount 40
     }
-    Track {
+    DEF RIGHT_TRACK Track {
       translation 0 -0.07 0
       scale 0.5 0.5 0.5
       children [
-        USE WHEEL1
-        USE WHEEL2
-        USE WHEEL3
-        USE WHEEL4
-        USE WHEEL5
-        USE WHEEL6
-        USE WHEEL7
+        DEF WHEEL1_RIGHT TrackWheel {
+          position -0.3 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL2_RIGHT TrackWheel {
+          position 0.288 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL3_RIGHT TrackWheel {
+          position 0.185 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL4_RIGHT TrackWheel {
+          position 0.09135 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL5_RIGHT TrackWheel {
+          position -0.00245 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL6_RIGHT TrackWheel {
+          position -0.09625 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL7_RIGHT TrackWheel {
+          position -0.19 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
       ]
       name "right track"
       contactMaterial "track material"

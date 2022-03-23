@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Rock10cm {
-  SFVec3f    translation      0 0.05 0
+  SFVec3f    translation      0 0 0.05
   SFRotation rotation         0 0 1 0
   SFString   name             "rock 10 cm"
   MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/rock.jpg"

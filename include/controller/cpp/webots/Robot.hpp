@@ -84,7 +84,6 @@ namespace webots {
     int getNumberOfDevices() const;
     Device *getDeviceByIndex(int index);
     Device *getDevice(const std::string &name);
-    int getType() const;
 
     virtual void batterySensorEnable(int samplingPeriod);
     virtual void batterySensorDisable();

@@ -167,10 +167,6 @@ Device *Robot::getDevice(const std::string &name) {
   return getOrCreateDevice(wb_robot_get_device(name.c_str()));
 }
 
-int Robot::getType() const {
-  return wb_robot_get_type();
-}
-
 void Robot::batterySensorEnable(int sampling_period) {
   wb_robot_battery_sensor_enable(sampling_period);
 }

@@ -318,7 +318,7 @@ WrMaterial *wr_renderable_get_material(WrRenderable *renderable, const char *nam
 }
 
 void wr_renderable_get_bounding_sphere(WrRenderable *renderable, float *sphere) {
-  const wren::primitive::Sphere s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
+  const wren::primitive::Sphere &s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
   sphere[0] = s.mCenter.x;
   sphere[1] = s.mCenter.y;
   sphere[2] = s.mCenter.z;

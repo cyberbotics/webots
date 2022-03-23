@@ -21,6 +21,8 @@
 //   the correct targe, e.g. Webots console, terminal, error dialog
 //
 
+#include <stdio.h>
+
 #include <QtCore/QObject>
 #include <QtCore/QVector>
 
@@ -74,6 +76,10 @@ public:
   // display message and terminate Webots
   static void fatal(const QString &message);
 
+  // enable redirecting messages to the terminal
+  static void enableStdOutRedirectToTerminal();
+  static void enableStdErrRedirectToTerminal();
+
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
   static void appendStdout(const QString &message, Filter filter = WEBOTS_OTHERS);
@@ -89,7 +95,7 @@ public:
   static void setConsoleLogsPostponed(bool postponed) { instance()->mConsoleLogsPostponed = postponed; }
   // show messages in console emitted before WbConsole was listening
   static void showPendingConsoleMessages();
-
+  static void toggle(FILE *std_stream);  // disable or enable stderr or stdout
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);

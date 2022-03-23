@@ -19,6 +19,16 @@ PointLight {
   location -4 6 5
   castShadows TRUE
 }
+DEF USE_CASE_0 Solid {
+  translation -0.4 0 0
+  children [
+    DEF PROTO_SHAPE ProtoShape {
+      size 0.1 0.1 0.1
+    }
+  ]
+  name "use case 0"
+  boundingObject USE PROTO_SHAPE
+}
 DEF USE_CASE_1 Solid {
   children [
     DEF G Group {
@@ -115,6 +125,10 @@ Robot {
   translation 0 0 0.1
   rotation 0 1 0 1.5708003061004252
   children [
+    DistanceSensor {
+      translation 0 0 -0.325
+      name "ds0"
+    }
     DistanceSensor {
       translation 0 0 0.075
       name "ds1"
