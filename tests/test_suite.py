@@ -311,12 +311,6 @@ for groupName in testGroups:
                     if not any(item in line for item in whitelist):
                         failures += 1
                         systemFailures.append(line)
-    print('-- STDOUT --')
-    with open(webotsStdOutFilename) as f:
-        print(f.read())
-    print('-- STDERR --')
-    with open(webotsStdErrFilename) as f:
-        print(f.read())
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
