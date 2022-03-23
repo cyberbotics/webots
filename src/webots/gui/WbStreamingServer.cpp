@@ -209,19 +209,21 @@ void WbStreamingServer::onNewTcpData() {
 
 void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket) {
   const QString requestedUrl = completeUrl.left(completeUrl.lastIndexOf('?'));
-  QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  // Here handle the streaming_viewer files.
+  QString filePath;
+  qDebug() << "URL:" << requestedUrl;
+  fflush(stderr);
   static const QStringList streamerFiles = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
-  if (!requestedUrl.startsWith("robot_windows/") && streamerFiles.contains(requestedUrl))
+  if (requestedUrl == "streaming")  // shortcut
+    filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/index.html";
+  else if (streamerFiles.contains(requestedUrl))
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
-  else if (requestedUrl.contains("/robot_windows/generic/")) {
-    QString requestFile = requestedUrl.mid(requestedUrl.lastIndexOf("/"));
-    filePath = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic" + requestFile;
-  } else if (requestedUrl.endsWith(".js")) {
+  else if (requestedUrl.startsWith("robot_windows/generic/"))
+    filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + requestedUrl;
+  else if (requestedUrl.startsWith("robot_windows/"))
+    filePath = WbProject::current()->pluginsPath() + requestedUrl;
+  else if (requestedUrl.endsWith(".js"))
     filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
-    if (!QFileInfo(filePath).exists())
-      filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  }
+
   if (WbHttpReply::mimeType(filePath).isEmpty()) {
     WbLog::warning(tr("Unsupported file type %1").arg(filePath));
     socket->write(WbHttpReply::forge404Reply());
