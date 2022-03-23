@@ -1937,7 +1937,7 @@ thanks !!
 ##### Chrimo 05/12/2021 22:04:43
 Hi all, is there any example for using GPS with ros2/webots available ? TIA
 
-##### raerae 05/13/2021 09:47:08
+##### rael 05/13/2021 09:47:08
 Hi guys, I'm new here. I just want to ask, is there a possible method to export Solidworks model to Webots that will include its original appearance?
 
 ##### Darko Lukić [Moderator] 05/14/2021 06:34:50

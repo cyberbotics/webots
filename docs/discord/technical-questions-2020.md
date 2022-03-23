@@ -11415,7 +11415,7 @@ Can anyone say why because I am sure it's going inside if condition but the moto
 
 2. remove the set\_position call inside the if condition
 
-##### Yuuki 04/26/2020 21:41:29
+##### Rahul0444 04/26/2020 21:41:29
 hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
 
@@ -11478,7 +11478,7 @@ P.S: next time use  screen shot instead of camera.
 
 > hi, i am working with ur3e arm using ros controller and when i give it a set of positions to go to. the arm doesnt give a feedback message saying it has reached its goal and hence it doesnt go to the next position and is stuck
 
-`@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+`@Rahul0444` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 ##### pro2017001 04/27/2020 07:15:00
 Hello there
@@ -11494,8 +11494,8 @@ And hoap2 is not working in the simulated environment.
 
 Please guide me how can I use hoap2 robot for walking simulation.
 
-##### Yuuki 04/27/2020 07:54:08
-> `@Yuuki` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
+##### Rahul0444 04/27/2020 07:54:08
+> `@Rahul0444` your issue may be related [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362).
 
 `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
@@ -11526,7 +11526,7 @@ I checked and it works for example in `projects/samples/devices/worlds/battery.w
 ##### David Mansolino [Moderator] 04/27/2020 09:00:38
 > `@David Mansolino` Hi i tried this but i had no luck. It doesnt output any feedback and ur is stuck
 
-`@Yuuki` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
+`@Rahul0444` on that case can you please add a comment and explain your issue in [https://github.com/cyberbotics/webots/issues/1362](https://github.com/cyberbotics/webots/issues/1362)
 
 So that we can investigate and fix the issue. Thank you
 

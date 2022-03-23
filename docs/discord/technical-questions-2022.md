@@ -3940,3 +3940,282 @@ You know what... it seems that I have fixed the problem.... just the simple mist
 ##### Naxi 03/16/2022 13:06:19
 Hi, I'm managing different robot models from many packages and I want to have a supervisor to spawn them all, is it possible to import a node from a proto file which is not in the webots library nor in the /protos directory of the supervisor project?
 
+##### Luftwaffel [Moderator] 03/16/2022 15:48:50
+In the settings you can add an extra directory
+
+##### Naxi 03/16/2022 16:43:19
+WIll check that, thanks!
+
+##### [Optimum Pride] Wintery Melony 03/17/2022 00:58:28
+does anyone know how to fix this error?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/953819579476484176/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 03/17/2022 02:23:24
+your file seems corrupt, seems like you did not format it properly or have a syntax error somewhere
+
+##### [Optimum Pride] Wintery Melony 03/17/2022 02:23:51
+i just installed it and its my first time opening it
+
+##### Luftwaffel [Moderator] 03/17/2022 02:24:56
+then i have no idea
+
+##### [Optimum Pride] Wintery Melony 03/17/2022 02:26:29
+im going to try reinstalling it
+
+
+i changed the install location to a folder without a space and it works fine i guess
+
+##### Ale 03/17/2022 06:08:16
+Hi, I want to use Webots to generate Training Data for a neural network.
+
+Is there any way to get the current timestamp of the simulation time (in python) or the elapsed time since the beginning of the simulation?
+
+Since I dont get a 100% consistent speed its kinda tricky how many values I get per simulated Second.
+
+As basicTimeStep I chose 8 and as Time\_Step for the controller I chose 64
+
+##### Luftwaffel [Moderator] 03/17/2022 06:26:19
+Check the api documentation for robot(). The function you are looking for is in there
+
+##### DDaniel [Cyberbotics] 03/17/2022 06:31:11
+You can get the elapsed time with `robot.getTime()`
+
+##### Ale 03/17/2022 07:01:45
+Thanks, I will look into it later :)
+
+##### Folafoyeg 03/17/2022 08:37:04
+Hi all, I am very new to webots and also just joined this discord this morning. I have an assignment to create a webot project, does anyone know where I can get solved projects with codes to look into? Thanks for your help.
+
+##### DrakerDG [Moderator] 03/17/2022 08:40:12
+Hi! Webots have a lot of samples, that you can view how it do it
+%figure
+![2022-03-17.png](https://cdn.discordapp.com/attachments/565154703139405824/953935774515097640/2022-03-17.png)
+%end
+
+##### Folafoyeg 03/17/2022 08:47:24
+Thanks a lot `@DrakerDG`
+
+##### DrakerDG [Moderator] 03/17/2022 08:47:47
+You welcome
+
+##### thomas pesquet 03/17/2022 08:51:22
+Have you ever done waves upon the sea in PROTO file ? I don't think it's possible
+
+##### S4JJ4D 03/17/2022 13:36:40
+I'm trying a to use a PROTO  inside another PROTO but Webots is not able to parse the parent PROTO when I attempt to import it into the world.
+
+.proto files are minimal and very simple and I can't figure out why things go wrong. files are attached. Can anyone please help me?
+> **Attachment**: [ChildNode.proto](https://cdn.discordapp.com/attachments/565154703139405824/954010382584922143/ChildNode.proto)
+> **Attachment**: [ParentNode.proto](https://cdn.discordapp.com/attachments/565154703139405824/954010382748504084/ParentNode.proto)
+%figure
+![WebotsErrorLog.png](https://cdn.discordapp.com/attachments/565154703139405824/954010383193079908/WebotsErrorLog.png)
+%end
+
+##### DDaniel [Cyberbotics] 03/17/2022 13:40:09
+works fine for me, which version of Webots are you using?
+
+##### S4JJ4D 03/17/2022 13:40:39
+R2022a
+
+##### DDaniel [Cyberbotics] 03/17/2022 13:41:10
+normal release or a nightly build?
+
+##### S4JJ4D 03/17/2022 13:44:12
+I followed the instructions given in:
+
+[https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt](https://cyberbotics.com/doc/guide/installation-procedure#installing-the-debian-package-with-the-advanced-packaging-tool-apt)
+
+##### DDaniel [Cyberbotics] 03/17/2022 13:49:23
+I can't reproduce it, works fine for me and I don't see any issues with the protos themselves. Does adding the ChildNode proto work by itself?
+
+##### S4JJ4D 03/17/2022 13:49:48
+yes
+
+
+Something strange is happening. I changed the name "ChildNode" to "Child" and "ParentNode" to "Parent" and now I get no errors.
+
+##### DDaniel [Cyberbotics] 03/17/2022 13:54:37
+weird indeed 🤨
+
+
+and if you rename it back as it was now, does it work?
+
+##### S4JJ4D 03/17/2022 13:56:29
+No it doesn't
+
+##### DDaniel [Cyberbotics] 03/17/2022 14:00:52
+in the protos folder, if you display the hidden files (CTRL + h) you should find `.ParentNode.cache` and `.ChildNode.cache`, could you try to delete them?
+
+
+the cache might be corrupted, it's the only possibility I can see
+
+##### S4JJ4D 03/17/2022 14:45:41
+Thank you so much.
+
+Errors were gone after I removed the cache files.
+
+##### Folafoyeg 03/17/2022 16:12:09
+Pls oo, who can help me with fruit sorting robotic simulation?
+
+##### bobetos 03/17/2022 16:21:15
+hello i need to ask a very important question. For some reason webots\_ros2 package doesnt work for me. ROS2 is perfectly installed and so is webots 2022a yet in the colcon build phase it leaves 11 packages aborted and doesnt work for ros2\_webots\_core and importer. I somehow made it work by bouncing around different versions of webots but the the example builds dont all work. For example ros2 launch webots\_ros2\_tesla robot\_launch.py works yet ros2 launch webots\_ros2\_tiago robot\_launch.py doesnt. Same with epuck and turtlebot. Please any help?
+
+
+also webots\_ros2 says failing in github page i dont know if this is why.
+
+##### DDaniel [Cyberbotics] 03/17/2022 16:24:11
+did you follow these instructions? [https://github.com/cyberbotics/webots\_ros2/wiki/Build-and-Install](https://github.com/cyberbotics/webots_ros2/wiki/Build-and-Install)
+
+##### bobetos 03/17/2022 16:25:39
+i have followed everything excactly as it says. I am quite tech savvy and have performed many installations in various programms/packages/programming languages. I completed the procedure excactly as it says for ROS2, webots\_ros2 and webots
+
+##### Dorteel 03/17/2022 17:44:58
+Hi there! I'm trying to convert my urdf into proto using urdf2webots, but I keep getting an error message. Any suggestions? I ran out of ideas on how to fix it..
+
+
+
+`(base) user<@!591756845388005378>:~/Documents$ python3 -m urdf2webots.importer --input=locobot.urdf
+
+Traceback (most recent call last):
+
+  File "/usr/lib/python3.8/runpy.py", line 194, in \_run\_module\_as\_main
+
+    return \_run\_code(code, main\_globals, None,
+
+  File "/usr/lib/python3.8/runpy.py", line 87, in \_run\_code
+
+    exec(code, run\_globals)
+
+  File "/home/user/Repos/urdf2webots/urdf2webots/importer.py", line 337, in <module>
+
+    convertUrdfFile(options.input, options.output, options.robotName, options.normal, options.boxCollision, options.disableMeshOptimization,
+
+  File "/home/user/Repos/urdf2webots/urdf2webots/importer.py", line 91, in convertUrdfFile
+
+    return convertUrdfContent(urdfContent, output, robotName, normal, boxCollision,
+
+  File "/home/user/Repos/urdf2webots/urdf2webots/importer.py", line 190, in convertUrdfContent
+
+    domFile = minidom.parseString(input)
+
+  File "/usr/lib/python3.8/xml/dom/minidom.py", line 1969, in parseString
+
+    return expatbuilder.parseString(string)
+
+  File "/usr/lib/python3.8/xml/dom/expatbuilder.py", line 925, in parseString
+
+    return builder.parseString(string)
+
+  File "/usr/lib/python3.8/xml/dom/expatbuilder.py", line 223, in parseString
+
+    parser.Parse(string, True)
+
+xml.parsers.expat.ExpatError: syntax error: line 1, column 0`
+
+##### Luftwaffel [Moderator] 03/17/2022 17:58:12
+Can you post your urdf file, the last line of the error message suggests, that there is a Syntax error on line 1
+
+##### Dorteel 03/17/2022 17:59:34
+sure! thanks for the quick reply!
+> **Attachment**: [locobot.urdf](https://cdn.discordapp.com/attachments/565154703139405824/954076547424329798/locobot.urdf)
+
+
+I converted it from this xacro file, if that helps
+> **Attachment**: [mobile\_wx250s.urdf.xacro](https://cdn.discordapp.com/attachments/565154703139405824/954076767751127081/mobile_wx250s.urdf.xacro)
+
+
+ah I just opened it, saw the conversion didn't work 😅
+
+
+I managed to create a proper urdf file, but the textures directory that gets created ends up being empty, and when I import the proto it has no body
+> **Attachment**: [model.urdf](https://cdn.discordapp.com/attachments/565154703139405824/954083662448721920/model.urdf)
+
+##### AlexandrosNic 03/17/2022 18:37:12
+Hello everyone. Did anyone managed to successfully run Webots+ROS2 through WSL2 and Docker (with a Dockerfile)? If so, any tutorial suggestion for it? Since currently I seem to go through issues with the XServer (display), when trying to deploy it, using the official procedure [https://cyberbotics.com/doc/guide/installation-procedure#run-webots-in-docker-with-gui](https://cyberbotics.com/doc/guide/installation-procedure#run-webots-in-docker-with-gui)
+
+##### Luftwaffel [Moderator] 03/17/2022 23:13:06
+If you have no textures in the urdf, then the texture folder created will be empty. As for the "no body" You would have to be more specific. Perhaps post your proto file
+
+
+it might be due to the absolute links of the mesh files. Urdf is usually structured with ROS packages. Or at least relative paths
+
+
+However absolute paths should work. I did implement mesh path handling fixes a while back
+
+##### Çağrı Kaymak 03/18/2022 08:00:42
+Hi all. When I click Robotis-Op2 to open robot window in Webots, I take error like this: Error: libzip.so.4: cannot open shared object file: No such file or directory (dynamic library)
+
+Error: robot window initialization failed
+
+Error: Cannot load the "/usr/local/webots/projects/robots/robotis/darwin-op/plugins/robot\_windows/robotis-op2\_window/librobotis-op2\_window.so" robot window library.
+
+How can i solve this problem? Thanks in advance.
+
+By the way, my os is Ubuntu 18.04 and webots version is r2020b rev1.
+
+##### Luftwaffel [Moderator] 03/18/2022 08:02:08
+how did you install?
+
+##### Çağrı Kaymak 03/18/2022 08:02:22
+Via .deb
+
+##### Luftwaffel [Moderator] 03/18/2022 08:03:01
+using the correct one? there is a separate version for 18.04 I believe
+
+##### Çağrı Kaymak 03/18/2022 08:03:29
+Yes, this is for 18.04
+
+##### Luftwaffel [Moderator] 03/18/2022 08:03:42
+then I dont know
+
+##### Çağrı Kaymak 03/18/2022 08:04:11
+Ok, thank you
+
+##### sHiiNe 03/18/2022 14:57:36
+are `.proto` files compliant with protocol buffer syntax, or is that a naming coincidence?
+
+##### DDaniel [Cyberbotics] 03/18/2022 15:26:29
+"proto" is defined in the VRML97 norm. This norm defines the syntax used in worlds and proto
+
+##### kazeko55 03/18/2022 18:56:59
+hello everyone, I have a proto file translated from urdf and I open it in webots. When I want to drive differentially, I send cmd\_vel data, but the robot does not move forward even though the wheels are turning. I think the problem is with the physics plugin because for example, when I lift the robot a little bit and release it, it doesn't fall to the ground. How can I solve this problem?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/954457282941444176/unknown.png)
+%end
+
+##### cnbarcelo 03/19/2022 05:26:57
+Hi!
+
+Is there any way of programmatically spawn robots defined in PROTOS into the simulation on runtime?
+
+##### Luftwaffel [Moderator] 03/19/2022 05:28:55
+[https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_field\_import\_mf\_node](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node) try this
+
+##### cnbarcelo 03/19/2022 05:32:35
+Thanks for the quick reply.
+
+I'll give it a try, tho reading the code I saw it expects the input to be `.wbo/.wrl`
+
+##### Luftwaffel [Moderator] 03/19/2022 05:38:56
+try the proto... not sure if LUA scripting works with that though.
+
+##### DDaniel [Cyberbotics] 03/19/2022 07:53:09
+There's a similar import function that imports from string. So if you defined your robot as a proto (ex: MyProto) you can spawn it using the string: `'MyProto{}'`
+
+##### S4JJ4D 03/21/2022 08:42:53
+Hey. Is there any speedSensor for hinge joints in Webots?
+
+##### DDaniel [Cyberbotics] 03/21/2022 10:33:44
+No, only a position sensor, but you can derivate it to get an estimate of the velocity ( `(current_position - previous_position) / timestep`), assuming the timestep is in seconds
+
+##### S4JJ4D 03/21/2022 10:35:28
+thank you
+
+
+I attached a GyroSensor to the solid endpoint of the hinge to get angular velocity along the joint axis
+
