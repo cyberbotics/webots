@@ -112,6 +112,12 @@ void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   writer.writeFieldEnd(true);
 
   if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("radius", true);
+  writer << mRadius->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
     writer << " type='trackWheel'";
 
   WbTransform::exportNodeFields(writer);

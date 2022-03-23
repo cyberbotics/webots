@@ -406,7 +406,9 @@ export default class Parser {
     if (type === 'track')
       newNode = new WbTrack(id, translation, scale, rotation);
     else if (type === 'trackwheel') {
-      newNode = new WbTrackWheel(id, translation, scale, rotation);
+      const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
+
+      newNode = new WbTrackWheel(id, translation, scale, rotation, radius);
       if (parentNode.numberOfTrackWheel === undefined)
         parentNode.numberOfTrackWheel = 0;
       parentNode.numberOfTrackWheel++;

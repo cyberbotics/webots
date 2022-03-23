@@ -1,3 +1,4 @@
+import WbTrackWheel from './WbTrackWheel.js';
 import WbTransform from './WbTransform.js';
 import WbVector2 from './utils/WbVector2.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -13,7 +14,7 @@ export default class WbTrack extends WbTransform {
     this.pathList = [];
     this.animationStepSize = 0;
     this.beltPosition = [];
-    this.linearSpeed = -0.1;
+    this.linearSpeed = 0.2;
   }
 
   postFinalize() {
@@ -35,6 +36,23 @@ export default class WbTrack extends WbTransform {
     if (this.animatedObjectList.length === 0)
       return;
 
+    // Retrieve the first TrackWheel children to deduce the speed of the track
+    for (let i = 0; i < this.children.length; i++) {
+      if (this.children[i] instanceof WbTrackWheel) {
+        let velocity = this.children[i].angularVelocity;
+        if (Math.abs(velocity.x) > Math.abs(velocity.y) && Math.abs(velocity.x) > Math.abs(velocity.y))
+          this.linearSpeed = velocity.x;
+        else if (Math.abs(velocity.y) > Math.abs(velocity.z))
+          this.linearSpeed = velocity.y;
+        else
+          this.linearSpeed = velocity.z;
+
+        this.linearSpeed *= this.children[i].radius;
+        this.children[i].angularVelocity = new WbVector3();
+        break;
+      }
+    }
+
     let stepSize = WbWorld.instance.basicTimeStep / 1000 * this.linearSpeed;
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
@@ -44,6 +62,11 @@ export default class WbTrack extends WbTransform {
         console.error('BeltElement not defined');
         return;
       }
+
+      while (stepSize > this.pathStepSize)
+        stepSize -= this.pathStepSize;
+      while (stepSize < -this.pathStepSize)
+        stepSize += this.pathStepSize;
 
       beltPosition = this.computeNextGeometryPosition(beltPosition, stepSize);
 
@@ -75,6 +98,7 @@ export default class WbTrack extends WbTransform {
     const maxDistanceVector = endPoint.sub(currentBeltPosition.position);
 
     let newStepSize = stepSize;
+    console.log(endPoint)
     if (singleWheelCase || (!maxDistanceVector.isNull() && maxDistanceVector.length() > 1e-10)) {
       let maxStepSize = 0.0;
       if (segment.radius < 0) {
