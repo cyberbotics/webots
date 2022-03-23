@@ -59,7 +59,7 @@ WbContactProperties::~WbContactProperties() {
 }
 
 void WbContactProperties::downloadAsset(const QString &url, int index) {
-  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", url, false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
