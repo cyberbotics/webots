@@ -267,6 +267,7 @@ export default class Toolbar {
     else
       this.minWidth += 41;
   }
+  
   _createIde() {
     this.floatingIdeContainer = document.createElement('div');
     this.floatingIdeContainer.className = 'floating-window-container';
