@@ -96,9 +96,8 @@ export default class WbTrack extends WbTransform {
 
     const endPoint = stepSize < 0 ? segment.startPoint : segment.endPoint;
     const maxDistanceVector = endPoint.sub(currentBeltPosition.position);
-
-    let newStepSize = stepSize;
     console.log(endPoint)
+    let newStepSize = stepSize;
     if (singleWheelCase || (!maxDistanceVector.isNull() && maxDistanceVector.length() > 1e-10)) {
       let maxStepSize = 0.0;
       if (segment.radius < 0) {
@@ -148,6 +147,7 @@ export default class WbTrack extends WbTransform {
               rotation = segment.initialRotation;
             rotation -= angle;
           }
+          console.log("return")
           return new WbBeltPosition(nextPosition, rotation, currentBeltPosition.segmentIndex);
         }
       }
@@ -171,6 +171,9 @@ export default class WbTrack extends WbTransform {
         nextSegmentIndex = this.pathList.length - 1;
     }
     currentBeltPosition.segmentIndex = nextSegmentIndex;
+    if (this.test)
+      return;
+    this.test = true;
     return this.computeNextGeometryPosition(currentBeltPosition, newStepSize, true);
   }
 }
