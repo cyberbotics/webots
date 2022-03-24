@@ -27,8 +27,9 @@ export default class Toolbar {
   createAnimationToolbar() {
     if (this.type !== 'animation' || typeof this._view === 'undefined' || typeof this._view.animation === 'undefined')
       return;
-
+    
     this._createSlider();
+    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)';
 
     // Left part
     this._createPlayButton();
@@ -44,13 +45,15 @@ export default class Toolbar {
     if (this.type !== 'scene' || typeof this._view === 'undefined')
       return;
 
+    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)';
+
     this._createInfoButton();
     this._createRestoreViewpointButton();
     this._createFullscreenButtons();
   }
 
   createStreamingToolbar() {
-    this.toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+    this.toolbar.style.background = 'rgba(0,0,0,0.6)';
 
     // Left part
     this._createQuitButton();
