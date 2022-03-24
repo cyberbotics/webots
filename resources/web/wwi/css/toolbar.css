@@ -147,19 +147,22 @@ webots-view .icon-settings     {background-image: url(../images/icons/settings.s
 webots-view .icon-fullscreen   {background-image: url(../images/icons/fullscreen.svg);}
 webots-view .icon-partscreen   {background-image: url(../images/icons/partscreen.svg);}
 webots-view .icon-robot-window {background-image: url(../images/icons/robot-window.svg);}
+webots-view .icon-ide          {background-image: url(../images/icons/ide.svg);}
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
 }
 
-webots-view .toolbar-btn:focus .icon-robot-window, 
+webots-view .toolbar-btn:focus .icon-ide,
+  .toolbar-btn:focus .icon-robot-window, 
   .toolbar-btn:focus .icon-info,
   .toolbar-btn:focus .icon-quit,
   .toolbar-btn:focus .icon-step {
   animation: animation-scale-down 0.3s;
 }
 
-webots-view .toolbar-btn:active .icon-robot-window, 
+webots-view .toolbar-btn:active .icon-ide,
+  .toolbar-btn:active .icon-robot-window, 
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
@@ -230,6 +233,7 @@ webots-view .fullscreen-tooltip, .partscreen-tooltip {
 webots-view .settings-tooltip,
   .info-tooltip,
   .robot-window-tooltip,
+  .ide-tooltip,
   .reset-scene-tooltip {
   transform: translateX(-55%);
 }
@@ -313,13 +317,13 @@ webots-view .information-panel {
   position: absolute;
   top: calc(50% - 150px);
   left: calc(50% - 220px);
-  background-color: #333;
+  background-color: #111;
   color: white;
   text-align: center;
   width: 440px;
   height: 300px;
   border-radius: 10px;
-  opacity: 0.95;
+  opacity: 0.9;
   font-family: Helvetica;
   display: none;
   pointer-events: auto;
@@ -353,7 +357,7 @@ webots-view .information-panel .cloud {
 
 webots-view .information-panel .info-tabs-bar {
   height: 28px;
-  background-color: #555;
+  background-color: #333;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
@@ -363,15 +367,16 @@ webots-view .information-panel .info-tabs-bar .info-tab {
   height: 28px;
   position: absolute;
   color: white;
-  background-color: #333;
+  background-color: #111;
   border-width: 0;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  border-bottom: 1px #333 solid;
+  border-bottom: 1px #111 solid;
 }
 
 webots-view .information-panel .info-tabs-bar .info-tab:hover {
-  border-bottom: 1px solid red;
+  border-bottom: 2px solid red;
+  cursor: pointer;
 }
 
 webots-view .information-panel .info-tabs-bar .tab0 {
@@ -380,7 +385,7 @@ webots-view .information-panel .info-tabs-bar .tab0 {
 
 webots-view .information-panel .info-tabs-bar .tab1 {
   right: 0px;
-  background-color: #555;
+  background-color: #333;
 }
 
 webots-view .information-panel .simulation-text {

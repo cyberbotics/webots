@@ -109,9 +109,8 @@ export default class X3dScene {
     object.delete();
 
     WbWorld.instance.robots.forEach((robot, i) => {
-      if (robot.id === 'n' + id) {
+      if (robot.id === 'n' + id)
         WbWorld.instance.robots.splice(i,1);
-      }
     });
 
     if (document.getElementById('robot-window-button') !== null)

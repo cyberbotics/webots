@@ -446,9 +446,11 @@ Moreover, the following attributes are available:
 * `data-mode`: `x3d` or `mjpeg`.
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `showIde`: specify if the IDE button must be displayed on the toolbar. Must be called before connect. The IDE button is hidden by default.
 * `showPlay`: specify if the play button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
-* `showReload `: specify if the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
-* `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The reset button is displayed by default.
+* `showRobotWindow`: specify if the robot window button must be displayed on the toolbar. Must be called before connect. The robot window button is displayed by default.
+* `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 * `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 

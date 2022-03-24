@@ -11,6 +11,8 @@ webotsView.showReload          // defines whether the reload button should be di
 webotsView.showReset           // defines whether the reset button should be displayed.
 webotsView.showRun             // defines whether the run button should be displayed.
 webotsView.showStep            // defines whether the step button should be displayed.
+webotsView.showIde             // defines whether the IDE button should be displayed.
+webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
 */
 
 export default class WebotsView extends HTMLElement {

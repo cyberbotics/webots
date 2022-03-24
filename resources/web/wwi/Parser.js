@@ -433,7 +433,7 @@ export default class Parser {
 
       WbWorld.instance.robots.push({id: id, name: name, window: window});
     }
-    
+  
     return transform;
   }
 

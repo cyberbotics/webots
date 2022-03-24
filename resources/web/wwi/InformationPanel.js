@@ -45,13 +45,13 @@ export default class InformationPanel {
 
   switchTab(number) {
     if (number=== 0) {
-      this.tab0.style.backgroundColor = '#333';
-      this.tab1.style.backgroundColor = '#555';
+      this.tab0.style.backgroundColor = '#111';
+      this.tab1.style.backgroundColor = '#333';
       this.webotsPresentation.style.display = 'none';
       this.simulationDescritption.style.display = 'block';
     } else if (number=== 1) {
-      this.tab0.style.backgroundColor = '#555';
-      this.tab1.style.backgroundColor = '#333';
+      this.tab0.style.backgroundColor = '#333';
+      this.tab1.style.backgroundColor = '#111';
       this.webotsPresentation.style.display = 'block';
       this.simulationDescritption.style.display = 'none';
     }
