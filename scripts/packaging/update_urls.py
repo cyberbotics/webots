@@ -16,7 +16,7 @@
 
 """Replace the webots:// URLs with https://raw.githubusercontent.com/cyberbotics/webots/<version>/
    in world, proto and controller files. Replace the webots:// URLs with
-   https://cdn.jsdelivr.net/gh/cyberbotics/webots@<version> in html, js and css files."""
+   https://cdn.jsdelivr.net/gh/cyberbotics/webots@<version> in html files."""
 
 
 import os
@@ -24,10 +24,14 @@ import sys
 from pathlib import Path
 
 
-def replace_url(file, tag):
+def replace_url(file, tag, github):
+    if github:
+        url = 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/'
+    else:
+        url = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@' + tag + '/'
     with open(file, 'r') as fd:
         content = fd.read()
-    content = content.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/')
+    content = content.replace('webots://', url)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
@@ -51,4 +55,10 @@ with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as 
     paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
 
 for path in paths:
-    replace_url(path, tag)
+    replace_url(path, tag, True)
+
+paths = []
+paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*.html"))
+
+for path in paths:
+    replace_url(path, tag, False)
