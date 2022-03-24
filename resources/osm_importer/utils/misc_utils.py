@@ -19,7 +19,8 @@ import re
 from projection import Projection
 
 
- GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg'
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg'
+
 
 def get_world_size(minlat, minlon, maxlat, maxlon):
     """Return the world size in X-Z coordinates."""
