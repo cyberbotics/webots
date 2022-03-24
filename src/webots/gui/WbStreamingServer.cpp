@@ -217,11 +217,12 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
   else if (requestedUrl.startsWith("robot_windows/"))
     filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  else if (requestedUrl.startsWith("resources/projects/plugins/robot_windows/generic/") || requestedUrl.endsWith(".js"))
+  else if (requestedUrl.startsWith("resources/projects/plugins/robot_windows/generic/") || requestedUrl.endsWith(".js") ||
+           requestedUrl.endsWith(".css") || requestedUrl.endsWith(".html"))
     filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
 
   if (WbHttpReply::mimeType(filePath).isEmpty()) {
-    WbLog::warning(tr("Unsupported file type %1").arg(filePath));
+    WbLog::warning(tr("Unsupported file type %1 for %2").arg(filePath).arg(requestedUrl));
     socket->write(WbHttpReply::forge404Reply());
     return;
   }
