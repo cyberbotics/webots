@@ -27,7 +27,7 @@ EXTENSIONS = [
 ]
 
 SKIPPED_DIRECTORIES = [
-    '/icon/', '/icons/', '/robot_windows/'
+    '/icon/', '/icons/', '/robot_windows/', '/thymio2_aseba/'
 ]
 
 # ensure WEBOTS_HOME is set and tag was provided
