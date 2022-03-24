@@ -23,7 +23,11 @@ import hashlib
 
 EXTENSIONS = [
     'jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'stl', 'STL', 'dae', 'DAE', 'obj', 'OBJ', 'mp3', 'MP3', 'wav', 'WAV',
-    'hdr', 'HDR'
+    'hdr', 'HDR', 'fbx', 'FBX'
+]
+
+SKIPPED_DIRECTORIES = [
+    '/icon/', '/icons/', '/robot_windows/'
 ]
 
 # ensure WEBOTS_HOME is set and tag was provided
@@ -52,8 +56,7 @@ if os.path.exists(folder_name):
 
 os.mkdir(folder_name)
 for asset in assets:
-    # skip PROTO icons
-    if any(x in str(asset) for x in ['/icon/', '/icons/']):
+    if any(x in str(asset) for x in SKIPPED_DIRECTORIES):
         continue
 
     # generate hash of the remote url
