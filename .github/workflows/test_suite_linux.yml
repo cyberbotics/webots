@@ -162,7 +162,7 @@ jobs:
     - name: Extract Webots and cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
-        unzip -q artifact/asset-*.zip -d ~/.cache/Cyberbotics/Webots/assets
+        unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9
