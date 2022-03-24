@@ -215,11 +215,9 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/index.html";
   else if (streamerFiles.contains(requestedUrl))
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
-  else if (requestedUrl.startsWith("robot_windows/generic/"))
-    filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + requestedUrl;
   else if (requestedUrl.startsWith("robot_windows/"))
     filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  else if (requestedUrl.endsWith(".js"))
+  else if (requestedUrl.startsWith("resources/projects/plugins/robot_windows/generic/") || requestedUrl.endsWith(".js"))
     filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
 
   if (WbHttpReply::mimeType(filePath).isEmpty()) {
