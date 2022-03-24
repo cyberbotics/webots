@@ -76,6 +76,26 @@ jobs:
         path: |
           distribution/*.tar.bz2
           distribution/*.deb
+          distribution/*.zip
+  cache-sanity-check:
+    needs: build
+    if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+         ref: develop
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - name: Extract Webots
+      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
   test-suite:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
@@ -159,8 +179,10 @@ jobs:
       with:
         name: build-ubuntu-20.04
         path: artifact
-    - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+    - name: Extract Webots and cache
+      run: |
+        tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+        unzip artifact/*.zip -d ~/.cache/Cyberbotics/Webots/assets -q
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9
@@ -172,8 +194,12 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
+        cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
+        echo "cache size prior to open worlds: $(cached_files_before)"
         xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
+        cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
+        echo "cache size after: $(cached_files_after)"
   delete-artifacts:
     needs: [build, test-suite, test-ros, world-update]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
