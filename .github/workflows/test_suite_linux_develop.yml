@@ -171,7 +171,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Update World and validate cache
+    - name: Update World and Validate Cache
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
@@ -182,7 +182,7 @@ jobs:
         cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
         # Note: need an offset of 21 because world 'url.wbt' uses non-packaged assets on purpose
         if [ "$cached_files_after" -ne "$((cached_files_before + 21))" ]; then
-          echo "Some assets are not included in the cache (before $cached_files_before, $cached_files_after)";
+          echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
           exit 1
         fi
   delete-artifacts:
