@@ -53,8 +53,8 @@ if os.path.exists(folder_name):
 
 os.mkdir(folder_name)
 for asset in assets:
+    # skip PROTO icons
     if any(x in str(asset) for x in ['/icon/', '/icons/']):
-        # skip PROTO icons
         continue
 
     # generate hash of the remote url
