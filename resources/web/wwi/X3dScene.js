@@ -271,6 +271,13 @@ export default class X3dScene {
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
+
+          WbWorld.instance.tracks.forEach(track => {
+            if (track.linearSpeed !== 0) {
+              track.animateMesh();
+              track.linearSpeed = 0;
+            }
+          });
         }
 
         if (frame.hasOwnProperty('labels')) {

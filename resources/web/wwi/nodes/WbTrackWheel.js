@@ -15,7 +15,18 @@ export default class WbTrackWheel extends WbTransform {
     this.angularVelocity = quatDifferentiateAngularVelocity(nextQuat, currQuat, WbWorld.instance.basicTimeStep / 1000);
     if (WbWorld.instance.readyForUpdates)
       this.applyRotationToWren();
-    WbWorld.instance.nodes.get(this.parent).animateMesh();
+    let track = WbWorld.instance.nodes.get(this.parent);
+    if (typeof track !== 'undefined' && track.linearSpeed === 0) {
+      let velocity = this.angularVelocity;
+      if (Math.abs(velocity.x) > Math.abs(velocity.y) && Math.abs(velocity.x) > Math.abs(velocity.y))
+        track.linearSpeed = velocity.x;
+      else if (Math.abs(velocity.y) > Math.abs(velocity.z))
+        track.linearSpeed = velocity.y;
+      else
+        track.linearSpeed = velocity.z;
+
+      track.linearSpeed *= this.radius;
+    }
   }
 }
 

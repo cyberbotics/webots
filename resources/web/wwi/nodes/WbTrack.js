@@ -14,7 +14,7 @@ export default class WbTrack extends WbTransform {
     this.pathList = [];
     this.animationStepSize = 0;
     this.beltPosition = [];
-    this.linearSpeed = 0.2;
+    this.linearSpeed = 0;
   }
 
   postFinalize() {
@@ -35,24 +35,6 @@ export default class WbTrack extends WbTransform {
   animateMesh() {
     if (this.animatedObjectList.length === 0)
       return;
-
-    // Retrieve the first TrackWheel children to deduce the speed of the track
-    for (let i = 0; i < this.children.length; i++) {
-      if (this.children[i] instanceof WbTrackWheel) {
-        let velocity = this.children[i].angularVelocity;
-        if (Math.abs(velocity.x) > Math.abs(velocity.y) && Math.abs(velocity.x) > Math.abs(velocity.y))
-          this.linearSpeed = velocity.x;
-        else if (Math.abs(velocity.y) > Math.abs(velocity.z))
-          this.linearSpeed = velocity.y;
-        else
-          this.linearSpeed = velocity.z;
-
-        this.linearSpeed *= this.children[i].radius;
-        this.children[i].angularVelocity = new WbVector3();
-        break;
-      }
-    }
-
     let stepSize = WbWorld.instance.basicTimeStep / 1000 * this.linearSpeed;
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
@@ -96,7 +78,7 @@ export default class WbTrack extends WbTransform {
 
     const endPoint = stepSize < 0 ? segment.startPoint : segment.endPoint;
     const maxDistanceVector = endPoint.sub(currentBeltPosition.position);
-    console.log(endPoint)
+
     let newStepSize = stepSize;
     if (singleWheelCase || (!maxDistanceVector.isNull() && maxDistanceVector.length() > 1e-10)) {
       let maxStepSize = 0.0;
@@ -124,13 +106,11 @@ export default class WbTrack extends WbTransform {
           }
           let angle = Math.atan2(c2.x * c1.y - c2.y * c1.x, c2.x * c1.x + c2.y * c1.y);
           if (angle < 0)
-            angle += 2 * Math.M_PI;
-
+            angle += 2 * Math.PI;
           maxStepSize = angle * segment.radius;
           if (maxStepSize < 0)
             maxStepSize += 2 * Math.PI;
         }
-
         if (Math.abs(stepSize) <= maxStepSize) {
           const angle = -(stepSize * segment.increment.x) / segment.radius;
           const newPositionX = relativePosition.x * Math.cos(angle) - relativePosition.y * Math.sin(angle);
@@ -147,7 +127,6 @@ export default class WbTrack extends WbTransform {
               rotation = segment.initialRotation;
             rotation -= angle;
           }
-          console.log("return")
           return new WbBeltPosition(nextPosition, rotation, currentBeltPosition.segmentIndex);
         }
       }
@@ -159,7 +138,6 @@ export default class WbTrack extends WbTransform {
       else
         newStepSize -= maxStepSize;
     }
-
     let nextSegmentIndex = currentBeltPosition.segmentIndex;
     if (isPositiveStep) {
       ++nextSegmentIndex;
@@ -171,9 +149,6 @@ export default class WbTrack extends WbTransform {
         nextSegmentIndex = this.pathList.length - 1;
     }
     currentBeltPosition.segmentIndex = nextSegmentIndex;
-    if (this.test)
-      return;
-    this.test = true;
     return this.computeNextGeometryPosition(currentBeltPosition, newStepSize, true);
   }
 }

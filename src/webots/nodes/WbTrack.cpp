@@ -672,14 +672,13 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
                                                            bool segmentChanged) const {
   if (stepSize == 0)
     return current;
+
   const bool isPositiveStep = stepSize >= 0;
   const bool singleWheelCase = mWheelsList.size() == 1;
   const PathSegment segment = mPathList[current.segmentIndex];
   const WbVector2 endPoint = stepSize < 0 ? segment.startPoint : segment.endPoint;
   const WbVector2 maxDistanceVector = endPoint - current.position;
   double newStepSize = stepSize;
-  std::cout << endPoint.toString().toStdString() << '\n';
-
   if (singleWheelCase || (!maxDistanceVector.isNull() && maxDistanceVector.length() > 1e-10)) {
     double maxStepSize = 0.0;
     if (segment.radius < 0) {
@@ -690,7 +689,6 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
         return BeltPosition(nextPosition, segment.initialRotation, current.segmentIndex);
       }
     } else {
-      std::cout << "round" << '\n';
       // round
       WbVector2 relativePosition = current.position - segment.center;
       if (singleWheelCase)
@@ -713,7 +711,6 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
         if (maxStepSize < 0)
           maxStepSize += 2 * M_PI;
       }
-
       if (fabs(stepSize) <= maxStepSize) {
         const double angle = -(stepSize * segment.increment[0]) / segment.radius;
         const double newPositionX = relativePosition.x() * cos(angle) - relativePosition.y() * sin(angle);
