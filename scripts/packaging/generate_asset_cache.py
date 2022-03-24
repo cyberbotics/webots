@@ -53,6 +53,10 @@ if os.path.exists(folder_name):
 
 os.mkdir(folder_name)
 for asset in assets:
+    if any(x in str(asset) for x in ['/icon/', '/icons/']):
+        # skip PROTO icons
+        continue
+
     # generate hash of the remote url
     remote_url = str(asset).replace(WEBOTS_HOME, rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}')
     hash = hashlib.sha1(remote_url.encode('utf-8')).hexdigest()
