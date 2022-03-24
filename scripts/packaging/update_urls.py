@@ -15,7 +15,8 @@
 # limitations under the License.
 
 """Replace the webots:// URLs with https://raw.githubusercontent.com/cyberbotics/webots/<version>/
-   in world, proto and controller files."""
+   in world, proto and controller files. Replace the webots:// URLs with
+   https://cdn.jsdelivr.net/gh/cyberbotics/webots@<version> in html, js and css files."""
 
 
 import os

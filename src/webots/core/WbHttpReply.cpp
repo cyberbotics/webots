@@ -31,25 +31,16 @@ QByteArray WbHttpReply::forge404Reply() {
   return reply;
 }
 
-QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
-  QByteArray reply;
-  reply.append("HTTP/1.1 200 OK\r\n");
-  reply.append("Access-Control-Allow-Origin: *\r\n");
-  reply.append("Content-Type: text/html\r\n");
-  reply.append(QString("Content-Length: %1\r\n").arg(htmlContent.length()).toUtf8());
-  reply.append("\r\n");
-  reply.append(htmlContent.toUtf8());
-  return reply;
-}
-
-QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag) {
+QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag, const QString &host) {
   QByteArray reply;
 
   QFile file(fileName);
   if (!file.open(QIODevice::ReadOnly))
     return forge404Reply();
 
-  const QByteArray data = file.readAll();
+  QByteArray data = file.readAll();
+  QByteArray replace = "\"https://" + host.toUtf8() + "/";
+  data.replace("\"webots://", replace);
 
   const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
 

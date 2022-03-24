@@ -19,8 +19,7 @@
 
 namespace WbHttpReply {
   QByteArray forge404Reply();
-  QByteArray forgeHTMLReply(const QString &htmlContent);
-  QByteArray forgeFileReply(const QString &fileName, const QString &etag);
+  QByteArray forgeFileReply(const QString &fileName, const QString &etag, const QString &host);
   QString mimeType(const QString &url, bool generic = false);
 };  // namespace WbHttpReply
 

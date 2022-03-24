@@ -1,6 +1,6 @@
 #!/bin/bash
-# usage ./new_version.sh R2018a 0 R2018a 1 master
-# moves version from R2018a R2018a revision 1 on the master branch
+# usage ./new_version.sh R2018a 0 R2018a 1
+# moves version from R2018a R2018a revision 1
 
 if [ "$(uname)" == "Darwin" ]; then
   echo "This script does not work on macOS."
@@ -13,8 +13,8 @@ if [[ -z "${WEBOTS_HOME}" ]]; then
 fi
 
 if [ "$#" -ne 5 ]; then
-  echo "Usage: $0 <old_version> <old_revision> <new_version> <new_revision> <master/develop>" >&2
-  echo "Example: $0 R2018a 0 R2018a 1 master" >&2
+  echo "Usage: $0 <old_version> <old_revision> <new_version> <new_revision>" >&2
+  echo "Example: $0 R2018a 0 R2018a 1" >&2
   exit 1
 fi
 
@@ -32,15 +32,6 @@ if [ "$4" -eq 0 ]; then
 else
   new_version=$3"\srevision\s"$4
   new_package=$3"-rev"$4
-fi
-
-branch=$5
-if [ "$branch" -eq "master" ]; then
-  branch_search="https://cdn.jsdelivr.net/gh/cyberbotics/webots@develop/"
-  branch_replace="https://cdn.jsdelivr.net/gh/cyberbotics/webots@master/"
-elif
-  branch_search="https://cdn.jsdelivr.net/gh/cyberbotics/webots@master/"
-  branch_replace="https://cdn.jsdelivr.net/gh/cyberbotics/webots@develop/"
 fi
 
 old_version_without_revision=$1
@@ -103,22 +94,17 @@ then
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/AnimationSlider.js
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/WebotsView.js
   $CURRENT_DIR/new_version_file.sh "#VRML_SIM\\s$old_version_without_revision" "#VRML_SIM $new_version_without_revision" $WEBOTS_HOME/resources/osm_importer/utils/misc_utils.py
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/resources/osm_importer/utils/misc_utils.py
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/resources/osm_importer/config.ini
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/utils/misc_utils.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/config.ini
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/webots_objects/barrier.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/webots_objects/road.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/elevation.py
 
   $CURRENT_DIR/new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" $WEBOTS_HOME/docs/dependencies.txt
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/js/webots_documentation_loader.js
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/css/webots-doc.css
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/resources/osm_importer/webots_objects/barrier.py
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/resources/osm_importer/webots_objects/road.py
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/resources/osm_importer/elevation.py
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/server/simulation_server.py
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/server/session_server.py
-
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window/c3d_viewer_window.html
-  $CURRENT_DIR/new_version_file.sh $branch_search $branch_replace $WEBOTS_HOME/projects/vehicles/plugins/robot_windows/automobile/automobile.html
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/robots/gctronic/e-puck/plugins/robot_windows/e-puck/e-puck.html
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/tests/api/controllers/supervisor_animation/animation.html
 
   echo "wwi resources on the cyberbotics FTP should be updated."
 fi

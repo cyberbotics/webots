@@ -190,28 +190,26 @@ void WbStreamingServer::onNewTcpConnection() {
 void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
+  const QByteArray request = socket->peek(3);
+  if (request != "GET")  // probably a WebSocket message
+    return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
-    bool hasEtag = false;
-    QString etag;
-    for (const QString &i : tokens) {
-      if (i == "If-None-Match:")
-        hasEtag = true;
-      else if (hasEtag) {
-        etag = i;
-        break;
-      }
-    }
-    sendTcpRequestReply(tokens[1].sliced(1), etag, socket);
+    const int hostIndex = tokens.indexOf("Host:") + 1;
+    const QString host = hostIndex ? tokens[hostIndex] : "";
+    const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
+    const QString etag = etagIndex ? tokens[etagIndex] : "";
+    if (host.isEmpty())
+      WbLog::warning(tr("No host specified in HTTP header."));
+    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket) {
+void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
+                                            QTcpSocket *socket) {
   const QString requestedUrl = completeUrl.left(completeUrl.lastIndexOf('?'));
   QString filePath;
-  qDebug() << "URL:" << requestedUrl;
-  fflush(stderr);
   static const QStringList streamerFiles = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
   if (requestedUrl == "streaming")  // shortcut
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/index.html";
@@ -230,7 +228,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
     return;
   }
   WbLog::info(tr("Received request for %1").arg(filePath));
-  socket->write(WbHttpReply::forgeFileReply(filePath, etag));
+  socket->write(WbHttpReply::forgeFileReply(filePath, etag, host));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {
