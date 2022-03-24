@@ -39,8 +39,8 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &e
     return forge404Reply();
 
   QByteArray data = file.readAll();
-  QByteArray replace = "\"https://" + host.toUtf8() + "/";
-  data.replace("\"webots://", replace);
+  QByteArray replace = "https://" + host.toUtf8() + "/";
+  data.replace("webots://", replace);
 
   const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
 
