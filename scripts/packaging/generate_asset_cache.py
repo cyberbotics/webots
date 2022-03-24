@@ -22,6 +22,10 @@ import sys
 import shutil
 import hashlib
 
+EXTENSIONS = [
+    'jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'stl', 'STL', 'dae', 'DAE', 'obj', 'OBJ', 'mp3', 'MP3', 'wav', 'WAV'
+]
+
 # ensure WEBOTS_HOME is set and tag was provided
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME']
@@ -36,40 +40,23 @@ else:
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     folder_name = f'assets-{file.readline().strip()}'
 
-# retrieve all files that potentially contain assets
-paths = []
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.wbt'))
-paths.extend(Path(WEBOTS_HOME + '/tests').rglob('*.wbt'))
-paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
-
-with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
-    paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
-
-# retrieve the urls of the assets themselves
-base_url = f'https://raw.githubusercontent.com/cyberbotics/webots/{tag}/'
-possible_extensions = 'jpg|JPG|png|PNG|jpeg|JPEG|proto|PROTO|stl|STL|dae|DAE|obj|OBJ|mp3|MP3|wav|WAV'
-
-asset_urls = []
-for path in paths:
-    with open(path, 'r') as fd:
-        content = fd.read()
-
-    assets = re.findall(rf'({base_url}[^ ]*\.(?:{possible_extensions}))', content)
-    asset_urls = list(set(asset_urls + assets))
+# retrieve all assets
+assets = []
+for extension in EXTENSIONS:
+    assets.extend(Path(WEBOTS_HOME + '/projects').rglob(f'*.{extension}'))
+    assets.extend(Path(WEBOTS_HOME + '/tests').rglob(f'*.{extension}'))
 
 # create and fill asset folder
 if os.path.exists(folder_name):
-    raise RuntimeError(f'Error, folder \'{folder_name}\' should not exist already but it does')
+    shutil.rmtree(folder_name)
 
 os.mkdir(folder_name)
-for asset in asset_urls:
+for asset in assets:
     # generate hash of the remote url
-    hash = hashlib.sha1(asset.encode('utf-8')).hexdigest()
-    # determine location of the file locally
-    local_url = asset.replace(rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}', WEBOTS_HOME)
+    remote_url = str(asset).replace(WEBOTS_HOME, rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}')
+    hash = hashlib.sha1(remote_url.encode('utf-8')).hexdigest()
     # copy to asset folder
-    shutil.copyfile(local_url, f'./{folder_name}/{hash}')
+    shutil.copyfile(asset, f'./{folder_name}/{hash}')
 
 # generate zip file
 shutil.make_archive(folder_name, 'zip', folder_name)
