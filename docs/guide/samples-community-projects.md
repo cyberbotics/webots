@@ -7,7 +7,7 @@ If you want to add the whole Community Projects repository to Webots, you can fo
 
 1. Download or clone the repository to a folder of your choice. 
 
-2. Open Webots and go to `Tools > Preferences > Extra projects path` and add the path to the folder you downloaded. 
+2. Open Webots and go to `Tools > Preferences > Extra project path` and add the path to the folder you downloaded. 
 
 3. Add robots by pressing the `Add new object` button (Ctrl + Shift + A) and selecting `PROTO nodes (Extra Projects)`
 
