@@ -12,7 +12,7 @@ if [[ -z "${WEBOTS_HOME}" ]]; then
   exit 1
 fi
 
-if [ "$#" -ne 5 ]; then
+if [ "$#" -ne 4 ]; then
   echo "Usage: $0 <old_version> <old_revision> <new_version> <new_revision>" >&2
   echo "Example: $0 R2018a 0 R2018a 1" >&2
   exit 1
