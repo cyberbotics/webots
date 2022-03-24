@@ -23,7 +23,8 @@ import shutil
 import hashlib
 
 EXTENSIONS = [
-    'jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'stl', 'STL', 'dae', 'DAE', 'obj', 'OBJ', 'mp3', 'MP3', 'wav', 'WAV'
+    'jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'stl', 'STL', 'dae', 'DAE', 'obj', 'OBJ', 'mp3', 'MP3', 'wav', 'WAV',
+    'hdr', 'HDR'
 ]
 
 # ensure WEBOTS_HOME is set and tag was provided
