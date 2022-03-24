@@ -24,10 +24,10 @@ Background {
     "webots://projects/default/worlds/textures/cubic/mountains_bottom.jpg"
   ]
   frontUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.png"
+    "webots://projects/default/worlds/textures/cubic/mountains_front.png"
   ]
   leftUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_left.png"
+    "webots://projects/default/worlds/textures/cubic/mountains_left.png"
   ]
   rightUrl [
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_right.png"
@@ -167,7 +167,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }
