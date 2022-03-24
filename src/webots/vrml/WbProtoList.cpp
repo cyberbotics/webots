@@ -112,7 +112,8 @@ void WbProtoList::updateExtraProtoCache() {
   gExtraProtoCache.clear();
   QFileInfoList protosInfo;
 
-  foreach (const WbProject *project, *WbProject::extraProjects()) { findProtosRecursively(project->path(), protosInfo); }
+  foreach (const WbProject *project, *WbProject::extraProjects())
+    findProtosRecursively(project->path(), protosInfo);
 
   gExtraProtoCache << protosInfo;
 }

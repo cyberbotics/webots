@@ -230,11 +230,10 @@ void WbAddNodeDialog::updateItemInfo() {
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
       case PROTO_EXTRA: {
-        QString title("This folder lists all suitable PROTO nodes from the preferences Extra project paths and "
-                      "the 'WEBOTS_EXTRA_PROJECT_PATH' environment variable.\n");
-        foreach (const WbProject *project, *WbProject::extraProjects()) {
+        QString title("This folder lists all suitable PROTO nodes from the preferences Extra project path and "
+                      "the 'WEBOTS_EXTRA_PROJECT_PATH' environment variable:\n");
+        foreach (const WbProject *project, *WbProject::extraProjects())
           title.append(QString("- " + project->path() + "\n"));
-        }
         mInfoText->setPlainText(title);
       } break;
       case PROTO_PROJECT:
@@ -480,7 +479,7 @@ void WbAddNodeDialog::buildTree() {
     mIsAddingLocalProtos = false;
   }
 
-  // add extra PROTO from the 'General/extraProjectsPath' preference and
+  // add extra PROTO from the 'General/extraProjectPath' preference and
   // the environment variable 'WEBOTS_EXTRA_PROJECT_PATH'
   // Multiple paths can be listed if separated by a ":" (or ";" on Windows)
   if (aprotosItem) {

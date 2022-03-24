@@ -77,9 +77,9 @@ QList<WbProject *> *WbProject::extraProjects() {
     // collect extra project paths in a QSet to avoid duplicate entries
     QSet<QString> projectPaths;
 
-    if (!WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty()) {
+    if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty()) {
       foreach (const QString &path, WbPreferences::instance()
-                                      ->value("General/extraProjectsPath")
+                                      ->value("General/extraProjectPath")
                                       .toString()
                                       .split(QDir::listSeparator(), Qt::SkipEmptyParts))
         projectPaths << path;
