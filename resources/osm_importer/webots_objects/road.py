@@ -42,8 +42,8 @@ import re
 # vertical offset lifting the Roads and Crossroads in order to not be coplanar with the floor.
 vOffset = 0.01
 
-ROAD_LINE_DASHED_TEXTURE = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@develop/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
-ROAD_LINE_TRIANGLE_TEXTURE = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@develop/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
+ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
+ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
 
 
 class Road(WebotsObject):
