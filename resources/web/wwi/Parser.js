@@ -907,8 +907,8 @@ export default class Parser {
           let center = convertStringToVec2(getNodeAttribute(child, 'center', '0 0'));
           let increment = convertStringToVec2(getNodeAttribute(child, 'increment', '0 0'));
 
-          let pathSegment = new WbPathSegment(startPoint, endPoint, initialRotation, radius, center, increment);
-          parentNode.pathList.push(pathSegment);
+          // let pathSegment = new WbPathSegment(startPoint, endPoint, initialRotation, radius, center, increment);
+          // parentNode.pathList2.push(pathSegment);
         } else if (child.tagName === 'Transform') {
           let transform = this._parseTransform(child, parentNode);
           parentNode.animatedObjectList.push(transform.id);

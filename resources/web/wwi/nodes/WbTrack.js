@@ -5,6 +5,7 @@ import WbVector4 from './utils/WbVector4.js';
 import WbWorld from './WbWorld.js';
 
 import WbBeltPosition from './utils/WbBeltPosition.js';
+import WbPathSegment from './utils/WbPathSegment.js';
 import {clampedAcos} from './utils/utils.js';
 
 export default class WbTrack extends WbTransform {
@@ -12,132 +13,128 @@ export default class WbTrack extends WbTransform {
     super(id, true, translation, scale, rotation);
     this.animatedObjectList = [];
     this.pathList = [];
+    this.pathList2 = [];
     this.animationStepSize = 0;
     this.beltPosition = [];
     this.linearSpeed = 0;
     this.wheelsList = [];
   }
 
-  // computeBeltPath() {
-  //   this.pathLength = 0.0;
-  //   const wheelsCount = this.wheelsList.length;
-  //
-  //   if (wheelsCount <= 0)
-  //     return;
-  //
-  //   console.log(this.wheelsList)
-  //
-  //   let center = new WbVector2(this.wheelsList[0].translation.x, this.wheelsList[0].translation.z);
-  //   let radius = this.wheelsList[0].radius;
-  //   if (wheelsCount === 1) {
-  //     // round path
-  //     startPoint = new WbVector2(center.x, center.y + radius);
-  //     this.pathList.append(new PathSegment(startPoint, startPoint, 0.0, radius, center, new WbVector2(1, 1)));
-  //     this.pathList = 2 * Math.PI * radius;
-  //     return;
-  //   }
-  //
-  //   let firstPoint, previousPoint, distanceVector;
-  //   let pointA, pointB;
-  //   let previousRotation = 0.0;
-  //   let nextIndex = 1;
-  //
-  //   let wheelsPositionError = false;
-  //   for (let w = 0; w < wheelsCount; ++w) {
-  //     if (w === wheelsCount - 1)
-  //       nextIndex = 0;
-  //
-  //     let nextCenter = new WbVector2(this.wheelsList[nextIndex].translation.x, this.wheelsList[nextIndex].translation.z);
-  //     let nextRadius = this.wheelsList[nextIndex].radius;
-  //     distanceVector = nextCenter.sub(center);
-  //     if (!wheelsPositionError && distanceVector.length() < 0.0000001) {
-  //       wheelsPositionError = true;
-  //       continue;
-  //     }
-  //     let wheelsAngle = Math.atan2(distanceVector.y, distanceVector.x);
-  //     let absAngle = 0.0;
-  //     let isWheelInner = this.wheelsList[w].inner;
-  //     let isOuterTangent = isWheelInner === this.wheelsList[nextIndex].inner;
-  //     if (isOuterTangent) {
-  //       // outer tangent
-  //       let relAngle = clampedAcos((radius - nextRadius) / distanceVector.length());
-  //
-  //       //TODO
-  //       assert(!std::isnan(relAngle));
-  //       if (isWheelInner == 0)
-  //         relAngle = -relAngle;
-  //       absAngle = relAngle + wheelsAngle;
-  //       pointA = WbVector2(cos(absAngle), sin(absAngle)) * radius + center;
-  //       pointB = WbVector2(cos(absAngle), sin(absAngle)) * nextRadius + nextCenter;
-  //     } else {
-  //       // inner tangent
-  //       double relAngle = WbMathsUtilities::clampedAcos((radius + nextRadius) / distanceVector.length());
-  //       assert(!std::isnan(relAngle));
-  //       if (isWheelInner == 0)
-  //         relAngle = -relAngle;
-  //       absAngle = relAngle + wheelsAngle;
-  //       pointA.setXy(radius * cos(absAngle) + center.x(), radius * sin(absAngle) + center.y());
-  //       pointB.setXy(nextRadius * cos(absAngle + M_PI) + nextCenter.x(), nextRadius * sin(absAngle + M_PI) + nextCenter.y());
-  //     }
-  //
-  //     if (w == 0)
-  //       firstPoint = pointA;
-  //     else {
-  //       WbVector2 c1, c2, inc;
-  //       if (isWheelInner == 1) {
-  //         c1 = previousPoint - center;
-  //         c2 = pointA - center;
-  //         inc.setXy(1, 1);
-  //       } else {
-  //         c2 = previousPoint - center;
-  //         c1 = pointA - center;
-  //         inc.setXy(-1, -1);
-  //       }
-  //       double angle = atan2(c2.x() * c1.y() - c2.y() * c1.x(), c2.x() * c1.x() + c2.y() * c1.y());
-  //       if (angle < 0)
-  //         angle += 2 * M_PI;
-  //       mPathLength += radius * angle;
-  //       // round path
-  //       mPathList.append(PathSegment(previousPoint, pointA, previousRotation, radius, center, inc));
-  //     }
-  //
-  //     // straight path
-  //     distanceVector = pointB - pointA;
-  //     mPathLength += distanceVector.length();
-  //     if (fabs(distanceVector.y()) < 1e-10 && fabs(distanceVector.x()) < 1e-10) {
-  //       WbVector2 centerDistanceVector = nextCenter - center;
-  //       previousRotation = -atan2(centerDistanceVector.y(), centerDistanceVector.x()) - M_PI_2;
-  //     } else
-  //       previousRotation = -atan2(distanceVector.y(), distanceVector.x());
-  //     mPathList.append(PathSegment(pointA, pointB, previousRotation, distanceVector.normalized()));
-  //
-  //     previousPoint = pointB;
-  //     center = nextCenter;
-  //     radius = nextRadius;
-  //     ++nextIndex;
-  //   }
-  //
-  //   // add last round path
-  //   radius = mWheelsList[0]->radius();
-  //   WbVector2 firstWheelCenter(mWheelsList[0]->position());
-  //   WbVector2 c1(previousPoint - firstWheelCenter);
-  //   WbVector2 c2(firstPoint - firstWheelCenter);
-  //   double angle = atan2(c2.x() * c1.y() - c2.y() * c1.x(), c2.x() * c1.x() + c2.y() * c1.y());
-  //   if (angle < 0)
-  //     angle += 2 * M_PI;
-  //   mPathLength += radius * angle;
-  //   mPathList.append(PathSegment(previousPoint, firstPoint, previousRotation, radius, firstWheelCenter, WbVector2(1, 1)));
-  //
-  //   if (wheelsPositionError)
-  //     // multiple wheels at the same location
-  //     parsingWarn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
-  //                    "Only the first node is used."));
-  // }
+  computeBeltPath() {
+    this.pathLength = 0.0;
+    const wheelsCount = this.wheelsList.length;
+
+    if (wheelsCount <= 0)
+      return;
+
+    let center = new WbVector2(this.wheelsList[0].translation.x, this.wheelsList[0].translation.z);
+    let radius = this.wheelsList[0].radius;
+    if (wheelsCount === 1) {
+      // round path
+      const startPoint = new WbVector2(center.x, center.y + radius);
+      this.pathList.push(new WbPathSegment(startPoint, startPoint, 0.0, radius, center, new WbVector2(1, 1)));
+      this.pathLength = 2 * Math.PI * radius;
+      return;
+    }
+
+    let firstPoint, previousPoint, distanceVector;
+    let pointA, pointB;
+    let previousRotation = 0.0;
+    let nextIndex = 1;
+
+    let wheelsPositionError = false;
+    for (let w = 0; w < wheelsCount; ++w) {
+      if (w === wheelsCount - 1)
+        nextIndex = 0;
+
+      let nextCenter = new WbVector2(this.wheelsList[nextIndex].translation.x, this.wheelsList[nextIndex].translation.z);
+      let nextRadius = this.wheelsList[nextIndex].radius;
+      distanceVector = nextCenter.sub(center);
+      if (!wheelsPositionError && distanceVector.length() < 0.0000001) {
+        wheelsPositionError = true;
+        continue;
+      }
+      let wheelsAngle = Math.atan2(distanceVector.y, distanceVector.x);
+      let absAngle = 0.0;
+      let isWheelInner = this.wheelsList[w].inner;
+      let isOuterTangent = isWheelInner === this.wheelsList[nextIndex].inner;
+      if (isOuterTangent) {
+        // outer tangent
+        let relAngle = clampedAcos((radius - nextRadius) / distanceVector.length());
+
+        if (isWheelInner === 0)
+          relAngle = -relAngle;
+        absAngle = relAngle + wheelsAngle;
+        pointA = new WbVector2(Math.cos(absAngle), Math.sin(absAngle)).mul(radius).add(center);
+        pointB = new WbVector2(Math.cos(absAngle), Math.sin(absAngle)).mul(nextRadius).add(nextCenter);
+      } else {
+        // inner tangent
+        let relAngle = clampedAcos((radius + nextRadius) / distanceVector.length());
+        if (isWheelInner === 0)
+          relAngle = -relAngle;
+        absAngle = relAngle + wheelsAngle;
+        pointA = new WbVector2(radius * Math.cos(absAngle) + center.x, radius * Math.sin(absAngle) + center.y);
+        pointB = new WbVector2(nextRadius * Math.cos(absAngle + Math.PI) + nextCenter.x, nextRadius * Math.sin(absAngle + Math.PI) + nextCenter.y);
+      }
+
+      if (w === 0)
+        firstPoint = pointA;
+      else {
+        let c1, c2, inc;
+        if (isWheelInner === 1) {
+          c1 = previousPoint.sub(center);
+          c2 = pointA.sub(center);
+          inc = new WbVector2(1, 1);
+        } else {
+          c2 = previousPoint.sub(center);
+          c1 = pointA.sub(center);
+          inc = new WbVector2(-1, -1);
+        }
+        let angle = Math.atan2(c2.x * c1.y - c2.y * c1.x, c2.x * c1.x + c2.y * c1.y);
+        if (angle < 0)
+          angle += 2 * Math.PI;
+        this.pathLength += radius * angle;
+        // round path
+        this.pathList.push(new WbPathSegment(previousPoint, pointA, previousRotation, radius, center, inc));
+      }
+
+      // straight path
+      distanceVector = pointB.sub(pointA);
+      this.pathLength += distanceVector.length();
+      if (Math.abs(distanceVector.y) < 1e-10 && Math.abs(distanceVector.x) < 1e-10) {
+        const centerDistanceVector = nextCenter.sub(center);
+        previousRotation = -Math.atan2(centerDistanceVector.y, centerDistanceVector.x) - Math.PI / 2;
+      } else
+        previousRotation = -Math.atan2(distanceVector.y, distanceVector.x);
+      this.pathList.push(new WbPathSegment(pointA, pointB, previousRotation, -1, new WbVector2(), distanceVector.normalized()));
+
+      previousPoint = pointB;
+      center = nextCenter;
+      radius = nextRadius;
+      ++nextIndex;
+    }
+
+    // add last round path
+    radius = this.wheelsList[0].radius;
+    const firstWheelCenter = new WbVector2(this.wheelsList[nextIndex].translation.x, this.wheelsList[nextIndex].translation.z);
+    const c1 = previousPoint.sub(firstWheelCenter);
+    const c2 = firstPoint.sub(firstWheelCenter);
+    let angle = Math.atan2(c2.x * c1.y - c2.y * c1.x, c2.x * c1.x + c2.y * c1.y);
+    if (angle < 0)
+      angle += 2 * Math.PI;
+    this.pathLength += radius * angle;
+    this.pathList.push(new WbPathSegment(previousPoint, firstPoint, previousRotation, radius, firstWheelCenter, new WbVector2(1, 1)));
+
+    if (wheelsPositionError)
+      // multiple wheels at the same location
+      console.error('Two or more consecutive TrackWheel nodes are located at the same position. Only the first node is used.');
+  }
 
   preFinalize() {
     super.preFinalize();
-    // this.computeBeltPath();
+    this.computeBeltPath();
   }
+
   postFinalize() {
     super.postFinalize();
     WbWorld.instance.tracks.push(this);
@@ -146,7 +143,7 @@ export default class WbTrack extends WbTransform {
 
   initAnimatedGeometriesBeltPosition() {
     const numGeometries = this.animatedObjectList.length;
-    if (typeof this.pathLength !== 'undefined') {
+    if (typeof this.pathLength !== 'undefined' && this.pathLength > 0) {
       this.pathStepSize = this.pathLength / numGeometries;
       const beltPosition = new WbBeltPosition(this.pathList[0].startPoint, this.pathList[0].initialRotation, 0);
       this.firstGeometryPosition = beltPosition;
