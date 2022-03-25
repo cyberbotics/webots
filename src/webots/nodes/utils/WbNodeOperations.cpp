@@ -355,8 +355,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
       QString name("PBRAppearance");
       float roughness = 1.0, transparency = 0.0;
-      printf("CLD mat pros %d\n", material->mNumProperties);
-      // for (unsigned int j = 0; j < material->mNumProperties; ++j) {
       float values[3];
       float value;
       unsigned int count = 3;
@@ -377,13 +375,6 @@ static void addModelNode(QString &stream, const aiNode *node, const aiScene *sce
       aiString nameProperty;
       if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
         name = nameProperty.C_Str();
-      // Uncomment this part to print all the properties of this material
-
-      printf("CLD baseColor [1 1 1] -> [%f %f %f]\n", baseColor[0], baseColor[1], baseColor[2]);
-      printf("CLD emissiveColor [0 0 0] -> [%f %f %f]\n", emissiveColor[0], emissiveColor[1], emissiveColor[2]);
-      printf("CLD transparency [0] -> [%f]\n", transparency);
-      printf("CLD roughness [0] -> [%f]\n", roughness);
-      //}
 
       stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
       stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);

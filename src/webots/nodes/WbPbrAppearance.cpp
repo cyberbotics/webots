@@ -220,6 +220,7 @@ void WbPbrAppearance::postFinalize() {
   if (emissiveColorMap())
     emissiveColorMap()->postFinalize();
 
+  /*
   connect(mBaseColor, &WbSFColor::changed, this, &WbPbrAppearance::updateBaseColor);
   connect(mBaseColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateBaseColorMap);
   connect(mTransparency, &WbSFDouble::changed, this, &WbPbrAppearance::updateTransparency);
@@ -235,7 +236,7 @@ void WbPbrAppearance::postFinalize() {
   connect(mEmissiveColor, &WbSFColor::changed, this, &WbPbrAppearance::updateEmissiveColor);
   connect(mEmissiveColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEmissiveColorMap);
   connect(mEmissiveIntensity, &WbSFDouble::changed, this, &WbPbrAppearance::updateEmissiveIntensity);
-
+  */
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbPbrAppearance::updateBackgroundColor);
 

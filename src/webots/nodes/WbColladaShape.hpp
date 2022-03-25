@@ -28,6 +28,8 @@ struct WrStaticMesh;
 struct WrRenderable;
 struct WrMaterial;
 
+class aiMaterial;
+
 class WbColladaShape : public WbBaseNode {
   Q_OBJECT
 
@@ -61,6 +63,8 @@ private:
   QVector<WrStaticMesh *> mWrenMeshes;
   QVector<WrTransform *> mWrenTransforms;
   QVector<WbPbrAppearance *> mPbrAppearances;
+
+  const QString vrmlAppearance(const aiMaterial *material);
 
   QString colladaPath() const;
 

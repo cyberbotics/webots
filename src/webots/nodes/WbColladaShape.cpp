@@ -17,8 +17,10 @@
 #include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
+#include "WbNodeReader.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbSFString.hpp"
+#include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -251,19 +253,37 @@ void WbColladaShape::createWrenObjects() {
 
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-      WbPbrAppearance *pbr = new WbPbrAppearance(material);
+
+      const QString test = vrmlAppearance(material);
+      WbTokenizer *tokenizer = new WbTokenizer();
+      tokenizer->tokenizeString(test);
+
+      WbNodeReader nodeReader;
+      const WbNode *node = nodeReader.readNode(tokenizer, "");
+
+      WbPbrAppearance *pbr = new WbPbrAppearance(*node);
       pbr->preFinalize();
-      mPbrAppearances.push_back(pbr);
+      pbr->postFinalize();
 
       WrMaterial *mat = wr_pbr_material_new();
       pbr->modifyWrenMaterial(mat);
+      /*
+      WbPbrAppearance *pbr = new WbPbrAppearance(material);
+      pbr->preFinalize();
+      pbr->createWrenObjects();
+      pbr->setFieldsParentNode();
+      WrMaterial *mat = wr_pbr_material_new();
+      pbr->modifyWrenMaterial(mat);
+      pbr->postFinalize();
+      */
+      mPbrAppearances.push_back(pbr);
       mWrenMaterials.push_back(mat);
     }
   }
 
   // TODO: needed?
-  for (int i = 0; i < mPbrAppearances.size(); ++i)
-    mPbrAppearances[i]->preFinalize();
+  // for (int i = 0; i < mPbrAppearances.size(); ++i)
+  //  mPbrAppearances[i]->preFinalize();
 
   printf("create WREN objects, size %lld\n", mWrenMeshes.size());
   for (int i = 0; i < mWrenMeshes.size(); ++i) {
@@ -287,6 +307,42 @@ void WbColladaShape::createWrenObjects() {
     mWrenRenderables.push_back(renderable);
     mWrenTransforms.push_back(transform);
   }
+}
+
+const QString WbColladaShape::vrmlAppearance(const aiMaterial *material) {
+  QString vrml;
+
+  aiColor3D baseColor(1.0f, 1.0f, 1.0f);
+  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
+
+  aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
+  material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
+
+  float opacity = 1.0f;
+  material->Get(AI_MATKEY_OPACITY, opacity);
+
+  float roughness = 1.0f;
+  if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness;
+  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness / 100.0;
+  else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
+    roughness = 1.0 - roughness;
+
+  aiString name("PBRAppearance");
+  material->Get(AI_MATKEY_NAME, name);
+
+  vrml = "PBRAppearance {";
+  vrml += QString("baseColor %1 %2 %3\n").arg(baseColor[0]).arg(baseColor[1]).arg(baseColor[2]);
+  vrml += QString("emissiveColor %1 %2 %3\n").arg(emissiveColor[0]).arg(emissiveColor[1]).arg(emissiveColor[2]);
+  vrml += QString("name \"%1\"\n").arg(name.C_Str());
+  vrml += QString("metalness 0\n");
+  // vrml += QString("transparency %1\n").arg(transparency);
+  vrml += QString("roughness %1\n").arg(roughness);
+  vrml += "}";
+
+  printf("-------------\n%s\n------------\n", vrml.toUtf8().constData());
+  return vrml;
 }
 
 void WbColladaShape::deleteWrenObjects() {
