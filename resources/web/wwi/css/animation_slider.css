@@ -5,7 +5,7 @@
   left: 1%;
   width: 98%;
   height:3px;
-  background:rgba(140,140,140,0.5);
+  background: rgba(140,140,140,0.5);
   cursor: pointer;
   padding: 3px 0px;
   background-clip: content-box;
@@ -27,7 +27,7 @@
 
 .slider {
   z-index: 3;
-  background:rgb(0, 122, 204);
+  background: rgb(0, 122, 204);
   height: 3px;
   width: 50%;
   position: absolute;
@@ -37,7 +37,7 @@
 .thumb {
   visibility: hidden;
   z-index: 2;
-  background: red;
+  background: rgb(0, 122, 204);
   border-radius: 50%;
   width: 14px;
   height: 14px;
