@@ -295,9 +295,9 @@ export default class Toolbar {
 
     let ideWindow = new FloatingIde(this.floatingIdeContainer, 'ide', url);
 
-    const robotWindowWidth = 500;
-    const robotWindowHeight = 500;
     const margin = 20;
+    const robotWindowWidth = 500;
+    const robotWindowHeight = this.parentNode.offsetHeight - 2*margin - this.toolbar.offsetHeight;
 
     ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(ideWindow.getID()));
@@ -400,12 +400,15 @@ export default class Toolbar {
     const margin = 20;
     let numCol = 0;
     let numRow = 0;
+    let ideOffset = 0;
+    if (this._view.ide)
+      ideOffset = 520;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getID()));
 
-      if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
+      if (ideOffset + margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
         numRow++;
         if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight)
           numRow = 0;
@@ -413,7 +416,7 @@ export default class Toolbar {
       }
 
       rw.setSize(robotWindowWidth, robotWindowHeight);
-      rw.setPosition(margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
+      rw.setPosition(ideOffset + margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
       numCol++;
     });
   }

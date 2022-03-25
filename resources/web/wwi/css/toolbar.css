@@ -317,13 +317,13 @@ webots-view .information-panel {
   position: absolute;
   top: calc(50% - 150px);
   left: calc(50% - 220px);
-  background-color: #111;
+  background-color: #222;
   color: white;
   text-align: center;
   width: 440px;
   height: 300px;
   border-radius: 10px;
-  opacity: 0.9;
+  opacity: 0.95;
   font-family: Helvetica;
   display: none;
   pointer-events: auto;
@@ -367,15 +367,15 @@ webots-view .information-panel .info-tabs-bar .info-tab {
   height: 28px;
   position: absolute;
   color: white;
-  background-color: #111;
+  background-color: #222;
   border-width: 0;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  border-bottom: 1px #111 solid;
+  border-bottom: 1px #222 solid;
 }
 
 webots-view .information-panel .info-tabs-bar .info-tab:hover {
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid rgb(0, 122, 204);
   cursor: pointer;
 }
 
@@ -524,7 +524,7 @@ webots-view .slider {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #aaa;
+  background-color: #777;
   pointer-events: none;
   transition: background-color 0.2s ease-in-out;
 }
@@ -542,12 +542,12 @@ webots-view .slider:before {
 }
 
 webots-view input:checked + .slider {
-  background-color: red;
+  background-color: rgb(0, 122, 204);
   pointer-events: none;
 }
 
 webots-view input:focus + .slider {
-  box-shadow: 0 0 1px red;
+  box-shadow: 0 0 1px rgb(0, 122, 204);
   pointer-events: none;
 }
 
@@ -706,5 +706,5 @@ webots-view .visibility-dot {
 }
 
 webots-view input:checked + .visibility-dot {
-  background-color: red;
+  background-color: rgb(0, 122, 204);
 }
