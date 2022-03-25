@@ -49,36 +49,10 @@ export default class Server {
           console.error('Cannot connect to the simulation server');
         };
       })
-      .catch(error1 => {
-        fetch(self._url.replace('beta','testing'))
-          .then(response => response.text())
-          .then(function(data) {
-            if (data.startsWith('Error:')) {
-              self.onError();
-              let errorMessage = data.substring(6).trim();
-              errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
-              alert('Session server error: ' + errorMessage);
-              return;
-            }
-            self.socket = new WebSocket(data + '/client');
-            self.socket.onopen = (event) => {
-              self.onOpen(event);
-            };
-            self.socket.onmessage = (event) => {
-              self.onMessage(event);
-            };
-            self.socket.onclose = (event) => {
-              console.log('Disconnected from the Webots server.');
-            };
-            self.socket.onerror = (event) => {
-              console.error('Cannot connect to the simulation server');
-            };
-          })
-          .catch(error2 => {
-            this.onError()
-            alert('Could not connect to session server');
-            console.error(error2);
-          });
+      .catch(error => {
+        this.onError()
+        alert('Could not connect to session server');
+        console.error(error);
       });
   }
 
