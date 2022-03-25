@@ -275,7 +275,7 @@ The build menu is described in more details [here](webots-built-in-editor.md).
 ### Overlays Menu
 
 The **Overlays** menu provides actions specific to rendering device overlays ([Camera](../reference/camera.md), [Display](../reference/display.md), `Rangefinder`).
-Some actions of this menu are active only when a robot is selected in the 3D window or when there is only one robot in the simulation:
+Some actions of this menu are active only when a robot is selected in the 3D window:
 
 - The **Camera Devices** submenu contains the list of all the camera devices of the selected robot and its descendant robots and lets the user show or hide single camera overlay images by checking or unchecking the corresponding item.
 Camera overlays differ from the display overlays because of their magenta border.
