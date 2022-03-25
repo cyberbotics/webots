@@ -18,6 +18,8 @@
 #include "WbBaseNode.hpp"
 #include "WbSFString.hpp"
 
+#include <assimp/material.h>
+
 class WbBoundingSphere;
 class WbSFString;
 class WbDownloader;
@@ -64,8 +66,8 @@ private:
   QVector<WrTransform *> mWrenTransforms;
   QVector<WbPbrAppearance *> mPbrAppearances;
 
-  const QString vrmlAppearance(const aiMaterial *material);
-
+  const QString vrmlPbrAppearance(const aiMaterial *material);
+  bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
   QString colladaPath() const;
 
   void updateShape();
