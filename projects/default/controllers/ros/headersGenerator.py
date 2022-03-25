@@ -75,7 +75,7 @@ class HeadersGenerator:
                 l = l.split('#')[0].strip()  # strip comments
                 if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l or 'webots_ros/' in l:
                     message = l.split(' ')[0]
-                    # replace message by its corresponding md5
+                    # replace message by its corresponding MD5
                     # the fact that it is an array is not relevant for the computation of the MD5
                     clean_message = message.replace("[]", "")
                     if clean_message in self.predefinedMD5:
