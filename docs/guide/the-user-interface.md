@@ -207,7 +207,7 @@ If the light sensor device is disabled or the first measurement is not available
   - The **Show Pen Painting Rays** allows you to display, or to hide, the rays in which the pen devices paint.
 These rays are drawn as violet lines if painting is enabled, otherwise as gray lines.
 
-  - The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes. The color of a normal is magenta if it was not creased using the [IndexedFaceSet](../reference/indexedfaceset.md) `creaseAngle`, otherwise, it is yellow. The length of the normal representation is proportional to the [WorldInfo](../reference/worldinfo.md) `lineScale` parameter.  
+  - The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes. The color of a normal is magenta if it was not creased using the [IndexedFaceSet](../reference/indexedfaceset.md) `creaseAngle`, otherwise, it is yellow. The length of the normal representation is proportional to the [WorldInfo](../reference/worldinfo.md) `lineScale` parameter.
 
   - The **Show Radar Frustums** allows you to display, or to hide, the radar frustum.
 If the radar device is enabled the frustum is drawn in blue, otherwise if the radar is disabled or the first measurement is not available yet, the frustum is drawn in gray.
@@ -235,7 +235,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
 
   - The **Disable 3D View Context Menu** option prevents opening the node context menu when right-clicking on the 3D window.
   But the context menu can still be open right-clicking on the node in the scene tree.
-  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.  
+  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.
 
   - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles or the `SHIFT + mouse drag/mouse wheel` method.
   Objects can still be moved by changing the translation and rotation fields from the scene tree.
@@ -275,7 +275,7 @@ The build menu is described in more details [here](webots-built-in-editor.md).
 ### Overlays Menu
 
 The **Overlays** menu provides actions specific to rendering device overlays ([Camera](../reference/camera.md), [Display](../reference/display.md), `Rangefinder`).
-Some actions of this menu are active only when a robot is selected in the 3D window or when there is only one robot in the simulation:
+Some actions of this menu are active only when a robot is selected in the 3D window:
 
 - The **Camera Devices** submenu contains the list of all the camera devices of the selected robot and its descendant robots and lets the user show or hide single camera overlay images by checking or unchecking the corresponding item.
 Camera overlays differ from the display overlays because of their magenta border.
