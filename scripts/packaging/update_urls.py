@@ -16,7 +16,7 @@
 
 """Replace the webots:// URLs with https://raw.githubusercontent.com/cyberbotics/webots/<version>/
    in world, proto and controller files. Replace the webots:// URLs with
-   https://cdn.jsdelivr.net/gh/cyberbotics/webots@<version> in html files."""
+   https://cdn.jsdelivr.net/gh/cyberbotics/webots@<version> in robot windows html files."""
 
 
 import os
