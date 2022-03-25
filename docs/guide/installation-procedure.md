@@ -350,38 +350,40 @@ This allows to progressively download the assets as they are needed instead of d
 From Webots 2022b a zip version of the entire cache is also available for download, meaning instead of letting Webots build it over time it can be used directly.
 This is beneficial for an offline usage of Webots or to mount it as a volume in a docker setting.
 
-1. Download the `assets.zip` archive corresponding to your Webots version from the [releases](https://github.com/cyberbotics/webots/releases) page on github.
+1. Download the archive corresponding to your Webots version from the [releases](https://github.com/cyberbotics/webots/releases) page on github.
+If you have installed a nightly build of Webots, then you need to download the archive corresponding to that specific build.
 2. Depending on your operating system, the default location of the Webots cache is shown below.
+Please note that the assets need to be in a folder named `assets`, as such when decompressing the archive it might be necessary to rename the folder or to remove any intermediary directories being created.
 
 %tab-component "os"
 
 %tab "Windows"
 
-Extract the *assets.zip* archive to:
+Extract the archive to:
 
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
 
-***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
 
 %tab-end
 
 %tab "Linux"
 
-Extract the *assets.zip* archive to:
+Extract the archive to:
 
 `~/.cache/Cyberbotics/Webots`
 
-***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
 
 %tab-end
 
 %tab "macOS"
 
-Extract the *assets.zip* archive to:
+Extract the archive to:
 
 `~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
 
-***Note:*** the folder `assets` itself needs to be present and if one already exists, it should be overwritten.
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
 
 %tab-end
 
