@@ -42,7 +42,7 @@ jobs:
         sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
-      run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
     - name: Webots Package Creation
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
@@ -62,7 +62,7 @@ jobs:
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
-        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
+        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
       with:
@@ -105,7 +105,7 @@ jobs:
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        xvfb-run --auto-servernum python scripts/packaging/update_urls.py ${{ github.sha }}
+        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
