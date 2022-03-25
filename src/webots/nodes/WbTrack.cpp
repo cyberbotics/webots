@@ -896,6 +896,11 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
     parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
+  if (writer.isX3d()) {
+    writer << "<TrackPath pathLength='" << mPathLength;
+    writer << "'>";
+  }
+
   QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
                      " 0 " +
                      QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
@@ -963,6 +968,21 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
       writer << "}\n";
     }
   }
+
+  for (int i = 0; i < mPathList.length(); i++) {
+    PathSegment segment = mPathList[i];
+
+    writer << "<PathSegment ";
+    writer << "startPoint='" << segment.startPoint.toString() << "' ";
+    writer << "endPoint='" << segment.endPoint.toString() << "' ";
+    writer << "initialRotation='"
+           << QString("%1").arg(WbPrecision::doubleToString(segment.initialRotation, WbPrecision::DOUBLE_MAX)) << "' ";
+    writer << "radius='" << QString("%1").arg(WbPrecision::doubleToString(segment.radius, WbPrecision::DOUBLE_MAX)) << "' ";
+    writer << "center='" << segment.center.toString() << "' ";
+    writer << "increment='" << segment.increment.toString() << "' ";
+    writer << "></PathSegment>";
+  }
+  writer << "</TrackPath>";
 }
 
 void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
@@ -1017,5 +1037,14 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
     if (!isEmpty)
       writer.indent();
     writer << "]\n";
+  }
+}
+
+void WbTrack::exportNodeFields(WbVrmlWriter &writer) const {
+  WbMatter::exportNodeFields(writer);
+  if (writer.isX3d()) {
+    if (!name().isEmpty())
+      writer << " name='" << sanitizedName() << "'";
+    writer << " type='track'";
   }
 }
