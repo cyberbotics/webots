@@ -20,6 +20,7 @@ from pathlib import Path
 import sys
 import shutil
 import hashlib
+from datetime import date
 
 EXTENSIONS = [
     'jpg', 'png', 'hdr', 'stl', 'dae', 'obj', 'mp3', 'wav', 'fbx'
@@ -54,15 +55,20 @@ if os.path.exists(folder_name):
     shutil.rmtree(folder_name)
 
 os.mkdir(folder_name)
-for asset in assets:
-    if any(x in str(asset) for x in SKIPPED_DIRECTORIES):
-        continue
+with open(f'{folder_name}/log.txt', 'w') as log_file:
+    log_file.write(f'Cache generated on {date.today()} with tag {tag}\n\n')
 
-    # generate hash of the remote url
-    remote_url = str(asset).replace(WEBOTS_HOME, rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}')
-    hash = hashlib.sha1(remote_url.encode('utf-8')).hexdigest()
-    # copy to asset folder
-    shutil.copyfile(asset, f'./{folder_name}/{hash}')
+    for asset in assets:
+        if any(x in str(asset) for x in SKIPPED_DIRECTORIES):
+            continue
+
+        # generate hash of the remote url
+        remote_url = str(asset).replace(WEBOTS_HOME, rf'https://raw.githubusercontent.com/cyberbotics/webots/{tag}')
+        hash = hashlib.sha1(remote_url.encode('utf-8')).hexdigest()
+        # copy to asset folder
+        shutil.copyfile(asset, f'./{folder_name}/{hash}')
+        # store the url-hash equivalence for debugging purposes
+        log_file.write(f'{hash} {remote_url}\n')
 
 # generate zip file
 shutil.make_archive(folder_name, 'zip', folder_name)
