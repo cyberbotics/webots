@@ -670,6 +670,7 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
                                                            bool segmentChanged) const {
   if (stepSize == 0)
     return current;
+
   const bool isPositiveStep = stepSize >= 0;
   const bool singleWheelCase = mWheelsList.size() == 1;
   const PathSegment segment = mPathList[current.segmentIndex];
@@ -709,6 +710,7 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
         if (maxStepSize < 0)
           maxStepSize += 2 * M_PI;
       }
+
       if (fabs(stepSize) <= maxStepSize) {
         const double angle = -(stepSize * segment.increment[0]) / segment.radius;
         const double newPositionX = relativePosition.x() * cos(angle) - relativePosition.y() * sin(angle);
@@ -728,6 +730,7 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
         return BeltPosition(nextPosition, rotation, current.segmentIndex);
       }
     }
+
     current.position = endPoint;
     current.rotation = 0.0;
     if (newStepSize < 0)
