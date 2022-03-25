@@ -368,7 +368,7 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group type='propeller>";
+      writer << "<Group type='propeller'>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();
