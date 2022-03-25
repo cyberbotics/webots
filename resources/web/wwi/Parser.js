@@ -417,11 +417,14 @@ export default class Parser {
       newNode = new WbTrack(id, translation, scale, rotation);
     else if (type === 'trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
+      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
-      newNode = new WbTrackWheel(id, translation, scale, rotation, radius);
+      newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
       if (parentNode.numberOfTrackWheel === undefined)
         parentNode.numberOfTrackWheel = 0;
       parentNode.numberOfTrackWheel++;
+
+      parentNode.wheelsList.push(newNode);
     } else
       newNode = new WbTransform(id, isSolid, translation, scale, rotation);
 

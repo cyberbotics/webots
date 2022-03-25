@@ -118,6 +118,12 @@ void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   writer.writeFieldEnd(true);
 
   if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("inner", true);
+  writer << mInner->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
     writer << " type='trackWheel'";
 
   WbTransform::exportNodeFields(writer);
