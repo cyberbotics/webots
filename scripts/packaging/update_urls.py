@@ -58,7 +58,7 @@ for path in paths:
     replace_url(path, tag, True)
 
 paths = []
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*.html"))
+paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
 
 for path in paths:
     replace_url(path, tag, False)
