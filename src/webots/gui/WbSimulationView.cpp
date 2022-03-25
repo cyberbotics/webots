@@ -1070,12 +1070,6 @@ WbRobot *WbSimulationView::selectedRobot() const {
       return robot;
   }
 
-  if (WbWorld::instance()) {
-    const QList<WbRobot *> &robotList = WbWorld::instance()->robots();
-    if (robotList.size() == 1)
-      return robotList.first();
-  }
-
   return NULL;
 }
 
