@@ -9,15 +9,20 @@ export default class WbTrackWheel extends WbTransform {
   }
 
   updateRotation(newRotation) {
-    let currQuat = Quaternion.fromAxisAngle([this.rotation.x, this.rotation.y, this.rotation.z], this.rotation.w);
-    let nextQuat = Quaternion.fromAxisAngle([newRotation.x, newRotation.y, newRotation.z], newRotation.w);
+    const currQuat = Quaternion.fromAxisAngle([this.rotation.x, this.rotation.y, this.rotation.z], this.rotation.w);
+    const nextQuat = Quaternion.fromAxisAngle([newRotation.x, newRotation.y, newRotation.z], newRotation.w);
+
     this.rotation = newRotation;
-    this.angularVelocity = quatDifferentiateAngularVelocity(nextQuat, currQuat, WbWorld.instance.basicTimeStep / 1000);
+    let angle = nextQuat.mul(currQuat.inverse());
+    angle = angle.w < 0.0 ? angle.neg() : angle; // Take absolute value
+    angle = angle.log().mul(2); // Convert to scaled axis angle
+    this.angularVelocity = angle.div(WbWorld.instance.basicTimeStep / 1000);
+
     if (WbWorld.instance.readyForUpdates)
       this.applyRotationToWren();
-    let track = WbWorld.instance.nodes.get(this.parent);
+    const track = WbWorld.instance.nodes.get(this.parent);
     if (typeof track !== 'undefined' && track.linearSpeed === 0) {
-      let velocity = this.angularVelocity;
+      const velocity = this.angularVelocity;
       if (Math.abs(velocity.x) > Math.abs(velocity.y) && Math.abs(velocity.x) > Math.abs(velocity.y))
         track.linearSpeed = velocity.x;
       else if (Math.abs(velocity.y) > Math.abs(velocity.z))
@@ -28,16 +33,4 @@ export default class WbTrackWheel extends WbTransform {
       track.linearSpeed *= this.radius;
     }
   }
-}
-
-function quatDifferentiateAngularVelocity(nextQuat, currQuat, dt) {
-  return quatToScaledAxisAngle(quatAbs(nextQuat.mul(currQuat.inverse()))).div(dt);
-}
-
-function quatAbs(x) {
-  return x.w < 0.0 ? x.neg() : x;
-}
-
-function quatToScaledAxisAngle(q) {
-  return q.log().mul(2);
 }

@@ -1,4 +1,3 @@
-import WbTrackWheel from './WbTrackWheel.js';
 import WbTransform from './WbTransform.js';
 import WbVector2 from './utils/WbVector2.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -40,7 +39,7 @@ export default class WbTrack extends WbTransform {
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
     for (let i = 0; i < this.animatedObjectList.length; ++i) {
-      let beltElement = WbWorld.instance.nodes.get(this.animatedObjectList[i]);
+      const beltElement = WbWorld.instance.nodes.get(this.animatedObjectList[i]);
       if (typeof beltElement === 'undefined') {
         console.error('BeltElement not defined');
         return;
@@ -90,11 +89,11 @@ export default class WbTrack extends WbTransform {
         }
       } else {
         // round
-        let relativePosition = currentBeltPosition.position.sub(segment.center);
+        const relativePosition = currentBeltPosition.position.sub(segment.center);
         if (singleWheelCase)
           maxStepSize = Math.abs(stepSize);
         else {
-          let relativeEndPosition = endPoint.sub(segment.center);
+          const relativeEndPosition = endPoint.sub(segment.center);
           let c1, c2;
           if (isPositiveStep * segment.increment.x > 0) {
             c1 = relativePosition;
