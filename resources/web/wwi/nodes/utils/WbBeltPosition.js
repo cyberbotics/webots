@@ -4,4 +4,8 @@ export default class WbBeltPosition {
     this.rotation = angle; // Double
     this.segmentIndex = index; // Int
   }
+
+  clone() {
+    return new WbBeltPosition(this.position, this.rotation, this.segmentIndex);
+  }
 }

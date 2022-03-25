@@ -35,12 +35,11 @@ export default class WbTrack extends WbTransform {
   animateMesh() {
     if (this.animatedObjectList.length === 0)
       return;
-      console.log("animate");
+
     let stepSize = WbWorld.instance.basicTimeStep / 1000 * this.linearSpeed;
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
     for (let i = 0; i < this.animatedObjectList.length; ++i) {
-      console.log(beltPosition.position);
       let beltElement = WbWorld.instance.nodes.get(this.animatedObjectList[i]);
       if (typeof beltElement === 'undefined') {
         console.error('BeltElement not defined');
@@ -64,7 +63,7 @@ export default class WbTrack extends WbTransform {
       beltElement.applyRotationToWren();
 
       if (i === 0) {
-        this.firstGeometryPosition = beltPosition;
+        this.firstGeometryPosition = beltPosition.clone();
         stepSize = this.pathStepSize;
       }
     }

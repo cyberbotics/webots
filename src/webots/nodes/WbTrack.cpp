@@ -41,8 +41,6 @@
 #include <wren/renderable.h>
 #include <wren/transform.h>
 
-#include <iostream>
-
 void WbTrack::init() {
   mDeviceField = findMFNode("device");
   mTextureAnimationField = findSFVector2("textureAnimation");
@@ -645,8 +643,6 @@ void WbTrack::animateMesh() {
 
   BeltPosition beltPosition = mFirstGeometryPosition;
   for (int i = 0; i < mGeometriesCountField->value(); ++i) {
-    std::cout << beltPosition.position.toString().toStdString() << '\n';
-
     beltPosition = computeNextGeometryPosition(beltPosition, stepSize);
     mBeltPositions[i] = beltPosition;
     if (beltPosition.segmentIndex < 0) {
