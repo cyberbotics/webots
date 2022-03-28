@@ -6,18 +6,57 @@ import WbWorld from './WbWorld.js';
 
 import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
-import {clampedAcos} from './utils/utils.js';
+import {clampedAcos, getAnId} from './utils/utils.js';
 
 export default class WbTrack extends WbTransform {
-  constructor(id, translation, scale, rotation) {
+  constructor(id, translation, scale, rotation, geometriesCount) {
     super(id, true, translation, scale, rotation);
-    this.animatedObjectList = [];
+    this.geometriesCount = geometriesCount;
     this.pathList = [];
-    this.pathList2 = [];
-    this.animationStepSize = 0;
-    this.beltPosition = [];
-    this.linearSpeed = 0;
     this.wheelsList = [];
+    this.beltElements = [];
+    this.beltPositions = [];
+    this.linearSpeed = 0;
+    this.animationStepSize = 0;
+  }
+
+  updateAnimatedGeometries() {
+    if (typeof this.geometryField === 'undefined')
+      return;
+
+    this.initAnimatedGeometriesBeltPosition();
+
+    let stepSize = 0;
+    let beltPosition = this.firstGeometryPosition;
+
+    for (let i = 0; i < this.geometriesCount; ++i) {
+      beltPosition = this.computeNextGeometryPosition(beltPosition, stepSize);
+      this.beltPositions.push(beltPosition);
+      if (beltPosition.segmentIndex < 0) {
+        // abort
+        this.clearAnimatedGeometries();
+        return;
+      }
+
+      const newElement = this.geometryField.clone(getAnId());
+      newElement.parent = this.id;
+      WbWorld.instance.nodes.set(newElement.id, newElement);
+
+      newElement.translation = new WbVector3(beltPosition.position.x, 0.0, beltPosition.position.y);
+      newElement.rotation = new WbVector4(0.0, 1.0, 0.0, beltPosition.rotation);
+
+      if (i === 0)
+        stepSize = this.pathStepSize;
+
+      this.beltElements.push(newElement);
+    }
+  }
+
+  clearAnimatedGeometries() {
+    for (let i = 0; i < this.beltElements.length; i++)
+      this.beltElements[i].delete();
+
+    this.beltElements = undefined;
   }
 
   computeBeltPath() {
@@ -62,7 +101,7 @@ export default class WbTrack extends WbTransform {
         // outer tangent
         let relAngle = clampedAcos((radius - nextRadius) / distanceVector.length());
 
-        if (isWheelInner === 0)
+        if (!isWheelInner)
           relAngle = -relAngle;
         absAngle = relAngle + wheelsAngle;
         pointA = new WbVector2(Math.cos(absAngle), Math.sin(absAngle)).mul(radius).add(center);
@@ -70,7 +109,7 @@ export default class WbTrack extends WbTransform {
       } else {
         // inner tangent
         let relAngle = clampedAcos((radius + nextRadius) / distanceVector.length());
-        if (isWheelInner === 0)
+        if (!isWheelInner)
           relAngle = -relAngle;
         absAngle = relAngle + wheelsAngle;
         pointA = new WbVector2(radius * Math.cos(absAngle) + center.x, radius * Math.sin(absAngle) + center.y);
@@ -81,7 +120,7 @@ export default class WbTrack extends WbTransform {
         firstPoint = pointA;
       else {
         let c1, c2, inc;
-        if (isWheelInner === 1) {
+        if (isWheelInner) {
           c1 = previousPoint.sub(center);
           c2 = pointA.sub(center);
           inc = new WbVector2(1, 1);
@@ -116,7 +155,7 @@ export default class WbTrack extends WbTransform {
 
     // add last round path
     radius = this.wheelsList[0].radius;
-    const firstWheelCenter = new WbVector2(this.wheelsList[nextIndex].translation.x, this.wheelsList[nextIndex].translation.z);
+    const firstWheelCenter = new WbVector2(this.wheelsList[0].translation.x, this.wheelsList[0].translation.z);
     const c1 = previousPoint.sub(firstWheelCenter);
     const c2 = firstPoint.sub(firstWheelCenter);
     let angle = Math.atan2(c2.x * c1.y - c2.y * c1.x, c2.x * c1.x + c2.y * c1.y);
@@ -133,32 +172,39 @@ export default class WbTrack extends WbTransform {
   preFinalize() {
     super.preFinalize();
     this.computeBeltPath();
+    this.updateAnimatedGeometries();
+    this.beltElements.forEach(beltElement => beltElement.preFinalize());
+  }
+
+  createWrenObjects(isTransform) {
+    super.createWrenObjects();
+    this.beltElements.forEach(beltElement => beltElement.createWrenObjects());
+    console.log(this.beltElements)
   }
 
   postFinalize() {
     super.postFinalize();
     WbWorld.instance.tracks.push(this);
-    this.initAnimatedGeometriesBeltPosition();
+    this.beltElements.forEach(beltElement => beltElement.postFinalize());
   }
 
   initAnimatedGeometriesBeltPosition() {
-    const numGeometries = this.animatedObjectList.length;
     if (typeof this.pathLength !== 'undefined' && this.pathLength > 0) {
-      this.pathStepSize = this.pathLength / numGeometries;
+      this.pathStepSize = this.pathLength / this.geometriesCount;
       const beltPosition = new WbBeltPosition(this.pathList[0].startPoint, this.pathList[0].initialRotation, 0);
       this.firstGeometryPosition = beltPosition;
     }
   }
 
   animateMesh() {
-    if (this.animatedObjectList.length === 0)
+    if (this.geometriesCount === 0 || typeof this.geometryField === 'undefined')
       return;
 
     let stepSize = WbWorld.instance.basicTimeStep / 1000 * this.linearSpeed;
     this.animationStepSize = 0;
     let beltPosition = this.firstGeometryPosition;
-    for (let i = 0; i < this.animatedObjectList.length; ++i) {
-      const beltElement = WbWorld.instance.nodes.get(this.animatedObjectList[i]);
+    for (let i = 0; i < this.geometriesCount; ++i) {
+      const beltElement = this.beltElements[i];
       if (typeof beltElement === 'undefined') {
         console.error('BeltElement not defined');
         return;
@@ -191,7 +237,7 @@ export default class WbTrack extends WbTransform {
     if (stepSize === 0)
       return currentBeltPosition;
     const isPositiveStep = stepSize >= 0;
-    const singleWheelCase = this.numberOfTrackWheel === 1;
+    const singleWheelCase = this.wheelsList.length === 1;
     const segment = this.pathList[currentBeltPosition.segmentIndex];
     const endPoint = stepSize < 0 ? segment.startPoint : segment.endPoint;
     const maxDistanceVector = endPoint.sub(currentBeltPosition.position);

@@ -30,7 +30,6 @@ import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
-import WbPathSegment from './nodes/utils/WbPathSegment.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
@@ -141,8 +140,6 @@ export default class Parser {
       result = this._parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Switch')
       result = this._parseSwitch(node, parentNode);
-    else if (node.tagName === 'TrackPath')
-      result = this._parseTrackPath(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -413,16 +410,14 @@ export default class Parser {
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
     let newNode;
-    if (type === 'track')
-      newNode = new WbTrack(id, translation, scale, rotation);
-    else if (type === 'trackwheel') {
+    if (type === 'track') {
+      const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
+      newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
+    } else if (type === 'trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
-      if (parentNode.numberOfTrackWheel === undefined)
-        parentNode.numberOfTrackWheel = 0;
-      parentNode.numberOfTrackWheel++;
 
       parentNode.wheelsList.push(newNode);
     } else
@@ -431,10 +426,12 @@ export default class Parser {
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
     this._parseChildren(node, newNode, isBoundingObject);
-
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      parentNode.children.push(newNode);
+      if (type === 'animatedgeometry')
+        parentNode.geometryField = newNode;
+      else
+        parentNode.children.push(newNode);
     }
 
     return newNode;
@@ -887,34 +884,6 @@ export default class Parser {
     parent.boundingObject = boundingObject;
 
     return boundingObject;
-  }
-
-  _parseTrackPath(node, parentNode) {
-    if (parentNode === 'undefined')
-      return;
-
-    const pathLength = parseFloat(getNodeAttribute(node, 'pathLength', '0'));
-    parentNode.pathLength = pathLength;
-
-    for (let i = 0; i < node.childNodes.length; i++) {
-      const child = node.childNodes[i];
-      if (typeof child.tagName !== 'undefined') {
-        if (child.tagName === 'PathSegment') {
-          let startPoint = convertStringToVec2(getNodeAttribute(child, 'startPoint', '0 0'));
-          let endPoint = convertStringToVec2(getNodeAttribute(child, 'endPoint', '0 0'));
-          let initialRotation = parseFloat(getNodeAttribute(child, 'initialRotation', '3.1415926535'));
-          let radius = parseFloat(getNodeAttribute(child, 'radius', '0'));
-          let center = convertStringToVec2(getNodeAttribute(child, 'center', '0 0'));
-          let increment = convertStringToVec2(getNodeAttribute(child, 'increment', '0 0'));
-
-          // let pathSegment = new WbPathSegment(startPoint, endPoint, initialRotation, radius, center, increment);
-          // parentNode.pathList2.push(pathSegment);
-        } else if (child.tagName === 'Transform') {
-          let transform = this._parseTransform(child, parentNode);
-          parentNode.animatedObjectList.push(transform.id);
-        }
-      }
-    }
   }
 
   _parseAppearance(node, parentId) {
