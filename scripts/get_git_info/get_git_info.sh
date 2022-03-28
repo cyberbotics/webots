@@ -34,7 +34,7 @@ else
 fi
 
 # Get the name of the github commit and write it to a file if correct
-commit=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
+commit=$(git rev-parse HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
 
 if [[ $commit != "" ]]
 then
