@@ -74,11 +74,8 @@ void RosJoystick::publishValue(ros::Publisher publisher) {
   value.header.stamp = ros::Time::now();
   value.header.frame_id = mRos->name() + "/joystick";
   int button = mJoystick->getPressedButton();
-  while (button >= 0) {
-    value.data = button;
-    publisher.publish(value);
-    button = mJoystick->getPressedButton();
-  }
+  value.data = button;
+  publisher.publish(value);
 }
 
 // get axes and point of views value from the joystick and publish them
