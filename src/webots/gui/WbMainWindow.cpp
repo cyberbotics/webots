@@ -1104,10 +1104,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveEvent) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return false;
+    return;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1119,15 +1119,9 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective =
-    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
-  if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
-    perspective->setMainWindowState(saveState());
-  if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
-      perspective->simulationViewState()[1].isEmpty())
-    perspective->setSimulationViewState(mSimulationView->saveState());
-  if (saveScreenPerspective)
-    perspective->setMinimizedState(mMinimizedDockState);
+  perspective->setMainWindowState(saveState());
+  perspective->setSimulationViewState(mSimulationView->saveState());
+  perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);
@@ -1164,23 +1158,23 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
   perspective->setConsolesSettings(settingsList);
 
-  if (saveScreenPerspective) {
-    // save rendering devices perspective
-    const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
-    foreach (const WbRenderingDevice *device, renderingDevices) {
-      if (device->overlay() != NULL)
-        perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
-    }
-
-    // save rendering devices perspective of external window
-    WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+  // save rendering devices perspective
+  const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
+  foreach (const WbRenderingDevice *device, renderingDevices) {
+    if (device->overlay() != NULL)
+      perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
   }
 
-  if (!saveToFile)
-    return false;
+  // save rendering devices perspective of external window
+  WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+
+  // when saving using the save button, the disabler is bypassed
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE") && !isSaveEvent)
+    return;
 
   // save our new perspective in the file
-  return perspective->save();
+  if (saveToFile)
+    perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1455,8 +1449,7 @@ void WbMainWindow::saveWorld() {
 
   mSimulationView->applyChanges();
   if (world->save()) {
-    if (!savePerspective(false, true))
-      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    savePerspective(false, true, true);
     updateWindowTitle();
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
@@ -1490,8 +1483,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
-      if (!savePerspective(false, true))
-        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      savePerspective(false, true, true);
       updateWindowTitle();
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
