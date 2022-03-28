@@ -20,6 +20,11 @@ export default class WbTrack extends WbTransform {
     this.animationStepSize = 0;
   }
 
+  delete() {
+    this.clearAnimatedGeometries();
+    super.delete();
+  }
+
   updateAnimatedGeometries() {
     if (typeof this.geometryField === 'undefined')
       return;
@@ -179,7 +184,6 @@ export default class WbTrack extends WbTransform {
   createWrenObjects(isTransform) {
     super.createWrenObjects();
     this.beltElements.forEach(beltElement => beltElement.createWrenObjects());
-    console.log(this.beltElements)
   }
 
   postFinalize() {
