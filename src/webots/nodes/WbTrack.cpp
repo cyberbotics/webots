@@ -468,7 +468,7 @@ void WbTrack::updateAnimatedGeometriesAfterFinalization(WbBaseNode *node) {
 void WbTrack::updateAnimatedGeometries() {
   clearAnimatedGeometries();
 
-  if (mWheelsList.size() <= 0)
+  if (mWheelsList.isEmpty())
     return;
 
   int numGeometries = mGeometriesCountField->value();
