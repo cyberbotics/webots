@@ -259,15 +259,15 @@ export default class Toolbar {
   }
 
   _createIdeButton() {
-    this.ideButton = this._createToolBarButton('ide', 'Theia IDE', undefined);
+    this.ideButton = this._createToolBarButton('ide', 'Source Code Editor', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
-    if (!this.parentNode.showIde && !this._view.theia)
+    if (!this.parentNode.showIde && !this._view.ide)
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
   }
-  
+
   _createIde() {
     this.floatingIdeContainer = document.createElement('div');
     this.floatingIdeContainer.className = 'floating-window-container';
