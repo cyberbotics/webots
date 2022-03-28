@@ -872,29 +872,11 @@ void WbTrack::computeBeltPath() {
                    "Only the first node is used."));
 }
 
-QString computeTrackDefName() {
-  QString defName = "_TRACK_ANIMATED_GEOMETRY_%0";
-  int n = 0;
-  while (WbDictionary::instance()->getNodeFromDEF(defName.arg(n)))
-    ++n;
-
-  return defName.arg(n);
-}
-
 void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   if (mAnimatedObjectList.size() == 0 || writer.isUrdf())
     return;
 
   WbNode *node = mGeometryField->value();
-  QString defName = node->defName();
-  QString useName = node->useName();
-  if (node->isUseNode())
-    defName = useName;
-  else if (defName.isEmpty()) {
-    defName = computeTrackDefName();
-    node->setDefName(defName, false);
-    parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
-  }
 
   QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
                      " 0 " +
