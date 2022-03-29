@@ -41,6 +41,7 @@
 
 void WbColladaShape::init() {
   mUrl = findSFString("url");
+  mCcw = findSFBool("ccw");
 
   mBoundingSphere = NULL;
 }
@@ -79,8 +80,11 @@ void WbColladaShape::postFinalize() {
   WbBaseNode::postFinalize();
 
   connect(mUrl, &WbSFString::changed, this, &WbColladaShape::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbColladaShape::updateCcw);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
+
+  updateCcw();
 }
 
 void WbColladaShape::updateUrl() {
@@ -111,6 +115,13 @@ void WbColladaShape::updateShape() {
   createWrenObjects();
   // update appearance?
   // WbWorld::instance()->viewpoint()->emit refreshRequired();
+}
+
+void WbColladaShape::updateCcw() {
+  // TODO: updatenormalsrepresentation, check Wbtrianglemeshgeom
+
+  for (WrRenderable *renderable : mWrenRenderables)
+    wr_renderable_invert_front_face(renderable, !mCcw->value());
 }
 
 void WbColladaShape::createWrenObjects() {
@@ -293,6 +304,7 @@ void WbColladaShape::createWrenObjects() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, false);  // TODO: handle shadows, mCastShadows?
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
+    // wr_renderable_invert_front_face(renderable, !mCcw->value());
 
     WrTransform *transform = wr_transform_new();
     wr_transform_attach_child(wrenNode(), WR_NODE(transform));

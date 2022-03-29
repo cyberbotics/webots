@@ -49,6 +49,7 @@ public:
 
 private slots:
   void updateUrl();
+  void updateCcw();
   void updateAppearance();
 
 private:
@@ -60,6 +61,7 @@ private:
   mutable WbBoundingSphere *mBoundingSphere;
 
   WbSFString *mUrl;
+  WbSFBool *mCcw;
 
   QVector<WrRenderable *> mWrenRenderables;
   QVector<WrMaterial *> mWrenMaterials;
