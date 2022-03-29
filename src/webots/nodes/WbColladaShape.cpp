@@ -344,21 +344,21 @@ void WbColladaShape::createWrenObjects() {
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
       // init from VRML
-      const QString test = vrmlPbrAppearance(material);
-      WbTokenizer *tokenizer = new WbTokenizer();
-      tokenizer->tokenizeString(test);
-      WbNodeReader nodeReader;
-      const WbNode *node = nodeReader.readNode(tokenizer, "");
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(*node);
+      // const QString test = vrmlPbrAppearance(material);
+      // WbTokenizer *tokenizer = new WbTokenizer();
+      // tokenizer->tokenizeString(test);
+      // WbNodeReader nodeReader;
+      // const WbNode *node = nodeReader.readNode(tokenizer, "");
+      // WbPbrAppearance *pbrAppearance = new WbPbrAppearance(*node);
+      // pbrAppearance->preFinalize();
+      // pbrAppearance->postFinalize();
+      // connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
+
+      // init from assimp
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
-
-      // init from assimp
-      // WbPbrAppearance *pbr = new WbPbrAppearance(material);
-      // pbrAppearance->preFinalize();
-      // pbrAppearance->postFinalize();
-      // connect(pbr, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
 
       WrMaterial *wrenMaterial = wr_pbr_material_new();
       pbrAppearance->modifyWrenMaterial(wrenMaterial);

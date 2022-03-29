@@ -44,13 +44,20 @@ WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(oth
 
 WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) : WbBaseNode(modelName, NULL) {
   mInitializedFromAssimpMaterial = true;
+
   aiString name("PBRAppearance");
   material->Get(AI_MATKEY_NAME, name);
   mName = new WbSFString(QString(name.C_Str()));
   mNameValue = mName->value();
+
   mTextureTransform = new WbSFNode();
-  // delete mName;
-  // delete mTextureTransform;
+}
+
+WbAbstractAppearance::~WbAbstractAppearance() {
+  if (mName)
+    delete mName;
+  if (mTextureTransform)
+    delete mTextureTransform;
 }
 
 void WbAbstractAppearance::preFinalize() {

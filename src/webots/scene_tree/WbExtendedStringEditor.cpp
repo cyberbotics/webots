@@ -14,6 +14,7 @@
 
 #include "WbExtendedStringEditor.hpp"
 
+#include "WbColladaShape.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -416,6 +417,10 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbSkin *skin = dynamic_cast<const WbSkin *>(parentNode);
     if (skin)
       return SKIN_URL;
+    const WbColladaShape *collada = dynamic_cast<const WbColladaShape *>(parentNode);
+    if (collada)
+      return COLLADA_URL;
+    // TODO: remove
     if (parentNode->fullName() == "ColladaShapes")
       return COLLADA_URL;
     return TEXTURE_URL;

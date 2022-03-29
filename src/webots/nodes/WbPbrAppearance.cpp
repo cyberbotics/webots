@@ -76,17 +76,17 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppeara
   aiColor3D baseColor(1.0f, 1.0f, 1.0f);
   material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
   mBaseColor = new WbSFColor(baseColor[0], baseColor[1], baseColor[2]);
-  printf("    baseColor [1 1 1] -> [%f %f %f]\n", baseColor[0], baseColor[1], baseColor[2]);
+  // printf("    baseColor [1 1 1] -> [%f %f %f]\n", baseColor[0], baseColor[1], baseColor[2]);
 
   aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
   mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
-  printf("    emissiveColor [0 0 0] -> [%f %f %f]\n", emissiveColor[0], emissiveColor[1], emissiveColor[2]);
+  // printf("    emissiveColor [0 0 0] -> [%f %f %f]\n", emissiveColor[0], emissiveColor[1], emissiveColor[2]);
 
   float opacity = 1.0f;
   material->Get(AI_MATKEY_OPACITY, opacity);
   mTransparency = new WbSFDouble(1.0f - opacity);
-  printf("    transparency [0] -> [%f]\n", mTransparency->value());
+  // printf("    transparency [0] -> [%f]\n", mTransparency->value());
 
   float roughness = 1.0f;
   if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
@@ -96,7 +96,7 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppeara
   else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
     roughness = 1.0 - roughness;
   mRoughness = new WbSFDouble(roughness);
-  printf("    roughness [1] -> [%f]\n", mRoughness->value());
+  // printf("    roughness [1] -> [%f]\n", mRoughness->value());
 
   mMetalness = new WbSFDouble(1.0);
   mIblStrength = new WbSFDouble(1.0);
@@ -116,16 +116,6 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppeara
 
   // float metalness = 1.0f;
   // material->Get(AI_MATKEY_METALLIC_FACTOR);
-
-  delete mBaseColor;
-  delete mEmissiveColor;
-  delete mTransparency;
-  delete mRoughness;
-  delete mMetalness;
-  delete mIblStrength;
-  delete mNormalMapFactor;
-  delete mOcclusionMapStrength;
-  delete mEmissiveIntensity;
 }
 
 WbPbrAppearance::~WbPbrAppearance() {
@@ -135,6 +125,40 @@ WbPbrAppearance::~WbPbrAppearance() {
   if (cInstanceCounter == 0) {
     wr_texture_delete(WR_TEXTURE(cBrdfTexture));
     cBrdfTexture = NULL;
+  }
+
+  if (mInitializedFromAssimpMaterial) {
+    if (mBaseColor)
+      delete mBaseColor;
+    if (mEmissiveColor)
+      delete mEmissiveColor;
+    if (mTransparency)
+      delete mTransparency;
+    if (mRoughness)
+      delete mRoughness;
+    if (mMetalness)
+      delete mMetalness;
+    if (mIblStrength)
+      delete mIblStrength;
+    if (mNormalMapFactor)
+      delete mNormalMapFactor;
+    if (mOcclusionMapStrength)
+      delete mOcclusionMapStrength;
+    if (mEmissiveIntensity)
+      delete mEmissiveIntensity;
+    // maps
+    if (mBaseColorMap)
+      delete mBaseColorMap;
+    if (mRoughnessMap)
+      delete mRoughnessMap;
+    if (mMetalnessMap)
+      delete mMetalnessMap;
+    if (mNormalMap)
+      delete mNormalMap;
+    if (mOcclusionMap)
+      delete mOcclusionMap;
+    if (mEmissiveColorMap)
+      delete mEmissiveColorMap;
   }
 }
 
@@ -220,23 +244,21 @@ void WbPbrAppearance::postFinalize() {
   if (emissiveColorMap())
     emissiveColorMap()->postFinalize();
 
-  if (!mInitializedFromAssimpMaterial) {  // TODO: just for test
-    connect(mBaseColor, &WbSFColor::changed, this, &WbPbrAppearance::updateBaseColor);
-    connect(mBaseColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateBaseColorMap);
-    connect(mTransparency, &WbSFDouble::changed, this, &WbPbrAppearance::updateTransparency);
-    connect(mRoughness, &WbSFDouble::changed, this, &WbPbrAppearance::updateRoughness);
-    connect(mRoughnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateRoughnessMap);
-    connect(mMetalness, &WbSFDouble::changed, this, &WbPbrAppearance::updateMetalness);
-    connect(mMetalnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateMetalnessMap);
-    connect(mIblStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateIblStrength);
-    connect(mNormalMap, &WbSFNode::changed, this, &WbPbrAppearance::updateNormalMap);
-    connect(mNormalMapFactor, &WbSFDouble::changed, this, &WbPbrAppearance::updateNormalMapFactor);
-    connect(mOcclusionMap, &WbSFNode::changed, this, &WbPbrAppearance::updateOcclusionMap);
-    connect(mOcclusionMapStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateOcclusionMapStrength);
-    connect(mEmissiveColor, &WbSFColor::changed, this, &WbPbrAppearance::updateEmissiveColor);
-    connect(mEmissiveColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEmissiveColorMap);
-    connect(mEmissiveIntensity, &WbSFDouble::changed, this, &WbPbrAppearance::updateEmissiveIntensity);
-  }
+  connect(mBaseColor, &WbSFColor::changed, this, &WbPbrAppearance::updateBaseColor);
+  connect(mBaseColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateBaseColorMap);
+  connect(mTransparency, &WbSFDouble::changed, this, &WbPbrAppearance::updateTransparency);
+  connect(mRoughness, &WbSFDouble::changed, this, &WbPbrAppearance::updateRoughness);
+  connect(mRoughnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateRoughnessMap);
+  connect(mMetalness, &WbSFDouble::changed, this, &WbPbrAppearance::updateMetalness);
+  connect(mMetalnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateMetalnessMap);
+  connect(mIblStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateIblStrength);
+  connect(mNormalMap, &WbSFNode::changed, this, &WbPbrAppearance::updateNormalMap);
+  connect(mNormalMapFactor, &WbSFDouble::changed, this, &WbPbrAppearance::updateNormalMapFactor);
+  connect(mOcclusionMap, &WbSFNode::changed, this, &WbPbrAppearance::updateOcclusionMap);
+  connect(mOcclusionMapStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateOcclusionMapStrength);
+  connect(mEmissiveColor, &WbSFColor::changed, this, &WbPbrAppearance::updateEmissiveColor);
+  connect(mEmissiveColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEmissiveColorMap);
+  connect(mEmissiveIntensity, &WbSFDouble::changed, this, &WbPbrAppearance::updateEmissiveIntensity);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbPbrAppearance::updateBackgroundColor);

@@ -29,7 +29,7 @@ class WbAbstractAppearance : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbAbstractAppearance() {}
+  virtual ~WbAbstractAppearance();
 
   void preFinalize() override;
   void postFinalize() override;
