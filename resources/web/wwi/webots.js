@@ -241,9 +241,9 @@ webots.View = class View {
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];
-      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionDiv !== 'undefined') {
-        webotsView.toolbar.deleteWorldSelect();
-        webotsView.toolbar.createWorldSelect();
+      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionPane !== 'undefined') {
+        document.getElementById('world-selection-pane').remove();
+        webotsView.toolbar.createWorldSelectionPane();
       }
     }
   }

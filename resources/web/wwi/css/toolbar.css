@@ -109,16 +109,6 @@ webots-view .icon-play {
   clip-path: polygon(0 0, 50% 25%, 50% 75%, 50% 75%, 50% 25%, 100% 50%, 100% 50%, 0 100%);
 }
 
-webots-view .icon-run {
-  margin-top: 4px;
-  margin-left: -2px;
-  width: 22px;
-  height: 22px;
-  background: #f0f0f0;
-  transition: all 0.2s ease-in-out;
-  clip-path: polygon(0 0, 50% 25%, 50% 75%, 50% 75%, 50% 25%, 100% 50%, 100% 50%, 0 100%);
-}
-
 webots-view .icon-pause {
   margin-top: 4px;
   margin-left: -2px;
@@ -138,27 +128,34 @@ webots-view .icon {
   pointer-events: none;
 }
 
-webots-view .icon-step         {background-image: url(../images/icons/step.svg);}
-webots-view .icon-reset        {background-image: url(../images/icons/reset.svg);}
-webots-view .icon-reset-scene  {background-image: url(../images/icons/reload.svg);}
-webots-view .icon-reload       {background-image: url(../images/icons/reload.svg);}
-webots-view .icon-quit         {background-image: url(../images/icons/quit.svg);}
-webots-view .icon-info         {background-image: url(../images/icons/info.svg);}
-webots-view .icon-settings     {background-image: url(../images/icons/settings.svg);}
-webots-view .icon-fullscreen   {background-image: url(../images/icons/fullscreen.svg);}
-webots-view .icon-partscreen   {background-image: url(../images/icons/partscreen.svg);}
-webots-view .icon-robot-window {background-image: url(../images/icons/robot-window.svg);}
-webots-view .icon-ide          {background-image: url(../images/icons/ide.svg);}
+webots-view .icon-step            {background-image: url(../images/icons/step.svg); background-position: -6px;}
+webots-view .icon-reset           {background-image: url(../images/icons/reset.svg);}
+webots-view .icon-run             {background-image: url(../images/icons/run.svg);}
+webots-view .icon-reset-scene     {background-image: url(../images/icons/reload.svg);}
+webots-view .icon-reload          {background-image: url(../images/icons/reload.svg);}
+webots-view .icon-quit            {background-image: url(../images/icons/quit.svg);}
+webots-view .icon-info            {background-image: url(../images/icons/info.svg);}
+webots-view .icon-settings        {background-image: url(../images/icons/settings.svg);}
+webots-view .icon-fullscreen      {background-image: url(../images/icons/fullscreen.svg);}
+webots-view .icon-partscreen      {background-image: url(../images/icons/partscreen.svg);}
+webots-view .icon-robot-window    {background-image: url(../images/icons/robot-window.svg);}
+webots-view .icon-ide             {background-image: url(../images/icons/ide.svg);}
+webots-view .icon-world-selection {background-image: url(../images/icons/world-selection.svg);}
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
+}
+
+webots-view #step-button {
+  width: 32px;
 }
 
 webots-view .toolbar-btn:focus .icon-ide,
   .toolbar-btn:focus .icon-robot-window, 
   .toolbar-btn:focus .icon-info,
   .toolbar-btn:focus .icon-quit,
-  .toolbar-btn:focus .icon-step {
+  .toolbar-btn:focus .icon-step,
+  .toolbar-btn:focus .icon-world-selection {
   animation: animation-scale-down 0.3s;
 }
 
@@ -167,8 +164,7 @@ webots-view .toolbar-btn:active .icon-ide,
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
-  .toolbar-btn:active .icon-settings,
-  .toolbar-btn:active .icon-reset-scene {
+  .toolbar-btn:active .icon-world-selection {
   animation: none;
 }
 
@@ -235,17 +231,12 @@ webots-view .settings-tooltip,
   .info-tooltip,
   .robot-window-tooltip,
   .ide-tooltip,
-  .reset-scene-tooltip {
-  transform: translateX(-55%);
-}
-
-webots-view .quit-tooltip {
-  left: 0px;
-}
-
-webots-view .reset-tooltip,
+  .reset-scene-tooltip,
+  .world-selection-tooltip,
+  .reset-tooltip,
   .play-tooltip,
-  .step-tooltip {
+  .step-tooltip,
+  .quit-tooltip  {
   transform: translateX(-55%);
 }
 
@@ -647,12 +638,11 @@ webots-view .unclickable {
   pointer-events: none;
 }
 
-/* Floating robot windows*/
+/* Vertical panes */
 
-webots-view .robot-window-pane {
+webots-view .vertical-list-pane {
   position: absolute;
   bottom: 55px;
-  right: 115px;
   border: 1px solid #222;
   overflow: auto;
   max-height: 90%;
@@ -667,7 +657,7 @@ webots-view .robot-window-pane {
   z-index: 3;
 }
 
-webots-view .robot-window-pane-title{
+webots-view .vertical-list-pane-title{
   padding-left: 7px;
   padding-right: 7px;
   padding-top: 10px;
@@ -677,19 +667,19 @@ webots-view .robot-window-pane-title{
   font-weight: 700;
 }
 
-webots-view .robot-window-pane-spacer {
+webots-view .vertical-list-pane-spacer {
   display: inline-block;
   min-width: 15px;
 }
 
-webots-view .robot-window-pane-li {
+webots-view .vertical-list-pane-li {
   margin-top: 5px;
   margin-bottom: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-webots-view .robot-window-pane-switch {
+webots-view .vertical-list-pane-switch {
   position: absolute;
   display: inline-block;
   pointer-events: none;

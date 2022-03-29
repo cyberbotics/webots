@@ -13,6 +13,7 @@ webotsView.showReset           // defines whether the reset button should be dis
 webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
 webotsView.showRun             // defines whether the run button should be displayed.
 webotsView.showStep            // defines whether the step button should be displayed.
+webotsView.showWorldSelection  // defines whether the world selection button should be displayed.
 */
 
 export default class WebotsView extends HTMLElement {

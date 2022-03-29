@@ -34,6 +34,7 @@ export default class Toolbar {
     // Left part
     this._createPlayButton();
     this._createAnimationTimeIndicator();
+    this._checkLeftTooltips();
 
     // Right part
     this._createInfoButton();
@@ -54,12 +55,13 @@ export default class Toolbar {
     // Left part
     this._createQuitButton();
     this._createReloadButton();
-    this._createStreamingTimeIndicator();
+    this._createWorldSelectionButton();
     this._createResetButton();
     this._createStepButton();
     this._createPlayButton();
     this._createRunButton();
-    this._createWorldSelection();
+    this._createStreamingTimeIndicator();
+    this._checkLeftTooltips();
     if (this._view.broadcast) {
       this.toolbarLeft.style.visibility = 'hidden';
       this.minWidth = 0;
@@ -72,7 +74,6 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
-
   }
 
   removeToolbar() {
@@ -117,7 +118,7 @@ export default class Toolbar {
     }
 
     const tooltip = document.createElement('span');
-    tooltip.id = name + 'Tooltip';
+    tooltip.id = name + '-tooltip';
     tooltip.className = 'tooltip ' + name + '-tooltip';
     tooltip.innerHTML = tooltipText;
     button.appendChild(tooltip);
@@ -146,6 +147,17 @@ export default class Toolbar {
       this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
       this._view.mouseEvents.hideToolbar = () => this.hideToolbar();
       this._view.mouseEvents.showToolbar = () => this.showToolbar();
+    }
+  }
+
+  _checkLeftTooltips() {
+    const toolbarLeft = document.getElementById('toolbar-left');
+    for(let child = toolbarLeft.firstChild; child !==null ; child = child.nextSibling) {
+      const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth/2;
+      if (left < 0) {
+        document.getElementById(child.lastChild.id).style.left = '0';
+        document.getElementById(child.lastChild.id).style.transform = 'translateX(0)';
+      }
     }
   }
 
@@ -317,8 +329,9 @@ export default class Toolbar {
 
   _createRobotWindowPane() {
     this.robotWindowPane = document.createElement('div');
-    this.robotWindowPane.className = 'robot-window-pane';
-    this.robotWindowPane.innerHTML = '<h3 class="robot-window-pane-title">Robot Windows</h3>';
+    this.robotWindowPane.id = 'robot-window-pane';
+    this.robotWindowPane.className = 'vertical-list-pane';
+    this.robotWindowPane.innerHTML = '<h3 class="vertical-list-pane-title">Robot Windows</h3>';
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
@@ -336,12 +349,12 @@ export default class Toolbar {
 
   _addRobotWindowToPane(name) {
     const robotWindowLi = document.createElement('li');
-    robotWindowLi.className = 'robot-window-pane-li';
+    robotWindowLi.className = 'vertical-list-pane-li';
     robotWindowLi.id = 'enable-robot-window-' + name;
     this.robotWindowList.appendChild(robotWindowLi);
 
     const button = document.createElement('label');
-    button.className = 'robot-window-pane-switch';
+    button.className = 'vertical-list-pane-switch';
     robotWindowLi.appendChild(button);
 
     let label = document.createElement('input');
@@ -356,7 +369,7 @@ export default class Toolbar {
     button.appendChild(label);
 
     label = document.createElement('div');
-    label.className = 'robot-window-pane-spacer';
+    label.className = 'vertical-list-pane-spacer';
     robotWindowLi.appendChild(label);
 
     label = document.createElement('span');
@@ -366,7 +379,7 @@ export default class Toolbar {
     robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {
-      this._changeFloatingWindowVisibility(name)
+      this._changeFloatingWindowVisibility(name);
     };
   }
 
@@ -378,6 +391,7 @@ export default class Toolbar {
       WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window)));
       WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
     }
+    this.robotWindowPane.style.right = '150px';
 
     const viewWidth = this.parentNode.offsetWidth;
     const viewHeight = this.parentNode.offsetHeight;
@@ -439,7 +453,7 @@ export default class Toolbar {
         i.style.visibility = 'hidden';
     } else {
       this.robotWindowPane.style.visibility = 'hidden';
-      if (event !== 'undefined' && !event.srcElement.id.startsWith('settings')) {
+      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') || event.srcElement.id.startsWith('world-selection'))) {
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
       }
@@ -569,7 +583,7 @@ export default class Toolbar {
       this._settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         const tooltips = document.getElementsByClassName('tooltip');
-        if ((event !== 'undefined') && !event.srcElement.id.startsWith('robot-window')) {
+        if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') || event.srcElement.id.startsWith('world-selection'))) {
           for (let i of tooltips)
             i.style.visibility = '';
         }
@@ -1227,59 +1241,122 @@ export default class Toolbar {
     this._view.currentState = 'fast';
   }
 
-  _createWorldSelection() {
-    this.worldSelectionDiv = document.createElement('div');
-    this.worldSelectionDiv.id = 'world-selection-div';
-    this.toolbarLeft.appendChild(this.worldSelectionDiv);
-    if (this.createWorldSelect() !== -1)
-      this.minWidth += 270;
+  _createWorldSelectionButton() {
+    this.worldSelectionButton = this._createToolBarButton('world-selection', 'Select world');
+    this.toolbarLeft.appendChild(this.worldSelectionButton);
+    this.createWorldSelectionPane();
+    this.worldSelectionButton.addEventListener('mouseup', _ => this._changeWorldSelectionPaneVisibility(_));
+    window.addEventListener('click', _ => this._closeWorldSelectionPaneOnClick(_));
+
+    if (!(typeof this.parentNode.showWorldSelection === 'undefined' || this.parentNode.showWorldSelection) || this._view.worlds.length <= 1)
+      this.worldSelectionButton.style.display = 'none';
+    else
+      this.minWidth += 41;
   }
 
-  createWorldSelect() {
+  createWorldSelectionPane() {
+    this.worldSelectionPane = document.createElement('div');
+    this.worldSelectionPane.id = 'world-selection-pane';
+    this.worldSelectionPane.className = 'vertical-list-pane';
+    this.worldSelectionPane.innerHTML = '<h3 class="vertical-list-pane-title">Worlds</h3>';
+    this.parentNode.appendChild(this.worldSelectionPane);
+    this.worldSelectionPane.style.visibility = 'hidden';
+    this.worldSelectionPane.style.left = '1%';
+    this.worldList = document.createElement('ul');
+    this.worldList.id = 'world-list';
+    this.worldSelectionPane.appendChild(this.worldList);
+
     const worlds = this._view.worlds;
-    if (typeof worlds === 'undefined' || worlds.length <= 1)
-      return -1;
-    this.worldSelect = document.createElement('select');
-    this.worldSelect.id = 'worldSelection';
-    this.worldSelect.classList.add('select-css');
-    this.worldSelectionDiv.appendChild(this.worldSelect);
-
     for (let i in worlds) {
-      const option = document.createElement('option');
-      option.value = worlds[i];
-      option.text = worlds[i];
-      this.worldSelect.appendChild(option);
+      this._addWorldToPane(worlds[i]);
       if (this._view.currentWorld === worlds[i])
-        this.worldSelect.selectedIndex = i;
+        document.getElementById(worlds[i] + '-button').checked = true;
     }
+  }
 
-    this.worldSelect.onchange = () => {
-      if (this._view.broadcast || typeof this.worldSelect === 'undefined')
-        return;
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'Loading ' + this.worldSelect.value + '...';
-      if (document.getElementById('webots-progress'))
-        document.getElementById('webots-progress').style.display = 'block';
-      this.hideToolbar(true);
-      let previousOnready = this._view.onready;
-      let stateBeforeChange = this._view.currentState;
-      this._view.onready = () => {
-        if (previousOnready === 'function')
-          previousOnready();
-        this.showToolbar(true);
-        if (stateBeforeChange === 'real-time')
-          this.realTime();
-        else if (stateBeforeChange === 'fast' || stateBeforeChange === 'run')
-          this.run();
-      };
-      this._view.stream.socket.send('load:' + this.worldSelect.value);
+  _addWorldToPane(name) {
+    const worldLi = document.createElement('li');
+    worldLi.className = 'vertical-list-pane-li';
+    worldLi.id = 'enable-world-' + name;
+    this.worldList.appendChild(worldLi);
+
+    const button = document.createElement('label');
+    button.className = 'vertical-list-pane-switch';
+    worldLi.appendChild(button);
+
+    let label = document.createElement('input');
+    label.id = name + '-button';
+    label.type = 'checkbox';
+    label.checked = false;
+    label.style.display = 'none';
+    button.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'visibility-dot';
+    button.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'vertical-list-pane-spacer';
+    worldLi.appendChild(label);
+
+    label = document.createElement('span');
+    label.id = 'enable-world-text-' + name;
+    label.className = 'world-span';
+    label.innerHTML = name;
+    worldLi.appendChild(label);
+
+    worldLi.onclick = _ => {
+      this._changeWorld(name);
     };
   }
 
-  deleteWorldSelect() {
-    if (typeof this.worldSelectionDiv !== 'undefined' && typeof this.worldSelect !== 'undefined') {
-      this.worldSelectionDiv.removeChild(this.worldSelect);
-      this.worldSelect = undefined;
+  _changeWorld(name) {
+    if (this._view.currentWorld === name)
+      return;
+
+    this.worldSelectionPane.style.visibility = 'hidden';
+    document.getElementById(this._view.currentWorld + '-button').checked = false;
+    document.getElementById(name + '-button').checked = true;
+
+    if (this._view.broadcast || typeof name === 'undefined')
+      return;
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Loading ' + name + '...';
+    if (document.getElementById('webots-progress'))
+      document.getElementById('webots-progress').style.display = 'block';
+    this.hideToolbar(true);
+    let previousOnready = this._view.onready;
+    let stateBeforeChange = this._view.currentState;
+    this._view.onready = () => {
+      if (previousOnready === 'function')
+        previousOnready();
+      this.showToolbar(true);
+      if (stateBeforeChange === 'real-time')
+        this.realTime();
+      else if (stateBeforeChange === 'fast' || stateBeforeChange === 'run')
+        this.run();
+    };
+    this._view.stream.socket.send('load:' + name);
+  }
+
+  _changeWorldSelectionPaneVisibility(event) {
+    if (this.worldSelectionPane.style.visibility === 'hidden') {
+      this.worldSelectionPane.style.visibility = 'visible';
+      for (let i of document.getElementsByClassName('tooltip'))
+        i.style.visibility = 'hidden';
+    } else {
+      this.worldSelectionPane.style.visibility = 'hidden';
+      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') || event.srcElement.id.startsWith('robot-window'))) {
+        for (let i of document.getElementsByClassName('tooltip'))
+          i.style.visibility = '';
+      }
+    }
+  }
+
+  _closeWorldSelectionPaneOnClick(event) {
+    if (event.srcElement.id !== 'world-selection-button' && this.worldSelectionPane.style.visibility === 'visible') {
+      if (!event.srcElement.id.startsWith('enable-world'))
+        this._changeWorldSelectionPaneVisibility(event);
     }
   }
 
