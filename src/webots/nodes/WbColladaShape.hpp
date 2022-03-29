@@ -49,6 +49,7 @@ public:
 
 private slots:
   void updateUrl();
+  void updateAppearance();
 
 private:
   WbColladaShape &operator=(const WbColladaShape &);  // non copyable

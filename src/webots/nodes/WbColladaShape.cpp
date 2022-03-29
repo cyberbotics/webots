@@ -268,6 +268,7 @@ void WbColladaShape::createWrenObjects() {
       WbPbrAppearance *pbr = new WbPbrAppearance(*node);
       pbr->preFinalize();
       pbr->postFinalize();
+      connect(pbr, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
 
       WrMaterial *mat = wr_pbr_material_new();
       pbr->modifyWrenMaterial(mat);
@@ -376,6 +377,13 @@ bool WbColladaShape::addTextureMap(QString &vrml, const aiMaterial *material, co
   }
 
   return false;
+}
+
+void WbColladaShape::updateAppearance() {
+  assert(mPbrAppearances.size() == mWrenMaterials.size());
+
+  for (int i = 0; i < mPbrAppearances.size(); ++i)
+    mPbrAppearances[i]->modifyWrenMaterial(mWrenMaterials[i]);
 }
 
 void WbColladaShape::deleteWrenObjects() {
