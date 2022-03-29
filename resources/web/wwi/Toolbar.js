@@ -30,7 +30,7 @@ export default class Toolbar {
       return;
     
     this._createSlider();
-    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)';
+    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 90%)';
 
     // Left part
     this._createPlayButton();
@@ -692,13 +692,13 @@ export default class Toolbar {
     gtaoLevelLi.onclick = () => this._closeGtaoPane();
     gtaoList.appendChild(gtaoLevelLi);
 
-    for (let i of ['Low', 'Normal', 'High', 'Ultra']) {
+    for (let i of ['low', 'normal', 'high', 'ultra']) {
       gtaoLevelLi = document.createElement('li');
       gtaoLevelLi.id = i;
       label = document.createElement('span');
       if (this._gtaoLevelToText(GtaoLevel) === i)
         label.innerHTML = '&check;';
-      label.id = 'c' + i;
+      label.id = 'c-' + i;
       label.className = 'check-gtao';
       gtaoLevelLi.appendChild(label);
       label = document.createElement('span');
@@ -721,7 +721,7 @@ export default class Toolbar {
       gtaoLabel.innerHTML = event.srcElement.id;
     this._settingsPane.style.visibility = 'visible';
     for (let i of document.getElementsByClassName('check-gtao')) {
-      if (i.id === 'c' + event.srcElement.id)
+      if (i.id === 'c-' + event.srcElement.id)
         i.innerHTML = '&check;';
       else
         i.innerHTML = '';
@@ -744,20 +744,20 @@ export default class Toolbar {
 
   _gtaoLevelToText(number) {
     const pairs = {
-      1: 'Low',
-      2: 'Medium',
-      3: 'High',
-      4: 'Ultra'
+      1: 'low',
+      2: 'medium',
+      3: 'high',
+      4: 'ultra'
     };
     return (number in pairs) ? pairs[number] : '';
   }
 
   _textToGtaoLevel(text) {
     const pairs = {
-      'Low': 1,
-      'Medium': 2,
-      'High': 3,
-      'Ultra': 4
+      'low': 1,
+      'medium': 2,
+      'high': 3,
+      'ultra': 4
     };
     return (text in pairs) ? pairs[text] : 4;
   }
@@ -1084,14 +1084,14 @@ export default class Toolbar {
   reset(reload = false) {
     if (this._view.broadcast)
       return;
-    if (document.getElementById('webotsProgressMessage')) {
+    if (document.getElementById('webots-progress-message')) {
       if (reload)
-        document.getElementById('webotsProgressMessage').innerHTML = 'Reloading simulation...';
+        document.getElementById('webots-progress-message').innerHTML = 'Reloading simulation...';
       else
-        document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
+        document.getElementById('webots-progress-message').innerHTML = 'Restarting simulation...';
     }
-    if (document.getElementById('webotsProgress'))
-      document.getElementById('webotsProgress').style.display = 'block';
+    if (document.getElementById('webots-progress'))
+      document.getElementById('webots-progress').style.display = 'block';
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
@@ -1146,7 +1146,7 @@ export default class Toolbar {
     const clock = document.createElement('span');
     clock.className = 'webots-streaming-time';
 
-    clock.id = 'webotsClock';
+    clock.id = 'webots-clock';
     clock.title = 'Current simulation time';
     clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
     this.toolbarLeft.appendChild(clock);
@@ -1235,7 +1235,7 @@ export default class Toolbar {
 
   _createWorldSelection() {
     this.worldSelectionDiv = document.createElement('div');
-    this.worldSelectionDiv.id = 'worldSelectionDiv';
+    this.worldSelectionDiv.id = 'world-selection-div';
     this.toolbarLeft.appendChild(this.worldSelectionDiv);
     if (this.createWorldSelect() !== -1)
       this.minWidth += 270;
@@ -1262,10 +1262,10 @@ export default class Toolbar {
     this.worldSelect.onchange = () => {
       if (this._view.broadcast || typeof this.worldSelect === 'undefined')
         return;
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.worldSelect.value + '...';
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Loading ' + this.worldSelect.value + '...';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
       this.hideToolbar(true);
       let previousOnready = this._view.onready;
       let stateBeforeChange = this._view.currentState;
