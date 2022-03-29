@@ -181,6 +181,8 @@ void WbColladaShape::createWrenObjects() {
       // compute absolute transform of this node from all the parents
       const int vertices = mesh->mNumVertices;
       const int faces = mesh->mNumFaces;
+      if (vertices < 3)  // silently ignore meshes with less than 3 vertices as they are invalid
+        continue;
 
       if (vertices > 100000)
         warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
