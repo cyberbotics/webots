@@ -42,6 +42,8 @@
 void WbColladaShape::init() {
   mUrl = findMFString("url");
   mCcw = findSFBool("ccw");
+  mCastShadows = findSFBool("castShadows");
+  mIsPickable = findSFBool("isPickable");
 
   mBoundingSphere = NULL;
 }
@@ -71,20 +73,22 @@ void WbColladaShape::downloadAssets() {
 void WbColladaShape::preFinalize() {
   WbBaseNode::preFinalize();
 
-  updateUrl();
-
   mBoundingSphere = new WbBoundingSphere(this);
 }
 
 void WbColladaShape::postFinalize() {
   WbBaseNode::postFinalize();
 
-  connect(mUrl, &WbSFString::changed, this, &WbColladaShape::updateUrl);
+  connect(mUrl, &WbMFString::changed, this, &WbColladaShape::updateUrl);
   connect(mCcw, &WbSFBool::changed, this, &WbColladaShape::updateCcw);
+  connect(mCastShadows, &WbSFBool::changed, this, &WbColladaShape::updateCastShadows);
+
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
 
+  updateUrl();  // TODO: should be in downloadUpdate, but might due to the need of creating wren transforms ? wren initialized?
   updateCcw();
+  updateCastShadows();
 }
 
 void WbColladaShape::updateUrl() {
@@ -131,8 +135,6 @@ void WbColladaShape::updateUrl() {
 
 void WbColladaShape::updateShape() {
   createWrenObjects();
-  // update appearance?
-  // WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbColladaShape::updateCcw() {
@@ -140,6 +142,11 @@ void WbColladaShape::updateCcw() {
 
   for (WrRenderable *renderable : mWrenRenderables)
     wr_renderable_invert_front_face(renderable, !mCcw->value());
+}
+
+void WbColladaShape::updateCastShadows() {
+  for (WrRenderable *renderable : mWrenRenderables)
+    wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
 }
 
 void WbColladaShape::createWrenObjects() {
@@ -320,9 +327,7 @@ void WbColladaShape::createWrenObjects() {
     wr_renderable_set_material(renderable, mWrenMaterials[i], NULL);
     wr_renderable_set_mesh(renderable, WR_MESH(mWrenMeshes[i]));
     wr_renderable_set_receive_shadows(renderable, true);
-    wr_renderable_set_cast_shadows(renderable, false);  // TODO: handle shadows, mCastShadows?
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    // wr_renderable_invert_front_face(renderable, !mCcw->value());
 
     WrTransform *transform = wr_transform_new();
     wr_transform_attach_child(wrenNode(), WR_NODE(transform));

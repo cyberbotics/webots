@@ -49,6 +49,7 @@ public:
 private slots:
   void updateUrl();
   void updateCcw();
+  void updateCastShadows();
   void updateAppearance();
 
 private:
@@ -61,6 +62,8 @@ private:
 
   WbMFString *mUrl;
   WbSFBool *mCcw;
+  WbSFBool *mCastShadows;
+  WbSFBool *mIsPickable;
 
   QVector<WrRenderable *> mWrenRenderables;
   QVector<WrMaterial *> mWrenMaterials;
