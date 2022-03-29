@@ -47,7 +47,8 @@ export default class Toolbar {
       return;
 
     this._createInfoButton();
-    this._createRestoreViewpointButton();
+    //this._createRestoreViewpointButton();
+    this._createSettings();
     this._createFullscreenButtons();
   }
 
@@ -547,6 +548,7 @@ export default class Toolbar {
     this._settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
     this.parentNode.appendChild(this._settingsPane);
+    this._settingsPane.addEventListener('mouseover', () => this.showToolbar());
 
     this.settingsList = document.createElement('ul');
     this.settingsList.id = 'settings-list';
@@ -678,6 +680,8 @@ export default class Toolbar {
     this._gtaoPane.id = 'gtao-pane';
     this._gtaoPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this._gtaoPane);
+
+    this._gtaoPane.addEventListener('mouseover', () => this.showToolbar());
 
     const gtaoList = document.createElement('ul');
     this._gtaoPane.appendChild(gtaoList);
