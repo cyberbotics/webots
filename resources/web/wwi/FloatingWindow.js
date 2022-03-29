@@ -64,7 +64,6 @@ export default class FloatingWindow {
   }
 
   setSize(w, h) {
-    console.log("setting size");
     this.floatingWindow.style.width = w.toString() + 'px';
     this.floatingWindow.style.height = h.toString() + 'px';
   }

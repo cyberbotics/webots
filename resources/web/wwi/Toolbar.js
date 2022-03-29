@@ -280,7 +280,7 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
     //if (!this.parentNode.showIde && !this._view.ide)
-    if (!this._view.theia)
+    if (!this._view.ide)
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
@@ -288,18 +288,20 @@ export default class Toolbar {
 
   _createIde() {
     const url = this._view.x3dScene.prefix.slice(0, -1);
-    let ideWindow = new FloatingIde(this.parentNode, 'ide', url);
+    this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
     const margin = 20;
     const ideWidth = 500;
     const ideHeight = this.parentNode.offsetHeight - 2*margin - this.toolbar.offsetHeight;
 
-    ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-    ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(ideWindow.getId()));
+    this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
 
-    ideWindow.setSize(ideWidth, ideHeight);
-    ideWindow.setPosition(margin, margin);
-    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(ideWindow.getId());
+    this.ideWindow.setSize(ideWidth, ideHeight);
+    this.ideWindow.setPosition(margin, margin);
+    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
+
+    document.onfullscreenchange = () => {this._fullscreenChangeHeight([this.ideWindow])};
   }
 
   _createRobotWindowButton() {
@@ -391,7 +393,7 @@ export default class Toolbar {
     let numCol = 0;
     let numRow = 0;
     let ideOffset = 0;
-    if (this._view.theia)
+    if (this._view.ide)
       ideOffset = 520;
 
     this.robotWindows.forEach((rw) => {
@@ -410,7 +412,10 @@ export default class Toolbar {
       numCol++;
     });
 
-    document.onfullscreenchange = () => {this._fullscreenChangeHeight(this.robotWindows)};
+    if (this.ideWindow !== 'undefined')
+      document.onfullscreenchange = () => {this._fullscreenChangeHeight([this.ideWindow].concat(this.robotWindows))};
+    else
+      document.onfullscreenchange = () => {this._fullscreenChangeHeight(this.robotWindows)};
   }
 
   _refreshRobotWindowContent() {
@@ -483,15 +488,10 @@ export default class Toolbar {
   }
 
   _fullscreenChangeHeight(floatingWindows) {
-    console.log('Screen height: ' + this.parentNode.offsetHeight);
     floatingWindows.forEach ((fw) => {
-      console.log(fw.getId() + ' height: ' + fw.getSize()[0]);
       let maxHeight = this.parentNode.offsetHeight - fw.getPosition()[0];
-
-      console.log(fw.getId() + ' max height: ' + maxHeight);
-
-      if (fw.getPosition()[0] > maxHeight)
-        fw.setSize(fw.getPosition()[1], maxHeight);
+      if (fw.getSize()[0] > maxHeight)
+        fw.setSize(fw.getSize()[1], maxHeight);
     });
   }
 

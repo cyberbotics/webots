@@ -223,6 +223,8 @@ webots.View = class View {
       this._server.socket.close();
     if (this.stream)
       this.stream.close();
+
+      this.ide = false;
   }
 
   // Functions for internal use.
