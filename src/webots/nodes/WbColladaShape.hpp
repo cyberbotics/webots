@@ -50,6 +50,7 @@ private slots:
   void updateUrl();
   void updateCcw();
   void updateCastShadows();
+  void updateIsPickable();
   void updateAppearance();
 
 private:

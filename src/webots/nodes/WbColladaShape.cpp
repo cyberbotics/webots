@@ -24,6 +24,7 @@
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
@@ -82,6 +83,7 @@ void WbColladaShape::postFinalize() {
   connect(mUrl, &WbMFString::changed, this, &WbColladaShape::updateUrl);
   connect(mCcw, &WbSFBool::changed, this, &WbColladaShape::updateCcw);
   connect(mCastShadows, &WbSFBool::changed, this, &WbColladaShape::updateCastShadows);
+  connect(mIsPickable, &WbSFBool::changed, this, &WbColladaShape::updateIsPickable);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
@@ -89,6 +91,7 @@ void WbColladaShape::postFinalize() {
   updateUrl();  // TODO: should be in downloadUpdate, but might due to the need of creating wren transforms ? wren initialized?
   updateCcw();
   updateCastShadows();
+  updateIsPickable();
 }
 
 void WbColladaShape::updateUrl() {
@@ -147,6 +150,11 @@ void WbColladaShape::updateCcw() {
 void WbColladaShape::updateCastShadows() {
   for (WrRenderable *renderable : mWrenRenderables)
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
+}
+
+void WbColladaShape::updateIsPickable() {
+  for (WrRenderable *renderable : mWrenRenderables)
+    WbWrenPicker::setPickable(renderable, uniqueId(), mIsPickable->value());
 }
 
 void WbColladaShape::createWrenObjects() {
@@ -317,10 +325,6 @@ void WbColladaShape::createWrenObjects() {
     }
   }
 
-  // TODO: needed?
-  // for (int i = 0; i < mPbrAppearances.size(); ++i)
-  //  mPbrAppearances[i]->preFinalize();
-
   printf("create WREN objects, size %lld\n", mWrenMeshes.size());
   for (int i = 0; i < mWrenMeshes.size(); ++i) {
     WrRenderable *renderable = wr_renderable_new();
@@ -333,11 +337,9 @@ void WbColladaShape::createWrenObjects() {
     wr_transform_attach_child(wrenNode(), WR_NODE(transform));
     setWrenNode(transform);
     wr_transform_attach_child(transform, WR_NODE(renderable));
-    // wr_transform_set_scale(boneTransform, scale); // TODO: handle scale?
     wr_node_set_visible(WR_NODE(transform), true);
 
     // TODO: segmentation + rangefinder
-    // TODO: pickable?
     // TODO: should be moved elsewhere
     mWrenRenderables.push_back(renderable);
     mWrenTransforms.push_back(transform);
