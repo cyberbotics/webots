@@ -226,9 +226,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
     filePath = WbProject::current()->pluginsPath() + url;
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
     filePath = WbStandardPaths::webotsHomePath() + url;
-  else
-    filePath = WbStandardPaths::webotsHomePath() + url;
-  socket->write(WbHttpReply::forgeFileReply(filePath, etag, host, url));
+  socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {
