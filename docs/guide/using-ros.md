@@ -107,3 +107,13 @@ roslaunch webots_ros webots_ros_python.launch
 ```
 
 A [second more complicated example]({{ url.github_tree }}/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).
+
+### Importing from a ROS package
+
+Webots ROS can use rospack to find controllers, nodes, and PROTOS defined in different ROS packages. In order for Webots to find them, the following needs to be added to your [package.xml](http://wiki.ros.org/catkin/package.xml):
+```
+<export>
+    <webots_ros webots_extra_project_path="${prefix}"/>
+</export>
+```
+Once the export tag is added, and after building and sourcing your package, launching Webots with `webots.launch` from the [webots_ros](https://github.com/cyberbotics/webots_ros) package will allow you to use the found controllers/nodes.
