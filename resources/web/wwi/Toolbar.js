@@ -28,7 +28,7 @@ export default class Toolbar {
   createAnimationToolbar() {
     if (this.type !== 'animation' || typeof this._view === 'undefined' || typeof this._view.animation === 'undefined')
       return;
-    
+
     this._createSlider();
     this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 90%)';
 
