@@ -26,6 +26,7 @@ void WbAbstractAppearance::init() {
   mName = findSFString("name");
   mTextureTransform = findSFNode("textureTransform");
   mNameValue = mName->value();
+  mInitializedFromAssimpMaterial = false;
 }
 
 WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer) :
@@ -42,6 +43,7 @@ WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(oth
 }
 
 WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) : WbBaseNode(modelName, NULL) {
+  mInitializedFromAssimpMaterial = true;
   aiString name("PBRAppearance");
   material->Get(AI_MATKEY_NAME, name);
   mName = new WbSFString(QString(name.C_Str()));

@@ -220,21 +220,23 @@ void WbPbrAppearance::postFinalize() {
   if (emissiveColorMap())
     emissiveColorMap()->postFinalize();
 
-  connect(mBaseColor, &WbSFColor::changed, this, &WbPbrAppearance::updateBaseColor);
-  connect(mBaseColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateBaseColorMap);
-  connect(mTransparency, &WbSFDouble::changed, this, &WbPbrAppearance::updateTransparency);
-  connect(mRoughness, &WbSFDouble::changed, this, &WbPbrAppearance::updateRoughness);
-  connect(mRoughnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateRoughnessMap);
-  connect(mMetalness, &WbSFDouble::changed, this, &WbPbrAppearance::updateMetalness);
-  connect(mMetalnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateMetalnessMap);
-  connect(mIblStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateIblStrength);
-  connect(mNormalMap, &WbSFNode::changed, this, &WbPbrAppearance::updateNormalMap);
-  connect(mNormalMapFactor, &WbSFDouble::changed, this, &WbPbrAppearance::updateNormalMapFactor);
-  connect(mOcclusionMap, &WbSFNode::changed, this, &WbPbrAppearance::updateOcclusionMap);
-  connect(mOcclusionMapStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateOcclusionMapStrength);
-  connect(mEmissiveColor, &WbSFColor::changed, this, &WbPbrAppearance::updateEmissiveColor);
-  connect(mEmissiveColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEmissiveColorMap);
-  connect(mEmissiveIntensity, &WbSFDouble::changed, this, &WbPbrAppearance::updateEmissiveIntensity);
+  if (!mInitializedFromAssimpMaterial) {  // TODO: just for test
+    connect(mBaseColor, &WbSFColor::changed, this, &WbPbrAppearance::updateBaseColor);
+    connect(mBaseColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateBaseColorMap);
+    connect(mTransparency, &WbSFDouble::changed, this, &WbPbrAppearance::updateTransparency);
+    connect(mRoughness, &WbSFDouble::changed, this, &WbPbrAppearance::updateRoughness);
+    connect(mRoughnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateRoughnessMap);
+    connect(mMetalness, &WbSFDouble::changed, this, &WbPbrAppearance::updateMetalness);
+    connect(mMetalnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateMetalnessMap);
+    connect(mIblStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateIblStrength);
+    connect(mNormalMap, &WbSFNode::changed, this, &WbPbrAppearance::updateNormalMap);
+    connect(mNormalMapFactor, &WbSFDouble::changed, this, &WbPbrAppearance::updateNormalMapFactor);
+    connect(mOcclusionMap, &WbSFNode::changed, this, &WbPbrAppearance::updateOcclusionMap);
+    connect(mOcclusionMapStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateOcclusionMapStrength);
+    connect(mEmissiveColor, &WbSFColor::changed, this, &WbPbrAppearance::updateEmissiveColor);
+    connect(mEmissiveColorMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEmissiveColorMap);
+    connect(mEmissiveIntensity, &WbSFDouble::changed, this, &WbPbrAppearance::updateEmissiveIntensity);
+  }
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbPbrAppearance::updateBackgroundColor);
@@ -273,7 +275,6 @@ void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
 }
 
 void WbPbrAppearance::createWrenObjects() {
-  printf("> createWrenObjects\n");
   WbAbstractAppearance::createWrenObjects();
 
   if (baseColorMap())
@@ -457,7 +458,6 @@ double WbPbrAppearance::getRedValueInTexture(WbImageTexture *texture, const WbVe
 }
 
 void WbPbrAppearance::updateCubeMap() {
-  printf("updateCubeMap\n");
   if (isPostFinalizedCalled())
     emit changed();
 }
@@ -468,7 +468,6 @@ void WbPbrAppearance::updateBaseColor() {
 }
 
 void WbPbrAppearance::updateBackgroundColor() {
-  printf("updateBackgroundColor\n");
   if (isPostFinalizedCalled())
     emit changed();
 }

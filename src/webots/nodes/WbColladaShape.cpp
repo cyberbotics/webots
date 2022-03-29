@@ -253,36 +253,31 @@ void WbColladaShape::createWrenObjects() {
       delete[] texCoordData;
       delete[] indexData;
 
-      // TODO: link_4.dae crashes
-
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
+      // init from VRML
       const QString test = vrmlPbrAppearance(material);
       WbTokenizer *tokenizer = new WbTokenizer();
       tokenizer->tokenizeString(test);
-
       WbNodeReader nodeReader;
       const WbNode *node = nodeReader.readNode(tokenizer, "");
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(*node);
+      pbrAppearance->preFinalize();
+      pbrAppearance->postFinalize();
+      connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
 
-      WbPbrAppearance *pbr = new WbPbrAppearance(*node);
-      pbr->preFinalize();
-      pbr->postFinalize();
-      connect(pbr, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
+      // init from assimp
+      // WbPbrAppearance *pbr = new WbPbrAppearance(material);
+      // pbrAppearance->preFinalize();
+      // pbrAppearance->postFinalize();
+      // connect(pbr, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
 
-      WrMaterial *mat = wr_pbr_material_new();
-      pbr->modifyWrenMaterial(mat);
-      /*
-      WbPbrAppearance *pbr = new WbPbrAppearance(material);
-      pbr->preFinalize();
-      pbr->createWrenObjects();
-      pbr->setFieldsParentNode();
-      WrMaterial *mat = wr_pbr_material_new();
-      pbr->modifyWrenMaterial(mat);
-      pbr->postFinalize();
-      */
-      mPbrAppearances.push_back(pbr);
-      mWrenMaterials.push_back(mat);
+      WrMaterial *wrenMaterial = wr_pbr_material_new();
+      pbrAppearance->modifyWrenMaterial(wrenMaterial);
+
+      mPbrAppearances.push_back(pbrAppearance);
+      mWrenMaterials.push_back(wrenMaterial);
     }
   }
 
