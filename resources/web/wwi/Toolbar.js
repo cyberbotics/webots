@@ -30,7 +30,6 @@ export default class Toolbar {
       return;
 
     this._createSlider();
-    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 90%)';
 
     // Left part
     this._createPlayButton();
@@ -46,23 +45,19 @@ export default class Toolbar {
     if (this.type !== 'scene' || typeof this._view === 'undefined')
       return;
 
-    this.toolbar.style.background = 'linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)';
-
     this._createInfoButton();
     this._createRestoreViewpointButton();
     this._createFullscreenButtons();
   }
 
   createStreamingToolbar() {
-    this.toolbar.style.background = 'rgba(0,0,0,0.6)';
-
     // Left part
     this._createQuitButton();
     this._createReloadButton();
     this._createStreamingTimeIndicator();
     this._createResetButton();
-    this._createPlayButton();
     this._createStepButton();
+    this._createPlayButton();
     this._createRunButton();
     this._createWorldSelection();
     if (this._view.broadcast) {
