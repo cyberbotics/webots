@@ -24,11 +24,13 @@ The default value is `python`.
 It should work on most systems assuming that `python` is installed and available from the command line.
 On some systems, it may be useful to set it to `python3.7` for example if you want to launch the controllers with this specific version of Python.
 Bear in mind that this value may be overridden by the content of a `runtime.ini` file of a Python controller that may redefine a specific Python command to launch that controller.
-- The **Extra projects path** defines the path to a user folder similar to the `WEBOTS_HOME/projects` folder.
-This user folder should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
-It may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
-It has the priority over the other search paths.
-This folder may also contain a `default` project that can be used to define generic controllers, textures, sounds, etc.
+- The **Extra project path** defines the paths to user folders similar to the `WEBOTS_HOME/projects` folder.
+These user folders should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
+Multiple user folders can be added by separating them with `:` (or `;` on Windows).
+They may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
+Alternatively, the environment variable `WEBOTS_EXTRA_PROJECT_PATH` can be used.
+If the `Extra project path` parameter and the `WEBOTS_EXTRA_PROJECT_PATH` environment variable are set, then both will be considered.
+These paths have the priority over the other search paths.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
 - The **Telemetry: Send technical data to Webots developpers** checkbox allows Webots to send anonymous technical data to Webots developpers in order to help improving the software.

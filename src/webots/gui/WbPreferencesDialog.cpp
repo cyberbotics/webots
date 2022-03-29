@@ -91,7 +91,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
     mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
   if (mMatlabCommand)
     mMatlabCommand->setText(prefs->value("General/matlabCommand").toString());
-  mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
+  mExtraProjectPath->setText(prefs->value("General/extraProjectPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mRenderingCheckBox->setChecked(prefs->value("General/rendering").toBool());
@@ -137,7 +137,7 @@ void WbPreferencesDialog::accept() {
   const QString &languageKey = WbTranslator::instance()->findKey(mLanguageCombo->currentText());
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
-      prefs->value("General/extraProjectsPath").toString() != mExtraProjectsPath->text() ||
+      prefs->value("General/extraProjectPath").toString() != mExtraProjectPath->text() ||
       prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
@@ -163,7 +163,7 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("General/pythonCommand", mPythonCommand->text());
   if (mMatlabCommand)
     prefs->setValue("General/matlabCommand", mMatlabCommand->text());
-  prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
+  prefs->setValue("General/extraProjectPath", mExtraProjectPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/rendering", mRenderingCheckBox->isChecked());
@@ -281,8 +281,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   }
 
   mEditorFontEdit = new WbLineEdit(this);
-  mExtraProjectsPath = new WbLineEdit(this);
-  mExtraProjectsPath->setToolTip(
+  mExtraProjectPath = new WbLineEdit(this);
+  mExtraProjectPath->setToolTip(
     tr("Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project."));
 
   // row 0
@@ -333,8 +333,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mMatlabCommand = new WbLineEdit(this), 7, 1);
 
   // row 8
-  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 8, 0);
-  layout->addWidget(mExtraProjectsPath, 8, 1);
+  layout->addWidget(new QLabel(tr("Extra project path:"), this), 8, 0);
+  layout->addWidget(mExtraProjectPath, 8, 1);
 
   // row 9
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
