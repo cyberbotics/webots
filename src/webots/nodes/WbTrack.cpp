@@ -468,6 +468,9 @@ void WbTrack::updateAnimatedGeometriesAfterFinalization(WbBaseNode *node) {
 void WbTrack::updateAnimatedGeometries() {
   clearAnimatedGeometries();
 
+  if (mWheelsList.isEmpty())
+    return;
+
   int numGeometries = mGeometriesCountField->value();
   WbBaseNode *geometry = dynamic_cast<WbBaseNode *>(mGeometryField->value());
   if (numGeometries <= 0 || !geometry)
