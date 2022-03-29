@@ -17,9 +17,9 @@
 #include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
+#include "WbMFString.hpp"
 #include "WbNodeReader.hpp"
 #include "WbPbrAppearance.hpp"
-#include "WbSFString.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
@@ -40,7 +40,7 @@
 #include <assimp/Importer.hpp>
 
 void WbColladaShape::init() {
-  mUrl = findSFString("url");
+  mUrl = findMFString("url");
   mCcw = findSFBool("ccw");
 
   mBoundingSphere = NULL;
@@ -88,24 +88,42 @@ void WbColladaShape::postFinalize() {
 }
 
 void WbColladaShape::updateUrl() {
-  if (!isPostFinalizedCalled())
-    return;
-
-  if (!mUrl->value().isEmpty()) {
-    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-    QString url = mUrl->value();
+  // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+  const int n = mUrl->size();
+  for (int i = 0; i < n; i++) {
+    QString item = mUrl->item(i);
     mUrl->blockSignals(true);
-    mUrl->setValue(url.replace("\\", "/"));
+    mUrl->setItem(i, item.replace("\\", "/"));
     mUrl->blockSignals(false);
+  }
 
-    const QFileInfo fi(mUrl->value());
-    const QStringList supportedExtensions = {"DAE"};
-    if (!supportedExtensions.contains(fi.completeSuffix(), Qt::CaseInsensitive)) {
-      warn(tr("Invalid url '%1'. Supported formats are: '%2'.").arg(mUrl->value()).arg(supportedExtensions.join("', '")));
+  if (n > 0) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    if (!completeUrl.toLower().endsWith(".dae")) {
+      warn(tr("Invalid url '%1'. ColladaShape node expects file in Collada ('.dae') format.").arg(completeUrl));
       return;
     }
 
-    // TODO: if remote, download it
+    if (WbUrl::isWeb(completeUrl)) {
+      printf("TODO: not implemented\n");
+      /*
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        deleteWrenRenderable();
+        wr_static_mesh_delete(mWrenMesh);
+        mWrenMesh = NULL;
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        if (mDownloader == NULL)
+          downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
+      */
+    }
 
     updateShape();
   }
@@ -421,7 +439,5 @@ void WbColladaShape::deleteWrenObjects() {
 }
 
 QString WbColladaShape::colladaPath() const {
-  if (mUrl->value().isEmpty())
-    return QString();
-  return WbUrl::computePath(this, "url", mUrl->value());
+  return WbUrl::computePath(this, "url", mUrl, false);
 }

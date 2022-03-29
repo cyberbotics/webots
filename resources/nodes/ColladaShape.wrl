@@ -1,7 +1,7 @@
 # The ColladaShape node defines a geometry and appearance from a '.dae' file.
 
 ColladaShape {
-  field SFString url         ""    # Url of a 3D file in .dae format
+  field MFString url         []    # Url of a 3D file in .dae format
   field SFBool   ccw         TRUE  # Indicate the order of the vertices. Changing this value will flip the faces of the mesh.
   #field SFBool   castShadows TRUE
   #field SFBool   isPickable  TRUE

@@ -16,12 +16,11 @@
 #define WB_COLLADA_SHAPE_HPP
 
 #include "WbBaseNode.hpp"
-#include "WbSFString.hpp"
 
 #include <assimp/material.h>
 
 class WbBoundingSphere;
-class WbSFString;
+class WbMFString;
 class WbDownloader;
 class WbPbrAppearance;
 
@@ -60,7 +59,7 @@ private:
   // Ray tracing
   mutable WbBoundingSphere *mBoundingSphere;
 
-  WbSFString *mUrl;
+  WbMFString *mUrl;
   WbSFBool *mCcw;
 
   QVector<WrRenderable *> mWrenRenderables;
