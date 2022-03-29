@@ -279,8 +279,7 @@ export default class Toolbar {
     this.ideButton = this._createToolBarButton('ide', 'IDE', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
-    //if (!this.parentNode.showIde && !this._view.ide)
-    if (!this._view.ide)
+    if (!this.parentNode.showIde && !this._view.ide)
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
