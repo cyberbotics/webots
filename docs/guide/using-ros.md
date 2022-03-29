@@ -110,7 +110,8 @@ A [second more complicated example]({{ url.github_tree }}/projects/robots/univer
 
 ### Importing from a ROS Package
 
-Webots ROS can use rospack to find controllers, nodes, and PROTOS defined in different ROS packages. In order for Webots to find them, the following needs to be added to your [package.xml](http://wiki.ros.org/catkin/package.xml):
+Webots ROS can use rospack to find controllers, nodes, and PROTOS defined in different ROS packages.
+In order for Webots to find them, the following needs to be added to your [package.xml](http://wiki.ros.org/catkin/package.xml):
 ```
 <export>
     <webots_ros webots_extra_project_path="${prefix}"/>
