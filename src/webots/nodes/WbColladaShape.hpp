@@ -23,6 +23,7 @@ class WbBoundingSphere;
 class WbMFString;
 class WbDownloader;
 class WbPbrAppearance;
+class WbRgb;
 
 struct WrTransform;
 struct WrStaticMesh;
@@ -58,23 +59,28 @@ private:
   WbNode *clone() const override { return new WbColladaShape(*this); }
   void init();
 
-  // Ray tracing
-  mutable WbBoundingSphere *mBoundingSphere;
-
+  // node fields
   WbMFString *mUrl;
   WbSFBool *mCcw;
   WbSFBool *mCastShadows;
   WbSFBool *mIsPickable;
 
+  // wren objects
   QVector<WrRenderable *> mWrenRenderables;
   QVector<WrMaterial *> mWrenMaterials;
   QVector<WrStaticMesh *> mWrenMeshes;
   QVector<WrTransform *> mWrenTransforms;
   QVector<WbPbrAppearance *> mPbrAppearances;
 
+  // segmentation and rangefinder materials
+  QVector<WrMaterial *> mWrenSegmentationMaterials;
+  QVector<WrMaterial *> mWrenEncodeDepthMaterials;
+
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
   QString colladaPath() const;
+
+  void setSegmentationColor(const WbRgb &color);
 
   void updateShape();
   void createWrenObjects();

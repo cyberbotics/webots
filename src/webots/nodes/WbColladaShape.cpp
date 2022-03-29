@@ -19,7 +19,10 @@
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbNodeReader.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
+#include "WbRgb.hpp"
+#include "WbSolid.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
@@ -45,8 +48,6 @@ void WbColladaShape::init() {
   mCcw = findSFBool("ccw");
   mCastShadows = findSFBool("castShadows");
   mIsPickable = findSFBool("isPickable");
-
-  mBoundingSphere = NULL;
 }
 
 WbColladaShape::WbColladaShape(WbTokenizer *tokenizer) : WbBaseNode("ColladaShape", tokenizer) {
@@ -64,8 +65,6 @@ WbColladaShape::WbColladaShape(const WbNode &other) : WbBaseNode(other) {
 WbColladaShape::~WbColladaShape() {
   if (areWrenObjectsInitialized())
     deleteWrenObjects();
-
-  delete mBoundingSphere;
 }
 
 void WbColladaShape::downloadAssets() {
@@ -73,8 +72,6 @@ void WbColladaShape::downloadAssets() {
 
 void WbColladaShape::preFinalize() {
   WbBaseNode::preFinalize();
-
-  mBoundingSphere = new WbBoundingSphere(this);
 }
 
 void WbColladaShape::postFinalize() {
@@ -92,6 +89,18 @@ void WbColladaShape::postFinalize() {
   updateCcw();
   updateCastShadows();
   updateIsPickable();
+
+  // apply segmentation color
+  const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
+  WbRgb color(0.0, 0.0, 0.0);
+  while (solid) {
+    if (solid->recognitionColorSize() > 0) {
+      color = solid->recognitionColor(0);
+      break;
+    }
+    solid = WbNodeUtilities::findUpperSolid(solid);
+  }
+  setSegmentationColor(color);
 }
 
 void WbColladaShape::updateUrl() {
@@ -155,6 +164,12 @@ void WbColladaShape::updateCastShadows() {
 void WbColladaShape::updateIsPickable() {
   for (WrRenderable *renderable : mWrenRenderables)
     WbWrenPicker::setPickable(renderable, uniqueId(), mIsPickable->value());
+}
+
+void WbColladaShape::setSegmentationColor(const WbRgb &color) {
+  const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
+  for (WrMaterial *segmentationMaterial : mWrenSegmentationMaterials)
+    wr_phong_material_set_linear_diffuse(segmentationMaterial, segmentationColor);
 }
 
 void WbColladaShape::createWrenObjects() {
@@ -333,16 +348,27 @@ void WbColladaShape::createWrenObjects() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
 
+    // used for rendering range finder camera
+    WrMaterial *depthMaterial = wr_phong_material_new();
+    wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
+    wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
+
+    // used for rendering segmentation camera
+    WrMaterial *segmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
+    wr_renderable_set_material(renderable, segmentationMaterial, "segmentation");
+
     WrTransform *transform = wr_transform_new();
     wr_transform_attach_child(wrenNode(), WR_NODE(transform));
     setWrenNode(transform);
     wr_transform_attach_child(transform, WR_NODE(renderable));
     wr_node_set_visible(WR_NODE(transform), true);
 
-    // TODO: segmentation + rangefinder
     // TODO: should be moved elsewhere
     mWrenRenderables.push_back(renderable);
     mWrenTransforms.push_back(transform);
+    mWrenEncodeDepthMaterials.push_back(depthMaterial);
+    mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
 }
 
@@ -431,6 +457,12 @@ void WbColladaShape::deleteWrenObjects() {
   for (WrMaterial *material : mWrenMaterials)
     wr_material_delete(material);
 
+  for (WrMaterial *depthMaterial : mWrenEncodeDepthMaterials)
+    wr_material_delete(depthMaterial);
+
+  for (WrMaterial *segmentationMaterial : mWrenSegmentationMaterials)
+    wr_material_delete(segmentationMaterial);
+
   for (WbPbrAppearance *appearance : mPbrAppearances)
     delete appearance;
 
@@ -440,6 +472,8 @@ void WbColladaShape::deleteWrenObjects() {
   mWrenRenderables.clear();
   mWrenMeshes.clear();
   mWrenMaterials.clear();
+  mWrenEncodeDepthMaterials.clear();
+  mWrenSegmentationMaterials.clear();
   mWrenTransforms.clear();
 
   mPbrAppearances.clear();
