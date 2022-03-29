@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
@@ -48,6 +49,8 @@ void WbColladaShape::init() {
   mCcw = findSFBool("ccw");
   mCastShadows = findSFBool("castShadows");
   mIsPickable = findSFBool("isPickable");
+
+  mDownloader = NULL;
 }
 
 WbColladaShape::WbColladaShape(WbTokenizer *tokenizer) : WbBaseNode("ColladaShape", tokenizer) {
@@ -68,6 +71,26 @@ WbColladaShape::~WbColladaShape() {
 }
 
 void WbColladaShape::downloadAssets() {
+  if (mUrl->size() == 0)
+    return;
+
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader != NULL && mDownloader->hasFinished())
+    delete mDownloader;
+
+  mDownloader = new WbDownloader(this);
+  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+    connect(mDownloader, &WbDownloader::complete, this, &WbColladaShape::downloadUpdate);
+
+  mDownloader->download(QUrl(completeUrl));
+}
+
+void WbColladaShape::downloadUpdate() {
+  updateUrl();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbColladaShape::preFinalize() {
@@ -115,19 +138,10 @@ void WbColladaShape::updateUrl() {
 
   if (n > 0) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-    if (!completeUrl.toLower().endsWith(".dae")) {
-      warn(tr("Invalid url '%1'. ColladaShape node expects file in Collada ('.dae') format.").arg(completeUrl));
-      return;
-    }
-
     if (WbUrl::isWeb(completeUrl)) {
-      printf("TODO: not implemented\n");
-      /*
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        deleteWrenRenderable();
-        wr_static_mesh_delete(mWrenMesh);
-        mWrenMesh = NULL;
+        deleteWrenObjects();
         delete mDownloader;
         mDownloader = NULL;
         return;
@@ -138,7 +152,6 @@ void WbColladaShape::updateUrl() {
           downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }
-      */
     }
 
     updateShape();
@@ -175,24 +188,39 @@ void WbColladaShape::setSegmentationColor(const WbRgb &color) {
 void WbColladaShape::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
-  deleteWrenObjects();  // TODO: create and delete?
-
-  // Assimp::Importer importer;
-  // importer.SetPropertyInteger(
-  //   AI_CONFIG_PP_RVC_FLAGS,
-  //   aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);  // TODO: needed?
-
-  // const aiScene *scene =
-  //   importer.ReadFile(colladaPath().toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
-  //                                                            aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
+  deleteWrenObjects();
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
+
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
                        aiProcess_FlipUVs;
-  const aiScene *scene = importer.ReadFile(colladaPath().toStdString().c_str(), flags);
+
+  const aiScene *scene;
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (!completeUrl.toLower().endsWith(".dae")) {
+    warn(tr("Invalid url '%1'. ColladaShape node expects file in Collada ('.dae') format.").arg(completeUrl));
+    return;
+  }
+
+  if (WbUrl::isWeb(completeUrl)) {
+    if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (mDownloader == NULL)  // never attempted to download it, try now
+        downloadAssets();
+      return;
+    }
+
+    QFile file(WbNetwork::instance()->get(completeUrl));
+    if (!file.open(QIODevice::ReadOnly)) {
+      warn(tr("Collada file could not be read: '%1'").arg(completeUrl));
+      return;
+    }
+    const QByteArray data = file.readAll();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, ".dae");
+  } else
+    scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);
 
   if (!scene) {
     warn(tr("Invalid data, please verify collada file: %1").arg(importer.GetErrorString()));

@@ -54,10 +54,14 @@ private slots:
   void updateIsPickable();
   void updateAppearance();
 
+  void downloadUpdate();
+
 private:
   WbColladaShape &operator=(const WbColladaShape &);  // non copyable
   WbNode *clone() const override { return new WbColladaShape(*this); }
   void init();
+
+  WbDownloader *mDownloader;
 
   // node fields
   WbMFString *mUrl;
