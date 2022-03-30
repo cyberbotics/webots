@@ -148,6 +148,7 @@ void WbNode::init() {
     // nodes in .proto files are created with mUniqueId = -1
     mUniqueId = -1;
 
+  mIsShallowNode = false;
   mDefNode = NULL;
   mHasUseAncestor = false;
   setParentNode(gParent);
@@ -163,7 +164,6 @@ void WbNode::init() {
   mIsTopParameterDescendant = false;
   mProto = NULL;
   mCurrentStateId = "__init__";
-  mIsShallowNode = false;  // TODO: find better spot
 }
 
 WbNode::WbNode() {

@@ -86,7 +86,6 @@ private:
 
   void setSegmentationColor(const WbRgb &color);
 
-  void updateShape();
   void createWrenObjects();
   void deleteWrenObjects();
 };

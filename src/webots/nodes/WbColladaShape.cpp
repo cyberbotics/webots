@@ -18,15 +18,13 @@
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
-#include "WbNodeReader.hpp"  // TODO: can remove probably
 #include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
 #include "WbSolid.hpp"
-#include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
-#include "WbWorld.hpp"  // TODO: can remove probably
+#include "WbWorld.hpp"
 #include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
@@ -107,7 +105,6 @@ void WbColladaShape::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
 
-  updateUrl();  // TODO: needed here? does the download take care of it every time?
   updateCcw();
   updateCastShadows();
   updateIsPickable();
@@ -152,12 +149,8 @@ void WbColladaShape::updateUrl() {
         return;
       }
     }
-
-    updateShape();
   }
-}
 
-void WbColladaShape::updateShape() {  // TODO: needed?
   createWrenObjects();
 }
 
@@ -192,7 +185,7 @@ void WbColladaShape::createWrenObjects() {
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
-                                                        aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
+                                                        aiComponent_ANIMATIONS | aiComponent_COLORS);
 
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
@@ -324,9 +317,6 @@ void WbColladaShape::createWrenObjects() {
         indexData[currentIndexIndex++] = face.mIndices[2];
       }
 
-      // TODO: vertex_count and index_count always equal? (vertices)
-      // TODO: handle outline
-
       WrStaticMesh *staticMesh =
         wr_static_mesh_new(vertices, currentIndexIndex, coordData, normalData, texCoordData, texCoordData, indexData, false);
 
@@ -400,7 +390,6 @@ void WbColladaShape::updateAppearance() {
 }
 
 void WbColladaShape::deleteWrenObjects() {
-  printf("> delete wren meshes\n");
   for (WrRenderable *renderable : mWrenRenderables) {
     wr_material_delete(wr_renderable_get_material(renderable, "picking"));
     wr_node_delete(WR_NODE(renderable));
