@@ -680,3 +680,15 @@ Hi all, There wasn't really a show and tell channel, but I figured I place it he
 
 I also want to make a better environment for it as well then this arena. perhaps something with some range finders, rooms and wall following?
 
+##### Max\_K 03/28/2022 11:29:26
+Hi all, I am working on a teleop for the spot with the developed Kinematic from SoftServe. The walking/running does not work yet, but you can move in x,y,z u. roll, pitch, yaw. 
+
+I uploaded the repo here: [https://github.com/METEORITENMAX/webots\_ros2\_spot](https://github.com/METEORITENMAX/webots_ros2_spot)
+
+Maybe someone has suggestions for improvement or wants to participate. I appreciate any comments.
+> **Attachment**: [webots\_teleop.mp4](https://cdn.discordapp.com/attachments/565155651395780609/957964631421386802/webots_teleop.mp4)
+
+##### merdim 03/30/2022 10:44:26
+Check out this procedurally generated elevator model. It has a ROS controller for floor doors and elevator cabin. It will be used for our new multi-floor delivery robot
+> **Attachment**: [smart\_elevator\_kazam.mp4](https://cdn.discordapp.com/attachments/565155651395780609/958678081403518976/smart_elevator_kazam.mp4)
+

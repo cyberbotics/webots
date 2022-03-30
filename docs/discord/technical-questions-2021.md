@@ -14072,14 +14072,14 @@ Hi all, I'm very new to Webots and evaluating it against a few other simulators 
 
 Alternatively, if there is a simpler way to evaluate a number of sensors please do let me know. Mainly looking to test real-time performance and understand processing limitations. Thank you!
 
-##### Harun KURT 04/14/2021 18:00:05
+##### baby\_droid\_yoda 04/14/2021 18:00:05
 Hi, How can I make YOLOv3 with Webots? Webots' controller give me image parameters 4 (BGRA) and Yolov3 is getting image array parameters 3(BGR).
 
 ##### Luftwaffel [Moderator] 04/14/2021 19:38:33
 `@Nick R` You can simply add a Robot base node and add all the sensor as children. as controller select 'Void'. run the simulation and right click on the robot in the scene tree -> view Robot Window. Here you can enable the sensors and view them. You can move the robot in the 3d view when selected. And you can move the sensors relative to the robot when you select them.
 
 
-`@Harun KURT` [https://cyberbotics.com/doc/reference/camera?tab-language=python#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=python#wb_camera_get_image) I suggest you study the api documentation. It really depends on what language you use, and what exactly you want and need
+`@baby_droid_yoda` [https://cyberbotics.com/doc/reference/camera?tab-language=python#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=python#wb_camera_get_image) I suggest you study the api documentation. It really depends on what language you use, and what exactly you want and need
 
 ##### Beginner26798 04/14/2021 20:41:03
 Good evening everyone ... i need a code to control the ur10e robotic hand please

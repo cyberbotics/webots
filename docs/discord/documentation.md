@@ -1821,7 +1821,7 @@ is there something wrong with the documentation page on website?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
 %end
 
-##### Harun KURT 03/20/2021 20:03:57
+##### baby\_droid\_yoda 03/20/2021 20:03:57
 Yes , same with me this documentation website
 
 ##### Olivier Michel [Cyberbotics] 03/22/2021 07:26:31
@@ -2051,7 +2051,7 @@ One approach would be to establish a relation between voltage (PWM) and torque o
 
 Converting PWM to speed is probably not a good idea since a load on the motor may vary (except the PWM controls a set-point).
 
-##### birju 06/20/2021 02:12:36
+##### idontknow 06/20/2021 02:12:36
 INFO: emitter\_receiver: Starting controller: C:\Users\Administrator\AppData\Local\Programs\Webots\projects\samples\devices\controllers\emitter\_receiver\emitter\_receiver.exe
 
 INFO: emitter\_receiver: Starting controller: C:\Users\Administrator\AppData\Local\Programs\Webots\projects\samples\devices\controllers\emitter\_receiver\emitter\_receiver.exe

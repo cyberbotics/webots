@@ -12797,7 +12797,7 @@ OK thank you I will look into it
 ##### David Mansolino [Moderator] 05/01/2020 14:07:24
 You're welcome
 
-##### dralorg 05/01/2020 22:53:02
+##### dradarean 05/01/2020 22:53:02
 Hi, I'm trying to understand the PROTO files to be able to extract the distances between wheel centers of the Youbot, but I'm having a hard time. Could anyone point me where are those distances specified please?
 
 
@@ -12808,9 +12808,9 @@ I'm using tiles of length 0.1 m to have an approx. idea of the lengths of intere
 %end
 
 ##### David Mansolino [Moderator] 05/02/2020 05:28:40
-Hi `@dralorg`, the simplest solution is to temporarily convert the Youbot node in Base nodes (you can do this by right-clicking on the Youbot node in the scene-tree), this way you will be able to select the wheels in the scene-tree and read their position in 'position' tab of the nod editor: [https://cyberbotics.com/doc/guide/the-scene-tree#field-editor](https://cyberbotics.com/doc/guide/the-scene-tree#field-editor)
+Hi `@dradarean`, the simplest solution is to temporarily convert the Youbot node in Base nodes (you can do this by right-clicking on the Youbot node in the scene-tree), this way you will be able to select the wheels in the scene-tree and read their position in 'position' tab of the nod editor: [https://cyberbotics.com/doc/guide/the-scene-tree#field-editor](https://cyberbotics.com/doc/guide/the-scene-tree#field-editor)
 
-##### dralorg 05/02/2020 05:46:18
+##### dradarean 05/02/2020 05:46:18
 Amazing, I got the values that I needed, thank you `@David Mansolino`!
 
 ##### David Mansolino [Moderator] 05/02/2020 06:38:44
@@ -13534,7 +13534,7 @@ Yes, you should create a correct project folder hierarchy.
 ##### Tahir [Moderator] 05/06/2020 16:33:00
 OK I will check that
 
-##### dralorg 05/06/2020 17:28:18
+##### dradarean 05/06/2020 17:28:18
 Hi, I'm trying to get the rotation of the robot frame respect to the world frame. I achieved that by doing:
 
     supervisor = Supervisor()
@@ -13579,7 +13579,7 @@ you should simply call `supervisor.getPositionSensor('wheel1Sensor')`.
 
 Don't forget that the `Supervisor` class inherits from the `Robot` class, so all its methods can be used the same way.
 
-##### dralorg 05/06/2020 17:36:06
+##### dradarean 05/06/2020 17:36:06
 Great, it works, thank you very much!
 
 ##### yusah 05/06/2020 18:26:55
@@ -15099,7 +15099,7 @@ Hello, I'm working on a room-mapping robot for my final year project and was won
 
 `@AyresAlmada` I know you can use GPS but I'm not entirely sure how I would translate the GPS into an X,Y position that can then go into a 2d array
 
-##### dralorg 05/18/2020 00:31:15
+##### dradarean 05/18/2020 00:31:15
 Hi, I'm running the Youbots back wheels but the robot isn't moving. (The top wheels do make the robot move).
 
 
@@ -15180,7 +15180,7 @@ Abotu the axes inversion, I can't unfortunately reproduce this in the 'camera\_r
 Unfortunately none of them is using pure pursuit.
 
 
-`@dralorg` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
+`@dradarean` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
 
 ##### w3.eydi 05/18/2020 06:40:19
 Good morning `@David Mansolino`;
@@ -15418,8 +15418,8 @@ Changing the WorldInfo.basicTimeStep parameter did not improve the result
 ##### Conor 05/18/2020 18:27:40
 Anyone know if it's possible to use robot AND supervisor functions in the same controller or do you need to choose between the two?
 
-##### dralorg 05/18/2020 19:09:39
-> `@dralorg` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
+##### dradarean 05/18/2020 19:09:39
+> `@dradarean` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
 
 `@David Mansolino` Omg, that sounds like a real world thing, I was expecting something simulator-related. Thanks!
 
@@ -15474,7 +15474,7 @@ For some reason my project works on macOS but not on windows? Is it something to
 `@iagsav` you may have to tweak the erp and cfm parametrs of your Worldinfo node. Make also sure that the anchor of your HingeJoint are located at the center of the wheels
 
 
-`@dralorg` Webots is indeed very realistic 😉
+`@dradarean` Webots is indeed very realistic 😉
 
 
 > Hey hi How do I load PROTO file in webots
@@ -16983,7 +16983,7 @@ I'm using AMD Radeon 8670M GPU. How to maximise my performance in this hardware?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/715769442260222002/unknown.png)
 %end
 
-##### dralorg 05/29/2020 04:08:57
+##### dradarean 05/29/2020 04:08:57
 Hi, when I command the Youbot's  top left and bottom right wheels to run at the same angular speed, the final robot speed isn't pointing at 45 degrees CCW (exactly to the top right), it has a different angle, around 55 degrees CCW. May this be because of the friction of the wheels? Otherwise, why may that be?
 
 ##### David Mansolino [Moderator] 05/29/2020 05:03:37
@@ -17001,7 +17001,7 @@ Here are also a few tips about improving performance: [https://cyberbotics.com/d
 
 > Hi, when I command the Youbot's  top left and bottom right wheels to run at the same angular speed, the final robot speed isn't pointing at 45 degrees CCW (exactly to the top right), it has a different angle, around 55 degrees CCW. May this be because of the friction of the wheels? Otherwise, why may that be?
 
-`@dralorg` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
+`@dradarean` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
 
 ##### taeyoung 05/29/2020 11:39:19
 Hi, I'm trying to use display.
@@ -17068,13 +17068,13 @@ In particular these function can be used to import new nodes:
 
 [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_import\_mf\_node](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_mf_node)
 
-##### dralorg 05/29/2020 15:50:27
-> `@dralorg` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
+##### dradarean 05/29/2020 15:50:27
+> `@dradarean` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
 
 `@David Mansolino` Thank you!
 
 
-> `@dralorg` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
+> `@dradarean` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
 
 `@David Mansolino` I've tried putting a WoodenBox on top of the Youbot, but I'm getting the same velocities no matter the mass of the box. May I be missing something?
 %figure
@@ -17112,7 +17112,7 @@ I saw this in the tutorial n2 but I just got those 5 named as "solid"
 ##### Ans 05/30/2020 20:38:57
 Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
 
-##### dralorg 05/30/2020 21:49:04
+##### dradarean 05/30/2020 21:49:04
 > Hallo, how to install numpy for python(snap)
 
 `@kwy` Be sure that you pip install Numpy using the Python executable that Webots uses. To do so, call `path_to_python/python -m pip install numpy`
@@ -28747,7 +28747,7 @@ Thanks
 ##### David Mansolino [Moderator] 08/04/2020 10:57:28
 It is indeed related to Webots, I can reproduce it in several worlds and PROTOs of the latest release on Windows
 
-##### Harun KURT 08/04/2020 11:02:37
+##### baby\_droid\_yoda 08/04/2020 11:02:37
 Hello friends, I have converted the BCND Moveo robot arm to the protofile with urdf2webots library, but I couldn't fix it. I don't know much about proto files.
 %figure
 ![urdf2webots_error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/740162778655883265/urdf2webots_error.PNG)
@@ -28769,12 +28769,12 @@ Can you try adding this file in 'WEBOTS\_HOME\msys64\mingw64\bin' ?
 
 > Hello friends, I have converted the BCND Moveo robot arm to the protofile with urdf2webots library, but I couldn't fix it. I don't know much about proto files.
 
-`@Harun KURT` can you please share the generated PROTO file
+`@baby_droid_yoda` can you please share the generated PROTO file
 
-##### Harun KURT 08/04/2020 11:14:44
+##### baby\_droid\_yoda 08/04/2020 11:14:44
 I shared the moveo robot arm proto file on github [https://github.com/harunlakodla/BCN3D\_Moveo\_Robot\_Arm\_Webots\_Proto/blob/master/MoveoUrdf.proto](https://github.com/harunlakodla/BCN3D_Moveo_Robot_Arm_Webots_Proto/blob/master/MoveoUrdf.proto) 
 
-> `@Harun KURT` can you please share the generated PROTO file
+> `@baby_droid_yoda` can you please share the generated PROTO file
 
 `@David Mansolino`
 
@@ -28786,7 +28786,7 @@ Yes that seemed to work `@David Mansolino`
 
 > `@David Mansolino`
 
-`@Harun KURT` can you please try with the latest version of the importer?
+`@baby_droid_yoda` can you please try with the latest version of the importer?
 
 
 > Yes that seemed to work `@David Mansolino`
@@ -28821,15 +28821,15 @@ The hinge joint is simulated by the HingeJoint node in your model. Then, it shou
 
 `@Olivier Michel` Thanks a lot! 🙂
 
-##### Harun KURT 08/04/2020 13:06:18
-> `@Harun KURT` can you please try with the latest version of the importer? 
+##### baby\_droid\_yoda 08/04/2020 13:06:18
+> `@baby_droid_yoda` can you please try with the latest version of the importer? 
 
 `@David Mansolino` Same mistake,2020b I use
 
 ##### David Mansolino [Moderator] 08/04/2020 13:08:12
 Can you shared the PROTO generated with the latest version of the importer?
 
-##### Harun KURT 08/04/2020 13:22:08
+##### baby\_droid\_yoda 08/04/2020 13:22:08
 > Can you shared the PROTO generated with the latest version of the importer?
 
 `@David Mansolino` urdf2webots 1.0.3 it is necessary
@@ -49347,15 +49347,15 @@ Many thanks
 ##### Olivier Michel [Cyberbotics] 12/29/2020 13:59:46
 This should be fixed here: [https://github.com/cyberbotics/webots/pull/2609](https://github.com/cyberbotics/webots/pull/2609)
 
-##### Harun KURT 12/29/2020 16:24:01
+##### baby\_droid\_yoda 12/29/2020 16:24:01
 Hi everyone, I have two question about ikpy library but how I don't know to solve this problem. I use to ikpy library inside DHLink class but there is mistake about it.  I did add my code but it is giving a mistake ***link.py", line 208, in \_\_init\_\_
 
     Link.\_\_init\_\_(self, use\_symbolic\_matrix)*** . How do I solve this problem ? Other problem, I use the ikpy library on URDFLink but I don't understand **translation\_vector**. how do we calculate it ?
 
 ##### Luftwaffel [Moderator] 12/29/2020 16:26:30
-`@Harun KURT` ikpy is very slow, cannot fully solve orientation and often has bad solutions. I'd recommend IKFast if you have a 6 DOF robotic arm. `@Darko Lukić` has created a fantastic docker based solver generator and I made a very solid python implementation. What robot are you using?
+`@baby_droid_yoda` ikpy is very slow, cannot fully solve orientation and often has bad solutions. I'd recommend IKFast if you have a 6 DOF robotic arm. `@Darko Lukić` has created a fantastic docker based solver generator and I made a very solid python implementation. What robot are you using?
 
-##### Harun KURT 12/29/2020 16:34:44
+##### baby\_droid\_yoda 12/29/2020 16:34:44
 I don't know the IKFast but I may learn this library. I using BCN3D Moveo robot arm.
 
 ##### Luftwaffel [Moderator] 12/29/2020 16:35:32
@@ -49364,7 +49364,7 @@ how many DOF does it have?
 
 DOF = degrees of freedom = number of joints
 
-##### Harun KURT 12/29/2020 16:37:48
+##### baby\_droid\_yoda 12/29/2020 16:37:48
 it has 5 dof but I don't know how to improve this library.
 
 ##### Luftwaffel [Moderator] 12/29/2020 16:37:49
@@ -49373,7 +49373,7 @@ with normal hingejoints that is
 
 what exactly is it that you want to do?
 
-##### Harun KURT 12/29/2020 16:40:39
+##### baby\_droid\_yoda 12/29/2020 16:40:39
 I am improving mobil robot like kuka youbot but I don't understand the library.
 
 ##### Luftwaffel [Moderator] 12/29/2020 16:41:35
