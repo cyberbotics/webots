@@ -37,7 +37,7 @@ private slots:
 
 private:
   void create(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &url, const QString &etag, const QString &host, QTcpSocket *socket) override;
   bool prepareWorld() override;
   void deleteWorld() override;
   void sendWorldToClient(QWebSocket *client) override;
