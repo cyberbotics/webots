@@ -428,7 +428,7 @@ export default class Parser {
     this._parseChildren(node, newNode, isBoundingObject);
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (type === 'animatedgeometry')
+      if (getNodeAttribute(node, 'role', '').toLowerCase() === 'animatedgeometry')
         parentNode.geometryField = newNode;
       else
         parentNode.children.push(newNode);
@@ -1016,31 +1016,31 @@ export default class Parser {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
-      const type = getNodeAttribute(imageTexture, 'type', undefined);
-      if (type === 'baseColor') {
+      const role = getNodeAttribute(imageTexture, 'role', undefined);
+      if (role === 'baseColor') {
         baseColorMap = this._parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
-          baseColorMap.type = 'baseColorMap';
-      } else if (type === 'roughness') {
+          baseColorMap.role = 'baseColorMap';
+      } else if (role === 'roughness') {
         roughnessMap = this._parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
-          roughnessMap.type = 'roughnessMap';
-      } else if (type === 'metalness') {
+          roughnessMap.role = 'roughnessMap';
+      } else if (role === 'metalness') {
         metalnessMap = this._parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
-          metalnessMap.type = 'metalnessMap';
-      } else if (type === 'normal') {
+          metalnessMap.role = 'metalnessMap';
+      } else if (role === 'normal') {
         normalMap = this._parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
-          normalMap.type = 'normalMap';
-      } else if (type === 'occlusion') {
+          normalMap.role = 'normalMap';
+      } else if (role === 'occlusion') {
         occlusionMap = this._parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
-          occlusionMap.type = 'occlusionMap';
-      } else if (type === 'emissiveColor') {
+          occlusionMap.role = 'occlusionMap';
+      } else if (role === 'emissiveColor') {
         emissiveColorMap = this._parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
-          emissiveColorMap.type = 'emissiveColorMap';
+          emissiveColorMap.role = 'emissiveColorMap';
       }
     }
 
