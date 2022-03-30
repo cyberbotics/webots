@@ -199,17 +199,20 @@ bool WbWrenTextureOverlay::applyDimensionsToWren(bool showIfNeeded) {
   float overlayHeight = mPixelSize * mHeight;
   const float overlayRatio = overlayWidth / overlayHeight;
 
-  if (overlayWidth >= view3dWidth || overlayHeight >= view3dHeight) {
-    if (overlayWidth > overlayHeight) {
-      overlayWidth = view3dWidth - 2.0f * cBorderSizeHorizontal;
-      overlayHeight = overlayWidth / overlayRatio;
-      mPixelSize = view3dWidth / mWidth;
-    } else {
-      overlayHeight = view3dHeight - 2.0f * cBorderSizeVertical;
-      overlayWidth = overlayHeight * overlayRatio;
-      mPixelSize = view3dHeight / mHeight;
-    }
-  } else if (overlayWidth < minSize || overlayHeight < minSize) {
+  // enforce horizontal constraint
+  if (mPercentagePosition.x() * view3dWidth + overlayWidth > view3dWidth) {
+    overlayWidth = view3dWidth - mPercentagePosition.x() * view3dWidth - 2.0f * cBorderSizeHorizontal;
+    overlayHeight = overlayWidth / overlayRatio;
+    mPixelSize = overlayWidth / mWidth;
+  }
+  // enforce vertical constraint
+  if (mPercentagePosition.y() * view3dHeight + overlayHeight > view3dHeight) {
+    overlayHeight = view3dHeight - mPercentagePosition.y() * view3dHeight - 2.0f * cBorderSizeVertical;
+    overlayWidth = overlayHeight * overlayRatio;
+    mPixelSize = overlayHeight / mHeight;
+  }
+  // enforce minimal size constraint
+  if (overlayWidth < minSize || overlayHeight < minSize) {
     if (overlayWidth < overlayHeight) {
       overlayWidth = minSize;
       overlayHeight = overlayWidth / overlayRatio;

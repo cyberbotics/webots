@@ -132,12 +132,12 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  const QString &url = mUrl->item(0);
-  const bool isWebAsset = WbUrl::isWeb(url);
-  if (isWebAsset && !WbNetwork::instance()->isCached(url))
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const bool isWebAsset = WbUrl::isWeb(completeUrl);
+  if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
     return false;
 
-  const QString filePath = isWebAsset ? WbNetwork::instance()->get(url) : path(true);
+  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path(true);
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
     warn(tr("Texture file could not be read: '%1'").arg(filePath));
