@@ -129,6 +129,8 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
+  printf("WbImageTexture::downloadAssets()\n");
+
   if (mUrl->size() == 0)
     return;
 
@@ -140,13 +142,14 @@ void WbImageTexture::downloadAssets() {
     delete mDownloader;
 
   mDownloader = new WbDownloader(this);
-  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+  if (!WbWorld::instance()->isLoading() || mInitializedFromAssimpMaterial)  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
 
   mDownloader->download(QUrl(completeUrl));
 }
 
 void WbImageTexture::downloadUpdate() {
+  printf("WbImageTexture::downloadUpdate()\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }

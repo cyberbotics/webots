@@ -191,6 +191,7 @@ WbPbrAppearance::~WbPbrAppearance() {
 }
 
 void WbPbrAppearance::downloadAssets() {
+  printf("WbPbrAppearance::downloadAssets()\n");
   WbBaseNode::downloadAssets();
   if (baseColorMap())
     baseColorMap()->downloadAssets();
