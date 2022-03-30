@@ -286,10 +286,12 @@ export default class Toolbar {
   }
 
   _createIdeButton() {
+    if (!this._view.ide) // Do not create IDE button if no IDE is available.
+      return;
     this.ideButton = this._createToolBarButton('ide', 'Source code editor', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
-    if (!this.parentNode.showIde && !this._view.ide)
+    if (!(typeof this.parentNode.showIde === 'undefined' || this.parentNode.showIde))
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 41;
