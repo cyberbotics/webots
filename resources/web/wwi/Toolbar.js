@@ -423,7 +423,7 @@ export default class Toolbar {
       numCol++;
     });
 
-    if (this.ideWindow !== 'undefined')
+    if (typeof this.ideWindow !== 'undefined' && !this.ideWindow)
       document.onfullscreenchange = () => {this._fullscreenChangeHeight([this.ideWindow].concat(this.robotWindows))};
     else
       document.onfullscreenchange = () => {this._fullscreenChangeHeight(this.robotWindows)};
