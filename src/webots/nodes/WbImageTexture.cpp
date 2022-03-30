@@ -101,8 +101,10 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   QString relativePath = QString(path.C_Str());
   // generate url of texture from url of collada file
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
-  while (relativePath.startsWith("../"))
+  while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
+    relativePath.remove(0, 3);
+  }
 
   if (!relativePath.startsWith("/"))
     relativePath.insert(0, '/');

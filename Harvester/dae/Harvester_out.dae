@@ -6,13 +6,13 @@
   </asset>
   <library_images>
     <image id="Image">
-      <init_from>../textures_out/Harvester_A_D.png</init_from>
+      <init_from>../../textures_out/Harvester_A_D.png</init_from>
     </image>
     <image id="Image1">
-      <init_from>../textures_out/Harvester_Glass_D.png</init_from>
+      <init_from>../../textures_out/Harvester_Glass_D.png</init_from>
     </image>
     <image id="Image2">
-      <init_from>../textures_out/Harvester_B_D.png</init_from>
+      <init_from>../../textures_out/Harvester_B_D.png</init_from>
     </image>
   </library_images>
   <library_materials>

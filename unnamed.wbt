@@ -12,7 +12,7 @@ Background {
 }
 ColladaShape {
   url [
-    "https://raw.githubusercontent.com/cyberbotics/webots/feature-collada-shape-node/Harvester/dae/Harvester.dae"
+    "webots://Harvester/dae/Harvester_out.dae"
   ]
 }
 Transform {
