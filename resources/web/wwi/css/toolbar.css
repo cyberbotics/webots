@@ -157,6 +157,10 @@ webots-view .toolbar-btn:focus .icon-ide,
   .toolbar-btn:focus .icon-step,
   .toolbar-btn:focus .icon-world-selection {
   animation: animation-scale-down 0.3s;
+
+webots-view .icon-reload {
+  transform: scaleX(-1);
+  background-position: -496px -2px;
 }
 
 webots-view .toolbar-btn:active .icon-ide,
@@ -169,12 +173,14 @@ webots-view .toolbar-btn:active .icon-ide,
 }
 
 webots-view .toolbar-btn:focus .icon-settings,
-  .toolbar-btn:focus .icon-reset-scene {
+  .toolbar-btn:focus .icon-reset-scene,
+  .toolbar-btn:focus .icon-reload {
   animation: animation-rotate 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-settings,
-  .toolbar-btn:active .icon-reset-scene {
+  .toolbar-btn:active .icon-reset-scene,
+  .toolbar-btn:active .icon-reload {
   animation: none;
 }
 
