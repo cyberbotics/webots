@@ -47,7 +47,6 @@ export default class Toolbar {
       return;
 
     this._createInfoButton();
-    //this._createRestoreViewpointButton();
     this._createSettings();
     this._createFullscreenButtons();
   }
