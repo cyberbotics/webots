@@ -14,6 +14,8 @@
 
 #include "WbHttpReply.hpp"
 
+#include "WbLog.hpp"
+
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -22,23 +24,32 @@
 // - "Access-Control-Allow-Origin" is to solve this error appearing at least on Chrome:
 //    `Error: No 'Access-Control-Allow-Origin' header is present on the requested resource`
 
-QByteArray WbHttpReply::forge404Reply() {
-  static QByteArray reply;
-  if (reply.isEmpty()) {
-    reply.append("HTTP/1.1 404 Not Found\r\n");
-    reply.append("Access-Control-Allow-Origin: *\r\n");
-  }
+QByteArray WbHttpReply::forge404Reply(const QString &url) {
+  QByteArray reply;
+  const QByteArray data =
+    "<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=UTF-8><title>Webots: Not Found</title></head><body>"
+    "<h1>404: File Not Found</h1>" +
+    url.toUtf8() + "</body></html>";
+  reply.append("HTTP/1.1 404 Not Found\r\n");
+  reply.append("Access-Control-Allow-Origin: *\r\n");
+  reply.append("Content-Type: text/html\r\n");
+  reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
+  reply.append("\r\n");
+  reply.append(data);
   return reply;
 }
 
-QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag) {
+QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag, const QString &host, const QString &url) {
   QByteArray reply;
 
   QFile file(fileName);
-  if (!file.open(QIODevice::ReadOnly))
-    return forge404Reply();
-
-  const QByteArray data = file.readAll();
+  if (!file.open(QIODevice::ReadOnly)) {
+    WbLog::warning(QObject::tr("Cannot read '%1', sending \"404 Not Found\".").arg(fileName));
+    return forge404Reply(url);
+  }
+  QByteArray data = file.readAll();
+  QByteArray replace = "http://" + host.toUtf8() + "/";
+  data.replace("webots://", replace);
 
   const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
 
@@ -66,7 +77,7 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &e
 QString WbHttpReply::mimeType(const QString &url, bool generic) {
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
   QString type;
-  if (extension == "png" || extension == "jpg" || extension == "jpeg")
+  if (extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "ico")
     return QString("image/%1").arg(extension);
   else if (extension == "html" || extension == "css")
     return QString("text/%1").arg(extension);
