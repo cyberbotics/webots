@@ -498,9 +498,18 @@ export default class Toolbar {
 
   _fullscreenChangeHeight(floatingWindows) {
     floatingWindows.forEach ((fw) => {
-      let maxHeight = this.parentNode.offsetHeight - fw.getPosition()[0];
-      if (fw.getSize()[0] > maxHeight)
-        fw.setSize(fw.getSize()[1], maxHeight);
+      if (fw.getPosition()[0] > this.parentNode.offsetWidth)
+        fw.setPosition(this.parentNode.offsetWidth - 200, fw.getPosition()[1]);
+      if (fw.getPosition()[1] > this.parentNode.offsetHeight)
+        fw.setPosition(fw.getPosition()[0], this.parentNode.offsetHeight - 44);
+
+      const maxWidth = this.parentNode.offsetWidth - fw.getPosition()[0];
+      const maxHeight = this.parentNode.offsetHeight - fw.getPosition()[1];
+
+      if (fw.getSize()[0] > maxWidth)
+        fw.setSize(maxWidth, fw.getSize()[1]);
+      if (fw.getSize()[1] > maxHeight)
+        fw.setSize(fw.getSize()[0], maxHeight);
     });
   }
 

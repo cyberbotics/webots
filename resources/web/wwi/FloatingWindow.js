@@ -36,31 +36,12 @@ export default class FloatingWindow {
     this._maxSize(name);
   }
 
-  _maxSize(name) {
-    function setMaxHeight(name) {
-      const fw = document.getElementById(name)
-      const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
-      const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
-      fw.style.maxHeight = maxHeight.toString() + 'px';
-      fw.style.maxWidth = maxWidth.toString() + 'px';
-      fw.lastElementChild.style.pointerEvents = 'none';
-    }
-
-    function restorePointerEvents(name) {
-      const fw = document.getElementById(name);
-      fw.lastElementChild.style.pointerEvents = 'auto';
-    }
-
-    document.getElementById(name).onmousedown = () => {setMaxHeight(name)};
-    document.getElementById(name).onmouseup = () => {restorePointerEvents(name)};
-  }
-
   getId() {
     return this.floatingWindow.id;
   }
 
   getSize() {
-    return [this.floatingWindow.offsetHeight, this.floatingWindow.offsetWidth];
+    return [this.floatingWindow.offsetWidth, this.floatingWindow.offsetHeight];
   }
 
   setSize(w, h) {
@@ -69,7 +50,7 @@ export default class FloatingWindow {
   }
 
   getPosition() {
-    return [this.floatingWindow.offsetTop, this.floatingWindow.offsetLeft];
+    return [this.floatingWindow.offsetLeft, this.floatingWindow.offsetTop];
   }
 
   setPosition(xPos, yPos) {
@@ -151,5 +132,24 @@ export default class FloatingWindow {
       document.onmousemove = null;
       fw.lastElementChild.style.pointerEvents = 'auto';
     }
+  }
+
+  _maxSize(name) {
+    function setMaxHeight(name) {
+      const fw = document.getElementById(name)
+      const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
+      const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
+      fw.style.maxHeight = maxHeight.toString() + 'px';
+      fw.style.maxWidth = maxWidth.toString() + 'px';
+      fw.lastElementChild.style.pointerEvents = 'none';
+    }
+
+    function restorePointerEvents(name) {
+      const fw = document.getElementById(name);
+      fw.lastElementChild.style.pointerEvents = 'auto';
+    }
+
+    document.getElementById(name).onmousedown = () => {setMaxHeight(name)};
+    document.getElementById(name).onmouseup = () => {restorePointerEvents(name)};
   }
 }
