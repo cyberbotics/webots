@@ -794,7 +794,7 @@ export default class Toolbar {
     this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
     this.toolbarRight.appendChild(this._fullscreenButton);
 
-    this._exitFullscreenButton = this._createToolBarButton('partscreen', 'Exit full screen (f)', () => exitFullscreen());
+    this._exitFullscreenButton = this._createToolBarButton('windowed', 'Exit full screen (f)', () => exitFullscreen());
     this.toolbarRight.appendChild(this._exitFullscreenButton);
     this._exitFullscreenButton.style.display = 'none';
 
