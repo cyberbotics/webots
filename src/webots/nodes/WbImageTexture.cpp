@@ -109,6 +109,8 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   aiString path;
   material->GetTexture(textureType, 0, &path);
   texturePath << parentPath + QString(path.C_Str());
+  // TODO: handle case if path starts with: ../../ etc
+
   printf(">>> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
 
   mUrl = new WbMFString(texturePath);

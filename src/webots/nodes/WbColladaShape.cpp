@@ -354,8 +354,14 @@ void WbColladaShape::createWrenObjects() {
       // pbrAppearance->postFinalize();
       // connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
 
+      // determine how image textures will be searched for
+      const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+      // TODO: if windows's backlash
+
+      QString fileRoot = completeUrl.left(completeUrl.lastIndexOf("/"));
+
       // init from assimp
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
