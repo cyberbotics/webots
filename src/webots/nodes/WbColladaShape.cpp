@@ -277,13 +277,13 @@ void WbColladaShape::createWrenObjects() {
 
       // create the arrays
       int currentCoordIndex = 0;
-      float *const coordData = new float[3 * vertices];
+      float *coordData = new float[3 * vertices];
       int currentNormalIndex = 0;
-      float *const normalData = new float[3 * vertices];
+      float *normalData = new float[3 * vertices];
       int currentTexCoordIndex = 0;
-      float *const texCoordData = new float[2 * vertices];
+      float *texCoordData = new float[2 * vertices];
       int currentIndexIndex = 0;
-      unsigned int *const indexData = new unsigned int[3 * faces];
+      unsigned int *indexData = new unsigned int[3 * faces];
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
@@ -322,10 +322,16 @@ void WbColladaShape::createWrenObjects() {
 
       mWrenMeshes.push_back(staticMesh);
 
-      delete[] coordData;
-      delete[] normalData;
-      delete[] texCoordData;
-      delete[] indexData;
+      // note: when ColladaShape is exported directly, it won't be needed to store mesh data
+      mCoordData.push_back(coordData);
+      mNormalData.push_back(normalData);
+      mTexCoordData.push_back(texCoordData);
+      mIndexData.push_back(indexData);
+
+      mCoordDataSize.push_back(3 * vertices);
+      mNormalDataSize.push_back(3 * vertices);
+      mTexCoordDataSize.push_back(2 * vertices);
+      mIndexDataSize.push_back(3 * faces);
 
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -421,6 +427,109 @@ void WbColladaShape::deleteWrenObjects() {
   mWrenTransforms.clear();
 
   mPbrAppearances.clear();
+
+  // remove mesh data
+  for (float *coordData : mCoordData)
+    delete[] coordData;
+
+  for (float *normalData : mNormalData)
+    delete[] normalData;
+
+  for (float *texCoordData : mTexCoordData)
+    delete[] texCoordData;
+
+  for (unsigned int *indexData : mIndexData)
+    delete[] indexData;
+
+  mCoordDataSize.clear();
+  mNormalDataSize.clear();
+  mTexCoordDataSize.clear();
+  mIndexDataSize.clear();
+}
+
+void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
+  if (!writer.isX3d())
+    return;
+
+  writer << " ccw=\'";
+  writer << mCcw->value();
+  writer << "\'";
+
+  // export coordIndex
+  writer << " coordIndex=\'";
+
+  for (int i = 0; i < mIndexDataSize[0]; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << mIndexData.at(0)[i];
+  }
+
+  writer << " -1\'";
+
+  // export normals
+  writer << " normalIndex=\'";
+  for (int i = 0; i < mIndexDataSize[0]; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << mIndexData.at(0)[i];
+  }
+  writer << " -1\'";
+
+  // export texCoordIndex
+  writer << " texCoordIndex=\'";
+  for (int i = 0; i < mIndexDataSize[0]; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << mIndexData.at(0)[i];
+  }
+  writer << " -1\'";
+
+  writer << ">";
+
+  // export nodes
+  writer << "<Coordinate point=\'";
+  const int precision = 4;
+  for (int i = 0; i < mCoordDataSize[0]; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 3 * i;
+    writer << QString::number(mCoordData.at(0)[j], 'f', precision)
+           << " "  // write with limited precision to reduce the size of the X3D/HTML file
+           << QString::number(mCoordData.at(0)[j + 1], 'f', precision) << " "
+           << QString::number(mCoordData.at(0)[j + 2], 'f', precision);
+  }
+
+  writer << "\'></Coordinate>";
+
+  writer << "<Normal vector=\'";
+  for (int i = 0; i < mNormalDataSize[0]; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 3 * i;
+    writer << QString::number(mNormalData.at(0)[j], 'f', precision) << " "
+           << QString::number(mNormalData.at(0)[j + 1], 'f', precision) << " "
+           << QString::number(mNormalData.at(0)[j + 2], 'f', precision);
+  }
+  writer << "\'></Normal>";
+
+  writer << "<TextureCoordinate point=\'";
+  for (int i = 0; i < mTexCoordDataSize[0]; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 2 * i;
+    writer << QString::number(mTexCoordData.at(0)[j], 'f', precision) << " "
+           << QString::number(1.0 - mTexCoordData.at(0)[j + 1], 'f', precision);
+  }
+  writer << "\'></TextureCoordinate>";
 }
 
 QString WbColladaShape::colladaPath() const {
