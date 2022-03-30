@@ -59,6 +59,7 @@ WbBaseNode::WbBaseNode(const WbNode &other) : WbNode(other) {
   init();
 }
 
+// shallow node
 WbBaseNode::WbBaseNode() : WbNode() {
   init();
 }

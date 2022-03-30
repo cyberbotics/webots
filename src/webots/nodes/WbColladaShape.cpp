@@ -108,7 +108,7 @@ void WbColladaShape::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
 
-  updateUrl();  // TODO: should be in downloadUpdate, but might due to the need of creating wren transforms ? wren initialized?
+  updateUrl();  // TODO: needed here? does the download take care of it every time?
   updateCcw();
   updateCastShadows();
   updateIsPickable();
@@ -163,8 +163,6 @@ void WbColladaShape::updateShape() {
 }
 
 void WbColladaShape::updateCcw() {
-  // TODO: updatenormalsrepresentation, check Wbtrianglemeshgeom
-
   for (WrRenderable *renderable : mWrenRenderables)
     wr_renderable_invert_front_face(renderable, !mCcw->value());
 }
@@ -262,7 +260,7 @@ void WbColladaShape::createWrenObjects() {
 
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      printf("  mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
+      printf("> mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
              mesh->mMaterialIndex);
 
       // compute absolute transform of this node from all the parents
@@ -324,9 +322,6 @@ void WbColladaShape::createWrenObjects() {
         indexData[currentIndexIndex++] = face.mIndices[2];
       }
 
-      // int vertex_count, int index_count, const float *coord_data, const float *normal_data,
-      // const float *tex_coord_data, const float *unwrapped_tex_coord_data, const unsigned int *index_data, bool outline
-
       // TODO: vertex_count and index_count always equal? (vertices)
       // TODO: handle outline
 
@@ -357,10 +352,9 @@ void WbColladaShape::createWrenObjects() {
       // determine how image textures will be searched for
       const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
       // TODO: if windows's backlash
-
       QString fileRoot = completeUrl.left(completeUrl.lastIndexOf("/"));
 
-      // init from assimp
+      // init from assimp material
       WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
@@ -382,12 +376,12 @@ void WbColladaShape::createWrenObjects() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
 
-    // used for rendering range finder camera
+    // set material for range finder camera rendering
     WrMaterial *depthMaterial = wr_phong_material_new();
     wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
     wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
 
-    // used for rendering segmentation camera
+    // set material for segmentation camera rendering
     WrMaterial *segmentationMaterial = wr_phong_material_new();
     wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
     wr_renderable_set_material(renderable, segmentationMaterial, "segmentation");
@@ -398,7 +392,6 @@ void WbColladaShape::createWrenObjects() {
     wr_transform_attach_child(transform, WR_NODE(renderable));
     wr_node_set_visible(WR_NODE(transform), true);
 
-    // TODO: should be moved elsewhere
     mWrenRenderables.push_back(renderable);
     mWrenTransforms.push_back(transform);
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
@@ -434,7 +427,6 @@ const QString WbColladaShape::vrmlPbrAppearance(const aiMaterial *material) {
   vrml += QString("  emissiveColor %1 %2 %3\n").arg(emissiveColor[0]).arg(emissiveColor[1]).arg(emissiveColor[2]);
   vrml += QString("  name \"%1\"\n").arg(name.C_Str());
   vrml += QString("  metalness 0\n");
-  // vrml += QString("  transparency %1\n").arg(transparency);
   vrml += QString("  roughness %1\n").arg(roughness);
   // add texture maps
   if (!addTextureMap(vrml, material, "baseColorMap", aiTextureType_BASE_COLOR))
@@ -460,8 +452,6 @@ bool WbColladaShape::addTextureMap(QString &vrml, const aiMaterial *material, co
     material->GetTexture(textureType, 0, &path);
     QString texturePath(path.C_Str());
     texturePath.replace("\\", "\\\\");
-    // if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
-    //  texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
     vrml += QString("%1 ImageTexture {\n").arg(mapName);
     vrml += QString("  url [ \"%1\" ]\n").arg(texturePath);
     vrml += "}\n";

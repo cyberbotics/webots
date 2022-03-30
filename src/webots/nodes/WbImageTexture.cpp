@@ -44,10 +44,7 @@
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
 
-// TODO: all needed?
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-#include <assimp/Importer.hpp>
+#include <assimp/material.h>
 
 #include <utility>
 
@@ -68,7 +65,10 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
+}
 
+void WbImageTexture::initFields() {
+  mInitializedFromAssimpMaterial = false;
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
   mRepeatT = findSFBool("repeatT");
@@ -77,44 +77,32 @@ void WbImageTexture::init() {
 
 WbImageTexture::WbImageTexture(WbTokenizer *tokenizer) : WbBaseNode("ImageTexture", tokenizer) {
   init();
+  initFields();
 }
 
 WbImageTexture::WbImageTexture(const WbNode &other) : WbBaseNode(other) {
   init();
+  initFields();
 }
 
 WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) {
   init();
+  initFields();
 }
 
 WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
   WbBaseNode() {
+  init();
   mInitializedFromAssimpMaterial = true;
 
-  mWrenTexture = NULL;
-  mWrenBackgroundTexture = NULL;
-  mWrenTextureTransform = NULL;
-  mExternalTexture = false;
-  mExternalTextureRatio.setXy(1.0, 1.0);
-  mExternalTextureData = NULL;
-  mContainerField = "";
-  mImage = NULL;
-  mUsedFiltering = 0;
-  mWrenTextureIndex = 0;
-  mIsMainTextureTransparent = true;
-  mRole = "";
-  mDownloader = NULL;
-
-  QStringList texturePath;
-  aiString path;
+  aiString path("");
   material->GetTexture(textureType, 0, &path);
-  texturePath << parentPath + QString(path.C_Str());
-  // TODO: handle case if path starts with: ../../ etc
+  QStringList texturePath(parentPath + QString(path.C_Str()));
 
-  printf(">>> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
+  // TODO: handle case if path starts with: ../../ etc
+  printf("> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
 
   mUrl = new WbMFString(texturePath);
-
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);
@@ -124,8 +112,12 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
 
-  if (mInitializedFromAssimpMaterial)
+  if (mInitializedFromAssimpMaterial) {
     delete mUrl;
+    delete mRepeatS;
+    delete mRepeatT;
+    delete mFiltering;
+  }
 }
 
 void WbImageTexture::downloadAssets() {

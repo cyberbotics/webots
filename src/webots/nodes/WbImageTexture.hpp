@@ -112,6 +112,7 @@ private:
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
   void init();
+  void initFields();
   void updateWrenTexture();
   void applyTextureParams();
   void destroyWrenTexture();
