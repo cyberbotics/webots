@@ -52,9 +52,11 @@ WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMat
 }
 
 WbAbstractAppearance::~WbAbstractAppearance() {
-  delete mName;
-  if (mTextureTransform)
-    delete mTextureTransform;
+  if (mInitializedFromAssimpMaterial) {
+    delete mName;
+    if (mTextureTransform)
+      delete mTextureTransform;
+  }
 }
 
 void WbAbstractAppearance::preFinalize() {

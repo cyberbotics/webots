@@ -90,14 +90,24 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   initFields();
 }
 
-WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
-  WbBaseNode() {
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath) : WbBaseNode() {
   init();
   mInitializedFromAssimpMaterial = true;
 
+  assert(!parentPath.endsWith("/"));
+
   aiString path("");
   material->GetTexture(textureType, 0, &path);
-  QStringList texturePath(parentPath + QString(path.C_Str()));
+  QString relativePath = QString(path.C_Str());
+  // generate url of texture from url of collada file
+  relativePath.replace("\\", "/");  // use cross-platform forward slashes
+  while (relativePath.startsWith("../"))
+    parentPath = parentPath.left(parentPath.lastIndexOf("/"));
+
+  if (!relativePath.startsWith("/"))
+    relativePath.insert(0, '/');
+
+  QStringList texturePath(parentPath + relativePath);
 
   // TODO: handle case if path starts with: ../../ etc
   printf("> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());

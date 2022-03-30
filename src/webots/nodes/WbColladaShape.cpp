@@ -15,11 +15,10 @@
 #include "WbColladaShape.hpp"
 
 #include "WbBackground.hpp"
-#include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
-#include "WbNodeReader.hpp"
+#include "WbNodeReader.hpp"  // TODO: can remove probably
 #include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
@@ -27,7 +26,7 @@
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
-#include "WbWorld.hpp"
+#include "WbWorld.hpp"  // TODO: can remove probably
 #include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
@@ -338,21 +337,10 @@ void WbColladaShape::createWrenObjects() {
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-      // init from VRML
-      // const QString test = vrmlPbrAppearance(material);
-      // WbTokenizer *tokenizer = new WbTokenizer();
-      // tokenizer->tokenizeString(test);
-      // WbNodeReader nodeReader;
-      // const WbNode *node = nodeReader.readNode(tokenizer, "");
-      // WbPbrAppearance *pbrAppearance = new WbPbrAppearance(*node);
-      // pbrAppearance->preFinalize();
-      // pbrAppearance->postFinalize();
-      // connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbColladaShape::updateAppearance);
-
       // determine how image textures will be searched for
-      const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-      // TODO: if windows's backlash
-      QString fileRoot = completeUrl.left(completeUrl.lastIndexOf("/"));
+      QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+      completeUrl = completeUrl.replace("\\", "/");
+      QString fileRoot = completeUrl.left(completeUrl.lastIndexOf("/"));  // do not include the final forward slash
 
       // init from assimp material
       WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
@@ -398,69 +386,6 @@ void WbColladaShape::createWrenObjects() {
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
 }
-
-const QString WbColladaShape::vrmlPbrAppearance(const aiMaterial *material) {
-  QString vrml;
-
-  aiColor3D baseColor(1.0f, 1.0f, 1.0f);
-  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
-
-  aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
-  material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
-
-  float opacity = 1.0f;
-  material->Get(AI_MATKEY_OPACITY, opacity);
-
-  float roughness = 1.0f;
-  if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness / 100.0;
-  else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-
-  aiString name("PBRAppearance");
-  material->Get(AI_MATKEY_NAME, name);  // TODO: strip any '"'
-
-  vrml = "PBRAppearance {\n";
-  vrml += QString("  baseColor %1 %2 %3\n").arg(baseColor[0]).arg(baseColor[1]).arg(baseColor[2]);
-  vrml += QString("  emissiveColor %1 %2 %3\n").arg(emissiveColor[0]).arg(emissiveColor[1]).arg(emissiveColor[2]);
-  vrml += QString("  name \"%1\"\n").arg(name.C_Str());
-  vrml += QString("  metalness 0\n");
-  vrml += QString("  roughness %1\n").arg(roughness);
-  // add texture maps
-  if (!addTextureMap(vrml, material, "baseColorMap", aiTextureType_BASE_COLOR))
-    addTextureMap(vrml, material, "baseColorMap", aiTextureType_DIFFUSE);
-  addTextureMap(vrml, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS);
-  addTextureMap(vrml, material, "metalnessMap", aiTextureType_METALNESS);
-  if (!addTextureMap(vrml, material, "normalMap", aiTextureType_NORMAL_CAMERA))
-    addTextureMap(vrml, material, "normalMap", aiTextureType_NORMALS);
-  if (!addTextureMap(vrml, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION))
-    addTextureMap(vrml, material, "occlusionMap", aiTextureType_LIGHTMAP);
-  if (!addTextureMap(vrml, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR))
-    addTextureMap(vrml, material, "emissiveColorMap", aiTextureType_EMISSIVE);
-  vrml += "}";
-
-  printf("-------------\n%s\n------------\n", vrml.toUtf8().constData());
-  return vrml;
-}
-
-bool WbColladaShape::addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName,
-                                   aiTextureType textureType) {
-  if (material->GetTextureCount(textureType) > 0) {
-    aiString path;
-    material->GetTexture(textureType, 0, &path);
-    QString texturePath(path.C_Str());
-    texturePath.replace("\\", "\\\\");
-    vrml += QString("%1 ImageTexture {\n").arg(mapName);
-    vrml += QString("  url [ \"%1\" ]\n").arg(texturePath);
-    vrml += "}\n";
-    return true;
-  }
-
-  return false;
-}
-
 void WbColladaShape::updateAppearance() {
   assert(mPbrAppearances.size() == mWrenMaterials.size());
 

@@ -161,18 +161,12 @@ WbPbrAppearance::~WbPbrAppearance() {
     delete mOcclusionMapStrength;
     delete mEmissiveIntensity;
     // maps
-    if (mBaseColorMap)
-      delete mBaseColorMap;
-    if (mRoughnessMap)
-      delete mRoughnessMap;
-    if (mMetalnessMap)
-      delete mMetalnessMap;
-    if (mNormalMap)
-      delete mNormalMap;
-    if (mOcclusionMap)
-      delete mOcclusionMap;
-    if (mEmissiveColorMap)
-      delete mEmissiveColorMap;
+    delete mBaseColorMap;
+    delete mRoughnessMap;
+    delete mMetalnessMap;
+    delete mNormalMap;
+    delete mOcclusionMap;
+    delete mEmissiveColorMap;
   }
 }
 
