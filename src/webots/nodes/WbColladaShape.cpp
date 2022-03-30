@@ -259,7 +259,7 @@ void WbColladaShape::createWrenObjects() {
 
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      printf("> mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
+      printf(" > mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
              mesh->mMaterialIndex);
 
       // compute absolute transform of this node from all the parents

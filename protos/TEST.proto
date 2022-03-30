@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+
+PROTO TEST [
+
+]
+{
+  ColladaShape {
+    url [
+      "webots://Harvester/dae/Harvester_out.dae"
+    ]
+  }
+}

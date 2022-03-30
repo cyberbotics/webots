@@ -303,6 +303,7 @@ protected:
   // constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material
   // shallow nodes are not visible and should not be modified in any other way
   WbNode();
+  bool mIsShallowNode;
 
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary

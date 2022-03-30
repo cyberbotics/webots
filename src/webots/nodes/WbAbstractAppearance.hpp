@@ -54,7 +54,6 @@ protected:
   WbAbstractAppearance(const QString &modelName, const aiMaterial *material);
 
   WbSFNode *mTextureTransform;
-  bool mInitializedFromAssimpMaterial;
 
 private:
   WbAbstractAppearance &operator=(const WbAbstractAppearance &);  // non copyable

@@ -110,9 +110,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
     relativePath.insert(0, '/');
 
   QStringList texturePath(parentPath + relativePath);
-
-  // TODO: handle case if path starts with: ../../ etc
-  printf("> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
+  printf(" > texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
 
   mUrl = new WbMFString(texturePath);
   // init remaining variables with default wrl values

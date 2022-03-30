@@ -150,7 +150,7 @@ WbPbrAppearance::~WbPbrAppearance() {
     cBrdfTexture = NULL;
   }
 
-  if (mInitializedFromAssimpMaterial) {
+  if (mIsShallowNode) {
     delete mBaseColor;
     delete mEmissiveColor;
     delete mTransparency;

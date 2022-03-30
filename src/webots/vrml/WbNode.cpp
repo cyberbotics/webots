@@ -163,10 +163,12 @@ void WbNode::init() {
   mIsTopParameterDescendant = false;
   mProto = NULL;
   mCurrentStateId = "__init__";
+  mIsShallowNode = false;  // TODO: find better spot
 }
 
 WbNode::WbNode() {
   init();
+  mIsShallowNode = true;
   mParentNode = NULL;  // needed or loops forever
 }
 
@@ -1858,6 +1860,9 @@ void WbNode::setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool 
 }
 
 void WbNode::setCreationCompleted() {
+  if (mIsShallowNode)
+    return;
+
   mIsProtoParameterNodeDescendant = isProtoParameterNode();
   mIsCreationCompleted = true;
 }
