@@ -247,7 +247,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
     else
-      this.minWidth += 41
+      this.minWidth += 41;
   }
 
   _triggerPlayPauseButton() {
