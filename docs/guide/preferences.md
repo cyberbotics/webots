@@ -29,7 +29,8 @@ These user folders should contain projects resources that can be used in the cur
 Multiple user folders can be added by separating them with `:` (or `;` on Windows).
 They may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
 Alternatively, the environment variable `WEBOTS_EXTRA_PROJECT_PATH` can be used.
-If the `Extra project path` parameter and the `WEBOTS_EXTRA_PROJECT_PATH` environment variable are set, then both will be considered.
+If the `Extra project path` parameter and the `WEBOTS_EXTRA_PROJECT_PATH` environment variable are set, then both will be considered, with the priority given to the paths set in the `Preferences` setting.
+Duplicated PROTO nodes will be disabled in the `Add node` menu.
 These paths have the priority over the other search paths.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
