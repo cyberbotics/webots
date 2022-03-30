@@ -183,12 +183,12 @@ void WbColladaShape::setSegmentationColor(const WbRgb &color) {
 }
 
 void WbColladaShape::createWrenObjects() {
-  if (mUrl->size() == 0)
-    return;
-
   WbBaseNode::createWrenObjects();
 
   deleteWrenObjects();
+
+  if (mUrl->size() == 0)
+    return;
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
@@ -366,6 +366,9 @@ void WbColladaShape::createWrenObjects() {
     wr_renderable_set_mesh(renderable, WR_MESH(mWrenMeshes[i]));
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
+    wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
+    wr_renderable_invert_front_face(renderable, !mCcw->value());
+    WbWrenPicker::setPickable(renderable, uniqueId(), mIsPickable->value());
 
     // set material for range finder camera rendering
     WrMaterial *depthMaterial = wr_phong_material_new();
