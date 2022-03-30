@@ -50,12 +50,11 @@ WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMat
   mName = new WbSFString(QString(name.C_Str()));
   mNameValue = mName->value();
 
-  mTextureTransform = new WbSFNode();
+  mTextureTransform = new WbSFNode(NULL);
 }
 
 WbAbstractAppearance::~WbAbstractAppearance() {
-  if (mName)
-    delete mName;
+  delete mName;
   if (mTextureTransform)
     delete mTextureTransform;
 }

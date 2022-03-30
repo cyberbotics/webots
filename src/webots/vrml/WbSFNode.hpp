@@ -30,7 +30,6 @@ public:
   WbSFNode(WbTokenizer *tokenizer, const QString &worldPath);
   WbSFNode(const WbSFNode &other);
   WbSFNode(WbNode *node);
-  explicit WbSFNode() : mValue(NULL){};  // TODO: still needed?
   virtual ~WbSFNode();
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFNode(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override;

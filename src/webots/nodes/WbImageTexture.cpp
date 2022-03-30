@@ -121,8 +121,6 @@ WbImageTexture::~WbImageTexture() {
 }
 
 void WbImageTexture::downloadAssets() {
-  printf("WbImageTexture::downloadAssets()\n");
-
   if (mUrl->size() == 0)
     return;
 
@@ -141,7 +139,6 @@ void WbImageTexture::downloadAssets() {
 }
 
 void WbImageTexture::downloadUpdate() {
-  printf("WbImageTexture::downloadUpdate()\n");
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }

@@ -606,7 +606,6 @@ namespace {
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
 
-        // TODO: can we put collada in bounding object?
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;

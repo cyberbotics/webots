@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.15356936142612868 0.25224358659235074 0.9554002429632296 1.1346972652444725
-  position -0.30620499927800365 -1.0824593332210692 0.6730192567024608
+  orientation -0.16334659068909305 0.0594265634681997 0.9847773224768174 2.4535489344247576
+  position 49.736633008534255 -42.224087001954345 24.036232772338117
 }
 Background {
   skyColor [
@@ -11,13 +11,15 @@ Background {
   ]
 }
 ColladaShape {
-  url "/home/nctrl/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
+  url [
+    "https://raw.githubusercontent.com/cyberbotics/webots/feature-collada-shape-node/Harvester/Harvester.dae"
+  ]
 }
 Transform {
   translation 0.4 0 0
   children [
     ColladaShapes {
-      url "/home/nctrl/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
+      url "/home/daniel/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
     }
   ]
 }

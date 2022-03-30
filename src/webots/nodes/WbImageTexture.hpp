@@ -28,8 +28,6 @@ class WbDownloader;
 class QImage;
 class QIODevice;
 
-class aiMaterial;
-
 struct WrMaterial;
 struct WrTexture;
 struct WrTextureTransform;

@@ -35,9 +35,7 @@
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
 
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>  // TODO: this enough?
-#include <assimp/Importer.hpp>
+#include <assimp/material.h>
 
 static WrTextureRtt *cBrdfTexture = NULL;
 static int cInstanceCounter = 0;
@@ -77,17 +75,14 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   aiColor3D baseColor(1.0f, 1.0f, 1.0f);
   material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
   mBaseColor = new WbSFColor(baseColor[0], baseColor[1], baseColor[2]);
-  // printf("    baseColor [1 1 1] -> [%f %f %f]\n", baseColor[0], baseColor[1], baseColor[2]);
 
   aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
   mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
-  // printf("    emissiveColor [0 0 0] -> [%f %f %f]\n", emissiveColor[0], emissiveColor[1], emissiveColor[2]);
 
   float opacity = 1.0f;
   material->Get(AI_MATKEY_OPACITY, opacity);
   mTransparency = new WbSFDouble(1.0f - opacity);
-  // printf("    transparency [0] -> [%f]\n", mTransparency->value());
 
   float roughness = 1.0f;
   if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
@@ -97,7 +92,8 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
     roughness = 1.0 - roughness;
   mRoughness = new WbSFDouble(roughness);
-  // printf("    roughness [1] -> [%f]\n", mRoughness->value());
+
+  // TODO: find good match between assimp materials and PBR fields
 
   mMetalness = new WbSFDouble(1.0);
   mIblStrength = new WbSFDouble(1.0);
@@ -105,45 +101,44 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   mOcclusionMapStrength = new WbSFDouble(1.0);
   mEmissiveIntensity = new WbSFDouble(1.0);
 
-  // QString parentPath = "/home/daniel/webots_develop/Harvester";
-
+  // initialize maps
   if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
     mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
     mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, filePath));
   else
-    mBaseColorMap = new WbSFNode();
+    mBaseColorMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
     mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
   else
-    mRoughnessMap = new WbSFNode();
+    mRoughnessMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
     mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
   else
-    mMetalnessMap = new WbSFNode();
+    mMetalnessMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
     mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
   else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
     mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
   else
-    mNormalMap = new WbSFNode();
+    mNormalMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
     mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
   else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
     mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
   else
-    mOcclusionMap = new WbSFNode();
+    mOcclusionMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
     mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
     mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
   else
-    mEmissiveColorMap = new WbSFNode();
+    mEmissiveColorMap = new WbSFNode(NULL);
 }
 
 WbPbrAppearance::~WbPbrAppearance() {
@@ -156,24 +151,15 @@ WbPbrAppearance::~WbPbrAppearance() {
   }
 
   if (mInitializedFromAssimpMaterial) {
-    if (mBaseColor)
-      delete mBaseColor;
-    if (mEmissiveColor)
-      delete mEmissiveColor;
-    if (mTransparency)
-      delete mTransparency;
-    if (mRoughness)
-      delete mRoughness;
-    if (mMetalness)
-      delete mMetalness;
-    if (mIblStrength)
-      delete mIblStrength;
-    if (mNormalMapFactor)
-      delete mNormalMapFactor;
-    if (mOcclusionMapStrength)
-      delete mOcclusionMapStrength;
-    if (mEmissiveIntensity)
-      delete mEmissiveIntensity;
+    delete mBaseColor;
+    delete mEmissiveColor;
+    delete mTransparency;
+    delete mRoughness;
+    delete mMetalness;
+    delete mIblStrength;
+    delete mNormalMapFactor;
+    delete mOcclusionMapStrength;
+    delete mEmissiveIntensity;
     // maps
     if (mBaseColorMap)
       delete mBaseColorMap;
@@ -191,7 +177,6 @@ WbPbrAppearance::~WbPbrAppearance() {
 }
 
 void WbPbrAppearance::downloadAssets() {
-  printf("WbPbrAppearance::downloadAssets()\n");
   WbBaseNode::downloadAssets();
   if (baseColorMap())
     baseColorMap()->downloadAssets();

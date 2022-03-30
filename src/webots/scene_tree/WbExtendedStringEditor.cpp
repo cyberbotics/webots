@@ -420,7 +420,7 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbColladaShape *collada = dynamic_cast<const WbColladaShape *>(parentNode);
     if (collada)
       return COLLADA_URL;
-    // TODO: remove
+    // TODO: remove old PROTO
     if (parentNode->fullName() == "ColladaShapes")
       return COLLADA_URL;
     return TEXTURE_URL;
