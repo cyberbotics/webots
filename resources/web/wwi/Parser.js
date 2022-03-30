@@ -428,7 +428,7 @@ export default class Parser {
     this._parseChildren(node, newNode, isBoundingObject);
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (getNodeAttribute(node, 'role', '').toLowerCase() === 'animatedgeometry')
+      if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
       else
         parentNode.children.push(newNode);
