@@ -284,7 +284,7 @@ export default class Toolbar {
   }
 
   _createIdeButton() {
-    this.ideButton = this._createToolBarButton('ide', 'IDE', undefined);
+    this.ideButton = this._createToolBarButton('ide', 'Source code editor', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
     if (!this.parentNode.showIde && !this._view.ide)
