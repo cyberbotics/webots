@@ -424,13 +424,9 @@ export default class Parser {
     }
 
     if (node.hasAttribute('robot') && node.getAttribute('robot') === 'true') {
-      const window = 'generic';
+      const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
       const name = node.getAttribute('name');
       const id = node.getAttribute('id');
-
-      if (node.hasAttribute('window'))
-        window = node.getAttribute('window');
-
       WbWorld.instance.robots.push({id: id, name: name, window: window});
     }
 
