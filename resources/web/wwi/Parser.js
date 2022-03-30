@@ -424,9 +424,9 @@ export default class Parser {
     }
 
     if (node.hasAttribute('robot') && node.getAttribute('robot') === 'true') {
-      let window = 'generic';
-      let name = node.getAttribute('name');
-      let id = node.getAttribute('id');
+      const window = 'generic';
+      const name = node.getAttribute('name');
+      const id = node.getAttribute('id');
 
       if (node.hasAttribute('window'))
         window = node.getAttribute('window');
