@@ -59,7 +59,11 @@ WbContactProperties::~WbContactProperties() {
 }
 
 void WbContactProperties::downloadAsset(const QString &url, int index) {
-  if (!WbUrl::isWeb(url) || WbNetwork::instance()->isCached(url))
+  if (url.isEmpty())
+    return;
+
+  const QString &completeUrl = WbUrl::computePath(this, "url", url, false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
   if (mDownloader[index] != NULL)
@@ -72,7 +76,7 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
     connect(mDownloader[index], &WbDownloader::complete, this, callback);
   }
 
-  mDownloader[index]->download(QUrl(url));
+  mDownloader[index]->download(QUrl(completeUrl));
 }
 
 void WbContactProperties::downloadAssets() {

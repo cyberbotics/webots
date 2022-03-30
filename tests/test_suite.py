@@ -268,7 +268,7 @@ for groupName in testGroups:
 
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
-    # this is particuarliy useful to debug on the jenkins server
+    # this is particularly useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
