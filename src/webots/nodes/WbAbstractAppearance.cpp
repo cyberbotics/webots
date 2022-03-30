@@ -18,9 +18,7 @@
 #include "WbTextureTransform.hpp"
 #include "WbVector2.hpp"
 
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>  // TODO: this enough?
-#include <assimp/Importer.hpp>
+#include <assimp/material.h>
 
 void WbAbstractAppearance::init() {
   mName = findSFString("name");
