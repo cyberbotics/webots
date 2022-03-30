@@ -403,9 +403,7 @@ export default class Toolbar {
     const margin = 20;
     let numCol = 0;
     let numRow = 0;
-    let ideOffset = 0;
-    if (this._view.ide)
-      ideOffset = 520;
+    const ideOffset = (this._view.ide) ? 520 : 0;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
