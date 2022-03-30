@@ -157,7 +157,7 @@ void WbColladaShape::updateUrl() {
   }
 }
 
-void WbColladaShape::updateShape() {
+void WbColladaShape::updateShape() {  // TODO: needed?
   createWrenObjects();
 }
 
@@ -183,6 +183,9 @@ void WbColladaShape::setSegmentationColor(const WbRgb &color) {
 }
 
 void WbColladaShape::createWrenObjects() {
+  if (mUrl->size() == 0)
+    return;
+
   WbBaseNode::createWrenObjects();
 
   deleteWrenObjects();

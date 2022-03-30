@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.16334659068909305 0.0594265634681997 0.9847773224768174 2.4535489344247576
-  position 49.736633008534255 -42.224087001954345 24.036232772338117
+  position 80.51862899480113 -68.0380901175428 37.74050281592498
 }
 Background {
   skyColor [
@@ -22,4 +22,13 @@ Transform {
       url "/home/daniel/webots_develop/projects/default/worlds/meshes/visual/link_3.dae"
     }
   ]
+}
+Transform {
+  translation 23.87 0 0
+  children [
+    TEST {
+    }
+  ]
+}
+Transform {
 }

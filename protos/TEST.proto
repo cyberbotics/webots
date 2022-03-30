@@ -6,7 +6,7 @@ PROTO TEST [
 {
   ColladaShape {
     url [
-      "webots://Harvester/dae/Harvester_out.dae"
+      "https://raw.githubusercontent.com/cyberbotics/webots/feature-collada-shape-node/Harvester/dae/Harvester_out.dae"
     ]
   }
 }
