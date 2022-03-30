@@ -46,8 +46,8 @@ webots.View = class View {
     };
     this.onstderr = (text) => {
       console.log('%c' + text, 'color:red');
-      if (typeof this.erorMessageCallback !== 'undefined')
-        this.erorMessageCallback(text);
+      if (typeof this.errorMessageCallback !== 'undefined')
+        this.errorMessageCallback(text);
     };
     this.onquit = () => { // You can change this behavior by overriding this onquit() method
       window.history.back(); // go back to the previous page in the navigation history

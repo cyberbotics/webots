@@ -38,16 +38,16 @@ export default class FloatingWindow {
 
   _maxSize(name) {
     function setMaxHeight(name) {
-      let fw = document.getElementById(name)
-      let maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
-      let maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
+      const fw = document.getElementById(name)
+      const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
+      const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
       fw.style.maxHeight = maxHeight.toString() + 'px';
       fw.style.maxWidth = maxWidth.toString() + 'px';
       fw.lastElementChild.style.pointerEvents = 'none';
     }
 
     function restorePointerEvents(name) {
-      let fw = document.getElementById(name);
+      const fw = document.getElementById(name);
       fw.lastElementChild.style.pointerEvents = 'auto';
     }
 
