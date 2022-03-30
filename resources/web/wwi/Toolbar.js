@@ -180,6 +180,9 @@ export default class Toolbar {
     if (typeof this.robotWindowPane !== 'undefined' && this.robotWindowPane.style.visibility === 'visible')
       return;
 
+    if (typeof this.worldSelectionPane !== 'undefined' && this.worldSelectionPane.style.visibility === 'visible')
+      return;
+
     let canHide;
 
     let isPlaying = true;
