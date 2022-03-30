@@ -888,7 +888,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
 
   if (writer.isX3d())
     writer << "<Transform type='animatedgeometry'>";
- else {
+  else {
     writer.indent();
     writer << "Transform {\n";
     writer.increaseIndent();
