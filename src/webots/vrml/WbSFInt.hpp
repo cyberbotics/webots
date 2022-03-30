@@ -28,6 +28,7 @@ class WbSFInt : public WbSingleValue {
 public:
   WbSFInt(WbTokenizer *tokenizer, const QString &worldPath) { readSFInt(tokenizer, worldPath); }
   WbSFInt(const WbSFInt &other);
+  explicit WbSFInt(int value) : mValue(value) {}
   virtual ~WbSFInt() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFInt(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override { writer << mValue; }

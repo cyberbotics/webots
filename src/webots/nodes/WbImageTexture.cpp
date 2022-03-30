@@ -44,6 +44,11 @@
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
 
+// TODO: all needed?
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+
 #include <utility>
 
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
@@ -82,8 +87,45 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   init();
 }
 
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
+  WbBaseNode() {
+  mInitializedFromAssimpMaterial = true;
+
+  mWrenTexture = NULL;
+  mWrenBackgroundTexture = NULL;
+  mWrenTextureTransform = NULL;
+  mExternalTexture = false;
+  mExternalTextureRatio.setXy(1.0, 1.0);
+  mExternalTextureData = NULL;
+  mContainerField = "";
+  mImage = NULL;
+  mUsedFiltering = 0;
+  mWrenTextureIndex = 0;
+  mIsMainTextureTransparent = true;
+  mRole = "";
+  mDownloader = NULL;
+
+  QStringList texturePath;
+  if (material->GetTextureCount(textureType) > 0) {
+    aiString path;
+    material->GetTexture(textureType, 0, &path);
+    printf(">>> for texture type %d, found %s\n", textureType, path.C_Str());
+    texturePath << parentPath + QString(path.C_Str());
+  }
+
+  mUrl = new WbMFString(texturePath);
+
+  // init remaining variables with default wrl values
+  mRepeatS = new WbSFBool(true);
+  mRepeatT = new WbSFBool(true);
+  mFiltering = new WbSFInt(4);
+}
+
 WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
+
+  if (mInitializedFromAssimpMaterial)
+    delete mUrl;
 }
 
 void WbImageTexture::downloadAssets() {

@@ -20,11 +20,15 @@
 
 #include <QtCore/QSet>
 
+#include <assimp/material.h>
+
 class WbRgb;
 class WbDownloader;
 
 class QImage;
 class QIODevice;
+
+class aiMaterial;
 
 struct WrMaterial;
 struct WrTexture;
@@ -38,6 +42,7 @@ public:
   explicit WbImageTexture(WbTokenizer *tokenizer = NULL);
   WbImageTexture(const WbImageTexture &other);
   explicit WbImageTexture(const WbNode &other);
+  WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath);
   virtual ~WbImageTexture();
 
   // reimplemented public functions
@@ -89,6 +94,8 @@ private:
   WrTexture *mWrenBackgroundTexture;
   WrTextureTransform *mWrenTextureTransform;
   int mWrenTextureIndex;
+
+  bool mInitializedFromAssimpMaterial;
 
   // The following attributes are used when a texture is coming from an external source (e.g Display device)
   bool mExternalTexture;

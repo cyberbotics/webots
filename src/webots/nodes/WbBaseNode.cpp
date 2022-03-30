@@ -59,6 +59,10 @@ WbBaseNode::WbBaseNode(const WbNode &other) : WbNode(other) {
   init();
 }
 
+WbBaseNode::WbBaseNode() : WbNode() {
+  init();
+}
+
 WbBaseNode::~WbBaseNode() {
   emit isBeingDestroyed(this);
   if (mPostFinalizeCalled && !defName().isEmpty() && !WbWorld::instance()->isCleaning() && !WbTemplateManager::isRegenerating())

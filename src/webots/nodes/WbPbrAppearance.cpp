@@ -104,18 +104,37 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppeara
   mOcclusionMapStrength = new WbSFDouble(1.0);
   mEmissiveIntensity = new WbSFDouble(1.0);
 
+  QString parentPath = "/home/daniel/webots_develop/Harvester";
+
+  // blockSignals(true);
+
   mBaseColorMap = new WbSFNode();
+  mBaseColorMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE, parentPath));
+  // if (!mRoughnessMap->value())
+  //  mBaseColorMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE, parentPath));
+
   mRoughnessMap = new WbSFNode();
+  // mRoughnessMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, parentPath));
+
   mMetalnessMap = new WbSFNode();
+  // mMetalnessMap->setValue(new WbImageTexture(material, aiTextureType_METALNESS, parentPath));
+
   mNormalMap = new WbSFNode();
+  // mNormalMap->setValue(new WbImageTexture(material, aiTextureType_NORMALS, parentPath));
+  // if (!mNormalMap->value())
+  //  mNormalMap->setValue(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, parentPath));
+
   mOcclusionMap = new WbSFNode();
+  // mOcclusionMap->setValue(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, parentPath));
+  // if (!mOcclusionMap->value())
+  //  mOcclusionMap->setValue(new WbImageTexture(material, aiTextureType_LIGHTMAP, parentPath));
+
   mEmissiveColorMap = new WbSFNode();
+  // mEmissiveColorMap->setValue(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, parentPath));
+  // if (!mEmissiveColorMap->value())
+  //  mEmissiveColorMap->setValue(new WbImageTexture(material, aiTextureType_EMISSIVE, parentPath));
 
-  // float roughness = 0.0f;
-  // material->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness);
-
-  // float metalness = 1.0f;
-  // material->Get(AI_MATKEY_METALLIC_FACTOR);
+  // blockSignals(false);
 }
 
 WbPbrAppearance::~WbPbrAppearance() {

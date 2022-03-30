@@ -29,7 +29,8 @@ class WbSFNode : public WbSingleValue {
 public:
   WbSFNode(WbTokenizer *tokenizer, const QString &worldPath);
   WbSFNode(const WbSFNode &other);
-  explicit WbSFNode() : mValue(NULL){};
+  // WbSFNode(const WbNode &other) : mValue(other) {}
+  explicit WbSFNode() : mValue(NULL){};  // still needed?
   virtual ~WbSFNode();
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFNode(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override;

@@ -165,6 +165,11 @@ void WbNode::init() {
   mCurrentStateId = "__init__";
 }
 
+WbNode::WbNode() {
+  init();
+  mParentNode = NULL;  // needed or loops forever
+}
+
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
   mModel(WbNodeModel::findModel(modelName)) {
   init();

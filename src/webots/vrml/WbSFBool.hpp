@@ -28,6 +28,7 @@ class WbSFBool : public WbSingleValue {
 public:
   WbSFBool(WbTokenizer *tokenizer, const QString &worldPath) { readSFBool(tokenizer, worldPath); }
   WbSFBool(const WbSFBool &other);
+  explicit WbSFBool(bool value) : mValue(value) {}
   virtual ~WbSFBool() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFBool(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override { writer << toString(WbPrecision::DOUBLE_MAX); }

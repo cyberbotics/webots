@@ -300,6 +300,10 @@ protected:
   // copies all the field values
   WbNode(const WbNode &other);
 
+  // constructor for shallow nodes, they are used to initialize objects (e.g., initialization of a PBRAppearance from an assimp
+  // material) but have no representation in the in the scene/node tree
+  WbNode();
+
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary
 

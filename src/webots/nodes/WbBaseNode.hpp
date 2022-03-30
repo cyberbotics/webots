@@ -147,6 +147,9 @@ protected:
   WbBaseNode(const WbBaseNode &other);
   WbBaseNode(const WbNode &other);
 
+  // constructor for shallow nodes
+  WbBaseNode();
+
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };
 
