@@ -443,8 +443,8 @@ export default class Toolbar {
   removeRobotWindows() {
     if (typeof this.robotWindowPane !== 'undefined')
       this.robotWindowPane.remove();
-    if (typeof this.floatingRobotWindowContainer !== 'undefined')
-      this.floatingRobotWindowContainer.remove();
+    if (typeof this.robotWindows !== 'undefined')
+      document.querySelectorAll('.floating-window').forEach(fw => fw.remove());
   }
 
   _changeRobotWindowPaneVisibility(event) {
@@ -1269,6 +1269,8 @@ export default class Toolbar {
     this.worldList = document.createElement('ul');
     this.worldList.id = 'world-list';
     this.worldSelectionPane.appendChild(this.worldList);
+
+    this.worldSelectionPane.addEventListener('mouseover', () => this.showToolbar());
 
     const worlds = this._view.worlds;
     for (let i in worlds) {
