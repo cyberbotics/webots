@@ -241,9 +241,9 @@ webots.View = class View {
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];
-      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionDiv !== 'undefined') {
-        webotsView.toolbar.deleteWorldSelect();
-        webotsView.toolbar.createWorldSelect();
+      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionPane !== 'undefined') {
+        document.getElementById('world-selection-pane').remove();
+        webotsView.toolbar.createWorldSelectionPane();
       }
     }
   }
@@ -352,7 +352,7 @@ webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
     ms = '00' + ms;
   else if (ms < 100)
     ms = '0' + ms;
-  return h + ':' + m + ':' + s + ':' + ms;
+  return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
 };
 
 export {webots};

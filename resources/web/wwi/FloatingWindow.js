@@ -29,19 +29,28 @@ export default class FloatingWindow {
     this.floatingWindow.appendChild(this.floatingWindowContent);
 
     this.frame = document.createElement('iframe');
-    this.frame.id = this.name + "-window";
+    this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this.dragElement(document.getElementById(name));
+    this._dragElement(this.floatingWindow);
+    this._maxSize(name);
   }
 
-  getID() {
+  getId() {
     return this.floatingWindow.id;
+  }
+
+  getSize() {
+    return [this.floatingWindow.offsetWidth, this.floatingWindow.offsetHeight];
   }
 
   setSize(w, h) {
     this.floatingWindow.style.width = w.toString() + 'px';
     this.floatingWindow.style.height = h.toString() + 'px';
+  }
+
+  getPosition() {
+    return [this.floatingWindow.offsetLeft, this.floatingWindow.offsetTop];
   }
 
   setPosition(xPos, yPos) {
@@ -64,11 +73,11 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
-  dragElement(fw) {
+  _dragElement(fw) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    let pageHeight = fw.parentNode.parentNode.parentNode.offsetHeight;
-    let containerHeight = fw.parentNode.parentNode.offsetHeight;
-    let containerWidth = fw.parentNode.parentNode.offsetWidth;
+    let pageHeight = fw.parentNode.parentNode.offsetHeight;
+    let containerHeight = fw.parentNode.offsetHeight;
+    let containerWidth = fw.parentNode.offsetWidth;
     let topOffset = 0, leftOffset = 0;
 
     fw.firstChild.onmousedown = dragMouseDown;
@@ -76,9 +85,9 @@ export default class FloatingWindow {
     function dragMouseDown(event) {
       fw.lastElementChild.style.pointerEvents = 'none';
 
-      pageHeight = fw.parentNode.parentNode.parentNode.offsetHeight;
-      containerHeight = fw.parentNode.parentNode.offsetHeight;
-      containerWidth = fw.parentNode.parentNode.offsetWidth;
+      pageHeight = fw.parentNode.parentNode.offsetHeight;
+      containerHeight = fw.parentNode.offsetHeight;
+      containerWidth = fw.parentNode.offsetWidth;
 
       event.preventDefault();
 
@@ -123,5 +132,24 @@ export default class FloatingWindow {
       document.onmousemove = null;
       fw.lastElementChild.style.pointerEvents = 'auto';
     }
+  }
+
+  _maxSize(name) {
+    function setMaxHeight(name) {
+      const fw = document.getElementById(name)
+      const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
+      const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
+      fw.style.maxHeight = maxHeight.toString() + 'px';
+      fw.style.maxWidth = maxWidth.toString() + 'px';
+      fw.lastElementChild.style.pointerEvents = 'none';
+    }
+
+    function restorePointerEvents(name) {
+      const fw = document.getElementById(name);
+      fw.lastElementChild.style.pointerEvents = 'auto';
+    }
+
+    document.getElementById(name).onmousedown = () => {setMaxHeight(name)};
+    document.getElementById(name).onmouseup = () => {restorePointerEvents(name)};
   }
 }
