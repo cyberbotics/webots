@@ -299,7 +299,7 @@ export default class Toolbar {
 
     const margin = 20;
     const ideWidth = 500;
-    const ideHeight = this.parentNode.offsetHeight - 2*margin - this.toolbar.offsetHeight;
+    const ideHeight = this.parentNode.offsetHeight - 2 * margin - this.toolbar.offsetHeight;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
