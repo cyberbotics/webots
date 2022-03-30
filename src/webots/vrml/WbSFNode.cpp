@@ -48,6 +48,15 @@ void WbSFNode::readSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
     mValue->setInsertionCompleted();
 }
 
+WbSFNode::WbSFNode(WbNode *node) {
+  if (mValue == node)
+    return;
+
+  mValue = node;
+  if (mValue)
+    mValue->setInsertionCompleted();
+}
+
 WbSFNode::~WbSFNode() {
   delete mValue;
 }

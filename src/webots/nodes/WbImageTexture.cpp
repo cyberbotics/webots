@@ -106,12 +106,10 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   mDownloader = NULL;
 
   QStringList texturePath;
-  if (material->GetTextureCount(textureType) > 0) {
-    aiString path;
-    material->GetTexture(textureType, 0, &path);
-    printf(">>> for texture type %d, found %s\n", textureType, path.C_Str());
-    texturePath << parentPath + QString(path.C_Str());
-  }
+  aiString path;
+  material->GetTexture(textureType, 0, &path);
+  texturePath << parentPath + QString(path.C_Str());
+  printf(">>> for texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
 
   mUrl = new WbMFString(texturePath);
 

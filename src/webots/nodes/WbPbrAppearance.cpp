@@ -106,35 +106,43 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material) : WbAbstractAppeara
 
   QString parentPath = "/home/daniel/webots_develop/Harvester";
 
-  // blockSignals(true);
+  if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, parentPath));
+  else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, parentPath));
+  else
+    mBaseColorMap = new WbSFNode();
 
-  mBaseColorMap = new WbSFNode();
-  mBaseColorMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE, parentPath));
-  // if (!mRoughnessMap->value())
-  //  mBaseColorMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE, parentPath));
+  if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
+    mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, parentPath));
+  else
+    mRoughnessMap = new WbSFNode();
 
-  mRoughnessMap = new WbSFNode();
-  // mRoughnessMap->setValue(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, parentPath));
+  if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
+    mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, parentPath));
+  else
+    mMetalnessMap = new WbSFNode();
 
-  mMetalnessMap = new WbSFNode();
-  // mMetalnessMap->setValue(new WbImageTexture(material, aiTextureType_METALNESS, parentPath));
+  if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, parentPath));
+  else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, parentPath));
+  else
+    mNormalMap = new WbSFNode();
 
-  mNormalMap = new WbSFNode();
-  // mNormalMap->setValue(new WbImageTexture(material, aiTextureType_NORMALS, parentPath));
-  // if (!mNormalMap->value())
-  //  mNormalMap->setValue(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, parentPath));
+  if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, parentPath));
+  else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, parentPath));
+  else
+    mOcclusionMap = new WbSFNode();
 
-  mOcclusionMap = new WbSFNode();
-  // mOcclusionMap->setValue(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, parentPath));
-  // if (!mOcclusionMap->value())
-  //  mOcclusionMap->setValue(new WbImageTexture(material, aiTextureType_LIGHTMAP, parentPath));
-
-  mEmissiveColorMap = new WbSFNode();
-  // mEmissiveColorMap->setValue(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, parentPath));
-  // if (!mEmissiveColorMap->value())
-  //  mEmissiveColorMap->setValue(new WbImageTexture(material, aiTextureType_EMISSIVE, parentPath));
-
-  // blockSignals(false);
+  if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, parentPath));
+  else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, parentPath));
+  else
+    mEmissiveColorMap = new WbSFNode();
 }
 
 WbPbrAppearance::~WbPbrAppearance() {
