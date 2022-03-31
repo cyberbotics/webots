@@ -6,13 +6,13 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 subprocess.run(['xhost', '+local:root'])
 port = 1234
-with open('.env', 'w') as env_file:
-    env_file.write('IMAGE=cyberbotics/webots\n')
+with open('.env', 'w+') as env_file:
+    env_file.write('IMAGE=4959b952e26a\n')
     env_file.write('PORT=' + str(port) + '\n')
 
 command = 'docker-compose -f docker-compose-webots.yml up --build --no-color'
 controllers = {
-  "e-puck": "projects/robots/gctronic/e-puck/controllers/e-puck/e-puck"
+  "e-puck": "/webots_project/controllers/e-puck/e-puck"
 }
 try:
     webots_process = subprocess.Popen(command.split(),
