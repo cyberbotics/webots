@@ -10,7 +10,7 @@ with open('.env', 'w') as env_file:
     env_file.write('IMAGE=cyberbotics/webots\n')
     env_file.write('PORT=' + str(port) + '\n')
 
-command = f'docker-compose -f docker-compose-webots.yml up --build --no-color'
+command = 'docker-compose -f docker-compose-webots.yml up --build --no-color'
 controllers = {
   "e-puck": "projects/robots/gctronic/e-puck/controllers/e-puck/e-puck"
 }
@@ -37,12 +37,6 @@ while webots_process.poll() is None:
         print('starting ' + controller)
         if not controller:
             continue
-        controller_path = os.path.join(WEBOTS_HOME, os.path.dirname(controller))
-        os.chdir(controller_path)
-        controller_process = subprocess.Popen([os.path.join(WEBOTS_HOME, controller)],
-                                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                              bufsize=1, universal_newlines=True
-                                              )
     elif line:
         print(line)
     if controller_process:
