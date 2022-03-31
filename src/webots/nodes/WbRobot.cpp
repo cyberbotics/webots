@@ -1476,8 +1476,8 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
       writer << " window=";
       writer.writeLiteralString(window());
     }
-    writer << " robot=";
-    writer.writeLiteralString("true");
+    writer << " type=";
+    writer.writeLiteralString("robot");
   }
 }
 
