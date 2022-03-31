@@ -451,85 +451,81 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return;
 
-  writer << " ccw=\'";
-  writer << mCcw->value();
-  writer << "\'";
+  // writer << " ccw=\'";
+  // writer << mCcw->value();
+  // writer << "\'";
+
+  const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMeshes[0]);
+  const int indexCount = wr_static_mesh_get_index_count(mWrenMeshes[0]);
+  float coords[3 * vertexCount];
+  float normals[3 * vertexCount];
+  float texCoords[2 * vertexCount];
+  unsigned int indexes[indexCount];
+  wr_static_mesh_read_data(mWrenMeshes[0], coords, normals, texCoords, indexes);
+
+  writer << ">";
+
+  writer << "<Shape";
+
+  if (!mIsPickable->value())
+    writer << " isPickable='false'";
+  if (mCastShadows->value())
+    writer << " castShadows='true'";
+
+  writer << ">";  // close shape
+
+  writer << "<IndexedFaceSet";
 
   // export coordIndex
   writer << " coordIndex=\'";
 
-  for (int i = 0; i < mIndexDataSize[0]; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << mIndexData.at(0)[i];
-  }
-
-  writer << " -1\'";
+  for (int i = 0; i < indexCount / 2; ++i)
+    writer << indexes[2 * i] << " " << indexes[2 * i + 1] << " -1 ";
+  writer << "'>";
 
   // export normals
   writer << " normalIndex=\'";
-  for (int i = 0; i < mIndexDataSize[0]; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << mIndexData.at(0)[i];
-  }
-  writer << " -1\'";
+  for (int i = 0; i < indexCount / 2; ++i)
+    writer << indexes[2 * i] << " " << indexes[2 * i + 1] << " -1 ";
+  writer << "'>";
 
   // export texCoordIndex
   writer << " texCoordIndex=\'";
-  for (int i = 0; i < mIndexDataSize[0]; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << mIndexData.at(0)[i];
-  }
-  writer << " -1\'";
-
-  writer << ">";
+  for (int i = 0; i < indexCount / 2; ++i)
+    writer << indexes[2 * i] << " " << indexes[2 * i + 1] << " -1 ";
+  writer << "'>";
 
   // export nodes
   writer << "<Coordinate point=\'";
   const int precision = 4;
-  for (int i = 0; i < mCoordDataSize[0]; ++i) {
+  for (int i = 0; i < vertexCount; ++i) {
     if (i != 0)
       writer << ", ";
-    const int j = 3 * i;
-    writer << QString::number(mCoordData.at(0)[j], 'f', precision)
+    writer << QString::number(coords[i * 3], 'f', precision)
            << " "  // write with limited precision to reduce the size of the X3D/HTML file
-           << QString::number(mCoordData.at(0)[j + 1], 'f', precision) << " "
-           << QString::number(mCoordData.at(0)[j + 2], 'f', precision);
+           << QString::number(coords[i * 3 + 1], 'f', precision) << " " << QString::number(coords[i * 3 + 2], 'f', precision);
   }
 
   writer << "\'></Coordinate>";
 
   writer << "<Normal vector=\'";
-  for (int i = 0; i < mNormalDataSize[0]; ++i) {
+  for (int i = 0; i < vertexCount; ++i) {
     if (i != 0)
       writer << ", ";
-    const int j = 3 * i;
-    writer << QString::number(mNormalData.at(0)[j], 'f', precision) << " "
-           << QString::number(mNormalData.at(0)[j + 1], 'f', precision) << " "
-           << QString::number(mNormalData.at(0)[j + 2], 'f', precision);
+    writer << QString::number(normals[i * 3], 'f', precision) << " " << QString::number(normals[i * 3 + 1], 'f', precision)
+           << " " << QString::number(normals[i * 3 + 2], 'f', precision);
   }
   writer << "\'></Normal>";
 
   writer << "<TextureCoordinate point=\'";
-  for (int i = 0; i < mTexCoordDataSize[0]; ++i) {
+  for (int i = 0; i < vertexCount; ++i) {
     if (i != 0)
       writer << ", ";
-    const int j = 2 * i;
-    writer << QString::number(mTexCoordData.at(0)[j], 'f', precision) << " "
-           << QString::number(1.0 - mTexCoordData.at(0)[j + 1], 'f', precision);
+    writer << QString::number(texCoords[i * 2], 'f', precision) << " "
+           << QString::number(1.0 - texCoords[i * 2 + 1], 'f', precision);
   }
   writer << "\'></TextureCoordinate>";
+  writer << "</IndexedFaceSet></Shape>";
 }
 
 QString WbColladaShape::colladaPath() const {

@@ -5,6 +5,7 @@ import WbBackground from './nodes/WbBackground.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
+import WbColladaShape from './nodes/WbColladaShape.js';
 import WbCone from './nodes/WbCone.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
@@ -136,6 +137,8 @@ export default class Parser {
       result = this._parseGroup(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'ColladaShape')
+      result = this._parseColladaShape(node, parentNode);
     else if (node.tagName === 'Switch')
       result = this._parseSwitch(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
@@ -508,6 +511,26 @@ export default class Parser {
     WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
+  }
+
+  _parseColladaShape(node, parentNode) {
+    const use = this._checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this._parseId(node);
+
+    const colladaShape = new WbColladaShape(id);
+
+    WbWorld.instance.nodes.set(colladaShape.id, colladaShape);
+    this._parseChildren(node, colladaShape, false);
+
+    if (typeof parentNode !== 'undefined') {
+      colladaShape.parent = parentNode.id;
+      parentNode.children.push(colladaShape);
+    }
+
+    return colladaShape;
   }
 
   _parseBillboard(node, parentNode) {
