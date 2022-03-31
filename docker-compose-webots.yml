@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  webots:
+    build:
+      context: .
+      dockerfile: Dockerfile-webots
+      args:
+        - WEBOTS_DEFAULT_IMAGE=$IMAGE
+    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=pause --minimize --no-rendering /usr/local/webots/projects/robots/gctronic/e-puck/worlds/e-puck-wbt
+    environment:
+      - WEBOTS_HOME=/usr/local/webots
+      - DISPLAY=:0
+    ports:
+      - '$PORT:$PORT'
+    privileged: true
+    stdin_open: true  # docker run -i
+    tty: true         # docker run -t
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # - var-$PORT:/var
