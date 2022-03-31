@@ -26,7 +26,7 @@ void WbTrackWheel::init() {
 
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
-  mRotation = new WbSFRotation(WbRotation(1, 0, 0, M_PI_2));
+  mRotation = findSFRotation("rotation");
   mScale = new WbSFVector3(WbVector3(1, 1, 1));
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
@@ -88,6 +88,10 @@ void WbTrackWheel::rotate(double travelledDistance) {
   updateRotation();
 }
 
+bool WbTrackWheel::shallExport() const {
+  return true;
+}
+
 void WbTrackWheel::write(WbVrmlWriter &writer) const {
   if (writer.isUrdf())
     return;
@@ -106,6 +110,21 @@ void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   writer.writeFieldStart("rotation", true);
   rotationFieldValue()->write(writer);
   writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("radius", true);
+  writer << mRadius->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("inner", true);
+  writer << mInner->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " type='trackWheel'";
 
   WbTransform::exportNodeFields(writer);
 }

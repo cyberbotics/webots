@@ -11,6 +11,7 @@ Released on XX, XXth, 2022.
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
     - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)). **Previously set Extra project paths should be re-set in the preferences menu**
+    - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
   - New Objects:
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
