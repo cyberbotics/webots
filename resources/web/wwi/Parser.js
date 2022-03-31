@@ -446,7 +446,6 @@ export default class Parser {
     }
 
     return newNode;
-
   }
 
   _parseGroup(node, parentNode, isBoundingObject) {
