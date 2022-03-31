@@ -875,40 +875,20 @@ void WbTrack::computeBeltPath() {
                    "Only the first node is used."));
 }
 
-QString computeTrackDefName() {
-  QString defName = "_TRACK_ANIMATED_GEOMETRY_%0";
-  int n = 0;
-  while (WbDictionary::instance()->getNodeFromDEF(defName.arg(n)))
-    ++n;
-
-  return defName.arg(n);
-}
-
 void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   if (mAnimatedObjectList.size() == 0 || writer.isUrdf())
     return;
 
   WbNode *node = mGeometryField->value();
-  QString defName = node->defName();
-  QString useName = node->useName();
-  if (node->isUseNode())
-    defName = useName;
-  else if (defName.isEmpty()) {
-    defName = computeTrackDefName();
-    node->setDefName(defName, false);
-    parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
-  }
 
   QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
                      " 0 " +
                      QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
   QString rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
-  if (writer.isX3d()) {
-    writer << "<Transform ";
-    writer << "translation='" << position << "' ";
-    writer << "rotation='" << rotation << "'>";
-  } else {
+  if (writer.isX3d())
+    writer << "<Transform role='animatedGeometry'>";
+  else {
     writer.indent();
     writer << "Transform {\n";
     writer.increaseIndent();
@@ -932,39 +912,6 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
     writer.decreaseIndent();
     writer.indent();
     writer << "}\n";
-  }
-
-  for (int i = 1; i < mGeometriesCountField->value(); ++i) {
-    position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.x(), WbPrecision::DOUBLE_MAX)) + " 0 " +
-               QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[i].position.y(), WbPrecision::DOUBLE_MAX));
-    rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[i].rotation, WbPrecision::DOUBLE_MAX));
-
-    if (writer.isX3d()) {
-      writer << "<Transform ";
-      writer << "translation='" << position << "' ";
-      writer << "rotation='" << rotation << "'>";
-      writer << "<Group USE='" << QString::number(node->uniqueId()) << "'></Group>";
-      writer << "</Transform>";
-    } else {
-      writer.indent();
-      writer << "Transform {\n";
-      writer.increaseIndent();
-      writer.indent();
-      writer << "translation " << position << "\n";
-      writer.indent();
-      writer << "rotation " << rotation << "\n";
-      writer.indent();
-      writer << "children [\n";
-      writer.increaseIndent();
-      writer.indent();
-      writer << "USE " << defName << "\n";
-      writer.decreaseIndent();
-      writer.indent();
-      writer << "]\n";
-      writer.decreaseIndent();
-      writer.indent();
-      writer << "}\n";
-    }
   }
 }
 
@@ -1020,5 +967,15 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
     if (!isEmpty)
       writer.indent();
     writer << "]\n";
+  }
+}
+
+void WbTrack::exportNodeFields(WbVrmlWriter &writer) const {
+  WbMatter::exportNodeFields(writer);
+  if (writer.isX3d()) {
+    if (!name().isEmpty())
+      writer << " name='" << sanitizedName() << "'";
+    writer << " type='track'";
+    writer << " geometriesCount='" << mGeometriesCountField->value() << "'";
   }
 }

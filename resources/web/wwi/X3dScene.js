@@ -7,6 +7,7 @@ import WbGroup from './nodes/WbGroup.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -221,9 +222,13 @@ export default class X3dScene {
         }
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
-        object.rotation = quaternion;
-        if (WbWorld.instance.readyForUpdates)
-          object.applyRotationToWren();
+        if (object instanceof WbTrackWheel)
+          object.updateRotation(quaternion);
+        else {
+          object.rotation = quaternion;
+          if (WbWorld.instance.readyForUpdates)
+            object.applyRotationToWren();
+        }
       } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -288,6 +293,12 @@ export default class X3dScene {
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
+          WbWorld.instance.tracks.forEach(track => {
+            if (track.linearSpeed !== 0) {
+              track.animateMesh();
+              track.linearSpeed = 0;
+            }
+          });
         }
 
         if (frame.hasOwnProperty('labels')) {

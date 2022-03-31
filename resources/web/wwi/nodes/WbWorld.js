@@ -10,6 +10,7 @@ export default class WbWorld {
     this.nodes = new Map();
 
     this.billboards = [];
+    this.tracks = [];
     this.readyForUpdates = false;
     this.robots = [];
   }
