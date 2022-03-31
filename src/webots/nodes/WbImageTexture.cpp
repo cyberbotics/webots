@@ -616,3 +616,40 @@ void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
            << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
   WbBaseNode::exportNodeSubNodes(writer);
 }
+
+void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
+  if (!writer.isX3d())
+    return;
+
+  writer << "<ImageTexture";
+
+  if (mUrl->size() > 0) {
+    QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
+    // if local path
+    QString newUrl;
+    if (writer.isWritingToFile())
+      newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
+
+    // const QString &url(mUrl->item(0));
+    // if (cQualityChangedTexturesList.contains(texturePath))
+    //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
+    writer.addTextureToList(mUrl->item(0), newUrl);
+
+    writer << " url='\"" << newUrl << "\"'";
+    printf("==== %s | %s\n", texturePath.toUtf8().constData(), newUrl.toUtf8().constData());
+    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
+           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+    if (!mRole.isEmpty())
+      writer << " type='" << mRole << "'";  // TODO: type -> role
+  }
+
+  writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
+  writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
+  writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
+
+  if (mFiltering->value() > 0)
+    writer << "<TextureProperties anisotropicDegree=\"" << (1 << (mFiltering->value() - 1))
+           << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
+
+  writer << "</ImageTexture>";
+}

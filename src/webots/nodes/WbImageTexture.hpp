@@ -72,6 +72,8 @@ public:
 
   void write(WbVrmlWriter &writer) const override;
 
+  void exportShallowNode(WbVrmlWriter &writer) const;
+
 signals:
   void changed();
 
