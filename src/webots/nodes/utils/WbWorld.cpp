@@ -294,6 +294,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     if (!success)
       throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
 
+    QString typeString = (animation) ? "Animation" : "Scene";
     QString titleString(WbWorld::instance()->worldInfo()->title());
     QString infoString;
     const WbMFString &info = WbWorld::instance()->worldInfo()->info();
