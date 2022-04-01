@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   webots:
+    image: simulation
     build:
       context: simulation
       dockerfile: Dockerfile

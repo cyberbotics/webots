@@ -26,19 +26,21 @@ print(f'docker-compose [{webots_process.pid}] started: "{command}"')
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
-    if line.startswith('start:'):
-        split = line.split(':')
-        name = split[1]
-        os.environ['WEBOTS_ROBOT_NAME'] = name
-        os.environ['WEBOTS_SERVER'] = split[2]
-        os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
-        os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
-        controller = controllers[name] if name in controllers else ''
-        print('starting ' + controller)
-        if not controller:
-            continue
+    if line.startswith('webots_1  | '):  # output of the first docker container
+        line = line[12:]
+        if line.startswith('start:'):
+            split = line.split(':')
+            name = split[1]
+            os.environ['WEBOTS_ROBOT_NAME'] = name
+            os.environ['WEBOTS_SERVER'] = split[2]
+            os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
+            os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
+            controller = controllers[name] if name in controllers else ''
+            print('starting ' + controller)
+            if not controller:
+                continue
     elif line:
-        print('line: ' + line)
+        print(line)  # docker-compose output
     if controller_process:
         while controller_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()
