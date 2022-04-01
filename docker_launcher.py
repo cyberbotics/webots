@@ -7,7 +7,7 @@ if sys.platform != 'linux':
 subprocess.run(['xhost', '+local:root'])
 port = 1234
 with open('.env', 'w+') as env_file:
-    env_file.write('IMAGE=4959b952e26a\n')
+    env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write('PORT=' + str(port) + '\n')
 
 command = 'docker-compose -f docker-compose-webots.yml up --build --no-color'
@@ -20,9 +20,9 @@ try:
                                       stderr=subprocess.STDOUT,
                                       bufsize=1, universal_newlines=True)
 except Exception:
-    print(f"error: Unable to start Webots: {command}")
+    print(f"error: Unable to start docker-compose: {command}")
     quit()
-print(f'Webots [{webots_process.pid}] started: "{command}"')
+print(f'docker-compose [{webots_process.pid}] started: "{command}"')
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
@@ -38,7 +38,7 @@ while webots_process.poll() is None:
         if not controller:
             continue
     elif line:
-        print(line)
+        print('line: ' + line)
     if controller_process:
         while controller_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()

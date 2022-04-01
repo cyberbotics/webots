@@ -1,16 +1,14 @@
-version: "3.3"
+version: "3.8"
 
 services:
   webots:
-    image: webots_instance:R2022b-1
     build:
-      context: .
-      dockerfile: Dockerfile-webots
+      context: docker
+      dockerfile: Dockerfile
       args:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE
-    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=pause --minimize --no-rendering /webots_project/worlds/e-puck.wbt
+    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=realtime --minimize --no-rendering /webots_project/worlds/e-puck.wbt
     environment:
-      - WEBOTS_HOME=/usr/local/webots
       - DISPLAY=:0
     ports:
       - '$PORT:$PORT'
