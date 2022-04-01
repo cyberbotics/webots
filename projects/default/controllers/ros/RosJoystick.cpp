@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "RosJoystick.hpp"
-#include "webots_ros/Int8Stamped.h"
+#include "webots_ros/Int32Stamped.h"
 
 RosJoystick::RosJoystick(Joystick *joystick, Ros *ros) : RosSensor("joystick", NULL, ros) {
   mJoystick = joystick;
@@ -61,29 +61,26 @@ RosJoystick::~RosJoystick() {
   cleanup();
 }
 
-// creates a publisher for joystick values with a webots_ros/Int8Stamped as message type
+// creates a publisher for joystick values with a webots_ros/Int32Stamped as message type
 ros::Publisher RosJoystick::createPublisher() {
-  webots_ros::Int8Stamped type;
+  webots_ros::Int32Stamped type;
   std::string topicName = mRos->name() + "/joystick/pressed_button";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
 // get button from the joystick and publish it
 void RosJoystick::publishValue(ros::Publisher publisher) {
-  webots_ros::Int8Stamped value;
+  webots_ros::Int32Stamped value;
   value.header.stamp = ros::Time::now();
   value.header.frame_id = mRos->name() + "/joystick";
   int button = mJoystick->getPressedButton();
-  while (button >= 0) {
-    value.data = button;
-    publisher.publish(value);
-    button = mJoystick->getPressedButton();
-  }
+  value.data = button;
+  publisher.publish(value);
 }
 
 // get axes and point of views value from the joystick and publish them
 void RosJoystick::publishAuxiliaryValue() {
-  webots_ros::Int8Stamped value;
+  webots_ros::Int32Stamped value;
   value.header.stamp = ros::Time::now();
   int axesNumber = mJoystick->getNumberOfAxes();
   int povsNumber = mJoystick->getNumberOfPovs();
