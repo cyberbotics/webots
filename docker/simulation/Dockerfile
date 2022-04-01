@@ -3,7 +3,6 @@ FROM $WEBOTS_DEFAULT_IMAGE
 ARG MAKE
 RUN mkdir -p /webots_project
 COPY webots_project /webots_project
-RUN ls -la /webots_project/*
 RUN if [ "$MAKE" = "1" ]; then \
     cd /webots_project && \
     make ; \

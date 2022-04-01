@@ -3,7 +3,7 @@ version: "3.8"
 services:
   webots:
     build:
-      context: docker
+      context: simulation
       dockerfile: Dockerfile
       args:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE

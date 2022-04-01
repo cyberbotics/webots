@@ -6,11 +6,11 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 subprocess.run(['xhost', '+local:root'])
 port = 1234
-with open('.env', 'w+') as env_file:
+with open('docker/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write('PORT=' + str(port) + '\n')
 
-command = 'docker-compose -f docker-compose-webots.yml up --build --no-color'
+command = 'docker-compose -f docker/docker-compose-webots.yml up --build --no-color'
 controllers = {
   "e-puck": "/webots_project/controllers/e-puck/e-puck"
 }
@@ -44,3 +44,4 @@ while webots_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()
             if line:
                 print('controller: ' + line)
+os.remove('docker/.env')
