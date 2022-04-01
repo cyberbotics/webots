@@ -424,8 +424,15 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else
+    } else {
       newNode = new WbTransform(id, isSolid, translation, scale, rotation);
+      if (type === 'robot') {
+        const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
+        const name = node.getAttribute('name');
+        const id = node.getAttribute('id');
+        WbWorld.instance.robots.push({id: id, name: name, window: window});
+      }
+    }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
@@ -436,13 +443,6 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else
         parentNode.children.push(newNode);
-    }
-
-    if (node.hasAttribute('robot') && node.getAttribute('robot') === 'true') {
-      const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
-      const name = node.getAttribute('name');
-      const id = node.getAttribute('id');
-      WbWorld.instance.robots.push({id: id, name: name, window: window});
     }
 
     return newNode;
