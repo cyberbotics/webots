@@ -523,7 +523,7 @@ bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
     writer << " render=\'false\'";
   if (defNode())
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'";
-  writer << " type=\'" << mRole << "\' ></" + x3dName() + ">";
+  writer << " role=\'" << mRole << "\' ></" + x3dName() + ">";
   return true;
 }
 
@@ -561,7 +561,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
            << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
-      writer << " type=\'" << mRole << "\'";
+      writer << " role=\'" << mRole << "\'";
   }
 }
 

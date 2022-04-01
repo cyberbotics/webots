@@ -96,6 +96,12 @@ export default class Animation {
         const poses = this.data.frames[this.step].poses;
         for (let p = 0; p < poses.length; p++)
           appliedIds[poses[p].id] = this._scene.applyPose(poses[p], undefined);
+        WbWorld.instance.tracks.forEach(track => {
+          if (track.linearSpeed !== 0) {
+            track.animateMesh();
+            track.linearSpeed = 0;
+          }
+        });
       }
 
       if (this.data.frames[this.step].hasOwnProperty('labels')) {

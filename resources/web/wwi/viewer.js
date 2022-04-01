@@ -895,7 +895,7 @@ function highlightX3DElement(robot, deviceElement) {
       let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
       WbWorld.instance.nodes.set(sphere.id, sphere);
       let baseColorMap = imageTexture.clone(getAnId());
-      baseColorMap.type = 'baseColorMap';
+      baseColorMap.role = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
       let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
         20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);

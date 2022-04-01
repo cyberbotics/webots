@@ -27,6 +27,8 @@ import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTrack from './nodes/WbTrack.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -211,8 +213,6 @@ export default class Parser {
     // check if top-level nodes
     if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
       WbWorld.instance.sceneTree.push(result);
-
-    return result;
   }
 
   _parseChildren(node, parentNode, isBoundingObject) {
@@ -221,7 +221,6 @@ export default class Parser {
       if (typeof child.tagName !== 'undefined')
         this._parseNode(child, parentNode, isBoundingObject);
     }
-    return 1;
   }
 
   _parseScene(node) {
@@ -243,6 +242,7 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
 
@@ -403,23 +403,38 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    const type = getNodeAttribute(node, 'type', '').toLowerCase();
+    const isSolid = type === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
-    const transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    let newNode;
+    if (type === 'track') {
+      const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
+      newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
+    } else if (type === 'trackwheel') {
+      const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
+      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
-    WbWorld.instance.nodes.set(transform.id, transform);
+      newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
-    this._parseChildren(node, transform, isBoundingObject);
+      parentNode.wheelsList.push(newNode);
+    } else
+      newNode = new WbTransform(id, isSolid, translation, scale, rotation);
 
+    WbWorld.instance.nodes.set(newNode.id, newNode);
+
+    this._parseChildren(node, newNode, isBoundingObject);
     if (typeof parentNode !== 'undefined') {
-      transform.parent = parentNode.id;
-      parentNode.children.push(transform);
+      newNode.parent = parentNode.id;
+      if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = newNode;
+      else
+        parentNode.children.push(newNode);
     }
 
-    return transform;
+    return newNode;
   }
 
   _parseGroup(node, parentNode, isBoundingObject) {
@@ -429,7 +444,7 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
 
     const group = new WbGroup(id, isPropeller);
 
@@ -1001,31 +1016,31 @@ export default class Parser {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
-      const type = getNodeAttribute(imageTexture, 'type', undefined);
-      if (type === 'baseColor') {
+      const role = getNodeAttribute(imageTexture, 'role', undefined);
+      if (role === 'baseColor') {
         baseColorMap = this._parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
-          baseColorMap.type = 'baseColorMap';
-      } else if (type === 'roughness') {
+          baseColorMap.role = 'baseColorMap';
+      } else if (role === 'roughness') {
         roughnessMap = this._parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
-          roughnessMap.type = 'roughnessMap';
-      } else if (type === 'metalness') {
+          roughnessMap.role = 'roughnessMap';
+      } else if (role === 'metalness') {
         metalnessMap = this._parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
-          metalnessMap.type = 'metalnessMap';
-      } else if (type === 'normal') {
+          metalnessMap.role = 'metalnessMap';
+      } else if (role === 'normal') {
         normalMap = this._parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
-          normalMap.type = 'normalMap';
-      } else if (type === 'occlusion') {
+          normalMap.role = 'normalMap';
+      } else if (role === 'occlusion') {
         occlusionMap = this._parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
-          occlusionMap.type = 'occlusionMap';
-      } else if (type === 'emissiveColor') {
+          occlusionMap.role = 'occlusionMap';
+      } else if (role === 'emissiveColor') {
         emissiveColorMap = this._parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
-          emissiveColorMap.type = 'emissiveColorMap';
+          emissiveColorMap.role = 'emissiveColorMap';
       }
     }
 

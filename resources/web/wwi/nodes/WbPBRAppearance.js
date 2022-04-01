@@ -34,41 +34,41 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.baseColorMap !== 'undefined') {
       baseColorMap = this.baseColorMap.clone(getAnId());
       baseColorMap.parent = customID;
-      baseColorMap.type = 'baseColorMap';
+      baseColorMap.role = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
     }
 
     if (typeof this.roughnessMap !== 'undefined') {
       roughnessMap = this.roughnessMap.clone(getAnId());
-      roughnessMap.type = 'roughnessMap';
+      roughnessMap.role = 'roughnessMap';
       roughnessMap.parent = customID;
       WbWorld.instance.nodes.set(roughnessMap.id, roughnessMap);
     }
 
     if (typeof this.metalnessMap !== 'undefined') {
       metalnessMap = this.metalnessMap.clone(getAnId());
-      metalnessMap.type = 'metalnessMap';
+      metalnessMap.role = 'metalnessMap';
       metalnessMap.parent = customID;
       WbWorld.instance.nodes.set(metalnessMap.id, metalnessMap);
     }
 
     if (typeof this.normalMap !== 'undefined') {
       normalMap = this.normalMap.clone(getAnId());
-      normalMap.type = 'normalMap';
+      normalMap.role = 'normalMap';
       normalMap.parent = customID;
       WbWorld.instance.nodes.set(normalMap.id, normalMap);
     }
 
     if (typeof this.occlusionMap !== 'undefined') {
       occlusionMap = this.occlusionMap.clone(getAnId());
-      occlusionMap.type = 'occlusionMap';
+      occlusionMap.role = 'occlusionMap';
       occlusionMap.parent = customID;
       WbWorld.instance.nodes.set(occlusionMap.id, occlusionMap);
     }
 
     if (typeof this.emissiveColorMap !== 'undefined') {
       emissiveColorMap = this.emissiveColorMap.clone(getAnId());
-      emissiveColorMap.type = 'emissiveColorMap';
+      emissiveColorMap.role = 'emissiveColorMap';
       emissiveColorMap.parent = customID;
       WbWorld.instance.nodes.set(emissiveColorMap.id, emissiveColorMap);
     }
