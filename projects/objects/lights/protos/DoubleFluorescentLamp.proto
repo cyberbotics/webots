@@ -47,7 +47,7 @@ PROTO DoubleFluorescentLamp [
       }
       Transform {
         translation -0.015 -0.5 0.055
-        rotation 1 0 0 0
+        rotation 1 0 0 1.5708
         children [
           DEF CONNECTOR Shape {
             appearance BrushedAluminium {
@@ -61,21 +61,21 @@ PROTO DoubleFluorescentLamp [
       }
       Transform {
         translation 0.015 -0.5 0.055
-        rotation 1 0 0 0
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
       Transform {
         translation 0.015 0.5 0.055
-        rotation 1 0 0 0
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
       Transform {
         translation -0.015 0.5 0.055
-        rotation 1 0 0 0
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
@@ -87,7 +87,7 @@ PROTO DoubleFluorescentLamp [
             appearance BrushedAluminium {
             }
             geometry Box {
-              size 0.04 1.02 0.04 
+              size 0.04 1.02 0.04
             }
           }
         ]
@@ -99,7 +99,7 @@ PROTO DoubleFluorescentLamp [
             appearance BrushedAluminium {
             }
             geometry Box {
-              size 0.03 0.03 0.011
+              size 0.03 0.011 0.03
             }
           }
         ]
