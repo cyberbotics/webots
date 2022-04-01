@@ -190,54 +190,43 @@ void WbStreamingServer::onNewTcpConnection() {
 void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
+  const QByteArray request = socket->peek(3);
+  if (request != "GET")  // probably a WebSocket message
+    return;
+  const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
-  if (tokens[0] == "GET") {
-    const QString &requestedUrl(tokens[1].replace(QRegularExpression("^/"), ""));
-    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
-      bool hasEtag = false;
-      QString etag;
-      for (const auto &i : tokens) {
-        if (i == "If-None-Match:")
-          hasEtag = true;
-        else if (hasEtag) {
-          etag = i;
-          break;
-        }
-      }
-      sendTcpRequestReply(requestedUrl, etag, socket);
-    }
+  if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
+    const int hostIndex = tokens.indexOf("Host:") + 1;
+    const QString host = hostIndex ? tokens[hostIndex] : "";
+    const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
+    const QString etag = etagIndex ? tokens[etagIndex] : "";
+    if (host.isEmpty())
+      WbLog::warning(tr("No host specified in HTTP header."));
+    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket) {
-  QString requestedUrl = completeUrl.left(completeUrl.lastIndexOf('?'));
-  QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  // Here handle the streaming_viewer files.
-  static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
-  if ((!requestedUrl.startsWith("robot_windows/")) && streamer_files.contains(requestedUrl)) {
-    if (streamer_files.contains(requestedUrl))
-      filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
-    else {
-      WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
-      socket->write(WbHttpReply::forge404Reply());
-    }
-  } else if (requestedUrl.contains("generic")) {
-    QString requestFile = requestedUrl.mid(requestedUrl.lastIndexOf("/"));
-    filePath = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic" + requestFile;
-  } else if (requestedUrl.endsWith(".js")) {
-    filePath = WbStandardPaths::webotsHomePath() + requestedUrl;
-    if (!QFileInfo(filePath).exists())
-      filePath = WbProject::current()->pluginsPath() + requestedUrl;
-  }
-  const QString fileName(filePath);
-  if (WbHttpReply::mimeType(fileName).isEmpty()) {
-    WbLog::warning(tr("Unsupported file type %1").arg(fileName));
-    socket->write(WbHttpReply::forge404Reply());
+void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
+                                            QTcpSocket *socket) {
+  const QString url = completeUrl.left(completeUrl.lastIndexOf('?'));
+  if (WbHttpReply::mimeType(url).isEmpty()) {
+    WbLog::warning(tr("Unsupported file type '/%2'").arg(url));
+    socket->write(WbHttpReply::forge404Reply("/" + url));
     return;
   }
-  WbLog::info(tr("Received request for %1").arg(fileName));
-  socket->write(WbHttpReply::forgeFileReply(fileName, etag));
+  QString filePath;
+  static const QStringList streamerFiles = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+  if (url == "streaming")  // shortcut
+    filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/index.html";
+  else if (streamerFiles.contains(url))
+    filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + url;
+  else if (url.startsWith("robot_windows/generic/"))
+    filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + url;
+  else if (url.startsWith("robot_windows/"))
+    filePath = WbProject::current()->pluginsPath() + url;
+  else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
+    filePath = WbStandardPaths::webotsHomePath() + url;
+  socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {

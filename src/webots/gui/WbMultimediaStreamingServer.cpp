@@ -67,9 +67,10 @@ void WbMultimediaStreamingServer::start(int port) {
   connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimeout);
 }
 
-void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host,
+                                                      QTcpSocket *socket) {
   if (requestedUrl != "mjpeg") {
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, socket);
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
     return;
   }
   socket->readAll();
