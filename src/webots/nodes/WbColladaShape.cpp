@@ -637,10 +637,10 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     writer << "'";
 
     // export normalIndex
-    // writer << " normalIndex='";
-    // for (int i = 0; i < indexCount / 3; ++i)
-    //  writer << i << " " << i << " " << i << " -1 ";
-    // writer << "'";
+    writer << " normalIndex='";
+    for (int i = 0; i < indexCount / 3; ++i)
+      writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
+    writer << "'";
 
     // export texCoordIndex
     writer << " texCoordIndex='";
