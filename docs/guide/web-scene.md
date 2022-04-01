@@ -26,15 +26,16 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 Select the `File / Export HTML5 Scene...` menu item and choose the target `HTML` file in the pop-up dialog.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
-**Note**: The `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
+**Note**: The `CSS` file, the `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
+
+**Note**: A `CSS` file can be used as a styling guide by uncommenting the stylesheet line in the `HTML` file.
 
 **Note**: The playback option may not work correctly depending on your default Web browser.
 In this case, please refer to the [section below](#remarks-on-the-used-technologies-and-their-limitations).
 
 ### How to Embed a Web Scene in Your Website
 
-The exported `HTML` page is designed to be as simple as possible, and is the reference for an integration in an external Website.
-Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
+The exported `HTML` page is designed to be simple, and is the reference for an integration in an external Website. Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
 
 The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://www.cyberbotics.com) will be stored for long term, and can be used from an external Website.
 

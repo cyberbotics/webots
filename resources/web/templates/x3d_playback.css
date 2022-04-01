@@ -1,0 +1,68 @@
+/*  ----------  css for '%title%' Web %type%  ---------- */
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #fafafa;
+  font-family: "Raleway",sans-serif;
+}
+
+p {
+  padding-left: 16px;
+  color: #34495e;
+}
+
+.title-container {
+  position: relative;
+  background-color: #34495e;
+  height: 75px;
+  box-shadow: 0 -15px 15px 15px rgba(0,0,0,0.4);
+  background-image: url("https://cyberbotics.com/assets/images/webots.png");
+  background-repeat: no-repeat;
+  background-position: 12px 14px;
+  background-size: 45px;
+  z-index: 1;
+}
+
+.title-container h1 {
+  padding-left: 70px;
+  font-size: 30px;
+  font-weight: 300;
+  color: #fafafa;
+  position: absolute;
+}
+
+.description-container {
+  padding: 8px;
+  min-height: 10%;
+  background-color: #fafafa;
+  min-height: calc(25vh - 151px);
+}
+
+.description-container p {
+  margin-right: 25%;
+}
+
+.bottom-container {
+  background-color: #34495e;
+  height: 52px;
+  padding-right: 20px;
+  padding-top: 8px;
+  text-align: right;
+}
+
+.bottom-container p {
+  color: #fafafa;
+  font-size: 14px;
+}
+
+.bottom-container a {
+  color: #00a785;
+}
