@@ -481,29 +481,29 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
 
     wr_static_mesh_read_data(mesh, coords, normals, texCoords, indexes);
 
-    printf("coords:\n");
-    for (int i = 0; i < 3 * vertexCount; ++i) {
-      printf("%f ", coords[i]);
-    }
-    printf("\n");
+    // printf("coords:\n");
+    // for (int i = 0; i < 3 * vertexCount; ++i) {
+    //  printf("%f ", coords[i]);
+    //}
+    // printf("\n");
 
-    printf("normals:\n");
-    for (int i = 0; i < 3 * vertexCount; ++i) {
-      printf("%f ", normals[i]);
-    }
-    printf("\n");
+    // printf("normals:\n");
+    // for (int i = 0; i < 3 * vertexCount; ++i) {
+    //  printf("%f ", normals[i]);
+    //}
+    // printf("\n");
 
-    printf("texCoords:\n");
-    for (int i = 0; i < 2 * vertexCount; ++i) {
-      printf("%f ", texCoords[i]);
-    }
-    printf("\n");
+    // printf("texCoords:\n");
+    // for (int i = 0; i < 2 * vertexCount; ++i) {
+    //  printf("%f ", texCoords[i]);
+    //}
+    // printf("\n");
 
-    printf("indexes:\n");
-    for (int i = 0; i < indexCount; ++i) {
-      printf("%d ", indexes[i]);
-    }
-    printf("\n");
+    // printf("indexes:\n");
+    // for (int i = 0; i < indexCount; ++i) {
+    //  printf("%d ", indexes[i]);
+    //}
+    // printf("\n");
 
     writer << "<Shape";
     if (!mIsPickable->value())
@@ -519,52 +519,65 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
 
     // export coordIndex
     writer << " coordIndex='";
-    for (int i = 0; i < indexCount / 3; ++i)
+    printf("coordIndex='");
+    for (int i = 0; i < indexCount / 3; ++i) {
       writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
+      printf("%d, %d, %d, -1, ", indexes[i * 3], indexes[i * 3 + 1], indexes[i * 3 + 2]);
+    }
     writer << "'>";
+    printf("'>\n");
 
-    // export normals
-    writer << " normalIndex='";
-    for (int i = 0; i < indexCount / 3; ++i)
-      writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
-    writer << "'>";
+    //// export normals
+    // writer << " normalIndex='";
+    // for (int i = 0; i < indexCount / 3; ++i)
+    //  writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
+    // writer << "'>";
 
-    // export texCoordIndex
-    writer << " texCoordIndex='";
-    for (int i = 0; i < indexCount / 3; ++i)
-      writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
-    writer << "'>";
+    //// export texCoordIndex
+    // writer << " texCoordIndex='";
+    // for (int i = 0; i < indexCount / 3; ++i)
+    //  writer << indexes[3 * i] << " " << indexes[3 * i + 1] << " " << indexes[3 * i + 2] << " -1 ";
+    // writer << "'>";
 
     // export nodes
     writer << "<Coordinate point='";
     const int precision = 4;
-    for (int i = 0; i < vertexCount / 3; ++i) {
+    printf("<Coordinate point='");
+    for (int i = 0; i < vertexCount; ++i) {
       if (i != 0)
         writer << ", ";
       writer << QString::number(coords[i * 3], 'f', precision) << " " << QString::number(coords[i * 3 + 1], 'f', precision)
              << " " << QString::number(coords[i * 3 + 2], 'f', precision);
+      printf("%.5f %.5f %.5f, ", coords[i * 3], coords[i * 3 + 1], coords[i * 3 + 2]);
     }
+    printf("'></Coordinate>\n");
 
     writer << "'></Coordinate>";
     writer << "<Normal vector='";
-    for (int i = 0; i < vertexCount / 3; ++i) {
+    printf("<Normal vector='");
+    for (int i = 0; i < vertexCount; ++i) {
       if (i != 0)
         writer << ", ";
       writer << QString::number(normals[i * 3], 'f', precision) << " " << QString::number(normals[i * 3 + 1], 'f', precision)
              << " " << QString::number(normals[i * 3 + 2], 'f', precision);
+      printf("%.5f %.5f %.5f, ", normals[i * 3], normals[i * 3 + 1], normals[i * 3 + 2]);
     }
+    printf("'></Normal>\n");
 
     writer << "'></Normal>";
     writer << "<TextureCoordinate point='";
-    for (int i = 0; i < vertexCount / 2; ++i) {
+    printf("<TextureCoordinate point='");
+    for (int i = 0; i < vertexCount; ++i) {
       if (i != 0)
         writer << ", ";
       writer << QString::number(texCoords[i * 2], 'f', precision) << " "
              << QString::number(texCoords[i * 2 + 1], 'f', precision);
+      printf("%.5f %.5f, ", texCoords[i * 2], texCoords[i * 2 + 1]);
     }
     writer << "'></TextureCoordinate>";
-    writer << "</IndexedFaceSet></Shape>";
+    printf("'></TextureCoordinate>\n");
   }
+  writer << "</IndexedFaceSet></Shape>";
 }
 
 QString WbColladaShape::colladaPath() const {
