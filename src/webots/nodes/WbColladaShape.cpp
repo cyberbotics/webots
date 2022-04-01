@@ -279,13 +279,13 @@ void WbColladaShape::createWrenObjects() {
 
       // create the arrays
       int currentCoordIndex = 0;
-      float *coordData = new float[3 * vertices];
+      float *const coordData = new float[3 * vertices];
       int currentNormalIndex = 0;
-      float *normalData = new float[3 * vertices];
+      float *const normalData = new float[3 * vertices];
       int currentTexCoordIndex = 0;
-      float *texCoordData = new float[2 * vertices];
+      float *const texCoordData = new float[2 * vertices];
       int currentIndexIndex = 0;
-      unsigned int *indexData = new unsigned int[3 * faces];
+      unsigned int *const indexData = new unsigned int[3 * faces];
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
@@ -324,16 +324,10 @@ void WbColladaShape::createWrenObjects() {
 
       mWrenMeshes.push_back(staticMesh);
 
-      // note: when ColladaShape is exported directly, it won't be needed to store mesh data
-      mCoordData.push_back(coordData);
-      mNormalData.push_back(normalData);
-      mTexCoordData.push_back(texCoordData);
-      mIndexData.push_back(indexData);
-
-      mCoordDataSize.push_back(3 * vertices);
-      mNormalDataSize.push_back(3 * vertices);
-      mTexCoordDataSize.push_back(2 * vertices);
-      mIndexDataSize.push_back(3 * faces);
+      delete[] coordData;
+      delete[] normalData;
+      delete[] texCoordData;
+      delete[] indexData;
 
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -429,24 +423,6 @@ void WbColladaShape::deleteWrenObjects() {
   mWrenTransforms.clear();
 
   mPbrAppearances.clear();
-
-  // remove mesh data
-  for (float *coordData : mCoordData)
-    delete[] coordData;
-
-  for (float *normalData : mNormalData)
-    delete[] normalData;
-
-  for (float *texCoordData : mTexCoordData)
-    delete[] texCoordData;
-
-  for (unsigned int *indexData : mIndexData)
-    delete[] indexData;
-
-  mCoordDataSize.clear();
-  mNormalDataSize.clear();
-  mTexCoordDataSize.clear();
-  mIndexDataSize.clear();
 }
 
 void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
@@ -473,6 +449,84 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     unsigned int indexes[indexCount];
 
     wr_static_mesh_read_data(mesh, coords, normals, texCoords, indexes);
+    /*
+    // optimize data (remove doubles, re-organize data)
+    const int n = rawVertexCount / 3;
+    int *const coordIndex = new int[n * 3];
+    int *const normalIndex = new int[n * 3];
+    int *const texCoordIndex = new int[n * 3];
+    double *const vertex = new double[n * 9];
+    double *const normal = new double[n * 9];
+    double *const texture = new double[n * 6];
+    int indexCount = 0;
+    int vertexCount = 0;
+    int normalCount = 0;
+    int textureCount = 0;
+
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        const double x = rawCoords[3 * i + j];      // mTriangleMesh->vertex(i, j, 0);
+        const double y = rawCoords[3 * i + j + 1];  // mTriangleMesh->vertex(i, j, 1);
+        const double z = rawCoords[3 * i + j + 2];  // mTriangleMesh->vertex(i, j, 2);
+        bool found = false;
+        for (int l = 0; l < vertexCount; ++l) {
+          const int k = 3 * l;
+          if (vertex[k] == x && vertex[k + 1] == y && vertex[k + 2] == z) {
+            coordIndex[indexCount] = l;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const int v = 3 * vertexCount;
+          vertex[v] = x;
+          vertex[v + 1] = y;
+          vertex[v + 2] = z;
+          coordIndex[indexCount] = vertexCount;
+          ++vertexCount;
+        }
+        const double nx = rawNormals[3 * i + j];      // mTriangleMesh->normal(i, j, 0);
+        const double ny = rawNormals[3 * i + j + 1];  // mTriangleMesh->normal(i, j, 1);
+        const double nz = rawNormals[3 * i + j + 2];  // mTriangleMesh->normal(i, j, 2);
+        found = false;
+        for (int l = 0; l < normalCount; ++l) {
+          const int k = 3 * l;
+          if (normal[k] == nx && normal[k + 1] == ny && normal[k + 2] == nz) {
+            normalIndex[indexCount] = l;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const int v = 3 * normalCount;
+          normal[v] = nx;
+          normal[v + 1] = ny;
+          normal[v + 2] = nz;
+          normalIndex[indexCount] = normalCount;
+          ++normalCount;
+        }
+
+        const double tu = rawTexCoords[2 * i + j];      // mTriangleMesh->textureCoordinate(i, j, 0);
+        const double tv = rawTexCoords[2 * i + j + 1];  // mTriangleMesh->textureCoordinate(i, j, 1);
+        found = false;
+        for (int l = 0; l < textureCount; ++l) {
+          const int k = 2 * l;
+          if (texture[k] == tu && texture[k + 1] == tv) {
+            texCoordIndex[indexCount] = l;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const int v = 2 * textureCount;
+          texture[v] = tu;
+          texture[v + 1] = tv;
+          texCoordIndex[indexCount] = textureCount;
+          ++textureCount;
+        }
+        ++indexCount;
+      }
+    }
 
     writer << "<Shape";
     if (!mIsPickable->value())
@@ -485,6 +539,97 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     mPbrAppearances[0]->exportShallowNode(writer);
 
     writer << "<IndexedFaceSet";
+    writer << " coordIndex=\'";
+
+    for (int i = 0; i < indexCount; ++i) {
+      if (i != 0) {
+        writer << " ";
+        if (i % 3 == 0)
+          writer << "-1 ";
+      }
+      writer << coordIndex[i];
+    }
+
+    writer << " -1\'";
+    writer << " normalIndex=\'";
+    for (int i = 0; i < indexCount; ++i) {
+      if (i != 0) {
+        writer << " ";
+        if (i % 3 == 0)
+          writer << "-1 ";
+      }
+      writer << normalIndex[i];
+    }
+    writer << " -1\'";
+
+    writer << " texCoordIndex=\'";
+    for (int i = 0; i < indexCount; ++i) {
+      if (i != 0) {
+        writer << " ";
+        if (i % 3 == 0)
+          writer << "-1 ";
+      }
+      writer << texCoordIndex[i];
+    }
+    writer << " -1\'";
+
+    writer << ">";  // end of fields, beginning of nodes
+
+    writer << "<Coordinate point=\'";
+    const int precision = 4;
+    for (int i = 0; i < vertexCount; ++i) {
+      if (i != 0)
+        writer << ", ";
+      const int j = 3 * i;
+      writer << QString::number(vertex[j], 'f', precision)
+             << " "  // write with limited precision to reduce the size of the X3D/HTML file
+             << QString::number(vertex[j + 1], 'f', precision) << " " << QString::number(vertex[j + 2], 'f', precision);
+    }
+
+    writer << "\'></Coordinate>";
+
+    writer << "<Normal vector=\'";
+    for (int i = 0; i < normalCount; ++i) {
+      if (i != 0)
+        writer << ", ";
+      const int j = 3 * i;
+      writer << QString::number(normal[j], 'f', precision) << " " << QString::number(normal[j + 1], 'f', precision) << " "
+             << QString::number(normal[j + 2], 'f', precision);
+    }
+    writer << "\'></Normal>";
+
+    writer << "<TextureCoordinate point=\'";
+    for (int i = 0; i < textureCount; ++i) {
+      if (i != 0)
+        writer << ", ";
+      const int j = 2 * i;
+      writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
+    }
+    writer << "\'></TextureCoordinate></IndexedFaceSet></Shape>";
+
+    delete[] coordIndex;
+    delete[] normalIndex;
+    delete[] texCoordIndex;
+    delete[] vertex;
+    delete[] normal;
+    delete[] texture;
+    */
+
+    // generate x3d
+    writer << "<Shape";
+    if (!mIsPickable->value())
+      writer << " isPickable='false'";
+    if (mCastShadows->value())
+      writer << " castShadows='true'";
+    writer << ">";  // close shape
+
+    // export appearance
+    mPbrAppearances[0]->exportShallowNode(writer);
+
+    writer << "<IndexedFaceSet";
+    // export settings
+    writer << " ccw='" << (mCcw->value() ? "1" : "0") << "'";
+
     // export coordIndex
     writer << " coordIndex='";
     for (int i = 0; i < indexCount / 3; ++i)
@@ -492,10 +637,10 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     writer << "'";
 
     // export normalIndex
-    writer << " normalIndex='";
-    for (int i = 0; i < indexCount / 3; ++i)
-      writer << i << " " << i << " " << i << " -1 ";
-    writer << "'";
+    // writer << " normalIndex='";
+    // for (int i = 0; i < indexCount / 3; ++i)
+    //  writer << i << " " << i << " " << i << " -1 ";
+    // writer << "'";
 
     // export texCoordIndex
     writer << " texCoordIndex='";
@@ -528,7 +673,7 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
       if (i != 0)
         writer << ", ";
       writer << QString::number(texCoords[i * 2], 'f', precision) << " "
-             << QString::number(texCoords[i * 2 + 1], 'f', precision);
+             << QString::number(1.0 - texCoords[i * 2 + 1], 'f', precision);
     }
     writer << "'></TextureCoordinate>";
     writer << "</IndexedFaceSet></Shape>";

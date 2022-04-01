@@ -83,17 +83,6 @@ private:
   QVector<WrMaterial *> mWrenSegmentationMaterials;
   QVector<WrMaterial *> mWrenEncodeDepthMaterials;
 
-  // mesh data loaded from collada file, needed by exporter
-  // note: this can be removed when the ColladaShape is exported directly
-  QVector<float *> mCoordData;
-  QVector<float *> mNormalData;
-  QVector<float *> mTexCoordData;
-  QVector<unsigned int *> mIndexData;
-  QVector<int> mCoordDataSize;
-  QVector<int> mNormalDataSize;
-  QVector<int> mTexCoordDataSize;
-  QVector<int> mIndexDataSize;
-
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
   QString colladaPath() const;
