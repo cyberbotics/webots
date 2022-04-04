@@ -426,12 +426,10 @@ void WbColladaShape::deleteWrenObjects() {
 }
 
 void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
-  if (!writer.isX3d())
+  if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  if (mUrl->size() > 0)
-    writer << " url='\"" << mUrl->item(0) << "\"'";
-
+  writer << " url='\"" << mUrl->item(0) << "\"'";
   writer << " ccw='" << mCcw->value() << "'";
   if (!mIsPickable->value())
     writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
@@ -440,58 +438,65 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
   writer << ">";
 
   for (int m = 0; m < mWrenMeshes.size(); ++m) {
-    const int rvertexCount = wr_static_mesh_get_vertex_count(mWrenMeshes[m]);
-    const int rindexCount = wr_static_mesh_get_index_count(mWrenMeshes[m]);
+    const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMeshes[m]);
+    const int indexCount = wr_static_mesh_get_index_count(mWrenMeshes[m]);
+    float rawCoords[3 * vertexCount];
+    float rawNormals[3 * vertexCount];
+    float rawTexCoords[2 * vertexCount];
+    unsigned int rawIndexes[indexCount];
+    wr_static_mesh_read_data(mWrenMeshes[m], rawCoords, rawNormals, rawTexCoords, rawIndexes);
 
-    float coords[3 * rvertexCount];
-    float normals[3 * rvertexCount];
-    float texCoords[2 * rvertexCount];
-    unsigned int indexes[rindexCount];
+    // optimize data for x3d export (remove doubles, re-organize data)
+    QStringList coords;
+    QStringList normals;
+    QStringList textures;
+    QString coordIndexes;
+    QString normalIndexes;
+    QString texCoordIndexes;
 
-    wr_static_mesh_read_data(mWrenMeshes[m], coords, normals, texCoords, indexes);
-
-    // optimize data (remove doubles, re-organize data)
-    QStringList str_coords;
-    QStringList str_indexes;
-    QStringList str_normals;
-    QStringList str_ixnormals;
-    QStringList str_textures;
-    QStringList str_ixtextures;
-
-    int triangle_ctr = 0;
     const int precision = 4;
-    for (int i = 0; i < rindexCount; ++i) {
-      int ix = 3 * indexes[i];
-      int texix = 2 * indexes[i];
-      QString vertex = QString("%1 %2 %3")
-                         .arg(QString::number(coords[ix], 'f', precision))
-                         .arg(QString::number(coords[ix + 1], 'f', precision))
-                         .arg(QString::number(coords[ix + 2], 'f', precision));
-      QString normal = QString("%1 %2 %3")
-                         .arg(QString::number(normals[ix], 'f', precision))
-                         .arg(QString::number(normals[ix + 1], 'f', precision))
-                         .arg(QString::number(normals[ix + 2], 'f', precision));
-      QString texture = QString("%1 %2")
-                          .arg(QString::number(texCoords[texix], 'f', precision))
-                          .arg(QString::number(1.0 - texCoords[texix + 1], 'f', precision));
+    int triangleCounter = 0;
+    for (int i = 0; i < indexCount; ++i) {
+      const int index = 3 * rawIndexes[i];
+      const int textureIndex = 2 * rawIndexes[i];
+      const QString vertex = QString("%1 %2 %3")
+                               .arg(QString::number(rawCoords[index], 'f', precision))
+                               .arg(QString::number(rawCoords[index + 1], 'f', precision))
+                               .arg(QString::number(rawCoords[index + 2], 'f', precision));
+      const QString normal = QString("%1 %2 %3")
+                               .arg(QString::number(rawNormals[index], 'f', precision))
+                               .arg(QString::number(rawNormals[index + 1], 'f', precision))
+                               .arg(QString::number(rawNormals[index + 2], 'f', precision));
+      const QString texture = QString("%1 %2")
+                                .arg(QString::number(rawTexCoords[textureIndex], 'f', precision))
+                                .arg(QString::number(1.0 - rawTexCoords[textureIndex + 1], 'f', precision));
 
-      if (!str_coords.contains(vertex))
-        str_coords << vertex;
-      if (!str_normals.contains(normal))
-        str_normals << normal;
-      if (!str_textures.contains(texture))
-        str_textures << texture;
+      int location = coords.indexOf(vertex);
+      if (location == -1) {
+        coords << vertex;
+        coordIndexes += QString::number(coords.size() - 1) + " ";
+      } else
+        coordIndexes += QString::number(location) + " ";
 
-      str_indexes << QString("%1").arg(str_coords.indexOf(vertex));
-      str_ixnormals << QString("%1").arg(str_normals.indexOf(normal));
-      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
+      location = normals.indexOf(normal);
+      if (location == -1) {
+        normals << normal;
+        normalIndexes += QString::number(normals.size() - 1) + " ";
+      } else
+        normalIndexes += QString::number(location) + " ";
 
-      triangle_ctr++;
-      if (triangle_ctr == 3) {
-        str_indexes << "-1";
-        str_ixnormals << "-1";
-        str_ixtextures << "-1";
-        triangle_ctr = 0;
+      location = textures.indexOf(texture);
+      if (location == -1) {
+        textures << texture;
+        texCoordIndexes += QString::number(textures.size() - 1) + " ";
+      } else
+        texCoordIndexes += QString::number(location) + " ";
+
+      if (++triangleCounter == 3) {
+        coordIndexes += "-1 ";
+        normalIndexes += "-1 ";
+        texCoordIndexes += "-1 ";
+        triangleCounter = 0;
       }
     }
 
@@ -501,42 +506,21 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
       writer << " isPickable='false'";
     if (mCastShadows->value())
       writer << " castShadows='true'";
-    writer << ">";  // close shape
+    writer << ">";
 
     // export appearance
     mPbrAppearances[m]->exportShallowNode(writer);
 
     writer << "<IndexedFaceSet";
-    // export settings
+    // export indexes
     writer << " ccw='" << (mCcw->value() ? "1" : "0") << "'";
-
-    // export coordIndex
-    writer << " coordIndex='";
-    writer << str_indexes.join(" ");
-    writer << "'";
-
-    // export normalIndex
-    writer << " normalIndex='";
-    writer << str_ixnormals.join(" ");
-    writer << "'";
-
-    // export texCoordIndex
-    writer << " texCoordIndex='";
-    writer << str_ixtextures.join(" ");
-    writer << "'>";
-
+    writer << " coordIndex='" << coordIndexes << "'";
+    writer << " normalIndex='" << normalIndexes << "'";
+    writer << " texCoordIndex='" << texCoordIndexes << "'>";
     // export nodes
-    writer << "<Coordinate point='";
-    writer << str_coords.join(", ");
-    writer << "'></Coordinate>";
-
-    writer << "<Normal vector='";
-    writer << str_normals.join(" ");
-    writer << "'></Normal>";
-
-    writer << "<TextureCoordinate point='";
-    writer << str_textures.join(", ");
-    writer << "'></TextureCoordinate>";
+    writer << "<Coordinate point='" << coords.join(", ") << "'></Coordinate>";
+    writer << "<Normal vector='" << normals.join(" ") << "'></Normal>";
+    writer << "<TextureCoordinate point='" << textures.join(", ") << "'></TextureCoordinate>";
     writer << "</IndexedFaceSet></Shape>";
   }
 }

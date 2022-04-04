@@ -716,7 +716,6 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
     return;
 
   writer << "<PBRAppearance ";
-
   writer << "baseColor='" << mBaseColor->value().toString(WbPrecision::FLOAT_MAX) << "' ";
   writer << "emissiveColor='" << mEmissiveColor->value().toString(WbPrecision::FLOAT_MAX) << "' ";
   writer << "transparency='" << WbPrecision::doubleToString(mTransparency->value(), WbPrecision::FLOAT_MAX) << "' ";
@@ -732,11 +731,11 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
     baseColorMap()->exportShallowNode(writer);
   }
 
-  /*
   if (roughnessMap()) {
     roughnessMap()->setRole("roughness");
     roughnessMap()->write(writer);
   }
+
   if (metalnessMap()) {
     metalnessMap()->setRole("metalness");
     metalnessMap()->write(writer);
@@ -756,6 +755,6 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
 
   if (textureTransform())
     textureTransform()->write(writer);
-    */
+
   writer << "</PBRAppearance>";
 }

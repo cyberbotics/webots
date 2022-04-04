@@ -618,37 +618,30 @@ void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
 }
 
 void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
-  if (!writer.isX3d())
+  if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  if (mUrl->size() > 0) {
-    writer << "<ImageTexture";
-    QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
-    // if local path
-    QString newUrl;
-    if (writer.isWritingToFile())
-      newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
+  QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
+  // if local path
+  QString newUrl;
+  if (writer.isWritingToFile())
+    newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
 
-    // const QString &url(mUrl->item(0));
-    // if (cQualityChangedTexturesList.contains(texturePath))
-    //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-    writer.addTextureToList(mUrl->item(0), newUrl);
+  // const QString &url(mUrl->item(0));
+  // if (cQualityChangedTexturesList.contains(texturePath))
+  //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
+  writer.addTextureToList(mUrl->item(0), newUrl);
 
-    writer << " url='\"" << newUrl << "\"'";
-    printf("==== %s | %s\n", texturePath.toUtf8().constData(), newUrl.toUtf8().constData());
-    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
-           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
-    if (!mRole.isEmpty())
-      writer << " role='" << mRole << "'";
+  writer << "<ImageTexture";
+  writer << " url='\"" << newUrl << "\"'";
+  printf("==== %s | %s\n", texturePath.toUtf8().constData(), newUrl.toUtf8().constData());
+  writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
+         << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+  if (!mRole.isEmpty())
+    writer << " role='" << mRole << "'";
 
-    writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
-    writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
-    writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
-
-    if (mFiltering->value() > 0)
-      writer << "<TextureProperties anisotropicDegree=\"" << (1 << (mFiltering->value() - 1))
-             << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
-
-    writer << "</ImageTexture>";
-  }
+  writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
+  writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
+  writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
+  writer << "</ImageTexture>";
 }
