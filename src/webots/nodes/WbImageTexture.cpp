@@ -622,36 +622,7 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
     return;
 
   if (mUrl->size() > 0) {
-    QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
-    // if local path
-    QString newUrl;
-    if (writer.isWritingToFile())
-      newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
-
-    // const QString &url(mUrl->item(0));
-    // if (cQualityChangedTexturesList.contains(texturePath))
-    //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-    writer.addTextureToList(mUrl->item(0), newUrl);
-
-    writer << QString(
-                "<Appearance id='n7' docUrl='https://cyberbotics.com/doc/reference/pbrappearance'><Material diffuseColor=\"1 1 "
-                "1\" specularColor=\"1 1 1\" shininess=\"1\"/><ImageTexture id='n8' "
-                "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"%1\"' "
-                "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
-                "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
-                "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></Appearance><PBRAppearance id='n7'><ImageTexture id='n8' "
-                "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"%2\"' "
-                "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
-                "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
-                "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></PBRAppearance>")
-                .arg(newUrl)
-                .arg(newUrl);
-  }
-  /*
-
-  writer << "<ImageTexture";
-
-  if (mUrl->size() > 0) {
+    writer << "<ImageTexture";
     QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
     // if local path
     QString newUrl;
@@ -668,17 +639,16 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
            << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
-      writer << " type='" << mRole << "'";  // TODO: type -> role
+      writer << " role='" << mRole << "'";
+
+    writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
+    writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
+    writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
+
+    if (mFiltering->value() > 0)
+      writer << "<TextureProperties anisotropicDegree=\"" << (1 << (mFiltering->value() - 1))
+             << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
+
+    writer << "</ImageTexture>";
   }
-
-  writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
-  writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
-  writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
-
-  if (mFiltering->value() > 0)
-    writer << "<TextureProperties anisotropicDegree=\"" << (1 << (mFiltering->value() - 1))
-           << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
-
-  writer << "</ImageTexture>";
-  */
 }
