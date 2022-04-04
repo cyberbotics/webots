@@ -62,13 +62,11 @@ void WbImageTexture::init() {
   mImage = NULL;
   mUsedFiltering = 0;
   mWrenTextureIndex = 0;
-  mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
 }
 
 void WbImageTexture::initFields() {
-  mInitializedFromAssimpMaterial = false;
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
   mRepeatT = findSFBool("repeatT");
@@ -92,7 +90,6 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 
 WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath) : WbBaseNode() {
   init();
-  mInitializedFromAssimpMaterial = true;
 
   assert(!parentPath.endsWith("/"));
   printf("> parent: %s\n", parentPath.toUtf8().constData());
@@ -122,7 +119,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
 
-  if (mInitializedFromAssimpMaterial) {
+  if (mIsShallowNode) {
     delete mUrl;
     delete mRepeatS;
     delete mRepeatT;
@@ -142,7 +139,7 @@ void WbImageTexture::downloadAssets() {
     delete mDownloader;
 
   mDownloader = new WbDownloader(this);
-  if (!WbWorld::instance()->isLoading() || mInitializedFromAssimpMaterial)  // URL changed from the scene tree or supervisor
+  if (!WbWorld::instance()->isLoading() || mIsShallowNode)  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
 
   mDownloader->download(QUrl(completeUrl));
@@ -623,8 +620,8 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
 
   QString url = mUrl->item(0);
   // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the image relative
-  // to the parent collada file)
+  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the image
+  // relative to the parent collada file)
   if (!url.startsWith("https://")) {  // local path
     url = WbUrl::exportTexture(this, mUrl, 0, writer);
     writer.addTextureToList(mUrl->item(0), url);
@@ -633,13 +630,8 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   writer << "<ImageTexture";
   writer << " url='\"" << url << "\"'";
   printf("==== %s | %s\n", url.toUtf8().constData(), url.toUtf8().constData());
-  writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
-         << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+  writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
   if (!mRole.isEmpty())
     writer << " role='" << mRole << "'";
-
-  writer << " repeatS='" << (mRepeatS->value() ? "true" : "false") << "'";
-  writer << " repeatT='" << (mRepeatT->value() ? "true" : "false") << "'";
-  writer << " filtering='" << QString::number(mFiltering->value()) << "'>";
   writer << "</ImageTexture>";
 }

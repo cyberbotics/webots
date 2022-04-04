@@ -57,6 +57,10 @@ export default class WbColladaShape extends WbBaseNode {
     super.delete();
   }
 
+  updateIsPickable() {
+    this.children.forEach(child => child.updateIsPickable());
+  }
+
   preFinalize() {
     super.preFinalize();
 

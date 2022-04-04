@@ -95,8 +95,6 @@ private:
   WrTextureTransform *mWrenTextureTransform;
   int mWrenTextureIndex;
 
-  bool mInitializedFromAssimpMaterial;
-
   // The following attributes are used when a texture is coming from an external source (e.g Display device)
   bool mExternalTexture;
   WbVector2 mExternalTextureRatio;

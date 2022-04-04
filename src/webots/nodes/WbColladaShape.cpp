@@ -431,10 +431,8 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
 
   writer << " url='\"" << mUrl->item(0) << "\"'";
   writer << " ccw='" << mCcw->value() << "'";
-  if (!mIsPickable->value())
-    writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
-  if (mCastShadows->value())
-    writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
+  writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
+  writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
   writer << ">";
 
   for (int m = 0; m < mWrenMeshes.size(); ++m) {
@@ -502,10 +500,8 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
 
     // generate x3d
     writer << "<Shape";
-    if (!mIsPickable->value())
-      writer << " isPickable='false'";
-    if (mCastShadows->value())
-      writer << " castShadows='true'";
+    writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
+    writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
     writer << ">";
 
     // export appearance

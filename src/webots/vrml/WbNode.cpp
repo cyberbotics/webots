@@ -169,7 +169,6 @@ void WbNode::init() {
 WbNode::WbNode() {
   init();
   mIsShallowNode = true;
-  mParentNode = NULL;  // needed or loops forever
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :

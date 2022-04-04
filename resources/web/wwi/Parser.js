@@ -535,7 +535,7 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    const url = getNodeAttribute(node, 'url', '');
+    let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
       url = url.split('"').filter(element => element)[0]; // filter removes empty element.
     const ccw = parseFloat(getNodeAttribute(node, 'ccw', 'true'));
