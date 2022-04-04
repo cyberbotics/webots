@@ -663,6 +663,6 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   writer << "</IndexedLineSet>";
   writer << "</Shape>";
 
-  delete vertices;
-  delete indices;
+  delete[] vertices;
+  delete[] indices;
 }
