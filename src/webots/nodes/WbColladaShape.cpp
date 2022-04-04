@@ -454,22 +454,27 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     QStringList str_coords;
     QStringList str_indexes;
     QStringList str_normals;
+    QStringList str_ixnormals;
     QStringList str_textures;
-    QStringList str_texIndexes;
+    QStringList str_ixtextures;
 
-    QString full_coords;
-    QString full_indexes;
-    QString full_normals;
-    QString full_textures;
-    QString full_texIndexes;
-
+    printf("coords: ");
     for (int i = 0; i < 3 * rvertexCount; ++i) {
-      full_coords = full_coords + QString("%1 ").arg(coords[i]);
-      full_normals = full_normals + QString("%1 ").arg(normals[i]);
+      printf("%.2f ", coords[i]);
     }
+    printf("\nnormals: ");
+    for (int i = 0; i < 3 * rvertexCount; ++i) {
+      printf("%.2f ", normals[i]);
+    }
+    printf("\ntexCoords: ");
+    for (int i = 0; i < 2 * rvertexCount; ++i) {
+      printf("%.4f ", texCoords[i]);
+    }
+    printf("\nindexes: ");
     for (int i = 0; i < rindexCount; ++i) {
-      full_indexes = full_indexes + QString("%1 ").arg(indexes[i]);
+      printf("%d ", indexes[i]);
     }
+    printf("\n\n");
 
     int triangle_ctr = 0;
     int texture_ctr = 0;
@@ -490,26 +495,39 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
 
       if (!str_coords.contains(vertex)) {
         str_coords << vertex;
+      }
+
+      if (!str_normals.contains(normal)) {
         str_normals << normal;
+      }
+
+      if (!str_textures.contains(texture)) {
         str_textures << texture;
       }
 
       str_indexes << QString("%1").arg(str_coords.indexOf(vertex));
+      str_ixnormals << QString("%1").arg(str_normals.indexOf(normal));
+      // str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
       triangle_ctr++;
       if (triangle_ctr == 3) {
         str_indexes << "-1";
+        str_ixnormals << "-1";
         triangle_ctr = 0;
       }
+      // if (texture_ctr == 2) {
+      //  str_ixtextures << "-1";
+      //  texture_ctr = 0;
+      //}
     }
 
-    printf("full_coords : %s\n", full_coords.toUtf8().constData());
     printf("str_coords  : %s\n", str_coords.join(", ").toUtf8().constData());
-    printf("\nfull_indexes: %s\n", full_indexes.toUtf8().constData());
     printf("str_indexes : %s\n", str_indexes.join(" ").toUtf8().constData());
-    printf("\nfull_normals: %s\n", full_normals.toUtf8().constData());
     printf("str_normals : %s\n", str_normals.join(" ").toUtf8().constData());
-    printf("\nfull_textures: %s\n", full_textures.toUtf8().constData());
+    printf("str_ixnormals : %s\n", str_ixnormals.join(" ").toUtf8().constData());
+
     printf("str_textures : %s\n", str_textures.join(" ").toUtf8().constData());
+    printf("str_ixtextures : %s\n", str_ixtextures.join(" ").toUtf8().constData());
+
     /*
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < 3; ++j) {
