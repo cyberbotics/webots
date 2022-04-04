@@ -197,12 +197,9 @@ void WbGuiApplication::parseArguments() {
   //Integration of QCommandLineParser
   QCommandLineParser parser;
   parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  
   parser.parse(QCoreApplication::arguments());
+
   const QStringList args = parser.positionalArguments();
-
-
-  
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
 
