@@ -137,7 +137,7 @@ webots-view .icon-quit            {background-image: url(../images/icons/quit.sv
 webots-view .icon-info            {background-image: url(../images/icons/info.svg);}
 webots-view .icon-settings        {background-image: url(../images/icons/settings.svg);}
 webots-view .icon-fullscreen      {background-image: url(../images/icons/fullscreen.svg);}
-webots-view .icon-windowed      {background-image: url(../images/icons/windowed.svg);}
+webots-view .icon-windowed        {background-image: url(../images/icons/windowed.svg);}
 webots-view .icon-robot-window    {background-image: url(../images/icons/robot-window.svg);}
 webots-view .icon-ide             {background-image: url(../images/icons/ide.svg);}
 webots-view .icon-world-selection {background-image: url(../images/icons/world-selection.svg);}
