@@ -107,15 +107,13 @@ export default class Toolbar {
 
     if (name === 'play') {
       const buttonElement = document.createElement('div');
-      buttonElement.id = name + '-button-id';
       buttonElement.className = 'icon-' + name;
-      button.appendChild(buttonElement);
     } else {
       const buttonElement = document.createElement('span');
-      buttonElement.id = name + '-button-id';
       buttonElement.className = 'icon icon-' + name;
-      button.appendChild(buttonElement);
     }
+    buttonElement.id = name + '-button-id';
+    button.appendChild(buttonElement);
 
     const tooltip = document.createElement('span');
     tooltip.id = name + '-tooltip';
