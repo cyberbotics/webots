@@ -59,8 +59,11 @@ using namespace std;
 // -
 // http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
-WbGuiApplication::WbGuiApplication(int &argc, char **argv)
-    : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL), mStreamingServer(NULL) {
+WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
+  QApplication(argc, argv),
+  mMainWindow(NULL),
+  mTask(NORMAL),
+  mStreamingServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
@@ -70,17 +73,16 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv)
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
   QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1); // remove final backslash
+  MSYS2_HOME.chop(1);  // remove final backslash
   qputenv("MSYS2_HOME",
-          MSYS2_HOME.toUtf8()); // useful to Python 3.8 controllers
+          MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
   const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
 
-  mApplication = new WbApplication(); // creates WbApplication singleton
-  connect(mApplication, &WbApplication::createWorldLoadingProgressDialog, this,
-          &WbGuiApplication::closeSplashScreenIfNeeded);
+  mApplication = new WbApplication();  // creates WbApplication singleton
+  connect(mApplication, &WbApplication::createWorldLoadingProgressDialog, this, &WbGuiApplication::closeSplashScreenIfNeeded);
   // translation settings is the first thing to do in order
   // to have all the messages in the right language
   // (even the first failure messages)
@@ -105,7 +107,9 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv)
   parseArguments();
 }
 
-WbGuiApplication::~WbGuiApplication() { delete mMainWindow; }
+WbGuiApplication::~WbGuiApplication() {
+  delete mMainWindow;
+}
 
 void WbGuiApplication::restart() {
   if (mMainWindow)
@@ -117,10 +121,10 @@ void WbGuiApplication::restart() {
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
 #elif defined(_WIN32)
-  exit(3030); // this special code tells the launcher to restart Webots, see
-              // launcher.c
-#else // macOS
-  QProcess::startDetached(qApp->arguments()[ 0 ], nonProgramArgs);
+  exit(3030);  // this special code tells the launcher to restart Webots, see
+               // launcher.c
+#else  // macOS
+  QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
 }
 
@@ -148,8 +152,8 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
     else if (option == "controllerEdit")
       controllerEdit = true;
     else if (capture.size() == 3) {
-      const QString &key = capture[ 1 ];
-      const QString &value = capture[ 2 ];
+      const QString &key = capture[1];
+      const QString &value = capture[2];
       if (key == "port") {
         bool ok;
         const int tmpPort = value.toInt(&ok);
@@ -203,7 +207,7 @@ void WbGuiApplication::parseArguments() {
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
-    const QString &arg = args[ i ];
+    const QString &arg = args[i];
     if (arg == "--minimize")
       mShouldMinimize = true;
     else if (arg == "--fullscreen")
@@ -211,8 +215,8 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=stop") {
       cout << tr("The '--mode=stop' option is deprecated. Please use "
                  "'--mode=pause' instead.")
-                  .toUtf8()
-                  .constData()
+                .toUtf8()
+                .constData()
            << endl;
       mStartupMode = WbSimulationState::PAUSE;
     } else if (arg == "--mode=pause")
@@ -242,7 +246,7 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArguments.append(items[ 1 ]);
+        mTaskArguments.append(items[1]);
       else
         mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
@@ -279,7 +283,7 @@ void WbGuiApplication::parseArguments() {
 
         if (logArgument.contains(",")) {
           QStringList argumentsList = logArgument.split(",");
-          WbPerformanceLog::createInstance(argumentsList[ 0 ], argumentsList[ 1 ].trimmed().toInt());
+          WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
         } else
           WbPerformanceLog::createInstance(logArgument);
 
@@ -287,8 +291,8 @@ void WbGuiApplication::parseArguments() {
       } else
         cout << tr("webots: invalid option : '--log-performance': log file "
                    "path is missing.")
-                    .toUtf8()
-                    .constData()
+                  .toUtf8()
+                  .constData()
              << endl;
     }
 #ifndef _WIN32
@@ -394,7 +398,7 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is
   // given
   bool showGuidedTour =
-      prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
+    prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise,
@@ -498,8 +502,8 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showUpdatedDialog(); // the guided tour will be shown after the
-                                      // updated dialog
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the
+                                       // updated dialog
 
   return true;
 }
@@ -524,11 +528,11 @@ bool WbGuiApplication::renderingFromPreferences() const {
 // Fixed the Webots opening by double-clicking on .wbt file in the Finder
 bool WbGuiApplication::event(QEvent *event) {
   switch (event->type()) {
-  case QEvent::FileOpen:
-    mStartWorldName = static_cast< QFileOpenEvent * >(event)->file();
-    return true;
-  default:
-    return QApplication::event(event);
+    case QEvent::FileOpen:
+      mStartWorldName = static_cast<QFileOpenEvent *>(event)->file();
+      return true;
+    default:
+      return QApplication::event(event);
   }
 }
 #endif
@@ -560,9 +564,9 @@ void WbGuiApplication::loadInitialWorld() {
 }
 
 #ifdef _WIN32
-#include <QtGui/QWindow>
 #include <Windows.h>
 #include <dwmapi.h>
+#include <QtGui/QWindow>
 
 static bool windowsDarkMode = false;
 
@@ -612,14 +616,14 @@ using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSIT
 static void setDarkTitlebar(HWND hwnd) {
   static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
   static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
-  if (!AllowDarkModeForWindow) { // first call
+  if (!AllowDarkModeForWindow) {  // first call
     HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
     HMODULE hUser32 = GetModuleHandleW(L"user32.dll");
-    AllowDarkModeForWindow = reinterpret_cast< fnAllowDarkModeForWindow >(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
+    AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
     SetWindowCompositionAttribute =
-        reinterpret_cast< fnSetWindowCompositionAttribute >(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+      reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
     fnSetPreferredAppMode SetPreferredAppMode =
-        reinterpret_cast< fnSetPreferredAppMode >(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
+      reinterpret_cast<fnSetPreferredAppMode>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
     SetPreferredAppMode(AllowDark);
   }
   BOOL dark = TRUE;
@@ -627,7 +631,7 @@ static void setDarkTitlebar(HWND hwnd) {
   WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark, sizeof(dark)};
   SetWindowCompositionAttribute(hwnd, &data);
 }
-#endif // _WIN32
+#endif  // _WIN32
 
 void WbGuiApplication::udpateStyleSheet() {
   mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
@@ -661,6 +665,6 @@ void WbGuiApplication::udpateStyleSheet() {
 void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
 #ifdef _WIN32
   if (windowsDarkMode)
-    setDarkTitlebar(reinterpret_cast< HWND >(window->winId()));
+    setDarkTitlebar(reinterpret_cast<HWND>(window->winId()));
 #endif
 }
