@@ -35,8 +35,6 @@
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
 
-#include <iostream>
-
 static WrTextureRtt *cBrdfTexture = NULL;
 static int cInstanceCounter = 0;
 
@@ -516,35 +514,35 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     return;
   }
 
-  if (baseColorMap()) {
-    baseColorMap()->setRole("baseColor");
-    baseColorMap()->write(writer);
-  }
-  if (roughnessMap()) {
-    roughnessMap()->setRole("roughness");
-    roughnessMap()->write(writer);
-  }
-  if (metalnessMap()) {
-    metalnessMap()->setRole("metalness");
-    metalnessMap()->write(writer);
-  }
-  if (normalMap()) {
-    normalMap()->setRole("normal");
-    normalMap()->write(writer);
-  }
-  if (occlusionMap()) {
-    occlusionMap()->setRole("occlusion");
-    occlusionMap()->write(writer);
-  }
-  if (emissiveColorMap()) {
-    emissiveColorMap()->setRole("emissiveColor");
-    emissiveColorMap()->write(writer);
-  }
+  if (writer.isX3d()) {
+    if (baseColorMap()) {
+      baseColorMap()->setRole("baseColor");
+      baseColorMap()->write(writer);
+    }
+    if (roughnessMap()) {
+      roughnessMap()->setRole("roughness");
+      roughnessMap()->write(writer);
+    }
+    if (metalnessMap()) {
+      metalnessMap()->setRole("metalness");
+      metalnessMap()->write(writer);
+    }
+    if (normalMap()) {
+      normalMap()->setRole("normal");
+      normalMap()->write(writer);
+    }
+    if (occlusionMap()) {
+      occlusionMap()->setRole("occlusion");
+      occlusionMap()->write(writer);
+    }
+    if (emissiveColorMap()) {
+      emissiveColorMap()->setRole("emissiveColor");
+      emissiveColorMap()->write(writer);
+    }
 
-  if (textureTransform())
-    textureTransform()->write(writer);
-
-  if (writer.isVrml()) {
+    if (textureTransform())
+      textureTransform()->write(writer);
+  } else if (writer.isVrml()) {
     // export as vrml
     writer.indent();
     writer << "material Material {\n";
