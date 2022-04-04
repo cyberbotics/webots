@@ -458,40 +458,18 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     QStringList str_textures;
     QStringList str_ixtextures;
 
-    printf("coords: ");
-    for (int i = 0; i < 3 * rvertexCount; ++i) {
-      printf("%.2f ", coords[i]);
-    }
-    printf("\nnormals: ");
-    for (int i = 0; i < 3 * rvertexCount; ++i) {
-      printf("%.2f ", normals[i]);
-    }
-    printf("\ntexCoords: ");
-    for (int i = 0; i < 2 * rvertexCount; ++i) {
-      printf("%.4f ", texCoords[i]);
-    }
-    printf("\nindexes: ");
-    for (int i = 0; i < rindexCount; ++i) {
-      printf("%d ", indexes[i]);
-    }
-    printf("\n\n");
-
     int triangle_ctr = 0;
-    int texture_ctr = 0;
-
+    const int precision = 4;
     for (int i = 0; i < rindexCount; ++i) {
       int ix = 3 * indexes[i];
-      QString vertex = QString("%1 %2 %3").arg(coords[ix]).arg(coords[ix + 1]).arg(coords[ix + 2]);
-      QString normal = QString("%1 %2 %3").arg(normals[ix]).arg(normals[ix + 1]).arg(normals[ix + 2]);
-
-      texture_ctr++;
-      QString texture;
-      if (texture_ctr == 2) {
-        texture = QString("%1 %2").arg(texCoords[ix]).arg(1.0 - texCoords[ix + 1]);
-        texture_ctr = 0;
-      } else {
-        texture = QString("%1 %2").arg(texCoords[ix]).arg(texCoords[ix + 1]);
-      }
+      QString vertex = QString("%1 %2 %3")
+                         .arg(QString::number(coords[ix], 'f', precision))
+                         .arg(QString::number(coords[ix + 1], 'f', precision))
+                         .arg(QString::number(coords[ix + 2], 'f', precision));
+      QString normal = QString("%1 %2 %3")
+                         .arg(QString::number(normals[ix], 'f', precision))
+                         .arg(QString::number(normals[ix + 1], 'f', precision))
+                         .arg(QString::number(normals[ix + 2], 'f', precision));
 
       if (!str_coords.contains(vertex)) {
         str_coords << vertex;
@@ -501,32 +479,111 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
         str_normals << normal;
       }
 
-      if (!str_textures.contains(texture)) {
-        str_textures << texture;
-      }
-
       str_indexes << QString("%1").arg(str_coords.indexOf(vertex));
       str_ixnormals << QString("%1").arg(str_normals.indexOf(normal));
-      // str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
+
       triangle_ctr++;
       if (triangle_ctr == 3) {
         str_indexes << "-1";
         str_ixnormals << "-1";
+        str_ixtextures << "-1";
         triangle_ctr = 0;
       }
-      // if (texture_ctr == 2) {
-      //  str_ixtextures << "-1";
-      //  texture_ctr = 0;
-      //}
     }
 
-    printf("str_coords  : %s\n", str_coords.join(", ").toUtf8().constData());
-    printf("str_indexes : %s\n", str_indexes.join(" ").toUtf8().constData());
-    printf("str_normals : %s\n", str_normals.join(" ").toUtf8().constData());
-    printf("str_ixnormals : %s\n", str_ixnormals.join(" ").toUtf8().constData());
+    for (int i = 0; i < rindexCount; ++i) {
+      int ix = 2 * indexes[i];
 
-    printf("str_textures : %s\n", str_textures.join(" ").toUtf8().constData());
-    printf("str_ixtextures : %s\n", str_ixtextures.join(" ").toUtf8().constData());
+      QString texture = QString("%1 %2")
+                          .arg(QString::number(texCoords[ix], 'f', precision))
+                          .arg(QString::number(1.0 - texCoords[ix + 1], 'f', precision));
+
+      if (!str_textures.contains(texture)) {
+        str_textures << texture;
+      }
+      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
+
+      triangle_ctr++;
+      if (triangle_ctr == 3) {
+        str_ixtextures << "-1";
+        triangle_ctr = 0;
+      }
+    }
+
+    /*
+    for (int i = 0; i < rvertexCount; i += 2) {
+      QString texture = QString("%1 %2")
+                          .arg(QString::number(texCoords[ix], 'f', precision))
+                          .arg(QString::number(1.0 - texCoords[ix + 1], 'f', precision));
+
+      if (!str_textures.contains(texture))
+        str_textures << texture;
+
+      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
+    }
+    */
+
+    // generate x3d
+    writer << "<Shape";
+    if (!mIsPickable->value())
+      writer << " isPickable='false'";
+    if (mCastShadows->value())
+      writer << " castShadows='true'";
+    writer << ">";  // close shape
+
+    // export appearance
+    // mPbrAppearances[0]->exportShallowNode(writer);
+    writer << "<Appearance id='n7' docUrl='https://cyberbotics.com/doc/reference/pbrappearance'><Material diffuseColor=\"1 1 "
+              "1\" specularColor=\"1 1 1\" shininess=\"1\"/><ImageTexture id='n8' "
+              "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"textures/kutu2referans.png\"' "
+              "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
+              "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
+              "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></Appearance><PBRAppearance id='n7'><ImageTexture id='n8' "
+              "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"textures/kutu2referans.png\"' "
+              "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
+              "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
+              "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></PBRAppearance>";
+
+    writer << "<IndexedFaceSet";
+    // export settings
+    writer << " ccw='" << (mCcw->value() ? "1" : "0") << "'";
+
+    // export coordIndex
+    writer << " coordIndex='";
+    writer << str_indexes.join(" ");
+    writer << "'";
+
+    // export normalIndex
+    writer << " normalIndex='";
+    writer << str_ixnormals.join(" ");
+    writer << "'";
+
+    // export texCoordIndex
+    writer << " texCoordIndex='";
+    writer << str_ixtextures.join(" ");
+    writer << "'>";
+
+    // export nodes
+    writer << "<Coordinate point='";
+    writer << str_coords.join(", ");
+    writer << "'></Coordinate>";
+
+    writer << "<Normal vector='";
+    writer << str_normals.join(" ");
+    writer << "'></Normal>";
+
+    writer << "<TextureCoordinate point='";
+    writer << str_textures.join(", ");
+    writer << "'></TextureCoordinate>";
+    writer << "</IndexedFaceSet></Shape>";
+
+    // printf("str_coords  : %s\n", str_coords.join(", ").toUtf8().constData());
+    // printf("str_indexes : %s\n", str_indexes.join(" ").toUtf8().constData());
+    // printf("str_normals : %s\n", str_normals.join(" ").toUtf8().constData());
+    // printf("str_ixnormals : %s\n", str_ixnormals.join(" ").toUtf8().constData());
+
+    // printf("str_textures : %s\n", str_textures.join(" ").toUtf8().constData());
+    // printf("str_ixtextures : %s\n", str_ixtextures.join(" ").toUtf8().constData());
 
     /*
     for (int i = 0; i < n; ++i) {
