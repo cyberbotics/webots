@@ -23,9 +23,11 @@ Released on XX, XXth, 2022.
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [ColladaShape](colladashape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     **Note that the "s" was dropped compared to the name of the PROTO, for backwards compatibility it needs to be adjusted accordingly**
-  - Dependency Updates
+  - Dependency Updates:
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
+  - Feature Removal:
+    - 3D model import menu option was removed as with the introduction of the [ColladaShape](colladashape.md) and [Mesh](mesh.md) nodes it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.
