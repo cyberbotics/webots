@@ -628,8 +628,8 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
 
   const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
   const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
-  float *vertices = new float [3 * vertexCount];
-  unsigned int *indices = new unsigned int [indexCount];
+  float *vertices = new float[3 * vertexCount];
+  unsigned int *indices = new unsigned int[indexCount];
   wr_static_mesh_read_data(mWrenMesh, vertices, NULL, NULL, indices);
 
   writer << "<Shape>";
