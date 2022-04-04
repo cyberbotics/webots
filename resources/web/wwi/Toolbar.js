@@ -108,12 +108,14 @@ export default class Toolbar {
     if (name === 'play') {
       const buttonElement = document.createElement('div');
       buttonElement.className = 'icon-' + name;
+      buttonElement.id = name + '-button-id';
+      button.appendChild(buttonElement);
     } else {
       const buttonElement = document.createElement('span');
       buttonElement.className = 'icon icon-' + name;
+      buttonElement.id = name + '-button-id';
+      button.appendChild(buttonElement);
     }
-    buttonElement.id = name + '-button-id';
-    button.appendChild(buttonElement);
 
     const tooltip = document.createElement('span');
     tooltip.id = name + '-tooltip';
@@ -271,7 +273,7 @@ export default class Toolbar {
 
     if (typeof this.runButton !== 'undefined') {
       this.runTooltip.innerHTML = 'Run';
-      this.runButtonElement.className = 'icon-run';
+      this.runButtonElement.className = 'icon icon-run';
     }
 
     this.playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
