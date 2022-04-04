@@ -53,11 +53,11 @@
 
 using namespace std;
 
-// QApplication needs the reference to the original argc directly to run
-// properly. Otherwise, bugs related with threads (splashscreen, tooltips, ...)
-// can appear. This was observed on Linux 64 cf:
-// -
-// http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
+// QApplication needs the reference to the original argc directly to run properly.
+// Otherwise, bugs related with threads (splashscreen, tooltips, ...) can appear.
+// This was observed on Linux 64
+// cf:
+// - http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QApplication(argc, argv),
@@ -73,9 +73,8 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
   QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1);  // remove final backslash
-  qputenv("MSYS2_HOME",
-          MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
+  MSYS2_HOME.chop(1);                          // remove final backslash
+  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
   const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
@@ -121,8 +120,7 @@ void WbGuiApplication::restart() {
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
 #elif defined(_WIN32)
-  exit(3030);  // this special code tells the launcher to restart Webots, see
-               // launcher.c
+  exit(3030);  // this special code tells the launcher to restart Webots, see launcher.c
 #else  // macOS
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
@@ -213,11 +211,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--fullscreen")
       mShouldStartFullscreen = true;
     else if (arg == "--mode=stop") {
-      cout << tr("The '--mode=stop' option is deprecated. Please use "
-                 "'--mode=pause' instead.")
-                .toUtf8()
-                .constData()
-           << endl;
+      cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
       mStartupMode = WbSimulationState::PAUSE;
     } else if (arg == "--mode=pause")
       mStartupMode = WbSimulationState::PAUSE;
@@ -289,11 +283,7 @@ void WbGuiApplication::parseArguments() {
 
         logPerformanceMode = true;
       } else
-        cout << tr("webots: invalid option : '--log-performance': log file "
-                   "path is missing.")
-                  .toUtf8()
-                  .constData()
-             << endl;
+        cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
     }
 #ifndef _WIN32
     else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
@@ -319,9 +309,7 @@ void WbGuiApplication::parseArguments() {
   }
 
   if (stream && !batch)
-    cout << "Warning: you should also use --batch (in addition to --stream) "
-            "for production."
-         << endl;
+    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
@@ -395,29 +383,28 @@ bool WbGuiApplication::setup() {
       udpateStyleSheet();
   }
 
-  // Show guided tour if first ever launch and no command line world argument is
-  // given
+  // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
 
 #ifndef _WIN32
-  // create main window on Linux and macOS before the splash screen otherwise,
-  // the image in the splash screen is empty... Doing the same on Windows slows
-  // down the popup of the SplashScreen, therefore the main window is created
-  // later on Windows.
+  // create main window on Linux and macOS before the splash screen otherwise, the
+  // image in the splash screen is empty...
+  // Doing the same on Windows slows down the popup of the SplashScreen, therefore
+  // the main window is created later on Windows.
   mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
 #endif
 
   if (!mShouldMinimize) {
     // splash screen
-    // Warning: using heap allocated splash screen and/or pixmap cause crash
-    // while showing tooltips in the main window under Linux.
+    // Warning: using heap allocated splash screen and/or pixmap cause crash while
+    // showing tooltips in the main window under Linux.
     const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
     if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
-      // we need to center the splash screen on the same window as the
-      // mainWindow, which is positioned wherever the mouse is on launch
+      // we need to center the splash screen on the same window as the mainWindow,
+      // which is positioned wherever the mouse is on launch
       const QScreen *mainWindowScreen = QGuiApplication::screenAt(QCursor::pos());
       const QRect mainWindowScreenRect = mainWindowScreen->geometry();
       QPoint targetPosition = mainWindowScreenRect.center();
@@ -426,13 +413,11 @@ bool WbGuiApplication::setup() {
       mSplash->move(targetPosition);
     }
 
-    // now we can safely show the splash screen, knowing it will be in the right
-    // place
+    // now we can safely show the splash screen, knowing it will be in the right place
     mSplash->show();
 #ifdef __APPLE__
-    // On macOS, when the WbSplashScreen is shown, Qt calls a resize event on
-    // the QMainWindow (not shown yet) with the size of the splash screen. This
-    // overrides the WbMainWindow size preferences. This sounds like a Qt bug.
+    // On macOS, when the WbSplashScreen is shown, Qt calls a resize event on the QMainWindow (not shown yet) with the size of
+    // the splash screen. This overrides the WbMainWindow size preferences. This sounds like a Qt bug.
     mMainWindow->restorePreferredGeometry(mShouldMinimize);
 #endif
     connect(WbLog::instance(), &WbLog::popupOpen, mSplash, &QSplashScreen::hide);
@@ -489,8 +474,7 @@ bool WbGuiApplication::setup() {
     WbLog::warning("It is not recommended to run Webots as root.");
 
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
-    // delete previous desktop application info file in order to update it to
-    // the current installation data
+    // delete previous desktop application info file in order to update it to the current installation data
     const QString desktopFilePath = QDir::homePath() + "/.local/share/applications/webots.desktop";
     if (QFile::exists(desktopFilePath))
       QFile::remove(desktopFilePath);
@@ -502,8 +486,7 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the
-                                       // updated dialog
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
   return true;
 }
