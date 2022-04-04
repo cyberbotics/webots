@@ -87,7 +87,6 @@ webots.View = class View {
     }
 
     this.timeout = 60 * 1000; // default to one minute
-    this.deadline = this.timeout;
     this.currentState = false;
     this.quitting = false;
   }
@@ -95,14 +94,10 @@ webots.View = class View {
   setTimeout(timeout) { // expressed in seconds
     if (timeout < 0) {
       this.timeout = timeout;
-      this.deadline = 0;
       return;
     }
 
     this.timeout = timeout * 1000; // convert to milliseconds
-    this.deadline = this.timeout;
-    if (typeof this.time !== 'undefined')
-      this.deadline += this.time;
   }
 
   setAnimation(url, gui, loop) {
@@ -287,15 +282,8 @@ webots.View = class View {
     if (document.getElementById('webots-progress'))
       document.getElementById('webots-progress').style.display = 'none';
     this.removeLabels();
-    if (document.getElementById('webots-clock'))
-      document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
-    this.deadline = this.timeout;
-    if (document.getElementById('webotsTimeout')) {
-      if (this.deadline >= 0)
-        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.deadline);
-      else
-        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
-    }
+    if (document.getElementById('webotsClock'))
+      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {

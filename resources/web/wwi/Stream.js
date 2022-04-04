@@ -72,16 +72,16 @@ export default class Stream {
       if (data.startsWith('pause:')) {
         this._view.isAutomaticallyPaused = undefined;
         this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      }
-      if (this._view.timeout > 0 && !this._view.isAutomaticallyPaused) {
-        this._view.deadline = this._view.timeout;
-        if (typeof this._view.time !== 'undefined')
-          this._view.deadline += this._view.time;
-
-        if (document.getElementById('webotsTimeout'))
-          document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
+        if (this._view.currentState === 'real-time' && typeof this.onplay === 'function')
+          this.onplay();
+        else if ((this._view.currentState === 'run' || this._view.currentState === 'fast') && typeof this.onrun === 'function')
+          this.onrun();
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
+      if (data === 'real-time' && this._view.currentState !== data && typeof this.onplay === 'function')
+        this.onplay();
+      else if ((data === 'run' || data === 'fast') && this._view.currentState !== data && typeof this.onrun === 'function')
+        this.onrun();
       this._view.currentState = data;
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);

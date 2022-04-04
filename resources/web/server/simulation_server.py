@@ -409,6 +409,11 @@ class Client:
 
             if self.webots_process:
                 self.webots_process.terminate()
+                try:
+                    self.webots_process.wait(10)  # set a timeout (seconds) to avoid blocking the whole script
+                except subprocess.TimeoutExpired:
+                    logging.warning(f'[{id(self)}] Error killing Webots [{self.webots_process.pid}]')
+                    self.webots_process.kill()
                 self.webots_process = None
 
             # remove unused _webots images

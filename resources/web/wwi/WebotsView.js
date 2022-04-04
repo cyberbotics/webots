@@ -72,7 +72,7 @@ export default class WebotsView extends HTMLElement {
         else if (typeof scene !== 'undefined' && scene !== '')
           this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
-          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice);
+          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
@@ -202,13 +202,13 @@ export default class WebotsView extends HTMLElement {
    * broadcast: boolean
    * isMobileDevice: boolean
    */
-  connect(server, mode, broadcast, isMobileDevice) {
+  connect(server, mode, broadcast, isMobileDevice, timeout) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
 
     if (!this.initializationComplete)
-      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice), 500);
+      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, timeout), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -217,7 +217,9 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this._view.broadcast = broadcast;
-      this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+      if (typeof timeout === 'undefined')
+        timeout = -1; // disable timeout that stops the simulation after a given time
+      this._view.setTimeout(timeout);
 
       this._view.onready = () => {
         if (typeof this.toolbar === 'undefined')
