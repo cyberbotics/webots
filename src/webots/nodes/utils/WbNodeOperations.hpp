@@ -73,7 +73,6 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
-  void onVrmlExportRequested(const QString &filePath, const QString &ccw);
 
 signals:
   void nodeAdded(WbNode *node);
@@ -81,7 +80,6 @@ signals:
 
 private:
   static WbNodeOperations *cInstance;
-  WbNodeOperations();
   ~WbNodeOperations() {}
 
   bool mNodesAreAboutToBeInserted;
