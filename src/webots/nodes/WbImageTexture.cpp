@@ -95,7 +95,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   mInitializedFromAssimpMaterial = true;
 
   assert(!parentPath.endsWith("/"));
-
+  printf("> parent: %s\n", parentPath.toUtf8().constData());
   aiString path("");
   material->GetTexture(textureType, 0, &path);
   QString relativePath = QString(path.C_Str());
@@ -109,10 +109,10 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   if (!relativePath.startsWith("/"))
     relativePath.insert(0, '/');
 
-  QStringList texturePath(parentPath + relativePath);
-  printf(" > texture type %d, found %s: %s\n", textureType, path.C_Str(), texturePath[0].toUtf8().constData());
+  const QString url = WbUrl::computePath(this, "url", parentPath + relativePath, false);
+  printf(" > texture type %d, found %s: %s\n", textureType, path.C_Str(), url.toUtf8().constData());
 
-  mUrl = new WbMFString(texturePath);
+  mUrl = new WbMFString(QStringList(url));
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);
@@ -621,20 +621,18 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
-  // if local path
-  QString newUrl;
-  if (writer.isWritingToFile())
-    newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
-
-  // const QString &url(mUrl->item(0));
-  // if (cQualityChangedTexturesList.contains(texturePath))
-  //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-  writer.addTextureToList(mUrl->item(0), newUrl);
+  QString url = mUrl->item(0);
+  // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
+  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the image relative
+  // to the parent collada file)
+  if (!url.startsWith("https://")) {  // local path
+    url = WbUrl::exportTexture(this, mUrl, 0, writer);
+    writer.addTextureToList(mUrl->item(0), url);
+  }
 
   writer << "<ImageTexture";
-  writer << " url='\"" << newUrl << "\"'";
-  printf("==== %s | %s\n", texturePath.toUtf8().constData(), newUrl.toUtf8().constData());
+  writer << " url='\"" << url << "\"'";
+  printf("==== %s | %s\n", url.toUtf8().constData(), url.toUtf8().constData());
   writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
          << (mIsMainTextureTransparent ? "true" : "false") << "\'";
   if (!mRole.isEmpty())

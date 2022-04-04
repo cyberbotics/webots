@@ -332,10 +332,10 @@ void WbColladaShape::createWrenObjects() {
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-      // determine how image textures will be searched for
-      QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-      completeUrl = completeUrl.replace("\\", "/");
-      QString fileRoot = completeUrl.left(completeUrl.lastIndexOf("/"));  // do not include the final forward slash
+      // determine how image textures referenced in the collada file will be searched for
+      QString fileRoot = mUrl->item(0);
+      fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
+      fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
 
       // init from assimp material
       WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
