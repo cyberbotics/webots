@@ -80,20 +80,21 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
   mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
 
-  float opacity = 1.0f;
-  material->Get(AI_MATKEY_OPACITY, opacity);
-  mTransparency = new WbSFDouble(1.0f - opacity);
+  float opacity = 1.0f, transparency = 0.0f;
+  if (material->Get(AI_MATKEY_TRANSPARENCYFACTOR, transparency) != AI_SUCCESS) {
+    material->Get(AI_MATKEY_OPACITY, opacity);
+    transparency = 1.0f - opacity;
+  }
+  mTransparency = new WbSFDouble(transparency);
 
   float roughness = 1.0f;
   if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
+    roughness = 1.0 - roughness / 255.0;
   else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness / 100.0;
+    roughness = 1.0 - roughness;
   else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
     roughness = 1.0 - roughness;
   mRoughness = new WbSFDouble(roughness);
-
-  // TODO: find good match between assimp materials and PBR fields
 
   mMetalness = new WbSFDouble(1.0);
   mIblStrength = new WbSFDouble(1.0);
@@ -752,9 +753,6 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
     emissiveColorMap()->setRole("emissiveColor");
     emissiveColorMap()->write(writer);
   }
-
-  if (textureTransform())
-    textureTransform()->write(writer);
 
   writer << "</PBRAppearance>";
 }
