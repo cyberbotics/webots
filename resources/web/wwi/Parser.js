@@ -535,10 +535,17 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    const colladaShape = new WbColladaShape(id);
+    const url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
+    const ccw = parseFloat(getNodeAttribute(node, 'ccw', 'true'));
+    const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
+    const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+
+    const colladaShape = new WbColladaShape(id, url, ccw, castShadows, isPickable);
 
     WbWorld.instance.nodes.set(colladaShape.id, colladaShape);
-    this._parseChildren(node, colladaShape, false);
+    this._parseChildren(node, colladaShape, false); // ColladaShape cannot be used as boundingObject
 
     if (typeof parentNode !== 'undefined') {
       colladaShape.parent = parentNode.id;

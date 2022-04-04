@@ -3,13 +3,19 @@ import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/utils.js';
 
 export default class WbColladaShape extends WbBaseNode {
-  constructor(id, castShadow, isPickable) {
+  constructor(id, url, ccw, castShadows, isPickable) {
     super(id);
+
+    this.url = url;
+    this.ccw = ccw;
+    this.castShadows = castShadows;
+    this.isPickable = isPickable;
+
     this.children = [];
   }
 
   clone(customID) {
-    const colladaShape = new WbColladaShape(customID);
+    const colladaShape = new WbColladaShape(customID, this.url, this.ccw, this.castShadows, this.isPickable);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
       const cloned = this.children[i].clone(getAnId());
