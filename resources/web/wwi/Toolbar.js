@@ -105,7 +105,7 @@ export default class Toolbar {
     if (typeof click === 'function')
       button.onclick = () => click();
 
-    if (name === 'play' || name === 'run') {
+    if (name === 'play') {
       const buttonElement = document.createElement('div');
       buttonElement.id = name + '-button-id';
       buttonElement.className = 'icon-' + name;
