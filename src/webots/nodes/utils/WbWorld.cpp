@@ -307,8 +307,8 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     cssTemplateValues << QPair<QString, QString>("%title%", titleString);
     cssTemplateValues << QPair<QString, QString>("%type%", typeString);
 
-    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css", 
-                                               cssFileName, cssTemplateValues);
+    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css", cssFileName, 
+                                               cssTemplateValues);
     if (!success)
       throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
 
