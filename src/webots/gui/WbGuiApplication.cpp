@@ -41,6 +41,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
+#include <QtCore/QCommandLineParser>
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
 
@@ -193,7 +194,15 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
-  QStringList args = arguments();
+  //Integration of QCommandLineParser
+  QCommandLineParser parser;
+  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
+  
+  parser.parse(QCoreApplication::arguments());
+  const QStringList args = parser.positionalArguments();
+
+
+  
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
 
