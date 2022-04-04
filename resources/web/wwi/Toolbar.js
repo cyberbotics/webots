@@ -212,7 +212,9 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
 
-    this.minWidth +=41
+    this.minWidth += 41;
+    if (typeof this._view.stream !== 'undefined')
+      this._view.stream.onplay = () => this._triggerPlayPauseButton();
   }
 
   _triggerPlayPauseButton() {
@@ -954,6 +956,9 @@ export default class Toolbar {
       this.run();
     }
     this.toolbarLeft.appendChild(this.runButton);
+
+    if (typeof this._view.stream !== 'undefined')
+      this._view.stream.onrun = () => this._triggerRunPauseButton();
   }
 
   _triggerRunPauseButton() {
