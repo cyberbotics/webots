@@ -60,11 +60,9 @@ using namespace std;
 // http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv)
-    : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL),
-      mStreamingServer(NULL) {
+    : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL), mStreamingServer(NULL) {
   setApplicationName("Webots");
-  setApplicationVersion(
-      WbApplicationInfo::version().toString(true, false, true));
+  setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
@@ -75,8 +73,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv)
   MSYS2_HOME.chop(1); // remove final backslash
   qputenv("MSYS2_HOME",
           MSYS2_HOME.toUtf8()); // useful to Python 3.8 controllers
-  const QString webotsQtPlugins =
-      MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
+  const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
@@ -91,12 +88,10 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv)
   installTranslator(WbTranslator::instance()->basicTranslator());
   installTranslator(WbTranslator::instance()->translator());
 
-  QDir::addSearchPath("icons",
-                      WbStandardPaths::resourcesPath() + "nodes/icons");
+  QDir::addSearchPath("icons", WbStandardPaths::resourcesPath() + "nodes/icons");
   QDir::addSearchPath("images", WbStandardPaths::resourcesPath() + "images");
 
-  QFontDatabase::addApplicationFont(WbStandardPaths::fontsPath() +
-                                    "Raleway-Light.ttf");
+  QFontDatabase::addApplicationFont(WbStandardPaths::fontsPath() + "Raleway-Light.ttf");
 
   // setup the stylesheet for the application
   udpateStyleSheet();
@@ -125,7 +120,7 @@ void WbGuiApplication::restart() {
   exit(3030); // this special code tells the launcher to restart Webots, see
               // launcher.c
 #else // macOS
-  QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
+  QProcess::startDetached(qApp->arguments()[ 0 ], nonProgramArgs);
 #endif
 }
 
@@ -153,69 +148,44 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
     else if (option == "controllerEdit")
       controllerEdit = true;
     else if (capture.size() == 3) {
-      const QString &key = capture[1];
-      const QString &value = capture[2];
+      const QString &key = capture[ 1 ];
+      const QString &value = capture[ 2 ];
       if (key == "port") {
         bool ok;
         const int tmpPort = value.toInt(&ok);
         if (ok)
           port = tmpPort;
         else {
-          cout << tr("webots: invalid 'port' option: '%1' in --stream")
-                      .arg(value)
-                      .toUtf8()
-                      .constData()
-               << endl;
-          cout << tr("webots: stream port has to be integer")
-                      .toUtf8()
-                      .constData()
-               << endl;
+          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
           mTask = FAILURE;
         }
       } else if (key == "mode") {
         if (value != "x3d" && value != "mjpeg") {
-          cout << tr("webots: invalid 'mode' option: '%1' in --stream")
-                      .arg(value)
-                      .toUtf8()
-                      .constData()
-               << endl;
-          cout << tr("webots: stream mode can only be x3d or mjpeg")
-                      .toUtf8()
-                      .constData()
-               << endl;
+          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
           mTask = FAILURE;
         } else if (value == "mjpeg")
           mode = "mjpeg";
       } else {
-        cout << tr("webots: unknown option: '%1' in --stream")
-                    .arg(option)
-                    .toUtf8()
-                    .constData()
-             << endl;
+        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
         mTask = FAILURE;
       }
     } else {
-      cout << tr("webots: unknown option: '%1' in --stream")
-                  .arg(option)
-                  .toUtf8()
-                  .constData()
-           << endl;
+      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
       mTask = FAILURE;
     }
   }
   if (mTask == FAILURE) {
-    cout << tr("Try 'webots --help' for more information.").toUtf8().constData()
-         << endl;
+    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
     return;
   }
   if (mode == "mjpeg") {
-    mStreamingServer = new WbMultimediaStreamingServer(
-        monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
     mStreamingServer->start(port);
     return;
   }
-  mStreamingServer = new WbX3dStreamingServer(
-      monitorActivity, disableTextStreams, ssl, controllerEdit);
+  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
   mStreamingServer->start(port);
   WbWorld::enableX3DStreaming();
 }
@@ -224,8 +194,7 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   // Integration of QCommandLineParser
   QCommandLineParser parser;
-  parser.setOptionsAfterPositionalArgumentsMode(
-      QCommandLineParser::ParseAsOptions);
+  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
   parser.parse(QCoreApplication::arguments());
   const QStringList args = parser.positionalArguments();
 
@@ -234,7 +203,7 @@ void WbGuiApplication::parseArguments() {
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
-    const QString &arg = args[i];
+    const QString &arg = args[ i ];
     if (arg == "--minimize")
       mShouldMinimize = true;
     else if (arg == "--fullscreen")
@@ -253,8 +222,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
     else if (arg == "--mode=run") {
-      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode"
-           << endl;
+      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
@@ -274,7 +242,7 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArguments.append(items[1]);
+        mTaskArguments.append(items[ 1 ]);
       else
         mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
@@ -311,8 +279,7 @@ void WbGuiApplication::parseArguments() {
 
         if (logArgument.contains(",")) {
           QStringList argumentsList = logArgument.split(",");
-          WbPerformanceLog::createInstance(argumentsList[0],
-                                           argumentsList[1].trimmed().toInt());
+          WbPerformanceLog::createInstance(argumentsList[ 0 ], argumentsList[ 1 ].trimmed().toInt());
         } else
           WbPerformanceLog::createInstance(logArgument);
 
@@ -325,31 +292,23 @@ void WbGuiApplication::parseArguments() {
              << endl;
     }
 #ifndef _WIN32
-    else if (arg == "--disable-gpu" || arg == "--disable-logging" ||
-             arg == "--enable-logging" || arg.startsWith("--log-level=") ||
-             arg == "--no-sandbox" || arg == "--single-process" ||
+    else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
+             arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
              arg.startsWith("--remote-debugging-port=")) {
       // Silently ignore the awesome QWebEngine debugging tools:
       // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
     }
 #endif
     else if (arg.startsWith("-")) {
-      cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData()
-           << endl;
-      cout << tr("Try 'webots --help' for more information.")
-                  .toUtf8()
-                  .constData()
-           << endl;
+      cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
+      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       mTask = FAILURE;
     } else {
       if (mStartWorldName.isEmpty())
         mStartWorldName = QDir::fromNativeSeparators(arg);
       else {
         cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.")
-                    .toUtf8()
-                    .constData()
-             << endl;
+        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mTask = FAILURE;
       }
     }
@@ -372,8 +331,7 @@ void WbGuiApplication::parseArguments() {
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
     WbPreferences::instance()->setValue("OpenGL/textureFiltering", 0);
     mStartupMode = WbSimulationState::PAUSE;
-    mStartWorldName =
-        WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
+    mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
   }
 }
 
@@ -387,14 +345,11 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArguments, this,
-                                       mApplication->startupPath());
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
     if (mMainWindow)
-      connect(task, &WbSingleTaskApplication::finished, mMainWindow,
-              &WbMainWindow::close);
+      connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else
-      connect(task, &WbSingleTaskApplication::finished, this,
-              &QApplication::exit);
+      connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
     // run the task from the application event loop
     QTimer::singleShot(0, task, SLOT(run()));
   }
@@ -422,30 +377,24 @@ bool WbGuiApplication::setup() {
 
     QFileInfo info(mStartWorldName);
     if (!info.isReadable()) {
-      cerr << tr("Could not open file: '%1'.")
-                  .arg(mStartWorldName)
-                  .toUtf8()
-                  .constData()
-           << endl;
+      cerr << tr("Could not open file: '%1'.").arg(mStartWorldName).toUtf8().constData() << endl;
       mTask = FAILURE;
     }
   }
 
   if (WbMessageBox::enabled() &&
-      (!WbPreferences::instance()->contains("General/theme") ||
-       !WbPreferences::instance()->contains("General/telemetry"))) {
+      (!WbPreferences::instance()->contains("General/theme") || !WbPreferences::instance()->contains("General/telemetry"))) {
     if (WbNewVersionDialog::run() != QDialog::Accepted) {
       mTask = QUIT;
       return false;
-    } else if (WbPreferences::instance()->value("General/theme").toString() !=
-               mThemeLoaded)
+    } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
       udpateStyleSheet();
   }
 
   // Show guided tour if first ever launch and no command line world argument is
   // given
-  bool showGuidedTour = prefs->value("Internal/firstLaunch", true).toBool() &&
-                        mStartWorldName.isEmpty() && WbMessageBox::enabled();
+  bool showGuidedTour =
+      prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise,
@@ -461,15 +410,11 @@ bool WbGuiApplication::setup() {
     // while showing tooltips in the main window under Linux.
     const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
-    mSplash =
-        new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
-    if (WbPreferences::instance()
-            ->value("MainWindow/maximized", false)
-            .toBool()) {
+    mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
+    if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
       // we need to center the splash screen on the same window as the
       // mainWindow, which is positioned wherever the mouse is on launch
-      const QScreen *mainWindowScreen =
-          QGuiApplication::screenAt(QCursor::pos());
+      const QScreen *mainWindowScreen = QGuiApplication::screenAt(QCursor::pos());
       const QRect mainWindowScreenRect = mainWindowScreen->geometry();
       QPoint targetPosition = mainWindowScreenRect.center();
       targetPosition.setX(targetPosition.x() - mSplash->width() / 2);
@@ -486,20 +431,16 @@ bool WbGuiApplication::setup() {
     // overrides the WbMainWindow size preferences. This sounds like a Qt bug.
     mMainWindow->restorePreferredGeometry(mShouldMinimize);
 #endif
-    connect(WbLog::instance(), &WbLog::popupOpen, mSplash,
-            &QSplashScreen::hide);
-    connect(WbLog::instance(), &WbLog::popupClosed, mSplash,
-            &QSplashScreen::show);
+    connect(WbLog::instance(), &WbLog::popupOpen, mSplash, &QSplashScreen::hide);
+    connect(WbLog::instance(), &WbLog::popupClosed, mSplash, &QSplashScreen::show);
     processEvents();
     setSplashMessage(tr("Starting up..."));
   } else
     mSplash = NULL;
   // otherwise get it from the list of recent files
   if (mStartWorldName.isEmpty() || showGuidedTour) {
-    const QString defaultFileName = WbStandardPaths::emptyProjectPath() +
-                                    "worlds/" + WbProject::newWorldFileName();
-    mStartWorldName =
-        prefs->value("RecentFiles/file0", defaultFileName).toString();
+    const QString defaultFileName = WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName();
+    mStartWorldName = prefs->value("RecentFiles/file0", defaultFileName).toString();
   }
   setSplashMessage(tr("Loading world..."));
 
@@ -533,10 +474,8 @@ bool WbGuiApplication::setup() {
       mMainWindow->showNormal();
   }
 
-  connect(mMainWindow, &WbMainWindow::restartRequested, this,
-          &WbGuiApplication::restart);
-  connect(mMainWindow, &WbMainWindow::splashScreenCloseRequested, this,
-          &WbGuiApplication::closeSplashScreenIfNeeded);
+  connect(mMainWindow, &WbMainWindow::restartRequested, this, &WbGuiApplication::restart);
+  connect(mMainWindow, &WbMainWindow::splashScreenCloseRequested, this, &WbGuiApplication::closeSplashScreenIfNeeded);
   mApplication->setup();
 
 #ifdef __linux__
@@ -548,8 +487,7 @@ bool WbGuiApplication::setup() {
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
     // delete previous desktop application info file in order to update it to
     // the current installation data
-    const QString desktopFilePath =
-        QDir::homePath() + "/.local/share/applications/webots.desktop";
+    const QString desktopFilePath = QDir::homePath() + "/.local/share/applications/webots.desktop";
     if (QFile::exists(desktopFilePath))
       QFile::remove(desktopFilePath);
   }
@@ -587,7 +525,7 @@ bool WbGuiApplication::renderingFromPreferences() const {
 bool WbGuiApplication::event(QEvent *event) {
   switch (event->type()) {
   case QEvent::FileOpen:
-    mStartWorldName = static_cast<QFileOpenEvent *>(event)->file();
+    mStartWorldName = static_cast< QFileOpenEvent * >(event)->file();
     return true;
   default:
     return QApplication::event(event);
@@ -599,8 +537,7 @@ void WbGuiApplication::setSplashMessage(const QString &message) {
   if (!mSplash)
     return;
 
-  QString copyright = tr("Copyright \u00A9 1998 - %1 Cyberbotics Ltd.")
-                          .arg(WbApplicationInfo::version().majorNumber());
+  QString copyright = tr("Copyright \u00A9 1998 - %1 Cyberbotics Ltd.").arg(WbApplicationInfo::version().majorNumber());
   mSplash->setLiveMessage(copyright + "\n" + message);
   mSplash->repaint();
 }
@@ -616,8 +553,7 @@ void WbGuiApplication::closeSplashScreenIfNeeded() {
 void WbGuiApplication::loadInitialWorld() {
   if (!mMainWindow->loadWorld(mStartWorldName))
     // this file should always exists
-    mMainWindow->loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" +
-                           WbProject::newWorldFileName());
+    mMainWindow->loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
 
   if (!mShouldMinimize && mShouldStartFullscreen)
     mMainWindow->setFullScreen(true, false, false, true);
@@ -670,32 +606,25 @@ struct WINDOWCOMPOSITIONATTRIBDATA {
 };
 
 using fnAllowDarkModeForWindow = BOOL(WINAPI *)(HWND hWnd, BOOL allow);
-using fnSetPreferredAppMode =
-    PreferredAppMode(WINAPI *)(PreferredAppMode appMode);
-using fnSetWindowCompositionAttribute =
-    BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSITIONATTRIBDATA *);
+using fnSetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode appMode);
+using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSITIONATTRIBDATA *);
 
 static void setDarkTitlebar(HWND hwnd) {
   static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
   static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
   if (!AllowDarkModeForWindow) { // first call
-    HMODULE hUxtheme =
-        LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+    HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
     HMODULE hUser32 = GetModuleHandleW(L"user32.dll");
-    AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(
-        GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
+    AllowDarkModeForWindow = reinterpret_cast< fnAllowDarkModeForWindow >(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
     SetWindowCompositionAttribute =
-        reinterpret_cast<fnSetWindowCompositionAttribute>(
-            GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+        reinterpret_cast< fnSetWindowCompositionAttribute >(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
     fnSetPreferredAppMode SetPreferredAppMode =
-        reinterpret_cast<fnSetPreferredAppMode>(
-            GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
+        reinterpret_cast< fnSetPreferredAppMode >(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
     SetPreferredAppMode(AllowDark);
   }
   BOOL dark = TRUE;
   AllowDarkModeForWindow(hwnd, dark);
-  WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark,
-                                      sizeof(dark)};
+  WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark, sizeof(dark)};
   SetWindowCompositionAttribute(hwnd, &data);
 }
 #endif // _WIN32
@@ -717,8 +646,7 @@ void WbGuiApplication::udpateStyleSheet() {
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
 
 #elif _WIN32
-  QFile windowsQssFile(WbStandardPaths::resourcesPath() +
-                       "stylesheet.windows.qss");
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
   windowsQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
@@ -733,6 +661,6 @@ void WbGuiApplication::udpateStyleSheet() {
 void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
 #ifdef _WIN32
   if (windowsDarkMode)
-    setDarkTitlebar(reinterpret_cast<HWND>(window->winId()));
+    setDarkTitlebar(reinterpret_cast< HWND >(window->winId()));
 #endif
 }
