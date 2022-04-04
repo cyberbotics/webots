@@ -621,6 +621,34 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return;
 
+  if (mUrl->size() > 0) {
+    QString texturePath(WbUrl::computePath(this, "url", mUrl->item(0), false));
+    // if local path
+    QString newUrl;
+    if (writer.isWritingToFile())
+      newUrl = WbUrl::exportTexture(this, mUrl, 0, writer);
+
+    // const QString &url(mUrl->item(0));
+    // if (cQualityChangedTexturesList.contains(texturePath))
+    //  texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
+    writer.addTextureToList(mUrl->item(0), newUrl);
+
+    writer << QString(
+                "<Appearance id='n7' docUrl='https://cyberbotics.com/doc/reference/pbrappearance'><Material diffuseColor=\"1 1 "
+                "1\" specularColor=\"1 1 1\" shininess=\"1\"/><ImageTexture id='n8' "
+                "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"%1\"' "
+                "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
+                "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
+                "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></Appearance><PBRAppearance id='n7'><ImageTexture id='n8' "
+                "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"%2\"' "
+                "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
+                "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
+                "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></PBRAppearance>")
+                .arg(newUrl)
+                .arg(newUrl);
+  }
+  /*
+
   writer << "<ImageTexture";
 
   if (mUrl->size() > 0) {
@@ -652,4 +680,5 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
            << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
 
   writer << "</ImageTexture>";
+  */
 }

@@ -439,16 +439,16 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
   writer << ">";
 
-  for (WrStaticMesh *mesh : mWrenMeshes) {
-    const int rvertexCount = wr_static_mesh_get_vertex_count(mesh);
-    const int rindexCount = wr_static_mesh_get_index_count(mesh);
+  for (int m = 0; m < mWrenMeshes.size(); ++m) {
+    const int rvertexCount = wr_static_mesh_get_vertex_count(mWrenMeshes[m]);
+    const int rindexCount = wr_static_mesh_get_index_count(mWrenMeshes[m]);
 
     float coords[3 * rvertexCount];
     float normals[3 * rvertexCount];
     float texCoords[2 * rvertexCount];
     unsigned int indexes[rindexCount];
 
-    wr_static_mesh_read_data(mesh, coords, normals, texCoords, indexes);
+    wr_static_mesh_read_data(mWrenMeshes[m], coords, normals, texCoords, indexes);
 
     // optimize data (remove doubles, re-organize data)
     QStringList str_coords;
@@ -462,6 +462,7 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     const int precision = 4;
     for (int i = 0; i < rindexCount; ++i) {
       int ix = 3 * indexes[i];
+      int texix = 2 * indexes[i];
       QString vertex = QString("%1 %2 %3")
                          .arg(QString::number(coords[ix], 'f', precision))
                          .arg(QString::number(coords[ix + 1], 'f', precision))
@@ -470,6 +471,9 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
                          .arg(QString::number(normals[ix], 'f', precision))
                          .arg(QString::number(normals[ix + 1], 'f', precision))
                          .arg(QString::number(normals[ix + 2], 'f', precision));
+      QString texture = QString("%1 %2")
+                          .arg(QString::number(texCoords[texix], 'f', precision))
+                          .arg(QString::number(1.0 - texCoords[texix + 1], 'f', precision));
 
       if (!str_coords.contains(vertex)) {
         str_coords << vertex;
@@ -479,8 +483,13 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
         str_normals << normal;
       }
 
+      if (!str_textures.contains(texture)) {
+        str_textures << texture;
+      }
+
       str_indexes << QString("%1").arg(str_coords.indexOf(vertex));
       str_ixnormals << QString("%1").arg(str_normals.indexOf(normal));
+      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
 
       triangle_ctr++;
       if (triangle_ctr == 3) {
@@ -491,38 +500,6 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
       }
     }
 
-    for (int i = 0; i < rindexCount; ++i) {
-      int ix = 2 * indexes[i];
-
-      QString texture = QString("%1 %2")
-                          .arg(QString::number(texCoords[ix], 'f', precision))
-                          .arg(QString::number(1.0 - texCoords[ix + 1], 'f', precision));
-
-      if (!str_textures.contains(texture)) {
-        str_textures << texture;
-      }
-      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
-
-      triangle_ctr++;
-      if (triangle_ctr == 3) {
-        str_ixtextures << "-1";
-        triangle_ctr = 0;
-      }
-    }
-
-    /*
-    for (int i = 0; i < rvertexCount; i += 2) {
-      QString texture = QString("%1 %2")
-                          .arg(QString::number(texCoords[ix], 'f', precision))
-                          .arg(QString::number(1.0 - texCoords[ix + 1], 'f', precision));
-
-      if (!str_textures.contains(texture))
-        str_textures << texture;
-
-      str_ixtextures << QString("%1").arg(str_textures.indexOf(texture));
-    }
-    */
-
     // generate x3d
     writer << "<Shape";
     if (!mIsPickable->value())
@@ -532,17 +509,7 @@ void WbColladaShape::exportNodeContents(WbVrmlWriter &writer) const {
     writer << ">";  // close shape
 
     // export appearance
-    // mPbrAppearances[0]->exportShallowNode(writer);
-    writer << "<Appearance id='n7' docUrl='https://cyberbotics.com/doc/reference/pbrappearance'><Material diffuseColor=\"1 1 "
-              "1\" specularColor=\"1 1 1\" shininess=\"1\"/><ImageTexture id='n8' "
-              "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"textures/kutu2referans.png\"' "
-              "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
-              "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
-              "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></Appearance><PBRAppearance id='n7'><ImageTexture id='n8' "
-              "docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='\"textures/kutu2referans.png\"' "
-              "containerField='' origChannelCount='3' isTransparent='false' role='baseColor'><TextureProperties "
-              "anisotropicDegree=\"8\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" "
-              "magnificationFilter=\"AVG_PIXEL\"/></ImageTexture></PBRAppearance>";
+    mPbrAppearances[m]->exportShallowNode(writer);
 
     writer << "<IndexedFaceSet";
     // export settings

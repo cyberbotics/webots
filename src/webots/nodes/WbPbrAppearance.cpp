@@ -715,6 +715,7 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return;
 
+  /*
   writer << "<PBRAppearance ";
 
   writer << "baseColor='" << mBaseColor->value().toString(WbPrecision::FLOAT_MAX) << "' ";
@@ -726,11 +727,17 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
   writer << "emissiveIntensity='" << WbPrecision::doubleToString(mEmissiveIntensity->value(), WbPrecision::FLOAT_MAX) << "' ";
   writer << "occlusionMapStrength='" << WbPrecision::doubleToString(mOcclusionMapStrength->value(), WbPrecision::FLOAT_MAX)
          << "'>";
-
   if (baseColorMap()) {
     baseColorMap()->setRole("baseColor");
     baseColorMap()->exportShallowNode(writer);
   }
+
+  */
+  if (baseColorMap()) {
+    baseColorMap()->setRole("baseColor");
+    baseColorMap()->exportShallowNode(writer);
+  }
+
   /*
   if (roughnessMap()) {
     roughnessMap()->setRole("roughness");
@@ -756,6 +763,5 @@ void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
   if (textureTransform())
     textureTransform()->write(writer);
     */
-
-  writer << "</PBRAppearance>";
+  // writer << "</PBRAppearance>";
 }
