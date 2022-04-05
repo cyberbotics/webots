@@ -398,6 +398,7 @@ void WbExtendedStringEditor::select() {
 
 WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName,
                                                                                  const WbNode *parentNode) {
+  printf("FIELD %s PARENT %p\n", fieldName.toUtf8().constData(), parentNode);
   if (fieldName == "controller")
     return CONTROLLER;
   else if (fieldName == "window")

@@ -168,10 +168,10 @@ void WbNode::init() {
 
 // special constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material
 // shallow nodes are not visible and should not be modified in any other way
-WbNode::WbNode() {
+WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
+  mModel = WbNodeModel::findModel(modelName);
   init();
   mIsShallowNode = true;
-  mParentNode = NULL;  // necessary or some warnings in the related shallow nodes might trigger a crash
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
@@ -455,6 +455,9 @@ const QString &WbNode::nodeModelName() const {
 }
 
 QString WbNode::fullPath(const QString &fieldName, QString &parameterName) const {
+  if (mIsShallowNode)
+    return "";
+
   const WbNode *n = this;
   WbField *field = NULL;
   if (!fieldName.isEmpty())

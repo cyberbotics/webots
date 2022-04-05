@@ -32,6 +32,8 @@ class WbTransform;  // TODO: remove this dependency: a class should not have a d
 class WbSolid;      // TODO: remove this dependency: a class should not have a dependency on its subclass
 class WbBoundingSphere;
 
+class aiMaterial;
+
 struct WrTransform;
 
 class WbBaseNode : public WbNode {
@@ -149,7 +151,7 @@ protected:
 
   // constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material
   // shallow nodes are not visible and should not be modified in any other way
-  WbBaseNode();
+  WbBaseNode(const QString &modelName, const aiMaterial *material);
 
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };
