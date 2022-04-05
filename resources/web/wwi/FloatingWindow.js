@@ -58,7 +58,7 @@ export default class FloatingWindow {
   }
 
   changeVisibility() {
-    if (this.floatingWindow.style.visibility === 'hidden') 
+    if (this.floatingWindow.style.visibility === 'hidden')
       this.floatingWindow.style.visibility = 'visible';
     else
       this.floatingWindow.style.visibility = 'hidden';
