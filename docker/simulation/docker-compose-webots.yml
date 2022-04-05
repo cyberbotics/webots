@@ -4,7 +4,7 @@ services:
   webots:
     image: simulation
     build:
-      context: simulation
+      context: .
       dockerfile: Dockerfile
       args:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE

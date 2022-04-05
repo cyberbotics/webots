@@ -6,11 +6,11 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 subprocess.run(['xhost', '+local:root'])
 port = 1234
-with open('docker/.env', 'w+') as env_file:
+with open('docker/simulation/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write('PORT=' + str(port) + '\n')
 
-command = 'docker-compose -f docker/docker-compose-webots.yml up --build --no-color'
+command = 'docker-compose -f docker/simulation/docker-compose-webots.yml up --build --no-color'
 controllers = {
   "e-puck": "/webots_project/controllers/e-puck/e-puck"
 }
@@ -31,14 +31,16 @@ while webots_process.poll() is None:
         if line.startswith('start:'):
             split = line.split(':')
             name = split[1]
+            controller = controllers[name] if name in controllers else ''
+            if not controller:
+                print('controller "' + name + '" not found, skipping...')
+                continue
+            print('starting ' + controller)
             os.environ['WEBOTS_ROBOT_NAME'] = name
             os.environ['WEBOTS_SERVER'] = split[2]
             os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
             os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
-            controller = controllers[name] if name in controllers else ''
-            print('starting ' + controller)
-            if not controller:
-                continue
+            controller_command = 'docker run docker/controller_1'
     elif line:
         print(line)  # docker-compose output
     if controller_process:
@@ -46,4 +48,4 @@ while webots_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()
             if line:
                 print('controller: ' + line)
-os.remove('docker/.env')
+os.remove('docker/simulation/.env')
