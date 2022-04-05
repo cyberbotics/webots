@@ -4,7 +4,7 @@ export default class FloatingIDE extends FloatingWindow {
   constructor(parentNode, name, url) {
     super(parentNode, name, url);
 
-    this.headerText.innerHTML = 'IDE';
+    this.headerText.innerHTML = 'Source Code Editor';
 
     this.frame.id = this.name + '-robot-window';
     const elements = url.split('/').filter(element => element);
