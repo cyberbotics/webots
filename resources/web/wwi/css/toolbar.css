@@ -254,7 +254,7 @@ webots-view .current-time, .total-time, .time-divider {
   color: rgba(240, 240, 240, 1);
   font-family: 'verdana';
   font-size: 14px;
-  text-shadow: 1px 1px 1px rgb(0,0,0,0);
+  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0);
   user-select: none;
   -webkit-user-select: none;
 }
