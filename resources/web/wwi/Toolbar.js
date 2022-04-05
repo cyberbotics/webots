@@ -314,7 +314,7 @@ export default class Toolbar {
     this.ideWindow.setPosition(margin, margin);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
-    document.onfullscreenchange = () => {this._fullscreenChangeHeight([this.ideWindow])};
+    document.onfullscreenchange = () => { this._fullscreenChangeHeight([this.ideWindow]); };
   }
 
   _createRobotWindowButton() {
