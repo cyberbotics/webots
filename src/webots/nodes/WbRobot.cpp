@@ -1466,8 +1466,10 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
 }
 
 void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
-  WbSolid::exportNodeFields(writer);
+  WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
+    if (!name().isEmpty())
+      writer << " name='" << sanitizedName() << "'";
     if (findField("controller") && !controllerName().isEmpty()) {
       writer << " controller=";
       writer.writeLiteralString(controllerName());
@@ -1476,6 +1478,7 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
       writer << " window=";
       writer.writeLiteralString(window());
     }
+    writer << " type='robot'";
   }
 }
 

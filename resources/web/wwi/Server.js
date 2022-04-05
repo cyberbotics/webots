@@ -21,7 +21,7 @@ export default class Server {
   }
 
   connect() {
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
@@ -57,8 +57,8 @@ export default class Server {
   }
 
   onError() {
-    document.getElementById('webotsProgress').style.display = 'none';
-    this._view.onquit()
+    document.getElementById('webots-progress').style.display = 'none';
+    this._view.onquit();
   }
 
   onOpen(event) {
@@ -67,7 +67,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Starting simulation...';
   }
@@ -91,7 +91,9 @@ export default class Server {
       this.onError();
       alert('Session server ' + message);
     } else if (message.indexOf('docker:') === 0)
-      console.log(message)
+      console.log(message);
+    else if (message.indexOf('ide: ') === 0)
+      this._view.ide = true;
     else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }
