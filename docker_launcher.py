@@ -58,9 +58,13 @@ while webots_process.poll() is None:
                 continue
             print('starting ' + controller)
             server = split[2]
-            run('docker build -t controller --build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 docker/controller_1', True)
-            command = f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} -v tmp-{port}:/tmp controller {controller}'
-            subprocess.Popen(command.split())
+            command = ('docker build -t controller '
+                       '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
+                       'docker/controller_1')
+            run(command, True)
+            command = (f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} '
+                       f'-v tmp-{port}:/tmp controller {controller}')
+            subprocess.Popen(command.split())  # launch in the background
     elif line:
         print(line)  # docker-compose output
     if controller_process:
