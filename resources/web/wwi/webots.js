@@ -118,9 +118,10 @@ webots.View = class View {
       if (typeof this.progress === 'undefined') {
         this.progress = document.createElement('div');
         this.progress.id = 'webots-progress';
-        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-        "</div><div id='webots-progress-message'>Initializing...</div>" +
-        "</div><div id='webots-progress-percent'></div>";
+        this.progress.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
+        "<div id='webots-progress-message'>Initializing...</div>" +
+        "<progress id='webots-progress-percent' value='0' max='100'></progress>" + 
+        "<div id='webots-progress-info'></div>";
         this.view3D.appendChild(this.progress);
       }
 
@@ -290,10 +291,10 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Bye bye...';
-    if (document.getElementById('webots-progress'))
+    if (document.getElementById('webots-progress')) {
       document.getElementById('webots-progress').style.display = 'block';
+      document.getElementById('webots-progress-message').innerHTML = 'Bye bye...';
+    }
     setTimeout(() => {
       if (document.getElementById('webots-progress'))
         document.getElementById('webots-progress').style.display = 'none';

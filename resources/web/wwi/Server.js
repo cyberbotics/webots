@@ -21,9 +21,11 @@ export default class Server {
   }
 
   connect() {
-    let progressMessage = document.getElementById('webots-progress-message');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Connecting to session server...';
+    if (document.getElementById('webots-progress')) {
+      document.getElementById('webots-progress-message').innerHTML = 'Connecting to session server...';
+      document.getElementById('webots-progress-info').innerHTML = ('Connecting to: ' + this._url).substring(0, 40) + '...';
+      document.getElementById('webots-progress-percent').value = 45;
+    }
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -57,7 +59,8 @@ export default class Server {
   }
 
   onError() {
-    document.getElementById('webots-progress').style.display = 'none';
+    if (document.getElementById('webots-progress'))
+      document.getElementById('webots-progress').style.display = 'none';
     this._view.onquit();
   }
 
@@ -70,6 +73,7 @@ export default class Server {
     let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Starting simulation...';
+      document.getElementById('webots-progress-percent').value = 0;
   }
 
   onMessage(event) {
@@ -90,8 +94,21 @@ export default class Server {
     } else if (message.indexOf('error:') === 0) {
       this.onError();
       alert('Session server ' + message);
-    } else if (message.indexOf('docker:') === 0)
+    } else if (message.indexOf('docker:') === 0) {
       console.log(message);
+      if (document.getElementById('webots-progress')) {
+        if (message.length > 35)
+          document.getElementById('webots-progress-info').innerHTML = message.substring(0, 40) + '...';
+        else
+          document.getElementById('webots-progress-info').innerHTML = message;
+        if (message.startsWith('docker: Creating network'))
+          document.getElementById('webots-progress-percent').value =  20;
+        else if (message.startsWith('docker: Step '))
+          document.getElementById('webots-progress-percent').value = 20 + 80 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
+        else if (message.endsWith('open'))
+          document.getElementById('webots-progress-percent').value =  100;
+      }
+    }
     else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
     else

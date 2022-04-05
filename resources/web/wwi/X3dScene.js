@@ -325,12 +325,12 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'Loading 3D scene...';
-      if (document.getElementById('webots-progress-percent'))
-        document.getElementById('webots-progress-percent').innerHTML = '';
-      if (document.getElementById('webots-progress'))
+      if (document.getElementById('webots-progress')) {
         document.getElementById('webots-progress').style.display = 'block';
+        document.getElementById('webots-progress-message').innerHTML = 'Loading 3D scene...';
+        document.getElementById('webots-progress-percent').value = 0;
+        document.getElementById('webots-progress-info').innerHTML = 'Loading scene...';
+      }
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

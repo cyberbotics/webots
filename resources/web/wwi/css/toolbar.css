@@ -24,14 +24,24 @@ webots-view #webots-progress {
   position: absolute;
   text-align: center;
   left: calc(50% - 160px);
-  top: calc(50% - 84px);
+  top: calc(50% - 119px);
   background-color: white;
-  width:300px;
-  height: 100px;
-  border: 2px solid #ddd;
-  border-radius: 20px;
+  width: 300px;
+  height: 140px;
+  border-radius: 15px;
   padding: 10px;
   box-sizing: content-box;
+  box-shadow: 0 0 15px #000;
+}
+
+webots-view #webots-progress-percent {
+  width: 200px;
+  color: violet;
+}
+
+webots-view #webots-progress-info {
+  font-size: x-small;
+  color: rgb(0, 122, 204);
 }
 
 webots-view .webots-label {

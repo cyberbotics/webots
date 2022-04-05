@@ -1109,14 +1109,13 @@ export default class Toolbar {
   reset(reload = false) {
     if (this._view.broadcast)
       return;
-    if (document.getElementById('webots-progress-message')) {
+    if (document.getElementById('webots-progress')) {
+      document.getElementById('webots-progress').style.display = 'block';
       if (reload)
         document.getElementById('webots-progress-message').innerHTML = 'Reloading simulation...';
       else
         document.getElementById('webots-progress-message').innerHTML = 'Restarting simulation...';
     }
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'block';
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
@@ -1342,10 +1341,10 @@ export default class Toolbar {
 
     if (this._view.broadcast || typeof name === 'undefined')
       return;
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Loading ' + name + '...';
-    if (document.getElementById('webots-progress'))
+    if (document.getElementById('webots-progress')) {
       document.getElementById('webots-progress').style.display = 'block';
+      document.getElementById('webots-progress-message').innerHTML = 'Loading ' + name + '...';
+    }
     this.hideToolbar(true);
     let previousOnready = this._view.onready;
     let stateBeforeChange = this._view.currentState;
