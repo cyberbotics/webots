@@ -77,10 +77,7 @@ protected:
     static const QString name("Appearance");
     return name;
   }
-  const QString &x3dName() const override {
-    static const QString name("PBRAppearance");
-    return name;
-  }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
