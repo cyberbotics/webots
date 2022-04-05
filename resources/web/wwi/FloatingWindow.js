@@ -94,7 +94,7 @@ export default class FloatingWindow {
 
       pos1 = event.clientX;
       pos2 = event.clientY;
-      topOffset = pos2 - fw.offsetTop
+      topOffset = pos2 - fw.offsetTop;
       leftOffset = pos1 - fw.offsetLeft;
 
       document.onmouseup = closeDragElement;
