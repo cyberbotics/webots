@@ -110,7 +110,7 @@ export default class FloatingWindow {
       pos2 = event.clientY;
 
       let top = fw.offsetTop - pos4;
-      let left = fw.offsetLeft - pos3
+      let left = fw.offsetLeft - pos3;
       let bottom = top + fw.offsetHeight;
       let right = left + fw.offsetWidth;
 
