@@ -30,7 +30,7 @@ struct WrStaticMesh;
 struct WrRenderable;
 struct WrMaterial;
 
-class aiMaterial;
+struct aiMaterial;
 
 class WbColladaShape : public WbBaseNode {
   Q_OBJECT

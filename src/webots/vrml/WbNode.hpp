@@ -54,7 +54,7 @@ class WbMFRotation;
 class WbMFNode;
 class WbVrmlWriter;
 
-class aiMaterial;
+struct aiMaterial;
 
 class WbNode : public QObject {
   Q_OBJECT

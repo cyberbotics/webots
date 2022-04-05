@@ -21,9 +21,9 @@
 class WbSFNode;
 class WbTextureTransform;
 
-class aiMaterial;
-
 struct WrMaterial;
+
+struct aiMaterial;
 
 class WbAbstractAppearance : public WbBaseNode {
   Q_OBJECT

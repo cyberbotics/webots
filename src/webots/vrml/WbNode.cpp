@@ -170,8 +170,11 @@ void WbNode::init() {
 // shallow nodes are not visible and should not be modified in any other way
 WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
   mModel = WbNodeModel::findModel(modelName);
-  init();
+  // init();
   mIsShallowNode = true;
+  mUniqueId = -2;
+  mIsCreationCompleted = true;
+  mRegenerationRequired = false;
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :

@@ -32,9 +32,9 @@ class WbTransform;  // TODO: remove this dependency: a class should not have a d
 class WbSolid;      // TODO: remove this dependency: a class should not have a dependency on its subclass
 class WbBoundingSphere;
 
-class aiMaterial;
-
 struct WrTransform;
+
+struct aiMaterial;
 
 class WbBaseNode : public WbNode {
   Q_OBJECT

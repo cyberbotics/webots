@@ -20,9 +20,9 @@
 
 class WbImageTexture;
 
-class aiMaterial;
-
 struct WrMaterial;
+
+struct aiMaterial;
 
 class WbPbrAppearance : public WbAbstractAppearance {
   Q_OBJECT
