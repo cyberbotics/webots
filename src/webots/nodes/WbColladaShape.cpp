@@ -29,8 +29,6 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include <QtCore/QFileInfo>
-
 #include <wren/material.h>
 #include <wren/node.h>
 #include <wren/renderable.h>

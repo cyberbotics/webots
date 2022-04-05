@@ -76,12 +76,12 @@ WbNodeOperations *WbNodeOperations::instance() {
   return cInstance;
 }
 
-WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
-}
-
 void WbNodeOperations::cleanup() {
   delete cInstance;
   cInstance = NULL;
+}
+
+WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {

@@ -194,15 +194,13 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   const int imageHeight = textureSize.height();
   int width = WbMathsUtilities::nextPowerOf2(imageWidth);
   int height = WbMathsUtilities::nextPowerOf2(imageHeight);
-  if (width != imageWidth || height != imageHeight) {
-    printf("%s %s\n", mUrl->item(0).toUtf8().constData(), path().toUtf8().constData());
+  if (width != imageWidth || height != imageHeight)
     warn(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
            .arg(path())
            .arg(imageWidth)
            .arg(imageHeight)
            .arg(width)
            .arg(height));
-  }
 
   const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
   const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1

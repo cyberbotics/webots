@@ -23,7 +23,7 @@ Released on XX, XXth, 2022.
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [ColladaShape](colladashape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
-    **Note that the "s" was dropped compared to the name of the PROTO, for backwards compatibility it needs to be adjusted accordingly**.
+    **Note that the "s" was dropped compared to the name of the PROTO, for backwards compatibility the name needs to be adjusted accordingly**.
   - Dependency Updates:
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).

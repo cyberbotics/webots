@@ -534,7 +534,7 @@ export default class Parser {
 
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
-      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
+      url = url.split('"').filter(element => element)[0]; // filter removes empty elements
     const ccw = parseFloat(getNodeAttribute(node, 'ccw', 'true'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';

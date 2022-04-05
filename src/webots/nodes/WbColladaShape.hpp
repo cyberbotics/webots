@@ -19,7 +19,6 @@
 
 #include <assimp/material.h>
 
-class WbBoundingSphere;
 class WbMFString;
 class WbDownloader;
 class WbPbrAppearance;
