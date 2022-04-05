@@ -126,6 +126,8 @@ void WbColladaShape::postFinalize() {
 }
 
 void WbColladaShape::updateUrl() {
+  if (colladaPath().isEmpty())
+    return;
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {

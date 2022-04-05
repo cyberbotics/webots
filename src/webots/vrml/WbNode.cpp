@@ -169,6 +169,7 @@ void WbNode::init() {
 WbNode::WbNode() {
   init();
   mIsShallowNode = true;
+  mParentNode = NULL;  // necessary or some warnings in the related shallow nodes might trigger a crash
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
