@@ -75,7 +75,7 @@ signals:
 
 private:
   static WbNodeOperations *cInstance;
-  WbNodeOperations(){};
+  WbNodeOperations();
   ~WbNodeOperations() {}
 
   bool mNodesAreAboutToBeInserted;
