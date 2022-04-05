@@ -482,29 +482,19 @@ export default class Parser {
     let geometry;
     let appearance;
 
-    for (let i = 0; i < node.childNodes.length; i++) {
+    for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
       if (typeof appearance === 'undefined') {
-        if (child.tagName === 'Appearance') {
-          if (isBoundingObject)
-            continue;
-          // If a sibling PBRAppearance is detected, prefer it.
-          let pbrAppearanceChild = false;
-          for (let j = 0; j < node.childNodes.length; j++) {
-            const child0 = node.childNodes[j];
-            if (child0.tagName === 'PBRAppearance') {
-              pbrAppearanceChild = true;
-              break;
-            }
-          }
-          if (pbrAppearanceChild)
-            continue;
+        if (isBoundingObject)
+          continue;
+        else if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
-        } else if (child.tagName === 'PBRAppearance')
+        else if (child.tagName === 'PBRAppearance')
           appearance = this._parsePBRAppearance(child);
+
         if (typeof appearance !== 'undefined')
           continue;
       }
@@ -514,12 +504,8 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-
-      console.log('X3dLoader: Unknown node: ' + child.tagName);
+      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
     }
-
-    if (isBoundingObject)
-      appearance = undefined;
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
@@ -791,8 +777,7 @@ export default class Parser {
         normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
     }
 
-    const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
-
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
