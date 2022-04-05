@@ -20,7 +20,7 @@ export default class FloatingWindow {
     this.headerQuit = document.createElement('button');
     this.headerQuit.className = 'floating-window-close';
     this.headerQuit.id = 'close-' + name;
-    this.headerQuit.innerHTML = ('&times');
+    this.headerQuit.innerHTML = ('&times;');
     this.floatingWindowHeader.appendChild(this.headerQuit);
 
     this.floatingWindowContent = document.createElement('div');
