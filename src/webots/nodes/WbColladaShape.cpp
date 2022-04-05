@@ -107,6 +107,7 @@ void WbColladaShape::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbColladaShape::createWrenObjects);
 
+  updateUrl();
   updateCcw();
   updateCastShadows();
   updateIsPickable();
