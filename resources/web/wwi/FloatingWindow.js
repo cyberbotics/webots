@@ -124,8 +124,8 @@ export default class FloatingWindow {
       else if (right > containerWidth || event.clientX > containerWidth - fw.offsetWidth + leftOffset)
         left = containerWidth - fw.offsetWidth;
 
-      fw.style.top = top + "px";
-      fw.style.left = left + "px";
+      fw.style.top = top + 'px';
+      fw.style.left = left + 'px';
     }
 
     function closeDragElement() {
