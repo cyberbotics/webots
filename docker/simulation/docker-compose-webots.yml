@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
       args:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE
-    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=realtime --minimize --no-rendering /webots_project/worlds/e-puck.wbt
+    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=realtime --minimize --no-rendering $WORLD
     environment:
       - DISPLAY=:0
     ports:
