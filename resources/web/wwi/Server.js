@@ -1,5 +1,4 @@
 import Stream from './Stream.js';
-import {webots} from './webots.js';
 
 export default class Server {
   constructor(url, view, onready) {
@@ -50,7 +49,7 @@ export default class Server {
         };
       })
       .catch(error => {
-        this.onError()
+        this.onError();
         alert('Could not connect to session server');
         console.error(error);
       });
