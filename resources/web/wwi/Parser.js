@@ -493,7 +493,7 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometry.');
+      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
     }
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
