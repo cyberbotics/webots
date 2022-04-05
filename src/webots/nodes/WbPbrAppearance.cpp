@@ -82,8 +82,9 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
 
   float transparency = 0.0f;
   if (material->Get(AI_MATKEY_TRANSPARENCYFACTOR, transparency) != AI_SUCCESS) {
-    material->Get(AI_MATKEY_OPACITY, transparency);
-    transparency = 1.0f - transparency;  // define from opacity
+    float opacity = 1.0f;
+    material->Get(AI_MATKEY_OPACITY, opacity);
+    transparency = 1.0f - opacity;  // define from opacity
   }
   mTransparency = new WbSFDouble(transparency);
 
