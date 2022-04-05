@@ -44,7 +44,6 @@ public:
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_COLLADA_SHAPE; }
   void downloadAssets() override;
-  void preFinalize() override;
   void postFinalize() override;
 
 protected:

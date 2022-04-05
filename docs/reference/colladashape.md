@@ -23,7 +23,8 @@ Otherwise, the url must either specify be a relative or absolute path.
 
 > **Note**: if the collada file starts `http://` or `https://`, then any implicit textures referenced by it will also be assumed to reside at an url relative to the location of the url of the collada file.
 For example, assume a collada file `MyCollada.dae` references a texture `./textures/texture.png` relative to it, then if the collada file is provided as a remote file of url:
-*https://raw.githubusercontent.com/cyberbotics/master/meshes/MyCollada.dae* then the corresponding texture will be downloaded from:
+*https://raw.githubusercontent.com/cyberbotics/master/meshes/MyCollada.dae*
+then the corresponding texture will be downloaded from:
 *https://raw.githubusercontent.com/cyberbotics/master/meshes/textures/texture.png*
 
 - The `ccw` field indicates whether the vertices of the faces are ordered in a counter-clockwise direction.

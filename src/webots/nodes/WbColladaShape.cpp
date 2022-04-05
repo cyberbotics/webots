@@ -90,10 +90,6 @@ void WbColladaShape::downloadUpdate() {
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
-void WbColladaShape::preFinalize() {
-  WbBaseNode::preFinalize();
-}
-
 void WbColladaShape::postFinalize() {
   WbBaseNode::postFinalize();
 

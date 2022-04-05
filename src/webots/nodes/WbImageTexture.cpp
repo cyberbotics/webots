@@ -95,8 +95,8 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   aiString path("");
   material->GetTexture(textureType, 0, &path);
-  QString relativePath = QString(path.C_Str());
   // generate url of texture from url of collada file
+  QString relativePath = QString(path.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
   while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
@@ -602,14 +602,6 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  const int filtering = mFiltering->value();
-  if (writer.isX3d() && filtering > 0)
-    writer << "<TextureProperties anisotropicDegree=\"" << (1 << (filtering - 1))
-           << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
-  WbBaseNode::exportNodeSubNodes(writer);
-}
-
 void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
@@ -625,7 +617,6 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
 
   writer << "<ImageTexture";
   writer << " url='\"" << url << "\"'";
-  printf("==== %s | %s\n", url.toUtf8().constData(), url.toUtf8().constData());
   writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
   if (!mRole.isEmpty())
     writer << " role='" << mRole << "'";
