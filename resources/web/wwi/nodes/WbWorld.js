@@ -12,6 +12,7 @@ export default class WbWorld {
     this.billboards = [];
     this.tracks = [];
     this.readyForUpdates = false;
+    this.robots = [];
   }
 
   static init() {
