@@ -426,9 +426,9 @@ export default class Toolbar {
     });
 
     if (typeof this.ideWindow !== 'undefined' && !this.ideWindow)
-      document.onfullscreenchange = () => {this._fullscreenChangeHeight([this.ideWindow].concat(this.robotWindows))};
+      document.onfullscreenchange = () => { this._fullscreenChangeHeight([this.ideWindow].concat(this.robotWindows)); };
     else
-      document.onfullscreenchange = () => {this._fullscreenChangeHeight(this.robotWindows)};
+      document.onfullscreenchange = () => { this._fullscreenChangeHeight(this.robotWindows); };
   }
 
   _refreshRobotWindowContent() {
