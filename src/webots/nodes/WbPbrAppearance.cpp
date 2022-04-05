@@ -80,10 +80,10 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
   mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
 
-  float opacity = 1.0f, transparency = 0.0f;
+  float transparency = 0.0f;
   if (material->Get(AI_MATKEY_TRANSPARENCYFACTOR, transparency) != AI_SUCCESS) {
-    material->Get(AI_MATKEY_OPACITY, opacity);
-    transparency = 1.0f - opacity;
+    material->Get(AI_MATKEY_OPACITY, transparency);
+    transparency = 1.0f - transparency;  // define from opacity
   }
   mTransparency = new WbSFDouble(transparency);
 

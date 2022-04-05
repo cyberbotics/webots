@@ -34,7 +34,7 @@ public:
 
   WbMFString(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFString(const WbMFString &other) : mValue(other.mValue) {}
-  WbMFString(const QStringList &value) : mValue(value) {}
+  explicit WbMFString(const QStringList &value) : mValue(value) {}
   virtual ~WbMFString() {}
   WbValue *clone() const override { return new WbMFString(*this); }
   bool equals(const WbValue *other) const override;

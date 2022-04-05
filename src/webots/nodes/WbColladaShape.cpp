@@ -120,8 +120,6 @@ void WbColladaShape::postFinalize() {
 }
 
 void WbColladaShape::updateUrl() {
-  if (colladaPath().isEmpty())
-    return;
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -131,7 +129,7 @@ void WbColladaShape::updateUrl() {
     mUrl->blockSignals(false);
   }
 
-  if (n > 0) {
+  if (n > 0 && !mUrl->item(0).isEmpty()) {
     const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
@@ -179,7 +177,7 @@ void WbColladaShape::createWrenObjects() {
 
   deleteWrenObjects();
 
-  if (mUrl->size() == 0)
+  if (mUrl->size() == 0 || colladaPath().isEmpty())
     return;
 
   Assimp::Importer importer;
