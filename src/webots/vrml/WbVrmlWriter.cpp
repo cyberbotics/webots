@@ -153,6 +153,7 @@ void WbVrmlWriter::writeHeader(const QString &title) {
                "xsd:noNamespaceSchemaLocation=\"http://www.web3d.org/specifications/x3d-3.0.xsd\">\n";
       *this << "<head>\n";
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
+      *this << "<meta name=\"version\" content=\"" + WbApplicationInfo::version().toString(false) + "\" />\n";
       *this << "</head>\n";
       *this << "<Scene>\n";
       return;
