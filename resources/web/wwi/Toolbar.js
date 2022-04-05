@@ -501,7 +501,7 @@ export default class Toolbar {
   }
 
   _fullscreenChangeHeight(floatingWindows) {
-    floatingWindows.forEach ((fw) => {
+    floatingWindows.forEach((fw) => {
       if (fw.getPosition()[0] > this.parentNode.offsetWidth)
         fw.setPosition(this.parentNode.offsetWidth - 200, fw.getPosition()[1]);
       if (fw.getPosition()[1] > this.parentNode.offsetHeight)
