@@ -2,13 +2,34 @@ import os
 import subprocess
 import sys
 
+
+def run(command, sync):
+    try:
+        process = subprocess.Popen(command.split(),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT,
+                                   bufsize=1, universal_newlines=True)
+    except Exception:
+        print(f"Error: Unable to start {command}")
+        quit()
+    print(f"Started {command}")
+    if sync:
+        while process.poll() is None:
+            line = process.stdout.readline().rstrip()
+            if line:
+                print(line)
+        return None
+    else:
+        return process
+
+
 if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 subprocess.run(['xhost', '+local:root'])
 port = 1234
 with open('docker/simulation/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
-    env_file.write('PORT=' + str(port) + '\n')
+    env_file.write(f'PORT={port}\n')
 
 command = 'docker-compose -f docker/simulation/docker-compose-webots.yml up --build --no-color'
 controllers = {
@@ -36,11 +57,10 @@ while webots_process.poll() is None:
                 print('controller "' + name + '" not found, skipping...')
                 continue
             print('starting ' + controller)
-            os.environ['WEBOTS_ROBOT_NAME'] = name
-            os.environ['WEBOTS_SERVER'] = split[2]
-            os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
-            os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
-            controller_command = 'docker run docker/controller_1'
+            server = split[2]
+            run('docker build -t controller --build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 docker/controller_1', True)
+            command = f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} -v tmp-{port}:/tmp controller {controller}'
+            subprocess.Popen(command.split())
     elif line:
         print(line)  # docker-compose output
     if controller_process:

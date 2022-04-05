@@ -1,5 +1,9 @@
 version: "3.8"
 
+volumes:
+  tmp:
+    name: tmp-$PORT
+
 services:
   webots:
     image: simulation
@@ -18,4 +22,4 @@ services:
     tty: true         # docker run -t
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      # - var-$PORT:/var
+      - tmp:/tmp
