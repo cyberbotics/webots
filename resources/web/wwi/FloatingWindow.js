@@ -116,13 +116,13 @@ export default class FloatingWindow {
 
       if (top < 0 || event.clientY < topOffset)
         top = 0;
-      else if (bottom>containerHeight || event.clientY>containerHeight-fw.offsetHeight + topOffset)
-        top = containerHeight-fw.offsetHeight;
+      else if (bottom > containerHeight || event.clientY > containerHeight - fw.offsetHeight + topOffset)
+        top = containerHeight - fw.offsetHeight;
       
       if (left < 0 || event.clientX < leftOffset)
         left = 0;
-      else if (right>containerWidth || event.clientX>containerWidth-fw.offsetWidth + leftOffset)
-        left = containerWidth-fw.offsetWidth;
+      else if (right > containerWidth || event.clientX > containerWidth - fw.offsetWidth + leftOffset)
+        left = containerWidth - fw.offsetWidth;
 
       fw.style.top = top + "px";
       fw.style.left = left + "px";
