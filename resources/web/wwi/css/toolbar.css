@@ -128,19 +128,19 @@ webots-view .icon {
   pointer-events: none;
 }
 
-webots-view .icon-step            {background-image: url(../images/icons/step.svg); background-position: -6px;}
-webots-view .icon-reset           {background-image: url(../images/icons/reset.svg);}
-webots-view .icon-run             {background-image: url(../images/icons/run.svg);}
-webots-view .icon-reset-scene     {background-image: url(../images/icons/reload.svg);}
-webots-view .icon-reload          {background-image: url(../images/icons/reload.svg);}
-webots-view .icon-quit            {background-image: url(../images/icons/quit.svg);}
-webots-view .icon-info            {background-image: url(../images/icons/info.svg);}
-webots-view .icon-settings        {background-image: url(../images/icons/settings.svg);}
-webots-view .icon-fullscreen      {background-image: url(../images/icons/fullscreen.svg);}
-webots-view .icon-windowed        {background-image: url(../images/icons/windowed.svg);}
-webots-view .icon-robot-window    {background-image: url(../images/icons/robot-window.svg);}
-webots-view .icon-ide             {background-image: url(../images/icons/ide.svg);}
-webots-view .icon-world-selection {background-image: url(../images/icons/world-selection.svg);}
+webots-view .icon-step            { background-image: url(../images/icons/step.svg); background-position: -6px; }
+webots-view .icon-reset           { background-image: url(../images/icons/reset.svg); }
+webots-view .icon-run             { background-image: url(../images/icons/run.svg); }
+webots-view .icon-reset-scene     { background-image: url(../images/icons/reload.svg); }
+webots-view .icon-reload          { background-image: url(../images/icons/reload.svg); }
+webots-view .icon-quit            { background-image: url(../images/icons/quit.svg); }
+webots-view .icon-info            { background-image: url(../images/icons/info.svg); }
+webots-view .icon-settings        { background-image: url(../images/icons/settings.svg); }
+webots-view .icon-fullscreen      { background-image: url(../images/icons/fullscreen.svg); }
+webots-view .icon-windowed        { background-image: url(../images/icons/windowed.svg); }
+webots-view .icon-robot-window    { background-image: url(../images/icons/robot-window.svg); }
+webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
+webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
