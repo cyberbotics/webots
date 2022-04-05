@@ -79,7 +79,8 @@ export default class FloatingWindow {
     let pos4 = 0;
     let containerHeight = fw.parentNode.offsetHeight;
     let containerWidth = fw.parentNode.offsetWidth;
-    let topOffset = 0, leftOffset = 0;
+    let topOffset = 0;
+    let leftOffset = 0;
 
     fw.firstChild.onmousedown = dragMouseDown;
 
