@@ -66,7 +66,7 @@ webots-view .toolbar-right {
 webots-view .webots-streaming-time {
   color: rgba(240, 240, 240, 1);
   font-size: 16px;
-  text-shadow: 1px 1px 1px rgb(0,0,0,0);
+  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0);
   font-family: Tahoma;
   line-height: normal;
   position: relative;
