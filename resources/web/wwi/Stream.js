@@ -11,8 +11,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Connecting to Webots instance...';
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -86,22 +86,22 @@ export default class Stream {
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
       data = data.substring(data.indexOf(':') + 1).trim();
       let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Webots: ' + loadingStatus;
-      if (document.getElementById('webotsProgressPercent'))
-        document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Webots: ' + loadingStatus;
+      if (document.getElementById('webots-progress-percent'))
+        document.getElementById('webots-progress-percent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
     } else if (data === 'scene load completed') {
       this._view.time = 0;
-      if (document.getElementById('webotsClock'))
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+      if (document.getElementById('webots-clock'))
+        document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this._view.mode === 'mjpeg') {
-        if (document.getElementById('webotsProgress'))
-          document.getElementById('webotsProgress').style.display = 'none';
+        if (document.getElementById('webots-progress'))
+          document.getElementById('webots-progress').style.display = 'none';
         if (typeof this._onready === 'function')
           this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once
@@ -114,8 +114,8 @@ export default class Stream {
         this._onready();
     } else if (data.startsWith('time: ')) {
       this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      if (document.getElementById('webotsClock'))
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
+      if (document.getElementById('webots-clock'))
+        document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
     } else if (data === 'delete world')
       this._view.destroyWorld();
     else {

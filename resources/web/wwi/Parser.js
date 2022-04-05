@@ -76,8 +76,8 @@ export default class Parser {
         this._parseNode(scene);
     }
 
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Finalizing...';
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -107,11 +107,14 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'none';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'none';
 
       if (typeof callback === 'function')
         callback();
+
+      if (document.getElementById('robot-window-button') !== null)
+        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
 
       console.timeEnd('Loaded in: ');
     });
@@ -240,6 +243,7 @@ export default class Parser {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
     }));
+
     WbWorld.instance.scene = new WbScene();
   }
 
@@ -423,8 +427,15 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else
+    } else {
       newNode = new WbTransform(id, isSolid, translation, scale, rotation);
+      if (type === 'robot') {
+        const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
+        const name = node.getAttribute('name');
+        const id = node.getAttribute('id');
+        WbWorld.instance.robots.push({id: id, name: name, window: window});
+      }
+    }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
