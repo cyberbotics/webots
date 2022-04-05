@@ -391,7 +391,7 @@ export default class Toolbar {
   }
 
   _createRobotWindows() {
-    const robotWindowUrl = this._view.x3dScene.prefix.slice(0,-1);
+    const robotWindowUrl = this._view.x3dScene.prefix.slice(0, -1);
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
