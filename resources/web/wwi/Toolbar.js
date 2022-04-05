@@ -152,8 +152,8 @@ export default class Toolbar {
 
   _checkLeftTooltips() {
     const toolbarLeft = document.getElementById('toolbar-left');
-    for (let child = toolbarLeft.firstChild; child !==null ; child = child.nextSibling) {
-      const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth/2;
+    for (let child = toolbarLeft.firstChild; child !== null ; child = child.nextSibling) {
+      const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth / 2;
       if (left < 0) {
         document.getElementById(child.lastChild.id).style.left = '0';
         document.getElementById(child.lastChild.id).style.transform = 'translateX(0)';
