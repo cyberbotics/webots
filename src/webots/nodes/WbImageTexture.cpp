@@ -92,7 +92,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   init();
 
   assert(!parentPath.endsWith("/"));
-  printf("> parent: %s\n", parentPath.toUtf8().constData());
+
   aiString path("");
   material->GetTexture(textureType, 0, &path);
   QString relativePath = QString(path.C_Str());
@@ -106,10 +106,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   if (!relativePath.startsWith("/"))
     relativePath.insert(0, '/');
 
-  const QString url = WbUrl::computePath(this, "url", parentPath + relativePath, false);
-  printf(" > texture type %d, found %s: %s\n", textureType, path.C_Str(), url.toUtf8().constData());
-
-  mUrl = new WbMFString(QStringList(url));
+  mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);

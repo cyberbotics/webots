@@ -254,12 +254,8 @@ void WbColladaShape::createWrenObjects() {
     node = queue.front();
     queue.pop_front();
 
-    printf("node %s has %d meshes and %d children \n", node->mName.C_Str(), node->mNumMeshes, node->mNumChildren);
-
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      printf(" > mesh %s (%p) has %d vertices and material index %d\n", mesh->mName.data, mesh, mesh->mNumVertices,
-             mesh->mMaterialIndex);
 
       // compute absolute transform of this node from all the parents
       const int vertices = mesh->mNumVertices;
@@ -352,7 +348,6 @@ void WbColladaShape::createWrenObjects() {
     }
   }
 
-  printf("create WREN objects, size %lld\n", mWrenMeshes.size());
   for (int i = 0; i < mWrenMeshes.size(); ++i) {
     WrRenderable *renderable = wr_renderable_new();
     wr_renderable_set_material(renderable, mWrenMaterials[i], NULL);
