@@ -29,8 +29,6 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "WbTriangleMesh.hpp"
-
 #include <QtCore/QFileInfo>
 
 #include <wren/material.h>
@@ -382,6 +380,7 @@ void WbColladaShape::createWrenObjects() {
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
 }
+
 void WbColladaShape::updateAppearance() {
   assert(mPbrAppearances.size() == mWrenMaterials.size());
 

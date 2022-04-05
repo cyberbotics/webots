@@ -61,6 +61,7 @@ void WbImageTexture::init() {
   mImage = NULL;
   mUsedFiltering = 0;
   mWrenTextureIndex = 0;
+  mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
 }
