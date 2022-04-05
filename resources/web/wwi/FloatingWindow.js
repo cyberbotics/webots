@@ -83,7 +83,6 @@ export default class FloatingWindow {
     function dragMouseDown(event) {
       fw.lastElementChild.style.pointerEvents = 'none';
 
-      pageHeight = fw.parentNode.parentNode.offsetHeight;
       containerHeight = fw.parentNode.offsetHeight;
       containerWidth = fw.parentNode.offsetWidth;
 
