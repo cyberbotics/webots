@@ -195,9 +195,9 @@ webots-view .toolbar-btn:hover .icon-windowed {
 }
 
 @keyframes animation-scale-up {
-  0%    {transform: scale(1);}
-  50%   {transform: scale(1.1);}
-  100%  {transform: scale(1);}
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 @keyframes animation-rotate {
