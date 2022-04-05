@@ -59,8 +59,9 @@ WbBaseNode::WbBaseNode(const WbNode &other) : WbNode(other) {
   init();
 }
 
-// special constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material
-// shallow nodes are not visible and should not be modified in any other way
+// special constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material in
+// order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
+// be modified or interacted with in any other way other than through the creation and destruction of ColladaShape nodes
 WbBaseNode::WbBaseNode(const QString &modelName, const aiMaterial *material) : WbNode(modelName, material) {
   init();
 }
