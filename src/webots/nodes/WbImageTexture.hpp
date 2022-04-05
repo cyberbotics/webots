@@ -80,7 +80,6 @@ signals:
 protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 
 private:
   // user accessible fields
@@ -100,7 +99,6 @@ private:
   WbVector2 mExternalTextureRatio;
   const unsigned char *mExternalTextureData;
 
-  QString mContainerField;
   QImage *mImage;
   int mUsedFiltering;
   bool mIsMainTextureTransparent;
