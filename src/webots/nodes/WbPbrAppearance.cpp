@@ -515,13 +515,31 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 
   if (writer.isX3d()) {
-    writer << "<Material diffuseColor=\"";
-    mBaseColor->write(writer);
-    writer << "\" specularColor=\"" << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
-           << (float)(1.0 - mRoughness->value()) << "\" ";
-    writer << "shininess=\"" << (float)(1.0 - mRoughness->value()) << "\"";
-    writer << "/>";
-    mBaseColorMap->write(writer);
+    if (baseColorMap()) {
+      baseColorMap()->setRole("baseColor");
+      baseColorMap()->write(writer);
+    }
+    if (roughnessMap()) {
+      roughnessMap()->setRole("roughness");
+      roughnessMap()->write(writer);
+    }
+    if (metalnessMap()) {
+      metalnessMap()->setRole("metalness");
+      metalnessMap()->write(writer);
+    }
+    if (normalMap()) {
+      normalMap()->setRole("normal");
+      normalMap()->write(writer);
+    }
+    if (occlusionMap()) {
+      occlusionMap()->setRole("occlusion");
+      occlusionMap()->write(writer);
+    }
+    if (emissiveColorMap()) {
+      emissiveColorMap()->setRole("emissiveColor");
+      emissiveColorMap()->write(writer);
+    }
+
     if (textureTransform())
       textureTransform()->write(writer);
   } else if (writer.isVrml()) {
@@ -556,54 +574,13 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
-void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
-  WbAbstractAppearance::exportNodeFooter(writer);
-
-  if (!writer.isX3d())
-    return;
-
-  writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\'";
-
-  if (isUseNode() && defNode()) {
-    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></PBRAppearance>";
-    return;
+void WbPbrAppearance::exportNodeFields(WbVrmlWriter &writer) const {
+  WbAbstractAppearance::exportNodeFields(writer);
+  if (writer.isX3d()) {
+    foreach (WbField *field, fields())
+      if (field->singleType() != WB_SF_NODE)
+        field->write(writer);
   }
-
-  foreach (WbField *field, fields())
-    if (field->singleType() != WB_SF_NODE)
-      field->write(writer);
-
-  writer << ">";
-
-  if (baseColorMap()) {
-    baseColorMap()->setRole("baseColor");
-    baseColorMap()->write(writer);
-  }
-  if (roughnessMap()) {
-    roughnessMap()->setRole("roughness");
-    roughnessMap()->write(writer);
-  }
-  if (metalnessMap()) {
-    metalnessMap()->setRole("metalness");
-    metalnessMap()->write(writer);
-  }
-  if (normalMap()) {
-    normalMap()->setRole("normal");
-    normalMap()->write(writer);
-  }
-  if (occlusionMap()) {
-    occlusionMap()->setRole("occlusion");
-    occlusionMap()->write(writer);
-  }
-  if (emissiveColorMap()) {
-    emissiveColorMap()->setRole("emissiveColor");
-    emissiveColorMap()->write(writer);
-  }
-
-  if (textureTransform())
-    textureTransform()->write(writer);
-
-  writer << "</PBRAppearance>";
 }
 
 QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {

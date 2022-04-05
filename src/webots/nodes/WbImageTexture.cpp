@@ -56,7 +56,6 @@ void WbImageTexture::init() {
   mExternalTexture = false;
   mExternalTextureRatio.setXy(1.0, 1.0);
   mExternalTextureData = NULL;
-  mContainerField = "";
   mImage = NULL;
   mUsedFiltering = 0;
   mWrenTextureIndex = 0;
@@ -558,17 +557,8 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
-           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+    writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
   }
-}
-
-void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  const int filtering = mFiltering->value();
-  if (writer.isX3d() && filtering > 0)
-    writer << "<TextureProperties anisotropicDegree=\"" << (1 << (filtering - 1))
-           << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
-  WbBaseNode::exportNodeSubNodes(writer);
 }

@@ -72,11 +72,12 @@ public:
 protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbVrmlWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("Appearance");
     return name;
   }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
