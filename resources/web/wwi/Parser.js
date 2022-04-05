@@ -471,7 +471,7 @@ export default class Parser {
     let geometry;
     let appearance;
 
-    for (let i = node.childNodes.length - 1; i >= 0; i--) {
+    for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
