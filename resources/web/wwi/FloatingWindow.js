@@ -73,7 +73,10 @@ export default class FloatingWindow {
   }
 
   _dragElement(fw) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let pos1 = 0;
+    let pos2 = 0;
+    let pos3 = 0;
+    let pos4 = 0;
     let containerHeight = fw.parentNode.offsetHeight;
     let containerWidth = fw.parentNode.offsetWidth;
     let topOffset = 0, leftOffset = 0;
