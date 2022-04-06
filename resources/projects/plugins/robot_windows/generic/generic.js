@@ -7,6 +7,7 @@ import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
 var robotName = '';
 var commands = [];
+var configured = false;
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
 
@@ -60,9 +61,17 @@ function configure(data) {
 function receive(message, _robot) {
   let data = '';
   if (message.indexOf('configure ') === 0) {
+    // The robot window should be configured only once.
+    // However, it may happen that it receives several configure messages in the following cases:
+    // - if several tabs open the same robot windows, or
+    // - if a robot window is opened and refreshed before is has received the config message.
+    if (configured)
+      return;
     data = parseJSONMessage(message.substring(10));
-    if (data)
+    if (data) {
       configure(data);
+      configured = true;
+    }
   } else if (windowIsHidden)
     return;
   else if (message.indexOf('update ') === 0) {
