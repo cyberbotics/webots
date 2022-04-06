@@ -61,10 +61,7 @@ export default class Parser {
       xml = parser.parseFromString(text, 'text/xml');
     }
 
-    if (document.getElementById('webots-progress')) {
-      document.getElementById('webots-progress-message').innerHTML = 'Finalizing...';
-      document.getElementById('webots-progress-percent').value = 0;
-    }
+    webots.currentView.setProgressBar('block', 'Finalizing...', 0, 'Parsing x3d file...');
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
@@ -76,17 +73,16 @@ export default class Parser {
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
         else {
-          this._testFunction('Parsing nodes ' + xml.getElementsByTagName('nodes').length + '...', 10);
+          webots.currentView.setProgressBar('block', 'Finalizing...', 10, 'Parsing nodes...');
           this._parseChildren(node, parent);
         }
       } else {
-        console.log(scene.childElementCount);
-        this._testFunction('Parsing scene ' + xml.getElementsByTagName('Scene').length + '...', 10);
+        webots.currentView.setProgressBar('block', 'Finalizing...', 10, 'Parsing scene...');
         this._parseNode(scene);
       }
     }
 
-    this._testFunction('Finalizing...', 90);
+    webots.currentView.setProgressBar('block', 'Finalizing...', 15, 'Finalizing...');
     return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
@@ -118,8 +114,7 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      if (document.getElementById('webots-progress'))
-        document.getElementById('webots-progress').style.display = 'none';
+      webots.currentView.setProgressBar('none');
 
       if (typeof callback === 'function')
         callback();
@@ -130,20 +125,6 @@ export default class Parser {
       console.timeEnd('Loaded in: ');
     });
   }
-
-  _testFunction(info, value) {
-      if (document.getElementById('webots-progress')) {
-        console.log("Info: " + info);
-        if (value > 100)
-          document.getElementById('webots-progress-percent').setAttribute("value", 100);
-        else
-          document.getElementById('webots-progress-percent').setAttribute("value", value);
-        if (info.length > 40)
-          document.getElementById('webots-progress-info').innerHTML = info.substring(0, 40) + '...';
-        else
-          document.getElementById('webots-progress-info').innerHTML = info;
-      }
-  };
 
   _parseNode(node, parentNode, isBoundingObject) {
     if (typeof WbWorld.instance === 'undefined')
@@ -1135,20 +1116,6 @@ export default class Parser {
     return textureTransform;
   }
 }
-
-function _testFunction(info, value) {
-  if (document.getElementById('webots-progress')) {
-    console.log("Info: " + info);
-    if (value > 100)
-      document.getElementById('webots-progress-percent').setAttribute("value", 100);
-    else
-      document.getElementById('webots-progress-percent').setAttribute("value", value);
-    if (info.length > 40)
-      document.getElementById('webots-progress-info').innerHTML = info.substring(0, 40) + '...';
-    else
-      document.getElementById('webots-progress-info').innerHTML = info;
-  }
-};
 
 function loadTextureData(prefix, url, isHdr, rotation) {
   const canvas2 = document.createElement('canvas');

@@ -134,8 +134,8 @@ export default class X3dScene {
       }
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'File not found.';
+      if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined')
+        document.getElementsByTagName('webots-view')[0].setProgressBar('block', 'File not found.', 'none', 'none');
     };
     xmlhttp.send();
   }
@@ -325,12 +325,8 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (document.getElementById('webots-progress')) {
-        document.getElementById('webots-progress').style.display = 'block';
-        document.getElementById('webots-progress-message').innerHTML = 'Loading 3D scene...';
-        document.getElementById('webots-progress-percent').value = 0;
-        document.getElementById('webots-progress-info').innerHTML = 'Loading scene...';
-      }
+      if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined')
+        document.getElementsByTagName('webots-view')[0].setProgressBar('block', 'Loading 3D scene...', 25, 'Loading scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

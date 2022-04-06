@@ -125,7 +125,7 @@ webots.View = class View {
         this.view3D.appendChild(this.progress);
       }
 
-      this.setProgressBar('block', 'none', 'none', 'none');
+      this.setProgressBar('block');
 
       if (this._isWebSocketProtocol) {
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
@@ -288,15 +288,10 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    console.log("Bye bye");
-    if (document.getElementById('webots-progress')) {
-      document.getElementById('webots-progress-message').innerHTML = "Bye bye...";
-    }
+    this.setProgressBar('block', 'Bye bye...', 'none', 'See you soon!');
     setTimeout(() => {
-      if (document.getElementById('webots-progress')) {
-        document.getElementById('webots-progress').display = 'none';
-      }
-    }, 1000);
+      this.setProgressBar('none');
+    }, 2000);
     this.quitting = true;
     this.onquit();
   }
@@ -315,34 +310,29 @@ webots.View = class View {
 
   setProgressBar(display, message, percent, info) {
     if (document.getElementById('webots-progress')) {
-      console.log("Gone here with: ");
-      console.log("  -display: " + display);
-      console.log("  -message: " + message);
-      console.log("  -percent: " + percent);
-      console.log("  -info: " + info);
-      document.getElementById('webots-progress').display = display;
-      if (message) {
-        if (message === 'none')
-          document.getElementById('webots-progress-message').display = 'none';
-        else
-          document.getElementById('webots-progress-message').innerHTML = message;
-      }
-      if (percent) {
-        if (percent === 'none')
-          document.getElementById('webots-progress-percent').display = 'none';
-        else if (percent > 100)
-          document.getElementById('webots-progress-percent').value = 100;
-        else
-          document.getElementById('webots-progress-percent').value = percent;
-      }
-      if (info) {
-        if (info === 'none')
-          document.getElementById('webots-progress-info').display = 'none';
+      document.getElementById('webots-progress').style.display = display;
+
+      if (typeof message !== 'undefined' && message !== 'none') {
+        document.getElementById('webots-progress-message').style.visibility = 'visible';
+        document.getElementById('webots-progress-message').innerHTML = message;
+      } else
+        document.getElementById('webots-progress-message').style.visibility = 'hidden';
+
+      if (typeof percent !== 'undefined' && percent !== 'none') {
+        if (percent > 100)
+          percent = 100;
+        document.getElementById('webots-progress-percent').style.visibility = 'visible';
+        document.getElementById('webots-progress-percent').value = percent;
+      } else
+        document.getElementById('webots-progress-percent').style.visibility = 'hidden';
+
+      if (typeof info !== 'undefined' && info !== 'none') {
         if (info.length > 40)
-          document.getElementById('webots-progress-info').innerHTML = info.substring(0, 40) + '...';
-        else
-          document.getElementById('webots-progress-info').innerHTML = info;
-      }
+          info = info.substring(0, 40) + '...';
+        document.getElementById('webots-progress-info').style.visibility = 'visible';
+        document.getElementById('webots-progress-info').innerHTML = info;
+      } else
+        document.getElementById('webots-progress-info').style.visibility = 'hidden';
     }
   };
 

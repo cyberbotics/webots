@@ -11,8 +11,7 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress-message').innerHTML = 'Connecting to Webots instance...';
+    this._view.setProgressBar('block', 'Connecting to Webots instance...', 0, 'Connecting...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -30,18 +29,11 @@ export default class Stream {
   }
 
   _onSocketOpen(event) {
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress-info').innerHTML = 'Opening socket...';
-
     let mode = this._view.mode;
     if (mode === 'mjpeg')
       mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
     else if (this._view.broadcast)
       mode += ';broadcast';
-
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress-info').innerHTML = 'Sending mode: ' + mode + '...';
-
     this.socket.send(mode);
   }
 
@@ -92,22 +84,18 @@ export default class Stream {
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
-      if (document.getElementById('webots-progress')) {
-        document.getElementById('webots-progress').style.display = 'block';
-        document.getElementById('webots-progress-info').innerHTML = data;
-        data = data.substring(data.indexOf(':') + 1).trim();
-        let loadingStatus = data.substring(0, data.indexOf(':')).trim();
-        document.getElementById('webots-progress-message').innerHTML = 'Webots: ' + loadingStatus;
-        data = data.substring(data.indexOf(':') + 1).trim();
-        document.getElementById('webots-progress-percent').value = data;
-      }
+      console.log(data);
+      const info = data;
+      data = data.substring(data.indexOf(':') + 1).trim();
+      const message = 'Webots: ' + data.substring(0, data.indexOf(':')).trim();
+      const percent = data.substring(data.indexOf(':') + 1).trim();
+      this._view.setProgressBar('block', message, percent, info);
     } else if (data === 'scene load completed') {
       this._view.time = 0;
       if (document.getElementById('webots-clock'))
         document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this._view.mode === 'mjpeg') {
-        if (document.getElementById('webots-progress'))
-          document.getElementById('webots-progress').style.display = 'none';
+        this._view.setProgressBar('none');
         if (typeof this._onready === 'function')
           this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once

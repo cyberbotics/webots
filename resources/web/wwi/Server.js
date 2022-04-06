@@ -21,11 +21,7 @@ export default class Server {
   }
 
   connect() {
-    if (document.getElementById('webots-progress')) {
-      document.getElementById('webots-progress-message').innerHTML = 'Connecting to session server...';
-      document.getElementById('webots-progress-info').innerHTML = ('Connecting to: ' + this._url).substring(0, 40) + '...';
-      document.getElementById('webots-progress-percent').value = 45;
-    }
+    this._view.setProgressBar('block', 'Connecting to session server...', 45, 'Connecting to: ' + this._url);
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -59,8 +55,7 @@ export default class Server {
   }
 
   onError() {
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'none';
+    this._view.setProgressBar('none');
     this._view.onquit();
   }
 
@@ -70,10 +65,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    let progressMessage = document.getElementById('webots-progress-message');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Starting simulation...';
-      document.getElementById('webots-progress-percent').value = 0;
+    this._view.setProgressBar('block', 'Starting simulation...', 10, 'Getting world information...');
   }
 
   onMessage(event) {
@@ -96,18 +88,16 @@ export default class Server {
       alert('Session server ' + message);
     } else if (message.indexOf('docker:') === 0) {
       console.log(message);
-      if (document.getElementById('webots-progress')) {
-        if (message.length > 35)
-          document.getElementById('webots-progress-info').innerHTML = message.substring(0, 40) + '...';
-        else
-          document.getElementById('webots-progress-info').innerHTML = message;
-        if (message.startsWith('docker: Creating network'))
-          document.getElementById('webots-progress-percent').value =  20;
-        else if (message.startsWith('docker: Step '))
-          document.getElementById('webots-progress-percent').value = 20 + 80 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
-        else if (message.endsWith('open'))
-          document.getElementById('webots-progress-percent').value =  100;
-      }
+      let percent
+      if (document.getElementById('webots-progress-percent'))
+        percent = document.getElementById('webots-progress-percent').value;
+      if (message.startsWith('docker: Creating network'))
+        percent = 20;
+      else if (message.startsWith('docker: Step '))
+        percent = 20 + 80 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
+      else if (message.endsWith('open'))
+        percent = 100;
+      this._view.setProgressBar('block', 'Starting simulation...', percent, message);
     }
     else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
