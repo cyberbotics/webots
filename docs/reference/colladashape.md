@@ -29,6 +29,7 @@ it follows that the corresponding texture will be downloaded from:
 *https://raw.githubusercontent.com/cyberbotics/master/meshes/textures/texture.png*
 
 - The `ccw` field indicates whether the vertices of the faces are ordered in a counter-clockwise direction.
+Changing this value will flip the faces of the meshes.
 
 - The `castShadows` field allows the user to turn on (TRUE) or off (FALSE) shadows casted by this shape.
 However, shapes containing more than 65535 vertices will ignore this field and won't cast any shadow to save performance.
