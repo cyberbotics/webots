@@ -270,7 +270,7 @@ void WbColladaShape::createWrenObjects() {
         continue;
 
       if (vertices > 100000)
-        warn(tr("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+        warn(tr("Mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                .arg(mesh->mName.C_Str()));
 
       aiMatrix4x4 transform;
