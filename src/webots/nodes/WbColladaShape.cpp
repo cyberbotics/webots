@@ -197,8 +197,8 @@ void WbColladaShape::createWrenObjects() {
                                                         aiComponent_ANIMATIONS | aiComponent_COLORS);
 
   const unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
-                       aiProcess_FlipUVs;
+                             aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                             aiProcess_FlipUVs;
 
   const aiScene *scene;
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
