@@ -174,6 +174,7 @@ WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
   init();
   mIsShallowNode = true;
   mUniqueId = -2;
+  mParentNode = NULL;
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
