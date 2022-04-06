@@ -19,7 +19,8 @@ If the collada file references external textures, these should be placed relativ
 
 - The `url` field defines the url of the 3D file.
 If the `url` value starts with `http://` or `https://`, Webots will get the file from the web.
-Otherwise, the url must either specify a relative or absolute path.
+Otherwise, the url must specify a relative path.
+Absolute paths are also supported, but not recommended as they are not portable.
 
 > **Note**: if the collada file starts with `http://` or `https://`, then any implicit textures referenced by this file will also be assumed to be available at an url relative to that of the collada file itself.
 For example, assume a collada file `MyCollada.dae` references a texture `./textures/texture.png` relative to its location, then if the collada file is provided as a remote file of url like:
