@@ -4851,11 +4851,11 @@ How I want to extract translation and rotation value while it's autonomously mov
 
        rotat = robotRotationField.getSFRotation()
 
-##### Williams Saibot 02/25/2020 22:55:23
+##### Wilhelm Saibot 02/25/2020 22:55:23
 I have a general question. What is the most accurate value for columb friction to simulate?
 
 ##### David Mansolino [Moderator] 02/26/2020 06:44:00
-`@Williams Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
+`@Wilhelm Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
 
 
 `@coderrr`, no. You should set the aperture from the scene-tree you can't change it from the API.
@@ -20719,7 +20719,7 @@ Unfortunately, I have no idea why your arm is swinging...
 ##### David Mansolino [Moderator] 06/17/2020 13:36:19
 You're welcome
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 13:59:58
+##### D. 06/17/2020 13:59:58
 how to initialise and flash leds on epuck in python?
 
 ##### David Mansolino [Moderator] 06/17/2020 14:01:17
@@ -20731,7 +20731,7 @@ and here the documentation about LED in Python:
 
 [https://cyberbotics.com/doc/reference/led?tab-language=python](https://cyberbotics.com/doc/reference/led?tab-language=python)
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:01:29
+##### D. 06/17/2020 14:01:29
 i looked at those
 
 
@@ -20740,13 +20740,13 @@ still confused
 ##### David Mansolino [Moderator] 06/17/2020 14:01:53
 Ok so can you be a bit more precise, what is confusing you?
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:02:39
+##### D. 06/17/2020 14:02:39
 well for starters, that first link says nothing about LEDs
 
 ##### David Mansolino [Moderator] 06/17/2020 14:04:54
 Yes, but it explains how to retrieve device handles with the Python API (which works the same for all the Devices).
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:05:31
+##### D. 06/17/2020 14:05:31
 thisis just for aschool assignmenti dont understand any of that
 
 
@@ -20755,7 +20755,7 @@ and i dont have time to understandit
 ##### Luftwaffel [Moderator] 06/17/2020 14:09:08
 Then I'd suggest asking your teacher
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:09:15
+##### D. 06/17/2020 14:09:15
 he isnt available
 
 
@@ -20767,7 +20767,7 @@ can i just get some very high-level instructions here? i just want some leds to 
 ##### Luftwaffel [Moderator] 06/17/2020 14:12:18
 the LEDs are called "led0" and "led1"
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:12:25
+##### D. 06/17/2020 14:12:25
 ye
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:15:25
@@ -20778,7 +20778,7 @@ LED0 = robot.getLED('led0')
 
 then you can control the LED using the functions as explained in the documentation (2nd link he sent)
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:23:25
+##### D. 06/17/2020 14:23:25
 i put this in the controller and now the epuck wont move
 
 
@@ -20792,7 +20792,7 @@ class LED (Device):
 ##### Luftwaffel [Moderator] 06/17/2020 14:28:32
 I hope you don't take this the wrong way, but you seem to be missing some basics of python programming. Didn't you get proper instructions with this assignment, or the fundamental courses required to writing python code?
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:29:14
+##### D. 06/17/2020 14:29:14
 since this lockdown started, online classes were minimalised and we were thrown pretty much in the deep end
 
 
@@ -20801,7 +20801,7 @@ Teacher is pretty unhelpful too
 ##### Luftwaffel [Moderator] 06/17/2020 14:29:31
 that sucks, sorry to hear that
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:30:04
+##### D. 06/17/2020 14:30:04
 was just following this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/722820367055323186/unknown.png)
@@ -20810,7 +20810,7 @@ was just following this
 ##### Luftwaffel [Moderator] 06/17/2020 14:30:10
 I really suggest you do a python course. You should really know how objecgt oriented programming works. In python this especially includes classes and how to use them
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:30:40
+##### D. 06/17/2020 14:30:40
 I agree but the issue here is my timeframe
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:30:49
@@ -20819,7 +20819,7 @@ there is a free python course here: [https://www.robotigniteacademy.com/en/path/
 
 should be doable in a day
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:31:30
+##### D. 06/17/2020 14:31:30
 🤐 I don't have a day unfortunately, this sort of just needs to work
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:31:43
@@ -20834,31 +20834,31 @@ what python controller for the epuck are you using btw?
 
 I doubt you wrote it from the ground up
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:32:58
+##### D. 06/17/2020 14:32:58
 No i didnt
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:33:17
 are you using a sample world and controller?
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:33:40
+##### D. 06/17/2020 14:33:40
 im using the controller code on [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:34:11
 what about the world file?
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:34:18
+##### D. 06/17/2020 14:34:18
 created that
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:34:39
 is it just a blank world with the epuck added?
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:34:48
+##### D. 06/17/2020 14:34:48
 and some barrels lol
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:36:20
 watch the video in the meantime, I'll have a quick look
 
-##### 𝓭𝓪𝓿𝓲𝓭 06/17/2020 14:36:27
+##### D. 06/17/2020 14:36:27
 alright
 
 ##### Luftwaffel [Moderator] 06/17/2020 14:54:06

@@ -13333,7 +13333,7 @@ No, its just simple motion
 
 Without sensors
 
-##### Beginner26798 04/11/2021 15:46:27
+##### D26798 04/11/2021 15:46:27
 Does anyone have the UR10e robotic arm code please
 
 ##### jasper [Moderator] 04/11/2021 15:48:01
@@ -13351,7 +13351,7 @@ Thankyou soo much.
 
 I will start with this.
 
-##### Beginner26798 04/11/2021 15:50:25
+##### D26798 04/11/2021 15:50:25
 Can someone help me please
 
 ##### jasper [Moderator] 04/11/2021 15:50:49
@@ -13360,7 +13360,7 @@ i just replied to you
 ##### umairnaseer21 04/11/2021 15:51:11
 This is for you as well.
 
-##### Beginner26798 04/11/2021 15:51:12
+##### D26798 04/11/2021 15:51:12
 Oh sorry i didn't see that thanks
 
 ##### Stormtrooper 04/11/2021 15:52:01
@@ -13408,7 +13408,7 @@ I'm trying to control this can any one help me please its a ur10e that have a ca
 ![camera.png](https://cdn.discordapp.com/attachments/565154703139405824/830843104097468436/camera.png)
 %end
 
-##### Beginner26798 04/11/2021 16:36:06
+##### D26798 04/11/2021 16:36:06
 Nice Idea 👍 help him please
 
 ##### Stormtrooper 04/11/2021 16:47:22
@@ -13486,7 +13486,7 @@ the robot can show by webots
 
 Actually, I have 7 link solid nodes
 
-##### Beginner26798 04/12/2021 17:14:57
+##### D26798 04/12/2021 17:14:57
 Hi , I'm trying to inegrate a camera and I'm using the code posted on the webots site,but i m getting this error what should i do
 %figure
 ![20210412_201230.jpg](https://cdn.discordapp.com/attachments/565154703139405824/831215832293703710/20210412_201230.jpg)
@@ -13628,17 +13628,17 @@ Me to I’m having the same error if anyone can help us please I well be so grat
 ##### DDaniel [Cyberbotics] 04/12/2021 19:13:20
 `@KNTRL` Hi, which version of Webots are you using? Just tested the sample world on R2021a and it appears to be working
 
-##### Beginner26798 04/12/2021 19:47:01
+##### D26798 04/12/2021 19:47:01
 I have rhe 2020b
 
 ##### KNTRL [Premier Service] 04/12/2021 20:01:12
 <@787796043987025941> I'm on 2021a too, and I haven't touched the file before simulating.
 
-##### Beginner26798 04/12/2021 20:30:29
+##### D26798 04/12/2021 20:30:29
 Can you please send the link of the latest version of webots maybe that's the problem
 
 ##### DDaniel [Cyberbotics] 04/12/2021 20:58:51
-`@Beginner26798` you can't simply copy-paste the code snippet from the documentation and expect it to work like you did here 
+`@D26798` you can't simply copy-paste the code snippet from the documentation and expect it to work like you did here 
 
 ``` 
 namespace webots {
@@ -14081,16 +14081,16 @@ Hi, How can I make YOLOv3 with Webots? Webots' controller give me image paramete
 
 `@baby_droid_yoda` [https://cyberbotics.com/doc/reference/camera?tab-language=python#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=python#wb_camera_get_image) I suggest you study the api documentation. It really depends on what language you use, and what exactly you want and need
 
-##### Beginner26798 04/14/2021 20:41:03
+##### D26798 04/14/2021 20:41:03
 Good evening everyone ... i need a code to control the ur10e robotic hand please
 
 ##### Luftwaffel [Moderator] 04/14/2021 21:51:13
-`@Beginner26798` which hand? the Robotiq 3f gripper?
+`@D26798` which hand? the Robotiq 3f gripper?
 
 
 and what language?
 
-##### Beginner26798 04/14/2021 21:52:51
+##### D26798 04/14/2021 21:52:51
 If ther is a code to this hand without a gripper i will replace it with a camera.
 
 Using C language
@@ -14098,7 +14098,7 @@ Using C language
 ##### Luftwaffel [Moderator] 04/14/2021 21:53:07
 what exactly do you want to achieve?
 
-##### Beginner26798 04/14/2021 21:54:05
+##### D26798 04/14/2021 21:54:05
 I am working of a controlled hand that moves due to color recognition caused by the camera
 
 
@@ -14390,7 +14390,7 @@ Can you help me?
 
 Thank you.
 
-##### Beginner26798 04/17/2021 20:36:19
+##### D26798 04/17/2021 20:36:19
 Good evening ... i need a code to change the shoulder and elbow angle of the ure10 robot please
 
 
@@ -14400,7 +14400,7 @@ Continously
 `@Darko Lukić` can you please help me
 
 ##### Luftwaffel [Moderator] 04/18/2021 01:20:12
-`@Beginner26798` use the motors to change the position. The  position is the angle in radian. Take a look at the example world ure.wbt
+`@D26798` use the motors to change the position. The  position is the angle in radian. Take a look at the example world ure.wbt
 
 ##### moris 04/18/2021 22:58:50
 Hi! I came across some problems while I was working on my robot. 
@@ -15861,7 +15861,7 @@ I've messed around with the function, giving it specific instead of random value
 
 For example, if I give 180°, it only turns by about 140°. If I give 90°, it only turns by about 60. Can anyone help me with this?
 
-##### Beginner26798 04/30/2021 14:21:25
+##### D26798 04/30/2021 14:21:25
 Hi guys im attaching a ure hand to an irobot vacum cleaner but when the irobot move and the hand rotate , the hand detached from the robot how can i fix this problem
 
 ##### Markita 04/30/2021 14:58:46
@@ -15870,11 +15870,11 @@ Hi everyone! Does anybody know how can I change the contact properties so that t
 ##### sa33 04/30/2021 16:36:39
 Hi guys, I am working on a robot attached with 2 solid frames getting rotated independently. outer frame will rotate along one axis and the inner frame is connected to outer with a motor and rotates in another axis. so the inner has to rotate along its own axis with outer frame. I have anchored the frames same as the endpoint translation. outer is working fine but inner frame is not rotating properly. Inner frame's anchoring is not working properly and its anchor position is changing while rotation.  Can anyone help me to solve this issue?
 
-##### Beginner26798 04/30/2021 20:02:58
+##### D26798 04/30/2021 20:02:58
 Anyone??!!
 
 ##### Luftwaffel [Moderator] 04/30/2021 21:35:45
-`@Beginner26798` can you post a screenshot of the problem?
+`@D26798` can you post a screenshot of the problem?
 
 
 There is no adahesion. You can increase the friction by a lot, so they wont move, but it will still require some force to press the two objects together. If you want them to be actually stuck together, you either have to link them with a transform node, or use connector nodes
@@ -16344,7 +16344,7 @@ Does anyone know of a good, in-depth place to learn about PID controllers? I wan
 ##### Luftwaffel [Moderator] 05/04/2021 18:45:09
 [https://www.youtube.com/watch?v=wkfEZmsQqiA](https://www.youtube.com/watch?v=wkfEZmsQqiA)
 
-##### Beginner26798 05/04/2021 21:59:44
+##### D26798 05/04/2021 21:59:44
 Good evening what application can we use to do a 3D model and import it to webots
 
 ##### tabousoud 05/04/2021 22:07:00
@@ -16588,7 +16588,7 @@ How can I solve this issue?
 ##### aslisevil 05/08/2021 12:07:09
 hello, I have a question. I use the supervisor rotate function in my simulation. But when I do rotation, my robot starts to walk with a curve instead of walking in a straight line. And sometimes it starts shifting out of nowhere after rotation. Do you know why this might be happening?
 
-##### Beginner26798 05/08/2021 12:36:53
+##### D26798 05/08/2021 12:36:53
 Hi guys ... i need please anything that helps me to make a robotic arm i don't want to use the samples in webots
 
 ##### Donny\_234 05/08/2021 14:48:56
@@ -17152,7 +17152,7 @@ Hi everybody, I have a problem with using the `Pen`. it works perfectly on a flo
 
 `@DDaniel` I adjusted the test scenario: you have to change the `floorSize` to make sure there are several tiles. As long as there is only one tile everything works fine, but there seems to be a problem as soon as the floor consists of several tiles. Alternatively you can set `floorTileSize->x=0.5`, `floorTileSize->y=0.5`
 
-##### Beginner26798 05/16/2021 10:18:58
+##### D26798 05/16/2021 10:18:58
 Hi guys ... i'm using a regular wheel not a differential one so i need another sentence to get the encoder can you help please and give me another sentence than this in the photo below
 
 
@@ -17165,7 +17165,7 @@ Hi guys ... i'm using a regular wheel not a differential one so i need another s
 `@[BU] Heinrich Mellmann` I can't reproduce the bug on 2021a, what version are you using?
 
 
-`@Beginner26798` As explained here [https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels](https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels), you can replace the differential wheel with a hingejoint + rotational motor + position sensor. You need to use Motor API [https://www.cyberbotics.com/doc/reference/motor](https://www.cyberbotics.com/doc/reference/motor) and Position Sensor API [https://www.cyberbotics.com/doc/reference/positionsensor](https://www.cyberbotics.com/doc/reference/positionsensor) to interact with them
+`@D26798` As explained here [https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels](https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels), you can replace the differential wheel with a hingejoint + rotational motor + position sensor. You need to use Motor API [https://www.cyberbotics.com/doc/reference/motor](https://www.cyberbotics.com/doc/reference/motor) and Position Sensor API [https://www.cyberbotics.com/doc/reference/positionsensor](https://www.cyberbotics.com/doc/reference/positionsensor) to interact with them
 
 
 `@dA$H` Hi, haven't checked but depending on what you need to do there might be better ways to do it. If you want to control a robot using the keyboard you can use the Keyboard API [https://www.cyberbotics.com/doc/reference/keyboard](https://www.cyberbotics.com/doc/reference/keyboard), which is available by default for Robot nodes (useful for 1 stroke inputs typically, like steering). If you have multiple robots that all have the same controller but want them to behave differently you can do using using controller arguments [https://cyberbotics.com/doc/guide/controller-programming#using-controller-arguments](https://cyberbotics.com/doc/guide/controller-programming#using-controller-arguments). Lastly, you can use a supervisor to send out unique commands to each robot using emitters/receivers.
@@ -17176,7 +17176,7 @@ Thanks for the fast reply! I'm using the same version. You are right, I mistyped
 ##### DDaniel [Cyberbotics] 05/16/2021 12:16:54
 `@[BU] Heinrich Mellmann` I see, I can reproduce it as well. It's due to the fact that the `RectangleArena` PROTO doesn't handle the mapping by itself when changes occur, so when you change the `floorSize` you also need to change the `floorTileSize` accordingly as reported here: [https://github.com/cyberbotics/webots/issues/1529#issuecomment-615062207](https://github.com/cyberbotics/webots/issues/1529#issuecomment-615062207), but I do agree that it can be misleading
 
-##### Beginner26798 05/16/2021 12:23:29
+##### D26798 05/16/2021 12:23:29
 I have used the position sensors it is giving me this error
 
 
@@ -17189,9 +17189,9 @@ I have used the position sensors it is giving me this error
 <@787796043987025941>
 
 ##### DDaniel [Cyberbotics] 05/16/2021 12:27:05
-`@Beginner26798` you only need to pass `ps0`, `WbDeviceTag` is the type. I suggest you do this tutorial before: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
+`@D26798` you only need to pass `ps0`, `WbDeviceTag` is the type. I suggest you do this tutorial before: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
-##### Beginner26798 05/16/2021 14:33:04
+##### D26798 05/16/2021 14:33:04
 I used this code to initialize the position sensors but it is giving me the same error can you please tell me what the specific code that i should add ... and thanks for helping <@787796043987025941>
 %figure
 ![Screenshot_20210516-173046_Chrome.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843496279316889611/Screenshot_20210516-173046_Chrome.jpg)
@@ -17210,7 +17210,7 @@ What's wrong with this
 %end
 
 ##### DDaniel [Cyberbotics] 05/16/2021 15:18:06
-`@Beginner26798` like I said you need to drop the `WbDeviceTag` and just call `wb_position_sensor_get_value(ps0)` as shown in the tutorial. Also, is `ps0` a global variable? Otherwise your function `compute_odometry` won't know what that is.
+`@D26798` like I said you need to drop the `WbDeviceTag` and just call `wb_position_sensor_get_value(ps0)` as shown in the tutorial. Also, is `ps0` a global variable? Otherwise your function `compute_odometry` won't know what that is.
 
 ##### Daemongear 05/16/2021 17:21:43
 Hey there. I'm trying to connect ROS with WeBots. I already have an Rviz launch file, the urdfs, protos, worlds setup, but I can't figure out how exactly I can connect RViz to the motor sensor feedbacks.
@@ -17224,7 +17224,7 @@ as far as I have found, I still need to write a node to connect the two, where I
 ##### Luftwaffel [Moderator] 05/16/2021 20:50:55
 your robot's controller has to get the sensor values and publish them
 
-##### Beginner26798 05/16/2021 21:28:46
+##### D26798 05/16/2021 21:28:46
 Any i dea on what can cause these errors ??
 %figure
 ![20210517_002742.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843600892355805204/20210517_002742.jpg)
@@ -17239,7 +17239,7 @@ and it's hard to say without seeing your code
 
 can you upload your controller file here?
 
-##### Beginner26798 05/16/2021 21:39:19
+##### D26798 05/16/2021 21:39:19
 
 > **Attachment**: [final\_one.c](https://cdn.discordapp.com/attachments/565154703139405824/843603549739810856/final_one.c)
 
@@ -17249,19 +17249,19 @@ can you upload your controller file here?
 ##### Luftwaffel [Moderator] 05/16/2021 21:39:44
 `@Daemongear` are you using ROS or ROS2? If using ROS, did you use the default ROS controller
 
-##### Beginner26798 05/16/2021 21:40:29
+##### D26798 05/16/2021 21:40:29
 I'm trying to make a obstacle avoider robot with color recognition
 
 ##### Luftwaffel [Moderator] 05/16/2021 21:40:31
 you get the errors when building?
 
-##### Beginner26798 05/16/2021 21:40:39
+##### D26798 05/16/2021 21:40:39
 Yes
 
 ##### Luftwaffel [Moderator] 05/16/2021 21:40:52
 and can you post the whole output, without any old console messages
 
-##### Beginner26798 05/16/2021 21:44:11
+##### D26798 05/16/2021 21:44:11
 
 %figure
 ![20210517_004335.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843604772379951124/20210517_004335.jpg)
@@ -17273,7 +17273,7 @@ Okay, so first of all, you have wrong variable types. Check the reference manual
 get\_value is double, not int
 
 
-`@Beginner26798` I suggest you orient yourself on an example controller such as this one
+`@D26798` I suggest you orient yourself on an example controller such as this one
 > **Attachment**: [e-puck.c](https://cdn.discordapp.com/attachments/565154703139405824/843605350808027146/e-puck.c)
 
 
@@ -17322,7 +17322,7 @@ static double compute_odometry()
 
 the brackets `{}` here make no sense, and you can't access the array `ps`, using `'ps0'`, but instead using `ps[0]`. Like I said before already, most of what you want to do is in the tutorial-4
 
-##### Beginner26798 05/16/2021 21:47:46
+##### D26798 05/16/2021 21:47:46
 I'm using this one actually and my robot is just going forward
 
 
@@ -17334,7 +17334,7 @@ Tutorials are your friend :). Try to do them first and understand them
 ##### DDaniel [Cyberbotics] 05/16/2021 21:48:50
 if you're not comfortable with c, you can use other languages like python or matlab
 
-##### Beginner26798 05/16/2021 21:49:39
+##### D26798 05/16/2021 21:49:39
 The issue that I'm low on time and I'm using webots to simulate my university project that's why I'm not taking my time in reading tutorials
 
 ##### Luftwaffel [Moderator] 05/16/2021 21:50:14
@@ -17343,13 +17343,13 @@ Is c as a programming language demanded by the professor?
 
 You'll save lots of time using Python. Much quicker and easier to learn than c.
 
-##### Beginner26798 05/16/2021 21:51:19
+##### D26798 05/16/2021 21:51:19
 No but i started with it and i don't have the time to restart using another language
 
 ##### Luftwaffel [Moderator] 05/16/2021 21:51:41
 believe me, you'll be faster with python
 
-##### Beginner26798 05/16/2021 21:52:31
+##### D26798 05/16/2021 21:52:31
 Actually i tried python first but i didn't now how to run it
 
 
@@ -17358,7 +17358,7 @@ Know*
 ##### Luftwaffel [Moderator] 05/16/2021 21:52:39
 no compiling, easier syntax
 
-##### Beginner26798 05/16/2021 21:54:24
+##### D26798 05/16/2021 21:54:24
 Is it possible that you can help me to do the code personally?
 
 ##### Luftwaffel [Moderator] 05/16/2021 21:54:44
@@ -18306,7 +18306,7 @@ I know i can workaround using two propellers, facing in opposite directions, hav
 
 Thank you
 
-##### Beginner26798 05/28/2021 13:06:47
+##### D26798 05/28/2021 13:06:47
 Hi.. is there any helpful tutorials to help me if i want to make a robot that follows the recognised object
 
 
@@ -18321,7 +18321,7 @@ If you set a negative velocity it doesn't invert the thrust?
 
 [https://github.com/lukicdarkoo/webots-example-visual-tracking](https://github.com/lukicdarkoo/webots-example-visual-tracking)
 
-##### Beginner26798 05/28/2021 15:10:00
+##### D26798 05/28/2021 15:10:00
 Thank you
 
 
@@ -18333,7 +18333,7 @@ What's the solution of this
 ##### Cyber Police Officer 05/28/2021 15:20:26
 It does. But some propellers have different thrust coefficients depending on the thrust direction
 
-##### Beginner26798 05/28/2021 17:00:52
+##### D26798 05/28/2021 17:00:52
 `@Darko Lukić` ?
 
 ##### Robot 05/28/2021 18:18:22
@@ -18408,7 +18408,7 @@ If you have ROS installed try running webots from a terminal where ROS is source
 What exactly are you trying to read? If you want to know some information about some object in your simulation have a look at the supervisor API. That might already fulfill your requirements
 
 ##### bingdong 05/29/2021 08:51:41
-`@Beginner26798` You'll have to install the cv2 library to your system. If you have pip installed, open command prompt on windows and type: pip install opencv-python
+`@D26798` You'll have to install the cv2 library to your system. If you have pip installed, open command prompt on windows and type: pip install opencv-python
 
  [https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv](https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv)
 
