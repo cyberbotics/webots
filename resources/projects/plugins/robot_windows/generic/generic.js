@@ -61,7 +61,11 @@ function configure(data) {
 function receive(message, _robot) {
   let data = '';
   if (message.indexOf('configure ') === 0) {
-    if (configured) // The robot window should be configured only once.
+    // The robot window should be configured only once.
+    // However, it may happen that it receives several configure messages in the following cases:
+    // - if several tabs open the same robot windows, or
+    // - if a robot window is opened and refreshed before is has received the config message.
+    if (configured)
       return;
     data = parseJSONMessage(message.substring(10));
     if (data) {
