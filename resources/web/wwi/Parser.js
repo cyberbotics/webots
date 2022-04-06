@@ -27,6 +27,8 @@ import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTrack from './nodes/WbTrack.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -73,8 +75,8 @@ export default class Parser {
         this._parseNode(scene);
     }
 
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Finalizing...';
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -104,11 +106,14 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'none';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'none';
 
       if (typeof callback === 'function')
         callback();
+
+      if (document.getElementById('robot-window-button') !== null)
+        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
 
       console.timeEnd('Loaded in: ');
     });
@@ -211,8 +216,6 @@ export default class Parser {
     // check if top-level nodes
     if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
       WbWorld.instance.sceneTree.push(result);
-
-    return result;
   }
 
   _parseChildren(node, parentNode, isBoundingObject) {
@@ -221,7 +224,6 @@ export default class Parser {
       if (typeof child.tagName !== 'undefined')
         this._parseNode(child, parentNode, isBoundingObject);
     }
-    return 1;
   }
 
   _parseScene(node) {
@@ -238,11 +240,13 @@ export default class Parser {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
     }));
+
     WbWorld.instance.scene = new WbScene();
   }
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
 
@@ -258,8 +262,19 @@ export default class Parser {
     WbWorld.computeUpVector();
   }
 
+  _parseId(node) {
+    if (typeof node === 'undefined')
+      return;
+
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    return id;
+  }
+
   _parseViewpoint(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
@@ -275,73 +290,78 @@ export default class Parser {
   }
 
   _parseBackground(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
-    let backUrl = getNodeAttribute(node, 'backUrl');
-    let bottomUrl = getNodeAttribute(node, 'bottomUrl');
-    let frontUrl = getNodeAttribute(node, 'frontUrl');
-    let leftUrl = getNodeAttribute(node, 'leftUrl');
-    let rightUrl = getNodeAttribute(node, 'rightUrl');
-    let topUrl = getNodeAttribute(node, 'topUrl');
+    let backgroundUrl = [];
+    backgroundUrl[0] = getNodeAttribute(node, 'backUrl');
+    backgroundUrl[1] = getNodeAttribute(node, 'bottomUrl');
+    backgroundUrl[2] = getNodeAttribute(node, 'frontUrl');
+    backgroundUrl[3] = getNodeAttribute(node, 'leftUrl');
+    backgroundUrl[4] = getNodeAttribute(node, 'rightUrl');
+    backgroundUrl[5] = getNodeAttribute(node, 'topUrl');
+
+    let areUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundUrl[i] === 'undefined') {
+        areUrlsPresent = false;
+        break;
+      } else
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+    }
 
     this.cubeImages = [];
-    if (typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined') {
-      backUrl = backUrl.slice(1, backUrl.length - 1);
-      bottomUrl = bottomUrl.slice(1, bottomUrl.length - 1);
-      frontUrl = frontUrl.slice(1, frontUrl.length - 1);
-      leftUrl = leftUrl.slice(1, leftUrl.length - 1);
-      rightUrl = rightUrl.slice(1, rightUrl.length - 1);
-      topUrl = topUrl.slice(1, topUrl.length - 1);
-
+    if (areUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backUrl, false, 90).then(image => { this.cubeImages[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl, false, -90).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl, false, -90).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl, false, 180).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topUrl, false, -90).then(image => { this.cubeImages[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0], false, 90).then(image => { this.cubeImages[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1], false, -90).then(image => { this.cubeImages[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2], false, -90).then(image => { this.cubeImages[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3], false, 180).then(image => { this.cubeImages[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[4]).then(image => { this.cubeImages[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5], false, -90).then(image => { this.cubeImages[5] = image; }));
       } else {
-        this._promises.push(loadTextureData(this._prefix, topUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backUrl).then(image => { this.cubeImages[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5]).then(image => { this.cubeImages[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0]).then(image => { this.cubeImages[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1]).then(image => { this.cubeImages[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2]).then(image => { this.cubeImages[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3]).then(image => { this.cubeImages[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[4]).then(image => { this.cubeImages[0] = image; }));
       }
     }
 
-    let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
-    let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
-    let frontIrradianceUrl = getNodeAttribute(node, 'frontIrradianceUrl');
-    let leftIrradianceUrl = getNodeAttribute(node, 'leftIrradianceUrl');
-    let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
-    let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
+    let backgroundIrradianceUrl = [];
+    backgroundIrradianceUrl[0] = getNodeAttribute(node, 'backIrradianceUrl');
+    backgroundIrradianceUrl[1] = getNodeAttribute(node, 'bottomIrradianceUrl');
+    backgroundIrradianceUrl[2] = getNodeAttribute(node, 'frontIrradianceUrl');
+    backgroundIrradianceUrl[3] = getNodeAttribute(node, 'leftIrradianceUrl');
+    backgroundIrradianceUrl[4] = getNodeAttribute(node, 'rightIrradianceUrl');
+    backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
 
+    let areIrradianceUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundIrradianceUrl[i] === 'undefined') {
+        areIrradianceUrlsPresent = false;
+        break;
+      } else
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+    }
     this.irradianceCubeURL = [];
-    if (typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined') {
-      backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length - 1);
-      bottomIrradianceUrl = bottomIrradianceUrl.slice(1, bottomIrradianceUrl.length - 1);
-      frontIrradianceUrl = frontIrradianceUrl.slice(1, frontIrradianceUrl.length - 1);
-      leftIrradianceUrl = leftIrradianceUrl.slice(1, leftIrradianceUrl.length - 1);
-      rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length - 1);
-      topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
-
+    if (areIrradianceUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
       } else {
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true).then(image => { this.irradianceCubeURL[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true).then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true).then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true).then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true).then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true).then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[0] = image; }));
       }
     }
 
@@ -358,7 +378,6 @@ export default class Parser {
     if (typeof use === 'undefined')
       return;
 
-    const id = getNodeAttribute(node, 'id');
     let result = WbWorld.instance.nodes.get(use);
 
     if (typeof result === 'undefined') {
@@ -368,6 +387,7 @@ export default class Parser {
 
     if (typeof result === 'undefined')
       return;
+    const id = this._parseId(node);
 
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
@@ -385,26 +405,47 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
-    const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    const id = this._parseId(node);
+
+    const type = getNodeAttribute(node, 'type', '').toLowerCase();
+    const isSolid = type === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
-    const transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    let newNode;
+    if (type === 'track') {
+      const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
+      newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
+    } else if (type === 'trackwheel') {
+      const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
+      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
-    WbWorld.instance.nodes.set(transform.id, transform);
+      newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
-    this._parseChildren(node, transform, isBoundingObject);
-
-    if (typeof parentNode !== 'undefined') {
-      transform.parent = parentNode.id;
-      parentNode.children.push(transform);
+      parentNode.wheelsList.push(newNode);
+    } else {
+      newNode = new WbTransform(id, isSolid, translation, scale, rotation);
+      if (type === 'robot') {
+        const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
+        const name = node.getAttribute('name');
+        const id = node.getAttribute('id');
+        WbWorld.instance.robots.push({id: id, name: name, window: window});
+      }
     }
 
-    return transform;
+    WbWorld.instance.nodes.set(newNode.id, newNode);
+
+    this._parseChildren(node, newNode, isBoundingObject);
+    if (typeof parentNode !== 'undefined') {
+      newNode.parent = parentNode.id;
+      if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = newNode;
+      else
+        parentNode.children.push(newNode);
+    }
+
+    return newNode;
   }
 
   _parseGroup(node, parentNode, isBoundingObject) {
@@ -412,11 +453,9 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
 
     const group = new WbGroup(id, isPropeller);
 
@@ -436,38 +475,26 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     let geometry;
     let appearance;
 
-    for (let i = 0; i < node.childNodes.length; i++) {
+    for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
       if (typeof appearance === 'undefined') {
-        if (child.tagName === 'Appearance') {
-          if (isBoundingObject)
-            continue;
-          // If a sibling PBRAppearance is detected, prefer it.
-          let pbrAppearanceChild = false;
-          for (let j = 0; j < node.childNodes.length; j++) {
-            const child0 = node.childNodes[j];
-            if (child0.tagName === 'PBRAppearance') {
-              pbrAppearanceChild = true;
-              break;
-            }
-          }
-          if (pbrAppearanceChild)
-            continue;
+        if (isBoundingObject)
+          continue;
+        else if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
-        } else if (child.tagName === 'PBRAppearance')
+        else if (child.tagName === 'PBRAppearance')
           appearance = this._parsePBRAppearance(child);
+
         if (typeof appearance !== 'undefined')
           continue;
       }
@@ -477,12 +504,8 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-
-      console.log('X3dLoader: Unknown node: ' + child.tagName);
+      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
     }
-
-    if (isBoundingObject)
-      appearance = undefined;
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
@@ -500,9 +523,7 @@ export default class Parser {
   }
 
   _parseBillboard(node, parentNode) {
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const billboard = new WbBillboard(id);
 
@@ -517,7 +538,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
@@ -542,7 +563,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
@@ -567,7 +588,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
@@ -591,7 +612,7 @@ export default class Parser {
   }
 
   _parseFog(node) {
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
     const fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
@@ -613,9 +634,7 @@ export default class Parser {
       return use;
     }
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     let geometry;
     if (node.tagName === 'Box')
@@ -722,44 +741,43 @@ export default class Parser {
   }
 
   _parseIndexedFaceSet(node, id) {
-    const coordIndexStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/); ;
-    const coordIndex = coordIndexStr.map(Number).filter(el => { return el !== -1; });
+    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    if (coordIndex)
+      coordIndex = coordIndex.filter(element => { return element !== -1; });
 
-    const normalIndexStr = getNodeAttribute(node, 'normalIndex', '').trim().split(/\s/);
-    const normalIndex = normalIndexStr.map(Number).filter(el => { return el !== -1; });
+    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    if (normalIndex)
+      normalIndex = normalIndex.filter(element => { return element !== -1; });
 
-    const texCoordIndexStr = getNodeAttribute(node, 'texCoordIndex', '').trim().split(/\s/); ;
-    const texCoordIndex = texCoordIndexStr.map(Number).filter(el => { return el !== -1; });
+    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
+    if (texCoordIndex)
+      texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
     if (typeof coordinate !== 'undefined') {
-      const coordStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
-      const coord = coordStr.map(el => parseFloat(el));
-      for (let i = 0; i < coord.length; i = i + 3)
-        coordArray.push(new WbVector3(coord[i], coord[i + 1], coord[i + 2]));
+      const coords = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
+      for (let i = 0; i < coords.length; i = i + 3)
+        coordArray.push(new WbVector3(coords[i], coords[i + 1], coords[i + 2]));
     }
 
     const texCoordArray = [];
     const textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
     if (typeof textureCoordinate !== 'undefined') {
-      const texcoordsStr = getNodeAttribute(textureCoordinate, 'point', '').split(/\s/);
-      const texCoord = texcoordsStr.map(el => parseFloat(el));
-      for (let i = 0; i < texCoord.length; i = i + 2)
-        texCoordArray.push(new WbVector2(texCoord[i], texCoord[i + 1]));
+      const texCoords = convertStringToFloatArray(getNodeAttribute(textureCoordinate, 'point', ''));
+      for (let i = 0; i < texCoords.length; i = i + 2)
+        texCoordArray.push(new WbVector2(texCoords[i], texCoords[i + 1]));
     }
 
     const normalArray = [];
     const normalNode = node.getElementsByTagName('Normal')[0];
     if (typeof normalNode !== 'undefined') {
-      const normalStr = getNodeAttribute(normalNode, 'vector', '').split(/[\s,]+/);
-      const normal = normalStr.map(el => parseFloat(el));
-      for (let i = 0; i < normal.length; i = i + 3)
-        normalArray.push(new WbVector3(normal[i], normal[i + 1], normal[i + 2]));
+      const normals = convertStringToFloatArray(getNodeAttribute(normalNode, 'vector', ''));
+      for (let i = 0; i < normals.length; i = i + 3)
+        normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
     }
 
-    const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
-
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
@@ -772,13 +790,13 @@ export default class Parser {
     if (typeof coordinate === 'undefined')
       return undefined;
 
-    const indicesStr = getNodeAttribute(node, 'coordIndex', '').trim().split(/\s/);
+    const indicesStr = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
 
-    const verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const verticesStr = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
 
     const coord = [];
     for (let i = 0; i < verticesStr.length; i += 3)
-      coord.push(new WbVector3(parseFloat(verticesStr[i]), parseFloat(verticesStr[i + 1]), parseFloat(verticesStr[i + 2])));
+      coord.push(new WbVector3(verticesStr[i], verticesStr[i + 1], verticesStr[i + 2]));
 
     const coordIndex = indicesStr.map(Number);
 
@@ -799,7 +817,7 @@ export default class Parser {
     const ySpacing = parseFloat(getNodeAttribute(node, 'ySpacing', '1'));
     const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    const height = heightStr.split(' ').map(Number);
+    const height = convertStringToFloatArray(heightStr);
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
@@ -813,12 +831,11 @@ export default class Parser {
     if (typeof coordinate === 'undefined')
       return;
 
-    const coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    const coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
 
-    if (typeof coordStrArray === 'undefined')
+    if (typeof coordArray === 'undefined')
       return;
 
-    const coordArray = coordStrArray.map(Number);
     const coord = [];
     for (let i = 0; i < coordArray.length; i += 3)
       coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
@@ -826,9 +843,8 @@ export default class Parser {
     const colorNode = node.getElementsByTagName('Color')[0];
     let color;
     if (typeof colorNode !== 'undefined') {
-      const colorStrArray = getNodeAttribute(colorNode, 'color', '').trim().split(/\s/);
-      if (typeof colorStrArray !== 'undefined') {
-        const colorArray = colorStrArray.map(Number);
+      const colorArray = convertStringToFloatArray(getNodeAttribute(colorNode, 'color', ''));
+      if (typeof colorArray !== 'undefined') {
         color = [];
         for (let i = 0; i < colorArray.length; i += 3)
           color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
@@ -871,9 +887,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     // Get the Material tag.
     const materialNode = node.getElementsByTagName('Material')[0];
@@ -918,9 +932,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    let id = getNodeAttribute(node, 'id');
-    if (typeof id === 'undefined')
-      id = getAnId();
+    const id = this._parseId(node);
 
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
     const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
@@ -944,9 +956,10 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     let url = getNodeAttribute(node, 'url', '');
-    url = url.slice(1, url.length - 1);
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
@@ -977,7 +990,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
 
     const baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     const transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
@@ -999,31 +1012,31 @@ export default class Parser {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
-      const type = getNodeAttribute(imageTexture, 'type', undefined);
-      if (type === 'baseColor') {
+      const role = getNodeAttribute(imageTexture, 'role', undefined);
+      if (role === 'baseColor') {
         baseColorMap = this._parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
-          baseColorMap.type = 'baseColorMap';
-      } else if (type === 'roughness') {
+          baseColorMap.role = 'baseColorMap';
+      } else if (role === 'roughness') {
         roughnessMap = this._parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
-          roughnessMap.type = 'roughnessMap';
-      } else if (type === 'metalness') {
+          roughnessMap.role = 'roughnessMap';
+      } else if (role === 'metalness') {
         metalnessMap = this._parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
-          metalnessMap.type = 'metalnessMap';
-      } else if (type === 'normal') {
+          metalnessMap.role = 'metalnessMap';
+      } else if (role === 'normal') {
         normalMap = this._parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
-          normalMap.type = 'normalMap';
-      } else if (type === 'occlusion') {
+          normalMap.role = 'normalMap';
+      } else if (role === 'occlusion') {
         occlusionMap = this._parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
-          occlusionMap.type = 'occlusionMap';
-      } else if (type === 'emissiveColor') {
+          occlusionMap.role = 'occlusionMap';
+      } else if (role === 'emissiveColor') {
         emissiveColorMap = this._parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
-          emissiveColorMap.type = 'emissiveColorMap';
+          emissiveColorMap.role = 'emissiveColorMap';
       }
     }
 
@@ -1066,7 +1079,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const id = getNodeAttribute(node, 'id');
+    const id = this._parseId(node);
     const center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
     const rotation = parseFloat(getNodeAttribute(node, 'rotation', '0'));
     const scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1'));
@@ -1173,19 +1186,25 @@ function getNodeAttribute(node, attributeName, defaultValue) {
   return defaultValue;
 }
 
-function convertStringToVec2(s) {
-  s = s.split(/\s/);
-  return new WbVector2(parseFloat(s[0]), parseFloat(s[1]));
+function convertStringToVec2(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector2(string[0], string[1]);
 }
 
-function convertStringToVec3(s) {
-  s = s.split(/\s/);
-  return new WbVector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+function convertStringToVec3(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector3(string[0], string[1], string[2]);
 }
 
-function convertStringToQuaternion(s) {
-  const pos = s.split(/\s/);
-  return new WbVector4(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2]), parseFloat(pos[3]));
+function convertStringToQuaternion(string) {
+  string = convertStringToFloatArray(string);
+  return new WbVector4(string[0], string[1], string[2], string[3]);
+}
+
+function convertStringToFloatArray(string) {
+  const stringList = string.replaceAll(',', ' ').split(/\s/).filter(element => element);
+  if (stringList)
+    return stringList.map(element => parseFloat(element));
 }
 
 function rotateHDR(image, rotate) {

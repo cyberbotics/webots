@@ -512,8 +512,8 @@ void WbRobot::updateControllerDir() {
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
-    if (WbProject::extraDefaultProject())
-      path << WbProject::extraDefaultProject()->controllersPath() + controllerName + '/';
+    foreach (const WbProject *extraProject, *WbProject::extraProjects())
+      path << extraProject->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::system()->controllersPath() + controllerName + '/';
     path.removeDuplicates();
@@ -1366,8 +1366,13 @@ void WbRobot::startController() {
 }
 
 void WbRobot::receiveFromJavascript(const QByteArray &message) {
-  delete mMessageFromWwi;
-  mMessageFromWwi = new QByteArray(message);
+  if (mMessageFromWwi) {
+    mMessageFromWwi->append('\0');
+    mMessageFromWwi->append(QByteArray(message));
+  } else {
+    delete mMessageFromWwi;
+    mMessageFromWwi = new QByteArray(message);
+  }
   emit immediateMessageAdded();
 }
 
@@ -1461,8 +1466,10 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
 }
 
 void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
-  WbSolid::exportNodeFields(writer);
+  WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
+    if (!name().isEmpty())
+      writer << " name='" << sanitizedName() << "'";
     if (findField("controller") && !controllerName().isEmpty()) {
       writer << " controller=";
       writer.writeLiteralString(controllerName());
@@ -1471,6 +1478,7 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
       writer << " window=";
       writer.writeLiteralString(window());
     }
+    writer << " type='robot'";
   }
 }
 

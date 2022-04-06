@@ -19,6 +19,7 @@ layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[3];
+uniform bool reverseNormals;
 
 struct DirectionalLight {
   vec4 colorAndIntensity;
@@ -66,7 +67,7 @@ vec4 SRGBtoLINEAR(vec4 srgbIn) {
 }
 
 void main() {
-  fragNormal = vec4(normalize(fragmentNormal), 1.0) * 0.5 + 0.5;
+  fragNormal = vec4(normalize(reverseNormals ? -fragmentNormal : fragmentNormal), 1.0) * 0.5 + 0.5;
 
   vec3 ambientColor = vec3(lights.ambientLight) * material.ambient.xyz;
 

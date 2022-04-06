@@ -26,8 +26,11 @@ class WbLineEdit;
 
 class QCheckBox;
 class QComboBox;
+class QSpinBox;
 class QDialogButtonBox;
 class QTabWidget;
+class QKeyEvent;
+class QLabel;
 
 class WbPreferencesDialog : public QDialog {
   Q_OBJECT
@@ -35,6 +38,9 @@ class WbPreferencesDialog : public QDialog {
 public:
   explicit WbPreferencesDialog(QWidget *parent = NULL, const QString &defaultTab = "");
   virtual ~WbPreferencesDialog();
+
+protected:
+  void keyPressEvent(QKeyEvent *event) override;
 
 signals:
   void changedByUser();
@@ -58,10 +64,12 @@ private:
   QDialogButtonBox *mButtonBox;
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo,
     *mTextureFilteringCombo;
-  WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
-    *mHttpProxyPassword, *mCacheSize, *mUploadUrl, *mBrowserProgram;
+  WbLineEdit *mEditorFontEdit, *mPythonCommand, *mMatlabCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort,
+    *mHttpProxyUsername, *mHttpProxyPassword, *mUploadUrl, *mBrowserProgram;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
+  QSpinBox *mCacheSize;
+  QLabel *mCacheSizeLabel;
 
   QStringList mValidThemeFilenames;
 

@@ -24,6 +24,10 @@ SKIPPED_DIRECTORIES = [
     'aseba'
 ]
 
+SKIPPED_FILES = [
+    'cppcheck_report.txt'
+]
+
 EXTENSIONS_TO_CHECK = [
     '.proto', '.wbt', '.wbo', '.wbproj', '.forest', '.txt', '.md', '.c', '.h', '.cpp', '.hpp', '.py', '.java', '.m', '.bvh',
     '.motion', '.obj', '.dae'
@@ -40,7 +44,7 @@ class TestLineEnding(unittest.TestCase):
         for root_path, dir_names, file_names in os.walk(os.environ['WEBOTS_HOME']):
             dir_names[:] = [d for d in dir_names if d not in SKIPPED_DIRECTORIES]
             for file in file_names:
-                if file.endswith(tuple(EXTENSIONS_TO_CHECK)):
+                if file.endswith(tuple(EXTENSIONS_TO_CHECK)) and file not in SKIPPED_FILES:
                     self.files.append(os.path.join(root_path, file))
 
     def test_line_ending(self):

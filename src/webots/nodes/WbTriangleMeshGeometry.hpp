@@ -87,6 +87,8 @@ protected:
   WbTriangleMeshGeometry(const WbTriangleMeshGeometry &other);
   WbTriangleMeshGeometry(const WbNode &other);
 
+  void destroyWrenMesh();
+
   virtual int indexSize() const { return 0; }
   void exportNodeContents(WbVrmlWriter &writer) const override;
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
@@ -97,6 +99,7 @@ protected:
 
   // WREN
   void buildWrenMesh(bool updateCache);
+  void setCcw(bool ccw);
 
   // ODE
   void applyToOdeData(bool correctSolidMass = true) override;
@@ -121,6 +124,7 @@ private:
   // WREN
   int estimateVertexCount(bool isOutlineMesh = false) const;
   int estimateIndexCount(bool isOutlineMesh = false) const;
+  bool mCcw;
 
   // ODE
   void setOdeTrimeshData();

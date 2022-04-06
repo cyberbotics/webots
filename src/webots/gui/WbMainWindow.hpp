@@ -54,7 +54,7 @@ public:
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
-  bool savePerspective(bool reloading, bool saveToFile);
+  void savePerspective(bool reloading, bool saveToFile, bool isSaveEvent = false);
   void restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory);
 
   const QString &enabledIconPath() const { return mEnabledIconPath; }
@@ -84,8 +84,9 @@ public slots:
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
-  void exportHtmlFiles();
 
+  QString exportHtmlFiles();
+  void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
   void uploadScene();
   void startAnimationRecording();
 
@@ -218,7 +219,7 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbStreamingServer *mStreamingServer;
-  WbLinkWindow *mLinkWindow;
+  bool mSaveCheckboxStatus;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");

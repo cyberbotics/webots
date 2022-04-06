@@ -20,7 +20,11 @@
 
 #include <QtCore/QObject>
 
+#ifdef __APPLE__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
 }
@@ -30,11 +34,11 @@ WbSoundClip::~WbSoundClip() {
     alDeleteBuffers(1, &mBuffer);
 }
 
-void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
+void WbSoundClip::load(const QString &filename, const QString &extension, QIODevice *device, double balance, int side) {
   if (!WbSoundEngine::openAL())
     return;
   WbWaveFile wave(filename, device);
-  wave.loadFromFile(side);
+  wave.loadFromFile(extension, side);
   if (wave.nChannels() > 1)
     wave.convertToMono(balance);
   mFilename = wave.filename();

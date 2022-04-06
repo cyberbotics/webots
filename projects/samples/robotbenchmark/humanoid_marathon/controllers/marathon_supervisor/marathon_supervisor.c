@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
 
   // Wait for user credentials and show benchmark score in robot window
   while (wb_robot_step(TIME_STEP) != -1) {
-    const char *message = wb_robot_wwi_receive_text();
-    if (message) {
+    const char *message;
+    while ((message = wb_robot_wwi_receive_text())) {
       if (strncmp(message, "record:", 7) == 0) {
         robotbenchmark_record(message, "humanoid_marathon", distance);
         break;

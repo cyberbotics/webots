@@ -20,6 +20,8 @@
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
+#include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbResizeManipulator.hpp"
@@ -104,13 +106,18 @@ void WbSkin::downloadAssets() {
     assert(appearance);
     appearance->downloadAssets();
   }
-  if (!mModelUrl->value().isEmpty() && WbUrl::isWeb(mModelUrl->value())) {
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
 
-    mDownloader->download(QUrl(mModelUrl->value()));
+  const QString &url = mModelUrl->value();
+  if (!url.isEmpty()) {
+    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+    if (WbUrl::isWeb(completeUrl)) {
+      delete mDownloader;
+      mDownloader = new WbDownloader(this);
+      if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
+
+      mDownloader->download(QUrl(completeUrl));
+    }
   }
 }
 
@@ -159,6 +166,18 @@ void WbSkin::postFinalize() {
 
   mBoundingSphere = new WbBoundingSphere(this);
   updateModelUrl();
+
+  // apply segmentation color
+  const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
+  WbRgb color(0.0, 0.0, 0.0);
+  while (solid) {
+    if (solid->recognitionColorSize() > 0) {
+      color = solid->recognitionColor(0);
+      break;
+    }
+    solid = WbNodeUtilities::findUpperSolid(solid);
+  }
+  setSegmentationColor(color);
 }
 
 void WbSkin::updateTranslation() {
@@ -205,6 +224,16 @@ QString WbSkin::modelPath() const {
   return WbUrl::computePath(this, "modelUrl", mModelUrl->value());
 }
 
+void WbSkin::setSegmentationColor(const WbRgb &color) {
+  const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
+
+  for (int i = 0; i < mSegmentationMaterials.size(); ++i) {
+    if (!mSegmentationMaterials[i])
+      continue;
+    wr_phong_material_set_linear_diffuse(mSegmentationMaterials[i], segmentationColor);
+  }
+}
+
 void WbSkin::updateModelUrl() {
   if (!isPostFinalizedCalled())
     return;
@@ -228,7 +257,8 @@ void WbSkin::updateModelUrl() {
       return;
     }
 
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mModelUrl->value()) && mDownloader == NULL) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
@@ -460,32 +490,32 @@ void WbSkin::createWrenSkeleton() {
   if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());
-    delete mDownloader;
-    mDownloader = NULL;
-  }
-
   const QString meshFilePath(modelPath());
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
-    if (mDownloader && mDownloader->hasFinished()) {
-      const QByteArray data = mDownloader->device()->readAll();
+    if (WbNetwork::instance()->isCached(meshFilePath)) {
+      QFile file(WbNetwork::instance()->get(meshFilePath));
+      if (!file.open(QIODevice::ReadOnly))
+        return;
+      const QByteArray &data = file.readAll();
       const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
       error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
-      delete mDownloader;
-      mDownloader = NULL;
     } else
       return;
   } else
     error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+
   if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
+
+  if (mDownloader != NULL)
+    delete mDownloader;
+  mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();
   for (int i = 0; i < count; ++i) {
@@ -496,11 +526,22 @@ void WbSkin::createWrenSkeleton() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    wr_renderable_set_scene_culling(renderable, false);
+
+    // used for rendering range finder camera
+    WrMaterial *depthMaterial = wr_phong_material_new();
+    wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
+    wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
+
+    // used for rendering segmentation camera
+    WrMaterial *segmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
+    wr_renderable_set_material(renderable, segmentationMaterial, "segmentation");
 
     wr_transform_attach_child(mRenderablesTransform, WR_NODE(renderable));
 
     mMaterials.push_back(material);
+    mSegmentationMaterials.push_back(segmentationMaterial);
+    mEncodeDepthMaterials.push_back(depthMaterial);
     mMeshes.push_back(meshes[i]);
     mMaterialNames.push_back(QString(materialNames[i]));
     mRenderables.push_back(renderable);
@@ -600,6 +641,14 @@ void WbSkin::deleteWrenSkeleton() {
   for (WrMaterial *material : mMaterials)
     wr_material_delete(material);
 
+  // delete encode depth material
+  for (WrMaterial *depthMaterial : mEncodeDepthMaterials)
+    wr_material_delete(depthMaterial);
+
+  // delete camera segmentation material
+  for (WrMaterial *segmentationMaterial : mSegmentationMaterials)
+    wr_material_delete(segmentationMaterial);
+
   for (WrTransform *transform : mBoneTransforms)
     wr_node_delete(WR_NODE(transform));
 
@@ -611,6 +660,8 @@ void WbSkin::deleteWrenSkeleton() {
   mMaterialNames.clear();
   mRenderables.clear();
   mMaterials.clear();
+  mSegmentationMaterials.clear();
+  mEncodeDepthMaterials.clear();
   mMeshes.clear();
   mBoneTransforms.clear();
   mBonesMap.clear();

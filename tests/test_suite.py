@@ -94,8 +94,11 @@ def setupWebots():
     command = Command(webotsFullPath + ' --version')
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots version')
-    webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+        raise RuntimeError('Error when getting the Webots version: ' + command.output)
+    try:
+        webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+    except IndexError:
+        raise RuntimeError('Cannot parse Webots version: ' + command.output)
 
     command = Command(webotsFullPath + ' --sysinfo')
     command.run()
@@ -265,7 +268,7 @@ for groupName in testGroups:
 
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
-    # this is particuarliy useful to debug on the jenkins server
+    # this is particularly useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)

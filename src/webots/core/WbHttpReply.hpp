@@ -18,9 +18,8 @@
 #include <QtCore/QString>
 
 namespace WbHttpReply {
-  QByteArray forge404Reply();
-  QByteArray forgeHTMLReply(const QString &htmlContent);
-  QByteArray forgeFileReply(const QString &fileName, const QString &etag);
+  QByteArray forge404Reply(const QString &url);
+  QByteArray forgeFileReply(const QString &fileName, const QString &etag, const QString &host, const QString &url);
   QString mimeType(const QString &url, bool generic = false);
 };  // namespace WbHttpReply
 

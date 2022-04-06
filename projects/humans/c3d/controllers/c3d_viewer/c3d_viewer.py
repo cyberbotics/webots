@@ -309,6 +309,7 @@ while supervisor.step(timestep) != -1:
             os.remove(file.name)
         else:
             print(message)
+
         message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)

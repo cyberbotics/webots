@@ -43,9 +43,9 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
+#include <QtGui/QAction>
 #include <QtGui/QImage>
 #include <QtGui/QResizeEvent>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QSlider>
@@ -286,7 +286,7 @@ void WbSimulationView::createActions() {
   action->setChecked(true);
   action->setText(tr("3D View"));
   action->setStatusTip("Toggle the 3D View.");
-  action->setShortcut(Qt::CTRL + Qt::Key_B);
+  action->setShortcut(Qt::CTRL | Qt::Key_B);
   connect(action, &QAction::toggled, this, &WbSimulationView::updateVisibility);
 
   action = mToggleSceneTreeAction = new QAction(this);
@@ -294,7 +294,7 @@ void WbSimulationView::createActions() {
   action->setChecked(true);
   action->setText(tr("Scene Tree"));
   action->setStatusTip("Toggle the scene tree.");
-  action->setShortcut(Qt::CTRL + Qt::Key_T);
+  action->setShortcut(Qt::CTRL | Qt::Key_T);
   connect(action, &QAction::toggled, this, &WbSimulationView::updateVisibility);
 
   updateSceneTreeActions(true);
@@ -1068,12 +1068,6 @@ WbRobot *WbSimulationView::selectedRobot() const {
     // cppcheck-suppress knownConditionTrueFalse
     if (robot)
       return robot;
-  }
-
-  if (WbWorld::instance()) {
-    const QList<WbRobot *> &robotList = WbWorld::instance()->robots();
-    if (robotList.size() == 1)
-      return robotList.first();
   }
 
   return NULL;

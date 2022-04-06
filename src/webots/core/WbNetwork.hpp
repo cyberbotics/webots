@@ -15,24 +15,37 @@
 #ifndef WB_NETWORK_HPP
 #define WB_NETWORK_HPP
 
-#include <QtCore/QObject>
+#include <QtCore/QFileInfo>
 
 class QNetworkAccessManager;
 
-class WbNetwork : public QObject {
+class WbNetwork {
 public:
   static WbNetwork *instance();
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
-  void clearCache();
 
-public slots:
-  void updateCache();
+  bool isCached(const QString &url) const;
+  void clearCache();
+  void save(const QString &url, const QByteArray &content);
+  const QString get(const QString &url) const;
+
+  qint64 cacheSize() const { return mCacheSizeInBytes; };
+  void reduceCacheUsage();
 
 private:
   static void cleanup();
   WbNetwork();
   ~WbNetwork();
+
+  void recomputeCacheSize();
+  static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
+
+  static const QString urlToHash(const QString &url);
+
+  QString mCacheDirectory;
+  qint64 mCacheSizeInBytes;
+
   QNetworkAccessManager *mNetworkAccessManager;
 };
 

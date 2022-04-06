@@ -657,7 +657,7 @@ namespace wren {
       mShadowVolumeProgram->bind();
 
       Camera *camera = mCurrentViewport->camera();
-      const primitive::Plane farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
+      const primitive::Plane &farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
 
       const primitive::Aabb &cameraAabb = camera->aabb();
       glm::vec3 cameraToLightInv;
@@ -707,10 +707,17 @@ namespace wren {
     glstate::setDepthFunc(GL_LESS);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    }
 
     // Compute silhouette without caps
     shadowVolume->computeSilhouette(light, false);
@@ -727,10 +734,17 @@ namespace wren {
     glstate::setDepthFunc(GL_GEQUAL);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    }
 
     // Compute silhouette with caps
     shadowVolume->computeSilhouette(light, true);

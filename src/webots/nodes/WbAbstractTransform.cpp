@@ -109,7 +109,7 @@ void WbAbstractTransform::updateTranslationAndRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const {
+bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
   const WbVector3 &s = mScale->value();
   const double x = s.x();
   const double y = s.y();
@@ -117,36 +117,21 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   correctedScale.setXyz(x, y, z);
   bool b = false;
 
-  if (x <= 0.0) {
-    if (x == 0.0) {
-      correctedScale.setX(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
-    } else {
-      correctedScale.setX(fabs(x));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
-    }
+  if (x == 0.0) {
+    correctedScale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
     b = true;
   }
 
-  if (y <= 0.0) {
-    if (y == 0.0) {
-      correctedScale.setY(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
-    } else {
-      correctedScale.setY(fabs(y));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
-    }
+  if (y == 0.0) {
+    correctedScale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
     b = true;
   }
 
-  if (z <= 0.0) {
-    if (z == 0.0) {
-      correctedScale.setZ(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
-    } else {
-      correctedScale.setZ(fabs(z));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
-    }
+  if (z == 0.0) {
+    correctedScale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
     b = true;
   }
 
@@ -209,7 +194,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   WbVector3 correctedScale;
   bool b = false;
 
-  if (checkScalePositivity(correctedScale))
+  if (checkScaleZeroValues(correctedScale))
     b = true;
 
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
@@ -561,6 +546,6 @@ void WbAbstractTransform::updateTranslateRotateHandlesSize() {
 
   mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr());
 
-  if (mTranslateRotateManipulator && !WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
+  if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
     mTranslateRotateManipulator->computeHandleScaleFromViewportSize();
 }

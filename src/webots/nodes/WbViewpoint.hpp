@@ -82,7 +82,7 @@ public:
   WbSFDouble *followSmoothness() const { return mFollowSmoothness; }
   WbSFDouble *fieldOfView() const { return mFieldOfView; }
   int projectionMode() const { return mProjectionMode; }
-  float viewDistanceUnscaling(WbVector3 position) const;
+  float viewDistanceUnscaling(const WbVector3 &position) const;
   WbSFDouble *exposure() const { return mExposure; }
 
   // setters

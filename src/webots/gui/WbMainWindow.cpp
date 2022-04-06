@@ -33,6 +33,7 @@
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
+#include "WbNetwork.hpp"
 #include "WbNewControllerWizard.hpp"
 #include "WbNewPhysicsPluginWizard.hpp"
 #include "WbNewProjectWizard.hpp"
@@ -86,11 +87,11 @@
 #include <QtNetwork/QHostInfo>
 
 #include <QtGui/QCloseEvent>
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 #include <QtNetwork/QHttpMultiPart>
 #include <QtNetwork/QNetworkReply>
+#include <QtOpenGL/QOpenGLFunctions_3_3_Core>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
@@ -99,7 +100,6 @@
 #include <QtWidgets/QProgressDialog>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QStyle>
-#include "WbNetwork.hpp"
 
 #include <wren/gl_state.h>
 
@@ -196,7 +196,13 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, [this]() { this->upload('A'); });
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
+          [this](const QString &filename, const QString &content, const QString &title) {
+            if (mSaveCheckboxStatus)
+              openUrl(filename, content, title);
+            else
+              this->upload('A');
+          });
 
   WbJoystickInterface::setWindowHandle(winId());
 
@@ -375,13 +381,12 @@ void WbMainWindow::createMainTools() {
   setCentralWidget(mSimulationView);
   addDock(mSimulationView);
   connect(mSimulationView, &WbSimulationView::requestOpenUrl, this, &WbMainWindow::openUrl);
-  connect(mSimulationView->view3D(), &WbView3D::showRobotWindowRequest, this, &WbMainWindow::showRobotWindow);
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromSceneTree, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromView3D, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mStreamingServer) {
     mStreamingServer->setMainWindow(this);
-    if (mStreamingServer->getStreamStatus()) {
+    if (mStreamingServer->streamStatus()) {
       WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
       if (multimediaStreamingServer)
         multimediaStreamingServer->setView3D(mSimulationView->view3D());
@@ -490,7 +495,7 @@ QMenu *WbMainWindow::createFileMenu() {
 
   action = new QAction(terminateWord, this);
   action->setMenuRole(QAction::QuitRole);  // Mac: put the menu respecting the MacOS specifications
-  action->setShortcut(Qt::CTRL + Qt::Key_Q);
+  action->setShortcut(Qt::CTRL | Qt::Key_Q);
   action->setStatusTip(tr("Terminate the Webots application."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::close);
@@ -557,7 +562,7 @@ QMenu *WbMainWindow::createViewMenu() {
   mToggleFullScreenAction->setText(tr("&Fullscreen"));
   mToggleFullScreenAction->setStatusTip(tr("Show the simulation view in fullscreen mode."));
   mToggleFullScreenAction->setToolTip(mToggleFullScreenAction->statusTip());
-  mToggleFullScreenAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F);
+  mToggleFullScreenAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_F);
   mToggleFullScreenAction->setCheckable(true);
   connect(mToggleFullScreenAction, &QAction::toggled, this, &WbMainWindow::toggleFullScreen);
   menu->addAction(mToggleFullScreenAction);
@@ -742,7 +747,7 @@ QMenu *WbMainWindow::createToolsMenu() {
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
-  action->setShortcut(Qt::CTRL + Qt::Key_J);
+  action->setShortcut(Qt::CTRL | Qt::Key_J);
   action->setStatusTip(tr("Restore windows factory layout."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::restoreLayout);
@@ -1099,10 +1104,10 @@ void WbMainWindow::editPhysicsPlugin() {
   openFileInTextEditor(filename);
 }
 
-bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
+void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveEvent) {
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
-    return false;
+    return;
 
   WbPerspective *perspective = world->perspective();
   if (reloading) {
@@ -1114,15 +1119,9 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearRenderingDevicesPerspectiveList();
   }
 
-  const bool saveScreenPerspective =
-    !WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE");
-  if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
-    perspective->setMainWindowState(saveState());
-  if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
-      perspective->simulationViewState()[1].isEmpty())
-    perspective->setSimulationViewState(mSimulationView->saveState());
-  if (saveScreenPerspective)
-    perspective->setMinimizedState(mMinimizedDockState);
+  perspective->setMainWindowState(saveState());
+  perspective->setSimulationViewState(mSimulationView->saveState());
+  perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);
@@ -1159,23 +1158,23 @@ bool WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
   perspective->setConsolesSettings(settingsList);
 
-  if (saveScreenPerspective) {
-    // save rendering devices perspective
-    const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
-    foreach (const WbRenderingDevice *device, renderingDevices) {
-      if (device->overlay() != NULL)
-        perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
-    }
-
-    // save rendering devices perspective of external window
-    WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+  // save rendering devices perspective
+  const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
+  foreach (const WbRenderingDevice *device, renderingDevices) {
+    if (device->overlay() != NULL)
+      perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
   }
 
-  if (!saveToFile)
-    return false;
+  // save rendering devices perspective of external window
+  WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
+
+  // when saving using the save button, the disabler is bypassed
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE") && !isSaveEvent)
+    return;
 
   // save our new perspective in the file
-  return perspective->save();
+  if (saveToFile)
+    perspective->save();
 }
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
@@ -1450,8 +1449,7 @@ void WbMainWindow::saveWorld() {
 
   mSimulationView->applyChanges();
   if (world->save()) {
-    if (!savePerspective(false, true))
-      WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+    savePerspective(false, true, true);
     updateWindowTitle();
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
@@ -1485,8 +1483,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
-      if (!savePerspective(false, true))
-        WbMessageBox::warning(tr("Unable to save '%1' perspective.").arg(world->perspective()->fileName()));
+      savePerspective(false, true, true);
       updateWindowTitle();
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
@@ -1574,55 +1571,46 @@ void WbMainWindow::exportVrml() {
   simulationState->resumeSimulation();
 }
 
-void WbMainWindow::exportHtmlFiles() {
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-
-  QString fileName = findHtmlFileName("Export HTML File");
-  if (fileName.isEmpty()) {
+QString WbMainWindow::exportHtmlFiles() {
+  QString filename;
+  if (!mSaveCheckboxStatus)
+    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
+  else {
+    WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+    filename = findHtmlFileName("Export HTML File");
     WbSimulationState::instance()->setMode(currentMode);
-    return;
   }
+  return filename;
+}
 
-  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
-    const QFileInfo info(fileName);
-    QStringList extensions = {".html", ".x3d"};
-    if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists())
-      extensions << ".json";
+void WbMainWindow::ShareMenu() {
+  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  WbShareWindow shareWindow(this);
+  shareWindow.exec();
+  WbSimulationState::instance()->setMode(currentMode);
+}
 
-    const QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
-    QDir dir(textureFolder);
-    if (dir.exists())
-      dir.rename(textureFolder, info.path() + "/textures");
+void WbMainWindow::uploadScene() {
+  QString filename = exportHtmlFiles();
+  if (filename.isEmpty())
+    return;
+  WbWorld *world = WbWorld::instance();
+  world->exportAsHtml(filename, false);
 
-    foreach (const QString extension, extensions)
-      QFile::rename(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension,
-                    info.path() + "/" + info.completeBaseName() + extension);
-    WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
-    openUrl(fileName,
+  if (mSaveCheckboxStatus && WbProjectRelocationDialog::validateLocation(this, filename)) {
+    const QFileInfo info(filename);
+
+    WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
+    openUrl(filename,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
-              .arg(fileName),
+              .arg(filename),
             tr("Export HTML5 Scene"));
-    mLinkWindow->fileSaved();
-  }
-
-  WbSimulationState::instance()->setMode(currentMode);
-}
-
-void WbMainWindow::ShareMenu() {
-  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbShareWindow *shareWindowUi = new WbShareWindow(this);
-  shareWindowUi->exec();
-  WbSimulationState::instance()->setMode(currentMode);
-}
-
-void WbMainWindow::uploadScene() {
-  WbWorld *world = WbWorld::instance();
-  world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "cloud_export.html", false);
-  upload('S');
+  } else
+    upload('S');
 }
 
 void WbMainWindow::upload(char type) {
@@ -1728,9 +1716,9 @@ void WbMainWindow::uploadFinished() {
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
 
-    mLinkWindow = new WbLinkWindow(this);
-    mLinkWindow->setLabelLink(url);
-    mLinkWindow->exec();
+    WbLinkWindow linkWindow(this);
+    linkWindow.setLabelLink(url);
+    linkWindow.exec();
   }
   reply->deleteLater();
 }
@@ -2125,7 +2113,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     }
 
     if (currentRobotWindow && currentRobotWindow->robot() == robot)
-      currentRobotWindow->setupPage();
+      currentRobotWindow->setupPage(mStreamingServer->port());
   } else {
     const int maxPendingRobotWindows = 3;
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
@@ -2271,21 +2259,6 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   if (isMinimized())
     return;
 
-#ifdef __APPLE__
-  // Note: this platform dependent cases are caused by the fact that
-  // the event loop and the OpenGL context management is slightly different
-  // between the different OS and that Windows uses QtWebKit and the other OS use
-  // QtWebEngine (OpengGL). These callbacks about updating the world loading dialog
-  // are called during the object finalization, and the OpenGL context should
-  // be dealt in a clean way.
-  const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-  QOpenGLContext context;
-  if (needToChangeContext) {
-    WbWrenOpenGlContext::doneWren();
-    context.makeCurrent(windowHandle());
-  }
-#endif
-
   mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
@@ -2295,15 +2268,7 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
   connect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
           &WbApplication::setWorldLoadingCanceled);
-
-#ifdef __APPLE__
-  if (needToChangeContext) {
-    context.doneCurrent();
-    WbWrenOpenGlContext::makeWrenCurrent();
-  }
-#else
   QApplication::processEvents();
-#endif
 }
 
 void WbMainWindow::deleteWorldLoadingProgressDialog() {
@@ -2317,60 +2282,27 @@ void WbMainWindow::deleteWorldLoadingProgressDialog() {
 
 void WbMainWindow::setWorldLoadingProgress(const int progress) {
   if (mWorldLoadingProgressDialog) {
-#ifdef __APPLE__
-    // This function can be called when the WREN OpenGL context is active.
-    // When Qt updates the GUI, it can change the OpenGL context.
-    // Therefore it's important to handle correctly the OpenGL context here.
-    const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-    QOpenGLContext context;
-    if (needToChangeContext) {
-      WbWrenOpenGlContext::doneWren();
-      context.makeCurrent(windowHandle());
-    }
-#endif
-
     mWorldLoadingProgressDialog->setValue(progress);
-
-#ifdef __APPLE__
-    if (needToChangeContext) {
-      context.doneCurrent();
-      WbWrenOpenGlContext::makeWrenCurrent();
-    }
-#else
     QApplication::processEvents();
-#endif
   }
 }
 
 void WbMainWindow::setWorldLoadingStatus(const QString &status) {
   if (mWorldLoadingProgressDialog) {
-#ifdef __APPLE__
-    const bool needToChangeContext = WbWrenOpenGlContext::isCurrent();
-    QOpenGLContext context;
-    if (needToChangeContext) {
-      WbWrenOpenGlContext::doneWren();
-      context.makeCurrent(windowHandle());
-    }
-#endif
-
     mWorldLoadingProgressDialog->setLabelText(status);
-
-#ifdef __APPLE__
-    if (needToChangeContext) {
-      context.doneCurrent();
-      WbWrenOpenGlContext::makeWrenCurrent();
-    }
-#else
     QApplication::processEvents();
-#endif
   }
 }
 
 void WbMainWindow::startAnimationRecording() {
+  const QString filename = exportHtmlFiles();
+  if (filename.isEmpty())
+    return;
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
-  WbAnimationRecorder::instance()->start(WbStandardPaths::webotsTmpPath() + "cloud_export.html");
+
+  WbAnimationRecorder::instance()->start(filename);
   toggleAnimationAction(true);
 
   WbSimulationState::instance()->setMode(currentMode);

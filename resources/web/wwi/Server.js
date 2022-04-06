@@ -1,5 +1,4 @@
 import Stream from './Stream.js';
-import {webots} from './webots.js';
 
 export default class Server {
   constructor(url, view, onready) {
@@ -21,7 +20,7 @@ export default class Server {
   }
 
   connect() {
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Connecting to session server...';
     let self = this;
@@ -50,15 +49,15 @@ export default class Server {
         };
       })
       .catch(error => {
-        this.onError()
+        this.onError();
         alert('Could not connect to session server');
         console.error(error);
       });
   }
 
   onError() {
-    document.getElementById('webotsProgress').style.display = 'none';
-    this._view.onquit()
+    document.getElementById('webots-progress').style.display = 'none';
+    this._view.onquit();
   }
 
   onOpen(event) {
@@ -67,7 +66,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    let progressMessage = document.getElementById('webotsProgressMessage');
+    let progressMessage = document.getElementById('webots-progress-message');
     if (progressMessage)
       progressMessage.innerHTML = 'Starting simulation...';
   }
@@ -87,7 +86,14 @@ export default class Server {
       console.log('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
     else if (message === '.') { // received every 5 seconds when Webots is running
       // nothing to do
-    } else
+    } else if (message.indexOf('error:') === 0) {
+      this.onError();
+      alert('Session server ' + message);
+    } else if (message.indexOf('docker:') === 0)
+      console.log(message);
+    else if (message.indexOf('ide: ') === 0)
+      this._view.ide = true;
+    else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }
 }

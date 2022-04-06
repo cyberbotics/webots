@@ -24,6 +24,7 @@
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMuscle.hpp"
+#include "WbNetwork.hpp"
 #include "WbPropeller.hpp"
 #include "WbRobot.hpp"
 #include "WbSensor.hpp"
@@ -80,7 +81,7 @@ WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevi
   init();
 }
 
-WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other) {
+WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other), mChangedAssociatedDevices() {
   init();
 }
 
@@ -98,12 +99,20 @@ WbMotor::~WbMotor() {
 
 void WbMotor::downloadAssets() {
   const QString &sound = mSound->value();
-  if (WbUrl::isWeb(sound)) {
-    mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())
-      connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
-    mDownloader->download(QUrl(sound));
-  }
+  if (sound.isEmpty())
+    return;
+
+  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader != NULL)
+    delete mDownloader;
+  mDownloader = new WbDownloader(this);
+  if (isPostFinalizedCalled())
+    connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
+
+  mDownloader->download(QUrl(completeUrl));
 }
 
 void WbMotor::preFinalize() {
@@ -279,22 +288,33 @@ void WbMotor::updateControlPID() {
 
 void WbMotor::updateSound() {
   const QString &sound = mSound->value();
-  if (sound.isEmpty())
+  if (sound.isEmpty()) {
     mSoundClip = NULL;
-  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
-    downloadAssets();
-    return;
-  } else if (!mDownloader)
-    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
-  else {
-    if (mDownloader->error().isEmpty())
-      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
-    else {
-      mSoundClip = NULL;
-      warn(mDownloader->error());
+  } else {
+    const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
+
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        mSoundClip = NULL;
+        // downloader needs to be deleted in case the url is switched back to something valid
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        downloadAssets();
+        return;
+      }
     }
-    delete mDownloader;
-    mDownloader = NULL;
+
+    // at this point the sound must be available (locally or in the cache).
+    // determine extension from url since for remotely defined assets the cached version does not retain this information
+    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+    if (WbUrl::isWeb(completeUrl))
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    else
+      mSoundClip = WbSoundEngine::sound(completeUrl, extension);
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }

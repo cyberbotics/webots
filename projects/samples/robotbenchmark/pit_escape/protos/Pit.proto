@@ -16,6 +16,7 @@ PROTO Pit [
   field SFInt32    perlinNOctaves 3
   field SFFloat    noiseAmplitude 0.15
   field SFFloat    pitRadius      3
+  field SFString   name           "pit"
 ]
 {
   %<
@@ -132,7 +133,7 @@ PROTO Pit [
         ]
       }
     ]
-    name "pit"
+    name IS name
     boundingObject USE PIT_ELEVATION_GRID
   }
 }

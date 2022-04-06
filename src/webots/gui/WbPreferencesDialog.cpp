@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
+#include <QtGui/QKeyEvent>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
@@ -44,6 +45,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 
 static QStringList gStartupModes;
@@ -87,7 +89,9 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   if (mPythonCommand)
     mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
-  mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
+  if (mMatlabCommand)
+    mMatlabCommand->setText(prefs->value("General/matlabCommand").toString());
+  mExtraProjectPath->setText(prefs->value("General/extraProjectPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mRenderingCheckBox->setChecked(prefs->value("General/rendering").toBool());
@@ -119,6 +123,12 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 WbPreferencesDialog::~WbPreferencesDialog() {
 }
 
+void WbPreferencesDialog::keyPressEvent(QKeyEvent *event) {
+  if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+    return;
+  QDialog::keyPressEvent(event);
+}
+
 void WbPreferencesDialog::accept() {
   WbPreferences *prefs = WbPreferences::instance();
 
@@ -127,7 +137,7 @@ void WbPreferencesDialog::accept() {
   const QString &languageKey = WbTranslator::instance()->findKey(mLanguageCombo->currentText());
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
-      prefs->value("General/extraProjectsPath").toString() != mExtraProjectsPath->text() ||
+      prefs->value("General/extraProjectPath").toString() != mExtraProjectPath->text() ||
       prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
@@ -151,7 +161,9 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   if (mPythonCommand)
     prefs->setValue("General/pythonCommand", mPythonCommand->text());
-  prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
+  if (mMatlabCommand)
+    prefs->setValue("General/matlabCommand", mMatlabCommand->text());
+  prefs->setValue("General/extraProjectPath", mExtraProjectPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/rendering", mRenderingCheckBox->isChecked());
@@ -190,8 +202,9 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
-  if (!mCacheSize->text().isEmpty())
-    prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+
+  prefs->setValue("Network/cacheSize", mCacheSize->value());
+
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
@@ -215,9 +228,7 @@ void WbPreferencesDialog::openFontDialog() {
 void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
-  mTabWidget->removeTab(2);
-  mTabWidget->addTab(createNetworkTab(), tr("Network"));
-  mTabWidget->setCurrentIndex(2);
+  mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -270,8 +281,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   }
 
   mEditorFontEdit = new WbLineEdit(this);
-  mExtraProjectsPath = new WbLineEdit(this);
-  mExtraProjectsPath->setToolTip(
+  mExtraProjectPath = new WbLineEdit(this);
+  mExtraProjectPath->setToolTip(
     tr("Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project."));
 
   // row 0
@@ -316,35 +327,40 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
     mPythonCommand = NULL;
   } else
     layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
+
   // row 7
-  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 7, 0);
-  layout->addWidget(mExtraProjectsPath, 7, 1);
+  layout->addWidget(new QLabel(tr("MATLAB command:"), this), 7, 0);
+  layout->addWidget(mMatlabCommand = new WbLineEdit(this), 7, 1);
 
   // row 8
+  layout->addWidget(new QLabel(tr("Extra project path:"), this), 8, 0);
+  layout->addWidget(mExtraProjectPath, 8, 1);
+
+  // row 9
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
        "current world was modified by either changing the viewpoint,\ndragging, rotating, applying a force or applying a "
        "torque to an object. It will however\nstill display a warning if the world was modified from the scene tree."));
-  layout->addWidget(new QLabel(tr("Warnings:"), this), 8, 0);
-  layout->addWidget(mDisableSaveWarningCheckBox, 8, 1);
+  layout->addWidget(new QLabel(tr("Warnings:"), this), 9, 0);
+  layout->addWidget(mDisableSaveWarningCheckBox, 9, 1);
 
-  // row 9
+  // row 10
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://cyberbotics.com/doc/guide/telemetry"));
   QLabel *label =
     new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
-  layout->addWidget(label, 9, 0);
-  layout->addWidget(mTelemetryCheckBox, 9, 1);
+  layout->addWidget(label, 10, 0);
+  layout->addWidget(mTelemetryCheckBox, 10, 1);
 
-  // row 10
+  // row 11
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 10, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 10, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 11, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 11, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);
@@ -479,19 +495,24 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout = new QGridLayout(cache);
 
   // row 0
-  mCacheSize = new WbLineEdit(this);
-  mCacheSize->setValidator(new QIntValidator(0, 65535));
-  mCacheSize->setText(WbPreferences::instance()->value("Network/cacheSize", 1024).toString());
+  mCacheSize = new QSpinBox(this);
+  mCacheSize->setRange(0, 65535);
+  mCacheSize->setValue(WbPreferences::instance()->value("Network/cacheSize", 1024).toInt());
+  connect(mCacheSize, &QSpinBox::editingFinished, [=]() {
+    if (mCacheSize->value() < 512) {
+      mCacheSize->setValue(512);
+      WbMessageBox::info(tr("At least 512 MB of cache are necessary."), this);
+    }
+  });
   layout->addWidget(new QLabel(tr("Set the size of the cache (in MB):"), this), 0, 0);
   layout->addWidget(mCacheSize, 0, 1);
 
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
-  layout->addWidget(new QLabel(tr("Amount of cache used : %1 MB.")
-                                 .arg(WbNetwork::instance()->networkAccessManager()->cache()->cacheSize() / (1024 * 1024)),
-                               this),
-                    1, 0);
+  mCacheSizeLabel =
+    new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this);
+  layout->addWidget(mCacheSizeLabel, 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
 
   return widget;

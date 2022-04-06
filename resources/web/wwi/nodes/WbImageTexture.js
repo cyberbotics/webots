@@ -32,7 +32,7 @@ export default class WbImageTexture extends WbBaseNode {
         if (parent instanceof WbAppearance)
           parent.texture = undefined;
         else {
-          switch (this.type) {
+          switch (this.role) {
             case 'baseColorMap':
               parent.baseColorMap = undefined;
               break;

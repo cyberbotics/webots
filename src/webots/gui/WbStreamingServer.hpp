@@ -43,7 +43,8 @@ public:
   virtual void start(int port);
   void sendToClients(const QString &message = "");
   void closeClient(const QString &clientID);
-  bool getStreamStatus() { return mStream; }
+  bool streamStatus() { return mStream; }
+  int port() { return mPort; }
 
 signals:
   void sendRobotWindowClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
@@ -62,7 +63,7 @@ protected:
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, QTcpSocket *socket);
+  virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host, QTcpSocket *socket);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
@@ -102,7 +103,6 @@ private:
   QWebSocketServer *mWebSocketServer;
   WbStreamingTcpServer *mTcpServer;
   QStringList mEditableControllers;
-  qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
@@ -112,6 +112,7 @@ private:
   bool mSsl;
   bool mStream;
   bool mControllerEdit;
+  int mPort;
 };
 
 #endif

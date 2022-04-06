@@ -140,7 +140,7 @@ QFrame#simulationIndicatorFrame {
     stop:0 #d0e0db, stop:1 #afd8cb
   );
   border-radius: 2%;
-  max-height: 13px;
+  max-height: 14px;
   padding: 6px 6px 7px 6px;
   min-width: 140px;
   margin-left: 5px;
@@ -181,10 +181,6 @@ QLabel#speedLabel {
 QLabel#dockWidgetTitleText {
   color: #e0feff;
   background: transparent;
-}
-
-QProgressBar {
-  qproperty-alignment: 'AlignHCenter | AlignVCenter';
 }
 
 /* menu buttons */
@@ -835,11 +831,10 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
+  text-align: center;
+  background: rgb(222,222,222);
   border-radius: 3px;
-  height: 6px;
-  margin: 10px;
-  color: transparent;
-  background: #222;
+  color: black;
 }
 
 QProgressBar::chunk {

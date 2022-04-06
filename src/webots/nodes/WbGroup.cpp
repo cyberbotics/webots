@@ -38,7 +38,7 @@ WbGroup::WbGroup(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(
   init();
 }
 
-WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other) {
+WbGroup::WbGroup(const WbGroup &other) : WbBaseNode(other), mHiddenKinematicParametersMap() {
   init();
 }
 
@@ -109,9 +109,9 @@ void WbGroup::recomputeBoundingSphere() const {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
-    n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    if (!n->isPostFinalizedCalled())
+      n->postFinalize();
+    mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
   }
 }
 

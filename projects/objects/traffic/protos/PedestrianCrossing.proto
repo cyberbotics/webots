@@ -8,6 +8,7 @@ PROTO PedestrianCrossing [
   field SFVec3f    translation          0 0 0
   field SFRotation rotation             0 0 1 0
   field SFString   name                 "pedestrian crossing"
+  field SFVec3f    scale                1 1 1
   field SFVec2f    size                 20 8                   # Defines the size of the pedestrian crossing.
   field SFInt32    textureFiltering     4                      # Defines the filtering level for the texture used for the pedestrian crossing.
   field SFBool     enableBoundingObject TRUE                   # Defines whether the pedestrian crossing should have a bounding object.

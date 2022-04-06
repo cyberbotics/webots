@@ -24,6 +24,7 @@
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
 #include "WbSFBool.hpp"
@@ -55,7 +56,6 @@ void WbImageTexture::init() {
   mExternalTexture = false;
   mExternalTextureRatio.setXy(1.0, 1.0);
   mExternalTextureData = NULL;
-  mContainerField = "";
   mImage = NULL;
   mUsedFiltering = 0;
   mWrenTextureIndex = 0;
@@ -88,16 +88,19 @@ WbImageTexture::~WbImageTexture() {
 void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
-  const QString &url(mUrl->item(0));
-  if (WbUrl::isWeb(url)) {
-    if (mDownloader != NULL && mDownloader->device() != NULL)
-      delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
 
-    mDownloader->download(QUrl(url));
-  }
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader && mDownloader->hasFinished())
+    delete mDownloader;
+
+  mDownloader = new WbDownloader(this);
+  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+    connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
+
+  mDownloader->download(QUrl(completeUrl));
 }
 
 void WbImageTexture::downloadUpdate() {
@@ -128,22 +131,17 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  if (mDownloader) {
-    assert(mDownloader->device() || mDownloader->isCopy());
-    if (mDownloader->isCopy())
-      return false;  // The image should already be in the wren cache.
-    if (!mDownloader->error().isEmpty()) {
-      warn(mDownloader->error());
-      return false;
-    }
-    return loadTextureData(mDownloader->device());
-  }
-  const QString filePath(path(true));
-  if (filePath.isEmpty())
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const bool isWebAsset = WbUrl::isWeb(completeUrl);
+  if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
     return false;
+
+  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path(true);
   QFile file(filePath);
-  if (!file.open(QIODevice::ReadOnly))
+  if (!file.open(QIODevice::ReadOnly)) {
+    warn(tr("Texture file could not be read: '%1'").arg(filePath));
     return false;
+  }
   const bool r = loadTextureData(&file);
   file.close();
   return r;
@@ -214,8 +212,9 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 
 void WbImageTexture::updateWrenTexture() {
   // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
-  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node because
-  // the texture is available in the cache but no reference to it remains as the only reference was immediately deleted
+  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node
+  // because the texture is available in the cache but no reference to it remains as the only reference was immediately
+  // deleted
   if (isPostFinalizedCalled())
     destroyWrenTexture();
 
@@ -256,7 +255,7 @@ void WbImageTexture::updateWrenTexture() {
   }
 
   mWrenTexture = WR_TEXTURE(texture);
-  if (mDownloader != NULL && mDownloader->device() != NULL)
+  if (mDownloader != NULL)
     delete mDownloader;
   mDownloader = NULL;
 }
@@ -292,18 +291,35 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
+  // check url validity
+  if (path().isEmpty())
+    return;
+
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
+    mUrl->blockSignals(true);
     mUrl->setItem(i, item.replace("\\", "/"));
+    mUrl->blockSignals(false);
   }
+
   if (n > 0) {
-    const QString &url = mUrl->item(0);
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && mDownloader == NULL) {
-      // url was changed from the scene tree or supervisor
-      downloadAssets();
-      return;
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        // since the url is invalid the currently loaded texture should be removed (if any)
+        destroyWrenTexture();
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+
+      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
+        downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
     }
   }
 
@@ -506,7 +522,7 @@ bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
     writer << " render=\'false\'";
   if (defNode())
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'";
-  writer << " type=\'" << mRole << "\' ></" + x3dName() + ">";
+  writer << " role=\'" << mRole << "\' ></" + x3dName() + ">";
   return true;
 }
 
@@ -541,17 +557,8 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
-           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+    writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
-      writer << " type=\'" << mRole << "\'";
+      writer << " role=\'" << mRole << "\'";
   }
-}
-
-void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  const int filtering = mFiltering->value();
-  if (writer.isX3d() && filtering > 0)
-    writer << "<TextureProperties anisotropicDegree=\"" << (1 << (filtering - 1))
-           << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
-  WbBaseNode::exportNodeSubNodes(writer);
 }

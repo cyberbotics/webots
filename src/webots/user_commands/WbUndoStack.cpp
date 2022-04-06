@@ -51,9 +51,6 @@ void WbUndoStack::push(QUndoCommand *cmd) {
 
   QUndoStack::push(cmd);
 
-  if (mClearRequest)
-    clear();
-
   updateActions();
   // notify the scene tree that some fields changed in order to update the
   // field editor if needed

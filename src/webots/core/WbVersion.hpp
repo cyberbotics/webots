@@ -38,6 +38,8 @@ public:
   int majorNumber() const { return mMajor; }
   int minorNumber() const { return mMinor; }
   int revisionNumber() const { return mRevision; }
+  const QString &commit() const { return mCommit; }
+
   // Write version in a verbose way
   // if revision is false, only major and minor information are included.
   // In general the string will have the form "8.6.3".
