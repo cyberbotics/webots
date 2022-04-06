@@ -45,6 +45,15 @@ void WbColladaShape::init() {
   mCastShadows = findSFBool("castShadows");
   mIsPickable = findSFBool("isPickable");
 
+  mWrenRenderables.clear();
+  mWrenMaterials.clear();
+  mWrenMeshes.clear();
+  mWrenTransforms.clear();
+  mPbrAppearances.clear();
+
+  mWrenSegmentationMaterials.clear();
+  mWrenEncodeDepthMaterials.clear();
+
   mDownloader = NULL;
 }
 
