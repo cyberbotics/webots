@@ -26,7 +26,7 @@ class WbSFString : public WbSingleValue {
   Q_OBJECT
 
 public:
-  explicit WbSFString(const QString &s) : mValue(s){};
+  explicit WbSFString(const QString &s) : mValue(s) {}
   WbSFString(WbTokenizer *tokenizer, const QString &worldPath) { readSFString(tokenizer, worldPath); }
   WbSFString(const WbSFString &other) : mValue(other.mValue) {}
   virtual ~WbSFString() {}
