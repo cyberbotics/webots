@@ -145,7 +145,6 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      this.setProgress('block', 'Loading World...', 0, 'Loading world...');
       if (typeof this.x3dScene !== 'undefined') {
         if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
@@ -167,6 +166,7 @@ webots.View = class View {
 
       if (typeof this.onready === 'function')
         this.onready();
+      console.log("Done I think.");
     };
 
     if (this.broadcast)
@@ -280,8 +280,8 @@ webots.View = class View {
   resetSimulation() {
     this.setProgress('none');
     this.removeLabels();
-    if (document.getElementById('webotsClock'))
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webots-clock'))
+      document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {

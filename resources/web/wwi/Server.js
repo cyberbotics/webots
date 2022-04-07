@@ -21,7 +21,7 @@ export default class Server {
   }
 
   connect() {
-    this._view.setProgress('block', 'Connecting to session server...', 45, 'Connecting to: ' + this._url);
+    this._view.setProgress('block', 'Connecting to session server...', 0, 'Connecting to: ' + this._url);
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -35,6 +35,7 @@ export default class Server {
         }
         self.socket = new WebSocket(data + '/client');
         self.socket.onopen = (event) => {
+          self._view.setProgress('block', 'Connecting to session server...', 50, 'Opening socket...');
           self.onOpen(event);
         };
         self.socket.onmessage = (event) => {
@@ -44,6 +45,7 @@ export default class Server {
           console.log('Disconnected from the Webots server.');
         };
         self.socket.onerror = (event) => {
+          self._view.setProgress('block', 'Cannot connect to the simulation server', 'none', 'none');
           console.error('Cannot connect to the simulation server');
         };
       })

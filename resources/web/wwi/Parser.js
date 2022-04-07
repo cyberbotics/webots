@@ -83,6 +83,7 @@ export default class Parser {
     }
 
     webots.currentView.setProgress('block', 'Finalizing...', 15, 'Finalizing...');
+
     return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
@@ -107,6 +108,8 @@ export default class Parser {
 
       const numNodes = WbWorld.instance.sceneTree.length;
       WbWorld.instance.sceneTree.forEach((node, i) => {
+        console.log("Finalizing node: " + (i + 1));
+        webots.currentView.setProgress('block', 'Finalizing...', 15 + 85 * (i + 1) / numNodes, 'Finalizing node: ' + (i + 1));
         node.finalize();
       });
 

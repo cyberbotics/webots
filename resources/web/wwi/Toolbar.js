@@ -1112,7 +1112,7 @@ export default class Toolbar {
     if (reload)
       this._view.setProgress('block', 'Reloading simulation...', 0, 'Getting world information...');
     else
-      this._view.setProgress('block', 'Restarting simulation...', 0, 'Resetting viewpoint...');
+      this._view.setProgress('block', 'Restarting simulation...', 'none', 'none');
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';

@@ -34,9 +34,14 @@ webots-view #webots-progress {
   box-shadow: 0 0 15px #000;
 }
 
+webots-view #webots-progress-bar {
+  width: 200px;
+  height: 10px;
+}
+
 webots-view #webots-progress-percent {
   width: 200px;
-  color: violet;
+  height: 10px;
 }
 
 webots-view #webots-progress-info {
