@@ -1,0 +1,155 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.23900404164825656 -0.1268455534965416 -0.9626979140072728 4.000075691611725
+  position 8.293363023220836 -9.705410347456603 7.244392294208453
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction 0 1 0
+  intensity 100
+  location 0 -5 0
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  intensity 100
+  location 0 0 5
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction -1 0 0
+  intensity 100
+  location 5 0 0
+}
+ColladaShape {
+  url [
+    "meshes/colored_cube.dae"
+  ]
+  castShadows FALSE
+}
+Robot {
+  children [
+    Camera {
+      translation -0.75 -3 -0.75
+      rotation 0 0 1 1.5708
+      name "camera0"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 -3 0.75
+      rotation 0 0 1 1.5708
+      name "camera1"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 -3 -0.75
+      rotation 0 0 1 1.5708
+      name "camera2"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 -3 0.75
+      rotation 0 0 1 1.5708
+      name "camera3"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 0.75 3
+      rotation 0 1 0 1.5708
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 -0.75 3
+      rotation 0 1 0 1.5708
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 -0.75 3
+      rotation 0 1 0 1.5708
+      name "camera6"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 0.75 3
+      rotation 0 1 0 1.5708
+      name "camera7"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 3 0.75 0.75
+      rotation 0 1 0 3.14159
+      name "camera8"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 3 -0.75 0.75
+      rotation 0 1 0 3.14159
+      name "camera9"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 3 -0.75 -0.75
+      rotation 0 1 0 3.14159
+      name "camera10"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 3 0.75 -0.75
+      rotation 0 1 0 3.14159
+      name "camera11"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "colladashape_checker"
+}
+TestSuiteSupervisor {
+}

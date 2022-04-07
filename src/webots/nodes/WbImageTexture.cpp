@@ -621,5 +621,5 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
   if (!mRole.isEmpty())
     writer << " role='" << mRole << "'";
-  writer << "</ImageTexture>";
+  writer << "></ImageTexture>";
 }
