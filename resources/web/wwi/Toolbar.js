@@ -1110,9 +1110,9 @@ export default class Toolbar {
     if (this._view.broadcast)
       return;
     if (reload)
-      this._view.setProgressBar('block', 'Reloading simulation...', 0, 'Getting world information...');
+      this._view.setProgress('block', 'Reloading simulation...', 0, 'Getting world information...');
     else
-      this._view.setProgressBar('block', 'Restarting simulation...', 0, 'Resetting viewpoint...');
+      this._view.setProgress('block', 'Restarting simulation...', 0, 'Resetting viewpoint...');
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
@@ -1339,7 +1339,7 @@ export default class Toolbar {
     if (this._view.broadcast || typeof name === 'undefined')
       return;
 
-    this._view.setProgressBar('block', 'Loading ' + name + '...', 20, 'Getting world information...');
+    this._view.setProgress('block', 'Loading ' + name + '...', 20, 'Getting world information...');
 
     this.hideToolbar(true);
     let previousOnready = this._view.onready;
@@ -1354,7 +1354,7 @@ export default class Toolbar {
         this.run();
     };
     this._view.stream.socket.send('load:' + name);
-    this._view.setProgressBar('block', 'Loading ' + name + '...', 60, 'Sending ' + name + '...');
+    this._view.setProgress('block', 'Loading ' + name + '...', 60, 'Sending ' + name + '...');
   }
 
   _changeWorldSelectionPaneVisibility(event) {

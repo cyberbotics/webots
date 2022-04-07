@@ -125,7 +125,7 @@ webots.View = class View {
         this.view3D.appendChild(this.progress);
       }
 
-      this.setProgressBar('block');
+      this.setProgress('block');
 
       if (this._isWebSocketProtocol) {
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
@@ -145,7 +145,7 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      this.setProgressBar('block', 'Loading World...', 0, 'Loading world...');
+      this.setProgress('block', 'Loading World...', 0, 'Loading world...');
       if (typeof this.x3dScene !== 'undefined') {
         if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
@@ -278,7 +278,7 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    this.setProgressBar('none');
+    this.setProgress('none');
     this.removeLabels();
     if (document.getElementById('webotsClock'))
       document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
@@ -288,9 +288,9 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    this.setProgressBar('block', 'Bye bye...', 'none', 'See you soon!');
+    this.setProgress('block', 'Bye bye...', 'none', 'See you soon!');
     setTimeout(() => {
-      this.setProgressBar('none');
+      this.setProgress('none');
     }, 2000);
     this.quitting = true;
     this.onquit();
@@ -308,7 +308,7 @@ webots.View = class View {
     }
   }
 
-  setProgressBar(display, message, percent, info) {
+  setProgress(display, message, percent, info) {
     if (document.getElementById('webots-progress')) {
       document.getElementById('webots-progress').style.display = display;
 

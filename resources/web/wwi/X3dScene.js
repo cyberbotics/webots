@@ -135,7 +135,7 @@ export default class X3dScene {
     };
     xmlhttp.onerror = () => {
       if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined')
-        document.getElementsByTagName('webots-view')[0].setProgressBar('block', 'File not found.', 'none', 'none');
+        document.getElementsByTagName('webots-view')[0].setProgress('block', 'File not found.', 'none', 'none');
     };
     xmlhttp.send();
   }
@@ -325,8 +325,7 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined')
-        document.getElementsByTagName('webots-view')[0].setProgressBar('block', 'Loading 3D scene...', 25, 'Loading scene...');
+      view.setProgress('block', 'Loading 3D scene...', 25, 'Loading scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

@@ -21,7 +21,7 @@ export default class Server {
   }
 
   connect() {
-    this._view.setProgressBar('block', 'Connecting to session server...', 45, 'Connecting to: ' + this._url);
+    this._view.setProgress('block', 'Connecting to session server...', 45, 'Connecting to: ' + this._url);
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -55,7 +55,7 @@ export default class Server {
   }
 
   onError() {
-    this._view.setProgressBar('none');
+    this._view.setProgress('none');
     this._view.onquit();
   }
 
@@ -65,7 +65,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    this._view.setProgressBar('block', 'Starting simulation...', 10, 'Getting world information...');
+    this._view.setProgress('block', 'Starting simulation...', 10, 'Getting world information...');
   }
 
   onMessage(event) {
@@ -97,7 +97,7 @@ export default class Server {
         percent = 20 + 80 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
       else if (message.endsWith('open'))
         percent = 100;
-      this._view.setProgressBar('block', 'Starting simulation...', percent, message);
+      this._view.setProgress('block', 'Starting simulation...', percent, message);
     }
     else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;

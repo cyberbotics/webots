@@ -61,7 +61,7 @@ export default class Parser {
       xml = parser.parseFromString(text, 'text/xml');
     }
 
-    webots.currentView.setProgressBar('block', 'Finalizing...', 0, 'Parsing x3d file...');
+    webots.currentView.setProgress('block', 'Finalizing...', 0, 'Parsing x3d file...');
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
@@ -73,16 +73,16 @@ export default class Parser {
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
         else {
-          webots.currentView.setProgressBar('block', 'Finalizing...', 10, 'Parsing nodes...');
+          webots.currentView.setProgress('block', 'Finalizing...', 10, 'Parsing nodes...');
           this._parseChildren(node, parent);
         }
       } else {
-        webots.currentView.setProgressBar('block', 'Finalizing...', 10, 'Parsing scene...');
+        webots.currentView.setProgress('block', 'Finalizing...', 10, 'Parsing scene...');
         this._parseNode(scene);
       }
     }
 
-    webots.currentView.setProgressBar('block', 'Finalizing...', 15, 'Finalizing...');
+    webots.currentView.setProgress('block', 'Finalizing...', 15, 'Finalizing...');
     return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
@@ -114,7 +114,7 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      webots.currentView.setProgressBar('none');
+      webots.currentView.setProgress('none');
 
       if (typeof callback === 'function')
         callback();
