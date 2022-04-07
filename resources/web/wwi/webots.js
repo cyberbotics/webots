@@ -282,8 +282,8 @@ webots.View = class View {
     if (document.getElementById('webots-progress'))
       document.getElementById('webots-progress').style.display = 'none';
     this.removeLabels();
-    if (document.getElementById('webotsClock'))
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webots-clock'))
+      document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {
