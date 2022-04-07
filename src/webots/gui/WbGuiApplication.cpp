@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+s
 #include "WbGuiApplication.hpp"
 
 #include "WbApplication.hpp"
@@ -34,7 +34,6 @@
 #include "WbWrenOpenGlContext.hpp"
 #include "WbX3dStreamingServer.hpp"
 
-#include <QtCore/QCommandLineParser>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -51,7 +50,7 @@
 
 #include <iostream>
 
-using namespace std;
+  using namespace std;
 
 // QApplication needs the reference to the original argc directly to run
 // properly. Otherwise, bugs related with threads (splashscreen, tooltips, ...)
@@ -73,7 +72,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
   QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1);  // remove final backslash
+  MSYS2_HOME.chop(1);                          // remove final backslash
   qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
   const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
@@ -195,11 +194,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
-  // Integration of QCommandLineParser
-  QCommandLineParser parser;
-  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  parser.parse(QCoreApplication::arguments());
-  const QStringList args = parser.positionalArguments();
+  QStringList args = arguments();
 
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
