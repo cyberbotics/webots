@@ -34,7 +34,6 @@
 #include "WbWrenOpenGlContext.hpp"
 #include "WbX3dStreamingServer.hpp"
 
-#include <QtCore/QCommandLineParser>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -196,16 +195,8 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
-<<<<<<< HEAD
-  // Integration of QCommandLineParser
-  QCommandLineParser parser;
-  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  parser.parse(QCoreApplication::arguments());
-  const QStringList args = parser.positionalArguments();
 
-=======
   QStringList args = arguments();
->>>>>>> parent of 002d99beb (I implementented QCommandLineParser to parse the arguments in the parseArguments function. However, I did not implement the handling of the subcommands or any validity checks for them, as was said in the issue discussion.)
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
 
