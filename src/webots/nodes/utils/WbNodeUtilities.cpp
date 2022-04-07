@@ -312,7 +312,7 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
-        if (nodeName == "ColladaShape")
+        if (nodeName == "VisualShape")
           return true;
         if (nodeName == "PointLight")
           return true;
@@ -527,7 +527,7 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
-        if (nodeName == "ColladaShape")
+        if (nodeName == "VisualShape")
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))

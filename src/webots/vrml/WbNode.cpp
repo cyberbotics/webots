@@ -166,9 +166,9 @@ void WbNode::init() {
   mCurrentStateId = "__init__";
 }
 
-// special constructor for shallow nodes, it's used by ColladaShape to instantiate PBRAppearances from an assimp material in
+// special constructor for shallow nodes, it's used by VisualShape to instantiate PBRAppearances from an assimp material in
 // order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
-// be modified or interacted with in any other way other than through the creation and destruction of ColladaShape nodes
+// be modified or interacted with in any other way other than through the creation and destruction of VisualShape nodes
 WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
   mModel = WbNodeModel::findModel(modelName);
   init();

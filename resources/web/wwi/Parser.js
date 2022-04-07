@@ -5,7 +5,7 @@ import WbBackground from './nodes/WbBackground.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
-import WbColladaShape from './nodes/WbColladaShape.js';
+import WbVisualShape from './nodes/WbVisualShape.js';
 import WbCone from './nodes/WbCone.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
@@ -142,8 +142,8 @@ export default class Parser {
       result = this._parseGroup(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'ColladaShape')
-      result = this._parseColladaShape(node, parentNode);
+    else if (node.tagName === 'VisualShape')
+      result = this._parseVisualShape(node, parentNode);
     else if (node.tagName === 'Switch')
       result = this._parseSwitch(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
@@ -525,7 +525,7 @@ export default class Parser {
     return shape;
   }
 
-  _parseColladaShape(node, parentNode) {
+  _parseVisualShape(node, parentNode) {
     const use = this._checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -539,17 +539,17 @@ export default class Parser {
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const colladaShape = new WbColladaShape(id, url, ccw, castShadows, isPickable);
+    const visualShape = new WbVisualShape(id, url, ccw, castShadows, isPickable);
 
-    WbWorld.instance.nodes.set(colladaShape.id, colladaShape);
-    this._parseChildren(node, colladaShape, false); // ColladaShape cannot be used as boundingObject
+    WbWorld.instance.nodes.set(visualShape.id, visualShape);
+    this._parseChildren(node, visualShape, false); // VisualShape cannot be used as boundingObject
 
     if (typeof parentNode !== 'undefined') {
-      colladaShape.parent = parentNode.id;
-      parentNode.children.push(colladaShape);
+      visualShape.parent = parentNode.id;
+      parentNode.children.push(visualShape);
     }
 
-    return colladaShape;
+    return visualShape;
   }
 
   _parseBillboard(node, parentNode) {

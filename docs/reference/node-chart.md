@@ -125,7 +125,7 @@ graph LR
     Physics[[Physics](physics.md)]
     Recognition[[Recognition](recognition.md)]
     Shape[[Shape](shape.md)]
-    ColladaShape[[ColladaShape](colladashape.md)]
+    VisualShape[[VisualShape](visualshape.md)]
     Slot[[Slot](slot.md)]
     SolidReference[[SolidReference](solidreference.md)]
     TextureCoordinate[[TextureCoordinate](texturecoordinate.md)]

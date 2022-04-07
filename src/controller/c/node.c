@@ -44,8 +44,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Charger";
     case WB_NODE_COLOR:
       return "Color";
-    case WB_NODE_COLLADA_SHAPE:
-      return "ColladaShape";
     case WB_NODE_COMPASS:
       return "Compass";
     case WB_NODE_CONE:
@@ -184,6 +182,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Transform";
     case WB_NODE_VIEWPOINT:
       return "Viewpoint";
+    case WB_NODE_VISUAL_SHAPE:
+      return "VisualShape";
     case WB_NODE_WORLD_INFO:
       return "WorldInfo";
     case WB_NODE_ZOOM:

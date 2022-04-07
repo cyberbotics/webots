@@ -26,7 +26,6 @@
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCharger.hpp"
-#include "WbColladaShape.hpp"
 #include "WbColor.hpp"
 #include "WbCompass.hpp"
 #include "WbCone.hpp"
@@ -101,6 +100,7 @@
 #include "WbTrackWheel.hpp"
 #include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVisualShape.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbZoom.hpp"
@@ -136,8 +136,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbCapsule(tokenizer);
   if (modelName == "Charger")
     return new WbCharger(tokenizer);
-  if (modelName == "ColladaShape")
-    return new WbColladaShape(tokenizer);
+  if (modelName == "VisualShape")
+    return new WbVisualShape(tokenizer);
   if (modelName == "Color")
     return new WbColor(tokenizer);
   if (modelName == "Compass")
@@ -333,8 +333,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbCapsule(original);
   if (modelName == "Charger")
     return new WbCharger(original);
-  if (modelName == "ColladaShape")
-    return new WbColladaShape(original);
+  if (modelName == "VisualShape")
+    return new WbVisualShape(original);
   if (modelName == "Color")
     return new WbColor(original);
   if (modelName == "Compass")

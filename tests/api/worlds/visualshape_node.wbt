@@ -30,7 +30,7 @@ SpotLight {
   intensity 100
   location 5 0 0
 }
-ColladaShape {
+VisualShape {
   url [
     "meshes/colored_cube.dae"
   ]
@@ -149,7 +149,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  controller "colladashape_checker"
+  controller "visualshape_checker"
 }
 TestSuiteSupervisor {
 }

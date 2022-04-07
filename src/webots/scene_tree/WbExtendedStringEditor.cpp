@@ -14,7 +14,6 @@
 
 #include "WbExtendedStringEditor.hpp"
 
-#include "WbColladaShape.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -32,6 +31,7 @@
 #include "WbSolidReference.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbVisualShape.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QEvent>
@@ -417,9 +417,9 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbSkin *skin = dynamic_cast<const WbSkin *>(parentNode);
     if (skin)
       return SKIN_URL;
-    const WbColladaShape *collada = dynamic_cast<const WbColladaShape *>(parentNode);
-    if (collada)
-      return COLLADA_URL;
+    const WbVisualShape *visualShape = dynamic_cast<const WbVisualShape *>(parentNode);
+    if (visualShape)
+      return COLLADA_URL;  // TODO: more generic
     return TEXTURE_URL;
   } else if (fieldName == "solidName")
     return SOLID_REFERENCE;

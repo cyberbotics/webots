@@ -149,7 +149,7 @@ protected:
   WbBaseNode(const WbBaseNode &other);
   WbBaseNode(const WbNode &other);
 
-  // constructor for shallow nodes, should be used exclusively by the ColladaShape node
+  // constructor for shallow nodes, should be used exclusively by the VisualShape node
   WbBaseNode(const QString &modelName, const aiMaterial *material);
 
   void defHasChanged() override { finalize(); }

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_COLLADA_SHAPE_HPP
-#define WB_COLLADA_SHAPE_HPP
+#ifndef WB_VISUAL_SHAPE_HPP
+#define WB_VISUAL_SHAPE_HPP
 
 #include "WbBaseNode.hpp"
 
@@ -31,17 +31,17 @@ struct WrMaterial;
 
 struct aiMaterial;
 
-class WbColladaShape : public WbBaseNode {
+class WbVisualShape : public WbBaseNode {
   Q_OBJECT
 
 public:
-  explicit WbColladaShape(WbTokenizer *tokenizer = NULL);
-  WbColladaShape(const WbColladaShape &other);
-  explicit WbColladaShape(const WbNode &other);
-  virtual ~WbColladaShape();
+  explicit WbVisualShape(WbTokenizer *tokenizer = NULL);
+  WbVisualShape(const WbVisualShape &other);
+  explicit WbVisualShape(const WbNode &other);
+  virtual ~WbVisualShape();
 
   // reimplemented public functions
-  int nodeType() const override { return WB_NODE_COLLADA_SHAPE; }
+  int nodeType() const override { return WB_NODE_VISUAL_SHAPE; }
   void downloadAssets() override;
   void postFinalize() override;
 
@@ -58,8 +58,8 @@ private slots:
   void downloadUpdate();
 
 private:
-  WbColladaShape &operator=(const WbColladaShape &);  // non copyable
-  WbNode *clone() const override { return new WbColladaShape(*this); }
+  WbVisualShape &operator=(const WbVisualShape &);  // non copyable
+  WbNode *clone() const override { return new WbVisualShape(*this); }
   void init();
 
   WbDownloader *mDownloader;

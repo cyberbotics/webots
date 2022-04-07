@@ -96,7 +96,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   aiString path("");
   material->GetTexture(textureType, 0, &path);
-  // generate url of texture from url of collada file
+  // generate url of texture from url of collada/wavefront file
   QString relativePath = QString(path.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
   while (relativePath.startsWith("../")) {
@@ -610,7 +610,7 @@ void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
   QString url = mUrl->item(0);
   // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
   // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the image
-  // relative to the parent collada file)
+  // relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
     url = WbUrl::exportTexture(this, mUrl, 0, writer);
     writer.addTextureToList(mUrl->item(0), url);

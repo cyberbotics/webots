@@ -37,7 +37,6 @@ namespace webots {
       BILLBOARD,
       BOX,
       CAPSULE,
-      COLLADA_SHAPE,
       COLOR,
       CONE,
       COORDINATE,
@@ -64,6 +63,7 @@ namespace webots {
       TEXTURE_TRANSFORM,
       TRANSFORM,
       VIEWPOINT,
+      VISUAL_SHAPE,
       // robots
       ROBOT,
       // devices
