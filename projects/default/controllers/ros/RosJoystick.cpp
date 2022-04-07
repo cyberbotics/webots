@@ -60,7 +60,7 @@ RosJoystick::~RosJoystick() {
 // creates a publisher for joystick values with a webots_ros/Int32Stamped as message type
 ros::Publisher RosJoystick::createPublisher() {
   webots_ros::Int32Stamped type;
-  std::string topicName = mRos->name() + "/joystick/pressed_button";
+  std::string topicName = "joystick/pressed_button";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
