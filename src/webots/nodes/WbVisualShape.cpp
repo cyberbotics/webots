@@ -202,8 +202,9 @@ void WbVisualShape::createWrenObjects() {
 
   const aiScene *scene;
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!completeUrl.toLower().endsWith(".dae")) {
-    warn(tr("Invalid url '%1'. VisualShape node expects file in Collada ('.dae') format.").arg(completeUrl));
+  if (!completeUrl.toLower().endsWith(".dae") && !completeUrl.toLower().endsWith(".obj")) {
+    warn(
+      tr("Invalid url '%1'. VisualShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
   }
 
@@ -220,7 +221,8 @@ void WbVisualShape::createWrenObjects() {
       return;
     }
     const QByteArray data = file.readAll();
-    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, ".dae");
+    const char *hint = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toUtf8().constData();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
     scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);
 
