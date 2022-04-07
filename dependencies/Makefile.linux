@@ -10,7 +10,7 @@ QT_VERSION = 6.2.3
 QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OIS_PACKAGE = libOIS.1.4.tar.bz2
-ASSIMP_PACKAGE = libassimp.5.2.3.tar.bz2
+ASSIMP_PACKAGE = libassimp-5.2.3.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
@@ -99,7 +99,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE):
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "5f09f8e7ee6bf2aae5b0259706925323" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "25f08ba04d580e8d81a387856d304f4c" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 
 pico-clean:
