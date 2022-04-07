@@ -105,7 +105,21 @@ webots.View = class View {
       gui = 'play';
     if (typeof loop === 'undefined')
       loop = true;
-    this.animation = new Animation(url, this.x3dScene, this, gui, loop);
+    let jsonPromise = new Promise((resolve, reject) => {
+      let xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true);
+      xmlhttp.overrideMimeType('application/json');
+      xmlhttp.onload = () => {
+        if (xmlhttp.status === 200 || xmlhttp.status === 0)
+          resolve(JSON.parse(xmlhttp.responseText));
+        else {
+          console.log(xmlhttp.readyState)
+          reject(xmlhttp.statusText);
+        }
+      };
+      xmlhttp.send();
+    });
+    this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
   open(url, mode) {

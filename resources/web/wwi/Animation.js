@@ -6,8 +6,8 @@ import WbWorld from './nodes/WbWorld.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 
 export default class Animation {
-  constructor(url, scene, view, gui, loop) {
-    this._url = url;
+  constructor(jsonPromise, scene, view, gui, loop) {
+    this._jsonPromise = jsonPromise;
     this._scene = scene;
     this._view = view;
     this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real-time' : 'pause';
@@ -23,14 +23,8 @@ export default class Animation {
 
   init(onReady) {
     this._onReady = onReady;
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', this._url, true);
-    xmlhttp.overrideMimeType('application/json');
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0))
-        this._setup(JSON.parse(xmlhttp.responseText));
-    };
-    xmlhttp.send();
+    this._jsonPromise.then(json => this._setup(json))
+                      .catch(error => console.log(error));
   }
 
   pause() {
