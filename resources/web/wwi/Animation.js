@@ -45,6 +45,53 @@ export default class Animation {
     this._allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
     this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
+    // generate keyFrames to speed up the navigation.
+    this._keyFrames = new Map();
+    const stepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
+    if (this.data.frames.length > 1000) {
+      const numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
+      // let poses = this.data.frames[0].poses;
+      // poses = new Map(poses.map(pose => [pose.id, pose]));
+      // this.data.frames[0].poses = poses;
+      const allPoses = new Map();
+      const allLabels = new Map();
+
+      for (let i = 0; i < numberOfKeyFrames; i++) {
+        for (let j = (i + 1) * stepSize; j > i * stepSize; j--) {
+          const poses = this.data.frames[i].poses;
+          // poses = new Map(poses.map(pose => [pose.id, pose])); // Convert to map for easier manipulation
+          // this.data.frames[i].poses = poses;
+          if (poses) {
+            for (let k = 0; k < poses.length; k++) {
+              if (!allPoses.has(poses[i].id))
+                allPoses.set(poses[i].id, poses[i]);
+            }
+          }
+
+          const labels = this.data.frames[i].labels;
+          if (labels) {
+            for (let k = 0; k < labels.length; k++) {
+              if (!allLabels.has(labels[i].id))
+                allLabels.set(labels[i].id, labels[i]);
+            }
+          }
+
+          if (allPoses.size === this._allIds && allLabels.size === this._labelsIds.length)
+            break;
+        }
+
+        if (i === 0) {
+          let poses = this.data.frames[i].poses;
+          for (let k = 0; k < poses.length; k++) {
+            if (!allPoses.has(poses[i].id))
+              allPoses.set(poses[i].id, poses[i]);
+          }
+        }
+
+        this._keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
+      }
+    }
+    console.log(this._keyFrames)
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
