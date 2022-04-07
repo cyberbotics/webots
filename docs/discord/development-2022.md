@@ -692,3 +692,14 @@ Maybe someone has suggestions for improvement or wants to participate. I appreci
 Check out this procedurally generated elevator model. It has a ROS controller for floor doors and elevator cabin. It will be used for our new multi-floor delivery robot
 > **Attachment**: [smart\_elevator\_kazam.mp4](https://cdn.discordapp.com/attachments/565155651395780609/958678081403518976/smart_elevator_kazam.mp4)
 
+## April
+
+##### Lucas Waelti 04/01/2022 09:34:49
+Hi, can I still find somewhere the nightly build release for `nightly_30_9_2021`?
+
+##### Olivier Michel [Cyberbotics] 04/01/2022 12:35:18
+I don't think so... Unless somebody around here as a backup of it...
+
+##### amna 04/06/2022 06:06:47
+I need to add a robot which talks `@Mat198`
+

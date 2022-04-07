@@ -4693,3 +4693,411 @@ Interesting effect, thanks
 ##### JoeyBadass 03/30/2022 10:38:36
 Thanks, when I get home I will try it out and ask if I run into any problems  `@DrakerDG` `@DDaniel`
 
+##### moebius 03/30/2022 18:06:37
+this is the world file and the controller.
+> **Attachment**: [debug1.zip](https://cdn.discordapp.com/attachments/565154703139405824/958789364547219456/debug1.zip)
+
+##### DrakerDG [Moderator] 03/30/2022 19:09:58
+OK, let me check it out
+
+
+I made clone (blue) and I did simplify the bounding object, include the wheels, and adding a balljoing in the rear part to simulate the sliding effect. Your controller is a same. Check it out
+> **Attachment**: [SmallMap.mp4](https://cdn.discordapp.com/attachments/565154703139405824/958827281021796353/SmallMap.mp4)
+%figure
+![SmallMap.png](https://cdn.discordapp.com/attachments/565154703139405824/958827281625804860/SmallMap.png)
+%end
+
+
+
+> **Attachment**: [debug1.zip](https://cdn.discordapp.com/attachments/565154703139405824/958827319957528586/debug1.zip)
+
+##### moebius 03/30/2022 23:08:00
+I was able to open the wbt file, but i can only see blank. can you not see this world? I could zoom into your blue robot and see that however. Why did you add the ball joint there, what purpose is it serving here?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/958865205817925652/unknown.png)
+%end
+
+##### Rekanice 03/30/2022 23:48:48
+Beginner question: Is it possible to simulate/implement visual slam methods in webot? The slam module in webot seems to touch on lidar-based methods. I was wondering if using a camera is an option.
+
+##### DrakerDG [Moderator] 03/31/2022 00:23:12
+What version Webots you use?
+
+
+
+I understand that the back slides, so I put a ball join to simulate that behavior
+
+##### moebius 03/31/2022 00:24:12
+2021B. Back slides? No no it's a simple 2 wheeled robot
+
+##### DrakerDG [Moderator] 03/31/2022 00:26:19
+The back part of your robot have contact with the floor, the simulation of webots calculate the friction effect
+
+
+The friction has a braking effect in the robot, adding a ball join, this effect is avoided
+
+##### moebius 03/31/2022 00:31:12
+oh right got it. you added it to the tail. But in the video, both of them seemed to move in a straight line, mine rotated to face the target however before doing so
+
+
+are the weird orientations because of the axis changes in 2022 version then?
+
+##### DrakerDG [Moderator] 03/31/2022 00:33:04
+Yes
+
+##### moebius 03/31/2022 00:36:38
+were you able to see that curving behavior then in the straight line motion? or do you might know why that might be happenening
+
+##### DrakerDG [Moderator] 03/31/2022 01:18:24
+In the beginning yes, but not always happen it
+
+##### moebius 03/31/2022 04:52:14
+that is very strange because simply setting the same  speedvalue for both wheels is giving that behavior
+
+##### DrakerDG [Moderator] 03/31/2022 05:43:51
+Maybe is the strange effect for the tail friction, this is my theory
+
+##### StefDev 03/31/2022 07:16:00
+Hey guys! I just wanted to thank you for open sourcing and helping me using Webots 🙂 
+
+I chose Webots in my bachelor thesis for the simulation part of a ROS2 robot and now the company i work with and my university ([http://hshl.de](http://hshl.de)) are building on webots (they even changed there study plan to incorporate webots and robotic topics).
+
+##### cnbarcelo 03/31/2022 14:57:10
+Hi!
+
+I was wondering if there's any way of creating an Ortographic camera on Webots (and take a picture of it)?
+
+
+I've looked at the code, and I think the camera mode is forced to be always perspective, is that right?
+
+##### Olivier Michel [Cyberbotics] 03/31/2022 15:01:12
+Yes.
+
+##### cnbarcelo 03/31/2022 15:08:13
+I see.
+
+Do you think would be valuable to have the possibility of switching modes/exposing projection matrix?
+
+It would be useful to extract information from the environment more than used in a robot, so might be seen as a tool more than a sensor.
+
+##### Olivier Michel [Cyberbotics] 03/31/2022 15:13:34
+Sensor models in Webots should correspond to actual sensors. So, I don't it's a good idea to mix such a tool with a sensor model. I would rather implement a supervisor API function allowing to take a snapshot with an optional orthographic mode.
+
+##### cnbarcelo 03/31/2022 15:15:05
+That indeed feels like the right way to go. I'll create an issue and see if I can contribute with a proposal PR
+
+##### Olivier Michel [Cyberbotics] 03/31/2022 15:17:12
+You may want to try the following idea : modify the Viewpoint parameters from a supervisor and take a snapshot. Not sure it will fulfill all your requirements though.
+
+##### cnbarcelo 03/31/2022 15:19:34
+Basically, what I want is a cut at a sensor level of the whole environment, so I wanna be able to play with the clipping planes too. I'm not sure if that will work tho, but will run some experiments and if it fells useful, I'll share the results
+
+##### Olivier Michel [Cyberbotics] 03/31/2022 15:19:44
+You may need to add a couple of supervisor API functions to switch to orthographic mode and change the viewport resolution.
+
+##### JoeyBadass 03/31/2022 17:47:32
+is there a way to make the human sit down?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959146990158118912/unknown.png)
+%end
+
+##### barryman44 03/31/2022 19:46:01
+I want to start using ROS with moveIT in webots for a robot arm. Does somebody have a good tutorial/guide for this?
+
+##### Pilsley 03/31/2022 20:14:23
+Hi guys, I am busy with making my own conveyer belt in webots. It's work very good, but I got a problem with the animatedGeometry function. I would like place a bounding box on the fins of the conveyer belt, but I don't know how. In the picture below you can see what is happening now. Does anyone has a solution? Thank you in advance!
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959183903011254293/unknown.png)
+%end
+
+##### moebius 03/31/2022 20:19:48
+maybe. The robot also keeps bouncing around, without settling when it encounters an obstacle. I set the coloumbfriction to 100 from 8 it still kept happening. changing the bounc velocity also did not seem to do much
+> **Attachment**: [pprbotdebug2.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959185267099598979/pprbotdebug2.mp4)
+
+##### JoeyBadass 03/31/2022 23:25:16
+Guys i need serious help with this as i am trying to make something similar, on the sample world ( universal robot) how do they program the robot to pick up something and place it on the basket?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959231940496588861/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 03/31/2022 23:48:40
+Every robot have a IR sensor in the grip, when detect an object, close the grip and make the movement to put it in the basket
+
+##### JoeyBadass 03/31/2022 23:50:12
+oh i already knew that, but i am talking about the code. I followed everything they did but mine isnt working
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959238643959091301/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 03/31/2022 23:52:09
+Can you share your example, including your world and controller?
+
+##### JoeyBadass 03/31/2022 23:53:35
+These are it
+> **Attachment**: [Official\_world\_Design.wbt](https://cdn.discordapp.com/attachments/565154703139405824/959239068812722176/Official_world_Design.wbt)
+> **Attachment**: [ure\_controller.c](https://cdn.discordapp.com/attachments/565154703139405824/959239069014032444/ure_controller.c)
+
+##### DrakerDG [Moderator] 03/31/2022 23:54:02
+OK, I will check it
+
+##### JoeyBadass 03/31/2022 23:54:16
+Its just basically the same thing as the sample, but i dont understand why it isnt working or do i need to specify positions etc
+
+
+Thanks
+
+## April
+
+##### DrakerDG [Moderator] 04/01/2022 00:24:39
+You need to change some parameters of the IR sensor of the 3 robots. The current orientation of each IR sensor is incorrect.
+
+
+
+You need change basicTimeStep to 8 too.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959246885338636308/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959246885703520337/unknown.png)
+%end
+
+##### JoeyBadass 04/01/2022 00:27:56
+Ohh alright, so i should just change the distance sensor rotation for all of them to the current one you have shown on the right?
+
+##### DrakerDG [Moderator] 04/01/2022 00:31:24
+And you need move every plastic crate and the conveyor belt little bit near to the UR5e and UR10e arms
+> **Attachment**: [Official\_world\_Design\_2.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959248583511654460/Official_world_Design_2.mp4)
+
+
+Yes
+
+
+look at this
+> **Attachment**: [Official\_world\_Design\_3.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959249743609991178/Official_world_Design_3.mp4)
+
+##### JoeyBadass 04/01/2022 00:37:19
+oh wow thanks, let me give the it a try and i will update you in a sec
+
+
+`@DrakerDG` it gave me this error
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959251424213082153/unknown.png)
+%end
+
+##### DrakerDG [Moderator] 04/01/2022 00:50:13
+It is a warning.
+
+
+
+ I'm trying to understand why your world is so slow, compared to the example. It's currently slow, but it works
+
+##### JoeyBadass 04/01/2022 00:53:01
+
+> **Attachment**: [8mb.video-M84-ZFDvEFyO.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959254024396345405/8mb.video-M84-ZFDvEFyO.mp4)
+
+
+i even decreased the step speed to 7 but still the robot didnt move and that error came up
+
+##### DrakerDG [Moderator] 04/01/2022 00:57:43
+Active Show DistanceSensor Rays please,  to see the correct position of every sensor
+%figure
+![2022-03-31.png](https://cdn.discordapp.com/attachments/565154703139405824/959255203150966784/2022-03-31.png)
+%end
+%figure
+![Official_world_Design.png](https://cdn.discordapp.com/attachments/565154703139405824/959255204065329272/Official_world_Design.png)
+%end
+
+##### JoeyBadass 04/01/2022 01:02:57
+Tried nothing is working
+
+
+
+> **Attachment**: [8mb.video-QKI-EB88wqjx.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959257248750788678/8mb.video-QKI-EB88wqjx.mp4)
+
+
+Or would you want to hop on voice channel and i can share my screen?
+
+##### DrakerDG [Moderator] 04/01/2022 01:10:15
+Did you change translation and rotation parameters in all robots?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/959258359788371998/unknown.png)
+%end
+
+##### JoeyBadass 04/01/2022 01:15:09
+Ohh no, i forgot the translation part
+
+
+It works now but there is a problem with the other arm. it flips the can instead of dropping it down. Should i adjust the position of the cans and the arm itself
+
+
+
+> **Attachment**: [8mb.video-MEY-W9vrYNTA.mp4](https://cdn.discordapp.com/attachments/565154703139405824/959262059688767488/8mb.video-MEY-W9vrYNTA.mp4)
+
+##### DrakerDG [Moderator] 04/01/2022 01:26:58
+Yes
+
+##### JoeyBadass 04/01/2022 01:52:08
+`@DrakerDG` Thank you very much Sir or Mrs for you help👍
+
+##### DrakerDG [Moderator] 04/01/2022 01:52:41
+Hahahahahaha, Sir
+
+##### JoeyBadass 04/01/2022 01:52:50
+`@DrakerDG` Also how did you know what translation and rotation to put or was it a good guess?
+
+##### DrakerDG [Moderator] 04/01/2022 01:52:55
+You welcome
+
+##### JoeyBadass 04/01/2022 01:53:05
+Oh alright, Sir indeed😂
+
+##### DrakerDG [Moderator] 04/01/2022 02:22:46
+Wrong position
+%figure
+![Official_world_Design_1.png](https://cdn.discordapp.com/attachments/565154703139405824/959276609507065897/Official_world_Design_1.png)
+%end
+
+
+Right position
+%figure
+![Official_world_Design_2.png](https://cdn.discordapp.com/attachments/565154703139405824/959276783004426250/Official_world_Design_2.png)
+%end
+
+##### JoeyBadass 04/01/2022 02:29:56
+OHHh😂 😂
+
+##### DrakerDG [Moderator] 04/01/2022 02:58:16
+You can eliminate the TexturedBackgroundLight node to improve your simulation
+
+##### JoeyBadass 04/01/2022 03:22:42
+Would Darken it or would it be just fine?
+
+
+`@DrakerDG` it doesnt look nice when turned off, I will leave it on. Sometimes we just got to sacrifice something😂
+
+##### DrakerDG [Moderator] 04/01/2022 03:34:37
+Check the example and try understand how to compensate the light effect without TextureBackgroundLight
+
+##### JoeyBadass 04/01/2022 08:48:04
+Ohh cool, i will check that out
+
+##### Loaded god complex 04/03/2022 19:49:39
+Does cyberbotix limited pay royalty for the use of real life robots from different companies in their simulation software??
+
+##### moebius 04/04/2022 05:59:31
+hi, if the robot is tumbling around, after toppling over while going over a hill/colliding with an object, what are the best physics parameters to change? I added a little bit of linear damping , and that seemed to help, but in general what other parameters should i change, if the general behavior seems unstable?
+
+##### DrakerDG [Moderator] 04/04/2022 06:07:42
+Can you share your world to check it out?
+
+##### S4JJ4D 04/04/2022 09:19:35
+you can add suspension springs to your vehicle. stiff springs improve stability
+
+
+the geometric structure of the robot is also important. for example, lowering the center of mass of the system improves lateral stability.
+
+
+or for example, if your robot is "wide", it is harder to topple it
+
+
+adding inertia helps too, if that's a viable option
+
+##### nelsondmmg 04/04/2022 13:49:23
+Hello, I'm trying to use a controller with a vehicle but the execution keeps freezing at the first this->step(). I initialized all the sensors in the vehicle and there is only one robot in the simulation. Which could be the reason for this behavior? Thanks
+
+##### S4JJ4D 04/04/2022 13:53:46
+hard to tell without a model, but notice that when the simulation is paused, robot->step() does not return.
+
+##### DDaniel [Cyberbotics] 04/04/2022 13:54:27
+if it freezes typically it means you have an infinite loop, therefore it never moves to the next simulation step
+
+##### nelsondmmg 04/04/2022 14:01:22
+The simulation is not paused. Infinite loop where? Even if I use step at the beginning of the simulation without any sensors the simulation blocks itself. Am I forgetting some function to be called before the execution?
+
+##### DDaniel [Cyberbotics] 04/04/2022 14:02:18
+do you have a while loop somewhere? can you show the code?
+
+##### nelsondmmg 04/04/2022 14:05:48
+This is the function executed to initialize the controller. When I stop the execution at debug the execution is inside the step function
+> **Attachment**: [initFunction.txt](https://cdn.discordapp.com/attachments/565154703139405824/960540697419718716/initFunction.txt)
+
+##### Big Cheeser 04/04/2022 15:10:07
+Hi, anyone know if there is any way to add a position sensor to a propeller? I've noticed the documentation says position sensors should be on joints and can't find a way to add to a propeller.
+
+
+I need the angular velocity of a propeller for a control algorithm. Think i've narrowed it down to adding a gyro to the propellers slowHelix and fastHelix nodes. Only question I've got is will the gyro for slowHelix show the angular velocity when the propeller is in fastHelix, and vise-versa?
+
+##### Pilsley 04/04/2022 19:56:42
+Hi guys, I am busy with making my own conveyer belt in webots. It's work very good, but I got a problem with the animatedGeometry function. I would like place a bounding box on the fins of the conveyer belt, but I don't know how. In the picture below you can see what is happening now. Does anyone has a solution? Thank you in advance!
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/960629019768918097/unknown.png)
+%end
+
+##### moebius 04/05/2022 00:11:55
+I have added the .wbt file and the accompanying video, if you could take a look, thanks.
+> **Attachment**: [bot\_hill\_physics.mp4](https://cdn.discordapp.com/attachments/565154703139405824/960693232495366174/bot_hill_physics.mp4)
+> **Attachment**: [physics\_debug.zip](https://cdn.discordapp.com/attachments/565154703139405824/960693232986128445/physics_debug.zip)
+
+
+I think i will try to model the mass and damping value properly for now, rather than adding suspension springs, since that is not a part of the actual vehicle
+
+
+thanks
+
+
+It is initially running at faster than real time, and then i slow it down to real time
+
+##### DrakerDG [Moderator] 04/05/2022 03:24:39
+I didn't change anything, but it don't make the same thing like your video. Maybe you need try using webots R2022a
+> **Attachment**: [target\_world.mp4](https://cdn.discordapp.com/attachments/565154703139405824/960741732419506226/target_world.mp4)
+
+
+
+> **Attachment**: [target\_world\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/960742534206865428/target_world_1.mp4)
+
+##### nelsondmmg 04/05/2022 09:10:10
+Hi, I'm having some problems executing controllers for vehicles. Each time that the step function is executed, the simulation freezes. When I stop the execution at debug level (since I'm executing the controller as extern) the instruction executed is always the step function. why this is happening? I try to execute the city sample world and the controller functions perfectly, both the autonomous\_vehicle and my custom controller. Am I forgetting something that needs to be done to not block the simulation at each step?
+> **Attachment**: [main.cpp](https://cdn.discordapp.com/attachments/565154703139405824/960828689203990570/main.cpp)
+> **Attachment**: [new\_dilemma\_onlyAV.wbt](https://cdn.discordapp.com/attachments/565154703139405824/960828689388564510/new_dilemma_onlyAV.wbt)
+
+##### cnbarcelo 04/05/2022 12:49:35
+Hi! I saw there's a PR to connect controllers from sibling docker containers, but also a piece of code in the codebase mentioning a Docker-type controller that is not documented. Connecting Webots with a controller running in a different container is already possible, or is that exactly what the PR addresses?
+
+##### DDaniel [Cyberbotics] 04/05/2022 13:26:01
+works fine for me, which version of Webots are you using? Are you sure it isn't the other controller (TestingAgentsLib") that isn't stalling the progress of the simulation? Try removing this controller, does the simulation progress?
+
+##### Olivier Michel [Cyberbotics] 04/05/2022 13:27:31
+This is not yet possible, we are working on it. But it will soon be possible (the PR may be complete later this week or so).
+
+
+FYI, the PR at [https://github.com/cyberbotics/webots/pull/4344](https://github.com/cyberbotics/webots/pull/4344) currently contains a working setup to run Webots in a docker container and a sample robot controller in another docker controller. The only current limitation is that it doesn't yet support camera, lidar and range-finder devices, because these devices require shared memory communication.
+
+##### Naxi 04/05/2022 16:41:38
+Hi all, I'm having an issue when spawning robots from a proto file in the /protos folder. I'm copying proto files from another package into the simulation directory in runtime and then importing a node with "MyRobot {}" with a supervisor, but I'm getting an "Unknown PROTO" error. 
+
+Do the proto files have to be inside the /protos folder before the initialization of the supervisor?
+
+##### moebius 04/05/2022 16:54:30
+oh wait but you don't seem to have the hill. I want to fix the physics when it tries to go up the hill
+
+##### DrakerDG [Moderator] 04/06/2022 02:25:55
+The example did you share don't have any hill. Sorry
+
+##### Redeco🧸 04/06/2022 10:13:52
+Hi everyone, I have launched webots with --log-performance but I don't find any documentation on the signifcation of the parameters. 
+
+Could you please tell me what does
+
+stepsCount / loading / prePhysics / physics / postPhysics / mainRendering 
+
+mean ?
+
