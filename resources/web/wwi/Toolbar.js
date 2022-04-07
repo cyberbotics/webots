@@ -246,7 +246,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
 
-    this.minWidth += 41;
+    this.minWidth += 44;
     if (typeof this._view.stream !== 'undefined')
       this._view.stream.onplay = () => this._triggerPlayPauseButton();
   }
@@ -296,7 +296,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showIde === 'undefined' || this.parentNode.showIde))
       this.ideButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
   }
 
   _createIde() {
@@ -329,7 +329,7 @@ export default class Toolbar {
         if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
           this.robotWindowButton.style.display = 'none';
         else
-          this.minWidth += 41;
+          this.minWidth += 44;
       }
     }
   }
@@ -522,7 +522,7 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.infoButton);
     this._createInformation();
     window.addEventListener('click', _ => this._closeInfoOnClick(_));
-    this.minWidth += 41;
+    this.minWidth += 44;
   }
 
   _createInformation() {
@@ -550,7 +550,7 @@ export default class Toolbar {
 
   _createSettings() {
     this.toolbarRight.appendChild(this._createToolBarButton('settings', 'Settings'));
-    this.minWidth += 41;
+    this.minWidth += 44;
     this._createSettingsPane();
   }
 
@@ -800,7 +800,7 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this._exitFullscreenButton);
     this._exitFullscreenButton.style.display = 'none';
 
-    this.minWidth += 41;
+    this.minWidth += 44;
 
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
     document.addEventListener('keydown', this.keydownRefF = _ => this._fullscrenKeyboardHandler(_));
@@ -929,7 +929,7 @@ export default class Toolbar {
     if (typeof this._timeSlider !== 'undefined')
       this._timeSlider.setOffset(offset);
 
-    this.minWidth += 110;
+    this.minWidth += 133;
   }
 
   _formatTime(time) {
@@ -1082,7 +1082,7 @@ export default class Toolbar {
 
   _createRestoreViewpointButton() {
     this.toolbarRight.appendChild(this._createToolBarButton('reset-scene', 'Reset the Scene', () => this._resetViewpoint()));
-    this.minWidth += 41;
+    this.minWidth += 44;
   }
 
   // Streaming functions
@@ -1092,7 +1092,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showQuit === 'undefined' || this.parentNode.showQuit))
       quitButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
 
     this.toolbarLeft.appendChild(quitButton);
   }
@@ -1102,7 +1102,7 @@ export default class Toolbar {
     if (!this.parentNode.showReload)
       reloadButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
     this.toolbarLeft.appendChild(reloadButton);
   }
 
@@ -1175,7 +1175,7 @@ export default class Toolbar {
     clock.title = 'Current simulation time';
     clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
     this.toolbarLeft.appendChild(clock);
-    this.minWidth += 105;
+    this.minWidth += 115;
   }
 
   _createResetButton() {
@@ -1184,7 +1184,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showReset === 'undefined' || this.parentNode.showReset))
       resetButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
   }
 
   _createStepButton() {
@@ -1193,7 +1193,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showStep === 'undefined' || this.parentNode.showStep))
       stepButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 32;
   }
 
   step() {
@@ -1222,7 +1222,7 @@ export default class Toolbar {
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
     if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
       this.runButtonElement.className = 'icon-pause';
@@ -1271,7 +1271,7 @@ export default class Toolbar {
     if (!(typeof this.parentNode.showWorldSelection === 'undefined' || this.parentNode.showWorldSelection) || this._view.worlds.length <= 1)
       this.worldSelectionButton.style.display = 'none';
     else
-      this.minWidth += 41;
+      this.minWidth += 44;
   }
 
   createWorldSelectionPane() {
