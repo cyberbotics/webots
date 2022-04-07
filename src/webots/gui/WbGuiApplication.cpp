@@ -34,6 +34,7 @@
 #include "WbWrenOpenGlContext.hpp"
 #include "WbX3dStreamingServer.hpp"
 
+#include <QtCore/QCommandLineParser>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -193,7 +194,12 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
-  QStringList args = arguments();
+  // Integration of QCommandLineParser
+  QCommandLineParser parser;
+  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
+  parser.parse(QCoreApplication::arguments());
+  const QStringList args = parser.positionalArguments();
+
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
 
