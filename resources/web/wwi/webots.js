@@ -120,9 +120,12 @@ webots.View = class View {
         this.progress.id = 'webots-progress';
         this.progress.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
         "<div id='webots-progress-message'>Initializing...</div>" +
-        "<progress id='webots-progress-percent' value='0' max='100'></progress>" + 
+        "<div class='webots-progress-bar'>" +
+        "<div id='webots-progress-background'></div>" +
+        "<div id='webots-progress-percent'></div></div>" +
         "<div id='webots-progress-info'></div>";
         this.view3D.appendChild(this.progress);
+        this.progressInterval = false;
       }
 
       this.setProgress('block');
@@ -288,7 +291,7 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    this.setProgress('block', 'Bye bye...', 'none', 'See you soon!');
+    this.setProgress('block', 'Bye bye...', 'hidden', 'See you soon!');
     setTimeout(() => {
       this.setProgress('none');
     }, 2000);
@@ -311,28 +314,56 @@ webots.View = class View {
   setProgress(display, message, percent, info) {
     if (document.getElementById('webots-progress')) {
       document.getElementById('webots-progress').style.display = display;
+      if (display !== 'none') {
+        if (this.progressInterval === false) {
+          this.progressInterval = window.setInterval(function() {
+            let width = parseInt(document.getElementById('webots-progress-percent').style.width.slice(0, -1)) + 6;
+            if (width > 100) {
+              document.getElementById('webots-progress-percent').style.width = '100%';
+              document.getElementById('webots-progress-percent').style.borderTopRightRadius = '3px';
+              document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '3px';
+            } else {
+              document.getElementById('webots-progress-percent').style.width = width.toString() + '%';
+              document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
+              document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
+            }
+          }, 3000);
+        }
+        if (typeof message !== 'undefined' && message !== 'same') {
+          document.getElementById('webots-progress-message').style.visibility = 'visible';
+          document.getElementById('webots-progress-message').innerHTML = message;
+        } else if (message === 'hidden')
+          document.getElementById('webots-progress-message').style.visibility = 'hidden';
 
-      if (typeof message !== 'undefined' && message !== 'none') {
-        document.getElementById('webots-progress-message').style.visibility = 'visible';
-        document.getElementById('webots-progress-message').innerHTML = message;
-      } else
-        document.getElementById('webots-progress-message').style.visibility = 'hidden';
+        if (typeof percent !== 'undefined' && percent !== 'same') {
+          if (parseInt(document.getElementById('webots-progress-percent').style.width.slice(0, -1)) > percent)
+            document.getElementById('webots-progress-percent').style.transition = 'none';
+          else
+            document.getElementById('webots-progress-percent').style.transition = '0.2s all ease-in-out';
+          document.getElementById('webots-progress-percent').style.visibility = 'visible';
+          if (percent >= 100) {
+            document.getElementById('webots-progress-percent').style.width = '100%';
+            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '3px';
+            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '3px';
+          } else {
+            document.getElementById('webots-progress-percent').style.width = percent.toString() + '%';
+            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
+            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
+          }
+        } else if (percent === 'hidden')
+          document.getElementById('webots-progress-percent').style.visibility = 'hidden';
 
-      if (typeof percent !== 'undefined' && percent !== 'none') {
-        if (percent > 100)
-          percent = 100;
-        document.getElementById('webots-progress-percent').style.visibility = 'visible';
-        document.getElementById('webots-progress-percent').value = percent;
-      } else
-        document.getElementById('webots-progress-percent').style.visibility = 'hidden';
-
-      if (typeof info !== 'undefined' && info !== 'none') {
-        if (info.length > 40)
-          info = info.substring(0, 40) + '...';
-        document.getElementById('webots-progress-info').style.visibility = 'visible';
-        document.getElementById('webots-progress-info').innerHTML = info;
-      } else
-        document.getElementById('webots-progress-info').style.visibility = 'hidden';
+        if (typeof info !== 'undefined' && info !== 'same') {
+          if (info.length > 40)
+            info = info.substring(0, 40) + '...';
+          document.getElementById('webots-progress-info').style.visibility = 'visible';
+          document.getElementById('webots-progress-info').innerHTML = info;
+        } else if (info === 'hidden')
+          document.getElementById('webots-progress-info').style.visibility = 'hidden';
+      } else {
+        clearInterval(this.progressInterval);
+        this.progressInterval = false;
+      }
     }
   };
 

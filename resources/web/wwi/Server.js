@@ -35,7 +35,8 @@ export default class Server {
         }
         self.socket = new WebSocket(data + '/client');
         self.socket.onopen = (event) => {
-          self._view.setProgress('block', 'Connecting to session server...', 50, 'Opening socket...');
+          const percent = document.getElementById('webots-progress-percent').style.width + 5;
+          self._view.setProgress('block', 'same', percent, 'Opening socket...');
           self.onOpen(event);
         };
         self.socket.onmessage = (event) => {
@@ -45,7 +46,7 @@ export default class Server {
           console.log('Disconnected from the Webots server.');
         };
         self.socket.onerror = (event) => {
-          self._view.setProgress('block', 'Cannot connect to the simulation server', 'none', 'none');
+          self._view.setProgress('block', 'Cannot connect to the simulation server', 'hidden', 'hidden');
           console.error('Cannot connect to the simulation server');
         };
       })
@@ -67,7 +68,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    this._view.setProgress('block', 'Starting simulation...', 10, 'Getting world information...');
+    this._view.setProgress('block', 'Starting Simulation', 10, 'Getting world information...');
   }
 
   onMessage(event) {
@@ -99,7 +100,7 @@ export default class Server {
         percent = 20 + 80 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
       else if (message.endsWith('open'))
         percent = 100;
-      this._view.setProgress('block', 'Starting simulation...', percent, message);
+      this._view.setProgress('block', 'same', percent, message);
     }
     else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;

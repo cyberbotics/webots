@@ -1354,7 +1354,7 @@ export default class Toolbar {
         this.run();
     };
     this._view.stream.socket.send('load:' + name);
-    this._view.setProgress('block', 'Loading ' + name + '...', 60, 'Sending ' + name + '...');
+    this._view.setProgress('block', 'same', 60, 'Sending ' + name + '...');
   }
 
   _changeWorldSelectionPaneVisibility(event) {

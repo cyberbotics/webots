@@ -61,7 +61,7 @@ export default class Parser {
       xml = parser.parseFromString(text, 'text/xml');
     }
 
-    webots.currentView.setProgress('block', 'Finalizing...', 0, 'Parsing x3d file...');
+    webots.currentView.setProgress('block', 'same', 30, 'Parsing x3d file...');
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
@@ -72,17 +72,13 @@ export default class Parser {
         const node = xml.getElementsByTagName('nodes')[0];
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
-        else {
-          webots.currentView.setProgress('block', 'Finalizing...', 10, 'Parsing nodes...');
+        else
           this._parseChildren(node, parent);
-        }
-      } else {
-        webots.currentView.setProgress('block', 'Finalizing...', 10, 'Parsing scene...');
+      } else
         this._parseNode(scene);
-      }
     }
 
-    webots.currentView.setProgress('block', 'Finalizing...', 15, 'Finalizing...');
+    webots.currentView.setProgress('block', 'Finalizing...', 0, 'Finalizing');
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -108,8 +104,7 @@ export default class Parser {
 
       const numNodes = WbWorld.instance.sceneTree.length;
       WbWorld.instance.sceneTree.forEach((node, i) => {
-        console.log("Finalizing node: " + (i + 1));
-        webots.currentView.setProgress('block', 'Finalizing...', 15 + 85 * (i + 1) / numNodes, 'Finalizing node: ' + (i + 1));
+        //webots.currentView.setProgress('block', 'same', 15 + 85 * (i + 1) / numNodes, 'Finalizing node: ' + (i + 1));
         node.finalize();
       });
 

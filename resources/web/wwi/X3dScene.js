@@ -135,7 +135,7 @@ export default class X3dScene {
     };
     xmlhttp.onerror = () => {
       if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined')
-        document.getElementsByTagName('webots-view')[0].setProgress('block', 'File not found.', 'none', 'none');
+        document.getElementsByTagName('webots-view')[0].setProgress('block', 'File not found.', 'hidden', 'hidden');
     };
     xmlhttp.send();
   }
