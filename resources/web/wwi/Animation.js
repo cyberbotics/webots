@@ -47,26 +47,35 @@ export default class Animation {
 
     // generate keyFrames to speed up the navigation.
     this._keyFrames = new Map();
-    const stepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
+    this.keyFrameStepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
     if (this.data.frames.length > 1000) {
-      const numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
+      this.numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
       // let poses = this.data.frames[0].poses;
       // poses = new Map(poses.map(pose => [pose.id, pose]));
       // this.data.frames[0].poses = poses;
       const allPoses = new Map();
       const allLabels = new Map();
 
-      for (let i = 0; i < numberOfKeyFrames; i++) {
-        for (let j = (i + 1) * stepSize; j > i * stepSize; j--) {
-          const poses = this.data.frames[i].poses;
+      for (let i = 0; i < this.numberOfKeyFrames; i++) {
+        for (let j = (i + 1) * this.keyFrameStepSize; j > i * this.keyFrameStepSize; j--) {
+          const poses = this.data.frames[j].poses;
           // poses = new Map(poses.map(pose => [pose.id, pose])); // Convert to map for easier manipulation
           // this.data.frames[i].poses = poses;
           if (poses) {
             for (let k = 0; k < poses.length; k++) {
-              if (!allPoses.has(poses[i].id))
-                allPoses.set(poses[i].id, poses[i]);
+              let currentIdFields = allPoses.has(poses[k].id) ? allPoses.get(poses[k].id) : new Map();
+              for (let field in poses[k]) {
+                if (field === 'id' || currentIdFields.has(field))
+                  continue;
+                else
+                  currentIdFields.set(field, {'id': poses[k].id, [field]: poses[k][field]});
+              }
+              allPoses.set(poses[k].id, currentIdFields);
             }
           }
+
+          if (allLabels.size === this._labelsIds.length) // We already have all the update we need for the labels
+            continue;
 
           const labels = this.data.frames[i].labels;
           if (labels) {
@@ -75,23 +84,31 @@ export default class Animation {
                 allLabels.set(labels[i].id, labels[i]);
             }
           }
-
-          if (allPoses.size === this._allIds && allLabels.size === this._labelsIds.length)
-            break;
         }
 
         if (i === 0) {
-          let poses = this.data.frames[i].poses;
-          for (let k = 0; k < poses.length; k++) {
-            if (!allPoses.has(poses[i].id))
-              allPoses.set(poses[i].id, poses[i]);
+          const poses = this.data.frames[0].poses;
+          if (poses) {
+            for (let j = 0; j < poses.length; j++) {
+              let currentIdFields = allPoses.has(poses[j].id) ? allPoses.get(poses[j].id) : new Map();
+
+              for (let field in poses[j]) {
+                if (field === 'id' || currentIdFields.has(field))
+                  continue;
+                else
+                  currentIdFields.set(field, {'id': poses[j].id, [field]: poses[j][field]});
+              }
+              allPoses.set(poses[j].id, currentIdFields);
+            }
           }
         }
-
         this._keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
       }
+      this.numberOfFields = new Map();
+      for (let [key, value] of this._keyFrames.get(this.numberOfKeyFrames - 1).poses)
+        this.numberOfFields.set(key, value.size);
     }
-    console.log(this._keyFrames)
+
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
@@ -133,49 +150,46 @@ export default class Animation {
       const appliedIds = [];
       const appliedLabelsIds = [];
 
-      if (this.data.frames[this.step].hasOwnProperty('poses')) {
-        const poses = this.data.frames[this.step].poses;
-        for (let p = 0; p < poses.length; p++)
-          appliedIds[poses[p].id] = this._scene.applyPose(poses[p], undefined);
-        WbWorld.instance.tracks.forEach(track => {
-          if (track.linearSpeed !== 0) {
-            track.animateMesh();
-            track.linearSpeed = 0;
-          }
-        });
-      }
-
-      if (this.data.frames[this.step].hasOwnProperty('labels')) {
-        const labels = this.data.frames[this.step].labels;
-        for (let i = 0; i < labels.length; i++) {
-          this._scene.applyLabel(labels[i], this._view);
-          appliedLabelsIds.push(labels[i].id);
-        }
-      }
-
       // lookback mechanism: search in history
       if (this.step !== this._previousStep + 1) {
         let previousPoseStep;
-        if (this.step > this._previousStep)
-          // in forward animation check only the changes since last pose
+        let closestKeyFrame = Math.floor(this.step / this.keyFrameStepSize);
+
+        if (this.step > this._previousStep && this._previousStep > closestKeyFrame * this.keyFrameStepSize)
           previousPoseStep = this._previousStep;
         else
-          previousPoseStep = 0;
-        for (let i in this._allIds) {
-          const id = this._allIds[i];
-          let appliedFields = appliedIds[id];
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
-            if (this.data.frames[f].poses) {
-              for (let p = 0; p < this.data.frames[f].poses.length; p++) {
-                if (this.data.frames[f].poses[p].id === id)
-                  appliedFields = this._scene.applyPose(this.data.frames[f].poses[p], appliedFields);
+          previousPoseStep = closestKeyFrame * this.keyFrameStepSize;
+
+        let completeIds = new Set();
+        let appliedFieldsByIds = new Map();
+        for (let i = this.step; i > previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of step.
+          if (this.data.frames[i].poses) {
+            for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
+              let id = this.data.frames[i].poses[j].id;
+              if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
+                for (let field in this.data.frames[i]) {
+                  if (!appliedFieldsByIds.has(id)) {
+                    appliedFieldsByIds.set(id, new Set());
+                    appliedFieldsByIds.get(id).add('id');
+                  }
+
+                  if (appliedFieldsByIds.get(id).has(field)) // we want to update each field only once
+                    continue;
+                  else {
+                    this._scene.applyPose({'id': id, [field]: this.data.frames[i].poses[j][field]});
+                    appliedFieldsByIds.get(id).add(field);
+                    if (appliedFieldsByIds.size === this.numberOfFields.get(id))
+                      completeIds.add(id);
+                  }
+                }
               }
             }
           }
         }
 
+        // TODO
         for (let id of this._labelsIds) {
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
+          for (let f = this.step; f > previousPoseStep; f--) {
             if (this.data.frames[f].labels) {
               for (let p = 0; p < this.data.frames[f].labels.length; p++) {
                 if (this.data.frames[f].labels[p].id === id) {
@@ -186,6 +200,27 @@ export default class Animation {
                 }
               }
             }
+          }
+        }
+      } else {
+        console.log("normal update")
+        if (this.data.frames[this.step].hasOwnProperty('poses')) {
+          const poses = this.data.frames[this.step].poses;
+          for (let p = 0; p < poses.length; p++)
+            appliedIds[poses[p].id] = this._scene.applyPose(poses[p], undefined);
+          WbWorld.instance.tracks.forEach(track => {
+            if (track.linearSpeed !== 0) {
+              track.animateMesh();
+              track.linearSpeed = 0;
+            }
+          });
+        }
+
+        if (this.data.frames[this.step].hasOwnProperty('labels')) {
+          const labels = this.data.frames[this.step].labels;
+          for (let i = 0; i < labels.length; i++) {
+            this._scene.applyLabel(labels[i], this._view);
+            appliedLabelsIds.push(labels[i].id);
           }
         }
       }
