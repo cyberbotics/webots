@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 3.0.1 commit date:2022-01-25, commit time:17:19, hash:dc2d18018171</authoring_tool>
+    </contributor>
+    <created>2022-03-31T16:16:39</created>
+    <modified>2022-03-31T16:16:39</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="HarvesterGlass__Harvester_Glass_D_tga-effect">
+      <profile_COMMON>
+        <newparam sid="Harvester_Glass_D_png-surface">
+          <surface type="2D">
+            <init_from>Harvester_Glass_D_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Harvester_Glass_D_png-sampler">
+          <sampler2D>
+            <source>Harvester_Glass_D_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="Harvester_Glass_D_png-sampler" texcoord="GeometrySource5"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.55</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="Harvester_Glass_D_png" name="Harvester_Glass_D_png">
+      <init_from>Harvester_Glass_D.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="HarvesterGlass__Harvester_Glass_D_tga-material" name="HarvesterGlass__Harvester_Glass_D_tga">
+      <instance_effect url="#HarvesterGlass__Harvester_Glass_D_tga-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="HarvesterGlass-mesh" name="HarvesterGlass">
+      <mesh>
+        <source id="HarvesterGlass-mesh-positions">
+          <float_array id="HarvesterGlass-mesh-positions-array" count="186">1.57135 -3.07555 8.11683 1.59986 -2.98346 7.47998 1.57552 -2.98414 8.02741 1.57671 -4.99383 7.90865 1.56757 -4.93304 8.11498 1.68421 -4.54736 5.53713 1.68402 -3.6515 5.5582 1.68885 -3.78754 5.44631 1.68847 -4.44447 5.44443 -1.68474 -4.54736 5.53714 -1.68938 -3.78754 5.44631 -1.689 -4.44447 5.44443 -1.68455 -3.6515 5.55821 -1.60039 -2.98346 7.47998 -1.57724 -4.99383 7.90865 -1.57188 -3.07555 8.11683 -1.57605 -2.98414 8.02741 -1.56809 -4.93304 8.11498 1.02905 -2.51069 8.19916 1.08928 -2.51082 7.51619 1.02912 -2.5108 7.45592 1.0892 -2.51067 8.13901 -1.04309 -2.51069 8.19916 -1.04296 -2.5108 7.45592 -1.10319 -2.51082 7.51619 -1.10327 -2.51067 8.13901 -1.04296 -2.51842 7.45592 -1.04309 -2.51832 8.19916 -1.10319 -2.51844 7.51619 -1.10327 -2.51829 8.13901 -6.2e-5 -2.51842 7.45592 1.02905 -2.51832 8.19916 -2.63e-4 -2.5184 8.19914 1.02912 -2.51842 7.45592 1.08928 -2.51844 7.51619 1.0892 -2.5183 8.13901 0.579077 -5.70471 8.001111 1.01367 -5.19936 5.24197 0.833962 -5.69436 8.001111 -0.579605 -5.70471 8.001111 -2.64e-4 -5.23334 5.24197 -2.63e-4 -5.72825 8.001111 1.46353 -5.49806 8.001111 1.35826 -5.14795 5.24197 1.60307 -5.00307 5.24197 -6.2e-5 -2.5108 7.45592 -2.63e-4 -2.51078 8.19914 -2.63e-4 -2.51078 8.19914 -6.2e-5 -2.5108 7.45592 -1.0142 -5.19936 5.24197 -1.19507 -5.6523 8.001111 -1.35879 -5.14795 5.24197 -0.83449 -5.69436 8.001111 -1.59105 -5.27587 8.001111 -1.6036 -5.00307 5.24197 -1.46406 -5.49806 8.001111 -2.63e-4 -2.5184 8.19914 -6.2e-5 -2.51842 7.45592 -1.72169 -4.76128 5.24197 1.19454 -5.6523 8.001111 1.59052 -5.27587 8.001111 1.72116 -4.76128 5.24197</float_array>
+          <technique_common>
+            <accessor source="#HarvesterGlass-mesh-positions-array" count="62" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="HarvesterGlass-mesh-normals">
+          <float_array id="HarvesterGlass-mesh-normals-array" count="150">0.999011 -0.002123057 0.04441559 0.998991 -0.002077639 0.04486554 0.9990106 -0.002030074 0.04442924 0.9989888 -0.001925051 0.04492127 0.9990296 -8.23534e-4 0.0440365 0.9990255 -8.265e-4 0.04412972 0.9989812 -7.06641e-4 0.04512387 -0.9989814 -7.0619e-4 0.04512041 -0.9990257 -8.26113e-4 0.04412543 -0.9990296 -8.23547e-4 0.04403674 -0.9989888 -0.001925051 0.04492145 -0.9990105 -0.002030193 0.0444293 -0.9990109 -0.002125442 0.04441541 -0.9989887 -0.002082943 0.04491555 4.81005e-4 1 -1.47287e-4 -5.7381e-4 0.9999999 -2.41073e-4 -4.80577e-4 0.9999999 -1.47156e-4 5.73378e-4 0.9999998 -2.41432e-4 4.67413e-4 -1 1.34505e-4 -7.3579e-4 -0.9999997 2.41687e-4 7.78269e-5 -1 2.68024e-5 0 -1 1.35272e-4 -4.67828e-4 -1 1.348e-4 5.58116e-4 -0.9999999 2.25471e-4 0.03915542 -0.9837689 -0.175116 0.09106904 -0.9808238 -0.172311 0.07528972 -0.9823377 -0.1713017 -0.03915542 -0.9837689 -0.175116 0 -0.9845149 -0.1753016 0 -0.9842916 -0.1765511 0.6861013 -0.7214119 -0.09396845 0.3438605 -0.9269921 -0.149819 0.751439 -0.6546022 -0.08267599 -8.73238e-5 1 -2.66367e-5 0 1 -1.478e-4 0 1 -2.7232e-5 8.61898e-5 1 -1.47413e-4 -0.09106904 -0.9808238 -0.172311 -0.2974411 -0.9424665 -0.1525965 -0.3438605 -0.9269921 -0.149819 -0.07528972 -0.9823377 -0.1713017 -0.8690851 -0.4926351 -0.04474061 -0.751439 -0.6546022 -0.08267599 -0.6860851 -0.721427 -0.09397041 0 -1 2.70685e-5 -7.68163e-5 -1 1.34733e-4 -0.8978742 -0.4384995 -0.03924763 0.2974411 -0.9424665 -0.1525965 0.8690851 -0.4926351 -0.04474061 0.8978742 -0.4384995 -0.03924763</float_array>
+          <technique_common>
+            <accessor source="#HarvesterGlass-mesh-normals-array" count="50" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="HarvesterGlass-mesh-map-0">
+          <float_array id="HarvesterGlass-mesh-map-0-array" count="288">0.97168 0.997728 0.995606 0.818726 0.995117 0.97258 0.476807 0.939179 0.97168 0.997728 0.492432 0.997209 0.476807 0.939179 0.995606 0.818726 0.97168 0.997728 0.591797 0.272461 0.995606 0.818726 0.476807 0.939179 0.995606 0.818726 0.591797 0.272461 0.822754 0.27832 0.822754 0.27832 0.591797 0.272461 0.788086 0.24707 0.788086 0.24707 0.591797 0.272461 0.618164 0.246582 0.591797 0.272461 0.788086 0.24707 0.618164 0.246582 0.788086 0.24707 0.591797 0.272461 0.822754 0.27832 0.822754 0.27832 0.591797 0.272461 0.995606 0.818726 0.476807 0.939179 0.995606 0.818726 0.591797 0.272461 0.995606 0.818726 0.476807 0.939179 0.97168 0.997728 0.995606 0.818726 0.97168 0.997728 0.995117 0.97258 0.492432 0.997209 0.97168 0.997728 0.476807 0.939179 0.692871 0.004394948 0.675781 0.202148 0.692871 0.219727 0.675781 0.202148 0.692871 0.004394948 0.675781 0.02148395 0.692871 0.004394948 0.692871 0.219727 0.675293 0.202148 0.692871 0.004394948 0.675293 0.202148 0.675293 0.02148395 0.692871 0.219727 0.692871 0.004394948 0.675293 0.202148 0.675293 0.202148 0.692871 0.004394948 0.675293 0.02148395 0.991699 0.219727 0.692871 0.004394948 0.991699 0.004394948 0.692871 0.004394948 0.991699 0.219727 0.692871 0.219727 0.675781 0.202148 0.692871 0.004394948 0.692871 0.219727 0.692871 0.004394948 0.675781 0.202148 0.675781 0.02148395 0.140503 0.782593 0.252441 0.006835997 0.206299 0.782593 0.140503 0.782593 0.002976953 0.006835997 0.00297898 0.782593 0.387207 0.782593 0.34375 0.006835997 0.423096 0.006835997 0.692871 0.004394948 0.991699 0.219727 0.991699 0.004394948 0.991699 0.219727 0.692871 0.004394948 0.692871 0.219727 0.692871 0.219727 0.995606 0.004394948 0.995606 0.219727 0.995606 0.004394948 0.692871 0.219727 0.692871 0.004394948 0.252441 0.006835997 0.301514 0.782593 0.34375 0.006835997 0.301514 0.782593 0.252441 0.006835997 0.206299 0.782593 0.46167 0.782593 0.423096 0.006835997 0.387207 0.782593 0.995606 0.004394948 0.692871 0.219727 0.995606 0.219727 0.692871 0.219727 0.995606 0.004394948 0.692871 0.004394948 0.423096 0.006835997 0.46167 0.782593 0.495361 0.006835997 0.34375 0.006835997 0.387207 0.782593 0.423096 0.006835997 0.00297898 0.782593 0.002976953 0.006835997 0.140503 0.782593 0.252441 0.006835997 0.140503 0.782593 0.002976953 0.006835997 0.387207 0.782593 0.34375 0.006835997 0.301514 0.782593 0.252441 0.006835997 0.140503 0.782593 0.206299 0.782593 0.140503 0.782593 0.252441 0.006835997 0.002976953 0.006835997 0.301514 0.782593 0.252441 0.006835997 0.34375 0.006835997 0.252441 0.006835997 0.301514 0.782593 0.206299 0.782593 0.46167 0.782593 0.423096 0.006835997 0.495361 0.006835997 0.34375 0.006835997 0.387207 0.782593 0.301514 0.782593 0.423096 0.006835997 0.46167 0.782593 0.387207 0.782593</float_array>
+          <technique_common>
+            <accessor source="#HarvesterGlass-mesh-map-0-array" count="144" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="HarvesterGlass-mesh-vertices">
+          <input semantic="POSITION" source="#HarvesterGlass-mesh-positions"/>
+        </vertices>
+        <triangles material="HarvesterGlass__Harvester_Glass_D_tga-material" count="48">
+          <input semantic="VERTEX" source="#HarvesterGlass-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#HarvesterGlass-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#HarvesterGlass-mesh-map-0" offset="2" set="0"/>
+          <p>0 0 0 1 0 1 2 0 2 3 1 3 0 1 4 4 1 5 3 2 6 1 2 7 0 2 8 5 3 9 1 3 10 3 3 11 1 4 12 5 4 13 6 4 14 6 5 15 5 5 16 7 5 17 7 6 18 5 6 19 8 6 20 9 7 21 10 7 22 11 7 23 10 8 24 9 8 25 12 8 26 12 9 27 9 9 28 13 9 29 14 10 30 13 10 31 9 10 32 13 11 33 14 11 34 15 11 35 13 12 36 15 12 37 16 12 38 17 13 39 15 13 40 14 13 41 18 14 42 19 14 43 20 14 44 19 15 45 18 15 46 21 15 47 22 16 48 23 16 49 24 16 50 22 17 51 24 17 52 25 17 53 26 18 54 27 18 55 28 18 56 28 19 57 27 19 58 29 19 59 30 20 60 31 20 61 32 20 62 31 21 63 30 21 64 33 21 65 34 22 66 31 22 67 33 22 68 31 23 69 34 23 70 35 23 71 36 24 72 37 25 73 38 26 74 39 27 75 40 28 76 41 29 77 42 30 78 43 31 79 44 32 80 18 33 81 45 33 82 46 33 83 45 34 84 18 34 85 20 34 86 23 35 87 47 35 88 48 35 89 47 36 90 23 36 91 22 36 92 49 37 93 50 38 94 51 39 95 50 38 96 49 37 97 52 40 98 53 41 99 54 42 100 55 43 101 56 44 102 26 44 103 57 44 104 26 45 105 56 45 106 27 45 107 54 42 108 53 41 109 58 46 110 51 39 111 55 43 112 54 42 113 41 29 114 40 28 115 36 24 116 37 25 117 36 24 118 40 28 119 55 43 120 51 39 121 50 38 122 49 37 123 39 27 124 52 40 125 39 27 126 49 37 127 40 28 128 59 47 129 37 25 130 43 31 131 37 25 132 59 47 133 38 26 134 60 48 135 44 32 136 61 49 137 43 31 138 42 30 139 59 47 140 44 32 141 60 48 142 42 30 143</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers>
+    <controller id="Armature_HarvesterGlass-skin" name="Armature">
+      <skin source="#HarvesterGlass-mesh">
+        <bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+        <source id="Armature_HarvesterGlass-skin-joints">
+          <Name_array id="Armature_HarvesterGlass-skin-joints-array" count="16">Armature root_ground harvester header reeler back_cover_door steering_wheel unloader door_left door_right wheel_front wheel_front_left wheel_front_right wheel_back wheel_back_left wheel_back_right</Name_array>
+          <technique_common>
+            <accessor source="#Armature_HarvesterGlass-skin-joints-array" count="16" stride="1">
+              <param name="JOINT" type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Armature_HarvesterGlass-skin-bind_poses">
+          <float_array id="Armature_HarvesterGlass-skin-bind_poses-array" count="256">1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 0 -1 0 0 0 0 1 0 -1 0 0 0 0 0 0 1 0 -1 0 -1.5 0 0 1 2.38419e-7 -1 0 0 0 0 0 0 1 0 -1 0 -1.65347 0 0 1 6.930181 -1 0 0 0 0 0 0 1 0 -1 0 -2.26583 0 0 1 11.1849 -1 0 0 0 0 0 0 1 0 -1 0 -4.3817 0 0 1 -9.513921 -1 0 0 -2.64808e-4 0 0 0 1 0.1015526 -0.9948303 0 -6.409117 0 0 1 4.980008 -0.9948303 -0.1015526 0 -0.8610001 0 0 0 1 0 -1 0 -6.99448 0 0 1 0.04477822 -1 0 0 2.66465 0 0 0 1 -0.236289 -0.9716828 0 -4.732744 0 0 1 4.578764 -0.9716828 0.236289 0 2.896293 0 0 0 1 -0.1315003 -0.9913162 0 -5.460233 0 0 1 4.578765 -0.9913162 0.1315003 0 -0.9865224 0 0 0 1 0 -1 0 -2.03032 0 0 1 2.184551 -1 0 0 0 0 0 0 1 0 -1 0 -2.03032 0 0 1 2.184551 -1 0 0 4.0017 0 0 0 1 0 -1 0 -2.03032 0 0 1 2.184551 -1 0 0 -4.0017 0 0 0 1 0 -1 0 -1.71615 0 0 1 -5.318661 -1 0 0 0 0 0 0 1 0 -1 0 -1.71615 0 0 1 -5.318661 -1 0 0 3.25455 0 0 0 1 0 -1 0 -1.71615 0 0 1 -5.318661 -1 0 0 -3.25455 0 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Armature_HarvesterGlass-skin-bind_poses-array" count="16" stride="16">
+              <param name="TRANSFORM" type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Armature_HarvesterGlass-skin-weights">
+          <float_array id="Armature_HarvesterGlass-skin-weights-array" count="62">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</float_array>
+          <technique_common>
+            <accessor source="#Armature_HarvesterGlass-skin-weights-array" count="62" stride="1">
+              <param name="WEIGHT" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <joints>
+          <input semantic="JOINT" source="#Armature_HarvesterGlass-skin-joints"/>
+          <input semantic="INV_BIND_MATRIX" source="#Armature_HarvesterGlass-skin-bind_poses"/>
+        </joints>
+        <vertex_weights count="62">
+          <input semantic="JOINT" source="#Armature_HarvesterGlass-skin-joints" offset="0"/>
+          <input semantic="WEIGHT" source="#Armature_HarvesterGlass-skin-weights" offset="1"/>
+          <vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 </vcount>
+          <v>8 0 8 1 8 2 8 3 8 4 8 5 8 6 8 7 8 8 9 9 9 10 9 11 9 12 9 13 9 14 9 15 9 16 9 17 2 18 2 19 2 20 2 21 2 22 2 23 2 24 2 25 2 26 2 27 2 28 2 29 2 30 2 31 2 32 2 33 2 34 2 35 2 36 2 37 2 38 2 39 2 40 2 41 2 42 2 43 2 44 2 45 2 46 2 47 2 48 2 49 2 50 2 51 2 52 2 53 2 54 2 55 2 56 2 57 2 58 2 59 2 60 2 61</v>
+        </vertex_weights>
+      </skin>
+    </controller>
+  </library_controllers>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Armature" name="Armature" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 -4.37114e-8 -1 0 0 1 -4.37114e-8 0 0 0 0 1</matrix>
+        <node id="Armature_Armature" name="Armature" sid="Armature" type="JOINT">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <node id="Armature_root_ground" name="root_ground" sid="root_ground" type="JOINT">
+            <matrix sid="transform">-4.37114e-8 0 -1 0 0 0.9999999 0 0 1 0 -4.37114e-8 0 0 0 0 1</matrix>
+            <node id="Armature_harvester" name="harvester" sid="harvester" type="JOINT">
+              <matrix sid="transform">1 0 0 1.5 0 1 0 -2.38419e-7 0 0 1 -6.55671e-8 0 0 0 1</matrix>
+              <node id="Armature_header" name="header" sid="header" type="JOINT">
+                <matrix sid="transform">1 0 0 0.1534699 0 1 0 -6.930181 0 0 1 -6.70838e-9 0 0 0 1</matrix>
+                <node id="Armature_reeler" name="reeler" sid="reeler" type="JOINT">
+                  <matrix sid="transform">1 0 0 0.61236 0 1 0 -4.25472 0 0 1 -2.67671e-8 0 0 0 1</matrix>
+                  <extra>
+                    <technique profile="blender">
+                      <layer sid="layer" type="string">0</layer>
+                      <roll sid="roll" type="float">-1.570796</roll>
+                      <tip_x sid="tip_x" type="float">0</tip_x>
+                      <tip_y sid="tip_y" type="float">1.5</tip_y>
+                      <tip_z sid="tip_z" type="float">0</tip_z>
+                    </technique>
+                  </extra>
+                </node>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.570796</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_back_cover_door" name="back_cover_door" sid="back_cover_door" type="JOINT">
+                <matrix sid="transform">1 0 0 2.8817 0 1 0 9.513921 0 0 1 2.64874e-4 0 0 0 1</matrix>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.570796</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_steering_wheel" name="steering_wheel" sid="steering_wheel" type="JOINT">
+                <matrix sid="transform">0.9948302 0 0.1015526 4.963419 0 1 0 -4.980008 -0.1015526 0 0.9948302 0.2056864 0 0 0 1</matrix>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.469068</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_unloader" name="unloader" sid="unloader" type="JOINT">
+                <matrix sid="transform">1 0 0 5.49448 0 1 0 -0.04477799 0 0 1 -2.66465 0 0 0 1</matrix>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.570796</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_door_left" name="door_left" sid="door_left" type="JOINT">
+                <matrix sid="transform">0.9716828 0 -0.236289 3.783089 0 1 0 -4.578765 0.236289 0 0.9716828 -1.695983 0 0 0 1</matrix>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.809341</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_door_right" name="door_right" sid="door_right" type="JOINT">
+                <matrix sid="transform">0.9913161 0 -0.1315002 3.783089 0 1 0 -4.578765 0.1315002 0 0.9913161 1.695977 0 0 0 1</matrix>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.702679</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_wheel_front" name="wheel_front" sid="wheel_front" type="JOINT">
+                <matrix sid="transform">1 0 0 0.5303199 0 1 0 -2.18455 0 0 1 -2.3181e-8 0 0 0 1</matrix>
+                <node id="Armature_wheel_front_left" name="wheel_front_left" sid="wheel_front_left" type="JOINT">
+                  <matrix sid="transform">1 0 0 -1.7492e-7 0 1 0 0 0 0 1 -4.0017 0 0 0 1</matrix>
+                  <extra>
+                    <technique profile="blender">
+                      <layer sid="layer" type="string">0</layer>
+                      <roll sid="roll" type="float">-1.570796</roll>
+                      <tip_x sid="tip_x" type="float">0</tip_x>
+                      <tip_y sid="tip_y" type="float">1.5</tip_y>
+                      <tip_z sid="tip_z" type="float">0</tip_z>
+                    </technique>
+                  </extra>
+                </node>
+                <node id="Armature_wheel_front_right" name="wheel_front_right" sid="wheel_front_right" type="JOINT">
+                  <matrix sid="transform">1 0 0 1.7492e-7 0 1 0 0 0 0 1 4.0017 0 0 0 1</matrix>
+                  <extra>
+                    <technique profile="blender">
+                      <layer sid="layer" type="string">0</layer>
+                      <roll sid="roll" type="float">-1.570796</roll>
+                      <tip_x sid="tip_x" type="float">0</tip_x>
+                      <tip_y sid="tip_y" type="float">1.5</tip_y>
+                      <tip_z sid="tip_z" type="float">0</tip_z>
+                    </technique>
+                  </extra>
+                </node>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.570796</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <node id="Armature_wheel_back" name="wheel_back" sid="wheel_back" type="JOINT">
+                <matrix sid="transform">1 0 0 0.2161499 0 1 0 5.318661 0 0 1 -9.44821e-9 0 0 0 1</matrix>
+                <node id="Armature_wheel_back_left" name="wheel_back_left" sid="wheel_back_left" type="JOINT">
+                  <matrix sid="transform">1 0 0 -2.6147e-7 0 1 0 0 0 0 1 -3.25455 0 0 0 1</matrix>
+                  <extra>
+                    <technique profile="blender">
+                      <layer sid="layer" type="string">0</layer>
+                      <roll sid="roll" type="float">-1.570796</roll>
+                      <tip_x sid="tip_x" type="float">0</tip_x>
+                      <tip_y sid="tip_y" type="float">1.5</tip_y>
+                      <tip_z sid="tip_z" type="float">0</tip_z>
+                    </technique>
+                  </extra>
+                </node>
+                <node id="Armature_wheel_back_right" name="wheel_back_right" sid="wheel_back_right" type="JOINT">
+                  <matrix sid="transform">1 0 0 2.30516e-8 0 1 0 0 0 0 1 3.25455 0 0 0 1</matrix>
+                  <extra>
+                    <technique profile="blender">
+                      <layer sid="layer" type="string">0</layer>
+                      <roll sid="roll" type="float">-1.570796</roll>
+                      <tip_x sid="tip_x" type="float">0</tip_x>
+                      <tip_y sid="tip_y" type="float">1.5</tip_y>
+                      <tip_z sid="tip_z" type="float">0</tip_z>
+                    </technique>
+                  </extra>
+                </node>
+                <extra>
+                  <technique profile="blender">
+                    <layer sid="layer" type="string">0</layer>
+                    <roll sid="roll" type="float">-1.570796</roll>
+                    <tip_x sid="tip_x" type="float">0</tip_x>
+                    <tip_y sid="tip_y" type="float">1.5</tip_y>
+                    <tip_z sid="tip_z" type="float">0</tip_z>
+                  </technique>
+                </extra>
+              </node>
+              <extra>
+                <technique profile="blender">
+                  <layer sid="layer" type="string">0</layer>
+                  <roll sid="roll" type="float">-1.570796</roll>
+                  <tip_x sid="tip_x" type="float">0</tip_x>
+                  <tip_y sid="tip_y" type="float">1.5</tip_y>
+                  <tip_z sid="tip_z" type="float">0</tip_z>
+                </technique>
+              </extra>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <layer sid="layer" type="string">0</layer>
+                <roll sid="roll" type="float">-1.570796</roll>
+                <tip_x sid="tip_x" type="float">0</tip_x>
+                <tip_y sid="tip_y" type="float">1.5</tip_y>
+                <tip_z sid="tip_z" type="float">0</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <extra>
+            <technique profile="blender">
+              <layer sid="layer" type="string">0</layer>
+              <tip_x sid="tip_x" type="float">0</tip_x>
+              <tip_y sid="tip_y" type="float">1.5</tip_y>
+              <tip_z sid="tip_z" type="float">0</tip_z>
+            </technique>
+          </extra>
+        </node>
+        <node id="HarvesterGlass" name="HarvesterGlass" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_controller url="#Armature_HarvesterGlass-skin">
+            <skeleton>#Armature_Armature</skeleton>
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="HarvesterGlass__Harvester_Glass_D_tga-material" target="#HarvesterGlass__Harvester_Glass_D_tga-material">
+                  <bind_vertex_input semantic="GeometrySource5" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
+              </technique_common>
+            </bind_material>
+          </instance_controller>
+        </node>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
