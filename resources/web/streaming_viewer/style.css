@@ -1,18 +1,64 @@
 html {
-  font-family: "Arial", "Helvetica", "Verdana", "sans-serif";
-}
-html, body {
   margin: 0;
-  padding:0;
   height: 100%;
-  overflow-y: hidden;
-  display: flex; 
-  flex-flow: column;
-}
-header {
-  padding: 0 10px 10px 10px;
+  width: 100%;
 }
 
-#playerDiv {
-  flex: 1;
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #fafafa;
+  font-family: "Raleway", sans-serif;
+}
+
+.title-container {
+  position: relative;
+  background-color: #34495e;
+  height: 75px;
+  box-shadow: 0 -15px 15px 15px rgba(0,0,0,0.4);
+  background-image: url("https://cyberbotics.com/assets/images/webots.png");
+  background-repeat: no-repeat;
+  background-position: 12px 14px;
+  background-size: 45px;
+  z-index: 1;
+}
+
+.title-container h1 {
+  padding-left: 70px;
+  font-size: 30px;
+  font-weight: 300;
+  color: #fafafa;
+  position: absolute;
+}
+
+.connect-container {
+  padding: 15px;
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: 100px auto;
+  grid-template-rows: 25px 25px 25px;
+}
+
+.grid-item {
+  align-self: center;
+}
+
+#ConnectButton {
+  border: none;
+  border-radius: 5px;
+  background-color: #34495e;
+  color: #fafafa;
+  padding: 2px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#ConnectButton:hover {
+  opacity: 0.8;
+}
+
+#ConnectButton:active {
+  transform: scale(0.95);
 }
