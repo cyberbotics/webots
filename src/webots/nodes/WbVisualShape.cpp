@@ -55,6 +55,7 @@ void WbVisualShape::init() {
   mWrenEncodeDepthMaterials.clear();
 
   mDownloader = NULL;
+  printf("----------------\n");
 }
 
 WbVisualShape::WbVisualShape(WbTokenizer *tokenizer) : WbBaseNode("VisualShape", tokenizer) {
@@ -192,17 +193,24 @@ void WbVisualShape::createWrenObjects() {
   if (mUrl->size() == 0)
     return;
 
-  Assimp::Importer importer;
-  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
-                                                        aiComponent_ANIMATIONS | aiComponent_COLORS);
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+  printf("--> %s\n", extension.toUtf8().constData());
 
-  const unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                             aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
-                             aiProcess_FlipUVs;
+  Assimp::Importer importer;
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+                              aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
+
+  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+  if (extension == "obj")
+    flags |= aiProcess_FlipUVs;
+
+  // if (extension == "dae")
+  //  flags |= aiProcess_FlipUVs;
 
   const aiScene *scene;
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!completeUrl.toLower().endsWith(".dae") && !completeUrl.toLower().endsWith(".obj")) {
+  if (extension != "dae" && extension != "obj") {
     warn(
       tr("Invalid url '%1'. VisualShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
@@ -221,8 +229,7 @@ void WbVisualShape::createWrenObjects() {
       return;
     }
     const QByteArray data = file.readAll();
-    const char *hint = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toUtf8().constData();
-    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, extension.toUtf8().constData());
   } else
     scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);
 
@@ -233,8 +240,13 @@ void WbVisualShape::createWrenObjects() {
 
   // Assimp fix for up_axis
   // Adapted from https://github.com/assimp/assimp/issues/849
-  int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
+  int upAxis, upAxisSign, frontAxis, frontAxisSign, coordAxis, coordAxisSign;
   double unitScaleFactor = 1.0;
+  if (extension == "obj")
+    frontAxis = 2, coordAxis = 0, upAxis = 1, upAxisSign = -1, frontAxisSign = 1, coordAxisSign = -1;
+  else
+    upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
+
   if (scene->mMetaData) {
     scene->mMetaData->Get<int>("UpAxis", upAxis);
     scene->mMetaData->Get<int>("UpAxisSign", upAxisSign);
@@ -243,7 +255,8 @@ void WbVisualShape::createWrenObjects() {
     scene->mMetaData->Get<int>("CoordAxis", coordAxis);
     scene->mMetaData->Get<int>("CoordAxisSign", coordAxisSign);
     scene->mMetaData->Get<double>("UnitScaleFactor", unitScaleFactor);
-  }
+  } else
+    printf("NO meta\n");
 
   aiVector3D upVec, forwardVec, rightVec;
   upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
@@ -262,8 +275,10 @@ void WbVisualShape::createWrenObjects() {
     node = queue.front();
     queue.pop_front();
 
+    printf("mNumMeshes %d\n", node->mNumMeshes);
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      printf(" > %s\n", mesh->mName.C_Str());
 
       // compute absolute transform of this node from all the parents
       const int vertices = mesh->mNumVertices;

@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.13478371641074924 0.054681225679949284 0.9893651061911599 2.37822003550468
-  position 8.497449381063394 -8.51988270969327 3.9284682695627207
+  orientation -0.30542991226922667 0.007759942236549574 0.9521829403994265 3.0932278433304843
+  position 16.58929372076574 -0.04765184437719912 12.470750975030917
 }
 Background {
   skyColor [
@@ -12,28 +12,18 @@ Background {
 }
 VisualShape {
   url [
-    "meshes/colored_cube.dae"
+    "meshes/colored_cube_sign.dae"
   ]
 }
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  direction 0 1 0
-  intensity 100
-  location 0 -5 0
-}
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  intensity 100
-  location 0 0 5
-}
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  direction -1 0 0
-  intensity 100
-  location 5 0 0
+Transform {
+  translation 0 5 0
+  children [
+    VisualShape {
+      url [
+        "meshes/colored_cube_sign.obj"
+      ]
+    }
+  ]
 }
 Robot {
   children [
@@ -147,4 +137,23 @@ Robot {
     }
   ]
   controller "visualshape_checker"
+}
+Transform {
+  translation 0 -5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "meshes/Cube.jpg"
+          ]
+        }
+      }
+      geometry Mesh {
+        url [
+          "meshes/colored_cube_sign.obj"
+        ]
+      }
+    }
+  ]
 }

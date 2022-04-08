@@ -80,10 +80,37 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
   mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
 
+  // float transparency = 0.0f;
+  // if (material->Get(AI_MATKEY_COLOR_TRANSPARENT, transparency) == AI_SUCCESS) {
+  //  printf("A %f\n", transparency);
+  //}
+  // transparency = 0.0f;
+  // if (material->Get(AI_MATKEY_TRANSPARENCYFACTOR, transparency) == AI_SUCCESS) {
+  //  printf("B %f\n", transparency);
+  //}
+  // transparency = 0.0f;
+  // if (material->Get(AI_MATKEY_OPACITY, transparency) == AI_SUCCESS) {
+  //  printf("C %f\n", transparency);
+  //}
+
   float opacity = 1.0f;
-  material->Get(AI_MATKEY_OPACITY, opacity);
-  printf("TRANS %f => %f\n", opacity, 1 - opacity);
-  mTransparency = new WbSFDouble(1.0 - opacity);
+  if (material->Get(AI_MATKEY_OPACITY, opacity) != AI_SUCCESS) {
+    float transparency = 0.0f;
+    if (material->Get(AI_MATKEY_COLOR_TRANSPARENT, transparency) == AI_SUCCESS ||
+        material->Get(AI_MATKEY_TRANSPARENCYFACTOR, transparency) == AI_SUCCESS) {
+      opacity = 1.0 - transparency;
+    }
+  }
+
+  // float opacity = 1.0f;
+  // material->Get(AI_MATKEY_OPACITY, opacity);
+  // transparency = 1.0f - opacity;
+
+  // printf("TRANS %f\n", transparency);
+
+  // mTransparency = new WbSFDouble(1.0 - opacity);
+  mTransparency = new WbSFDouble(0);
+  printf("mTransparency %f\n", 1.0 - opacity);
 
   float roughness = 1.0f;
   if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
@@ -93,6 +120,7 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
     roughness = 1.0 - roughness;
   mRoughness = new WbSFDouble(roughness);
+  printf("mRoughness %f\n", roughness);
 
   mMetalness = new WbSFDouble(1.0);
   mIblStrength = new WbSFDouble(1.0);
