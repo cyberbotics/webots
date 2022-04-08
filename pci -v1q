@@ -1,0 +1,278 @@
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Root Complex
+	Subsystem: Elitegroup Computer Systems Family 17h (Models 00h-0fh) Root Complex
+	Flags: fast devsel
+
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) I/O Memory Management Unit
+	Subsystem: Elitegroup Computer Systems Family 17h (Models 00h-0fh) I/O Memory Management Unit
+	Flags: fast devsel, IRQ 25
+	Capabilities: <access denied>
+
+00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	Flags: fast devsel
+
+00:01.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) PCIe GPP Bridge (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 26
+	Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: fd900000-fd9fffff [size=1M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:01.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) PCIe GPP Bridge (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 27
+	Bus: primary=00, secondary=03, subordinate=0a, sec-latency=0
+	I/O behind bridge: 0000f000-0000ffff [size=4K]
+	Memory behind bridge: fd500000-fd7fffff [size=3M]
+	Prefetchable memory behind bridge: 00000000f2100000-00000000f21fffff [size=1M]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	DeviceName:  Onboard IGD
+	Flags: fast devsel
+
+00:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	Flags: fast devsel
+
+00:03.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) PCIe GPP Bridge (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 28
+	Bus: primary=00, secondary=0b, subordinate=0b, sec-latency=0
+	I/O behind bridge: 0000e000-0000efff [size=4K]
+	Memory behind bridge: fc000000-fd0fffff [size=17M]
+	Prefetchable memory behind bridge: 00000000e0000000-00000000f1ffffff [size=288M]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	Flags: fast devsel
+
+00:07.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	Flags: fast devsel
+
+00:07.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Internal PCIe GPP Bridge 0 to Bus B (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 29
+	Bus: primary=00, secondary=11, subordinate=11, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: fd200000-fd4fffff [size=3M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:08.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-1fh) PCIe Dummy Host Bridge
+	Flags: fast devsel
+
+00:08.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Internal PCIe GPP Bridge 0 to Bus B (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 31
+	Bus: primary=00, secondary=12, subordinate=12, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: fd800000-fd8fffff [size=1M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev 59)
+	Subsystem: Elitegroup Computer Systems FCH SMBus Controller
+	Flags: 66MHz, medium devsel
+	Kernel driver in use: piix4_smbus
+	Kernel modules: i2c_piix4, sp5100_tco
+
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev 51)
+	Subsystem: Elitegroup Computer Systems FCH LPC Bridge
+	Flags: bus master, 66MHz, medium devsel, latency 0
+
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 0
+	Flags: fast devsel
+
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 1
+	Flags: fast devsel
+
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 2
+	Flags: fast devsel
+
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 3
+	Flags: fast devsel
+	Kernel driver in use: k10temp
+	Kernel modules: k10temp
+
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 4
+	Flags: fast devsel
+
+00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 5
+	Flags: fast devsel
+
+00:18.6 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 6
+	Flags: fast devsel
+
+00:18.7 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Data Fabric: Device 18h; Function 7
+	Flags: fast devsel
+
+01:00.0 Non-Volatile memory controller: Kingston Technology Company, Inc. A2000 NVMe SSD (rev 03) (prog-if 02 [NVM Express])
+	Subsystem: Kingston Technology Company, Inc. A2000 NVMe SSD
+	Flags: bus master, fast devsel, latency 0, IRQ 44, NUMA node 0
+	Memory at fd900000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: nvme
+	Kernel modules: nvme
+
+03:00.0 USB controller: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset USB 3.1 xHCI Controller (rev 02) (prog-if 30 [XHCI])
+	Subsystem: Elitegroup Computer Systems 300 Series Chipset USB 3.1 xHCI Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 64
+	Memory at fd7a0000 (64-bit, non-prefetchable) [size=32K]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+03:00.1 SATA controller: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset SATA Controller (rev 02) (prog-if 01 [AHCI 1.0])
+	Subsystem: Elitegroup Computer Systems 300 Series Chipset SATA Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 43
+	Memory at fd780000 (32-bit, non-prefetchable) [size=128K]
+	Expansion ROM at fd700000 [disabled] [size=512K]
+	Capabilities: <access denied>
+	Kernel driver in use: ahci
+	Kernel modules: ahci
+
+03:00.2 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 43b2 (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 33
+	Bus: primary=03, secondary=04, subordinate=0a, sec-latency=0
+	I/O behind bridge: 0000f000-0000ffff [size=4K]
+	Memory behind bridge: fd500000-fd6fffff [size=2M]
+	Prefetchable memory behind bridge: 00000000f2100000-00000000f21fffff [size=1M]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 35
+	Bus: primary=04, secondary=05, subordinate=05, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: [disabled]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:01.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 37
+	Bus: primary=04, secondary=06, subordinate=06, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: fd600000-fd6fffff [size=1M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:04.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 38
+	Bus: primary=04, secondary=07, subordinate=07, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: [disabled]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:05.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 39
+	Bus: primary=04, secondary=08, subordinate=08, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: [disabled]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:06.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 40
+	Bus: primary=04, secondary=09, subordinate=09, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: [disabled]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:07.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 300 Series Chipset PCIe Port (rev 02) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 42
+	Bus: primary=04, secondary=0a, subordinate=0a, sec-latency=0
+	I/O behind bridge: 0000f000-0000ffff [size=4K]
+	Memory behind bridge: fd500000-fd5fffff [size=1M]
+	Prefetchable memory behind bridge: 00000000f2100000-00000000f21fffff [size=1M]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+06:00.0 Network controller: Intel Corporation Wireless 3165 (rev 81)
+	Subsystem: Intel Corporation Dual Band Wireless AC 3165
+	Flags: bus master, fast devsel, latency 0, IRQ 70
+	Memory at fd600000 (64-bit, non-prefetchable) [size=8K]
+	Capabilities: <access denied>
+	Kernel driver in use: iwlwifi
+	Kernel modules: iwlwifi
+
+0a:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 0c)
+	Subsystem: Elitegroup Computer Systems RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 41
+	I/O ports at f000 [size=256]
+	Memory at fd500000 (64-bit, non-prefetchable) [size=4K]
+	Memory at f2100000 (64-bit, prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: r8169
+	Kernel modules: r8169
+
+0b:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] (rev a1) (prog-if 00 [VGA controller])
+	Subsystem: PC Partner Limited / Sapphire Technology GP106 [GeForce GTX 1060 6GB]
+	Flags: bus master, fast devsel, latency 0, IRQ 75
+	Memory at fc000000 (32-bit, non-prefetchable) [size=16M]
+	Memory at e0000000 (64-bit, prefetchable) [size=256M]
+	Memory at f0000000 (64-bit, prefetchable) [size=32M]
+	I/O ports at e000 [size=128]
+	Expansion ROM at fd000000 [virtual] [disabled] [size=512K]
+	Capabilities: <access denied>
+	Kernel driver in use: nvidia
+	Kernel modules: nvidiafb, nouveau, nvidia_drm, nvidia
+
+0b:00.1 Audio device: NVIDIA Corporation GP106 High Definition Audio Controller (rev a1)
+	Subsystem: PC Partner Limited / Sapphire Technology GP106 High Definition Audio Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 71
+	Memory at fd080000 (32-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
+11:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Zeppelin/Raven/Raven2 PCIe Dummy Function
+	Subsystem: Elitegroup Computer Systems Zeppelin/Raven/Raven2 PCIe Dummy Function
+	Flags: fast devsel
+	Capabilities: <access denied>
+
+11:00.2 Encryption controller: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) Platform Security Processor
+	Subsystem: Elitegroup Computer Systems Family 17h (Models 00h-0fh) Platform Security Processor
+	Flags: bus master, fast devsel, latency 0, IRQ 67
+	Memory at fd300000 (32-bit, non-prefetchable) [size=1M]
+	Memory at fd400000 (32-bit, non-prefetchable) [size=8K]
+	Capabilities: <access denied>
+	Kernel driver in use: ccp
+	Kernel modules: ccp
+
+11:00.3 USB controller: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) USB 3.0 Host Controller (prog-if 30 [XHCI])
+	Subsystem: Elitegroup Computer Systems Family 17h (Models 00h-0fh) USB 3.0 Host Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 66
+	Memory at fd200000 (64-bit, non-prefetchable) [size=1M]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+12:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Zeppelin/Renoir PCIe Dummy Function
+	Subsystem: Elitegroup Computer Systems Zeppelin/Renoir PCIe Dummy Function
+	Flags: fast devsel
+	Capabilities: <access denied>
+
+12:00.2 SATA controller: Advanced Micro Devices, Inc. [AMD] FCH SATA Controller [AHCI mode] (rev 51) (prog-if 01 [AHCI 1.0])
+	Subsystem: Elitegroup Computer Systems FCH SATA Controller [AHCI mode]
+	Flags: bus master, fast devsel, latency 0, IRQ 47
+	Memory at fd808000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: ahci
+	Kernel modules: ahci
+
+12:00.3 Audio device: Advanced Micro Devices, Inc. [AMD] Family 17h (Models 00h-0fh) HD Audio Controller
+	Subsystem: Elitegroup Computer Systems Family 17h (Models 00h-0fh) HD Audio Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 73
+	Memory at fd800000 (32-bit, non-prefetchable) [size=32K]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
