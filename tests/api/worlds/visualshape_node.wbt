@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.23900404164825656 -0.1268455534965416 -0.9626979140072728 4.000075691611725
-  position 8.293363023220836 -9.705410347456603 7.244392294208453
+  orientation -0.13478371641074924 0.054681225679949284 0.9893651061911599 2.37822003550468
+  position 8.497449381063394 -8.51988270969327 3.9284682695627207
 }
 Background {
   skyColor [
@@ -14,7 +14,26 @@ VisualShape {
   url [
     "meshes/colored_cube.dae"
   ]
-  castShadows FALSE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction 0 1 0
+  intensity 100
+  location 0 -5 0
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  intensity 100
+  location 0 0 5
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction -1 0 0
+  intensity 100
+  location 5 0 0
 }
 Robot {
   children [
@@ -126,10 +145,6 @@ Robot {
       height 32
       far 2
     }
-    TestSuiteEmitter {
-    }
   ]
   controller "visualshape_checker"
-}
-TestSuiteSupervisor {
 }

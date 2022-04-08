@@ -13,14 +13,14 @@
   <library_effects>
     <effect id="Material_001-effect">
       <profile_COMMON>
-        <newparam sid="Cube_png-surface">
+        <newparam sid="Cube_jpg-surface">
           <surface type="2D">
-            <init_from>Cube_png</init_from>
+            <init_from>Cube_jpg</init_from>
           </surface>
         </newparam>
-        <newparam sid="Cube_png-sampler">
+        <newparam sid="Cube_jpg-sampler">
           <sampler2D>
-            <source>Cube_png-surface</source>
+            <source>Cube_jpg-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -29,19 +29,16 @@
               <color sid="emission">0 0 0 1</color>
             </emission>
             <diffuse>
-              <texture texture="Cube_png-sampler" texcoord="UVMap"/>
+              <texture texture="Cube_jpg-sampler" texcoord="UVMap"/>
             </diffuse>
-            <index_of_refraction>
-              <float sid="ior">1.45</float>
-            </index_of_refraction>
           </lambert>
         </technique>
       </profile_COMMON>
     </effect>
   </library_effects>
   <library_images>
-    <image id="Cube_png" name="Cube_png">
-      <init_from>Cube.png</init_from>
+    <image id="Cube_jpg" name="Cube_jpg">
+      <init_from>Cube.jpg</init_from>
     </image>
   </library_images>
   <library_materials>
