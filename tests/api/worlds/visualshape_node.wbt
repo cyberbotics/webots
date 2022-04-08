@@ -10,26 +10,6 @@ Background {
     0.933333 0.933333 0.92549
   ]
 }
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  direction 0 1 0
-  intensity 100
-  location 0 -5 0
-}
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  intensity 100
-  location 0 0 5
-}
-SpotLight {
-  attenuation 0 0 1
-  beamWidth 0.7
-  direction -1 0 0
-  intensity 100
-  location 5 0 0
-}
 VisualShape {
   url [
     "meshes/colored_cube.dae"

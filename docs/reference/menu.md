@@ -18,7 +18,7 @@
     - [Camera](camera.md)
     - [Capsule](capsule.md)
     - [Charger](charger.md)
-    - [VisualShape](VisualShape.md)
+    - [VisualShape](visualshape.md)
     - [Color](color.md)
     - [Compass](compass.md)
     - [Cone](cone.md)
