@@ -40,7 +40,7 @@ p {
 }
 
 .description-container {
-  padding: 8px;
+  padding: 8px 16px;
   min-height: 10%;
   background-color: #fafafa;
   min-height: calc(25vh - 151px);
