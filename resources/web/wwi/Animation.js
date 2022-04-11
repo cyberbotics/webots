@@ -46,19 +46,14 @@ export default class Animation {
     this.keyFrameStepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
     if (this.data.frames.length > 1000) {
       this.numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
-      // let poses = this.data.frames[0].poses;
-      // poses = new Map(poses.map(pose => [pose.id, pose]));
-      // this.data.frames[0].poses = poses;
       for (let i = 0; i < this.numberOfKeyFrames; i++) {
         const allPoses = new Map();
         const allLabels = new Map();
         for (let j = (i + 1) * this.keyFrameStepSize; j > i * this.keyFrameStepSize; j--) {
           const poses = this.data.frames[j].poses;
-          // poses = new Map(poses.map(pose => [pose.id, pose])); // Convert to map for easier manipulation
-          // this.data.frames[i].poses = poses;
           if (poses) {
             for (let k = 0; k < poses.length; k++) {
-              let currentIdFields = allPoses.has(poses[k].id) ? allPoses.get(poses[k].id) : new Map();
+              const currentIdFields = allPoses.has(poses[k].id) ? allPoses.get(poses[k].id) : new Map();
               for (let field in poses[k]) {
                 if (field === 'id' || currentIdFields.has(field))
                   continue;
@@ -72,20 +67,20 @@ export default class Animation {
           if (allLabels.size === this._labelsIds.length) // We already have all the update we need for the labels
             continue;
 
-          const labels = this.data.frames[i].labels;
+          const labels = this.data.frames[j].labels;
           if (labels) {
             for (let k = 0; k < labels.length; k++) {
-              if (!allLabels.has(labels[i].id))
-                allLabels.set(labels[i].id, labels[i]);
+              if (!allLabels.has(labels[k].id))
+                allLabels.set(labels[k].id, labels[k]);
             }
           }
         }
 
         if (i === 0) {
-          const poses = this.data.frames[0].poses;
+          const poses = this.data.frames[0].poses; // No need to check the labels because they are defined in the second frames.
           if (poses) {
             for (let j = 0; j < poses.length; j++) {
-              let currentIdFields = allPoses.has(poses[j].id) ? allPoses.get(poses[j].id) : new Map();
+              const currentIdFields = allPoses.has(poses[j].id) ? allPoses.get(poses[j].id) : new Map();
 
               for (let field in poses[j]) {
                 if (field === 'id' || currentIdFields.has(field))
@@ -97,10 +92,10 @@ export default class Animation {
             }
           }
         } else { // Check the previous keyFrames to get missing updates
-          let poses = this._keyFrames.get(i - 1).poses;
+          const poses = this._keyFrames.get(i - 1).poses;
           for (let element of poses) {
             const id = element[0];
-            let currentIdFields = allPoses.has(id) ? allPoses.get(id) : new Map();
+            const currentIdFields = allPoses.has(id) ? allPoses.get(id) : new Map();
 
             for (let field of element[1]) {
               if (currentIdFields.has(field[0])) // we want to update each field only once
@@ -109,6 +104,13 @@ export default class Animation {
                 currentIdFields.set(field[0], field[1]);
             }
             allPoses.set(id, currentIdFields);
+          }
+
+          const labels = this._keyFrames.get(i - 1).labels;
+          for (let label of labels) {
+            const id = label[0];
+            if (!allLabels.has(id))
+              allLabels.set(id, label[1]);
           }
         }
 
@@ -157,9 +159,6 @@ export default class Animation {
     if (requestedStep !== this.step) {
       this.step = requestedStep;
 
-      const appliedIds = [];
-      const appliedLabelsIds = [];
-
       // lookback mechanism: search in history
       if (this.step !== this._previousStep + 1) {
         let previousPoseStep;
@@ -191,7 +190,8 @@ export default class Animation {
                   else {
                     this._scene.applyPose({'id': id, [field]: this.data.frames[i].poses[j][field]});
                     appliedFieldsByIds.get(id).add(field);
-                    if (appliedFieldsByIds.size === this.numberOfFields.get(id))
+
+                    if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
                       completeIds.add(id);
                   }
                 }
@@ -200,8 +200,25 @@ export default class Animation {
           }
         }
 
-        if (previousStepIsAKeyFrame && closestKeyFrame >= 0) {
-          let poses = this._keyFrames.get(closestKeyFrame).poses;
+        const appliedLabelsIds = new Set();
+        // TODO rework!
+        for (let id of this._labelsIds) {
+          for (let f = this.step; f > previousPoseStep; f--) {
+            if (this.data.frames[f].labels) {
+              for (let p = 0; p < this.data.frames[f].labels.length; p++) {
+                if (this.data.frames[f].labels[p].id === id) {
+                  if (!appliedLabelsIds.has(id)) {
+                    this._scene.applyLabel(this.data.frames[f].labels[p], this._view);
+                    appliedLabelsIds.add(id);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        if (previousStepIsAKeyFrame && closestKeyFrame >= 0) { // Get the missing updates from the closest keyFrame
+          const poses = this._keyFrames.get(closestKeyFrame).poses;
           for (let element of poses) {
             const id = element[0];
             if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
@@ -215,26 +232,18 @@ export default class Animation {
                 else {
                   this._scene.applyPose(field[1]);
                   appliedFieldsByIds.get(id).add(field[0]);
-                  if (appliedFieldsByIds.size === this.numberOfFields.get(id))
+                  if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
                     completeIds.add(id);
                 }
               }
             }
           }
-        }
 
-        // TODO
-        for (let id of this._labelsIds) {
-          for (let f = this.step; f > previousPoseStep; f--) {
-            if (this.data.frames[f].labels) {
-              for (let p = 0; p < this.data.frames[f].labels.length; p++) {
-                if (this.data.frames[f].labels[p].id === id) {
-                  if (!appliedLabelsIds.includes(id)) {
-                    this._scene.applyLabel(this.data.frames[f].labels[p], this._view);
-                    appliedLabelsIds.push(id);
-                  }
-                }
-              }
+          if (this._labelsIds.length !== appliedLabelsIds.size) {
+            const labels = this._keyFrames.get(closestKeyFrame).labels;
+            for (let label of labels) {
+              if (!appliedLabelsIds.has(label[0]))
+                this._scene.applyLabel(label[1], this._view);
             }
           }
         }
@@ -242,7 +251,7 @@ export default class Animation {
         if (this.data.frames[this.step].hasOwnProperty('poses')) {
           const poses = this.data.frames[this.step].poses;
           for (let p = 0; p < poses.length; p++)
-            appliedIds[poses[p].id] = this._scene.applyPose(poses[p], undefined);
+            this._scene.applyPose(poses[p], undefined);
           WbWorld.instance.tracks.forEach(track => {
             if (track.linearSpeed !== 0) {
               track.animateMesh();
@@ -253,22 +262,20 @@ export default class Animation {
 
         if (this.data.frames[this.step].hasOwnProperty('labels')) {
           const labels = this.data.frames[this.step].labels;
-          for (let i = 0; i < labels.length; i++) {
+          for (let i = 0; i < labels.length; i++)
             this._scene.applyLabel(labels[i], this._view);
-            appliedLabelsIds.push(labels[i].id);
-          }
         }
       }
 
       if (automaticMove) {
-        let timeSlider = document.getElementById('timeSlider');
+        const timeSlider = document.getElementById('timeSlider');
         if (timeSlider)
           timeSlider.setValue(100 * this.step / this.data.frames.length);
       }
 
       this._previousStep = this.step;
       this._view.time = this.data.frames[this.step].time;
-      let currentTime = document.getElementById('currentTime');
+      const currentTime = document.getElementById('currentTime');
       if (currentTime)
         currentTime.innerHTML = this._formatTime(this._view.time);
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
