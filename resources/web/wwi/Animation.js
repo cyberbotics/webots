@@ -37,8 +37,6 @@ export default class Animation {
   // private methods
   _setup(data) {
     this.data = data;
-    // extract animated node ids: remove empty items and convert to integer
-    this._allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
     this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
     // generate keyFrames to speed up the navigation.
@@ -174,6 +172,11 @@ export default class Animation {
 
         const completeIds = new Set();
         const appliedFieldsByIds = new Map();
+        const appliedLabelsIds = new Set();
+
+        if (previousPoseStep === 0)
+          previousPoseStep--; // We normally do not want to include the previousStep in the loop as its updates are in the keyFrame. However, we need to include the step 0 in the loop as their is no keyFrame for it
+
         for (let i = this.step; i > previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of step.
           if (this.data.frames[i].poses) {
             for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
@@ -198,20 +201,13 @@ export default class Animation {
               }
             }
           }
-        }
 
-        const appliedLabelsIds = new Set();
-        // TODO rework!
-        for (let id of this._labelsIds) {
-          for (let f = this.step; f > previousPoseStep; f--) {
-            if (this.data.frames[f].labels) {
-              for (let p = 0; p < this.data.frames[f].labels.length; p++) {
-                if (this.data.frames[f].labels[p].id === id) {
-                  if (!appliedLabelsIds.has(id)) {
-                    this._scene.applyLabel(this.data.frames[f].labels[p], this._view);
-                    appliedLabelsIds.add(id);
-                  }
-                }
+          const labels = this.data.frames[i].labels;
+          if (labels) {
+            for (let label of labels) {
+              if (!appliedLabelsIds.has(label.id)) {
+                this._scene.applyLabel(label, this._view);
+                appliedLabelsIds.add(label.id);
               }
             }
           }
