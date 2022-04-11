@@ -35,7 +35,7 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 ### How to Embed a Web Scene in Your Website
 
-The exported `HTML` page is designed to be simple, and is the reference for an integration in an external Website. 
+The exported `HTML` page is designed to be simple, and is the reference for an integration in an external Website.
 Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
 
 The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://www.cyberbotics.com) will be stored for long term, and can be used from an external Website.
