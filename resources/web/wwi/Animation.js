@@ -1,9 +1,5 @@
 'use strict';
-import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
-import InformationPanel from './InformationPanel.js';
-import AnimationSlider from './AnimationSlider.js';
 import WbWorld from './nodes/WbWorld.js';
-import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 
 export default class Animation {
   constructor(jsonPromise, scene, view, gui, loop) {
@@ -53,10 +49,9 @@ export default class Animation {
       // let poses = this.data.frames[0].poses;
       // poses = new Map(poses.map(pose => [pose.id, pose]));
       // this.data.frames[0].poses = poses;
-      const allPoses = new Map();
-      const allLabels = new Map();
-
       for (let i = 0; i < this.numberOfKeyFrames; i++) {
+        const allPoses = new Map();
+        const allLabels = new Map();
         for (let j = (i + 1) * this.keyFrameStepSize; j > i * this.keyFrameStepSize; j--) {
           const poses = this.data.frames[j].poses;
           // poses = new Map(poses.map(pose => [pose.id, pose])); // Convert to map for easier manipulation
@@ -101,7 +96,22 @@ export default class Animation {
               allPoses.set(poses[j].id, currentIdFields);
             }
           }
+        } else { // Check the previous keyFrames to get missing updates
+          let poses = this._keyFrames.get(i - 1).poses;
+          for (let element of poses) {
+            const id = element[0];
+            let currentIdFields = allPoses.has(id) ? allPoses.get(id) : new Map();
+
+            for (let field of element[1]) {
+              if (currentIdFields.has(field[0])) // we want to update each field only once
+                continue;
+              else
+                currentIdFields.set(field[0], field[1]);
+            }
+            allPoses.set(id, currentIdFields);
+          }
         }
+
         this._keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
       }
       this.numberOfFields = new Map();
@@ -153,21 +163,24 @@ export default class Animation {
       // lookback mechanism: search in history
       if (this.step !== this._previousStep + 1) {
         let previousPoseStep;
-        let closestKeyFrame = Math.floor(this.step / this.keyFrameStepSize);
+        const closestKeyFrame = Math.floor(this.step / this.keyFrameStepSize) - 1;
 
-        if (this.step > this._previousStep && this._previousStep > closestKeyFrame * this.keyFrameStepSize)
+        let previousStepIsAKeyFrame = false;
+        if (this.step > this._previousStep && this._previousStep > (closestKeyFrame + 1) * this.keyFrameStepSize)
           previousPoseStep = this._previousStep;
-        else
-          previousPoseStep = closestKeyFrame * this.keyFrameStepSize;
+        else {
+          previousPoseStep = (closestKeyFrame + 1) * this.keyFrameStepSize;
+          previousStepIsAKeyFrame = true;
+        }
 
-        let completeIds = new Set();
-        let appliedFieldsByIds = new Map();
+        const completeIds = new Set();
+        const appliedFieldsByIds = new Map();
         for (let i = this.step; i > previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of step.
           if (this.data.frames[i].poses) {
             for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
-              let id = this.data.frames[i].poses[j].id;
+              const id = this.data.frames[i].poses[j].id;
               if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
-                for (let field in this.data.frames[i]) {
+                for (let field in this.data.frames[i].poses[j]) {
                   if (!appliedFieldsByIds.has(id)) {
                     appliedFieldsByIds.set(id, new Set());
                     appliedFieldsByIds.get(id).add('id');
@@ -181,6 +194,29 @@ export default class Animation {
                     if (appliedFieldsByIds.size === this.numberOfFields.get(id))
                       completeIds.add(id);
                   }
+                }
+              }
+            }
+          }
+        }
+
+        if (previousStepIsAKeyFrame && closestKeyFrame >= 0) {
+          let poses = this._keyFrames.get(closestKeyFrame).poses;
+          for (let element of poses) {
+            const id = element[0];
+            if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
+              for (let field of element[1]) {
+                if (!appliedFieldsByIds.has(id)) {
+                  appliedFieldsByIds.set(id, new Set());
+                  appliedFieldsByIds.get(id).add('id');
+                }
+                if (appliedFieldsByIds.get(id).has(field[0])) // we want to update each field only once
+                  continue;
+                else {
+                  this._scene.applyPose(field[1]);
+                  appliedFieldsByIds.get(id).add(field[0]);
+                  if (appliedFieldsByIds.size === this.numberOfFields.get(id))
+                    completeIds.add(id);
                 }
               }
             }
@@ -203,7 +239,6 @@ export default class Animation {
           }
         }
       } else {
-        console.log("normal update")
         if (this.data.frames[this.step].hasOwnProperty('poses')) {
           const poses = this.data.frames[this.step].poses;
           for (let p = 0; p < poses.length; p++)
