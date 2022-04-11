@@ -89,7 +89,7 @@ export default class Animation {
               allPoses.set(poses[j].id, currentIdFields);
             }
           }
-        } else { // Check the previous keyFrames to get missing updates
+        } else { // Check the previous keyFrame to get missing updates
           const poses = this._keyFrames.get(i - 1).poses;
           for (let element of poses) {
             const id = element[0];
@@ -167,17 +167,19 @@ export default class Animation {
           previousPoseStep = this._previousStep;
         else {
           previousPoseStep = (closestKeyFrame + 1) * this.keyFrameStepSize;
-          previousStepIsAKeyFrame = true;
+          if (this._keyFrames.size > 0)
+            previousStepIsAKeyFrame = true;
         }
 
         const completeIds = new Set();
         const appliedFieldsByIds = new Map();
         const appliedLabelsIds = new Set();
 
-        if (previousPoseStep === 0)
-          previousPoseStep--; // We normally do not want to include the previousStep in the loop as its updates are in the keyFrame. However, we need to include the step 0 in the loop as their is no keyFrame for it
+        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame. However, we need to include it if their is no keyFrames or if it is the step 0 as their is no keyFrame for it
+        if (previousStepIsAKeyFrame || previousPoseStep !== 0)
+          previousPoseStep++;
 
-        for (let i = this.step; i > previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of step.
+        for (let i = this.step; i >= previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of step.
           if (this.data.frames[i].poses) {
             for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
               const id = this.data.frames[i].poses[j].id;

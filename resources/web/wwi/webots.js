@@ -112,10 +112,8 @@ webots.View = class View {
       xmlhttp.onload = () => {
         if (xmlhttp.status === 200 || xmlhttp.status === 0)
           resolve(JSON.parse(xmlhttp.responseText));
-        else {
-          console.log(xmlhttp.readyState)
+        else
           reject(xmlhttp.statusText);
-        }
       };
       xmlhttp.send();
     });
