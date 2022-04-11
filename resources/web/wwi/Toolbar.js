@@ -105,7 +105,7 @@ export default class Toolbar {
     if (typeof click === 'function')
       button.onclick = () => click();
 
-    if (name === 'play') {
+    if (name === 'play' || name === 'run') {
       const buttonElement = document.createElement('div');
       buttonElement.className = 'icon-' + name;
       buttonElement.id = name + '-button-id';
@@ -205,7 +205,7 @@ export default class Toolbar {
       canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
     } else if (this.type === 'streaming') {
       if (document.getElementById('run-button'))
-        isPlaying = isPlaying || document.getElementById('run-button-id').className === 'icon-pause';
+        isPlaying = isPlaying || document.getElementById('run-button-id').className === 'icon-pause-run';
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
@@ -275,7 +275,7 @@ export default class Toolbar {
 
     if (typeof this.runButton !== 'undefined') {
       this.runTooltip.innerHTML = 'Run';
-      this.runButtonElement.className = 'icon icon-run';
+      this.runButtonElement.className = 'icon-run';
     }
 
     this.playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
@@ -1120,7 +1120,7 @@ export default class Toolbar {
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
-    else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause')
+    else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause-run')
       this._view.currentState = 'run';
 
     const state = this._view.currentState;
@@ -1225,7 +1225,7 @@ export default class Toolbar {
       this.minWidth += 44;
     if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
-      this.runButtonElement.className = 'icon-pause';
+      this.runButtonElement.className = 'icon-pause-run';
       this.run();
     }
     this.toolbarLeft.appendChild(this.runButton);
