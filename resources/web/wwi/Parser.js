@@ -104,6 +104,7 @@ export default class Parser {
 
       const numNodes = WbWorld.instance.sceneTree.length;
       WbWorld.instance.sceneTree.forEach((node, i) => {
+        console.log("finalizing node " + (i + 1) + " of " + numNodes);
         //webots.currentView.setProgress('block', 'same', 15 + 85 * (i + 1) / numNodes, 'Finalizing node: ' + (i + 1));
         node.finalize();
       });
