@@ -16,7 +16,10 @@
       </div>
       <div class="connect-container">
         <div class="grid-item"><p>Connect to:</p></div>
-        <div class="grid-item"><input id="IPInput" type="text" size="60" value="ws://localhost:1234" /></div>
+        <div class="grid-item">
+          <input id="IP-input" type="text" size="60" value="ws://localhost:1234"/>
+          <input id="connect-button" type="button" value="Connect"/>
+        </div>
         <div class="grid-item"><p>Mode:</p></div>
         <div class="grid-item">
           <select id="mode">
@@ -26,8 +29,7 @@
         </div>
         <div class="grid-item"><p>Broadcast:</p></div>
         <div class="grid-item">
-          <input id="broadcast" type="checkbox" />
-          <input id="ConnectButton" type="button" value="Connect" />
+          <input id="broadcast" type="checkbox"/>
         </div>
       </div>
     </header>

@@ -15,8 +15,8 @@ if (mobileDevice) {
 }
 
 function init() {
-  ipInput = document.getElementById('IPInput');
-  connectButton = document.getElementById('ConnectButton');
+  ipInput = document.getElementById('IP-input');
+  connectButton = document.getElementById('connect-button');
   modeSelect = document.getElementById('mode');
   broadcast = document.getElementById('broadcast');
 
@@ -35,12 +35,14 @@ function connect() {
 
 function onConnect() {
   connectButton.value = 'Disconnect';
+  connectButton.style.backgroundColor = '#ff3860';
   connectButton.onclick = disconnect;
   connectButton.disabled = false;
 }
 
 function onDisconnect() {
   connectButton.value = 'Connect';
+  connectButton.style.backgroundColor = '#2ecc71';
   connectButton.onclick = connect;
 
   ipInput.disabled = false;

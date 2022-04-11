@@ -45,20 +45,18 @@ body {
   align-self: center;
 }
 
-#ConnectButton {
+#connect-button {
   border: none;
-  border-radius: 5px;
-  background-color: #34495e;
+  border-radius: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 100px;
   color: #fafafa;
-  padding: 2px 10px;
   cursor: pointer;
   margin-left: 10px;
+  background-color: #2ecc71;
 }
 
-#ConnectButton:hover {
+#connect-button:hover {
   opacity: 0.8;
-}
-
-#ConnectButton:active {
-  transform: scale(0.95);
 }
