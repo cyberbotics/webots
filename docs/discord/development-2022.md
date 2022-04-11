@@ -673,3 +673,33 @@ Can you please review the PR and approve it if you believe it is better now?
 ##### Luftwaffel [Moderator] 03/10/2022 01:26:40
 `@Olivier Michel` done. Much better now
 
+##### kimmcg 03/18/2022 15:19:02
+Hi all, There wasn't really a show and tell channel, but I figured I place it here. Here is the Crazyflie flying with velocity control by the keyboard 😁 I still want to work on some ROS twist message intergration and some general fixes, but this has an python and c controller.  It is currently at this github repo: [https://github.com/bitcraze/crazyflie-simulation/](https://github.com/bitcraze/crazyflie-simulation/) but in the coming months I'll work on a PR for the webots repo.
+> **Attachment**: [crazyflie\_world\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/954398533111394304/crazyflie_world_2.mp4)
+
+
+I also want to make a better environment for it as well then this arena. perhaps something with some range finders, rooms and wall following?
+
+##### Max\_K 03/28/2022 11:29:26
+Hi all, I am working on a teleop for the spot with the developed Kinematic from SoftServe. The walking/running does not work yet, but you can move in x,y,z u. roll, pitch, yaw. 
+
+I uploaded the repo here: [https://github.com/METEORITENMAX/webots\_ros2\_spot](https://github.com/METEORITENMAX/webots_ros2_spot)
+
+Maybe someone has suggestions for improvement or wants to participate. I appreciate any comments.
+> **Attachment**: [webots\_teleop.mp4](https://cdn.discordapp.com/attachments/565155651395780609/957964631421386802/webots_teleop.mp4)
+
+##### merdim 03/30/2022 10:44:26
+Check out this procedurally generated elevator model. It has a ROS controller for floor doors and elevator cabin. It will be used for our new multi-floor delivery robot
+> **Attachment**: [smart\_elevator\_kazam.mp4](https://cdn.discordapp.com/attachments/565155651395780609/958678081403518976/smart_elevator_kazam.mp4)
+
+## April
+
+##### Lucas Waelti 04/01/2022 09:34:49
+Hi, can I still find somewhere the nightly build release for `nightly_30_9_2021`?
+
+##### Olivier Michel [Cyberbotics] 04/01/2022 12:35:18
+I don't think so... Unless somebody around here as a backup of it...
+
+##### amna 04/06/2022 06:06:47
+I need to add a robot which talks `@Mat198`
+
