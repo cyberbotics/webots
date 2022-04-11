@@ -205,7 +205,7 @@ export default class Toolbar {
       canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
     } else if (this.type === 'streaming') {
       if (document.getElementById('run-button'))
-        isPlaying = isPlaying || document.getElementById('run-button-id').className === 'icon-pause-run';
+        isPlaying = isPlaying || document.getElementById('run-button-id').className === 'icon-pause';
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
@@ -1120,7 +1120,7 @@ export default class Toolbar {
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
-    else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause-run')
+    else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause')
       this._view.currentState = 'run';
 
     const state = this._view.currentState;
@@ -1225,7 +1225,7 @@ export default class Toolbar {
       this.minWidth += 44;
     if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
-      this.runButtonElement.className = 'icon-pause-run';
+      this.runButtonElement.className = 'icon-pause';
       this.run();
     }
     this.toolbarLeft.appendChild(this.runButton);
