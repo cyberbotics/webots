@@ -114,7 +114,6 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 }
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
-  printf("updateTriangleMesh: %d (%s)\n", mIsCollada, path().toUtf8().constData());
   const QString filePath(path());
   if (filePath.isEmpty())
     return;
@@ -502,7 +501,6 @@ void WbMesh::updateUrl() {
     return;
 
   mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
-  printf("updateUrl: %s %d\n", path().toUtf8().constData(), mIsCollada);
 
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
