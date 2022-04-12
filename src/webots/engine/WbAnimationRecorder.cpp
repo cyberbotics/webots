@@ -440,23 +440,12 @@ void WbAnimationRecorder::stopRecording() {
   const WbWorldInfo *const worldInfo = world->worldInfo();
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
-  out << " \"ids\":\"";
-  bool firstCommand = true;
   QList<WbAnimationCommand *> commandsChangedFromStart;
   foreach (WbAnimationCommand *command, mCommands) {
     // store only ids of nodes that changed during the animation
-    if (command->isChangedFromStart()) {
+    if (command->isChangedFromStart())
       commandsChangedFromStart << command;
-      // cppcheck-suppress knownConditionTrueFalse
-      if (!firstCommand)
-        out << ";";
-      else
-        firstCommand = false;
-      out << command->node()->uniqueId();
-    }
   }
-  out << "\",\n";
-
   out << " \"labelsIds\":\"";
   bool firstLabel = true;
   foreach (QString id, mLabelsIds) {
