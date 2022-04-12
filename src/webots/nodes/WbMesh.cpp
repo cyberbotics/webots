@@ -166,7 +166,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
-  if (mIsCollada)  // rotate around x by 90° to swap Y and Z axis
+  if (mIsCollada)  // rotate around X by 90° to swap Y and Z axis
     scene->mRootNode->mTransformation *= aiMatrix4x4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
 
   // count total number of vertices and faces
