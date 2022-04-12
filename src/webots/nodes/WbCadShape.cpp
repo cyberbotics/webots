@@ -55,7 +55,6 @@ void WbCadShape::init() {
   mWrenEncodeDepthMaterials.clear();
 
   mDownloader = NULL;
-  printf("----------------\n");
 }
 
 WbCadShape::WbCadShape(WbTokenizer *tokenizer) : WbBaseNode("CadShape", tokenizer) {
@@ -195,7 +194,6 @@ void WbCadShape::createWrenObjects() {
 
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
-  printf("--> %s\n", extension.toUtf8().constData());
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
@@ -203,11 +201,8 @@ void WbCadShape::createWrenObjects() {
 
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
-  if (extension == "obj")
+  //if (extension == "obj")
     flags |= aiProcess_FlipUVs;
-
-  // if (extension == "dae")
-  //  flags |= aiProcess_FlipUVs;
 
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
@@ -243,7 +238,7 @@ void WbCadShape::createWrenObjects() {
   int upAxis, upAxisSign, frontAxis, frontAxisSign, coordAxis, coordAxisSign;
   double unitScaleFactor = 1.0;
   if (extension == "obj")
-    frontAxis = 2, coordAxis = 0, upAxis = 1, upAxisSign = -1, frontAxisSign = 1, coordAxisSign = -1;
+    upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
   else
     upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
 
@@ -275,10 +270,8 @@ void WbCadShape::createWrenObjects() {
     node = queue.front();
     queue.pop_front();
 
-    printf("mNumMeshes %d\n", node->mNumMeshes);
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      printf(" > %s\n", mesh->mName.C_Str());
 
       // compute absolute transform of this node from all the parents
       const int vertices = mesh->mNumVertices;
