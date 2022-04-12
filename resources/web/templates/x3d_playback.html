@@ -4,14 +4,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>%title%</title>
-    <!-- <link rel="stylesheet" href="%cssName%"> -->
+    <link rel="stylesheet" href="%cssName%">
+    <!-- <style>.webots-view-container { height: 70vh; }</style> -->
     <script type="module" src="https://cyberbotics.com/wwi/R2022a/WebotsView.js"></script>
   </head>
   <body>
     <div class="title-container">
       <h1>Web %type%: <strong>%title%</strong></h1>
     </div>
-    <div class="webots-view-container" style="margin: 0; height:75vh; display:flex; justify-content: center;" >
+    <div class="webots-view-container" style="margin:0; display:flex; justify-content: center;" >
       <webots-view style="width:100%; display:block; position: relative" data-scene=%x3dName% data-animation=%jsonName%></webots-view>
     </div>
     <div class="description-container">
