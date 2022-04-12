@@ -404,14 +404,14 @@ void WbTransform::showResizeManipulator(bool enabled) {
 void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << QString("<Transform translation='%1' rotation='%2'>")
+  writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'>")
               .arg(translation().toString(WbPrecision::DOUBLE_MAX))
               .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
 
   WbMFNode::Iterator it(children());
   while (it.hasNext()) {
     const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    childNode->exportBoundingObjectToX3D(writer);
+    childNode->write(writer);
   }
 
   writer << "</Transform>";
