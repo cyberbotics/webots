@@ -175,7 +175,7 @@ export default class Animation {
         const appliedFieldsByIds = new Map();
         const appliedLabelsIds = new Set();
 
-        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame. However, we need to include it if there is no keyFrames or if it is the step 0 as their is no keyFrame for it
+        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame. However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
         if (previousStepIsAKeyFrame || previousPoseStep !== 0)
           previousPoseStep++;
 
