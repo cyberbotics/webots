@@ -201,13 +201,12 @@ void WbCadShape::createWrenObjects() {
 
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
-  //if (extension == "obj")
-    flags |= aiProcess_FlipUVs;
+  // if (extension == "obj")
+  flags |= aiProcess_FlipUVs;
 
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
-    warn(
-      tr("Invalid url '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
+    warn(tr("Invalid url '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
   }
 
@@ -233,34 +232,9 @@ void WbCadShape::createWrenObjects() {
     return;
   }
 
-  // Assimp fix for up_axis
-  // Adapted from https://github.com/assimp/assimp/issues/849
-  int upAxis, upAxisSign, frontAxis, frontAxisSign, coordAxis, coordAxisSign;
-  double unitScaleFactor = 1.0;
-  if (extension == "obj")
-    upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
-  else
-    upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
-
-  if (scene->mMetaData) {
-    scene->mMetaData->Get<int>("UpAxis", upAxis);
-    scene->mMetaData->Get<int>("UpAxisSign", upAxisSign);
-    scene->mMetaData->Get<int>("FrontAxis", frontAxis);
-    scene->mMetaData->Get<int>("FrontAxisSign", frontAxisSign);
-    scene->mMetaData->Get<int>("CoordAxis", coordAxis);
-    scene->mMetaData->Get<int>("CoordAxisSign", coordAxisSign);
-    scene->mMetaData->Get<double>("UnitScaleFactor", unitScaleFactor);
-  } else
-    printf("NO meta\n");
-
-  aiVector3D upVec, forwardVec, rightVec;
-  upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
-  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
-  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
-
-  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
-                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-  scene->mRootNode->mTransformation = mat;
+  // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
+  if (extension == "dae")  // rotate around X by 90° to swap Y and Z axis
+    scene->mRootNode->mTransformation *= aiMatrix4x4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
 
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);

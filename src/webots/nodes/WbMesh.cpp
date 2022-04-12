@@ -88,6 +88,7 @@ void WbMesh::downloadUpdate() {
 }
 
 void WbMesh::preFinalize() {
+  mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
 }
 
@@ -171,28 +172,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  // Assimp fix for up_axis
-  // Adapted from https://github.com/assimp/assimp/issues/849
-  int upAxis = 1, upAxisSign = 1, frontAxis = 2, frontAxisSign = 1, coordAxis = 0, coordAxisSign = 1;
-  double unitScaleFactor = 1.0;
-  if (scene->mMetaData) {
-    scene->mMetaData->Get<int>("UpAxis", upAxis);
-    scene->mMetaData->Get<int>("UpAxisSign", upAxisSign);
-    scene->mMetaData->Get<int>("FrontAxis", frontAxis);
-    scene->mMetaData->Get<int>("FrontAxisSign", frontAxisSign);
-    scene->mMetaData->Get<int>("CoordAxis", coordAxis);
-    scene->mMetaData->Get<int>("CoordAxisSign", coordAxisSign);
-    scene->mMetaData->Get<double>("UnitScaleFactor", unitScaleFactor);
-  }
-
-  aiVector3D upVec, forwardVec, rightVec;
-  upVec[upAxis] = upAxisSign * (float)unitScaleFactor;
-  forwardVec[frontAxis] = frontAxisSign * (float)unitScaleFactor;
-  rightVec[coordAxis] = coordAxisSign * (float)unitScaleFactor;
-
-  aiMatrix4x4 mat(rightVec.x, rightVec.y, rightVec.z, 0.0f, upVec.x, upVec.y, upVec.z, 0.0f, forwardVec.x, forwardVec.y,
-                  forwardVec.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-  scene->mRootNode->mTransformation = mat;
+  // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
+  if (mIsCollada)  // rotate around X by 90° to swap Y and Z axis
+    scene->mRootNode->mTransformation *= aiMatrix4x4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
 
   // count total number of vertices and faces
   int totalVertices = 0;
