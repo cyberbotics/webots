@@ -24,6 +24,7 @@ import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSolid from './nodes/WbSolid.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -408,7 +409,6 @@ export default class Parser {
     const id = this._parseId(node);
 
     const type = getNodeAttribute(node, 'type', '').toLowerCase();
-    const isSolid = type === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
@@ -424,15 +424,16 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else {
-      newNode = new WbTransform(id, isSolid, translation, scale, rotation);
+    } else if (type === 'solid') {
+      newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
         const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
       }
-    }
+    } else
+      newNode = new WbTransform(id, translation, scale, rotation);
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
@@ -488,15 +489,15 @@ export default class Parser {
         continue;
 
       if (typeof appearance === 'undefined') {
-        if (isBoundingObject)
-          continue;
-        else if (child.tagName === 'Appearance')
-          appearance = this._parseAppearance(child);
-        else if (child.tagName === 'PBRAppearance')
-          appearance = this._parsePBRAppearance(child);
+        if (!isBoundingObject) {
+          if (child.tagName === 'Appearance')
+            appearance = this._parseAppearance(child);
+          else if (child.tagName === 'PBRAppearance')
+            appearance = this._parsePBRAppearance(child);
 
-        if (typeof appearance !== 'undefined')
-          continue;
+          if (typeof appearance !== 'undefined')
+            continue;
+        }
       }
 
       if (typeof geometry === 'undefined') {
