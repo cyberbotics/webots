@@ -79,10 +79,21 @@ export default class Parser {
     }
 
     webots.currentView.setProgress('block', 'Finalizing...', 0, 'Finalizing');
+    console.log("Finalizing");
 
     return Promise.all(this._promises).then(() => {
+      let percent =  10;
+      let info = "Downloading image";
+      console.log(info);
+      webots.currentView.setProgress('block', 'same', percent, info);
+
       this._promises = [];
       this._downloadingImage.clear();
+
+      percent =  30;
+      info = "Loading resources..."
+      console.log(info);
+      webots.currentView.setProgress('block', 'same', percent, info);
 
       if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' && typeof this.gtaoNoiseTexture !== 'undefined') {
         WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
@@ -91,9 +102,19 @@ export default class Parser {
         this.gtaoNoiseTexture = undefined;
       }
 
+      percent = 40;
+      info = "finalizing viewpoint..."
+      console.log(info);
+      webots.currentView.setProgress('block', 'same', percent, info);
+
       if (typeof WbWorld.instance.viewpoint === 'undefined')
         return;
       WbWorld.instance.viewpoint.finalize();
+
+      percent = 50;
+      info = "Setting up background..."
+      console.log(info);
+      webots.currentView.setProgress('block', 'same', percent, info);
 
       if (typeof WbBackground.instance !== 'undefined') {
         WbBackground.instance.setCubeArray(this.cubeImages);
@@ -104,9 +125,10 @@ export default class Parser {
 
       const numNodes = WbWorld.instance.sceneTree.length;
       WbWorld.instance.sceneTree.forEach((node, i) => {
-        console.log("finalizing node " + (i + 1) + " of " + numNodes);
-        //webots.currentView.setProgress('block', 'same', 15 + 85 * (i + 1) / numNodes, 'Finalizing node: ' + (i + 1));
-        node.finalize();
+        info = "finalizing node " + (i + 1) + " of " + numNodes
+        console.log(info);
+        webots.currentView.setProgress('block', 'same', 60 + 40 * (i + 1) / numNodes, info);
+        node.finalize(); 
       });
 
       WbWorld.instance.readyForUpdates = true;
@@ -234,6 +256,10 @@ export default class Parser {
   _parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
     this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
+      let percent =  60;
+      let info = "Loading texture data";
+      console.log(info);
+      webots.currentView.setProgress('block', 'same', percent, info);
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
     }));
