@@ -108,6 +108,7 @@ graph LR
   subgraph other Nodes
     Appearance[[Appearance](appearance.md)]
     Background[[Background](background.md)]
+    CadShape[[CadShape](cadshape.md)]
     Color[[Color](color.md)]
     ContactProperties[[ContactProperties](contactproperties.md)]
     Coordinate[[Coordinate](coordinate.md)]
@@ -125,7 +126,6 @@ graph LR
     Physics[[Physics](physics.md)]
     Recognition[[Recognition](recognition.md)]
     Shape[[Shape](shape.md)]
-    VisualShape[[VisualShape](visualshape.md)]
     Slot[[Slot](slot.md)]
     SolidReference[[SolidReference](solidreference.md)]
     TextureCoordinate[[TextureCoordinate](texturecoordinate.md)]

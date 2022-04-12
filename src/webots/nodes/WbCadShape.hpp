@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_VISUAL_SHAPE_HPP
-#define WB_VISUAL_SHAPE_HPP
+#ifndef WB_CAD_SHAPE_HPP
+#define WB_CAD_SHAPE_HPP
 
 #include "WbBaseNode.hpp"
 
@@ -31,17 +31,17 @@ struct WrMaterial;
 
 struct aiMaterial;
 
-class WbVisualShape : public WbBaseNode {
+class WbCadShape : public WbBaseNode {
   Q_OBJECT
 
 public:
-  explicit WbVisualShape(WbTokenizer *tokenizer = NULL);
-  WbVisualShape(const WbVisualShape &other);
-  explicit WbVisualShape(const WbNode &other);
-  virtual ~WbVisualShape();
+  explicit WbCadShape(WbTokenizer *tokenizer = NULL);
+  WbCadShape(const WbCadShape &other);
+  explicit WbCadShape(const WbNode &other);
+  virtual ~WbCadShape();
 
   // reimplemented public functions
-  int nodeType() const override { return WB_NODE_VISUAL_SHAPE; }
+  int nodeType() const override { return WB_NODE_CAD_SHAPE; }
   void downloadAssets() override;
   void postFinalize() override;
 
@@ -58,8 +58,8 @@ private slots:
   void downloadUpdate();
 
 private:
-  WbVisualShape &operator=(const WbVisualShape &);  // non copyable
-  WbNode *clone() const override { return new WbVisualShape(*this); }
+  WbCadShape &operator=(const WbCadShape &);  // non copyable
+  WbNode *clone() const override { return new WbCadShape(*this); }
   void init();
 
   WbDownloader *mDownloader;

@@ -2,7 +2,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/utils.js';
 
-export default class WbVisualShape extends WbBaseNode {
+export default class WbCadShape extends WbBaseNode {
   constructor(id, url, ccw, castShadows, isPickable) {
     super(id);
 
@@ -15,17 +15,17 @@ export default class WbVisualShape extends WbBaseNode {
   }
 
   clone(customID) {
-    const colladaShape = new WbVisualShape(customID, this.url, this.ccw, this.castShadows, this.isPickable);
+    const cadShape = new WbCadShape(customID, this.url, this.ccw, this.castShadows, this.isPickable);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
       const cloned = this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
-      colladaShape.children.push(cloned);
+      cadShape.children.push(cloned);
     }
 
     this.useList.push(customID);
-    return colladaShape;
+    return cadShape;
   }
 
   createWrenObjects() {

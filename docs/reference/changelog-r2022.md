@@ -22,13 +22,13 @@ Released on XX, XXth, 2022.
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
-    - The ColladaShapes PROTO was replaced by the [VisualShape](visualshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Dependency Updates:
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Feature Removal:
-    - 3D model import menu option was removed as with the introduction of the [VisualShape](visualshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.

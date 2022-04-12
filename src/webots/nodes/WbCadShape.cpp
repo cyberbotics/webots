@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbVisualShape.hpp"
+#include "WbCadShape.hpp"
 
 #include "WbBackground.hpp"
 #include "WbDownloader.hpp"
@@ -39,7 +39,7 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
-void WbVisualShape::init() {
+void WbCadShape::init() {
   mUrl = findMFString("url");
   mCcw = findSFBool("ccw");
   mCastShadows = findSFBool("castShadows");
@@ -58,24 +58,24 @@ void WbVisualShape::init() {
   printf("----------------\n");
 }
 
-WbVisualShape::WbVisualShape(WbTokenizer *tokenizer) : WbBaseNode("VisualShape", tokenizer) {
+WbCadShape::WbCadShape(WbTokenizer *tokenizer) : WbBaseNode("CadShape", tokenizer) {
   init();
 }
 
-WbVisualShape::WbVisualShape(const WbVisualShape &other) : WbBaseNode(other) {
+WbCadShape::WbCadShape(const WbCadShape &other) : WbBaseNode(other) {
   init();
 }
 
-WbVisualShape::WbVisualShape(const WbNode &other) : WbBaseNode(other) {
+WbCadShape::WbCadShape(const WbNode &other) : WbBaseNode(other) {
   init();
 }
 
-WbVisualShape::~WbVisualShape() {
+WbCadShape::~WbCadShape() {
   if (areWrenObjectsInitialized())
     deleteWrenObjects();
 }
 
-void WbVisualShape::downloadAssets() {
+void WbCadShape::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
@@ -88,26 +88,26 @@ void WbVisualShape::downloadAssets() {
 
   mDownloader = new WbDownloader(this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-    connect(mDownloader, &WbDownloader::complete, this, &WbVisualShape::downloadUpdate);
+    connect(mDownloader, &WbDownloader::complete, this, &WbCadShape::downloadUpdate);
 
   mDownloader->download(QUrl(completeUrl));
 }
 
-void WbVisualShape::downloadUpdate() {
+void WbCadShape::downloadUpdate() {
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
-void WbVisualShape::postFinalize() {
+void WbCadShape::postFinalize() {
   WbBaseNode::postFinalize();
 
-  connect(mUrl, &WbMFString::changed, this, &WbVisualShape::updateUrl);
-  connect(mCcw, &WbSFBool::changed, this, &WbVisualShape::updateCcw);
-  connect(mCastShadows, &WbSFBool::changed, this, &WbVisualShape::updateCastShadows);
-  connect(mIsPickable, &WbSFBool::changed, this, &WbVisualShape::updateIsPickable);
+  connect(mUrl, &WbMFString::changed, this, &WbCadShape::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbCadShape::updateCcw);
+  connect(mCastShadows, &WbSFBool::changed, this, &WbCadShape::updateCastShadows);
+  connect(mIsPickable, &WbSFBool::changed, this, &WbCadShape::updateIsPickable);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
-          &WbVisualShape::createWrenObjects);
+          &WbCadShape::createWrenObjects);
 
   updateUrl();
   updateCcw();
@@ -127,7 +127,7 @@ void WbVisualShape::postFinalize() {
   setSegmentationColor(color);
 }
 
-void WbVisualShape::updateUrl() {
+void WbCadShape::updateUrl() {
   if (colladaPath().isEmpty()) {
     deleteWrenObjects();
     return;
@@ -164,28 +164,28 @@ void WbVisualShape::updateUrl() {
   }
 }
 
-void WbVisualShape::updateCcw() {
+void WbCadShape::updateCcw() {
   for (WrRenderable *renderable : mWrenRenderables)
     wr_renderable_invert_front_face(renderable, !mCcw->value());
 }
 
-void WbVisualShape::updateCastShadows() {
+void WbCadShape::updateCastShadows() {
   for (WrRenderable *renderable : mWrenRenderables)
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
 }
 
-void WbVisualShape::updateIsPickable() {
+void WbCadShape::updateIsPickable() {
   for (WrRenderable *renderable : mWrenRenderables)
     WbWrenPicker::setPickable(renderable, uniqueId(), mIsPickable->value());
 }
 
-void WbVisualShape::setSegmentationColor(const WbRgb &color) {
+void WbCadShape::setSegmentationColor(const WbRgb &color) {
   const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
   for (WrMaterial *segmentationMaterial : mWrenSegmentationMaterials)
     wr_phong_material_set_linear_diffuse(segmentationMaterial, segmentationColor);
 }
 
-void WbVisualShape::createWrenObjects() {
+void WbCadShape::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
   deleteWrenObjects();
@@ -212,7 +212,7 @@ void WbVisualShape::createWrenObjects() {
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
     warn(
-      tr("Invalid url '%1'. VisualShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
+      tr("Invalid url '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
   }
 
@@ -361,7 +361,7 @@ void WbVisualShape::createWrenObjects() {
       WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
-      connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbVisualShape::updateAppearance);
+      connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
 
       WrMaterial *wrenMaterial = wr_pbr_material_new();
       pbrAppearance->modifyWrenMaterial(wrenMaterial);
@@ -404,14 +404,14 @@ void WbVisualShape::createWrenObjects() {
   }
 }
 
-void WbVisualShape::updateAppearance() {
+void WbCadShape::updateAppearance() {
   assert(mPbrAppearances.size() == mWrenMaterials.size());
 
   for (int i = 0; i < mPbrAppearances.size(); ++i)
     mPbrAppearances[i]->modifyWrenMaterial(mWrenMaterials[i]);
 }
 
-void WbVisualShape::deleteWrenObjects() {
+void WbCadShape::deleteWrenObjects() {
   for (WrRenderable *renderable : mWrenRenderables) {
     wr_material_delete(wr_renderable_get_material(renderable, "picking"));
     wr_node_delete(WR_NODE(renderable));
@@ -445,7 +445,7 @@ void WbVisualShape::deleteWrenObjects() {
   mPbrAppearances.clear();
 }
 
-void WbVisualShape::exportNodeContents(WbVrmlWriter &writer) const {
+void WbCadShape::exportNodeContents(WbVrmlWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
@@ -541,6 +541,6 @@ void WbVisualShape::exportNodeContents(WbVrmlWriter &writer) const {
   }
 }
 
-QString WbVisualShape::colladaPath() const {
+QString WbCadShape::colladaPath() const {
   return WbUrl::computePath(this, "url", mUrl, false);
 }

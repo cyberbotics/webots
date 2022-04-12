@@ -245,6 +245,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbBox.cpp \
   WbBrake.cpp \
   WbBuildEditor.cpp \
+  WbCadShape.cpp \
   WbCamera.cpp \
   WbCapsule.cpp \
   WbCharger.cpp \
@@ -450,7 +451,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbVelocityViewer.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
-  WbVisualShape.cpp \
   WbMultimediaStreamingServer.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \

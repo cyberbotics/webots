@@ -302,7 +302,7 @@ protected:
   // copies all the field values
   WbNode(const WbNode &other);
 
-  // constructor for shallow nodes, should be used exclusively by the VisualShape node
+  // constructor for shallow nodes, should be used exclusively by the CadShape node
   WbNode(const QString &modelName, const aiMaterial *material);
   bool mIsShallowNode;
 

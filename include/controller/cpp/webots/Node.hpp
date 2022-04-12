@@ -36,6 +36,7 @@ namespace webots {
       BACKGROUND,
       BILLBOARD,
       BOX,
+      CAD_SHAPE,
       CAPSULE,
       COLOR,
       CONE,
@@ -63,7 +64,6 @@ namespace webots {
       TEXTURE_TRANSFORM,
       TRANSFORM,
       VIEWPOINT,
-      VISUAL_SHAPE,
       // robots
       ROBOT,
       // devices

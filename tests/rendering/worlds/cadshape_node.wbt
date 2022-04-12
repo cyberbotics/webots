@@ -10,7 +10,7 @@ Background {
     0.933333 0.933333 0.92549
   ]
 }
-VisualShape {
+CadShape {
   url [
     "meshes/colored_cube_sign.dae"
   ]
@@ -18,7 +18,7 @@ VisualShape {
 Transform {
   translation 0 5 0
   children [
-    VisualShape {
+    CadShape {
       url [
         "meshes/colored_cube_sign.obj"
       ]
@@ -136,7 +136,7 @@ Robot {
       far 2
     }
   ]
-  controller "visualshape_checker"
+  controller "cadshape_checker"
 }
 Transform {
   translation 0 -5 0

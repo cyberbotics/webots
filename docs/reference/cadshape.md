@@ -1,8 +1,8 @@
 
-## VisualShape
+## CadShape
 
 ```
-VisualShape {
+CadShape {
   MFString url         []
   SFBool   ccw         TRUE
   SFBool   castShadows TRUE
@@ -10,8 +10,8 @@ VisualShape {
 }
 ```
 
-The [VisualShape](#visualshape) node renders a Collada object (.dae) or Wavefront (.obj) imported from an external file.
-Both Collada and Wavefront files can include 3D geometries and appearances, be it materials or references to external textures, therefore the [VisualShape](#visualshape) node builds both.
+The [CadShape](#cadshape) node renders a Collada object (.dae) or Wavefront (.obj) imported from an external file.
+Both Collada and Wavefront files can include 3D geometries and appearances, be it materials or references to external textures, therefore the [CadShape](#cadshape) node builds both.
 If the file references external textures, these should be placed relative to the collada/wavefront file itself as indicated (i.e., in the location expressed within the .dae/.obj file), no additional search is performed for these textures.
 
 
