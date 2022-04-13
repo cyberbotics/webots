@@ -142,8 +142,6 @@ export default class Parser {
       result = this._parseGroup(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Switch')
-      result = this._parseSwitch(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -156,18 +154,27 @@ export default class Parser {
       else
         console.error('This world already has a fog.');
     } else {
-      // Either it is a node added after the whole scene, or it is an unknown node
+      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
       let id;
       if (typeof parentNode !== 'undefined')
         id = parentNode.id;
       result = this._parseGeometry(node, id);
-
       // We are forced to check if the result correspond to the class we expect because of the case of a USE
       if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.geometry !== 'undefined')
-            parentNode.geometry.delete();
-          parentNode.geometry = result;
+        if (typeof parentNode !== 'undefined') {
+          if (parentNode instanceof WbShape) {
+            if (typeof parentNode.geometry !== 'undefined')
+              parentNode.geometry.delete();
+            parentNode.geometry = result;
+          } else if (parentNode instanceof WbSolid) { // Bounding object
+            if (typeof parentNode.boundingObject !== 'undefined')
+              parentNode.boundingObject.delete();
+            const shape = new WbShape(getAnId(), false, false, result);
+            shape.parent = parentNode.id;
+            WbWorld.instance.nodes.set(shape.id, shape);
+            result.parent = shape.id;
+            parentNode.boundingObject = shape;
+          }
         }
       } else if (node.tagName === 'PBRAppearance') {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
@@ -856,31 +863,6 @@ export default class Parser {
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
-  }
-
-  _parseSwitch(node, parent) {
-    if (typeof parent === 'undefined')
-      return;
-
-    const child = node.childNodes[0];
-
-    let boundingObject;
-    if (child.tagName === 'Shape')
-      boundingObject = this._parseShape(child, undefined, true);
-    else if (child.tagName === 'Transform')
-      boundingObject = this._parseTransform(child, undefined, true);
-    else if (child.tagName === 'Group')
-      boundingObject = this._parseGroup(child, undefined, true);
-    else
-      console.error('Unknown boundingObject: ' + child.tagName);
-
-    if (typeof boundingObject === 'undefined')
-      return;
-
-    boundingObject.parent = parent.id;
-    parent.boundingObject = boundingObject;
-
-    return boundingObject;
   }
 
   _parseAppearance(node, parentId) {

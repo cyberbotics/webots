@@ -2,6 +2,7 @@ import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
 import WbBillboard from '../WbBillboard.js';
 import WbTransform from '../WbTransform.js';
+import WbSolid from '../WbSolid.js';
 import WbWorld from '../WbWorld.js';
 
 let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
@@ -112,7 +113,7 @@ function nodeIsInBoundingObject(node) {
 
   const parent = WbWorld.instance.nodes.get(node.parent);
   if (typeof parent !== 'undefined') {
-    if (parent instanceof WbTransform && typeof parent.boundingObject !== 'undefined')
+    if (parent instanceof WbSolid && typeof parent.boundingObject !== 'undefined')
       return parent.boundingObject === node;
     else if (typeof parent.parent !== 'undefined')
       return nodeIsInBoundingObject(parent);
