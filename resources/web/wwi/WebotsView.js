@@ -5,12 +5,15 @@ import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
+webotsView.showIde             // defines whether the IDE button should be displayed.
 webotsView.showPlay            // defines whether the play button should be displayed.
 webotsView.showQuit            // defines whether the quit button should be displayed.
 webotsView.showReload          // defines whether the reload button should be displayed.
 webotsView.showReset           // defines whether the reset button should be displayed.
+webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
 webotsView.showRun             // defines whether the run button should be displayed.
 webotsView.showStep            // defines whether the step button should be displayed.
+webotsView.showWorldSelection  // defines whether the world selection button should be displayed.
 */
 
 export default class WebotsView extends HTMLElement {

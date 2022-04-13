@@ -78,6 +78,9 @@ export default class X3dScene {
   }
 
   destroyWorld() {
+    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' && typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+      document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
+
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;
       while (index >= 0) {
@@ -106,6 +109,14 @@ export default class X3dScene {
 
     object.delete();
 
+    WbWorld.instance.robots.forEach((robot, i) => {
+      if (robot.id === 'n' + id)
+        WbWorld.instance.robots.splice(i, 1);
+    });
+
+    if (document.getElementById('robot-window-button') !== null)
+      document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
+
     this.render();
   }
 
@@ -123,8 +134,8 @@ export default class X3dScene {
       }
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'File not found.';
     };
     xmlhttp.send();
   }
@@ -147,18 +158,16 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = []) {
+  applyPose(pose) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
-      return appliedFields;
+      return;
 
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
 
-    let fields = [...appliedFields];
-
-    fields = this._applyPoseToObject(pose, object, fields);
+    this._applyPoseToObject(pose, object);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -168,26 +177,18 @@ export default class X3dScene {
         // remove a USE node from the list if it has been deleted
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
-      } else {
-        fields = [...appliedFields];
-        fields = this._applyPoseToObject(pose, use, fields);
-      }
+      } else
+        this._applyPoseToObject(pose, use);
 
       --length;
     }
-
-    return fields;
   }
 
-  _applyPoseToObject(pose, object, fields) {
+  _applyPoseToObject(pose, object) {
     for (let key in pose) {
       if (key === 'id')
         continue;
 
-      if (fields.indexOf(key) !== -1)
-        continue;
-
-      let valid = true;
       if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
@@ -242,11 +243,7 @@ export default class X3dScene {
               shape.updateAppearance();
           }
         }
-      } else
-        valid = false;
-
-      if (valid)
-        fields.push(key);
+      }
     }
 
     if (typeof object.parent !== 'undefined') {
@@ -254,8 +251,6 @@ export default class X3dScene {
       if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
-
-    return fields;
   }
 
   applyLabel(label, view) {
@@ -276,8 +271,8 @@ export default class X3dScene {
         data = data.substring(data.indexOf(':') + 1);
         const frame = JSON.parse(data);
         view.time = frame.time;
-        if (document.getElementById('webotsClock'))
-          document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
+        if (document.getElementById('webots-clock'))
+          document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
@@ -314,12 +309,12 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
-      if (document.getElementById('webotsProgressPercent'))
-        document.getElementById('webotsProgressPercent').innerHTML = '';
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Loading 3D scene...';
+      if (document.getElementById('webots-progress-percent'))
+        document.getElementById('webots-progress-percent').innerHTML = '';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

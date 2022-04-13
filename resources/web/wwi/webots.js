@@ -105,7 +105,19 @@ webots.View = class View {
       gui = 'play';
     if (typeof loop === 'undefined')
       loop = true;
-    this.animation = new Animation(url, this.x3dScene, this, gui, loop);
+    let jsonPromise = new Promise((resolve, reject) => {
+      let xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true);
+      xmlhttp.overrideMimeType('application/json');
+      xmlhttp.onload = () => {
+        if (xmlhttp.status === 200 || xmlhttp.status === 0)
+          resolve(JSON.parse(xmlhttp.responseText));
+        else
+          reject(xmlhttp.statusText);
+      };
+      xmlhttp.send();
+    });
+    this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
   open(url, mode) {
@@ -117,15 +129,15 @@ webots.View = class View {
     const initWorld = () => {
       if (typeof this.progress === 'undefined') {
         this.progress = document.createElement('div');
-        this.progress.id = 'webotsProgress';
+        this.progress.id = 'webots-progress';
         this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-        "</div><div id='webotsProgressMessage'>Initializing...</div>" +
-        "</div><div id='webotsProgressPercent'></div>";
+        "</div><div id='webots-progress-message'>Initializing...</div>" +
+        "</div><div id='webots-progress-percent'></div>";
         this.view3D.appendChild(this.progress);
       }
 
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
 
       if (this._isWebSocketProtocol) {
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
@@ -145,8 +157,8 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading World...';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
         if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
@@ -187,11 +199,11 @@ webots.View = class View {
         this.view3D.appendChild(this._x3dDiv);
       }
 
-      this._x3dDiv.className = 'webots3DView';
+      this._x3dDiv.className = 'webots-3d-view';
       this.x3dScene = new X3dScene(this._x3dDiv);
       this.x3dScene.init(texturePathPrefix);
       let param = document.createElement('param');
-      param.name = 'showProgress';
+      param.name = 'show-progress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     } else {
@@ -218,6 +230,8 @@ webots.View = class View {
       this._server.socket.close();
     if (this.stream)
       this.stream.close();
+
+    this.ide = false;
   }
 
   // Functions for internal use.
@@ -234,9 +248,9 @@ webots.View = class View {
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];
-      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionDiv !== 'undefined') {
-        webotsView.toolbar.deleteWorldSelect();
-        webotsView.toolbar.createWorldSelect();
+      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionPane !== 'undefined') {
+        document.getElementById('world-selection-pane').remove();
+        webotsView.toolbar.createWorldSelectionPane();
       }
     }
   }
@@ -277,24 +291,24 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    if (document.getElementById('webotsProgress'))
-      document.getElementById('webotsProgress').style.display = 'none';
+    if (document.getElementById('webots-progress'))
+      document.getElementById('webots-progress').style.display = 'none';
     this.removeLabels();
-    if (document.getElementById('webotsClock'))
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webots-clock'))
+      document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {
     if (this.broadcast)
       return;
     this.close();
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Bye bye...';
-    if (document.getElementById('webotsProgress'))
-      document.getElementById('webotsProgress').style.display = 'block';
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Bye bye...';
+    if (document.getElementById('webots-progress'))
+      document.getElementById('webots-progress').style.display = 'block';
     setTimeout(() => {
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'none';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'none';
     }, 1000);
     this.quitting = true;
     this.onquit();
@@ -338,7 +352,7 @@ webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
     ms = '00' + ms;
   else if (ms < 100)
     ms = '0' + ms;
-  return h + ':' + m + ':' + s + ':' + ms;
+  return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
 };
 
 export {webots};
