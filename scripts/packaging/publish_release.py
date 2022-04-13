@@ -69,6 +69,7 @@ else:
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branchLink, warningMessage)
 
 for release in repo.get_releases():
+    print("Found release: >", release.title, "< searching for >", title, "<")
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
     if release.title == title:
         releaseExists = True
@@ -135,6 +136,7 @@ for release in repo.get_releases():
             rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for file in os.listdir(os.path.join(rootPath, 'distribution')):
             path = os.path.join(rootPath, 'distribution', file)
+            print('candidate file: ', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Asset "%s" already present in release "%s".' % (file, title))
