@@ -424,7 +424,7 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (type === 'solid') {
+    } else if (type === 'solid' || type === 'robot') {
       newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
         const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
