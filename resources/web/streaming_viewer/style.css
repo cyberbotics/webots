@@ -61,7 +61,7 @@ body {
   opacity: 0.8;
 }
 
-.webots-view-containter {
+.webots-view-container {
   margin: 0;
   height: calc(100vh - 176px);
   display: flex;
@@ -70,6 +70,6 @@ body {
 
 webots-view {
   width: 100%;
-  display:block;
+  display: block;
   position: relative;
 }
