@@ -7,6 +7,7 @@ import Server from './Server.js';
 import Stream from './Stream.js';
 import SystemInfo from './system_info.js';
 import X3dScene from './X3dScene.js';
+import {requestFullscreen} from './fullscreen_handler.js';
 
 import WbVector3 from './nodes/utils/WbVector3.js';
 
@@ -73,9 +74,14 @@ webots.View = class View {
     this.view3D.className = view3D.className + ' webotsView';
 
     if (typeof mobile === 'undefined')
-      this._mobileDevice = SystemInfo.isMobileDevice();
+      this.mobileDevice = SystemInfo.isMobileDevice();
     else
-      this._mobileDevice = mobile;
+      this.mobileDevice = mobile;
+
+    if (this.mobileDevice) {
+      requestFullscreen(this);
+      screen.orientation.lock('landscape');
+    }
 
     this.fullscreenEnabled = !SystemInfo.isIOS();
     if (!this.fullscreenEnabled) {
@@ -217,7 +223,7 @@ webots.View = class View {
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
-      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this._mobileDevice);
+      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
     }
 
     initWorld();

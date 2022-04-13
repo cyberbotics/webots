@@ -795,10 +795,11 @@ export default class Toolbar {
   _createFullscreenButtons() {
     this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
     this.toolbarRight.appendChild(this._fullscreenButton);
+    this._view.mobileDevice ? this._fullscreenButton.style.display = 'none' : this._fullscreenButton.style.display = 'visible';
 
     this._exitFullscreenButton = this._createToolBarButton('windowed', 'Exit full screen (f)', () => exitFullscreen());
     this.toolbarRight.appendChild(this._exitFullscreenButton);
-    this._exitFullscreenButton.style.display = 'none';
+    this._view.mobileDevice ? this._exitFullscreenButton.style.display = 'visible' : this._exitFullscreenButton.style.display = 'none';
 
     this.minWidth += 44;
 
