@@ -43,7 +43,7 @@ p {
   position: relative;
   height: calc(0.8 * (100vh - 115px));
   width: calc(100% + 2px);
-  box-shadow: 0 -5px 25px 20px rgba(255, 255, 255, 1);
+  box-shadow: -50px -5px 25px 20px rgba(255, 255, 255, 1);
 }
 
 .description-container {
@@ -65,15 +65,15 @@ p {
   bottom: 0;
   width: 100%;
   background-color: #34495e;
-  box-shadow: 0 0px 25px 20px rgba(255, 255, 255, 1);
+  box-shadow: -50px 0px 25px 20px rgba(255, 255, 255, 1);
   margin: auto;
 }
 
 .bottom-container p {
   color: #fafafa;
-  font-size: 14px;
-  padding-top: 3px;
-  padding-left: 16px;
+  font-size: 12px;
+  padding-top: 5px;
+  padding-left: 24px;
 }
 
 .bottom-container a {

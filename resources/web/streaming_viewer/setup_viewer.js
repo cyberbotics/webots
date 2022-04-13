@@ -35,14 +35,12 @@ function connect() {
 
 function onConnect() {
   connectButton.value = 'Disconnect';
-  connectButton.style.backgroundColor = '#ff3860';
   connectButton.onclick = disconnect;
   connectButton.disabled = false;
 }
 
 function onDisconnect() {
   connectButton.value = 'Connect';
-  connectButton.style.backgroundColor = '#2ecc71';
   connectButton.onclick = connect;
 
   ipInput.disabled = false;

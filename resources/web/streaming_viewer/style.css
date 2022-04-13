@@ -16,19 +16,19 @@ body {
 .title-container {
   position: relative;
   background-color: #34495e;
-  height: 75px;
-  box-shadow: 0 -15px 15px 15px rgba(0,0,0,0.4);
+  height: 65px;
+  box-shadow: 0 -15px 15px 15px rgba(0, 0, 0, 0.4);
   background-image: url("https://cyberbotics.com/assets/images/webots.png");
   background-repeat: no-repeat;
-  background-position: 12px 14px;
-  background-size: 45px;
+  background-position: 16px 11px;
+  background-size: 40px;
   z-index: 1;
 }
 
 .title-container h1 {
   padding-left: 70px;
-  font-size: 30px;
-  font-weight: 400;
+  font-size: 26px;
+  font-weight: 300;
   color: #fafafa;
   position: absolute;
 }
@@ -54,7 +54,7 @@ body {
   color: #fafafa;
   cursor: pointer;
   margin-left: 10px;
-  background-color: #2ecc71;
+  background-color: #34495e;
 }
 
 #connect-button:hover {
