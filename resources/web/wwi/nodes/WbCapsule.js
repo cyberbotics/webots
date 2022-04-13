@@ -1,4 +1,5 @@
 import WbGeometry from './WbGeometry.js';
+import {resetDoubleIfNonPositive, resetIntIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 
 export default class WbCapsule extends WbGeometry {
   constructor(id, radius, height, subdivision, bottom, side, top) {
@@ -19,6 +20,10 @@ export default class WbCapsule extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
 
+    if (super.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
+      this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
+
+    this._sanitizeFields();
     this._buildWrenMesh();
   }
 
@@ -26,6 +31,15 @@ export default class WbCapsule extends WbGeometry {
     _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
+  }
+
+  updateLineScale() {
+    if (!this._isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(1.0 + offset, 1.0 + offset, 1.0 + offset));
   }
 
   // Private functions
@@ -43,11 +57,46 @@ export default class WbCapsule extends WbGeometry {
 
     super._computeWrenRenderable();
 
+    // This must be done after WbGeometry::computeWrenRenderable() otherwise
+    // the outline scaling is applied to the wrong WREN transform
+    if (super.isInBoundingObject())
+      this.updateLineScale();
+
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, false);
+    const createOutlineMesh = super.isInBoundingObject();
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
+  }
+
+  _sanitizeFields() {
+    if (resetIntIfNotInRangeWithIncludedBounds(this.subdivision, 4, 1000, 4))
+      return false;
+    if (this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && super.isInBoundingObject()) {
+      console.warn('"subdivision" value has no effect to physical "boundingObject" geometry. A minimum value of ' + WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION + ' is used for the representation.');
+      this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
+      return false;
+    }
+
+    if (resetDoubleIfNonPositive(this.radius, 1.0))
+      return false;
+
+    if (resetDoubleIfNonPositive(this.height, 1.0))
+      return false;
+
+    return true;
+  }
+
+  _isSuitableForInsertionInBoundingObject() {
+    const invalidRadius = this.radius <= 0.0;
+    const invalidHeight = this.height <= 0.0;
+
+    return (!invalidRadius && !invalidHeight);
+  }
+
+  _isAValidBoundingObject() {
+    return super._isAValidBoundingObject() && this._isSuitableForInsertionInBoundingObject();
   }
 }

@@ -148,3 +148,4 @@ export default class WbGeometry extends WbBaseNode {
 }
 
 WbGeometry.LINE_SCALE_FACTOR = 250.0;
+WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION = 16;
