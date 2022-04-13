@@ -24,7 +24,7 @@ For more details about the HTML export dialog please refer to [this section](web
 
 **Note**: The `CSS` file, the `X3D` file, the `JSON` animation file and the required textures are exported in the same directory as the target `HTML` file.
 
-**Note**: The `CSS` file is meant be used as a styling guide but can be modified/removed.
+**Note**: The `CSS` file is meant to be used as a styling guide but can be modified/removed.
 
 **Note**: The playback option may not work correctly depending on your default Web browser.
 In this case, please refer to the [section below](#remarks-on-the-used-technologies-and-their-limitations).
