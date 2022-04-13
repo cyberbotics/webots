@@ -278,11 +278,11 @@ void Ros::fixName() {
 
   mRobotName = mRobot->getName();
   mRobotName += '_' + webotsPID + '_' + webotsHostname;
-  // remove unhautorized symbols ('-', ' ' and '.') for ROS
+  // remove unauthorized symbols ('-', ' ' and '.') for ROS
   mRobotName = Ros::fixedNameString(mRobotName);
 }
 
-// runs accros the list of devices availables and creates the corresponding RosDevices.
+// runs across the list of devices availables and creates the corresponding RosDevices.
 // also stores pointers to sensors to be able to call their publishValues function at each step
 void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
   int nDevices = mRobot->getNumberOfDevices();
@@ -447,7 +447,7 @@ bool Ros::getDeviceListCallback(webots_ros::robot_get_device_list::Request &req,
                                 webots_ros::robot_get_device_list::Response &res) {
   int nDevices = mRobot->getNumberOfDevices();
   for (int j = 0; j < nDevices; ++j)
-    res.list.push_back(Ros::fixedNameString(mRobot->getDeviceByIndex(j)->getName()));
+    res.list.push_back(mRobot->getDeviceByIndex(j)->getName());
   return true;
 }
 
