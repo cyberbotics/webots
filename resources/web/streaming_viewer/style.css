@@ -60,3 +60,16 @@ body {
 #connect-button:hover {
   opacity: 0.8;
 }
+
+.webots-view-containter {
+  margin: 0;
+  height: calc(100vh - 176px);
+  display: flex;
+  justify-content: center;
+}
+
+webots-view {
+  width: 100%;
+  display:block;
+  position: relative;
+}

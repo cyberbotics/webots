@@ -41,9 +41,18 @@ p {
 
 .webots-view-container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0;
   height: calc(0.8 * (100vh - 115px));
   width: calc(100% + 2px);
   box-shadow: -50px -5px 25px 20px rgba(255, 255, 255, 1);
+}
+
+webots-view {
+  width: 100%;
+  display:block;
+  position: relative;
 }
 
 .description-container {
