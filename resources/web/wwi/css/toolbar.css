@@ -105,8 +105,18 @@ webots-view .icon-play {
   width: 22px;
   height: 22px;
   background: #f0f0f0;
-  transition: all 0.2s ease-in-out;
-  clip-path: polygon(0 0, 50% 25%, 50% 75%, 50% 75%, 50% 25%, 100% 50%, 100% 50%, 0 100%);
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(0 0, 50% 25%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 25%, 50% 25%, 50% 25%, 100% 50%, 100% 50%, 50% 75%, 50% 75%, 50% 75%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 75%, 0 100%);
+}
+
+webots-view .icon-run {
+  margin-top: -2px;
+  margin-left: -9px;
+  width: 33px;
+  height: 33px;
+  background: #f0f0f0;
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(13% 30%, 48% 47%, 48% 50%, 48% 50%, 48% 47%, 48% 47%, 48% 30%, 82% 47%, 82% 30%, 87% 30%, 87% 70%, 82% 70%, 82% 53%, 48% 70%, 48% 53%, 48% 53%, 48% 50%, 48% 50%, 48% 53%, 13% 70%);
 }
 
 webots-view .icon-pause {
@@ -115,8 +125,8 @@ webots-view .icon-pause {
   width: 22px;
   height: 22px;
   background: #f0f0f0;
-  transition: all 0.2s ease-in-out;
-  clip-path: polygon(0 0, 40% 0, 40% 100%, 60% 100%, 60% 0%, 100% 0, 100% 100%, 0 100%);
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(0 0, 40% 0, 40% 50%, 40% 50%, 60% 50%, 60% 50%, 60% 0, 60% 0, 60% 0, 100% 0, 100% 100%, 60% 100%, 60% 100%, 60% 100%, 60% 100%, 60% 50%, 60% 50%, 40% 50%, 40% 100%, 0 100%);
 }
 
 webots-view .icon {
@@ -130,7 +140,6 @@ webots-view .icon {
 
 webots-view .icon-step            { background-image: url(../images/icons/step.svg); background-position: -6px; }
 webots-view .icon-reset           { background-image: url(../images/icons/reset.svg); }
-webots-view .icon-run             { background-image: url(../images/icons/run.svg); }
 webots-view .icon-reset-scene     { background-image: url(../images/icons/reload.svg); }
 webots-view .icon-reload          { background-image: url(../images/icons/reload.svg); }
 webots-view .icon-quit            { background-image: url(../images/icons/quit.svg); }
@@ -236,6 +245,7 @@ webots-view .settings-tooltip,
   .reset-scene-tooltip,
   .world-selection-tooltip,
   .reset-tooltip,
+  .run-tooltip,
   .play-tooltip,
   .step-tooltip,
   .quit-tooltip  {
