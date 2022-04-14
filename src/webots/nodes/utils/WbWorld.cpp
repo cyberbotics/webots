@@ -285,7 +285,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   x3dFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d");
 
   QString cssFileName = fileName;
-  cssFileName.replace(QRegExp(".html$", Qt::CaseInsensitive), ".css");
+  cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
 
   bool success = true;
   QFileInfo fo(fileName);
