@@ -14,6 +14,7 @@
 
 #include "WbExtendedStringEditor.hpp"
 
+#include "WbCadShape.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -31,7 +32,6 @@
 #include "WbSolidReference.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
-#include "WbCadShape.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QEvent>
