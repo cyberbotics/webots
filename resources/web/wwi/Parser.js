@@ -510,16 +510,14 @@ export default class Parser {
       if (typeof child.tagName === 'undefined')
         continue;
 
-      if (typeof appearance === 'undefined') {
-        if (!isBoundingObject) {
-          if (child.tagName === 'Appearance')
-            appearance = this._parseAppearance(child);
-          else if (child.tagName === 'PBRAppearance')
-            appearance = this._parsePBRAppearance(child);
+      if (typeof appearance === 'undefined' && !isBoundingObject) {
+        if (child.tagName === 'Appearance')
+          appearance = this._parseAppearance(child);
+        else if (child.tagName === 'PBRAppearance')
+          appearance = this._parsePBRAppearance(child);
 
-          if (typeof appearance !== 'undefined')
-            continue;
-        }
+        if (typeof appearance !== 'undefined')
+          continue;
       }
 
       if (typeof geometry === 'undefined') {
@@ -527,7 +525,8 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
+      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance')))
+        console.error('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
     }
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
@@ -684,7 +683,7 @@ export default class Parser {
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
     else
-      console.log('Not a recognized geometry: ' + node.tagName);
+      console.error('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -1155,7 +1154,7 @@ function _loadImage(src) {
     img.onload = () => {
       resolve(img);
     };
-    img.onerror = () => console.log('Error in loading: ' + src);
+    img.onerror = () => console.error('Error in loading: ' + src);
     img.setAttribute('crossOrigin', '');
     img.src = src;
   });
