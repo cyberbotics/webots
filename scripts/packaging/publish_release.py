@@ -69,7 +69,6 @@ else:
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branchLink, warningMessage)
 
 for release in repo.get_releases():
-    print("Found release: >", release.title, "< searching for >", title, "<")
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
     if release.title == title:
         releaseExists = True
@@ -124,8 +123,11 @@ if not releaseExists:
         except GithubException as e:
             print('Creation of tag and release failed: ', e.data)
 
+time.sleep(60)  # allow some delay between creating the tag and requesting the existing ones
+releaseFound = False
 for release in repo.get_releases():
     if release.title == title:
+        releaseFound = True
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
@@ -136,7 +138,6 @@ for release in repo.get_releases():
             rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for file in os.listdir(os.path.join(rootPath, 'distribution')):
             path = os.path.join(rootPath, 'distribution', file)
-            print('candidate file: ', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Asset "%s" already present in release "%s".' % (file, title))
@@ -170,4 +171,8 @@ for release in repo.get_releases():
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break
-print('Upload finished.')
+
+if not releaseFound:  # if it does not exists, it should have been created by the script itself
+    print(f'Error, release "{release.title}" should exist by now but does not.')
+else:
+    print('Upload finished.')
