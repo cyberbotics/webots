@@ -47,8 +47,9 @@ void test_color_comparison(int i, int j) {
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  char device_name[10];
+  wb_robot_step(TIME_STEP);
 
+  char device_name[10];
   for (int i = 0; i < NB_CAMERAS; ++i) {
     sprintf(device_name, "camera%d", i);
     cameras[i] = wb_robot_get_device(device_name);
@@ -65,14 +66,16 @@ int main(int argc, char **argv) {
   }
 
   // ensure the mapping applied by CadShape is the same compared to using base nodes (Mesh + PBRAppearance)
-  // collada file and base node counterpart
+  // collada CadShape and base node counterpart
   test_color_comparison(0, 24);
   test_color_comparison(4, 25);
   test_color_comparison(8, 26);
-  // wavefront file and base node counterpart
+  // wavefront CadShape and base node counterpart
   test_color_comparison(12, 27);
   test_color_comparison(16, 28);
   test_color_comparison(20, 29);
+
+  wb_robot_step(TIME_STEP);
 
   ts_send_success();
   return EXIT_SUCCESS;

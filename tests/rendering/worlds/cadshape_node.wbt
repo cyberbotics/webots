@@ -334,6 +334,11 @@ Robot {
       height 32
       far 2
     }
+    TestSuiteEmitter {
+    }
   ]
   controller "cadshape_checker"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
 }
