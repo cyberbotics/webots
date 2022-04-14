@@ -11,18 +11,31 @@
 
   <body>
     <header>
-      <h1>Webots streaming viewer</h1>
-
-      <p> Connect to: <input id="IPInput" type="text" size="60" value="ws://localhost:1234" />
-        mode:
-        <select id="mode">
-          <option value="x3d">X3D</option>
-          <option value="mjpeg">MJPEG</option>
-        </select> broadcast: <input id="broadcast" type="checkbox" />
-        <input id="ConnectButton" type="button" value="Connect" />
-      </p>
+      <div class="title-container">
+        <h1>Webots Streaming Viewer</h1>
+      </div>
+      <div class="connect-container">
+        <div class="grid-item"><p>Connect to:</p></div>
+        <div class="grid-item">
+          <input id="IP-input" type="text" size="50" value="ws://localhost:1234"/>
+          <input id="connect-button" type="button" value="Connect"/>
+        </div>
+        <div class="grid-item"><p>Mode:</p></div>
+        <div class="grid-item">
+          <select id="mode">
+            <option value="x3d">X3D</option>
+            <option value="mjpeg">MJPEG</option>
+          </select>
+        </div>
+        <div class="grid-item"><p>Broadcast:</p></div>
+        <div class="grid-item">
+          <input id="broadcast" type="checkbox"/>
+        </div>
+      </div>
     </header>
-    <webots-view style="height:calc(100% - 120px);padding:20px;"></webots-view>
+    <div class="webots-view-container">
+      <webots-view></webots-view>
+    </div>
     <script type="module" src="https://cyberbotics.com/wwi/R2022a/WebotsView.js"></script>
     <script src="setup_viewer.js"></script>
   </body>
