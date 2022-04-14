@@ -496,7 +496,7 @@ void WbCadShape::exportNodeContents(WbVrmlWriter &writer) const {
 
     writer << "<IndexedFaceSet";
     // export indexes
-    writer << " ccw='" << (mCcw->value() ? "1" : "0") << "'";
+    writer << " ccw='" << (mCcw->value() ? "true" : "false") << "'";
     writer << " coordIndex='" << coordIndexes << "'";
     writer << " normalIndex='" << normalIndexes << "'";
     writer << " texCoordIndex='" << texCoordIndexes << "'>";
