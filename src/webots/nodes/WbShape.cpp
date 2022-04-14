@@ -509,5 +509,5 @@ void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
   writer << "<Shape role='boundingObject'>";
   geometry()->write(writer);
-  writer << "</shape>";
+  writer << "</Shape>";
 }
