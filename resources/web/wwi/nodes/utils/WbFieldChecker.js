@@ -1,8 +1,15 @@
-function resetDoubleIfNonPositive(value, defaultValue) {
+function resetIfNonPositive(value, defaultValue) {
   if (value <= 0) {
     console.error('Invalid ' + value + ' changed to ' + defaultValue + '. The value should be positive.');
-    value = defaultValue;
-    return true;
+    return defaultValue;
+  }
+  return false;
+}
+
+function resetIfNegative(value, defaultValue) {
+  if (value < 0) {
+    console.error('Invalid ' + value + ' changed to ' + defaultValue + '. The value should be non-negative.');
+    return defaultValue;
   }
   return false;
 }
@@ -14,11 +21,11 @@ function resetVector3IfNonPositive(value, defaultValue) {
   }
 }
 
-function resetIntIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
+function resetIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
   if (value < min || value > max) {
     console.error('Invalid ' + value + ' changed to ' + defaultValue + '. The value should be in range [' + min + ', ' + max + '].');
     return defaultValue;
   }
 }
 
-export {resetDoubleIfNonPositive, resetVector3IfNonPositive, resetIntIfNotInRangeWithIncludedBounds};
+export {resetIfNegative, resetIfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds};

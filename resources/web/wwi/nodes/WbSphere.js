@@ -1,5 +1,5 @@
 import WbGeometry from './WbGeometry.js';
-import {resetIntIfNotInRangeWithIncludedBounds, resetDoubleIfNonPositive} from './utils/WbFieldChecker.js';
+import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 
 export default class WbSphere extends WbGeometry {
   constructor(id, radius, ico, subdivision) {
@@ -78,14 +78,14 @@ export default class WbSphere extends WbGeometry {
   _sanitizeFields() {
     let newSubdivision;
     if (this.ico)
-      newSubdivision = resetIntIfNotInRangeWithIncludedBounds(this.subdivision, 1, 5, 1);
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 1, 5, 1);
     else
-      newSubdivision = resetIntIfNotInRangeWithIncludedBounds(this.subdivision, 3, 32, 24);
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 3, 32, 24);
 
     if (newSubdivision)
       this.subdivision = newSubdivision;
 
-    const newRadius = resetDoubleIfNonPositive(this.radius, 1.0);
+    const newRadius = resetIfNonPositive(this.radius, 1.0);
     if (newRadius)
       this.radius = newRadius;
 

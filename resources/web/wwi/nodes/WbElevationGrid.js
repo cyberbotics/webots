@@ -1,5 +1,6 @@
-import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
+import {resetIfNegative, resetIfNonPositive} from './utils/WbFieldChecker.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 
 export default class WbElevationGrid extends WbGeometry {
   constructor(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness) {
@@ -44,6 +45,10 @@ export default class WbElevationGrid extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
+  preFinalize() {
+    super.preFinalize();
+    this._sanitizeFields();
+  }
   // Private functions
 
   _buildWrenMesh() {
@@ -67,7 +72,7 @@ export default class WbElevationGrid extends WbGeometry {
 
     // convert height values to float, pad with zeroes if necessary
     const numValues = this.xDimension * this.yDimension;
-    const heightData = [];
+    const heightData = new Array(numValues).fill(0);
 
     const availableValues = Math.min(numValues, this.height.length);
     for (let i = 0; i < availableValues; ++i)
@@ -98,5 +103,39 @@ export default class WbElevationGrid extends WbGeometry {
     const invalid = invalidDimensions || invalidSpacings;
 
     return !invalid;
+  }
+
+  _sanitizeFields() {
+    const newTickness = resetIfNegative(this.thickness, 0.0)
+    if (newTickness)
+      this.thickness = newTickness;
+
+    const newXDimension = resetIfNegative(this.xDimension, 0)
+    if (newXDimension)
+      this.xDimension = newXDimension;
+
+    const newXSpacing = resetIfNonPositive(this.xSpacing, 1.0)
+    if (newXSpacing)
+      this.xSpacing = newXSpacing;
+
+    const newYDimension = resetIfNegative(this.yDimension, 0)
+    if (newYDimension)
+      this.yDimension = newYDimension;
+
+    const newYSpacing = resetIfNonPositive(this.ySpacing, 1.0);
+    if (newYSpacing)
+      this.ySpacing = newYSpacing;
+
+    this._checkHeight();
+
+    return !newTickness && !newXDimension && !newXSpacing && !newYDimension && !newYSpacing;
+  }
+
+  _checkHeight() {
+    const xdyd = this.xDimension * this.yDimension;
+
+    const extra = this.height.length - xdyd;
+    if (extra > 0)
+      console.warn('"height" contains ' + extra + ' ignored extra value(s).');
   }
 }

@@ -1,5 +1,5 @@
 import WbGeometry from './WbGeometry.js';
-import {resetDoubleIfNonPositive, resetIntIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 
 export default class WbCapsule extends WbGeometry {
   constructor(id, radius, height, subdivision, bottom, side, top) {
@@ -72,15 +72,15 @@ export default class WbCapsule extends WbGeometry {
   }
 
   _sanitizeFields() {
-    const newSubdivision = resetIntIfNotInRangeWithIncludedBounds(this.subdivision, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION, 1000, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+    const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION, 1000, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
     if (newSubdivision)
       this.subdivision = newSubdivision;
 
-    const newRadius = resetDoubleIfNonPositive(this.radius, 1.0);
+    const newRadius = resetIfNonPositive(this.radius, 1.0);
     if (newRadius)
       this.radius = newRadius;
 
-    const newHeight = resetDoubleIfNonPositive(this.height, 1.0);
+    const newHeight = resetIfNonPositive(this.height, 1.0);
     if (newHeight)
       this.height = newHeight;
 
