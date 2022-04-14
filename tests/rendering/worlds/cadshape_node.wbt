@@ -2,34 +2,81 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.30542991226922667 0.007759942236549574 0.9521829403994265 3.0932278433304843
-  position 16.58929372076574 -0.04765184437719912 12.470750975030917
+  orientation -0.31753847868864177 -0.115766336111144 0.9411522034057535 3.802666305652855
+  position 9.400060035283518 12.958830436021646 11.48210099652907
 }
 Background {
   skyColor [
     0.933333 0.933333 0.92549
   ]
 }
-CadShape {
-  url [
-    "meshes/colored_cube_sign.dae"
+DEF DAE Transform {
+  children [
+    CadShape {
+      url [
+        "meshes/colored_cube.dae"
+      ]
+    }
   ]
 }
-Transform {
+DEF DAE_BASENODE Transform {
+  translation -5 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "meshes/Cube.jpg"
+          ]
+        }
+        roughness 0.960784
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "meshes/colored_cube.dae"
+        ]
+      }
+    }
+  ]
+}
+DEF OBJ Transform {
   translation 0 5 0
   children [
     CadShape {
       url [
-        "meshes/colored_cube_sign.obj"
+        "meshes/colored_cube.obj"
       ]
+    }
+  ]
+}
+DEF OBJ_BASENODE Transform {
+  translation -5 5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "meshes/Cube.jpg"
+          ]
+        }
+        roughness 0.117647
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "meshes/colored_cube.obj"
+        ]
+      }
     }
   ]
 }
 Robot {
   children [
     Camera {
-      translation -0.75 -3 -0.75
-      rotation 0 0 1 1.5708
+      translation -0.75 3 -0.75
+      rotation 0 0 1 -1.5707953071795862
       name "camera0"
       fieldOfView 0.1
       width 32
@@ -37,8 +84,8 @@ Robot {
       far 2
     }
     Camera {
-      translation 0.75 -3 0.75
-      rotation 0 0 1 1.5708
+      translation 0.75 3 0.75
+      rotation 0 0 1 -1.5707953071795862
       name "camera1"
       fieldOfView 0.1
       width 32
@@ -46,8 +93,8 @@ Robot {
       far 2
     }
     Camera {
-      translation 0.75 -3 -0.75
-      rotation 0 0 1 1.5708
+      translation 0.75 3 -0.75
+      rotation 0 0 1 -1.5707953071795862
       name "camera2"
       fieldOfView 0.1
       width 32
@@ -55,8 +102,8 @@ Robot {
       far 2
     }
     Camera {
-      translation -0.75 -3 0.75
-      rotation 0 0 1 1.5708
+      translation -0.75 3 0.75
+      rotation 0 0 1 -1.5707953071795862
       name "camera3"
       fieldOfView 0.1
       width 32
@@ -100,8 +147,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 3 0.75 0.75
-      rotation 0 1 0 3.14159
+      translation -3 0.75 0.75
       name "camera8"
       fieldOfView 0.1
       width 32
@@ -109,8 +155,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 3 -0.75 0.75
-      rotation 0 1 0 3.14159
+      translation -3 -0.75 0.75
       name "camera9"
       fieldOfView 0.1
       width 32
@@ -118,8 +163,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 3 -0.75 -0.75
-      rotation 0 1 0 3.14159
+      translation -3 -0.75 -0.75
       name "camera10"
       fieldOfView 0.1
       width 32
@@ -127,8 +171,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 3 0.75 -0.75
-      rotation 0 1 0 3.14159
+      translation -3 0.75 -0.75
       name "camera11"
       fieldOfView 0.1
       width 32
@@ -137,23 +180,4 @@ Robot {
     }
   ]
   controller "cadshape_checker"
-}
-Transform {
-  translation 0 -5 0
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "meshes/Cube.jpg"
-          ]
-        }
-      }
-      geometry Mesh {
-        url [
-          "meshes/colored_cube_sign.obj"
-        ]
-      }
-    }
-  ]
 }

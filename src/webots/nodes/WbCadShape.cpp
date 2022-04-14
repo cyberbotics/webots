@@ -200,9 +200,8 @@ void WbCadShape::createWrenObjects() {
                               aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
 
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
-  // if (extension == "obj")
-  flags |= aiProcess_FlipUVs;
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                       aiProcess_FlipUVs;
 
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
@@ -234,7 +233,8 @@ void WbCadShape::createWrenObjects() {
 
   // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
   if (extension == "dae")  // rotate around X by 90° to swap Y and Z axis
-    scene->mRootNode->mTransformation *= aiMatrix4x4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
+    scene->mRootNode->mTransformation =
+      aiMatrix4x4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1) * scene->mRootNode->mTransformation;
 
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
