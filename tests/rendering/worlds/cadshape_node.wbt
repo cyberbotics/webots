@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.31753847868864177 -0.115766336111144 0.9411522034057535 3.802666305652855
-  position 9.400060035283518 12.958830436021646 11.48210099652907
+  orientation -0.3917597715993043 -0.10195453356085624 0.9144011999351538 3.608850516385263
+  position 12.150393734538635 10.813862438768014 17.434126279054645
 }
 Background {
   skyColor [
@@ -173,6 +173,162 @@ Robot {
     Camera {
       translation -3 0.75 -0.75
       name "camera11"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 8 -0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera12"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 8 0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera13"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 8 -0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera14"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 8 0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera15"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 5.75 3
+      rotation 0 1 0 1.5708
+      name "camera16"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0.75 4.25 3
+      rotation 0 1 0 1.5708
+      name "camera17"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 4.25 3
+      rotation 0 1 0 1.5708
+      name "camera18"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -0.75 5.75 3
+      rotation 0 1 0 1.5708
+      name "camera19"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -3 5.75 0.75
+      name "camera20"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -3 4.25 0.75
+      name "camera21"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -3 4.25 -0.75
+      name "camera22"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -3 5.75 -0.75
+      name "camera23"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -5.75 3 -0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera24"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -4.25 0.75 3
+      rotation 0 1 0 1.5708
+      name "camera25"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -8 0.75 0.75
+      name "camera26"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -5.75 8 -0.75
+      rotation 0 0 1 -1.5707953071795862
+      name "camera27"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -4.25 5.75 3
+      rotation 0 1 0 1.5708
+      name "camera28"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation -8 5.75 0.75
+      name "camera29"
       fieldOfView 0.1
       width 32
       height 32
