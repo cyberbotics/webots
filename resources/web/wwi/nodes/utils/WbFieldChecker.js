@@ -14,6 +14,13 @@ function resetIfNegative(value, defaultValue) {
   return false;
 }
 
+function resetVector2IfNonPositive(value, defaultValue) {
+  if (value.x <= 0 || value.y <= 0) {
+    console.error('Invalid (' + value.x + ' ' + value.y + ') changed to (' + defaultValue.x + ' ' + defaultValue.y + '). The values should be positive.');
+    return defaultValue;
+  }
+}
+
 function resetVector3IfNonPositive(value, defaultValue) {
   if (value.x <= 0 || value.y <= 0 || value.z <= 0) {
     console.error('Box: Invalid "size" changed to ' + defaultValue.x + ' ' + defaultValue.y + ' ' + defaultValue.z + '. The value should be positive.');
@@ -28,4 +35,4 @@ function resetIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
   }
 }
 
-export {resetIfNegative, resetIfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds};
+export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds};
