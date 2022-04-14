@@ -72,7 +72,8 @@ export default class WbCapsule extends WbGeometry {
   }
 
   _sanitizeFields() {
-    const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION, 1000, WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+    const minSubdivision = super.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 4;
+    const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, minSubdivision, 1000, minSubdivision);
     if (newSubdivision)
       this.subdivision = newSubdivision;
 
