@@ -139,7 +139,7 @@ export default class Parser {
     else if (node.tagName === 'Billboard')
       result = this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
-      result = this._parseGroup(node, parentNode, isBoundingObject);
+      result = this._parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'DirectionalLight')
@@ -442,16 +442,23 @@ export default class Parser {
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
       }
-    } else
+    } else {
+      if (!isBoundingObject)
+        isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+
       newNode = new WbTransform(id, translation, scale, rotation);
+    }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
     this._parseChildren(node, newNode, isBoundingObject);
+
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
+      else if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -459,7 +466,7 @@ export default class Parser {
     return newNode;
   }
 
-  _parseGroup(node, parentNode, isBoundingObject) {
+  _parseGroup(node, parentNode) {
     const use = this._checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -467,15 +474,18 @@ export default class Parser {
     const id = this._parseId(node);
 
     const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
-
     WbWorld.instance.nodes.set(group.id, group);
     this._parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
       group.parent = parentNode.id;
-      parentNode.children.push(group);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = group;
+      else
+        parentNode.children.push(group);
     }
 
     return group;
@@ -490,9 +500,11 @@ export default class Parser {
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+    if (!isBoundingObject)
+      isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+
     let geometry;
     let appearance;
-
     for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
@@ -521,7 +533,10 @@ export default class Parser {
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if (typeof parentNode !== 'undefined') {
-      parentNode.children.push(shape);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = shape;
+      else
+        parentNode.children.push(shape);
       shape.parent = parentNode.id;
     }
 
