@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
   remove("animation.html");
   remove("animation.json");
   remove("animation.x3d");
+  remove("animation.css");
 
   bool success;
 
