@@ -123,8 +123,11 @@ if not releaseExists:
         except GithubException as e:
             print('Creation of tag and release failed: ', e.data)
 
+time.sleep(60)  # allow some delay between creating the tag and requesting the existing ones
+releaseFound = False
 for release in repo.get_releases():
     if release.title == title:
+        releaseFound = True
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
@@ -168,4 +171,8 @@ for release in repo.get_releases():
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break
-print('Upload finished.')
+
+if not releaseFound:  # if it does not exist, it should have been created by the script itself
+    print('Error, release "%s" should exist by now but does not.' % release.title)
+else:
+    print('Upload finished.')
