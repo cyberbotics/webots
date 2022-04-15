@@ -23,11 +23,12 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
 
   success = wb_supervisor_animation_stop_recording();
-  ts_assert_boolean_equal(success, "Animation start recording has failed.");
+  ts_assert_boolean_equal(success, "Animation stop recording has failed.");
 
   ts_assert_boolean_equal(file_exists("animation.html"), "animation.html not created.");
   ts_assert_boolean_equal(file_exists("animation.json"), "animation.json not created.");
   ts_assert_boolean_equal(file_exists("animation.x3d"), "animation.x3d not created.");
+  ts_assert_boolean_equal(file_exists("animation.css"), "animation.css not created.");
 
   ts_send_success();
   return EXIT_SUCCESS;
