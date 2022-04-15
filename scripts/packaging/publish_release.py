@@ -173,6 +173,6 @@ for release in repo.get_releases():
         break
 
 if not releaseFound:  # if it does not exist, it should have been created by the script itself
-    print(f'Error, release "{release.title}" should exist by now but does not.')
+    print('Error, release "%s" should exist by now but does not.' % release.title)
 else:
     print('Upload finished.')
