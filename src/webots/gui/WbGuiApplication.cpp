@@ -34,7 +34,6 @@
 #include "WbWrenOpenGlContext.hpp"
 #include "WbX3dStreamingServer.hpp"
 
-#include <QtCore/QCommandLineParser>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -194,278 +193,114 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
-  // Integration of QCommandLineParser
-  QCommandLineParser parser;
-  parser.addHelpOption();
-  parser.addVersionOption();
-  parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  QCommandLineOption minimizeOption("minimize", QCoreApplication::translate("main", "Minimize the window"));
-  parser.addOption(minimizeOption);
-  QCommandLineOption fullscreenOption("fullscreen", QCoreApplication::translate("main", "View window in fullscreen"));
-  parser.addOption(fullscreenOption);
-  QCommandLineOption modeOption("mode",
-                                QCoreApplication::translate("main", "Specify speed of simulation (default is realtime)"),
-                                QCoreApplication::translate("main", "speed"), "realtime");
-  parser.addOption(modeOption);
-  QCommandLineOption convertOption("convert", QCoreApplication::translate("main", "Convert."));
-  parser.addOption(convertOption);
-  QCommandLineOption noRenderingOption("no-rendering", QCoreApplication::translate("main", "No rendering"));
-  parser.addOption(noRenderingOption);
-  QCommandLineOption sysinfoOption("sysinfo", QCoreApplication::translate("main", "System information"));
-  parser.addOption(sysinfoOption);
-  QCommandLineOption batchOption("batch", QCoreApplication::translate("main", "Batch"));
-  parser.addOption(batchOption);
-  QCommandLineOption updateProtoCacheOption("update-proto-cache", QCoreApplication::translate("main", "Update the PROTO cache"),
-                                            QCoreApplication::translate("main", "task"));
-  parser.addOption(updateProtoCacheOption);
-  QCommandLineOption updateWorldOption("update-world", QCoreApplication::translate("main", "Update world"));
-  parser.addOption(updateWorldOption);
-  QCommandLineOption x3DMetaFileExportOption("enable-x3d-meta-file-export",
-                                             QCoreApplication::translate("main", "Enable x3d meta file export"));
-  parser.addOption(x3DMetaFileExportOption);
-  QCommandLineOption streamOption("stream", QCoreApplication::translate("main", "Stream"));
-  parser.addOption(streamOption);
-  QCommandLineOption stdoutOption("stdout", QCoreApplication::translate("main", "stdout"));
-  parser.addOption(stdoutOption);
-  QCommandLineOption stderrOption("stderr", QCoreApplication::translate("main", "stderr"));
-  parser.addOption(stderrOption);
-  QCommandLineOption logPerfomanceOption("log-performance", QCoreApplication::translate("main", "Log performance"),
-                                         QCoreApplication::translate("main", "logArgument"));
-  parser.addOption(logPerfomanceOption);
-  parser.addOptions({
-    {"disable-logging", QCoreApplication::translate("main", "Disable logging")},
-    {"enable-logging", QCoreApplication::translate("main", "Enable logging")},
-    {"log-level", QCoreApplication::translate("main", "Log level")},
-    {"no-sandbox", QCoreApplication::translate("main", "No sandbox")},
-    {"single-process", QCoreApplication::translate("main", "Single Process")},
-    {"remote-debugging-port", QCoreApplication::translate("main", "Remote Debugging Port")},
-  });
-
-  parser.process(QCoreApplication::arguments());
-  parser.parse(QCoreApplication::arguments());
-
-  QStringList args = parser.optionNames();
-  // const QStringList args = parser.optionNames();
-  //
+  QStringList args = arguments();
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
 
-  while (!args.isEmpty()) {
-    const QString subCommand = args.first();
-    if (subCommand == "minimize" && parser.isSet(minimizeOption)) {
-      args.pop_front();
+  const int size = args.size();
+  for (int i = 1; i < size; ++i) {
+    const QString &arg = args[i];
+    if (arg == "--minimize")
       mShouldMinimize = true;
-    } else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption)) {
-      args.pop_front();
+    else if (arg == "--fullscreen")
       mShouldStartFullscreen = true;
-    } else if (subCommand == "mode" && parser.isSet(modeOption)) {
-      args.pop_front();
-      QStringList mode = parser.values(modeOption);
-      if (mode.size() != 1) {
-        fprintf(stderr, "%s\n", qPrintable(QCoreApplication::translate("main", "Error: Must specify one mode argument.")));
-        parser.showHelp(1);
-      }
-      if (mode[0] == "stop") {
-        cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
-        mStartupMode = WbSimulationState::PAUSE;
-      } else if (mode[0] == "pause")
-        mStartupMode = WbSimulationState::PAUSE;
-      else if (mode[0] == "realtime")
-        mStartupMode = WbSimulationState::REALTIME;
-      else if (mode[0] == "fast")
-        mStartupMode = WbSimulationState::FAST;
-      else if (mode[0] == "run") {
-        cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
-        mStartupMode = WbSimulationState::FAST;
-      }
-
-    } else if (subCommand == "no-rendering" && parser.isSet(noRenderingOption)) {
-      args.pop_front();
+    else if (arg == "--mode=stop") {
+      cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
+      mStartupMode = WbSimulationState::PAUSE;
+    } else if (arg == "--mode=pause")
+      mStartupMode = WbSimulationState::PAUSE;
+    else if (arg == "--mode=realtime")
+      mStartupMode = WbSimulationState::REALTIME;
+    else if (arg == "--mode=fast")
+      mStartupMode = WbSimulationState::FAST;
+    else if (arg == "--mode=run") {
+      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      mStartupMode = WbSimulationState::FAST;
+    } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
-    } else if (subCommand == "convert" && parser.isSet(convertOption)) {
-      mTaskArguments = args;
-      args.pop_front();
+    else if (arg == "convert") {
       mTask = CONVERT;
-    } else if (subCommand == "sysinfo" && parser.isSet(sysinfoOption)) {
-      args.pop_front();
+      mTaskArguments = args.mid(i);
+      break;
+    } else if (arg == "--help")
+      mTask = HELP;
+    else if (arg == "--sysinfo")
       mTask = SYSINFO;
-    } else if (subCommand == "batch" && parser.isSet(batchOption)) {
-      args.pop_front();
+    else if (arg == "--version")
+      mTask = VERSION;
+    else if (arg == "--batch") {
       batch = true;
       WbMessageBox::disable();
-    } else if (subCommand == "update-proto-cache" && parser.isSet(updateProtoCacheOption)) {
-      args.pop_front();
-      QStringList protoCacheUpdate = parser.values(updateProtoCacheOption);
-      if (protoCacheUpdate.size() == 1)
-        mTaskArguments.append(protoCacheUpdate[0]);
+    } else if (arg.startsWith("--update-proto-cache")) {
+      QStringList items = arg.split('=');
+      if (items.size() > 1)
+        mTaskArguments.append(items[1]);
       else
         mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
-    } else if (subCommand == "update-world" && parser.isSet(updateWorldOption)) {
-      args.pop_front();
+    } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
-    } else if (subCommand == "enable-x3d-meta-file-export" && parser.isSet(x3DMetaFileExportOption)) {
-      args.pop_front();
+    else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
-    } else if (subCommand == "stream" && parser.isSet(streamOption)) {
-      args.pop_front();
-      QStringList streamArgument = parser.values(streamOption);
-      if (streamArgument.size() != 1) {
-        fprintf(stderr, "%s\n",
-                qPrintable(QCoreApplication::translate(
-                  "main", "webots: invalid option : '--log-performance': log file path is missing.")));
-        parser.showHelp(1);
-      }
+    else if (arg.startsWith("--stream")) {
       stream = true;
-      parseStreamArguments(streamArgument[0]);
-    } else if (subCommand == "stdout" && parser.isSet(stdoutOption)) {
-      args.pop_front();
+      QString serverArgument;
+      int equalCharacterIndex = arg.indexOf('=');
+      if (equalCharacterIndex != -1) {
+        serverArgument = arg.mid(equalCharacterIndex + 1);
+        // remove starting/trailing double quotes
+        if (serverArgument.startsWith('"'))
+          serverArgument = serverArgument.right(serverArgument.size() - 1);
+        if (serverArgument.endsWith('"'))
+          serverArgument = serverArgument.left(serverArgument.size() - 1);
+      }
+      parseStreamArguments(serverArgument);
+    } else if (arg == "--stdout")
       WbLog::enableStdOutRedirectToTerminal();
-    } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
-      args.pop_front();
+    else if (arg == "--stderr")
       WbLog::enableStdErrRedirectToTerminal();
-    } else if (subCommand == "log-performance" && parser.isSet(logPerfomanceOption)) {
-      QStringList logArgument = parser.values(logPerfomanceOption);
-      if (logArgument[0].contains(",")) {
-        QStringList argumentsList = logArgument[0].split(",");
-        WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
-      } else {
-        WbPerformanceLog::createInstance(logArgument[0]);
-        logPerformanceMode = true;
-      }
-      if (logArgument.size() != 1) {
-        fprintf(stderr, "%s\n",
-                qPrintable(QCoreApplication::translate(
-                  "main", "webots: invalid option : '--log-performance': log file path is missing.")));
-        parser.showHelp(1);
-      }
+    else if (arg.startsWith("--log-performance")) {
+      int equalCharacterIndex = arg.indexOf('=');
+      if (equalCharacterIndex != -1) {
+        QString logArgument = arg.mid(equalCharacterIndex + 1);
+        // remove starting/trailing double quotes
+        if (logArgument.startsWith('"'))
+          logArgument = logArgument.right(logArgument.size() - 1);
+        if (logArgument.endsWith('"'))
+          logArgument = logArgument.left(logArgument.size() - 1);
 
+        if (logArgument.contains(",")) {
+          QStringList argumentsList = logArgument.split(",");
+          WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
+        } else
+          WbPerformanceLog::createInstance(logArgument);
+
+        logPerformanceMode = true;
+      } else
+        cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
     }
 #ifndef _WIN32
-    else if (subCommand == "disable-gpu" || subCommand == "disable-logging" || subCommand == "enable-logging" ||
-             subCommand == "log-level") || subCommand == "no-sandbox" || subCommand == "single-process" || subCommand == "remote-debugging-port")) {
-        // Silently ignore the awesome QWebEngine debugging tools:
-        // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
-      }
+    else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
+             arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
+             arg.startsWith("--remote-debugging-port=")) {
+      // Silently ignore the awesome QWebEngine debugging tools:
+      // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
+    }
 #endif
-    else {
+    else if (arg.startsWith("-")) {
+      cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
+      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+      mTask = FAILURE;
+    } else {
       if (mStartWorldName.isEmpty())
-        mStartWorldName = QDir::fromNativeSeparators(subCommand);
+        mStartWorldName = QDir::fromNativeSeparators(arg);
       else {
-        fprintf(stderr, "%s\n", qPrintable(QCoreApplication::translate("main", "webots: too many arguments.")));
-        parser.showHelp(1);
+        cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
+        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mTask = FAILURE;
       }
     }
   }
-
-  /*
-    const int size = args.size();
-    for (int i = 1; i < size; ++i) {
-      const QString &arg = args[i];
-      if (arg == "--minimize")
-        mShouldMinimize = true;
-      else if (arg == "--fullscreen")
-        mShouldStartFullscreen = true;
-      // else if (arg == "--mode=stop") {
-      //   cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() <<
-  endl;
-      //   mStartupMode = WbSimulationState::PAUSE;
-      // }
-      else if (arg == "--mode=pause")
-        mStartupMode = WbSimulationState::PAUSE;
-      else if (arg == "--mode=realtime")
-        mStartupMode = WbSimulationState::REALTIME;
-      else if (arg == "--mode=fast")
-        mStartupMode = WbSimulationState::FAST;
-      else if (arg == "--mode=run") {
-        cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
-        mStartupMode = WbSimulationState::FAST;
-      } else if (arg == "--no-rendering")
-        mShouldDoRendering = false;
-      else if (arg == "convert") {
-        mTask = CONVERT;
-        mTaskArguments = args.mid(i);
-        break;
-      } else if (arg == "--help")
-        mTask = HELP;
-      else if (arg == "--sysinfo")
-        mTask = SYSINFO;
-      else if (arg == "--version")
-        mTask = VERSION;
-      else if (arg == "--batch") {
-        batch = true;
-        WbMessageBox::disable();
-      } else if (arg.startsWith("--update-proto-cache")) {
-        QStringList items = arg.split('=');
-        if (items.size() > 1)
-          mTaskArguments.append(items[1]);
-        else
-          mTaskArguments.clear();
-        mTask = UPDATE_PROTO_CACHE;
-      } else if (arg.startsWith("--update-world"))
-        mTask = UPDATE_WORLD;
-      else if (arg == "--enable-x3d-meta-file-export")
-        WbWorld::enableX3DMetaFileExport();
-      else if (arg.startsWith("--stream")) {
-        stream = true;
-        QString serverArgument;
-        int equalCharacterIndex = arg.indexOf('=');
-        if (equalCharacterIndex != -1) {
-          serverArgument = arg.mid(equalCharacterIndex + 1);
-          // remove starting/trailing double quotes
-          if (serverArgument.startsWith('"'))
-            serverArgument = serverArgument.right(serverArgument.size() - 1);
-          if (serverArgument.endsWith('"'))
-            serverArgument = serverArgument.left(serverArgument.size() - 1);
-        }
-        parseStreamArguments(serverArgument);
-      } else if (arg == "--stdout")
-        WbLog::enableStdOutRedirectToTerminal();
-      else if (arg == "--stderr")
-        WbLog::enableStdErrRedirectToTerminal();
-      else if (arg.startsWith("--log-performance")) {
-        int equalCharacterIndex = arg.indexOf('=');
-        if (equalCharacterIndex != -1) {
-          QString logArgument = arg.mid(equalCharacterIndex + 1);
-          // remove starting/trailing double quotes
-          if (logArgument.startsWith('"'))
-            logArgument = logArgument.right(logArgument.size() - 1);
-          if (logArgument.endsWith('"'))
-            logArgument = logArgument.left(logArgument.size() - 1);
-
-          if (logArgument.contains(",")) {
-            QStringList argumentsList = logArgument.split(",");
-            WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
-          } else
-            WbPerformanceLog::createInstance(logArgument);
-
-          logPerformanceMode = true;
-        } else
-          cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
-      }
-  #ifndef _WIN32
-      else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
-               arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
-               arg.startsWith("--remote-debugging-port=")) {
-        // Silently ignore the awesome QWebEngine debugging tools:
-        // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
-      }
-  #endif
-      else if (arg.startsWith("-")) {
-        cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-        mTask = FAILURE;
-      } else {
-        if (mStartWorldName.isEmpty())
-          mStartWorldName = QDir::fromNativeSeparators(arg);
-        else {
-          cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
-          cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-          mTask = FAILURE;
-        }
-      }
-    }*/
 
   if (stream && !batch)
     cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
