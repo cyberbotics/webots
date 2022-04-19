@@ -19,6 +19,7 @@ export default class WbShape extends WbBaseNode {
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this._createWrenMaterial(Enum.WR_MATERIAL_PHONG);
+
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
@@ -31,7 +32,9 @@ export default class WbShape extends WbBaseNode {
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+
+      if (!this.geometry.isInBoundingObject)
+        this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }
 
