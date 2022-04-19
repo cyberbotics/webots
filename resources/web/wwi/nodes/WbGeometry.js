@@ -64,7 +64,7 @@ export default class WbGeometry extends WbBaseNode {
   _applyVisibilityFlagToWren(selected) {
     if (typeof this._wrenScaleTransform === 'undefined')
       return;
-
+    selected = true
     if (super.isInBoundingObject()) {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
@@ -93,7 +93,7 @@ export default class WbGeometry extends WbBaseNode {
       if (typeof this.wrenMaterial === 'undefined') {
         this.wrenMaterial = _wr_phong_material_new();
         _wr_phong_material_set_color(this.wrenMaterial, _wrjs_array3(1.0, 1.0, 1.0));
-        _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.phongShader());
+        _wr_material_set_default_program(this.wrenMaterial, WbWrenShaders.lineSetShader());
       }
 
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
