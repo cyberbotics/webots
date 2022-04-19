@@ -284,16 +284,34 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   QString x3dFilename = fileName;
   x3dFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d");
 
+  QString cssFileName = fileName;
+  cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
+
   bool success = true;
   QFileInfo fo(fileName);
   QString targetPath = fo.absolutePath() + "/";
 
   try {
+    // export x3d file
     success = exportAsVrml(x3dFilename);
     if (!success)
       throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
 
+    // export css file
+    QString typeString = (animation) ? "Animation" : "Scene";
     QString titleString(WbWorld::instance()->worldInfo()->title());
+    titleString = titleString.toHtmlEscaped();
+
+    QList<QPair<QString, QString>> cssTemplateValues;
+    cssTemplateValues << QPair<QString, QString>("%title%", titleString);
+    cssTemplateValues << QPair<QString, QString>("%type%", typeString);
+
+    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css", cssFileName,
+                                               cssTemplateValues);
+    if (!success)
+      throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
+
+    // export html file
     QString infoString;
     const WbMFString &info = WbWorld::instance()->worldInfo()->info();
     for (int i = 0; i < info.size(); ++i) {
@@ -303,17 +321,20 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
       infoString += line + "\n";
     }
 
-    titleString = titleString.toHtmlEscaped();
     infoString = infoString.toHtmlEscaped();
     infoString.replace("\n", "<br/>");
 
     QList<QPair<QString, QString>> templateValues;
     templateValues << QPair<QString, QString>("%x3dFilename%", QFileInfo(x3dFilename).fileName());
+    templateValues << QPair<QString, QString>("%type%", typeString);
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
+    templateValues << QPair<QString, QString>(
+      "%cssName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
     if (animation)
       templateValues << QPair<QString, QString>(
         "%jsonName%",

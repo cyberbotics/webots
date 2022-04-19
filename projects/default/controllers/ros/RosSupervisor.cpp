@@ -453,8 +453,12 @@ bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string
                                           webots_ros::supervisor_get_from_string::Response &res) {
   assert(mSupervisor);
   const Device *device = mRos->getDevice(req.value);
-  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
-  return true;
+  if (device) {
+    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
+    return true;
+  }
+  ROS_ERROR("ERROR: unkown device %s.", req.value.c_str());
+  return false;
 }
 
 bool RosSupervisor::getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res) {
