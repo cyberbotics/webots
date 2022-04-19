@@ -351,6 +351,7 @@ resources/web/streaming_viewer/setup_viewer.js
 resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
+resources/web/templates/x3d_playback.css
 resources/wren/
 resources/wren/meshes/
 resources/wren/meshes/*.obj

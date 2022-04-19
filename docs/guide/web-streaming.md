@@ -69,7 +69,7 @@ The firewall of the local computer may complain about this operation, in this ca
 
 ### How to Embed a Web Scene in Your Website
 
-Similarly to [this section](web-animation.md#how-to-embed-a-web-animation-in-your-website), please refer to the streaming viewer page to embed a Webots stream in your Website.
+Similarly to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website), please refer to the streaming viewer page to embed a Webots stream in your Website.
 
 ### Scene Refresh Rate
 
