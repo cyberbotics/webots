@@ -15,8 +15,8 @@ if (mobileDevice) {
 }
 
 function init() {
-  ipInput = document.getElementById('IPInput');
-  connectButton = document.getElementById('ConnectButton');
+  ipInput = document.getElementById('IP-input');
+  connectButton = document.getElementById('connect-button');
   modeSelect = document.getElementById('mode');
   broadcast = document.getElementById('broadcast');
 

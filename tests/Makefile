@@ -22,6 +22,7 @@ clean: api parser physics protos rendering
 	         api/controllers/supervisor_animation/animation.html \
 	         api/controllers/supervisor_animation/animation.json \
 	         api/controllers/supervisor_animation/animation.x3d \
+	         api/controllers/supervisor_animation/animation.css \
 	         api/controllers/supervisor_animation/textures \
 	         api/controllers/supervisor_export_image/image.jpg \
 	         api/controllers/supervisor_export_image/image.png \
@@ -52,6 +53,6 @@ protos:
 
 rendering:
 	+@make -s -C rendering $(MAKECMDGOALS)
-	
+
 with_rendering:
 	+@make -s -C with_rendering $(MAKECMDGOALS)
