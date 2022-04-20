@@ -53,7 +53,7 @@ export default class WbBox extends WbGeometry {
 
   _sanitizeFields() {
     const newSize = resetVector3IfNonPositive(this.size, new WbVector3(1.0, 1.0, 1.0));
-    if (newSize) {
+    if (newSize !== false) {
       this.size = newSize;
       return false;
     }

@@ -75,9 +75,9 @@ export default class WbPlane extends WbGeometry {
 
   _sanitizeFields() {
     const newSize = resetVector2IfNonPositive(this.size, new WbVector2(1.0, 1.0));
-    if (newSize)
+    if (newSize !== false)
       this.size = newSize;
 
-    return !newSize;
+    return newSize === false;
   }
 }

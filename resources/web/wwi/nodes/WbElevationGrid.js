@@ -106,29 +106,29 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   _sanitizeFields() {
-    const newTickness = resetIfNegative(this.thickness, 0.0)
-    if (newTickness)
+    const newTickness = resetIfNegative(this.thickness, 0.0);
+    if (newTickness !== false)
       this.thickness = newTickness;
 
-    const newXDimension = resetIfNegative(this.xDimension, 0)
-    if (newXDimension)
+    const newXDimension = resetIfNegative(this.xDimension, 0);
+    if (newXDimension !== false)
       this.xDimension = newXDimension;
 
-    const newXSpacing = resetIfNonPositive(this.xSpacing, 1.0)
-    if (newXSpacing)
+    const newXSpacing = resetIfNonPositive(this.xSpacing, 1.0);
+    if (newXSpacing !== false)
       this.xSpacing = newXSpacing;
 
-    const newYDimension = resetIfNegative(this.yDimension, 0)
-    if (newYDimension)
+    const newYDimension = resetIfNegative(this.yDimension, 0);
+    if (newYDimension !== false)
       this.yDimension = newYDimension;
 
     const newYSpacing = resetIfNonPositive(this.ySpacing, 1.0);
-    if (newYSpacing)
+    if (newYSpacing !== false)
       this.ySpacing = newYSpacing;
 
     this._checkHeight();
 
-    return !newTickness && !newXDimension && !newXSpacing && !newYDimension && !newYSpacing;
+    return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false && newYSpacing === false;
   }
 
   _checkHeight() {
