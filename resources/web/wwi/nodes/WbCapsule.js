@@ -57,7 +57,7 @@ export default class WbCapsule extends WbGeometry {
 
     super._computeWrenRenderable();
 
-    // This must be done after WbGeometry::computeWrenRenderable() otherwise
+    // This must be done after super._computeWrenRenderable() otherwise
     // the outline scaling is applied to the wrong WREN transform
     if (this.isInBoundingObject())
       this.updateLineScale();
