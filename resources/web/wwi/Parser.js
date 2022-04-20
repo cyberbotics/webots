@@ -403,7 +403,10 @@ export default class Parser {
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
-      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
+      const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+      if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
+        parentNode.boundingObject = useNode;
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
         parentNode.children.push(useNode);
     }
 

@@ -507,7 +507,13 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
 
 void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
-  writer << "<Shape role='boundingObject'>";
-  geometry()->write(writer);
-  writer << "</Shape>";
+
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName()
+           << " role='boundingObject' USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+  else {
+    writer << "<" << x3dName() << " role='boundingObject'>";
+    geometry()->write(writer);
+    writer << "</" + x3dName() + ">";
+  }
 }

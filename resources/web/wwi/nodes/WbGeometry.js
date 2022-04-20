@@ -64,7 +64,7 @@ export default class WbGeometry extends WbBaseNode {
   _applyVisibilityFlagToWren(selected) {
     if (typeof this._wrenScaleTransform === 'undefined')
       return;
-    selected = true
+
     if (super.isInBoundingObject()) {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
