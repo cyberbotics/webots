@@ -13,6 +13,7 @@ export default class Toolbar {
     this.type = type;
     this.parentNode = parentNode;
     this.minWidth = 0;
+    this._scale = 1;
 
     this._createToolbar(parentNode);
     if (type === 'animation')
@@ -22,7 +23,13 @@ export default class Toolbar {
     else if (type === 'streaming')
       this.createStreamingToolbar();
 
-    parentNode.style.minWidth = this.minWidth + 'px';
+    if (this._view.mobileDevice) {
+      this.toolbar.style.minWidth = this.minWidth + 'px';
+      this._resizeMobileToolbar();
+      screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
+      this._fullscreenButton.style.animation = 'animation-scale-up-lg 3s infinite forwards';
+    } else
+      this.parentNode.style.minWidth = this.minWidth + 'px';
   }
 
   createAnimationToolbar() {
@@ -74,13 +81,27 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
+  }
 
-    // Full screen if mobile
-    if (this._view.mobileDevice) {
-      document.getElementById('navbar').style.backgroundColor = 'violet';
+  _resizeMobileToolbar() {
+    if (this._scale !== 1 && (screen.orientation.type === 'landscape-primary' || screen.orientation.type === 'landscape-secondary'))
       requestFullscreen(this._view);
-      screen.orientation.lock('landscape');
-    }
+    else if (screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary')
+      exitFullscreen();
+
+    if (this.minWidth > screen.width)
+      this._scale = screen.width / this.minWidth;
+    else
+      this._scale = 1;
+
+    this.toolbar.style.transformOrigin = 'bottom left';
+    this.toolbar.style.transform = 'scale(' + this._scale + ')';
+
+    if (typeof this.robotWindowPane !== 'undefined') {
+      const offset = this._scale == 1 ? 0 : Math.round(screen.width * (1 - this._scale));
+      this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
+    } else
+      console.log("gone in here");
   }
 
   removeToolbar() {
@@ -355,9 +376,11 @@ export default class Toolbar {
   }
 
   _closeRobotWindowPaneOnClick(event) {
-    if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
-      if (!(event.srcElement.id.startsWith('close-') || event.srcElement.id.startsWith('enable-robot-window')))
-        this._changeRobotWindowPaneVisibility(event);
+    if (typeof this.robotWindowPane !== 'undefined') {
+      if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
+        if (!(event.srcElement.id.startsWith('close-') || event.srcElement.id.startsWith('enable-robot-window')))
+          this._changeRobotWindowPaneVisibility(event);
+      }
     }
   }
 
@@ -802,11 +825,10 @@ export default class Toolbar {
   _createFullscreenButtons() {
     this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
     this.toolbarRight.appendChild(this._fullscreenButton);
-    this._view.mobileDevice ? this._fullscreenButton.style.display = 'none' : this._fullscreenButton.style.display = 'visible';
 
     this._exitFullscreenButton = this._createToolBarButton('windowed', 'Exit full screen (f)', () => exitFullscreen());
     this.toolbarRight.appendChild(this._exitFullscreenButton);
-    this._view.mobileDevice ? this._exitFullscreenButton.style.display = 'visible' : this._exitFullscreenButton.style.display = 'none';
+    this._exitFullscreenButton.style.display = 'none';
 
     this.minWidth += 44;
 
@@ -1183,7 +1205,7 @@ export default class Toolbar {
     clock.title = 'Current simulation time';
     clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
     this.toolbarLeft.appendChild(clock);
-    this.minWidth += 115;
+    this.minWidth += 125;
   }
 
   _createResetButton() {

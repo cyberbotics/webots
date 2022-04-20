@@ -6,6 +6,7 @@ body {
 
 webots-view {
   height: 100%;
+  width: 100%;
   display: block;
   position: relative;
 }
@@ -206,6 +207,14 @@ webots-view .toolbar-btn:hover .icon-windowed {
 @keyframes animation-scale-up {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes animation-scale-up-lg {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  65%  { transform: scale(1); }
   100% { transform: scale(1); }
 }
 
