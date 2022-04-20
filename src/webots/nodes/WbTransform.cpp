@@ -406,11 +406,13 @@ void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
 
   if (isUseNode() && defNode())
     writer << "<" << x3dName()
-           << " role='boundingObject' USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+           << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
   else {
-    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'>")
+    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
                 .arg(translation().toString(WbPrecision::DOUBLE_MAX))
-                .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
+                .arg(rotation().toString(WbPrecision::DOUBLE_MAX))
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
+    ;
 
     WbMFNode::Iterator it(children());
     while (it.hasNext()) {

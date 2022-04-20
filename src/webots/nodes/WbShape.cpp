@@ -510,9 +510,10 @@ void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
 
   if (isUseNode() && defNode())
     writer << "<" << x3dName()
-           << " role='boundingObject' USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+           << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
   else {
-    writer << "<" << x3dName() << " role='boundingObject'>";
+    writer << "<" << x3dName() << " role='boundingObject'"
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
     geometry()->write(writer);
     writer << "</" + x3dName() + ">";
   }

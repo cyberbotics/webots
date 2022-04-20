@@ -438,9 +438,10 @@ void WbGroup::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
 
   if (isUseNode() && defNode())
     writer << "<" << x3dName()
-           << " role='boundingObject' USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+           << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
   else {
-    writer << "<Group role='boundingObject'>";
+    writer << "<Group role='boundingObject'"
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
 
     WbMFNode::Iterator it(*mChildren);
     while (it.hasNext()) {
