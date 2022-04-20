@@ -19,7 +19,7 @@ export default class WbBox extends WbGeometry {
 
     this._sanitizeFields();
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
@@ -45,7 +45,7 @@ export default class WbBox extends WbGeometry {
     if (!this._sanitizeFields())
       return;
 
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       this.updateLineScale();
     else
       _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));

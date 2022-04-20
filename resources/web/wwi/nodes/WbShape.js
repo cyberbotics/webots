@@ -33,7 +33,7 @@ export default class WbShape extends WbBaseNode {
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
 
-      if (!this.geometry.isInBoundingObject)
+      if (!this.geometry.isInBoundingObject())
         this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }
@@ -109,7 +109,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateCastShadows() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -117,7 +117,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateIsPickable() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -145,7 +145,7 @@ export default class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    if (!super.isInBoundingObject()) {
+    if (!this.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }

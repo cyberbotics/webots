@@ -20,7 +20,7 @@ export default class WbCylinder extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
 
-    if (super.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
+    if (this.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
       this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
 
     this._sanitizeFields();
@@ -49,7 +49,7 @@ export default class WbCylinder extends WbGeometry {
   // Private functions
 
   _sanitizeFields() {
-    const minSubdivision = super.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 3;
+    const minSubdivision = this.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 3;
     const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, minSubdivision, 1000, minSubdivision);
     if (newSubdivision)
       this.subdivision = newSubdivision;
@@ -78,7 +78,7 @@ export default class WbCylinder extends WbGeometry {
 
     this._computeWrenRenderable();
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, createOutlineMesh);
 
     if (createOutlineMesh)

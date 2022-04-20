@@ -20,7 +20,7 @@ export default class WbCapsule extends WbGeometry {
   createWrenObjects() {
     super.createWrenObjects();
 
-    if (super.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
+    if (this.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
       this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
 
     this._sanitizeFields();
@@ -59,20 +59,20 @@ export default class WbCapsule extends WbGeometry {
 
     // This must be done after WbGeometry::computeWrenRenderable() otherwise
     // the outline scaling is applied to the wrong WREN transform
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       this.updateLineScale();
 
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 
   _sanitizeFields() {
-    const minSubdivision = super.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 4;
+    const minSubdivision = this.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 4;
     const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, minSubdivision, 1000, minSubdivision);
     if (newSubdivision)
       this.subdivision = newSubdivision;
