@@ -261,7 +261,7 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
     if (def && def->isProtoParameterNode())
       def = static_cast<const WbBaseNode *>(def)->getFirstFinalizedProtoInstance();
     assert(def != NULL);
-    writer << " USE=\'n" + QString::number(def->uniqueId()) + "\'></" + x3dName() + ">";
+    writer << " USE=\'n" + QString::number(def->uniqueId()) + "\'/>";
     return true;
   }
   return false;

@@ -405,8 +405,7 @@ void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName()
-           << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
     writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
                 .arg(translation().toString(WbPrecision::DOUBLE_MAX))
