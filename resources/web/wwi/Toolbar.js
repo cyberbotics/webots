@@ -74,6 +74,13 @@ export default class Toolbar {
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
     this._createFullscreenButtons();
+
+    // Full screen if mobile
+    if (this._view.mobileDevice) {
+      document.getElementById('navbar').style.backgroundColor = 'violet';
+      requestFullscreen(this._view);
+      screen.orientation.lock('landscape');
+    }
   }
 
   removeToolbar() {
