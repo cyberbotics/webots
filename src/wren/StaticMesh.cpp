@@ -768,7 +768,7 @@ namespace wren {
   };
 
   static void subdividePolyhedronFace(StaticMesh *mesh, const glm::vec3 *v1, const glm::vec3 *v2, const glm::vec3 *v3,
-                                      int level) {
+                                      int level, bool outline) {
     if (level == 0) {
       // get the x-axis texture coordinate of each vertex
       float a1 = cartesianCoordinatesToPolarAngle(v1->y, -v1->x) * 0.5f * glm::one_over_pi<float>();
@@ -826,32 +826,34 @@ namespace wren {
       mesh->addCoord(glm::vec3(v2->x, v2->y, v2->z));
       mesh->addCoord(glm::vec3(v1->x, v1->y, v1->z));
 
-      mesh->addNormal(glm::vec3(v3->x, v3->y, v3->z));
-      mesh->addNormal(glm::vec3(v2->x, v2->y, v2->z));
-      mesh->addNormal(glm::vec3(v1->x, v1->y, v1->z));
+      if (!outline) {
+        mesh->addNormal(glm::vec3(v3->x, v3->y, v3->z));
+        mesh->addNormal(glm::vec3(v2->x, v2->y, v2->z));
+        mesh->addNormal(glm::vec3(v1->x, v1->y, v1->z));
 
-      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->z) * glm::one_over_pi<float>());
-      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->z) * glm::one_over_pi<float>());
-      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->z) * glm::one_over_pi<float>());
-      mesh->addTexCoord(uv3);
-      mesh->addTexCoord(uv2);
-      mesh->addTexCoord(uv1);
-      mesh->addUnwrappedTexCoord(uv3);
-      mesh->addUnwrappedTexCoord(uv2);
-      mesh->addUnwrappedTexCoord(uv1);
+        const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->z) * glm::one_over_pi<float>());
+        const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->z) * glm::one_over_pi<float>());
+        const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->z) * glm::one_over_pi<float>());
+        mesh->addTexCoord(uv3);
+        mesh->addTexCoord(uv2);
+        mesh->addTexCoord(uv1);
+        mesh->addUnwrappedTexCoord(uv3);
+        mesh->addUnwrappedTexCoord(uv2);
+        mesh->addUnwrappedTexCoord(uv1);
+      }
     } else {
       const glm::vec3 v12 = glm::normalize(*v1 + *v2);
       const glm::vec3 v23 = glm::normalize(*v2 + *v3);
       const glm::vec3 v31 = glm::normalize(*v3 + *v1);
 
-      subdividePolyhedronFace(mesh, v1, &v12, &v31, level - 1);
-      subdividePolyhedronFace(mesh, v2, &v23, &v12, level - 1);
-      subdividePolyhedronFace(mesh, v3, &v31, &v23, level - 1);
-      subdividePolyhedronFace(mesh, &v12, &v23, &v31, level - 1);
+      subdividePolyhedronFace(mesh, v1, &v12, &v31, level - 1, outline);
+      subdividePolyhedronFace(mesh, v2, &v23, &v12, level - 1, outline);
+      subdividePolyhedronFace(mesh, v3, &v31, &v23, level - 1, outline);
+      subdividePolyhedronFace(mesh, &v12, &v23, &v31, level - 1, outline);
     }
   };
 
-  StaticMesh *StaticMesh::createUnitIcosphere(int subdivision) {
+  StaticMesh *StaticMesh::createUnitIcosphere(int subdivision, bool outline) {
     char uniqueName[16];
     sprintf(uniqueName, "Icosphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
@@ -886,7 +888,7 @@ namespace wren {
     // iterate over all faces and apply a subdivison with the given value
     for (int i = 0; i < 20; ++i)
       subdividePolyhedronFace(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z],
-                              subdivision);
+                              subdivision, outline);
 
     for (int i = 0; i < vertexCount; ++i)
       mesh->addIndex(i);
@@ -937,11 +939,13 @@ namespace wren {
         const float phi = ((float)s) * longitudeUnitAngle + glm::half_pi<float>();
         vertex = glm::vec3(glm::cos(phi) * sinTheta, glm::sin(phi) * sinTheta, cosTheta);
         mesh->addCoord(vertex);
-        mesh->addNormal(vertex);
+        if (!outline) {
+          mesh->addNormal(vertex);
 
-        glm::vec2 uv((float)s / subdivision + uOffset, (float)r / subdivision);
-        mesh->addTexCoord(uv);
-        mesh->addUnwrappedTexCoord(uv);
+          glm::vec2 uv((float)s / subdivision + uOffset, (float)r / subdivision);
+          mesh->addTexCoord(uv);
+          mesh->addUnwrappedTexCoord(uv);
+        }
 
         indicesRow[s] = index;
         index++;
@@ -2037,7 +2041,7 @@ WrStaticMesh *wr_static_mesh_quad_new() {
 
 WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision, bool ico, bool outline) {
   if (ico)
-    return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitIcosphere(subdivision));
+    return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitIcosphere(subdivision, outline));
   return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitUVSphere(subdivision, outline));
 }
 
