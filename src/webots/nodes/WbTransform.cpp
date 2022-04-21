@@ -404,17 +404,23 @@ void WbTransform::showResizeManipulator(bool enabled) {
 void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << QString("<Transform translation='%1' rotation='%2'>")
-              .arg(translation().toString(WbPrecision::DOUBLE_MAX))
-              .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
+                .arg(translation().toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotation().toString(WbPrecision::DOUBLE_MAX))
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
+    ;
 
-  WbMFNode::Iterator it(children());
-  while (it.hasNext()) {
-    const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    childNode->exportBoundingObjectToX3D(writer);
+    WbMFNode::Iterator it(children());
+    while (it.hasNext()) {
+      const WbNode *const childNode = static_cast<WbNode *>(it.next());
+      childNode->write(writer);
+    }
+
+    writer << "</Transform>";
   }
-
-  writer << "</Transform>";
 }
 
 QStringList WbTransform::fieldsToSynchronizeWithX3D() const {

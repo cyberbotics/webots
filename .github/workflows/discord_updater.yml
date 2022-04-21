@@ -27,6 +27,7 @@ jobs:
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
+        git config --global --add safe.directory /github/workspace
         git checkout -b discord-doc-update
         git add ./docs/discord
         git commit -m "Update discord docs."

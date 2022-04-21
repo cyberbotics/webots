@@ -105,7 +105,19 @@ webots.View = class View {
       gui = 'play';
     if (typeof loop === 'undefined')
       loop = true;
-    this.animation = new Animation(url, this.x3dScene, this, gui, loop);
+    let jsonPromise = new Promise((resolve, reject) => {
+      let xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true);
+      xmlhttp.overrideMimeType('application/json');
+      xmlhttp.onload = () => {
+        if (xmlhttp.status === 200 || xmlhttp.status === 0)
+          resolve(JSON.parse(xmlhttp.responseText));
+        else
+          reject(xmlhttp.statusText);
+      };
+      xmlhttp.send();
+    });
+    this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
   open(url, mode) {
@@ -282,8 +294,8 @@ webots.View = class View {
     if (document.getElementById('webots-progress'))
       document.getElementById('webots-progress').style.display = 'none';
     this.removeLabels();
-    if (document.getElementById('webotsClock'))
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webots-clock'))
+      document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {

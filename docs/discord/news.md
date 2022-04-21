@@ -291,7 +291,7 @@ Here is a nice master thesis report making extensive use of Webots: [https://web
 
 [https://www.youtube.com/watch?v=ZnwPNG17jVQ](https://www.youtube.com/watch?v=ZnwPNG17jVQ)
 
-##### Harun KURT 04/07/2021 18:44:06
+##### baby\_droid\_yoda 04/07/2021 18:44:06
 [https://lnkd.in/dApbakU](https://lnkd.in/dApbakU)
 
 
@@ -730,7 +730,7 @@ That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https
 ##### Olivier Michel [Cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 
-##### Harun KURT 06/10/2020 13:17:09
+##### baby\_droid\_yoda 06/10/2020 13:17:09
 [Turkish] [https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE](https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE)
 
 ##### iagsav 06/05/2020 21:59:47
@@ -745,15 +745,15 @@ I like how they say Gazebo is not realistic enough so they use Webots instead ğŸ
 ##### Olivier Michel [Cyberbotics] 06/03/2020 06:24:59
 Here is an interesting paper: Deepbots: A Webots-Based Deep Reinforcement Learning Framework for Robotics. [https://link.springer.com/chapter/10.1007/978-3-030-49186-4\_6](https://link.springer.com/chapter/10.1007/978-3-030-49186-4_6)
 
-##### dralorg 05/31/2020 19:25:46
+##### dradarean 05/31/2020 19:25:46
 Oh I was just referring to robotbenchmark.net `@iagsav`
 
 ##### iagsav 05/31/2020 14:14:36
 > I didn't know about that page, looks so cool! `@iagsav`
 
-`@dralorg` Hi! I didn't understand your message about the page! What did you mean?
+`@dradarean` Hi! I didn't understand your message about the page! What did you mean?
 
-##### dralorg 05/30/2020 21:53:27
+##### dradarean 05/30/2020 21:53:27
 I didn't know about that page, looks so cool! `@iagsav`
 
 ##### iagsav 05/29/2020 21:57:56

@@ -13,7 +13,7 @@ export default class WbBaseNode {
     this.upperTransform = false;
 
     this._boundingObjectFirstTimeSearch = true;
-    this.isInBoundingObject = false;
+    this._isInBoundingObject = false;
 
     this.useList = [];
   }
@@ -57,12 +57,12 @@ export default class WbBaseNode {
 
   isInBoundingObject() {
     if (this._boundingObjectFirstTimeSearch) {
-      this.isInBoundingObject = nodeIsInBoundingObject(this);
+      this._isInBoundingObject = nodeIsInBoundingObject(this);
       if (this.wrenObjectsCreatedCalled)
         this._boundingObjectFirstTimeSearch = false;
     }
 
-    return this.isInBoundingObject;
+    return this._isInBoundingObject;
   }
 
   upperTransform() {

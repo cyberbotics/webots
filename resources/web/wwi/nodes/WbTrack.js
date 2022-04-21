@@ -1,4 +1,4 @@
-import WbTransform from './WbTransform.js';
+import WbSolid from './WbSolid.js';
 import WbVector2 from './utils/WbVector2.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -8,9 +8,9 @@ import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
 import {clampedAcos, getAnId} from './utils/utils.js';
 
-export default class WbTrack extends WbTransform {
+export default class WbTrack extends WbSolid {
   constructor(id, translation, scale, rotation, geometriesCount) {
-    super(id, true, translation, scale, rotation);
+    super(id, translation, scale, rotation);
     this.geometriesCount = geometriesCount;
     this.pathList = [];
     this.wheelsList = [];

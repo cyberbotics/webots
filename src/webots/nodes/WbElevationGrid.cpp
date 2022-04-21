@@ -634,6 +634,7 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
     return;
   }
 
+  findField("thickness", true)->write(writer);
   findField("xDimension", true)->write(writer);
   findField("yDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);

@@ -626,40 +626,5 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   if (!mWrenMesh)
     return;
 
-  const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
-  const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
-  float vertices[3 * vertexCount];
-  unsigned int indices[indexCount];
-  wr_static_mesh_read_data(mWrenMesh, vertices, NULL, NULL, indices);
-
-  writer << "<Shape>";
-  writer << "<Appearance sortType='transparent'><Material emissiveColor='1 1 1'></Material></Appearance>";
-  writer << "<IndexedLineSet coordIndex='";
-
-  for (int i = 0; i < indexCount / 2; ++i)
-    writer << indices[2 * i] << " " << indices[2 * i + 1] << " -1 ";
-  writer << "'>";
-
-  writer << "<Coordinate point='";
-  const float *floatMatrix = wr_transform_get_matrix(mWrenScaleTransform);
-  double doubleMatrix[16];
-  for (int i = 0; i < 16; ++i)
-    doubleMatrix[i] = static_cast<double>(floatMatrix[i]);
-
-  // Extract WREN scaling factors
-  WbMatrix4 meshMatrix;
-  meshMatrix.fromOpenGlMatrix(doubleMatrix);
-  WbVector3 scale = meshMatrix.scale();
-  scale /= absoluteScale();
-
-  for (int i = 0; i < vertexCount; ++i) {
-    const int index = 3 * i;
-    const WbVector3 coord = WbVector3(vertices[index], vertices[index + 1], vertices[index + 2]) * scale;
-    if (i > 0)
-      writer << ", ";
-    writer << coord.toString(WbPrecision::FLOAT_MAX);
-  }
-  writer << "'></Coordinate>";
-  writer << "</IndexedLineSet>";
-  writer << "</Shape>";
+  this->write(writer);
 }
