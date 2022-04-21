@@ -3,11 +3,9 @@ import WbWorld from './WbWorld.js';
 
 import {getAnId} from './utils/utils.js';
 
-// Also used to represent a solid
 export default class WbTransform extends WbGroup {
-  constructor(id, isSolid, translation, scale, rotation) {
+  constructor(id, translation, scale, rotation) {
     super(id);
-    this.isSolid = isSolid;
     this.translation = translation;
     this.scale = scale;
     this.rotation = rotation;
@@ -31,7 +29,7 @@ export default class WbTransform extends WbGroup {
   }
 
   clone(customID) {
-    const transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
+    const transform = new WbTransform(customID, this.translation, this.scale, this.rotation);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
@@ -55,9 +53,6 @@ export default class WbTransform extends WbGroup {
       child.createWrenObjects();
     });
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.createWrenObjects();
-
     this.applyTranslationToWren();
     this.applyRotationToWren();
     this.applyScaleToWren();
@@ -67,30 +62,6 @@ export default class WbTransform extends WbGroup {
     if (this.wrenObjectsCreatedCalled)
       _wr_node_delete(this.wrenNode);
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.delete(true);
-
     super.delete(isBoundingObject);
-  }
-
-  preFinalize() {
-    super.preFinalize();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.preFinalize();
-  }
-
-  postFinalize() {
-    super.postFinalize();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.postFinalize();
-  }
-
-  updateBoundingObjectVisibility() {
-    super.updateBoundingObjectVisibility();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.updateBoundingObjectVisibility();
   }
 }
