@@ -27,7 +27,7 @@ export default class Toolbar {
       this.toolbar.style.minWidth = this.minWidth + 'px';
       this._resizeMobileToolbar();
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
-      this._fullscreenButton.style.animation = 'animation-scale-up-lg 3s infinite forwards';
+      this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
     } else
       this.parentNode.style.minWidth = this.minWidth + 'px';
   }
@@ -63,10 +63,10 @@ export default class Toolbar {
     this._createQuitButton();
     this._createReloadButton();
     this._createWorldSelectionButton();
-    this._createResetButton();
-    this._createStepButton();
-    this._createPlayButton();
-    this._createRunButton();
+    this._createResetButton(); // Center if mobile
+    this._createStepButton();  // Center if mobile
+    this._createPlayButton();  // Center if mobile
+    this._createRunButton();   // Center if mobile
     this._createStreamingTimeIndicator();
     this._checkLeftTooltips();
     if (this._view.broadcast) {
@@ -89,19 +89,14 @@ export default class Toolbar {
     else if (screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary')
       exitFullscreen();
 
-    if (this.minWidth > screen.width)
-      this._scale = screen.width / this.minWidth;
-    else
-      this._scale = 1;
-
+    this._scale = this.minWidth > screen.width ? screen.width / this.minWidth : 1;
     this.toolbar.style.transformOrigin = 'bottom left';
     this.toolbar.style.transform = 'scale(' + this._scale + ')';
 
     if (typeof this.robotWindowPane !== 'undefined') {
       const offset = this._scale == 1 ? 0 : Math.round(screen.width * (1 - this._scale));
       this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
-    } else
-      console.log("gone in here");
+    }
   }
 
   removeToolbar() {
@@ -316,8 +311,12 @@ export default class Toolbar {
   }
 
   _createIdeButton() {
-    if (!this._view.ide) // Do not create IDE button if no IDE is available.
+    // Do not create IDE button if no IDE is available or screen is too small
+    if (this._view.mobileDevice && Math.min(screen.height, screen.width) < 700)
+      this._view.ide = false;
+    if (!this._view.ide)
       return;
+
     this.ideButton = this._createToolBarButton('ide', 'Source code editor', undefined);
     this.toolbarRight.appendChild(this.ideButton);
     this._createIde();
@@ -332,7 +331,7 @@ export default class Toolbar {
     this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
     const margin = 20;
-    const ideWidth = 500;
+    const ideWidth = 400;
     const ideHeight = this.parentNode.offsetHeight - 2 * margin - this.toolbar.offsetHeight;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
@@ -437,7 +436,7 @@ export default class Toolbar {
     const margin = 20;
     let numCol = 0;
     let numRow = 0;
-    const ideOffset = (this._view.ide) ? 520 : 0;
+    const ideOffset = (this._view.ide) ? 420 : 0;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());

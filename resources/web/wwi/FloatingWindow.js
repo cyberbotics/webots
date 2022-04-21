@@ -23,6 +23,19 @@ export default class FloatingWindow {
     this.headerQuit.innerHTML = ('&times;');
     this.floatingWindowHeader.appendChild(this.headerQuit);
 
+    const resizeContainer = document.createElement('div');
+    resizeContainer.className = 'resize-container';
+    this.floatingWindow.appendChild(resizeContainer);
+
+    const directions = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'];
+    for (const d of directions) {
+      let resizeElement = document.createElement('div');
+      resizeElement.className = 'resize-element';
+      resizeElement.id = 'resize-' + d;
+      resizeElement.style.cursor = d + '-resize';
+      resizeContainer.appendChild(resizeElement);
+    }
+
     this.floatingWindowContent = document.createElement('div');
     this.floatingWindowContent.className = 'floating-window-content';
     this.floatingWindow.appendChild(this.floatingWindowContent);
@@ -31,8 +44,8 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._dragElement(this.floatingWindow);
-    this._maxSize(name);
+    this._interactElement(this.floatingWindow);
+    //this._maxSize(name);
   }
 
   getId() {
@@ -72,19 +85,21 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
-  _dragElement(fw) {
-    let pos1 = 0;
-    let pos2 = 0;
-    let pos3 = 0;
-    let pos4 = 0;
+  _interactElement(fw) {
+    let posX, posY, dX, dY, id, top, bottom, left, right, width, height, interactionType;
     let containerHeight = fw.parentNode.offsetHeight;
     let containerWidth = fw.parentNode.offsetWidth;
     let topOffset = 0;
     let leftOffset = 0;
+    let minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
+    let minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
+    const containerTop = fw.parentNode.parentNode.offsetTop;
 
-    fw.firstChild.onmousedown = dragMouseDown;
+    fw.firstChild.onmousedown = interactMouseDown;
+    for (let n of fw.childNodes[1].childNodes)
+      n.onmousedown = interactMouseDown;
 
-    function dragMouseDown(event) {
+    function interactMouseDown(event) {
       fw.lastElementChild.style.pointerEvents = 'none';
 
       containerHeight = fw.parentNode.offsetHeight;
@@ -92,51 +107,103 @@ export default class FloatingWindow {
 
       event.preventDefault();
 
-      pos1 = event.clientX;
-      pos2 = event.clientY;
-      topOffset = pos2 - fw.offsetTop;
-      leftOffset = pos1 - fw.offsetLeft;
+      posX = event.clientX;
+      posY = event.clientY;
+      topOffset = posY - fw.offsetTop;
+      leftOffset = posX - fw.offsetLeft;
+      id = event.target.id.substring(7);
+      interactionType = id.length === 0 ? 'drag' : 'resize';
 
-      document.onmouseup = closeDragElement;
-      document.onmousemove = robotWindowDrag;
+      document.onmouseup = closeInteractElement;
+      document.onmousemove = floatingWindowInteract;
     }
 
-    function robotWindowDrag(event) {
+    function floatingWindowInteract(event) {
       event.preventDefault();
 
-      pos3 = pos1 - event.clientX;
-      pos4 = pos2 - event.clientY;
-      pos1 = event.clientX;
-      pos2 = event.clientY;
+      dX = event.clientX - posX;
+      dY = event.clientY - posY;
+      posX = event.clientX;
+      posY = event.clientY;
 
-      let top = fw.offsetTop - pos4;
-      let left = fw.offsetLeft - pos3;
-      let bottom = top + fw.offsetHeight;
-      let right = left + fw.offsetWidth;
+      if (interactionType === 'resize') {
+        document.body.style.cursor = id + '-resize';
 
-      if (top < 0 || event.clientY < topOffset)
-        top = 0;
-      else if (bottom > containerHeight || event.clientY > containerHeight - fw.offsetHeight + topOffset)
-        top = containerHeight - fw.offsetHeight;
-      
-      if (left < 0 || event.clientX < leftOffset)
-        left = 0;
-      else if (right > containerWidth || event.clientX > containerWidth - fw.offsetWidth + leftOffset)
-        left = containerWidth - fw.offsetWidth;
+        // Resize element
+        if (id.length == 2 || id == 'e' || id == 'w') {
+          if (id.includes('w')) {
+            if (!(fw.offsetWidth === minWidth && dX > 0) && posX < right - minWidth) {
+              width = fw.offsetWidth - dX;
+              left = fw.offsetLeft + dX;
+            }
+          } else if (posX > left + minWidth)
+            width = fw.offsetWidth + dX;
+        }
+        if (id.length === 2 || id === 'n' || id === 's') {
+          if (id.includes('n')) {
+            if (!(fw.offsetHeight === minHeight && dY > 0) && posY < bottom - containerTop + minHeight) {
+              height = fw.offsetHeight - dY;
+              top = fw.offsetTop + dY;
+            }
+          } else if (posY > top + containerTop + minHeight)
+            height = fw.offsetHeight + dY;
+        }
+        bottom = top + fw.offsetHeight;
+        right = left + fw.offsetWidth;
+
+        // Check boundary conditions
+        if (top < 0) {
+          top = 0;
+          height = fw.offsetHeight;
+        } else if (bottom > containerHeight) {
+          console.log("In here!");
+          top = containerHeight - fw.offsetHeight;
+          height = fw.offsetHeight;
+        }
+        if (left < 0) {
+          left = 0;
+          width = fw.offsetWidth;
+        } else if (right > containerWidth || posX > containerWidth) {
+          left = containerWidth - fw.offsetWidth;
+          width = fw.offsetWidth;
+        }
+      } else if (interactionType === 'drag') {
+        // Move element
+        top = fw.offsetTop + dY;
+        left = fw.offsetLeft + dX;
+        bottom = top + fw.offsetHeight;
+        right = left + fw.offsetWidth;
+        width = fw.offsetWidth;
+        height = fw.offsetHeight;
+
+        // Check boundary conditions
+        if (top < 0 || posY < topOffset)
+          top = 0;
+        else if (bottom > containerHeight || posY > containerHeight - fw.offsetHeight + topOffset)
+          top = containerHeight - fw.offsetHeight;
+  
+        if (left < 0 || posX < leftOffset)
+          left = 0;
+        else if (right > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset)
+          left = containerWidth - fw.offsetWidth;
+      }
 
       fw.style.top = top + 'px';
       fw.style.left = left + 'px';
+      fw.style.width = width + 'px';
+      fw.style.height = height + 'px';
     }
 
-    function closeDragElement() {
+    function closeInteractElement() {
       document.onmouseup = null;
       document.onmousemove = null;
       fw.lastElementChild.style.pointerEvents = 'auto';
+      document.body.style.cursor = 'default';
     }
   }
 
   _maxSize(name) {
-    function setMaxHeight(name) {
+    function setMaxSize(name) {
       const fw = document.getElementById(name);
       const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
       const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
@@ -150,7 +217,7 @@ export default class FloatingWindow {
       fw.lastElementChild.style.pointerEvents = 'auto';
     }
 
-    document.getElementById(name).onmousedown = () => { setMaxHeight(name); };
+    document.getElementById(name).onmousedown = () => { setMaxSize(name); };
     document.getElementById(name).onmouseup = () => { restorePointerEvents(name); };
   }
 }
