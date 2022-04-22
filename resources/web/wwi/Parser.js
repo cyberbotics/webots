@@ -1185,7 +1185,7 @@ function loadImageTextureInWren(prefix, url, isTransparent) {
 function getNodeAttribute(node, attributeName, defaultValue) {
   console.assert(node && node.attributes);
   if (attributeName in node.attributes)
-    return node.attributes.getNamedItem(attributeName).value;
+    return sanitizeHTML(node.attributes.getNamedItem(attributeName).value);
   return defaultValue;
 }
 
@@ -1247,6 +1247,12 @@ function rotateHDR(image, rotate) {
     }
   }
   return rotatedbits;
+}
+
+function sanitizeHTML(text) {
+  const element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
 }
 
 export {convertStringToVec3, convertStringToQuaternion, loadImageTextureInWren};
