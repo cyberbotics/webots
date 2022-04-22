@@ -28,8 +28,7 @@ PROTO Fabtino [
     synchronization IS synchronization
     name IS name
     children [
-      Transform {
-        rotation 0.57735 0.57735 0.57735 2.09439
+      Group {
         children [
           Shape {
             appearance DEF LIGHT_GRAY PBRAppearance {
@@ -75,8 +74,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.285061 -0.235818 0.035257
           children [
-            DEF WHEEL_FR Transform {
-              rotation 0 0 1 -1.570796
+            DEF WHEEL_FR Group {
               children [
                 Shape {
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -139,8 +137,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.284897 -0.238057 0.03513
           children [
-            DEF WHEEL_BR Transform {
-              rotation 0 0 1 -1.570796
+            DEF WHEEL_BR Group {
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE
@@ -191,8 +188,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.284897 0.238057 0.03513
           children [
-            DEF WHEEL_FL Transform {
-              rotation 0 0 1 1.570796
+            DEF WHEEL_FL Group {
               children [
                 Shape {
                   appearance USE ROLLERS_APPEARANCE
@@ -235,8 +231,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.285061 0.235818 0.035257
           children [
-            DEF WHEEL_BL Transform {
-              rotation 0 0 1 1.570796
+            DEF WHEEL_BL Group {
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE
