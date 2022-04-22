@@ -60,6 +60,7 @@ void WbGeometry::init() {
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
   mIs90DegreesRotated = false;
+  mIs180DegreesRotated = false;
   mOdeGeom = NULL;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
@@ -161,7 +162,7 @@ void WbGeometry::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
   const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = zAxis.angle(g);
+  const double alpha = zAxis.angle(-g);
 
   static const double ZERO_THRESHOLD = 1e-3;
 
@@ -534,6 +535,10 @@ void WbGeometry::setOdeRotation(const WbMatrix3 &rotation) {
   if (mIs90DegreesRotated) {
     // append 90 deg rotation
     static const WbMatrix3 localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toMatrix3();
+    mOdeOffsetRotation *= localRotation;
+  } else if (mIs180DegreesRotated) {
+    // append 180 deg rotation
+    static const WbMatrix3 localRotation = WbRotation(1.0, 0.0, 0.0, M_PI).toMatrix3();
     mOdeOffsetRotation *= localRotation;
   }
 

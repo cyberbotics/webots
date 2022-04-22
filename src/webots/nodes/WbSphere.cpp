@@ -45,6 +45,7 @@ void WbSphere::init() {
   mSubdivision = findSFInt("subdivision");
   mIco = findSFBool("ico");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
+  mIs180DegreesRotated = true;
 }
 
 WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {

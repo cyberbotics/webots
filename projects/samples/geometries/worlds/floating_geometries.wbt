@@ -21,10 +21,8 @@ DEF SWIMMING_POOL SolidPipe {
 }
 DEF STILL_WATER Fluid {
   translation 0 0 0.2
-  rotation 1 0 0 1.5708
   children [
-    DEF S Transform {
-      rotation 1 0 0 1.5708
+    DEF S Group {
       children [
         Shape {
           appearance DEF WATER_APPEARANCE PBRAppearance {
