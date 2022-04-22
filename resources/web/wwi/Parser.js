@@ -1249,7 +1249,7 @@ function rotateHDR(image, rotate) {
   return rotatedbits;
 }
 
-function sanitizeHTML(text) {
+function _sanitizeHTML(text) {
   const element = document.createElement('div');
   element.innerText = text;
   return element.innerHTML;
