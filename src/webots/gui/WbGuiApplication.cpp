@@ -242,9 +242,11 @@ void WbGuiApplication::parseArguments() {
     {"remote-debugging-port", QCoreApplication::translate("main", "Remote Debugging Port")},
   });
 
+#ifdef _WIN32
+  if (qgetenv("WEBOTS_TERMINAL") == "1" && GetConsoleWindow() == 0)
+    AttachConsole(ATTACH_PARENT_PROCESS);
+#endif
   parser.process(QCoreApplication::arguments());
-  parser.parse(QCoreApplication::arguments());
-
   QStringList args = parser.optionNames();
 
   while (!args.isEmpty()) {
@@ -310,7 +312,7 @@ void WbGuiApplication::parseArguments() {
       if (streamArgument.size() != 1) {
         fprintf(stderr, "%s\n",
                 qPrintable(QCoreApplication::translate(
-                  "main", "webots: invalid option : '--log-performance': log file path is missing.")));
+                  "main", "webots: invalid option: '--log-performance': log file path is missing.")));
         parser.showHelp(1);
       }
       stream = true;
