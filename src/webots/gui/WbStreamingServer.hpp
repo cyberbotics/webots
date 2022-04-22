@@ -103,6 +103,7 @@ private:
   QWebSocketServer *mWebSocketServer;
   WbStreamingTcpServer *mTcpServer;
   QStringList mEditableControllers;
+  qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;

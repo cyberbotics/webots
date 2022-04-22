@@ -25,6 +25,7 @@ import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSolid from './nodes/WbSolid.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -139,13 +140,11 @@ export default class Parser {
     else if (node.tagName === 'Billboard')
       result = this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
-      result = this._parseGroup(node, parentNode, isBoundingObject);
+      result = this._parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'CadShape')
       result = this._parseCadShape(node, parentNode);
-    else if (node.tagName === 'Switch')
-      result = this._parseSwitch(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -158,18 +157,30 @@ export default class Parser {
       else
         console.error('This world already has a fog.');
     } else {
-      // Either it is a node added after the whole scene, or it is an unknown node
+      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
       let id;
       if (typeof parentNode !== 'undefined')
         id = parentNode.id;
       result = this._parseGeometry(node, id);
-
       // We are forced to check if the result correspond to the class we expect because of the case of a USE
       if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.geometry !== 'undefined')
-            parentNode.geometry.delete();
-          parentNode.geometry = result;
+        if (typeof parentNode !== 'undefined') {
+          if (parentNode instanceof WbShape) {
+            if (typeof parentNode.geometry !== 'undefined')
+              parentNode.geometry.delete();
+            parentNode.geometry = result;
+          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) { // Bounding object
+            if (typeof parentNode.boundingObject !== 'undefined')
+              parentNode.boundingObject.delete();
+            const shape = new WbShape(getAnId(), false, false, result);
+            shape.parent = parentNode.id;
+            WbWorld.instance.nodes.set(shape.id, shape);
+            result.parent = shape.id;
+            if (parentNode instanceof WbSolid)
+              parentNode.boundingObject = shape;
+            else
+              parentNode.children.push(shape);
+          }
         }
       } else if (node.tagName === 'PBRAppearance') {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
@@ -395,7 +406,10 @@ export default class Parser {
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
-      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
+      const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+      if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
+        parentNode.boundingObject = useNode;
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
         parentNode.children.push(useNode);
     }
 
@@ -411,7 +425,6 @@ export default class Parser {
     const id = this._parseId(node);
 
     const type = getNodeAttribute(node, 'type', '').toLowerCase();
-    const isSolid = type === 'solid';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
@@ -427,23 +440,31 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else {
-      newNode = new WbTransform(id, isSolid, translation, scale, rotation);
+    } else if (type === 'solid' || type === 'robot') {
+      newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
         const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
       }
+    } else {
+      if (!isBoundingObject)
+        isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+
+      newNode = new WbTransform(id, translation, scale, rotation);
     }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
     this._parseChildren(node, newNode, isBoundingObject);
+
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
+      else if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -451,7 +472,7 @@ export default class Parser {
     return newNode;
   }
 
-  _parseGroup(node, parentNode, isBoundingObject) {
+  _parseGroup(node, parentNode) {
     const use = this._checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -459,15 +480,18 @@ export default class Parser {
     const id = this._parseId(node);
 
     const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
-
     WbWorld.instance.nodes.set(group.id, group);
     this._parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
       group.parent = parentNode.id;
-      parentNode.children.push(group);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = group;
+      else
+        parentNode.children.push(group);
     }
 
     return group;
@@ -482,18 +506,18 @@ export default class Parser {
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+    if (!isBoundingObject)
+      isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+
     let geometry;
     let appearance;
-
     for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
-      if (typeof appearance === 'undefined') {
-        if (isBoundingObject)
-          continue;
-        else if (child.tagName === 'Appearance')
+      if (typeof appearance === 'undefined' && !isBoundingObject) {
+        if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
         else if (child.tagName === 'PBRAppearance')
           appearance = this._parsePBRAppearance(child);
@@ -507,13 +531,17 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-      console.log('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
+      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance')))
+        console.error('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
     }
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if (typeof parentNode !== 'undefined') {
-      parentNode.children.push(shape);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = shape;
+      else
+        parentNode.children.push(shape);
       shape.parent = parentNode.id;
     }
 
@@ -688,7 +716,7 @@ export default class Parser {
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
     else
-      console.log('Not a recognized geometry: ' + node.tagName);
+      console.error('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -885,31 +913,6 @@ export default class Parser {
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
-  }
-
-  _parseSwitch(node, parent) {
-    if (typeof parent === 'undefined')
-      return;
-
-    const child = node.childNodes[0];
-
-    let boundingObject;
-    if (child.tagName === 'Shape')
-      boundingObject = this._parseShape(child, undefined, true);
-    else if (child.tagName === 'Transform')
-      boundingObject = this._parseTransform(child, undefined, true);
-    else if (child.tagName === 'Group')
-      boundingObject = this._parseGroup(child, undefined, true);
-    else
-      console.error('Unknown boundingObject: ' + child.tagName);
-
-    if (typeof boundingObject === 'undefined')
-      return;
-
-    boundingObject.parent = parent.id;
-    parent.boundingObject = boundingObject;
-
-    return boundingObject;
   }
 
   _parseAppearance(node, parentId) {
@@ -1184,7 +1187,7 @@ function _loadImage(src) {
     img.onload = () => {
       resolve(img);
     };
-    img.onerror = () => console.log('Error in loading: ' + src);
+    img.onerror = () => console.error('Error in loading: ' + src);
     img.setAttribute('crossOrigin', '');
     img.src = src;
   });
