@@ -1185,7 +1185,7 @@ function loadImageTextureInWren(prefix, url, isTransparent) {
 function getNodeAttribute(node, attributeName, defaultValue) {
   console.assert(node && node.attributes);
   if (attributeName in node.attributes)
-    return sanitizeHTML(node.attributes.getNamedItem(attributeName).value);
+    return _sanitizeHTML(node.attributes.getNamedItem(attributeName).value);
   return defaultValue;
 }
 
