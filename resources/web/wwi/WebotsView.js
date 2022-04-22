@@ -79,6 +79,7 @@ export default class WebotsView extends HTMLElement {
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/dependencies/quaternion.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
+    promises.push(this._loadScript('https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js'));
   }
 
   _closeWhenDOMElementRemoved() {

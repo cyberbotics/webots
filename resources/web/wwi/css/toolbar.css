@@ -579,8 +579,10 @@ webots-view .floating-window {
   display: block;
   border-radius: 5px;
   overflow: hidden;
-  min-height: 44px;
+  min-height: 65px;
   min-width: 200px;
+  touch-action: none;
+  box-sizing: border-box;
 }
 
 webots-view .floating-window-header {
@@ -590,7 +592,6 @@ webots-view .floating-window-header {
   justify-content: space-between;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  cursor: move;
   height: 45px;
 }
 
