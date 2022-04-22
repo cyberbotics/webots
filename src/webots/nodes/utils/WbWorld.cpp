@@ -288,7 +288,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
 
   QString cssFileName = fileName;
-  cssFileName.replace(QRegExp(".html$", Qt::CaseInsensitive), ".css");
+  cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
 
   bool success = true;
   QFileInfo fo(fileName);
