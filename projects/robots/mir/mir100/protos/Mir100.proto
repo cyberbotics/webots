@@ -111,12 +111,12 @@ PROTO Mir100 [
       }
       Transform {
         translation 0.4288 0.2358 0.188
-        rotation 0.382683 -0.92388 0 -3.14159
+        rotation -0.92388 -0.382683 0 -3.14159
         children IS frontLidarSlot
       }
       Transform {
         translation -0.3548 -0.2352 0.188
-        rotation -0.92388 -0.382683 0 -3.14159
+        rotation 0.382683 -0.92388 0 -3.14159
         children IS backLidarSlot
       }
       Transform {
