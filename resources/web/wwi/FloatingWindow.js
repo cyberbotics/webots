@@ -44,76 +44,77 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._draggable();
-    this._resizable();
+    this._interact(this.floatingWindow);
   }
 
-  _draggable() {
-    interact('.floating-window').draggable({
-      listeners: {
-        move(event) {
-          let target = event.target;
-          let x = (parseFloat(target.getAttribute('data-x')) || 0);
-          let y = (parseFloat(target.getAttribute('data-y')) || 0);
+  _interact(fw) {
+    interact('.floating-window')
+      .draggable({
+        listeners: {
+          move(event) {
+            let target = event.target;
+            let x = (parseFloat(target.getAttribute('data-x')) || 0);
+            let y = (parseFloat(target.getAttribute('data-y')) || 0);
 
-          target.lastElementChild.style.pointerEvents = 'none';
+            target.lastElementChild.style.pointerEvents = 'none';
+            target.style.userSelect = 'none';
 
-          x += event.dx;
-          y += event.dy;
+            x += event.dx;
+            y += event.dy;
 
-          target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-          target.setAttribute('data-x', x);
-          target.setAttribute('data-y', y);
-        },
-        end(event) {
-          event.target.lastElementChild.style.pointerEvents = 'auto';
-        }
-      },
-      modifiers: [
-        interact.modifiers.restrictRect({
-          restriction: 'parent'
-        })
-      ]
-    })
-  }
-
-  _resizable() {
-    interact('.floating-window').resizable( {
-      edges: { left: true, right: true, bottom: true, top: true },
-      listeners: {
-        move(event) {
-          let target = event.target;
-          let x = (parseFloat(target.getAttribute('data-x')) || 0);
-          let y = (parseFloat(target.getAttribute('data-y')) || 0);
-
-          target.lastElementChild.style.pointerEvents = 'none';
-          target.style.width = event.rect.width + 'px';
-          target.style.height = event.rect.height + 'px';
-
-          x += event.deltaRect.left;
-          y += event.deltaRect.top;
-
-          target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-          target.setAttribute('data-x', x);
-          target.setAttribute('data-y', y);
-        },
-        end(event) {
-          event.target.lastElementChild.style.pointerEvents = 'auto';
-        }
-      },
-      modifiers: [
-        interact.modifiers.restrictEdges( {
-          outer: 'parent'
-        }),
-  
-        interact.modifiers.restrictSize( {
-          min: { 
-            width: parseInt(document.getElementById(this.name).getAttribute('min-width')),
-            height: parseInt(document.getElementById(this.name).getAttribute('min-height'))
+            target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+          },
+          end(event) {
+            event.target.lastElementChild.style.pointerEvents = 'auto';
+            event.target.style.userSelect = 'auto';
           }
-        })
-      ]
-    })
+        },
+        modifiers: [
+          interact.modifiers.restrictRect({
+            restriction: 'parent'
+          })
+        ]
+      })
+      .resizable( {
+        edges: { left: true, right: true, bottom: true, top: true },
+        listeners: {
+          move(event) {
+            let target = event.target;
+            let x = (parseFloat(target.getAttribute('data-x')) || 0);
+            let y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+            target.lastElementChild.style.pointerEvents = 'none';
+            target.style.userSelect = 'none';
+            target.style.width = event.rect.width + 'px';
+            target.style.height = event.rect.height + 'px';
+
+            x += event.deltaRect.left;
+            y += event.deltaRect.top;
+
+            target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+          },
+          end(event) {
+            event.target.lastElementChild.style.pointerEvents = 'auto';
+            event.target.style.userSelect = 'auto';
+          }
+        },
+        modifiers: [
+          interact.modifiers.restrictEdges( {
+            outer: 'parent'
+          }),
+    
+          interact.modifiers.restrictSize( {
+            min: { 
+              width: parseInt(window.getComputedStyle(fw).minWidth),
+              height: parseInt(window.getComputedStyle(fw).minHeight)
+            }
+          })
+        ]
+      })
   }
 
   getId() {

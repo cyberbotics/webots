@@ -341,7 +341,7 @@ export default class Toolbar {
     this.ideWindow.setPosition(margin, margin);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
-    document.onfullscreenchange = () => { this._fullscreenChangeHeight([this.ideWindow]); };
+    this._checkWindowBoundaries();
   }
 
   _createRobotWindowButton() {
@@ -453,11 +453,8 @@ export default class Toolbar {
       rw.setPosition(ideOffset + margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
       numCol++;
     });
-
-    if (typeof this.ideWindow !== 'undefined' && !this.ideWindow)
-      document.onfullscreenchange = () => { this._fullscreenChangeHeight([this.ideWindow].concat(this.robotWindows)); };
-    else
-      document.onfullscreenchange = () => { this._fullscreenChangeHeight(this.robotWindows); };
+    
+    this._checkWindowBoundaries();
   }
 
   _refreshRobotWindowContent() {
@@ -529,7 +526,19 @@ export default class Toolbar {
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
 
-  _fullscreenChangeHeight(floatingWindows) {
+  _checkWindowBoundaries() {
+    const resizeObserver = new ResizeObserver(() => { 
+      const floatingWindows = document.querySelectorAll('.floating-window');
+      floatingWindows.forEach((fw) => {
+        const fwNode = document.getElementById(fw.id)
+        console.log("ID: " + fw.id);
+        console.log("PosX: " + fwNode.getPosition()[0]);
+        console.log("PosY: " + fwNode.getPosition()[1]);
+        console.log(" ");
+      });
+    });
+    resizeObserver.observe(document.getElementById('view3d'));
+    return;
     floatingWindows.forEach((fw) => {
       if (fw.getPosition()[0] > this.parentNode.offsetWidth)
         fw.setPosition(this.parentNode.offsetWidth - 200, fw.getPosition()[1]);
