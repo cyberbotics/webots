@@ -63,10 +63,10 @@ export default class Toolbar {
     this._createQuitButton();
     this._createReloadButton();
     this._createWorldSelectionButton();
-    this._createResetButton(); // Center if mobile
-    this._createStepButton();  // Center if mobile
-    this._createPlayButton();  // Center if mobile
-    this._createRunButton();   // Center if mobile
+    this._createResetButton();
+    this._createStepButton();
+    this._createPlayButton();
+    this._createRunButton();
     this._createStreamingTimeIndicator();
     this._checkLeftTooltips();
     if (this._view.broadcast) {

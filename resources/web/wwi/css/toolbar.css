@@ -632,68 +632,6 @@ webots-view .unclickable {
   pointer-events: none;
 }
 
-webots-view #resize-n {
-  position: absolute;
-  top: 0;
-  height: 7px;
-  width: 100%;
-}
-
-webots-view #resize-ne {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 11px;
-  width: 11px;
-}
-
-webots-view #resize-e {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 7px;
-  height: 100%;
-}
-
-webots-view #resize-se {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 11px;
-  width: 11px;
-}
-
-webots-view #resize-s {
-  position: absolute;
-  bottom: 0;
-  height: 7px;
-  width: 100%;
-}
-
-webots-view #resize-sw {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 11px;
-  width: 11px;
-}
-
-webots-view #resize-w {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 7px;
-  height: 100%;
-}
-
-webots-view #resize-nw {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 11px;
-  width: 11px;
-}
-
 /* Vertical panes */
 
 webots-view .vertical-list-pane {
