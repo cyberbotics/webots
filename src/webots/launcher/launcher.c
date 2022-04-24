@@ -91,6 +91,10 @@ int main(int argc, char *argv[]) {
     fail("GetEnvironmentVariableW", "PATH");
   wcscat(new_path, old_path);
   free(old_path);
+#ifndef WEBOTSW
+  if (!SetEnvironmentVariableW(L"WEBOTS_TERMINAL", L"1"))
+    fail("SetEnvironmentVariableW", "WEBOTS_TERMINAL");
+#endif
   if (!SetEnvironmentVariableW(L"PATH", new_path))
     fail("SetEnvironmentVariableW", "PATH");
   free(new_path);
