@@ -194,56 +194,61 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
+  FreeConsole();
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
   QCommandLineParser parser;
   parser.addHelpOption();
   parser.addVersionOption();
   parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  QCommandLineOption minimizeOption("minimize", QCoreApplication::translate("main", "Minimize the window"));
+  QCommandLineOption minimizeOption("minimize", QCoreApplication::tr("main", "Minimize the window"));
   parser.addOption(minimizeOption);
-  QCommandLineOption fullscreenOption("fullscreen", QCoreApplication::translate("main", "View window in fullscreen"));
+  QCommandLineOption fullscreenOption("fullscreen", QCoreApplication::tr("main", "View window in fullscreen"));
   parser.addOption(fullscreenOption);
-  QCommandLineOption modeOption("mode",
-                                QCoreApplication::translate("main", "Specify speed of simulation (default is realtime)"),
-                                QCoreApplication::translate("main", "speed"), "realtime");
+  QCommandLineOption modeOption("mode", QCoreApplication::tr("main", "Specify speed of simulation (default is realtime)"),
+                                tr("main", "speed"), "realtime");
   parser.addOption(modeOption);
-  QCommandLineOption convertOption("convert", QCoreApplication::translate("main", "Convert."));
+  QCommandLineOption convertOption("convert", QCoreApplication::tr("main", "Convert."));
   parser.addOption(convertOption);
-  QCommandLineOption noRenderingOption("no-rendering", QCoreApplication::translate("main", "No rendering"));
+  QCommandLineOption noRenderingOption("no-rendering", QCoreApplication::tr("main", "No rendering"));
   parser.addOption(noRenderingOption);
-  QCommandLineOption sysinfoOption("sysinfo", QCoreApplication::translate("main", "System information"));
+  QCommandLineOption sysinfoOption("sysinfo", QCoreApplication::tr("main", "System information"));
   parser.addOption(sysinfoOption);
-  QCommandLineOption batchOption("batch", QCoreApplication::translate("main", "Batch"));
+  QCommandLineOption batchOption("batch", QCoreApplication::tr("main", "Batch"));
   parser.addOption(batchOption);
-  QCommandLineOption updateProtoCacheOption("update-proto-cache", QCoreApplication::translate("main", "Update the PROTO cache"),
-                                            QCoreApplication::translate("main", "task"));
+  QCommandLineOption updateProtoCacheOption("update-proto-cache", QCoreApplication::tr("main", "Update the PROTO cache"),
+                                            tr("main", "task"));
   parser.addOption(updateProtoCacheOption);
-  QCommandLineOption updateWorldOption("update-world", QCoreApplication::translate("main", "Update world"));
+  QCommandLineOption updateWorldOption("update-world", QCoreApplication::tr("main", "Update world"));
   parser.addOption(updateWorldOption);
   QCommandLineOption x3DMetaFileExportOption("enable-x3d-meta-file-export",
-                                             QCoreApplication::translate("main", "Enable x3d meta file export"));
+                                             QCoreApplication::tr("main", "Enable x3d meta file export"));
   parser.addOption(x3DMetaFileExportOption);
-  QCommandLineOption streamOption("stream", QCoreApplication::translate("main", "Stream"));
+  QCommandLineOption streamOption("stream", QCoreApplication::tr("main", "Stream"));
   parser.addOption(streamOption);
-  QCommandLineOption stdoutOption("stdout", QCoreApplication::translate("main", "stdout"));
+  QCommandLineOption stdoutOption("stdout", QCoreApplication::tr("main", "stdout"));
   parser.addOption(stdoutOption);
-  QCommandLineOption stderrOption("stderr", QCoreApplication::translate("main", "stderr"));
+  QCommandLineOption stderrOption("stderr", QCoreApplication::tr("main", "stderr"));
   parser.addOption(stderrOption);
-  QCommandLineOption logPerfomanceOption("log-performance", QCoreApplication::translate("main", "Log performance"),
-                                         QCoreApplication::translate("main", "logArgument"));
+  QCommandLineOption logPerfomanceOption("log-performance", QCoreApplication::tr("main", "Log performance"),
+                                         QCoreApplication::tr("main", "logArgument"));
   parser.addOption(logPerfomanceOption);
   parser.addOptions({
-    {"disable-logging", QCoreApplication::translate("main", "Disable logging")},
-    {"enable-logging", QCoreApplication::translate("main", "Enable logging")},
-    {"log-level", QCoreApplication::translate("main", "Log level")},
-    {"no-sandbox", QCoreApplication::translate("main", "No sandbox")},
-    {"single-process", QCoreApplication::translate("main", "Single Process")},
-    {"remote-debugging-port", QCoreApplication::translate("main", "Remote Debugging Port")},
+    {"disable-logging", tr("main", "Disable logging")},
+    {"enable-logging", tr("main", "Enable logging")},
+    {"log-level", tr("main", "Log level")},
+    {"no-sandbox", tr("main", "No sandbox")},
+    {"single-process", tr("main", "Single Process")},
+    {"remote-debugging-port", tr("main", "Remote Debugging Port")},
   });
 
   parser.process(QCoreApplication::arguments());
   parser.parse(QCoreApplication::arguments());
+  QString *errorMessage;
+  if (!parser.parse(QCoreApplication::arguments())) {
+    *errorMessage = parser.errorText();
+    return;
+  }
 
   QStringList args = parser.optionNames();
 
@@ -257,10 +262,9 @@ void WbGuiApplication::parseArguments() {
       mShouldStartFullscreen = true;
     } else if (subCommand == "mode" && parser.isSet(modeOption)) {
       args.pop_front();
-      QStringList mode = parser.values(modeOption);
+      const QStringList mode = parser.values(modeOption);
       if (mode.size() != 1) {
-        fprintf(stderr, "%s\n", qPrintable(QCoreApplication::translate("main", "Error: Must specify one mode argument.")));
-        parser.showHelp(1);
+        cerr << tr("main", "Error: Must specify one mode argument.").toUtf8().constData() << endl;
       }
       if (mode[0] == "stop") {
         cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
@@ -272,7 +276,7 @@ void WbGuiApplication::parseArguments() {
       else if (mode[0] == "fast")
         mStartupMode = WbSimulationState::FAST;
       else if (mode[0] == "run") {
-        cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+        cerr << tr("Warning: `run` mode is deprecated, falling back to `fast` mode").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::FAST;
       }
 
@@ -292,7 +296,7 @@ void WbGuiApplication::parseArguments() {
       WbMessageBox::disable();
     } else if (subCommand == "update-proto-cache" && parser.isSet(updateProtoCacheOption)) {
       args.pop_front();
-      QStringList protoCacheUpdate = parser.values(updateProtoCacheOption);
+      const QStringList protoCacheUpdate = parser.values(updateProtoCacheOption);
       if (protoCacheUpdate.size() == 1)
         mTaskArguments.append(protoCacheUpdate[0]);
       else
@@ -306,12 +310,11 @@ void WbGuiApplication::parseArguments() {
       WbWorld::enableX3DMetaFileExport();
     } else if (subCommand == "stream" && parser.isSet(streamOption)) {
       args.pop_front();
-      QStringList streamArgument = parser.values(streamOption);
+      const QStringList streamArgument = parser.values(streamOption);
       if (streamArgument.size() != 1) {
-        fprintf(stderr, "%s\n",
-                qPrintable(QCoreApplication::translate(
-                  "main", "webots: invalid option : '--log-performance': log file path is missing.")));
-        parser.showHelp(1);
+        cerr << tr("main", "webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData()
+             << endl;
+        //  parser.showHelp(1);
       }
       stream = true;
       parseStreamArguments(streamArgument[0]);
@@ -322,21 +325,19 @@ void WbGuiApplication::parseArguments() {
       args.pop_front();
       WbLog::enableStdErrRedirectToTerminal();
     } else if (subCommand == "log-performance" && parser.isSet(logPerfomanceOption)) {
-      QStringList logArgument = parser.values(logPerfomanceOption);
+      const QStringList logArgument = parser.values(logPerfomanceOption);
       if (logArgument[0].contains(",")) {
-        QStringList argumentsList = logArgument[0].split(",");
+        const QStringList argumentsList = logArgument[0].split(",");
         WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
       } else {
         WbPerformanceLog::createInstance(logArgument[0]);
         logPerformanceMode = true;
       }
       if (logArgument.size() != 1) {
-        fprintf(stderr, "%s\n",
-                qPrintable(QCoreApplication::translate(
-                  "main", "webots: invalid option : '--log-performance': log file path is missing.")));
-        parser.showHelp(1);
+        cerr << tr("main", "webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData()
+             << endl;
+        // parser.showHelp(1);
       }
-
     }
 #ifndef _WIN32
     else if (subCommand == "disable-gpu" || subCommand == "disable-logging" || subCommand == "enable-logging" ||
@@ -345,13 +346,17 @@ void WbGuiApplication::parseArguments() {
       // Silently ignore the awesome QWebEngine debugging tools:
       // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
     }
+    if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+      freopen("CONOUT$", "w", stdout);
+      freopen("CONOUT$", "w", stderr);
+    }
 #endif
     else {
       if (mStartWorldName.isEmpty())
         mStartWorldName = QDir::fromNativeSeparators(subCommand);
       else {
-        fprintf(stderr, "%s\n", qPrintable(QCoreApplication::translate("main", "webots: too many arguments.")));
-        parser.showHelp(1);
+        cerr << tr("main", "webots: too many arguments.").toUtf8().constData() << endl;
+        // parser.showHelp(1);
         mTask = FAILURE;
       }
     }
