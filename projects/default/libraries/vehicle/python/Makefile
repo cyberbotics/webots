@@ -59,7 +59,7 @@ PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VER
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 endif
-SKIP_PYTHON_PYMALLOC := 27 38 39
+SKIP_PYTHON_PYMALLOC := 27 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
