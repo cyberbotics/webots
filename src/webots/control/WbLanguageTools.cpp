@@ -121,7 +121,6 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
         pythonCommand = findWorkingPythonPath("3.7", env, true);
         shortVersion = "37";
       }
-      }
     } else if (pythonCommand == "python3.7") {
       pythonCommand = findWorkingPythonPath("3.7", env, true);
       shortVersion = "37";
