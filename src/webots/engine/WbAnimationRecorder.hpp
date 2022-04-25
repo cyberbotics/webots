@@ -113,6 +113,8 @@ private:
   bool mIsRecording;
   bool mStartedFromGui;
 
+  double mLastUpdateTime;
+
   QString mAnimationFilename;
   QFile *mFile;
   bool mFirstFrame;

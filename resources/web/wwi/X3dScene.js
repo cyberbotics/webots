@@ -158,18 +158,16 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = []) {
+  applyPose(pose) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
-      return appliedFields;
+      return;
 
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
 
-    let fields = [...appliedFields];
-
-    fields = this._applyPoseToObject(pose, object, fields);
+    this._applyPoseToObject(pose, object);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -179,26 +177,18 @@ export default class X3dScene {
         // remove a USE node from the list if it has been deleted
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
-      } else {
-        fields = [...appliedFields];
-        fields = this._applyPoseToObject(pose, use, fields);
-      }
+      } else
+        this._applyPoseToObject(pose, use);
 
       --length;
     }
-
-    return fields;
   }
 
-  _applyPoseToObject(pose, object, fields) {
+  _applyPoseToObject(pose, object) {
     for (let key in pose) {
       if (key === 'id')
         continue;
 
-      if (fields.indexOf(key) !== -1)
-        continue;
-
-      let valid = true;
       if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
@@ -253,11 +243,7 @@ export default class X3dScene {
               shape.updateAppearance();
           }
         }
-      } else
-        valid = false;
-
-      if (valid)
-        fields.push(key);
+      }
     }
 
     if (typeof object.parent !== 'undefined') {
@@ -265,8 +251,6 @@ export default class X3dScene {
       if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
-
-    return fields;
   }
 
   applyLabel(label, view) {
