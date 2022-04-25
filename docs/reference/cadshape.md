@@ -14,7 +14,6 @@ The [CadShape](#cadshape) node renders a Collada (.dae) or Wavefront (.obj) obje
 Both Collada and Wavefront files can include 3D geometries and appearances, be it materials or references to external textures, therefore the [CadShape](#cadshape) node builds both.
 If the file references external textures, these should be placed relative to the collada/wavefront file itself as indicated (i.e., in the location expressed within the .dae/.obj file), no additional search is performed for these textures.
 
-
 ### Field Summary
 
 - The `url` field defines the url of the 3D file.
