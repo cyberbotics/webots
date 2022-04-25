@@ -31,7 +31,7 @@ PROTO Panda [
     children [
       Solid {
         children [
-          ColladaShape {
+          CadShape {
             url [
               "webots://projects/robots/franka_emika/panda/protos/meshes/link0.dae"
             ]
@@ -57,7 +57,7 @@ PROTO Panda [
             endPoint DEF panda_link1 Solid {
               translation 0 0 0.333
               children [
-                ColladaShape {
+                CadShape {
                   url [
                     "webots://projects/robots/franka_emika/panda/protos/meshes/link1.dae"
                   ]
@@ -82,7 +82,7 @@ PROTO Panda [
                   endPoint DEF panda_link2 Solid {
                     rotation -1 0 0 1.570796
                     children [
-                      ColladaShape {
+                      CadShape {
                         url [
                           "webots://projects/robots/franka_emika/panda/protos/meshes/link2.dae"
                         ]
@@ -109,7 +109,7 @@ PROTO Panda [
                           translation 0 -0.316 0
                           rotation 1 0 0 1.570796
                           children [
-                            ColladaShape {
+                            CadShape {
                               url [
                                 "webots://projects/robots/franka_emika/panda/protos/meshes/link3.dae"
                               ]
@@ -137,7 +137,7 @@ PROTO Panda [
                                 translation 0.0825 0 0
                                 rotation 0.5661098628752397 0.5828891661867001 -0.5828892202619214 2.1113368158463413
                                 children [
-                                  ColladaShape {
+                                  CadShape {
                                     url [
                                       "webots://projects/robots/franka_emika/panda/protos/meshes/link4.dae"
                                     ]
@@ -165,7 +165,7 @@ PROTO Panda [
                                       translation -0.0825 0.384 0
                                       rotation -1 0 0 1.570796
                                       children [
-                                        ColladaShape {
+                                        CadShape {
                                           url [
                                             "webots://projects/robots/franka_emika/panda/protos/meshes/link5.dae"
                                           ]
@@ -191,7 +191,7 @@ PROTO Panda [
                                           endPoint DEF panda_link6 Solid {
                                             rotation 0.566110229574146 -0.5828891103953294 0.582888919910174 2.111336936951227
                                             children [
-                                              ColladaShape {
+                                              CadShape {
                                                 url [
                                                   "webots://projects/robots/franka_emika/panda/protos/meshes/link6.dae"
                                                 ]
@@ -219,7 +219,7 @@ PROTO Panda [
                                                   translation 0.088 0 0
                                                   rotation 0.8614190923211578 -0.3591359294777342 0.3591358121139644 1.7194199439154274
                                                   children [
-                                                  ColladaShape {
+                                                  CadShape {
                                                     url [
                                                       "webots://projects/robots/franka_emika/panda/protos/meshes/link7.dae"
                                                     ]

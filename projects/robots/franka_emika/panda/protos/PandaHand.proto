@@ -17,7 +17,7 @@ PROTO PandaHand [
       Transform {
         rotation 0 0 1 -0.785398
         children [
-          ColladaShape {
+          CadShape {
             url [
               "webots://projects/robots/franka_emika/panda/protos/meshes/hand.dae"
             ]
@@ -41,7 +41,7 @@ PROTO PandaHand [
             endPoint DEF panda_leftfinger Solid {
               translation 0 0 0.0584
               children [
-                ColladaShape {
+                CadShape {
                   url [
                     "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
                   ]
@@ -110,7 +110,7 @@ PROTO PandaHand [
                 Transform {
                   rotation 0 0 1 3.141593
                   children [
-                    ColladaShape {
+                    CadShape {
                       url [
                         "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
                       ]
