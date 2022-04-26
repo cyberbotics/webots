@@ -158,6 +158,7 @@ void WbAnimationRecorder::cleanup() {
 WbAnimationRecorder::WbAnimationRecorder() :
   mIsRecording(false),
   mStartedFromGui(false),
+  mLastUpdateTime(0.0),
   mFile(NULL),
   mFirstFrame(true),
   mStreamingServer(false) {
@@ -298,18 +299,22 @@ void WbAnimationRecorder::updateCommandsAfterNodeDeletion(QObject *node) {
 }
 
 void WbAnimationRecorder::update() {
-  const QString data = computeUpdateData();
-  if (data.isEmpty())
-    return;
+  double currentTime = WbSimulationState::instance()->time();
+  if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
+    const QString data = computeUpdateData();
+    if (data.isEmpty())
+      return;
 
-  QTextStream out(mFile);
+    QTextStream out(mFile);
 
-  if (!mFirstFrame)
-    out << ",\n";
+    if (!mFirstFrame)
+      out << ",\n";
 
-  out << data;
+    out << data;
 
-  mFirstFrame = false;
+    mFirstFrame = false;
+    mLastUpdateTime = currentTime;
+  }
 }
 
 QString WbAnimationRecorder::computeUpdateData(bool force) {
@@ -379,6 +384,7 @@ void WbAnimationRecorder::startRecording(const QString &targetFile) {
 
   connect(WbSimulationState::instance(), &WbSimulationState::physicsStepEnded, this, &WbAnimationRecorder::update);
 
+  mLastUpdateTime = -1;
   mIsRecording = true;
   mFirstFrame = true;
 
