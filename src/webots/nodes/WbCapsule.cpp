@@ -44,7 +44,6 @@ void WbCapsule::init() {
   mTop = findSFBool("top");
   mSubdivision = findSFInt("subdivision");
 
-  mIs180DegreesRotated = true;
   mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
 }
 

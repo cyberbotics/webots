@@ -173,9 +173,8 @@ protected:
 
   // ODE objects for a WbGeometry lying into a boundingObject
   // Scaling
-  bool mIs90DegreesRotated;   // rotate ElevationGrid by 90 degrees: ODE to FLU rotation
-  bool mIs180DegreesRotated;  // rotate Cylinder, Capsule and Sphere by 180 degrees: ODE to FLU rotation for Fluid
-  dGeomID mOdeGeom;           // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
+  bool mIs90DegreesRotated;  // rotate ElevationGrid by 90 degrees: ODE to FLU rotation
+  dGeomID mOdeGeom;          // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
   WbVector3 mLocalOdeGeomOffsetPosition;
   dMass *mOdeMass;        // needed to correct the WbSolid parent mass after the destruction of a bounding WbGeometry
   void applyToOdeMass();  // modifies the ODE dMass when the dimensions change
