@@ -312,9 +312,6 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 }
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
-  qDebug() << "writeAnswer" << mHasSharedMemoryChanged;
-  fflush(stderr);
-
   if (mImageChanged) {
     copyImageToSharedMemory(mWrenCamera, image());
     mSensor->resetPendingValue();
@@ -325,8 +322,6 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
     addConfigureToStream(stream, true);
 
   if (mHasSharedMemoryChanged && mImageShm) {
-    qDebug() << "sending C_CAMERA_SHARED_MEMORY";
-    fflush(stderr);
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
     if (mImageShm) {
