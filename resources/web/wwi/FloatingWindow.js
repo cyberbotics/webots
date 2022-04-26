@@ -53,8 +53,9 @@ export default class FloatingWindow {
         listeners: {
           move(event) {
             let target = event.target;
-            let x = (parseFloat(target.getAttribute('data-x')) || 0);
-            let y = (parseFloat(target.getAttribute('data-y')) || 0);
+            let transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(event.target).transform)
+            let x = (transformMatrix.m41 || 0);
+            let y = (transformMatrix.m42 || 0);
 
             target.lastElementChild.style.pointerEvents = 'none';
             target.style.userSelect = 'none';
@@ -63,8 +64,6 @@ export default class FloatingWindow {
             y += event.dy;
 
             target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
           },
           end(event) {
             event.target.lastElementChild.style.pointerEvents = 'auto';
@@ -82,8 +81,9 @@ export default class FloatingWindow {
         listeners: {
           move(event) {
             let target = event.target;
-            let x = (parseFloat(target.getAttribute('data-x')) || 0);
-            let y = (parseFloat(target.getAttribute('data-y')) || 0);
+            let transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(event.target).transform)
+            let x = (transformMatrix.m41 || 0);
+            let y = (transformMatrix.m42 || 0);
 
             target.lastElementChild.style.pointerEvents = 'none';
             target.style.userSelect = 'none';
@@ -94,8 +94,6 @@ export default class FloatingWindow {
             y += event.deltaRect.top;
 
             target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
           },
           end(event) {
             event.target.lastElementChild.style.pointerEvents = 'auto';
@@ -121,17 +119,9 @@ export default class FloatingWindow {
     return this.floatingWindow.id;
   }
 
-  getSize() {
-    return [this.floatingWindow.offsetWidth, this.floatingWindow.offsetHeight];
-  }
-
   setSize(w, h) {
     this.floatingWindow.style.width = w.toString() + 'px';
     this.floatingWindow.style.height = h.toString() + 'px';
-  }
-
-  getPosition() {
-    return [this.floatingWindow.offsetLeft, this.floatingWindow.offsetTop];
   }
 
   setPosition(xPos, yPos) {

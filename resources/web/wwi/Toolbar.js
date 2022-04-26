@@ -26,6 +26,7 @@ export default class Toolbar {
     if (this._view.mobileDevice) {
       this.toolbar.style.minWidth = this.minWidth + 'px';
       this._resizeMobileToolbar();
+      screen.orientation.addEventListener('change', this._checkWindowBoundaries.bind(this))
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
     } else
@@ -341,7 +342,7 @@ export default class Toolbar {
     this.ideWindow.setPosition(margin, margin);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
-    this._checkWindowBoundaries();
+    this._resizeObserver();
   }
 
   _createRobotWindowButton() {
@@ -454,7 +455,7 @@ export default class Toolbar {
       numCol++;
     });
     
-    this._checkWindowBoundaries();
+    this._resizeObserver();
   }
 
   _refreshRobotWindowContent() {
@@ -526,32 +527,27 @@ export default class Toolbar {
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
 
-  _checkWindowBoundaries() {
-    const resizeObserver = new ResizeObserver(() => { 
-      const floatingWindows = document.querySelectorAll('.floating-window');
-      floatingWindows.forEach((fw) => {
-        const fwNode = document.getElementById(fw.id)
-        console.log("ID: " + fw.id);
-        console.log("PosX: " + fwNode.getPosition()[0]);
-        console.log("PosY: " + fwNode.getPosition()[1]);
-        console.log(" ");
-      });
-    });
+  _resizeObserver() {
+    const resizeObserver = new ResizeObserver(() => this._checkWindowBoundaries());
     resizeObserver.observe(document.getElementById('view3d'));
-    return;
+  }
+
+  _checkWindowBoundaries() {
+    const floatingWindows = document.querySelectorAll('.floating-window');
     floatingWindows.forEach((fw) => {
-      if (fw.getPosition()[0] > this.parentNode.offsetWidth)
-        fw.setPosition(this.parentNode.offsetWidth - 200, fw.getPosition()[1]);
-      if (fw.getPosition()[1] > this.parentNode.offsetHeight)
-        fw.setPosition(fw.getPosition()[0], this.parentNode.offsetHeight - 44);
+      const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
+      const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
+      const transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(fw).transform)
 
-      const maxWidth = this.parentNode.offsetWidth - fw.getPosition()[0];
-      const maxHeight = this.parentNode.offsetHeight - fw.getPosition()[1];
+      const translateX = fw.offsetLeft + transformMatrix.m41 > maxLeft ? (maxLeft - fw.offsetLeft) : transformMatrix.m41;
+      const translateY = fw.offsetTop + transformMatrix.m42 > maxTop ? (maxTop - fw.offsetTop) : transformMatrix.m42;
+      fw.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
 
-      if (fw.getSize()[0] > maxWidth)
-        fw.setSize(maxWidth, fw.getSize()[1]);
-      if (fw.getSize()[1] > maxHeight)
-        fw.setSize(fw.getSize()[0], maxHeight);
+      const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft - translateX;
+      const maxHeight = this.parentNode.offsetHeight - fw.offsetTop - translateY;
+
+      fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
+      fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
     });
   }
 
