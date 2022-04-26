@@ -228,7 +228,7 @@ class AnsiCodes(object):
 %include <webots/camera_recognition_object.h>
 
 %extend WbCameraRecognitionObject {
-  PyObject *get_position() {
+  PyObject *getPosition() {
     const double *position = $self->position;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
@@ -238,7 +238,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_orientation() {
+  PyObject *getOrientation() {
     const double *orientation = $self->orientation;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(4);
@@ -249,7 +249,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_size() {
+  PyObject *getSize() {
     const double *size = $self->size;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -258,7 +258,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_position_on_image() {
+  PyObject *getPositionOnImage() {
     const int *position_on_image = $self->position_on_image;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -267,7 +267,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_size_on_image() {
+  PyObject *getSizeOnImage() {
     const int *size_on_image = $self->size_on_image;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -276,7 +276,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_colors() {
+  PyObject *getColors() {
     const double *colors = $self->colors;
     const int number_of_color = $self->number_of_colors;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
@@ -286,19 +286,19 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_id() {
+  PyObject *getId() {
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->id);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_number_of_colors() {
+  PyObject *getNumberOfColors() {
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->number_of_colors);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_model() {
+  PyObject *getModel() {
     return PyBytes_FromStringAndSize($self->model, strlen($self->model));
   }
 };
