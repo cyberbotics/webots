@@ -29,17 +29,14 @@ jobs:
         brew install swig wget cmake python@3.7 python@3.8 python@3.9 python@3.10
         npm install -g appdmg
         # install regular Python 3.7
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
+        wget -qq https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
+        sudo installer -pkg python-3.7.9-macosx10.9.pkg -target /
         # install regular Python 3.8
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+        wget -qq https://www.python.org/ftp/python/3.8.10/python-3.8.10-macos11.pkg
+        sudo installer -pkg python-3.8.10-macos11.pkg -target /
         # install regular Python 3.9
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.9
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.9.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
+        wget -qq https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg
+        sudo installer -pkg python-3.9.12-macos11.pkg -target /
         # install regular Python 3.10
         wget -qq https://www.python.org/ftp/python/3.10.4/python-3.10.4-macos11.pkg
         sudo installer -pkg python-3.10.4-macos11.pkg -target /
