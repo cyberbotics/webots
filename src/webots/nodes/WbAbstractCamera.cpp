@@ -139,6 +139,7 @@ void WbAbstractCamera::postFinalize() {
   connect(mSensor, &WbSensor::stateChanged, this, &WbAbstractCamera::applyFrustumToWren);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbAbstractCamera::updateOptionalRendering);
+  setup();
 }
 
 void WbAbstractCamera::updateOptionalRendering(int option) {
@@ -185,6 +186,7 @@ void WbAbstractCamera::initializeImageSharedMemory() {
   if (mImageShm)
     mImageData = (unsigned char *)mImageShm->data();
   qDebug() << "Created shared memory segment at" << mImageShm->nativeKey();
+  fflush(stderr);
 }
 
 WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
