@@ -109,11 +109,13 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   else {
     if (pythonCommand == "python" || pythonCommand == "python3") {
       pythonCommand = findWorkingPythonPath("3.10", env, false);
-      shortVersion = "310";
-      if (pythonCommand == "!") {
+      if (pythonCommand != "!")
+        shortVersion = "310";
+      else {
         pythonCommand = findWorkingPythonPath("3.9", env, false);
-        shortVersion = "39";
-        if (pythonCommand == "!") {
+        if (pythonCommand != "!")
+          shortVersion = "39";
+        else {
           pythonCommand = findWorkingPythonPath("3.8", env, false);
           if (pythonCommand != "!")
             shortVersion = "38";
