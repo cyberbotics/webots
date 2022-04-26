@@ -1041,7 +1041,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     }
     return;
   }
-  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1075,7 +1075,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     writeParameters(writer);
   else
     foreach (WbField *field, fields())
-      if (!field->isDeprecated() && (!writer.isVrml() || field->isVrml()))
+      if (!field->isDeprecated())
         field->write(writer);
 
   writer.decreaseIndent();
@@ -1165,13 +1165,11 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
     writer << "USE " << mUseName << "\n";
     return true;
   }
-  if (writer.isVrml())
-    writer << fullVrmlName();
-  else {
-    if (isDefNode())
-      writer << "DEF " << defName() << " ";
-    writer << nodeModelName();
-  }
+
+  if (isDefNode())
+    writer << "DEF " << defName() << " ";
+  writer << nodeModelName();
+
   writer << " {\n";
   writer.increaseIndent();
   return false;

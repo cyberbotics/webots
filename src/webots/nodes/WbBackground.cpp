@@ -738,17 +738,6 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
     }
-  } else if (writer.isVrml()) {
-    for (int i = 0; i < 6; ++i) {
-      if (!backgroundFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gUrlNames(i) << " [ \"" << backgroundFileNames[i] << "\" ]\n";
-      }
-      if (!irradianceFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gIrradianceUrlNames(i) << " [ \"" << irradianceFileNames[i] << "\" ]\n";
-      }
-    }
   } else
     WbNode::exportNodeFields(writer);
 }

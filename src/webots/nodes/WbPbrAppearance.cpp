@@ -632,35 +632,6 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
 
     if (textureTransform())
       textureTransform()->write(writer);
-  } else if (writer.isVrml()) {
-    // export as vrml
-    writer.indent();
-    writer << "material Material {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "diffuseColor ";
-    mBaseColor->write(writer);
-    writer << "\n";
-    writer.indent();
-    writer << "specularColor " << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
-           << (float)(1.0 - mRoughness->value()) << "\n";
-    writer.indent();
-    writer << "shininess " << (float)(1.0 - mRoughness->value()) << "\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
-    if (mBaseColorMap->value()) {
-      writer.indent();
-      writer << "texture ";
-      mBaseColorMap->write(writer);
-      writer << "\n";
-    }
-    if (mTextureTransform->value()) {
-      writer.indent();
-      writer << "textureTransform ";
-      mTextureTransform->write(writer);
-      writer << "\n";
-    }
   }
 }
 

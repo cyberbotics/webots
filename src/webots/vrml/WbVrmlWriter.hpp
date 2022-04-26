@@ -39,7 +39,6 @@ public:
   WbVrmlWriter(QString *target, const QString &fileName);
   virtual ~WbVrmlWriter();
 
-  bool isVrml() const { return mVrmlType == VRML; }
   bool isX3d() const { return mVrmlType == X3D; }
   bool isProto() const { return mVrmlType == PROTO; }
   bool isUrdf() const { return mVrmlType == URDF; }
@@ -93,7 +92,7 @@ public:
 private:
   void setVrmlType();
 
-  enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
+  enum VrmlType { VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
   QString *mString;
   QIODevice *mDevice;
   QString mFileName;

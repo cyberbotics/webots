@@ -103,44 +103,6 @@ void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
     writer << " size=\'";
     mSize->write(writer);
     writer << "\'";
-  } else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coordIndex [ 0 1 2 3 -1 ]\n";
-    writer.indent();
-    writer << "texCoordIndex [ 0 1 2 3 -1 ]\n";
-  }
-}
-
-void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  double sx = mSize->value().x() / 2.0;
-  double sy = mSize->value().y() / 2.0;
-  if (!writer.isVrml())
-    WbGeometry::exportNodeSubNodes(writer);
-  else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coord Coordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ ";
-    writer << -sx << -sy << " 0 "
-           << ", ";
-    writer << -sx << sy << " 0 "
-           << ", ";
-    writer << sx << sy << " 0 "
-           << ", ";
-    writer << sx << -sy << " 0 "
-           << " ]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
-    writer.indent();
-    writer << "texCoord TextureCoordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ 0 1, 0 0, 1 0, 1 1]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
   }
 }
 

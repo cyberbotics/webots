@@ -116,101 +116,20 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 void WbSphere::write(WbVrmlWriter &writer) const {
-  if (writer.isVrml() && mIco->value())
-    writeExport(writer);
-  else
-    WbGeometry::write(writer);
+  WbGeometry::write(writer);  // TOREM
 }
 
 void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
-  if (!writer.isVrml() || !mIco->value()) {
-    WbGeometry::exportNodeFields(writer);
-    if (writer.isX3d()) {
-      writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
-      writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
-    }
-    return;
+  WbGeometry::exportNodeFields(writer);
+
+  if (writer.isX3d()) {
+    writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
+    writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
   }
-
-  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
-  if (!mWrenMesh)
-    return;
-
-  writer.indent();
-  writer << "creaseAngle 1\n";
-
-  const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
-  unsigned int indices[indexCount];
-  writer.indent();
-  writer << "coordIndex [ ";
-  wr_static_mesh_read_data(mWrenMesh, NULL, NULL, NULL, indices);
-  for (int i = 0; i < indexCount; i += 3)
-    writer << indices[i] << " " << indices[i + 1] << " " << indices[i + 2] << " -1 ";
-  writer << "]\n";
 }
 
 void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  if (!writer.isVrml() || !mIco->value()) {
-    WbGeometry::exportNodeSubNodes(writer);
-    return;
-  }
-  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
-  if (!mWrenMesh)
-    return;
-
-  const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
-  float vertices[3 * vertexCount];
-  float normal_data[3 * vertexCount];
-  float tex_coord_data[2 * vertexCount];
-  wr_static_mesh_read_data(mWrenMesh, vertices, normal_data, tex_coord_data, NULL);
-  // Write with limited precision to reduce the size of the VRML file.
-  const int precision = 4;
-
-  // Coordinate
-  writer.indent();
-  writer << "coord Coordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [ ";
-  const double radius = mRadius->value();
-  for (int i = 0; i < vertexCount; i++) {
-    writer << QString::number(vertices[i * 3] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 1] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 2] * radius, 'f', precision) << " ";
-  }
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  // TextureCoordinate
-  writer.indent();
-  writer << "texCoord TextureCoordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [ ";
-  for (int i = 0; i < vertexCount; i++)
-    writer << QString::number(tex_coord_data[i * 2], 'f', precision) << " "
-           << QString::number(-tex_coord_data[i * 2 + 1], 'f', precision) << " ";
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  // Normal
-  writer.indent();
-  writer << "normal Normal {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << " vector [ ";
-  for (int i = 0; i < vertexCount; i++)
-    writer << QString::number(normal_data[i * 3], 'f', precision) << " "
-           << QString::number(normal_data[i * 3 + 1], 'f', precision) << " "
-           << QString::number(normal_data[i * 3 + 2], 'f', precision) << " ";
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
+  WbGeometry::exportNodeSubNodes(writer);
 }
 
 bool WbSphere::sanitizeFields() {

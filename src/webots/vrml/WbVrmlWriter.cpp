@@ -54,8 +54,6 @@ void WbVrmlWriter::setVrmlType() {
     mVrmlType = VRML_SIM;
   else if (mFileName.endsWith(".wbo", Qt::CaseInsensitive))
     mVrmlType = VRML_OBJ;
-  else if (mFileName.endsWith(".wrl", Qt::CaseInsensitive))
-    mVrmlType = VRML;
   else if (mFileName.endsWith(".x3d", Qt::CaseInsensitive))
     mVrmlType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
@@ -137,9 +135,6 @@ void WbVrmlWriter::indent() {
 
 void WbVrmlWriter::writeHeader(const QString &title) {
   switch (mVrmlType) {
-    case VRML:
-      *this << "#VRML V2.0 utf8\n";
-      return;
     case VRML_SIM:
       *this << QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false));
       return;
