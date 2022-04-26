@@ -113,14 +113,16 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
       if (pythonCommand == "!") {
         pythonCommand = findWorkingPythonPath("3.9", env, false);
         shortVersion = "39";
-      }
-      if (pythonCommand == "!") {
-        pythonCommand = findWorkingPythonPath("3.8", env, false);
-        shortVersion = "38";
-      }
-      if (pythonCommand == "!") {
-        pythonCommand = findWorkingPythonPath("3.7", env, true);
-        shortVersion = "37";
+        if (pythonCommand == "!") {
+          pythonCommand = findWorkingPythonPath("3.8", env, false);
+          if (pythonCommand != "!")
+            shortVersion = "38";
+          else {
+            pythonCommand = findWorkingPythonPath("3.7", env, true);
+            if (pythonCommand != "!")
+              shortVersion = "37";
+          }
+        }
       }
     } else if (pythonCommand == "python3.7") {
       pythonCommand = findWorkingPythonPath("3.7", env, true);
