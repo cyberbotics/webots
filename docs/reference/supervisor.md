@@ -4207,6 +4207,8 @@ ContactPoint:
     def __init__(self):
         self.point -> list[float]
         self.node_id -> int
+    def getPoint(self);
+    def getNodeId(self);
 ```
 
 %tab-end

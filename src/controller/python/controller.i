@@ -736,7 +736,7 @@ class AnsiCodes(object):
 %include <webots/contact_point.h>
 
 %extend WbContactPoint {
-  PyObject *get_point() {
+  PyObject *getPoint() {
     const double *point = $self->point;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
@@ -746,7 +746,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_node_id() {
+  PyObject *getNodeId() {
     const double orientation = $self->node_id;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong(orientation);
@@ -757,7 +757,7 @@ class AnsiCodes(object):
   %pythoncode %{
   @property
   def point(self):
-      return self.get_point()
+      return self.getPoint()
   %}
 };
 
