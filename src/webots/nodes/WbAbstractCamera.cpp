@@ -36,6 +36,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #ifndef _WIN32
 #include "WbPosixSharedMemory.hpp"
@@ -183,6 +184,7 @@ void WbAbstractCamera::initializeImageSharedMemory() {
   mImageShm = initializeSharedMemory();
   if (mImageShm)
     mImageData = (unsigned char *)mImageShm->data();
+  qDebug() << "Created shared memory segment at" << mImageShm->nativeKey();
 }
 
 WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
