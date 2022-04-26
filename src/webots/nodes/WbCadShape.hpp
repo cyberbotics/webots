@@ -19,6 +19,7 @@
 
 #include <assimp/material.h>
 
+class WbBoundingSphere;
 class WbMFString;
 class WbDownloader;
 class WbPbrAppearance;
@@ -45,8 +46,12 @@ public:
   void downloadAssets() override;
   void postFinalize() override;
 
+  const WbVector3 absoluteScale() const;
+
 protected:
   void exportNodeContents(WbVrmlWriter &writer) const override;
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
+  void recomputeBoundingSphere() const;
 
 private slots:
   void updateUrl();
@@ -63,6 +68,7 @@ private:
   void init();
 
   WbDownloader *mDownloader;
+  mutable WbBoundingSphere *mBoundingSphere;
 
   // node fields
   WbMFString *mUrl;

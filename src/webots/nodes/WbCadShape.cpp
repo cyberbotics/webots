@@ -15,6 +15,7 @@
 #include "WbCadShape.hpp"
 
 #include "WbBackground.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
@@ -55,6 +56,7 @@ void WbCadShape::init() {
   mWrenEncodeDepthMaterials.clear();
 
   mDownloader = NULL;
+  mBoundingSphere = NULL;
 }
 
 WbCadShape::WbCadShape(WbTokenizer *tokenizer) : WbBaseNode("CadShape", tokenizer) {
@@ -72,6 +74,8 @@ WbCadShape::WbCadShape(const WbNode &other) : WbBaseNode(other) {
 WbCadShape::~WbCadShape() {
   if (areWrenObjectsInitialized())
     deleteWrenObjects();
+
+  delete mBoundingSphere;
 }
 
 void WbCadShape::downloadAssets() {
@@ -107,6 +111,8 @@ void WbCadShape::postFinalize() {
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbCadShape::createWrenObjects);
+
+  mBoundingSphere = new WbBoundingSphere(this);
 
   updateUrl();
   updateCcw();
@@ -369,6 +375,9 @@ void WbCadShape::createWrenObjects() {
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
+
+  if (mBoundingSphere)
+    recomputeBoundingSphere();
 }
 
 void WbCadShape::updateAppearance() {
@@ -412,12 +421,34 @@ void WbCadShape::deleteWrenObjects() {
   mPbrAppearances.clear();
 }
 
+void WbCadShape::recomputeBoundingSphere() const {
+  assert(mBoundingSphere);
+  mBoundingSphere->empty();
+
+  const WbVector3 &scale = absoluteScale();
+  for (WrStaticMesh *mesh : mWrenMeshes) {
+    float sphere[4];
+    wr_static_mesh_get_bounding_sphere(mesh, sphere);
+
+    const WbVector3 center(sphere[0], sphere[1], sphere[2]);
+    double radius = sphere[3];
+    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
+    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    mBoundingSphere->enclose(&meshBoundingSphere);
+  }
+}
+
+const WbVector3 WbCadShape::absoluteScale() const {
+  const WbTransform *const ut = upperTransform();
+  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+}
+
 void WbCadShape::exportNodeContents(WbVrmlWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
   writer << " url='\"" << mUrl->item(0) << "\"'";
-  writer << " ccw='" << mCcw->value() << "'";
+  writer << " ccw='" << (mCcw->value() ? "true" : "false") << "'";
   writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
   writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
   writer << ">";
