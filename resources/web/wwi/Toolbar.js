@@ -535,7 +535,6 @@ export default class Toolbar {
       floatingWindows.forEach((fw) => {
         const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
         const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
-  
         fw.style.left = (fw.offsetLeft > maxLeft ? maxLeft : fw.offsetLeft) + 'px';
         fw.style.top = (fw.offsetTop > maxTop ? maxTop : fw.offsetTop) + 'px';
   
