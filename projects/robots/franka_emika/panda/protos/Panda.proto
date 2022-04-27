@@ -90,7 +90,7 @@ PROTO Panda [
                       DEF panda_joint3 HingeJoint {
                         jointParameters HingeJointParameters {
                           axis 0 -1 0
-                          anchor 0 -0.316 0
+                          anchor 0 -0.195 0
                           dampingConstant 0.003
                         }
                         device [
