@@ -21,7 +21,6 @@
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTokenizer.hpp"
-#include "WbWriter.hpp"
 
 #include <QtCore/QDir>
 

@@ -15,7 +15,6 @@
 #include "WbMFInt.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbWriter.hpp"
 
 void WbMFInt::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
   mVector.append(tokenizer->nextToken()->toInt());

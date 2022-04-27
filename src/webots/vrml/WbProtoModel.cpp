@@ -27,7 +27,6 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbWriter.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
