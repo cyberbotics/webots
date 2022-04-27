@@ -7,7 +7,7 @@
       "minPosition": -2.9671,
       "name": "panda_joint1",
       "position": 0,
-      "transformID": "n160",
+      "transformID": "n59",
       "type": "RotationalMotor"
     },
     {
@@ -17,17 +17,17 @@
       "minPosition": -1.8326,
       "name": "panda_joint2",
       "position": 0,
-      "transformID": "n170",
+      "transformID": "n65",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.316 0",
+      "anchor": "0 -0.195 0",
       "axis": "0 -1 0",
       "maxPosition": 2.9671,
       "minPosition": -2.9671,
       "name": "panda_joint3",
       "position": 0,
-      "transformID": "n181",
+      "transformID": "n71",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -3.1416,
       "name": "panda_joint4",
       "position": -1.7708,
-      "transformID": "n207",
+      "transformID": "n77",
       "type": "RotationalMotor"
     },
     {
@@ -47,7 +47,7 @@
       "minPosition": -2.9671,
       "name": "panda_joint5",
       "position": -1.6,
-      "transformID": "n233",
+      "transformID": "n83",
       "type": "RotationalMotor"
     },
     {
@@ -57,7 +57,7 @@
       "minPosition": -0.0873,
       "name": "panda_joint6",
       "position": 1.6,
-      "transformID": "n259",
+      "transformID": "n89",
       "type": "RotationalMotor"
     },
     {
@@ -67,7 +67,7 @@
       "minPosition": -2.9671,
       "name": "panda_joint7",
       "position": 0.79,
-      "transformID": "n355",
+      "transformID": "n95",
       "type": "RotationalMotor"
     },
     {
@@ -77,7 +77,7 @@
       "minPosition": 0,
       "name": "panda_finger_joint1",
       "position": 0,
-      "transformID": "n557",
+      "transformID": "n187",
       "type": "LinearMotor"
     },
     {
@@ -87,55 +87,55 @@
       "minPosition": 0,
       "name": "panda_finger_joint2",
       "position": 0,
-      "transformID": "n580",
+      "transformID": "n201",
       "type": "LinearMotor"
     },
     {
       "name": "panda_finger_joint1_sensor",
-      "transformID": "n557",
+      "transformID": "n187",
       "type": "PositionSensor"
     },
     {
       "name": "panda_finger_joint2_sensor",
-      "transformID": "n580",
+      "transformID": "n201",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint1_sensor",
-      "transformID": "n160",
+      "transformID": "n59",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint2_sensor",
-      "transformID": "n170",
+      "transformID": "n65",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint3_sensor",
-      "transformID": "n181",
+      "transformID": "n71",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint4_sensor",
-      "transformID": "n207",
+      "transformID": "n77",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint5_sensor",
-      "transformID": "n233",
+      "transformID": "n83",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint6_sensor",
-      "transformID": "n259",
+      "transformID": "n89",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint7_sensor",
-      "transformID": "n355",
+      "transformID": "n95",
       "type": "PositionSensor"
     }
   ],
   "name": "panda",
-  "robotID": "n93"
+  "robotID": "n52"
 }
