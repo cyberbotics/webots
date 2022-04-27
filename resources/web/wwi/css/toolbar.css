@@ -170,7 +170,7 @@ webots-view .toolbar-btn:focus .icon-ide,
 }
 
 webots-view .toolbar-btn:active .icon-ide,
-  .toolbar-btn:active .icon-robot-window, 
+  .toolbar-btn:active .icon-robot-window,
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
