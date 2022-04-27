@@ -106,7 +106,7 @@ export default class FloatingWindow {
       topOffset = posY - fw.offsetTop;
       bottomOffset = posY + containerHeight - fw.offsetTop - fw.offsetHeight;
       leftOffset = posX - fw.offsetLeft;
-      rightOffset = posX + containerWidth - fw.offsetLeft - fw.offsetWidth;;
+      rightOffset = posX + containerWidth - fw.offsetLeft - fw.offsetWidth;
       id = event.target.id.substring(7);
       interactionType = id.length === 0 ? 'drag' : 'resize';
 
