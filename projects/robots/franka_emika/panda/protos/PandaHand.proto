@@ -110,7 +110,7 @@ PROTO PandaHand [
                 Transform {
                   rotation 0 0 1 3.141593
                   children [
-                    CadShape {
+                    DEF finger CadShape {
                       url [
                         "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
                       ]
@@ -119,16 +119,7 @@ PROTO PandaHand [
                 }
                 Transform {
                   rotation 0 0 1 3.141593
-                  children [
-                    Shape {
-                      appearance PBRAppearance {
-                        baseColor 0.901961 0.921569 0.929412
-                        roughness 0.5
-                        metalness 0
-                      }
-                      geometry USE finger_1
-                    }
-                  ]
+                  children USE finger
                 }
               ]
               name "panda_rightfinger"
