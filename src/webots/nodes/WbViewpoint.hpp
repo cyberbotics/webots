@@ -150,7 +150,7 @@ public:
   void updatePostProcessingParameters();
 
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields

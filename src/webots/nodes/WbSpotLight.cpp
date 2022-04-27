@@ -300,7 +300,7 @@ double WbSpotLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
 }
 
-void WbSpotLight::exportNodeFields(WbVrmlWriter &writer) const {
+void WbSpotLight::exportNodeFields(WbWriter &writer) const {
   findField("attenuation", true)->write(writer);
   findField("beamWidth", true)->write(writer);
   findField("cutOffAngle", true)->write(writer);

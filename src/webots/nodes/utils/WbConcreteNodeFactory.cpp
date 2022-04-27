@@ -23,6 +23,7 @@
 #include "WbBillboard.hpp"
 #include "WbBox.hpp"
 #include "WbBrake.hpp"
+#include "WbCadShape.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCharger.hpp"
@@ -135,6 +136,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbCapsule(tokenizer);
   if (modelName == "Charger")
     return new WbCharger(tokenizer);
+  if (modelName == "CadShape")
+    return new WbCadShape(tokenizer);
   if (modelName == "Color")
     return new WbColor(tokenizer);
   if (modelName == "Compass")
@@ -324,6 +327,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbBox(original);
   if (modelName == "Brake")
     return new WbBrake(original);
+  if (modelName == "CadShape")
+    return new WbCadShape(original);
   if (modelName == "Camera")
     return new WbCamera(original);
   if (modelName == "Capsule")
@@ -487,24 +492,4 @@ const QString WbConcreteNodeFactory::slotType(WbNode *node) {
 bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node,
                                                       bool isInBoundingObject, QString &errorMessage) const {
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
-}
-
-void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &writer) {
-  if (node->nodeModelName() == "Plane") {
-    WbPlane plane(*node);
-    plane.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Capsule") {
-    WbCapsule capsule(*node);
-    capsule.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Mesh") {
-    WbMesh mesh(*node);
-    mesh.write(writer);
-    return;
-  }
-
-  assert(0);  // we should not reach this line
 }

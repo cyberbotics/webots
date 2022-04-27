@@ -212,7 +212,7 @@ void WbLidar::postPhysicsStep() {
     copyAllLayersToSharedMemory();
 }
 
-void WbLidar::write(WbVrmlWriter &writer) const {
+void WbLidar::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {

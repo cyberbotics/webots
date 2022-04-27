@@ -5,6 +5,7 @@ import WbBackground from './nodes/WbBackground.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
+import WbCadShape from './nodes/WbCadShape.js';
 import WbCone from './nodes/WbCone.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
@@ -142,6 +143,8 @@ export default class Parser {
       result = this._parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'CadShape')
+      result = this._parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -548,6 +551,33 @@ export default class Parser {
     WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
+  }
+
+  _parseCadShape(node, parentNode) {
+    const use = this._checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this._parseId(node);
+
+    let url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => element)[0]; // filter removes empty elements
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
+    const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+
+    const cadShape = new WbCadShape(id, url, ccw, castShadows, isPickable);
+
+    WbWorld.instance.nodes.set(cadShape.id, cadShape);
+    this._parseChildren(node, cadShape, false); // CadShape cannot be used as boundingObject
+
+    if (typeof parentNode !== 'undefined') {
+      cadShape.parent = parentNode.id;
+      parentNode.children.push(cadShape);
+    }
+
+    return cadShape;
   }
 
   _parseBillboard(node, parentNode) {

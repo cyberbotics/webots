@@ -53,7 +53,7 @@ protected:
   WbVector3 anchor() const override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
-  void writeExport(WbVrmlWriter &writer) const override;
+  void writeExport(WbWriter &writer) const override;
 
 protected slots:
   void updateParameters() override;

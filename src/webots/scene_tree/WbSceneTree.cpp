@@ -707,7 +707,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     WbField *parentField = currentNode->parentFieldAndIndex(index);
     WbNode *parentNode = currentNode->parentNode();
     QString nodeString;
-    WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
+    WbWriter writer(&nodeString, currentNode->modelName() + ".proto");
     if (rootOnly)
       writer.setRootNode(currentNode);
     else
@@ -1514,7 +1514,7 @@ void WbSceneTree::exportObject() {
   }
 
   WbNode::enableDefNodeTrackInWrite(true);
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
   mSelectedItem->node()->write(writer);
   writer.writeFooter();

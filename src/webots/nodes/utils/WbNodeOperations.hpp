@@ -45,11 +45,6 @@ public:
 
   // import a .wrl file and append its nodes at the end of the current world
   OperationResult importVrml(const QString &filename, bool fromSupervisor = false);
-  OperationResult importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals,
-                                      bool importAppearances, bool importAsSolid, bool importBoundingObjects);
-  OperationResult getVrmlFromExternalModel(QString &stream, const QString &filename, const QString &ccw,
-                                           bool importTextureCoordinates, bool importNormals, bool importAppearances,
-                                           bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
                               bool subscribe = false, bool finalize = true);
@@ -73,7 +68,6 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
-  void onVrmlExportRequested(const QString &filePath, const QString &ccw);
 
 signals:
   void nodeAdded(WbNode *node);

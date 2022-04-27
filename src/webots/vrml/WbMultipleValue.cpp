@@ -16,7 +16,7 @@
 
 #include "WbSingleValue.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -34,7 +34,7 @@ void WbMultipleValue::read(WbTokenizer *tokenizer, const QString &worldPath) {
     readAndAddItem(tokenizer, worldPath);
 }
 
-void WbMultipleValue::write(WbVrmlWriter &writer) const {
+void WbMultipleValue::write(WbWriter &writer) const {
   writer.writeMFStart();
   for (int i = 0; i < size(); i++) {
     writer.writeMFSeparator(i == 0, smallSeparator(i));

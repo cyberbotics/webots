@@ -26,7 +26,7 @@
 
 class WbTokenizer;
 class WbToken;
-class WbVrmlWriter;
+class WbWriter;
 
 class WbFieldModel {
 public:
@@ -38,7 +38,7 @@ public:
 
   // VRML export
   bool isVrml() const { return mIsVrml; }
-  void write(WbVrmlWriter &writer) const;
+  void write(WbWriter &writer) const;
 
   bool isDeprecated() const { return mIsDeprecated; }
 

@@ -79,7 +79,7 @@ public:
   // utility forward functions if the group/transform node has no solid ancestor
   // forward jerk notification to children
   virtual void forwardJerk();
-  void writeParameters(WbVrmlWriter &writer) const override;
+  void writeParameters(WbWriter &writer) const override;
   virtual void collectHiddenKinematicParameters(WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,
                                                 int &counter) const;
   virtual bool resetHiddenKinematicParameters();
@@ -101,7 +101,7 @@ public:
   void setMatrixNeedUpdate() override;
 
   // export
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  void exportBoundingObjectToX3D(WbWriter &writer) const override;
 
 signals:
   // called after the list of children has changed

@@ -36,6 +36,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Box";
     case WB_NODE_BRAKE:
       return "Brake";
+    case WB_NODE_CAD_SHAPE:
+      return "CadShape";
     case WB_NODE_CAMERA:
       return "Camera";
     case WB_NODE_CAPSULE:

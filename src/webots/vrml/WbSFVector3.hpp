@@ -21,7 +21,7 @@
 
 #include "WbSingleValue.hpp"
 #include "WbVector3.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFVector3 : public WbSingleValue {
   Q_OBJECT
@@ -33,7 +33,7 @@ public:
   explicit WbSFVector3(const WbVector3 &v) : mValue(v) {}
   virtual ~WbSFVector3() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFVector3(tokenizer, worldPath); };
-  void write(WbVrmlWriter &writer) const override {
+  void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
   WbValue *clone() const override { return new WbSFVector3(*this); }

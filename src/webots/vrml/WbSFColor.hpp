@@ -21,17 +21,18 @@
 
 #include "WbRgb.hpp"
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFColor : public WbSingleValue {
   Q_OBJECT
 
 public:
+  explicit WbSFColor(double r, double b, double g) : mValue(WbRgb(r, g, b)) {}
   WbSFColor(WbTokenizer *tokenizer, const QString &worldPath) { readSFColor(tokenizer, worldPath); }
   WbSFColor(const WbSFColor &other) : mValue(other.mValue) {}
   virtual ~WbSFColor() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFColor(tokenizer, worldPath); }
-  void write(WbVrmlWriter &writer) const override {
+  void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
   WbValue *clone() const override { return new WbSFColor(*this); }

@@ -105,7 +105,6 @@ private slots:
   void reloadWorld();
   void resetGui(bool restartControllers);
   void importVrml();
-  void exportVrml();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();

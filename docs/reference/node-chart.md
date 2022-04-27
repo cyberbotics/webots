@@ -108,6 +108,7 @@ graph LR
   subgraph other Nodes
     Appearance[[Appearance](appearance.md)]
     Background[[Background](background.md)]
+    CadShape[[CadShape](cadshape.md)]
     Color[[Color](color.md)]
     ContactProperties[[ContactProperties](contactproperties.md)]
     Coordinate[[Coordinate](coordinate.md)]

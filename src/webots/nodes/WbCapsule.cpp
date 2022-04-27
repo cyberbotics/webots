@@ -505,14 +505,14 @@ void WbCapsule::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), halfHeight + radius);
 }
 
-void WbCapsule::write(WbVrmlWriter &writer) const {
+void WbCapsule::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::write(writer);
   else
     writeExport(writer);
 }
 
-void WbCapsule::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCapsule::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";

@@ -401,7 +401,7 @@ void WbTransform::showResizeManipulator(bool enabled) {
 // Export //
 ////////////
 
-void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
   if (isUseNode() && defNode())

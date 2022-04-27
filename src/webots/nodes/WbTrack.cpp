@@ -875,7 +875,7 @@ void WbTrack::computeBeltPath() {
                    "Only the first node is used."));
 }
 
-void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
+void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
   if (mAnimatedObjectList.size() == 0 || writer.isUrdf())
     return;
 
@@ -915,7 +915,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   }
 }
 
-void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbSolid::exportNodeSubNodes(writer);
     return;
@@ -970,7 +970,7 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
-void WbTrack::exportNodeFields(WbVrmlWriter &writer) const {
+void WbTrack::exportNodeFields(WbWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())

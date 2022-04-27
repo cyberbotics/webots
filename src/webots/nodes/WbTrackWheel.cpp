@@ -92,13 +92,13 @@ bool WbTrackWheel::shallExport() const {
   return true;
 }
 
-void WbTrackWheel::write(WbVrmlWriter &writer) const {
+void WbTrackWheel::write(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
   WbTransform::write(writer);
 }
 
-void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
+void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d())
     writer << " ";
   writer.writeFieldStart("translation", true);
