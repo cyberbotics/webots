@@ -67,7 +67,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
-    def getFromDevice(self, device);
+    def getFromDevice(self, device):
     def getSelected(self):
     # ...
 ```
@@ -4207,6 +4207,8 @@ ContactPoint:
     def __init__(self):
         self.point -> list[float]
         self.node_id -> int
+    def getPoint(self):
+    def getNodeId(self):
 ```
 
 %tab-end
