@@ -132,7 +132,7 @@ webots-view .icon-pause {
 
 webots-view .icon {
   display: block;
-  height: 32px; 
+  height: 32px;
   width: 32px;
   margin-top: -1px;
   margin-left: -8px;
@@ -161,7 +161,7 @@ webots-view #step-button {
 }
 
 webots-view .toolbar-btn:focus .icon-ide,
-  .toolbar-btn:focus .icon-robot-window, 
+  .toolbar-btn:focus .icon-robot-window,
   .toolbar-btn:focus .icon-info,
   .toolbar-btn:focus .icon-quit,
   .toolbar-btn:focus .icon-step,
@@ -320,6 +320,11 @@ webots-view .information-panel a {
   color: white;
   font-style: italic;
   text-decoration: none;
+}
+
+webots-view .information-panel p {
+  color: white;
+  padding: 0;
 }
 
 webots-view .information-panel a:hover {
@@ -584,10 +589,7 @@ webots-view .floating-window {
   min-width: 200px;
   transform: translate(0, 0);
   touch-action: none;
-<<<<<<< HEAD
-=======
   z-index: 1;
->>>>>>> ea162cf6580a4f56930bca0845c06fc238581ff2
 }
 
 webots-view .floating-window-header {
