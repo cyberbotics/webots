@@ -327,7 +327,7 @@ void WbGuiApplication::parseArguments() {
         logPerformanceMode = true;
       }
       if (logArgument.size() != 1) {
-        cerr << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData();
+        cerr << tr("webots: invalid option: '--log-performance': log file path is missing.").toUtf8().constData();
         parser.showHelp(1);
       }
 
@@ -343,12 +343,12 @@ void WbGuiApplication::parseArguments() {
   }
   if (!path.isEmpty()) {
     if (path.size() > 1) {
-      cerr << tr("webots: too many arguments.").toUtf8().constData();
+      cerr << tr("webots: too many arguments.").toUtf8().constData() << endl;
       parser.clearPositionalArguments();
       mTask = FAILURE;
 
     } else if ((mStartWorldName).isEmpty() && (path.at(0)).isEmpty()) {
-      cerr << tr("Argument 'name' missing.").toUtf8().constData();
+      cerr << tr("Argument 'name' missing.").toUtf8().constData() << endl;
       parser.clearPositionalArguments();
       mTask = FAILURE;
     }
@@ -358,7 +358,7 @@ void WbGuiApplication::parseArguments() {
     }
   }
   if (stream && !batch)
-    cerr << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+    cerr << tr("Warning: you should also use --batch (in addition to --stream) for production.").toUtf8().constData() << endl;
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
