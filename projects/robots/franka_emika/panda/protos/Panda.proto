@@ -39,7 +39,7 @@ PROTO Panda [
           DEF panda_joint1 HingeJoint {
             jointParameters HingeJointParameters {
               axis 0 0 1
-              anchor 0 0 0.333
+              anchor 0 0 0.14
               dampingConstant 0.003
             }
             device [
@@ -146,7 +146,7 @@ PROTO Panda [
                                     jointParameters HingeJointParameters {
                                       position -1.6
                                       axis 0 1 0
-                                      anchor -0.0825 0.384 0
+                                      anchor -0.0825 0.125 0
                                       dampingConstant 0.003
                                     }
                                     device [
@@ -200,7 +200,7 @@ PROTO Panda [
                                                 jointParameters HingeJointParameters {
                                                   position 0.79
                                                   axis 0 -1 0
-                                                  anchor 0.088 0 0
+                                                  anchor 0.088 -0.058 0
                                                   dampingConstant 0.003
                                                 }
                                                 device [
@@ -219,12 +219,13 @@ PROTO Panda [
                                                   translation 0.088 0 0
                                                   rotation 0.8614190923211578 -0.3591359294777342 0.3591358121139644 1.7194199439154274
                                                   children [
-                                                  CadShape {
-                                                    url [
-                                                      "webots://projects/robots/franka_emika/panda/protos/meshes/link7.dae"
-                                                    ]
-                                                  }
-                                                    DEF panda_link8 Solid {
+                                                    CadShape {
+                                                      url [
+                                                        "webots://projects/robots/franka_emika/panda/protos/meshes/link7.dae"
+                                                      ]
+                                                    }
+                                                    %< if (fields.endEffectorSlot.value.length > 0) { >%
+                                                    DEF panda_link8 Transform {
                                                       translation 0 0 0.107
                                                       children IS endEffectorSlot
                                                       name "panda_link8"
@@ -255,6 +256,7 @@ PROTO Panda [
                                                         mass 0.01
                                                       }
                                                     }
+                                                    %< } >%
                                                   ]
                                                   name "panda_link7"
                                                   physics Physics {
