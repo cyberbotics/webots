@@ -36,6 +36,7 @@ controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
     if line.startswith('start:'):
+        print('received ' + line)
         split = line.split(':')
         name = split[1]
         os.environ['WEBOTS_ROBOT_NAME'] = name
