@@ -570,9 +570,11 @@ export default class Toolbar {
         this.informationPanel.informationPanel.style.display = 'none';
       else {
         this.informationPanel.informationPanel.style.display = 'block';
-        const infoScale = this.informationPanel.informationPanel.offsetWidth > screen.width
-          ? 0.9 * screen.width / this.informationPanel.informationPanel.offsetWidth : 1.0;
-        this.informationPanel.informationPanel.style.transform = 'scale(' + infoScale + ')';
+        const infoScaleWidth = this.informationPanel.informationPanel.offsetWidth > 0.8 * this.parentNode.offsetWidth
+          ? 0.8 * this.parentNode.offsetWidth / this.informationPanel.informationPanel.offsetWidth : 1.0;
+        const infoScaleHeight = this.informationPanel.informationPanel.offsetHeight > 0.8 * this.parentNode.offsetHeight
+          ? 0.8 * this.parentNode.offsetHeight / this.informationPanel.informationPanel.offsetHeight : 1.0;
+        this.informationPanel.informationPanel.style.transform = 'scale(' + Math.min(infoScaleHeight, infoScaleWidth) + ')';
       }
     }
   }

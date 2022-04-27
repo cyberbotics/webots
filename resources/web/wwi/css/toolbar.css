@@ -402,6 +402,7 @@ webots-view .settings-pane {
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
+  min-width: 262px;
   background: rgba(0,0,0, 0.7);
   font-family: 'Arial';
   font-size: 14px;
