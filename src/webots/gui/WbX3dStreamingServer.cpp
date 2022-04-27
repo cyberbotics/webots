@@ -127,12 +127,16 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    const QString &state = WbAnimationRecorder::instance()->computeUpdateData(false);
-    if (!state.isEmpty()) {
-      foreach (QWebSocket *client, mWebSocketClients) {
-        sendWorldStateToClient(client, state);
-        pauseClientIfNeeded(client);
+    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
+      const QString &state = WbAnimationRecorder::instance()->computeUpdateData(false);
+      if (!state.isEmpty()) {
+        foreach (QWebSocket *client, mWebSocketClients) {
+          sendWorldStateToClient(client, state);
+          pauseClientIfNeeded(client);
+        }
       }
+      mLastUpdateTime = currentTime;
     }
   }
 }
@@ -208,6 +212,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
+  mLastUpdateTime = -1.0;
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
