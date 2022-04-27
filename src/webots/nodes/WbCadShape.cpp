@@ -312,6 +312,9 @@ void WbCadShape::createWrenObjects() {
         indexData[currentIndexIndex++] = face.mIndices[2];
       }
 
+      if (currentIndexIndex == 0)  // if all faces turned out to be invalid, ignore the mesh
+        continue;
+
       WrStaticMesh *staticMesh =
         wr_static_mesh_new(vertices, currentIndexIndex, coordData, normalData, texCoordData, texCoordData, indexData, false);
 
