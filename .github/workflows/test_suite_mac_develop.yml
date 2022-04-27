@@ -19,7 +19,7 @@ jobs:
         os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          submodules: true
          fetch-depth: 15
@@ -75,7 +75,7 @@ jobs:
         os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          ref: develop
     - name: Download Artifacts
