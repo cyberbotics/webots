@@ -16,7 +16,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
-        os: [macos-10.15]
+        os: [macos-11]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -26,27 +26,27 @@ jobs:
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        brew install swig wget cmake python@3.7 python@3.8 python@3.9
+        brew install swig wget cmake python@3.7 python@3.8 python@3.9 python@3.10
         npm install -g appdmg
         # install regular Python 3.7
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
+        wget -qq https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
+        sudo installer -pkg python-3.7.9-macosx10.9.pkg -target /
         # install regular Python 3.8
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+        wget -qq https://www.python.org/ftp/python/3.8.10/python-3.8.10-macos11.pkg
+        sudo installer -pkg python-3.8.10-macos11.pkg -target /
         # install regular Python 3.9
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.9
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.9.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.9.zip -d /Library/Frameworks/Python.framework/Versions/3.9
+        wget -qq https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg
+        sudo installer -pkg python-3.9.12-macos11.pkg -target /
+        # install regular Python 3.10
+        wget -qq https://www.python.org/ftp/python/3.10.4/python-3.10.4-macos11.pkg
+        sudo installer -pkg python-3.10.4-macos11.pkg -target /
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
     - name: Webots Package Creation
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
         make distrib -j4
     - name: Prepare Webots Controller Deployment
       if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller') }}
@@ -72,7 +72,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [macos-10.15]
+        os: [macos-11]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -103,7 +103,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     strategy:
       matrix:
-        os: [macos-10.15]
+        os: [macos-11]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
