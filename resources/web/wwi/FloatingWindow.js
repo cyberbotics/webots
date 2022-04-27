@@ -133,56 +133,56 @@ export default class FloatingWindow {
         // Resize element
         document.body.style.cursor = id + '-resize';
         if (id.includes('n')) {
-          if (top + dY < 0 || posY < topOffset) { //out of bounds
+          if (top + dY < 0 || posY < topOffset) { // out of bounds
             top = 0;
             height = maxHeight;
-          } else if (top + dY > maxTop || posY - topOffset > maxTop) { //min height
+          } else if (top + dY > maxTop || posY - topOffset > maxTop) { // min height
             height = minHeight;
             top = maxTop;
-          } else if (height > minHeight || dY < 0) { //resize
+          } else if (height > minHeight || dY < 0) { // resize
             height -= dY;
             top += dY;
           }
         }
         if (id.includes('w')) {
-          if (left + dX < 0 || posX < leftOffset) { //out of bounds
+          if (left + dX < 0 || posX < leftOffset) { // out of bounds
             left = 0;
             width = maxWidth;
-          } else if (left + dX > maxLeft || posX > maxLeft) { //min width
+          } else if (left + dX > maxLeft || posX > maxLeft) { // min width
             width = minWidth;
             left = maxLeft;
-          } else if (width > minWidth || dX < 0) { //resize
+          } else if (width > minWidth || dX < 0) { // resize
             width -= dX;
             left += dX;
           }
         }
         if (id.includes('s')) {
-          if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) //out of bounds
+          if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) // out of bounds
             height = containerHeight - fw.offsetTop;
-          else if (posY - bottomOffset + containerHeight < top + minHeight + dY) //min height
+          else if (posY - bottomOffset + containerHeight < top + minHeight + dY) // min height
             height = minHeight;
           else //resize
             height += dY;
         }
         if (id.includes('e')) {
-          if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) //out of bounds
+          if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) // out of bounds
             width = containerWidth - fw.offsetLeft;
-          else if (posX - rightOffset + containerWidth < left + minWidth + dX) //min width
+          else if (posX - rightOffset + containerWidth < left + minWidth + dX) // min width
             width = minWidth;
-          else //resize
+          else // resize
             width += dX;
         }
       } else if (interactionType === 'drag') {
         // Drag element
         top = fw.offsetTop + dY;
         left = fw.offsetLeft + dX;
-        if (top < 0 || posY < topOffset) //top boundary
+        if (top < 0 || posY < topOffset) // top boundary
           top = 0;
-        else if (top + fw.offsetHeight > containerHeight || posY > containerHeight - fw.offsetHeight + topOffset) //bottom boundary
+        else if (top + fw.offsetHeight > containerHeight || posY > containerHeight - fw.offsetHeight + topOffset) // bottom boundary
           top = containerHeight - fw.offsetHeight;
-        if (left < 0 || posX < leftOffset) //left boundary
+        if (left < 0 || posX < leftOffset) // left boundary
           left = 0;
-        else if (left + fw.offsetWidth > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset) //right boundary
+        else if (left + fw.offsetWidth > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset) // right boundary
           left = containerWidth - fw.offsetWidth;
       }
 

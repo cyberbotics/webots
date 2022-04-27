@@ -94,7 +94,7 @@ export default class Toolbar {
     this.toolbar.style.transform = 'scale(' + this._scale + ')';
 
     if (typeof this.robotWindowPane !== 'undefined') {
-      const offset = this._scale == 1 ? 0 : screen.width * (1 - this._scale);
+      const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
       this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
     }
   }
@@ -373,7 +373,7 @@ export default class Toolbar {
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
 
-    const offset = this._scale == 1 ? 0 : screen.width * (1 - this._scale);
+    const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
   }
 
@@ -456,7 +456,7 @@ export default class Toolbar {
       rw.setPosition(ideOffset + margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
       numCol++;
     });
-    
+
     this._checkWindowBoundaries();
   }
 
@@ -537,7 +537,7 @@ export default class Toolbar {
         const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
         fw.style.left = (fw.offsetLeft > maxLeft ? maxLeft : fw.offsetLeft) + 'px';
         fw.style.top = (fw.offsetTop > maxTop ? maxTop : fw.offsetTop) + 'px';
-  
+
         const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft;
         const maxHeight = this.parentNode.offsetHeight - fw.offsetTop;
         fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
@@ -570,8 +570,8 @@ export default class Toolbar {
         this.informationPanel.informationPanel.style.display = 'none';
       else {
         this.informationPanel.informationPanel.style.display = 'block';
-        const infoScale = this.informationPanel.informationPanel.offsetWidth > screen.width ?
-          0.9 * screen.width / this.informationPanel.informationPanel.offsetWidth : 1.0;
+        const infoScale = this.informationPanel.informationPanel.offsetWidth > screen.width
+          ? 0.9 * screen.width / this.informationPanel.informationPanel.offsetWidth : 1.0;
         this.informationPanel.informationPanel.style.transform = 'scale(' + infoScale + ')';
       }
     }
