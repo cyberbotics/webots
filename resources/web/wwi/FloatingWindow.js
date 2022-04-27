@@ -159,7 +159,7 @@ export default class FloatingWindow {
         if (id.includes('s')) {
           if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) //out of bounds
             height = containerHeight - fw.offsetTop;
-          else if (posY - bottomOffset - containerHeight < top + minHeight + dY) //min height
+          else if (posY - bottomOffset + containerHeight < top + minHeight + dY) //min height
             height = minHeight;
           else //resize
             height += dY;
@@ -167,7 +167,7 @@ export default class FloatingWindow {
         if (id.includes('e')) {
           if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) //out of bounds
             width = containerWidth - fw.offsetLeft;
-          else if (posX - rightOffset - containerWidth < left + minWidth + dX) //min width
+          else if (posX - rightOffset + containerWidth < left + minWidth + dX) //min width
             width = minWidth;
           else //resize
             width += dX;
