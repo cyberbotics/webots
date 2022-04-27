@@ -340,14 +340,21 @@ void WbGuiApplication::parseArguments() {
       // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
     }
 #endif
-    else {
-      if (mStartWorldName.isEmpty())
-        mStartWorldName = QDir::fromNativeSeparators(arg);
-      else {
-        cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-        mTask = FAILURE;
-      }
+  }
+  if (!path.isEmpty()) {
+    if (path.size() > 1) {
+      cerr << tr("webots: too many arguments.").toUtf8().constData();
+      parser.clearPositionalArguments();
+      mTask = FAILURE;
+
+    } else if ((mStartWorldName).isEmpty() && (path.at(0)).isEmpty()) {
+      cerr << tr("Argument 'name' missing.").toUtf8().constData();
+      parser.clearPositionalArguments();
+      mTask = FAILURE;
+    }
+    if (!(path.at(0)).isEmpty()) {
+      mStartWorldName = path.at(0);
+      parser.clearPositionalArguments();
     }
   }
   if (stream && !batch)
