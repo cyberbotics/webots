@@ -35,6 +35,7 @@ Released on XX XX, 2022.
     - Forbid the USE of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
+    - **Renamed CameraRecognitionObject and ContactPoint related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).**
   - Bug fixes
     - Fixed bug in [`wb_supervisor_node_get_field_by_index`](supervisor.md#wb_supervisor_node_get_field_by_index) and [`wb_supervisor_node_get_proto_field_by_index`](supervisor.md#wb_supervisor_node_get_proto_field_by_index) API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).

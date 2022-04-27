@@ -135,8 +135,7 @@ PROTO SummitXlSteel [
           translation 0.22249917736358657 -0.20449996661010172 0.0031858493220075766
           rotation 1 0 0 1.5708
           children [
-            DEF INTERIOR_WHEEL Transform {
-              rotation 1 0 0 1.570796
+            DEF INTERIOR_WHEEL Group {
               children [
                 Shape {
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -208,8 +207,7 @@ PROTO SummitXlSteel [
           translation 0.2224991777388674 0.20450003337390876 0.0031841200540263536
           rotation 1 0 0 1.5708
           children [
-            DEF EXTERIOR_WHEEL Transform {
-              rotation 1 0 0 1.570796
+            DEF EXTERIOR_WHEEL Group {
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE

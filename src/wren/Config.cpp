@@ -64,7 +64,7 @@ namespace wren {
       cShowBoundingSpheres = show;
       if (show) {
         if (!cSphereMesh)
-          cSphereMesh = StaticMesh::createUnitIcosphere(2);
+          cSphereMesh = StaticMesh::createUnitIcosphere(2, false);
       } else if (cSphereMesh) {
         Mesh::deleteMesh(cSphereMesh);
         cSphereMesh = NULL;

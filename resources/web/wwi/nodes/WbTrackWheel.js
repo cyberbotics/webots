@@ -3,7 +3,7 @@ import WbWorld from './WbWorld.js';
 
 export default class WbTrackWheel extends WbTransform {
   constructor(id, translation, scale, rotation, radius, inner) {
-    super(id, false, translation, scale, rotation);
+    super(id, translation, scale, rotation);
     this.radius = radius;
     this.inner = inner;
     this.angularVelocity = 0;

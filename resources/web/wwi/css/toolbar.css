@@ -312,6 +312,7 @@ webots-view .information-panel {
   font-family: Helvetica;
   display: none;
   pointer-events: auto;
+  z-index: 2;
 }
 
 webots-view .information-panel a {
@@ -583,6 +584,10 @@ webots-view .floating-window {
   min-width: 200px;
   transform: translate(0, 0);
   touch-action: none;
+<<<<<<< HEAD
+=======
+  z-index: 1;
+>>>>>>> ea162cf6580a4f56930bca0845c06fc238581ff2
 }
 
 webots-view .floating-window-header {
