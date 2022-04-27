@@ -530,7 +530,7 @@ export default class Toolbar {
   }
 
   _checkWindowBoundaries() {
-    const resizeObserver = new ResizeObserver(() => { 
+    const resizeObserver = new ResizeObserver(() => {
       const floatingWindows = document.querySelectorAll('.floating-window');
       floatingWindows.forEach((fw) => {
         const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
