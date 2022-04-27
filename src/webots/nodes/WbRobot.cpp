@@ -1497,3 +1497,13 @@ int WbRobot::computeSimulationMode() {
       return WB_SUPERVISOR_SIMULATION_MODE_PAUSE;
   }
 }
+
+QStringList WbRobot::getCameraShmNativeKeys() const {
+  QStringList list;
+  foreach (WbDevice *device, mDevices) {
+    WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(device);
+    if (camera)
+      list << camera->nativeKey();
+  }
+  return list;
+}

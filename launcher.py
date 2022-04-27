@@ -20,7 +20,8 @@ else:  # linux
 command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
 command += ' --stream="monitorActivity"'
 controllers = {
-  "e-puck": "projects/robots/gctronic/e-puck/controllers/e-puck/e-puck"
+  "e-puck": "docker/controller_1/controllers/e-puck/e-puck",
+  "MyBot": "docker/controller_1/controllers/camera/camera"
 }
 try:
     webots_process = subprocess.Popen(command.split(),

@@ -133,6 +133,7 @@ public:
   void setNeedToWriteUserInputEventAnswer() { mNeedToWriteUserInputEventAnswer = true; }
 
   WbKinematicDifferentialWheels *kinematicDifferentialWheels() { return mKinematicDifferentialWheels; }
+  QStringList getCameraShmNativeKeys() const;
 
 public slots:
   void receiveFromJavascript(const QByteArray &message);

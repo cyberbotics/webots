@@ -139,8 +139,14 @@ void WbAbstractCamera::postFinalize() {
   connect(mSensor, &WbSensor::stateChanged, this, &WbAbstractCamera::applyFrustumToWren);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbAbstractCamera::updateOptionalRendering);
-  setup();
-  mHasSharedMemoryChanged = true;
+}
+
+QString WbAbstractCamera::nativeKey() {
+  if (!hasBeenSetup()) {
+    setup();
+    mHasSharedMemoryChanged = true;
+  }
+  return mImageShm->nativeKey();
 }
 
 void WbAbstractCamera::updateOptionalRendering(int option) {

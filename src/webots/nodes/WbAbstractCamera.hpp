@@ -79,6 +79,7 @@ public:
   static void resetStaticCounters() { cCameraNumber = 0; }
 
   const unsigned char *constImage() const { return image(); }
+  QString nativeKey();
 
 signals:
   void enabled(WbAbstractCamera *camera, bool isActive);
