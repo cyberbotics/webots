@@ -26,7 +26,6 @@ export default class Toolbar {
     if (this._view.mobileDevice) {
       this.toolbar.style.minWidth = this.minWidth + 'px';
       this._resizeMobileToolbar();
-      screen.orientation.addEventListener('change', this._checkWindowBoundaries.bind(this))
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
     } else
@@ -95,7 +94,7 @@ export default class Toolbar {
     this.toolbar.style.transform = 'scale(' + this._scale + ')';
 
     if (typeof this.robotWindowPane !== 'undefined') {
-      const offset = this._scale == 1 ? 0 : Math.round(screen.width * (1 - this._scale));
+      const offset = this._scale == 1 ? 0 : screen.width * (1 - this._scale);
       this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
     }
   }
@@ -373,6 +372,9 @@ export default class Toolbar {
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
+
+    const offset = this._scale == 1 ? 0 : screen.width * (1 - this._scale);
+    this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
   }
 
   _closeRobotWindowPaneOnClick(event) {
@@ -567,8 +569,12 @@ export default class Toolbar {
     if (typeof this.informationPanel !== 'undefined') {
       if (this.informationPanel.informationPanel.style.display === 'block')
         this.informationPanel.informationPanel.style.display = 'none';
-      else
+      else {
         this.informationPanel.informationPanel.style.display = 'block';
+        const infoScale = this.informationPanel.informationPanel.offsetWidth > screen.width ?
+          0.9 * screen.width / this.informationPanel.informationPanel.offsetWidth : 1.0;
+        this.informationPanel.informationPanel.style.transform = 'scale(' + infoScale + ')';
+      }
     }
   }
 
