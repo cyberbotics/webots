@@ -3,7 +3,7 @@ let connectButton = null;
 let modeSelect = null;
 let broadcast = null;
 
-const mobileDevice = true;// /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (mobileDevice) {
   let head = document.getElementsByTagName('head')[0];
 
@@ -15,8 +15,8 @@ if (mobileDevice) {
 }
 
 function init() {
-  ipInput = document.getElementById('IP-input');
-  connectButton = document.getElementById('connect-button');
+  ipInput = document.getElementById('IPInput');
+  connectButton = document.getElementById('ConnectButton');
   modeSelect = document.getElementById('mode');
   broadcast = document.getElementById('broadcast');
 
