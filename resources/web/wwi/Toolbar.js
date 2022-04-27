@@ -342,7 +342,7 @@ export default class Toolbar {
     this.ideWindow.setPosition(margin, margin);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
-    this._resizeObserver();
+    this._checkWindowBoundaries();
   }
 
   _createRobotWindowButton() {
@@ -455,7 +455,7 @@ export default class Toolbar {
       numCol++;
     });
     
-    this._resizeObserver();
+    this._checkWindowBoundaries();
   }
 
   _refreshRobotWindowContent() {
@@ -527,47 +527,23 @@ export default class Toolbar {
     document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
   }
 
-  _resizeObserver() {
-    const resizeObserver = new ResizeObserver(() => this._checkWindowBoundaries());
-    resizeObserver.observe(document.getElementById('view3d'));
-  }
-
   _checkWindowBoundaries() {
-    const floatingWindows = document.querySelectorAll('.floating-window');
-    floatingWindows.forEach((fw) => {
-      /*
-      const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
-      const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
-      const transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(fw).transform)
-
-      const translateX = fw.offsetLeft + transformMatrix.m41 > maxLeft ? (maxLeft - fw.offsetLeft) : transformMatrix.m41;
-      const translateY = fw.offsetTop + transformMatrix.m42 > maxTop ? (maxTop - fw.offsetTop) : transformMatrix.m42;
-      fw.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
-
-      const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft - translateX;
-      const maxHeight = this.parentNode.offsetHeight - fw.offsetTop - translateY;
-
-      fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
-      fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
-      */
-
-
-
-      // TEST:
-      const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
-      const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
-
-      console.log("left: " + fw.offsetLeft);
-      console.log("maxLeft: " + maxLeft);
-
-      fw.style.left = (fw.offsetLeft > maxLeft ? maxLeft : fw.offsetLeft) + 'px';
-      fw.style.top = (fw.offsetTop > maxTop ? maxTop : fw.offsetTop) + 'px';
-
-      const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft;
-      const maxHeight = this.parentNode.offsetHeight - fw.offsetTop;
-      fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
-      fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
+    const resizeObserver = new ResizeObserver(() => { 
+      const floatingWindows = document.querySelectorAll('.floating-window');
+      floatingWindows.forEach((fw) => {
+        const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
+        const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
+  
+        fw.style.left = (fw.offsetLeft > maxLeft ? maxLeft : fw.offsetLeft) + 'px';
+        fw.style.top = (fw.offsetTop > maxTop ? maxTop : fw.offsetTop) + 'px';
+  
+        const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft;
+        const maxHeight = this.parentNode.offsetHeight - fw.offsetTop;
+        fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
+        fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
+      });
     });
+    resizeObserver.observe(document.getElementById('view3d'));
   }
 
   _createInfoButton() {

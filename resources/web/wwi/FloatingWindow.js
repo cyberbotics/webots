@@ -77,8 +77,8 @@ export default class FloatingWindow {
   }
 
   _interactElement(fw) {
-    let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset;
-    let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset;
+    let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
+    let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
     let interactionType, id;
     const minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
     const minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
@@ -104,7 +104,9 @@ export default class FloatingWindow {
       posX = e.clientX;
       posY = e.clientY;
       topOffset = posY - fw.offsetTop;
+      bottomOffset = posY + containerHeight - fw.offsetTop - fw.offsetHeight;
       leftOffset = posX - fw.offsetLeft;
+      rightOffset = posX + containerWidth - fw.offsetLeft - fw.offsetWidth;;
       id = event.target.id.substring(7);
       interactionType = id.length === 0 ? 'drag' : 'resize';
 
@@ -134,7 +136,7 @@ export default class FloatingWindow {
           if (top + dY < 0 || posY < topOffset) { //out of bounds
             top = 0;
             height = maxHeight;
-          } else if (top + dY > maxTop || posY - fw.parentNode.parentNode.offsetTop > maxTop) { //min height
+          } else if (top + dY > maxTop || posY - topOffset > maxTop) { //min height
             height = minHeight;
             top = maxTop;
           } else if (height > minHeight || dY < 0) { //resize
@@ -146,7 +148,7 @@ export default class FloatingWindow {
           if (left + dX < 0 || posX < leftOffset) { //out of bounds
             left = 0;
             width = maxWidth;
-          } else if (left + dX > maxLeft || posX - fw.parentNode.parentNode.offsetLeft > maxLeft) { //min width
+          } else if (left + dX > maxLeft || posX > maxLeft) { //min width
             width = minWidth;
             left = maxLeft;
           } else if (width > minWidth || dX < 0) { //resize
@@ -155,17 +157,17 @@ export default class FloatingWindow {
           }
         }
         if (id.includes('s')) {
-          if (top + fw.offsetHeight + dY > containerHeight || posY - fw.parentNode.parentNode.offsetTop > containerHeight) //out of bounds
+          if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) //out of bounds
             height = containerHeight - fw.offsetTop;
-          else if (posY - fw.parentNode.parentNode.offsetTop < top + minHeight + dY) //min height
+          else if (posY - bottomOffset - containerHeight < top + minHeight + dY) //min height
             height = minHeight;
           else //resize
             height += dY;
         }
         if (id.includes('e')) {
-          if (left + fw.offsetWidth + dX > containerWidth || posX - fw.parentNode.parentNode.offsetLeft > containerWidth) //out of bounds
+          if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) //out of bounds
             width = containerWidth - fw.offsetLeft;
-          else if (posX - fw.parentNode.parentNode.offsetLeft < left + minWidth + dX) //min width
+          else if (posX - rightOffset - containerWidth < left + minWidth + dX) //min width
             width = minWidth;
           else //resize
             width += dX;
