@@ -95,7 +95,7 @@ void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled)
 
 QString WbNodeOperations::exportNodeToString(WbNode *node) {
   QString nodeString;
-  WbVrmlWriter writer(&nodeString, WbWorld::instance()->fileName());
+  WbWriter writer(&nodeString, WbWorld::instance()->fileName());
   node->write(writer);
   return nodeString;
 }

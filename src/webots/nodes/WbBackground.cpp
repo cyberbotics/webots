@@ -675,7 +675,7 @@ WbRgb WbBackground::skyColor() const {
   return (mSkyColor->size() > 0 ? mSkyColor->item(0) : WbRgb());
 }
 
-void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
+void WbBackground::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbBaseNode::exportNodeFields(writer);
     return;

@@ -443,7 +443,7 @@ const WbVector3 WbCadShape::absoluteScale() const {
   return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
-void WbCadShape::exportNodeContents(WbVrmlWriter &writer) const {
+void WbCadShape::exportNodeContents(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 

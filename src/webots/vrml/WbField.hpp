@@ -30,7 +30,7 @@
 
 class WbNode;  // circular dependency: needed by PROTO mechanism for easily retrieving the parent of internal fields
 class WbTokenizer;
-class WbVrmlWriter;
+class WbWriter;
 class WbValue;
 
 class WbField : public QObject {
@@ -55,7 +55,7 @@ public:
   virtual void reset(bool blockValueSignals = false);
 
   // write in VRML format
-  virtual void write(WbVrmlWriter &writer) const;
+  virtual void write(WbWriter &writer) const;
   bool isVrml() const;
 
   bool isDeprecated() const;

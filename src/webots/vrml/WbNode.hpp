@@ -52,7 +52,7 @@ class WbMFColor;
 class WbMFBool;
 class WbMFRotation;
 class WbMFNode;
-class WbVrmlWriter;
+class WbWriter;
 
 struct aiMaterial;
 
@@ -199,7 +199,7 @@ public:
   QStringList listTextureFiles() const;
 
   // write node and fields as text
-  virtual void write(WbVrmlWriter &writer) const;
+  virtual void write(WbWriter &writer) const;
   static void enableDefNodeTrackInWrite(bool substituteInStream);
   static void disableDefNodeTrackInWrite();
   static QList<QPair<WbNode *, int>> *externalUseNodesPositionsInWrite();
@@ -270,7 +270,7 @@ public:
   void setInsertionCompleted() { mInsertionCompleted = true; }
 
   // export
-  virtual void exportBoundingObjectToX3D(WbVrmlWriter &writer) const {}
+  virtual void exportBoundingObjectToX3D(WbWriter &writer) const {}
   virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
 
   virtual void reset(const QString &id);
@@ -309,20 +309,20 @@ protected:
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary
 
-  virtual void writeExport(WbVrmlWriter &writer) const;
-  virtual void writeParameters(WbVrmlWriter &writer) const;
+  virtual void writeExport(WbWriter &writer) const;
+  virtual void writeParameters(WbWriter &writer) const;
   virtual void readHiddenKinematicParameter(WbField *field) {}
 
-  virtual bool exportNodeHeader(WbVrmlWriter &writer) const;
-  virtual void exportNodeContents(WbVrmlWriter &writer) const;
-  virtual void exportNodeFields(WbVrmlWriter &writer) const;
-  virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
-  virtual void exportNodeFooter(WbVrmlWriter &writer) const;
+  virtual bool exportNodeHeader(WbWriter &writer) const;
+  virtual void exportNodeContents(WbWriter &writer) const;
+  virtual void exportNodeFields(WbWriter &writer) const;
+  virtual void exportNodeSubNodes(WbWriter &writer) const;
+  virtual void exportNodeFooter(WbWriter &writer) const;
 
   // Methods related to URDF export
   WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
   virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
-  virtual void exportUrdfJoint(WbVrmlWriter &writer) const {};
+  virtual void exportUrdfJoint(WbWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }

@@ -44,7 +44,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -990,7 +990,7 @@ QList<QPair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
   return gExternalUseNodesInWrite;
 }
 
-void WbNode::writeParameters(WbVrmlWriter &writer) const {
+void WbNode::writeParameters(WbWriter &writer) const {
   foreach (WbField *parameter, parameters())
     parameter->write(writer);
 }
@@ -1009,7 +1009,7 @@ WbNode *WbNode::findUrdfLinkRoot() const {
   return parentRoot;
 }
 
-void WbNode::write(WbVrmlWriter &writer) const {
+void WbNode::write(WbWriter &writer) const {
   if (uniqueId() == -1) {
     if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
       WbNodeFactory::instance()->exportAsVrml(this, writer);
@@ -1146,7 +1146,7 @@ const QString WbNode::urdfName() const {
   return fullName;
 }
 
-bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbNode::exportNodeHeader(WbWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
   else if (writer.isUrdf()) {
@@ -1175,7 +1175,7 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   return false;
 }
 
-void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
+void WbNode::exportNodeFields(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
 
@@ -1185,7 +1185,7 @@ void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbNode::exportNodeSubNodes(WbWriter &writer) const {
   foreach (WbField *field, fields()) {
     if (!field->isDeprecated() &&
         ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
@@ -1200,7 +1200,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
+void WbNode::exportNodeFooter(WbWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf()) {
@@ -1216,14 +1216,14 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
+void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeFields(writer);
   if (writer.isX3d())
     writer << ">";
   exportNodeSubNodes(writer);
 }
 
-void WbNode::writeExport(WbVrmlWriter &writer) const {
+void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;

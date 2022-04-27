@@ -115,11 +115,7 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
   return WbNodeUtilities::isVisible(radius) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
 }
 
-void WbSphere::write(WbVrmlWriter &writer) const {
-  WbGeometry::write(writer);  // TOREM
-}
-
-void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
+void WbSphere::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
 
   if (writer.isX3d()) {
@@ -128,7 +124,7 @@ void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbSphere::exportNodeSubNodes(WbWriter &writer) const {
   WbGeometry::exportNodeSubNodes(writer);
 }
 

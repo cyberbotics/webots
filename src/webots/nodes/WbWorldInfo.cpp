@@ -376,7 +376,7 @@ static QString forgeHtmlEscapedString(const QString &s) {
   return QString("\"%1\"").arg(r);              // restore the suffix and prefix double quotes
 }
 
-void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
+void WbWorldInfo::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d()) {
     QString title = forgeHtmlEscapedString(mTitle->toString());
     if (title.size() > 2)  // at least 2 double quotes

@@ -50,8 +50,8 @@ public:
   void createWrenObjects() override;
   void postFinalize() override;
   void prePhysicsStep(double ms) override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeSubNodes(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   void setMatrixNeedUpdate() override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
@@ -155,7 +155,7 @@ private:
   void initAnimatedGeometriesBeltPosition();
   void clearAnimatedGeometries();
   bool findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShape *> *shapeList);
-  void exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const;
+  void exportAnimatedGeometriesMesh(WbWriter &writer) const;
 
 private slots:
   void addDevice(int index);

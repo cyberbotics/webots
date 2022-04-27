@@ -90,8 +90,8 @@ protected:
   void destroyWrenMesh();
 
   virtual int indexSize() const { return 0; }
-  void exportNodeContents(WbVrmlWriter &writer) const override;
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  void exportNodeContents(WbWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("IndexedFaceSet");
     return name;

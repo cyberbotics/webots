@@ -552,7 +552,6 @@ OTHER_SOURCES = \
   WbUrl.cpp \
   WbVector4.cpp \
   WbVersion.cpp \
-  WbVrmlWriter.cpp \
   WbWaveFile.cpp \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
@@ -573,7 +572,8 @@ OTHER_SOURCES = \
   WbWrenRangeQuantization.cpp \
   WbWrenShaders.cpp \
   WbWrenSmaa.cpp \
-  WbWrenVertexArrayFrameListener.cpp
+  WbWrenVertexArrayFrameListener.cpp \
+  WbWriter.cpp
 
 ifeq ($(OSTYPE),windows)
 QT_SOURCES += \

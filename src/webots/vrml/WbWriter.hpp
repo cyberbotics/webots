@@ -33,11 +33,11 @@ class WbRotation;
 class WbQuaternion;
 class WbRgb;
 
-class WbVrmlWriter {
+class WbWriter {
 public:
-  WbVrmlWriter(QIODevice *device, const QString &fileName);
-  WbVrmlWriter(QString *target, const QString &fileName);
-  virtual ~WbVrmlWriter();
+  WbWriter(QIODevice *device, const QString &fileName);
+  WbWriter(QString *target, const QString &fileName);
+  virtual ~WbWriter();
 
   bool isX3d() const { return mVrmlType == X3D; }
   bool isProto() const { return mVrmlType == PROTO; }
@@ -74,29 +74,29 @@ public:
   WbNode *rootNode() const { return mRootNode; }
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
-  WbVrmlWriter &operator<<(const QString &s);
-  WbVrmlWriter &operator<<(char);
-  WbVrmlWriter &operator<<(int);
-  WbVrmlWriter &operator<<(unsigned int);
-  WbVrmlWriter &operator<<(float);
-  WbVrmlWriter &operator<<(double);
-  WbVrmlWriter &operator<<(const WbVector2 &v);
-  WbVrmlWriter &operator<<(const WbVector3 &v);
-  WbVrmlWriter &operator<<(const WbVector4 &v);
-  WbVrmlWriter &operator<<(const WbRotation &r);
-  WbVrmlWriter &operator<<(const WbQuaternion &q);
-  WbVrmlWriter &operator<<(const WbRgb &rgb);
+  WbWriter &operator<<(const QString &s);
+  WbWriter &operator<<(char);
+  WbWriter &operator<<(int);
+  WbWriter &operator<<(unsigned int);
+  WbWriter &operator<<(float);
+  WbWriter &operator<<(double);
+  WbWriter &operator<<(const WbVector2 &v);
+  WbWriter &operator<<(const WbVector3 &v);
+  WbWriter &operator<<(const WbVector4 &v);
+  WbWriter &operator<<(const WbRotation &r);
+  WbWriter &operator<<(const WbQuaternion &q);
+  WbWriter &operator<<(const WbRgb &rgb);
 
   static QString relativeTexturesPath() { return "textures/"; }
 
 private:
-  void setVrmlType();
+  void setType();
 
-  enum VrmlType { VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
+  enum Type { VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
   QString *mString;
   QIODevice *mDevice;
   QString mFileName;
-  VrmlType mVrmlType;
+  Type mType;
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
   QHash<QString, QString> mTexturesList;  // this hash represents the list of textures used and their associated filepath

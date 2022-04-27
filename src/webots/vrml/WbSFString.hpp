@@ -20,7 +20,7 @@
 //
 
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFString : public WbSingleValue {
   Q_OBJECT
@@ -31,7 +31,7 @@ public:
   WbSFString(const WbSFString &other) : mValue(other.mValue) {}
   virtual ~WbSFString() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFString(tokenizer, worldPath); }
-  void write(WbVrmlWriter &writer) const override { writer.writeLiteralString(mValue); }
+  void write(WbWriter &writer) const override { writer.writeLiteralString(mValue); }
   WbValue *clone() const override { return new WbSFString(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

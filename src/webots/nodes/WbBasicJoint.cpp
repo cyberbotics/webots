@@ -433,7 +433,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   }
 }
 
-void WbBasicJoint::write(WbVrmlWriter &writer) const {
+void WbBasicJoint::write(WbWriter &writer) const {
   WbSolid *const s = solidEndPoint();
   WbVector3 translation;
   WbRotation rotation;

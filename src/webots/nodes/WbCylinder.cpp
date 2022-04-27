@@ -125,7 +125,7 @@ bool WbCylinder::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(height) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
 }
 
-void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCylinder::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";

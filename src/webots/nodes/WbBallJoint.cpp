@@ -809,7 +809,7 @@ void WbBallJoint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbBallJoint::writeExport(WbVrmlWriter &writer) const {
+void WbBallJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     this->warn("Exporting 'BallJoint' nodes to URDF is currently not supported");
     return;

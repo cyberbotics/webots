@@ -67,7 +67,7 @@ public:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbCylinder &operator=(const WbCylinder &);  // non copyable

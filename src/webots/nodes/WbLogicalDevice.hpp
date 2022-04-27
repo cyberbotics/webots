@@ -31,7 +31,7 @@ protected:
   explicit WbLogicalDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbLogicalDevice(const WbLogicalDevice &other);
   explicit WbLogicalDevice(const WbNode &other);
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
 protected:
   WbSFString *mDeviceName;

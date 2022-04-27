@@ -70,16 +70,16 @@ public:
 
   void setRole(const QString &role) { mRole = role; }
 
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
 
-  void exportShallowNode(WbVrmlWriter &writer) const;
+  void exportShallowNode(WbWriter &writer) const;
 
 signals:
   void changed();
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields

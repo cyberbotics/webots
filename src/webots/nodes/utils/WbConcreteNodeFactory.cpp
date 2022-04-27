@@ -494,7 +494,7 @@ bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, cons
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
 }
 
-void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &writer) {
+void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbWriter &writer) {
   if (node->nodeModelName() == "Plane") {
     WbPlane plane(*node);
     plane.write(writer);

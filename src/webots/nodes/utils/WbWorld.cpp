@@ -52,10 +52,10 @@
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbViewpoint.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/scene.h>
 
@@ -240,7 +240,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
   const int count = mRoot->childCount();
@@ -366,13 +366,13 @@ bool WbWorld::exportAsVrml(const QString &fileName) const {
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   write(writer);
 
   return true;
 }
 
-void WbWorld::write(WbVrmlWriter &writer) const {
+void WbWorld::write(WbWriter &writer) const {
   if (writer.isX3d()) {
     // make sure all the meshes data are up-to-date
     // only X3D exporter relies on OpenGL data

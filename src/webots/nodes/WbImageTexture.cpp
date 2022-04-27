@@ -539,7 +539,7 @@ const QString WbImageTexture::path(bool warning) const {
   return WbUrl::computePath(this, "url", mUrl, 0, warning);
 }
 
-void WbImageTexture::write(WbVrmlWriter &writer) const {
+void WbImageTexture::write(WbWriter &writer) const {
   if (!isUseNode() && writer.isProto()) {
     for (int i = 0; i < mUrl->size(); ++i) {
       QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
@@ -553,7 +553,7 @@ void WbImageTexture::write(WbVrmlWriter &writer) const {
   WbBaseNode::write(writer);
 }
 
-bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
 
@@ -566,7 +566,7 @@ bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
   return true;
 }
 
-void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
+void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
@@ -603,7 +603,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbImageTexture::exportShallowNode(WbVrmlWriter &writer) const {
+void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 

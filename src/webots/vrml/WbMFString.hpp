@@ -20,7 +20,7 @@
 //
 
 #include "WbMultipleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QStringList>
 
@@ -41,7 +41,7 @@ public:
   void copyFrom(const WbValue *other) override;
   int size() const override { return mValue.size(); }
   void clear() override;
-  void writeItem(WbVrmlWriter &writer, int index) const override {
+  void writeItem(WbWriter &writer, int index) const override {
     assert(index >= 0 && index < size());
     writer.writeLiteralString(mValue[index]);
   }

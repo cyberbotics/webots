@@ -24,9 +24,9 @@
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/config.h>
 #include <wren/renderable.h>
@@ -89,14 +89,14 @@ const WbVector2 WbPlane::scaledSize() const {
   return WbVector2(fabs(scale.x() * size.x()), fabs(scale.y() * size.y()));
 }
 
-void WbPlane::write(WbVrmlWriter &writer) const {
+void WbPlane::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::write(writer);
   else
     writeExport(writer);
 }
 
-void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
+void WbPlane::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
   else if (writer.isX3d()) {

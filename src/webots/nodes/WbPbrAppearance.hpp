@@ -71,12 +71,12 @@ public:
   double roughness() const;
 
   QStringList fieldsToSynchronizeWithX3D() const override;
-  void exportShallowNode(WbVrmlWriter &writer) const;
+  void exportShallowNode(WbWriter &writer) const;
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeSubNodes(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("Appearance");
     return name;

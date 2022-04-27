@@ -49,7 +49,7 @@ public:
   const WbVector3 absoluteScale() const;
 
 protected:
-  void exportNodeContents(WbVrmlWriter &writer) const override;
+  void exportNodeContents(WbWriter &writer) const override;
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;
 

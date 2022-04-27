@@ -598,7 +598,7 @@ void WbPbrAppearance::updateEmissiveIntensity() {
     emit changed();
 }
 
-void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbAbstractAppearance::exportNodeSubNodes(writer);
     return;
@@ -635,7 +635,7 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
-void WbPbrAppearance::exportNodeFields(WbVrmlWriter &writer) const {
+void WbPbrAppearance::exportNodeFields(WbWriter &writer) const {
   WbAbstractAppearance::exportNodeFields(writer);
   if (writer.isX3d()) {
     foreach (WbField *field, fields())
@@ -651,13 +651,13 @@ QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
   return fields;
 }
 
-bool WbPbrAppearance::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbAbstractAppearance::exportNodeHeader(writer);
 }
 
-void WbPbrAppearance::exportShallowNode(WbVrmlWriter &writer) const {
+void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d())
     return;
 

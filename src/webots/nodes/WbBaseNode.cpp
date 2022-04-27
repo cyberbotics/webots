@@ -251,7 +251,7 @@ QString WbBaseNode::documentationUrl() const {
   return QString();
 }
 
-bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbBaseNode::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
@@ -280,7 +280,7 @@ bool WbBaseNode::isUrdfRootLink() const {
   return false;
 }
 
-void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
+void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
     WbVector3 translation;
     WbVector3 eulerRotation;
