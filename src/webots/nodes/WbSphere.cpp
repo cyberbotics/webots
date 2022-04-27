@@ -124,10 +124,6 @@ void WbSphere::exportNodeFields(WbWriter &writer) const {
   }
 }
 
-void WbSphere::exportNodeSubNodes(WbWriter &writer) const {
-  WbGeometry::exportNodeSubNodes(writer);
-}
-
 bool WbSphere::sanitizeFields() {
   bool invalidValue;
   if (mIco->value()) {

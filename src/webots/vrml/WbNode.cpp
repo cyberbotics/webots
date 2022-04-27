@@ -1010,12 +1010,6 @@ WbNode *WbNode::findUrdfLinkRoot() const {
 }
 
 void WbNode::write(WbWriter &writer) const {
-  if (uniqueId() == -1) {
-    if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
-      WbNodeFactory::instance()->exportAsVrml(this, writer);
-      return;
-    }
-  }
   if (writer.isUrdf()) {
     // Start naming from scratch
     if (isRobot()) {

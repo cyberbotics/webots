@@ -493,23 +493,3 @@ bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, cons
                                                       bool isInBoundingObject, QString &errorMessage) const {
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
 }
-
-void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbWriter &writer) {
-  if (node->nodeModelName() == "Plane") {
-    WbPlane plane(*node);
-    plane.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Capsule") {
-    WbCapsule capsule(*node);
-    capsule.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Mesh") {
-    WbMesh mesh(*node);
-    mesh.write(writer);
-    return;
-  }
-
-  assert(0);  // we should not reach this line
-}

@@ -39,10 +39,10 @@ public:
   WbWriter(QString *target, const QString &fileName);
   virtual ~WbWriter();
 
-  bool isX3d() const { return mVrmlType == X3D; }
-  bool isProto() const { return mVrmlType == PROTO; }
-  bool isUrdf() const { return mVrmlType == URDF; }
-  bool isWebots() const { return mVrmlType == VRML_SIM || mVrmlType == VRML_OBJ || mVrmlType == PROTO; }
+  bool isX3d() const { return mType == X3D; }
+  bool isProto() const { return mType == PROTO; }
+  bool isUrdf() const { return mType == URDF; }
+  bool isWebots() const { return mType == VRML_SIM || mType == VRML_OBJ || mType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;

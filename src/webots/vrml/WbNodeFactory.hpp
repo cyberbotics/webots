@@ -49,7 +49,6 @@ public:
   virtual const QString slotType(WbNode *node) = 0;
   virtual bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node,
                                          bool isInBoundingObject, QString &errorMessage) const = 0;
-  virtual void exportAsVrml(const WbNode *node, WbWriter &writer) = 0;
 
 protected:
   WbNodeFactory();

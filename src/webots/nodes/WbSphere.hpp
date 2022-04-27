@@ -61,7 +61,6 @@ public:
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbWriter &writer) const override;
-  void exportNodeSubNodes(WbWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("IndexedFaceSet");
     return name;
