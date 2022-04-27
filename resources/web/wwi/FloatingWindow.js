@@ -44,75 +44,7 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._interact(this.floatingWindow);
-  }
-
-  _interact(fw) {
-    interact('.floating-window')
-      .draggable({
-        listeners: {
-          move(event) {
-            let target = event.target;
-            let transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(event.target).transform)
-            let x = (transformMatrix.m41 || 0);
-            let y = (transformMatrix.m42 || 0);
-
-            target.lastElementChild.style.pointerEvents = 'none';
-            target.style.userSelect = 'none';
-
-            x += event.dx;
-            y += event.dy;
-
-            target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-          },
-          end(event) {
-            event.target.lastElementChild.style.pointerEvents = 'auto';
-            event.target.style.userSelect = 'auto';
-          }
-        },
-        modifiers: [
-          interact.modifiers.restrictRect({
-            restriction: 'parent'
-          })
-        ]
-      })
-      .resizable( {
-        edges: { left: true, right: true, bottom: true, top: true },
-        listeners: {
-          move(event) {
-            let target = event.target;
-            let transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(event.target).transform)
-            let x = (transformMatrix.m41 || 0);
-            let y = (transformMatrix.m42 || 0);
-
-            target.lastElementChild.style.pointerEvents = 'none';
-            target.style.userSelect = 'none';
-            target.style.width = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
-
-            x += event.deltaRect.left;
-            y += event.deltaRect.top;
-
-            target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-          },
-          end(event) {
-            event.target.lastElementChild.style.pointerEvents = 'auto';
-            event.target.style.userSelect = 'auto';
-          }
-        },
-        modifiers: [
-          interact.modifiers.restrictEdges( {
-            outer: 'parent'
-          }),
-    
-          interact.modifiers.restrictSize( {
-            min: { 
-              width: parseInt(window.getComputedStyle(fw).minWidth),
-              height: parseInt(window.getComputedStyle(fw).minHeight)
-            }
-          })
-        ]
-      })
+    this._interactElement(this.floatingWindow);
   }
 
   getId() {
@@ -142,5 +74,130 @@ export default class FloatingWindow {
 
   getVisibility() {
     return this.floatingWindow.style.visibility;
+  }
+
+  _interactElement(fw) {
+    let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset;
+    let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset;
+    let interactionType, id;
+    const minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
+    const minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
+
+    fw.firstChild.onmousedown = interactMouseDown;
+    fw.firstChild.ontouchstart = interactMouseDown;
+    for (let n of fw.childNodes[1].childNodes) {
+      n.onmousedown = interactMouseDown;
+      n.ontouchstart = interactMouseDown;
+    }
+
+    function interactMouseDown(event) {
+      fw.lastElementChild.style.pointerEvents = 'none';
+      fw.style.userSelect = 'none';
+
+      let e = event.touches ? event.touches[0] : event;
+      containerHeight = fw.parentNode.offsetHeight;
+      containerWidth = fw.parentNode.offsetWidth;
+      maxHeight = fw.offsetTop + fw.offsetHeight;
+      maxWidth = fw.offsetLeft + fw.offsetWidth;
+      maxTop = maxHeight - minHeight;
+      maxLeft = maxWidth - minWidth;
+      posX = e.clientX;
+      posY = e.clientY;
+      topOffset = posY - fw.offsetTop;
+      leftOffset = posX - fw.offsetLeft;
+      id = event.target.id.substring(7);
+      interactionType = id.length === 0 ? 'drag' : 'resize';
+
+      document.onmouseup = closeInteractElement;
+      document.onmousemove = floatingWindowInteract;
+      document.ontouchend = closeInteractElement;
+      document.ontouchcancel = closeInteractElement;
+      document.ontouchmove = floatingWindowInteract;
+    }
+
+    function floatingWindowInteract(event) {
+      top = fw.offsetTop;
+      left = fw.offsetLeft;
+      width = fw.offsetWidth;
+      height = fw.offsetHeight;
+
+      let e = event.touches ? event.touches[0] : event;
+      dX = e.clientX - posX;
+      dY = e.clientY - posY;
+      posX = e.clientX;
+      posY = e.clientY;
+
+      if (interactionType === 'resize') {
+        // Resize element
+        document.body.style.cursor = id + '-resize';
+        if (id.includes('n')) {
+          if (top + dY < 0 || posY < topOffset) { //out of bounds
+            top = 0;
+            height = maxHeight;
+          } else if (top + dY > maxTop || posY - fw.parentNode.parentNode.offsetTop > maxTop) { //min height
+            height = minHeight;
+            top = maxTop;
+          } else if (height > minHeight || dY < 0) { //resize
+            height -= dY;
+            top += dY;
+          }
+        }
+        if (id.includes('w')) {
+          if (left + dX < 0 || posX < leftOffset) { //out of bounds
+            left = 0;
+            width = maxWidth;
+          } else if (left + dX > maxLeft || posX - fw.parentNode.parentNode.offsetLeft > maxLeft) { //min width
+            width = minWidth;
+            left = maxLeft;
+          } else if (width > minWidth || dX < 0) { //resize
+            width -= dX;
+            left += dX;
+          }
+        }
+        if (id.includes('s')) {
+          if (top + fw.offsetHeight + dY > containerHeight || posY - fw.parentNode.parentNode.offsetTop > containerHeight) //out of bounds
+            height = containerHeight - fw.offsetTop;
+          else if (posY - fw.parentNode.parentNode.offsetTop < top + minHeight + dY) //min height
+            height = minHeight;
+          else //resize
+            height += dY;
+        }
+        if (id.includes('e')) {
+          if (left + fw.offsetWidth + dX > containerWidth || posX - fw.parentNode.parentNode.offsetLeft > containerWidth) //out of bounds
+            width = containerWidth - fw.offsetLeft;
+          else if (posX - fw.parentNode.parentNode.offsetLeft < left + minWidth + dX) //min width
+            width = minWidth;
+          else //resize
+            width += dX;
+        }
+      } else if (interactionType === 'drag') {
+        // Drag element
+        top = fw.offsetTop + dY;
+        left = fw.offsetLeft + dX;
+        if (top < 0 || posY < topOffset) //top boundary
+          top = 0;
+        else if (top + fw.offsetHeight > containerHeight || posY > containerHeight - fw.offsetHeight + topOffset) //bottom boundary
+          top = containerHeight - fw.offsetHeight;
+        if (left < 0 || posX < leftOffset) //left boundary
+          left = 0;
+        else if (left + fw.offsetWidth > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset) //right boundary
+          left = containerWidth - fw.offsetWidth;
+      }
+
+      fw.style.top = top + 'px';
+      fw.style.left = left + 'px';
+      fw.style.width = width + 'px';
+      fw.style.height = height + 'px';
+    }
+
+    function closeInteractElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+      document.ontouchstart = null;
+      document.ontouchmove = null;
+      fw.lastElementChild.style.pointerEvents = 'auto';
+      fw.style.userSelect = 'auto';
+      document.body.style.cursor = 'default';
+    }
   }
 }

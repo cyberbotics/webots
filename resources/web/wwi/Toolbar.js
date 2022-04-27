@@ -535,6 +535,7 @@ export default class Toolbar {
   _checkWindowBoundaries() {
     const floatingWindows = document.querySelectorAll('.floating-window');
     floatingWindows.forEach((fw) => {
+      /*
       const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
       const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
       const transformMatrix = new DOMMatrixReadOnly(window.getComputedStyle(fw).transform)
@@ -546,6 +547,24 @@ export default class Toolbar {
       const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft - translateX;
       const maxHeight = this.parentNode.offsetHeight - fw.offsetTop - translateY;
 
+      fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
+      fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
+      */
+
+
+
+      // TEST:
+      const maxLeft = this.parentNode.offsetWidth - parseInt(window.getComputedStyle(fw).minWidth);
+      const maxTop = this.parentNode.offsetHeight - parseInt(window.getComputedStyle(fw).minHeight);
+
+      console.log("left: " + fw.offsetLeft);
+      console.log("maxLeft: " + maxLeft);
+
+      fw.style.left = (fw.offsetLeft > maxLeft ? maxLeft : fw.offsetLeft) + 'px';
+      fw.style.top = (fw.offsetTop > maxTop ? maxTop : fw.offsetTop) + 'px';
+
+      const maxWidth = this.parentNode.offsetWidth - fw.offsetLeft;
+      const maxHeight = this.parentNode.offsetHeight - fw.offsetTop;
       fw.style.width = (fw.offsetWidth > maxWidth ? maxWidth : fw.offsetWidth) + 'px';
       fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
     });
