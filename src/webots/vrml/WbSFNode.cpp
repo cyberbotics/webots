@@ -17,7 +17,7 @@
 #include "WbNode.hpp"
 #include "WbNodeReader.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 WbSFNode::WbSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   mValue = NULL;
@@ -48,11 +48,20 @@ void WbSFNode::readSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
     mValue->setInsertionCompleted();
 }
 
+WbSFNode::WbSFNode(WbNode *node) {
+  if (mValue == node)
+    return;
+
+  mValue = node;
+  if (mValue)
+    mValue->setInsertionCompleted();
+}
+
 WbSFNode::~WbSFNode() {
   delete mValue;
 }
 
-void WbSFNode::write(WbVrmlWriter &writer) const {
+void WbSFNode::write(WbWriter &writer) const {
   if (mValue)
     mValue->write(writer);
   else if (!writer.isX3d() && !writer.isUrdf())

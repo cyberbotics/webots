@@ -24,7 +24,7 @@
 class WbTokenizer;
 class WbNode;
 class QString;
-class WbVrmlWriter;
+class WbWriter;
 
 class WbConcreteNodeFactory : public WbNodeFactory {
 public:
@@ -35,7 +35,6 @@ public:
   const QString slotType(WbNode *node) override;
   bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node, bool isInBoundingObject,
                                  QString &errorMessage) const override;
-  void exportAsVrml(const WbNode *node, WbVrmlWriter &writer) override;
 
 private:
   WbConcreteNodeFactory() {}

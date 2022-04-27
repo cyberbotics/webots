@@ -15,7 +15,6 @@
 #include "WbMFDouble.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
 
 void WbMFDouble::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
   mVector.append(tokenizer->nextToken()->toDouble());

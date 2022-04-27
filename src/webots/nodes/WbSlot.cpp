@@ -214,7 +214,7 @@ void WbSlot::detachResizeManipulator() const {
     e->detachResizeManipulator();
 }
 
-void WbSlot::write(WbVrmlWriter &writer) const {
+void WbSlot::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {

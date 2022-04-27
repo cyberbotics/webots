@@ -737,7 +737,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
+void WbHinge2Joint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
     return;

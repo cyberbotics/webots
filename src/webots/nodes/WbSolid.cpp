@@ -2915,7 +2915,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const WbTransform *transform,
                               const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
@@ -2951,7 +2951,7 @@ void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, con
   }
 }
 
-bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbSolid::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf()) {
     const bool ret = WbMatter::exportNodeHeader(writer);
     if (!ret) {
@@ -3007,7 +3007,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
   return WbMatter::exportNodeHeader(writer);
 }
 
-void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
+void WbSolid::exportNodeFields(WbWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
@@ -3016,7 +3016,7 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
+void WbSolid::exportNodeFooter(WbWriter &writer) const {
   if (writer.isX3d() && boundingObject())
     boundingObject()->exportBoundingObjectToX3D(writer);
 

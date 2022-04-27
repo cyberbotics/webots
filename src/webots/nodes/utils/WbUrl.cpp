@@ -162,7 +162,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
-                             const QString &relativeTexturesPath, const WbVrmlWriter &writer) {
+                             const QString &relativeTexturesPath, const WbWriter &writer) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeTexturesPath + fileName;
@@ -205,7 +205,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
   // in addition to writing the node, we want to ensure that the texture file exists
   // at the expected location. If not, we should copy it, possibly creating the expected
   // directory structure.

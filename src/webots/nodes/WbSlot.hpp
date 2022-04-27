@@ -40,7 +40,7 @@ public:
   void createOdeObjects() override;
   void createWrenObjects() override;
   void validateProtoNode() override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;

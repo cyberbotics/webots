@@ -60,6 +60,7 @@ export default class WbGroup extends WbBaseNode {
 
     super.delete();
   }
+
   preFinalize() {
     super.preFinalize();
 

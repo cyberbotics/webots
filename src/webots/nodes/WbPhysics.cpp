@@ -292,7 +292,7 @@ void WbPhysics::setInertiaMatrix(double v0x, double v0y, double v0z, double v1x,
   mSkipUpdate = false;
 }
 
-bool WbPhysics::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbPhysics::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbNode::exportNodeHeader(writer);

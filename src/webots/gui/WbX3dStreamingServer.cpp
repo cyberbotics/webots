@@ -182,7 +182,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
 
   if (!mWebSocketClients.isEmpty()) {
     QString nodeString;
-    WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
+    WbWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
 
     mX3dWorldTextures.insert(writer.texturesList());
@@ -207,7 +207,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
     return;
 
   QString worldString;
-  WbVrmlWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
+  WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();

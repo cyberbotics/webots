@@ -312,6 +312,8 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+        if (nodeName == "CadShape")
+          return true;
         if (nodeName == "PointLight")
           return true;
         if (nodeName == "SpotLight")
@@ -524,6 +526,8 @@ namespace {
         if (nodeName == "Transform")
           return true;
         if (nodeName == "Shape")
+          return true;
+        if (nodeName == "CadShape")
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))

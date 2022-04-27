@@ -628,7 +628,7 @@ void WbElevationGrid::recomputeBoundingSphere() const {
   delete[] vertices;
 }
 
-void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
+void WbElevationGrid::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbGeometry::exportNodeFields(writer);
     return;
