@@ -6,6 +6,7 @@ body {
 
 webots-view {
   height: 100%;
+  width: 100%;
   display: block;
   position: relative;
 }
@@ -131,7 +132,7 @@ webots-view .icon-pause {
 
 webots-view .icon {
   display: block;
-  height: 32px;
+  height: 32px; 
   width: 32px;
   margin-top: -1px;
   margin-left: -8px;
@@ -160,7 +161,7 @@ webots-view #step-button {
 }
 
 webots-view .toolbar-btn:focus .icon-ide,
-  .toolbar-btn:focus .icon-robot-window,
+  .toolbar-btn:focus .icon-robot-window, 
   .toolbar-btn:focus .icon-info,
   .toolbar-btn:focus .icon-quit,
   .toolbar-btn:focus .icon-step,
@@ -169,7 +170,7 @@ webots-view .toolbar-btn:focus .icon-ide,
 }
 
 webots-view .toolbar-btn:active .icon-ide,
-  .toolbar-btn:active .icon-robot-window,
+  .toolbar-btn:active .icon-robot-window, 
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
@@ -206,6 +207,14 @@ webots-view .toolbar-btn:hover .icon-windowed {
 @keyframes animation-scale-up {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes animation-scale-up-lg {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  65%  { transform: scale(1); }
   100% { transform: scale(1); }
 }
 
@@ -375,11 +384,6 @@ webots-view .information-panel .simulation-text {
 
 webots-view .information-panel .simulation-text a {
   font-size: inherit;
-}
-
-webots-view .information-panel p {
-  color: white;
-  padding: 0;
 }
 
 /* Settings */
@@ -574,10 +578,11 @@ webots-view .floating-window {
   position: absolute;
   display: block;
   border-radius: 5px;
-  resize: both;
   overflow: hidden;
-  min-height: 44px;
+  min-height: 65px;
   min-width: 200px;
+  transform: translate(0, 0);
+  touch-action: none;
 }
 
 webots-view .floating-window-header {
@@ -599,7 +604,8 @@ webots-view .floating-window-text{
 
 webots-view .floating-window-close {
   position: relative;
-  top: -10px;
+  top: -8px;
+  right: 4px;
   background-color: transparent;
   border: none;
   color: #aaa;
@@ -625,6 +631,68 @@ webots-view .floating-window-content iframe {
 
 webots-view .unclickable {
   pointer-events: none;
+}
+
+webots-view #resize-n {
+  position: absolute;
+  top: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-ne {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-e {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-se {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-s {
+  position: absolute;
+  bottom: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-sw {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-w {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-nw {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
 }
 
 /* Vertical panes */
