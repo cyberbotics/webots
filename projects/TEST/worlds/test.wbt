@@ -1,0 +1,17 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO ProtoWithExternReference "https://raw.githubusercontent.com/cyberbotics/webots/feature-add-externproto-support/projects/TEST/protos/ProtoWithExternReference.proto"
+
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+#ExternProto {
+#}
+ProtoWithExternReference {
+}

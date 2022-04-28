@@ -1,0 +1,14 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO ExternalProtoSolid "https://raw.githubusercontent.com/cyberbotics/webots/feature-add-externproto-support/projects/TEST/protos/ExternalProtoSolid.proto"
+
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+ExternalProtoSolid {}
