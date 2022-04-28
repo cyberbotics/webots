@@ -82,7 +82,7 @@ public:
 
   // save and replace Webots specific nodes by VRML/X3D nodes
   bool exportAsHtml(const QString &fileName, bool animation) const;
-  bool exportAsVrml(const QString &fileName) const;
+  bool exportAsX3d(const QString &fileName) const;
   void write(WbWriter &writer) const;
 
   // nodes that do always exist

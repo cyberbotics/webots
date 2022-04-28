@@ -293,7 +293,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
 
   try {
     // export x3d file
-    success = exportAsVrml(x3dFilename);
+    success = exportAsX3d(x3dFilename);
     if (!success)
       throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
 
@@ -306,10 +306,12 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     cssTemplateValues << QPair<QString, QString>("%title%", titleString);
     cssTemplateValues << QPair<QString, QString>("%type%", typeString);
 
-    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css", cssFileName,
-                                               cssTemplateValues);
-    if (!success)
-      throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
+    if (!cX3DMetaFileExport) {  // when exporting the meta file (for web component), css is not needed
+      success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css",
+                                                 cssFileName, cssTemplateValues);
+      if (!success)
+        throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
+    }
 
     // export html file
     QString infoString;
@@ -332,9 +334,10 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
-    templateValues << QPair<QString, QString>(
-      "%cssName%",
-      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
+    if (!cX3DMetaFileExport)
+      templateValues << QPair<QString, QString>(
+        "%cssName%",
+        fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
     if (animation)
       templateValues << QPair<QString, QString>(
         "%jsonName%",
@@ -361,7 +364,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   return success;
 }
 
-bool WbWorld::exportAsVrml(const QString &fileName) const {
+bool WbWorld::exportAsX3d(const QString &fileName) const {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
