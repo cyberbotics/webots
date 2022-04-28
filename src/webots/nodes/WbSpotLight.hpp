@@ -48,7 +48,7 @@ public:
   WbVector3 computeAbsoluteLocation() const;
 
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 protected slots:
   void updateAmbientIntensity() override;

@@ -137,7 +137,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Export
   QString output;
-  WbVrmlWriter writer(&output, "robot." + type);
+  WbWriter writer(&output, "robot." + type);
   writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();

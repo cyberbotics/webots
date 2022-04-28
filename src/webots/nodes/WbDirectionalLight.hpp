@@ -41,7 +41,7 @@ public:
   const WbVector3 &direction() const;
 
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private slots:
   void updateDirection();

@@ -52,10 +52,10 @@
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbViewpoint.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/scene.h>
 
@@ -240,7 +240,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
   const int count = mRoot->childCount();
@@ -293,7 +293,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
 
   try {
     // export x3d file
-    success = exportAsVrml(x3dFilename);
+    success = exportAsX3d(x3dFilename);
     if (!success)
       throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
 
@@ -306,10 +306,12 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     cssTemplateValues << QPair<QString, QString>("%title%", titleString);
     cssTemplateValues << QPair<QString, QString>("%type%", typeString);
 
-    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css", cssFileName,
-                                               cssTemplateValues);
-    if (!success)
-      throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
+    if (!cX3DMetaFileExport) {  // when exporting the meta file (for web component), css is not needed
+      success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css",
+                                                 cssFileName, cssTemplateValues);
+      if (!success)
+        throw tr("Cannot copy the 'x3d_playback.css' file to '%1'").arg(cssFileName);
+    }
 
     // export html file
     QString infoString;
@@ -332,9 +334,10 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
-    templateValues << QPair<QString, QString>(
-      "%cssName%",
-      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
+    if (!cX3DMetaFileExport)
+      templateValues << QPair<QString, QString>(
+        "%cssName%",
+        fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
     if (animation)
       templateValues << QPair<QString, QString>(
         "%jsonName%",
@@ -361,18 +364,18 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   return success;
 }
 
-bool WbWorld::exportAsVrml(const QString &fileName) const {
+bool WbWorld::exportAsX3d(const QString &fileName) const {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   write(writer);
 
   return true;
 }
 
-void WbWorld::write(WbVrmlWriter &writer) const {
+void WbWorld::write(WbWriter &writer) const {
   if (writer.isX3d()) {
     // make sure all the meshes data are up-to-date
     // only X3D exporter relies on OpenGL data

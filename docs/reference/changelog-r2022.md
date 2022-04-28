@@ -10,8 +10,10 @@ Released on XX, XXth, 2022.
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
-    - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)). **Previously set Extra project paths should be re-set in the preferences menu**
+    - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)).
+    **Previously set Extra project paths should be re-set in the preferences menu**.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
+    - Added Franka Emika's [Panda](../guide/panda.md) robot ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
   - New Objects:
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
@@ -21,9 +23,13 @@ Released on XX, XXth, 2022.
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
-  - Dependency Updates
+    - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Dependency Updates:
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
+    - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Feature Removal:
+    - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.
@@ -63,7 +69,7 @@ Released on December 21th, 2021.
   - New Features:
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
     - Added support for rolling friction in [ContactProperties](contactproperties.md) ([#3771](https://github.com/cyberbotics/webots/pull/3771)).
-    - Added the [ColladaShapes](../guide/object-shapes.md#colladashapes) PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
+    - Added the ColladaShapes PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
     - **The entire library of robots, objects and worlds has been converted to the FLU/ENU coordinate system, and might require manual changes of your local files. Additional details are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a).**
   - Enhancements
     - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).

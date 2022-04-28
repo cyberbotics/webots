@@ -464,21 +464,6 @@ QMenu *WbMainWindow::createFileMenu() {
 
     menu->addSeparator();
   }
-  action = new QAction(this);
-  action->setText(tr("&Import 3D Model..."));
-  action->setStatusTip(tr("Add a 3D object to the Scene Tree."));
-  action->setToolTip(action->statusTip());
-  connect(action, &QAction::triggered, this, &WbMainWindow::importVrml);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Export VRML97..."));
-  action->setStatusTip(tr("Export the whole Scene Tree as a VRML97 file."));
-  action->setToolTip(action->statusTip());
-  connect(action, &QAction::triggered, this, &WbMainWindow::exportVrml);
-  menu->addAction(action);
-
-  menu->addSeparator();
 
   menu->addAction(manager->action(WbAction::TAKE_SCREENSHOT));
   menu->addAction(mSimulationView->movieAction());
@@ -1540,32 +1525,9 @@ void WbMainWindow::importVrml() {
     if (fileName.endsWith(".wrl", Qt::CaseInsensitive)) {
       if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
-    } else {
-      if (WbNodeOperations::instance()->importExternalModel(fileName, wizard.importTextureCoordinates(), wizard.importNormals(),
-                                                            wizard.importAppearances(), wizard.importAsSolid(),
-                                                            wizard.importBoundingObjects()) == WbNodeOperations::SUCCESS)
-        WbWorld::instance()->setModified();
     }
 
     mSimulationView->view3D()->refresh();
-  }
-
-  simulationState->resumeSimulation();
-}
-
-void WbMainWindow::exportVrml() {
-  WbSimulationState *simulationState = WbSimulationState::instance();
-  simulationState->pauseSimulation();
-  WbWorld *world = WbWorld::instance();
-
-  QString path = WbPreferences::instance()->value("Directories/vrml").toString();
-  QString fileName =
-    QFileDialog::getSaveFileName(this, tr("Export World as VRML97"),
-                                 WbProject::computeBestPathForSaveAs(path + QFileInfo(world->fileName()).baseName() + ".wrl"),
-                                 tr("VRML97 Files (*.wrl *.WRL)"));
-  if (!fileName.isEmpty()) {
-    WbPreferences::instance()->setValue("Directories/vrml", QFileInfo(fileName).absolutePath() + "/");
-    world->exportAsVrml(fileName);
   }
 
   simulationState->resumeSimulation();

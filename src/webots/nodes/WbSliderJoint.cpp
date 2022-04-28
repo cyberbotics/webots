@@ -310,7 +310,7 @@ WbVector3 WbSliderJoint::anchor() const {
   return WbBasicJoint::anchor();
 }
 
-void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
+void WbSliderJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();

@@ -34,7 +34,7 @@
 #include "WbSFVector3.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -108,7 +108,7 @@ void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
     checkValueIsAccepted();
 }
 
-void WbField::write(WbVrmlWriter &writer) const {
+void WbField::write(WbWriter &writer) const {
   if (isDefault())
     return;
   if (writer.isX3d())
