@@ -282,9 +282,8 @@ void WbGuiApplication::parseArguments() {
     } else if (subCommand == "mode" && parser.isSet(modeOption)) {
       args.pop_front();
       const QStringList mode = parser.values(modeOption);
-      if (mode.size() != 1 || mode[0] == "=") {
+      if (mode.size() != 1 || mode[0] == "=")
         cerr << tr("Error: Must specify one mode argument.").toUtf8().constData() << endl;
-      }
       if (mode[0] == "stop") {
         cerr << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::PAUSE;
@@ -335,9 +334,8 @@ void WbGuiApplication::parseArguments() {
     } else if (subCommand == "stream" && parser.isSet(streamOption)) {
       args.pop_front();
       const QStringList streamArgument = parser.values(streamOption);
-      if (streamArgument.size() != 1) {
+      if (streamArgument.size() != 1)
         cerr << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData();
-      }
       stream = true;
       parseStreamArguments(streamArgument[0]);
     } else if (subCommand == "stdout" && parser.isSet(stdoutOption)) {
@@ -355,10 +353,8 @@ void WbGuiApplication::parseArguments() {
         WbPerformanceLog::createInstance(logArgument[0]);
         logPerformanceMode = true;
       }
-      if (logArgument.size() != 1) {
+      if (logArgument.size() != 1)
         cerr << tr("webots: invalid option: '--log-performance': log file path is missing.").toUtf8().constData();
-      }
-
     }
 #ifndef _WIN32
     else if (subCommand == "disable-gpu" || subCommand == "disable-logging" || subCommand == "enable-logging" ||
