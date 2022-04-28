@@ -18,8 +18,11 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     this._shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
+    this._shadowRoot.getElementById('range').addEventListener('touchstart', _ => this._mouseDown(_));
     document.addEventListener('mousemove', this.mousemoveRef = _ => this._mouseMove(_));
+    document.addEventListener('touchmove', this.mousemoveRef = _ => this._mouseMove(_));
     document.addEventListener('mouseup', this.mouseupRef = () => this._mouseUp());
+    document.addEventListener('touchend', this.mouseupRef = () => this._mouseUp());
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
@@ -27,6 +30,7 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   _mouseDown(e) {
+    e = e.touches ? e.touches[0] : e;
     const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     const x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.width = x + '%';
@@ -64,6 +68,7 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   _mouseMove(e) {
+    e = e.touches ? e.touches[0] : e;
     if (this._isSelected) {
       const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
