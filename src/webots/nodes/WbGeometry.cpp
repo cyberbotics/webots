@@ -578,7 +578,7 @@ int WbGeometry::triangleCount() const {
     return 0;
 }
 
-bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbGeometry::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbBaseNode::exportNodeHeader(writer);
@@ -620,7 +620,7 @@ int WbGeometry::constraintType() const {
 // Export //
 ////////////
 
-void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbGeometry::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
   assert(isInBoundingObject());
   if (!mWrenMesh)

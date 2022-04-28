@@ -48,7 +48,7 @@ public:
   void createWrenObjects() override;
   void propagateSelection(bool selected) override;
   void setMatrixNeedUpdate() override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   void reset(const QString &id) override;
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 

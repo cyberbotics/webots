@@ -38,7 +38,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -261,7 +261,7 @@ bool WbFieldModel::isSingle() const {
   return dynamic_cast<WbSingleValue *>(mDefaultValue);
 }
 
-void WbFieldModel::write(WbVrmlWriter &writer) const {
+void WbFieldModel::write(WbWriter &writer) const {
   writer << "field " << mDefaultValue->vrmlTypeName() << " " << mName << " ";
   mDefaultValue->write(writer);
 }

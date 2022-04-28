@@ -24,9 +24,9 @@
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/config.h>
 #include <wren/renderable.h>
@@ -89,58 +89,20 @@ const WbVector2 WbPlane::scaledSize() const {
   return WbVector2(fabs(scale.x() * size.x()), fabs(scale.y() * size.y()));
 }
 
-void WbPlane::write(WbVrmlWriter &writer) const {
+void WbPlane::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::write(writer);
   else
     writeExport(writer);
 }
 
-void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
+void WbPlane::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
   else if (writer.isX3d()) {
     writer << " size=\'";
     mSize->write(writer);
     writer << "\'";
-  } else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coordIndex [ 0 1 2 3 -1 ]\n";
-    writer.indent();
-    writer << "texCoordIndex [ 0 1 2 3 -1 ]\n";
-  }
-}
-
-void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  double sx = mSize->value().x() / 2.0;
-  double sy = mSize->value().y() / 2.0;
-  if (!writer.isVrml())
-    WbGeometry::exportNodeSubNodes(writer);
-  else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coord Coordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ ";
-    writer << -sx << -sy << " 0 "
-           << ", ";
-    writer << -sx << sy << " 0 "
-           << ", ";
-    writer << sx << sy << " 0 "
-           << ", ";
-    writer << sx << -sy << " 0 "
-           << " ]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
-    writer.indent();
-    writer << "texCoord TextureCoordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ 0 1, 0 0, 1 0, 1 1]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
   }
 }
 

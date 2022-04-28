@@ -675,7 +675,7 @@ WbRgb WbBackground::skyColor() const {
   return (mSkyColor->size() > 0 ? mSkyColor->item(0) : WbRgb());
 }
 
-void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
+void WbBackground::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbBaseNode::exportNodeFields(writer);
     return;
@@ -737,17 +737,6 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
         writer << gUrlNames(i) << "='\"" << backgroundFileNames[i] << "\"' ";
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
-    }
-  } else if (writer.isVrml()) {
-    for (int i = 0; i < 6; ++i) {
-      if (!backgroundFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gUrlNames(i) << " [ \"" << backgroundFileNames[i] << "\" ]\n";
-      }
-      if (!irradianceFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gIrradianceUrlNames(i) << " [ \"" << irradianceFileNames[i] << "\" ]\n";
-      }
     }
   } else
     WbNode::exportNodeFields(writer);

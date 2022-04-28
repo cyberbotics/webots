@@ -225,7 +225,7 @@ int WbLight::numberOfLightsCastingShadows() {
   return counter;
 }
 
-void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
+void WbLight::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbBaseNode::exportNodeFields(writer);
     return;

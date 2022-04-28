@@ -36,6 +36,7 @@ namespace webots {
       BACKGROUND,
       BILLBOARD,
       BOX,
+      CAD_SHAPE,
       CAPSULE,
       COLOR,
       CONE,

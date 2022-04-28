@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
 
 WbSingleValue::WbSingleValue() {
 }

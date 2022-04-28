@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include "WbApplicationInfo.hpp"
 #include "WbQuaternion.hpp"
@@ -24,7 +24,7 @@
 
 #include <QtCore/QFileInfo>
 
-WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
+WbWriter::WbWriter(QIODevice *device, const QString &fileName) :
   mString(NULL),
   mDevice(device),
   mFileName(fileName),
@@ -32,10 +32,10 @@ WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
   mRootNode(NULL),
   mIsWritingToFile(true),
   mJointOffset(0.0, 0.0, 0.0) {
-  setVrmlType();
+  setType();
 }
 
-WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
+WbWriter::WbWriter(QString *target, const QString &fileName) :
   mString(target),
   mDevice(NULL),
   mFileName(fileName),
@@ -43,40 +43,38 @@ WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
   mRootNode(NULL),
   mIsWritingToFile(false),
   mJointOffset(0.0, 0.0, 0.0) {
-  setVrmlType();
+  setType();
 }
 
-WbVrmlWriter::~WbVrmlWriter() {
+WbWriter::~WbWriter() {
 }
 
-void WbVrmlWriter::setVrmlType() {
+void WbWriter::setType() {
   if (mFileName.endsWith(".wbt", Qt::CaseInsensitive))
-    mVrmlType = VRML_SIM;
+    mType = VRML_SIM;
   else if (mFileName.endsWith(".wbo", Qt::CaseInsensitive))
-    mVrmlType = VRML_OBJ;
-  else if (mFileName.endsWith(".wrl", Qt::CaseInsensitive))
-    mVrmlType = VRML;
+    mType = VRML_OBJ;
   else if (mFileName.endsWith(".x3d", Qt::CaseInsensitive))
-    mVrmlType = X3D;
+    mType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
-    mVrmlType = PROTO;
+    mType = PROTO;
   else if (mFileName.endsWith(".urdf", Qt::CaseInsensitive))
-    mVrmlType = URDF;
+    mType = URDF;
 }
 
-QString WbVrmlWriter::path() const {
+QString WbWriter::path() const {
   QFileInfo p(mFileName);
   return p.path();
 }
 
-void WbVrmlWriter::writeMFStart() {
+void WbWriter::writeMFStart() {
   if (!isX3d() && !isUrdf()) {
     *this << "[";
     increaseIndent();
   }
 }
 
-void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
+void WbWriter::writeMFSeparator(bool first, bool smallSeparator) {
   if (!isX3d() && !isUrdf()) {
     if (smallSeparator && !first)
       *this << ", ";
@@ -88,7 +86,7 @@ void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
     *this << " ";
 }
 
-void WbVrmlWriter::writeMFEnd(bool empty) {
+void WbWriter::writeMFEnd(bool empty) {
   if (!isX3d() && !isUrdf()) {
     decreaseIndent();
     if (!empty) {
@@ -99,7 +97,7 @@ void WbVrmlWriter::writeMFEnd(bool empty) {
   }
 }
 
-void WbVrmlWriter::writeFieldStart(const QString &name, bool x3dQuote) {
+void WbWriter::writeFieldStart(const QString &name, bool x3dQuote) {
   if (isX3d()) {
     *this << name + "=";
     if (x3dQuote)
@@ -110,7 +108,7 @@ void WbVrmlWriter::writeFieldStart(const QString &name, bool x3dQuote) {
   }
 }
 
-void WbVrmlWriter::writeFieldEnd(bool x3dQuote) {
+void WbWriter::writeFieldEnd(bool x3dQuote) {
   if (isX3d()) {
     if (x3dQuote)
       *this << "\'";
@@ -118,7 +116,7 @@ void WbVrmlWriter::writeFieldEnd(bool x3dQuote) {
     *this << "\n";
 }
 
-void WbVrmlWriter::writeLiteralString(const QString &string) {
+void WbWriter::writeLiteralString(const QString &string) {
   QString text(string);
   if (isX3d()) {
     text.replace("&", "&amp;");
@@ -130,16 +128,13 @@ void WbVrmlWriter::writeLiteralString(const QString &string) {
   *this << '"' << text << '"';  // add double quotes
 }
 
-void WbVrmlWriter::indent() {
+void WbWriter::indent() {
   for (int i = 0; i < mIndent; ++i)
     *this << "  ";
 }
 
-void WbVrmlWriter::writeHeader(const QString &title) {
-  switch (mVrmlType) {
-    case VRML:
-      *this << "#VRML V2.0 utf8\n";
-      return;
+void WbWriter::writeHeader(const QString &title) {
+  switch (mType) {
     case VRML_SIM:
       *this << QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false));
       return;
@@ -166,7 +161,7 @@ void WbVrmlWriter::writeHeader(const QString &title) {
   }
 }
 
-void WbVrmlWriter::writeFooter(const QStringList *info) {
+void WbWriter::writeFooter(const QStringList *info) {
   if (isX3d()) {
     *this << "</Scene>\n";
     *this << "</X3D>\n";
@@ -174,7 +169,7 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
     *this << "</robot>\n";
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const QString &s) {
+WbWriter &WbWriter::operator<<(const QString &s) {
   if (mString)
     *mString += s;
   else
@@ -182,57 +177,57 @@ WbVrmlWriter &WbVrmlWriter::operator<<(const QString &s) {
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(char c) {
+WbWriter &WbWriter::operator<<(char c) {
   *this << QString(c);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(int i) {
+WbWriter &WbWriter::operator<<(int i) {
   *this << QString::number(i);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(unsigned int i) {
+WbWriter &WbWriter::operator<<(unsigned int i) {
   *this << QString::number(i);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(float f) {
+WbWriter &WbWriter::operator<<(float f) {
   *this << WbPrecision::doubleToString(f, WbPrecision::FLOAT_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(double f) {
+WbWriter &WbWriter::operator<<(double f) {
   *this << WbPrecision::doubleToString(f, WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector2 &v) {
+WbWriter &WbWriter::operator<<(const WbVector2 &v) {
   *this << v.toString(WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector3 &v) {
+WbWriter &WbWriter::operator<<(const WbVector3 &v) {
   *this << v.toString(WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector4 &v) {
+WbWriter &WbWriter::operator<<(const WbVector4 &v) {
   *this << v.toString(WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbRotation &r) {
+WbWriter &WbWriter::operator<<(const WbRotation &r) {
   *this << r.toString(WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbQuaternion &q) {
+WbWriter &WbWriter::operator<<(const WbQuaternion &q) {
   *this << q.toString(WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
-WbVrmlWriter &WbVrmlWriter::operator<<(const WbRgb &rgb) {
+WbWriter &WbWriter::operator<<(const WbRgb &rgb) {
   *this << rgb.toString(WbPrecision::FLOAT_MAX);
   return *this;
 }

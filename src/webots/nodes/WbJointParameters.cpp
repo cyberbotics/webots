@@ -144,7 +144,7 @@ bool WbJointParameters::clampPosition(double &p) const {
   return true;
 }
 
-bool WbJointParameters::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbJointParameters::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbBaseNode::exportNodeHeader(writer);

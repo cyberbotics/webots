@@ -20,7 +20,7 @@
 //
 
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include "WbPrecision.hpp"
 
@@ -33,7 +33,7 @@ public:
   explicit WbSFDouble(double d) : mValue(d) {}
   virtual ~WbSFDouble() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFDouble(tokenizer, worldPath); }
-  void write(WbVrmlWriter &writer) const override {
+  void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
   WbValue *clone() const override { return new WbSFDouble(*this); }

@@ -59,6 +59,13 @@ WbBaseNode::WbBaseNode(const WbNode &other) : WbNode(other) {
   init();
 }
 
+// special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
+// order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
+// be modified or interacted with in any other way other than through the creation and destruction of CadShape nodes
+WbBaseNode::WbBaseNode(const QString &modelName, const aiMaterial *material) : WbNode(modelName, material) {
+  init();
+}
+
 WbBaseNode::~WbBaseNode() {
   emit isBeingDestroyed(this);
   if (mPostFinalizeCalled && !defName().isEmpty() && !WbWorld::instance()->isCleaning() && !WbTemplateManager::isRegenerating())
@@ -244,7 +251,7 @@ QString WbBaseNode::documentationUrl() const {
   return QString();
 }
 
-bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbBaseNode::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
@@ -273,7 +280,7 @@ bool WbBaseNode::isUrdfRootLink() const {
   return false;
 }
 
-void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
+void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
     WbVector3 translation;
     WbVector3 eulerRotation;

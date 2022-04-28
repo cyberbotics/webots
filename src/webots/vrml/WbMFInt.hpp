@@ -20,7 +20,7 @@
 //
 
 #include "WbMultipleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QVector>
 
@@ -42,7 +42,7 @@ public:
   int size() const override { return mVector.size(); }
   bool isEmpty() const { return mVector.empty(); }
   void clear() override;
-  void writeItem(WbVrmlWriter &writer, int index) const override {
+  void writeItem(WbWriter &writer, int index) const override {
     assert(index >= 0 && index < size());
     writer << mVector[index];
   }

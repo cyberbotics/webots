@@ -36,7 +36,7 @@ public:
   void createResizeManipulator() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   void rescale(const WbVector3 &scale) override;
 
   // field accessors
@@ -62,7 +62,7 @@ public:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields
