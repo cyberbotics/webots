@@ -90,6 +90,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   // check that the proto name corresponds to the file name
   // fileName is empty if the PROTO is inlined in a .wrl file
   // in this case we don't need to check that
+  // TEMPORARELY DISABLED, HOW TO DEAL WITH PROTO name == filename requirement when using cache?
+  /*
   if (fileName.isEmpty()) {
     mFileName = "";
     mPath = "";
@@ -105,6 +107,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
     mPath = fi.absolutePath() + "/";
   }
+  */
 
   // start proto parameters list
   tokenizer->skipToken("[");

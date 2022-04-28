@@ -49,7 +49,7 @@ public:
   // explicit WbProtoList(const QString &world, bool reloading = false);
   WbProtoList();
 
-  bool areProtoAssetsAvailable(const QString &filename);
+  bool areProtoAssetsAvailable(const QString &filename, int indent = 0);
 
   // destroys the list and all the contained models
   ~WbProtoList();
@@ -82,6 +82,8 @@ public:
   // allows to manage active searchable paths for PROTO files
   void clearProtoSearchPaths(void);
   void insertProtoSearchPath(const QString &path);
+
+  void clearCurrentProjectProtoList(void) { mCurrentProjectProtoList.clear(); }
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 
@@ -117,6 +119,7 @@ private:
   bool mReloading;
 
   QMap<QString, QString> mProtoList;
+  QMap<QString, QString> mCurrentProjectProtoList;
 
   QMap<QString, QString> getExternProtoList(const QString &filename);
 

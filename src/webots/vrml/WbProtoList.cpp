@@ -59,7 +59,7 @@ WbProtoList::WbProtoList(const QString &primarySearchPath) {
 */
 
 WbProtoList::WbProtoList() {
-  setupKnownProtoList();
+  // setupKnownProtoList();
 }
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
@@ -201,9 +201,17 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     if (model->name() == modelName)
       return model;
 
-  if (mProtoList.contains(modelName)) {
-    const QString &url = WbNetwork::instance()->get(mProtoList.value(modelName));
-    printf("found %s in mProtoList, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
+  QMapIterator<QString, QString> it(mCurrentProjectProtoList);
+  printf("-- mCurrentProjectProtoList ------\n");
+  while (it.hasNext()) {
+    it.next();
+    printf("%s -> %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
+  }
+  printf("----------------\n");
+
+  if (mCurrentProjectProtoList.contains(modelName)) {
+    const QString &url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
+    printf("found %s in mCurrentProjectProtoList, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
@@ -211,7 +219,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     model->ref();
     return model;
   } else
-    printf("proto %s not found in mProtoList\n", modelName.toUtf8().constData());
+    printf("proto %s not found in mCurrentProjectProtoList\n", modelName.toUtf8().constData());
 
   return NULL;
 }
@@ -301,19 +309,29 @@ void WbProtoList::insertProtoSearchPath(const QString &path) {
     printf("- %s\n", path.toUtf8().constData());
 }
 
-bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
+bool WbProtoList::areProtoAssetsAvailable(const QString &filename, int indent) {
+  if (filename.startsWith("https://") && !WbNetwork::instance()->isCached(filename))
+    return false;
+
+  QString spaces = "";
+  for (int i = 0; i < indent; ++i)
+    spaces += " ";
+
   QMap<QString, QString> externProtos = getExternProtoList(filename);
+  mCurrentProjectProtoList.insert(externProtos);
 
   QMapIterator<QString, QString> it(externProtos);
+
   while (it.hasNext()) {  // TODO: need to check full depth or just at world level?
     it.next();
-    if (!WbNetwork::instance()->isCached(it.value())) {
-      printf(" > proto asset (%s) not available, begin download\n", it.value().toUtf8().constData());
+    if (WbNetwork::instance()->isCached(it.value())) {
+      areProtoAssetsAvailable(it.value(), indent + 2);
+    } else {
+      printf("%s> abort, asset (%s) NOT available\n", spaces.toUtf8().constData(), (it.value()).toUtf8().constData());
       return false;
     }
   }
-
-  printf(" > proto assets available, world can be parsed\n");
+  printf("%s> asset (%s) available\n", spaces.toUtf8().constData(), filename.toUtf8().constData());
   return true;
 }
 
@@ -326,11 +344,18 @@ void WbProtoList::retrieveExternProto(QString filename, bool reloading) {
 
 QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) {
   QMap<QString, QString> protoList;
+  QString path = filename;
 
-  QFile file(filename);
+  if (filename.startsWith("https://")) {
+    // at this point it must be cached (if being called from areProtoAssetsAvailable)
+    // TODO: called by somebody else?
+    assert(WbNetwork::instance()->isCached(filename));
+    path = WbNetwork::instance()->get(filename);
+  }
+
+  QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
     const QString content = file.readAll();
-
     QRegularExpression re("EXTERNPROTO\\s([a-zA-Z0-9-_+]+)\\s\"(.*\\.proto)\"");  // TODO: test it more
 
     QRegularExpressionMatchIterator it = re.globalMatch(content);
@@ -350,7 +375,10 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
         // printf(" > found |%s| |%s|\n", identifier.toUtf8().constData(), url.toUtf8().constData());
       }
     }
-  }
+    // printf("%s references %lld sub-proto\n", filename.toUtf8().constData(), protoList.size());
+  } else
+    // should not be possible to request the list of extern proto from a file that cannot be accessed (unreadable/not cached)
+    assert(0);
 
   return protoList;
 }
@@ -358,7 +386,6 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
 void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
   QMap<QString, QString> externProtos = getExternProtoList(filename);
-  printf("  found %lld\n", externProtos.size());
   if (externProtos.isEmpty()) {
     // WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);
     emit protoRetrieved();

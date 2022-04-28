@@ -258,11 +258,13 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 bool WbApplication::loadWorld(QString worldName, bool reloading) {
   printf("WbApplication::loadWorld()\n");
 
-  if (!WbProtoList::current()->areProtoAssetsAvailable(worldName)) {
+  printf("loading: %s\n", worldName.toUtf8().constData());
+  WbProtoList::current()->clearCurrentProjectProtoList();
+  if (!WbProtoList::current()->areProtoAssetsAvailable(worldName, 1)) {
     WbProtoList::current()->retrieveExternProto(worldName, reloading);
     return false;  // when download is complete, loadWorld is re-called
   } else
-    printf("> proto assets available, begin load");
+    printf("> proto assets available, begin load\n");
 
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
