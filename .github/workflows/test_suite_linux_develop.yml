@@ -27,7 +27,7 @@ jobs:
             ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          submodules: true
          fetch-depth: 15
@@ -85,7 +85,7 @@ jobs:
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          ref: develop
     - name: Download Artifacts
@@ -121,7 +121,7 @@ jobs:
             python: 3.6
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          submodules: true
          ref: develop
@@ -151,7 +151,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          ref: develop
     - name: Download Artifacts
