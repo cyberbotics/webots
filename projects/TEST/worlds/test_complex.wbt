@@ -2,6 +2,10 @@
 
 EXTERNPROTO ExternalProtoSolid "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoSolid.proto"
 EXTERNPROTO ExternalProtoShape "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoShape.proto"
+EXTERNPROTO ExternalProtoSolid2 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoSolid2.proto"
+EXTERNPROTO ExternalProtoShape2 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoShape2.proto"
+EXTERNPROTO ExternalProtoSolid3 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoSolid3.proto"
+EXTERNPROTO ExternalProtoShape3 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoShape3.proto"
 
 WorldInfo {
 }
