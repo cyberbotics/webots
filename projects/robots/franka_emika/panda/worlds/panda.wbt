@@ -768,6 +768,26 @@ Panda {
   rotation 0 0 1 1.5708
   controller "panda_arm_demo"
 }
+Bolt {
+  translation 0.08 2.19 0.69
+  rotation 0.3574058186283875 0.8628565621288802 -0.35740681862788 1.71777
+  name "bolt(12)"
+}
+Bolt {
+  translation -0.08 2.189 0.69
+  rotation -0.12942794302188446 -0.9831055672070398 0.12942894302144423 -1.58784
+  name "bolt(13)"
+}
+Bolt {
+  translation 0.04 2.062 0.689
+  rotation 0.1294279597735375 -0.9831056944488314 -0.1294279597735375 -1.58784
+  name "bolt(14)"
+}
+Bolt {
+  translation -0.04 2.0625 0.689
+  rotation 0.35740494636728165 -0.8628568705184134 -0.3574069463669815 -1.71777
+  name "bolt(15)"
+}
 LincolnMKZSimple {
   translation -0.019942 9.00447 0.4
   rotation 0 0 1 -1.5708053071795867
