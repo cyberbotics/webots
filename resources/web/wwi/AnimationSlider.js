@@ -23,7 +23,7 @@ export default class AnimationSlider extends HTMLElement {
     document.addEventListener('touchmove', this.mousemoveRef = _ => this._mouseMove(_));
     document.addEventListener('mouseup', this.mouseupRef = () => this._mouseUp());
     document.addEventListener('touchend', this.mouseupRef = () => this._mouseUp());
-    document.addEventListener('toucancel', this.mouseupRef = () => this._mouseUp());
+    document.addEventListener('touchcancel', this.mouseupRef = () => this._mouseUp());
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
