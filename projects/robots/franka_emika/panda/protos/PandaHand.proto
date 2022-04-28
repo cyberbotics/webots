@@ -179,7 +179,8 @@ PROTO PandaHand [
           ]
         }
         Transform {
-          translation 0 0.055 -0.002
+          translation 0.04 0.04 -0.003
+          rotation 0 0 1 -0.785398
           children [
             Box {
               size 0.057 0.055 0.01

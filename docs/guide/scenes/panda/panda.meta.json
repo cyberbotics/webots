@@ -1,13 +1,13 @@
 {
   "devices": [
     {
-      "anchor": "0 0 0.333",
+      "anchor": "0 0 0.14",
       "axis": "0 0 1",
       "maxPosition": 2.9671,
       "minPosition": -2.9671,
       "name": "panda_joint1",
       "position": 0,
-      "transformID": "n59",
+      "transformID": "n60",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -1.8326,
       "name": "panda_joint2",
       "position": 0,
-      "transformID": "n65",
+      "transformID": "n66",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -2.9671,
       "name": "panda_joint3",
       "position": 0,
-      "transformID": "n71",
+      "transformID": "n72",
       "type": "RotationalMotor"
     },
     {
@@ -37,17 +37,17 @@
       "minPosition": -3.1416,
       "name": "panda_joint4",
       "position": -1.7708,
-      "transformID": "n77",
+      "transformID": "n78",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0825 0.384 0",
+      "anchor": "-0.0825 0.125 0",
       "axis": "0 1 0",
       "maxPosition": 2.9671,
       "minPosition": -2.9671,
       "name": "panda_joint5",
       "position": -1.6,
-      "transformID": "n83",
+      "transformID": "n84",
       "type": "RotationalMotor"
     },
     {
@@ -57,17 +57,17 @@
       "minPosition": -0.0873,
       "name": "panda_joint6",
       "position": 1.6,
-      "transformID": "n89",
+      "transformID": "n90",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.088 0 0",
+      "anchor": "0.088 -0.058 0",
       "axis": "0 -1 0",
       "maxPosition": 2.9671,
       "minPosition": -2.9671,
       "name": "panda_joint7",
       "position": 0.79,
-      "transformID": "n95",
+      "transformID": "n96",
       "type": "RotationalMotor"
     },
     {
@@ -102,37 +102,37 @@
     },
     {
       "name": "panda_joint1_sensor",
-      "transformID": "n59",
+      "transformID": "n60",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint2_sensor",
-      "transformID": "n65",
+      "transformID": "n66",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint3_sensor",
-      "transformID": "n71",
+      "transformID": "n72",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint4_sensor",
-      "transformID": "n77",
+      "transformID": "n78",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint5_sensor",
-      "transformID": "n83",
+      "transformID": "n84",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint6_sensor",
-      "transformID": "n89",
+      "transformID": "n90",
       "type": "PositionSensor"
     },
     {
       "name": "panda_joint7_sensor",
-      "transformID": "n95",
+      "transformID": "n96",
       "type": "PositionSensor"
     }
   ],

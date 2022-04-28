@@ -228,37 +228,32 @@ PROTO Panda [
                                                     DEF panda_link8 Transform {
                                                       translation 0 0 0.107
                                                       children IS endEffectorSlot
-                                                      name "panda_link8"
-                                                      boundingObject Group {
-                                                        children [
-                                                          Transform {
-                                                            translation 0 0 -0.03
-                                                            children [
-                                                              Cylinder {
-                                                                height 0.042
-                                                                radius 0.044
-                                                              }
-                                                            ]
-                                                          }
-                                                          Transform {
-                                                            translation 0.0424265 0.0424265 -0.025
-                                                            rotation 0 0 1 0.785398
-                                                            children [
-                                                              Box {
-                                                                size 0.05 0.06 0.03
-                                                              }
-                                                            ]
-                                                          }
-                                                        ]
-                                                      }
-                                                      physics Physics {
-                                                        density -1
-                                                        mass 0.01
-                                                      }
                                                     }
                                                     %< } >%
                                                   ]
                                                   name "panda_link7"
+                                                  boundingObject Group {
+                                                    children [
+                                                      Transform {
+                                                        translation 0 0 0.075
+                                                        children [
+                                                          Cylinder {
+                                                            height 0.044
+                                                            radius 0.044
+                                                          }
+                                                        ]
+                                                      }
+                                                      Transform {
+                                                        translation 0.0424265 0.0424265 0.082
+                                                        rotation 0 0 1 0.785398
+                                                        children [
+                                                          Box {
+                                                            size 0.05 0.06 0.03
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
                                                   physics Physics {
                                                     density -1
                                                     mass 0.735522
