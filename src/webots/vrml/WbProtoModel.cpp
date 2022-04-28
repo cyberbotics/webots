@@ -71,7 +71,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "PROTO")
     tokenizer->nextToken();
-
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition

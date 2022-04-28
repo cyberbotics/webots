@@ -31,6 +31,7 @@
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
 #include "WbMotor.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
@@ -262,7 +263,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   if (newProjectPath != WbProject::current()->path()) {
     // reset list of loaded and available PROTO nodes
     delete mProtos;
-    mProtos = mProtos = WbProtoList::current();  // (isValidProject ? newProjectPath + "protos" : "");
+    mProtos = WbProtoList::current();  // (isValidProject ? newProjectPath + "protos" : "");
     WbProject::current()->setPath(newProjectPath);
   }
 
@@ -707,7 +708,7 @@ QString WbWorld::logWorldMetrics() const {
   return QString("%1 solids, %2 joints, %3 graphical geometries").arg(solidCount).arg(jointCount).arg(geomCount);
 }
 
-void WbWorld::recursivelyRetrieveExternReferences(const QString &filename, const QString &parent) {
+void WbWorld::recursivelyRetrieveExternReferences(const QString &filename) {
   QFile file(filename);
   if (file.open(QIODevice::ReadOnly)) {
     const QString content = file.readAll();
@@ -728,29 +729,15 @@ void WbWorld::recursivelyRetrieveExternReferences(const QString &filename, const
         printf("REGEX found >>%s<< >>%s<<\n", identifier.toUtf8().constData(), url.toUtf8().constData());
 
         // create directory for this proto
-
-        QString rootPath = WbStandardPaths::webotsTmpProtoPath();
-        if (!parent.isEmpty())
-          rootPath += parent + "/";
-        rootPath += identifier + "/";
-        const QString path = rootPath + identifier + ".proto";
-
-        QFileInfo protoFile(path);
-
-        if (!protoFile.exists()) {
-          printf("> will download to: %s\n", path.toUtf8().constData());
-          QDir dir;
-          dir.mkpath(protoFile.absolutePath());
-          printf("making dir %s\n", protoFile.absolutePath().toUtf8().constData());
-
-          if (mDownloader != NULL && mDownloader->device() != NULL)
+        if (!WbNetwork::instance()->isCached(url)) {
+          if (mDownloader != NULL && mDownloader->hasFinished())
             delete mDownloader;
           mDownloader = new WbDownloader(this);
-          mDownloader->download(QUrl(url), protoFile.filePath());
+          mDownloader->download(QUrl(url));
 
           connect(mDownloader, &WbDownloader::complete, this, &WbWorld::downloadCompleted);
         } else
-          printf("> %s already exists in tmp\n", identifier.toUtf8().constData());
+          printf("> %s already exists in cached\n", identifier.toUtf8().constData());
       }
     }
   } else
@@ -759,6 +746,5 @@ void WbWorld::recursivelyRetrieveExternReferences(const QString &filename, const
 
 void WbWorld::downloadCompleted() {
   printf("Download completed\n");
-  const QString parent = QFileInfo(mDownloader->mDestination).baseName();
-  recursivelyRetrieveExternReferences(mDownloader->mDestination, parent);
+  recursivelyRetrieveExternReferences(mDownloader->url().toString());
 }

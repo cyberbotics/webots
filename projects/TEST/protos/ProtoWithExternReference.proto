@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 # Example of  an external reference
 
-EXTERNPROTO ExternalGeometry "https://raw.githubusercontent.com/cyberbotics/webots/feature-add-externproto-support/projects/TEST/protos/ExternalGeometry.proto"
+EXTERNPROTO ExternalGeometry "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalGeometry.proto"
 
 PROTO ProtoWithExternReference [
 

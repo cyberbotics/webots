@@ -211,13 +211,12 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = WBT;
   try {
-    while (!peekToken()->isEof())
-      while (!peekToken()->isEof()) {
-        while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
-          skipExternProto();
+    while (!peekToken()->isEof()) {
+      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
+        skipExternProto();
 
-        parseNode(worldPath);
-      }
+      parseNode(worldPath);
+    }
   } catch (...) {
     return false;
   }

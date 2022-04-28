@@ -26,7 +26,7 @@ class WbDownloader : public QObject {
 public:
   explicit WbDownloader(QObject *parent = NULL);
   ~WbDownloader();
-  void download(const QUrl &url, const QString &destination = QString());
+  void download(const QUrl &url);
   const QUrl &url() const { return mUrl; }
   QIODevice *device() const;
   bool isCopy() const { return mCopy; }
@@ -34,7 +34,6 @@ public:
   const QString &error() const { return mError; }
   static int progress();
   static void reset();
-  QString mDestination;
 
 signals:
   void complete();

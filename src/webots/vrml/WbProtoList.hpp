@@ -85,7 +85,7 @@ public:
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 
-  void recursiveProtoRetrieval(const QString &filename, const QString &parent);
+  void recursiveProtoRetrieval(const QString &filename);
   void retrieveExternProto(QString filename, bool reloading);
   QMap<QString, QString> protoInProjectsList() { return mProtoList; };
 
