@@ -522,7 +522,10 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.infoButton);
     this._createInformation();
     window.addEventListener('click', _ => this._closeInfoOnClick(_));
-    this.minWidth += 44;
+    if (!(typeof this.parentNode.showInfo === 'undefined' || this.parentNode.showInfo))
+      this.infoButton.style.display = 'none';
+    else
+      this.minWidth += 44;
   }
 
   _createInformation() {

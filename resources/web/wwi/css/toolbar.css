@@ -310,6 +310,7 @@ webots-view .information-panel a {
   color: white;
   font-style: italic;
   text-decoration: none;
+  font-family: 'Helvetica';
 }
 
 webots-view .information-panel a:hover {
@@ -325,6 +326,8 @@ webots-view .information-panel h2 {
   margin-inline-end: 0px;
   font-weight: bold;
   margin-bottom: 5px;
+  font-family: Helvetica;
+  color: white;
 }
 
 webots-view .information-panel .cloud {
@@ -364,7 +367,7 @@ webots-view .information-panel .info-tabs-bar .tab1 {
   background-color: #333;
 }
 
-webots-view .information-panel .simulation-text {
+webots-view .information-panel .simulation-text p{
   margin-top: 5px;
   overflow-y: auto;
   height: 198px;
@@ -380,6 +383,8 @@ webots-view .information-panel .simulation-text a {
 webots-view .information-panel p {
   color: white;
   padding: 0;
+  text-align: center;
+  font-family: 'Helvetica';
 }
 
 /* Settings */

@@ -952,6 +952,7 @@ function createRobotComponent(view) {
 
     if (typeof webotsView === 'undefined') {
       webotsView = new WebotsView();
+      webotsView.showInfo = false;
       webotsViewElement.appendChild(webotsView);
       initializeWebotsView(robotName);
     } else {
