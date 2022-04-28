@@ -209,7 +209,7 @@ export default class Toolbar {
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
-      canHide = true;
+      canHide = settingsPane && gtaoPane;
 
     if (canHide)
       this.toolbar.style.display = 'none';
@@ -567,7 +567,7 @@ export default class Toolbar {
     this._settingsPane.addEventListener('mouseover', () => this.showToolbar());
 
     this.settingsList = document.createElement('ul');
-    this.settingsList.id = 'settings-list';
+    this.settingsList.className = 'settings-list';
     this._settingsPane.appendChild(this.settingsList);
 
     this._createResetViewpoint();

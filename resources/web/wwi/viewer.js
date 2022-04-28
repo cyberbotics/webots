@@ -941,6 +941,7 @@ function initializeWebotsView(robotName) {
     webotsView._view.branch = localSetup.branch;
     webotsView._view.repository = localSetup.repository;
     webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
+    webotsView._view.x3dScene.resize();
   } else
     setTimeout(() => initializeWebotsView(robotName), 100);
 }
@@ -1057,8 +1058,8 @@ function createRobotComponent(view) {
       document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
 
     if (document.getElementsByClassName('robot-component').length !== 0) {
-      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showButtons();
-      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideButtons(robotName);
+      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showMenuButton();
+      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideMenuButton(robotName);
     }
   }
 }
@@ -1075,17 +1076,16 @@ function reassignButtons(robotName) {
     setTimeout(() => reassignButtons(robotName), 100);
 }
 
-function showButtons() {
+function showMenuButton() {
   if (document.getElementsByClassName('menu-button').length !== 0)
     document.getElementsByClassName('menu-button')[0].style.display = '';
 }
 
-function hideButtons(robot) {
+function hideMenuButton(robot) {
   if (document.getElementsByClassName('menu-button').length !== 0)
     document.getElementsByClassName('menu-button')[0].style.display = 'none';
 
   removePointer();
-  const robotComponent = getRobotComponentByRobotName(robot);
   webotsView._view.x3dScene.render();
 }
 
