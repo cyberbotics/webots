@@ -613,6 +613,7 @@ export default class Toolbar {
   _createResetViewpoint() {
     const resetViewpoint = document.createElement('li');
     resetViewpoint.onclick = () => this._resetViewpoint();
+    resetViewpoint.id = 'reset-viewpoint';
     this.settingsList.appendChild(resetViewpoint);
 
     let label = document.createElement('span');

@@ -1068,6 +1068,8 @@ function reassignButtons(robotName) {
       document.getElementById('fullscreen-button').onclick = () => toggleRobotComponentFullScreen(robotName);
     if (document.getElementById('windowed-button'))
       document.getElementById('windowed-button').onclick = () => toggleRobotComponentFullScreen(robotName);
+    if (document.getElementById('reset-viewpoint'))
+      document.getElementById('reset-viewpoint').onclick = () => resetRobotComponent(robotName);
   } else
     setTimeout(() => reassignButtons(robotName), 100);
 }
