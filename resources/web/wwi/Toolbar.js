@@ -604,7 +604,7 @@ export default class Toolbar {
     this._settingsPane.addEventListener('mouseover', () => this.showToolbar());
 
     this.settingsList = document.createElement('ul');
-    this.settingsList.className = 'settings-list';
+    this.settingsList.id = 'settings-list';
     this._settingsPane.appendChild(this.settingsList);
 
     this._createResetViewpoint();
