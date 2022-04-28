@@ -1,6 +1,6 @@
 import Animation from './Animation.js';
 import AnimationSlider from './AnimationSlider.js';
-import {requestFullscreen, exitFullscreen, onFullscreenChange} from './fullscreen_handler.js';
+import {requestFullscreen, exitFullscreen, onFullscreenChange, isFullscreen} from './fullscreen_handler.js';
 import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
@@ -28,6 +28,7 @@ export default class Toolbar {
       this._resizeMobileToolbar();
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
+      document.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton), {once: true})
     } else
       this.parentNode.style.minWidth = this.minWidth + 'px';
   }
@@ -84,9 +85,9 @@ export default class Toolbar {
   }
 
   _resizeMobileToolbar() {
-    if (this._scale !== 1 && (screen.orientation.type === 'landscape-primary' || screen.orientation.type === 'landscape-secondary'))
+    if (this._scale !== 1 && screen.orientation.type.includes('landscape') && !isFullscreen())
       requestFullscreen(this._view);
-    else if (screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary')
+    else if ((screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary') && isFullscreen())
       exitFullscreen();
 
     this._scale = this.minWidth > screen.width ? screen.width / this.minWidth : 1;
@@ -863,6 +864,10 @@ export default class Toolbar {
   _fullscrenKeyboardHandler(e) {
     if (e.code === 'KeyF')
       this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
+  }
+
+  _removeFullscreenAnimation(button) {
+    button.style.animation = 'none';
   }
 
   // Animations functions
