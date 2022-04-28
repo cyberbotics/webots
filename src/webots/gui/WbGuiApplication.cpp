@@ -194,7 +194,7 @@ void WbGuiApplication::parseArguments() {
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
   QCommandLineParser parser;
-  parser.addPositionalArgument("worldfile", tr("Start webots in this world."));
+  parser.addPositionalArgument("worldfile", tr("Start Webots in this world."));
   parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
   QCommandLineOption helpOption("help", tr("Display this help message and exit."));
   parser.addOption(helpOption);
@@ -209,18 +209,18 @@ void WbGuiApplication::parseArguments() {
   parser.addOption(modeOption);
   QCommandLineOption noRenderingOption("no-rendering", tr("Disable rendering in the main 3D view."));
   parser.addOption(noRenderingOption);
-  QCommandLineOption fullscreenOption("fullscreen", tr("Start webots in fullscreen."));
+  QCommandLineOption fullscreenOption("fullscreen", tr("Start Webots in fullscreen."));
   parser.addOption(fullscreenOption);
-  QCommandLineOption minimizeOption("minimize", tr("Minimize the webots window on startup."));
+  QCommandLineOption minimizeOption("minimize", tr("Minimize the Webots window on startup."));
   parser.addOption(minimizeOption);
-  QCommandLineOption batchOption("batch", tr("Prevent webots from creating blocking pop-up windows."));
+  QCommandLineOption batchOption("batch", tr("Prevent Webots from creating blocking pop-up windows."));
   parser.addOption(batchOption);
   QCommandLineOption stdoutOption("stdout", tr("Redirect the stdout of the controllers to the terminal."));
   parser.addOption(stdoutOption);
   QCommandLineOption stderrOption("stderr", tr("Redirect the stderr of the controllers to the terminal."));
   parser.addOption(stderrOption);
   QCommandLineOption streamOption("stream",
-                                  tr("Start the webots streaming server. Parameters may be given as an option:\n"
+                                  tr("Start the Webots streaming server. Parameters may be given as an option:\n"
                                      "port=1234          - Start the streaming server on port 1234.\n"
                                      "mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.\n"
                                      "monitorActivity    - Print a dot '.' on stdout every 5 seconds.\n"
@@ -231,7 +231,7 @@ void WbGuiApplication::parseArguments() {
   parser.addOption(updateProtoCacheOption);
   QCommandLineOption logPerfomanceOption(
     "log-performance",
-    tr("Measure the performance of webots and log it in the file specified in the <file> argument. The optional <steps> "
+    tr("Measure the performance of Webots and log it in the file specified in the <file> argument. The optional <steps> "
        "argument is an integer value that specifies how many steps are logged. If the --sysinfo option is used, the system "
        "information is prepended into the log file"),
     tr("file"));
@@ -544,7 +544,7 @@ bool WbGuiApplication::setup() {
   // popup a warning message if the preferences file is not writable
   prefs->checkIsWritable();
   if (WbSysInfo::isRootUser())
-    WbLog::warning("It is not recommended to run webots as root.");
+    WbLog::warning("It is not recommended to run Webots as root.");
 
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
     // delete previous desktop application info file in order to update it to the current installation data
