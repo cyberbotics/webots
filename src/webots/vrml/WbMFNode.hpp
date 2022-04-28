@@ -46,7 +46,7 @@ public:
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
   void removeItem(int index) override;
   bool removeNode(WbNode *node);
-  void writeItem(WbVrmlWriter &writer, int index) const override;
+  void writeItem(WbWriter &writer, int index) const override;
   WbVariant variantValue(int index) const override {
     assert(index >= 0 && index < size());
     return WbVariant(mVector[index]);
@@ -62,7 +62,7 @@ public:
   WbMFNode &operator=(const WbMFNode &other);
   bool operator==(const WbMFNode &other) const;
   int nodeIndex(const WbNode *node) const;
-  void write(WbVrmlWriter &) const override;
+  void write(WbWriter &) const override;
 
 protected:
   void readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) override;

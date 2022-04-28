@@ -46,7 +46,7 @@ public:
   virtual void prePhysicsStep(double ms) {}
   virtual void postPhysicsStep() {}
   virtual bool setJoint();
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   virtual bool resetJointPositions();
   void setMatrixNeedUpdate() override;
   virtual void updateOdeWorldCoordinates() {}

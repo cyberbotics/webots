@@ -44,7 +44,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -148,6 +148,7 @@ void WbNode::init() {
     // nodes in .proto files are created with mUniqueId = -1
     mUniqueId = -1;
 
+  mIsShallowNode = false;
   mDefNode = NULL;
   mHasUseAncestor = false;
   setParentNode(gParent);
@@ -163,6 +164,17 @@ void WbNode::init() {
   mIsTopParameterDescendant = false;
   mProto = NULL;
   mCurrentStateId = "__init__";
+}
+
+// special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
+// order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
+// be modified or interacted with in any other way other than through the creation and destruction of CadShape nodes
+WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
+  mModel = WbNodeModel::findModel(modelName);
+  init();
+  mIsShallowNode = true;
+  mUniqueId = -2;
+  mParentNode = NULL;
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
@@ -446,6 +458,9 @@ const QString &WbNode::nodeModelName() const {
 }
 
 QString WbNode::fullPath(const QString &fieldName, QString &parameterName) const {
+  if (mIsShallowNode)
+    return "";
+
   const WbNode *n = this;
   WbField *field = NULL;
   if (!fieldName.isEmpty())
@@ -975,7 +990,7 @@ QList<QPair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
   return gExternalUseNodesInWrite;
 }
 
-void WbNode::writeParameters(WbVrmlWriter &writer) const {
+void WbNode::writeParameters(WbWriter &writer) const {
   foreach (WbField *parameter, parameters())
     parameter->write(writer);
 }
@@ -994,13 +1009,7 @@ WbNode *WbNode::findUrdfLinkRoot() const {
   return parentRoot;
 }
 
-void WbNode::write(WbVrmlWriter &writer) const {
-  if (uniqueId() == -1) {
-    if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
-      WbNodeFactory::instance()->exportAsVrml(this, writer);
-      return;
-    }
-  }
+void WbNode::write(WbWriter &writer) const {
   if (writer.isUrdf()) {
     // Start naming from scratch
     if (isRobot()) {
@@ -1026,7 +1035,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     }
     return;
   }
-  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1060,7 +1069,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     writeParameters(writer);
   else
     foreach (WbField *field, fields())
-      if (!field->isDeprecated() && (!writer.isVrml() || field->isVrml()))
+      if (!field->isDeprecated())
         field->write(writer);
 
   writer.decreaseIndent();
@@ -1131,7 +1140,7 @@ const QString WbNode::urdfName() const {
   return fullName;
 }
 
-bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbNode::exportNodeHeader(WbWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
   else if (writer.isUrdf()) {
@@ -1150,19 +1159,17 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
     writer << "USE " << mUseName << "\n";
     return true;
   }
-  if (writer.isVrml())
-    writer << fullVrmlName();
-  else {
-    if (isDefNode())
-      writer << "DEF " << defName() << " ";
-    writer << nodeModelName();
-  }
+
+  if (isDefNode())
+    writer << "DEF " << defName() << " ";
+  writer << nodeModelName();
+
   writer << " {\n";
   writer.increaseIndent();
   return false;
 }
 
-void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
+void WbNode::exportNodeFields(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
 
@@ -1172,7 +1179,7 @@ void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbNode::exportNodeSubNodes(WbWriter &writer) const {
   foreach (WbField *field, fields()) {
     if (!field->isDeprecated() &&
         ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
@@ -1187,7 +1194,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
+void WbNode::exportNodeFooter(WbWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf()) {
@@ -1203,14 +1210,14 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   }
 }
 
-void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
+void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeFields(writer);
   if (writer.isX3d())
     writer << ">";
   exportNodeSubNodes(writer);
 }
 
-void WbNode::writeExport(WbVrmlWriter &writer) const {
+void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
@@ -1853,6 +1860,9 @@ void WbNode::setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool 
 }
 
 void WbNode::setCreationCompleted() {
+  if (mIsShallowNode)
+    return;
+
   mIsProtoParameterNodeDescendant = isProtoParameterNode();
   mIsCreationCompleted = true;
 }

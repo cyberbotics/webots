@@ -69,7 +69,7 @@ public slots:
   virtual void updatePosition() {}
 
 protected:
-  void writeExport(WbVrmlWriter &writer) const override;
+  void writeExport(WbWriter &writer) const override;
 
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbJoint(const WbJoint &other);

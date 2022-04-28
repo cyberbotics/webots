@@ -1,28 +1,5 @@
 # Shapes
 
-## ColladaShapes
-
-The [ColladaShapes](#colladashapes) PROTO represents a Collada shape (*.dae) imported from an external file.
-The [ColladaShapes](#colladashapes) PROTO combines [Mesh](../reference/mesh.md) and [PBRAppearance](../reference/pbrappearance.md) nodes to preserve the appearance of each mesh stored in a Collada file. 
-The [ColladaShapes](#colladashapes) PROTO can be used either as a graphical or as a collision detection primitive (in a boundingObject).
-As Collada files may contain several meshes with material information, each mesh will be added as a [Shape](../reference/shape.md) node inside a [Group](../reference/group.md) node.
-
-Derived from [Group](../reference/group.md).
-
-```
-ColladaShapes {
-  field SFString  url  ""
-}
-```
-
-### ColladaShapes Field Summary
-
-The `url` field defines the Collada file.
-If the `url` value starts with `http://` or `https://`, Webots will get the file from the web.
-Otherwise, the file should be specified with a relative path.
-The same search algorithm as for [ImageTexture](../reference/imagetexture.md) is used (cf. [this section](../reference/imagetexture.md#search-rule-of-the-texture-path)).
-Absolute paths work as well, but they are not recommended because they are not portable across systems.
-
 ## TexturedBoxShape
 
 Box with customizable texture mapping on selected faces.

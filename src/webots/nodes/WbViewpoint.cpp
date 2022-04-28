@@ -1535,7 +1535,7 @@ void WbViewpoint::lookAtAnimationStep(const QVariant &value) {
   emit refreshRequired();
 }
 
-void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
+void WbViewpoint::exportNodeFields(WbWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
 
   if (writer.isX3d()) {

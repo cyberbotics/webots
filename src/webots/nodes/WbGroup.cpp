@@ -361,7 +361,7 @@ void WbGroup::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
   }
 }
 
-void WbGroup::writeParameters(WbVrmlWriter &writer) const {
+void WbGroup::writeParameters(WbWriter &writer) const {
   if (!isProtoParameterNode()) {
     HiddenKinematicParametersMap map;
     int counter = 0;
@@ -433,7 +433,7 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbGroup::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
   if (isUseNode() && defNode())

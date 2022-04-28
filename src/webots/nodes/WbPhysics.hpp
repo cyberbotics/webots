@@ -78,7 +78,7 @@ signals:
   void modeSwitched();
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
 private:
   // user accessible fields
