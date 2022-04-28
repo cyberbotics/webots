@@ -30,7 +30,7 @@ export default class WebotsView extends HTMLElement {
 
     this._initialCallbackDone = true;
     this.css = document.createElement('link');
-    this.css.href = 'https://cyberbotics.com/wwi/testing2/css/toolbar.css';
+    this.css.href = 'https://cyberbotics.com/wwi/R2022b/css/toolbar.css';
     this.css.type = 'text/css';
     this.css.rel = 'stylesheet';
     document.head.appendChild(this.css);
@@ -146,9 +146,6 @@ export default class WebotsView extends HTMLElement {
       return WbWorld.instance.nodes.get('n' + id);
   }
 
-  getWorld() {
-    return WbWorld.instance;
-  }
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
