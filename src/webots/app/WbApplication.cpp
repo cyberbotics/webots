@@ -256,7 +256,7 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 bool WbApplication::loadWorld(QString worldName, bool reloading) {
-  printf("WbApplication::loadWorld()\n");
+  printf("#########################################\nWbApplication::loadWorld()\n");
 
   printf("loading: %s\n", worldName.toUtf8().constData());
   WbProtoList::current()->clearCurrentProjectProtoList();
@@ -265,6 +265,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     return false;  // when download is complete, loadWorld is re-called
   } else
     printf("> proto assets available, begin load\n");
+
+  WbProtoList::current()->printCurrentProjectProtoList();
 
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;

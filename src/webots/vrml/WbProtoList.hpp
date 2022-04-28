@@ -84,6 +84,7 @@ public:
   void insertProtoSearchPath(const QString &path);
 
   void clearCurrentProjectProtoList(void) { mCurrentProjectProtoList.clear(); }
+  void printCurrentProjectProtoList();
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 

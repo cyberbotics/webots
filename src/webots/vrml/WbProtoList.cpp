@@ -193,14 +193,7 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
   model->ref();
 }
 
-WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  printf("WbProtoList::customFindModel\n");
-  // return NULL;
-
-  foreach (WbProtoModel *model, mModels)
-    if (model->name() == modelName)
-      return model;
-
+void WbProtoList::printCurrentProjectProtoList() {
   QMapIterator<QString, QString> it(mCurrentProjectProtoList);
   printf("-- mCurrentProjectProtoList ------\n");
   while (it.hasNext()) {
@@ -208,6 +201,15 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     printf("%s -> %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
   }
   printf("----------------\n");
+}
+
+WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+  // printf("WbProtoList::customFindModel\n");
+  // return NULL;
+
+  foreach (WbProtoModel *model, mModels)
+    if (model->name() == modelName)
+      return model;
 
   if (mCurrentProjectProtoList.contains(modelName)) {
     const QString &url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
@@ -387,7 +389,6 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
   QMap<QString, QString> externProtos = getExternProtoList(filename);
   if (externProtos.isEmpty()) {
-    // WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);
     emit protoRetrieved();
 
     return;  // nothing else to recurse into, or no extern proto to begin with
@@ -396,12 +397,12 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   QMapIterator<QString, QString> it(externProtos);
   while (it.hasNext()) {
     it.next();
-
     // download
     printf(" > downloading: %s\n", it.key().toUtf8().constData());
-    mRetrievers.push_back(new WbDownloader(this));
-    mRetrievers.last()->download(QUrl(it.value()));
-    connect(mRetrievers.last(), &WbDownloader::complete, this, &WbProtoList::recurser);
+    WbDownloader *downloader = new WbDownloader(this);
+    mRetrievers.push_back(downloader);
+    downloader->download(QUrl(it.value()));
+    connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);
   }
 }
 

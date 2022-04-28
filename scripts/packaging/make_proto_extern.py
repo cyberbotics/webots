@@ -17,6 +17,9 @@
 """Makes PROTO references extern"""
 
 
+#BASE_URL = 'webots://'
+BASE_URL = 'https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/'
+
 import os
 import sys
 from pathlib import Path
@@ -91,7 +94,7 @@ for asset in tqdm(assets):
   # insert extern proto reference
   contents = contents.splitlines(keepends=True)
   for match in matches:
-    expr = 'EXTERNPROTO ' + match + ' \"webots://' + known_proto[match] + '\"\n'
+    expr = 'EXTERNPROTO ' + match + f' \"{BASE_URL}' + known_proto[match] + '\"\n'
     contents.insert(index, expr)
 
   with open(asset, "w") as f:

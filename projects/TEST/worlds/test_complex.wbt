@@ -80,7 +80,7 @@ Transform {
 Transform {
   translation 1 1 0
   children [
-    ExternalProtoSolid1 {}
+    ExternalProtoSolid2 {}
   ]
 }
 Transform {

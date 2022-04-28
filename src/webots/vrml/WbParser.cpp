@@ -62,7 +62,6 @@ const QString WbParser::parseUrl() {
     reportUnexpected(QObject::tr("string literal"));
 
   const QString url = nextToken()->toString();
-  printf(" > url: %s\n", url.toUtf8().constData());
   if (!(url.toLower().startsWith("webots://") || url.toLower().startsWith("https://"))) {
     mTokenizer->reportError(QObject::tr("Expected url starting with 'webots://' or 'https://'"));
     throw 0;
@@ -207,7 +206,6 @@ void WbParser::reportUnexpected(const QString &expected) const {
 }
 
 bool WbParser::parseWorld(const QString &worldPath) {
-  printf("parseWorld\n");
   mTokenizer->rewind();
   mMode = WBT;
   try {
@@ -227,7 +225,6 @@ bool WbParser::parseWorld(const QString &worldPath) {
 // there can be in-line PROTO definitions, in this case they are
 // also parsed and added to the current WbProtoList
 bool WbParser::parseVrml(const QString &worldPath) {
-  printf("parseVrml\n");
   mTokenizer->rewind();
   mMode = VRML;
   try {
@@ -250,7 +247,6 @@ bool WbParser::parseVrml(const QString &worldPath) {
 }
 
 void WbParser::parseProtoDefinition(const QString &worldPath) {
-  printf("parseProtoDefinition\n");
   parseProtoInterface(worldPath);
 
   parseExactWord("{");
@@ -259,7 +255,6 @@ void WbParser::parseProtoDefinition(const QString &worldPath) {
 }
 
 bool WbParser::parseObject(const QString &worldPath) {
-  printf("parseObject");
   mTokenizer->rewind();
   mMode = WBO;
   try {
@@ -332,7 +327,7 @@ void WbParser::parseExactWord(const QString &word) {
 }
 
 void WbParser::parseNode(const QString &worldPath) {
-  printf("parseNode (next word: %s / mode %d)\n", peekWord().toUtf8().constData(), mMode);
+  // printf("parseNode (next word: %s / mode %d)\n", peekWord().toUtf8().constData(), mMode);
 
   // TODO: does calling parseExternProto here cover all cases ? (proto and world)
 
@@ -370,7 +365,7 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  printf(" > node is a proto\n");
+  // printf(" > node is a proto\n");
   const WbProtoModel *const protoModel = WbProtoList::current()->customFindModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
@@ -457,7 +452,6 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 }
 
 bool WbParser::parseProtoInterface(const QString &worldPath) {
-  printf("proto interface\n");
   mMode = PROTO;
   try {
     parseExactWord("PROTO");
@@ -476,7 +470,6 @@ bool WbParser::parseProtoInterface(const QString &worldPath) {
 }
 
 bool WbParser::parseProtoBody(const QString &worldPath) {
-  printf("parseProtoBody\n");
   mMode = PROTO;
   try {
     parseNode(worldPath);
