@@ -307,8 +307,8 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
   QMapIterator<QString, QString> it(externProtos);
   while (it.hasNext()) {  // TODO: need to check full depth or just at world level?
     it.next();
-    if (!WbNetwork::instance()->isCached(filename)) {
-      printf(" > proto assets not available, begin download\n");
+    if (!WbNetwork::instance()->isCached(it.value())) {
+      printf(" > proto asset (%s) not available, begin download\n", it.value().toUtf8().constData());
       return false;
     }
   }
