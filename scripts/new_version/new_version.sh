@@ -100,7 +100,7 @@ then
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/elevation.py
 
   $CURRENT_DIR/new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" $WEBOTS_HOME/docs/dependencies.txt
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/js/webots_documentation_loader.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/index.templates.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/css/webots-doc.css
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/server/simulation_server.py
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/server/session_server.py

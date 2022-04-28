@@ -145,6 +145,9 @@ export default class WebotsView extends HTMLElement {
       return WbWorld.instance.nodes.get('n' + id);
   }
 
+  getWorld() {
+    return WbWorld.instance;
+  }
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
