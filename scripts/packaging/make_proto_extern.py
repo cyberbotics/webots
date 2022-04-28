@@ -17,8 +17,8 @@
 """Makes PROTO references extern"""
 
 
+BASE_URL = 'webots://'
 #BASE_URL = 'webots://'
-BASE_URL = 'https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/'
 
 import os
 import sys

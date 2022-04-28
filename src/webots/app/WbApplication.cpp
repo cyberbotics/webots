@@ -259,7 +259,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   printf("#########################################\nWbApplication::loadWorld()\n");
 
   printf("loading: %s\n", worldName.toUtf8().constData());
-  WbProtoList::current()->clearCurrentProjectProtoList();
+  WbProtoList::current()->resetCurrentProjectProtoList();
   if (!WbProtoList::current()->areProtoAssetsAvailable(worldName, 1)) {
     WbProtoList::current()->retrieveExternProto(worldName, reloading);
     return false;  // when download is complete, loadWorld is re-called

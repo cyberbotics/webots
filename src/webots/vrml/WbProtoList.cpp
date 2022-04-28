@@ -17,6 +17,7 @@
 #include "../app/WbApplication.hpp"
 #include "../core/WbNetwork.hpp"
 #include "../nodes/utils/WbDownloader.hpp"
+#include "../nodes/utils/WbUrl.hpp"
 #include "WbLog.hpp"
 #include "WbNode.hpp"
 #include "WbParser.hpp"
@@ -387,6 +388,13 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
 
 void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
+
+  const QString &completeUrl = WbUrl::computePath(this, "url", filename, false);
+  if (!WbUrl::isWeb(filename) && !QFileInfo(completeUrl).exists()) {
+    mRetrievalError = tr("Local proto asset '%1' not available.\n").arg(filename);
+    retrievalCompletionTracker();
+  }
+
   QMap<QString, QString> externProtos = getExternProtoList(filename);
   if (externProtos.isEmpty()) {
     emit protoRetrieved();

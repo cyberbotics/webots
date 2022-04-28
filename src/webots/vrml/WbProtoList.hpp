@@ -83,7 +83,10 @@ public:
   void clearProtoSearchPaths(void);
   void insertProtoSearchPath(const QString &path);
 
-  void clearCurrentProjectProtoList(void) { mCurrentProjectProtoList.clear(); }
+  void resetCurrentProjectProtoList(void) {
+    mCurrentProjectProtoList.clear();
+    mRetrievalError = QString();
+  }
   void printCurrentProjectProtoList();
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
@@ -116,6 +119,7 @@ private:
   WbDownloader *mDownloader;
 
   QVector<WbDownloader *> mRetrievers;
+  QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
 
