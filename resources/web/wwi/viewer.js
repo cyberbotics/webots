@@ -883,7 +883,6 @@ function highlightX3DElement(robot, deviceElement) {
     });
   }
   unhighlightX3DElement(robot);
-
   let robotComponent = getRobotComponentByRobotName(robot);
   let scene = webotsView._view.x3dScene;
   let id = deviceElement.getAttribute('webots-transform-id');
@@ -911,7 +910,7 @@ function highlightX3DElement(robot, deviceElement) {
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
       pbr.parent = shape.id;
-      pointer = new WbTransform(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbTransform(getAnId(), new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
