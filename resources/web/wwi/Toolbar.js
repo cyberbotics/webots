@@ -28,7 +28,7 @@ export default class Toolbar {
       this._resizeMobileToolbar();
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
-      document.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton), {once: true});
+      this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton), {once: true});
     } else
       this.parentNode.style.minWidth = this.minWidth + 'px';
   }
