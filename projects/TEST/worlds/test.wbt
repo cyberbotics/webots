@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO ProtoWithExternReference "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ProtoWithExternReference.proto"
+EXTERNPROTO ProtoWithExternReference "webots://projects/TEST/protos/ProtoWithExternReference.proto"
 
 WorldInfo {
 }
