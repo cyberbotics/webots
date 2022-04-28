@@ -405,7 +405,7 @@ void WbController::setProcessEnvironment() {
           if (QDir(protoLibrariesPath).exists())
             librariesSearchPaths << protoLibrariesPath;
         }
-        protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoList::current()->customFindModel(protoModel->ancestorProtoName(), "");
       } while (protoModel);
     }
   }

@@ -353,6 +353,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbOdeContext.cpp \
   WbOpenSampleWorldDialog.cpp \
   WbPaintTexture.cpp \
+  WbParser.cpp \
   WbPbrAppearance.cpp \
   WbPen.cpp \
   WbPhysics.cpp \
@@ -370,6 +371,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPropeller.cpp \
   WbProject.cpp \
   WbProjectRelocationDialog.cpp \
+  WbProtoList.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbQjsFile.cpp \
@@ -519,14 +521,12 @@ OTHER_SOURCES = \
   WbObjectDetection.cpp \
   WbOdeDebugger.cpp \
   WbOdeUtilities.cpp \
-  WbParser.cpp \
   WbPerformanceLog.cpp \
   WbPerspective.cpp \
   WbPicoTextToSpeech.cpp \
   WbPolygon.cpp \
   WbPrecision.cpp \
   WbProtoCachedInfo.cpp \
-  WbProtoList.cpp \
   WbRandom.cpp \
   WbRay.cpp \
   WbResetCommand.cpp \

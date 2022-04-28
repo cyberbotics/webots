@@ -1284,6 +1284,7 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 }
 
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
+  printf("WbMainWindow::loadWorld\n");
   if (!proposeToSaveWorld(reloading))
     return true;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
@@ -1291,13 +1292,15 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
-  if (!success) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
-  }
-  // else console messages will be forwarded after world load in restorePerspective()
-  return success;
+  WbApplication::instance()->loadWorld(fileName, reloading);
+
+  // if (!success) {
+  //  WbLog::setConsoleLogsPostponed(false);
+  //  WbLog::showPendingConsoleMessages();
+  //}
+  //// else console messages will be forwarded after world load in restorePerspective()
+  // return success;
+  return true;
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
@@ -1374,10 +1377,12 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 }
 
 void WbMainWindow::newWorld() {
+  printf("WbMainWindow::newWorld()\n");
   loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
 }
 
 void WbMainWindow::openWorld() {
+  printf("WbMainWindow::openWorld()\n");
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
@@ -1478,6 +1483,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 }
 
 void WbMainWindow::reloadWorld() {
+  printf("WbMainWindow::reloadWorld()\n");
   toggleAnimationAction(false);
   if (!WbWorld::instance() || WbWorld::instance()->isUnnamed())
     newWorld();

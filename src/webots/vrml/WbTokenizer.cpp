@@ -118,7 +118,7 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     }
   }
 
-  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to cohexist as tokenizer
+  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to coexist as tokenizer
   // functions like ReadWord need to adapt the tokens to the context.
   if (isProto) {
     bool isLua = true;

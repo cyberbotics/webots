@@ -21,11 +21,15 @@
 
 class WbProtoModel;
 class WbTokenizer;
+class WbDownloader;
 
 #include <QtCore/QFileInfoList>
+#include <QtCore/QMap>
+#include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-class WbProtoList {
+class WbProtoList : public QObject {
+  Q_OBJECT
 public:
   enum { RESOURCES_PROTO_CACHE, PROJECTS_PROTO_CACHE, EXTRA_PROTO_CACHE };
 
@@ -41,7 +45,11 @@ public:
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively
-  explicit WbProtoList(const QString &primarySearchPath = "");
+  // explicit WbProtoList(const QString &primarySearchPath = "");
+  // explicit WbProtoList(const QString &world, bool reloading = false);
+  WbProtoList();
+
+  bool areProtoAssetsAvailable(const QString &filename);
 
   // destroys the list and all the contained models
   ~WbProtoList();
@@ -62,6 +70,7 @@ public:
   //  3. The system resources
   // if no matching model is found, NULL is returned and the error is notified on WbLog
   WbProtoModel *findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
+  WbProtoModel *customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
 
   WbProtoModel *readModel(const QString &fileName, const QString &worldPath, QStringList baseTypeList = QStringList()) const;
 
@@ -69,6 +78,23 @@ public:
   // prerequisite: the next token must be the "PROTO" keyword in the tokenizer
   // prerequisite: the syntax must have been checked with WbParser
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
+
+  // allows to manage active searchable paths for PROTO files
+  void clearProtoSearchPaths(void);
+  void insertProtoSearchPath(const QString &path);
+
+  void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
+
+  void recursiveProtoRetrieval(const QString &filename, const QString &parent);
+  void retrieveExternProto(QString filename, bool reloading);
+  QMap<QString, QString> protoInProjectsList() { return mProtoList; };
+
+signals:
+  void protoRetrieved();
+
+private slots:
+  void recurser();
+  void retrievalCompletionTracker();
 
 private:
   // cppcheck-suppress unknownMacro
@@ -82,10 +108,24 @@ private:
   static QFileInfoList gExtraProtoCache;
   QFileInfoList mPrimaryProtoCache;
 
+  QStringList mProtoSearchPaths;
+  int mDownloadingFiles;
+  WbDownloader *mDownloader;
+
+  QVector<WbDownloader *> mRetrievers;
+  QString mCurrentWorld;
+  bool mReloading;
+
+  QMap<QString, QString> mProtoList;
+
+  QMap<QString, QString> getExternProtoList(const QString &filename);
+
   static void updateProjectsProtoCache();
   static void updateResourcesProtoCache();
   static void updateExtraProtoCache();
   void updatePrimaryProtoCache();
+
+  void setupKnownProtoList();  // known == mentioned in a world file in the webots library (sub-proto not known)
 };
 
 #endif

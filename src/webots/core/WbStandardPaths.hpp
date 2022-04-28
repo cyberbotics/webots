@@ -55,7 +55,8 @@ namespace WbStandardPaths {
   const QString &unnamedTextFile();  // "unnamed.txt"
 
   // temporary directory
-  const QString &webotsTmpPath();  // e.g. /var/tmp/webots/ or /var/tmp/webots-<PID>/
-};                                 // namespace WbStandardPaths
+  const QString &webotsTmpPath();       // e.g. /var/tmp/webots/ or /var/tmp/webots-<PID>/
+  const QString &webotsTmpProtoPath();  // e.g. /var/tmp/webots-<PID>/protos
+};                                      // namespace WbStandardPaths
 
 #endif

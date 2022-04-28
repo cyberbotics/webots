@@ -39,7 +39,12 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mCopy(false) {
+WbDownloader::WbDownloader(QObject *parent) :
+  QObject(parent),
+  mDestination(QString()),
+  mNetworkReply(NULL),
+  mFinished(false),
+  mCopy(false) {
   gCount++;
 }
 
@@ -54,10 +59,11 @@ WbDownloader::~WbDownloader() {
     gCount--;
 }
 
-void WbDownloader::download(const QUrl &url) {
+void WbDownloader::download(const QUrl &url, const QString &destination) {
   WbSimulationState::instance()->pauseSimulation();
 
   mUrl = url;
+  mDestination = destination;
 
   if (gUrlCache.contains(mUrl) && !mCopy) {
     mCopy = true;

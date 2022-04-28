@@ -101,7 +101,7 @@ void WbSingleTaskApplication::convertProto() const {
   }
 
   // Parse PROTO
-  new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
+  // new WbProtoList(QFileInfo(inputFile).absoluteDir().path()); // TODO:TO RESTORE
   WbNode::setInstantiateMode(false);
   WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
   if (!toStdout)

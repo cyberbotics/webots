@@ -256,6 +256,14 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 bool WbApplication::loadWorld(QString worldName, bool reloading) {
+  printf("WbApplication::loadWorld()\n");
+
+  if (!WbProtoList::current()->areProtoAssetsAvailable(worldName)) {
+    WbProtoList::current()->retrieveExternProto(worldName, reloading);
+    return false;  // when download is complete, loadWorld is re-called
+  } else
+    printf("> proto assets available, begin load");
+
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
@@ -279,7 +287,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-  WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
+  // WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
+  WbProtoList *protoList = WbProtoList::current();
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {

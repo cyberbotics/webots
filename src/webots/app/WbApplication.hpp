@@ -48,6 +48,7 @@ public:
   // worldName must be absolute or specified with respect to WEBOTS_HOME
   // return true on success, false otherwise
   bool loadWorld(QString worldName, bool reloading);
+  void preloadWorldAssets(QString worldName, bool reloading);
   bool isValidWorldFileName(const QString &worldName);
 
   // take a sceenshot of the 3d view

@@ -86,11 +86,12 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldInfo(NULL),
   mViewpoint(NULL),
   mPerspective(NULL),
-  mProtos(protos ? protos : new WbProtoList()),
+  mProtos(NULL),
   mLastAwakeningTime(0.0),
   mIsLoading(true),
   mIsCleaning(false),
-  mIsVideoRecording(false) {
+  mIsVideoRecording(false),
+  mDownloader(NULL) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);
@@ -111,6 +112,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
+
+    // WbApplication::instance()->setWorldLoadingStatus(tr("Retrieving extern proto (if any)"));
+    // recursivelyRetrieveExternReferences(mFileName, QString());
+    mProtos = NULL;  // protos ? protos : new WbProtoList(mFileName); // TODO: TO RESTORE
 
     // read/create nodes
     WbNodeReader reader;
@@ -257,7 +262,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   if (newProjectPath != WbProject::current()->path()) {
     // reset list of loaded and available PROTO nodes
     delete mProtos;
-    mProtos = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
+    mProtos = mProtos = WbProtoList::current();  // (isValidProject ? newProjectPath + "protos" : "");
     WbProject::current()->setPath(newProjectPath);
   }
 
@@ -432,6 +437,7 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
 }
 
 void WbWorld::checkPresenceOfMandatoryNodes() {
+  printf("checkPresenceOfMandatoryNodes()\n");
   mWorldInfo = static_cast<WbWorldInfo *>(findTopLevelNode("WorldInfo", 0));
   if (!mWorldInfo) {
     mWorldInfo = new WbWorldInfo();
@@ -699,4 +705,60 @@ QString WbWorld::logWorldMetrics() const {
   }
 
   return QString("%1 solids, %2 joints, %3 graphical geometries").arg(solidCount).arg(jointCount).arg(geomCount);
+}
+
+void WbWorld::recursivelyRetrieveExternReferences(const QString &filename, const QString &parent) {
+  QFile file(filename);
+  if (file.open(QIODevice::ReadOnly)) {
+    const QString content = file.readAll();
+
+    QRegularExpression re("EXTERNPROTO\\s([a-zA-Z0-9-_+]+)\\s\"(.*\\.proto)\"");  // TODO: test it more
+
+    QRegularExpressionMatchIterator it = re.globalMatch(content);
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch()) {
+        const QString identifier = match.captured(1);
+        const QString url = match.captured(2);
+        if (!url.endsWith(identifier + ".proto")) {
+          WbLog::error(tr("Malformed extern proto url. The identifier and url do not coincide.\n"));
+          return;
+        }
+
+        printf("REGEX found >>%s<< >>%s<<\n", identifier.toUtf8().constData(), url.toUtf8().constData());
+
+        // create directory for this proto
+
+        QString rootPath = WbStandardPaths::webotsTmpProtoPath();
+        if (!parent.isEmpty())
+          rootPath += parent + "/";
+        rootPath += identifier + "/";
+        const QString path = rootPath + identifier + ".proto";
+
+        QFileInfo protoFile(path);
+
+        if (!protoFile.exists()) {
+          printf("> will download to: %s\n", path.toUtf8().constData());
+          QDir dir;
+          dir.mkpath(protoFile.absolutePath());
+          printf("making dir %s\n", protoFile.absolutePath().toUtf8().constData());
+
+          if (mDownloader != NULL && mDownloader->device() != NULL)
+            delete mDownloader;
+          mDownloader = new WbDownloader(this);
+          mDownloader->download(QUrl(url), protoFile.filePath());
+
+          connect(mDownloader, &WbDownloader::complete, this, &WbWorld::downloadCompleted);
+        } else
+          printf("> %s already exists in tmp\n", identifier.toUtf8().constData());
+      }
+    }
+  } else
+    WbLog::error(tr("Could not open file: '%1'.").arg(filename));
+}
+
+void WbWorld::downloadCompleted() {
+  printf("Download completed\n");
+  const QString parent = QFileInfo(mDownloader->mDestination).baseName();
+  recursivelyRetrieveExternReferences(mDownloader->mDestination, parent);
 }

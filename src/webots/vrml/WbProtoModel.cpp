@@ -64,6 +64,14 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mDocumentationUrl = tokenizer->documentationUrl();
   mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
+    parser.skipExternProto();
+
+  while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "PROTO")
+    tokenizer->nextToken();
+
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition
@@ -185,7 +193,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     file.close();
   }
 
-  // read the remainings tokens in order to
+  // read the remaining tokens in order to
   // - determine if it's a template
   // - check which parameter need to regenerate the template instance
   mTemplate = false;
@@ -231,7 +239,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoList::current()->findModel(mBaseType, worldPath, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoList::current()->customFindModel(mBaseType, worldPath, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;

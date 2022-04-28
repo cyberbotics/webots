@@ -120,7 +120,7 @@ void WbNewProtoWizard::accept() {
     // if base node was selected, define exposed parameters and PROTO body accordingly
     if (mBaseNode != "") {
       if (mIsProtoNode) {
-        WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
+        WbProtoModel *protoModel = WbProtoList::current()->customFindModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
       } else {

@@ -151,6 +151,7 @@ bool WbProtoCachedInfo::isOutOfDate() const {
 }
 
 WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) {
+  printf("protocacheinfo");
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(protoFileName);
   if (errors > 0)

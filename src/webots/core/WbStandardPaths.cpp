@@ -255,3 +255,8 @@ const QString &WbStandardPaths::webotsTmpPath() {
   }
   return webotsTmpPath;
 }
+
+const QString &WbStandardPaths::webotsTmpProtoPath() {
+  static QString path(webotsTmpPath() + "protos/");
+  return path;
+}

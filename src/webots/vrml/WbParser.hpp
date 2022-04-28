@@ -24,14 +24,17 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"  // WbFieldType
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
 class WbNodeModel;
 class WbProtoModel;
 class WbToken;
 class WbTokenizer;
+class WbDownloader;
 
-class WbParser {
+class WbParser : public QObject {
+  Q_OBJECT
 public:
   // create a parser for the specified tokenizer
   explicit WbParser(WbTokenizer *tokenizer);
@@ -49,6 +52,7 @@ public:
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
   bool parseProtoBody(const QString &worldPath);       // parse resulting PROTO after template generation
+  void skipExternProto();
 
   // skip PROTO definition in the specified tokenizer
   // this is useful to skip in file PROTO definition for VRML import
@@ -59,6 +63,7 @@ public:
 private:
   WbTokenizer *mTokenizer;
   int mMode;
+  WbDownloader *mDownloader;
 
   enum { NONE, WBT, VRML, PROTO, WBO, WRL };
   void parseDoubles(int n);
@@ -73,6 +78,7 @@ private:
   void parseNode(const QString &worldPath);
   void parseExactWord(const QString &word);
   const QString &parseIdentifier(const QString &expected = "identifier");
+  const QString parseUrl();
   void parseEof();
   void parseFieldDeclaration(const QString &worldPath);
   void parseFieldAcceptedValues(WbFieldType type, const QString &worldPath);

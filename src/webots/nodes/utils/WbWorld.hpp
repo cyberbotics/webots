@@ -22,6 +22,7 @@
 #include <QtCore/QMutex>
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include "WbDownloader.hpp"
 #include "WbWorldInfo.hpp"
 
 class WbGroup;
@@ -32,6 +33,7 @@ class WbSolid;
 class WbTokenizer;
 class WbViewpoint;
 class WbProtoList;
+class WbDownloader;
 
 struct dImmersionGeom;
 class WbOdeContact;
@@ -200,6 +202,7 @@ private:
   bool mIsLoading;
   bool mIsCleaning;
   bool mIsVideoRecording;
+  WbDownloader *mDownloader;
 
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
@@ -210,9 +213,12 @@ private:
   static bool cX3DMetaFileExport;
   static bool cX3DStreaming;
 
+  void recursivelyRetrieveExternReferences(const QString &filename, const QString &parent);
+
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void updateTopLevelLists();
+  void downloadCompleted();  // TODO: find better name
 };
 
 #endif
