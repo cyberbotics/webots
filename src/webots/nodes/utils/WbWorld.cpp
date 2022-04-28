@@ -293,7 +293,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
 
   try {
     // export x3d file
-    success = exporterAsX3d(x3dFilename);
+    success = exportAsX3d(x3dFilename);
     if (!success)
       throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
 
@@ -364,7 +364,7 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   return success;
 }
 
-bool WbWorld::exporterAsX3d(const QString &fileName) const {
+bool WbWorld::exportAsX3d(const QString &fileName) const {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
