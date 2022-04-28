@@ -867,23 +867,21 @@ function removePointer() {
   }
 }
 
-function unhighlightX3DElement(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
+function unhighlightX3DElement() {
   const scene = webotsView._view.x3dScene;
   removePointer();
   scene.render();
 }
 
-function highlightX3DElement(robot, deviceElement) {
+function highlightX3DElement(deviceElement) {
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
-      highlightX3DElement(robot, deviceElement);
+      highlightX3DElement(deviceElement);
     });
   }
-  unhighlightX3DElement(robot);
-  let robotComponent = getRobotComponentByRobotName(robot);
+  unhighlightX3DElement();
   let scene = webotsView._view.x3dScene;
   let id = deviceElement.getAttribute('webots-transform-id');
   if (typeof WbWorld.instance === 'undefined')
