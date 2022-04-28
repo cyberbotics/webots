@@ -11,6 +11,7 @@ body {
   overflow-x: hidden;
   background-color: #fafafa;
   font-family: "Raleway", sans-serif;
+  min-width: 620px;
 }
 
 .title-container {

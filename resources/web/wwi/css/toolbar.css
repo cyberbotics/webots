@@ -6,6 +6,7 @@ body {
 
 webots-view {
   height: 100%;
+  width: 100%;
   display: block;
   position: relative;
 }
@@ -209,6 +210,14 @@ webots-view .toolbar-btn:hover .icon-windowed {
   100% { transform: scale(1); }
 }
 
+@keyframes animation-scale-up-lg {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  65%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
 @keyframes animation-rotate {
   0%   { transform: rotate(0deg); }
   50%  { transform: rotate(20deg); }
@@ -303,6 +312,7 @@ webots-view .information-panel {
   font-family: Helvetica;
   display: none;
   pointer-events: auto;
+  z-index: 2;
 }
 
 webots-view .information-panel a {
@@ -310,6 +320,11 @@ webots-view .information-panel a {
   color: white;
   font-style: italic;
   text-decoration: none;
+}
+
+webots-view .information-panel p {
+  color: white;
+  padding: 0;
 }
 
 webots-view .information-panel a:hover {
@@ -377,11 +392,6 @@ webots-view .information-panel .simulation-text a {
   font-size: inherit;
 }
 
-webots-view .information-panel p {
-  color: white;
-  padding: 0;
-}
-
 /* Settings */
 
 webots-view .settings-pane {
@@ -392,6 +402,7 @@ webots-view .settings-pane {
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
+  min-width: 265px;
   background: rgba(0,0,0, 0.7);
   font-family: 'Arial';
   font-size: 14px;
@@ -574,10 +585,12 @@ webots-view .floating-window {
   position: absolute;
   display: block;
   border-radius: 5px;
-  resize: both;
   overflow: hidden;
-  min-height: 44px;
+  min-height: 65px;
   min-width: 200px;
+  transform: translate(0, 0);
+  touch-action: none;
+  z-index: 1;
 }
 
 webots-view .floating-window-header {
@@ -599,7 +612,8 @@ webots-view .floating-window-text{
 
 webots-view .floating-window-close {
   position: relative;
-  top: -10px;
+  top: -8px;
+  right: 4px;
   background-color: transparent;
   border: none;
   color: #aaa;
@@ -625,6 +639,68 @@ webots-view .floating-window-content iframe {
 
 webots-view .unclickable {
   pointer-events: none;
+}
+
+webots-view #resize-n {
+  position: absolute;
+  top: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-ne {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-e {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-se {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-s {
+  position: absolute;
+  bottom: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-sw {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-w {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-nw {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
 }
 
 /* Vertical panes */
