@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+# External mesh.
+
+
+PROTO ExternalGeometry2 [
+
+]
+{
+  Sphere {
+    radius 0.2
+  }
+}

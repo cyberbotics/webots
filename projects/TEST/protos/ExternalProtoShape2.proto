@@ -1,0 +1,15 @@
+#VRML_SIM R2022b utf8
+# Example of  an external reference
+
+EXTERNPROTO ExternalGeometry2 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalGeometry2.proto"
+EXTERNPROTO ExternalAppearance2 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalAppearance2.proto"
+
+PROTO ExternalProtoShape2 [
+
+]
+{
+  Shape {
+    appearance ExternalAppearance2 {}
+    geometry ExternalGeometry2 {}
+  }
+}

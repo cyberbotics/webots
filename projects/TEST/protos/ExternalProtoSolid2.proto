@@ -1,0 +1,15 @@
+#VRML_SIM R2022b utf8
+# Example of  an external reference
+
+EXTERNPROTO ExternalProtoShape2 "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoShape2.proto"
+
+PROTO ExternalProtoSolid2 [
+
+]
+{
+  Solid {
+    children [
+      ExternalProtoShape2 {}
+    ]
+  }
+}

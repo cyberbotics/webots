@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+# External mesh.
+
+
+PROTO ExternalGeometry3 [
+
+]
+{
+  Box {
+    size 0.2 0.1 0.3
+  }
+}

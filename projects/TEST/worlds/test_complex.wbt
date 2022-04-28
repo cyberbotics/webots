@@ -1,0 +1,112 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO ExternalProtoSolid "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoSolid.proto"
+EXTERNPROTO ExternalProtoShape "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/TEST/protos/ExternalProtoShape.proto"
+
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+Transform {
+  children [
+    ExternalProtoSolid2 {}
+  ]
+}
+Transform {
+  translation 0 0 1
+  children [
+    ExternalProtoShape {}
+  ]
+}
+Transform {
+  translation 0 1 0
+  children [
+    ExternalProtoShape {}
+  ]
+}
+Transform {
+  translation 0 1 1
+  children [
+    ExternalProtoSolid3 {}
+  ]
+}
+# 2nd row
+Transform {
+  translation 0.5 0 0
+  children [
+    ExternalProtoShape {}
+  ]
+}
+Transform {
+  translation 0.5 0 1
+  children [
+    ExternalProtoShape2 {}
+  ]
+}
+Transform {
+  translation 0.5 1 0
+  children [
+    ExternalProtoSolid2 {}
+  ]
+}
+Transform {
+  translation 0.5 1 1
+  children [
+    ExternalProtoSolid {}
+  ]
+}
+# 3rd row
+Transform {
+  translation 1 0 0
+  children [
+    ExternalProtoSolid3 {}
+  ]
+}
+Transform {
+  translation 1 0 1
+  children [
+    ExternalProtoShape2 {}
+  ]
+}
+Transform {
+  translation 1 1 0
+  children [
+    ExternalProtoSolid1 {}
+  ]
+}
+Transform {
+  translation 1 1 1
+  children [
+    ExternalProtoSolid {}
+  ]
+}
+# 4rd row
+Transform {
+  translation 1.5 0 0
+  children [
+    ExternalProtoShape {}
+  ]
+}
+Transform {
+  translation 1.5 0 1
+  children [
+    ExternalProtoShape3 {}
+  ]
+}
+Transform {
+  translation 1.5 1 0
+  children [
+    ExternalProtoSolid2 {}
+  ]
+}
+Transform {
+  translation 1.5 1 1
+  children [
+    ExternalProtoShape2 {}
+  ]
+}
