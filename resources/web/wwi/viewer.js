@@ -130,7 +130,7 @@ function setupUrl(url) {
 }
 
 function computeTargetPath() {
-  let branch = 'fix-web-component';
+  let branch = 'released';
   let targetPath = '';
   if (localSetup.branch)
     branch = localSetup.branch;
@@ -1610,7 +1610,7 @@ if (!isCyberboticsUrl) {
   if (!localSetup.anchor)
     localSetup.anchor = window.location.hash.substring(1);
   if (!localSetup.branch)
-    localSetup.branch = getGETQueryValue('branch', 'fix-web-component');
+    localSetup.branch = getGETQueryValue('branch', 'released');
   if (!localSetup.tabs)
     localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
   // backward compatibility <= R2019b revision 1
