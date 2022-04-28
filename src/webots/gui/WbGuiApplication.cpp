@@ -178,10 +178,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
       mTask = FAILURE;
     }
   }
-  if (mTask == FAILURE) {
-    cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-    return;
-  }
+
   if (mode == "mjpeg") {
     mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
     mStreamingServer->start(port);
@@ -197,7 +194,7 @@ void WbGuiApplication::parseArguments() {
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
   QCommandLineParser parser;
-  parser.addPositionalArgument("worldfile", tr("Start Webots in this world."));
+  parser.addPositionalArgument("worldfile", tr("Start webots in this world."));
   parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
   QCommandLineOption helpOption("help", tr("Display this help message and exit."));
   parser.addOption(helpOption);
@@ -208,22 +205,22 @@ void WbGuiApplication::parseArguments() {
   QCommandLineOption modeOption("mode",
                                 tr("Choose the startup mode, overriding application preferences. The <mode> argument must be "
                                    "either pause, realtime or fast."),
-                                tr("mode"), "realtime");
+                                tr("mode"));
   parser.addOption(modeOption);
   QCommandLineOption noRenderingOption("no-rendering", tr("Disable rendering in the main 3D view."));
   parser.addOption(noRenderingOption);
-  QCommandLineOption fullscreenOption("fullscreen", tr("Start Webots in fullscreen."));
+  QCommandLineOption fullscreenOption("fullscreen", tr("Start webots in fullscreen."));
   parser.addOption(fullscreenOption);
-  QCommandLineOption minimizeOption("minimize", tr("Minimize the Webots window on startup."));
+  QCommandLineOption minimizeOption("minimize", tr("Minimize the webots window on startup."));
   parser.addOption(minimizeOption);
-  QCommandLineOption batchOption("batch", tr("Prevent Webots from creating blocking pop-up windows."));
+  QCommandLineOption batchOption("batch", tr("Prevent webots from creating blocking pop-up windows."));
   parser.addOption(batchOption);
   QCommandLineOption stdoutOption("stdout", tr("Redirect the stdout of the controllers to the terminal."));
   parser.addOption(stdoutOption);
   QCommandLineOption stderrOption("stderr", tr("Redirect the stderr of the controllers to the terminal."));
   parser.addOption(stderrOption);
   QCommandLineOption streamOption("stream",
-                                  tr("Start the Webots streaming server. Parameters may be given as an option:\n"
+                                  tr("Start the webots streaming server. Parameters may be given as an option:\n"
                                      "port=1234          - Start the streaming server on port 1234.\n"
                                      "mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.\n"
                                      "monitorActivity    - Print a dot '.' on stdout every 5 seconds.\n"
@@ -234,7 +231,7 @@ void WbGuiApplication::parseArguments() {
   parser.addOption(updateProtoCacheOption);
   QCommandLineOption logPerfomanceOption(
     "log-performance",
-    tr("Measure the performance of Webots and log it in the file specified in the <file> argument. The optional <steps> "
+    tr("Measure the performance of webots and log it in the file specified in the <file> argument. The optional <steps> "
        "argument is an integer value that specifies how many steps are logged. If the --sysinfo option is used, the system "
        "information is prepended into the log file"),
     tr("file"));
@@ -261,31 +258,34 @@ void WbGuiApplication::parseArguments() {
   if (qgetenv("WEBOTS_TERMINAL") == "1" && GetConsoleWindow() == 0)
     AttachConsole(ATTACH_PARENT_PROCESS);
 #endif
-  parser.process(QCoreApplication::arguments());
+
+  parser.parse(QCoreApplication::arguments());
+  const QStringList unknownOptions = parser.unknownOptionNames();
   QStringList args = parser.optionNames();
   const QStringList path = parser.positionalArguments();
-
+  if (!unknownOptions.isEmpty()) {
+    cout << tr("webots: invalid option: '--%1'").arg(unknownOptions[0]).toUtf8().constData() << endl;
+    mTask = FAILURE;
+  }
   while (!args.isEmpty()) {
     const QString subCommand = args.first();
     if (subCommand == "help" && parser.isSet(helpOption)) {
-      args.pop_front();
       mTask = HELP;
     } else if (subCommand == "version" && parser.isSet(versionOption)) {
-      args.pop_front();
       mTask = VERSION;
     } else if (subCommand == "minimize" && parser.isSet(minimizeOption)) {
-      args.pop_front();
       mShouldMinimize = true;
     } else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption)) {
-      args.pop_front();
       mShouldStartFullscreen = true;
-    } else if (subCommand == "mode" && parser.isSet(modeOption)) {
-      args.pop_front();
+    } else if (subCommand == "mode" && parser.isSet("mode")) {
       const QStringList mode = parser.values(modeOption);
-      if (mode.size() != 1 || mode[0] == "=")
+      if (mode.size() != 1 || mode[0] == "=") {
         cerr << tr("Error: Must specify one mode argument.").toUtf8().constData() << endl;
+        mTask = FAILURE;
+      }
       if (mode[0] == "stop") {
         cerr << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
+        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::PAUSE;
       } else if (mode[0] == "pause")
         mStartupMode = WbSimulationState::PAUSE;
@@ -295,30 +295,24 @@ void WbGuiApplication::parseArguments() {
         mStartupMode = WbSimulationState::FAST;
       else if (mode[0] == "run") {
         cerr << tr("Warning: `run` mode is deprecated, falling back to `fast` mode").toUtf8().constData() << endl;
+        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::FAST;
       } else {
-        cout << tr("webots: invalid option: '%1'").arg(mode[0]).toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+        cout << tr("webots: invalid option: '%1' in --mode").arg(mode[0]).toUtf8().constData() << endl;
         mTask = FAILURE;
       }
-
     } else if (subCommand == "no-rendering" && parser.isSet(noRenderingOption)) {
-      args.pop_front();
       mShouldDoRendering = false;
-    } else if (subCommand == "convert" && parser.isSet(convertOption)) {
-      args.pop_front();
+    } else if (subCommand == "convert" && parser.isSet("convert")) {
       const QStringList fileToConvert = parser.values(convertOption);
       mTaskArguments = fileToConvert;
       mTask = CONVERT;
     } else if (subCommand == "sysinfo" && parser.isSet(sysinfoOption)) {
-      args.pop_front();
       mTask = SYSINFO;
     } else if (subCommand == "batch" && parser.isSet(batchOption)) {
-      args.pop_front();
       batch = true;
       WbMessageBox::disable();
-    } else if (subCommand == "update-proto-cache" && parser.isSet(updateProtoCacheOption)) {
-      args.pop_front();
+    } else if (subCommand == "update-proto-cache" && parser.isSet("update-proto-cache")) {
       const QStringList protoCacheUpdate = parser.values(updateProtoCacheOption);
       if (protoCacheUpdate.size() == 1)
         mTaskArguments.append(protoCacheUpdate[0]);
@@ -326,35 +320,29 @@ void WbGuiApplication::parseArguments() {
         mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
     } else if (subCommand == "update-world" && parser.isSet(updateWorldOption)) {
-      args.pop_front();
       mTask = UPDATE_WORLD;
     } else if (subCommand == "enable-x3d-meta-file-export" && parser.isSet(x3DMetaFileExportOption)) {
-      args.pop_front();
       WbWorld::enableX3DMetaFileExport();
-    } else if (subCommand == "stream" && parser.isSet(streamOption)) {
-      args.pop_front();
+    } else if (subCommand == "stream" && parser.isSet("stream")) {
       const QStringList streamArgument = parser.values(streamOption);
-      if (streamArgument.size() != 1)
-        cerr << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData();
       stream = true;
       parseStreamArguments(streamArgument[0]);
     } else if (subCommand == "stdout" && parser.isSet(stdoutOption)) {
-      args.pop_front();
       WbLog::enableStdOutRedirectToTerminal();
     } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
-      args.pop_front();
       WbLog::enableStdErrRedirectToTerminal();
-    } else if (subCommand == "log-performance" && parser.isSet(logPerfomanceOption)) {
+    } else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
       const QStringList logArgument = parser.values(logPerfomanceOption);
-      if (logArgument[0].contains(",")) {
+      if (logArgument.isEmpty()) {
+        cerr << tr("webots: invalid option: '--log-performance': log file path is missing.").toUtf8().constData();
+        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+      } else if (logArgument[0].contains(",")) {
         const QStringList argumentsList = logArgument[0].split(",");
         WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
       } else {
         WbPerformanceLog::createInstance(logArgument[0]);
         logPerformanceMode = true;
       }
-      if (logArgument.size() != 1)
-        cerr << tr("webots: invalid option: '--log-performance': log file path is missing.").toUtf8().constData();
     }
 #ifndef _WIN32
     else if (subCommand == "disable-gpu" || subCommand == "disable-logging" || subCommand == "enable-logging" ||
@@ -365,21 +353,19 @@ void WbGuiApplication::parseArguments() {
     }
 #endif
     else {
-      cout << tr("webots: invalid option: '%1'").arg(subCommand).toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+      cout << tr("webots: invalid option: '--%1'").arg(subCommand).toUtf8().constData() << endl;
       mTask = FAILURE;
     }
+    args.pop_front();
   }
   if (!path.isEmpty()) {
     if (path.size() > 1) {
       cerr << tr("webots: too many arguments.").toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       parser.clearPositionalArguments();
       mTask = FAILURE;
 
     } else if ((mStartWorldName).isEmpty() && (path.at(0)).isEmpty()) {
       cerr << tr("Argument 'name' missing.").toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       parser.clearPositionalArguments();
       mTask = FAILURE;
     }
@@ -388,8 +374,10 @@ void WbGuiApplication::parseArguments() {
       parser.clearPositionalArguments();
     }
   }
-  if (stream && !batch)
+  if (stream && !batch) {
     cerr << tr("Warning: you should also use --batch (in addition to --stream) for production.").toUtf8().constData() << endl;
+    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+  }
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
@@ -404,6 +392,10 @@ void WbGuiApplication::parseArguments() {
     WbPreferences::instance()->setValue("OpenGL/textureFiltering", 0);
     mStartupMode = WbSimulationState::PAUSE;
     mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
+  }
+  if (mTask == FAILURE) {
+    cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    return;
   }
 }
 
@@ -450,6 +442,7 @@ bool WbGuiApplication::setup() {
     QFileInfo info(mStartWorldName);
     if (!info.isReadable()) {
       cerr << tr("Could not open file: '%1'.").arg(mStartWorldName).toUtf8().constData() << endl;
+      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
       mTask = FAILURE;
     }
   }
@@ -551,7 +544,7 @@ bool WbGuiApplication::setup() {
   // popup a warning message if the preferences file is not writable
   prefs->checkIsWritable();
   if (WbSysInfo::isRootUser())
-    WbLog::warning("It is not recommended to run Webots as root.");
+    WbLog::warning("It is not recommended to run webots as root.");
 
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
     // delete previous desktop application info file in order to update it to the current installation data
