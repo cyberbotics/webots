@@ -213,7 +213,11 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
       return model;
 
   if (mCurrentProjectProtoList.contains(modelName)) {
-    const QString &url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
+    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProtoList.value(modelName), false);
+    if (WbUrl::isWeb(url)) {
+      assert(WbNetwork::instance()->isCached(url));
+      url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
+    }
     printf("found %s in mCurrentProjectProtoList, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
@@ -327,8 +331,12 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, int indent) {
 
   while (it.hasNext()) {  // TODO: need to check full depth or just at world level?
     it.next();
-    if (WbNetwork::instance()->isCached(it.value())) {
+    const QString &subProto = it.value();
+    if (WbUrl::isWeb(subProto) && WbNetwork::instance()->isCached(subProto)) {
       areProtoAssetsAvailable(it.value(), indent + 2);
+    } else if (WbUrl::isLocalUrl(subProto)) {
+      const QString &completeUrl = WbUrl::computePath(NULL, "EXTERNPROTO", subProto, false);
+      areProtoAssetsAvailable(completeUrl, indent + 2);
     } else {
       printf("%s> abort, asset (%s) NOT available\n", spaces.toUtf8().constData(), (it.value()).toUtf8().constData());
       return false;
@@ -389,13 +397,13 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
 void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", filename, false);
+  const QString &completeUrl = WbUrl::computePath(NULL, "EXTERNPROTO", filename, false);
   if (!WbUrl::isWeb(filename) && !QFileInfo(completeUrl).exists()) {
     mRetrievalError = tr("Local proto asset '%1' not available.\n").arg(filename);
     retrievalCompletionTracker();
   }
 
-  QMap<QString, QString> externProtos = getExternProtoList(filename);
+  QMap<QString, QString> externProtos = getExternProtoList(completeUrl);
   if (externProtos.isEmpty()) {
     emit protoRetrieved();
 
@@ -423,6 +431,14 @@ void WbProtoList::recurser() {
 }
 
 void WbProtoList::retrievalCompletionTracker() {
+  if (!mRetrievalError.isEmpty()) {
+    WbLog::error(tr("Proto retrieval error: %1").arg(mRetrievalError));
+    disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
+    qDeleteAll(mRetrievers);
+    mRetrievers.clear();
+    return;
+  }
+
   bool finished = true;
   for (int i = 0; i < mRetrievers.size(); ++i)
     if (!mRetrievers[i]->hasFinished())
