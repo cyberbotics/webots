@@ -315,7 +315,7 @@ void WbGuiApplication::parseArguments() {
       mTask = CONVERT;
     } else if (subCommand == "sysinfo" && parser.isSet(sysinfoOption))
       mTask = SYSINFO;
-    } else if (subCommand == "batch" && parser.isSet(batchOption)) {
+    else if (subCommand == "batch" && parser.isSet(batchOption)) {
       batch = true;
       WbMessageBox::disable();
     } else if (subCommand == "update-proto-cache" && parser.isSet("update-proto-cache")) {
