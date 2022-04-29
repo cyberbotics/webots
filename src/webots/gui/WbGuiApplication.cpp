@@ -268,7 +268,7 @@ void WbGuiApplication::parseArguments() {
 
   parser.parse(QCoreApplication::arguments());
   const QStringList unknownOptions = parser.unknownOptionNames();
-  QStringList args = parser.optionNames();
+  const QStringList args = parser.optionNames();
   const QStringList path = parser.positionalArguments();
   if (!unknownOptions.isEmpty()) {
     cout << tr("webots: invalid option: '--%1'").arg(unknownOptions[0]).toUtf8().constData() << endl;
