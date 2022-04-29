@@ -201,54 +201,40 @@ void WbGuiApplication::parseArguments() {
   bool logPerformanceMode = false;
   bool batch = false, stream = false;
   QCommandLineParser parser;
-  parser.addPositionalArgument("worldfile", tr("Start Webots in this world."));
+  parser.addPositionalArgument("worldfile", tr("Start Webots with this world."));
   parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsOptions);
-  QCommandLineOption helpOption("help", tr("Display this help message and exit."));
+  QCommandLineOption helpOption("help");
   parser.addOption(helpOption);
-  QCommandLineOption versionOption("version", tr("Display version information and exit."));
+  QCommandLineOption versionOption("version");
   parser.addOption(versionOption);
-  QCommandLineOption sysinfoOption("sysinfo", tr("Display information about the system and exit."));
+  QCommandLineOption sysinfoOption("sysinfo");
   parser.addOption(sysinfoOption);
-  QCommandLineOption modeOption("mode",
-                                tr("Choose the startup mode, overriding application preferences. The <mode> argument must be "
-                                   "either pause, realtime or fast."),
-                                tr("mode"));
+  QCommandLineOption modeOption("mode", "", "mode");
   parser.addOption(modeOption);
-  QCommandLineOption noRenderingOption("no-rendering", tr("Disable rendering in the main 3D view."));
+  QCommandLineOption noRenderingOption("no-rendering");
   parser.addOption(noRenderingOption);
-  QCommandLineOption fullscreenOption("fullscreen", tr("Start Webots in fullscreen."));
+  QCommandLineOption fullscreenOption("fullscreen");
   parser.addOption(fullscreenOption);
-  QCommandLineOption minimizeOption("minimize", tr("Minimize the Webots window on startup."));
+  QCommandLineOption minimizeOption("minimize");
   parser.addOption(minimizeOption);
-  QCommandLineOption batchOption("batch", tr("Prevent Webots from creating blocking pop-up windows."));
+  QCommandLineOption batchOption("batch");
   parser.addOption(batchOption);
-  QCommandLineOption stdoutOption("stdout", tr("Redirect the stdout of the controllers to the terminal."));
+  QCommandLineOption stdoutOption("stdout");
   parser.addOption(stdoutOption);
-  QCommandLineOption stderrOption("stderr", tr("Redirect the stderr of the controllers to the terminal."));
+  QCommandLineOption stderrOption("stderr");
   parser.addOption(stderrOption);
-  QCommandLineOption streamOption("stream",
-                                  tr("Start the Webots streaming server. Parameters may be given as an option:\n"
-                                     "port=1234          - Start the streaming server on port 1234.\n"
-                                     "mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.\n"
-                                     "monitorActivity    - Print a dot '.' on stdout every 5 seconds.\n"
-                                     "disableTextStreams - Disable the streaming of stdout and stderr."),
-                                  tr("key[=value];..."));
+  QCommandLineOption streamOption("stream", "", tr("key[=value];..."));
   parser.addOption(streamOption);
-  QCommandLineOption updateProtoCacheOption("update-proto-cache", tr("Update the PROTO cache"), tr("task"));
+  QCommandLineOption updateProtoCacheOption("update-proto-cache", "", tr("task"));
   parser.addOption(updateProtoCacheOption);
-  QCommandLineOption logPerfomanceOption(
-    "log-performance",
-    tr("Measure the performance of Webots and log it in the file specified in the <file> argument. The optional <steps> "
-       "argument is an integer value that specifies how many steps are logged. If the --sysinfo option is used, the system "
-       "information is prepended into the log file"),
-    tr("file"));
-  QCommandLineOption convertOption("convert", tr("Convert a PROTO file to a URDF, WBO, or WRL file."), tr("file"));
-  parser.addOption(convertOption);
-  QCommandLineOption updateWorldOption("update-world", tr("Update world"));
-  parser.addOption(updateWorldOption);
-  QCommandLineOption x3DMetaFileExportOption("enable-x3d-meta-file-export", tr("Enable x3d meta file export"));
-  parser.addOption(x3DMetaFileExportOption);
+  QCommandLineOption logPerfomanceOption("log-performance", "", "file");
   parser.addOption(logPerfomanceOption);
+  QCommandLineOption convertOption("convert", "", "file");
+  parser.addOption(convertOption);
+  QCommandLineOption updateWorldOption("update-world");
+  parser.addOption(updateWorldOption);
+  QCommandLineOption x3DMetaFileExportOption("enable-x3d-meta-file-export");
+  parser.addOption(x3DMetaFileExportOption);
 #ifndef _WIN32
 
   parser.addOptions({
