@@ -102,7 +102,10 @@ for asset in tqdm(assets):
     expr = f'EXTERNPROTO {match} \"{BASE_URL}{known_proto[match]}\"\n'
     if expr not in contents and expr not in complete_expr:
       complete_expr += expr
-  contents.insert(index, '\n' + complete_expr + '\n')
+  if complete_expr == "":
+    contents.insert(index, "\n")
+  else:
+    contents.insert(index, '\n' + complete_expr + '\n')
 
   with open(asset, "w") as f:
     contents = "".join(contents)
