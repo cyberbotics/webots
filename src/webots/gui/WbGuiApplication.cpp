@@ -342,7 +342,7 @@ void WbGuiApplication::parseArguments() {
       WbLog::enableStdOutRedirectToTerminal();
     } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
       WbLog::enableStdErrRedirectToTerminal();
-    } else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
+    else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
       const QStringList logArgument = parser.values(logPerfomanceOption);
       if (logArgument.isEmpty() || logArgument[0].isEmpty()) {
         cerr << tr("webots: log file path is missing in '--log-performance'.\n").toUtf8().constData();
