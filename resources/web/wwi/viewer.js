@@ -698,7 +698,7 @@ function highlightCode(view) {
 }
 
 function resetRobotComponent(robot) {
-  unhighlightX3DElement(robot);
+  unhighlightX3DElement();
   const robotComponent = getRobotComponentByRobotName(robot);
   // Reset the Viewpoint
   if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
@@ -991,7 +991,7 @@ function createRobotComponent(view) {
           // Create the new device.
           let deviceDiv = document.createElement('div');
           deviceDiv.classList.add('device');
-          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(robotName, deviceDiv));
+          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
           deviceDiv.setAttribute('webots-type', deviceType);
           deviceDiv.setAttribute('webots-transform-id', device['transformID']);
           if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
