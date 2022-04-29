@@ -340,7 +340,7 @@ void WbGuiApplication::parseArguments() {
       }
     } else if (subCommand == "stdout" && parser.isSet(stdoutOption))
       WbLog::enableStdOutRedirectToTerminal();
-    } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
+    else if (subCommand == "stderr" && parser.isSet(stderrOption))
       WbLog::enableStdErrRedirectToTerminal();
     else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
       const QStringList logArgument = parser.values(logPerfomanceOption);
