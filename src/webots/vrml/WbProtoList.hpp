@@ -50,6 +50,8 @@ public:
   WbProtoList();
 
   bool areProtoAssetsAvailable(const QString &filename, int indent = 0);
+  bool recursiveExternProtoExistenceValidation(const QString &filename);
+  bool externProtoExists(const QString &filename);
 
   // destroys the list and all the contained models
   ~WbProtoList();
@@ -83,16 +85,15 @@ public:
   void clearProtoSearchPaths(void);
   void insertProtoSearchPath(const QString &path);
 
-  void resetCurrentProjectProtoList(void) {
-    mCurrentProjectProtoList.clear();
-    mRetrievalError = QString();
-  }
+  void resetCurrentProjectProtoList(void);
   void printCurrentProjectProtoList();
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 
   void recursiveProtoRetrieval(const QString &filename);
+  void recursiveProtoRetrievalV2(const QString &filename);
   void retrieveExternProto(QString filename, bool reloading);
+  void retrieveAllExternProtoV2(QString filename, bool reloading);  // TODO: need reloading?
   QMap<QString, QString> protoInProjectsList() { return mProtoList; };
 
 signals:
@@ -119,6 +120,7 @@ private:
   WbDownloader *mDownloader;
 
   QVector<WbDownloader *> mRetrievers;
+  QString mExternProtoRootUrl;
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;

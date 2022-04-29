@@ -346,11 +346,40 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, int indent) {
   return true;
 }
 
+bool WbProtoList::recursiveExternProtoExistenceValidation(const QString &filename) {
+  if (filename.startsWith("https://")) {
+  } else if (filename.startsWith("webots://")) {
+  } else {
+  }
+
+  return false;
+}
+
+bool WbProtoList::externProtoExists(const QString &filename) {
+  if (filename.startsWith("https://"))
+    return WbNetwork::instance()->isCached(filename);
+
+  const QString &path = WbUrl::computePath(NULL, "EXTERNPROTO", filename, false);  // TODO: remplace with something better
+  return QFileInfo(path).exists();
+}
+
 void WbProtoList::retrieveExternProto(QString filename, bool reloading) {
   mCurrentWorld = filename;
   mReloading = reloading;
   connect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
   recursiveProtoRetrieval(filename);
+}
+
+void WbProtoList::retrieveAllExternProtoV2(QString filename, bool reloading) {
+  // reset current project related variables to prepare for a load
+  mCurrentProjectProtoList.clear();
+  mRetrievalError = QString();
+  mExternProtoRootUrl = QString();
+  mCurrentWorld = filename;
+  mReloading = reloading;
+  // ensure all referenced assets are available (locally), if not download them
+  connect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
+  recursiveProtoRetrievalV2(filename);
 }
 
 QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) {
@@ -388,13 +417,42 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
     }
     // printf("%s references %lld sub-proto\n", filename.toUtf8().constData(), protoList.size());
   } else
-    // should not be possible to request the list of extern proto from a file that cannot be accessed (unreadable/not cached)
+    // should not be possible to request the list of extern proto from a file that cannot be accessed (unreadable/not
+    // cached)
     assert(0);
 
   return protoList;
 }
 
 void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
+  printf("recursing: %s\n", filename.toUtf8().constData());
+
+  const QString &completeUrl = WbUrl::computePath(NULL, "EXTERNPROTO", filename, false);
+  if (!WbUrl::isWeb(filename) && !QFileInfo(completeUrl).exists()) {
+    mRetrievalError = tr("Local proto asset '%1' not available.\n").arg(filename);
+    retrievalCompletionTracker();
+  }
+
+  QMap<QString, QString> externProtos = getExternProtoList(completeUrl);
+  if (externProtos.isEmpty()) {
+    emit protoRetrieved();
+
+    return;  // nothing else to recurse into, or no extern proto to begin with
+  }
+
+  QMapIterator<QString, QString> it(externProtos);
+  while (it.hasNext()) {
+    it.next();
+    // download
+    printf(" > downloading: %s\n", it.key().toUtf8().constData());
+    WbDownloader *downloader = new WbDownloader(this);
+    mRetrievers.push_back(downloader);
+    downloader->download(QUrl(it.value()));
+    connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);
+  }
+}
+
+void WbProtoList::recursiveProtoRetrievalV2(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
 
   const QString &completeUrl = WbUrl::computePath(NULL, "EXTERNPROTO", filename, false);
@@ -478,4 +536,10 @@ void WbProtoList::setupKnownProtoList() {
   }
   */
   printf("-- end known proto --\n");
+}
+
+void WbProtoList::resetCurrentProjectProtoList(void) {
+  mCurrentProjectProtoList.clear();
+  mRetrievalError = QString();
+  mExternProtoRootUrl = QString();
 }
