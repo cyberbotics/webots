@@ -27,7 +27,7 @@ export default class AnimationSlider extends HTMLElement {
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
-    this._shadowRoot.getElementById('slider').style.width = '0%'
+    this._shadowRoot.getElementById('slider').style.width = '0%';
   }
 
   _mouseDown(e) {
