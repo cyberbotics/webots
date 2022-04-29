@@ -46,6 +46,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                      | F&P Robotics         | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |
 | ![icon.png](images/robots/pioneer-3dx/icon.png)      | [Pioneer 3-DX](pioneer-3dx.md)            | Adept                | *Two-wheeled robot*               |
+| ![icon.png](images/robots/panda/icon.png)            | [Panda](panda.md)                         | Franka Emika         | *Robotics arm*                    |
 | ![icon.png](images/robots/portal/icon.png)           | [Portal](portal.md)                       | A4                   | *Sliding portal*                  |
 | ![icon.png](images/robots/pr2/icon.png)              | [PR2](pr2.md)                             | Clearpath Robotics   | *Two arms on mobile a platform*   |
 | ![icon.png](images/robots/puma/icon.png)             | [PUMA](puma.md)                           | Unimation            | *Robotics arm*                    |
