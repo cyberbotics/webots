@@ -309,7 +309,7 @@ void WbGuiApplication::parseArguments() {
       }
     } else if (subCommand == "no-rendering" && parser.isSet(noRenderingOption))
       mShouldDoRendering = false;
-    } else if (subCommand == "convert" && parser.isSet("convert")) {
+    else if (subCommand == "convert" && parser.isSet("convert")) {
       const QStringList fileToConvert = parser.values(convertOption);
       mTaskArguments = fileToConvert;
       mTask = CONVERT;
