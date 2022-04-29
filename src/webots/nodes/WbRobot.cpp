@@ -505,6 +505,7 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
+  warn(tr("Gone in here (updateControllerDir)"));
   const QString &controllerName = mController->value();
   if (!controllerName.isEmpty() && controllerName != "<none>" && controllerName != "<extern>") {
     QStringList path;

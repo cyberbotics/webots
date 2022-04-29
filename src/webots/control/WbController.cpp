@@ -185,6 +185,7 @@ void WbController::start() {
   mRobot->setControllerStarted(true);
 
   if (mControllerPath.isEmpty()) {
+    warn(tr("Gone in here (start)"));
     warn(tr("Could not find the controller directory.\nStarts the <generic> controller instead."));
     startGenericExecutable();
   }
@@ -677,7 +678,7 @@ WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
 }
 
 void WbController::startGenericExecutable() {
-  updateName("<generic>");
+  updateName("generic"); // CHANGED GENERIC HERE
   mControllerPath = WbStandardPaths::resourcesControllersPath() + "generic/";
   mCommand = mControllerPath + "generic" + WbStandardPaths::executableExtension();
 
