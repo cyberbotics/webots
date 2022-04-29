@@ -313,7 +313,7 @@ void WbGuiApplication::parseArguments() {
       const QStringList fileToConvert = parser.values(convertOption);
       mTaskArguments = fileToConvert;
       mTask = CONVERT;
-    } else if (subCommand == "sysinfo" && parser.isSet(sysinfoOption)) {
+    } else if (subCommand == "sysinfo" && parser.isSet(sysinfoOption))
       mTask = SYSINFO;
     } else if (subCommand == "batch" && parser.isSet(batchOption)) {
       batch = true;
