@@ -4,6 +4,8 @@
 # An electrical wall plug with optional bounding object.
 # template language: javascript
 
+EXTERNPROTO PipeBoundingObject "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
+
 PROTO WallPlug [
   field SFVec3f    translation            0 0 0
   field SFRotation rotation               0 0 1 0

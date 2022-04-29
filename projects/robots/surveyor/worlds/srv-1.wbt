@@ -1,4 +1,10 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO SurveyorSrv1 "webots://projects/robots/surveyor/protos/SurveyorSrv1.proto"
+
 WorldInfo {
   info [
     "Physics-based model of the Surveyor SRV-1 robot (Surveyor Corp.). The track system is emulated with a series of 5 wheels for each of the two tracks."

@@ -3,6 +3,10 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A small sink for bathrooms.
 
+EXTERNPROTO MarbleTiles "webots://projects/appearances/protos/MarbleTiles.proto"
+EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+
 PROTO BathroomSink [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 0 1 0

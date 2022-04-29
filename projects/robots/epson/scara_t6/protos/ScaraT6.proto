@@ -4,6 +4,12 @@
 # Model of the T6-602S Epson Scara robot.
 # template language: javascript
 
+EXTERNPROTO Plaster "webots://projects/appearances/protos/Plaster.proto"
+EXTERNPROTO GalvanizedMetal "webots://projects/appearances/protos/GalvanizedMetal.proto"
+EXTERNPROTO RoughPolymer "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO CapScrew "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+
 PROTO ScaraT6 [
   field SFVec3f           translation     0 0 0           # Is `Transform.translation`.
   field SFRotation        rotation        0 0 1 0         # Is `Transform.rotation`.

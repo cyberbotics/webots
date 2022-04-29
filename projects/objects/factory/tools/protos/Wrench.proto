@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A 15cm Open-End wrench.
 
+EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
+
 PROTO Wrench [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0

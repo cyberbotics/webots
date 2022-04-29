@@ -1,4 +1,11 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO SandyGround "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO UnevenTerrain "webots://projects/objects/floors/protos/UnevenTerrain.proto"
+EXTERNPROTO BB-8 "webots://projects/robots/sphero/bb8/protos/BB-8.proto"
+
 WorldInfo {
   title "Sphero's BB-8 simulation"
   basicTimeStep 16

@@ -4,6 +4,11 @@
 # A configurable rectangle arena composed of a floor surrounded by walls.
 # template language: javascript
 
+EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+
 PROTO RectangleArena [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0

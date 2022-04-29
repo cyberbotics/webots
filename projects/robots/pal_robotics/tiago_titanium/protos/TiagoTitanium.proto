@@ -5,6 +5,12 @@
 # Titanium version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body with a front arm equipped with a Hey5 hand.
 
+EXTERNPROTO HokuyoUrg04lxug01 "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO TiagoFrontArm "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoFrontArm.proto"
+EXTERNPROTO TiagoRightHey5 "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoRightHey5.proto"
+EXTERNPROTO TiagoBody "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
+EXTERNPROTO TiagoBase "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+
 PROTO TiagoTitanium [
   field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0

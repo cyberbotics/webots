@@ -11,6 +11,8 @@
 # - camera
 # - realistic physics
 
+EXTERNPROTO Darwin-op "webots://projects/robots/robotis/darwin-op/protos/Darwin-op.proto"
+
 PROTO RobotisOp2 [
   field SFVec3f    translation     0 0 0.227       # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0         # Is `Transform.rotation`.

@@ -5,6 +5,9 @@
 # Simple kinematic model of bus to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
+EXTERNPROTO BusWheel "webots://projects/vehicles/protos/generic/BusWheel.proto"
+EXTERNPROTO BusShape "webots://projects/vehicles/protos/generic/BusShape.proto"
+
 PROTO BusSimple [
   field     SFVec3f    translation         0 0 0.55
   field     SFRotation rotation            0 0 1 0

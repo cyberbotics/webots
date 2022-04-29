@@ -1,4 +1,10 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO FireBird6 "webots://projects/robots/nex/protos/FireBird6.proto"
+
 WorldInfo {
   info [
     "Fire Bird 6 simulation"

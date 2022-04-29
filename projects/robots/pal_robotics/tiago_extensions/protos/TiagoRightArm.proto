@@ -4,6 +4,10 @@
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the robot's right arm that can be connected to the TIAGo body.
 
+EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO TiagoRightArm [
   field  SFVec3f     translation      0.05 0 0
   field  SFRotation  rotation         0 0 1 3.14159

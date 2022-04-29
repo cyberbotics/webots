@@ -5,6 +5,12 @@
 # Steel version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body with the front arm equipped with a parallel gripper.
 
+EXTERNPROTO HokuyoUrg04lxug01 "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO TiagoFrontArm "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoFrontArm.proto"
+EXTERNPROTO TiagoBody "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
+EXTERNPROTO TiagoGripper "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoGripper.proto"
+EXTERNPROTO TiagoBase "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+
 PROTO TiagoSteel [
   field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0

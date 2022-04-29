@@ -5,6 +5,11 @@
 # body lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
+EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO BlackAppearance "webots://projects/robots/kuka/youbot/protos/BlackAppearance.proto"
+EXTERNPROTO OrangeAppearance "webots://projects/robots/kuka/youbot/protos/OrangeAppearance.proto"
+EXTERNPROTO KukaAlphaAppearance "webots://projects/robots/kuka/youbot/protos/KukaAlphaAppearance.proto"
+
 PROTO BodyMesh [
 ]
 {

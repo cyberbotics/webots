@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Large Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
 
+EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
+
 PROTO LargeValve [
   field SFVec3f    translation     0 0 0.106
   field SFRotation rotation        0 0 1 0

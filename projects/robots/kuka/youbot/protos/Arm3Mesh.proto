@@ -5,6 +5,12 @@
 # arm3 lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
+EXTERNPROTO BlackMetalAppearance "webots://projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
+EXTERNPROTO KukaBlackAppearance "webots://projects/robots/kuka/youbot/protos/KukaBlackAppearance.proto"
+EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO BlackAppearance "webots://projects/robots/kuka/youbot/protos/BlackAppearance.proto"
+EXTERNPROTO OrangeAppearance "webots://projects/robots/kuka/youbot/protos/OrangeAppearance.proto"
+
 PROTO Arm3Mesh [
 ]
 {

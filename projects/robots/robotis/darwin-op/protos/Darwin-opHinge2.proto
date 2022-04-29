@@ -12,6 +12,9 @@
 # - realistic physics
 # template language: javascript
 
+EXTERNPROTO Hinge2JointWithBacklash "webots://projects/joints/protos/Hinge2JointWithBacklash.proto"
+EXTERNPROTO HingeJointWithBacklash "webots://projects/joints/protos/HingeJointWithBacklash.proto"
+
 PROTO Darwin-opHinge2 [
   field SFVec3f    translation      0 0 0.227                  # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0                    # Is `Transform.rotation`.

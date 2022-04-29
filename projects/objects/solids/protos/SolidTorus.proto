@@ -6,6 +6,8 @@
 # Physically, the SolidTorus is defined as a set of N spheres, where N is the subdivision field.
 # template language: javascript
 
+EXTERNPROTO TorusBoundingObject "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
+
 PROTO SolidTorus [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0

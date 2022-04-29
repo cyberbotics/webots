@@ -1,6 +1,10 @@
 #VRML_SIM R2022b utf8
 #tags: hidden
 
+EXTERNPROTO RobotisOp3ShinyMetalAppearance "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
+EXTERNPROTO RobotisOp3BlackPaintedMetalAppearance "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
+EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+
 PROTO MX430ServoShape [
 ]
 {

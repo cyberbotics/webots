@@ -1,4 +1,12 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO LinkedWalls "webots://projects/samples/robotbenchmark/wall_following/protos/LinkedWalls.proto"
+EXTERNPROTO WallFollowingPioneer3dx "webots://projects/samples/robotbenchmark/wall_following/protos/WallFollowingPioneer3dx.proto"
+EXTERNPROTO Pioneer3dx "webots://projects/robots/adept/pioneer3/protos/Pioneer3dx.proto"
+
 WorldInfo {
   info [
     "The Pioneer Robot has to follow the wall."

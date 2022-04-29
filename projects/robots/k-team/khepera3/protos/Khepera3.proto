@@ -4,6 +4,10 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera3
 # The "Khepera III" robot is a two-wheeled robot produced by K-Team.
 
+EXTERNPROTO Khepera3_DistanceSensor "webots://projects/robots/k-team/khepera3/protos/Khepera3_DistanceSensor.proto"
+EXTERNPROTO Khepera3_GroundSensor "webots://projects/robots/k-team/khepera3/protos/Khepera3_GroundSensor.proto"
+EXTERNPROTO Khepera3_USSensor "webots://projects/robots/k-team/khepera3/protos/Khepera3_USSensor.proto"
+
 PROTO Khepera3 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.

@@ -1,4 +1,27 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO Tree "webots://projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO PottedTree "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO Laptop "webots://projects/objects/computers/protos/Laptop.proto"
+EXTERNPROTO Door "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO DoorLever "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO Window "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO CeilingLight "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO Screwdriver "webots://projects/objects/factory/tools/protos/Screwdriver.proto"
+EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO WoodenChair "webots://projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO Desk "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO Blackboard "webots://projects/objects/school_furniture/protos/Blackboard.proto"
+EXTERNPROTO Clock "webots://projects/objects/school_furniture/protos/Clock.proto"
+EXTERNPROTO Book "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO Cabinet "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO JetBot "webots://projects/robots/nvidia/jetbot/protos/JetBot.proto"
+EXTERNPROTO JetBotRaspberryPiCamera "webots://projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto"
+
 WorldInfo {
   info [
     "JetBot basic motion performed using a C controller."

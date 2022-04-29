@@ -6,6 +6,14 @@
 # Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
 # template language: javascript
 
+EXTERNPROTO TeslaModel3FrontLights "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
+EXTERNPROTO TeslaModel3Windows "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
+EXTERNPROTO TeslaModel3Wheel "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO TeslaModel3Details "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
+EXTERNPROTO TeslaModel3Coachwork "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
+EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO VehicleLights "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+
 PROTO TeslaModel3 [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0

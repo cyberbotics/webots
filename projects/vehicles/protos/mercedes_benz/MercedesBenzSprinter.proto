@@ -5,6 +5,12 @@
 # Model of a Mercedes-Benz Sprinter.
 # template language: javascript
 
+EXTERNPROTO MercedesBenzSprinterLogos "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLogos.proto"
+EXTERNPROTO MercedesBenzSprinterMesh "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterMesh.proto"
+EXTERNPROTO MercedesBenzSprinterLights "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLights.proto"
+EXTERNPROTO MercedesBenzSprinterInterior "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterInterior.proto"
+EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
+
 PROTO MercedesBenzSprinter [
   field SFVec3f      translation              0 0 0.4445
   field SFRotation   rotation                 0 0 1 0

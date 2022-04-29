@@ -1,4 +1,29 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO Tree "webots://projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO PottedTree "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO BunchOfSunFlowers "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO Ceiling "webots://projects/objects/apartment_structure/protos/Ceiling.proto"
+EXTERNPROTO Door "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO DoorLever "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO Window "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO Wall "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO FloorLight "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO CeilingLight "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO PortraitPainting "webots://projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO WoodenChair "webots://projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO Desk "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO Book "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO Can "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO Armchair "webots://projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO Carpet "webots://projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO Sofa "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO Nao "webots://projects/robots/softbank/nao/protos/Nao.proto"
+
 WorldInfo {
   info [
     "Aldebaran's Nao H25 V5.0"

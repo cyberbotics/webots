@@ -1,4 +1,21 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO TinkerbotsCubieTriangle "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
+EXTERNPROTO TinkerbotsFinger "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger.proto"
+EXTERNPROTO TinkerbotsLightSensor "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor.proto"
+EXTERNPROTO TinkerbotsBase "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
+EXTERNPROTO TinkerbotsMotor "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
+EXTERNPROTO TinkerbotsGrabber "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto"
+EXTERNPROTO TinkerbotsAxle "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
+EXTERNPROTO TinkerbotsTwister "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
+EXTERNPROTO TinkerbotsDistanceSensor "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+EXTERNPROTO TinkerbotsPivot "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
+EXTERNPROTO TinkerbotsWheel "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
+EXTERNPROTO TinkerbotsCube "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto"
+
 WorldInfo {
   basicTimeStep 8
 }

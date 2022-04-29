@@ -7,6 +7,10 @@
 # More info here: http://www.e-puck.org.
 # template language: javascript
 
+EXTERNPROTO Copper "webots://projects/appearances/protos/Copper.proto"
+EXTERNPROTO SolidPipe "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO E-puckDistanceSensor "webots://projects/robots/gctronic/e-puck/protos/E-puckDistanceSensor.proto"
+
 PROTO E-puck [
   field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.
   field SFRotation         rotation                     0 0 1 0                  # Is `Transform.rotation`.

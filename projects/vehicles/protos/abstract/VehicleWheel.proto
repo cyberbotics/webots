@@ -11,6 +11,8 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
+EXTERNPROTO GenericTireAppearance "webots://projects/vehicles/protos/abstract/GenericTireAppearance.proto"
+
 PROTO VehicleWheel [
   field SFString   name               "vehicle wheel"
   field SFFloat    thickness          0.3
