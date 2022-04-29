@@ -329,7 +329,7 @@ void WbGuiApplication::parseArguments() {
       mTask = UPDATE_WORLD;
     else if (subCommand == "enable-x3d-meta-file-export" && parser.isSet(x3DMetaFileExportOption))
       WbWorld::enableX3DMetaFileExport();
-    } else if (subCommand == "stream" && parser.isSet("stream")) {
+    else if (subCommand == "stream" && parser.isSet("stream")) {
       const QStringList streamArgument = parser.values(streamOption);
       if (streamArgument.isEmpty() || streamArgument[0].isEmpty()) {
         cerr << tr("webots: value is missing in '--stream'.\n").toUtf8().constData();
