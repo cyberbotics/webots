@@ -247,13 +247,6 @@ showdown.extension('wbRobotComponent', function() {
               '  <div id="%ROBOT%-robot-view" class="robot-view">\n' +
               '    <div id="%ROBOT%-robot-webots-view" class="robot-webots-view">\n' +
               '    </div>\n' +
-              '    <div class="menu">\n' +
-              '      <div class="menu-items">\n' +
-              '        <button class="reset-button ui-icon" title="Reset Viewpoint and sliders."></button>\n' +
-              '        <button class="fullscreen-button ui-icon" title="Enter full-screen."></button>\n' +
-              '        <button class="exit-fullscreen-button ui-icon" title="Leave full-screen."></button>\n' +
-              '      </div>\n' +
-              '    </div>\n' +
               '    <button class="menu-button" title="Show/Hide the device list."><div class="arrow-right" id="arrow"></div></button>\n' +
               '  </div>\n' +
               '  <div id="%ROBOT%-device-component" class="device-component"></div>\n' +

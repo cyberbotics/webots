@@ -176,7 +176,7 @@ export default class Toolbar {
 
   _checkLeftTooltips() {
     const toolbarLeft = document.getElementById('toolbar-left');
-    for (let child = toolbarLeft.firstChild; child !== null ; child = child.nextSibling) {
+    for (let child = toolbarLeft.firstChild; child !== null; child = child.nextSibling) {
       const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth / 2;
       if (left < 0) {
         document.getElementById(child.lastChild.id).style.left = '0';
@@ -233,7 +233,7 @@ export default class Toolbar {
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
-      canHide = true;
+      canHide = settingsPane && gtaoPane;
 
     if (canHide)
       this.toolbar.style.display = 'none';
@@ -553,7 +553,10 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.infoButton);
     this._createInformation();
     window.addEventListener('click', _ => this._closeInfoOnClick(_));
-    this.minWidth += 44;
+    if (!(typeof this.parentNode.showInfo === 'undefined' || this.parentNode.showInfo))
+      this.infoButton.style.display = 'none';
+    else
+      this.minWidth += 44;
   }
 
   _createInformation() {
@@ -650,6 +653,7 @@ export default class Toolbar {
   _createResetViewpoint() {
     const resetViewpoint = document.createElement('li');
     resetViewpoint.onclick = () => this._resetViewpoint();
+    resetViewpoint.id = 'reset-viewpoint';
     this.settingsList.appendChild(resetViewpoint);
 
     let label = document.createElement('span');
