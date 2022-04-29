@@ -21,7 +21,7 @@ webots-view .webots-3d-view {
 }
 
 webots-view #webots-progress {
-  z-index: 1;
+  z-index: 3;
   position: absolute;
   text-align: center;
   left: calc(50% - 160px);
@@ -38,7 +38,7 @@ webots-view #webots-progress {
 webots-view .webots-label {
   position: absolute;
   white-space: pre;
-  z-index: 1;
+  z-index: 2;
 }
 
 webots-view .toolbar {
@@ -46,7 +46,7 @@ webots-view .toolbar {
   width: 100%;
   height: 40px;
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   bottom: 0px;
 }
 
@@ -312,7 +312,7 @@ webots-view .information-panel {
   font-family: Arial;
   display: none;
   pointer-events: auto;
-  z-index: 2;
+  z-index: 3;
 }
 
 webots-view .information-panel a {
@@ -610,7 +610,7 @@ webots-view .floating-window {
   min-width: 200px;
   transform: translate(0, 0);
   touch-action: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 webots-view .floating-window-header {
@@ -739,7 +739,7 @@ webots-view .vertical-list-pane {
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
   border-radius: 2px;
-  z-index: 3;
+  z-index: 4;
 }
 
 webots-view .vertical-list-pane-title{

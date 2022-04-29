@@ -276,8 +276,10 @@ webots.View = class View {
     labelElement.y = properties.y;
     labelElement.size = properties.size;
 
-    if (properties.text.includes('█'))
+    if (properties.text.includes('█')) {
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
+      labelElement.style.zIndex = '1';
+    }
 
     labelElement.innerHTML = properties.text;
   }
