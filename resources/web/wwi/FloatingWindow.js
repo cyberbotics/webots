@@ -122,7 +122,7 @@ export default class FloatingWindow {
       left = fw.offsetLeft;
       width = fw.offsetWidth;
       height = fw.offsetHeight;
- 
+
       let e = event.touches ? event.touches[0] : event;
       dX = e.clientX - posX;
       dY = e.clientY - posY;
