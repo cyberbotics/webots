@@ -338,7 +338,7 @@ void WbGuiApplication::parseArguments() {
         stream = true;
         parseStreamArguments(streamArgument[0]);
       }
-    } else if (subCommand == "stdout" && parser.isSet(stdoutOption)) {
+    } else if (subCommand == "stdout" && parser.isSet(stdoutOption))
       WbLog::enableStdOutRedirectToTerminal();
     } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
       WbLog::enableStdErrRedirectToTerminal();
