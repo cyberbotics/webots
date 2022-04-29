@@ -941,7 +941,6 @@ DEF SALAMANDER Robot {
                                     ]
                                     endPoint DEF SOLID_LEG_4 Solid {
                                       translation -0.02 -0.032 0
-                                      rotation 0 -1 0 0
                                       children [
                                         DEF GROUP_FEMUR_4 Group {
                                           children [
