@@ -158,13 +158,13 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
         if (ok)
           port = tmpPort;
         else {
-          cerr << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cerr << tr("webots: invalid 'port' value: '%1' in --stream").arg(value).toUtf8().constData() << endl;
           cerr << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
           mTask = FAILURE;
         }
       } else if (key == "mode") {
         if (value != "x3d" && value != "mjpeg") {
-          cerr << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cerr << tr("webots: invalid 'mode' value: '%1' in --stream").arg(value).toUtf8().constData() << endl;
           cerr << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
           mTask = FAILURE;
         } else if (value == "mjpeg")
@@ -268,7 +268,7 @@ void WbGuiApplication::parseArguments() {
 
   parser.parse(QCoreApplication::arguments());
   const QStringList unknownOptions = parser.unknownOptionNames();
-  const QStringList args = parser.optionNames();
+  QStringList args = parser.optionNames();
   const QStringList path = parser.positionalArguments();
   if (!unknownOptions.isEmpty()) {
     cout << tr("webots: invalid option: '--%1'").arg(unknownOptions[0]).toUtf8().constData() << endl;
