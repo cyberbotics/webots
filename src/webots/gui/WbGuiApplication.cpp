@@ -334,8 +334,8 @@ void WbGuiApplication::parseArguments() {
     } else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
       const QStringList logArgument = parser.values(logPerfomanceOption);
       if (logArgument.isEmpty()) {
-        cerr << tr("webots: invalid option: '--log-performance': log file path is missing.").toUtf8().constData();
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+        cerr << tr("webots: log file path is missing in '--log-performance'.\n").toUtf8().constData();
+        mTask = FAILURE;
       } else if (logArgument[0].contains(",")) {
         const QStringList argumentsList = logArgument[0].split(",");
         WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
