@@ -180,13 +180,13 @@ bool WbController::isRunning() const {
   return mRobot->isControllerStarted() && !mHasBeenTerminatedByItself;
 }
 
-// the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
+// the start() method  never fails: if the controller name is invalid, then the <generic> controller starts instead.
 void WbController::start() {
   mRobot->setControllerStarted(true);
 
   if (mControllerPath.isEmpty()) {
-    warn(tr("Could not find the controller directory.\nStarts the void controller instead."));
-    startVoidExecutable();
+    warn(tr("Could not find the controller directory.\nStarts the <generic> controller instead."));
+    startGenericExecutable();
   }
 
   mType = findType(mControllerPath);
@@ -224,7 +224,7 @@ void WbController::start() {
       break;
     default:
       reportControllerNotFound();
-      startVoidExecutable();
+      startGenericExecutable();
       mType = WbFileUtil::EXECUTABLE;
   }
   if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
@@ -567,7 +567,7 @@ void WbController::reportControllerNotFound() {
   else if (dir.exists(name() + ".java"))
     info(tr("Try to compile the Java source code, to get a new .class or .jar file."));
 
-  warn(tr("Starts the void controller instead."));
+  warn(tr("Starts the generic controller instead."));
 }
 
 void WbController::reportMissingCommand(const QString &command) {
@@ -676,10 +676,10 @@ WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
   return WbFileUtil::UNKNOWN;
 }
 
-void WbController::startVoidExecutable() {
-  updateName("void");
-  mControllerPath = WbStandardPaths::resourcesControllersPath() + "void/";
-  mCommand = mControllerPath + "void" + WbStandardPaths::executableExtension();
+void WbController::startGenericExecutable() {
+  updateName("<generic>");
+  mControllerPath = WbStandardPaths::resourcesControllersPath() + "generic/";
+  mCommand = mControllerPath + "generic" + WbStandardPaths::executableExtension();
 
   copyBinaryAndDependencies(mCommand);
 
@@ -769,9 +769,9 @@ void WbController::startBotstudio() {
     warn(tr("A BotStudio controller was detected, but the 'window' field of the Robot node is not set to \"botstudio\". "
             "The controller probably won't work as expected."));
 
-  // start simply the void controller, but without modifying the controller path
-  QString voidContollerPath = WbStandardPaths::resourcesControllersPath() + "void/";
-  mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
+  // start simply the generic controller, but without modifying the controller path
+  QString genericContollerPath = WbStandardPaths::resourcesControllersPath() + "generic/";
+  mCommand = genericContollerPath + "generic" + WbStandardPaths::executableExtension();
   copyBinaryAndDependencies(mCommand);
   mCommand = QDir::toNativeSeparators(mCommand);
 }

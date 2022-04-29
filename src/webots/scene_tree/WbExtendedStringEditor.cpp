@@ -117,6 +117,7 @@ const QStringList &WbExtendedStringEditor::defaultControllersEntryList() const {
     mDefaultControllersEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
       mDefaultControllersEntryList << QDir(extraProject->controllersPath()).entryList(FILTERS);
+    mDefaultControllersEntryList.replaceInStrings("generic", "<generic>");
     firstCall = false;
   }
   return mDefaultControllersEntryList;
@@ -372,7 +373,7 @@ void WbExtendedStringEditor::select() {
   items.sort();
 
   if (mStringType == CONTROLLER || mStringType == PHYSICS_PLUGIN)
-    items.prepend("none");
+    items.prepend("<none>");
   if (mStringType == CONTROLLER)
     items.prepend("<extern>");
 
@@ -387,12 +388,7 @@ void WbExtendedStringEditor::select() {
   int result = dialog.exec();
   if (result == QDialog::Rejected)
     return;
-
-  QString choice = dialog.textValue();
-  if (choice == "none")
-    choice = "";
-
-  lineEdit()->setText(choice);
+  lineEdit()->setText(dialog.textValue());
   apply();
 }
 
@@ -593,12 +589,7 @@ bool WbExtendedStringEditor::selectItem() {
   dialog.setOption(QInputDialog::UseListViewForComboBoxItems, true);
   if (dialog.exec() == QDialog::Rejected)
     return true;
-
-  QString choice = dialog.textValue();
-  if (choice == "none")
-    choice = "";
-
-  lineEdit()->setText(choice);
+  lineEdit()->setText(dialog.textValue());
   apply();
 
   return true;

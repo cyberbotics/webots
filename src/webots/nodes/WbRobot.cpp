@@ -506,7 +506,7 @@ void WbRobot::updateRemoteControl() {
 
 void WbRobot::updateControllerDir() {
   const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty() && controllerName != "<extern>") {
+  if (!controllerName.isEmpty() && controllerName != "<none>" && controllerName != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();
