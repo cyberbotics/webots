@@ -30,7 +30,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: needs.job-skipper.outputs.should_skip != 'true'
     - name: Set up Python 3.9
       uses: actions/setup-python@v2

@@ -36,14 +36,14 @@ jobs:
     needs: [cleanup-runs, job-skipper]
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2019]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-11, windows-2019]
         python: [3.9]
         include:
           - os: ubuntu-18.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
           - os: ubuntu-20.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
-          - os: macos-10.15
+          - os: macos-11
             DEPENDENCIES_INSTALLATION: "brew install clang-format@11 cppcheck; ln /usr/local/bin/clang-format-11 /usr/local/bin/clang-format"
           - os: windows-2019
             DEPENDENCIES_INSTALLATION: "choco install -y cppcheck; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
@@ -54,7 +54,7 @@ jobs:
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
     - name: Set up Python ${{ matrix.python }}
       if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-18.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))

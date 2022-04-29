@@ -512,7 +512,8 @@ bool WbDictionary::isSuitable(const WbNode *defNode, const QString &type) const 
   const WbBaseNode *defBaseNode = dynamic_cast<const WbBaseNode *>(defNode);
 
   // recheck validity of DEF node and subnodes if the USE is used in a different context (boundingObject or not)
-  if ((mTargetField->name() == "boundingObject" || targetNodeUse != defBaseNode->nodeUse()) &&
+  if (((mTargetField->name() == "boundingObject" && defBaseNode->nodeUse() & WbNode::STRUCTURE_USE) ||
+       (targetNodeUse != defBaseNode->nodeUse() && mTargetField->name() != "boundingObject")) &&
       !checkBoundingObjectConstraints(defBaseNode, errorMessage))
     return false;
 
