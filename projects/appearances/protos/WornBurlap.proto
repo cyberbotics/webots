@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn burlap material. The color can be selected using the `colorOverride` field.
 
+
 PROTO WornBurlap [
   field SFColor colorOverride    1 1 1                           # Defines the burlap's color.
   field SFNode  textureTransform TextureTransform { scale 4 4 }  # Defines an optional 2d texture transform.

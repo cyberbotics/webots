@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+
 PROTO ToyotaPriusMesh [
   field     SFColor    color             0.1 0.15 0.18
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"

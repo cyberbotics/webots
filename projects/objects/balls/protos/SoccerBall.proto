@@ -4,6 +4,7 @@
 # A black and white soccer ball with customizable radius and mass.
 # This object is physics-enabled so it will roll or bounce when hit.
 
+
 PROTO SoccerBall [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

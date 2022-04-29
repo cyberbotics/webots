@@ -1,4 +1,16 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Tree "webots://projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO WoodenPalletStack "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO TrafficCone "webots://projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO RubberDuck "webots://projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO Ball "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO SoccerBall "webots://projects/objects/balls/protos/SoccerBall.proto"
+EXTERNPROTO VisualTrackingBenchmark "webots://projects/samples/robotbenchmark/visual_tracking/protos/VisualTrackingBenchmark.proto"
+EXTERNPROTO AiboErs7 "webots://projects/robots/sony/aibo/protos/AiboErs7.proto"
+
 WorldInfo {
   title "Visual Tracking"
   window "visual_tracking"

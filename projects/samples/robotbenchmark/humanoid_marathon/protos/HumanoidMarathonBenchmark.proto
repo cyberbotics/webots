@@ -4,6 +4,7 @@
 # tags: hidden
 # Supervisor that manages the humanoid marathon benchmark.
 
+
 PROTO HumanoidMarathonBenchmark [
   field SFString window "humanoid_marathon"
 ]

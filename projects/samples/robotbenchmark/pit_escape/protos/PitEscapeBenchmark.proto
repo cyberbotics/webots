@@ -4,6 +4,7 @@
 # tags: hidden
 # Supervisor that manages the Pit Escape benchmark.
 
+
 PROTO PitEscapeBenchmark [
   field SFString window "pit_escape"
 ]

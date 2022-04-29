@@ -5,6 +5,14 @@
 # Simple non-controllable model of a generic scooter without physics properties
 # template language: javascript
 
+EXTERNPROTO ScooterFrontLight "webots://projects/vehicles/protos/generic/ScooterFrontLight.proto"
+EXTERNPROTO ScooterDriver "webots://projects/vehicles/protos/generic/ScooterDriver.proto"
+EXTERNPROTO ScooterWheel "webots://projects/vehicles/protos/generic/ScooterWheel.proto"
+EXTERNPROTO ScooterMesh "webots://projects/vehicles/protos/generic/ScooterMesh.proto"
+EXTERNPROTO ScooterBackwardsLight "webots://projects/vehicles/protos/generic/ScooterBackwardsLight.proto"
+EXTERNPROTO ScooterLeftIndicator "webots://projects/vehicles/protos/generic/ScooterLeftIndicator.proto"
+EXTERNPROTO ScooterRightIndicator "webots://projects/vehicles/protos/generic/ScooterRightIndicator.proto"
+
 PROTO ScooterSimple [
   field       SFVec3f    translation                0 0 0.23
   field       SFRotation rotation                   0 0 1 0

@@ -5,6 +5,12 @@
 # A simple truck
 # template language: javascript
 
+EXTERNPROTO TruckWheel "webots://projects/vehicles/protos/generic/TruckWheel.proto"
+EXTERNPROTO TruckCab "webots://projects/vehicles/protos/generic/TruckCab.proto"
+EXTERNPROTO TruckTrailer "webots://projects/vehicles/protos/generic/TruckTrailer.proto"
+EXTERNPROTO TruckFrontLight "webots://projects/vehicles/protos/generic/TruckFrontLight.proto"
+EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
+
 PROTO Truck [
   field     SFVec3f    translation       0 0 0.5
   field     SFRotation rotation          0 0 1 0

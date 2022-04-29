@@ -5,6 +5,7 @@
 # The color can be overridden using the `colorOverride` field and the amount of rust can be set using the `rustLevel` field.
 # template language: javascript
 
+
 PROTO RustyMetal [
   field SFInt32{1, 2}  rustLevel        1      # Defines how much the metal is rusted.
   field SFColor        colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.

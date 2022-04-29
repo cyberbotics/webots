@@ -4,6 +4,7 @@
 # A simple two-colors chair with a customizable mass, but a fixed height of 1.25 meter.
 # This object is physics-enabled so it can be pushed.
 
+
 PROTO SimpleChair [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

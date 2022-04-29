@@ -3,6 +3,7 @@
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
 
+
 PROTO ResidentialTowerRoof [
   field SFVec3f translation 0 -0.007 0
 ]

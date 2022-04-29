@@ -4,6 +4,7 @@
 # A reflective surface material.
 # template language: javascript
 
+
 PROTO ReflectiveSurface [
   field SFFloat metalness         0.5
   field SFColor emissiveColor     0 0 0

@@ -4,6 +4,7 @@
 # tags: hidden
 # Supervisor node managing the visual tracking benchmark.
 
+
 PROTO VisualTrackingBenchmark [
   field SFString window "visual_tracking"
   field MFString controllerArgs [ "hit-error=0.1" ]

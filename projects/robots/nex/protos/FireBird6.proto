@@ -5,6 +5,7 @@
 # NEX Robotics' Fire Bird 6 robot.
 # More information on this robot: http://www.nex-robotics.com/products/fire-bird-vi-robot/fire-bird-vi-robotic-research-platform.html
 
+
 PROTO FireBird6 [
   field SFVec3f    translation     0 0 0.125                            # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.

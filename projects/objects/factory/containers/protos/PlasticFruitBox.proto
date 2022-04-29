@@ -4,6 +4,7 @@
 # A plastic box.
 # template language: javascript
 
+
 PROTO PlasticFruitBox [
   field SFString   name        "plastic fruit box"
   field SFVec3f    translation 0 0 0

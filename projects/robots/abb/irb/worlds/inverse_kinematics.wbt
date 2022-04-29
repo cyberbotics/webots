@@ -1,4 +1,32 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO ThreadMetalPlate "webots://projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO GalvanizedMetal "webots://projects/appearances/protos/GalvanizedMetal.proto"
+EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO Plate "webots://projects/objects/kitchen/utensils/protos/Plate.proto"
+EXTERNPROTO Door "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO Wall "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO OilBarrel "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO StraightStairs "webots://projects/objects/stairs/protos/StraightStairs.proto"
+EXTERNPROTO StraightStairsRail "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO PipeSection "webots://projects/objects/factory/pipes/protos/PipeSection.proto"
+EXTERNPROTO LJoint "webots://projects/objects/factory/pipes/protos/LJoint.proto"
+EXTERNPROTO WoodenPalletStack "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO WoodenPallet "webots://projects/objects/factory/pallet/protos/WoodenPallet.proto"
+EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO CardboardBox "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO LeverValve "webots://projects/objects/factory/valves/protos/LeverValve.proto"
+EXTERNPROTO SmallValve "webots://projects/objects/factory/valves/protos/SmallValve.proto"
+EXTERNPROTO LargeValve "webots://projects/objects/factory/valves/protos/LargeValve.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO Cabinet "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO Irb4600-40 "webots://projects/robots/abb/irb/protos/Irb4600-40.proto"
+
 WorldInfo {
   basicTimeStep 16
 }

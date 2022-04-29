@@ -4,6 +4,7 @@
 # tags: hidden
 # template language: javascript
 
+
 PROTO LargeResidentialTowerBase [
   field SFBool  surroundingWall  TRUE
 ]

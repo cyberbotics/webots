@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/bioloid
 # A dog-like robot using the ROBOTIS Bioloid kit.
 
+
 PROTO BioloidDog [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.

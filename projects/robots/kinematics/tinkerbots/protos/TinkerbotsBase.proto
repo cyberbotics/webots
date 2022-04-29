@@ -4,6 +4,7 @@
 # Tinkerbots base block.
 # https://www.tinkerbots.com
 
+
 PROTO TinkerbotsBase [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.

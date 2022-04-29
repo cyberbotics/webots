@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A desk (0.7 x 1.2 x 0.72 m).
 
+
 PROTO Desk [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

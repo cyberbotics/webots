@@ -3,6 +3,8 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
 
+EXTERNPROTO VehicleLights "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+
 PROTO MercedesBenzSprinterLights [
 ]
 {

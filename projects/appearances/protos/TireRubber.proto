@@ -5,6 +5,7 @@
 # It can be a car tire or a bike tire.
 # template language: javascript
 
+
 PROTO TireRubber [
   field SFNode                  textureTransform NULL   # Defines an optional 2d texture transform.
   field SFFloat                 IBLStrength      1      # Defines the strength of ambient lighting from the Background node.

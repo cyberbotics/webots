@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/aibo-ers7
 # Aibo ERS7 is a four-legged dog-like robot designed by Sony Corp.
 
+
 PROTO AiboErs7 [
   field SFVec3f    translation         0 0 0.143   # Is `Transform.translation`.
   field SFRotation rotation            0 -1 0 -0.05 # Is `Transform.rotation`.

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable oil barrel.
 
+
 PROTO OilBarrel [
   field SFVec3f    translation         0 0 0.44
   field SFRotation rotation            0 0 1 0

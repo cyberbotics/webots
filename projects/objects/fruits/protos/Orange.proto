@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An orange (0.05 x 0.05 x 0.05 m).
 
+
 PROTO Orange [
   field SFVec3f    translation 0 0 0.05
   field SFRotation rotation    0 0 1 0

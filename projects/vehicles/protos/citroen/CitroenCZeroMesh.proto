@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+
 PROTO CitroenCZeroMesh [
   field     SFColor    color             0.85 0.85 0.05
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"

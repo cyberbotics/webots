@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A sandy ground material. The color can be selected using the `colorOverride` field. Useful with the UnevenTerrain PROTO.
 
+
 PROTO SandyGround [
   field SFColor colorOverride    1 1 1                           # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform TextureTransform { scale 4 4 }  # Defines an optional 2d texture transform.

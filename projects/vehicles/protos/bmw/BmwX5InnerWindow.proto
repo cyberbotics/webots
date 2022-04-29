@@ -4,6 +4,7 @@
 # tags: hidden
 # template language: javascript
 
+
 PROTO BmwX5InnerWindow [
   field SFFloat innerWindowTransparency  1
   field SFBool  innerWindowDust          FALSE

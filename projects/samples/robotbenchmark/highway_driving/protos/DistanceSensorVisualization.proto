@@ -5,6 +5,7 @@
 # Simple shape displaying the detection area of a distance sensor with 2 rays
 # template language: javascript
 
+
 PROTO DistanceSensorVisualization [
   field SFVec3f    translation  0.4 0 0
   field SFRotation rotation     0 0 1 0

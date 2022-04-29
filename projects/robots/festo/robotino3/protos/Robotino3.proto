@@ -6,6 +6,14 @@
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
 # template language: javascript
 
+EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO Rubber "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO CapScrew "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO Rectangle "webots://projects/objects/geometries/protos/Rectangle.proto"
+EXTERNPROTO Robotino3Wheel "webots://projects/robots/festo/robotino3/protos/Robotino3Wheel.proto"
+
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
   field  SFRotation  rotation          0 0 1 0

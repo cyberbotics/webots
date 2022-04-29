@@ -6,6 +6,12 @@
 # The conveyor contains 3 controllable LEDs.
 # template language: javascript
 
+EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO Asphalt "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO Rubber "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0.065
   field  SFRotation  rotation         0 0 1 0

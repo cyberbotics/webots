@@ -4,6 +4,9 @@
 # A hexagonal nut.
 # template language: javascript
 
+EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO ScrewThread "webots://projects/appearances/protos/ScrewThread.proto"
+
 PROTO Nut [
   field SFVec3f    translation     0 0 0.012
   field SFRotation rotation        0 0 1 0

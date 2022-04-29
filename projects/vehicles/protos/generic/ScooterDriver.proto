@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 #The Scooter driver is based on the pedestrian PROTO
 
+
 PROTO ScooterDriver [
   field   SFColor    shirtColor     0.40 0.33 0.25
   field   SFColor    pantsColor     0.22 0.31 0.48

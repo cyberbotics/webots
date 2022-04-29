@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/puma
 # The PUMA robotic arm (for "Programmable Universal Machine for Assembly") is a six axes arm with three axes making up a spherical wrist.
 
+
 PROTO Puma560 [
   field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.

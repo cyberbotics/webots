@@ -5,6 +5,7 @@
 # The type of rubber can be set using the `type` field.
 # template language: javascript
 
+
 PROTO Rubber [
   field SFString{"flat", "dotted"} type              "flat"   # Defines the rubber type.
   field SFColor                    colorOverride     1 1 1    # Defines the color to be multiplied with the texture color.

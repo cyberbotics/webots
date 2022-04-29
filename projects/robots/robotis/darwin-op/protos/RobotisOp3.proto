@@ -11,6 +11,20 @@
 # - realistic physics
 # More info here: http://support.robotis.com/en/product/robotis-op3/introduction/what_is_robotis_op3.htm
 
+EXTERNPROTO RobotisOp3SquaredFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3SquaredFrameShape.proto"
+EXTERNPROTO RobotisOp3BodyShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BodyShape.proto"
+EXTERNPROTO MX430RearRotorShape "webots://projects/robots/robotis/darwin-op/protos/MX430RearRotorShape.proto"
+EXTERNPROTO RobotisOp3TriangleFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3TriangleFrameShape.proto"
+EXTERNPROTO RobotisOp3HeadLEDShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3HeadLEDShape.proto"
+EXTERNPROTO RobotisOp3ShiftedFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ShiftedFrameShape.proto"
+EXTERNPROTO MX430FrontRotorShape "webots://projects/robots/robotis/darwin-op/protos/MX430FrontRotorShape.proto"
+EXTERNPROTO RobotisOp3StraightFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3StraightFrameShape.proto"
+EXTERNPROTO MX430ServoShape "webots://projects/robots/robotis/darwin-op/protos/MX430ServoShape.proto"
+EXTERNPROTO RobotisOp3HeadShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3HeadShape.proto"
+EXTERNPROTO RobotisOp3FootShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3FootShape.proto"
+EXTERNPROTO RobotisOp3ArmFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ArmFrameShape.proto"
+EXTERNPROTO RobotisOp3LongFrameShape "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3LongFrameShape.proto"
+
 PROTO RobotisOp3 [
   field SFVec3f    translation         0 0 0.279
   field SFRotation rotation            0 0 1 0

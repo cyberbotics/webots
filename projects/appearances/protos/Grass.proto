@@ -4,6 +4,7 @@
 # A grass material containing several grass types.
 # template language: javascript
 
+
 PROTO Grass [
   field SFColor  colorOverride    1 1 1         # Defines the color to be multiplied with the texture color.
   field SFString{"maintained", "artificial", "artificial_white", "prickly", "mossy"}

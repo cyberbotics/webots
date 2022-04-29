@@ -4,6 +4,8 @@
 # A customizable wall.
 # template language: javascript
 
+EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
+
 PROTO Wall [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

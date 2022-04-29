@@ -9,6 +9,7 @@
 # - "Sophia": a girl.
 # template language: javascript
 
+
 PROTO CharacterSkin [
   field SFVec3f                                           translation 0 0 0
   field SFRotation                                        rotation    0.57735 0.57735 0.57735 2.0944

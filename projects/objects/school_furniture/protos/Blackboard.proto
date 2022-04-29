@@ -3,6 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A blackboard (about 1.3 x 2.5 m).
 
+EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+
 PROTO Blackboard [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

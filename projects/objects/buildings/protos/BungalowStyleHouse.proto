@@ -6,6 +6,10 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
+EXTERNPROTO RoughPine "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO RedBricks "webots://projects/appearances/protos/RedBricks.proto"
+EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+
 PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
   field SFRotation rotation         0 0 1 0

@@ -4,6 +4,7 @@
 # A bakelite plastic.
 # template language: javascript
 
+
 PROTO BakelitePlastic [
   field SFString{"red", "braun"} color            "red" # Defines the color of the plastic.
   field SFNode                   textureTransform NULL  # Defines an optional 2d texture transform.

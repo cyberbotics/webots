@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/mindstorms
 # Mindstorms Rover model based on Lego's Mindstorms kit.
 
+
 PROTO MindstormsRover [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.

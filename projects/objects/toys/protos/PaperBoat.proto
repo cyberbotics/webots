@@ -4,6 +4,7 @@
 # A paper boat (42.8 x 10.6 x 14.2 cm).
 # template language: javascript
 
+
 PROTO PaperBoat [
   field SFVec3f    translation         0 0 0
   field SFRotation rotation            0 0 1 0

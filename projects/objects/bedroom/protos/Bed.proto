@@ -3,6 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable bed with feet and one or 2 pillows.
 
+EXTERNPROTO PaintedWood "webots://projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO Bed [
   field SFVec3f    translation        0 0 0
   field SFRotation rotation           0 0 1 0

@@ -5,6 +5,7 @@
 # The "Shrimp" robot is a mobile platform for rough terrain from Bluebotics.
 # It has 6 wheels and a passive structure that adapts to the terrain profile and climbs obstacles.
 
+
 PROTO Shrimp [
   field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.

@@ -5,6 +5,7 @@
 # The type of metal surface can be set using the `type` field.
 # template language: javascript
 
+
 PROTO ThreadMetalPlate [
   field SFString{"oval", "square"} type               "oval" # Defines the motif type on the material.
   field SFColor                    colorOverride      1 1 1  # Defines the color to be multiplied with the texture color.

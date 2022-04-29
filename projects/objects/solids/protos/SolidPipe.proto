@@ -7,6 +7,8 @@
 # The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
 # template language: javascript
 
+EXTERNPROTO PipeBoundingObject "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
+
 PROTO SolidPipe [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0

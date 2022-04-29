@@ -4,6 +4,7 @@
 # A honey jar.
 # template language: javascript
 
+
 PROTO HoneyJar [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

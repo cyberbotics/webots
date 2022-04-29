@@ -4,6 +4,7 @@
 # This extension of the hinge2joint allows to model the effect of backlash.
 # template language: javascript
 
+
 PROTO Hinge2JointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
   field SFNode                                 jointParameters2  JointParameters {}

@@ -5,6 +5,7 @@
 # The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 # It was developed by Neuronics.
 
+
 PROTO IprHd6m90 [
   field SFVec3f    translation      0 0 0.62 # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0  # Is `Transform.rotation`.

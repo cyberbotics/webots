@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # LEGO Mindstrom EV 3 wheel. Parts id: 4634091 & 6035364.
 
+
 PROTO LegoWheel [
   field SFVec3f    translation 0 0 0.0219974
   field SFRotation rotation    0 0 1 0

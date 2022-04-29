@@ -4,6 +4,7 @@
 # tags: hidden
 # Supervisor of the robot programming benchmark.
 
+
 PROTO RobotProgrammingBenchmark [
   field SFString window "robot_programming"
 ]

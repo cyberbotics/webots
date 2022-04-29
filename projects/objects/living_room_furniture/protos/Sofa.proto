@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A sofa for two people (1 x 1.8 x 0.8 m).
 
+
 PROTO Sofa [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

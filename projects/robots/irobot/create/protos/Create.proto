@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/create
 # iRobot Create is a hobbyist robot manufactured by iRobot that is based on the Roomba platform.
 
+
 PROTO Create [
   field SFVec3f    translation     0 0 0.044                # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                  # Is `Transform.rotation`.

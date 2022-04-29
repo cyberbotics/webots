@@ -1,4 +1,18 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO Tree "webots://projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO PottedTree "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO Wall "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO LandscapePainting "webots://projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO PortraitPainting "webots://projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO Sofa "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO InvertedPendulumBenchmark "webots://projects/samples/robotbenchmark/inverted_pendulum/protos/InvertedPendulumBenchmark.proto"
+EXTERNPROTO E-puck "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
 WorldInfo {
   info [
     "Benchmark objective:"

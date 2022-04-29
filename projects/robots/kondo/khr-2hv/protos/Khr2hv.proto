@@ -5,6 +5,7 @@
 # The Kondo's KHR-2HV
 # More info here: http://www.kondo-robot.com/EN/
 
+
 PROTO Khr2hv [
   field SFVec3f    translation     0 0 0.215      # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.

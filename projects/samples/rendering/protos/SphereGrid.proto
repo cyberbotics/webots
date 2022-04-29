@@ -2,6 +2,7 @@
 # A grid of spheres for testing material properties.
 # template language: javascript
 
+
 PROTO SphereGrid [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

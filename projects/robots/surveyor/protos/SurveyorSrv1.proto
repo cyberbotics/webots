@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
 # The Surveyor's SRV-1 is a robot with two caterpillar tracks designed for research, education, and exploration.
 
+
 PROTO SurveyorSrv1 [
   field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.

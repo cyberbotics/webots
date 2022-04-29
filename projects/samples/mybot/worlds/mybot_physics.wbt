@@ -1,4 +1,11 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO Ball "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO SoccerBall "webots://projects/objects/balls/protos/SoccerBall.proto"
+
 WorldInfo {
   info [
     "The MyBot robot, the robot used in the tutorial of Webots, with Physics in the simulation"

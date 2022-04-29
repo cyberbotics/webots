@@ -1,4 +1,26 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO Monitor "webots://projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO Door "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO Wall "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO OfficeChair "webots://projects/objects/chairs/protos/OfficeChair.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO Blackboard "webots://projects/objects/school_furniture/protos/Blackboard.proto"
+EXTERNPROTO Can "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO Ball "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO SoccerBall "webots://projects/objects/balls/protos/SoccerBall.proto"
+EXTERNPROTO Ned "webots://projects/robots/niryo/ned/protos/Ned.proto"
+
 WorldInfo {
   basicTimeStep 16
 }

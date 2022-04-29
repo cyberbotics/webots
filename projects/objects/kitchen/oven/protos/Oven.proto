@@ -4,6 +4,7 @@
 # An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
 # template language: javascript
 
+
 PROTO Oven [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

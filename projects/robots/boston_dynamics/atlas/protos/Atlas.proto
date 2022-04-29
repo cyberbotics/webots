@@ -5,6 +5,36 @@
 # The "Atlas" is a humanoid robot developed by Boston Dynamics with funding and oversight from DARPA.
 # Extracted from: https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
 
+EXTERNPROTO UtorsoSolid "webots://projects/robots/boston_dynamics/atlas/protos/UtorsoSolid.proto"
+EXTERNPROTO LUglutSolid "webots://projects/robots/boston_dynamics/atlas/protos/LUglutSolid.proto"
+EXTERNPROTO LTalusSolid "webots://projects/robots/boston_dynamics/atlas/protos/LTalusSolid.proto"
+EXTERNPROTO LFarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/LFarmSolid.proto"
+EXTERNPROTO RFarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/RFarmSolid.proto"
+EXTERNPROTO RScapSolid "webots://projects/robots/boston_dynamics/atlas/protos/RScapSolid.proto"
+EXTERNPROTO LFootSolid "webots://projects/robots/boston_dynamics/atlas/protos/LFootSolid.proto"
+EXTERNPROTO MtorsoSolid "webots://projects/robots/boston_dynamics/atlas/protos/MtorsoSolid.proto"
+EXTERNPROTO LClavSolid "webots://projects/robots/boston_dynamics/atlas/protos/LClavSolid.proto"
+EXTERNPROTO RUarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/RUarmSolid.proto"
+EXTERNPROTO RClavSolid "webots://projects/robots/boston_dynamics/atlas/protos/RClavSolid.proto"
+EXTERNPROTO RTalusSolid "webots://projects/robots/boston_dynamics/atlas/protos/RTalusSolid.proto"
+EXTERNPROTO LtorsoSolid "webots://projects/robots/boston_dynamics/atlas/protos/LtorsoSolid.proto"
+EXTERNPROTO RUglutSolid "webots://projects/robots/boston_dynamics/atlas/protos/RUglutSolid.proto"
+EXTERNPROTO LLarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/LLarmSolid.proto"
+EXTERNPROTO RLarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/RLarmSolid.proto"
+EXTERNPROTO RUlegSolid "webots://projects/robots/boston_dynamics/atlas/protos/RUlegSolid.proto"
+EXTERNPROTO LLlegSolid "webots://projects/robots/boston_dynamics/atlas/protos/LLlegSolid.proto"
+EXTERNPROTO PelvisSolid "webots://projects/robots/boston_dynamics/atlas/protos/PelvisSolid.proto"
+EXTERNPROTO RHandSolid "webots://projects/robots/boston_dynamics/atlas/protos/RHandSolid.proto"
+EXTERNPROTO HeadMesh "webots://projects/robots/boston_dynamics/atlas/protos/HeadMesh.proto"
+EXTERNPROTO RLlegSolid "webots://projects/robots/boston_dynamics/atlas/protos/RLlegSolid.proto"
+EXTERNPROTO RLglutSolid "webots://projects/robots/boston_dynamics/atlas/protos/RLglutSolid.proto"
+EXTERNPROTO LUlegSolid "webots://projects/robots/boston_dynamics/atlas/protos/LUlegSolid.proto"
+EXTERNPROTO LHandSolid "webots://projects/robots/boston_dynamics/atlas/protos/LHandSolid.proto"
+EXTERNPROTO LUarmSolid "webots://projects/robots/boston_dynamics/atlas/protos/LUarmSolid.proto"
+EXTERNPROTO LScapSolid "webots://projects/robots/boston_dynamics/atlas/protos/LScapSolid.proto"
+EXTERNPROTO RFootSolid "webots://projects/robots/boston_dynamics/atlas/protos/RFootSolid.proto"
+EXTERNPROTO LLglutSolid "webots://projects/robots/boston_dynamics/atlas/protos/LLglutSolid.proto"
+
 PROTO Atlas [
   field SFVec3f    translation     0 0 1              # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0            # Is `Transform.rotation`.

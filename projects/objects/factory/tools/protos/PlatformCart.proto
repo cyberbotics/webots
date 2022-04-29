@@ -4,6 +4,7 @@
 # A platform cart with overall dimensions 90Lx50Wx85H cm.
 # template language: javascript
 
+
 PROTO PlatformCart [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

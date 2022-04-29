@@ -1,4 +1,11 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO Grass "webots://projects/appearances/protos/Grass.proto"
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO CharacterSkin "webots://projects/humans/skin_animated_humans/protos/CharacterSkin.proto"
+
 WorldInfo {
   info [
     "Skin animation of human models."

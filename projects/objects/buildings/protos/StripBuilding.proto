@@ -5,6 +5,7 @@
 # A strip of buildings of variable length.
 # template language: javascript
 
+
 PROTO StripBuilding [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0

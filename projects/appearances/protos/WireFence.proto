@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A wire fence material. The color can be overridden using the `colorOverride` field.
 
+
 PROTO WireFence [
   field SFColor colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.

@@ -6,6 +6,7 @@
 # field of the 'SumoInterface' PROTO
 # template language: javascript
 
+
 PROTO SumoDisplay [
   field SFInt32 width       256
   field SFInt32 height      256

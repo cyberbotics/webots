@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/khr-3hv
 # The "Kondo KHR-3HV" is an humanoid robot with 17 degrees of freedom.
 
+
 PROTO Khr3hv [
   field SFVec3f    translation     0 0 0.68     # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0   # Is `Transform.rotation`.

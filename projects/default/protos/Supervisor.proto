@@ -5,6 +5,7 @@
 # Backward compatibility with the deprecated 'Supervisor' node (deprecated in Webots R2018c)
 # template language: javascript
 
+
 PROTO Supervisor [
   vrmlField SFVec3f    translation         0 0 0
   vrmlField SFRotation rotation            0 0 1 0

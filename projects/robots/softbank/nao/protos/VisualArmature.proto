@@ -4,6 +4,7 @@
 # An outline textured armature without back
 # Typically useful to create a wall painting invisible from backward
 
+
 PROTO VisualArmature [
   field SFVec3f translation 0 0 0.5
   field SFRotation rotation 0 0 1 0

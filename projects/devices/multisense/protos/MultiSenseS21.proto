@@ -5,6 +5,7 @@
 # Model of MultiSense S21 stereoscopic camera.
 # template language: javascript
 
+
 PROTO MultiSenseS21 [
   field SFVec3f    translation         0 0 0
   field SFRotation rotation            0 0 1 0

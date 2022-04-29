@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A book (0.02 x 0.15 x 0.2 m).
 
+
 PROTO Book [
   field SFVec3f    translation 0 0.1 0
   field SFRotation rotation    0 0 1 0

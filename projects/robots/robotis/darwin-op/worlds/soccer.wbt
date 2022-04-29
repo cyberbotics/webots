@@ -1,4 +1,12 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO Ball "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO RobocupSoccerField "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
+EXTERNPROTO RobotisOp2 "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO RobotisJersey "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."

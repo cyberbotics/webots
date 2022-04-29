@@ -4,6 +4,7 @@
 # A metal storage box.
 # template language: javascript
 
+
 PROTO MetalStorageBox [
   field SFString   name        "metal storage box"
   field SFVec3f    translation 0 0 0

@@ -4,6 +4,7 @@
 # This bounding object with a pipe shape is formed by a group of boxes.
 # template language: javascript
 
+
 PROTO PipeBoundingObject [
   field SFFloat    height          2       # Defines the height of the pipe.
   field SFFloat    radius          1       # Defines the radius of the pipe.

@@ -1,6 +1,7 @@
 #VRML_SIM R2022b utf8
 # Example of  an external reference
 
+
 EXTERNPROTO ExternalProtoShape3 "webots://projects/TEST/protos/ExternalProtoShape3.proto"
 
 PROTO ExternalProtoSolid3 [

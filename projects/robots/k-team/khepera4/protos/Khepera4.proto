@@ -4,6 +4,8 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera4
 # The "Khepera IV" robot is a two-wheeled robot produced by K-Team.
 
+EXTERNPROTO Khepera4InfraredSensor "webots://projects/robots/k-team/khepera4/protos/Khepera4InfraredSensor.proto"
+
 PROTO Khepera4 [
   field SFVec3f    translation         0 0 0                   # Is `Transform.translation`.
   field SFRotation rotation            0 0 1 0                 # Is `Transform.rotation`.

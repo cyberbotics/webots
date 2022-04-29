@@ -11,6 +11,7 @@
 #  - weight: 0.16 [kg]
 # template language: javascript
 
+
 PROTO HokuyoUrg04lx [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

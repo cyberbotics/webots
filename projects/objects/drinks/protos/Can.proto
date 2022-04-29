@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A can (0.03175 x 0.03175 x 0.1222 m).
 
+
 PROTO Can [
   field SFVec3f translation 0 0 0.06
   field SFRotation rotation 0 0 1 0

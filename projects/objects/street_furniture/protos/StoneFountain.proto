@@ -3,6 +3,7 @@
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A fountain made of stones.
 
+
 PROTO StoneFountain [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

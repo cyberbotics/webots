@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A television (1 x 0.6 x 0.1 m).
 
+
 PROTO Television [
   field SFVec3f    translation   0 0.3 0
   field SFRotation rotation      0 0 1 0

@@ -4,6 +4,7 @@
 # Generic gear generator, inspired by Brian Paul's glxgears demo.
 # template language: javascript
 
+
 PROTO Gear [
   field SFVec3f         translation            0 0 0
   field SFRotation      rotation               0 0 1 0

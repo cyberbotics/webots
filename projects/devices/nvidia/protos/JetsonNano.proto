@@ -5,6 +5,10 @@
 # NVIDIA Jetson Nano embedded module.
 # This is a graphical model that can be extended with solid parts, devices and physics properties.
 
+EXTERNPROTO Pcb "webots://projects/appearances/protos/Pcb.proto"
+EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO TexturedBox "webots://projects/objects/geometries/protos/TexturedBox.proto"
+
 PROTO JetsonNano [
   field SFVec3f            translation           0 0 0                    # Is `Robot.translation`.
   field SFRotation         rotation              0 0 1 0                  # Is `Robot.rotation`.

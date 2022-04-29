@@ -8,6 +8,7 @@
 # For loading performance reasons, it is suggested to use the joint and motor nodes directly instead of this node.
 # template language: javascript
 
+
 PROTO Servo [
   field     SFVec3f    translation         0 0 0
   field     SFRotation rotation            0 0 1 0

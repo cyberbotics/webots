@@ -4,6 +4,7 @@
 # This bounding object with a torus shape is formed by a group of spheres.
 # template language: javascript
 
+
 PROTO TorusBoundingObject [
   field SFFloat    majorRadius     2   # Defines the major radius of the torus.
   field SFFloat    minorRadius     1   # Defines the minor radius of the torus.

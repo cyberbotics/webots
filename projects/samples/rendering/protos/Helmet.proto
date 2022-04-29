@@ -3,6 +3,7 @@
 # license url: https://opensource.org/licenses/MIT
 # A model of an advanced sci-fi helmet, sourced from the GLTF PBR reference implementation, found at https://github.com/KhronosGroup/glTF-WebGL-PBR.
 
+
 PROTO Helmet [
   field SFVec3f translation 0 0 0
   field SFRotation rotation 0 0 1 0

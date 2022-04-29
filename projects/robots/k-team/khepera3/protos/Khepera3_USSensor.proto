@@ -4,6 +4,7 @@
 # Ultrasound sensor of a Khepera III robot.
 # Electronic parts: Midas 400ST100 (transmitter) and 400SR100 (receiver)
 
+
 PROTO Khepera3_USSensor [
   field SFVec3f translation 0 0 0
   field SFRotation rotation  0 0 1 0

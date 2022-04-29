@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Five sun flowers into a pot (0.17 x 0.17 x 0.95 m).
 
+
 PROTO BunchOfSunFlowers [
   field SFVec3f    translation            0 0 0
   field SFRotation rotation               0 0 1 0

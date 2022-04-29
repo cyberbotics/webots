@@ -4,6 +4,7 @@
 # A computer keyboard.
 # template language: javascript
 
+
 PROTO Keyboard [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
