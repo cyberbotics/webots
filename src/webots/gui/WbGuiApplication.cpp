@@ -284,7 +284,7 @@ void WbGuiApplication::parseArguments() {
       mShouldMinimize = true;
     else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption))
       mShouldStartFullscreen = true;
-    } else if (subCommand == "mode" && parser.isSet("mode")) {
+    else if (subCommand == "mode" && parser.isSet("mode")) {
       const QStringList mode = parser.values(modeOption);
       if (mode.size() != 1 || mode[0].isEmpty()) {
         cerr << tr("webots: value is missing in '--mode'.").toUtf8().constData() << endl;
