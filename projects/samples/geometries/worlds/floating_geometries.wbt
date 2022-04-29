@@ -22,22 +22,18 @@ DEF SWIMMING_POOL SolidPipe {
 DEF STILL_WATER Fluid {
   translation 0 0 0.2
   children [
-    DEF S Group {
-      children [
-        Shape {
-          appearance DEF WATER_APPEARANCE PBRAppearance {
-            baseColor 0 0.501961 1
-            transparency 0.5
-            roughness 0.001
-            metalness 0
-          }
-          geometry Cylinder {
-            height 0.4
-            radius 1.8
-            subdivision 24
-          }
-        }
-      ]
+    DEF S Shape {
+      appearance DEF WATER_APPEARANCE PBRAppearance {
+        baseColor 0 0.501961 1
+        transparency 0.5
+        roughness 0.001
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.4
+        radius 1.8
+        subdivision 24
+      }
     }
   ]
   name "swimming pool"
