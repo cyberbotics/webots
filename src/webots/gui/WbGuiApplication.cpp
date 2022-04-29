@@ -279,11 +279,10 @@ void WbGuiApplication::parseArguments() {
       mShouldStartFullscreen = true;
     } else if (subCommand == "mode" && parser.isSet("mode")) {
       const QStringList mode = parser.values(modeOption);
-      if (mode.size() != 1 || mode[0] == "=") {
-        cerr << tr("Error: Must specify one mode argument.").toUtf8().constData() << endl;
+      if (mode.size() != 1 || mode[0].isEmpty()) {
+        cerr << tr("webots: value is missing in '--mode'.").toUtf8().constData() << endl;
         mTask = FAILURE;
-      }
-      if (mode[0] == "stop") {
+      } else if (mode[0] == "stop") {
         cerr << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
         cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::PAUSE;
@@ -325,7 +324,7 @@ void WbGuiApplication::parseArguments() {
       WbWorld::enableX3DMetaFileExport();
     } else if (subCommand == "stream" && parser.isSet("stream")) {
       const QStringList streamArgument = parser.values(streamOption);
-      if (streamArgument.isEmpty()) {
+      if (streamArgument.isEmpty() || streamArgument[0].isEmpty()) {
         cerr << tr("webots: value is missing in '--stream'.\n").toUtf8().constData();
         mTask = FAILURE;
       } else {
@@ -338,7 +337,7 @@ void WbGuiApplication::parseArguments() {
       WbLog::enableStdErrRedirectToTerminal();
     } else if (subCommand == "log-performance" && parser.isSet("log-performance")) {
       const QStringList logArgument = parser.values(logPerfomanceOption);
-      if (logArgument.isEmpty()) {
+      if (logArgument.isEmpty() || logArgument[0].isEmpty()) {
         cerr << tr("webots: log file path is missing in '--log-performance'.\n").toUtf8().constData();
         mTask = FAILURE;
       } else if (logArgument[0].contains(",")) {
