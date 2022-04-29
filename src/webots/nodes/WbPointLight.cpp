@@ -167,10 +167,6 @@ void WbPointLight::updateOn() {
     applyBillboardVisibilityToWren();
 }
 
-void WbPointLight::updateColor() {
-  WbLight::updateColor();
-}
-
 void WbPointLight::checkAmbientAndAttenuationExclusivity() {
   if (mAttenuation->value() != WbVector3(1.0, 0.0, 0.0) && ambientIntensity() != 0.0) {
     parsingWarn(

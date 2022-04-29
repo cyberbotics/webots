@@ -50,7 +50,6 @@ protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;
   void updateOn() override;
-  void updateColor() override;
 
 private:
   // user accessible fields
