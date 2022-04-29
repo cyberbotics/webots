@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A ceiling light (0.19 x 0.19 x 0.8 m).
 
-
 PROTO CeilingLight [
   field SFVec3f    translation                0 0 2.4
   field SFRotation rotation                   0 0 1 0

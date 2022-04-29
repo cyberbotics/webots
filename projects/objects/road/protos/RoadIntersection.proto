@@ -4,10 +4,6 @@
 # A simple and customizable roads intersection, all the road are crossing at the same point and equally separated in orientation.
 # template language: javascript
 
-EXTERNPROTO Asphalt "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO RoadLine "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO Road "webots://projects/objects/road/protos/Road.proto"
-
 PROTO RoadIntersection [
   field        SFVec3f              translation                    0 0 0
   field        SFRotation           rotation                       0 0 1 0

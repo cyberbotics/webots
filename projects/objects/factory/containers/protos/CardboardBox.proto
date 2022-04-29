@@ -4,8 +4,6 @@
 # A cardboard box.
 # template language: javascript
 
-EXTERNPROTO Cardboard "webots://projects/appearances/protos/Cardboard.proto"
-
 PROTO CardboardBox [
   field SFVec3f    translation 0 0 0.3
   field SFRotation rotation    0 0 1 0

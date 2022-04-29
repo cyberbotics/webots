@@ -6,7 +6,6 @@
 # Measures were carried out between 0 and 44.5 cm using a white obstacle and a black ground.
 # Electronic part: Vishay TCRT5000
 
-
 PROTO Khepera3_DistanceSensor [
   field SFVec3f translation 0 0 0
   field SFRotation rotation  0 0 1 0

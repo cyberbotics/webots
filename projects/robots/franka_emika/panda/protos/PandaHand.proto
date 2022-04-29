@@ -3,7 +3,6 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a PROTO file for Franka Emika's Panda Hand.
 
-
 PROTO PandaHand [
   field  SFVec3f     translation     0 0 0          # Is `Transform.translation`.
   field  SFRotation  rotation        0 0 1 0        # Is `Transform.rotation`.

@@ -4,8 +4,6 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-
 PROTO TruckCab [
   field SFColor color     0.39 0 0
   field SFFloat sizeRatio 1.0

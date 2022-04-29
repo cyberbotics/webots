@@ -4,7 +4,6 @@
 # tags: hidden
 # Supervisor that manages the Pick and Place benchmark.
 
-
 PROTO PickAndPlaceBenchmark [
   field SFString window "pick_and_place"
 ]

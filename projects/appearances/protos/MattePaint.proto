@@ -3,7 +3,6 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A matte paint material. The color can be selected in the `baseColor` field.
 
-
 PROTO MattePaint [
   field SFColor baseColor        1 1 1                             # Defines the paint's color.
   field SFNode  textureTransform TextureTransform { scale 10 10 }  # Defines an optional 2d texture transform.

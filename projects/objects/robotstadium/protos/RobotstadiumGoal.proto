@@ -4,7 +4,6 @@
 # Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
 # The color of the goal and the support polygons can be modified.
 
-
 PROTO RobotstadiumGoal [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

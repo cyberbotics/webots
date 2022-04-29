@@ -1,6 +1,5 @@
 #VRML_SIM R2022b utf8
 
-
 EXTERNPROTO ExternalSimpleShape "webots://projects/TEST/protos/ExternalSimpleShape.proto"
 
 WorldInfo {

@@ -5,11 +5,6 @@
 # Designed by Mobile Industrial Robotics (MIR), MiR100 is a six-wheeled robot (4 caster wheels and 2 regular ones at the
 # center). Used in industrial environments, it can carry a payload of up to 100kg.
 
-EXTERNPROTO CorrodedMetal "webots://projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO Plastic "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO SolidTorus "webots://projects/objects/solids/protos/SolidTorus.proto"
-EXTERNPROTO Mir100UltrasonicSensor "webots://projects/robots/mir/mir100/protos/Mir100UltrasonicSensor.proto"
-
 PROTO Mir100 [
   field  SFVec3f     translation      0 0 0               # Is `Transform.translation`.
   field  SFRotation  rotation         0 0 1 0             # Is `Transform.rotation`.

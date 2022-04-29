@@ -5,9 +5,6 @@
 # Raspberry pi extension for the e-puck robot model 2
 # To be inserted in the `turretSlot` of the E-puck node.
 
-EXTERNPROTO Copper "webots://projects/appearances/protos/Copper.proto"
-EXTERNPROTO CapScrew "webots://projects/objects/factory/tools/protos/CapScrew.proto"
-
 PROTO Pi-puck [
 ]
 {

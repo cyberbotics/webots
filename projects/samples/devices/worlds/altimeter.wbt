@@ -1,11 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO OsbWood "webots://projects/appearances/protos/OsbWood.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
-
 WorldInfo {
   info [
     "In this example, the robot moves down a slope."

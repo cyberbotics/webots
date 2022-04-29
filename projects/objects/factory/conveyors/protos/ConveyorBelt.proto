@@ -4,9 +4,6 @@
 # A customizable conveyor belt moving at a constant speed.
 # template language: javascript
 
-EXTERNPROTO CorrugatedMetal "webots://projects/appearances/protos/CorrugatedMetal.proto"
-EXTERNPROTO Rubber "webots://projects/appearances/protos/Rubber.proto"
-
 PROTO ConveyorBelt [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 0 1 0

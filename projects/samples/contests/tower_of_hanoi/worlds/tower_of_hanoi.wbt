@@ -1,15 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO Kinect "webots://projects/devices/microsoft/protos/Kinect.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO YoubotFlag "webots://projects/samples/contests/tower_of_hanoi/protos/YoubotFlag.proto"
-EXTERNPROTO Youbot "webots://projects/robots/kuka/youbot/protos/Youbot.proto"
-EXTERNPROTO KukaBox "webots://projects/robots/kuka/youbot/protos/KukaBox.proto"
-
 WorldInfo {
   info [
     "Simulation showing the KUKA youBot model"

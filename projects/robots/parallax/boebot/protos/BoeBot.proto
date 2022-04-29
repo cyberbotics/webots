@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/boebot
 # The "Boe-Bot" is a 3 wheeled robot (2 motorized wheels and a passive caster wheel) created by Parallax Inc.
 
-
 PROTO BoeBot [
   field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.

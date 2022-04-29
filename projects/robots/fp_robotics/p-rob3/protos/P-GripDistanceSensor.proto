@@ -4,7 +4,6 @@
 # tags: hidden
 # A distance sensor to plug in the fingers of the P-Grip gripper.
 
-
 PROTO P-GripDistanceSensor [
   field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0             # Is `Transform.rotation`.

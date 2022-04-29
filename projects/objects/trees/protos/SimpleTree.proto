@@ -17,7 +17,6 @@
 # The 'random' type choose randomly a tree type each time the node is regenerated.
 # template language: javascript
 
-
 PROTO SimpleTree [
   field SFVec3f    translation          0 0 0
   field SFRotation rotation             0 0 1 0

@@ -4,7 +4,6 @@
 # Defines the properties of a road line.
 # This node should be used in the `lines` field of a road node.
 
-
 PROTO RoadLine [
   unconnectedField SFColor                                            color 1 1 1     # Defines the color of the line.
   unconnectedField SFString{"dashed", "continuous", "double", "none"} type  "dashed"  # Defines the type of the road, should be `dashed`, `continuous`, `double` or `none`.

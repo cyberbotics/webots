@@ -1,7 +1,6 @@
 #VRML_SIM R2022b utf8
 # tags: hidden
 
-
 PROTO C3dMarker [
   field SFVec3f      translation              0 0 0
   field SFColor      color                    0 1 0

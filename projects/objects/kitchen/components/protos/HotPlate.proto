@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An hot plate.
 
-
 PROTO HotPlate [
   field SFVec3f    translation 0 0 0.71
   field SFRotation rotation    0 0 1 0

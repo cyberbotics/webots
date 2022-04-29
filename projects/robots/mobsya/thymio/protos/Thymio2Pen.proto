@@ -4,7 +4,6 @@
 # Pen designed to be inserted directly into the Thymio II's bodySlot field
 # cf. https://aseba.wikidot.com/fr:thymiodrawing
 
-
 PROTO Thymio2Pen [
   field SFString name "Thymio II pen"
   field SFFloat leadSize 0.003

@@ -5,9 +5,6 @@
 # An Universal Robots UR5e robotic arm.
 # template language: javascript
 
-EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO ScrewThread "webots://projects/appearances/protos/ScrewThread.proto"
-
 PROTO UR5e [
   field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.

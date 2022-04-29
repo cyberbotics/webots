@@ -1,9 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO IprHd6m90 "webots://projects/robots/neuronics/ipr/protos/IprHd6m90.proto"
-
 WorldInfo {
   info [
     "Demo of the IPR (Katana) robotic arm (Neuronics AG)."

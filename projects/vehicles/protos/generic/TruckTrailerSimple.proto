@@ -3,10 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple non-controllable truck trailer model without physics properties.
 
-EXTERNPROTO TruckTrailerMesh "webots://projects/vehicles/protos/generic/TruckTrailerMesh.proto"
-EXTERNPROTO TruckWheel "webots://projects/vehicles/protos/generic/TruckWheel.proto"
-EXTERNPROTO TruckRearLight "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
-
 PROTO TruckTrailerSimple [
   field SFString   name                 "truck trailer"
   field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }

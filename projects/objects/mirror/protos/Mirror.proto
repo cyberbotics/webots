@@ -5,9 +5,6 @@
 # The reflected image does not depend on the viewpoint position.
 # template language: javascript
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-
 PROTO Mirror [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0

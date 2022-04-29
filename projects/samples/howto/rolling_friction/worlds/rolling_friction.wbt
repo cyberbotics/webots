@@ -1,11 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO Copper "webots://projects/appearances/protos/Copper.proto"
-EXTERNPROTO DamascusSteel "webots://projects/appearances/protos/DamascusSteel.proto"
-EXTERNPROTO HammeredCopper "webots://projects/appearances/protos/HammeredCopper.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-
 WorldInfo {
   info [
     "This sample project showcases the effect of modeling rolling friction."

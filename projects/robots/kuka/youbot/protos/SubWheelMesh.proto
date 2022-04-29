@@ -5,8 +5,6 @@
 # subwheel lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
-EXTERNPROTO BlackAppearance "webots://projects/robots/kuka/youbot/protos/BlackAppearance.proto"
-
 PROTO SubWheelMesh [
 ]
 {

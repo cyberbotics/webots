@@ -1,15 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO TinkerbotsBrickAdapter "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
-EXTERNPROTO TinkerbotsBase "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
-EXTERNPROTO TinkerbotsMotor "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
-EXTERNPROTO TinkerbotsAxle "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
-EXTERNPROTO TinkerbotsWheel "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
-EXTERNPROTO TinkerbotsCubieBoxWithRoundSlots "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
-
 WorldInfo {
   basicTimeStep 8
 }

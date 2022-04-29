@@ -17,7 +17,6 @@
 # A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
 # template language: javascript
 
-
 PROTO TexturedParallelepiped [
   field SFVec3f  size    0.1 0.1 0.1     # Defines the size of the parallelepiped.
   field SFVec3f  angles  0.0 0.7854 0.0  # Defines the angles of the parallelepiped.

@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera2
 # The "Khepera II" robot is a two-wheeled robot produced by K-Team.
 
-
 PROTO Khepera2 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.

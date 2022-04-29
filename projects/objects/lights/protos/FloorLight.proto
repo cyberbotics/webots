@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A floor light (0.19 x 0.19 x 1.6 m).
 
-
 PROTO FloorLight [
   field SFVec3f    translation                0 0 0
   field SFRotation rotation                   0 0 1 0

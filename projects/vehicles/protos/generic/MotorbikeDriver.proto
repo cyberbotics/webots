@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 #The Motorbike driver is based on the pedestrian PROTO
 
-
 PROTO MotorbikeDriver [
   field   SFColor    shirtColor     0.404 0.329 0.255
   field   SFColor    pantsColor     0.215 0.310 0.478

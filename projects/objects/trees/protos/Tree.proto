@@ -4,7 +4,6 @@
 # Efficient (with only 8 polygons) and fast to load tree.
 # This PROTO is less configurable than `SimpleTree` but way faster to load.
 
-
 PROTO Tree [
   field SFVec3f    translation          0 0 0
   field SFRotation rotation             0 0 1 0

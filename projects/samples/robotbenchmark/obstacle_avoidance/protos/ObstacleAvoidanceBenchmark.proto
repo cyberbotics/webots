@@ -4,7 +4,6 @@
 # tags: hidden
 # Supervisor of the robot programming benchmark.
 
-
 PROTO ObstacleAvoidanceBenchmark [
   field SFString window "obstacle_avoidance"
 ]

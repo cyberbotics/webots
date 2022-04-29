@@ -5,8 +5,6 @@
 # Smartmicro UMR-A0 type 30 sensor model based on the Radar node.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO SmsUmrrShape "webots://projects/devices/smartmicro/protos/SmsUmrrShape.proto"
-
 PROTO SmsUmrr-0a30 [
   field   SFVec3f    translation    0 0 0
   field   SFRotation rotation       0 0 1 0

@@ -4,7 +4,6 @@
 # A soil material.
 # template language: javascript
 
-
 PROTO Soil [
   field SFString{"braun", "grey"}  type              "braun"  # Defines the soil type.
   field SFNode                     textureTransform  NULL     # Defines an optional 2d texture transform.

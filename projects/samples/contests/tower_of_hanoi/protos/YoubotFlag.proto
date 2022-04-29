@@ -3,8 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # a flag
 
-EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
-
 PROTO YoubotFlag [
   field SFVec3f translation 0 0 0
   field SFRotation rotation 0 0 1 0

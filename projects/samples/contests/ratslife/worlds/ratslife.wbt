@@ -1,14 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Wall "webots://projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO NXTFeeder "webots://projects/samples/contests/ratslife/protos/NXTFeeder.proto"
-EXTERNPROTO LegoWall "webots://projects/samples/contests/ratslife/protos/LegoWall.proto"
-EXTERNPROTO LegoInterval "webots://projects/samples/contests/ratslife/protos/LegoInterval.proto"
-EXTERNPROTO E-puckFlag "webots://projects/samples/contests/ratslife/protos/e-puck/E-puckFlag.proto"
-EXTERNPROTO E-puck "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
-
 WorldInfo {
   info [
     "Rat's life pattern"

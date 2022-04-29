@@ -5,9 +5,6 @@
 # Extracted from:
 # https://bitbucket.org/osrf/drcsim/src/a43aef617288746c30be76f58afe23a4c3108b5f/ros/atlas_description/meshes/l_lleg.dae
 
-EXTERNPROTO RegularAppearance "webots://projects/robots/boston_dynamics/atlas/protos/RegularAppearance.proto"
-EXTERNPROTO CarbonFiberAppearance "webots://projects/robots/boston_dynamics/atlas/protos/CarbonFiberAppearance.proto"
-
 PROTO LLlegMesh [
 ]
 {

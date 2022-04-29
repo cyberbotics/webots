@@ -3,8 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable standard ceiling.
 
-EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
-
 PROTO Ceiling [
   field SFVec3f    translation      0 0 2.4
   field SFRotation rotation         1 0 0 3.14159

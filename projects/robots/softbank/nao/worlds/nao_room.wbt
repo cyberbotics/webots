@@ -1,20 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO PaintedWood "webots://projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO BunchOfSunFlowers "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO CeilingLight "webots://projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO WoodenChair "webots://projects/objects/chairs/protos/WoodenChair.proto"
-EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
-EXTERNPROTO Book "webots://projects/objects/school_furniture/protos/Book.proto"
-EXTERNPROTO Sofa "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO Cabinet "webots://projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO VisualArmature "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
-EXTERNPROTO NaoRoom "webots://projects/robots/softbank/nao/protos/NaoRoom.proto"
-EXTERNPROTO KeyPot "webots://projects/robots/softbank/nao/protos/KeyPot.proto"
-EXTERNPROTO Nao "webots://projects/robots/softbank/nao/protos/Nao.proto"
-EXTERNPROTO Key "webots://projects/robots/softbank/nao/protos/Key.proto"
-
 WorldInfo {
   info [
     "An Aldebaran's Nao H25 V5.0 robot in a living room"

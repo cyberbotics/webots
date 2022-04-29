@@ -2,10 +2,6 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO Plastic "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.
   field SFRotation  rotation     0 0 1 0     # Is `Transform.rotation`.

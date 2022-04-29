@@ -7,7 +7,6 @@
 # The color can be overridden using the `colorOverride` field.
 # template language: javascript
 
-
 PROTO SquarePavement [
   field SFColor colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.

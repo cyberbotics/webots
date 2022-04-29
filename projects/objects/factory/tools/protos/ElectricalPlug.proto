@@ -5,8 +5,6 @@
 # The bounding object and physics are optional.
 # template language: javascript
 
-EXTERNPROTO Extrusion "webots://projects/objects/geometries/protos/Extrusion.proto"
-
 PROTO ElectricalPlug [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0

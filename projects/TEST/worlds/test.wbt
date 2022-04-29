@@ -1,6 +1,5 @@
 #VRML_SIM R2022b utf8
 
-
 EXTERNPROTO ProtoWithExternReference "webots://projects/TEST/protos/ProtoWithExternReference.proto"
 
 WorldInfo {

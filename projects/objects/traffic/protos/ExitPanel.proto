@@ -3,8 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic panel: Exit panel.
 
-EXTERNPROTO Extrusion "webots://projects/objects/geometries/protos/Extrusion.proto"
-
 PROTO ExitPanel [
   field SFVec3f    translation        0 0 0
   field SFRotation rotation           0 0 1 0

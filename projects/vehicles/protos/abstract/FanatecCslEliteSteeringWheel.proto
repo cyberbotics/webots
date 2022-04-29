@@ -3,9 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A model of the Fanatec CSL Elite Racing Wheel to insert in the 'steeringWheel' field of some vehicles.
 
-EXTERNPROTO Leather "webots://projects/appearances/protos/Leather.proto"
-EXTERNPROTO ShinyLeather "webots://projects/appearances/protos/ShinyLeather.proto"
-
 PROTO FanatecCslEliteSteeringWheel [
   field SFString name "Fanatec CSL Elite steering wheel"
 ]

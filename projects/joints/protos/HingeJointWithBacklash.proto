@@ -4,7 +4,6 @@
 # This extension of the hinge joint allows to model the effect of backlash.
 # template language: javascript
 
-
 PROTO HingeJointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
   field SFFloat                                backlash          0.01   # Defines the gear clearence, [0, inf).

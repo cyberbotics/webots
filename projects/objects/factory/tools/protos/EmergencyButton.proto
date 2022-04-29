@@ -4,7 +4,6 @@
 # An emergency button with an optional position sensor.
 # template language: javascript
 
-
 PROTO EmergencyButton [
   field SFVec3f    translation            0 0 0
   field SFRotation rotation               0 0 1 0

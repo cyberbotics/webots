@@ -5,22 +5,6 @@
 # Based on the model of Paul Salvador (zxys.com)
 # template language: javascript
 
-EXTERNPROTO PedestrianRightFoot "webots://projects/humans/pedestrian/protos/PedestrianRightFoot.proto"
-EXTERNPROTO PedestrianLeftUpperArm "webots://projects/humans/pedestrian/protos/PedestrianLeftUpperArm.proto"
-EXTERNPROTO PedestrianNeck "webots://projects/humans/pedestrian/protos/PedestrianNeck.proto"
-EXTERNPROTO PedestrianRightUpperLeg "webots://projects/humans/pedestrian/protos/PedestrianRightUpperLeg.proto"
-EXTERNPROTO PedestrianLeftHand "webots://projects/humans/pedestrian/protos/PedestrianLeftHand.proto"
-EXTERNPROTO PedestrianRightLowerLeg "webots://projects/humans/pedestrian/protos/PedestrianRightLowerLeg.proto"
-EXTERNPROTO PedestrianLeftFoot "webots://projects/humans/pedestrian/protos/PedestrianLeftFoot.proto"
-EXTERNPROTO PedestrianRightUpperArm "webots://projects/humans/pedestrian/protos/PedestrianRightUpperArm.proto"
-EXTERNPROTO PedestrianRightLowerArm "webots://projects/humans/pedestrian/protos/PedestrianRightLowerArm.proto"
-EXTERNPROTO PedestrianLeftLowerLeg "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerLeg.proto"
-EXTERNPROTO PedestrianLeftLowerArm "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerArm.proto"
-EXTERNPROTO PedestrianRightHand "webots://projects/humans/pedestrian/protos/PedestrianRightHand.proto"
-EXTERNPROTO PedestrianLeftUpperLeg "webots://projects/humans/pedestrian/protos/PedestrianLeftUpperLeg.proto"
-EXTERNPROTO PedestrianTorso "webots://projects/humans/pedestrian/protos/PedestrianTorso.proto"
-EXTERNPROTO PedestrianHead "webots://projects/humans/pedestrian/protos/PedestrianHead.proto"
-
 PROTO Pedestrian [
   field       SFVec3f    translation           0 0 1.27
   field       SFRotation rotation              0 0 1 0

@@ -2,7 +2,6 @@
 # tags: hidden
 # template language: javascript
 
-
 PROTO NaoRightWristH25Realistic [
   field SFString name "right wrist"
   field SFString version "5.0"

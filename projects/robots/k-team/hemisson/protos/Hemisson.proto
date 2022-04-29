@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/hemisson
 # The "Hemisson" is a two-wheeled robot designed for education and teaching developped by K-TEAM.
 
-
 PROTO Hemisson [
   field SFVec3f    translation     0 0 0      # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0    # Is `Transform.rotation`.

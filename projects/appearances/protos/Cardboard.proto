@@ -4,7 +4,6 @@
 # A cardboard material containing several types that can make a box if combined.
 # template language: javascript
 
-
 PROTO Cardboard [
   field SFColor  colorOverride    1 1 1         # Defines the color to be multiplied with the texture color.
   field SFString{"top", "bottom", "left", "right", "front", "back"}

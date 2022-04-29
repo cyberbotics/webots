@@ -5,8 +5,6 @@
 # Simple and configurable wooden pallet stack.
 # template language: javascript
 
-EXTERNPROTO WoodenPallet "webots://projects/objects/factory/pallet/protos/WoodenPallet.proto"
-
 PROTO WoodenPalletStack [
   field SFVec3f    translation              0 0 0
   field SFRotation rotation                 0 0 1 0

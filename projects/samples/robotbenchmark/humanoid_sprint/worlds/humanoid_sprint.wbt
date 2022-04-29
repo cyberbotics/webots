@@ -1,12 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO Grass "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO RaceStopwatch "webots://projects/samples/robotbenchmark/humanoid_sprint/protos/RaceStopwatch.proto"
-EXTERNPROTO Nao "webots://projects/robots/softbank/nao/protos/Nao.proto"
-
 WorldInfo {
   info [
     "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "

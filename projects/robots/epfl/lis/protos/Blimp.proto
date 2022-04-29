@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/blimp
 # The "Blimp" robot is a Zeppelin-like aerial robot developed by the EPFL LIS laboratory.
 
-
 PROTO Blimp [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.

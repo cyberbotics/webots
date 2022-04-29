@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A generic varnished, painted wooden door's appearance.
 
-
 PROTO GenericDoorAppearance [
   field SFColor colorOverride  1 1 1   # Defines the color to be multiplied with the texture color.
 ]

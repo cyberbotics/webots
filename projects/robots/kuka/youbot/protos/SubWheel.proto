@@ -4,9 +4,6 @@
 # tags: hidden
 # subwheel of the omnidirectionnal wheel
 
-EXTERNPROTO SubWheelMesh "webots://projects/robots/kuka/youbot/protos/SubWheelMesh.proto"
-EXTERNPROTO WheelMesh "webots://projects/robots/kuka/youbot/protos/WheelMesh.proto"
-
 PROTO SubWheel [
   field SFString name "youBot subwheel"
 ]

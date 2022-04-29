@@ -4,9 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/ned
 # A 6-axis collaborative robot based on open-source technologies designed for education, professional training and research.
 
-EXTERNPROTO Plastic "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-
 PROTO Ned [
   field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.
   field  SFRotation  rotation        0 0 1 0   # Is `Transform.rotation`.

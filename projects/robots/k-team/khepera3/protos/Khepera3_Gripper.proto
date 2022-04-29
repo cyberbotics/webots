@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Physics-based model of the Khepera III gripper (K-Team Corp.)
 
-
 PROTO Khepera3_Gripper [
   field SFVec3f translation 0 0 0.074
   field SFString name "Khepera III gripper"

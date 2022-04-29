@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/qrio
 # QRIO ("Quest for cuRIOsity", originally named Sony Dream Robot or SDR) is a bipedal humanoid entertainment robot developed and marketed by Sony.
 
-
 PROTO QRIO [
   field SFVec3f    translation     0 0 0.42  # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0   # Is `Transform.rotation`.

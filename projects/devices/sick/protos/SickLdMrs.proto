@@ -7,7 +7,6 @@
 # Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913
 # template language: javascript
 
-
 PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 0 1 0

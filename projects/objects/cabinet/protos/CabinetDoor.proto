@@ -5,9 +5,6 @@
 # A door for the Cabinet PROTO.
 # template language: javascript
 
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO CabinetHandle "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
-
 PROTO CabinetDoor [
   field SFVec3f  translation         0 0 0
   field SFString name                "cabinet door"

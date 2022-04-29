@@ -4,7 +4,6 @@
 # Tractor Rear Wheel
 # template language: javascript
 
-
 PROTO TractorRearWheel [
   field SFString name           "tractor rear wheel"
   field SFFloat  tireRadius     0.6

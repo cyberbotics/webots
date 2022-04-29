@@ -3,9 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO RoughPine "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-
 PROTO BusStopBench [
   field SFString name       "bus stop bench"
   field SFNode   appearance PBRAppearance { baseColor 0.3 0.45 0.33 metalness 0 }   # Defines the appreance of the bench.

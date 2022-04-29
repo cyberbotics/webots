@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A Philips screwdriver. The blade and handle are balanced.
 
-
 PROTO Screwdriver [
   field SFVec3f    translation     0 0 0.012
   field SFRotation rotation        0 0 1 0

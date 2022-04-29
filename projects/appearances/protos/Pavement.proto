@@ -6,7 +6,6 @@
 # The color can be overridden using the `colorOverride` field.
 # template language: javascript
 
-
 PROTO Pavement [
   field SFString{"black stone", "braun stone", "braun square stone", "grid", "slate", "tiles"}
                  type             "braun square stone" # Defines the pavement type.

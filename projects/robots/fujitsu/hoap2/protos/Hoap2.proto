@@ -5,7 +5,6 @@
 # Hoap 2 - Advanced humanoid robot manufactured by Fujitsu Automation
 # 50 cm high, 7 kg, 25 degrees of freedom
 
-
 PROTO Hoap2 [
   field SFVec3f    translation         0 0 0.29       # Is `Transform.translation`.
   field SFRotation rotation            0 0 1 0        # Is `Transform.rotation`.

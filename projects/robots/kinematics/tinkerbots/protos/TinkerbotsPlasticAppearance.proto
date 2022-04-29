@@ -4,7 +4,6 @@
 # tags: hidden
 # template language: javascript
 
-
 PROTO TinkerbotsPlasticAppearance [
   field SFString{"yellow", "red", "blue", "black", "grey"} color           "yellow"
   field MFString                                           occlusionMapUrl []

@@ -3,11 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Speed limit sign (5mph to 80mph) or one way sign.
 
-EXTERNPROTO Panel "webots://projects/objects/panels/protos/Panel.proto"
-EXTERNPROTO SpeedLimitPanel "webots://projects/objects/traffic/protos/SpeedLimitPanel.proto"
-EXTERNPROTO SignPole "webots://projects/objects/traffic/protos/SignPole.proto"
-EXTERNPROTO Pole "webots://projects/objects/traffic/protos/Pole.proto"
-
 PROTO SpeedLimitSign [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0

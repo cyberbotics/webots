@@ -6,7 +6,6 @@
 # A stone pavement material.
 # template language: javascript
 
-
 PROTO StonePavement [
   field SFColor                          colorOverride    1 1 1     # Defines the color to be multiplied with the texture color.
   field SFString{"recent", "old square"} type             "recent"  # Defines the pavement type.

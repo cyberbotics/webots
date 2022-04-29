@@ -5,9 +5,6 @@
 # Different types of poles are available: "cylinder", "box", or "H-shape".
 # template language: javascript
 
-EXTERNPROTO HighwaySign "webots://projects/objects/traffic/protos/HighwaySign.proto"
-EXTERNPROTO Extrusion "webots://projects/objects/geometries/protos/Extrusion.proto"
-
 PROTO HighwayPole [
   field SFVec3f       translation           0 0 0
   field SFRotation    rotation              0 0 1 0

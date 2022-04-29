@@ -5,24 +5,6 @@
 # Model of a Range Rover Sport SVR 2015
 # template language: javascript
 
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO VehicleLights "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-EXTERNPROTO RangeRoverSportSVRCoachworkDetailsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRRightIndicatorMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
-EXTERNPROTO RangeRoverSportSVRRightMirrorMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
-EXTERNPROTO RangeRoverSportSVRRearLightsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRLeftIndicatorMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
-EXTERNPROTO RangeRoverSportSVRCoachworkSecondaryMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
-EXTERNPROTO RangeRoverSportSVRWindowsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRCoachworkPrimaryMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
-EXTERNPROTO RangeRoverSportSVRFrontLightsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRAntifogLightsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRAntifogLightsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRBrakingLightsMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
-EXTERNPROTO RangeRoverSportSVRBottomMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
-EXTERNPROTO RangeRoverSportSVRLeftMirrorMesh "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
-
 PROTO RangeRoverSportSVR [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0

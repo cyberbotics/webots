@@ -6,7 +6,6 @@
 # A wooden material in a chequered pattern covered with a layer of varnish. Useful with the `Floor` PROTO.
 # template language: javascript
 
-
 PROTO ChequeredParquetry [
   field SFNode  textureTransform NULL  # Defines an optional 2d texture transform.
   field SFFloat IBLStrength      1     # Defines the strength of ambient lighting from the Background node.

@@ -4,11 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # A simple tractor.
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO TractorRearWheel "webots://projects/vehicles/protos/generic/TractorRearWheel.proto"
-EXTERNPROTO TractorFrontWheel "webots://projects/vehicles/protos/generic/TractorFrontWheel.proto"
-EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
-
 PROTO Tractor [
   field     SFVec3f    translation       0 0 0.6
   field     SFRotation rotation          0 1 0 0.13

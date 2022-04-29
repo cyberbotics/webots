@@ -1,10 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO CircleArena "webots://projects/objects/floors/protos/CircleArena.proto"
-
 WorldInfo {
   info [
     "The user drives a Supervisor by the Keyboard which drives slaves robots by using an emitter device."

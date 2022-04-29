@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer2
 # The Pioneer 2 robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
-
 PROTO Pioneer2 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.

@@ -6,7 +6,6 @@
 # The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
 # template language: javascript
 
-
 PROTO SolidBox [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0

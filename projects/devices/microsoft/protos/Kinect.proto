@@ -6,7 +6,6 @@
 # It contains a RangeFinder device called "<cameraName> + ' range'" and a Camera device called "<cameraName> + ' color'".
 # template language: javascript
 
-
 PROTO Kinect [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0

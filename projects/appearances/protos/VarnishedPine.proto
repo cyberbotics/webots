@@ -3,7 +3,6 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A pine wood material covered with a layer of varnish. The color can be overridden using the `colorOverride` field.
 
-
 PROTO VarnishedPine [
   field SFColor colorOverride    0.8039 0.6745 0.5764  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL                  # Defines an optional 2d texture transform.

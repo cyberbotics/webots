@@ -4,8 +4,6 @@
 # A plastic crate.
 # template language: javascript
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
-
 PROTO PlasticCrate [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

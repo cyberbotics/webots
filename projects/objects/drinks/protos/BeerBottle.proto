@@ -4,7 +4,6 @@
 # A beer bottle.
 # template language: javascript
 
-
 PROTO BeerBottle [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

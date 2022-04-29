@@ -4,7 +4,6 @@
 # A simple ramp made of two 30° slopes and a flat top.
 # The ramp is a static object (not physics-enabled) so it will not move when hit.
 
-
 PROTO Ramp30deg [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0

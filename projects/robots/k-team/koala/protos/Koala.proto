@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/koala
 # The "Koala" robot is a six-wheeled indoor robot produced by K-Team.
 
-
 PROTO Koala [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.

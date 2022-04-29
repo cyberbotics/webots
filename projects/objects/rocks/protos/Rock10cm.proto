@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A rock (10 cm).
 
-
 PROTO Rock10cm [
   field SFVec3f    translation      0 0 0.05
   field SFRotation rotation         0 0 1 0

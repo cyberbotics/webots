@@ -3,11 +3,6 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervisor.
 
-EXTERNPROTO MercedesBenzSprinterLogos "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLogos.proto"
-EXTERNPROTO MercedesBenzSprinterMesh "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterMesh.proto"
-EXTERNPROTO MercedesBenzSprinterLights "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLights.proto"
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-
 PROTO MercedesBenzSprinterSimple [
   field       SFVec3f    translation                    0 0 0.4
   field       SFRotation rotation                       0 0 1 0

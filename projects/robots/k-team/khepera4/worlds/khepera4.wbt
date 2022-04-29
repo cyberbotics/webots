@@ -1,11 +1,4 @@
 #VRML_SIM R2022b utf8
-
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO CircleArena "webots://projects/objects/floors/protos/CircleArena.proto"
-EXTERNPROTO Khepera4 "webots://projects/robots/k-team/khepera4/protos/Khepera4.proto"
-
 WorldInfo {
   basicTimeStep 16
   lineScale 0.05

@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
 # A 3-finger adaptive robot gripper from ROBOTIQ.
 
-
 PROTO Robotiq3fGripper [
   field   SFVec3f    translation    0 0.04 0
   field   SFRotation rotation       0 0 1 0

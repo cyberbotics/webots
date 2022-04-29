@@ -3,10 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple non-controllable truck tank model without physics properties.
 
-EXTERNPROTO TruckWheel "webots://projects/vehicles/protos/generic/TruckWheel.proto"
-EXTERNPROTO TruckRearLight "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
-EXTERNPROTO TruckTankMesh "webots://projects/vehicles/protos/generic/TruckTankMesh.proto"
-
 PROTO TruckTankSimple [
   field SFString   name                 "truck tank"
   field SFColor    color                0.66 0.66 0.66

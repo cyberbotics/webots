@@ -12,8 +12,6 @@
 # If a boolean field (front, back, left, right, top, bottom) is FALSE, then the corresponding face is not drawn.
 # A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
 
-EXTERNPROTO TexturedParallelepiped "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
-
 PROTO TexturedBox [
   field SFVec3f  size    0.1 0.1 0.1  # Defines the size of the box.
   field SFString{"cube", "compact", "flat", "metric", "default", "none"}

@@ -5,16 +5,6 @@
 # Simple kinematic model of the Citroën C-Zero to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO CitroenCZeroFrontWheel "webots://projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto"
-EXTERNPROTO CitroenCZeroTailLight "webots://projects/vehicles/protos/citroen/CitroenCZeroTailLight.proto"
-EXTERNPROTO CitroenCZeroRearWheel "webots://projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto"
-EXTERNPROTO CitroenCZeroHeadLight "webots://projects/vehicles/protos/citroen/CitroenCZeroHeadLight.proto"
-EXTERNPROTO CitroenCZeroBrakeLight "webots://projects/vehicles/protos/citroen/CitroenCZeroBrakeLight.proto"
-EXTERNPROTO CitroenCZeroLeftIndicator "webots://projects/vehicles/protos/citroen/CitroenCZeroLeftIndicator.proto"
-EXTERNPROTO CitroenCZeroMesh "webots://projects/vehicles/protos/citroen/CitroenCZeroMesh.proto"
-EXTERNPROTO CitroenCZeroRightIndicator "webots://projects/vehicles/protos/citroen/CitroenCZeroRightIndicator.proto"
-EXTERNPROTO CitroenCZeroFogLight "webots://projects/vehicles/protos/citroen/CitroenCZeroFogLight.proto"
-
 PROTO CitroenCZeroSimple [
   field     SFVec3f    translation         0 0 0.4
   field     SFRotation rotation            0 0 1 0

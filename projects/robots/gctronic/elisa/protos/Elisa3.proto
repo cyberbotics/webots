@@ -6,8 +6,6 @@
 # The Elisa-3 is powered by an ATmega 2560 processor and features a large number of sensors.
 # More info here: http://www.gctronic.com/doc/index.php/Elisa-3.
 
-EXTERNPROTO Elisa3DistanceSensor "webots://projects/robots/gctronic/elisa/protos/Elisa3DistanceSensor.proto"
-
 PROTO Elisa3 [
   field SFVec3f    translation      0 0 0     # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0   # Is `Transform.rotation`.

@@ -4,9 +4,6 @@
 # Official soccer field for the Robocup Humanoid League 2021.
 # template language: javascript
 
-EXTERNPROTO Grass "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO RobocupGoal "webots://projects/samples/contests/robocup/protos/RobocupGoal.proto"
-
 PROTO RobocupSoccerField [
   field SFVec3f                     translation 0 0 0
   field SFRotation                  rotation    0 0 1 0

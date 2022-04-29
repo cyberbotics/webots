@@ -1,7 +1,6 @@
 #VRML_SIM R2022b utf8
 # tags: hidden
 
-
 PROTO C3dBodyRepresentation [
   field SFVec3f     translation        0 0 0
   field SFRotation  rotation           0 0 1 -1.5708

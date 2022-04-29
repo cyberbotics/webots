@@ -5,7 +5,6 @@
 # BOT120 PICAXE-20X2 Microbot (Revolution Education Ltd.)
 # This small robot is used for education with PICAXE programming tools
 
-
 PROTO Microbot [
   field SFVec3f    translation      0 0 0.022 # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0   # Is `Transform.rotation`.

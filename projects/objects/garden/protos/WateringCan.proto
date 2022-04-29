@@ -4,7 +4,6 @@
 # A watering can with optional physics.
 # template language: javascript
 
-
 PROTO WateringCan [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

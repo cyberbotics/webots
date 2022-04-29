@@ -4,9 +4,6 @@
 # Model of a generic ultrasonic sensor used for the MiR100 robot.
 # template language: javascript
 
-EXTERNPROTO CorrodedMetal "webots://projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO Plastic "webots://projects/appearances/protos/Plastic.proto"
-
 PROTO Mir100UltrasonicSensor [
   field   SFVec3f    translation    0 0 0
   field   SFRotation rotation       0 0 1 0

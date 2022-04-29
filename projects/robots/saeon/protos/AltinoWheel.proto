@@ -3,8 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-
 PROTO AltinoWheel [
   field       SFString name        "Altino wheel"
   hiddenField SFFloat  tireRadius  0.02            # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.

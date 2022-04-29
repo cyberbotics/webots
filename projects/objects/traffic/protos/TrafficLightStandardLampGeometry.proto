@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A traffic light lamp with a standard geometry.
 
-
 PROTO TrafficLightStandardLampGeometry [
 ]
 {

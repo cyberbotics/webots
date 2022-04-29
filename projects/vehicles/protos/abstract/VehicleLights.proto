@@ -5,7 +5,6 @@
 # Set of lights found in a standard vehicle: front, right and left indicators, antifog, braking, rear and backwards
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-
 PROTO VehicleLights [
   field MFNode    front           [ ]
   field MFColor   frontColor      [ 0.5 0.5 0.5 ]

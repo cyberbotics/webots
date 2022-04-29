@@ -4,8 +4,6 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO Leather "webots://projects/appearances/protos/Leather.proto"
-
 PROTO BmwX5RearInterior [
   field  SFBool  shifter  TRUE
 ]

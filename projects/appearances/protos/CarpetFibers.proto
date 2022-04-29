@@ -4,7 +4,6 @@
 # A woolen carpet material.
 # template language: javascript
 
-
 PROTO CarpetFibers [
   field SFColor                                   colorOverride    1 1 1   # Defines the color to be multiplied with the texture color.
   field SFString{"wooly", "synthetic", "pattern"} type             "wooly" # Defines the carpet type.

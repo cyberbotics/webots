@@ -5,7 +5,6 @@
 # Supervisor interfacing SUMO with Webots
 # template language: javascript
 
-
 PROTO SumoInterface [
   field SFString  name                  "sumo interface"
   field SFBool    gui                   TRUE

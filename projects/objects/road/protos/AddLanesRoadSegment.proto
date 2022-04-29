@@ -6,12 +6,6 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO Pavement "webots://projects/appearances/protos/Pavement.proto"
-EXTERNPROTO Asphalt "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO RoadLine "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO AddLaneRoadSegment "webots://projects/objects/road/protos/AddLaneRoadSegment.proto"
-EXTERNPROTO CrashBarrier "webots://projects/objects/road/protos/CrashBarrier.proto"
-
 PROTO AddLanesRoadSegment [
   field        SFVec3f              translation               0 0 0
   field        SFRotation           rotation                  0 0 1 0

@@ -4,20 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
 
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO LincolnMKZBackLogoMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZBackLogoMesh.proto"
-EXTERNPROTO LincolnMKZFrontLightsMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZFrontLightsMesh.proto"
-EXTERNPROTO LincolnMKZDetailsMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZDetailsMesh.proto"
-EXTERNPROTO LincolnMKZLeftTurnSignalMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZLeftTurnSignalMesh.proto"
-EXTERNPROTO LincolnMKZRightSideMirrorMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZRightSideMirrorMesh.proto"
-EXTERNPROTO LincolnMKZCoachworkMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZCoachworkMesh.proto"
-EXTERNPROTO LincolnMKZRightTurnSignalMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZRightTurnSignalMesh.proto"
-EXTERNPROTO LincolnMKZLeftSideMirrorMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZLeftSideMirrorMesh.proto"
-EXTERNPROTO LincolnMKZWindowsMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZWindowsMesh.proto"
-EXTERNPROTO LincolnMKZBackLightsMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZBackLightsMesh.proto"
-EXTERNPROTO LincolnMKZPlatesMesh "webots://projects/vehicles/protos/lincoln/LincolnMKZPlatesMesh.proto"
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-
 PROTO LincolnMKZSimple [
   field       SFVec3f    translation                    0 0 0.4
   field       SFRotation rotation                       0 0 1 0

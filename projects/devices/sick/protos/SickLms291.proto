@@ -6,7 +6,6 @@
 # 'resolution' should be typically 180, 360 or 720 in order to have a precision of respectively 1°, 0.5° and 0.25°
 # template language: javascript
 
-
 PROTO SickLms291 [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

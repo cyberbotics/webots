@@ -7,7 +7,6 @@
 # It is mounted by several sensors including cameras.
 # Extracted from: pr2.urdf
 
-
 PROTO Pr2 [
    field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
    field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.

@@ -4,10 +4,6 @@
 # Customizable table.
 # template language: javascript
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-
 PROTO Table [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0

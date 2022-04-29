@@ -4,7 +4,6 @@
 # Ground sensor of a Khepera III robot.
 # Electronic part: Vishay TCRT5000
 
-
 PROTO Khepera3_GroundSensor [
   field SFVec3f translation 0 0 0
   field SFRotation rotation  0 0 1 0

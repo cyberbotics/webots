@@ -6,7 +6,6 @@
 # The color can be overridden using the `colorOverride` field.
 # template language: javascript
 
-
 PROTO Parquetry [
   field SFString{"chequered", "dark strip", "light strip", "mosaic"}
                  type             "mosaic"  # Defines the parquetry type.

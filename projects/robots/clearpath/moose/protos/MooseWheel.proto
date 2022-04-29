@@ -3,8 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-
 PROTO MooseWheel [
   field SFString name "moose wheel"
 ]

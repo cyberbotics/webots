@@ -4,7 +4,6 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/fabtino
 # Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
-
 PROTO Fabtino [
   field  SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
   field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.

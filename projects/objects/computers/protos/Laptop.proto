@@ -3,7 +3,6 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple laptop.
 
-
 PROTO Laptop [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
