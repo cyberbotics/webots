@@ -723,7 +723,7 @@ body {
   border: none;
   height: 15px;
   width: 15px;
-  background: red;
+  background: rgb(0, 122, 204);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -6px;
