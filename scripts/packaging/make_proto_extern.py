@@ -18,7 +18,7 @@
 
 
 BASE_URL = 'webots://'
-#BASE_URL = 'webots://'
+#BASE_URL = 'https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/'
 
 import os
 import sys
@@ -43,7 +43,7 @@ else:
 #   sys.exit('Missing argument: commit sha or tag.')
 # else:
 #   tag = sys.argv[1]
-tag = 'feature-add-externproto-support'
+#tag = 'feature-externproto'
 
 protos = []
 protos.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
@@ -82,20 +82,27 @@ for asset in tqdm(assets):
 
   # find first non-commented line
   index = None
+  contents = contents.splitlines(keepends=True)
   for n, line in enumerate(contents):
     if not line.startswith('#'):
       index = n
       break
+
+  while contents[index].startswith('\n'):
+    del contents[index]
 
   if not index:
     print(f'world {asset} is not valid')
     exit()
 
   # insert extern proto reference
-  contents = contents.splitlines(keepends=True)
+  #contents = contents.splitlines(keepends=True)
+  complete_expr = ""
   for match in matches:
-    expr = 'EXTERNPROTO ' + match + f' \"{BASE_URL}' + known_proto[match] + '\"\n'
-    contents.insert(index, expr)
+    expr = f'EXTERNPROTO {match} \"{BASE_URL}{known_proto[match]}\"\n'
+    if expr not in contents and expr not in complete_expr:
+      complete_expr += expr
+  contents.insert(index, '\n' + complete_expr + '\n')
 
   with open(asset, "w") as f:
     contents = "".join(contents)
