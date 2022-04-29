@@ -276,11 +276,11 @@ void WbGuiApplication::parseArguments() {
   }
   while (!args.isEmpty()) {
     const QString subCommand = args.first();
-    if (subCommand == "help" && parser.isSet(helpOption)) {
+    if (subCommand == "help" && parser.isSet(helpOption))
       mTask = HELP;
-    } else if (subCommand == "version" && parser.isSet(versionOption)) {
+    else if (subCommand == "version" && parser.isSet(versionOption))
       mTask = VERSION;
-    } else if (subCommand == "minimize" && parser.isSet(minimizeOption)) {
+    else if (subCommand == "minimize" && parser.isSet(minimizeOption))
       mShouldMinimize = true;
     } else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption)) {
       mShouldStartFullscreen = true;
