@@ -282,7 +282,7 @@ void WbGuiApplication::parseArguments() {
       mTask = VERSION;
     else if (subCommand == "minimize" && parser.isSet(minimizeOption))
       mShouldMinimize = true;
-    } else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption)) {
+    else if (subCommand == "fullscreen" && parser.isSet(fullscreenOption))
       mShouldStartFullscreen = true;
     } else if (subCommand == "mode" && parser.isSet("mode")) {
       const QStringList mode = parser.values(modeOption);
