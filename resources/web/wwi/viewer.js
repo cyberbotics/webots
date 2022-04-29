@@ -17,6 +17,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
+import WebotsView from './WebotsView.js';
 import {loadImageTextureInWren} from './Parser.js';
 
 let handle;
@@ -697,7 +698,7 @@ function highlightCode(view) {
 }
 
 function resetRobotComponent(robot) {
-  unhighlightX3DElement(robot);
+  unhighlightX3DElement();
   const robotComponent = getRobotComponentByRobotName(robot);
   // Reset the Viewpoint
   if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
@@ -710,7 +711,7 @@ function resetRobotComponent(robot) {
     let id = slider.getAttribute('webots-transform-id');
     sliderMotorCallback(WbWorld.instance.nodes.get(id), slider);
   }
-  robotComponent.webotsView.x3dScene.render();
+  webotsView._view.x3dScene.render();
 }
 
 function updateRobotComponentDimension(robot) {
@@ -730,7 +731,7 @@ function updateRobotComponentDimension(robot) {
     robotView.style.width = '100%';
   }
 
-  robotComponent.webotsView.x3dScene.resize();
+  webotsView._view.x3dScene.resize();
 }
 
 function toggleDeviceComponent(robot) {
@@ -749,18 +750,23 @@ function toggleDeviceComponent(robot) {
   }
 }
 
-function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-lets
-  // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
+function toggleRobotComponentFullScreen(robot) {
   let element = getRobotComponentByRobotName(robot);
+  const fullscreenButton = document.getElementById('fullscreen-button');
+  const windowedButton = document.getElementById('windowed-button');
   if (document.fullscreenElement) {
-    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
+    if (fullscreenButton)
+      fullscreenButton.style.display = '';
+    if (windowedButton)
+      windowedButton.style.display = 'none';
 
     if (document.exitFullscreen)
       document.exitFullscreen();
   } else {
-    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = '';
+    if (fullscreenButton)
+      fullscreenButton.style.display = 'none';
+    if (windowedButton)
+      windowedButton.style.display = '';
 
     if (element.requestFullscreen) {
       element.requestFullscreen();
@@ -861,25 +867,22 @@ function removePointer() {
   }
 }
 
-function unhighlightX3DElement(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  const scene = robotComponent.webotsView.x3dScene;
+function unhighlightX3DElement() {
+  const scene = webotsView._view.x3dScene;
   removePointer();
   scene.render();
 }
 
-function highlightX3DElement(robot, deviceElement) {
+function highlightX3DElement(deviceElement) {
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
-      highlightX3DElement(robot, deviceElement);
+      highlightX3DElement(deviceElement);
     });
   }
-  unhighlightX3DElement(robot);
-
-  let robotComponent = getRobotComponentByRobotName(robot);
-  let scene = robotComponent.webotsView.x3dScene;
+  unhighlightX3DElement();
+  let scene = webotsView._view.x3dScene;
   let id = deviceElement.getAttribute('webots-transform-id');
   if (typeof WbWorld.instance === 'undefined')
     return;
@@ -905,7 +908,7 @@ function highlightX3DElement(robot, deviceElement) {
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
       pbr.parent = shape.id;
-      pointer = new WbTransform(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbTransform(getAnId(), new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
@@ -929,27 +932,34 @@ function getRobotComponentByRobotName(robotName) {
   return document.querySelector('#' + robotName + '-robot-component');
 }
 
+function initializeWebotsView(robotName) {
+  if (webotsView.initializationComplete) {
+    webotsView._view = new webots.View(webotsView);
+    webotsView._view.branch = localSetup.branch;
+    webotsView._view.repository = localSetup.repository;
+    webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
+    webotsView._view.x3dScene.resize();
+  } else
+    setTimeout(() => initializeWebotsView(robotName), 100);
+}
 function createRobotComponent(view) {
-  const robotComponents = document.querySelectorAll('.robot-component');
-  for (let c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
-    const robotComponent = robotComponents[c];
-    const webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
+  const robotComponent = document.querySelector('.robot-component');
+  if (robotComponent) {
+    const webotsViewElement = document.querySelector('.robot-webots-view');
     const robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
 
     if (typeof webotsView === 'undefined') {
-      webotsView = new webots.View(webotsViewElement);
-      webotsView.branch = localSetup.branch;
-      webotsView.repository = localSetup.repository;
+      webotsView = new WebotsView();
+      webotsView.showInfo = false;
+      webotsViewElement.appendChild(webotsView);
+      initializeWebotsView(robotName);
     } else {
-      webotsView.x3dScene.destroyWorld();
+      webotsView._view.x3dScene.destroyWorld();
       sizeOfMarker = undefined;
       pointer = undefined;
-      webotsView.view3D = webotsViewElement;
+      webotsView._view.view3D = webotsViewElement;
+      webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     }
-    robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
-
-    // Load the robot X3D file.
-    webotsView.open(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
 
     // Load the robot meta JSON file.
     fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
@@ -981,7 +991,7 @@ function createRobotComponent(view) {
           // Create the new device.
           let deviceDiv = document.createElement('div');
           deviceDiv.classList.add('device');
-          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(robotName, deviceDiv));
+          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
           deviceDiv.setAttribute('webots-type', deviceType);
           deviceDiv.setAttribute('webots-transform-id', device['transformID']);
           if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
@@ -1021,7 +1031,7 @@ function createRobotComponent(view) {
                 return;
               let id = _.target.getAttribute('webots-transform-id');
               sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
-              webotsView.x3dScene.render();
+              webotsView._view.x3dScene.render();
             });
 
             const motorDiv = document.createElement('div');
@@ -1039,52 +1049,41 @@ function createRobotComponent(view) {
       .catch(error => {
         console.log('Error: ' + error);
       });
+    reassignButtons(robotName);
 
     if (document.getElementsByClassName('menu-button').length !== 0)
       document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
-    if (document.getElementsByClassName('fullscreen-button').length !== 0)
-      document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
-    if (document.getElementsByClassName('exit-fullscreen-button').length !== 0) {
-      document.getElementsByClassName('exit-fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
-      document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
-    }
-    if (document.getElementsByClassName('reset-button').length !== 0)
-      document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
 
     if (document.getElementsByClassName('robot-component').length !== 0) {
-      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showButtons();
-      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideButtons(robotName);
+      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showMenuButton();
+      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideMenuButton(robotName);
     }
   }
 }
 
-function showButtons() {
-  if (document.getElementsByClassName('reset-button').length !== 0)
-    document.getElementsByClassName('reset-button')[0].style.display = '';
+function reassignButtons(robotName) {
+  if (webotsView.toolbar) {
+    if (document.getElementById('fullscreen-button'))
+      document.getElementById('fullscreen-button').onclick = () => toggleRobotComponentFullScreen(robotName);
+    if (document.getElementById('windowed-button'))
+      document.getElementById('windowed-button').onclick = () => toggleRobotComponentFullScreen(robotName);
+    if (document.getElementById('reset-viewpoint'))
+      document.getElementById('reset-viewpoint').onclick = () => resetRobotComponent(robotName);
+  } else
+    setTimeout(() => reassignButtons(robotName), 100);
+}
 
-  if (document.getElementsByClassName('fullscreen-button').length !== 0)
-    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
-
+function showMenuButton() {
   if (document.getElementsByClassName('menu-button').length !== 0)
     document.getElementsByClassName('menu-button')[0].style.display = '';
 }
 
-function hideButtons(robot) {
-  if (document.getElementsByClassName('reset-button').length !== 0)
-    document.getElementsByClassName('reset-button')[0].style.display = 'none';
-
-  if (document.getElementsByClassName('fullscreen-button').length !== 0)
-    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
-
-  if (document.getElementsByClassName('exit-fullscreen-button').length !== 0)
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
-
+function hideMenuButton(robot) {
   if (document.getElementsByClassName('menu-button').length !== 0)
     document.getElementsByClassName('menu-button')[0].style.display = 'none';
 
   removePointer();
-  const robotComponent = getRobotComponentByRobotName(robot);
-  robotComponent.webotsView.x3dScene.render();
+  webotsView._view.x3dScene.render();
 }
 
 // Open a tab component tab
