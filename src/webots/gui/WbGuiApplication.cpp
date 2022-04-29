@@ -325,8 +325,13 @@ void WbGuiApplication::parseArguments() {
       WbWorld::enableX3DMetaFileExport();
     } else if (subCommand == "stream" && parser.isSet("stream")) {
       const QStringList streamArgument = parser.values(streamOption);
-      stream = true;
-      parseStreamArguments(streamArgument[0]);
+      if (streamArgument.isEmpty()) {
+        cerr << tr("webots: value is missing in '--stream'.\n").toUtf8().constData();
+        mTask = FAILURE;
+      } else {
+        stream = true;
+        parseStreamArguments(streamArgument[0]);
+      }
     } else if (subCommand == "stdout" && parser.isSet(stdoutOption)) {
       WbLog::enableStdOutRedirectToTerminal();
     } else if (subCommand == "stderr" && parser.isSet(stderrOption)) {
