@@ -189,6 +189,13 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   WbWorld::enableX3DStreaming();
 }
 
+void WbGuiApplication::tryHelp() {
+  static bool done = false;
+  if (!done)
+    cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+  done = true;
+}
+
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   bool logPerformanceMode = false;
@@ -284,7 +291,7 @@ void WbGuiApplication::parseArguments() {
         mTask = FAILURE;
       } else if (mode[0] == "stop") {
         cerr << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+        tryHelp();
         mStartupMode = WbSimulationState::PAUSE;
       } else if (mode[0] == "pause")
         mStartupMode = WbSimulationState::PAUSE;
@@ -294,7 +301,7 @@ void WbGuiApplication::parseArguments() {
         mStartupMode = WbSimulationState::FAST;
       else if (mode[0] == "run") {
         cerr << tr("Warning: `run` mode is deprecated, falling back to `fast` mode").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+        tryHelp();
         mStartupMode = WbSimulationState::FAST;
       } else {
         cout << tr("webots: invalid value '%1' in --mode").arg(mode[0]).toUtf8().constData() << endl;
@@ -380,7 +387,7 @@ void WbGuiApplication::parseArguments() {
   }
   if (stream && !batch) {
     cerr << tr("Warning: you should also use --batch (in addition to --stream) for production.").toUtf8().constData() << endl;
-    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    tryHelp();
   }
 
   if (logPerformanceMode) {
@@ -398,7 +405,7 @@ void WbGuiApplication::parseArguments() {
     mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
   }
   if (mTask == FAILURE) {
-    cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    tryHelp();
     return;
   }
 }
@@ -446,7 +453,7 @@ bool WbGuiApplication::setup() {
     QFileInfo info(mStartWorldName);
     if (!info.isReadable()) {
       cerr << tr("Could not open file: '%1'.").arg(mStartWorldName).toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+      tryHelp();
       mTask = FAILURE;
     }
   }

@@ -63,6 +63,7 @@ private:
 
   WbStreamingServer *mStreamingServer;
 
+  static void tryHelp();
   void parseArguments();
   void parseStreamArguments(const QString &streamArguments);
   void showHelp();
