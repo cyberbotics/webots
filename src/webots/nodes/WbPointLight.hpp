@@ -80,7 +80,6 @@ private:
 
   void attachToUpperTransform();
   void detachFromUpperTransform();
-  void exportNodeFields(WbWriter &writer) const override;
 
 private slots:
   void updateAttenuation();

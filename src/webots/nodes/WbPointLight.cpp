@@ -238,10 +238,3 @@ void WbPointLight::applyBillboardVisibilityToWren() {
 double WbPointLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
 }
-
-void WbPointLight::exportNodeFields(WbWriter &writer) const {
-  findField("attenuation", true)->write(writer);
-  findField("location", true)->write(writer);
-  findField("radius", true)->write(writer);
-  WbLight::exportNodeFields(writer);
-}
