@@ -298,7 +298,7 @@ void WbGuiApplication::parseArguments() {
         cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
         mStartupMode = WbSimulationState::FAST;
       } else {
-        cout << tr("webots: invalid option: '%1' in --mode").arg(mode[0]).toUtf8().constData() << endl;
+        cout << tr("webots: invalid value '%1' in --mode").arg(mode[0]).toUtf8().constData() << endl;
         mTask = FAILURE;
       }
     } else if (subCommand == "no-rendering" && parser.isSet(noRenderingOption)) {
