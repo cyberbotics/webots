@@ -101,7 +101,7 @@ signals:
 private:
   WbWorldInfo &operator=(const WbWorldInfo &);  // non copyable
   WbNode *clone() const override { return new WbWorldInfo(*this); }
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   void init(const WbVersion *version = NULL);
 
   // User accessible fields

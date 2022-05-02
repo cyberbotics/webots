@@ -23,6 +23,19 @@ export default class FloatingWindow {
     this.headerQuit.innerHTML = ('&times;');
     this.floatingWindowHeader.appendChild(this.headerQuit);
 
+    const resizeContainer = document.createElement('div');
+    resizeContainer.className = 'resize-container';
+    this.floatingWindow.appendChild(resizeContainer);
+
+    const directions = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'];
+    for (const d of directions) {
+      let resizeElement = document.createElement('div');
+      resizeElement.className = 'resize-element';
+      resizeElement.id = 'resize-' + d;
+      resizeElement.style.cursor = d + '-resize';
+      resizeContainer.appendChild(resizeElement);
+    }
+
     this.floatingWindowContent = document.createElement('div');
     this.floatingWindowContent.className = 'floating-window-content';
     this.floatingWindow.appendChild(this.floatingWindowContent);
@@ -31,25 +44,16 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._dragElement(this.floatingWindow);
-    this._maxSize(name);
+    this._interactElement(this.floatingWindow);
   }
 
   getId() {
     return this.floatingWindow.id;
   }
 
-  getSize() {
-    return [this.floatingWindow.offsetWidth, this.floatingWindow.offsetHeight];
-  }
-
   setSize(w, h) {
     this.floatingWindow.style.width = w.toString() + 'px';
     this.floatingWindow.style.height = h.toString() + 'px';
-  }
-
-  getPosition() {
-    return [this.floatingWindow.offsetLeft, this.floatingWindow.offsetTop];
   }
 
   setPosition(xPos, yPos) {
@@ -72,85 +76,130 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
-  _dragElement(fw) {
-    let pos1 = 0;
-    let pos2 = 0;
-    let pos3 = 0;
-    let pos4 = 0;
-    let containerHeight = fw.parentNode.offsetHeight;
-    let containerWidth = fw.parentNode.offsetWidth;
-    let topOffset = 0;
-    let leftOffset = 0;
+  _interactElement(fw) {
+    let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
+    let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
+    let interactionType, id;
+    const minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
+    const minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
 
-    fw.firstChild.onmousedown = dragMouseDown;
-
-    function dragMouseDown(event) {
-      fw.lastElementChild.style.pointerEvents = 'none';
-
-      containerHeight = fw.parentNode.offsetHeight;
-      containerWidth = fw.parentNode.offsetWidth;
-
-      event.preventDefault();
-
-      pos1 = event.clientX;
-      pos2 = event.clientY;
-      topOffset = pos2 - fw.offsetTop;
-      leftOffset = pos1 - fw.offsetLeft;
-
-      document.onmouseup = closeDragElement;
-      document.onmousemove = robotWindowDrag;
+    fw.firstChild.onmousedown = interactMouseDown;
+    fw.firstChild.ontouchstart = interactMouseDown;
+    for (let n of fw.childNodes[1].childNodes) {
+      n.onmousedown = interactMouseDown;
+      n.ontouchstart = interactMouseDown;
     }
 
-    function robotWindowDrag(event) {
-      event.preventDefault();
+    function interactMouseDown(event) {
+      fw.lastElementChild.style.pointerEvents = 'none';
+      fw.style.userSelect = 'none';
 
-      pos3 = pos1 - event.clientX;
-      pos4 = pos2 - event.clientY;
-      pos1 = event.clientX;
-      pos2 = event.clientY;
+      let e = event.touches ? event.touches[0] : event;
+      containerHeight = fw.parentNode.offsetHeight;
+      containerWidth = fw.parentNode.offsetWidth;
+      maxHeight = fw.offsetTop + fw.offsetHeight;
+      maxWidth = fw.offsetLeft + fw.offsetWidth;
+      maxTop = maxHeight - minHeight;
+      maxLeft = maxWidth - minWidth;
+      posX = e.clientX;
+      posY = e.clientY;
+      topOffset = posY - fw.offsetTop;
+      bottomOffset = posY + containerHeight - fw.offsetTop - fw.offsetHeight;
+      leftOffset = posX - fw.offsetLeft;
+      rightOffset = posX + containerWidth - fw.offsetLeft - fw.offsetWidth;
+      id = event.target.id.substring(7);
+      interactionType = id.length === 0 ? 'drag' : 'resize';
 
-      let top = fw.offsetTop - pos4;
-      let left = fw.offsetLeft - pos3;
-      let bottom = top + fw.offsetHeight;
-      let right = left + fw.offsetWidth;
+      document.onmouseup = closeInteractElement;
+      document.onmousemove = floatingWindowInteract;
+      document.ontouchend = closeInteractElement;
+      document.ontouchcancel = closeInteractElement;
+      document.ontouchmove = floatingWindowInteract;
+    }
 
-      if (top < 0 || event.clientY < topOffset)
-        top = 0;
-      else if (bottom > containerHeight || event.clientY > containerHeight - fw.offsetHeight + topOffset)
-        top = containerHeight - fw.offsetHeight;
-      
-      if (left < 0 || event.clientX < leftOffset)
-        left = 0;
-      else if (right > containerWidth || event.clientX > containerWidth - fw.offsetWidth + leftOffset)
-        left = containerWidth - fw.offsetWidth;
+    function floatingWindowInteract(event) {
+      top = fw.offsetTop;
+      left = fw.offsetLeft;
+      width = fw.offsetWidth;
+      height = fw.offsetHeight;
+
+      let e = event.touches ? event.touches[0] : event;
+      dX = e.clientX - posX;
+      dY = e.clientY - posY;
+      posX = e.clientX;
+      posY = e.clientY;
+
+      if (interactionType === 'resize') {
+        // Resize element
+        document.body.style.cursor = id + '-resize';
+        if (id.includes('n')) {
+          if (top + dY < 0 || posY < topOffset) { // out of bounds
+            top = 0;
+            height = maxHeight;
+          } else if (top + dY > maxTop || posY - topOffset > maxTop) { // min height
+            height = minHeight;
+            top = maxTop;
+          } else if (height > minHeight || dY < 0) { // resize
+            height -= dY;
+            top += dY;
+          }
+        }
+        if (id.includes('w')) {
+          if (left + dX < 0 || posX < leftOffset) { // out of bounds
+            left = 0;
+            width = maxWidth;
+          } else if (left + dX > maxLeft || posX > maxLeft) { // min width
+            width = minWidth;
+            left = maxLeft;
+          } else if (width > minWidth || dX < 0) { // resize
+            width -= dX;
+            left += dX;
+          }
+        }
+        if (id.includes('s')) {
+          if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) // out of bounds
+            height = containerHeight - fw.offsetTop;
+          else if (posY - bottomOffset + containerHeight < top + minHeight + dY) // min height
+            height = minHeight;
+          else // resize
+            height += dY;
+        }
+        if (id.includes('e')) {
+          if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) // out of bounds
+            width = containerWidth - fw.offsetLeft;
+          else if (posX - rightOffset + containerWidth < left + minWidth + dX) // min width
+            width = minWidth;
+          else // resize
+            width += dX;
+        }
+      } else if (interactionType === 'drag') {
+        // Drag element
+        top = fw.offsetTop + dY;
+        left = fw.offsetLeft + dX;
+        if (top < 0 || posY < topOffset) // top boundary
+          top = 0;
+        else if (top + fw.offsetHeight > containerHeight || posY > containerHeight - fw.offsetHeight + topOffset) // bottom boundary
+          top = containerHeight - fw.offsetHeight;
+        if (left < 0 || posX < leftOffset) // left boundary
+          left = 0;
+        else if (left + fw.offsetWidth > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset) // right boundary
+          left = containerWidth - fw.offsetWidth;
+      }
 
       fw.style.top = top + 'px';
       fw.style.left = left + 'px';
+      fw.style.width = width + 'px';
+      fw.style.height = height + 'px';
     }
 
-    function closeDragElement() {
+    function closeInteractElement() {
       document.onmouseup = null;
       document.onmousemove = null;
+      document.ontouchstart = null;
+      document.ontouchmove = null;
       fw.lastElementChild.style.pointerEvents = 'auto';
+      fw.style.userSelect = 'auto';
+      document.body.style.cursor = 'default';
     }
-  }
-
-  _maxSize(name) {
-    function setMaxHeight(name) {
-      const fw = document.getElementById(name);
-      const maxHeight = fw.parentNode.offsetHeight - fw.offsetTop;
-      const maxWidth = fw.parentNode.offsetWidth - fw.offsetLeft;
-      fw.style.maxHeight = maxHeight.toString() + 'px';
-      fw.style.maxWidth = maxWidth.toString() + 'px';
-      fw.lastElementChild.style.pointerEvents = 'none';
-    }
-
-    function restorePointerEvents(name) {
-      const fw = document.getElementById(name);
-      fw.lastElementChild.style.pointerEvents = 'auto';
-    }
-
-    document.getElementById(name).onmousedown = () => { setMaxHeight(name); };
-    document.getElementById(name).onmouseup = () => { restorePointerEvents(name); };
   }
 }

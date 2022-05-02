@@ -58,7 +58,7 @@ signals:
   void luminosityChanged();
 
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   static QList<WbBackground *> cBackgroundList;

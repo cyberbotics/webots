@@ -279,9 +279,9 @@ protected:
   bool isInsertedOdeGeomPositionUpdateRequired() const override { return mIsKinematic; }
 
   // export
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  void exportNodeFooter(WbWriter &writer) const override;
   const QString sanitizedName() const;
 
 protected slots:
@@ -297,8 +297,7 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
-  void exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
-                       const WbVector3 &offset) const;
+  void exportUrdfShape(WbWriter &writer, const QString &geometry, const WbTransform *transform, const WbVector3 &offset) const;
 
   // list of finalized solids
   static QList<const WbSolid *> cSolids;

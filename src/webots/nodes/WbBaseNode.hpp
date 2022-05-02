@@ -34,6 +34,8 @@ class WbBoundingSphere;
 
 struct WrTransform;
 
+struct aiMaterial;
+
 class WbBaseNode : public WbNode {
   Q_OBJECT
 
@@ -135,7 +137,7 @@ protected:
   bool isUrdfRootLink() const override;
   virtual WbVector3 urdfRotation(const WbMatrix3 &rotationMatrix) const { return rotationMatrix.toEulerAnglesZYX(); }
 
-  void exportUrdfJoint(WbVrmlWriter &writer) const override;
+  void exportUrdfJoint(WbWriter &writer) const override;
 
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values
@@ -147,6 +149,9 @@ protected:
   WbBaseNode(const WbBaseNode &other);
   WbBaseNode(const WbNode &other);
 
+  // constructor for shallow nodes, should be used exclusively by the CadShape node
+  WbBaseNode(const QString &modelName, const aiMaterial *material);
+
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };
 
@@ -155,7 +160,7 @@ protected:
 
   bool isInvisibleNode() const;
 
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
 private:
   WbBaseNode &operator=(const WbBaseNode &);  // non copyable

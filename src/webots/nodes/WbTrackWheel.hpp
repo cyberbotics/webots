@@ -41,8 +41,8 @@ public:
   int nodeType() const override { return WB_NODE_TRACK_WHEEL; }
   void preFinalize() override;
   void postFinalize() override;
-  void write(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   bool shallExport() const override;
 
   const WbVector2 position() const { return mPosition->value(); }

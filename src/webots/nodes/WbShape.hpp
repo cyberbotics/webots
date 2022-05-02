@@ -75,8 +75,8 @@ public:
   void setGeometry(WbGeometry *geometry);
 
   // export
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportBoundingObjectToX3D(WbWriter &writer) const override;
 
 signals:
   void wrenMaterialChanged();

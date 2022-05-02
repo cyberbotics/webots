@@ -75,7 +75,7 @@ protected:
   void updatePositions(double position, double position2);
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
-  void writeExport(WbVrmlWriter &writer) const override;
+  void writeExport(WbWriter &writer) const override;
 
 protected slots:
   virtual void addDevice2(int index);

@@ -1225,7 +1225,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_ROBOT_URDF;
 
     QString urdfContent;
-    WbVrmlWriter writer(&urdfContent, modelName() + ".urdf");
+    WbWriter writer(&urdfContent, modelName() + ".urdf");
 
     writer.writeHeader(name());
     write(writer);
@@ -1465,7 +1465,7 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
   return false;
 }
 
-void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
+void WbRobot::exportNodeFields(WbWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())

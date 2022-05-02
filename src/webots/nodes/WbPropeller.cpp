@@ -361,7 +361,7 @@ void WbPropeller::propagateSelection(bool selected) {
     slowHelix->propagateSelection(selected);
 }
 
-void WbPropeller::write(WbVrmlWriter &writer) const {
+void WbPropeller::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {

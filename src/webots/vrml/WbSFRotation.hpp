@@ -21,7 +21,7 @@
 
 #include "WbRotation.hpp"
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFRotation : public WbSingleValue {
   Q_OBJECT
@@ -33,7 +33,7 @@ public:
   explicit WbSFRotation(const WbRotation &r) : mValue(r) {}
   virtual ~WbSFRotation() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFRotation(tokenizer, worldPath); }
-  void write(WbVrmlWriter &writer) const override {
+  void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
   WbValue *clone() const override { return new WbSFRotation(*this); }

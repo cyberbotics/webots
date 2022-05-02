@@ -122,7 +122,6 @@ lib/controller/matlab/*.m
 lib/webots/ [linux,mac]
 lib/webots/libassimp.so* [linux]
 lib/webots/libgd.3.dylib [mac]
-lib/webots/libIrrXML.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]

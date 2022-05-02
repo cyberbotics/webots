@@ -23,11 +23,13 @@ class WbTextureTransform;
 
 struct WrMaterial;
 
+struct aiMaterial;
+
 class WbAbstractAppearance : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbAbstractAppearance() {}
+  virtual ~WbAbstractAppearance();
 
   void preFinalize() override;
   void postFinalize() override;
@@ -49,6 +51,7 @@ protected:
   WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbAbstractAppearance(const WbAbstractAppearance &other);
   WbAbstractAppearance(const WbNode &other);
+  WbAbstractAppearance(const QString &modelName, const aiMaterial *material);
 
   WbSFNode *mTextureTransform;
 

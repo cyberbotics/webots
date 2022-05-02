@@ -52,7 +52,7 @@ public:
   QString pixelInfo(int x, int y) const override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   WbRgb enabledCameraFrustrumColor() const override { return WbRgb(0.0f, 1.0f, 1.0f); }
 
   double maxRange() const override { return mMaxRange->value(); }
