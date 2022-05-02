@@ -201,7 +201,6 @@ DEF TERRAIN Group {
 }
 DEF WATER Fluid {
   translation 0 0 0.04
-  rotation 1 0 0 1.5707996938995747
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
@@ -211,7 +210,7 @@ DEF WATER Fluid {
         metalness 0
       }
       geometry Box {
-        size 20 0.92 20
+        size 20 20 0.92
       }
     }
   ]
