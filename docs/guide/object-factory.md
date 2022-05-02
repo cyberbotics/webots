@@ -553,7 +553,7 @@ Bolt {
 
 - `screwLength`: Defines the length of the screw.
 
-- `enablePhysics`: Defines whether the screw should have physics.
+- `enablePhysics`: Defines whether the bolt should have physics.
 
 ### CapScrew
 
