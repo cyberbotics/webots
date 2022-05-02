@@ -12,6 +12,7 @@ PROTO Bolt [
   field SFFloat    screwRadius      0.0055       # Defines the radius of the screw.
   field SFFloat    screwLength      0.035        # Defines the length of the screw.
   field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics    TRUE         # Defines whether the screw should have physics.
 ]
 {
   %<
@@ -298,12 +299,14 @@ PROTO Bolt [
         }
       ]
     }
-    physics Physics {
-      density 8050
-      damping Damping {
-        angular 0.7
-      }
+    %< if (fields.enablePhysics.value) { >%
+      physics Physics {
+        density 8050
+        damping Damping {
+          angular 0.7
+        }
     }
+    %< } >%
     contactMaterial IS contactMaterial
   }
 }
