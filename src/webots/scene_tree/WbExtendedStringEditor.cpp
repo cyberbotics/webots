@@ -117,7 +117,7 @@ const QStringList &WbExtendedStringEditor::defaultControllersEntryList() const {
     mDefaultControllersEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
       mDefaultControllersEntryList << QDir(extraProject->controllersPath()).entryList(FILTERS);
-    mDefaultControllersEntryList.replaceInStrings("generic", "<generic>"); // CHANGED GENERIC HERE
+    mDefaultControllersEntryList.replaceInStrings("generic", "<generic>");
     firstCall = false;
   }
   return mDefaultControllersEntryList;
