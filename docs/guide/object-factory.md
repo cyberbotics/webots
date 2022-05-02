@@ -850,7 +850,6 @@ ScrewHole {
   SFFloat    radius          0.06
   SFFloat    depth           0.1
   SFNode     appearance      OldSteel {}
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -866,8 +865,6 @@ ScrewHole {
 - `depth`: Defines the depth of the screw hole.
 
 - `appearance`: Defines the appearance of the screw hole.
-
-- `enablePhysics`: Defines whether the screw hole should have physics.
 
 ### Screwdriver
 

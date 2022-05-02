@@ -10,7 +10,6 @@ PROTO ScrewHole [
   field SFFloat    radius          0.06        # Defines the radius of the screw hole.
   field SFFloat    depth           0.1         # Defines the depth of the screw hole.
   field SFNode     appearance      OldSteel {} # Defines the appearance of the screw hole.
-  field SFBool     enablePhysics   TRUE        # Defines whether the screw hole should have physics.
 ]
 {
   %<
