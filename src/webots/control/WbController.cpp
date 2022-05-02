@@ -185,8 +185,8 @@ void WbController::start() {
   mRobot->setControllerStarted(true);
 
   if (mControllerPath.isEmpty()) {
-    warn(tr("Gone in here (start)"));
-    warn(tr("Could not find the controller directory.\nStarts the <generic> controller instead."));
+    warn(tr("Could not find the controller directory."));
+    warn(tr("Starts the <generic> controller instead."));
     startGenericExecutable();
   }
 
@@ -203,7 +203,10 @@ void WbController::start() {
 #endif
   switch (mType) {
     case WbFileUtil::EXECUTABLE:
-      startExecutable();
+      if (name() == "<generic>")
+        startGenericExecutable();
+      else
+        startExecutable();
       break;
     case WbFileUtil::CLASS:
       startJava();
@@ -568,7 +571,7 @@ void WbController::reportControllerNotFound() {
   else if (dir.exists(name() + ".java"))
     info(tr("Try to compile the Java source code, to get a new .class or .jar file."));
 
-  warn(tr("Starts the generic controller instead."));
+  warn(tr("Starts the <generic> controller instead."));
 }
 
 void WbController::reportMissingCommand(const QString &command) {
@@ -657,28 +660,29 @@ void WbController::processErrorOccurred(QProcess::ProcessError error) {
 
 WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
   QDir dir(controllerPath);
+  const QString &controllerName = (name() == "<generic>") ? "generic" : name();
   if (dir.exists("Dockerfile"))
     return WbFileUtil::DOCKER;
-  else if (dir.exists(name() + WbStandardPaths::executableExtension()))
+  else if (dir.exists(controllerName + WbStandardPaths::executableExtension()))
     return WbFileUtil::EXECUTABLE;
-  else if (dir.exists(QString("build/release/%1%2").arg(name()).arg(WbStandardPaths::executableExtension())))
+  else if (dir.exists(QString("build/release/%1%2").arg(controllerName).arg(WbStandardPaths::executableExtension())))
     return WbFileUtil::EXECUTABLE;
-  else if (dir.exists(name() + ".class"))
+  else if (dir.exists(controllerName + ".class"))
     return WbFileUtil::CLASS;
-  else if (dir.exists(name() + ".jar"))
+  else if (dir.exists(controllerName + ".jar"))
     return WbFileUtil::JAR;
-  else if (dir.exists(name() + ".py"))
+  else if (dir.exists(controllerName + ".py"))
     return WbFileUtil::PYTHON;
-  else if (dir.exists(name() + ".m"))
+  else if (dir.exists(controllerName + ".m"))
     return WbFileUtil::MATLAB;
-  else if (dir.exists(name() + ".bsg"))
+  else if (dir.exists(controllerName + ".bsg"))
     return WbFileUtil::BOTSTUDIO;
 
   return WbFileUtil::UNKNOWN;
 }
 
 void WbController::startGenericExecutable() {
-  updateName("generic"); // CHANGED GENERIC HERE
+  updateName("<generic>");
   mControllerPath = WbStandardPaths::resourcesControllersPath() + "generic/";
   mCommand = mControllerPath + "generic" + WbStandardPaths::executableExtension();
 

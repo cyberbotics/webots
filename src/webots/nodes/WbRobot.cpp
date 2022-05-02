@@ -505,9 +505,13 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  warn(tr("Gone in here (updateControllerDir)"));
   const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty() && controllerName != "<none>" && controllerName != "<extern>") {
+  if (mController->value().isEmpty()) {
+    warn("The controller has not been set.");
+    mControllerDir = "";
+  } else if (controllerName == "<generic>") {
+    mControllerDir = WbStandardPaths::resourcesControllersPath() + "generic/";
+  } else if (controllerName != "<none>" && controllerName != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();
@@ -522,6 +526,7 @@ void WbRobot::updateControllerDir() {
     mControllerDir = "";
     const int size = path.size();
     for (int i = 0; i < size; ++i) {
+      warn(path[i]);
       if (!QDir(path[i]).exists())
         continue;
       mControllerDir = path[i];
