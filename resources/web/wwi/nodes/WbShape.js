@@ -58,12 +58,11 @@ export default class WbShape extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-    if (typeof this.appearance !== 'undefined' && !this.appearance.wrenObjectsCreatedCalled)
+    if (typeof this.appearance !== 'undefined')
       this.appearance.createWrenObjects();
 
     if (typeof this.geometry !== 'undefined') {
-      if (!this.geometry.wrenObjectsCreatedCalled)
-        this.geometry.createWrenObjects();
+      this.geometry.createWrenObjects();
 
       this.applyMaterialToGeometry();
     }
@@ -128,10 +127,10 @@ export default class WbShape extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
 
-    if (typeof this.appearance !== 'undefined' && !this.appearance.isPreFinalizeCalled)
+    if (typeof this.appearance !== 'undefined')
       this.appearance.preFinalize();
 
-    if (typeof this.geometry !== 'undefined' && !this.geometry.isPreFinalizeCalled)
+    if (typeof this.geometry !== 'undefined')
       this.geometry.preFinalize();
 
     this.updateAppearance();
@@ -140,10 +139,10 @@ export default class WbShape extends WbBaseNode {
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.appearance !== 'undefined' && !this.appearance.isPostFinalizeCalled)
+    if (typeof this.appearance !== 'undefined')
       this.appearance.postFinalize();
 
-    if (typeof this.geometry !== 'undefined' && !this.geometry.isPostFinalizeCalled)
+    if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
     if (!this.isInBoundingObject()) {
