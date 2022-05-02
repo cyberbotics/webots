@@ -236,7 +236,8 @@ void WbController::start() {
 
   // for matlab controllers we must change to the lib/matlab directory
   // other controller types are executed in the controller dir
-  mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" : mControllerPath);
+  mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" :
+                                                                mControllerPath);
   mProcess->start(mCommand, mArguments);
 }
 
