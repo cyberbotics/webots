@@ -100,7 +100,7 @@ bool WbField::isDeprecated() const {
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
   if (mWasRead)
-    tokenizer->reportError(tr("Duplicate field value."));
+    tokenizer->reportError(tr("Duplicate field value"));
 
   mValue->read(tokenizer, worldPath);
   mWasRead = true;
