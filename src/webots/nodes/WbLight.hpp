@@ -64,8 +64,6 @@ protected:
 
   void setAmbientIntensity(double value);
 
-  void exportNodeFields(WbWriter &writer) const override;
-
   // user accessible fields
   WbSFColor *mColor;
   WbSFDouble *mIntensity;
