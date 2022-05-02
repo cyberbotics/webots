@@ -536,6 +536,7 @@ Bolt {
   SFFloat    screwRadius      0.0055
   SFFloat    screwLength      0.035
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -551,6 +552,8 @@ Bolt {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the screw should have physics.
 
 ### CapScrew
 
@@ -686,6 +689,7 @@ EyeScrew {
   SFFloat    screwRadius      0.006
   SFFloat    screwLength      0.05
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -701,6 +705,8 @@ EyeScrew {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the eye screw should have physics.
 
 ### Hammer
 
@@ -749,6 +755,7 @@ Nut {
   SFFloat    innerRadius     0.006
   SFFloat    thickness       0.007
   SFString   contactMaterial "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -764,6 +771,8 @@ Nut {
 - `innerRadius`: Defines the inner radius of the nut.
 
 - `thickness`: Defines the thickness of the nut.
+
+- `enablePhysics`: Defines whether the nut should have physics.
 
 ### PaintBucket
 
@@ -841,6 +850,7 @@ ScrewHole {
   SFFloat    radius          0.06
   SFFloat    depth           0.1
   SFNode     appearance      OldSteel {}
+  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -848,6 +858,16 @@ ScrewHole {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### ScrewHole Field Summary
+
+- `radius`: Defines the radius of the screw hole.
+
+- `depth`: Defines the depth of the screw hole.
+
+- `appearance`: Defines the appearance of the screw hole.
+
+- `enablePhysics`: Defines whether the screw hole should have physics.
 
 ### Screwdriver
 
@@ -896,6 +916,7 @@ Washer {
   SFFloat    innerRadius      0.006
   SFFloat    thickness        0.0017
   SFString   contactMaterial "default"
+  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -911,6 +932,8 @@ Washer {
 - `innerRadius`: Defines the inner radius of the washer.
 
 - `thickness`: Defines the thickness of the washer.
+
+- `enablePhysics`: Defines whether the washer should have physics.
 
 ### Wrench
 
