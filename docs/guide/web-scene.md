@@ -51,6 +51,8 @@ For more complex interaction with the web component, the following functions are
 * `loadScene(scene, mobileDevice)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+  * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 
 ### Limitations
 
