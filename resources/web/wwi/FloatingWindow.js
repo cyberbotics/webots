@@ -91,7 +91,6 @@ export default class FloatingWindow {
     }
 
     function interactMouseDown(event) {
-      fw.style.pointerEvents = 'none';
       fw.style.userSelect = 'none';
 
       let e = event.touches ? event.touches[0] : event;
@@ -110,11 +109,6 @@ export default class FloatingWindow {
       direction = event.target.id.substring(7);
       interactionType = direction.length === 0 ? 'drag' : 'resize';
 
-      if (interactionType === 'resize')
-        document.body.style.cursor = direction + '-resize';
-      else if (interactionType === 'drag')
-        document.body.style.cursor = 'move';
-
       document.onmouseup = closeInteractElement;
       document.onmousemove = floatingWindowInteract;
       document.ontouchend = closeInteractElement;
@@ -123,6 +117,8 @@ export default class FloatingWindow {
     }
 
     function floatingWindowInteract(event) {
+      fw.style.pointerEvents = 'none';
+
       top = fw.offsetTop;
       left = fw.offsetLeft;
       width = fw.offsetWidth;
@@ -136,6 +132,7 @@ export default class FloatingWindow {
 
       if (interactionType === 'resize') {
         // Resize element
+        document.body.style.cursor = direction + '-resize';
         if (direction.includes('n')) {
           if (top + dY < 0 || posY < topOffset) { // out of bounds
             top = 0;
@@ -178,6 +175,7 @@ export default class FloatingWindow {
         }
       } else if (interactionType === 'drag') {
         // Drag element
+        document.body.style.cursor = 'move';
         top = fw.offsetTop + dY;
         left = fw.offsetLeft + dX;
         if (top < 0 || posY < topOffset) // top boundary
