@@ -326,26 +326,32 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
   if (WbUrl::isLocalUrl(url))
     url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + filename.mid(9));
 
+  if (!QFileInfo(url).exists())
+    return false;
+
   QMap<QString, QString> externProtos = getExternProtoList(url);
   mCurrentProjectProtoList.insert(externProtos);
 
   QMapIterator<QString, QString> it(externProtos);
-  while (it.hasNext()) {  // TODO: need to check full depth or just at world level?
+  bool isProtoAssetAvailable = true;
+  while (it.hasNext()) {
     it.next();
-    const QString &subProto = it.value();
-    if (WbUrl::isWeb(subProto) && WbNetwork::instance()->isCached(subProto)) {
-      areProtoAssetsAvailable(WbNetwork::instance()->get(subProto));
-    } else if (WbUrl::isLocalUrl(subProto)) {
-      const QString completeUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + subProto.mid(9));
-      areProtoAssetsAvailable(completeUrl);
-    } else {
-      printf("> abort, asset (%s) NOT available\n", (it.value()).toUtf8().constData());
-      return false;
-    }
+
+    QString path = it.value();
+    if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+      path = WbNetwork::instance()->get(path);
+    else if (WbUrl::isLocalUrl(path))
+      path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + path.mid(9));
+
+    isProtoAssetAvailable &= areProtoAssetsAvailable(path);
   }
 
-  printf("> asset (%s) available\n", filename.toUtf8().constData());
-  return true;
+  if (isProtoAssetAvailable)
+    printf("> AVAILABLE: %s\n", url.toUtf8().constData());
+  else
+    printf("> NOT AVAILABLE: %s\n", url.toUtf8().constData());
+
+  return isProtoAssetAvailable;
 }
 
 bool WbProtoList::externProtoExists(const QString &filename) {
@@ -367,7 +373,8 @@ void WbProtoList::retrieveAllExternProto(QString filename, bool reloading) {
 }
 
 QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) {
-  // TODO: for now, assume this functions gets a clean locally accessible path. Is it better if this function does the cleaning?
+  // TODO: for now, assume this functions gets a clean locally accessible path. Is it better if this function does the
+  // cleaning?
   QMap<QString, QString> protoList;
 
   QFile file(filename);
