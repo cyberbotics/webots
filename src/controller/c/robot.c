@@ -1084,7 +1084,7 @@ int wb_robot_init() {  // API initialization
   int success = 0;
   char *pipe_name;
   const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
-  const char *WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
+  const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
   if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
     const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_ID) + 12;  // "%sipc/%s/socket"
     pipe_name = malloc(length);
@@ -1095,7 +1095,6 @@ int wb_robot_init() {  // API initialization
     int trial = 0;
     while (!should_abort_simulation_waiting) {
       trial++;
-      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
       char retry[256];
       snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
       if (!WEBOTS_TMP_PATH) {
