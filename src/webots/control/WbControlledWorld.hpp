@@ -33,7 +33,7 @@ public:
 
   void startControllers();
   void startController(WbRobot *robot);
-
+  QString startExternController(const QString name) const;
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();

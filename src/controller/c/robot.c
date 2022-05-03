@@ -40,21 +40,22 @@
 #include <webots/supervisor.h>
 #include <webots/types.h>
 #include <webots/utils/system.h>
+
+#include "default_robot_window_private.h"
 #include "device_private.h"
+#include "html_robot_window_private.h"
 #include "joystick_private.h"
 #include "keyboard_private.h"
 #include "messages.h"
 #include "motion_private.h"
 #include "mouse_private.h"
+#include "remote_control_private.h"
 #include "request.h"
 #include "robot_private.h"
+#include "robot_window_private.h"
 #include "scheduler.h"
 #include "supervisor_private.h"
-
-#include "default_robot_window_private.h"
-#include "html_robot_window_private.h"
-#include "remote_control_private.h"
-#include "robot_window_private.h"
+#include "tcp_client.h"
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
@@ -1090,46 +1091,78 @@ int wb_robot_init() {  // API initialization
     pipe_name = malloc(length);
     snprintf(pipe_name, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, WEBOTS_ROBOT_ID);
     success = scheduler_init(pipe_name);
+    free(pipe_name);
   } else {  // extern controller
-    pipe_name = NULL;
+    // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
+    const char *default_url = "ipc://localhost:1234";
+    char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+    if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0)
+      WEBOTS_CONTROLLER_URL = strdup(default_url);                // it will be free
+    else if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {  // assuming only the robot name was provided
+      const int length = strlen(WEBOTS_CONTROLLER_URL) + strlen(default_url) + 2;
+      char *tmp = malloc(length);
+      snprintf(tmp, length, (WEBOTS_CONTROLLER_URL[0] == '/') ? "%s%s" : "%s/%s", default_url, WEBOTS_CONTROLLER_URL);
+      WEBOTS_CONTROLLER_URL = tmp;
+    } else                                                    // the URL starts with "ipcs://"
+      WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
+    const char *protocol = "ipc";
+    int length = strlen(WEBOTS_CONTROLLER_URL) - 5;
+    char *host = malloc(length);
+    host[0] = '\0';
+    const char *robot = "";
+    int port = 1234;
+    for (int i = 6; i < length; i++) {
+      if (WEBOTS_CONTROLLER_URL[i] == ':') {
+        host[i - 6] = '\0';
+        sscanf(&WEBOTS_CONTROLLER_URL[i + 1], "%d", &port);
+      } else if (WEBOTS_CONTROLLER_URL[i] == '/') {
+        host[i - 6] = '\0';
+        robot = &WEBOTS_CONTROLLER_URL[i];
+        break;
+      } else
+        host[i - 6] = WEBOTS_CONTROLLER_URL[i];
+    }
+    printf("protocol = %s\n", protocol);
+    printf("host     = %s\n", host);
+    printf("port     = %d\n", port);
+    printf("robot    = %s\n", robot);
+
+    // Try to connect to Webots
+    int fd = tcp_client_open();
     int trial = 0;
-    while (!should_abort_simulation_waiting) {
-      trial++;
-      char retry[256];
-      snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
-      if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seem to be ready yet: (retry count %d)\n", trial);
-        sleep(1);
-      } else {
-        char buffer[1024];
-        snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
-        FILE *fd = fopen(buffer, "r");
-        if (fd) {
-          if (!fscanf(fd, "%1023s", buffer))
-            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content. %s\n", WEBOTS_TMP_PATH, retry);
-          else {
-            success = scheduler_init(buffer);
-            if (success) {
-              pipe_name = strdup(buffer);
-              break;
-            } else
-              fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
-          }
-          fclose(fd);
-        } else
-          fprintf(stderr, "Cannot open file: %s (retry count %d)\n", buffer, trial);
-        sleep(1);
+    while (true) {
+      int connect = tcp_client_connect(fd, host, port);
+      if (connect == 1)  // success
+        break;
+      if (connect == 0) {  // failed to connect
+        if (trial == 10) {
+          fprintf(stderr, "Giving up.\n");
+          tcp_client_close(fd);
+          exit(EXIT_FAILURE);
+        }
+        trial++;
+        fprintf(stderr, "Could not connect to Webots instance at %s:%d, retrying in %d second%s...\n", host, port, trial,
+                trial > 1 ? "s" : "");
+        sleep(trial);
+      } else {  // failed to lookup host
+        tcp_client_close(fd);
+        exit(EXIT_FAILURE);
       }
     }
+    length = strlen("EXT IPC ") + strlen(robot);
+    char *buffer = malloc(length);
+    sprintf(buffer, "EXT IPC %s", robot);
+    int n = tcp_client_send(fd, buffer, length);
+    printf("sent %d bytes: %s\n", n, buffer);
+    free(buffer);
+
+    tcp_client_close(fd);
+    free(WEBOTS_CONTROLLER_URL);
   }
-  if (!success) {
-    if (!pipe_name)
-      fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
-    free(pipe_name);
+  if (success == 0) {
+    fprintf(stderr, "Could not connect to Webots.\n");
     exit(EXIT_FAILURE);
   }
-  free(pipe_name);
-
   if (getenv("WEBOTS_STDOUT_REDIRECT"))
     stdout_read = stream_pipe_create(1);
   if (getenv("WEBOTS_STDERR_REDIRECT"))

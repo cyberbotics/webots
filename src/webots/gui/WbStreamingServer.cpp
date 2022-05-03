@@ -15,6 +15,7 @@
 #include "WbStreamingServer.hpp"
 
 #include "WbApplication.hpp"
+#include "WbControlledWorld.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -191,7 +192,7 @@ void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
-  if (request != "GET")  // probably a WebSocket message
+  if (request != "GET" && request != "EXT")  // probably a WebSocket message
     return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
@@ -203,6 +204,9 @@ void WbStreamingServer::onNewTcpData() {
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
     sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+  } else if (tokens[0] == "EXT") {  // extern controller requesting to connect to Webots
+    qDebug() << "Connecting to robot" << tokens[2] << "using" << tokens[1] << "protocol";
+    WbControlledWorld::instance()->startExternController(tokens[2].mid(1));  // skipping the "/"
   }
 }
 

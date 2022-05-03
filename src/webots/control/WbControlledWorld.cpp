@@ -92,6 +92,15 @@ void WbControlledWorld::startControllers() {
   }
 }
 
+QString WbControlledWorld::startExternController(const QString robotName) const {
+  foreach (const WbRobot *robot, robots()) {
+    if (robot->name() == robotName) {
+      qDebug() << robot->uniqueId();
+    }
+  }
+  return "";
+}
+
 void WbControlledWorld::startController(WbRobot *robot) {
   /*
   if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
