@@ -40,7 +40,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
 #include <QtCore/QProcessEnvironment>
+#include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
+
 #include <cassert>
 #include "../../controller/c/messages.h"
 
@@ -161,6 +163,7 @@ WbController::~WbController() {
     mProcess->terminate();
 
   delete mSocket;
+  delete mServer;
   delete mProcess;
 }
 
@@ -232,6 +235,24 @@ void WbController::start() {
   if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
     return;
 
+  // recover from a crash, when the previous server instance has not been cleaned up
+  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QString::number(mRobot->uniqueId());
+  QDir().mkpath(path);
+  const QString serverName = path + "/socket";
+  bool success = QLocalServer::removeServer(serverName);
+  if (!success) {
+    WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
+    return;
+  }
+  // create a new socket server to get connected with the controller process
+  mServer = new QLocalServer();
+  connect(mServer, &QLocalServer::newConnection, this, &WbController::addLocalControllerConnection);
+  success = mServer->listen(serverName);
+  if (!success) {
+    WbLog::error(tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
+    return;
+  }
+
   info(tr("Starting controller: %1").arg(commandLine()));
 
   // for matlab controllers we must change to the lib/matlab directory
@@ -239,6 +260,21 @@ void WbController::start() {
   mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" :
                                                                 mControllerPath);
   mProcess->start(mCommand, mArguments);
+}
+
+void WbController::addLocalControllerConnection() {
+  mSocket = mServer->nextPendingConnection();
+
+  // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
+  // This request is forced because the first packets coming from libController
+  // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
+  while (mSocket->bytesAvailable() == 0)
+    mSocket->waitForReadyRead();
+  readRequest();
+  connect(mSocket, SIGNAL(readyRead()), this, SLOT(readRequest()));
+  connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
+  connect(mRobot, &WbRobot::userInputEventNeedUpdate, this, &WbController::writeUserInputEventAnswer);
+  writeAnswer();  // send configure message and immediate answers if any
 }
 
 void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value,
@@ -796,8 +832,8 @@ void WbController::startDocker() {
   const QStringList dockerArguments = {
     "run",  "--network",
     "none",  // add "--cpu-shares", "512",
-    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
-    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
+//    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
+//    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
     "-e",   "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()),
     image};
   mArguments = dockerArguments + mRobot->controllerArgs();
@@ -837,24 +873,6 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   process.start("install_name_tool", args);
   process.waitForFinished(-1);
 #endif
-}
-
-void WbController::setSocket(QLocalSocket *socket) {
-  // associate controller and socket
-  mSocket = socket;
-
-  // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
-  // This request is forced because the first packets coming from libController
-  // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
-  while (mSocket->bytesAvailable() == 0)
-    mSocket->waitForReadyRead();
-  readRequest();
-
-  connect(mSocket, SIGNAL(readyRead()), this, SLOT(readRequest()));
-  connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
-  connect(mRobot, &WbRobot::userInputEventNeedUpdate, this, &WbController::writeUserInputEventAnswer);
-
-  writeAnswer();  // send configure message and immediate answers if any
 }
 
 int WbController::robotId() const {

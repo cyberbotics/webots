@@ -1081,13 +1081,16 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  char *pipe_name;
   int success = 0;
-  if (WEBOTS_SERVER && WEBOTS_SERVER[0]) {
-    pipe_name = strdup(WEBOTS_SERVER);
+  char *pipe_name;
+  const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
+  const char *WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
+  if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
+    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_ID) + 12;  // "%sipc/%s/socket"
+    pipe_name = malloc(length);
+    snprintf(pipe_name, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, WEBOTS_ROBOT_ID);
     success = scheduler_init(pipe_name);
-  } else {
+  } else {  // extern controller
     pipe_name = NULL;
     int trial = 0;
     while (!should_abort_simulation_waiting) {

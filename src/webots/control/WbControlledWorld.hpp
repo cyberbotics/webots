@@ -18,8 +18,6 @@
 #include <QtCore/QList>
 #include "WbSimulationWorld.hpp"  // TODO: should we rename WbSimulationWorld to WbSimulatedWorld ?
 
-class QLocalServer;
-class QLocalSocket;
 class WbController;
 
 class WbControlledWorld : public WbSimulationWorld {
@@ -41,8 +39,6 @@ public:
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
   void checkIfReadRequestCompleted();
-  const QString server();
-
   void reset(bool restartControllers) override;
 
   void step() override;
@@ -58,11 +54,9 @@ protected:
   void setUpControllerForNewRobot(WbRobot *robot) override;
 
 private:
-  void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
   void handleRobotRemoval(WbBaseNode *node);
 
-  QLocalServer *mServer;
   QList<WbController *> mControllers;
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step mode and waiting next step to start
@@ -82,7 +76,6 @@ private:
   bool mHasWaitingStep;   // flag indicating if a new step execution has been requested
 
 private slots:
-  void addControllerConnection();
   void updateCurrentRobotController();
   void waitForRobotWindowIfNeededAndCompleteStep();
 };

@@ -25,8 +25,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QThread>
-#include <QtNetwork/QLocalServer>
-#include <QtNetwork/QLocalSocket>
 
 #include <cassert>
 #include <iostream>
@@ -37,44 +35,14 @@ WbControlledWorld *WbControlledWorld::instance() {
 
 WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   WbSimulationWorld(protos, tokenizer),
-  mServer(NULL),
   mFirstStep(true),
   mRetryEnabled(false),
   mIsExecutingStep(false),
   mHasWaitingStep(false) {
   if (mWorldLoadingCanceled)
     return;
-  // create a unique name for this Webots instance and store it in the environment for the controller child process
-  // Note: the random factor was added after having detected an occasional error (~1/20 times) in jenkins at
-  // during the mServer->listen() call ("Address in use")
-  const unsigned int seed = WbRandom::getSeed();
-  WbRandom::setSeed(QDateTime::currentMSecsSinceEpoch());
-  static QString serverName = QString("webots_%1_%2").arg(QCoreApplication::applicationPid()).arg(WbRandom::nextUInt());
-  WbRandom::setSeed(seed);
 
-  // recover from a crash, when the previous server instance has not been cleaned up
-  bool success = QLocalServer::removeServer(serverName);
-  if (!success) {
-    WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
-    return;
-  }
-
-  mServer = new QLocalServer();
-  connect(mServer, &QLocalServer::newConnection, this, &WbControlledWorld::addControllerConnection);
-
-  success = mServer->listen(serverName);
-  if (!success) {
-    WbLog::error(tr("Cannot listen the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
-    return;
-  }
   mNeedToYield = false;
-  qputenv("WEBOTS_SERVER", mServer->fullServerName().toUtf8());
-  QFile file(WbStandardPaths::webotsTmpPath() + "WEBOTS_SERVER");
-  if (file.open(QIODevice::WriteOnly)) {
-    QTextStream stream(&file);
-    stream << mServer->fullServerName().toUtf8() << '\n';
-    file.close();
-  }
   foreach (WbRobot *const robot, robots()) {
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
     connect(robot, &WbRobot::isBeingDestroyed, this, &WbControlledWorld::handleRobotRemoval);
@@ -100,11 +68,6 @@ WbControlledWorld::~WbControlledWorld() {
     controller = mTerminatingControllers.takeFirst();
     delete controller;
   }
-  delete mServer;
-}
-
-const QString WbControlledWorld::server() {
-  return mServer->fullServerName();
 }
 
 void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
@@ -130,10 +93,7 @@ void WbControlledWorld::startControllers() {
 }
 
 void WbControlledWorld::startController(WbRobot *robot) {
-  startControllerFromSocket(robot, NULL);
-}
-
-void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *socket) {
+  /*
   if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
     if (robot->controllerName() == "<extern>") {
       mRobotsWaitingExternController.append(robot);
@@ -145,7 +105,7 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
   }
-
+  */
   assert(!robot->isControllerStarted());
 
   WbController *controller = NULL;
@@ -174,6 +134,7 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
   }
   mControllers.append(controller);
+  /*
   if (socket && robot->controllerName() == "<extern>") {
     mRobotsWaitingExternController.removeAll(robot);
     controller->setSocket(socket);
@@ -182,6 +143,7 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     restartStepTimer();
     return;
   }
+  */
   controller->start();
 }
 
@@ -202,6 +164,7 @@ void WbControlledWorld::deleteController(WbController *controller) {
     step();
 }
 
+/*
 void WbControlledWorld::addControllerConnection() {
   QLocalSocket *socket = mServer->nextPendingConnection();
   int robotId = 0;
@@ -280,6 +243,7 @@ void WbControlledWorld::addControllerConnection() {
   }
   // if the robot is not found, it could be that it was deleted meanwhile
 }
+*/
 
 void WbControlledWorld::retryStepLater() {
   if (!mRetryEnabled) {

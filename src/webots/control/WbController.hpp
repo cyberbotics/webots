@@ -20,6 +20,7 @@
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
+class QLocalServer;
 class QLocalSocket;
 class QProcessEnvironment;
 
@@ -37,7 +38,6 @@ public:
   // it never fails: the void controller is started as a fallback
   void start();
 
-  void setSocket(QLocalSocket *socket);
   void writeAnswer(bool immediateAnswer = false);
   void writePendingImmediateAnswer() {
     if (mHasPendingImmediateAnswer)
@@ -86,6 +86,7 @@ private:
   QString mMatlabCommand;
   QString mMatlabOptions;
   QProcess *mProcess;
+  QLocalServer *mServer;
   QLocalSocket *mSocket;
   QByteArray mRequest;
   double mRequestTime;
@@ -122,6 +123,7 @@ private:
   QString commandLine() const;
 
 private slots:
+  void addLocalControllerConnection();
   void readStdout();
   void readStderr();
   void info(const QString &message);

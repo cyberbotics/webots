@@ -33,19 +33,13 @@
 #include <webots/types.h>
 #include "scheduler.h"
 
-GPipe *g_pipe_new(const char *name) {  // used by Webots 7
-  const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
-  int robot_id;
-  if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0])
-    sscanf(WEBOTS_ROBOT_ID, "%d", &robot_id);
-  else
-    robot_id = 0;
+GPipe *g_pipe_new(const char *path) {
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
   p->fd[1] = 0;
   while (1) {
-    p->handle = CreateFile(name, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+    p->handle = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (p->handle != INVALID_HANDLE_VALUE)
       break;
     DWORD dwError = GetLastError();
@@ -54,7 +48,7 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
       return NULL;
     }
     if (!WaitNamedPipe(name, 5000)) {
-      fprintf(stderr, "Cannot open pipe file: %s after trying for 5 seconds\n", name);
+      fprintf(stderr, "Cannot open pipe file: %s after trying for 5 seconds\n", path);
       free(p);
       return NULL;
     }
@@ -70,24 +64,14 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
   struct sockaddr_un address;
   memset(&address, 0, sizeof(struct sockaddr_un));
   address.sun_family = AF_UNIX;
-  strncpy(address.sun_path, name, sizeof(address.sun_path));
+  strncpy(address.sun_path, path, sizeof(address.sun_path));
   if (connect(p->handle, (struct sockaddr *)&address, sizeof(struct sockaddr_un)) != 0) {
-    fprintf(stderr, "socket connect() failed for %s, errno=%d\n", name, errno);
+    fprintf(stderr, "socket connect() failed for %s, errno=%d\n", path, errno);
     close(p->handle);
     free(p);
     return NULL;
   }
 #endif
-  g_pipe_send(p, (const char *)&robot_id, sizeof(int));
-  if (robot_id == 0) {
-    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
-    if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0]) {
-      const int size = strlen(WEBOTS_ROBOT_NAME);
-      g_pipe_send(p, (const char *)&size, sizeof(int));
-      g_pipe_send(p, WEBOTS_ROBOT_NAME, size);
-    } else  // send another 0: Webots will select the first available robot with an "<extern>" controller
-      g_pipe_send(p, (const char *)&robot_id, sizeof(int));
-  }
   return p;
 }
 
