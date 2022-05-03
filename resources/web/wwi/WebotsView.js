@@ -1,6 +1,7 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import Toolbar from './Toolbar.js';
 import {webots} from './webots.js';
+import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
@@ -127,6 +128,7 @@ export default class WebotsView extends HTMLElement {
       this._view.x3dScene.render();
     }
   }
+
   // The value is updated only on the web side, do not used with simulation.
   updateNode(nodeId, field, value, render) {
     if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
@@ -144,6 +146,19 @@ export default class WebotsView extends HTMLElement {
   getNode(id) {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.nodes !== 'undefined')
       return WbWorld.instance.nodes.get('n' + id);
+  }
+
+  setAmbiantOcclusion(level) {
+    if (level > 4)
+      level = 4;
+    else if (level < 1)
+      level = 1;
+
+    if (typeof this.toolbar !== 'undefined') {
+      this.toolbar.changeGtao({srcElement: {id: this.toolbar.gtaoLevelToText(level)}});
+      this.toolbar.settingsPane.style.visibility = 'hidden';
+    } else
+      changeGtaoLevel(level);
   }
 
   // Animation's functions
