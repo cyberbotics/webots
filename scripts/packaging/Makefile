@@ -76,12 +76,14 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@./generate_projects_files.py > files_projects.txt
 	+@echo "# changing URLs in world, proto and controller files"
 	+@python3 update_urls.py $(TARGET_URL)
+	+@echo "# generating list of known proto"
+	+@python3 generate_proto_list.py $(TARGET_URL)
 	+@echo "# generating asset cache"
 	+@python3 generate_asset_cache.py $(TARGET_URL)
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache=projects
+	+@$(WEBOTS) --update-proto-cache=projects # TODO: needs to be removed?
 ifeq ($(OSTYPE),darwin)
 	+@echo "# checking RPATH system"
 	+@./check_rpath.py
