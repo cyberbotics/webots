@@ -27,6 +27,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 
 namespace {
   QString checkIsFile(const WbNode *node, const QString &field, const QString &path) {
@@ -159,6 +160,56 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   return missing(url);
+}
+
+QString WbUrl::generateExternProtoPath(const QString &url, const QString &parentUrl) {
+  // TODO: if backward slashes instead of forward?
+  // TODO: simplify all this function when it works
+
+  QString path;
+  // handle case if the parent proto references a subproto that is itself a remote asset
+  // ex: EXTERNPROTO SubNode "https://raw.github.com/.../SubNode.proto"
+  if (isWeb(url))
+    return url;
+
+  // handle situation: EXTERNPROTO SubNode "/absolute/path/to/proto/SubNode.proto"
+  if (QDir::isAbsolutePath(url))
+    return url;  // nothing to do, url is accessible as-is
+  else {
+    // either the sub-proto is defined relatively or is a local url (webots://)
+    QString parentProtoUrl = parentUrl.left(parentUrl.lastIndexOf("/"));
+    QString subProtoUrl = url;
+
+    if (isLocalUrl(subProtoUrl)) {
+      // if like the sub-proto the parent proto is also local (i.e starts with webots://) then the sub-proto should be
+      // available locally. This is the case in the webots development environment.
+      if (isLocalUrl(parentProtoUrl) || QDir::isAbsolutePath(parentProtoUrl))
+        return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      else {
+        // handle case where a remote proto references a local (webots://) subproto
+        // ex: EXTERNPROTO SubNode "webots://.../SubNode.proto"
+        QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/\\w+/)");
+        QRegularExpressionMatch match = re.match(parentProtoUrl);
+
+        assert(match.hasMatch());  // parent remote url should match the template
+        return match.captured(0) + subProtoUrl.replace("webots://", "");
+      }
+    } else if (QDir::isRelativePath(subProtoUrl)) {
+      // handle case if the parent proto references a subproto relatively to itself
+      // ex: EXTERNPROTO SubNode "../../../SubNode.proto"
+
+      // consume directories in both urls accordingly
+      while (subProtoUrl.startsWith("../")) {
+        parentProtoUrl = parentProtoUrl.left(parentProtoUrl.lastIndexOf("/"));
+        subProtoUrl.remove(0, 3);
+      }
+      // manufacture subproto url based on parent's url
+      return parentProtoUrl + subProtoUrl;
+    }
+  }
+
+  assert(0);  // unhandled case
+  return "";
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
