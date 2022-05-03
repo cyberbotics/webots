@@ -41,11 +41,11 @@ ifeq ($(OSTYPE),linux)
 LIBRARIES = -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro
 WEBOTS = $(WEBOTS_HOME_PATH)/webots
-ifeq ($(UBUNTU_VERSION),18.04)
-CFLAGS = -DWEBOTS_UBUNTU_18_04
-endif
 ifeq ($(UBUNTU_VERSION),20.04)
 CFLAGS = -DWEBOTS_UBUNTU_20_04
+endif
+ifeq ($(UBUNTU_VERSION),22.04)
+CFLAGS = -DWEBOTS_UBUNTU_22_04
 endif
 endif
 

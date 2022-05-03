@@ -28,7 +28,9 @@ cleanse: $(PACKAGES_CLEAN)
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"
-ifeq ($(UBUNTU_VERSION), 20.04)
+ifeq ($(UBUNTU_VERSION), 22.04)
+	@cp .clang-format-9 $@
+else ifeq ($(UBUNTU_VERSION), 20.04)
 	@cp .clang-format-9 $@
 else
 	@cp .clang-format-6 $@

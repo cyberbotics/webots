@@ -9,12 +9,13 @@ apt install liburdfdom-tools -y
 
 if [[ $@ != *"--exclude-ros"* ]]; then
   UBUNTU_VERSION=$(lsb_release -rs)
-  if [[ $UBUNTU_VERSION == "18.04" ]]; then
-         export ROS_DISTRO=melodic
-  elif [[ $UBUNTU_VERSION == "20.04" ]]; then
+  if [[ $UBUNTU_VERSION == "20.04" ]]; then
          export ROS_DISTRO=noetic
+  elif [[ $UBUNTU_VERSION == "22.04" ]]; then
+         exit 0
   else
          echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+         exit 1
   fi
 
   echo "Adding ROS dependencies"
@@ -23,11 +24,7 @@ if [[ $@ != *"--exclude-ros"* ]]; then
   apt update -qq
   apt install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-controller-manager ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-class-loader ros-$ROS_DISTRO-roslib liburdfdom-tools
 
-  if [[ $UBUNTU_VERSION == "18.04" ]]; then
-         apt install -y python-rosdep
-  elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-         apt install -y python3-rosdep
-  fi
+  apt install -y python3-rosdep
 fi
 
 if [[ $@ != *"--norecurse"* ]]; then
