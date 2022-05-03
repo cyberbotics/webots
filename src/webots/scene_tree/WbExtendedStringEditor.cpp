@@ -137,7 +137,7 @@ const QStringList &WbExtendedStringEditor::defaultPhysicsPluginsEntryList() cons
   return mDefaultPhysicsPluginsEntryList;
 }
 
-const QStringList &WbExtendedStringEditor::defaultRobotWindowsPluginsEntryList() const { // ROBOT WINDOW CHANGES
+const QStringList &WbExtendedStringEditor::defaultRobotWindowsPluginsEntryList() const {
   static bool firstCall = true;
   if (firstCall) {
     const QStringList &list = WbControllerPlugin::defaultList(WbControllerPlugin::ROBOT_WINDOW);

@@ -474,7 +474,7 @@ void WbRobot::updateWindow() {
   if (!mWindow->value().isEmpty())
     return;  // HTML robot window without plugin case.
 
-  if (mAbsoluteWindowFilename.isEmpty()) { // ROBOT WINDOW CHANGES
+  if (mAbsoluteWindowFilename.isEmpty()) {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
