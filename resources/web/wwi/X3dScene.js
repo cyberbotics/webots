@@ -113,7 +113,7 @@ export default class X3dScene {
         onLoad();
       } else if (xmlhttp.status === 404) {
         if (document.getElementById('webotsProgressMessage'))
-          document.getElementById('webotsProgressMessage').innerHTML = 'File not found';
+          document.getElementById('webotsProgressMessage').innerHTML = 'File not found: ' + url;
       }
     };
     xmlhttp.onerror = () => {
