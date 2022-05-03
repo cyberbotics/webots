@@ -1021,7 +1021,7 @@ int wb_robot_init_msvc() {
   return wb_robot_init();
 }
 
-static void wb_robot_cleanup_shm() {
+static void wb_robot_cleanup_devices() {
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++) {
     WbDevice *d = robot.device[tag];
@@ -1179,7 +1179,7 @@ int wb_robot_init() {  // API initialization
 
   robot.configure = 0;
 
-  atexit(wb_robot_cleanup_shm);
+  atexit(wb_robot_cleanup_devices);
 
   already_done = true;
 

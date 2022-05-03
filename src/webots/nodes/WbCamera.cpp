@@ -605,7 +605,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
     if (mSegmentationCamera) {
       if (mHasSegmentationSharedMemoryChanged) {
         stream << (short unsigned int)tag();
-        stream << (unsigned char)C_CAMERA_SEGMENTATION_SHARED_MEMORY;
+        stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
         if (mSegmentationShm) {
           stream << (int)(mSegmentationShm->size());
           const QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
