@@ -447,7 +447,12 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeContents(WbWriter &writer) const {
-  if (!writer.isX3d() || mUrl->size() == 0)
+  if (!writer.isX3d()) {
+    WbNode::exportNodeContents(writer);
+    return;
+  }
+
+  if (mUrl->size() == 0)
     return;
 
   writer << " url='\"" << mUrl->item(0) << "\"'";
