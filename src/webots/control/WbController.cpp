@@ -249,7 +249,8 @@ void WbController::start() {
   connect(mServer, &QLocalServer::newConnection, this, &WbController::addLocalControllerConnection);
   success = mServer->listen(serverName);
   if (!success) {
-    WbLog::error(tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
+    WbLog::error(
+      tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
     return;
   }
 
@@ -830,12 +831,11 @@ void WbController::startDocker() {
     return;
   }
   const QStringList dockerArguments = {
-    "run",  "--network",
+    "run", "--network",
     "none",  // add "--cpu-shares", "512",
-//    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
-//    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
-    "-e",   "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()),
-    image};
+             //    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
+             //    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
+    "-e", "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()), image};
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }
