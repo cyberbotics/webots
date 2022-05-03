@@ -40,7 +40,7 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 #ifndef _WIN32
-#include "WbPosixSharedMemory.hpp"
+#include "WbPosixMemoryMappedFile.hpp"
 #else
 #include <QtCore/QSharedMemory>
 #endif
@@ -63,9 +63,9 @@ void WbAbstractCamera::init() {
   mSensor = NULL;
   mRefreshRate = 0;
   mNeedToConfigure = false;
-  mHasSharedMemoryChanged = false;
+  mHasMemoryMappedFileChanged = false;
   mNeedToCheckShaderErrors = false;
-  mSharedMemoryReset = false;
+  mMemoryMappedFileReset = false;
   mExternalWindowEnabled = false;
   mCharType = 0;
 
@@ -145,7 +145,7 @@ void WbAbstractCamera::postFinalize() {
 QString WbAbstractCamera::nativeKey() {
   if (!hasBeenSetup()) {
     setup();
-    mHasSharedMemoryChanged = true;
+    mHasMemoryMappedFileChanged = true;
   }
   return mImageShm->nativeKey();
 }
@@ -187,25 +187,24 @@ void WbAbstractCamera::deleteWren() {
     resetStaticCounters();
 }
 
-void WbAbstractCamera::initializeImageSharedMemory() {
-  mHasSharedMemoryChanged = true;
+void WbAbstractCamera::initializeImageMemoryMappedFile() {
+  mHasMemoryMappedFileChanged = true;
   delete mImageShm;
-  mImageShm = initializeSharedMemory();
+  mImageShm = initializeMemoryMappedFile();
   if (mImageShm)
     mImageData = (unsigned char *)mImageShm->data();
 }
 
-WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
-  const QString sharedMemoryName =
+WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
+  const QString MemoryMappedFileName =
     WbStandardPaths::webotsTmpPath() + "ipc/" + QString::number(robot()->uniqueId()) + "/" + QString::number(uniqueId());
-  WbSharedMemory *imageShm = new WbSharedMemory(sharedMemoryName);
-  // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
-  // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.
+  WbMemoryMappedFile *imageShm = new WbMemoryMappedFile(MemoryMappedFileName);
+  // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
+  // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
   if (imageShm->attach())
     imageShm->detach();
   if (!imageShm->create(size())) {
-    QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
-                         "your OS is probably full. Please check your shared memory setup.");
+    const QString message = tr("Cannot allocate memory mapped file for camera image.");
     warn(message);
     delete imageShm;
     return NULL;
@@ -217,7 +216,7 @@ void WbAbstractCamera::setup() {
   cCameraNumber++;
   cCameraCounter++;
 
-  initializeImageSharedMemory();
+  initializeImageMemoryMappedFile();
   if (!mImageShm)
     return;
 
@@ -252,7 +251,7 @@ void WbAbstractCamera::updateCameraTexture() {
 }
 
 // Generally, computeValue() acquires the data from the RTT
-// handle and copies the resulting value in the shared memory
+// handle and copies the resulting value in the memory mapped file
 void WbAbstractCamera::computeValue() {
   if (!hasBeenSetup())
     return;
@@ -281,7 +280,7 @@ void WbAbstractCamera::computeValue() {
     log->stopMeasure(WbPerformanceLog::DEVICE_RENDERING, deviceName());
 }
 
-void WbAbstractCamera::copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data) {
+void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data) {
   if (camera) {
     camera->enableCopying(true);
     camera->copyContentsToMemory(data);
@@ -302,12 +301,12 @@ void WbAbstractCamera::reset(const QString &id) {
   mInvisibleNodes.clear();
 }
 
-void WbAbstractCamera::resetSharedMemory() {
+void WbAbstractCamera::resetMemoryMappedFile() {
   if (hasBeenSetup()) {
-    // the previous shared memory will be released by the new controller start
+    // the previous memory mapped file will be released by the new controller start
     cCameraNumber++;
-    initializeImageSharedMemory();
-    mSharedMemoryReset = true;
+    initializeImageMemoryMappedFile();
+    mMemoryMappedFileReset = true;
   }
 }
 
@@ -318,7 +317,7 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mImageChanged) {
-    copyImageToSharedMemory(mWrenCamera, image());
+    copyImageToMemoryMappedFile(mWrenCamera, image());
     mSensor->resetPendingValue();
     mImageChanged = false;
   }
@@ -326,7 +325,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mHasSharedMemoryChanged && mImageShm) {
+  if (mHasMemoryMappedFileChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
     if (mImageShm) {
@@ -335,7 +334,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
       stream.writeRawData(n.constData(), n.size() + 1);
     } else
       stream << (int)(0);
-    mHasSharedMemoryChanged = false;
+    mHasMemoryMappedFileChanged = false;
   }
 }
 
@@ -354,7 +353,7 @@ void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigur
   stream << (unsigned char)mSpherical->value();
 
   mNeedToConfigure = false;
-  mSharedMemoryReset = false;
+  mMemoryMappedFileReset = false;
 }
 
 bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command) {
@@ -368,11 +367,11 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
-      copyImageToSharedMemory(mWrenCamera, image());
+      copyImageToMemoryMappedFile(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();
-        mHasSharedMemoryChanged = true;
+        mHasMemoryMappedFileChanged = true;
       }
       break;
     default:

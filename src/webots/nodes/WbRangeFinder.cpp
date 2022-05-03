@@ -75,10 +75,10 @@ void WbRangeFinder::updateOrientation() {
   }
 }
 
-void WbRangeFinder::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
+void WbRangeFinder::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
   if (mImageShm) {
-    // initialize the shared memory with a black image
+    // initialize the memory mapped file with a black image
     float *im = rangeFinderImage();
     const int size = width() * height();
     for (int i = 0; i < size; i++)

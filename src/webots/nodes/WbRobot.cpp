@@ -541,7 +541,7 @@ void WbRobot::updateControllerDir() {
     foreach (WbRenderingDevice *device, mRenderingDevices) {
       WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
       if (ac)
-        ac->resetSharedMemory();  // shared memory automatically deleted at new controller start
+        ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
     }
   }
 }
@@ -561,7 +561,7 @@ void WbRobot::restartController() {
   foreach (WbDevice *device, mDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
-      ac->resetSharedMemory();  // shared memory automatically deleted at new controller restart
+      ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller restart
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();

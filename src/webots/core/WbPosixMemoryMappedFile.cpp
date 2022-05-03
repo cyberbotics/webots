@@ -12,22 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbPosixSharedMemory.hpp"
+#include "WbPosixMemoryMappedFile.hpp"
 
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
 
-WbPosixSharedMemory::WbPosixSharedMemory(const QString &name) : mName(name), mSize(0), mData(NULL) {
+WbPosixMemoryMappedFile::WbPosixMemoryMappedFile(const QString &name) : mName(name), mSize(0), mData(NULL) {
 }
 
-WbPosixSharedMemory::~WbPosixSharedMemory() {
+WbPosixMemoryMappedFile::~WbPosixMemoryMappedFile() {
   if (mData)
     munmap(mData, mSize);
   unlink(mName.toUtf8());
 }
 
-bool WbPosixSharedMemory::create(int size) {
+bool WbPosixMemoryMappedFile::create(int size) {
   unlink(mName.toUtf8());                                 // delete a possibly existing memory mapped file with the same name
   int fd = open(mName.toUtf8(), O_CREAT | O_RDWR, 0666);  // returns -1 in case of failure
   if (fd < 0)

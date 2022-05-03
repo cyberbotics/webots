@@ -12,22 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// On Linux, we need to use POSIX shared memory segments (shm) and name them snap.webots.*
+// On Linux, we need to use memory mapped files named snap.webots.*
 // to be compliant with the strict confinement policy of snap applications.
-// On macOS, POSIX shared memory segments don't have the low limits of the SYSV shared memory segments.
-// Unfortunately, the Qt implementation of shared memory segment relies only on SYSV shared memory segments.
-// Hence we have to revert to the native POSIX shared memory to be compatible with snap and work around
-// macOS limitation with SYSV shared memory.
 
-#ifndef WB_POSIX_SHARED_MEMORY_HPP
-#define WB_POSIX_SHARED_MEMORY_HPP
+#ifndef WB_POSIX_MEMORY_MAPPED_FILE_HPP
+#define WB_POSIX_MEMORY_MAPPED_FILE_HPP
 
 #include <QtCore/QString>
 
-class WbPosixSharedMemory {
+class WbPosixMemoryMappedFile {
 public:
-  explicit WbPosixSharedMemory(const QString &name);
-  ~WbPosixSharedMemory();
+  explicit WbPosixMemoryMappedFile(const QString &name);
+  ~WbPosixMemoryMappedFile();
   static bool attach() { return false; }
   static bool detach() { return false; }
   bool create(int size);

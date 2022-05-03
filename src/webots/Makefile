@@ -583,7 +583,7 @@ OTHER_SOURCES += \
   WbWindowsRegistry.cpp
 else
 OTHER_SOURCES += \
-  WbPosixSharedMemory.cpp
+  WbPosixMemoryMappedFile.cpp
 endif
 
 MOC_FILES=$(addprefix $(OBJDIR)/,$(notdir $(QT_SOURCES:%.cpp=%.moc.cpp)))
