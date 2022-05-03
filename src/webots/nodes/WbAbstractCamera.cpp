@@ -23,8 +23,10 @@
 #include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
+#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenCamera.hpp"
@@ -194,8 +196,8 @@ void WbAbstractCamera::initializeImageSharedMemory() {
 }
 
 WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
-  QString sharedMemoryName =
-    QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
+  const QString sharedMemoryName =
+    WbStandardPaths::webotsTmpPath() + "ipc/" + QString::number(robot()->uniqueId()) + "/" + QString::number(uniqueId());
   WbSharedMemory *imageShm = new WbSharedMemory(sharedMemoryName);
   // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
   // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.

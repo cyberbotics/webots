@@ -36,7 +36,6 @@ public:
   const QString nativeKey() const { return mName; }
 
 private:
-  int mFd;
   QString mName;
   int mSize;
   void *mData;

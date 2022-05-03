@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #endif
 #include <stdlib.h>
 
@@ -50,7 +51,7 @@ void image_cleanup_shm(Image *i) {
 #else  // POSIX shared memory
   if (i->shmid > 0) {
     munmap(i->data, i->shm_size);
-    shm_unlink(i->shm_key);
+    unlink(i->shm_key);
   }
 #endif
 }
@@ -69,7 +70,7 @@ void image_get_shm(Image *i) {
   ROBOT_ASSERT(i->shm_file);
   i->data = MapViewOfFile(i->shm_file, FILE_MAP_WRITE, 0, 0, 0);
 #else  // POSIX shared memory segments
-  i->shmid = shm_open(i->shm_key, O_RDWR, 0400);
+  i->shmid = open(i->shm_key, O_RDWR, 0400);
   i->data = (unsigned char *)mmap(0, i->shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, i->shmid, 0);
 #endif
 
