@@ -118,7 +118,7 @@ export default class X3dScene {
     };
     xmlhttp.onerror = () => {
       if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'An error occured during the loading.';
+        document.getElementById('webotsProgressMessage').innerHTML = 'An unknown error occurred during the loading.';
     };
     xmlhttp.send();
   }
