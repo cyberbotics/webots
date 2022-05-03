@@ -224,16 +224,3 @@ int WbLight::numberOfLightsCastingShadows() {
       counter++;
   return counter;
 }
-
-void WbLight::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
-
-  findField("on", true)->write(writer);
-  findField("color", true)->write(writer);
-  findField("intensity", true)->write(writer);
-  findField("ambientIntensity", true)->write(writer);
-  findField("castShadows", true)->write(writer);
-}

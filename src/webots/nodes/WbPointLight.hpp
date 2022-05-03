@@ -50,7 +50,6 @@ protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;
   void updateOn() override;
-  void updateColor() override;
 
 private:
   // user accessible fields
@@ -80,7 +79,6 @@ private:
 
   void attachToUpperTransform();
   void detachFromUpperTransform();
-  void exportNodeFields(WbWriter &writer) const override;
 
 private slots:
   void updateAttenuation();

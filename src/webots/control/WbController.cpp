@@ -97,6 +97,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
 
   mType = WbFileUtil::UNKNOWN;
   mSocket = NULL;
+  mProcess = NULL;
   mRequestTime = 0.0;
   mDeltaTimeRequested = 0;
   mDeltaTimeMeasured = 0.0;
@@ -107,13 +108,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
 
-  mProcess = new QProcess();
-
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
-  connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
-  connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
-  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
-  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
 }
 
 WbController::~WbController() {
@@ -123,7 +118,8 @@ WbController::~WbController() {
   // signals in order to see the latest log messages
   if (mRobot)
     disconnect(mRobot);
-  mProcess->disconnect(this);
+  if (mProcess)
+    mProcess->disconnect(this);
 
   if (mSocket) {
     mSocket->disconnect();
@@ -151,7 +147,7 @@ WbController::~WbController() {
         mSocket->flush();  // otherwise the temination packet is not sent
       }
       // kill the process
-      if (mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
+      if (mProcess && mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
         WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
 #ifdef _WIN32
         // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
@@ -182,6 +178,12 @@ bool WbController::isRunning() const {
 
 // the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
 void WbController::start() {
+  mProcess = new QProcess();
+  connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
+  connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
+  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
+  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
+
   mRobot->setControllerStarted(true);
 
   if (mControllerPath.isEmpty()) {
@@ -234,11 +236,8 @@ void WbController::start() {
 
   // for matlab controllers we must change to the lib/matlab directory
   // other controller types are executed in the controller dir
-  if (mType == WbFileUtil::MATLAB)
-    mProcess->setWorkingDirectory(WbStandardPaths::controllerLibPath() + "matlab");
-  else
-    mProcess->setWorkingDirectory(mControllerPath);
-
+  mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" :
+                                                                mControllerPath);
   mProcess->start(mCommand, mArguments);
 }
 
