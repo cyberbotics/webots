@@ -435,6 +435,8 @@ This is the API of the `webots-streaming` web component:
     * `real-time:-1`: to play the simulation.
     * `pause`: to pause the simulation.
     * `robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+    * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 * `setWebotsMessageCallback(callback)`: define a function that will be called every time a message is sent by Webots.
     * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
 * `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by Webots.
