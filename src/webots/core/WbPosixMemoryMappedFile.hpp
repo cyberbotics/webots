@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// On Linux, we need to use memory mapped files named snap.webots.*
-// to be compliant with the strict confinement policy of snap applications.
-
 #ifndef WB_POSIX_MEMORY_MAPPED_FILE_HPP
 #define WB_POSIX_MEMORY_MAPPED_FILE_HPP
 
