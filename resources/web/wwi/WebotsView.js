@@ -148,7 +148,8 @@ export default class WebotsView extends HTMLElement {
       return WbWorld.instance.nodes.get('n' + id);
   }
 
-  setAmbiantOcclusion(level) {
+  setAmbientOcclusion(level) {
+    level = Math.floor(level);
     if (level > 4)
       level = 4;
     else if (level < 1)
