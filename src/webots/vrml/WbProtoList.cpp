@@ -343,13 +343,13 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
     else if (WbUrl::isLocalUrl(path))
       path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + path.mid(9));
 
-    isProtoAssetAvailable &= areProtoAssetsAvailable(path);
+    bool success = areProtoAssetsAvailable(path);
+    if (success)
+      printf("> AVAILABLE: %s\n", path.toUtf8().constData());
+    else
+      printf("> NOT AVAILABLE: %s\n", path.toUtf8().constData());
+    isProtoAssetAvailable &= success;
   }
-
-  if (isProtoAssetAvailable)
-    printf("> AVAILABLE: %s\n", url.toUtf8().constData());
-  else
-    printf("> NOT AVAILABLE: %s\n", url.toUtf8().constData());
 
   return isProtoAssetAvailable;
 }
@@ -439,14 +439,17 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
     it.next();
     // manufacture url of sub-proto based on url of the file that references it
     QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), protoPath);
-    printf("subproto >>%s<<\nparent   >>%s<<\n====> downloading: %s\n", (it.value()).toUtf8().constData(),
+    printf("---subproto >>%s<<\n---parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
            protoPath.toUtf8().constData(), externProtoUrl.toUtf8().constData());
-    // retrieve any sub-proto references
-    WbDownloader *downloader = new WbDownloader(this);
-    mRetrievers.push_back(downloader);
-    downloader->download(QUrl(externProtoUrl));
-    connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);  // TODO: need intermediary recurser function?
-    return;
+    if (WbUrl::isWeb(externProtoUrl)) {
+      // retrieve any sub-proto references
+      WbDownloader *downloader = new WbDownloader(this);
+      connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);  // TODO: need intermediary recurser function?
+      mRetrievers.push_back(downloader);
+      downloader->download(QUrl(externProtoUrl));
+      return;
+    } else
+      recursiveProtoRetrieval(externProtoUrl);
   }
 
   return;
@@ -469,12 +472,24 @@ void WbProtoList::recurser() {
 }
 
 void WbProtoList::retrievalCompletionTracker() {
+  // TODO: function is weird
+  // TODO: if one file doesn't exist (webots://something/that/doesnt/exist), it gets stuck
+  // TODO: finishes before it actually finishes coz mRetrievers pushing back not fast enough?
+
   bool finished = true;
   for (int i = 0; i < mRetrievers.size(); ++i)
     if (!mRetrievers[i]->hasFinished())
       finished = false;
 
-  if (finished) {
+  if (!mRetrievalError.isEmpty()) {
+    disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
+    qDeleteAll(mRetrievers);
+    mRetrievers.clear();
+    WbLog::error(tr("Proto retrieval error: %1").arg(mRetrievalError));
+    return;
+  }
+
+  if (mRetrievalError.isEmpty() && finished) {
     printf("FINISHED, files downloaded: %lld\n", mRetrievers.size());
     disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
     qDeleteAll(mRetrievers);

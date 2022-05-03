@@ -165,6 +165,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 QString WbUrl::generateExternProtoPath(const QString &url, const QString &parentUrl) {
   // TODO: if backward slashes instead of forward?
   // TODO: simplify all this function when it works
+  // TODO: if there is typo, ex: webots::/ instead of webots:// ?
 
   QString path;
   // handle case if the parent proto references a subproto that is itself a remote asset
