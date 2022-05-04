@@ -2031,6 +2031,9 @@ void WbMainWindow::editRobotController() {
   if (controllerName.isEmpty()) {
     WbMessageBox::info(tr("Could not find the controller name of the '%1' robot.").arg(robot->name().toUpper()), this);
     return;
+  } else if (controllerName == '<none>') {
+    WbMessageBox::info(tr("Controller <none> can not be modified."), this);
+    return;
   }
 
   QString filename = WbProject::current()->controllerPathFromDir(robot->controllerDir());
