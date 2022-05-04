@@ -106,8 +106,3 @@ void WbDirectionalLight::applyLightDirectionToWren() {
 const WbVector3 &WbDirectionalLight::direction() const {
   return mDirection->value();
 }
-
-void WbDirectionalLight::exportNodeFields(WbWriter &writer) const {
-  findField("direction", true)->write(writer);
-  WbLight::exportNodeFields(writer);
-}
