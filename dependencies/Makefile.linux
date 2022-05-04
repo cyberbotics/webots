@@ -14,10 +14,14 @@ ASSIMP_PACKAGE = libassimp-5.2.3.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
+OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
-
-PACKAGES = qt open-al ois pico lua-gd lua assimp
+PACKAGES = qt open-al ois pico lua-gd lua assimp open-ssl
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
+
+ifeq ($(UBUNTU_VERSION), 22.04)
+	PACKAGES += open-ssl
+endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
@@ -154,3 +158,22 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
 	@echo "# compiling lua"
 	+@make --silent -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux 2> /dev/null
+
+open-ssl-clean:
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1 $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME_LIB)/libcrypto.so* $(WEBOTS_HOME_LIB)/libssl.so*
+
+open-ssl: $(WEBOTS_HOME_LIB)/libcrypto.so
+
+$(WEBOTS_HOME_LIB)/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libcrypto.so* $(WEBOTS_HOME_LIB)
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libssl.so* $(WEBOTS_HOME_LIB)
+
+$(WEBOTS_DEPENDENCY_PATH)/openssl-1.1:
+	@echo "# downloading $(OPENSSL_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "$$(md5sum $(OPENSSL_PACKAGE) | awk '{print $$1;}')" != "f86af67eb474f562c14c16cfac100aa3" ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(OPENSSL_PACKAGE)"
+	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
