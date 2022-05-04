@@ -75,6 +75,7 @@ private:
   WbSFBool *mCcw;
   WbSFBool *mCastShadows;
   WbSFBool *mIsPickable;
+  bool mRetrievedMaterials;
 
   // wren objects
   QVector<WrRenderable *> mWrenRenderables;
@@ -86,6 +87,8 @@ private:
   // segmentation and rangefinder materials
   QVector<WrMaterial *> mWrenSegmentationMaterials;
   QVector<WrMaterial *> mWrenEncodeDepthMaterials;
+
+  void retrieveMaterials();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);

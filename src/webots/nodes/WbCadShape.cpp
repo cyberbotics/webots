@@ -56,6 +56,7 @@ void WbCadShape::init() {
   mWrenEncodeDepthMaterials.clear();
 
   mDownloader = NULL;
+  mRetrievedMaterials = false;
   mBoundingSphere = NULL;
 }
 
@@ -97,8 +98,36 @@ void WbCadShape::downloadAssets() {
 }
 
 void WbCadShape::downloadUpdate() {
+  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+  if (extension == "obj" && !mRetrievedMaterials) {
+    retrieveMaterials();
+    return;
+  }
+
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
+}
+
+void WbCadShape::retrieveMaterials() {
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+
+  if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
+    WbLog::error(tr("Cannot retrieve materials before the model is downloaded."));
+    return;
+  }
+
+  QFile model(WbNetwork::instance()->get(completeUrl));
+  if (model.open(QIODevice::ReadWrite)) {
+    QString content = QString(model.readAll());
+    content = content.replace("\r\n", "\n");
+
+    QStringList lines = content.split('\n', Qt::SkipEmptyParts);
+
+    QRegularExpression re("mtllib\\s([a-zA-Z0-9-_+]+.*\\.mtl)");  // TODO: test
+
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+  } else
+    WbLog::error(tr("File '%1' cannot be read."));
 }
 
 void WbCadShape::postFinalize() {
