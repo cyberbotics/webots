@@ -1320,7 +1320,7 @@ void WbRobot::handleJoystickChange() {
 }
 
 QString WbRobot::windowFile(const QString &extension) {
-  if (window().isEmpty())
+  if (window().isEmpty() || window() == "<generic>")
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
   const QString fileName = window() + "/" + window() + "." + extension;
