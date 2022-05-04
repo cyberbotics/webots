@@ -35,8 +35,6 @@ managers.Makefile robotis-op2.Makefile:
 
 python.Makefile: managers.Makefile
 ifeq ($(OSTYPE),linux)
-	@echo "# make" $@ python3.6;
-	+PYTHON_COMMAND=python3.6 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;

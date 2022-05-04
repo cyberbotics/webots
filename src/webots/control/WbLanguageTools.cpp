@@ -69,13 +69,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     "To fix the problem, you should set the full path of your python command in "
     "Webots->preferences->python command.\n";
 #else
-    QObject::tr("Webots requires Python version 3.9, 3.8"
-#ifdef __linux__
-                ", 3.7 or 3.6"  // we also support 3.6 on ubuntu 18.04
-#else
-                " or 3.7"
-#endif
-                " from python.org in your current PATH.\n"
+    QObject::tr("Webots requires Python version 3.9, 3.8 or 3.7 from python.org in your current PATH.\n"
                 "To fix the problem, you should:\n"
                 "1. Check the Python command set in the Webots preferences.\n"
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"

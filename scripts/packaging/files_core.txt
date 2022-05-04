@@ -84,10 +84,6 @@ lib/controller/driver.lib [windows]
 
 lib/controller/generic_robot_window [dll]
 
-lib/controller/python36/ [linux]
-lib/controller/python36/*.py [linux]
-lib/controller/python36/_*.so [linux]
-
 lib/controller/python37/
 lib/controller/python37/*.py
 lib/controller/python37/_*.so [linux,mac]
