@@ -30,6 +30,8 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
+#include <QtCore/QRegularExpressionMatch>
+
 #include <wren/material.h>
 #include <wren/node.h>
 #include <wren/renderable.h>
@@ -98,6 +100,7 @@ void WbCadShape::downloadAssets() {
 }
 
 void WbCadShape::downloadUpdate() {
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
   if (extension == "obj" && !mRetrievedMaterials) {
     retrieveMaterials();
@@ -112,20 +115,38 @@ void WbCadShape::retrieveMaterials() {
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
 
   if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
-    WbLog::error(tr("Cannot retrieve materials before the model is downloaded."));
+    WbLog::error(tr("Cannot retrieve materials before the model itself is downloaded."));
     return;
   }
 
   QFile model(WbNetwork::instance()->get(completeUrl));
+
   if (model.open(QIODevice::ReadWrite)) {
     QString content = QString(model.readAll());
     content = content.replace("\r\n", "\n");
 
+    QVector<WbDownloader *> materialDownloaders;
+    QVector<QString> materialUrls;
     QStringList lines = content.split('\n', Qt::SkipEmptyParts);
-
     QRegularExpression re("mtllib\\s([a-zA-Z0-9-_+]+.*\\.mtl)");  // TODO: test
+    foreach (QString line, lines) {
+      QRegularExpressionMatch match = re.match(line);
+      if (match.hasMatch()) {
+        // prepare downloader
+        WbDownloader *downloader = new WbDownloader();
+        connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
+        materialDownloaders.push_back(downloader);
+        // manufacture url from the url of the obj file
+        QString materialUrl;
+        materialUrls.push_back(materialUrl);
+      }
+    }
 
-    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+    // start all downloads to avoid racing conditions
+    for (int i = 0; i < materialDownloaders; ++i) {
+      materialDownloaders[i]->download(QUrl(filename));
+    }
+
   } else
     WbLog::error(tr("File '%1' cannot be read."));
 }
