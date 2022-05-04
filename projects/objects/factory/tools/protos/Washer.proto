@@ -12,6 +12,7 @@ PROTO Washer [
   field SFFloat    innerRadius      0.006        # Defines the inner radius of the washer.
   field SFFloat    thickness        0.0017       # Defines the thickness of the washer.
   field SFString   contactMaterial "default"     # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics   TRUE          # Defines whether the washer should have physics.
 ]
 {
   %<
@@ -68,9 +69,11 @@ PROTO Washer [
           radius %<= 1.55 * innerRadius / 0.6 >%
           thickness %<= 0.96 * innerRadius / 0.6 >%
         }
-        physics Physics {
-          density 8050
-        }
+        %< if (fields.enablePhysics.value) { >%
+          physics Physics {
+            density 8050
+          }
+        %< } >%
       }
     ]
   }

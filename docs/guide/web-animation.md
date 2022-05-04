@@ -60,6 +60,8 @@ For more complex interaction with the web component, the following functions are
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+    * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
   * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
