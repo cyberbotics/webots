@@ -464,7 +464,7 @@ void WbRobot::updateWindow() {
     if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
-        warn(tr("The robot window library has not been found."));
+        warn(tr("The robot window library '") + key + tr("' has not been found."));
       else
         mAbsoluteWindowFilename = absoluteFilePath;
     }
@@ -479,6 +479,8 @@ void WbRobot::updateWindow() {
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
       warn(tr("The generic robot window is not found. Please check your Webots installation."));
+    else
+      warn(tr("Starts the <generic> window instead."));
   }
 
   if (!mAbsoluteWindowFilename.isEmpty())
