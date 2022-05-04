@@ -366,13 +366,16 @@ export default class Toolbar {
     this.robotWindowPane = document.createElement('div');
     this.robotWindowPane.id = 'robot-window-pane';
     this.robotWindowPane.className = 'vertical-list-pane';
-    this.robotWindowPane.innerHTML = '<h3 class="vertical-list-pane-title">Robot Windows</h3>';
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
+    const title = document.createElement('li');
+    title.className = 'vertical-list-pane-title';
+    title.innerHTML = 'Robot Windows';
+    this.robotWindowList.appendChild(title);
 
     const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
@@ -1323,13 +1326,16 @@ export default class Toolbar {
     this.worldSelectionPane = document.createElement('div');
     this.worldSelectionPane.id = 'world-selection-pane';
     this.worldSelectionPane.className = 'vertical-list-pane';
-    this.worldSelectionPane.innerHTML = '<h3 class="vertical-list-pane-title">Worlds</h3>';
     this.parentNode.appendChild(this.worldSelectionPane);
     this.worldSelectionPane.style.visibility = 'hidden';
     this.worldSelectionPane.style.left = '1%';
     this.worldList = document.createElement('ul');
     this.worldList.id = 'world-list';
     this.worldSelectionPane.appendChild(this.worldList);
+    const title = document.createElement('li');
+    title.className = 'vertical-list-pane-title';
+    title.innerHTML = 'Worlds';
+    this.worldList.appendChild(title);
 
     this.worldSelectionPane.addEventListener('mouseover', () => this.showToolbar());
 
