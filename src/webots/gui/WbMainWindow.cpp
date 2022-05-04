@@ -2032,7 +2032,7 @@ void WbMainWindow::editRobotController() {
     WbMessageBox::info(tr("Could not find the controller name of the '%1' robot.").arg(robot->name().toUpper()), this);
     return;
   } else if (controllerName == "<none>") {
-    WbMessageBox::info(tr("Controller <none> can not be modified."), this);
+    WbMessageBox::info(tr("Controller <none> cannot be modified."), this);
     return;
   }
 
