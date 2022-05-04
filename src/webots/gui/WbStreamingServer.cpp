@@ -83,12 +83,11 @@ void WbStreamingServer::start(int port) {
   mPort = port;
   try {
     create(port);
-    WbSimulationState::instance()->setPort(port);
   } catch (const QString &e) {
     WbLog::error(tr("Error when creating the TCP streaming server on port %1: %2").arg(port).arg(e));
     if ((WbPreferences::instance()->value("Streaming/port", 1234).toInt() + 10) > port) {
       mPort++;
-      WbLog::warning(tr("Trying again with port %1").arg(mPort));
+      WbLog::warning(tr("Trying again with port %1 (extern controllers may not be able to connect)").arg(mPort));
       start(mPort);
     }
     return;

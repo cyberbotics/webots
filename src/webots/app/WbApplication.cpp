@@ -50,12 +50,12 @@ WbApplication::WbApplication() {
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
+  WbPreferences::createInstance("Cyberbotics", "Webots", WbApplicationInfo::version());
+
   // create the Webots temporary path early in the process
   // in order to be sure that the Qt internal files will be stored
   // at the right place
   WbStandardPaths::webotsTmpPath();
-
-  WbPreferences::createInstance("Cyberbotics", "Webots", WbApplicationInfo::version());
 
   mStartupPath = QDir::currentPath();
 
