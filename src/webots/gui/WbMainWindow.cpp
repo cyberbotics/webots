@@ -2046,13 +2046,11 @@ void WbMainWindow::editRobotController() {
 }
 
 void WbMainWindow::showRobotWindow() {
-  WbMessageBox::info(tr("Clicked..."), this);
   WbRobot *robot = mSimulationView->selectedRobot();
   if (robot) {
-    if (robot->windowFile().isEmpty()) {
-      WbMessageBox::info(tr("Oh no"), this);
+    if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
-    } else
+    else
       showHtmlRobotWindow(robot);  // show HTML robot window
   }
 }
