@@ -32,6 +32,7 @@ Released on XX XX, 2022.
     - Fixed perspective (i.e., when the layout is changed) saving logic and camera menu overlay ([#4350](https://github.com/cyberbotics/webots/pull/4350)).
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
+    - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
 
 ## Webots R2022a
 Released on December 21th, 2022.
