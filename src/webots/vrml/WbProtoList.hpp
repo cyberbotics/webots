@@ -43,6 +43,8 @@ public:
 
   static QStringList fileList(int cache);
 
+  QMap<QString, QString> &protoList() { return mProtoList; }
+
   // create a proto list with a .proto file search path
   // the path will be searched recursively
   // explicit WbProtoList(const QString &primarySearchPath = "");

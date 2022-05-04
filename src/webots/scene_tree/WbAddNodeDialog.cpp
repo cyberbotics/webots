@@ -14,6 +14,8 @@
 
 #include "WbAddNodeDialog.hpp"
 
+#include "../core/WbApplicationInfo.hpp"
+#include "../vrml/WbProtoList.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
@@ -26,7 +28,6 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoCachedInfo.hpp"
-#include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
@@ -493,8 +494,10 @@ void WbAddNodeDialog::buildTree() {
 
   // add Webots PROTO
   int nWProtosNodes = 0;
-  nWProtosNodes =
-    addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
+  // nWProtosNodes =
+  //  addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
+  nWProtosNodes = addProtosFromProtoList(wprotosItem);
+
   mTree->addTopLevelItem(nodesItem);
   if (mUsesItem)
     mTree->addTopLevelItem(mUsesItem);
@@ -522,6 +525,22 @@ void WbAddNodeDialog::buildTree() {
     mTree->setCurrentItem(nodesItem);
 
   updateItemInfo();
+}
+
+int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
+  QMap<QString, QString> protoList = WbProtoList::current()->protoList();
+
+  const WbVersion &version = WbApplicationInfo::version();
+  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+  const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+
+  const QString remoteUrl = QString("https://raw.githubusercontent.com/cyberbotics/webots/%1/").arg(reference);
+  foreach (QString proto, protoList) {
+    const QString path = proto.replace("webots://", "").replace(remoteUrl, "");
+    const QString nodeName = QFileInfo(path).baseName();
+
+    printf("%s\n", nodeName.toUtf8().constData());
+  }
 }
 
 int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,

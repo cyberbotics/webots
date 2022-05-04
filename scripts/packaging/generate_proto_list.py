@@ -30,15 +30,13 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
-if 'WEBOTS_DEVELOPMENT_ENVIRONMENT' in os.environ:
-    base_url = "webots://"
+if len(sys.argv) == 1:
+    base_url = 'webots://'
+elif len(sys.argv) == 2:
+    base_url = f'https://raw.githubusercontent.com/cyberbotics/webots/{sys.argv[1]}/'
 else:
-    base_url = "https://raw.githubusercontent.com/cyberbotics/webots/"
+  sys.exit('Unknown argument provided.')
 
-if len(sys.argv) != 2:
-    sys.exit('Missing argument: commit sha or tag.')
-else:
-    tag = sys.argv[1]
 
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     filename = f'{WEBOTS_HOME}/resources/proto-list-{file.readline().strip()}.txt'
@@ -54,10 +52,8 @@ with open(filename, 'w') as file:
     for proto in assets:
         if any(x in str(proto) for x in SKIPPED_DIRECTORIES):
             continue
-        # get node name from file name
-        node_name = proto.stem
         # generate remote url
-        remote_url = str(proto).replace(WEBOTS_HOME, rf'{base_url}{tag}')
+        complete_url = str(proto).replace(WEBOTS_HOME + '/', base_url)
         # add to list
-        file.write(f'{node_name} {remote_url}\n')
+        file.write(complete_url + '\n')
 

@@ -15,6 +15,7 @@
 #include "WbProtoList.hpp"
 
 #include "../app/WbApplication.hpp"
+#include "../core/WbApplicationInfo.hpp"
 #include "../core/WbNetwork.hpp"
 #include "../nodes/utils/WbDownloader.hpp"
 #include "../nodes/utils/WbUrl.hpp"
@@ -60,7 +61,7 @@ WbProtoList::WbProtoList(const QString &primarySearchPath) {
 */
 
 WbProtoList::WbProtoList() {
-  // setupKnownProtoList();
+  setupKnownProtoList();
 }
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
@@ -500,6 +501,7 @@ void WbProtoList::retrievalCompletionTracker() {
 }
 
 void WbProtoList::setupKnownProtoList() {
+  /*
   const QString &searchPath = WbStandardPaths::projectsPath();
 
   QFileInfoList worlds;
@@ -515,14 +517,37 @@ void WbProtoList::setupKnownProtoList() {
   }
 
   printf("-- known proto %lld --\n", mProtoList.size());
-  /*
-  QMapIterator<QString, QString> it(mProtoList);
-  while (it.hasNext()) {
-    it.next();
-    printf("  %30s %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
-  }
-  */
+
+  //QMapIterator<QString, QString> it(mProtoList);
+  //while (it.hasNext()) {
+  //  it.next();
+  //  printf("  %30s %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
+  //}
+
   printf("-- end known proto --\n");
+  */
+  const WbVersion &version = WbApplicationInfo::version();
+  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+  const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+  const QString filename = WbStandardPaths::resourcesPath() + QString("proto-list-%1.txt").arg(reference);
+  QFile protoList(filename);
+
+  if (protoList.open(QIODevice::ReadOnly)) {
+    const QStringList lines = QString(protoList.readAll()).split('\n', Qt::SkipEmptyParts);
+    foreach (QString line, lines) {
+      const QString filename = QUrl(line).fileName().replace(".proto", "");
+      mProtoList.insert(filename, line);
+    }
+  } else
+    WbLog::error(tr("%1 not found.").arg(filename));
+
+  // printf("-- known proto %lld --\n", mProtoList.size());
+  // QMapIterator<QString, QString> it(mProtoList);
+  // while (it.hasNext()) {
+  //  it.next();
+  //  printf("  %35s %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
+  //}
+  // printf("-- end known proto --\n");
 }
 
 void WbProtoList::resetCurrentProjectProtoList(void) {

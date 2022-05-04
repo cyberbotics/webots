@@ -123,6 +123,8 @@ endif
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+echo "#"; echo "# * generate proto list *"; echo "#"
+	@+python3 scripts/packaging/generate_proto_list.py # without arguments, proto urls are: 'webots://'
 
 webots_dependencies:
 	@+echo "#"; echo "# * dependencies *"; echo "#"
