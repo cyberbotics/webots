@@ -41,8 +41,11 @@ const char *wbu_system_getenv(const char *variable);
 // call to a wbu_system function.
 const char *wbu_system_short_path(const char *path);
 
+// Return the system tmp folder used by Webots, typically /tmp on Linux
+const char *wbu_system_tmpdir();
+
 // The following function returns the tmp folder used by Webots. On Linux, it is /tmp/webots-XXX.
-// On macOS is it /var/tmp/webots-XXX. On Windows, it is LOCALAPPDATA/Temp/webots-XXX where XXX is the Webots PID
+// On macOS is it /var/tmp/webots-XXX. On Windows, it is LOCALAPPDATA/Temp/webots-XXX where XXX is the Webots TCP port
 const char *wbu_system_webots_tmp_path(bool refresh);
 
 #ifdef __cplusplus

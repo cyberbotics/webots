@@ -23,6 +23,7 @@
 // (4) initialization of the remote scene if any (textures, download)
 
 #include <assert.h>
+#include <dirent.h>  // struct dirent
 #include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
@@ -49,13 +50,13 @@
 #include "messages.h"
 #include "motion_private.h"
 #include "mouse_private.h"
+#include "percent.h"
 #include "remote_control_private.h"
 #include "request.h"
 #include "robot_private.h"
 #include "robot_window_private.h"
 #include "scheduler.h"
 #include "supervisor_private.h"
-#include "tcp_client.h"
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
@@ -1033,6 +1034,10 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
+static int strcmp_sort(const void *a, const void *b) {
+  return strcmp(*(const char **)a, *(const char **)b);
+}
+
 int wb_robot_init() {  // API initialization
 // do not use any buffer for the standard streams
 #ifdef _WIN32  // the line buffered option doesn't to work under Windows, so use unbuffered streams
@@ -1083,81 +1088,77 @@ int wb_robot_init() {  // API initialization
   wb_mouse_init();
 
   int success = 0;
-  const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
+  const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
   const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
-  if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
-    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_ID) + 12;  // "%sipc/%s/socket"
-    char *pipe_name = malloc(length);
-    snprintf(pipe_name, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, WEBOTS_ROBOT_ID);
-    success = scheduler_init(pipe_name);
-    free(pipe_name);
+  char *pipe_name;
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
+    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_NAME) + 12;  // "%sipc/%s/socket"
+    char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+    pipe_name = malloc(length);
+    snprintf(pipe_name, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, robot_name);
+    free(robot_name);
   } else {  // extern controller
     // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
-    const char *default_url = "ipc://localhost:1234";
+    const char *default_url = "ipc://1234";
     char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
     if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0)
-      WEBOTS_CONTROLLER_URL = strdup(default_url);                // it will be free
-    else if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {  // assuming only the robot name was provided
+      WEBOTS_CONTROLLER_URL = strdup(default_url);            // it will be free
+    else if (strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {  // assuming only the robot name was provided (URI formated)
       const int length = strlen(WEBOTS_CONTROLLER_URL) + strlen(default_url) + 2;
       char *tmp = malloc(length);
       snprintf(tmp, length, (WEBOTS_CONTROLLER_URL[0] == '/') ? "%s%s" : "%s/%s", default_url, WEBOTS_CONTROLLER_URL);
       WEBOTS_CONTROLLER_URL = tmp;
-    } else                                                    // the URL starts with "ipcs://"
+    } else
       WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
-    const char *protocol = "ipc";
-    int length = strlen(WEBOTS_CONTROLLER_URL) - 5;
-    char *host = malloc(length);
-    host[0] = '\0';
-    const char *robot_name = "";
-    int port = 1234;
-    for (int i = 6; i < length; i++) {
-      if (WEBOTS_CONTROLLER_URL[i] == ':') {
-        host[i - 6] = '\0';
-        sscanf(&WEBOTS_CONTROLLER_URL[i + 1], "%d", &port);
-      } else if (WEBOTS_CONTROLLER_URL[i] == '/') {
-        host[i - 6] = '\0';
-        robot_name = &WEBOTS_CONTROLLER_URL[i];
-        break;
-      } else
-        host[i - 6] = WEBOTS_CONTROLLER_URL[i];
+    if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {
+      fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+      exit(EXIT_FAILURE);
     }
-    printf("protocol = %s\n", protocol);
-    printf("host     = %s\n", host);
-    printf("port     = %d\n", port);
-    printf("robot    = %s\n", robot_name);
-
-    // Try to connect to Webots
-    int fd = tcp_client_open();
-    int trial = 0;
-    while (true) {
-      int connect = tcp_client_connect(fd, host, port);
-      if (connect == 1)  // success
-        break;
-      if (connect == 0) {  // failed to connect
-        if (trial == 10) {
-          fprintf(stderr, "Giving up.\n");
-          tcp_client_close(fd);
-          exit(EXIT_FAILURE);
-        }
-        trial++;
-        fprintf(stderr, "Could not connect to Webots instance at %s:%d, retrying in %d second%s...\n", host, port, trial,
-                trial > 1 ? "s" : "");
-        sleep(trial);
-      } else {  // failed to lookup host
-        tcp_client_close(fd);
+    int port = -1;
+    sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &port);
+    char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+    const char *TMP_DIR = wbu_system_tmpdir();
+    int length = strlen(TMP_DIR) + 24;  // "/tmp/webots-12345678901/ipc"
+    char *folder = malloc(length);
+    snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, port);
+    if (robot_name)
+      robot_name = strdup(robot_name);
+    else {  // take the first robot in the ipc folder (alphabetical order)
+      struct dirent *de;
+      DIR *dr = opendir(folder);
+      if (dr == NULL) {
+        fprintf(stderr, "Error: cannot open directory %s\n", folder);
         exit(EXIT_FAILURE);
       }
+      char *filenames[256];  // we sort only among the 256 first robots
+      int i = 0;
+      while ((de = readdir(dr)) != NULL && i < sizeof filenames / sizeof filenames[0]) {
+        if (strcmp(de->d_name, ".") == 0)
+          continue;
+        if (strcmp(de->d_name, "..") == 0)
+          continue;
+        filenames[i++] = strdup(de->d_name);
+      }
+      closedir(dr);
+      if (i > 1) {  // sort folders (robot names) in alphabetical order
+        qsort(filenames, i, sizeof filenames[0], strcmp_sort);
+        for (int j = 1; j < i; j++)  // keep only the first one
+          free(filenames[j]);
+      }
+      robot_name = filenames[0];
     }
-    length = strlen("EXT IPC ") + strlen(robot_name);
-    char *buffer = malloc(length);
-    sprintf(buffer, "EXT IPC %s", robot_name);
-    int n = tcp_client_send(fd, buffer, length);
-    printf("sent %d bytes: %s\n", n, buffer);
-    free(buffer);
-
-    tcp_client_close(fd);
     free(WEBOTS_CONTROLLER_URL);
+    printf("port   = %d\n", port);
+    printf("robot  = %s\n", robot_name);
+    printf("folder = %s\n", folder);
+    length += strlen(robot_name) + 8;  // "/tmp/webots-1234/ipc/MyBot/socket"
+    pipe_name = malloc(length);
+    snprintf(pipe_name, length, "%s/%s/socket", folder, robot_name);
+    free(folder);
+    free(robot_name);
   }
+  success = scheduler_init(pipe_name);
+  free(pipe_name);
   if (success == 0) {
     fprintf(stderr, "Could not connect to Webots.\n");
     exit(EXIT_FAILURE);

@@ -84,7 +84,7 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
-static const char *wbu_system_tmpdir() {
+const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
     return tmpdir;

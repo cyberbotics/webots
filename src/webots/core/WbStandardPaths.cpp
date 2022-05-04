@@ -16,6 +16,7 @@
 
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
+#include "WbSimulationState.hpp"
 #include "WbSysInfo.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -207,17 +208,17 @@ const QString &WbStandardPaths::webotsTmpPath() {
     // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
     // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
     webotsTmpPath = QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) +
-                    QString("/Temp/webots-%1/").arg(QCoreApplication::applicationPid());
+                    QString("/Temp/webots-%1/").arg(WbSimulationState::instance()->port());
 #elif defined(__APPLE__)
-    webotsTmpPath = QString("/var/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
+    webotsTmpPath = QString("/var/tmp/webots-%1/").arg(WbSimulationState::instance()->port());
 #else  // __linux__
-    const QString WEBOTS_TMP_PATH = WbSysInfo::environmentVariable("WEBOTS_TMP_PATH");
-    if (!WEBOTS_TMP_PATH.isEmpty() && QDir(WEBOTS_TMP_PATH).exists())
-      webotsTmpPath = WEBOTS_TMP_PATH;
+    const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
+    if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
+      webotsTmpPath = QString("%1/webots-%2/").arg(WEBOTS_TMPDIR).arg(WbSimulationState::instance()->port());
     else {
       WbLog::error(QObject::tr(
         "Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
-      webotsTmpPath = QString("/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
+      webotsTmpPath = QString("/tmp/webots-%1/").arg(WbSimulationState::instance()->port());
     }
 #endif
 

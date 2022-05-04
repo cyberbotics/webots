@@ -44,6 +44,7 @@
 #else
 #include <QtCore/QSharedMemory>
 #endif
+#include <QtCore/QUrl>
 #include <QtCore/QVector>
 
 #include <wren/config.h>
@@ -199,7 +200,7 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
   // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
   // applications.
 
-  const QString MemoryMappedFileName = WbStandardPaths::webotsTmpPath() + "ipc/" + QString::number(robot()->uniqueId()) +
+  const QString MemoryMappedFileName = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name()) +
                                        "/snap.webots." + QString::number(uniqueId());
 
   WbMemoryMappedFile *imageShm = new WbMemoryMappedFile(MemoryMappedFileName);

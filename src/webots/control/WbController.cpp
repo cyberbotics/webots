@@ -40,6 +40,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
 #include <QtCore/QProcessEnvironment>
+#include <QtCore/QUrl>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
 
@@ -236,7 +237,7 @@ void WbController::start() {
     return;
 
   // recover from a crash, when the previous server instance has not been cleaned up
-  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QString::number(mRobot->uniqueId());
+  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
   const QString serverName = path + "/socket";
   bool success = QLocalServer::removeServer(serverName);
@@ -328,8 +329,8 @@ void WbController::setProcessEnvironment() {
   // starts from the parent process environment
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 
-  // store a unique robot ID for the controller
-  env.insert("WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()));
+  // store a unique robot name for the controller
+  env.insert("WEBOTS_ROBOT_NAME", mRobot->name());
 
   // Add the Webots lib path to be able to load (at least) libController
   QString ldLibraryPath = WbStandardPaths::controllerLibPath();

@@ -59,6 +59,10 @@ public:
   void unsubscribeToRayTracing();
   bool isRayTracingEnabled() { return mRayTracingSubscribersCount != 0; }
 
+  // current TCP server port
+  void setPort(int port) { mPort = port; }
+  int port() { return mPort; }
+
 signals:
   // the simulation mode has changed
   void modeChanged();
@@ -86,6 +90,7 @@ private:
   bool mPerformRendering;
   bool mEnabled;
   double mTime;
+  int mPort;
 
   // ray tracing
   int mRayTracingSubscribersCount;
