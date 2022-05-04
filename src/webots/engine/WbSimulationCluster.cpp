@@ -159,8 +159,8 @@ void WbSimulationCluster::handleKinematicsCollisions() {
 void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *robot, bool collideWithOtherRobot,
                                                  dContact *contact, bool body1) {
   // handle DifferentialWheels robots without physics
-  WbVector2 normal2D(contact[0].geom.normal[0], contact[0].geom.normal[2]);
-  WbVector3 normal3D(contact[0].geom.normal[0], contact[0].geom.normal[1], contact[0].geom.normal[2]);
+  WbVector2 normal2D(contact[0].geom.normal[2], contact[0].geom.normal[1]);
+  WbVector3 normal3D(contact[0].geom.normal[2], contact[0].geom.normal[0], contact[0].geom.normal[1]);
   double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
 
   // record contact points for graphical and sound rendering
