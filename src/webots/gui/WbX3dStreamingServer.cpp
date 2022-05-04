@@ -197,8 +197,9 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
+  const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
   foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(QString("delete:%1").arg(node->uniqueId()));
+    client->sendTextMessage(QString("delete:%1").arg(def->uniqueId()));
 }
 
 void WbX3dStreamingServer::generateX3dWorld() {
