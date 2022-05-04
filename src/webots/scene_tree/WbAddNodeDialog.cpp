@@ -534,13 +534,52 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
   const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
 
+  int nAddedNodes = 0;
   const QString remoteUrl = QString("https://raw.githubusercontent.com/cyberbotics/webots/%1/").arg(reference);
-  foreach (QString proto, protoList) {
-    const QString path = proto.replace("webots://", "").replace(remoteUrl, "");
-    const QString nodeName = QFileInfo(path).baseName();
 
-    printf("%s\n", nodeName.toUtf8().constData());
+  foreach (QString proto, protoList) {
+    const QString nodeName = QUrl(proto).fileName();
+    QString path = proto.replace("webots://", "").replace(remoteUrl, "");
+
+    printf("%s | %s\n", nodeName.toUtf8().constData(), path.toUtf8().constData());
+
+    // populate tree
+    QStringList categories = path.split('/', Qt::SkipEmptyParts);
+    QTreeWidgetItem *parent = parentItem;
+    foreach (QString folder, categories) {
+      if (folder == "projects" || folder == "protos")
+        continue;
+
+      const bool isProto = folder.endsWith(".proto");
+
+      bool exists = false;
+      int i;
+      for (i = 0; i < parent->childCount(); ++i) {
+        if (parent->child(i)->text(0) == folder) {
+          exists = true;
+          break;
+        }
+      }
+
+      QTreeWidgetItem *subFolder;
+      if (exists)
+        subFolder = parent->child(i);
+      else {
+        const QString baseName = "BASE_NAME";
+        const QString name = isProto ? QString("%1 (%2)").arg(folder.replace(".proto", "")).arg(baseName) : folder;
+        subFolder = new QTreeWidgetItem(QStringList(name));
+      }
+
+      if (isProto) {
+        subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
+        ++nAddedNodes;
+      }
+      parent->addChild(subFolder);
+      parent = subFolder;
+    }
   }
+
+  return nAddedNodes;
 }
 
 int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,
