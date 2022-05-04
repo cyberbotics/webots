@@ -888,43 +888,62 @@ function highlightX3DElement(deviceElement) {
     return;
   let object = WbWorld.instance.nodes.get(id);
   if (object) {
-    if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
-      if (typeof sizeOfMarker === 'undefined') {
-        // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
-        let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
-        let viewpointPosition = WbWorld.instance.viewpoint.position;
-        sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
+    let objectParent = WbWorld.instance.nodes.get(object.parent);
+    if (objectParent) {
+      if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
+        if (typeof sizeOfMarker === 'undefined') {
+          // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
+          let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
+          let viewpointPosition = WbWorld.instance.viewpoint.position;
+          sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
+        }
+        let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
+        WbWorld.instance.nodes.set(sphere.id, sphere);
+        let baseColorMap = imageTexture.clone(getAnId());
+        baseColorMap.role = 'baseColorMap';
+        WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
+        let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
+          20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
+        baseColorMap.parent = pbr.id;
+        WbWorld.instance.nodes.set(pbr.id, pbr);
+        let shape = new WbShape(getAnId(), false, false, sphere, pbr);
+        WbWorld.instance.nodes.set(shape.id, shape);
+        sphere.parent = shape.id;
+        pbr.parent = shape.id;
+        let anchor = deviceElement.getAttribute('device-anchor');
+        if (anchor) {
+          anchor = anchor.split(/[\s,]+/);
+          anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+        } else
+          anchor = new WbVector3();
+        pointer = new WbTransform(getAnId(), anchor, new WbVector3(1, 1, 1), new WbVector4());
+        pointer.children.push(shape);
+        WbWorld.instance.nodes.set(pointer.id, pointer);
+        shape.parent = pointer.id;
+
+        const sliders = document.getElementsByClassName('motor-slider');
+        let slider;
+        for (let i = 0; i < sliders.length; i++) {
+          if (sliders[i] && sliders[i].getAttribute('webots-transform-id') === id) {
+            slider = sliders[i];
+            break;
+          }
+        }
+        // sliderMotorCallback(pointer, slider);
       }
-      let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
-      WbWorld.instance.nodes.set(sphere.id, sphere);
-      let baseColorMap = imageTexture.clone(getAnId());
-      baseColorMap.role = 'baseColorMap';
-      WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
-        20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
-      baseColorMap.parent = pbr.id;
-      WbWorld.instance.nodes.set(pbr.id, pbr);
-      let shape = new WbShape(getAnId(), false, false, sphere, pbr);
-      WbWorld.instance.nodes.set(shape.id, shape);
-      sphere.parent = shape.id;
-      pbr.parent = shape.id;
-      pointer = new WbTransform(getAnId(), new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
-      pointer.children.push(shape);
-      WbWorld.instance.nodes.set(pointer.id, pointer);
-      shape.parent = pointer.id;
+
+      if (deviceElement.hasAttribute('webots-transform-offset')) {
+        let offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
+        pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
+      }
+
+      objectParent.children.push(pointer);
+      pointer.parent = objectParent.id;
+      pointer.children[0].geometry.isMarker = true;
+      pointer.finalize();
+
+      scene.render();
     }
-
-    if (deviceElement.hasAttribute('webots-transform-offset')) {
-      let offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
-      pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-    }
-
-    object.children.push(pointer);
-    pointer.parent = object.id;
-    pointer.children[0].geometry.isMarker = true;
-    pointer.finalize();
-
-    scene.render();
   }
 }
 
@@ -1031,6 +1050,7 @@ function createRobotComponent(view) {
                 return;
               let id = _.target.getAttribute('webots-transform-id');
               sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
+              sliderMotorCallback(pointer, _.target);
               webotsView._view.x3dScene.render();
             });
 
@@ -1608,7 +1628,7 @@ if (!isCyberboticsUrl) {
   if (!localSetup.anchor)
     localSetup.anchor = window.location.hash.substring(1);
   if (!localSetup.branch)
-    localSetup.branch = getGETQueryValue('branch', 'released');
+    localSetup.branch = getGETQueryValue('branch', 'develop');
   if (!localSetup.tabs)
     localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
   // backward compatibility <= R2019b revision 1
