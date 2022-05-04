@@ -203,10 +203,7 @@ void WbController::start() {
 #endif
   switch (mType) {
     case WbFileUtil::EXECUTABLE:
-      if (name() == "<generic>")
-        startGenericExecutable();
-      else
-        startExecutable();
+      (name() == "<generic>") ? startGenericExecutable() : startExecutable();
       break;
     case WbFileUtil::CLASS:
       startJava();

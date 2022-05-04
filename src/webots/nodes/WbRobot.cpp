@@ -458,10 +458,10 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 
 void WbRobot::updateWindow() {
   mAbsoluteWindowFilename = "";
+  QString key = mWindow->value().trimmed();
 
   if (mConfigureRequest) {
-    QString key = mWindow->value().trimmed();
-    if (!key.isEmpty()) {
+    if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
@@ -471,16 +471,14 @@ void WbRobot::updateWindow() {
   } else
     warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
 
-  if (!mWindow->value().isEmpty())
+  if (!mWindow->value().isEmpty() && key != "<generic>")
     return;  // HTML robot window without plugin case.
 
-  if (mAbsoluteWindowFilename.isEmpty()) {
+  if (mAbsoluteWindowFilename.isEmpty() || key == "<generic>") {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
-      warn(tr("The generic robot window is not found. Please check your Webots installation."));
-    else
-      warn(tr("Starts the <generic> window instead."));
+      warn(tr("The <generic> robot window is not found. Please check your Webots installation."));
   }
 
   if (!mAbsoluteWindowFilename.isEmpty())
