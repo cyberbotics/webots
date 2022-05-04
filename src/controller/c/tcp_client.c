@@ -74,8 +74,16 @@ int tcp_client_connect(int fd, const char *host, int port) {
   return 1;
 }
 
-int tcp_client_send(int fd, const char *buffer, int size) {
-  return send(fd, buffer, size, 0);
+bool tcp_client_send(int fd, const char *buffer, int size) {
+  char *p = (char *)buffer;
+  while (size > 0) {
+    int i = send(fd, p, size, 0);
+    if (i < 1)
+      return false;
+    p += i;
+    size -= i;
+  }
+  return true;
 }
 
 int tcp_client_receive(int fd, char *buffer, int size) {

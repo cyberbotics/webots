@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef TCP_CLIENT
-#define TCP_CLIENT
+#ifndef TCP_CLIENT_H
+#define TCP_CLIENT_H
+
+#include <webots/types.h>
 
 int tcp_client_open();
 int tcp_client_connect(int fd, const char *host, int port);
-int tcp_client_send(int fd, const char *buffer, int size);
+bool tcp_client_send(int fd, const char *buffer, int size);
 int tcp_client_receive(int fd, char *buffer, int size);
 void tcp_client_close(int fd);
 
-#endif  // TCP_CLIENT
+#endif  // TCP_CLIENT_H
