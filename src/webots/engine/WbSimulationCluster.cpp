@@ -641,6 +641,35 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
+  const WbPhysics *const p1 = s1->physics();
+  const WbPhysics *const p2 = s2->physics();
+
+  // kinematic mode
+  if (!p1 || !p2) {
+    WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
+    WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
+    if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
+      wg1->setColliding();
+      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
+      if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
+        dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));  // we want only one contact point
+        wg2->setColliding();
+        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+        collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
+        collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
+      } else
+        collideKinematicRobots(robot1->kinematicDifferentialWheels(), false, contact, true);
+      return;
+    }
+    if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
+      dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
+      wg2->setColliding();
+      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+      collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
+      return;
+    }
+  }
+
   // Handles the case of ray geometry against a non-ray geometry, i.e. at least one body is null
   if (isRayGeom1) {
     WbDistanceSensor *const ds = dynamic_cast<WbDistanceSensor *>(s1);
