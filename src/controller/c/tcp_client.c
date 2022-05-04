@@ -36,8 +36,7 @@ int tcp_client_open() {
 #ifdef _WIN32
   // initialize the socket API if needed
   WSADATA info;
-  int rc = WSAStartup(MAKEWORD(1, 1), &info);  // Winsock 1.1
-  if (rc != 0) {
+  if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {  // Winsock 1.1
     fprintf(stderr, "Cannot initialize Winsock.\n");
     return -1;
   }
@@ -93,7 +92,8 @@ int tcp_client_receive(int fd, char *buffer, int size) {
 void tcp_client_close(int fd) {
 #ifdef _WIN32
   closesocket(fd);
-  int ret = WSACleanup();
+  if (WSACleanup() != 0)
+    fprintf(stderr, "Cannot cleanup Winsock.\n");
 #else
   close(fd);
 #endif

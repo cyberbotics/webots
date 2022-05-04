@@ -1083,12 +1083,11 @@ int wb_robot_init() {  // API initialization
   wb_mouse_init();
 
   int success = 0;
-  char *pipe_name;
   const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
   const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
   if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
     const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_ID) + 12;  // "%sipc/%s/socket"
-    pipe_name = malloc(length);
+    char *pipe_name = malloc(length);
     snprintf(pipe_name, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, WEBOTS_ROBOT_ID);
     success = scheduler_init(pipe_name);
     free(pipe_name);
@@ -1109,7 +1108,7 @@ int wb_robot_init() {  // API initialization
     int length = strlen(WEBOTS_CONTROLLER_URL) - 5;
     char *host = malloc(length);
     host[0] = '\0';
-    const char *robot = "";
+    const char *robot_name = "";
     int port = 1234;
     for (int i = 6; i < length; i++) {
       if (WEBOTS_CONTROLLER_URL[i] == ':') {
@@ -1117,7 +1116,7 @@ int wb_robot_init() {  // API initialization
         sscanf(&WEBOTS_CONTROLLER_URL[i + 1], "%d", &port);
       } else if (WEBOTS_CONTROLLER_URL[i] == '/') {
         host[i - 6] = '\0';
-        robot = &WEBOTS_CONTROLLER_URL[i];
+        robot_name = &WEBOTS_CONTROLLER_URL[i];
         break;
       } else
         host[i - 6] = WEBOTS_CONTROLLER_URL[i];
@@ -1125,7 +1124,7 @@ int wb_robot_init() {  // API initialization
     printf("protocol = %s\n", protocol);
     printf("host     = %s\n", host);
     printf("port     = %d\n", port);
-    printf("robot    = %s\n", robot);
+    printf("robot    = %s\n", robot_name);
 
     // Try to connect to Webots
     int fd = tcp_client_open();
@@ -1149,9 +1148,9 @@ int wb_robot_init() {  // API initialization
         exit(EXIT_FAILURE);
       }
     }
-    length = strlen("EXT IPC ") + strlen(robot);
+    length = strlen("EXT IPC ") + strlen(robot_name);
     char *buffer = malloc(length);
-    sprintf(buffer, "EXT IPC %s", robot);
+    sprintf(buffer, "EXT IPC %s", robot_name);
     int n = tcp_client_send(fd, buffer, length);
     printf("sent %d bytes: %s\n", n, buffer);
     free(buffer);

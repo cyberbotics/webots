@@ -46,6 +46,8 @@ char *percent_encode(const char *source) {
       j += 3 * n;
     }
   }
-  buffer = realloc(buffer, j);  // adjust to used size
-  return buffer;
+  char *new_buffer = realloc(buffer, j);  // adjust to used size
+  if (new_buffer == NULL)
+    free(buffer);
+  return new_buffer;
 }
