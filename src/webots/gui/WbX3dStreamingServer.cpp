@@ -217,7 +217,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
-    throw tr("Cannot sent the entire world");
+    throw tr("Cannot send the entire world");
 
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
