@@ -509,12 +509,18 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "HeadPitchS",
+      "position": 0,
       "transformID": "n69",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.1265",
+      "axis": "0 0 1",
       "name": "HeadYawS",
+      "position": 0,
       "transformID": "n69",
       "type": "PositionSensor"
     },
@@ -525,22 +531,34 @@
       "type": "InertialUnit"
     },
     {
+      "anchor": "0 0 -0.1029",
+      "axis": "0 1 0",
       "name": "LAnklePitchS",
+      "position": 0,
       "transformID": "n655",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "LAnkleRollS",
+      "position": 0,
       "transformID": "n664",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "LElbowRollS",
+      "position": 0,
       "transformID": "n327",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.105 0.015 0",
+      "axis": "1 0 0",
       "name": "LElbowYawS",
+      "position": 0,
       "transformID": "n322",
       "type": "PositionSensor"
     },
@@ -561,87 +579,138 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "LHipPitchS",
+      "position": 0,
       "transformID": "n625",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "LHipRollS",
+      "position": 0,
       "transformID": "n612",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.05 -0.085",
+      "axis": "0 0.707107 -0.707107",
       "name": "LHipYawPitchS",
+      "position": 0,
       "transformID": "n599",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "LKneePitchS",
+      "position": 0,
       "transformID": "n638",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.069 -0.013 -0.005",
+      "axis": "0 -1 0",
       "name": "LPhalanx1S",
+      "position": 0,
       "transformID": "n337",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "LPhalanx2S",
+      "position": 0,
       "transformID": "n347",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "LPhalanx3S",
+      "position": 0,
       "transformID": "n356",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.069 0.013 -0.005",
+      "axis": "0 -1 0",
       "name": "LPhalanx4S",
+      "position": 0,
       "transformID": "n380",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "LPhalanx5S",
+      "position": 0,
       "transformID": "n389",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "LPhalanx6S",
+      "position": 0,
       "transformID": "n398",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.049 0 -0.026",
+      "axis": "0 1 0",
       "name": "LPhalanx7S",
+      "position": 0,
       "transformID": "n422",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 1 0",
       "name": "LPhalanx8S",
+      "position": 0,
       "transformID": "n431",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.098 0.1",
+      "axis": "0 1 0",
       "name": "LShoulderPitchS",
+      "position": 0,
       "transformID": "n304",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "LShoulderRollS",
+      "position": 0,
       "transformID": "n304",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.05595 0 0",
+      "axis": "1 0 0",
       "name": "LWristYawS",
+      "position": 0,
       "transformID": "n332",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1029",
+      "axis": "0 1 0",
       "name": "RAnklePitchS",
+      "position": 0,
       "transformID": "n536",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "RAnkleRollS",
+      "position": 0,
       "transformID": "n545",
       "type": "PositionSensor"
     },
@@ -651,12 +720,18 @@
       "type": "Receiver"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "RElbowRollS",
+      "position": 0,
       "transformID": "n148",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.105 -0.015 0",
+      "axis": "1 0 0",
       "name": "RElbowYawS",
+      "position": 0,
       "transformID": "n143",
       "type": "PositionSensor"
     },
@@ -677,77 +752,122 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "RHipPitchS",
+      "position": 0,
       "transformID": "n506",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "RHipRollS",
+      "position": 0,
       "transformID": "n493",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.05 -0.085",
+      "axis": "0 0.707107 0.707107",
       "name": "RHipYawPitchS",
+      "position": 0,
       "transformID": "n480",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "RKneePitchS",
+      "position": 0,
       "transformID": "n519",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.069 -0.013 -0.005",
+      "axis": "0 -1 0",
       "name": "RPhalanx1S",
+      "position": 0,
       "transformID": "n158",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "RPhalanx2S",
+      "position": 0,
       "transformID": "n168",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "RPhalanx3S",
+      "position": 0,
       "transformID": "n177",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.069 0.013 -0.005",
+      "axis": "0 -1 0",
       "name": "RPhalanx4S",
+      "position": 0,
       "transformID": "n201",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "RPhalanx5S",
+      "position": 0,
       "transformID": "n210",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 -1 0",
       "name": "RPhalanx6S",
+      "position": 0,
       "transformID": "n219",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.049 0 -0.026",
+      "axis": "0 1 0",
       "name": "RPhalanx7S",
+      "position": 0,
       "transformID": "n243",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.014 0 0",
+      "axis": "0 1 0",
       "name": "RPhalanx8S",
+      "position": 0,
       "transformID": "n252",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.098 0.1",
+      "axis": "0 1 0",
       "name": "RShoulderPitchS",
+      "position": 0,
       "transformID": "n125",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "RShoulderRollS",
+      "position": 0,
       "transformID": "n125",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.05595 0 0",
+      "axis": "1 0 0",
       "name": "RWristYawS",
+      "position": 0,
       "transformID": "n153",
       "type": "PositionSensor"
     },

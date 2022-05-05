@@ -236,72 +236,114 @@
       "type": "Accelerometer"
     },
     {
+      "anchor": "0.025 0.194 -0.16",
+      "axis": "0 0 -1",
       "name": "arm_left_1_joint_sensor",
+      "position": 0,
       "transformID": "n43663",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.125 0.0195 -0.031",
+      "axis": "0 1 0",
       "name": "arm_left_2_joint_sensor",
+      "position": 0,
       "transformID": "n43696",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0895 0 -0.0015",
+      "axis": "1 0 0",
       "name": "arm_left_3_joint_sensor",
+      "position": 0,
       "transformID": "n43710",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.02 -0.027 -0.222",
+      "axis": "0 1 0",
       "name": "arm_left_4_joint_sensor",
+      "position": 0,
       "transformID": "n43744",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.162 0.02 0.027",
+      "axis": "1 0 0",
       "name": "arm_left_5_joint_sensor",
+      "position": 0,
       "transformID": "n43778",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.15",
+      "axis": "0 -1 0",
       "name": "arm_left_6_joint_sensor",
+      "position": 0,
       "transformID": "n43793",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "arm_left_7_joint_sensor",
+      "position": 0,
       "transformID": "n43808",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.025 -0.194 -0.17",
+      "axis": "0 0 1",
       "name": "arm_right_1_joint_sensor",
+      "position": 0,
       "transformID": "n42218",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.125 0.0195 -0.031",
+      "axis": "0 -1 0",
       "name": "arm_right_2_joint_sensor",
+      "position": 0,
       "transformID": "n42252",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0895 0 -0.0015",
+      "axis": "1 0 0",
       "name": "arm_right_3_joint_sensor",
+      "position": 0,
       "transformID": "n42266",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.02 0 -0.223",
+      "axis": "0 -1 0",
       "name": "arm_right_4_joint_sensor",
+      "position": 0,
       "transformID": "n42300",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.163 0.02 0.027",
+      "axis": "1 0 0",
       "name": "arm_right_5_joint_sensor",
+      "position": 0,
       "transformID": "n42334",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.15",
+      "axis": "0 -1 0",
       "name": "arm_right_6_joint_sensor",
+      "position": 0,
       "transformID": "n42349",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "arm_right_7_joint_sensor",
+      "position": 0,
       "transformID": "n42364",
       "type": "PositionSensor"
     },
@@ -331,12 +373,18 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0.182 0 0",
+      "axis": "0 0 1",
       "name": "head_1_joint_sensor",
+      "position": 0,
       "transformID": "n38036",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.005 0 0.098",
+      "axis": "0 -1 0",
       "name": "head_2_joint_sensor",
+      "position": 0,
       "transformID": "n38051",
       "type": "PositionSensor"
     },
@@ -351,37 +399,58 @@
       "type": "InertialUnit"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "left_hand_gripper_left_finger_joint_sensor",
+      "position": 0,
       "transformID": "n48863",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "left_hand_gripper_right_finger_joint_sensor",
+      "position": 0,
       "transformID": "n48896",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "right_hand_gripper_left_finger_joint_sensor",
+      "position": 0,
       "transformID": "n46948",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "right_hand_gripper_right_finger_joint_sensor",
+      "position": 0,
       "transformID": "n46981",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
+      "position": 0,
       "transformID": "n35122",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_left_joint_sensor",
+      "position": 0,
       "transformID": "n11617",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_right_joint_sensor",
+      "position": 0,
       "transformID": "n11584",
       "type": "PositionSensor"
     }

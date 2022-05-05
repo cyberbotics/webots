@@ -161,7 +161,10 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n17",
       "type": "PositionSensor"
     },
@@ -259,7 +262,10 @@
       "type": "Receiver"
     },
     {
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n51",
       "type": "PositionSensor"
     },

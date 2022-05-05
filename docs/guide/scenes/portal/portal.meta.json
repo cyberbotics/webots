@@ -48,12 +48,18 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "gate_sensor",
+      "position": 0.03,
       "transformID": "n94",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0058 0.057 0.012",
+      "axis": "0 0 1",
       "name": "gear_sensor",
+      "position": 0,
       "transformID": "n106",
       "type": "PositionSensor"
     },

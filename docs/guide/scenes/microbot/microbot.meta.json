@@ -55,7 +55,10 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0.012 0 -0.009",
+      "axis": "0 -1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n71",
       "type": "PositionSensor"
     },
@@ -70,7 +73,10 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0.012 0 -0.009",
+      "axis": "0 -1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n90",
       "type": "PositionSensor"
     }

@@ -126,27 +126,42 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "left_front_brake",
+      "position": 0,
       "transformID": "n542",
       "type": "Brake"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "left_front_sensor",
+      "position": 0,
       "transformID": "n542",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "left_rear_brake",
+      "position": 0,
       "transformID": "n592",
       "type": "Brake"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "left_rear_sensor",
+      "position": 0,
       "transformID": "n592",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 -1",
       "name": "left_steer_sensor",
+      "position": 0,
       "transformID": "n542",
       "type": "PositionSensor"
     },
@@ -162,27 +177,42 @@
       "type": "Receiver"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "right_front_brake",
+      "position": 0,
       "transformID": "n517",
       "type": "Brake"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "right_front_sensor",
+      "position": 0,
       "transformID": "n517",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "right_rear_brake",
+      "position": 0,
       "transformID": "n567",
       "type": "Brake"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "right_rear_sensor",
+      "position": 0,
       "transformID": "n567",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 -1",
       "name": "right_steer_sensor",
+      "position": 0,
       "transformID": "n517",
       "type": "PositionSensor"
     },

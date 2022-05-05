@@ -53,22 +53,34 @@
       "type": "LED"
     },
     {
+      "anchor": "0.007 0.005 -0.04",
+      "axis": "0 0 1",
       "name": "arm_position",
+      "position": 0,
       "transformID": "n533",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.06 0 0.22",
+      "axis": "0 0 1",
       "name": "base_arm_position",
+      "position": 0,
       "transformID": "n509",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "shaft_linear_position",
+      "position": 0,
       "transformID": "n834",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.2615 0 0",
+      "axis": "0 0 1",
       "name": "shaft_rotation_position",
+      "position": 0,
       "transformID": "n829",
       "type": "PositionSensor"
     }

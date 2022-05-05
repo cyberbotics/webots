@@ -1209,12 +1209,18 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0.05 0.021",
+      "axis": "0 1 0",
       "name": "motor.left.position",
+      "position": 0,
       "transformID": "n87",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.05 0.021",
+      "axis": "0 1 0",
       "name": "motor.right.position",
+      "position": 0,
       "transformID": "n70",
       "type": "PositionSensor"
     },

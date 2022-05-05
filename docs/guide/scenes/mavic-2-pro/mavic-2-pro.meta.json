@@ -100,17 +100,26 @@
       "type": "Camera"
     },
     {
+      "anchor": "0.000625212 -0.00530346 -0.0207448",
+      "axis": "0 1 0",
       "name": "camera pitch sensor",
+      "position": 0,
       "transformID": "n233",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.00754686 0.0160388 -0.00586401",
+      "axis": "1 0 0",
       "name": "camera roll sensor",
+      "position": 0,
       "transformID": "n243",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0412774 -0.00469654 -0.00405862",
+      "axis": "0 0 1",
       "name": "camera yaw sensor",
+      "position": 0,
       "transformID": "n223",
       "type": "PositionSensor"
     },

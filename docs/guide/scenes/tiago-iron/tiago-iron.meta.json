@@ -81,12 +81,18 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0.182 0 0",
+      "axis": "0 0 1",
       "name": "head_1_joint_sensor",
+      "position": 0,
       "transformID": "n837",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.005 0 0.098",
+      "axis": "0 -1 0",
       "name": "head_2_joint_sensor",
+      "position": 0,
       "transformID": "n852",
       "type": "PositionSensor"
     },
@@ -101,17 +107,26 @@
       "type": "InertialUnit"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
+      "position": 0,
       "transformID": "n812",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_left_joint_sensor",
+      "position": 0,
       "transformID": "n321",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_right_joint_sensor",
+      "position": 0,
       "transformID": "n288",
       "type": "PositionSensor"
     }

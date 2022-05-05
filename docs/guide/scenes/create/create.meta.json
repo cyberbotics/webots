@@ -91,7 +91,10 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n44",
       "type": "PositionSensor"
     },
@@ -102,7 +105,10 @@
       "type": "Receiver"
     },
     {
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n25",
       "type": "PositionSensor"
     }
