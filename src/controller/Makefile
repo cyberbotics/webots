@@ -49,6 +49,10 @@ ifeq ($(OSTYPE),linux)
 	@echo "# Python 3.9 controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=python3.9 make -s -C python $@
+	@echo "#"
+	@echo "# Python 3.10 controller library ("$@")"
+	@echo "#"
+	@+PYTHON_COMMAND=python3.10 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "#"
@@ -75,6 +79,14 @@ ifeq ($(PYTHON39_HOME),)
 else
 	@+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
 endif
+	@echo "#"
+	@echo "# Python 3.10 controller library ("$@")"
+	@echo "#"
+ifeq ($(PYTHON310_HOME),)
+	@echo -e "# \033[0;33mPython 3.10 not installed or 'PYTHON310_HOME' not set, skipping Python 3.10 API\033[0m"
+else
+	@+PATH="$(PYTHON310_HOME):$(PATH)" make -s -C python $@
+endif
 endif
 ifeq ($(OSTYPE),darwin)
 	@echo "#"
@@ -90,6 +102,10 @@ ifeq ($(OSTYPE),darwin)
 	@echo "#"
 	@+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9 make -s -C python $@
 	@echo "#"
+	@echo "# Python 3.10 controller library ("$@")"
+	@echo "#"
+	@+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10 make -s -C python $@
+	@echo "#"
 	@echo "# Python 3.7 (brew) controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 SUFFIX=_brew make -s -C python $@
@@ -101,4 +117,8 @@ ifeq ($(OSTYPE),darwin)
 	@echo "# Python 3.9 (brew) controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=/usr/local/opt/python@3.9/bin/python3.9 SUFFIX=_brew make -s -C python $@
+	@echo "#"
+	@echo "# Python 3.10 (brew) controller library ("$@")"
+	@echo "#"
+	@+PYTHON_COMMAND=/usr/local/opt/python@3.10/bin/python3.10 SUFFIX=_brew make -s -C python $@
 endif

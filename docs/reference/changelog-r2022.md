@@ -39,6 +39,7 @@ Released on XX XX, 2022.
     - Replaced cubic background PNG images with more efficient JPG images ([#4182](https://github.com/cyberbotics/webots/pull/4182)).
     - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
     - Forbid the USE of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
+    - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - **Renamed CameraRecognitionObject and ContactPoint related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).**
@@ -62,6 +63,7 @@ Released on XX XX, 2022.
     - Fixed perspective (i.e., when the layout is changed) saving logic and camera menu overlay ([#4350](https://github.com/cyberbotics/webots/pull/4350)).
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
+    - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
 
 ## Webots R2022a
 Released on December 21th, 2021.
