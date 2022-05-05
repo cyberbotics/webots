@@ -472,7 +472,7 @@ void WbRobot::updateWindow() {
   } else
     warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
 
-  if (!mWindow->value().isEmpty() || mWindow->value() != "<generic>")
+  if (!mWindow->value().isEmpty() && mWindow->value() != "<generic>")
     return;  // HTML robot window without plugin case.
 
   warn(tr("Gone further..."));
