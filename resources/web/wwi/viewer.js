@@ -877,6 +877,9 @@ function unhighlightX3DElement() {
 }
 
 function highlightX3DElement(deviceElement, motor) {
+  if (!WbWorld.instance.readyForUpdates)
+    return;
+
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
@@ -1643,7 +1646,7 @@ if (!isCyberboticsUrl) {
   if (!localSetup.anchor)
     localSetup.anchor = window.location.hash.substring(1);
   if (!localSetup.branch)
-    localSetup.branch = getGETQueryValue('branch', 'develop');
+    localSetup.branch = getGETQueryValue('branch', 'released');
   if (!localSetup.tabs)
     localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
   // backward compatibility <= R2019b revision 1

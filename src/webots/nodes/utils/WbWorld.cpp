@@ -69,8 +69,6 @@
 
 #include <cassert>
 
-#include <iostream>
-
 static WbWorld *gInstance = NULL;
 bool WbWorld::cX3DMetaFileExport = false;
 bool WbWorld::cX3DStreaming = false;
