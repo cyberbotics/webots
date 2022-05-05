@@ -461,7 +461,8 @@ void WbRobot::updateWindow() {
 
   if (mConfigureRequest) {
     QString key = mWindow->value().trimmed();
-    if (!key.isEmpty()) {
+    warn(tr("Window name is: ") + key);
+    if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
@@ -471,8 +472,10 @@ void WbRobot::updateWindow() {
   } else
     warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
 
-  if (!mWindow->value().isEmpty())
+  if (!mWindow->value().isEmpty() || mWindow->value() != "<generic>")
     return;  // HTML robot window without plugin case.
+
+  warn(tr("Gone further..."));
 
   if (mAbsoluteWindowFilename.isEmpty()) {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
@@ -1318,7 +1321,7 @@ void WbRobot::handleJoystickChange() {
 }
 
 QString WbRobot::windowFile(const QString &extension) {
-  if (window().isEmpty())
+  if (window().isEmpty() || window() == "<generic>")
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
   const QString fileName = window() + "/" + window() + "." + extension;
