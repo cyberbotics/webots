@@ -14,6 +14,9 @@ export default class WbBox extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
     super._computeWrenRenderable();
 
