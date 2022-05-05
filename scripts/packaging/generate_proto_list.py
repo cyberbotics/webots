@@ -124,8 +124,8 @@ if __name__ == "__main__":
             license_element = ET.SubElement(proto_element, 'license').text = license
         if license_url is not None:
             license_url_element = ET.SubElement(proto_element, 'license-url').text = license_url
-        if documentation_url is not None:
-            documentation_element = ET.SubElement(proto_element, 'documentation-url').text = documentation_url
+        # if documentation_url is not None:
+        #    documentation_element = ET.SubElement(proto_element, 'documentation-url').text = documentation_url
         if description is not None:
             description_element = ET.SubElement(proto_element, 'description').text = description
         if tags:

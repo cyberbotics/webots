@@ -28,6 +28,27 @@ class WbDownloader;
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
+class WbProtoInfo {
+public:
+  WbProtoInfo(QString url, QString basenode, QString license, QString licenseUrl, QString description, QStringList tags) :
+    mUrl(url),
+    mBaseNode(basenode),
+    mLicense(license),
+    mLicenseUrl(licenseUrl),
+    mDescription(description),
+    mTags(tags){};
+
+  QString url() { return mUrl; }
+
+private:
+  QString mUrl;
+  QString mBaseNode;
+  QString mLicense;
+  QString mLicenseUrl;
+  QString mDescription;
+  QStringList mTags;
+};
+
 class WbProtoList : public QObject {
   Q_OBJECT
 public:
@@ -43,7 +64,7 @@ public:
 
   static QStringList fileList(int cache);
 
-  QMap<QString, QString> &protoList() { return mProtoList; }
+  QMap<QString, WbProtoInfo> &protoList() { return mProtoList; }
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively
@@ -93,7 +114,7 @@ public:
 
   void recursiveProtoRetrieval(const QString &filename);
   void retrieveAllExternProto(QString filename, bool reloading);  // TODO: need reloading?
-  QMap<QString, QString> protoInProjectsList() { return mProtoList; };
+  QMap<QString, WbProtoInfo> protoInProjectsList() { return mProtoList; };
 
 signals:
   void protoRetrieved();
@@ -123,7 +144,7 @@ private:
   QString mCurrentWorld;
   bool mReloading;
 
-  QMap<QString, QString> mProtoList;
+  QMap<QString, WbProtoInfo> mProtoList;
   QMap<QString, QString> mCurrentProjectProtoList;
 
   QMap<QString, QString> getExternProtoList(const QString &filename);

@@ -31,6 +31,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QXmlStreamReader>
 
 static WbProtoList *gCurrent = NULL;
 QFileInfoList WbProtoList::gResourcesProtoCache;
@@ -526,6 +527,66 @@ void WbProtoList::setupKnownProtoList() {
 
   printf("-- end known proto --\n");
   */
+
+  const QString filename(WbStandardPaths::resourcesPath() + QString("proto-list.xml"));
+  QFile file(filename);
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    WbLog::error(tr("Cannot read file '%1'.").arg(filename));
+    return;
+  }
+
+  QXmlStreamReader reader(&file);
+
+  if (reader.readNextStartElement()) {
+    if (reader.name().toString() == "proto-list") {
+      while (reader.readNextStartElement()) {
+        if (reader.name().toString() == "proto") {
+          QString name, url, basenode, license, licenseUrl, description;
+          QStringList tags;
+          while (reader.readNextStartElement()) {
+            // printf(">>%s\n", reader.name().toString().toUtf8().constData());
+            if (reader.name().toString() == "name") {
+              name = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "basenode") {
+              basenode = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "url") {
+              url = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "license") {
+              license = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "license-url") {
+              licenseUrl = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "description") {
+              description = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "tags") {
+              tags = reader.readElementText().split(',', Qt::SkipEmptyParts);
+              reader.readNext();
+            }
+          }
+          // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
+          //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
+          //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
+          mProtoList.insert(name, WbProtoInfo(url, basenode, license, licenseUrl, description, tags));
+        } else
+          reader.raiseError(tr("Expected 'proto' element."));
+      }
+    } else
+      reader.raiseError(tr("Expected 'proto-list' element."));
+  } else
+    reader.raiseError(tr("The format of 'proto-list.xml' is invalid."));
+
+  /*
   const WbVersion &version = WbApplicationInfo::version();
   // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
   const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
@@ -540,14 +601,16 @@ void WbProtoList::setupKnownProtoList() {
     }
   } else
     WbLog::error(tr("%1 not found.").arg(filename));
+  */
 
-  // printf("-- known proto %lld --\n", mProtoList.size());
-  // QMapIterator<QString, QString> it(mProtoList);
-  // while (it.hasNext()) {
-  //  it.next();
-  //  printf("  %35s %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
-  //}
-  // printf("-- end known proto --\n");
+  printf("-- known proto %lld --\n", mProtoList.size());
+  QMapIterator<QString, WbProtoInfo> it(mProtoList);
+  while (it.hasNext()) {
+    it.next();
+    WbProtoInfo info = it.value();
+    printf("  %35s %s\n", it.key().toUtf8().constData(), info.url().toUtf8().constData());
+  }
+  printf("-- end known proto --\n");
 }
 
 void WbProtoList::resetCurrentProjectProtoList(void) {

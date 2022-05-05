@@ -528,6 +528,7 @@ void WbAddNodeDialog::buildTree() {
 }
 
 int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
+  /*
   QMap<QString, QString> protoList = WbProtoList::current()->protoList();
 
   const WbVersion &version = WbApplicationInfo::version();
@@ -580,6 +581,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   }
 
   return nAddedNodes;
+  */
 }
 
 int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,
