@@ -232,7 +232,7 @@ resources/pico/
 resources/pico/lang/
 resources/pico/lang/*.bin
 resources/pico/lang/*.mk
-resources/proto-list-*.txt
+resources/proto-list.xml
 resources/projects/
 resources/projects/controllers/
 resources/projects/controllers/void/
