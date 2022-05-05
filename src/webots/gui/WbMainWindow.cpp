@@ -2048,7 +2048,9 @@ void WbMainWindow::editRobotController() {
 void WbMainWindow::showRobotWindow() {
   WbRobot *robot = mSimulationView->selectedRobot();
   if (robot) {
-    if (robot->windowFile().isEmpty())
+    if (robot->window() == "<none>")
+      WbMessageBox::info(tr("Cannot show Robot window <none>."));
+    else if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
       showHtmlRobotWindow(robot);  // show HTML robot window
@@ -2084,7 +2086,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
       mRobotsWaitingForWindowToOpen << robot;
     else
-      WbLog::warning(tr("Maximum number of pending robot windows reached."));
+      WbLog::warning(tr("Maximum number of pending robot windows reached.")); // FIX HERE
   }
 }
 

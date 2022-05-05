@@ -372,10 +372,10 @@ void WbExtendedStringEditor::select() {
   items += defaultEntryList();
   items.sort();
 
-  if (mStringType == CONTROLLER || mStringType == PHYSICS_PLUGIN)
-    items.prepend("<none>");
   if (mStringType == CONTROLLER)
     items.prepend("<extern>");
+  if (mStringType == CONTROLLER || mStringType == ROBOT_WINDOW_PLUGIN || mStringType == PHYSICS_PLUGIN)
+    items.prepend("<none>");
 
   items.removeDuplicates();
 

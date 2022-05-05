@@ -461,7 +461,9 @@ void WbRobot::updateWindow() {
 
   if (mConfigureRequest) {
     QString key = mWindow->value().trimmed();
-    if (!key.isEmpty() && key != "<generic>") {
+    if (key == "<none>") {
+      //WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW)->setEnabled(false);
+    } else if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
