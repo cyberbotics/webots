@@ -58,7 +58,6 @@ void WbCadShape::init() {
   mWrenEncodeDepthMaterials.clear();
 
   mDownloader = NULL;
-  mRetrievedMaterials = false;
   mBoundingSphere = NULL;
 }
 
@@ -86,7 +85,7 @@ void WbCadShape::downloadAssets() {
     return;
 
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl))  // || WbNetwork::instance()->isCached(completeUrl)
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -100,13 +99,6 @@ void WbCadShape::downloadAssets() {
 }
 
 void WbCadShape::downloadUpdate() {
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
-  if (extension == "obj" && !mRetrievedMaterials) {
-    retrieveMaterials();
-    return;
-  }
-
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -115,7 +107,7 @@ void WbCadShape::retrieveMaterials() {
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
 
   if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
-    WbLog::error(tr("Cannot retrieve materials before the model itself is downloaded."));
+    warn(tr("Cannot retrieve materials before the model itself is downloaded."));
     return;
   }
 
@@ -125,30 +117,66 @@ void WbCadShape::retrieveMaterials() {
     QString content = QString(model.readAll());
     content = content.replace("\r\n", "\n");
 
-    QVector<WbDownloader *> materialDownloaders;
-    QVector<QString> materialUrls;
     QStringList lines = content.split('\n', Qt::SkipEmptyParts);
-    QRegularExpression re("mtllib\\s([a-zA-Z0-9-_+]+.*\\.mtl)");  // TODO: test
+    QStringList rawMaterials;
     foreach (QString line, lines) {
-      QRegularExpressionMatch match = re.match(line);
-      if (match.hasMatch()) {
-        // prepare downloader
-        WbDownloader *downloader = new WbDownloader();
-        connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
-        materialDownloaders.push_back(downloader);
-        // manufacture url from the url of the obj file
-        QString materialUrl;
-        materialUrls.push_back(materialUrl);
+      if (!line.trimmed().startsWith("mtllib"))
+        continue;
+
+      QRegularExpression re("([a-zA-Z0-9-_+\\/.]+\\.mtl)");  // TODO: test
+      QRegularExpressionMatchIterator it = re.globalMatch(line);
+      while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        if (match.hasMatch())
+          rawMaterials << match.captured();
       }
+      break;  // only one occurrence of mtllib is allowed, so as soon as one is found we can stop searching
     }
 
-    // start all downloads to avoid racing conditions
-    for (int i = 0; i < materialDownloaders; ++i) {
-      materialDownloaders[i]->download(QUrl(filename));
+    qDeleteAll(mMaterialDownloaders);
+    mMaterialDownloaders.clear();
+
+    // define material url prefix (inferred from url of the obj file)
+    QStringList newMaterialUrls;
+    foreach (QString material, rawMaterials) {
+      QString materialUrl = material;
+      // manufacture url
+      materialUrl.replace("\\", "/");  // use cross-platform forward slashes
+      if (materialUrl.startsWith("./"))
+        materialUrl.remove(0, 2);
+
+      QString prefixUrl = QUrl(completeUrl).adjusted(QUrl::RemoveFilename).toString();
+      while (materialUrl.startsWith("../")) {
+        prefixUrl = prefixUrl.left(prefixUrl.lastIndexOf("/"));
+        materialUrl.remove(0, 3);
+      }
+
+      newMaterialUrls << prefixUrl + materialUrl;
+      printf("WAS %s IS %s\n", material.toUtf8().constData(), QString(prefixUrl + materialUrl).toUtf8().constData());
+      // prepare a downloader
+      WbDownloader *downloader = new WbDownloader();
+      connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
+      mMaterialDownloaders.push_back(downloader);
     }
 
+    // start all downloads only when the vector is entirely populated (to avoid racing conditions)
+    assert(mMaterialDownloaders.size() == newMaterialUrls.size());
+    for (int i = 0; i < newMaterialUrls.size(); ++i)
+      mMaterialDownloaders[i]->download(QUrl(newMaterialUrls[i]));
   } else
-    WbLog::error(tr("File '%1' cannot be read."));
+    warn(tr("File '%1' cannot be read."));
+}
+
+void WbCadShape::materialDownloadTracker() {
+  bool finished = true;
+  foreach (WbDownloader *downloader, mMaterialDownloaders) {
+    if (!downloader->hasFinished())
+      finished = false;
+  }
+
+  if (finished) {
+    printf("FINISHED\n");
+  }
 }
 
 void WbCadShape::postFinalize() {
@@ -215,8 +243,22 @@ void WbCadShape::updateUrl() {
       }
     }
 
+    // ensure any mtl referenced by obj files are also downloaded
+    if (!areMaterialsAvailable()) {
+      retrieveMaterials();
+      return;
+    }
+
     createWrenObjects();
   }
+}
+
+bool WbCadShape::areMaterialsAvailable() {
+  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+  if (extension != "obj")
+    return true;
+
+  return true;
 }
 
 void WbCadShape::updateCcw() {

@@ -61,6 +61,7 @@ private slots:
   void updateAppearance();
 
   void downloadUpdate();
+  void materialDownloadTracker();
 
 private:
   WbCadShape &operator=(const WbCadShape &);  // non copyable
@@ -68,6 +69,7 @@ private:
   void init();
 
   WbDownloader *mDownloader;
+  QVector<WbDownloader *> mMaterialDownloaders;
   mutable WbBoundingSphere *mBoundingSphere;
 
   // node fields
@@ -75,7 +77,6 @@ private:
   WbSFBool *mCcw;
   WbSFBool *mCastShadows;
   WbSFBool *mIsPickable;
-  bool mRetrievedMaterials;
 
   // wren objects
   QVector<WrRenderable *> mWrenRenderables;
@@ -89,6 +90,7 @@ private:
   QVector<WrMaterial *> mWrenEncodeDepthMaterials;
 
   void retrieveMaterials();
+  bool areMaterialsAvailable();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
