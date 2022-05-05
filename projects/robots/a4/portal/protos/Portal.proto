@@ -6,15 +6,15 @@
 # This small portal model is used for education with PICAXE programming tools
 
 PROTO Portal [
-  field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
-  field SFString   name            "Portal"       # Is `Solid.name`.
-  field SFString   controller      "<generic>"    # Is `Robot.controller`.
-  field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
-  field SFString   customData      ""             # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []             # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
+  field SFString   name            "Portal"     # Is `Solid.name`.
+  field SFString   controller      "<generic>"  # Is `Robot.controller`.
+  field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
+  field SFString   customData      ""           # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []           # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
