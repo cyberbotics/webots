@@ -45,6 +45,10 @@ ifeq ($(OSTYPE),linux)
 	@echo "# Python 3.9 controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=python3.9 make -s -C python $@
+	@echo "#"
+	@echo "# Python 3.10 controller library ("$@")"
+	@echo "#"
+	@+PYTHON_COMMAND=python3.10 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "#"

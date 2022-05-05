@@ -30,6 +30,9 @@ Released on XX, XXth, 2022.
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Feature Removal:
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Dependency Updates
+    - Added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
+    - **Removed support of Python 3.6** and add support of Python 3.10 on Linux ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.

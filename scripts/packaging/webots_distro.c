@@ -1152,6 +1152,19 @@ static void create_file(const char *name, int m) {
         fprintf(fd, "cd ..\n");
       }
 
+      // copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
+#ifdef WEBOTS_UBUNTU_22_04
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 $WEBOTS_HOME/lib/webots/libcrypto.so\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so.1.1 $WEBOTS_HOME/lib/webots/libssl.so\n");
+#elif defined(WEBOTS_UBUNTU_20_04)
+      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libssl.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+ #endif
+
 #ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
@@ -1164,15 +1177,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
-#if defined(WEBOTS_UBUNTU_20_04)
-      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-#else
+#ifdef WEBOTS_UBUNTU_18_04
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
@@ -1180,6 +1185,22 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
+#elif defined(WEBOTS_UBUNTU_20_04)
+      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
 #endif
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
@@ -1200,8 +1221,16 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.20 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.163 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
+      //Sfprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
 #endif
-      // libraries common to Ubuntu 18.04 and 20.04
+      // libraries common to Ubuntu 18.04, 20.04 and 22.04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
