@@ -1,5 +1,5 @@
 #VRML_SIM R2022b utf8
-#tags: hidden
+# tags: hidden
 
 EXTERNPROTO RobotisOp3GrayPaintedMetalAppearance "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
 EXTERNPROTO RobotisOp3BlackPaintedMetalAppearance "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
