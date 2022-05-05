@@ -17,6 +17,8 @@
 
 #include "WbBaseNode.hpp"
 
+#include <QtCore/QMap>
+
 #include <assimp/material.h>
 
 class WbBoundingSphere;
@@ -69,7 +71,6 @@ private:
   void init();
 
   WbDownloader *mDownloader;
-  QVector<WbDownloader *> mMaterialDownloaders;
   mutable WbBoundingSphere *mBoundingSphere;
 
   // node fields
@@ -89,8 +90,13 @@ private:
   QVector<WrMaterial *> mWrenSegmentationMaterials;
   QVector<WrMaterial *> mWrenEncodeDepthMaterials;
 
+  // methods and variables to handle obj materials
+  QMap<QString, QString> mObjMaterials;  // maps materials as referenced in the obj to their remote counterpart
+  QVector<WbDownloader *> mMaterialDownloaders;
+  QStringList objMaterialList(const QString &content);
+  bool generateMaterialMap(const QString &url);
+  QString generateMaterialUrl(const QString &material, const QString &completeUrl);
   void retrieveMaterials();
-  bool areMaterialsAvailable();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
