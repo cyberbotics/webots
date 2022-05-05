@@ -2103,6 +2103,7 @@ void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
 }
 
 void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
+  WbMessageBox::info(tr("deleting robot windows..."));
   // delete the robot window and client of robot, delete all if NULL.
   foreach (WbRobotWindow *robotWindow, mRobotWindows)
     if ((robotWindow->robot() == robot) || robot == NULL) {
