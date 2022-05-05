@@ -123,8 +123,6 @@ Execute the following command to install *ffmpeg* with *x264* support:
 ```bash
 conda install x264 ffmpeg -c conda-forge
 ```
-
-TODO
 For SUMO, you will need to install libxerces-c-devel, libproj-devel, libgdal-devel, and fox16-devel.
 Execute the following commands to enable SUMO on Debian / Ubuntu based distributions:
 ```bash
