@@ -1085,7 +1085,7 @@ function createRobotComponent(view) {
         }
       })
       .catch(error => {
-        console.log('Error: ' + error);
+        console.error('Error: ' + error);
       });
     reassignButtons(robotName);
 
@@ -1515,7 +1515,7 @@ function getMDFile() {
     .then(response => response.text())
     .then(content => populateViewDiv(content))
     .catch(error => {
-      console.log('Error: ' + error);
+      console.error('Error: ' + error);
       const mainPage = 'index';
       // get the main page instead
       if (localSetup.page !== mainPage) {
@@ -1531,7 +1531,7 @@ function getMenuFile() {
   fetch(target)
     .then(response => response.text())
     .then(content => receiveMenuContent(content))
-    .catch(error => console.log('Error: ' + error));
+    .catch(error => console.error('Error: ' + error));
 }
 
 function extractAnchor(url) {
