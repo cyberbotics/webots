@@ -978,10 +978,9 @@ function createRobotComponent(view) {
       webotsViewElement.appendChild(webotsView);
       initializeWebotsView(robotName);
     } else {
-      webotsView._view.x3dScene.destroyWorld();
       sizeOfMarker = undefined;
       pointer = undefined;
-      webotsView._view.view3D = webotsViewElement;
+      webotsViewElement.appendChild(webotsView);
       webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     }
 
