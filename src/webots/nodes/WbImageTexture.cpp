@@ -106,6 +106,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   if (!relativePath.startsWith("/"))
     relativePath.insert(0, '/');
+
   mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);

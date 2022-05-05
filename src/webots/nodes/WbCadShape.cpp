@@ -30,8 +30,6 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include <QtCore/QRegularExpressionMatch>
-
 #include <wren/material.h>
 #include <wren/node.h>
 #include <wren/renderable.h>
@@ -106,18 +104,13 @@ void WbCadShape::downloadUpdate() {
 void WbCadShape::retrieveMaterials() {
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
 
-  if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
-    warn(tr("Cannot retrieve materials before the wavefront file itself is downloaded."));
-    return;
-  }
-
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
 
   QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
-    const QString newMaterial = generateMaterialUrl(material, completeUrl);
-    mObjMaterials.insert(material, newMaterial);
+    const QString newUrl = generateMaterialUrl(material, completeUrl);
+    mObjMaterials.insert(material, newUrl);
     // prepare a downloader
     WbDownloader *downloader = new WbDownloader();
     connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
@@ -130,8 +123,7 @@ void WbCadShape::retrieveMaterials() {
   int i = 0;
   while (it.hasNext()) {
     it.next();
-    mMaterialDownloaders[i]->download(QUrl(it.value()));
-    i++;
+    mMaterialDownloaders[i++]->download(QUrl(it.value()));
   }
 }
 
@@ -255,7 +247,7 @@ void WbCadShape::updateUrl() {
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
-  QStringList rawMaterials = objMaterialList(url);
+  QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
   foreach (QString material, rawMaterials) {
     if (!WbNetwork::instance()->isCached(generateMaterialUrl(material, url)))
       return false;
@@ -265,10 +257,8 @@ bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
 
 void WbCadShape::generateMaterialMap(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);
-
   foreach (QString material, rawMaterials) {
     QString adjustedUrl = generateMaterialUrl(material, url);
-
     if (!WbNetwork::instance()->isCached(adjustedUrl)) {  // only generate the map when everything is available
       mObjMaterials.clear();
       warn(tr("Material asset '%1' is not available.").arg(adjustedUrl));
@@ -281,7 +271,7 @@ void WbCadShape::generateMaterialMap(const QString &url) {
 }
 
 QStringList WbCadShape::objMaterialList(const QString &url) {
-  assert(WbNetwork::instance()->isCached(url));
+  assert(WbNetwork::instance()->isCached(url));  // should not search for materials if the obj file itself is not available
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
   if (extension != "obj")
     return QStringList();
@@ -294,13 +284,13 @@ QStringList WbCadShape::objMaterialList(const QString &url) {
 
     QStringList lines = content.split('\n', Qt::SkipEmptyParts);
     foreach (QString line, lines) {
-      QString cleanLine = line.trimmed();
+      const QString cleanLine = line.trimmed();
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
       materials = cleanLine.split(' ', Qt::SkipEmptyParts);
       materials.removeFirst();  // first is "mtllib"
-      break;                    // only one occurrence of mtllib is allowed, so as soon as one is found we can stop searching
+      break;                    // only one occurrence of mtllib is allowed, so as soon as one is found the search can stop
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -370,7 +360,7 @@ void WbCadShape::createWrenObjects() {
     }
 
     QByteArray data = file.readAll();
-    // for obj files that reference mtl files, the reference needs to be changed on the fly to point to the cached asset
+    // for remote 'obj' files that reference materials, this reference needs to be changed to point to the cached asset instead
     if (extension == "obj") {
       QMapIterator<QString, QString> it(mObjMaterials);
       while (it.hasNext()) {
