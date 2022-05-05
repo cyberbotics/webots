@@ -232,22 +232,39 @@ void WbCadShape::updateUrl() {
       }
     }
 
-    // ensure any mtl referenced by obj files are also downloaded
-    mObjMaterials.clear();
-    if (!generateMaterialMap(completeUrl)) {
-      retrieveMaterials();
-      return;
+    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+    if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
+      // ensure any mtl referenced by the obj file are also downloaded
+      if (areMaterialAssetsAvailable(completeUrl)) {
+        mObjMaterials.clear();
+        // generate mapping between referenced files and cached files
+        QStringList rawMaterials = objMaterialList(completeUrl);
+        foreach (QString material, rawMaterials) {
+          QString adjustedUrl = generateMaterialUrl(material, completeUrl);
+          assert(WbNetwork::instance()->isCached(adjustedUrl));
+          if (!mObjMaterials.contains(material))
+            mObjMaterials.insert(material, adjustedUrl);
+        }
+      } else {
+        retrieveMaterials();
+        return;
+      }
     }
 
     createWrenObjects();
   }
 }
 
-bool WbCadShape::generateMaterialMap(const QString &url) {
-  const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
-  if (extension != "obj")
-    return true;
+bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
+  QStringList rawMaterials = objMaterialList(url);
+  foreach (QString material, rawMaterials) {
+    if (!WbNetwork::instance()->isCached(generateMaterialUrl(material, url)))
+      return false;
+  }
+  return true;
+}
 
+void WbCadShape::generateMaterialMap(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);
 
   foreach (QString material, rawMaterials) {
@@ -256,21 +273,21 @@ bool WbCadShape::generateMaterialMap(const QString &url) {
     if (!WbNetwork::instance()->isCached(adjustedUrl)) {  // only generate the map when everything is available
       mObjMaterials.clear();
       warn(tr("Material asset '%1' is not available.").arg(adjustedUrl));
-      return false;
+      return;
     }
 
     if (!mObjMaterials.contains(material))
       mObjMaterials.insert(material, WbNetwork::instance()->get(adjustedUrl));
   }
-
-  return true;
 }
 
 QStringList WbCadShape::objMaterialList(const QString &url) {
   assert(WbNetwork::instance()->isCached(url));
+  const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
+  if (extension != "obj")
+    return QStringList();
 
   QStringList materials;
-
   QFile objFile(WbNetwork::instance()->get(url));
   if (objFile.open(QIODevice::ReadOnly)) {
     QString content = QString(objFile.readAll());
@@ -363,8 +380,9 @@ void WbCadShape::createWrenObjects() {
       QMapIterator<QString, QString> it(mObjMaterials);
       while (it.hasNext()) {
         it.next();
-        printf("replacing: >%s< with >%s<\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
-        data.replace(it.key().toUtf8(), it.value().toUtf8());
+        printf("replacing: >%s< with >%s<\n", it.key().toUtf8().constData(),
+               WbNetwork::instance()->get(it.value()).toUtf8().constData());
+        data.replace(it.key().toUtf8(), WbNetwork::instance()->get(it.value()).toUtf8());
       }
     }
 
