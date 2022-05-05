@@ -554,7 +554,7 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
     const WbField *controllerField = robot->findField("controller");
     if (controllerField) {
       const QString &name = dynamic_cast<WbSFString *>(controllerField->value())->value();
-      if (name != "void")
+      if (name != "generic")
         mEditableControllers.append(name);
     }
   }

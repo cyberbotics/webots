@@ -19,7 +19,7 @@ Robot {
   field     SFFloat    radarCrossSection   0.0                # radar cross section of this solid
   field     MFColor    recognitionColors   []                 # colors returned for this Solid by Cameras with a Recognition node
   #fields specific to the Robot node:
-  field     SFString   controller      "void"             # program controlling the robot
+  field     SFString   controller      "<generic>"        # program controlling the robot
   field     MFString   controllerArgs  []                 # arguments passed to the main() function
   field     SFString   customData      ""                 # for storing and getting user data
   field     SFBool     supervisor      FALSE              # defines if this robot is a supervisor or not

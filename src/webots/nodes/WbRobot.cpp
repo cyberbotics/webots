@@ -505,22 +505,21 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  const QString &controllerName = mController->value();
-  if (mController->value().isEmpty()) {
+  if (controllerName().isEmpty()) {
     warn("The controller has not been set.");
     mControllerDir = "";
-  } else if (controllerName == "<generic>") {
+  } else if (controllerName() == "<generic>") {
     mControllerDir = WbStandardPaths::resourcesControllersPath() + "generic/";
-  } else if (controllerName != "<none>" && controllerName != "<extern>") {
+  } else if (controllerName() != "<none>" && controllerName() != "<extern>") {
     QStringList path;
-    path << WbProject::current()->controllersPath() + controllerName + '/';
+    path << WbProject::current()->controllersPath() + controllerName() + '/';
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
-      path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
+      path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName()) + '/';
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
-      path << extraProject->controllersPath() + controllerName + '/';
-    path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
-    path << WbProject::system()->controllersPath() + controllerName + '/';
+      path << extraProject->controllersPath() + controllerName() + '/';
+    path << WbProject::defaultProject()->controllersPath() + controllerName() + '/';
+    path << WbProject::system()->controllersPath() + controllerName() + '/';
     path.removeDuplicates();
 
     mControllerDir = "";

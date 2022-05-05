@@ -22,7 +22,7 @@ PROTO Supervisor [
   field     SFFloat    rotationStep        0.261799387
   field     SFFloat    radarCrossSection   0.0
   field     MFColor    recognitionColors   []
-  field     SFString   controller          "void"
+  field     SFString   controller          "<generic>"
   field     MFString   controllerArgs      []
   field     SFString   customData          ""
   field     SFBool     supervisor          FALSE
