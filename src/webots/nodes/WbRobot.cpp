@@ -458,10 +458,10 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 
 void WbRobot::updateWindow() {
   mAbsoluteWindowFilename = "";
-  QString key = mWindow->value().trimmed();
 
   if (mConfigureRequest) {
-    if (key != "<generic>") {
+    QString key = mWindow->value().trimmed();
+    if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
@@ -526,7 +526,6 @@ void WbRobot::updateControllerDir() {
     mControllerDir = "";
     const int size = path.size();
     for (int i = 0; i < size; ++i) {
-      warn(path[i]);
       if (!QDir(path[i]).exists())
         continue;
       mControllerDir = path[i];
@@ -1320,7 +1319,7 @@ void WbRobot::handleJoystickChange() {
 }
 
 QString WbRobot::windowFile(const QString &extension) {
-  if (window().isEmpty() || window() == "<generic>")
+  if (window().isEmpty())
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
   const QString fileName = window() + "/" + window() + "." + extension;
