@@ -808,8 +808,12 @@ function sliderMotorCallback(transform, slider) {
     transform.applyTranslationToWren();
   } else {
     // extract anchor
-    let anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
-    anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+    let anchor = slider.getAttribute('webots-anchor');
+    if (anchor && anchor !== 'undefined') {
+      anchor = anchor.split(/[\s,]+/);
+      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+    } else
+      anchor = transform.firstPosition;
 
     // Compute angle.
     let angle = value - position;
@@ -826,7 +830,6 @@ function sliderMotorCallback(transform, slider) {
     transform.translation = transform.translation.sub(anchor); // remove the offset
 
     let quat = glm.angleAxis(angle, axis); // rotate the POSITION
-
     transform.translation = applyQuaternion(transform.translation, quat);
     transform.translation = transform.translation.add(anchor); // re-add the offset
     transform.rotation = quaternionToVec4(q);
@@ -1067,7 +1070,8 @@ function createRobotComponent(view) {
             motorDiv.appendChild(slider);
             motorDiv.appendChild(maxLabel);
             deviceDiv.appendChild(motorDiv);
-            deviceDiv.setAttribute('device-anchor', device['anchor']);
+            if (device['anchor'])
+              deviceDiv.setAttribute('device-anchor', device['anchor']);
           } else {
             deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
             if (device['anchor'])
