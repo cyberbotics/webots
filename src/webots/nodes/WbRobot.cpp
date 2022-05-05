@@ -461,7 +461,6 @@ void WbRobot::updateWindow() {
 
   if (mConfigureRequest) {
     QString key = mWindow->value().trimmed();
-    warn(tr("Window name is: ") + key);
     if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
@@ -474,8 +473,6 @@ void WbRobot::updateWindow() {
 
   if (!mWindow->value().isEmpty() && mWindow->value() != "<generic>")
     return;  // HTML robot window without plugin case.
-
-  warn(tr("Gone further..."));
 
   if (mAbsoluteWindowFilename.isEmpty()) {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
