@@ -143,14 +143,6 @@ void WbAbstractCamera::postFinalize() {
           &WbAbstractCamera::updateOptionalRendering);
 }
 
-QString WbAbstractCamera::nativeKey() {
-  if (!hasBeenSetup()) {
-    setup();
-    mHasMemoryMappedFileChanged = true;
-  }
-  return mImageShm->nativeKey();
-}
-
 void WbAbstractCamera::updateOptionalRendering(int option) {
   if (areWrenObjectsInitialized() && ((isRangeFinder() && option == WbWrenRenderingContext::VF_RANGE_FINDER_FRUSTUMS) ||
                                       (!isRangeFinder() && option == WbWrenRenderingContext::VF_CAMERA_FRUSTUMS)))

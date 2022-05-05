@@ -182,59 +182,60 @@ bool WbController::isRunning() const {
 
 // the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
 void WbController::start() {
-  mProcess = new QProcess();
-  connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
-  connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
-  connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
-  connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
-
   mRobot->setControllerStarted(true);
-
-  if (mControllerPath.isEmpty()) {
-    warn(tr("Could not find the controller directory.\nStarts the void controller instead."));
-    startVoidExecutable();
-  }
-
-  mType = findType(mControllerPath);
-  setProcessEnvironment();
+  if (mName == "<extern>")
+    info(tr("Waiting for extern controller to connect to \"%1\" robot.").arg(mRobot->name()));
+  else {
+    mProcess = new QProcess();
+    connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
+    connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
+    connect(mProcess, &QProcess::finished, this, &WbController::processFinished);
+    connect(mProcess, &QProcess::errorOccurred, this, &WbController::processErrorOccurred);
+    if (mControllerPath.isEmpty()) {
+      warn(tr("Could not find the controller directory.\nStarts the void controller instead."));
+      startVoidExecutable();
+    }
+    mType = findType(mControllerPath);
+    setProcessEnvironment();
 // on Windows, java is unable to find class in a path including UTF-8 characters (e.g., Chinese)
 #ifdef _WIN32
-  if ((mType == WbFileUtil::CLASS || mType == WbFileUtil::JAR) &&
-      QString(mControllerPath.toUtf8()) != QString::fromLocal8Bit(mControllerPath.toLocal8Bit()))
-    WbLog::warning(tr("\'%1\'\nThe path to this Webots project contains non 8-bit characters. "
-                      "Webots won't be able to execute any Java controller in this path. "
-                      "Please move this Webots project into a folder with only 8-bit characters.")
-                     .arg(mControllerPath));
+    if ((mType == WbFileUtil::CLASS || mType == WbFileUtil::JAR) &&
+        QString(mControllerPath.toUtf8()) != QString::fromLocal8Bit(mControllerPath.toLocal8Bit()))
+      WbLog::warning(tr("\'%1\'\nThe path to this Webots project contains non 8-bit characters. "
+                        "Webots won't be able to execute any Java controller in this path. "
+                        "Please move this Webots project into a folder with only 8-bit characters.")
+                       .arg(mControllerPath));
 #endif
-  switch (mType) {
-    case WbFileUtil::EXECUTABLE:
-      startExecutable();
-      break;
-    case WbFileUtil::CLASS:
-      startJava();
-      break;
-    case WbFileUtil::JAR:
-      startJava(true);
-      break;
-    case WbFileUtil::PYTHON:
-      startPython();
-      break;
-    case WbFileUtil::MATLAB:
-      startMatlab();
-      break;
-    case WbFileUtil::BOTSTUDIO:
-      startBotstudio();
-      break;
-    case WbFileUtil::DOCKER:
-      startDocker();
-      break;
-    default:
-      reportControllerNotFound();
-      startVoidExecutable();
-      mType = WbFileUtil::EXECUTABLE;
+    switch (mType) {
+      case WbFileUtil::EXECUTABLE:
+        startExecutable();
+        break;
+      case WbFileUtil::CLASS:
+        startJava();
+        break;
+      case WbFileUtil::JAR:
+        startJava(true);
+        break;
+      case WbFileUtil::PYTHON:
+        startPython();
+        break;
+      case WbFileUtil::MATLAB:
+        startMatlab();
+        break;
+      case WbFileUtil::BOTSTUDIO:
+        startBotstudio();
+        break;
+      case WbFileUtil::DOCKER:
+        startDocker();
+        break;
+      default:
+        reportControllerNotFound();
+        startVoidExecutable();
+        mType = WbFileUtil::EXECUTABLE;
+    }
+    if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
+      return;
   }
-  if (mCommand.isEmpty())  // python has wrong version, Matlab 64 is not available or Docker is not supported
-    return;
 
   // recover from a crash, when the previous server instance has not been cleaned up
   const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
@@ -255,13 +256,14 @@ void WbController::start() {
     return;
   }
 
-  info(tr("Starting controller: %1").arg(commandLine()));
-
-  // for matlab controllers we must change to the lib/matlab directory
-  // other controller types are executed in the controller dir
-  mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" :
-                                                                mControllerPath);
-  mProcess->start(mCommand, mArguments);
+  if (mProcess) {
+    info(tr("Starting controller: %1").arg(commandLine()));
+    // for matlab controllers we must change to the lib/matlab directory
+    // other controller types are executed in the controller dir
+    mProcess->setWorkingDirectory((mType == WbFileUtil::MATLAB) ? WbStandardPaths::controllerLibPath() + "matlab" :
+                                                                  mControllerPath);
+    mProcess->start(mCommand, mArguments);
+  }
 }
 
 void WbController::addLocalControllerConnection() {

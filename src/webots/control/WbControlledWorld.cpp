@@ -93,19 +93,10 @@ void WbControlledWorld::startControllers() {
 }
 
 void WbControlledWorld::startController(WbRobot *robot) {
-  /*
-  if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
-    if (robot->controllerName() == "<extern>") {
-      mRobotsWaitingExternController.append(robot);
-      QString output = "start:" + robot->name() + ":" + server();
-      foreach (const QString &cameraShmNativeKey, robot->getCameraShmNativeKeys())
-        output += ":" + cameraShmNativeKey;
-      std::cout << output.toUtf8().constData() << "\n" << std::flush;
-    }
+  if (robot->controllerName().isEmpty()) {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
   }
-  */
   assert(!robot->isControllerStarted());
 
   WbController *controller = NULL;
@@ -134,16 +125,10 @@ void WbControlledWorld::startController(WbRobot *robot) {
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
   }
   mControllers.append(controller);
-  /*
-  if (socket && robot->controllerName() == "<extern>") {
+  if (robot->controllerName() == "<extern>") {
     mRobotsWaitingExternController.removeAll(robot);
-    controller->setSocket(socket);
-    robot->setControllerStarted(true);
-    // restart simulation if waiting for extern controller
-    restartStepTimer();
-    return;
+    restartStepTimer();  // restart simulation if waiting for extern controller
   }
-  */
   controller->start();
 }
 
