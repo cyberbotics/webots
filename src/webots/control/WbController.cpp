@@ -185,8 +185,7 @@ void WbController::start() {
   mRobot->setControllerStarted(true);
 
   if (mControllerPath.isEmpty()) {
-    warn(tr("Could not find the controller directory."));
-    warn(tr("Starts the <generic> controller instead."));
+    warn(tr("Could not find the controller directory.\nStarts the <generic> controller instead."));
     startGenericExecutable();
   }
 

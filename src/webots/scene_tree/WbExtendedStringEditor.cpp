@@ -144,7 +144,7 @@ const QStringList &WbExtendedStringEditor::defaultRobotWindowsPluginsEntryList()
     foreach (const QString &item, list) {
       QFileInfo fi(item);
       QString name = fi.dir().dirName();
-      mDefaultRobotWindowPluginsEntryList << name;
+      mDefaultRobotWindowPluginsEntryList << ((name != "generic") ? name : "<generic>");
     }
     firstCall = false;
   }
