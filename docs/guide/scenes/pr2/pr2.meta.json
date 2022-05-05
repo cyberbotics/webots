@@ -441,6 +441,7 @@
       "type": "LinearMotor"
     },
     {
+      "anchor": "0 0 0",
       "ledColors": [
         "1 0 0"
       ],

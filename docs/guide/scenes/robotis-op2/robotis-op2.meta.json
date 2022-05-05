@@ -201,6 +201,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "-0.076 0 -0.01",
       "ledColors": [
         "0 0 1"
       ],
@@ -213,6 +214,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.076 -0.005 -0.01",
       "ledColors": [
         "0 1 0"
       ],
@@ -225,6 +227,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.076 0.005 -0.01",
       "ledColors": [
         "1 0 0"
       ],
@@ -237,6 +240,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0 0",
       "ledColors": [],
       "ledGradual": true,
       "ledPBRAppearanceIDs": [
@@ -247,6 +251,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0 0",
       "ledColors": [],
       "ledGradual": true,
       "ledPBRAppearanceIDs": [

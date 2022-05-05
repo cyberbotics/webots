@@ -21,6 +21,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.061 0.018 0.037",
       "ledColors": [
         "1 0 0"
       ],
@@ -33,6 +34,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.061 -0.018 0.037",
       "ledColors": [
         "1 0 0"
       ],

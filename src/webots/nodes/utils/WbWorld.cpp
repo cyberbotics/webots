@@ -521,6 +521,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         // LED case: export color data.
         const WbLed *led = dynamic_cast<const WbLed *>(device);
         if (led) {
+          deviceObject.insert("anchor", led->translation().toString(WbPrecision::FLOAT_MAX));
           deviceObject.insert("ledGradual", led->isGradual());
           QJsonArray colorArray;
           for (int c = 0; c < led->colorsCount(); ++c)
