@@ -890,6 +890,7 @@ function highlightX3DElement(deviceElement, motor) {
   if (object) {
     let objectParent = WbWorld.instance.nodes.get(object.parent);
     if (objectParent) {
+      let anchor = deviceElement.getAttribute('device-anchor');
       if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
         if (typeof sizeOfMarker === 'undefined') {
           // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
@@ -910,14 +911,11 @@ function highlightX3DElement(deviceElement, motor) {
         WbWorld.instance.nodes.set(shape.id, shape);
         sphere.parent = shape.id;
         pbr.parent = shape.id;
-        let anchor = deviceElement.getAttribute('device-anchor');
         if (anchor) {
           anchor = anchor.split(/[\s,]+/);
           anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-        } else {
-          console.log("triste");
+        } else
           anchor = new WbVector3();
-        }
         pointer = new WbTransform(getAnId(), anchor, new WbVector3(1, 1, 1), new WbVector4());
         pointer.children.push(shape);
         WbWorld.instance.nodes.set(pointer.id, pointer);
@@ -929,9 +927,13 @@ function highlightX3DElement(deviceElement, motor) {
         pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
       }
 
-      objectParent.children.push(pointer);
-      pointer.parent = objectParent.id;
-
+      if (anchor) {
+        objectParent.children.push(pointer);
+        pointer.parent = objectParent.id;
+      } else {
+        object.children.push(pointer);
+        pointer.parent = object.id;
+      }
       pointer.children[0].geometry.isMarker = true;
       pointer.finalize();
 
