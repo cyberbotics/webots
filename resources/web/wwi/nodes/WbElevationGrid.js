@@ -19,6 +19,9 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
     this._buildWrenMesh();
   }

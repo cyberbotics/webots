@@ -382,13 +382,17 @@ webots-view .information-panel .info-tabs-bar .tab1 {
   background-color: #333;
 }
 
-webots-view .information-panel .simulation-text p {
+webots-view .information-panel .simulation-text{
   margin-top: 5px;
   overflow-y: auto;
+  overflow-x: none;
   height: 198px;
-  text-align: left;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+webots-view .information-panel .simulation-text p {
+  text-align: left;
 }
 
 webots-view .information-panel .simulation-text a {
@@ -426,8 +430,7 @@ webots-view .settings-pane {
 
 webots-view ul {
   padding: 0 !important;
-  margin: 0 !important;
-
+  margin: 0 !important
 }
 
 webots-view .settings-pane li {
@@ -742,14 +745,24 @@ webots-view .vertical-list-pane {
   z-index: 4;
 }
 
-webots-view .vertical-list-pane-title{
-  padding-left: 7px;
-  padding-right: 7px;
-  padding-top: 10px;
+webots-view .vertical-list-pane-li {
+  display: block;
+  padding: 8px;
+  position: relative;
+}
+
+webots-view .vertical-list-pane-li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+webots-view .vertical-list-pane-title {
+  padding: 8px;
+  border-bottom: 1px solid grey;
   color: #aaa;
-  height: 35px;
   font-size: 14px;
   font-weight: 700;
+  cursor: default;
 }
 
 webots-view .vertical-list-pane-spacer {
@@ -757,18 +770,11 @@ webots-view .vertical-list-pane-spacer {
   min-width: 15px;
 }
 
-webots-view .vertical-list-pane-li {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
 webots-view .vertical-list-pane-switch {
   position: absolute;
   display: inline-block;
   pointer-events: none;
-  top: 12px;
+  top: 15px;
 }
 
 webots-view .visibility-dot {
