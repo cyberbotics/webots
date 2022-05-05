@@ -55,6 +55,9 @@ void WbCadShape::init() {
   mWrenSegmentationMaterials.clear();
   mWrenEncodeDepthMaterials.clear();
 
+  mObjMaterials.clear();
+  mMaterialDownloaders.clear();
+
   mDownloader = NULL;
   mBoundingSphere = NULL;
 }
