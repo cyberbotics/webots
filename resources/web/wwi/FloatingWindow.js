@@ -79,7 +79,7 @@ export default class FloatingWindow {
   _interactElement(fw) {
     let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
     let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
-    let interactionType, id;
+    let interactionType, direction;
     const minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
     const minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
 
@@ -91,7 +91,6 @@ export default class FloatingWindow {
     }
 
     function interactMouseDown(event) {
-      fw.lastElementChild.style.pointerEvents = 'none';
       fw.style.userSelect = 'none';
 
       let e = event.touches ? event.touches[0] : event;
@@ -107,8 +106,8 @@ export default class FloatingWindow {
       bottomOffset = posY + containerHeight - fw.offsetTop - fw.offsetHeight;
       leftOffset = posX - fw.offsetLeft;
       rightOffset = posX + containerWidth - fw.offsetLeft - fw.offsetWidth;
-      id = event.target.id.substring(7);
-      interactionType = id.length === 0 ? 'drag' : 'resize';
+      direction = event.target.id.substring(7);
+      interactionType = direction.length === 0 ? 'drag' : 'resize';
 
       document.onmouseup = closeInteractElement;
       document.onmousemove = floatingWindowInteract;
@@ -118,6 +117,8 @@ export default class FloatingWindow {
     }
 
     function floatingWindowInteract(event) {
+      fw.style.pointerEvents = 'none';
+
       top = fw.offsetTop;
       left = fw.offsetLeft;
       width = fw.offsetWidth;
@@ -131,8 +132,8 @@ export default class FloatingWindow {
 
       if (interactionType === 'resize') {
         // Resize element
-        document.body.style.cursor = id + '-resize';
-        if (id.includes('n')) {
+        document.body.style.cursor = direction + '-resize';
+        if (direction.includes('n')) {
           if (top + dY < 0 || posY < topOffset) { // out of bounds
             top = 0;
             height = maxHeight;
@@ -144,7 +145,7 @@ export default class FloatingWindow {
             top += dY;
           }
         }
-        if (id.includes('w')) {
+        if (direction.includes('w')) {
           if (left + dX < 0 || posX < leftOffset) { // out of bounds
             left = 0;
             width = maxWidth;
@@ -156,7 +157,7 @@ export default class FloatingWindow {
             left += dX;
           }
         }
-        if (id.includes('s')) {
+        if (direction.includes('s')) {
           if (top + fw.offsetHeight + dY > containerHeight || posY > bottomOffset) // out of bounds
             height = containerHeight - fw.offsetTop;
           else if (posY - bottomOffset + containerHeight < top + minHeight + dY) // min height
@@ -164,7 +165,7 @@ export default class FloatingWindow {
           else // resize
             height += dY;
         }
-        if (id.includes('e')) {
+        if (direction.includes('e')) {
           if (left + fw.offsetWidth + dX > containerWidth || posX > rightOffset) // out of bounds
             width = containerWidth - fw.offsetLeft;
           else if (posX - rightOffset + containerWidth < left + minWidth + dX) // min width
@@ -174,6 +175,7 @@ export default class FloatingWindow {
         }
       } else if (interactionType === 'drag') {
         // Drag element
+        document.body.style.cursor = 'move';
         top = fw.offsetTop + dY;
         left = fw.offsetLeft + dX;
         if (top < 0 || posY < topOffset) // top boundary
@@ -197,7 +199,7 @@ export default class FloatingWindow {
       document.onmousemove = null;
       document.ontouchstart = null;
       document.ontouchmove = null;
-      fw.lastElementChild.style.pointerEvents = 'auto';
+      fw.style.pointerEvents = 'auto';
       fw.style.userSelect = 'auto';
       document.body.style.cursor = 'default';
     }

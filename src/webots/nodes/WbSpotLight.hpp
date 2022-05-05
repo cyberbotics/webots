@@ -47,9 +47,6 @@ public:
   double computeAttenuation(double distance) const;
   WbVector3 computeAbsoluteLocation() const;
 
-protected:
-  void exportNodeFields(WbWriter &writer) const override;
-
 protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;

@@ -8,6 +8,9 @@ import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbTriangleMeshGeometry extends WbGeometry {
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     this._buildWrenMesh(false);

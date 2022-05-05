@@ -18,6 +18,9 @@ export default class WbPointLight extends WbLight {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     this._wrenLight = _wr_point_light_new();
     this._attachToUpperTransform();
     super.createWrenObjects();
