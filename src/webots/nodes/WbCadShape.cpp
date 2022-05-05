@@ -85,7 +85,7 @@ void WbCadShape::downloadAssets() {
     return;
 
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!WbUrl::isWeb(completeUrl))  // || WbNetwork::instance()->isCached(completeUrl)
+  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::instance()->isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -117,10 +117,7 @@ void WbCadShape::retrieveMaterials() {
   QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
     const QString newMaterial = generateMaterialUrl(material, completeUrl);
-
-    printf("WAS %s IS %s\n", material.toUtf8().constData(), QString(newMaterial).toUtf8().constData());
     mObjMaterials.insert(material, newMaterial);
-
     // prepare a downloader
     WbDownloader *downloader = new WbDownloader();
     connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
@@ -155,17 +152,19 @@ QString WbCadShape::generateMaterialUrl(const QString &material, const QString &
 }
 
 void WbCadShape::materialDownloadTracker() {
-  // replace raw material reference with manufactured url
-
   bool finished = true;
   foreach (WbDownloader *downloader, mMaterialDownloaders) {
     if (!downloader->hasFinished())
       finished = false;
+
+    if (!downloader->error().isEmpty()) {
+      warn(downloader->error());  // failure downloading or file does not exist (404)
+      return;
+    }
   }
 
-  if (finished) {
-    printf("FINISHED\n");
-  }
+  if (finished)
+    updateUrl();
 }
 
 void WbCadShape::postFinalize() {
@@ -371,22 +370,14 @@ void WbCadShape::createWrenObjects() {
     }
 
     QByteArray data = file.readAll();
-
-    printf("----- B -----\n%s\n-------------\n", data.constData());
-
-    // in case of obj files that reference mtl files, the reference needs to be changed on the fly to point to the cached
-    // asset
+    // for obj files that reference mtl files, the reference needs to be changed on the fly to point to the cached asset
     if (extension == "obj") {
       QMapIterator<QString, QString> it(mObjMaterials);
       while (it.hasNext()) {
         it.next();
-        printf("replacing: >%s< with >%s<\n", it.key().toUtf8().constData(),
-               WbNetwork::instance()->get(it.value()).toUtf8().constData());
         data.replace(it.key().toUtf8(), WbNetwork::instance()->get(it.value()).toUtf8());
       }
     }
-
-    printf("----- A -----\n%s\n-------------\n", data.constData());
 
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, extension.toUtf8().constData());
   } else
