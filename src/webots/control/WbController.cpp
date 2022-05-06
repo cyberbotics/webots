@@ -238,7 +238,9 @@ void WbController::start() {
   }
 
   // recover from a crash, when the previous server instance has not been cleaned up
-  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+
+  const QString path =
+    WbStandardPaths::webotsTmpPath() + (isExtern() ? "ex" : "in") + "tern/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
   const QString serverName = path + "/socket";
   bool success = QLocalServer::removeServer(serverName);

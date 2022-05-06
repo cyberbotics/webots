@@ -1045,19 +1045,19 @@ static char *compute_socket_filename() {
   char *socket_filename;
   if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
     // regular controller case
-    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_NAME) + 12;  // "%sipc/%s/socket"
+    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_NAME) + 12;  // "%sextern/%s/socket"
     char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%sipc/%s/socket", WEBOTS_TMP_PATH, robot_name);
+    snprintf(socket_filename, length, "%sextern/%s/socket", WEBOTS_TMP_PATH, robot_name);
     free(robot_name);
     return socket_filename;
   }
   // extern controller case
   // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
-  const char *default_url = "ipc://1234";
   const char *TMP_DIR = wbu_system_tmpdir();
   char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
-  if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0) {
+  if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
+    // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
     // default to the most recent /tmp/webots-* folder
     const int TMP_DIR_LENGTH = strlen(TMP_DIR);
     DIR *dr = opendir(TMP_DIR);
@@ -1088,13 +1088,15 @@ static char *compute_socket_filename() {
     closedir(dr);
     if (number == -1)
       return NULL;
-    WEBOTS_CONTROLLER_URL = malloc(18);
-    snprintf(WEBOTS_CONTROLLER_URL, 18, "ipc://%d", number);
-  } else if (strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {  // assuming only the robot name was provided (URI formated)
-    const int length = strlen(WEBOTS_CONTROLLER_URL) + strlen(default_url) + 2;
-    char *tmp = malloc(length);
-    snprintf(tmp, length, (WEBOTS_CONTROLLER_URL[0] == '/') ? "%s%s" : "%s/%s", default_url, WEBOTS_CONTROLLER_URL);
-    WEBOTS_CONTROLLER_URL = tmp;
+    if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
+      const int length = 19 + strlen(WEBOTS_CONTROLLER_URL);
+      char *tmp = malloc(length);
+      snprintf(tmp, length, "ipc://%d/%s", number, WEBOTS_CONTROLLER_URL);
+      WEBOTS_CONTROLLER_URL = tmp;
+    } else {
+      WEBOTS_CONTROLLER_URL = malloc(18);
+      snprintf(WEBOTS_CONTROLLER_URL, 18, "ipc://%d", number);
+    }
   } else
     WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
   if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {
@@ -1105,14 +1107,14 @@ static char *compute_socket_filename() {
   int number = -1;
   sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
   char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
-  int length = strlen(TMP_DIR) + 24;  // "/tmp/webots-12345678901/ipc"
+  int length = strlen(TMP_DIR) + 27;  // "/tmp/webots-12345678901/extern"
   char *folder = malloc(length);
-  snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
+  snprintf(folder, length, "%s/webots-%d/extern", TMP_DIR, number);
   if (robot_name)
     robot_name = strdup(robot_name);
-  else {  // take the first robot in the ipc folder (alphabetical order)
+  else {  // take the first robot in the extern folder (alphabetical order)
     DIR *dr = opendir(folder);
-    if (dr == NULL) {  // the ipc folder was not yet created
+    if (dr == NULL) {  // the extern folder was not yet created
       free(folder);
       return NULL;
     }
@@ -1140,7 +1142,7 @@ static char *compute_socket_filename() {
   }
   free(WEBOTS_CONTROLLER_URL);
   // printf("Number = %d, robot = %s, folder = %d\n", number, robot_name, folder);
-  length += strlen(robot_name) + 8;  // "/tmp/webots-1234/ipc/MyBot/socket"
+  length += strlen(robot_name) + 8;  // "/tmp/webots-1234/extern/MyBot/socket"
   socket_filename = malloc(length);
   snprintf(socket_filename, length, "%s/%s/socket", folder, robot_name);
   free(folder);
