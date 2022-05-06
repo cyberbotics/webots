@@ -193,7 +193,8 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
   // applications.
   const QString type = robot()->isControllerExtern() ? "extern" : "intern";
   const QString MemoryMappedFileName = WbStandardPaths::webotsTmpPath() + type + "/" +
-                                       QUrl::toPercentEncoding(robot()->name()) + "/snap.webots." + QString::number(uniqueId());
+                                       QUrl::toPercentEncoding(robot()->name()) + "/snap.webots." +
+                                       QUrl::toPercentEncoding(name());
 
   WbMemoryMappedFile *imageShm = new WbMemoryMappedFile(MemoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
