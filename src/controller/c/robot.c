@@ -1123,7 +1123,12 @@ static char *compute_socket_filename() {
     struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
       if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
-        filenames = realloc(filenames, (i + 1) * sizeof(char *));
+        char **r = realloc(filenames, (i + 1) * sizeof(char *));
+        if (!r) {
+          fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
+          exit(EXIT_FAILURE);
+        }
+        filenames = r;
         filenames[i++] = strdup(de->d_name);
       }
     }
