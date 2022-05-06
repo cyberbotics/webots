@@ -258,21 +258,6 @@ bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   return true;
 }
 
-void WbCadShape::generateMaterialMap(const QString &url) {
-  QStringList rawMaterials = objMaterialList(url);
-  foreach (QString material, rawMaterials) {
-    QString adjustedUrl = generateMaterialUrl(material, url);
-    if (!WbNetwork::instance()->isCached(adjustedUrl)) {  // only generate the map when everything is available
-      mObjMaterials.clear();
-      warn(tr("Material asset '%1' is not available.").arg(adjustedUrl));
-      return;
-    }
-
-    if (!mObjMaterials.contains(material))
-      mObjMaterials.insert(material, WbNetwork::instance()->get(adjustedUrl));
-  }
-}
-
 QStringList WbCadShape::objMaterialList(const QString &url) {
   assert(WbNetwork::instance()->isCached(url));  // should not search for materials if the obj file itself is not available
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
