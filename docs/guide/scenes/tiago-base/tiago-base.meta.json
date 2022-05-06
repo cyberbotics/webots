@@ -56,12 +56,18 @@
       "type": "InertialUnit"
     },
     {
+      "anchor": "0 0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_left_joint_sensor",
+      "position": 0,
       "transformID": "n159",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.2022 0",
+      "axis": "0 1 0",
       "name": "wheel_right_joint_sensor",
+      "position": 0,
       "transformID": "n126",
       "type": "PositionSensor"
     }
