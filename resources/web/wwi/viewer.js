@@ -778,7 +778,7 @@ function toggleRobotComponentFullScreen(robot) {
 }
 
 function sliderMotorCallback(transform, slider) {
-  if (typeof transform === 'undefined')
+  if (typeof transform === 'undefined' || typeof slider === 'undefined')
     return;
 
   if (typeof transform.firstRotation === 'undefined' && typeof transform.rotation !== 'undefined')
@@ -808,8 +808,12 @@ function sliderMotorCallback(transform, slider) {
     transform.applyTranslationToWren();
   } else {
     // extract anchor
-    let anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
-    anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+    let anchor = slider.getAttribute('webots-anchor');
+    if (anchor && anchor !== 'undefined') {
+      anchor = anchor.split(/[\s,]+/);
+      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+    } else
+      anchor = transform.firstPosition;
 
     // Compute angle.
     let angle = value - position;
@@ -826,7 +830,6 @@ function sliderMotorCallback(transform, slider) {
     transform.translation = transform.translation.sub(anchor); // remove the offset
 
     let quat = glm.angleAxis(angle, axis); // rotate the POSITION
-
     transform.translation = applyQuaternion(transform.translation, quat);
     transform.translation = transform.translation.add(anchor); // re-add the offset
     transform.rotation = quaternionToVec4(q);
@@ -874,6 +877,9 @@ function unhighlightX3DElement() {
 }
 
 function highlightX3DElement(deviceElement) {
+  if (!WbWorld.instance.readyForUpdates)
+    return;
+
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
@@ -888,6 +894,7 @@ function highlightX3DElement(deviceElement) {
     return;
   let object = WbWorld.instance.nodes.get(id);
   if (object) {
+    let insertInParent = true;
     if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
       if (typeof sizeOfMarker === 'undefined') {
         // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
@@ -908,7 +915,15 @@ function highlightX3DElement(deviceElement) {
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
       pbr.parent = shape.id;
-      pointer = new WbTransform(getAnId(), new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      let anchor = deviceElement.getAttribute('device-anchor');
+      if (anchor) {
+        anchor = anchor.split(/[\s,]+/);
+        anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+      } else {
+        anchor = new WbVector3();
+        insertInParent = false;
+      }
+      pointer = new WbTransform(getAnId(), anchor, new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
@@ -919,11 +934,29 @@ function highlightX3DElement(deviceElement) {
       pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
     }
 
-    object.children.push(pointer);
-    pointer.parent = object.id;
+    if (insertInParent) {
+      let objectParent = WbWorld.instance.nodes.get(object.parent);
+      if (objectParent) {
+        objectParent.children.push(pointer);
+        pointer.parent = objectParent.id;
+      }
+    } else {
+      object.children.push(pointer);
+      pointer.parent = object.id;
+    }
     pointer.children[0].geometry.isMarker = true;
     pointer.finalize();
 
+    const sliders = document.getElementsByClassName('motor-slider');
+    let slider;
+    for (let i = 0; i < sliders.length; i++) {
+      if (sliders[i] && sliders[i].getAttribute('webots-transform-id') === id) {
+        slider = sliders[i];
+        break;
+      }
+    }
+    if (insertInParent)
+      sliderMotorCallback(pointer, slider);
     scene.render();
   }
 }
@@ -954,10 +987,9 @@ function createRobotComponent(view) {
       webotsViewElement.appendChild(webotsView);
       initializeWebotsView(robotName);
     } else {
-      webotsView._view.x3dScene.destroyWorld();
       sizeOfMarker = undefined;
       pointer = undefined;
-      webotsView._view.view3D = webotsViewElement;
+      webotsViewElement.appendChild(webotsView);
       webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     }
 
@@ -991,7 +1023,6 @@ function createRobotComponent(view) {
           // Create the new device.
           let deviceDiv = document.createElement('div');
           deviceDiv.classList.add('device');
-          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
           deviceDiv.setAttribute('webots-type', deviceType);
           deviceDiv.setAttribute('webots-transform-id', device['transformID']);
           if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
@@ -1000,6 +1031,7 @@ function createRobotComponent(view) {
 
           // Create the new motor.
           if (deviceType.endsWith('Motor') && !device['track']) {
+            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
             const minLabel = document.createElement('div');
             minLabel.classList.add('motor-label');
             const maxLabel = document.createElement('div');
@@ -1031,6 +1063,8 @@ function createRobotComponent(view) {
                 return;
               let id = _.target.getAttribute('webots-transform-id');
               sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
+              if (device['anchor'])
+                sliderMotorCallback(pointer, _.target);
               webotsView._view.x3dScene.render();
             });
 
@@ -1040,14 +1074,19 @@ function createRobotComponent(view) {
             motorDiv.appendChild(slider);
             motorDiv.appendChild(maxLabel);
             deviceDiv.appendChild(motorDiv);
-            deviceDiv.setAttribute('device-anchor', device['anchor']);
+            if (device['anchor'])
+              deviceDiv.setAttribute('device-anchor', device['anchor']);
+          } else {
+            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
+            if (device['anchor'])
+              deviceDiv.setAttribute('device-anchor', device['anchor']);
           }
 
           category.appendChild(deviceDiv);
         }
       })
       .catch(error => {
-        console.log('Error: ' + error);
+        console.error('Error: ' + error);
       });
     reassignButtons(robotName);
 
@@ -1477,7 +1516,7 @@ function getMDFile() {
     .then(response => response.text())
     .then(content => populateViewDiv(content))
     .catch(error => {
-      console.log('Error: ' + error);
+      console.error('Error: ' + error);
       const mainPage = 'index';
       // get the main page instead
       if (localSetup.page !== mainPage) {
@@ -1493,7 +1532,7 @@ function getMenuFile() {
   fetch(target)
     .then(response => response.text())
     .then(content => receiveMenuContent(content))
-    .catch(error => console.log('Error: ' + error));
+    .catch(error => console.error('Error: ' + error));
 }
 
 function extractAnchor(url) {
