@@ -1110,54 +1110,79 @@ int wb_robot_init() {  // API initialization
       WEBOTS_CONTROLLER_URL = tmp;
     } else
       WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
-    if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {
+
+    if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) == 0) {  // IPC
+      int port = -1;
+      sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &port);
+      char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+      const char *TMP_DIR = wbu_system_tmpdir();
+      int length = strlen(TMP_DIR) + 24;  // "/tmp/webots-12345678901/ipc"
+      char *folder = malloc(length);
+      snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, port);
+      if (robot_name)
+        robot_name = strdup(robot_name);
+      else {  // take the first robot in the ipc folder (alphabetical order)
+        struct dirent *de;
+        DIR *dr = opendir(folder);
+        if (dr == NULL) {
+          fprintf(stderr, "Error: cannot open directory %s\n", folder);
+          exit(EXIT_FAILURE);
+        }
+        char *filenames[256];  // we sort only among the 256 first robots
+        int i = 0;
+        while ((de = readdir(dr)) != NULL && i < sizeof filenames / sizeof filenames[0]) {
+          if (strcmp(de->d_name, ".") == 0)
+            continue;
+          if (strcmp(de->d_name, "..") == 0)
+            continue;
+          filenames[i++] = strdup(de->d_name);
+        }
+        closedir(dr);
+        if (i > 1) {  // sort folders (robot names) in alphabetical order
+          qsort(filenames, i, sizeof filenames[0], strcmp_sort);
+          for (int j = 1; j < i; j++)  // keep only the first one
+            free(filenames[j]);
+        }
+        robot_name = filenames[0];
+      }
+      free(WEBOTS_CONTROLLER_URL);
+      printf("port   = %d\n", port);
+      printf("robot  = %s\n", robot_name);
+      printf("folder = %s\n", folder);
+      length += strlen(robot_name) + 8;  // "/tmp/webots-1234/ipc/MyBot/socket"
+      pipe_name = malloc(length);
+      snprintf(pipe_name, length, "%s/%s/socket", folder, robot_name);
+      free(folder);
+      free(robot_name);
+
+      success = scheduler_init(pipe_name, "ipc");
+
+    } else if (strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP
+      const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
+      // char *ip_address;
+      int length = strlen(&WEBOTS_CONTROLLER_URL[6]) + 1;
+      pipe_name = malloc(length);
+      snprintf(pipe_name, length, "%s", &WEBOTS_CONTROLLER_URL[6]);
+
+      if (url_suffix == NULL) {  // assuming only the IP address was provided
+        fprintf(stderr, "Error: Missing port in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+        exit(EXIT_FAILURE);
+      } else if (WEBOTS_CONTROLLER_URL[6] == ':') {
+        fprintf(stderr, "Error: Missing IP address in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+        exit(EXIT_FAILURE);
+      }
+
+      success = scheduler_init(pipe_name, "tcp");
+      /*int ip_length = strlen(WEBOTS_CONTROLLER_URL) - strlen(url_suffix) - 6;
+      ip_address = malloc(ip_length);
+      strncpy(ip_address, &WEBOTS_CONTROLLER_URL[6], ip_length);
+      sscanf(url_suffix, ":%d", &port);*/
+
+    } else {
       fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
       exit(EXIT_FAILURE);
     }
-    int port = -1;
-    sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &port);
-    char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
-    const char *TMP_DIR = wbu_system_tmpdir();
-    int length = strlen(TMP_DIR) + 24;  // "/tmp/webots-12345678901/ipc"
-    char *folder = malloc(length);
-    snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, port);
-    if (robot_name)
-      robot_name = strdup(robot_name);
-    else {  // take the first robot in the ipc folder (alphabetical order)
-      struct dirent *de;
-      DIR *dr = opendir(folder);
-      if (dr == NULL) {
-        fprintf(stderr, "Error: cannot open directory %s\n", folder);
-        exit(EXIT_FAILURE);
-      }
-      char *filenames[256];  // we sort only among the 256 first robots
-      int i = 0;
-      while ((de = readdir(dr)) != NULL && i < sizeof filenames / sizeof filenames[0]) {
-        if (strcmp(de->d_name, ".") == 0)
-          continue;
-        if (strcmp(de->d_name, "..") == 0)
-          continue;
-        filenames[i++] = strdup(de->d_name);
-      }
-      closedir(dr);
-      if (i > 1) {  // sort folders (robot names) in alphabetical order
-        qsort(filenames, i, sizeof filenames[0], strcmp_sort);
-        for (int j = 1; j < i; j++)  // keep only the first one
-          free(filenames[j]);
-      }
-      robot_name = filenames[0];
-    }
-    free(WEBOTS_CONTROLLER_URL);
-    printf("port   = %d\n", port);
-    printf("robot  = %s\n", robot_name);
-    printf("folder = %s\n", folder);
-    length += strlen(robot_name) + 8;  // "/tmp/webots-1234/ipc/MyBot/socket"
-    pipe_name = malloc(length);
-    snprintf(pipe_name, length, "%s/%s/socket", folder, robot_name);
-    free(folder);
-    free(robot_name);
   }
-  success = scheduler_init(pipe_name);
   free(pipe_name);
   if (success == 0) {
     fprintf(stderr, "Could not connect to Webots.\n");

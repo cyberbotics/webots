@@ -45,21 +45,29 @@ unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 GPipe *scheduler_pipe = NULL;
 
-int scheduler_init(const char *pipe) {
-  scheduler_pipe = g_pipe_new(pipe);
-  if (scheduler_pipe == NULL)
-    return false;
-  // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
-  char pipe_buffer[64];
+int scheduler_init(const char *pipe, const char *protocol) {
+  if (strncmp(protocol, "ipc", 3) == 0) {
+    scheduler_pipe = g_pipe_new(pipe);
+    if (scheduler_pipe == NULL)
+      return false;
+    // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
+    char pipe_buffer[64];
 #ifdef _WIN32
-  sprintf(pipe_buffer, "WEBOTS_PIPE_IN=%d", scheduler_get_pipe_handle());
-  putenv(pipe_buffer);
+    sprintf(pipe_buffer, "WEBOTS_PIPE_IN=%d", scheduler_get_pipe_handle());
+    putenv(pipe_buffer);
 #else
-  sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
-  setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
+    sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
+    setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
 #endif
-  scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
-  scheduler_data_size = SCHEDULER_DATA_CHUNK;
+    scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
+    scheduler_data_size = SCHEDULER_DATA_CHUNK;
+  } else if (strncmp(protocol, "tcp", 3) == 0) {
+    // implement tcp request to ask webots a link to robot (indicated or first in alphabetical)
+  } else {
+    fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", protocol);
+    exit(EXIT_FAILURE);
+  }
+
   return true;
 }
 
