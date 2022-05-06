@@ -457,14 +457,13 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 }
 
 void WbRobot::updateWindow() {
-  emit windowChanged();
+  QString key = mWindow->value().trimmed();
   mAbsoluteWindowFilename = "";
+  //if (key == "<none>")
+  //  emit windowNone();
 
   if (mConfigureRequest) {
-    QString key = mWindow->value().trimmed();
-    if (key == "<none>") {
-      //WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW)->setEnabled(false);
-    } else if (!key.isEmpty() && key != "<generic>") {
+    if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
@@ -474,7 +473,7 @@ void WbRobot::updateWindow() {
   } else
     warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
 
-  if (!mWindow->value().isEmpty() && mWindow->value() != "<generic>")
+  if (!key.isEmpty() && key != "<generic>")
     return;  // HTML robot window without plugin case.
 
   if (mAbsoluteWindowFilename.isEmpty()) {
@@ -562,8 +561,17 @@ const QString &WbRobot::controllerDir() {
 
 void WbRobot::restartController() {
   mControllerStarted = false;
+  emit controllerRestart();
+  warn(tr("Restarting controller"));
 
-  emit controllerChanged();
+  /*
+  if (WbPreferences::instance()->value("RobotWindow/closeRobotWindowOnReset").toBool()) {
+    warn("Window Should Delete");
+    emit controllerRestart();
+  } else {
+    warn("Window Should Restart");
+    emit controllerChanged();
+  }*/
 
   foreach (WbDevice *device, mDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);

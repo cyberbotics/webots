@@ -86,6 +86,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("Network/uploadUrl", "https://beta.webots.cloud");
   setDefault("Streaming/port", 1234);
   setDefault("RobotWindow/newBrowserWindow", false);
+  setDefault("RobotWindow/closeRobotWindowOnReset", false);
   setDefault("RobotWindow/browser", "");
 
 #ifdef _WIN32
