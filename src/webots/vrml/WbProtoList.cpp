@@ -603,14 +603,14 @@ void WbProtoList::setupKnownProtoList() {
     WbLog::error(tr("%1 not found.").arg(filename));
   */
 
-  printf("-- known proto %lld --\n", mProtoList.size());
-  QMapIterator<QString, WbProtoInfo> it(mProtoList);
-  while (it.hasNext()) {
-    it.next();
-    WbProtoInfo info = it.value();
-    printf("  %35s %s\n", it.key().toUtf8().constData(), info.url().toUtf8().constData());
-  }
-  printf("-- end known proto --\n");
+  // printf("-- known proto %lld --\n", mProtoList.size());
+  // QMapIterator<QString, WbProtoInfo> it(mProtoList);
+  // while (it.hasNext()) {
+  //  it.next();
+  //  WbProtoInfo info = it.value();
+  //  printf("  %35s %s\n", it.key().toUtf8().constData(), info.url().toUtf8().constData());
+  //}
+  // printf("-- end known proto --\n");
 }
 
 void WbProtoList::resetCurrentProjectProtoList(void) {

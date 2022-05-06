@@ -298,6 +298,9 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
 
   } else {
+    printf("%s\n", nodeFileName.toUtf8().constData());
+
+    /*
     WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(nodeFileName);
     bool success = protoCachedInfo->load();
     if (success) {
@@ -340,6 +343,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 #endif
       pixmapPath = iconPath + "/" + fileInfo.baseName() + ".png";
     }
+    */
   }
 
   mPixmapLabel->hide();
@@ -528,9 +532,6 @@ void WbAddNodeDialog::buildTree() {
 }
 
 int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
-  /*
-  QMap<QString, QString> protoList = WbProtoList::current()->protoList();
-
   const WbVersion &version = WbApplicationInfo::version();
   // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
   const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
@@ -538,11 +539,14 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   int nAddedNodes = 0;
   const QString remoteUrl = QString("https://raw.githubusercontent.com/cyberbotics/webots/%1/").arg(reference);
 
-  foreach (QString proto, protoList) {
-    const QString nodeName = QUrl(proto).fileName();
-    QString path = proto.replace("webots://", "").replace(remoteUrl, "");
+  QMapIterator<QString, WbProtoInfo> it(WbProtoList::current()->officialProtoList());
+  while (it.hasNext()) {
+    it.next();
 
-    printf("%s | %s\n", nodeName.toUtf8().constData(), path.toUtf8().constData());
+    WbProtoInfo info = it.value();
+
+    const QString nodeName = QUrl(info.url()).fileName().replace(".proto", "");
+    const QString path = info.url().replace("webots://", "").replace(remoteUrl, "");
 
     // populate tree
     QStringList categories = path.split('/', Qt::SkipEmptyParts);
@@ -566,8 +570,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
       if (exists)
         subFolder = parent->child(i);
       else {
-        const QString baseName = "BASE_NAME";
-        const QString name = isProto ? QString("%1 (%2)").arg(folder.replace(".proto", "")).arg(baseName) : folder;
+        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(info.baseNode()) : folder;
         subFolder = new QTreeWidgetItem(QStringList(name));
       }
 
@@ -581,7 +584,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   }
 
   return nAddedNodes;
-  */
 }
 
 int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,

@@ -39,6 +39,11 @@ public:
     mTags(tags){};
 
   QString url() { return mUrl; }
+  QString baseNode() { return mBaseNode; }
+  QString license() { return mLicense; }
+  QString licenseUrl() { return mLicenseUrl; }
+  QString description() { return mDescription; }
+  QStringList tags() { return mTags; }
 
 private:
   QString mUrl;
@@ -63,8 +68,6 @@ public:
   static QStringList fileList();
 
   static QStringList fileList(int cache);
-
-  QMap<QString, WbProtoInfo> &protoList() { return mProtoList; }
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively
@@ -114,7 +117,7 @@ public:
 
   void recursiveProtoRetrieval(const QString &filename);
   void retrieveAllExternProto(QString filename, bool reloading);  // TODO: need reloading?
-  QMap<QString, WbProtoInfo> protoInProjectsList() { return mProtoList; };
+  QMap<QString, WbProtoInfo> officialProtoList() { return mProtoList; };
 
 signals:
   void protoRetrieved();
