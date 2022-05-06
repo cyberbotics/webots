@@ -584,7 +584,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
 
   int nAddedNodes = 0;
-  const QString remoteUrl = QString("https://raw.githubusercontent.com/cyberbotics/webots/%1/").arg(reference);
+  const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
 
   QMapIterator<QString, WbProtoInfo *> it(WbProtoList::current()->officialProtoList());
   while (it.hasNext()) {
@@ -593,7 +593,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
     WbProtoInfo *info = it.value();
 
     const QString nodeName = QUrl(info->url()).fileName().replace(".proto", "");
-    const QString path = info->url().replace("webots://", "").replace(remoteUrl, "");
+    const QString path = info->url().replace("webots://", "").replace(re, "");
 
     // populate tree
     // TODO: should only show nodes that can be inserted in this location, not everything
