@@ -78,6 +78,9 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   preFinalize() {
+    if (this.isPreFinalizeCalled)
+      return;
+
     super.preFinalize();
     this.updateUrl();
     this._updateFiltering();

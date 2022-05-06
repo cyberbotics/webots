@@ -5,7 +5,9 @@
 /python37
 /python38
 /python39
+/python310
 /python37_brew
 /python38_brew
 /python39_brew
+/python310_brew
 /*.so.*

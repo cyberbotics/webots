@@ -8,10 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        ref: released 
+        ref: released
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -27,7 +27,6 @@ jobs:
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
-        git config --global --add safe.directory /github/workspace
         git checkout -b discord-doc-update
         git add ./docs/discord
         git commit -m "Update discord docs."

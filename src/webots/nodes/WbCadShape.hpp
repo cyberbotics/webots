@@ -17,6 +17,8 @@
 
 #include "WbBaseNode.hpp"
 
+#include <QtCore/QMap>
+
 #include <assimp/material.h>
 
 class WbBoundingSphere;
@@ -61,6 +63,7 @@ private slots:
   void updateAppearance();
 
   void downloadUpdate();
+  void materialDownloadTracker();
 
 private:
   WbCadShape &operator=(const WbCadShape &);  // non copyable
@@ -86,6 +89,14 @@ private:
   // segmentation and rangefinder materials
   QVector<WrMaterial *> mWrenSegmentationMaterials;
   QVector<WrMaterial *> mWrenEncodeDepthMaterials;
+
+  // methods and variables to handle obj materials
+  QMap<QString, QString> mObjMaterials;  // maps materials as referenced in the obj to their remote counterpart
+  QVector<WbDownloader *> mMaterialDownloaders;
+  QStringList objMaterialList(const QString &url);
+  bool areMaterialAssetsAvailable(const QString &url);
+  QString generateMaterialUrl(const QString &material, const QString &completeUrl);
+  void retrieveMaterials();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);

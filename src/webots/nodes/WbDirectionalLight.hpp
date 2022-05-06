@@ -40,9 +40,6 @@ public:
   // specific functions
   const WbVector3 &direction() const;
 
-protected:
-  void exportNodeFields(WbWriter &writer) const override;
-
 private slots:
   void updateDirection();
 

@@ -188,7 +188,7 @@ export default class WbTrack extends WbSolid {
 
   postFinalize() {
     super.postFinalize();
-    WbWorld.instance.tracks.push(this);
+    WbWorld.instance.tracks.add(this);
     this.beltElements.forEach(beltElement => beltElement.postFinalize());
   }
 

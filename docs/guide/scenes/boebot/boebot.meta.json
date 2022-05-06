@@ -21,6 +21,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.052 0.014 0.055",
       "ledColors": [
         "1 0 0"
       ],
@@ -33,6 +34,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.052 -0.014 0.055",
       "ledColors": [
         "1 0 0"
       ],
@@ -50,7 +52,10 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n190",
       "type": "PositionSensor"
     },
@@ -70,7 +75,10 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n162",
       "type": "PositionSensor"
     },
