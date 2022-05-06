@@ -1045,8 +1045,8 @@ static char *compute_socket_filename() {
   char *socket_filename;
   if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
     // regular controller case
-    const int length = strlen(WEBOTS_TMP_PATH) + strlen(WEBOTS_ROBOT_NAME) + 15;  // "%sintern/%s/socket"
     char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+    const int length = strlen(WEBOTS_TMP_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "%sintern/%s/socket", WEBOTS_TMP_PATH, robot_name);
     free(robot_name);
