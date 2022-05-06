@@ -1,7 +1,6 @@
 {
   "devices": [
     {
-      "anchor": "0 0 0",
       "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
@@ -31,7 +30,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
@@ -128,7 +126,6 @@
       "type": "DistanceSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "-1 0 0",
       "name": "left_front_brake",
       "position": 0,
@@ -136,7 +133,6 @@
       "type": "Brake"
     },
     {
-      "anchor": "0 0 0",
       "axis": "-1 0 0",
       "name": "left_front_sensor",
       "position": 0,
@@ -179,7 +175,6 @@
       "type": "Receiver"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "name": "right_front_brake",
       "position": 0,
@@ -187,7 +182,6 @@
       "type": "Brake"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "name": "right_front_sensor",
       "position": 0,

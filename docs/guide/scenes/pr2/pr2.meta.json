@@ -391,7 +391,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0.09,
       "minPosition": 0,
@@ -401,7 +400,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "maxPosition": 0.1,
       "minPosition": -0.1,
@@ -411,7 +409,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0.09,
       "minPosition": 0,
@@ -421,7 +418,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "maxPosition": 0.1,
       "minPosition": -0.1,
@@ -431,7 +427,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0.33,
       "minPosition": 0,
@@ -816,7 +811,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
       "position": 0,

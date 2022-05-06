@@ -71,7 +71,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0.04,
       "minPosition": 0,
@@ -81,7 +80,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 -1 0",
       "maxPosition": 0.04,
       "minPosition": 0,
@@ -91,7 +89,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "name": "panda_finger_joint1_sensor",
       "position": 0,
@@ -99,7 +96,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 -1 0",
       "name": "panda_finger_joint2_sensor",
       "position": 0,

@@ -876,7 +876,7 @@ function unhighlightX3DElement() {
   scene.render();
 }
 
-function highlightX3DElement(deviceElement, motor) {
+function highlightX3DElement(deviceElement) {
   if (!WbWorld.instance.readyForUpdates)
     return;
 
@@ -955,7 +955,7 @@ function highlightX3DElement(deviceElement, motor) {
         break;
       }
     }
-    if (motor)
+    if (insertInParent)
       sliderMotorCallback(pointer, slider);
     scene.render();
   }
@@ -1031,7 +1031,7 @@ function createRobotComponent(view) {
 
           // Create the new motor.
           if (deviceType.endsWith('Motor') && !device['track']) {
-            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv, true));
+            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
             const minLabel = document.createElement('div');
             minLabel.classList.add('motor-label');
             const maxLabel = document.createElement('div');
@@ -1063,7 +1063,8 @@ function createRobotComponent(view) {
                 return;
               let id = _.target.getAttribute('webots-transform-id');
               sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
-              sliderMotorCallback(pointer, _.target);
+              if (device['anchor'])
+                sliderMotorCallback(pointer, _.target);
               webotsView._view.x3dScene.render();
             });
 

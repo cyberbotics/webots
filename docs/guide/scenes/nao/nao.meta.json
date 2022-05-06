@@ -1,7 +1,6 @@
 {
   "devices": [
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0.514872,
       "minPosition": -0.671952,
@@ -191,7 +190,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 1.32645,
       "minPosition": -0.314159,
@@ -381,7 +379,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0.314159,
       "minPosition": -1.32645,
@@ -516,7 +513,6 @@
       "type": "Gyro"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "name": "HeadPitchS",
       "position": 0,
@@ -690,7 +686,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "LShoulderRollS",
       "position": 0,
@@ -863,7 +858,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "RShoulderRollS",
       "position": 0,

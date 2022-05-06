@@ -31,7 +31,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": -0.2,
@@ -70,7 +69,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "shaft_linear_position",
       "position": 0,

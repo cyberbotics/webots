@@ -441,7 +441,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0.35,
       "minPosition": 0,
@@ -827,7 +826,6 @@
       "type": "InertialUnit"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
       "position": 0,

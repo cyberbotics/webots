@@ -111,7 +111,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "-1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
@@ -121,7 +120,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
@@ -131,7 +129,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0.35,
       "minPosition": 0,
@@ -222,7 +219,6 @@
       "type": "DistanceSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "-1 0 0",
       "name": "gripper_left_finger_joint_sensor",
       "position": 0,
@@ -230,7 +226,6 @@
       "type": "PositionSensor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "1 0 0",
       "name": "gripper_right_finger_joint_sensor",
       "position": 0,
@@ -269,7 +264,6 @@
       "type": "InertialUnit"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
       "position": 0,

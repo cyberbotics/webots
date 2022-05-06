@@ -485,8 +485,6 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
         else if (ballJointParameters)
           deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
-        else
-          deviceObject.insert("anchor", "0 0 0");
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
         deviceObject.insert("transformID", QString("n%1").arg(helix->uniqueId()));
