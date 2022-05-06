@@ -577,7 +577,7 @@ void WbProtoList::setupKnownProtoList() {
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
           //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
-          mProtoList.insert(name, WbProtoInfo(url, basenode, license, licenseUrl, description, tags));
+          mOfficialProtoList.insert(name, new WbProtoInfo(url, basenode, license, licenseUrl, description, tags));
         } else
           reader.raiseError(tr("Expected 'proto' element."));
       }

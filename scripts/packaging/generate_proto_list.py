@@ -72,7 +72,7 @@ def parse_proto_header(path):
                 tags = line.replace('# tags:', '').strip().split(',')
                 tags = [tag.strip() for tag in tags]
             else:
-                description += line[1:].strip() + ' '
+                description += line[1:].strip() + '\n'
 
     return license, license_url, description.strip(), tags, documentation_url
 

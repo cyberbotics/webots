@@ -284,7 +284,7 @@ void WbAddNodeDialog::updateItemInfo() {
 }
 
 void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo) {
-  QString info, license, documentation;
+  QString description;
   QString pixmapPath;
 
   const QFileInfo fileInfo(nodeFileName);
@@ -292,58 +292,54 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   if (nodeType != PROTO && WbNodeModel::isBaseModelName(modelName)) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(modelName);
     assert(nodeModel);
-    info = nodeModel->info();
+    description = nodeModel->info();
 
     // set icon path
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
-
   } else {
-    printf("%s\n", nodeFileName.toUtf8().constData());
-
-    /*
-    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(nodeFileName);
-    bool success = protoCachedInfo->load();
-    if (success) {
-      info = protoCachedInfo->info();
-      documentation = protoCachedInfo->documentationUrl();
-      license = protoCachedInfo->license().simplified();
-      const QString licenseUrl = protoCachedInfo->licenseUrl().simplified();
-      if (!licenseUrl.isEmpty())
-        license += tr(" <a style='color: #5DADE2;' href='%1'>More information.</a>").arg(licenseUrl);
+    // TODO: should have specific method for this?
+    QMap<QString, WbProtoInfo *> protoList = WbProtoList::current()->officialProtoList();
+    if (!protoList.contains(modelName)) {
+      WbLog::error(tr("'%1' is not a known official PROTO.\n").arg(modelName));
+      return;
     }
-    delete protoCachedInfo;
 
-    // set documentation url
-    if (!documentation.isEmpty()) {
-      mDocumentationLabel->show();
-      mDocumentationLabel->setText(tr("Documentation: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(documentation));
-    }
+    WbProtoInfo *info = protoList.value(modelName);
 
     // set license
-    if (!license.isEmpty()) {
+    if (!info->license().isEmpty()) {
+      QString license =
+        info->license() + tr(" <a style='color: #5DADE2;' href='%1'>More information.</a>").arg(info->licenseUrl());
       mLicenseLabel->show();
       mLicenseLabel->setText(tr("License: ") + license);
     }
 
-    // set icon path
-    const QString iconPath(fileInfo.absolutePath() + "/icons");
-    if (QDir(iconPath).exists()) {
-#ifdef _WIN32
-      QStringList filenames = QDir(iconPath).entryList();
-      foreach (const QString filename, filenames) {
-        QString strippedFileName = filename.mid(0, filename.indexOf("."));
-        if (strippedFileName.compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0 &&
-            strippedFileName.compare(fileInfo.baseName(), Qt::CaseSensitive) != 0) {
-          WbLog::warning(tr("The icon file '%1' does not exactly match the PROTO name. Expected '%2.png'")
-                           .arg(filename)
-                           .arg(fileInfo.baseName()));
-          break;
+    mInfoText->clear();
+
+    description = info->description();
+    if (description.isEmpty())
+      mInfoText->setPlainText(tr("No info available."));
+    else {
+      // replace carriage returns with spaces where appropriate:
+      // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
+      // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
+      // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
+      for (int i = 0; i < description.length(); i++) {
+        if (description[i] == '\n') {
+          if (i < (description.length() - 1)) {
+            if (description[i + 1] == '\n' || description[i + 1] == '-') {
+              i++;
+              continue;
+            }
+          }
+          description[i] = ' ';
         }
       }
-#endif
-      pixmapPath = iconPath + "/" + fileInfo.baseName() + ".png";
+      mInfoText->appendPlainText(description.trimmed());
     }
-    */
+    mInfoText->moveCursor(QTextCursor::Start);
+
+    // TODO: remove any reference to documentationUrl (?)
   }
 
   mPixmapLabel->hide();
@@ -359,6 +355,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     }
   }
 
+  /*
   mInfoText->clear();
 
   if (!boundingObjectInfo.isEmpty())
@@ -386,6 +383,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     mInfoText->appendPlainText(info.trimmed());
   }
   mInfoText->moveCursor(QTextCursor::Start);
+  */
 }
 
 bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
@@ -539,16 +537,18 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
   int nAddedNodes = 0;
   const QString remoteUrl = QString("https://raw.githubusercontent.com/cyberbotics/webots/%1/").arg(reference);
 
-  QMapIterator<QString, WbProtoInfo> it(WbProtoList::current()->officialProtoList());
+  QMapIterator<QString, WbProtoInfo *> it(WbProtoList::current()->officialProtoList());
   while (it.hasNext()) {
     it.next();
 
-    WbProtoInfo info = it.value();
+    WbProtoInfo *info = it.value();
 
-    const QString nodeName = QUrl(info.url()).fileName().replace(".proto", "");
-    const QString path = info.url().replace("webots://", "").replace(remoteUrl, "");
+    const QString nodeName = QUrl(info->url()).fileName().replace(".proto", "");
+    const QString path = info->url().replace("webots://", "").replace(remoteUrl, "");
 
     // populate tree
+    // TODO: should only show nodes that can be inserted in this location, not everything
+
     QStringList categories = path.split('/', Qt::SkipEmptyParts);
     QTreeWidgetItem *parent = parentItem;
     foreach (QString folder, categories) {
@@ -570,8 +570,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
       if (exists)
         subFolder = parent->child(i);
       else {
-        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(info.baseNode()) : folder;
-        subFolder = new QTreeWidgetItem(QStringList(name));
+        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(info->baseNode()) : folder;
+        subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
       }
 
       if (isProto) {

@@ -117,7 +117,7 @@ public:
 
   void recursiveProtoRetrieval(const QString &filename);
   void retrieveAllExternProto(QString filename, bool reloading);  // TODO: need reloading?
-  QMap<QString, WbProtoInfo> officialProtoList() { return mProtoList; };
+  QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
 
 signals:
   void protoRetrieved();
@@ -147,7 +147,7 @@ private:
   QString mCurrentWorld;
   bool mReloading;
 
-  QMap<QString, WbProtoInfo> mProtoList;
+  QMap<QString, WbProtoInfo *> mOfficialProtoList;
   QMap<QString, QString> mCurrentProjectProtoList;
 
   QMap<QString, QString> getExternProtoList(const QString &filename);
