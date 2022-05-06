@@ -230,6 +230,7 @@ PROTO ScaraT6 [
         }
       }
       LED {
+        translation 0.023 0.028 0.451
         children [
           Group {
             children [
@@ -237,7 +238,6 @@ PROTO ScaraT6 [
                 attenuation 0 0 1
                 color 1 0.270588 0
                 intensity 0.05
-                location 0.023 0.028 0.451
                 on FALSE
                 radius 1
                 castShadows TRUE
