@@ -115,6 +115,15 @@ lib/controller/python39_brew/ [mac]
 lib/controller/python39_brew/*.py [mac]
 lib/controller/python39_brew/_*.so [mac]
 
+lib/controller/python310/
+lib/controller/python310/*.py
+lib/controller/python310/_*.so [linux,mac]
+lib/controller/python310/_*.pyd [windows]
+
+lib/controller/python310_brew/ [mac]
+lib/controller/python310_brew/*.py [mac]
+lib/controller/python310_brew/_*.so [mac]
+
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m

@@ -12,6 +12,7 @@ PROTO EyeScrew [
   field SFFloat    screwRadius      0.006                                      # Defines the radius of the screw.
   field SFFloat    screwLength      0.05                                       # Defines the length of the screw.
   field SFString   contactMaterial  "default"                                  # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics    TRUE                                       # Defines whether the eye screw should have physics.
 ]
 {
   %<
@@ -99,8 +100,10 @@ PROTO EyeScrew [
         USE CYLINDER
       ]
     }
-    physics Physics {
-      density 8050
-    }
+    %< if (fields.enablePhysics.value) { >%
+      physics Physics {
+        density 8050
+      }
+    %< } >%
   }
 }

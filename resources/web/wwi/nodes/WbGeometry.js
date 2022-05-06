@@ -81,6 +81,9 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   _computeWrenRenderable() {
+    if (this._wrenRenderable)
+      return;
+
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 

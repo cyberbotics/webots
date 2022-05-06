@@ -14,6 +14,9 @@ export default class WbPlane extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     this._computeWrenRenderable();
