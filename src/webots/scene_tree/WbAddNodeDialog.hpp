@@ -91,7 +91,7 @@ private:
   WbDownloader *mDownloader;
   void downloadIcon(const QString &url);
 
-  int addProtosFromProtoList(QTreeWidgetItem *parentItem);
+  int addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem);
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
   int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,

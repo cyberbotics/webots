@@ -537,7 +537,6 @@ void WbAddNodeDialog::buildTree() {
 
     foreach (const WbProject *project, *WbProject::extraProjects())
       addProtosFromDirectory(aprotosItem, project->path(), regexp, QDir(project->path()));
-
     mIsAddingExtraProtos = false;
   }
 
@@ -545,7 +544,7 @@ void WbAddNodeDialog::buildTree() {
   int nWProtosNodes = 0;
   // nWProtosNodes =
   //  addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
-  nWProtosNodes = addProtosFromProtoList(wprotosItem);
+  nWProtosNodes = addProtosFromOfficialProtoList(wprotosItem);
 
   mTree->addTopLevelItem(nodesItem);
   if (mUsesItem)
@@ -576,8 +575,9 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
+int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem) {
   // TODO: handle PROTO defined locally
+  // TODO: QMap isn't ordered, proto-list isn't ordered...
 
   const WbVersion &version = WbApplicationInfo::version();
   // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
@@ -591,6 +591,28 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
     it.next();
 
     WbProtoInfo *info = it.value();
+
+    // don't display PROTOs which contain a "hidden" or a "deprecated" tag
+    QStringList tags = info->tags();
+    if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
+      continue;
+
+    // TODO: broken
+    // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+    // if (!rootDirectory.relativeFilePath(info->url()).contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)) &&
+    //    !baseNode.contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)))
+    //  continue;
+
+    // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+    const QString baseNode = info->baseNode();
+    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && WbNodeUtilities::isDeviceTypeName(baseNode) &&
+        baseNode != "Connector")
+      continue;
+
+    QString errorMessage;
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseNode, mCurrentNode, errorMessage, nodeUse, protoCachedInfo->slotType(),
+                                            QStringList() << baseNode << protoFile.chopped(6)))
+      continue;
 
     const QString nodeName = QUrl(info->url()).fileName().replace(".proto", "");
     const QString path = info->url().replace("webots://", "").replace(re, "");
@@ -619,7 +641,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
       if (exists)
         subFolder = parent->child(i);
       else {
-        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(info->baseNode()) : folder;
+        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseNode) : folder;
         subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
       }
 

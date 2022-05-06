@@ -44,6 +44,22 @@ with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     VERSION = file.readline().strip()
 
 
+def parse_proto_body(path, base_node):
+    slot_type = None
+
+    if base_node == "Slot":
+      print(path)
+      with open(path, 'r') as file:
+          content = file.read()
+
+          matches = re.findall("type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"", content)
+          if len(matches) == 0:
+              raise RuntimeError(f'PROTO {path} of base node "Slot" should specify a type but does not. The regex is likely not catching it.')
+          else:
+              slot_type = matches[0] # we are interested in the first Slot, if multiple exist
+
+    return slot_type
+
 def parse_proto_header(path):
     license = None
     license_url = None
@@ -113,6 +129,7 @@ if __name__ == "__main__":
         name = proto.stem
         complete_url = str(proto).replace(WEBOTS_HOME + '/', base_url)
         base_node = proto_base_nodes[proto.stem]
+        slot_type = parse_proto_body(proto, base_node)
         license, license_url, description, tags, documentation_url = parse_proto_header(proto)
 
         proto_element = ET.SubElement(root, 'proto')
@@ -130,6 +147,8 @@ if __name__ == "__main__":
             description_element = ET.SubElement(proto_element, 'description').text = description
         if tags:
             tags_element = ET.SubElement(proto_element, 'tags').text = ','.join(tags)
+        if slot_type:
+            slot_element = ET.SubElement(proto_element, 'slot-type').text = slot_type
 
     # beautify xml
     tree = ET.ElementTree(root)
