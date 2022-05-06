@@ -276,9 +276,8 @@ QStringList WbCadShape::objMaterialList(const QString &url) {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      materials = cleanLine.split(' ', Qt::SkipEmptyParts);
-      materials.removeFirst();  // first is "mtllib"
-      break;                    // only one occurrence of mtllib is allowed, so as soon as one is found the search can stop
+      cleanLine = cleanLine.replace("mtllib", "");
+      materials << cleanLine.split(' ', Qt::SkipEmptyParts);
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
