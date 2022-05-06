@@ -7,10 +7,12 @@ else
 WINDOWS_DRIVE=${1:1:1}:\\${1:3}
 export WEBOTS_HOME=${WINDOWS_DRIVE////\\}
 PATH="$1/msys64/mingw64/bin"
-if [ -v PYTHON38_HOME ]; then
-PATH+=":$PYTHON38_HOME:$PYTHON38_HOME/Scripts"
+if [ -v PYTHON310_HOME ]; then
+PATH+=":$PYTHON310_HOME:$PYTHON310_HOME/Scripts"
 elif [ -v PYTHON39_HOME ]; then
 PATH+=":$PYTHON39_HOME:$PYTHON39_HOME/Scripts"
+elif [ -v PYTHON38_HOME ]; then
+PATH+=":$PYTHON38_HOME:$PYTHON38_HOME/Scripts"
 elif [ -v PYTHON37_HOME ]; then
 PATH+=":$PYTHON37_HOME:$PYTHON37_HOME/Scripts"
 fi
