@@ -224,3 +224,9 @@ int WbLight::numberOfLightsCastingShadows() {
       counter++;
   return counter;
 }
+
+void WbLight::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d())
+    findField("castShadows", true)->write(writer);
+}
