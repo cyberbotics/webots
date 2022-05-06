@@ -2048,9 +2048,10 @@ void WbMainWindow::editRobotController() {
 void WbMainWindow::showRobotWindow() {
   WbRobot *robot = mSimulationView->selectedRobot();
   if (robot) {
-    if (robot->window() == "<none>")
+    if (robot->window() == "<none>") {
       WbMessageBox::info(tr("Cannot show Robot window <none>."));
-    else if (robot->windowFile().isEmpty())
+      deleteRobotWindow(robot);
+    } else if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
       showHtmlRobotWindow(robot);  // show HTML robot window
@@ -2076,6 +2077,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(robot, &WbRobot::windowChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
       connect(currentRobotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
     }
 
@@ -2103,7 +2105,6 @@ void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
 }
 
 void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
-  WbMessageBox::info(tr("deleting robot windows..."));
   // delete the robot window and client of robot, delete all if NULL.
   foreach (WbRobotWindow *robotWindow, mRobotWindows)
     if ((robotWindow->robot() == robot) || robot == NULL) {

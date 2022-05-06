@@ -457,6 +457,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 }
 
 void WbRobot::updateWindow() {
+  emit windowChanged();
   mAbsoluteWindowFilename = "";
 
   if (mConfigureRequest) {
