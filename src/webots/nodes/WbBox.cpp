@@ -189,7 +189,7 @@ void WbBox::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
   const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = zAxis.angle(g);
+  const double alpha = zAxis.angle(-g);
 
   static const double BOX_THRESHOLD = M_PI_2;
 
