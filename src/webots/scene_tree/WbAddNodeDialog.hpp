@@ -24,6 +24,8 @@
 
 class WbField;
 class WbNode;
+class WbDownloader;
+
 class QGroupBox;
 class QLabel;
 class QLineEdit;
@@ -86,6 +88,9 @@ private:
   bool mIsAddingLocalProtos;
   bool mIsAddingExtraProtos;
 
+  WbDownloader *mDownloader;
+  void downloadIcon(const QString &url);
+
   int addProtosFromProtoList(QTreeWidgetItem *parentItem);
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
@@ -93,6 +98,9 @@ private:
                 const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
+
+private slots:
+  void downloadUpdate();
 };
 
 #endif

@@ -14,6 +14,8 @@
 
 #include "WbAddNodeDialog.hpp"
 
+#include <WbDownloader.hpp>
+#include <WbNetwork.hpp>
 #include "../core/WbApplicationInfo.hpp"
 #include "../vrml/WbProtoList.hpp"
 #include "WbBaseNode.hpp"
@@ -32,6 +34,7 @@
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
 
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
@@ -60,7 +63,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mActionType(CREATE),
   mIsFolderItemSelected(true),
   mIsAddingLocalProtos(false),
-  mIsAddingExtraProtos(false) {
+  mIsAddingExtraProtos(false),
+  mDownloader(NULL) {
   assert(mCurrentNode && mField);
 
   // check if top node is a robot node
@@ -179,6 +183,36 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 }
 
 WbAddNodeDialog::~WbAddNodeDialog() {
+}
+
+void WbAddNodeDialog::downloadIcon(const QString &url) {
+  if (mDownloader != NULL && mDownloader->hasFinished())
+    delete mDownloader;
+
+  mDownloader = new WbDownloader(this);
+  connect(mDownloader, &WbDownloader::complete, this, &WbAddNodeDialog::downloadUpdate);
+
+  mDownloader->download(QUrl(url));
+}
+
+void WbAddNodeDialog::downloadUpdate() {
+  if (mDownloader && !mDownloader->error().isEmpty()) {
+    WbLog::error(mDownloader->error());  // failure downloading or file does not exist (404)
+    delete mDownloader;
+    mDownloader = NULL;
+    return;
+  }
+
+  QString pixmapPath = WbNetwork::instance()->get(mDownloader->url().toString());
+  QPixmap pixmap(pixmapPath);
+  if (!pixmap.isNull()) {
+    if (pixmap.size() != QSize(128, 128)) {
+      WbLog::warning(tr("The \"%1\" icon should have a dimension of 128x128 pixels.").arg(pixmapPath));
+      pixmap = pixmap.scaled(128, 128);
+    }
+    mPixmapLabel->show();
+    mPixmapLabel->setPixmap(pixmap);
+  }
 }
 
 QString WbAddNodeDialog::modelName() const {
@@ -340,10 +374,23 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     mInfoText->moveCursor(QTextCursor::Start);
 
     // TODO: remove any reference to documentationUrl (?)
+
+    pixmapPath = QString("%1icons/%2.png").arg(QUrl(info->url()).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
+    printf("ICON WILL BE AT: %s\n", pixmapPath.toUtf8().constData());
   }
 
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
+    if (WbUrl::isWeb(pixmapPath)) {
+      if (WbNetwork::instance()->isCached(pixmapPath))
+        pixmapPath = WbNetwork::instance()->get(pixmapPath);
+      else {
+        downloadIcon(pixmapPath);
+        return;
+      }
+    } else if (WbUrl::isLocalUrl(pixmapPath))
+      pixmapPath = QDir::cleanPath(WbStandardPaths::webotsHomePath() + pixmapPath.mid(9));
+
     QPixmap pixmap(pixmapPath);
     if (!pixmap.isNull()) {
       if (pixmap.size() != QSize(128, 128)) {
@@ -530,6 +577,8 @@ void WbAddNodeDialog::buildTree() {
 }
 
 int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem) {
+  // TODO: handle PROTO defined locally
+
   const WbVersion &version = WbApplicationInfo::version();
   // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
   const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
