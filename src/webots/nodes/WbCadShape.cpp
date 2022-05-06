@@ -272,7 +272,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) {
 
     QStringList lines = content.split('\n', Qt::SkipEmptyParts);
     foreach (QString line, lines) {
-      const QString cleanLine = line.trimmed();
+      QString cleanLine = line.trimmed();
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
