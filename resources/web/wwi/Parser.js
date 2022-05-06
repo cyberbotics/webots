@@ -715,8 +715,6 @@ export default class Parser {
       geometry = this._parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
-    else
-      console.error('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
