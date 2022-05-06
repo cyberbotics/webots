@@ -8,6 +8,9 @@ export default class WbDirectionalLight extends WbLight {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     this._wrenLight = _wr_directional_light_new();
     super.createWrenObjects();
 

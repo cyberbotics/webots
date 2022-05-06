@@ -1,4 +1,5 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbCadShape from './WbCadShape.js';
 import WbLight from './WbLight.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/utils.js';
@@ -95,7 +96,7 @@ export default class WbGroup extends WbBaseNode {
 
   updateBoundingObjectVisibility() {
     this.children.forEach(child => {
-      if (!(child instanceof WbLight))
+      if (!(child instanceof WbLight || child instanceof WbCadShape))
         child.updateBoundingObjectVisibility();
     });
   }

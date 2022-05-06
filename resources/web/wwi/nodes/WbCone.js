@@ -16,6 +16,9 @@ export default class WbCone extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     if (!this.bottom && !this.side)
