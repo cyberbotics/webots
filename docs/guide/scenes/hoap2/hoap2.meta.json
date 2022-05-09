@@ -251,7 +251,10 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 -1 0",
       "name": "body_joint_1_sensor",
+      "position": 0,
       "transformID": "n16",
       "type": "PositionSensor"
     },
@@ -266,37 +269,58 @@
       "type": "GPS"
     },
     {
+      "anchor": "-0.034 0 0.09",
+      "axis": "0 0 1",
       "name": "head_joint_1_sensor",
+      "position": 0,
       "transformID": "n417",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.008 0 0.081",
+      "axis": "0 1 0",
       "name": "head_joint_2_sensor",
+      "position": 0,
       "transformID": "n426",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.034 0.0995 0.09",
+      "axis": "0 1 0",
       "name": "larm_joint_1_sensor",
+      "position": 0,
       "transformID": "n193",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "larm_joint_2_sensor",
+      "position": 0,
       "transformID": "n206",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "larm_joint_3_sensor",
+      "position": 0,
       "transformID": "n221",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.101 0 0",
+      "axis": "0 1 0",
       "name": "larm_joint_4_sensor",
+      "position": 0,
       "transformID": "n235",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1 0 0",
+      "axis": "1 0 0",
       "name": "larm_joint_5_sensor",
+      "position": 0,
       "transformID": "n256",
       "type": "PositionSensor"
     },
@@ -306,57 +330,90 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "-0.034 0.039 -0.055",
+      "axis": "0 0 1",
       "name": "lleg_joint_1_sensor",
+      "position": 0,
       "transformID": "n33",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "lleg_joint_2_sensor",
+      "position": 0,
       "transformID": "n43",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "lleg_joint_3_sensor",
+      "position": 0,
       "transformID": "n38",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "lleg_joint_4_sensor",
+      "position": 0,
       "transformID": "n57",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "lleg_joint_5_sensor",
+      "position": 0,
       "transformID": "n71",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "lleg_joint_6_sensor",
+      "position": 0,
       "transformID": "n76",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.034 -0.0995 0.09",
+      "axis": "0 1 0",
       "name": "rarm_joint_1_sensor",
+      "position": 0,
       "transformID": "n303",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 0 1",
       "name": "rarm_joint_2_sensor",
+      "position": 0,
       "transformID": "n316",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "rarm_joint_3_sensor",
+      "position": 0,
       "transformID": "n331",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.101 0 0",
+      "axis": "0 1 0",
       "name": "rarm_joint_4_sensor",
+      "position": 0,
       "transformID": "n345",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1 0 0",
+      "axis": "1 0 0",
       "name": "rarm_joint_5_sensor",
+      "position": 0,
       "transformID": "n366",
       "type": "PositionSensor"
     },
@@ -366,32 +423,50 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "-0.034 -0.039 -0.055",
+      "axis": "0 0 1",
       "name": "rleg_joint_1_sensor",
+      "position": 0,
       "transformID": "n112",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "rleg_joint_2_sensor",
+      "position": 0,
       "transformID": "n122",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "rleg_joint_3_sensor",
+      "position": 0,
       "transformID": "n117",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "rleg_joint_4_sensor",
+      "position": 0,
       "transformID": "n136",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.1",
+      "axis": "0 1 0",
       "name": "rleg_joint_5_sensor",
+      "position": 0,
       "transformID": "n150",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
       "name": "rleg_joint_6_sensor",
+      "position": 0,
       "transformID": "n155",
       "type": "PositionSensor"
     }

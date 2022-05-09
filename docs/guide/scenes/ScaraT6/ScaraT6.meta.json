@@ -31,7 +31,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": -0.2,
@@ -41,6 +40,7 @@
       "type": "LinearMotor"
     },
     {
+      "anchor": "0.023 0.028 0.451",
       "ledColors": [
         "1 0.1 0"
       ],
@@ -53,22 +53,33 @@
       "type": "LED"
     },
     {
+      "anchor": "0.007 0.005 -0.04",
+      "axis": "0 0 1",
       "name": "arm_position",
+      "position": 0,
       "transformID": "n533",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.06 0 0.22",
+      "axis": "0 0 1",
       "name": "base_arm_position",
+      "position": 0,
       "transformID": "n509",
       "type": "PositionSensor"
     },
     {
+      "axis": "0 0 1",
       "name": "shaft_linear_position",
+      "position": 0,
       "transformID": "n834",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.2615 0 0",
+      "axis": "0 0 1",
       "name": "shaft_rotation_position",
+      "position": 0,
       "transformID": "n829",
       "type": "PositionSensor"
     }
