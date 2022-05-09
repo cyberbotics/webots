@@ -39,6 +39,62 @@ elif len(sys.argv) == 2:
 else:
     raise RuntimeError('Unknown argument provided.')
 
+class ProtoInfo:
+    def __init__(self, path, name):
+        self.name = name
+        self.path = path
+        self.proto_type = None  # direct node type, ex: for RoadSegment is Road
+        self.base_type = None   # lowest node type, ex: for RoadSegment is Solid
+        self.license = None
+        self.license_url = None
+        self.description = ''
+        self.documentation_url = None # TODO: needed?
+        self.tags = []
+        # exclusive to slots
+        self.slot_type = None
+
+        self.parse_header()
+        self.parse_body()
+
+    def parse_header(self):
+        # TODO: if space between "license" and ":"?
+        with open(self.path, 'r') as file:
+            lines = file.readlines()
+
+            for line in lines:
+                if not line.startswith('#'):
+                    break
+
+                clean_line = line[1:].strip()
+                if clean_line.startswith('VRML_SIM') or line.startswith('template language'):
+                    continue
+                elif clean_line.startswith('license:'):
+                    self.license = clean_line.replace('license:', '').strip()
+                elif line.startswith('license url:'):
+                    self.license_url = clean_line.replace('license url:', '').strip()
+                elif line.startswith('documentation url:'):
+                    self.documentation_url = clean_line.replace('documentation url:', '').strip()
+                elif line.startswith('tags:'):
+                    tags = clean_line.replace('tags:', '').strip().split(',')
+                    self.tags = [tag.strip() for tag in tags]
+                else:
+                    self.description += clean_line[1:].strip() + '\n'
+
+    def parse_body(self):
+        # determine proto type (base type can be inferred only when all proto_types are known)
+        with open(self.path, 'r') as file:
+            contents = file.read()
+
+            #print(proto.stem + ' ', end='')
+            #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
+            child_node = re.search(
+                "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
+            # print(child_node.groups()[-1])
+            self.proto_type = child_node.groups()[-1]
+
+    def print(self):
+      print(f'{self.name}: {self.path}\n     ({self.proto_type}) -> ({self.base_type}) / {self.slot_type}')
+
 # determine webots version (tag or commit)
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     VERSION = file.readline().strip()
@@ -94,6 +150,68 @@ def parse_proto_header(path):
 
 
 if __name__ == "__main__":
+    assets = []
+    assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
+
+    protos = {}
+    for asset in assets:
+      if asset.name in SKIPPED_PROTO:
+          continue
+
+      info = ProtoInfo(str(asset), asset.stem)
+      if info.name in protos:
+          raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
+      else:
+          protos[info.name] = info
+
+
+    base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
+    # determine base_type from proto_type
+    for key, value in protos.items():
+        value.base_type = value.proto_type # begin by assuming the proto depends directly on a base node
+        print(f'{value.name}: checking if {value.base_type} in base nodes')
+        if value.base_type in base_nodes:
+            continue
+
+        while value.base_type not in base_nodes:
+            if value.proto_type in base_nodes:
+                value.base_type = value.proto_type
+                break
+            print(f'  check {value.name} ({value.proto_type})')
+            if value.proto_type not in protos:
+                raise RuntimeError(f'Error: "{value.proto_type}" proto node does not exist. Either it was skipped or the regex that retrieves the type is incorrect.')
+            print(f'  replacing {value.name} with {protos[value.proto_type].name}')
+            value = protos[value.proto_type]
+            protos[key].base_type = value.base_type
+
+    for key, value in protos.items():
+        value.print()
+    exit()
+    # determine the slot type, if applicable
+    for key, info in protos.items():
+        if info.base_type == "Slot":
+            # iterate through lower level nodes until a valid slot type definition is found
+            found = False
+            while not found:
+                current_proto = info
+                with open(current_proto.path, 'r') as file:
+                    contents = file.read()
+                    matches = re.findall("type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"", file.read())
+                    if len(matches) > 0:
+                        info.slot_type = matches[0] # we are interested in the first Slot, if multiple exist
+                        found = True
+                    else:
+                        # slot type might be defined on the subproto, if any
+                        if current_proto.proto_type not in base_nodes:
+                            if current_proto.proto_type in protos:
+                                current_proto = protos[current_proto.proto_type]
+                            else:
+                                raise RuntimeError(f'Sub-proto "{current_proto.proto_type}" is not a known proto.')
+
+
+
+
+    '''
     # retrieve all proto and remove exceptions
     assets = []
     assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
@@ -161,3 +279,4 @@ if __name__ == "__main__":
 
     with open(filename, 'wb') as file:
         file.write(xml_string)
+    '''
