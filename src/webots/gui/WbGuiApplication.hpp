@@ -64,8 +64,10 @@ private:
 
   WbStreamingServer *mStreamingServer;
 
+  void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();
-  void parseStreamArguments(const QString &streamArguments);
+  void parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity, bool &disableTextStreams,
+                            bool &ssl, bool &controllerEdit);
   void showHelp();
   void showSysInfo();
   bool setup();

@@ -34,6 +34,8 @@
 #include "scheduler.h"
 
 GPipe *g_pipe_new(const char *path) {
+  if (access(path, R_OK | W_OK) != 0)
+    return NULL;
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;

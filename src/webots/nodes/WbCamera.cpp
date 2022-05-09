@@ -127,7 +127,7 @@ void WbCamera::init() {
   mSegmentationChanged = false;
   mSegmentationCamera = NULL;
   mSegmentationEnabled = false;
-  mSegmentationShm = NULL;
+  mSegmentationMemoryMappedFile = NULL;
   mSegmentationImageChanged = false;
   mHasSegmentationMemoryMappedFileChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
@@ -152,7 +152,7 @@ WbCamera::~WbCamera() {
   mRecognizedObjects.clear();
 
   delete mSegmentationCamera;
-  delete mSegmentationShm;
+  delete mSegmentationMemoryMappedFile;
 }
 
 void WbCamera::downloadAssets() {
@@ -247,7 +247,7 @@ WbLensFlare *WbCamera::lensFlare() const {
 
 void WbCamera::initializeImageMemoryMappedFile() {
   WbAbstractCamera::initializeImageMemoryMappedFile();
-  if (mImageShm) {
+  if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(image());
     const int size = width() * height();
@@ -258,11 +258,11 @@ void WbCamera::initializeImageMemoryMappedFile() {
 
 void WbCamera::initializeSegmentationMemoryMappedFile() {
   cCameraNumber++;
-  delete mSegmentationShm;
-  mSegmentationShm = initializeMemoryMappedFile();
+  delete mSegmentationMemoryMappedFile;
+  mSegmentationMemoryMappedFile = initializeMemoryMappedFile();
   mHasSegmentationMemoryMappedFileChanged = true;
-  if (mSegmentationShm) {
-    unsigned char *data = (unsigned char *)mSegmentationShm->data();
+  if (mSegmentationMemoryMappedFile) {
+    unsigned char *data = (unsigned char *)mSegmentationMemoryMappedFile->data();
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(data);
     const int size = width() * height();
@@ -530,7 +530,7 @@ void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 
 void WbCamera::resetMemoryMappedFile() {
   WbAbstractCamera::resetMemoryMappedFile();
-  if (hasBeenSetup() && (mSegmentationShm || (recognition() && recognition()->segmentation())))
+  if (hasBeenSetup() && (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation())))
     // the previous memory mapped file will be released by the new controller start
     initializeSegmentationMemoryMappedFile();
 }
@@ -545,7 +545,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
 
   if (mSegmentationImageChanged) {
-    copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationShm->data());
+    copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
     mSegmentationImageChanged = false;
   }
 
@@ -606,9 +606,9 @@ void WbCamera::writeAnswer(QDataStream &stream) {
       if (mHasSegmentationMemoryMappedFileChanged) {
         stream << (short unsigned int)tag();
         stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
-        if (mSegmentationShm) {
-          stream << (int)(mSegmentationShm->size());
-          const QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
+        if (mSegmentationMemoryMappedFile) {
+          stream << (int)(mSegmentationMemoryMappedFile->size());
+          const QByteArray n = QFile::encodeName(mSegmentationMemoryMappedFile->nativeKey());
           stream.writeRawData(n.constData(), n.size() + 1);
         } else
           stream << (int)(0);
@@ -915,7 +915,7 @@ void WbCamera::updateTextureUpdateNotifications(bool enabled) {
 void WbCamera::setup() {
   WbAbstractCamera::setup();
   createSegmentationCamera();
-  if (mSegmentationShm || (recognition() && recognition()->segmentation()))
+  if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
 
   if (spherical())
@@ -1009,7 +1009,7 @@ void WbCamera::createSegmentationCamera() {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
                                            fieldOfView(), 's', false, mSpherical->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-    if (!mSegmentationShm)
+    if (!mSegmentationMemoryMappedFile)
       initializeSegmentationMemoryMappedFile();
   } else {
     mSegmentationCamera = NULL;

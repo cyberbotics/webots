@@ -58,7 +58,7 @@ int WbAbstractCamera::cCameraNumber = 0;
 int WbAbstractCamera::cCameraCounter = 0;
 
 void WbAbstractCamera::init() {
-  mImageShm = NULL;
+  mImageMemoryMappedFile = NULL;
   mImageData = NULL;
   mWrenCamera = NULL;
   mSensor = NULL;
@@ -103,7 +103,7 @@ WbAbstractCamera::WbAbstractCamera(const WbNode &other) : WbRenderingDevice(othe
 }
 
 WbAbstractCamera::~WbAbstractCamera() {
-  delete mImageShm;
+  delete mImageMemoryMappedFile;
   delete mSensor;
 
   if (areWrenObjectsInitialized())
@@ -182,31 +182,32 @@ void WbAbstractCamera::deleteWren() {
 
 void WbAbstractCamera::initializeImageMemoryMappedFile() {
   mHasMemoryMappedFileChanged = true;
-  delete mImageShm;
-  mImageShm = initializeMemoryMappedFile();
-  if (mImageShm)
-    mImageData = (unsigned char *)mImageShm->data();
+  delete mImageMemoryMappedFile;
+  mImageMemoryMappedFile = initializeMemoryMappedFile();
+  if (mImageMemoryMappedFile)
+    mImageData = (unsigned char *)mImageMemoryMappedFile->data();
 }
 
 WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
   // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
   // applications.
+  const QString type = robot()->isControllerExtern() ? "extern" : "intern";
+  const QString memoryMappedFileName = WbStandardPaths::webotsTmpPath() + type + "/" +
+                                       QUrl::toPercentEncoding(robot()->name()) + "/snap.webots." +
+                                       QUrl::toPercentEncoding(name());
 
-  const QString MemoryMappedFileName = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name()) +
-                                       "/snap.webots." + QString::number(uniqueId());
-
-  WbMemoryMappedFile *imageShm = new WbMemoryMappedFile(MemoryMappedFileName);
+  WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
   // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
-  if (imageShm->attach())
-    imageShm->detach();
-  if (!imageShm->create(size())) {
+  if (imageMemoryMappedFile->attach())
+    imageMemoryMappedFile->detach();
+  if (!imageMemoryMappedFile->create(size())) {
     const QString message = tr("Cannot allocate memory mapped file for camera image.");
     warn(message);
-    delete imageShm;
+    delete imageMemoryMappedFile;
     return NULL;
   }
-  return imageShm;
+  return imageMemoryMappedFile;
 }
 
 void WbAbstractCamera::setup() {
@@ -214,7 +215,7 @@ void WbAbstractCamera::setup() {
   cCameraCounter++;
 
   initializeImageMemoryMappedFile();
-  if (!mImageShm)
+  if (!mImageMemoryMappedFile)
     return;
 
   WbRenderingDevice::setup();
@@ -322,12 +323,12 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mHasMemoryMappedFileChanged && mImageShm) {
+  if (mHasMemoryMappedFileChanged && mImageMemoryMappedFile) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
-    if (mImageShm) {
-      stream << (int)(mImageShm->size());
-      QByteArray n = QFile::encodeName(mImageShm->nativeKey());
+    if (mImageMemoryMappedFile) {
+      stream << (int)(mImageMemoryMappedFile->size());
+      QByteArray n = QFile::encodeName(mImageMemoryMappedFile->nativeKey());
       stream.writeRawData(n.constData(), n.size() + 1);
     } else
       stream << (int)(0);

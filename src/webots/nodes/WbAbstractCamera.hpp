@@ -28,7 +28,7 @@ class WbWrenCamera;
 
 #ifdef _WIN32
 class QSharedMemory;
-#define WbMemoryMappedFile QSharedMemory;
+#define WbMemoryMappedFile QSharedMemory
 #else
 class WbPosixMemoryMappedFile;
 #define WbMemoryMappedFile WbPosixMemoryMappedFile
@@ -145,7 +145,7 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-  WbMemoryMappedFile *mImageShm;
+  WbMemoryMappedFile *mImageMemoryMappedFile;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;

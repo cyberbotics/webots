@@ -77,7 +77,7 @@ void WbRangeFinder::updateOrientation() {
 
 void WbRangeFinder::initializeImageMemoryMappedFile() {
   WbAbstractCamera::initializeImageMemoryMappedFile();
-  if (mImageShm) {
+  if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     float *im = rangeFinderImage();
     const int size = width() * height();

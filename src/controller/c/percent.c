@@ -26,7 +26,7 @@ char *percent_encode(const char *source) {
   char *buffer = malloc(length * 3 + 1);  // maximum size
   int j = 0;
   for (int i = 0; i < length + 1; i++) {
-    char c = source[i];
+    unsigned char c = source[i];
     if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '\0' || c == '-' || c == '_' ||
         c == '~' || c == '.')
       buffer[j++] = c;

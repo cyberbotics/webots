@@ -126,7 +126,7 @@ private:
   bool mSegmentationEnabled;
   bool mSegmentationChanged;
   WbWrenCamera *mSegmentationCamera;
-  WbMemoryMappedFile *mSegmentationShm;
+  WbMemoryMappedFile *mSegmentationMemoryMappedFile;
   bool mHasSegmentationMemoryMappedFileChanged;
   bool mSegmentationImageChanged;
   // URL downloader

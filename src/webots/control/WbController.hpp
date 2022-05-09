@@ -60,6 +60,7 @@ public:
   bool isRequestPending() const { return mRequestPending; }
   bool isRunning() const;
   bool isProcessingRequest() const { return mProcessingRequest; }
+  bool isExtern() const { return mProcess == NULL; }
 
 signals:
   void hasTerminatedByItself(WbController *);

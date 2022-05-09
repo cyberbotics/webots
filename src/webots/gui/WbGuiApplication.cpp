@@ -117,14 +117,8 @@ void WbGuiApplication::restart() {
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
-  bool monitorActivity = false;
-  bool disableTextStreams = false;
-  bool ssl = false;
-  bool controllerEdit = false;
-  int port = WbPreferences::instance()->value("Streaming/port", 1234).toInt();
-  QString mode = "x3d";
-
+void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity,
+                                            bool &disableTextStreams, bool &ssl, bool &controllerEdit) {
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
@@ -139,54 +133,40 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
       controllerEdit = true;
     else {
       const QStringList list = option.split('=', Qt::SkipEmptyParts);
-      if (list.size() != 2) {
-        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
-        mTask = FAILURE;
-      } else {
+      if (list.size() != 2)
+        commandLineError(tr("unknown option: '%1' in --stream").arg(option));
+      else {
         const QString &key = list[0];
         const QString &value = list[1];
-        if (key == "port") {
-          bool ok;
-          const int tmpPort = value.toInt(&ok);
-          if (ok)
-            port = tmpPort;
-          else {
-            cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-            cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
-            mTask = FAILURE;
-          }
-        } else if (key == "mode") {
-          if (value != "x3d" && value != "mjpeg") {
-            cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-            cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
-            mTask = FAILURE;
-          } else if (value == "mjpeg")
+        if (key == "mode") {
+          if (value != "x3d" && value != "mjpeg")
+            commandLineError(tr("invalid 'mode' value: '%1' in --stream").arg(value));
+          else if (value == "mjpeg")
             mode = "mjpeg";
-        } else {
-          cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
-          mTask = FAILURE;
-        }
+        } else
+          commandLineError(tr("unknown option: '%1' in --stream").arg(option));
       }
     }
   }
-  if (mTask == FAILURE) {
-    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-    return;
-  }
-  if (mode == "mjpeg") {
-    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-    mStreamingServer->start(port);
-    return;
-  }
-  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-  mStreamingServer->start(port);
-  WbWorld::enableX3DStreaming();
+}
+
+void WbGuiApplication::commandLineError(const QString &message, bool fatal) {
+  cerr << "webots: " << message.toUtf8().constData() << endl;
+  cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+  if (fatal)
+    mTask = FAILURE;
 }
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false, batch = false;
+  bool monitorActivity = false;
+  bool disableTextStreams = false;
+  bool ssl = false;
+  bool controllerEdit = false;
+  int port = 1234;  // default value
+  QString mode = "x3d";
   mStream = false;
 
   const int size = args.size();
@@ -197,7 +177,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--fullscreen")
       mShouldStartFullscreen = true;
     else if (arg == "--mode=stop") {
-      cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
+      commandLineError(tr("'--mode=stop' is deprecated."), false);
       mStartupMode = WbSimulationState::PAUSE;
     } else if (arg == "--mode=pause")
       mStartupMode = WbSimulationState::PAUSE;
@@ -206,7 +186,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
     else if (arg == "--mode=run") {
-      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      commandLineError(tr("`--mode=run` is deprecated, falling back to `fast` mode."), false);
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
@@ -234,7 +214,12 @@ void WbGuiApplication::parseArguments() {
       mTask = UPDATE_WORLD;
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
-    else if (arg.startsWith("--stream")) {
+    else if (arg.startsWith("--port")) {
+      int index = arg.indexOf('=');
+      if (index == -1) {
+        commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
+      }
+    } else if (arg.startsWith("--stream")) {
       mStream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
@@ -246,7 +231,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      parseStreamArguments(serverArgument);
+      parseStreamArguments(serverArgument, mode, monitorActivity, disableTextStreams, ssl, controllerEdit);
     } else if (arg == "--stdout")
       WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
@@ -269,24 +254,36 @@ void WbGuiApplication::parseArguments() {
 
         logPerformanceMode = true;
       } else
-        cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
+        commandLineError(tr("invalid option : '--log-performance': log file path is missing."), false);
     } else if (arg.startsWith("-")) {
-      cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-      mTask = FAILURE;
+      commandLineError(tr("invalid option: '%1'").arg(arg));
     } else {
       if (mStartWorldName.isEmpty())
         mStartWorldName = QDir::fromNativeSeparators(arg);
-      else {
-        cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-        mTask = FAILURE;
-      }
+      else
+        commandLineError(tr("too many arguments."));
     }
   }
+  if (mStream == false)  // we need a simple streaming server for robot windows and remote controllers
+    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
+  else {
+    if (!batch)
+      commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
+    if (mode == "mjpeg")
+      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    else {
+      mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+      WbWorld::enableX3DStreaming();
+    }
+  }
+  mStreamingServer->start(port);
+  if (mStreamingServer->port() == -1)
+    commandLineError(tr("failed to open TCP server in the port range [%1-%2]\n").arg(port).arg(port + 10));
 
-  if (mStream && !batch)
-    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+  // create the Webots temporary path based on the TCP port early in the process
+  // in order to be sure that the Qt internal files will be stored at the right place
+  else if (WbStandardPaths::webotsTmpPath(port).isEmpty())
+    commandLineError(tr("failed to create the Webots temporary path.\n"));
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
@@ -345,10 +342,8 @@ bool WbGuiApplication::setup() {
       mStartWorldName = mApplication->startupPath() + '/' + mStartWorldName;
 
     QFileInfo info(mStartWorldName);
-    if (!info.isReadable()) {
-      cerr << tr("Could not open file: '%1'.").arg(mStartWorldName).toUtf8().constData() << endl;
-      mTask = FAILURE;
-    }
+    if (!info.isReadable())
+      commandLineError(tr("could not open file: '%1'.").arg(mStartWorldName));
   }
 
   if (WbMessageBox::enabled() &&
@@ -363,11 +358,6 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-
-  if (!mStream) {  // create streaming server for robot window if not in stream mode.
-    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
-    mStreamingServer->start(WbPreferences::instance()->value("Streaming/port", 1234).toInt());
-  }
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the

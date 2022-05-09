@@ -55,6 +55,9 @@ void WbCadShape::init() {
   mWrenSegmentationMaterials.clear();
   mWrenEncodeDepthMaterials.clear();
 
+  mObjMaterials.clear();
+  mMaterialDownloaders.clear();
+
   mDownloader = NULL;
   mBoundingSphere = NULL;
 }
@@ -83,7 +86,7 @@ void WbCadShape::downloadAssets() {
     return;
 
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::instance()->isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -99,6 +102,64 @@ void WbCadShape::downloadAssets() {
 void WbCadShape::downloadUpdate() {
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
+}
+
+void WbCadShape::retrieveMaterials() {
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+
+  qDeleteAll(mMaterialDownloaders);
+  mMaterialDownloaders.clear();
+
+  QStringList rawMaterials = objMaterialList(completeUrl);
+  foreach (QString material, rawMaterials) {
+    const QString newUrl = generateMaterialUrl(material, completeUrl);
+    mObjMaterials.insert(material, newUrl);
+    // prepare a downloader
+    WbDownloader *downloader = new WbDownloader();
+    connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
+    mMaterialDownloaders.push_back(downloader);
+  }
+
+  // start all downloads only when the vector is entirely populated (to avoid racing conditions)
+  assert(mMaterialDownloaders.size() == mObjMaterials.size());
+  QMapIterator<QString, QString> it(mObjMaterials);
+  int i = 0;
+  while (it.hasNext()) {
+    it.next();
+    mMaterialDownloaders[i++]->download(QUrl(it.value()));
+  }
+}
+
+QString WbCadShape::generateMaterialUrl(const QString &material, const QString &completeUrl) {
+  QString materialUrl = material;
+  // manufacture material url from url of the obj file
+  materialUrl.replace("\\", "/");  // use cross-platform forward slashes
+  if (materialUrl.startsWith("./"))
+    materialUrl.remove(0, 2);
+
+  QString prefixUrl = QUrl(completeUrl).adjusted(QUrl::RemoveFilename).toString();
+  while (materialUrl.startsWith("../")) {
+    prefixUrl = prefixUrl.left(prefixUrl.lastIndexOf("/"));
+    materialUrl.remove(0, 3);
+  }
+
+  return prefixUrl + materialUrl;
+}
+
+void WbCadShape::materialDownloadTracker() {
+  bool finished = true;
+  foreach (WbDownloader *downloader, mMaterialDownloaders) {
+    if (!downloader->hasFinished())
+      finished = false;
+
+    if (!downloader->error().isEmpty()) {
+      warn(downloader->error());  // failure downloading or file does not exist (404)
+      return;
+    }
+  }
+
+  if (finished)
+    updateUrl();
 }
 
 void WbCadShape::postFinalize() {
@@ -159,14 +220,75 @@ void WbCadShape::updateUrl() {
       }
 
       if (!WbNetwork::instance()->isCached(completeUrl)) {
-        if (mDownloader == NULL)
-          downloadAssets();  // url was changed from the scene tree or supervisor
+        if (mDownloader && mDownloader->hasFinished()) {
+          delete mDownloader;
+          mDownloader = NULL;
+        }
+
+        downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
+    }
+
+    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+    if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
+      // ensure any mtl referenced by the obj file are also downloaded
+      if (areMaterialAssetsAvailable(completeUrl)) {
+        mObjMaterials.clear();
+        // generate mapping between referenced files and cached files
+        QStringList rawMaterials = objMaterialList(completeUrl);
+        foreach (QString material, rawMaterials) {
+          QString adjustedUrl = generateMaterialUrl(material, completeUrl);
+          assert(WbNetwork::instance()->isCached(adjustedUrl));
+          if (!mObjMaterials.contains(material))
+            mObjMaterials.insert(material, adjustedUrl);
+        }
+      } else {
+        retrieveMaterials();
         return;
       }
     }
 
     createWrenObjects();
   }
+}
+
+bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
+  QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
+  foreach (QString material, rawMaterials) {
+    if (!WbNetwork::instance()->isCached(generateMaterialUrl(material, url)))
+      return false;
+  }
+  return true;
+}
+
+QStringList WbCadShape::objMaterialList(const QString &url) {
+  assert(WbNetwork::instance()->isCached(url));  // should not search for materials if the obj file itself is not available
+  const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
+  if (extension != "obj")
+    return QStringList();
+
+  QStringList materials;
+  QFile objFile(WbNetwork::instance()->get(url));
+  if (objFile.open(QIODevice::ReadOnly)) {
+    QString content = QString(objFile.readAll());
+    content = content.replace("\r\n", "\n");
+
+    QStringList lines = content.split('\n', Qt::SkipEmptyParts);
+    foreach (QString line, lines) {
+      QString cleanLine = line.trimmed();
+      if (!cleanLine.startsWith("mtllib"))
+        continue;
+
+      cleanLine = cleanLine.replace("mtllib", "");
+      materials << cleanLine.split(' ', Qt::SkipEmptyParts);
+    }
+  } else
+    warn(tr("File '%1' cannot be read.").arg(url));
+
+  objFile.close();
+
+  return materials;
 }
 
 void WbCadShape::updateCcw() {
@@ -227,7 +349,17 @@ void WbCadShape::createWrenObjects() {
       warn(tr("File could not be read: '%1'").arg(completeUrl));
       return;
     }
-    const QByteArray data = file.readAll();
+
+    QByteArray data = file.readAll();
+    // for remote 'obj' files that reference materials, this reference needs to be changed to point to the cached asset instead
+    if (extension == "obj") {
+      QMapIterator<QString, QString> it(mObjMaterials);
+      while (it.hasNext()) {
+        it.next();
+        data.replace(it.key().toUtf8(), WbNetwork::instance()->get(it.value()).toUtf8());
+      }
+    }
+
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, extension.toUtf8().constData());
   } else
     scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);

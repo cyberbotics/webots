@@ -238,7 +238,9 @@ void WbController::start() {
   }
 
   // recover from a crash, when the previous server instance has not been cleaned up
-  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+
+  const QString path =
+    WbStandardPaths::webotsTmpPath() + (isExtern() ? "ex" : "in") + "tern/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
   const QString serverName = path + "/socket";
   bool success = QLocalServer::removeServer(serverName);
@@ -833,12 +835,12 @@ void WbController::startDocker() {
     warn(tr("Failed to build the docker image in '%1'.").arg(mControllerPath));
     return;
   }
-  const QStringList dockerArguments = {
-    "run", "--network",
-    "none",  // add "--cpu-shares", "512",
-             //    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
-             //    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
-    "-e", "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()), image};
+  const QStringList dockerArguments = {"run",  "--network",
+                                       "none",  // add "--cpu-shares", "512",
+                                       "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_TMP_PATH=" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
+                                       image};
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }

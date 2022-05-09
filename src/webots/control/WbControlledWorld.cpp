@@ -27,7 +27,6 @@
 #include <QtCore/QThread>
 
 #include <cassert>
-#include <iostream>
 
 WbControlledWorld *WbControlledWorld::instance() {
   return static_cast<WbControlledWorld *>(WbSimulationWorld::instance());
@@ -148,87 +147,6 @@ void WbControlledWorld::deleteController(WbController *controller) {
     // avoid waiting for a terminated controller
     step();
 }
-
-/*
-void WbControlledWorld::addControllerConnection() {
-  QLocalSocket *socket = mServer->nextPendingConnection();
-  int robotId = 0;
-  int n, i = 0;
-  while ((n = socket->read((char *)&robotId, sizeof(robotId) - i)) != (int)sizeof(robotId) - i) {
-    i = n;
-    socket->waitForReadyRead();
-  }
-  QString robotName;
-  if (robotId == 0) {  // the Robot.name should be sent
-    int size = 0;
-    i = 0;
-    while ((n = socket->read((char *)&size, sizeof(size) - i)) != (int)sizeof(size) - i) {
-      i = n;
-      socket->waitForReadyRead();
-    }
-    if (size) {
-      char *buffer = new char[size + 1];
-      i = 0;
-      while ((n = socket->read(&buffer[i], size - i)) != size - i) {
-        i = n;
-        socket->waitForReadyRead();
-      }
-      buffer[size] = '\0';
-      robotName = buffer;
-      delete[] buffer;
-    }
-
-    QListIterator<WbRobot *> robotsIt(robots());
-    // count number of external controllers
-    int nbExternalController = 0;
-    while (robotsIt.hasNext()) {
-      if (robotsIt.next()->controllerName() == "<extern>")
-        nbExternalController++;
-    }
-
-    robotsIt.toFront();
-    while (robotsIt.hasNext()) {
-      WbRobot *const robot = robotsIt.next();
-      if (robot->isControllerStarted()) {
-        // if a specific robot have been targeted by giving a name, or only one external controller is in the scene (hence it's
-        // the target)
-        if (robot->controllerName() == "<extern>" &&
-            (robotName == robot->name() || (robotName.isEmpty() && nbExternalController == 1))) {
-          // automatically disconnect from previous extern controller that may have failed, the slot could be immediately used
-          // to restart
-          WbLog::info(tr("Closing extern controller connection for robot \"%1\".").arg(robot->name()));
-          disconnect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController);
-          robot->restartController();
-          updateRobotController(robot);
-        } else  // this controller seems to be in active use, ignore it
-          continue;
-      }
-      if ((robotName == robot->name() || robotName.isEmpty()) && robot->controllerName() == "<extern>") {
-        WbLog::info(tr("Starting extern controller for robot \"%1\".").arg(robot->name()));
-        mRobotsWaitingExternController.append(robot);
-        startControllerFromSocket(robot, socket);
-        return;
-      }
-    }
-    socket->close();
-    if (robotName.isEmpty())
-      WbLog::warning(tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller found."), true);
-    else
-      WbLog::warning(
-        tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller named \"%1\" found.")
-          .arg(robotName),
-        true);
-    return;
-  }
-  foreach (WbController *const controller, mControllers) {
-    if (controller->robotId() == robotId) {
-      controller->setSocket(socket);
-      return;
-    }
-  }
-  // if the robot is not found, it could be that it was deleted meanwhile
-}
-*/
 
 void WbControlledWorld::retryStepLater() {
   if (!mRetryEnabled) {

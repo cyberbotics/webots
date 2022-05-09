@@ -101,17 +101,26 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "wheel0_joint_sensor",
+      "position": 0,
       "transformID": "n31",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "wheel1_joint_sensor",
+      "position": 0,
       "transformID": "n61",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "0 1 0",
       "name": "wheel2_joint_sensor",
+      "position": 0,
       "transformID": "n91",
       "type": "PositionSensor"
     }
