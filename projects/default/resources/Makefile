@@ -18,28 +18,17 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
-SUMO_VERSION=1.10
+SUMO_VERSION=1.10.0
 VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
  VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- EXTRACT=tar xfm
-ifeq ($(VER_UBUNTU),18.04)
- SUMO_VERSION=1.11
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
- SUMO_MD5SUM="aee08d40dfa26ea1167e6a6fd99b5ced"
+ PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
-else ifeq ($(VER_UBUNTU),22.04)
- SUMO_VERSION=1.13
- SUMO_MD5SUM="3485da3c7a4e157e0f3811783828bb84"
- SUMO_PACKAGE=sumo-$(SUMO_VERSION)-Ubuntu_22.04.tar.bz2
-else
- SUMO_PACKAGE=sumo-$(SUMO_VERSION)-Ubuntu_20.04.tar.bz2
- SUMO_MD5SUM="dc4283d9c98da59e944c01ffb61dbf16"
-endif
- PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-Ubuntu_*.tar.bz2))
  # remove .tar.gz
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
  WGET=wget --quiet
