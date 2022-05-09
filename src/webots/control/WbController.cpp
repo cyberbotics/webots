@@ -836,11 +836,11 @@ void WbController::startDocker() {
     return;
   }
   const QStringList dockerArguments = {
-    "run", "--network",
+    "run",  "--network",
     "none",  // add "--cpu-shares", "512",
-             //    "-v",   WbControlledWorld::instance()->server() + ":" + WbControlledWorld::instance()->server(),
-             //    "-e",   "WEBOTS_SERVER=" + WbControlledWorld::instance()->server(),
-    "-e", "WEBOTS_ROBOT_ID=" + QString::number(mRobot->uniqueId()), image};
+    "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
+    "-e",   "WEBOTS_CONTROLLER_URL=ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + mRobot->name(),
+    image};
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }

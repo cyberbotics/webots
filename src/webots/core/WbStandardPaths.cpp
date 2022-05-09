@@ -202,54 +202,61 @@ static void liveWebotsTmpPath() {
   }
 }
 
-const QString &WbStandardPaths::webotsTmpPath(const int port) {
-  static QString webotsTmpPath;
-  if (webotsTmpPath.isEmpty()) {
-    if (port == -1)
-      return webotsTmpPath;  // empty
+static QString cWebotsTmpPath;
+static int cWebotsTmpPathId = -1;
+
+int WbStandardPaths::webotsTmpPathId() {
+  return cWebotsTmpPathId;
+}
+
+const QString &WbStandardPaths::webotsTmpPath(const int id) {
+  if (id == -1) {
+    assert(cWebotsTmpPathId != -1);
+    return cWebotsTmpPath;
+  }
 #ifdef _WIN32
-    // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
-    // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
-    webotsTmpPath =
-      QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(port);
+  // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
+  // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
+  CWebotsTmpPath =
+    QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #elif defined(__APPLE__)
-    webotsTmpPath = QString("/var/tmp/webots-%1/").arg(port);
+  cWebotsTmpPath = QString("/var/tmp/webots-%1/").arg(id);
 #else  // __linux__
-    const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
-    if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
-      webotsTmpPath = QString("%1/webots-%2/").arg(WEBOTS_TMPDIR).arg(port);
-    else {
-      WbLog::error(QObject::tr(
-        "Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
-      webotsTmpPath = QString("/tmp/webots-%1/").arg(port);
-    }
+  const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
+  if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
+    cWebotsTmpPath = QString("%1/webots-%2/").arg(WEBOTS_TMPDIR).arg(id);
+  else {
+    WbLog::error(
+      QObject::tr("Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
+    cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
+  }
 #endif
 
-    // cleanup old and unused tmp directories
-    QDir directory(webotsTmpPath);
-    directory.cdUp();
-    const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
-    foreach (const QString &dirname, webotsTmp) {
-      const QString fullName(directory.absolutePath() + "/" + dirname);
-      const QFileInfo fileInfo(fullName + "/live.txt");
-      const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
-      const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
-      if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
-        QDir d(fullName);
-        d.removeRecursively();
-      }
+  // cleanup old and unused tmp directories
+  QDir directory(cWebotsTmpPath);
+  directory.cdUp();
+  const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
+  foreach (const QString &dirname, webotsTmp) {
+    const QString fullName(directory.absolutePath() + "/" + dirname);
+    const QFileInfo fileInfo(fullName + "/live.txt");
+    const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
+    const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
+    if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
+      QDir d(fullName);
+      d.removeRecursively();
     }
-
-    // create the required tmp directories
-    QDir dir(webotsTmpPath);
-    if (!dir.exists() && !dir.mkpath("."))
-      WbLog::fatal(QObject::tr("Cannot create the Webots temporary directory \"%1\"").arg(webotsTmpPath));
-
-    // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
-    static QTimer timer;
-    liveWebotsTmpPath();
-    QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
-    timer.start(30 * 60 * 1000);  // call every 30 minutes
   }
-  return webotsTmpPath;
+
+  // create the required tmp directories
+  QDir dir(cWebotsTmpPath);
+  if (!dir.exists() && !dir.mkpath("."))
+    WbLog::fatal(QObject::tr("Cannot create the Webots temporary directory \"%1\"").arg(cWebotsTmpPath));
+
+  // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
+  static QTimer timer;
+  liveWebotsTmpPath();
+  QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
+  timer.start(30 * 60 * 1000);  // call every 30 minutes
+  cWebotsTmpPathId = id;
+  return cWebotsTmpPath;
 }
