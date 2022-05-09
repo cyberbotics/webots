@@ -217,7 +217,7 @@ const QString &WbStandardPaths::webotsTmpPath(const int id) {
 #ifdef _WIN32
   // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
   // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
-  CWebotsTmpPath =
+  cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #elif defined(__APPLE__)
   cWebotsTmpPath = QString("/var/tmp/webots-%1/").arg(id);
