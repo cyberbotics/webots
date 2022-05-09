@@ -420,4 +420,12 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   findField("ccw", true)->write(writer);
   findField("materialIndex", -1)->write(writer);
+  if (!mName->value().isEmpty()) {
+    QString name_dirty = mName->value();
+    name_dirty.replace("\'", "&apos;", Qt::CaseInsensitive);
+    name_dirty.replace("\"", "&quot;", Qt::CaseInsensitive);
+    name_dirty.replace(">", "&gt;", Qt::CaseInsensitive);
+    name_dirty.replace("<", "&lt;", Qt::CaseInsensitive);
+    writer << " name='" << name_dirty.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
+  }
 }

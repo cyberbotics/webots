@@ -1,7 +1,7 @@
 <html>
   <body>
     <script src="./wrenjs.js"></script>
-    <script type="text/javascript" src="assimpjs.js"></script>
+    <script type="text/javascript" src="./dependencies/assimpjs.js"></script>
     <h>Test</h>
     <div id="resultDiv"></div>
 
@@ -27,7 +27,7 @@ assimpjs ().then (function (ajs) {
 
         // convert file list to assimp json
         let result = ajs.ConvertFileList (fileList, 'assjson', true);
-        
+
         // check if the conversion succeeded
         if (!result.IsSuccess () || result.FileCount () == 0) {
             resultDiv.innerHTML = result.GetErrorCode ();

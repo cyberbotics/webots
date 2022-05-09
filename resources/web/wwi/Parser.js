@@ -19,6 +19,7 @@ import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbMesh from './nodes/WbMesh.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
@@ -715,6 +716,8 @@ export default class Parser {
       geometry = this._parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
+    else if (node.tagName === 'Mesh')
+      geometry = this._parseMesh(node, id);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -911,6 +914,23 @@ export default class Parser {
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
+  }
+
+  _parseMesh(node, id) {
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => element); // filter removes empty element.
+
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
+    const name = getNodeAttribute(node, 'name', '');
+    const materialIndex = parseInt(getNodeAttribute(node, 'materialIndex', -1));
+
+    const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
+    WbWorld.instance.nodes.set(mesh.id, mesh);
+
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => { mesh.scene = meshContent; }));
+
+    return mesh;
   }
 
   _parseAppearance(node, parentId) {
@@ -1207,6 +1227,45 @@ function loadImageTextureInWren(prefix, url, isTransparent) {
     Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, url]);
     _wr_texture_setup(texture);
     _free(bitsPointer);
+  });
+}
+
+function loadMeshData(prefix, urls) {
+  if (typeof urls === 'undefined')
+    return;
+
+  if (typeof prefix !== 'undefined') {
+    for (let i = 0; i < urls.length; i++) {
+      if (!urls[i].startsWith('http'))
+        urls[i] = prefix + urls[i];
+    }
+  }
+
+  return assimpjs().then(function(ajs) {
+    // fetch the files to import
+    return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
+      return Promise.all(responses.map((res) => res.arrayBuffer()));
+    }).then((arrayBuffers) => {
+      // create new file list object, and add the files
+      let fileList = new ajs.FileList();
+      for (let i = 0; i < urls.length; i++)
+        fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
+
+      // convert file list to assimp json
+      let result = ajs.ConvertFileList(fileList, 'assjson', true);
+
+      // check if the conversion succeeded
+      if (!result.IsSuccess() || result.FileCount() === 0) {
+        console.error(result.GetErrorCode());
+        return;
+      }
+
+      // get the result file, and convert to string
+      let resultFile = result.GetFile(0);
+      let jsonContent = new TextDecoder().decode(resultFile.GetContent());
+
+      return JSON.parse(jsonContent);
+    });
   });
 }
 
