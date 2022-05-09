@@ -18,8 +18,6 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-#include <QtCore/QDebug>
-
 WbPosixMemoryMappedFile::WbPosixMemoryMappedFile(const QString &name) : mName(name), mSize(0), mData(NULL) {
 }
 
