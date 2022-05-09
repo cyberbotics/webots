@@ -183,10 +183,11 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
   cerr << "  --stderr" << endl;
   cerr << tr("    Redirect the stderr of the controllers to the terminal.").toUtf8().constData() << endl << endl;
+  cerr << "  --port" << endl;
+  cerr << tr("    Change the TCP port used by Webots (default value is 1234).").toUtf8().constData() << endl << endl;
   cerr << "  --stream[=\"key[=value];...\"]" << endl;
   cerr << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
   cerr << tr("    given as an option:").toUtf8().constData() << endl;
-  cerr << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
   cerr << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
   cerr << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
   cerr << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;

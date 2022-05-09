@@ -62,6 +62,9 @@ Options:
   --stderr
     Redirect the stderr of the controllers to the terminal.
 
+  --port
+    Change the TCP port used by Webots (default value is 1234).
+
   --stream[="key[=value];..."]
     Start the Webots streaming server. Parameters may be
     given as an option:
@@ -102,7 +105,9 @@ For example, this can be used to redirect the controllers output to a file or to
 `--stdout` redirects the *stdout* stream of the controllers, while `--stderr` redirects the *stderr* stream.
 Note that the *stderr* stream may also contain Webots error or warning messages.
 
-The `--stream` option starts the Webots streaming server.
+The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234.
+
+The `--stream` option enables the Webots streaming server.
 An option can be given to change the default parameters of the streaming server.
 This option is a string containing a list of parameter keys and their values separated by semicolons.
 The supported options are described in [this table](#streaming-server-options).
@@ -111,14 +116,13 @@ The supported options are described in [this table](#streaming-server-options).
 
 | Key                | Value example | Description                                      |
 | ------------------ | ------------- | ------------------------------------------------ |
-| port               | 1234          | The port on which the streaming server is open.  |
 | mode               | x3d or mjpeg  | The streaming mode used by the streaming server. |
 | monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.       |
 | disableTextStreams |               | Disable the streaming of stdout and stderr.      |
 
 %end
 
-For example, the following command will start Webots with the streaming server enabled on the TCP port '1234' and will disable the streaming of stdout and stderr: `webots --stream="port:1234;disableTextStreams"`
+For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode and will disable the streaming of stdout and stderr: `webots --port=1235 --stream="mode:mjpeg;disableTextStreams"`
 
 You can get more information about web streaming in [this section](web-streaming.md).
 
