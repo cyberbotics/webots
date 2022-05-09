@@ -220,7 +220,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
     }
-    printf("found %s in mCurrentProjectProtoList, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
+    printf("%s is known, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
@@ -318,7 +318,7 @@ void WbProtoList::insertProtoSearchPath(const QString &path) {
     printf("- %s\n", path.toUtf8().constData());
 }
 
-bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
+bool WbProtoList::areProtoAssetsAvailable(const QString &filename, bool buildProtoList) {
   // printf("checking %s\n", filename.toUtf8().constData());
   // navigate through all proto and referenced external subproto to ensure they are all available
   QString url = filename;
@@ -332,20 +332,22 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename) {
     return false;
 
   QMap<QString, QString> externProtos = getExternProtoList(url);
-  mCurrentProjectProtoList.insert(externProtos);
+  if (buildProtoList)
+    mCurrentProjectProtoList.insert(externProtos);
 
   QMapIterator<QString, QString> it(externProtos);
   bool isProtoAssetAvailable = true;
   while (it.hasNext()) {
     it.next();
 
+    QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
     QString path = it.value();
-    if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+    if (WbUrl::isWeb(externProtoUrl) && WbNetwork::instance()->isCached(externProtoUrl))
       path = WbNetwork::instance()->get(path);
-    else if (WbUrl::isLocalUrl(path))
+    else if (WbUrl::isLocalUrl(externProtoUrl))
       path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + path.mid(9));
 
-    bool success = areProtoAssetsAvailable(path);
+    bool success = areProtoAssetsAvailable(path, buildProtoList);
     if (success)
       printf("> AVAILABLE: %s\n", path.toUtf8().constData());
     else
@@ -440,8 +442,8 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   while (it.hasNext()) {
     it.next();
     // manufacture url of sub-proto based on url of the file that references it
-    QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), protoPath);
-    printf("---subproto >>%s<<\n---parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
+    QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
+    printf(" subproto >>%s<<\n parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
            protoPath.toUtf8().constData(), externProtoUrl.toUtf8().constData());
     if (WbUrl::isWeb(externProtoUrl)) {
       // retrieve any sub-proto references
@@ -449,7 +451,7 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
       connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);  // TODO: need intermediary recurser function?
       mRetrievers.push_back(downloader);
       downloader->download(QUrl(externProtoUrl));
-      return;
+      // return;
     } else
       recursiveProtoRetrieval(externProtoUrl);
   }
@@ -477,7 +479,16 @@ void WbProtoList::retrievalCompletionTracker() {
   // TODO: function is weird
   // TODO: if one file doesn't exist (webots://something/that/doesnt/exist), it gets stuck
   // TODO: finishes before it actually finishes coz mRetrievers pushing back not fast enough?
+  for (int i = 0; i < mRetrievers.size(); ++i)
+    if (!mRetrievers[i]->error().isEmpty()) {
+      printf("ABORTING!\n");
+      // abort on download failure
+      WbLog::error(mRetrievers[i]->error());
+      // TODO: how to delete? What if some download already started?
+      return;
+    }
 
+  /*
   bool finished = true;
   for (int i = 0; i < mRetrievers.size(); ++i)
     if (!mRetrievers[i]->hasFinished())
@@ -490,8 +501,9 @@ void WbProtoList::retrievalCompletionTracker() {
     WbLog::error(tr("Proto retrieval error: %1").arg(mRetrievalError));
     return;
   }
+  */
 
-  if (mRetrievalError.isEmpty() && finished) {
+  if (areProtoAssetsAvailable(mCurrentWorld, false)) {
     printf("FINISHED, files downloaded: %lld\n", mRetrievers.size());
     disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::retrievalCompletionTracker);
     qDeleteAll(mRetrievers);

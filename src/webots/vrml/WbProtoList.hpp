@@ -79,7 +79,7 @@ public:
   // explicit WbProtoList(const QString &world, bool reloading = false);
   WbProtoList();
 
-  bool areProtoAssetsAvailable(const QString &filename);
+  bool areProtoAssetsAvailable(const QString &filename, bool buildProtoList = true);  // TODO: is there better way to build it?
   bool externProtoExists(const QString &filename);
 
   // destroys the list and all the contained models

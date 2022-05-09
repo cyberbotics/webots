@@ -45,6 +45,7 @@ else:
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     VERSION = file.readline().strip()
 
+
 class ProtoInfo:
     def __init__(self, path, name):
         self.name = name
@@ -54,7 +55,7 @@ class ProtoInfo:
         self.license = None
         self.license_url = None
         self.description = ''
-        self.documentation_url = None # TODO: needed?
+        self.documentation_url = None  # TODO: needed?
         self.tags = []
         # exclusive to slots
         self.slot_type = None
@@ -84,7 +85,7 @@ class ProtoInfo:
                     tags = clean_line.replace('tags:', '').strip().split(',')
                     self.tags = [tag.strip() for tag in tags]
                 else:
-                    self.description += clean_line[1:].strip() + '\n'
+                    self.description += clean_line.strip() + '\n'
 
     def parse_body(self):
         # determine proto type (base type can be inferred only when all proto_types are known)
@@ -93,14 +94,15 @@ class ProtoInfo:
 
             #print(proto.stem + ' ', end='')
             #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
-            #child_node = re.search(
+            # child_node = re.search(
             #    "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
-            child_node = re.search('(?:\]\s*\n*)\{\n*\s*(?:\%\<[\s\S]*?(?:\>\%\n*\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{', contents)
+            child_node = re.search(
+                '(?:\]\s*\n*)\{\n*\s*(?:\%\<[\s\S]*?(?:\>\%\n*\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{', contents)
             # print(child_node.groups()[-1])
             self.proto_type = child_node.groups()[-1]
 
     def print(self):
-      print(f'{self.name}: {self.path}\n     ({self.proto_type}) -> ({self.base_type}) / {self.slot_type}')
+        print(f'{self.name}: {self.path}\n     ({self.proto_type}) -> ({self.base_type}) / {self.slot_type}')
 
 
 if __name__ == "__main__":
@@ -109,14 +111,14 @@ if __name__ == "__main__":
 
     protos = {}
     for asset in assets:
-      if asset.name in SKIPPED_PROTO:
-          continue
+        if asset.name in SKIPPED_PROTO:
+            continue
 
-      info = ProtoInfo(str(asset), asset.stem)
-      if info.name in protos:
-          raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
-      else:
-          protos[info.name] = info
+        info = ProtoInfo(str(asset), asset.stem)
+        if info.name in protos:
+            raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
+        else:
+            protos[info.name] = info
 
     base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
     # determine base_type from proto_type
@@ -126,7 +128,8 @@ if __name__ == "__main__":
         while info.base_type not in base_nodes:
             # the current proto depends on a sub-proto, so iterate over it until a base node is reached
             if info.base_type not in protos:
-                raise RuntimeError(f'Error: "{info.base_type}" proto node does not exist. Either it was skipped or the regex that retrieves the type is incorrect.')
+                raise RuntimeError(
+                    f'Error: "{info.base_type}" proto node does not exist. Either it was skipped or the regex that retrieves the type is incorrect.')
             sub_proto = protos[info.base_type]
             info.base_type = sub_proto.proto_type
 
@@ -145,27 +148,25 @@ if __name__ == "__main__":
                 with open(current_proto.path, 'r') as file:
                     matches = re.findall("type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"", file.read())
                     if len(matches) > 0:
-                        info.slot_type = matches[0] # we are interested in the first Slot, if multiple exist
+                        info.slot_type = matches[0]  # we are interested in the first Slot, if multiple exist
                         found = True
                     else:
                         # if this proto depends on a sub-proto, the type might be defined there instead
                         if current_proto.proto_type in base_nodes:
                             if current_proto.proto_type == "Slot":
-                                info.slot_type = '' # default value of the 'type' field in a Slot node
+                                info.slot_type = ''  # default value of the 'type' field in a Slot node
                                 found = True
                             else:
                                 raise RuntimeError(f'Reached a non-Slot base node. This should not be possible.')
                         else:
                             if current_proto.proto_type in protos:
-                                current_proto = protos[current_proto.proto_type] # go one level deeper
+                                current_proto = protos[current_proto.proto_type]  # go one level deeper
                             else:
                                 raise RuntimeError(f'Sub-proto "{current_proto.proto_type}" is not a known proto.')
-
 
     # for key, value in protos.items():
     #     if value.base_type == 'Slot':
     #         value.print()
-
 
     # generate xml of proto list
     root = ET.Element('proto-list')
@@ -201,7 +202,6 @@ if __name__ == "__main__":
 
     with open(filename, 'wb') as file:
         file.write(xml_string)
-
 
     '''
     # retrieve all proto and remove exceptions
