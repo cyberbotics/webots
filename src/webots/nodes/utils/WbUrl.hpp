@@ -27,7 +27,7 @@ namespace WbUrl {
   QString computePath(const WbNode *node, const QString &field, const QString &url, bool warn = true);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
   QString exportResource(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeResourcePath,
-                        const WbWriter &writer, const bool isTexture = true);
+                         const WbWriter &writer, const bool isTexture = true);
   QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
   QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
 
