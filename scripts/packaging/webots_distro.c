@@ -32,7 +32,7 @@
 #ifdef __APPLE__
 #include <CommonCrypto/CommonDigest.h>
 #elif defined(__linux__)
-#include <openssl/md5.h>
+#include <openssl/evp.h>
 #else  // _WIN32
 #include <windows.h>
 #include "openssl/md5.h"
@@ -276,8 +276,16 @@ static bool compute_md5_of_file(const char *file_name, unsigned char *out) {
   unsigned char buffer[8192];
   unsigned char bufferUnix[8192];
 
+#ifdef __linux__
+  EVP_MD_CTX *mdctx;
+  unsigned char *md5_digest;
+  unsigned int md5_digest_len = EVP_MD_size(EVP_md5());
+  mdctx = EVP_MD_CTX_new();
+  EVP_DigestInit_ex(mdctx, EVP_md5(), NULL);
+#else
   MD5_CTX mc;
   MD5_Init(&mc);
+#endif
 
   size_t len = fread(buffer, 1, sizeof(buffer), file);
   while (len > 0) {
@@ -293,12 +301,23 @@ static bool compute_md5_of_file(const char *file_name, unsigned char *out) {
       ++i;
     }
 
+#ifdef __linux__
+    EVP_DigestUpdate(mdctx, bufferUnix, lenUnix);
+#else
     MD5_Update(&mc, bufferUnix, lenUnix);
+#endif
     len = fread(buffer, 1, sizeof(buffer), file);
   }
 
   fclose(file);
+#ifdef __linux__
+  // OpenSSL 3.0
+  md5_digest = (unsigned char *)OPENSSL_malloc(md5_digest_len);
+  EVP_DigestFinal_ex(mdctx, md5_digest, &md5_digest_len);
+  EVP_MD_CTX_free(mdctx);
+#else
   MD5_Final(out, &mc);
+#endif
   return true;
 }
 
@@ -1156,8 +1175,8 @@ static void create_file(const char *name, int m) {
 #ifdef WEBOTS_UBUNTU_22_04
       fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 $WEBOTS_HOME/lib/webots/libcrypto.so\n");
-      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so.1.1 $WEBOTS_HOME/lib/webots/libssl.so\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so debian/usr/local/webots/libcrypto.so\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so debian/usr/local/webots/libssl.so\n");
 #elif defined(WEBOTS_UBUNTU_20_04)
       fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
@@ -1177,15 +1196,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
-#ifdef WEBOTS_UBUNTU_18_04
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
-#elif defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
@@ -1205,15 +1216,7 @@ static void create_file(const char *name, int m) {
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
       add_ros_dependencies("debian/usr/local/webots");
-#ifdef WEBOTS_UBUNTU_18_04
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.16 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.5 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.152 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.57 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
-#elif defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.19 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.155 debian/usr/local/webots/lib/webots\n");
@@ -1230,7 +1233,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
       //Sfprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
 #endif
-      // libraries common to Ubuntu 18.04, 20.04 and 22.04
+      // libraries common to Ubuntu 20.04 and 22.04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
