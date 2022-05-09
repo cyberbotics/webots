@@ -41,22 +41,34 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "-0.1331 0.197 0.11",
+      "axis": "0 1 0",
       "name": "back left wheel sensor",
+      "position": 0,
       "transformID": "n31",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.1331 -0.197 0.11",
+      "axis": "0 1 0",
       "name": "back right wheel sensor",
+      "position": 0,
       "transformID": "n71",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1331 0.197 0.11",
+      "axis": "0 1 0",
       "name": "front left wheel sensor",
+      "position": 0,
       "transformID": "n106",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1331 -0.197 0.11",
+      "axis": "0 1 0",
       "name": "front right wheel sensor",
+      "position": 0,
       "transformID": "n141",
       "type": "PositionSensor"
     },

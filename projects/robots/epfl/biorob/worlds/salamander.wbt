@@ -186,7 +186,6 @@ DEF AQUARIUM Solid {
 }
 DEF WATER Fluid {
   translation 0 0 -0.125
-  rotation 1 0 0 1.5708
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
@@ -196,7 +195,7 @@ DEF WATER Fluid {
         metalness 0
       }
       geometry Box {
-        size 8 0.25 12
+        size 8 12 0.25
       }
     }
   ]
