@@ -37,6 +37,8 @@ ifeq ($(OSTYPE),linux)
 	+PYTHON_COMMAND=python3.10 make -s -C python $(MAKECMDGOALS)
 endif
 ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.10;
+	+PATH="$(PYTHON310_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.9;
 	+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
@@ -51,6 +53,8 @@ ifeq ($(OSTYPE),darwin)
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.9;
 	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.10;
+	+PYTHON_COMMAND=python3.10 make -s -C python $(MAKECMDGOALS)
 endif
 
 

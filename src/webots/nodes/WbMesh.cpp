@@ -321,15 +321,19 @@ void WbMesh::updateUrl() {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
         deleteWrenRenderable();
         wr_static_mesh_delete(mWrenMesh);
-        mWrenMesh = NULL;
         delete mDownloader;
         mDownloader = NULL;
+        mWrenMesh = NULL;
         return;
       }
 
       if (!WbNetwork::instance()->isCached(completeUrl)) {
-        if (mDownloader == NULL)
-          downloadAssets();  // url was changed from the scene tree or supervisor
+        if (mDownloader && mDownloader->hasFinished()) {
+          delete mDownloader;
+          mDownloader = NULL;
+        }
+
+        downloadAssets();  // url was changed from the scene tree or supervisor
         return;
       }
     }
