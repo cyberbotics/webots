@@ -30,7 +30,7 @@ default:
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 PYTHON_COMMAND ?= python
-PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
+PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\{1,\}\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 INTERFACE       = controller.i
@@ -89,6 +89,8 @@ endif
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+else ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../

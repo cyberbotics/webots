@@ -19,7 +19,7 @@ WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 PYTHON_COMMAND ?= python
-PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
+PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\{1,\}\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 PYTHON_LIB_FOLDER = ../python$(PYTHON_SHORT_VERSION)
