@@ -34,6 +34,10 @@
 #include <sys/stat.h>  // stat
 #include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
+#if defined(__APPLE__) || defined(__NetBSD__)
+#define st_mtim st_mtimespec
+#endif
+
 #include <webots/console.h>
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
