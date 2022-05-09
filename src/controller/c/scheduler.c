@@ -44,9 +44,14 @@ unsigned int scheduler_data_size = 0;
 unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 GPipe *scheduler_pipe = NULL;
+char *scheduler_protocol = NULL;
 
-int scheduler_init(const char *pipe, const char *protocol) {
-  if (strncmp(protocol, "ipc", 3) == 0) {
+int scheduler_init(const char *pipe) {
+  if (scheduler_protocol == NULL) {
+    fprintf(stderr, "Impossible to connect the controller to Webots: no connection protocol given.\n");
+    exit(EXIT_FAILURE);
+  }
+  if (strncmp(scheduler_protocol, "IPC", 3) == 0) {
     scheduler_pipe = g_pipe_new(pipe);
     if (scheduler_pipe == NULL)
       return false;
@@ -61,10 +66,10 @@ int scheduler_init(const char *pipe, const char *protocol) {
 #endif
     scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
     scheduler_data_size = SCHEDULER_DATA_CHUNK;
-  } else if (strncmp(protocol, "tcp", 3) == 0) {
+  } else if (strncmp(scheduler_protocol, "TCP", 3) == 0) {
     // implement tcp request to ask webots a link to robot (indicated or first in alphabetical)
   } else {
-    fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", protocol);
+    fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
     exit(EXIT_FAILURE);
   }
 

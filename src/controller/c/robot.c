@@ -1054,6 +1054,7 @@ static char *compute_socket_filename() {
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "%sintern/%s/socket", WEBOTS_TMP_PATH, robot_name);
     free(robot_name);
+    scheduler_protocol = strdup("IPC");
     return socket_filename;
   }
   // extern controller case
@@ -1103,60 +1104,83 @@ static char *compute_socket_filename() {
     }
   } else
     WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
-  if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {
+  if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) == 0) {   // IPC
+    // fprintf(stderr, "Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
+    int number = -1;
+    sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
+    char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/") + 1;
+    int length = strlen(TMP_DIR) + 27;  // TMPDIR + "/webots-12345678901/extern"
+    char *folder = malloc(length);
+    snprintf(folder, length, "%s/webots-%d/extern", TMP_DIR, number);
+    if (robot_name)
+      robot_name = strdup(robot_name);
+    else {  // take the first robot in the extern folder (alphabetical order)
+      DIR *dr = opendir(folder);
+      if (dr == NULL) {  // the extern folder was not yet created
+        free(folder);
+        return NULL;
+      }
+      char **filenames = NULL;
+      int i = 0;
+      struct dirent *de;
+      while ((de = readdir(dr)) != NULL) {
+        if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
+          char **r = realloc(filenames, (i + 1) * sizeof(char *));
+          if (!r) {
+            fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
+            exit(EXIT_FAILURE);
+          }
+          filenames = r;
+          filenames[i++] = strdup(de->d_name);
+        }
+      }
+      closedir(dr);
+      if (i == 0) {  // the robot folder was not yet created
+        free(folder);
+        return NULL;
+      }
+      if (i > 1) {  // sort folders (robot names) in alphabetical order
+        qsort(filenames, i, sizeof(char *), strcmp_sort);
+        for (int j = 1; j < i; j++)  // keep only the first one
+          free(filenames[j]);
+      }
+      robot_name = filenames[0];
+      free(filenames);
+    }
+    free(WEBOTS_CONTROLLER_URL);
+    // fprintf(stderr, "Number = %d, robot = %s, folder = %s\n", number, robot_name, folder);
+    length += strlen(robot_name) + 8;  // folder + robot_name + "/socket"
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "%s/%s/socket", folder, robot_name);
+    free(folder);
+    free(robot_name);
+    scheduler_protocol = strdup("IPC");
+    return socket_filename;
+  } else if (strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP
+    const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
+    int length = strlen(&WEBOTS_CONTROLLER_URL[6]) + 1;
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "%s", &WEBOTS_CONTROLLER_URL[6]);
+
+    if (url_suffix == NULL) {  // assuming only the IP address was provided
+      fprintf(stderr, "Error: Missing port in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+      exit(EXIT_FAILURE);
+    } else if (WEBOTS_CONTROLLER_URL[6] == ':') {
+      fprintf(stderr, "Error: Missing IP address in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+      exit(EXIT_FAILURE);
+    }
+
+    scheduler_protocol = strdup("TCP");
+    return socket_filename;
+    /*int ip_length = strlen(WEBOTS_CONTROLLER_URL) - strlen(url_suffix) - 6;
+    ip_address = malloc(ip_length);
+    strncpy(ip_address, &WEBOTS_CONTROLLER_URL[6], ip_length);
+    sscanf(url_suffix, ":%d", &port);*/
+
+  } else {
     fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  // fprintf(stderr, "Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
-  int number = -1;
-  sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
-  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/") + 1;
-  int length = strlen(TMP_DIR) + 27;  // TMPDIR + "/webots-12345678901/extern"
-  char *folder = malloc(length);
-  snprintf(folder, length, "%s/webots-%d/extern", TMP_DIR, number);
-  if (robot_name)
-    robot_name = strdup(robot_name);
-  else {  // take the first robot in the extern folder (alphabetical order)
-    DIR *dr = opendir(folder);
-    if (dr == NULL) {  // the extern folder was not yet created
-      free(folder);
-      return NULL;
-    }
-    char **filenames = NULL;
-    int i = 0;
-    struct dirent *de;
-    while ((de = readdir(dr)) != NULL) {
-      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
-        char **r = realloc(filenames, (i + 1) * sizeof(char *));
-        if (!r) {
-          fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
-          exit(EXIT_FAILURE);
-        }
-        filenames = r;
-        filenames[i++] = strdup(de->d_name);
-      }
-    }
-    closedir(dr);
-    if (i == 0) {  // the robot folder was not yet created
-      free(folder);
-      return NULL;
-    }
-    if (i > 1) {  // sort folders (robot names) in alphabetical order
-      qsort(filenames, i, sizeof(char *), strcmp_sort);
-      for (int j = 1; j < i; j++)  // keep only the first one
-        free(filenames[j]);
-    }
-    robot_name = filenames[0];
-    free(filenames);
-  }
-  free(WEBOTS_CONTROLLER_URL);
-  // fprintf(stderr, "Number = %d, robot = %s, folder = %s\n", number, robot_name, folder);
-  length += strlen(robot_name) + 8;  // folder + robot_name + "/socket"
-  socket_filename = malloc(length);
-  snprintf(socket_filename, length, "%s/%s/socket", folder, robot_name);
-  free(folder);
-  free(robot_name);
-  return socket_filename;
 }
 
 int wb_robot_init() {  // API initialization
@@ -1207,7 +1231,7 @@ int wb_robot_init() {  // API initialization
   wb_keyboard_init();
   wb_joystick_init();
   wb_mouse_init();
-  
+
   int retry = 0;
   while (true) {
     char *socket_filename = compute_socket_filename();

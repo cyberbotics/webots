@@ -25,8 +25,9 @@
 extern unsigned int scheduler_data_size;
 extern char *scheduler_date;
 extern unsigned int scheduler_actual_step;
+extern char *scheduler_protocol;
 
-int scheduler_init(const char *pipe, const char *protocol);
+int scheduler_init(const char *pipe);
 void scheduler_cleanup();
 WbRequest *scheduler_read_data();
 void scheduler_send_request(WbRequest *);
