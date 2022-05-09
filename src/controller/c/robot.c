@@ -1103,10 +1103,10 @@ static char *compute_socket_filename() {
     fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  // printf("Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
+  // fprintf(stderr, "Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
   int number = -1;
   sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
-  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/") + 1;
   int length = strlen(TMP_DIR) + 27;  // TMPDIR + "/webots-12345678901/extern"
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/extern", TMP_DIR, number);
@@ -1146,7 +1146,7 @@ static char *compute_socket_filename() {
     free(filenames);
   }
   free(WEBOTS_CONTROLLER_URL);
-  // printf("Number = %d, robot = %s, folder = %d\n", number, robot_name, folder);
+  // fprintf(stderr, "Number = %d, robot = %s, folder = %s\n", number, robot_name, folder);
   length += strlen(robot_name) + 8;  // folder + robot_name + "/socket"
   socket_filename = malloc(length);
   snprintf(socket_filename, length, "%s/%s/socket", folder, robot_name);
@@ -1208,9 +1208,10 @@ int wb_robot_init() {  // API initialization
   while (true) {
     char *socket_filename = compute_socket_filename();
     bool success = socket_filename ? scheduler_init(socket_filename) : false;
-    free(socket_filename);
-    if (success)
+    if (success) {
+      free(socket_filename);
       break;
+    }
     if (retry++ > 10) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);
