@@ -171,7 +171,7 @@ void WbLidar::updateOptionalRendering(int option) {
 
 void WbLidar::initializeImageMemoryMappedFile() {
   WbAbstractCamera::initializeImageMemoryMappedFile();
-  if (mImageShm) {
+  if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     float *im = lidarImage();
     const int size = actualHorizontalResolution() * actualNumberOfLayers();
@@ -282,7 +282,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 }
 
 void WbLidar::copyAllLayersToMemoryMappedFile() {
-  if (!hasBeenSetup() || !mImageShm)
+  if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
   float *data = lidarImage();
@@ -463,7 +463,7 @@ void WbLidar::deleteWren() {
 }
 
 void WbLidar::displayPointCloud() {
-  if (hasBeenSetup() && mImageShm) {
+  if (hasBeenSetup() && mImageMemoryMappedFile) {
     const float layersNumber = actualNumberOfLayers();
     const int resolution = actualHorizontalResolution();
     const bool showRays = layersNumber * resolution < POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD;

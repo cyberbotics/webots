@@ -145,7 +145,7 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-  WbMemoryMappedFile *mImageShm;
+  WbMemoryMappedFile *mImageMemoryMappedFile;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
