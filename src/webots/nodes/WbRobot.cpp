@@ -457,11 +457,14 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 }
 
 void WbRobot::updateWindow() {
+  emit windowChanged();
   mAbsoluteWindowFilename = "";
 
   if (mConfigureRequest) {
     QString key = mWindow->value().trimmed();
-    if (!key.isEmpty() && key != "<generic>") {
+    if (key == "<none>")
+      return;
+    else if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
         warn(tr("The robot window library '") + key + tr("' has not been found."));
@@ -469,7 +472,7 @@ void WbRobot::updateWindow() {
         mAbsoluteWindowFilename = absoluteFilePath;
     }
   } else
-    warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
+    warn(tr("The robot window will not be connected until the controller is initialized or restarted."));
 
   if (!mWindow->value().isEmpty() && mWindow->value() != "<generic>")
     return;  // HTML robot window without plugin case.
