@@ -192,11 +192,11 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
   // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
   // applications.
   const QString type = robot()->isControllerExtern() ? "extern" : "intern";
-  const QString MemoryMappedFileName = WbStandardPaths::webotsTmpPath() + type + "/" +
+  const QString memoryMappedFileName = WbStandardPaths::webotsTmpPath() + type + "/" +
                                        QUrl::toPercentEncoding(robot()->name()) + "/snap.webots." +
                                        QUrl::toPercentEncoding(name());
 
-  WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(MemoryMappedFileName);
+  WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
   // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
   if (imageMemoryMappedFile->attach())
