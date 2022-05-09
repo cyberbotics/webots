@@ -835,12 +835,12 @@ void WbController::startDocker() {
     warn(tr("Failed to build the docker image in '%1'.").arg(mControllerPath));
     return;
   }
-  const QStringList dockerArguments = {
-    "run",  "--network",
-    "none",  // add "--cpu-shares", "512",
-    "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
-    "-e",   "WEBOTS_CONTROLLER_URL=ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + mRobot->name(),
-    image};
+  const QStringList dockerArguments = {"run",  "--network",
+                                       "none",  // add "--cpu-shares", "512",
+                                       "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_TMP_PATH=" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
+                                       image};
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }
