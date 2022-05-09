@@ -117,7 +117,6 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 
   // robot window
   mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
-  mCloseRobotWindowOnReset->setChecked(prefs->value("RobotWindow/closeRobotWindowOnReset").toBool());
   mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
@@ -209,7 +208,6 @@ void WbPreferencesDialog::accept() {
   if (!mUploadUrl->text().isEmpty())
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
-  prefs->setValue("RobotWindow/closeRobotWindowOnReset", mCloseRobotWindowOnReset->isChecked());
   prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
   emit changedByUser();
   QDialog::accept();
@@ -492,11 +490,6 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
       mNewBrowserWindow->setChecked(false);
   });
   layout->addWidget(mNewBrowserWindow, 3, 1);
-
-  // row 3
-  mCloseRobotWindowOnReset = new QCheckBox(tr("Close robot window on simulation reset."), this);
-  mCloseRobotWindowOnReset->setChecked(false);
-  layout->addWidget(mCloseRobotWindowOnReset, 4, 1);
 
   // Cache
   layout = new QGridLayout(cache);
