@@ -185,7 +185,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     WbWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
 
-    mX3dWorldTextures.insert(writer.texturesList());
+    mX3dWorldTextures.insert(writer.resourcesList());
 
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
@@ -211,7 +211,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
-  mX3dWorldTextures = writer.texturesList();
+  mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }

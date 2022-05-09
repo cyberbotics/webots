@@ -546,7 +546,7 @@ void WbImageTexture::write(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
 
@@ -588,7 +588,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
   urlFieldCopy.write(writer);
@@ -613,10 +613,10 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   // image relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming())
-      writer.addTextureToList(url, WbUrl::computePath(this, "url", url));
+      writer.addResourceToList(url, WbUrl::computePath(this, "url", url));
     else {
       url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addTextureToList(mUrl->item(0), url);
+      writer.addResourceToList(mUrl->item(0), url);
     }
   }
 

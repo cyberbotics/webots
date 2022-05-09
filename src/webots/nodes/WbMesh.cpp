@@ -408,13 +408,16 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     else {
       QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
+        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
 
       const QString &url(mUrl->item(i));
-      writer.addTextureToList(url, meshPath);
+      writer.addResourceToList(url, meshPath);
     }
   }
   urlFieldCopy.write(writer);
+
+  findField("ccw", true)->write(writer);
+  findField("materialIndex", -1)->write(writer);
 }

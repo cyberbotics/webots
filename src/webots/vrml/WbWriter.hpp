@@ -46,8 +46,8 @@ public:
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
-  QHash<QString, QString> texturesList() const { return mTexturesList; }
-  void addTextureToList(const QString &url, const QString &fileName) { mTexturesList[url] = fileName; }
+  QHash<QString, QString> resourcesList() const { return mResourcesList; }
+  void addResourceToList(const QString &url, const QString &fileName) { mResourcesList[url] = fileName; }
 
   void writeLiteralString(const QString &string);
   void writeMFStart();
@@ -88,6 +88,7 @@ public:
   WbWriter &operator<<(const WbRgb &rgb);
 
   static QString relativeTexturesPath() { return "textures/"; }
+  static QString relativeMeshesPath() { return "meshes/"; }
 
 private:
   void setType();
@@ -99,7 +100,7 @@ private:
   Type mType;
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
-  QHash<QString, QString> mTexturesList;  // this hash represents the list of textures used and their associated filepath
+  QHash<QString, QString> mResourcesList;  // this hash represents the list of textures used and their associated filepath
   WbNode *mRootNode;
   bool mIsWritingToFile;
   WbVector3 mJointOffset;
