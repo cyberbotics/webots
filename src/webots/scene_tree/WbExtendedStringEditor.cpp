@@ -73,7 +73,7 @@ const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[N_STRING_TYPE_INFO] = {
     << tr("Please select a remote control plugin from the list\n(takes effect only after you save and reload the world)"),
   QStringList()
     << "plugins/robot_windows/" << tr("Robot window plugins choice")
-    << tr("Please select a robot window plugin from the list\n(takes effect only after you save and reload the world)"),
+    << tr("Please select a robot window plugin from the list\n(takes effect only after you reset the simulation\nand show the new robot window)"),
   QStringList() << "" << tr("Solid choice") << tr("Please select a solid from the list\n")};
 
 const QStringList WbExtendedStringEditor::REFERENCE_AREA_ITEMS = QStringList() << "immersed area"

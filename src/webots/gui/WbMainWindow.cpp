@@ -2050,7 +2050,7 @@ void WbMainWindow::showRobotWindow() {
   WbRobot *robot = mSimulationView->selectedRobot();
   mRobotWindowClosed = false;
   if (robot) {
-    if (robot->window() == "<none>") // no robot window
+    if (robot->window() == "<none>")  // no robot window
       WbMessageBox::info(tr("Cannot show Robot window <none>."));
     else if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
