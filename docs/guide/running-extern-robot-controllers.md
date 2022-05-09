@@ -170,12 +170,12 @@ You can repeat this for the other controllers, e.g., set a different value to th
 ### Multiple Concurrent Simulations and Single Extern Robot Controller
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to your controller to which instance of Webots it should try to connect.
-This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value `ipc://<port>` where `<port>` is the TCP port (defined in the `--stream` command line option) of the Webots instance to which you want to connect your controller.
+This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value `ipc://<port>` where `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 
 ### Multiple Concurrent Simulations and Multiple Extern Robot Controllers
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to your controller to which instance of Webots and to which robot it should try to connect.
-This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--stream` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
+This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--port` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
 
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
