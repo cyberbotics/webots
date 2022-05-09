@@ -102,14 +102,22 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   else {
     if (pythonCommand == "python" || pythonCommand == "python3") {
-      pythonCommand = findWorkingPythonPath("3.8", env, false);
-      shortVersion = "38";
-      if (pythonCommand == "!") {
+      pythonCommand = findWorkingPythonPath("3.10", env, false);
+      if (pythonCommand != "!")
+        shortVersion = "310";
+      else {
         pythonCommand = findWorkingPythonPath("3.9", env, false);
-        shortVersion = "39";
-        if (pythonCommand == "!") {
-          pythonCommand = findWorkingPythonPath("3.7", env, true);
-          shortVersion = "37";
+        if (pythonCommand != "!")
+          shortVersion = "39";
+        else {
+          pythonCommand = findWorkingPythonPath("3.8", env, false);
+          if (pythonCommand != "!")
+            shortVersion = "38";
+          else {
+            pythonCommand = findWorkingPythonPath("3.7", env, true);
+            if (pythonCommand != "!")
+              shortVersion = "37";
+          }
         }
       }
     } else if (pythonCommand == "python3.7") {
@@ -121,6 +129,9 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     } else if (pythonCommand == "python3.9") {
       pythonCommand = findWorkingPythonPath("3.9", env, true);
       shortVersion = "39";
+    } else if (pythonCommand == "python3.10") {
+      pythonCommand = findWorkingPythonPath("3.10", env, true);
+      shortVersion = "310";
     } else
       shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   }
