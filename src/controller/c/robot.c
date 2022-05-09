@@ -1079,7 +1079,11 @@ static char *compute_socket_filename() {
         char *filename = malloc(length);
         snprintf(filename, length, "%s/%s", TMP_DIR, de->d_name);
         if (stat(filename, &filestat) == 0) {
+#ifdef _WIN32
+          double ts = (double)filestat.st_mtime;
+#else
           double ts = filestat.st_mtim.tv_sec + (filestat.st_mtim.tv_nsec / 1000000000.0);  // last modification time
+#endif
           // printf("ts = %.17lg\n", ts);
           if (ts > timestamp) {
             timestamp = ts;
