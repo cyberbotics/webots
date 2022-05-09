@@ -586,6 +586,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
   int nAddedNodes = 0;
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
 
+  const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
   QMapIterator<QString, WbProtoInfo *> it(WbProtoList::current()->officialProtoList());
   while (it.hasNext()) {
     it.next();
@@ -593,7 +594,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
     WbProtoInfo *info = it.value();
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
-    QStringList tags = info->tags();
+    const QStringList tags = info->tags();
     if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
       continue;
 
@@ -610,13 +611,12 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
       continue;
 
     QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseNode, mCurrentNode, errorMessage, nodeUse, protoCachedInfo->slotType(),
-                                            QStringList() << baseNode << protoFile.chopped(6)))
+    const QString nodeName = it.key();  // QUrl(info->url()).fileName().replace(".proto", "");
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseNode, mCurrentNode, errorMessage, nodeUse, info->slotType(),
+                                            QStringList() << baseNode << nodeName))
       continue;
 
-    const QString nodeName = QUrl(info->url()).fileName().replace(".proto", "");
     const QString path = info->url().replace("webots://", "").replace(re, "");
-
     // populate tree
     // TODO: should only show nodes that can be inserted in this location, not everything
 

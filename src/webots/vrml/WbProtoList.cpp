@@ -541,7 +541,7 @@ void WbProtoList::setupKnownProtoList() {
     if (reader.name().toString() == "proto-list") {
       while (reader.readNextStartElement()) {
         if (reader.name().toString() == "proto") {
-          QString name, url, basenode, license, licenseUrl, description;
+          QString name, url, basenode, license, licenseUrl, description, slotType;
           QStringList tags;
           while (reader.readNextStartElement()) {
             // printf(">>%s\n", reader.name().toString().toUtf8().constData());
@@ -569,6 +569,10 @@ void WbProtoList::setupKnownProtoList() {
               description = reader.readElementText();
               reader.readNext();
             }
+            if (reader.name().toString() == "slot-type") {
+              slotType = reader.readElementText();
+              reader.readNext();
+            }
             if (reader.name().toString() == "tags") {
               tags = reader.readElementText().split(',', Qt::SkipEmptyParts);
               reader.readNext();
@@ -577,7 +581,7 @@ void WbProtoList::setupKnownProtoList() {
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
           //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
-          mOfficialProtoList.insert(name, new WbProtoInfo(url, basenode, license, licenseUrl, description, tags));
+          mOfficialProtoList.insert(name, new WbProtoInfo(url, basenode, license, licenseUrl, description, slotType, tags));
         } else
           reader.raiseError(tr("Expected 'proto' element."));
       }
