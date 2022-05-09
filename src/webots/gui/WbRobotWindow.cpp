@@ -29,8 +29,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
 void WbRobotWindow::setupPage(int port) {
   QString windowFileName = mRobot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    if (mRobot->window() != "<none>")
-      mRobot->parsingWarn(tr("No HTML robot window is set in the 'window' field."));
+    mRobot->parsingWarn(tr("No HTML robot window is set in the 'window' field."));
     return;
   }
   windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows

@@ -141,9 +141,7 @@ signals:
   void startControllerRequest(WbRobot *robot);
   void immediateMessageAdded();
   void controllerChanged();
-  void controllerRestart();
   void controllerExited();
-  void windowNone();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
