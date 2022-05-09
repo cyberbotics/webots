@@ -45,6 +45,7 @@
 #include <QtNetwork/QLocalSocket>
 
 #include <cassert>
+#include <iostream>
 #include "../../controller/c/messages.h"
 
 #ifdef _WIN32
@@ -183,9 +184,11 @@ bool WbController::isRunning() const {
 // the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
 void WbController::start() {
   mRobot->setControllerStarted(true);
-  if (mName == "<extern>")
+  if (mName == "<extern>") {
     info(tr("Waiting for extern controller to connect to \"%1\" robot.").arg(mRobot->name()));
-  else {
+    std::cout << "ipc://" << WbStandardPaths::webotsTmpPathId() << '/' << QUrl::toPercentEncoding(mRobot->name()).constData()
+              << std::endl;
+  } else {
     mProcess = new QProcess();
     connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
     connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);

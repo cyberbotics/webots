@@ -17,7 +17,13 @@ import subprocess
 import sys
 
 
+controllers = {
+  "MyBot": "controller_1/controllers/camera/camera"
+}
+port = 1234
+
 WEBOTS_HOME = os.environ['WEBOTS_HOME']
+DOCKER_DEMO = os.path.join(WEBOTS_HOME, 'projects', 'samples', 'howto', 'docker')
 path = os.path.join(WEBOTS_HOME, 'lib', 'controller')
 if sys.platform == 'win32':
     os.environ['PATH'] = path + os.pathsep + os.environ['PATH']
@@ -32,11 +38,8 @@ else:  # linux
     else:
         os.environ['LD_LIBRARY_PATH'] = path
 command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
-command += ' --stream="monitorActivity"'
-controllers = {
-  "e-puck": "docker/controller_1/controllers/e-puck/e-puck",
-  "MyBot": "docker/controller_1/controllers/camera/camera"
-}
+command += f' --port={port} --stream="monitorActivity" '
+command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'camera.wbt')
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,
@@ -49,21 +52,19 @@ print(f'Webots [{webots_process.pid}] started: "{command}"')
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
-    if line.startswith('start:'):
+    if line.startswith('ipc://'):
         print('received ' + line)
-        split = line.split(':')
-        name = split[1]
-        os.environ['WEBOTS_ROBOT_NAME'] = name
-        os.environ['WEBOTS_SERVER'] = split[2]
+        os.environ['WEBOTS_CONTROLLER_URL'] = line
         os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
         os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
+        split = line.split('/')
+        name = split[3]
         controller = controllers[name] if name in controllers else ''
-        print('starting ' + controller)
         if not controller:
             continue
-        controller_path = os.path.join(WEBOTS_HOME, os.path.dirname(controller))
+        controller_path = os.path.join(DOCKER_DEMO, os.path.dirname(controller))
         os.chdir(controller_path)
-        controller_process = subprocess.Popen([os.path.join(WEBOTS_HOME, controller)],
+        controller_process = subprocess.Popen([os.path.join(DOCKER_DEMO, controller)],
                                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                               bufsize=1, universal_newlines=True
                                               )

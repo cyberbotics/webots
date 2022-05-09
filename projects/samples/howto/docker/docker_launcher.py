@@ -39,19 +39,21 @@ def run(command, sync):
 
 if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
-subprocess.run(['xhost', '+local:root'])
-port = 1234
-worlds = ['e-puck.wbt', 'camera.wbt']
-with open('docker/simulation/.env', 'w+') as env_file:
-    env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
-    env_file.write(f'PORT={port}\n')
-    env_file.write(f'WORLD=/webots_project/worlds/{worlds[1]}\n')
 
-command = 'docker-compose -f docker/simulation/docker-compose-webots.yml up --build --no-color'
 controllers = {
-  "e-puck": "/webots_project/controllers/e-puck/e-puck",
   "MyBot": "/webots_project/controllers/camera/camera"
 }
+port = 1234
+worlds = ['camera.wbt']
+
+subprocess.run(['xhost', '+local:root'])
+with open('simulation/.env', 'w+') as env_file:
+    env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
+    env_file.write(f'PORT={port}\n')
+    env_file.write(f'ROBOT_NAME_1=MyBot\n')
+    env_file.write(f'WORLD=/webots_project/worlds/{worlds[0]}\n')
+
+command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,
@@ -77,7 +79,7 @@ while webots_process.poll() is None:
             server = split[2]
             command = ('docker build -t controller '
                        '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
-                       'docker/controller_1')
+                       'controller_1')
             run(command, True)
             command = (f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} '
                        f'-v tmp-{port}:/tmp controller {controller}')
@@ -89,4 +91,4 @@ while webots_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()
             if line:
                 print('controller: ' + line)
-os.remove('docker/simulation/.env')
+os.remove('simulation/.env')
