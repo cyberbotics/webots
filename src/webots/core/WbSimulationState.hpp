@@ -86,7 +86,6 @@ private:
   bool mPerformRendering;
   bool mEnabled;
   double mTime;
-  int mPort;
 
   // ray tracing
   int mRayTracingSubscribersCount;
