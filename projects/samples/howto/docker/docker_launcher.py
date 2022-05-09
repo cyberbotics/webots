@@ -50,7 +50,7 @@ subprocess.run(['xhost', '+local:root'])
 with open('simulation/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write(f'PORT={port}\n')
-    env_file.write(f'ROBOT_NAME_1=MyBot\n')
+    env_file.write('ROBOT_NAME_1=MyBot\n')
     env_file.write(f'WORLD=/webots_project/worlds/{worlds[0]}\n')
 
 command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
