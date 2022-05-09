@@ -27,7 +27,6 @@
 #include <QtCore/QThread>
 
 #include <cassert>
-#include <iostream>
 
 WbControlledWorld *WbControlledWorld::instance() {
   return static_cast<WbControlledWorld *>(WbSimulationWorld::instance());
