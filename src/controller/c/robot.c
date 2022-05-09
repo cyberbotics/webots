@@ -34,7 +34,7 @@
 #include <sys/stat.h>  // stat
 #include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
-#if defined(__APPLE__) || defined(__NetBSD__)
+#if defined(__APPLE__) || defined(_WIN32)
 #define st_mtim st_mtimespec
 #endif
 
