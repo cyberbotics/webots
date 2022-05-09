@@ -29,6 +29,10 @@
 #include <QtCore/QFileInfo>
 #include <QtWebSockets/QWebSocket>
 
+#include <iostream>
+
+using namespace std;
+
 WbX3dStreamingServer::WbX3dStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
   WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit, true),
   mX3dWorldGenerationTime(-1.0) {
@@ -47,7 +51,7 @@ void WbX3dStreamingServer::start(int port) {
     try {
       WbAnimationRecorder::instance()->initFromStreamingServer();
     } catch (const QString &e) {
-      WbLog::error(tr("Error when initializing the animation recorder: %1").arg(e));
+      cerr << tr("Error when initializing the animation recorder: %1").arg(e).toUtf8().constData() << endl;
       return;
     }
   }

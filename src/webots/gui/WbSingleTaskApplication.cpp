@@ -160,44 +160,44 @@ void WbSingleTaskApplication::convertProto() const {
 }
 
 void WbSingleTaskApplication::showHelp() const {
-  cout << tr("Usage: webots [options] [worldfile]").toUtf8().constData() << endl << endl;
-  cout << tr("Options:").toUtf8().constData() << endl << endl;
-  cout << "  --help" << endl;
-  cout << tr("    Display this help message and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --version" << endl;
-  cout << tr("    Display version information and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --sysinfo" << endl;
-  cout << tr("    Display information about the system and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --mode=<mode>" << endl;
-  cout << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
-  cout << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
-  cout << "  --no-rendering" << endl;
-  cout << tr("    Disable rendering in the main 3D view.").toUtf8().constData() << endl << endl;
-  cout << "  --fullscreen" << endl;
-  cout << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
-  cout << "  --minimize" << endl;
-  cout << tr("    Minimize the Webots window on startup.").toUtf8().constData() << endl << endl;
-  cout << "  --batch" << endl;
-  cout << tr("    Prevent Webots from creating blocking pop-up windows.").toUtf8().constData() << endl << endl;
-  cout << "  --stdout" << endl;
-  cout << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
-  cout << "  --stderr" << endl;
-  cout << tr("    Redirect the stderr of the controllers to the terminal.").toUtf8().constData() << endl << endl;
-  cout << "  --stream[=\"key[=value];...\"]" << endl;
-  cout << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
-  cout << tr("    given as an option:").toUtf8().constData() << endl;
-  cout << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
-  cout << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
-  cout << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
-  cout << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;
-  cout << "  --log-performance=<file>[,<steps>]" << endl;
-  cout << tr("    Measure the performance of Webots and log it in the file specified in the").toUtf8().constData() << endl;
-  cout << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
-  cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
-  cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
-  cout << "  convert" << endl;
-  cout << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
-  cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
+  cerr << tr("Usage: webots [options] [worldfile]").toUtf8().constData() << endl << endl;
+  cerr << tr("Options:").toUtf8().constData() << endl << endl;
+  cerr << "  --help" << endl;
+  cerr << tr("    Display this help message and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --version" << endl;
+  cerr << tr("    Display version information and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --sysinfo" << endl;
+  cerr << tr("    Display information about the system and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --mode=<mode>" << endl;
+  cerr << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
+  cerr << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
+  cerr << "  --no-rendering" << endl;
+  cerr << tr("    Disable rendering in the main 3D view.").toUtf8().constData() << endl << endl;
+  cerr << "  --fullscreen" << endl;
+  cerr << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
+  cerr << "  --minimize" << endl;
+  cerr << tr("    Minimize the Webots window on startup.").toUtf8().constData() << endl << endl;
+  cerr << "  --batch" << endl;
+  cerr << tr("    Prevent Webots from creating blocking pop-up windows.").toUtf8().constData() << endl << endl;
+  cerr << "  --stdout" << endl;
+  cerr << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
+  cerr << "  --stderr" << endl;
+  cerr << tr("    Redirect the stderr of the controllers to the terminal.").toUtf8().constData() << endl << endl;
+  cerr << "  --stream[=\"key[=value];...\"]" << endl;
+  cerr << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
+  cerr << tr("    given as an option:").toUtf8().constData() << endl;
+  cerr << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
+  cerr << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
+  cerr << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
+  cerr << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;
+  cerr << "  --log-performance=<file>[,<steps>]" << endl;
+  cerr << tr("    Measure the performance of Webots and log it in the file specified in the").toUtf8().constData() << endl;
+  cerr << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
+  cerr << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
+  cerr << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
+  cerr << "  convert" << endl;
+  cerr << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
+  cerr << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showSysInfo() const {
@@ -251,7 +251,7 @@ void WbSingleTaskApplication::updateProtoCacheFiles() const {
     if (argumentInfo.completeSuffix() == "proto")
       WbProtoCachedInfo::computeInfo(argumentInfo.absoluteFilePath());
     else
-      cout << tr("Invalid file: a PROTO file with suffix '.proto' is expected.").toUtf8().constData() << endl;
+      cerr << tr("Invalid file: a PROTO file with suffix '.proto' is expected.").toUtf8().constData() << endl;
 
     return;
   }
@@ -268,7 +268,7 @@ void WbSingleTaskApplication::updateProtoCacheFiles() const {
   WbProtoList::findProtosRecursively(dirPath, protoList);
 
   if (protoList.isEmpty()) {
-    cout << tr("Folder '%1' doesn't contain any valid PROTO file.").arg(dirPath).toUtf8().constData() << endl;
+    cerr << tr("Folder '%1' doesn't contain any valid PROTO file.").arg(dirPath).toUtf8().constData() << endl;
     return;
   }
 

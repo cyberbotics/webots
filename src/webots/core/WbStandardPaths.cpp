@@ -202,10 +202,13 @@ static void liveWebotsTmpPath() {
   }
 }
 
-const QString &WbStandardPaths::webotsTmpPath() {
+const QString &WbStandardPaths::webotsTmpPath(const int port) {
   static QString webotsTmpPath;
   if (webotsTmpPath.isEmpty()) {
-    const int port = WbPreferences::instance()->value("Streaming/port", 1234).toInt();
+    if (port == -1) {
+      WbLog::error(QObject::tr("The Webots temporay path was not properly created."));
+      return "";
+    }
 #ifdef _WIN32
     // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
     // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp

@@ -41,6 +41,8 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
+#include <iostream>
+
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit,
@@ -80,17 +82,26 @@ void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
 }
 
 void WbStreamingServer::start(int port) {
+  static int originalPort = -1;
+  if (originalPort == -1)
+    originalPort = port;
   mPort = port;
   try {
     create(port);
+    originalPort = -1;
   } catch (const QString &e) {
-    WbLog::error(tr("Error when creating the TCP streaming server on port %1: %2").arg(port).arg(e));
-    if ((WbPreferences::instance()->value("Streaming/port", 1234).toInt() + 10) > port) {
+    if (originalPort + 10 > port) {
+      std::cerr << tr("Error when creating the TCP streaming server on port %1: %2, trying again with port %3")
+                     .arg(port)
+                     .arg(e)
+                     .arg(port + 1)
+                     .toUtf8()
+                     .constData()
+                << std::endl;
       mPort++;
-      WbLog::warning(tr("Trying again with port %1 (extern controllers may not be able to connect)").arg(mPort));
       start(mPort);
-    }
-    return;
+    } else
+      mPort = -1;  // failed, giving up
   }
   if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
