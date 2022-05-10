@@ -183,7 +183,6 @@ class Vehicle:
         vehicleString = "DEF " + defName + " Solid" + " {\n"
         vehicleString += "  translation 10000 0 0.5\n children [\n" + model + "{\n"
         vehicleString += "  translation " + str(vehicleLength) + " 0 0\n"
-        vehicleString += "  controller \"<none>\"\n"
         if vehicleClass == 'motorcycle':
             vehicleString += "  primaryColor " + colorPairs[0] + "\n"
             vehicleString += "  secondaryColor " + colorPairs[1] + "\n"
