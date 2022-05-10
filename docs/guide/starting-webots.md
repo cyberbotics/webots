@@ -106,24 +106,13 @@ Note that the *stderr* stream may also contain Webots error or warning messages.
 
 The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234.
 
-The `--stream` option enables the Webots streaming server.
-An option can be given to change the default parameters of the streaming server.
-This option is a string containing a list of parameter keys and their values separated by semicolons.
-The supported options are described in [this table](#streaming-server-options).
-
-%figure "Streaming server options"
-
-| Key                | Value example | Description                                      |
-| ------------------ | ------------- | ------------------------------------------------ |
-| mode               | x3d or mjpeg  | The streaming mode used by the streaming server. |
-| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.       |
-| disableTextStreams |               | Disable the streaming of stdout and stderr.      |
-
-%end
-
-For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode and will disable the streaming of stdout and stderr: `webots --port=1235 --stream="mode:mjpeg;disableTextStreams"`
-
+The `--stream` option enables the Webots streaming server in either `x3d` (default) or `mjpeg` mode.
 You can get more information about web streaming in [this section](web-streaming.md).
+
+The `--heartbeat` option will print a dot (.) on stdout at regular time intervals to monitor that Webots is running smoothly.
+
+For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode and will disable the streaming of stdout and stderr: `webots --port=1235 --stream=mjpeg`
+
 
 The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
 You can use a `-p` flag to override default PROTO parameters.
