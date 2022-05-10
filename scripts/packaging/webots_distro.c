@@ -32,7 +32,7 @@
 #ifdef __APPLE__
 #include <CommonCrypto/CommonDigest.h>
 #elif defined(__linux__)
-#include <openssl/evp.h>
+#include <openssl/md5.h>
 #else  // _WIN32
 #include <windows.h>
 #include "openssl/md5.h"
@@ -276,16 +276,8 @@ static bool compute_md5_of_file(const char *file_name, unsigned char *out) {
   unsigned char buffer[8192];
   unsigned char bufferUnix[8192];
 
-#ifdef __linux__
-  EVP_MD_CTX *mdctx;
-  unsigned char *md5_digest;
-  unsigned int md5_digest_len = EVP_MD_size(EVP_md5());
-  mdctx = EVP_MD_CTX_new();
-  EVP_DigestInit_ex(mdctx, EVP_md5(), NULL);
-#else
   MD5_CTX mc;
   MD5_Init(&mc);
-#endif
 
   size_t len = fread(buffer, 1, sizeof(buffer), file);
   while (len > 0) {
@@ -301,23 +293,12 @@ static bool compute_md5_of_file(const char *file_name, unsigned char *out) {
       ++i;
     }
 
-#ifdef __linux__
-    EVP_DigestUpdate(mdctx, bufferUnix, lenUnix);
-#else
     MD5_Update(&mc, bufferUnix, lenUnix);
-#endif
     len = fread(buffer, 1, sizeof(buffer), file);
   }
 
   fclose(file);
-#ifdef __linux__
-  // OpenSSL 3.0
-  md5_digest = (unsigned char *)OPENSSL_malloc(md5_digest_len);
-  EVP_DigestFinal_ex(mdctx, md5_digest, &md5_digest_len);
-  EVP_MD_CTX_free(mdctx);
-#else
   MD5_Final(out, &mc);
-#endif
   return true;
 }
 
@@ -427,33 +408,8 @@ static char **expand_wildcard_filename(const char *big_buffer, int *n) {
 }
 
 static void add_ros_dependencies(const char *path) {
+#ifdef WEBOTS_UBUNTU_20_04
   fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
-#ifdef WEBOTS_UBUNTU_18_04
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n",
-          path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-#elif defined(WEBOTS_UBUNTU_20_04)
   fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -1178,13 +1134,13 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so debian/usr/local/webots/libcrypto.so\n");
       fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so debian/usr/local/webots/libssl.so\n");
 #elif defined(WEBOTS_UBUNTU_20_04)
-      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libssl.so debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp $/usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
  #endif
 
-#ifdef WEBOTS_UBUNTU_20_04
+#ifdef WEBOTS_UBUNTU_22_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 
