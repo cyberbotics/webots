@@ -169,11 +169,11 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
 
   QString path;
   // handle case if the parent proto references a subproto that is itself a remote asset
-  // ex: EXTERNPROTO SubNode "https://raw.github.com/.../SubNode.proto"
+  // ex: EXTERNPROTO "https://raw.github.com/.../SubNode.proto"
   if (isWeb(url))
     return url;
 
-  // handle situation: EXTERNPROTO SubNode "/absolute/path/to/proto/SubNode.proto"
+  // handle situation: EXTERNPROTO "/absolute/path/to/proto/SubNode.proto"
   if (QDir::isAbsolutePath(url))
     return url;  // nothing to do, url is accessible as-is
   else {
@@ -188,7 +188,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
         return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
       else {
         // handle case where a remote proto references a local (webots://) subproto
-        // ex: EXTERNPROTO SubNode "webots://.../SubNode.proto"
+        // ex: EXTERNPROTO "webots://.../SubNode.proto"
         QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
         QRegularExpressionMatch match = re.match(parentProtoUrl);
         // TODO: need to match? can't replace?
@@ -198,7 +198,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
       }
     } else if (QDir::isRelativePath(subProtoUrl)) {
       // handle case if the parent proto references a subproto relatively to itself
-      // ex: EXTERNPROTO SubNode "../../../SubNode.proto"
+      // ex: EXTERNPROTO "../../../SubNode.proto"
 
       // consume directories in both urls accordingly
       while (subProtoUrl.startsWith("../")) {

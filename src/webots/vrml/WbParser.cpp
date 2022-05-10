@@ -492,11 +492,6 @@ void WbParser::skipExternProto() {
   mTokenizer->skipToken("EXTERNPROTO");
 
   const WbToken *token = nextToken();
-  if (!token->isIdentifier())
-    reportUnexpected("identifier");
-
-  token = nextToken();
-
   if (!token->isString())
     reportUnexpected("string literal");
 }

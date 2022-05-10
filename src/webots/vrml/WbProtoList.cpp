@@ -218,7 +218,8 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   }
 
   if (mCurrentProjectProtoList.contains(modelName)) {
-    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProtoList.value(modelName), false);
+    QString url =
+      WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProtoList.value(modelName), false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
@@ -243,6 +244,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
     if (model->name() == modelName)
       return model;
 
+  // TODO: remove this function?
   QFileInfoList tmpProto;  // protos in Webots temporary folder (i.e added by EXTERNPROTO reference)
   foreach (const QString &path, WbStandardPaths::webotsTmpProtoPath())
     findProtosRecursively(path, tmpProto);  // TODO: works because folder in tmp is called "protos". No need to have list of
@@ -364,14 +366,6 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, bool buildPro
   }
 
   return isProtoAssetAvailable;
-}
-
-bool WbProtoList::externProtoExists(const QString &filename) {
-  if (filename.startsWith("https://"))
-    return WbNetwork::instance()->isCached(filename);
-
-  const QString &path = WbUrl::computePath(NULL, "EXTERNPROTO", filename, false);  // TODO: remplace with something better
-  return QFileInfo(path).exists();
 }
 
 void WbProtoList::retrieveAllExternProto(QString filename, bool reloading) {

@@ -88,7 +88,8 @@ for asset in tqdm(assets):
       index = n
       break
 
-  while contents[index].startswith('\n'):
+  # consume any space or pre-existing externproto reference
+  while contents[index].startswith('\n') or contents[index].startswith('EXTERNPROTO'):
     del contents[index]
 
   if not index:
@@ -99,7 +100,7 @@ for asset in tqdm(assets):
   #contents = contents.splitlines(keepends=True)
   complete_expr = ""
   for match in matches:
-    expr = f'EXTERNPROTO {match} \"{BASE_URL}{known_proto[match]}\"\n'
+    expr = f'EXTERNPROTO \"{BASE_URL}{known_proto[match]}\"\n'
     if expr not in contents and expr not in complete_expr:
       complete_expr += expr
   if complete_expr == "":
