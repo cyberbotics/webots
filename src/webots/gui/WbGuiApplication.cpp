@@ -118,7 +118,7 @@ void WbGuiApplication::restart() {
 }
 
 void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity,
-                                            bool &disableTextStreams, bool &ssl, bool &controllerEdit) {
+                                            bool &disableTextStreams) {
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
@@ -127,10 +127,6 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QStr
       monitorActivity = true;
     else if (option == "disableTextStreams")
       disableTextStreams = true;
-    else if (option == "ssl")
-      ssl = true;
-    else if (option == "controllerEdit")
-      controllerEdit = true;
     else {
       const QStringList list = option.split('=', Qt::SkipEmptyParts);
       if (list.size() != 2)
@@ -163,8 +159,6 @@ void WbGuiApplication::parseArguments() {
   bool logPerformanceMode = false, batch = false;
   bool monitorActivity = false;
   bool disableTextStreams = false;
-  bool ssl = false;
-  bool controllerEdit = false;
   int port = 1234;  // default value
   QString mode = "x3d";
   mStream = false;
@@ -231,7 +225,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      parseStreamArguments(serverArgument, mode, monitorActivity, disableTextStreams, ssl, controllerEdit);
+      parseStreamArguments(serverArgument, mode, monitorActivity, disableTextStreams);
     } else if (arg == "--stdout")
       WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
