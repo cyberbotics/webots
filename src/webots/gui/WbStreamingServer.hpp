@@ -22,13 +22,13 @@
 #include "WbLog.hpp"
 
 class QTcpSocket;
+class QTcpServer;
 class QWebSocket;
 class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
 class WbRobot;
-class WbStreamingTcpServer;
 class WbView3D;
 
 class WbStreamingServer : public QObject {
@@ -98,7 +98,7 @@ private:
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
 
   QWebSocketServer *mWebSocketServer;
-  WbStreamingTcpServer *mTcpServer;
+  QTcpServer *mTcpServer;
   qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
