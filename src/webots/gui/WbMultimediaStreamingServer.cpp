@@ -38,7 +38,7 @@ using namespace std;
 static WbView3D *gView3D = NULL;
 
 WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
-  WbStreamingServer(true),
+  WbTcpServer(true),
   mImageWidth(-1),
   mImageHeight(-1),
   mImageUpdateTimeStep(50),
@@ -62,7 +62,7 @@ void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {
 }
 
 void WbMultimediaStreamingServer::start(int port) {
-  WbStreamingServer::start(port);
+  WbTcpServer::start(port);
   WbLog::info(
     tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
   mWriteTimer.setSingleShot(true);
@@ -73,7 +73,7 @@ void WbMultimediaStreamingServer::start(int port) {
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host,
                                                       QTcpSocket *socket) {
   if (requestedUrl != "mjpeg") {
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
+    WbTcpServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
     return;
   }
   socket->readAll();
@@ -397,7 +397,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
                    .arg(message));
     return;
   } else
-    WbStreamingServer::processTextMessage(message);
+    WbTcpServer::processTextMessage(message);
 }
 
 void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
@@ -407,6 +407,5 @@ void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
   infoObject.insert("title", currentWorldInfo->title());
   const QJsonDocument infoDocument(infoObject);
   client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
-
-  WbStreamingServer::sendWorldToClient(client);
+  WbTcpServer::sendWorldToClient(client);
 }

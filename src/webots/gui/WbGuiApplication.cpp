@@ -62,7 +62,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QApplication(argc, argv),
   mMainWindow(NULL),
   mTask(NORMAL),
-  mStreamingServer(NULL) {
+  mTcpServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
@@ -227,19 +227,19 @@ void WbGuiApplication::parseArguments() {
     }
   }
   if (mStream == '\0')  // we need a simple streaming server for robot windows and remote controllers
-    mStreamingServer = new WbStreamingServer(mStream);
+    mTcpServer = new WbTcpServer(mStream);
   else {
     if (!batch)
       commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
     if (mStream == 'm')
-      mStreamingServer = new WbMultimediaStreamingServer();
+      mTcpServer = new WbMultimediaStreamingServer();
     else {  // x3d
-      mStreamingServer = new WbX3dStreamingServer();
+      mTcpServer = new WbX3dStreamingServer();
       WbWorld::enableX3DStreaming();
     }
   }
-  mStreamingServer->start(port);
-  if (mStreamingServer->port() == -1)
+  mTcpServer->start(port);
+  if (mTcpServer->port() == -1)
     commandLineError(tr("failed to open TCP server in the port range [%1-%2]\n").arg(port).arg(port + 10));
 
   // create the Webots temporary path based on the TCP port early in the process
@@ -326,7 +326,7 @@ bool WbGuiApplication::setup() {
   // image in the splash screen is empty...
   // Doing the same on Windows slows down the popup of the SplashScreen, therefore
   // the main window is created later on Windows.
-  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mTcpServer);
 #endif
 
   if (!mShouldMinimize) {
@@ -379,7 +379,7 @@ bool WbGuiApplication::setup() {
 
 #ifdef _WIN32
   // create main window
-  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mTcpServer);
 #endif
 
   if (mShouldMinimize)

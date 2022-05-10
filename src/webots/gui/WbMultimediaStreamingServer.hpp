@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_VIDEO_STREAMING_SERVER_HPP
-#define WB_VIDEO_STREAMING_SERVER_HPP
+#ifndef WB_MULTIMEDIA_STREAMING_SERVER_HPP
+#define WB_MULTIMEDIA_STREAMING_SERVER_HPP
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 #include "WbVector3.hpp"
 
 #include <QtCore/QElapsedTimer>
@@ -25,7 +25,7 @@ class WbMatter;
 class WbMultimediaStreamingLimiter;
 class WbView3D;
 
-class WbMultimediaStreamingServer : public WbStreamingServer {
+class WbMultimediaStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:

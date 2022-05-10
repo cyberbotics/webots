@@ -421,7 +421,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
   WbStringEditor.cpp \
-  WbStreamingServer.cpp \
+  WbTcpServer.cpp \
   WbSupervisorUtilities.cpp \
   WbSyntaxHighlighter.cpp \
   WbTelemetry.cpp \

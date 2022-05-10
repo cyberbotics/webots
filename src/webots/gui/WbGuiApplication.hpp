@@ -26,7 +26,7 @@
 class WbApplication;
 class WbMainWindow;
 class WbSplashScreen;
-class WbStreamingServer;
+class WbTcpServer;
 
 class WbGuiApplication : public QApplication {
   Q_OBJECT
@@ -63,7 +63,7 @@ private:
   Task mTask;
   QStringList mTaskArguments;
 
-  WbStreamingServer *mStreamingServer;
+  WbTcpServer *mTcpServer;
 
   void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();

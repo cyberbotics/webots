@@ -15,11 +15,11 @@
 #ifndef WB_X3D_STREAMING_SERVER_HPP
 #define WB_X3D_STREAMING_SERVER_HPP
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 
 #include <QtCore/QHash>
 
-class WbX3dStreamingServer : public WbStreamingServer {
+class WbX3dStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:
