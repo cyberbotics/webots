@@ -20,11 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
         include:
           - os: ubuntu-20.04
             JAVA_VERSION: "16"
             ROS_DISTRO: "noetic"
+          - os: ubuntu-22.04
+            JAVA_VERSION: "18"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -83,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -190,7 +192,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
