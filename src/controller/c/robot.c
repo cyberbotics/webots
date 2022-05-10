@@ -34,7 +34,7 @@
 #include <sys/stat.h>  // stat
 #include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
-#if defined(__APPLE__) || defined(__NetBSD__)
+#if defined(__APPLE__) || defined(_WIN32)
 #define st_mtim st_mtimespec
 #endif
 
@@ -1080,7 +1080,11 @@ static char *compute_socket_filename() {
         char *filename = malloc(length);
         snprintf(filename, length, "%s/%s", TMP_DIR, de->d_name);
         if (stat(filename, &filestat) == 0) {
+#ifdef _WIN32
+          double ts = (double)filestat.st_mtime;
+#else
           double ts = filestat.st_mtim.tv_sec + (filestat.st_mtim.tv_nsec / 1000000000.0);  // last modification time
+#endif
           // printf("ts = %.17lg\n", ts);
           if (ts > timestamp) {
             timestamp = ts;

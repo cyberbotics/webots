@@ -54,9 +54,10 @@ namespace WbStandardPaths {
   const QString &unnamedWorld();     // "unnamed.wbt"
   const QString &unnamedTextFile();  // "unnamed.txt"
 
-  // temporary directory
-  const QString &webotsTmpPath(const int id = -1);  // e.g. /tmp/webots-<id>/ where <id> corresponds to the TCP port
+  // temporary directory, e.g. /tmp/webots-<id>/ where <id> corresponds to the TCP port
+  bool webotsTmpPathCreate(const int id);
   int webotsTmpPathId();
+  const QString &webotsTmpPath();
 
 };  // namespace WbStandardPaths
 

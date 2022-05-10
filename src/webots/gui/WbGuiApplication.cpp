@@ -117,39 +117,6 @@ void WbGuiApplication::restart() {
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity,
-                                            bool &disableTextStreams, bool &ssl, bool &controllerEdit) {
-  const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-  foreach (QString option, options) {
-    option = option.trimmed();
-    // "key" without value case
-    if (option == "monitorActivity")
-      monitorActivity = true;
-    else if (option == "disableTextStreams")
-      disableTextStreams = true;
-    else if (option == "ssl")
-      ssl = true;
-    else if (option == "controllerEdit")
-      controllerEdit = true;
-    else {
-      const QStringList list = option.split('=', Qt::SkipEmptyParts);
-      if (list.size() != 2)
-        commandLineError(tr("unknown option: '%1' in --stream").arg(option));
-      else {
-        const QString &key = list[0];
-        const QString &value = list[1];
-        if (key == "mode") {
-          if (value != "x3d" && value != "mjpeg")
-            commandLineError(tr("invalid 'mode' value: '%1' in --stream").arg(value));
-          else if (value == "mjpeg")
-            mode = "mjpeg";
-        } else
-          commandLineError(tr("unknown option: '%1' in --stream").arg(option));
-      }
-    }
-  }
-}
-
 void WbGuiApplication::commandLineError(const QString &message, bool fatal) {
   cerr << "webots: " << message.toUtf8().constData() << endl;
   cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
@@ -161,13 +128,8 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false, batch = false;
-  bool monitorActivity = false;
-  bool disableTextStreams = false;
-  bool ssl = false;
-  bool controllerEdit = false;
   int port = 1234;  // default value
-  QString mode = "x3d";
-  mStream = false;
+  mStream = '\0';
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -219,42 +181,42 @@ void WbGuiApplication::parseArguments() {
       if (index == -1) {
         commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
       }
-    } else if (arg.startsWith("--stream")) {
-      mStream = true;
-      QString serverArgument;
-      int equalCharacterIndex = arg.indexOf('=');
-      if (equalCharacterIndex != -1) {
-        serverArgument = arg.mid(equalCharacterIndex + 1);
-        // remove starting/trailing double quotes
-        if (serverArgument.startsWith('"'))
-          serverArgument = serverArgument.right(serverArgument.size() - 1);
-        if (serverArgument.endsWith('"'))
-          serverArgument = serverArgument.left(serverArgument.size() - 1);
-      }
-      parseStreamArguments(serverArgument, mode, monitorActivity, disableTextStreams, ssl, controllerEdit);
+    } else if (arg == "--stream") {
+      mStream = 'x';  // x3d is the default mode
+    } else if (arg.startsWith("--stream=")) {
+      const QString mode = arg.mid(arg.indexOf('=') + 1);
+      if (mode != "x3d" && mode != "mjpeg")
+        commandLineError(tr("invalid value \"%1\" to '--stream' option.").arg(mode));
+      else
+        mStream = mode[0].toLatin1();
+    } else if (arg == "--heartbeat")
+      startTimer(1000);
+    else if (arg.startsWith("--heartbeat=")) {
+      bool ok;
+      const int value = arg.mid(arg.indexOf('=') + 1).toInt(&ok);
+      if (ok)
+        startTimer(value);
+      else
+        commandLineError(tr("invalid value \"%1\" to '--heartbeat' option.").arg(arg.mid(arg.indexOf('=') + 1)));
     } else if (arg == "--stdout")
       WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
       WbLog::enableStdErrRedirectToTerminal();
-    else if (arg.startsWith("--log-performance")) {
-      int equalCharacterIndex = arg.indexOf('=');
-      if (equalCharacterIndex != -1) {
-        QString logArgument = arg.mid(equalCharacterIndex + 1);
-        // remove starting/trailing double quotes
-        if (logArgument.startsWith('"'))
-          logArgument = logArgument.right(logArgument.size() - 1);
-        if (logArgument.endsWith('"'))
-          logArgument = logArgument.left(logArgument.size() - 1);
-
-        if (logArgument.contains(",")) {
-          QStringList argumentsList = logArgument.split(",");
-          WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
-        } else
-          WbPerformanceLog::createInstance(logArgument);
-
-        logPerformanceMode = true;
+    else if (arg == "--log-performance")
+      commandLineError(tr("invalid '--log-performance' option: log file path is missing."), false);
+    else if (arg.startsWith("--log-performance=")) {
+      QString logArgument = arg.mid(arg.indexOf('=') + 1);
+      // remove starting/trailing double quotes
+      if (logArgument.startsWith('"'))
+        logArgument = logArgument.right(logArgument.size() - 1);
+      if (logArgument.endsWith('"'))
+        logArgument = logArgument.left(logArgument.size() - 1);
+      if (logArgument.contains(",")) {
+        QStringList argumentsList = logArgument.split(",");
+        WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
       } else
-        commandLineError(tr("invalid option : '--log-performance': log file path is missing."), false);
+        WbPerformanceLog::createInstance(logArgument);
+      logPerformanceMode = true;
     } else if (arg.startsWith("-")) {
       commandLineError(tr("invalid option: '%1'").arg(arg));
     } else {
@@ -264,15 +226,15 @@ void WbGuiApplication::parseArguments() {
         commandLineError(tr("too many arguments."));
     }
   }
-  if (mStream == false)  // we need a simple streaming server for robot windows and remote controllers
-    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
+  if (mStream == '\0')  // we need a simple streaming server for robot windows and remote controllers
+    mStreamingServer = new WbStreamingServer(mStream);
   else {
     if (!batch)
       commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
-    if (mode == "mjpeg")
-      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-    else {
-      mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    if (mStream == 'm')
+      mStreamingServer = new WbMultimediaStreamingServer();
+    else {  // x3d
+      mStreamingServer = new WbX3dStreamingServer();
       WbWorld::enableX3DStreaming();
     }
   }
@@ -282,8 +244,8 @@ void WbGuiApplication::parseArguments() {
 
   // create the Webots temporary path based on the TCP port early in the process
   // in order to be sure that the Qt internal files will be stored at the right place
-  else if (WbStandardPaths::webotsTmpPath(port).isEmpty())
-    commandLineError(tr("failed to create the Webots temporary path.\n"));
+  else if (!WbStandardPaths::webotsTmpPathCreate(port))
+    commandLineError(tr("failed to create the Webots temporary path \"%1\".\n").arg(WbStandardPaths::webotsTmpPath()));
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
@@ -616,4 +578,8 @@ void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
   if (windowsDarkMode)
     setDarkTitlebar(reinterpret_cast<HWND>(window->winId()));
 #endif
+}
+
+void WbGuiApplication::timerEvent(QTimerEvent *event) {
+  cout << "." << endl;
 }

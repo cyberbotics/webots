@@ -35,7 +35,7 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit, bool stream);
+  explicit WbStreamingServer(bool stream);
   virtual ~WbStreamingServer();
 
   void setView3D(WbView3D *);
@@ -68,8 +68,6 @@ protected:
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
-  void computeEditableControllers();
-  void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
 
   QList<QWebSocket *> mWebSocketClients;
@@ -93,7 +91,6 @@ private slots:
 
 private:
   void toggleAction(bool serverIsCreated);
-  bool isControllerEditAllowed(const QString &controller);
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
@@ -102,7 +99,6 @@ private:
 
   QWebSocketServer *mWebSocketServer;
   WbStreamingTcpServer *mTcpServer;
-  QStringList mEditableControllers;
   qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
@@ -110,9 +106,7 @@ private:
   bool mClientsReadyToReceiveMessages;
   bool mMonitorActivity;
   bool mDisableTextStreams;
-  bool mSsl;
   bool mStream;
-  bool mControllerEdit;
   int mPort;
 };
 

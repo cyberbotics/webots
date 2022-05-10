@@ -2,7 +2,7 @@ version: "3.8"
 
 volumes:
   tmp:
-    name: tmp-$PORT
+    name: tmp-$PORT-$ROBOT_NAME_1
 
 services:
   webots:
@@ -12,7 +12,8 @@ services:
       dockerfile: Dockerfile
       args:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE
-    command: webots --stream="port=$PORT;monitorActivity" --batch --mode=realtime --minimize --no-rendering $WORLD
+#    command: /usr/local/webots/webots --port=$PORT --stream="monitorActivity" --batch --mode=realtime --minimize --no-rendering $WORLD
+    command: ls /usr/local
     environment:
       - DISPLAY=:0
     ports:
@@ -22,4 +23,4 @@ services:
     tty: true         # docker run -t
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - tmp:/tmp
+      - tmp:/tmp/webots-$PORT/$ROBOT_NAME_1

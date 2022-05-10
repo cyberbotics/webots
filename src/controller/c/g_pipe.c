@@ -49,7 +49,7 @@ GPipe *g_pipe_new(const char *path) {
       free(p);
       return NULL;
     }
-    if (!WaitNamedPipe(name, 5000)) {
+    if (!WaitNamedPipe(path, 5000)) {
       fprintf(stderr, "Cannot open pipe file: %s after trying for 5 seconds\n", path);
       free(p);
       return NULL;

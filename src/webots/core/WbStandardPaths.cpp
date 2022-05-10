@@ -205,19 +205,12 @@ static void liveWebotsTmpPath() {
 static QString cWebotsTmpPath;
 static int cWebotsTmpPathId = -1;
 
-int WbStandardPaths::webotsTmpPathId() {
-  return cWebotsTmpPathId;
-}
-
-const QString &WbStandardPaths::webotsTmpPath(const int id) {
-  if (id == -1) {
-    assert(cWebotsTmpPathId != -1);
-    return cWebotsTmpPath;
-  }
+bool WbStandardPaths::webotsTmpPathCreate(const int id) {
+  assert(cWebotsTmpPathId == -1 && cWebotsTmpPath.isEmpty());  // we should create it once
 #ifdef _WIN32
   // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
   // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
-  CWebotsTmpPath =
+  cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #elif defined(__APPLE__)
   cWebotsTmpPath = QString("/var/tmp/webots-%1/").arg(id);
@@ -226,9 +219,9 @@ const QString &WbStandardPaths::webotsTmpPath(const int id) {
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
     cWebotsTmpPath = QString("%1/webots-%2/").arg(WEBOTS_TMPDIR).arg(id);
   else {
+    cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
     WbLog::error(
       QObject::tr("Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
-    cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
   }
 #endif
 
@@ -250,7 +243,7 @@ const QString &WbStandardPaths::webotsTmpPath(const int id) {
   // create the required tmp directories
   QDir dir(cWebotsTmpPath);
   if (!dir.exists() && !dir.mkpath("."))
-    WbLog::fatal(QObject::tr("Cannot create the Webots temporary directory \"%1\"").arg(cWebotsTmpPath));
+    return false;
 
   // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
   static QTimer timer;
@@ -258,5 +251,13 @@ const QString &WbStandardPaths::webotsTmpPath(const int id) {
   QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
   timer.start(30 * 60 * 1000);  // call every 30 minutes
   cWebotsTmpPathId = id;
+  return true;
+}
+
+int WbStandardPaths::webotsTmpPathId() {
+  return cWebotsTmpPathId;
+}
+
+const QString &WbStandardPaths::webotsTmpPath() {
   return cWebotsTmpPath;
 }
