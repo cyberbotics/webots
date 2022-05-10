@@ -25,6 +25,7 @@
 #include "g_pipe.h"
 #include "robot_private.h"
 #include "scheduler.h"
+#include "tcp_client.h"
 #ifdef _WIN32
 #include <wininet.h>
 #else  // __APPLE__ || __linux__
@@ -44,6 +45,7 @@ unsigned int scheduler_data_size = 0;
 unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 GPipe *scheduler_pipe = NULL;
+TcpClient *scheduler_client = NULL;
 char *scheduler_protocol = NULL;
 
 int scheduler_init(const char *pipe) {
@@ -64,14 +66,29 @@ int scheduler_init(const char *pipe) {
     sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
     setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
 #endif
-    scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
-    scheduler_data_size = SCHEDULER_DATA_CHUNK;
   } else if (strncmp(scheduler_protocol, "TCP", 3) == 0) {
-    // implement tcp request to ask webots a link to robot (indicated or first in alphabetical)
+    const char *url_suffix = strstr(pipe, ":");
+    int host_length = strlen(pipe) - strlen(url_suffix);
+    char *host = malloc(host_length);
+    int port;
+
+    memcpy(host, pipe, host_length);
+    sscanf(url_suffix, ":%d", &port);
+    scheduler_client = tcp_client_new(host, port);
+    free(host);
+
+    if (scheduler_client == NULL)
+      return false;
+
+    // extract robot name + tcp_send robot name + recieve (indicated or first in alphabetical)
+
   } else {
     fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
     exit(EXIT_FAILURE);
   }
+
+  scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
+  scheduler_data_size = SCHEDULER_DATA_CHUNK;
 
   return true;
 }

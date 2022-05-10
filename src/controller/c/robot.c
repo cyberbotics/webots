@@ -1172,11 +1172,6 @@ static char *compute_socket_filename() {
 
     scheduler_protocol = strdup("TCP");
     return socket_filename;
-    /*int ip_length = strlen(WEBOTS_CONTROLLER_URL) - strlen(url_suffix) - 6;
-    ip_address = malloc(ip_length);
-    strncpy(ip_address, &WEBOTS_CONTROLLER_URL[6], ip_length);
-    sscanf(url_suffix, ":%d", &port);*/
-
   } else {
     fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
