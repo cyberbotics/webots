@@ -16,10 +16,12 @@
 
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 
@@ -544,13 +546,19 @@ void WbTokenizer::reportFileError(const QString &message) const {
 }
 
 WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName) {
-  if (fileName.endsWith(".wbt"))
+  QString name = fileName;
+  if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+    // attempting to tokenize a cached file, determine its original format from the ephemeral cache representation
+    name = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
+  }
+
+  if (name.endsWith(".wbt"))
     return WORLD;
-  else if (fileName.endsWith(".proto"))
+  else if (name.endsWith(".proto"))
     return PROTO;
-  else if (fileName.endsWith(".wbo"))
+  else if (name.endsWith(".wbo"))
     return OBJECT;
-  else if (fileName.endsWith(".wrl"))
+  else if (name.endsWith(".wrl"))
     return MODEL;
   else
     return UNKNOWN;

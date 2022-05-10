@@ -33,6 +33,10 @@ public:
   qint64 cacheSize() const { return mCacheSizeInBytes; };
   void reduceCacheUsage();
 
+  const QString cacheDirectory() { return mCacheDirectory; };
+
+  static const QString getUrlFromEphemeralCache(const QString &cachePath);
+
 private:
   static void cleanup();
   WbNetwork();
