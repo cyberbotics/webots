@@ -242,10 +242,9 @@ void WbController::start() {
 
   // recover from a crash, when the previous server instance has not been cleaned up
 
-  const QString path =
-    WbStandardPaths::webotsTmpPath() + (isExtern() ? "ex" : "in") + "tern/" + QUrl::toPercentEncoding(mRobot->name());
+  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
-  const QString serverName = path + "/socket";
+  const QString serverName = path + '/' + (isExtern() ? "extern" : "intern");
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
