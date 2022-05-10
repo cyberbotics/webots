@@ -265,14 +265,14 @@ void WbGuiApplication::parseArguments() {
     }
   }
   if (mStream == false)  // we need a simple streaming server for robot windows and remote controllers
-    mStreamingServer = new WbStreamingServer(false, false, false, false, mStream);
+    mStreamingServer = new WbStreamingServer(false, false, mStream);
   else {
     if (!batch)
       commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
     if (mode == "mjpeg")
-      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams);
     else {
-      mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+      mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams);
       WbWorld::enableX3DStreaming();
     }
   }
