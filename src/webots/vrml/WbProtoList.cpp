@@ -67,6 +67,8 @@ WbProtoList::WbProtoList() {
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
 WbProtoList::~WbProtoList() {
+  // TODO: test proto insertion from supervisor
+
   if (gCurrent == this)
     gCurrent = NULL;
 
@@ -398,21 +400,27 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
     return protoList;
   }
 
-  QRegularExpression re("EXTERNPROTO\\s([a-zA-Z0-9-_+]+)\\s\"(.*\\.proto)\"");  // TODO: test it more
+  QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const QString identifier = match.captured(1);
-      const QString url = match.captured(2);
+      // const QString identifier = match.captured(1);
+      const QString url = match.captured(1);
       QString externProtoUrl = WbUrl::generateExternProtoPath(url, filename);
       // printf("GEN %s\n", externProtoUrl.toUtf8().constData());
-      if (!externProtoUrl.endsWith(identifier + ".proto")) {
-        WbLog::error(tr("Malformed extern proto url. The identifier and url do not coincide.\n"));
+      if (!externProtoUrl.endsWith(".proto")) {
+        WbLog::error(tr("Malformed extern proto url. The url should end with '.proto'\n"));
         return protoList;
       }
 
-      protoList.insert(identifier, externProtoUrl);  // if same identifier, only last url is kept
+      QString protoName;
+      if (WbUrl::isWeb(url) || WbUrl::isLocalUrl(url))
+        protoName = QUrl(url).fileName().replace(".proto", "");
+      else
+        assert(0);  // TODO: case not handled/tested yes (relative url, abs, ..)
+
+      protoList.insert(protoName, externProtoUrl);  // if same identifier, only last url is kept
     }
   }
 

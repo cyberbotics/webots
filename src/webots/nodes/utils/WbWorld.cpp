@@ -713,7 +713,7 @@ void WbWorld::recursivelyRetrieveExternReferences(const QString &filename) {
   if (file.open(QIODevice::ReadOnly)) {
     const QString content = file.readAll();
 
-    QRegularExpression re("(?<=[#\\s+])EXTERNPROTO\\s+\\n*\"(.*\\.proto)\"");  // TODO: test it more
+    QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
     QRegularExpressionMatchIterator it = re.globalMatch(content);
     while (it.hasNext()) {
       QRegularExpressionMatch match = it.next();

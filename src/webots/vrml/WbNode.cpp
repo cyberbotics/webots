@@ -1058,6 +1058,9 @@ void WbNode::write(WbWriter &writer) const {
 
   writer << fullName();
 
+  if (isProtoInstance())
+    writer.addExternProto(mProto->fileName());
+
   if (isUseNode())
     return;
 
