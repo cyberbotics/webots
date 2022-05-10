@@ -201,7 +201,7 @@ void WbProtoList::printCurrentProjectProtoList() {
   printf("-- mCurrentProjectProtoList ------\n");
   while (it.hasNext()) {
     it.next();
-    printf("%s -> %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
+    printf("%35s -> %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
   }
   printf("----------------\n");
 }
@@ -220,7 +220,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
     }
-    printf("%s is known, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
+    printf("%35s is known, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
@@ -325,11 +325,11 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, bool buildPro
   if (WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url))
     return false;
 
-  if (WbUrl::isLocalUrl(url))
+  if (WbUrl::isLocalUrl(url)) {
     url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + filename.mid(9));
-
-  if (!QFileInfo(url).exists())
-    return false;
+    if (!QFileInfo(url).exists())
+      return false;
+  }
 
   QMap<QString, QString> externProtos = getExternProtoList(url);
   if (buildProtoList)
@@ -340,18 +340,22 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, bool buildPro
   while (it.hasNext()) {
     it.next();
 
-    QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
     QString path = it.value();
-    if (WbUrl::isWeb(externProtoUrl) && WbNetwork::instance()->isCached(externProtoUrl))
-      path = WbNetwork::instance()->get(path);
-    else if (WbUrl::isLocalUrl(externProtoUrl))
-      path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + path.mid(9));
+    // if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+    //  path = WbNetwork::instance()->get(path)//;
+
+    // assert(!WbUrl::isLocalUrl(path));
+    // else if (WbUrl::isLocalUrl(path))
+    //  path = path;
 
     bool success = areProtoAssetsAvailable(path, buildProtoList);
-    if (success)
-      printf("> AVAILABLE: %s\n", path.toUtf8().constData());
-    else
-      printf("> NOT AVAILABLE: %s\n", path.toUtf8().constData());
+    if (success) {
+      if (buildProtoList)
+        printf("> AVAILABLE: %s\n", path.toUtf8().constData());
+    } else {
+      if (buildProtoList)
+        printf("> NOT AVAILABLE: %s\n", path.toUtf8().constData());
+    }
     isProtoAssetAvailable &= success;
   }
 
@@ -379,11 +383,20 @@ void WbProtoList::retrieveAllExternProto(QString filename, bool reloading) {
 QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) {
   // TODO: for now, assume this functions gets a clean locally accessible path. Is it better if this function does the
   // cleaning?
+
+  QString path = filename;
+  if (WbUrl::isWeb(filename)) {
+    if (WbNetwork::instance()->isCached(filename))
+      path = WbNetwork::instance()->get(filename);
+    else
+      printf("ERROR, %s not cached but should?\n", filename.toUtf8().constData());
+  }
+
   QMap<QString, QString> protoList;
 
-  QFile file(filename);
+  QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
-    printf("ERROR, %s is not a valid filename for getExternProtoList\n", filename.toUtf8().constData());
+    printf("ERROR, %s is not a valid filename for getExternProtoList\n", path.toUtf8().constData());
     return protoList;
   }
 
@@ -394,13 +407,14 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
     if (match.hasMatch()) {
       const QString identifier = match.captured(1);
       const QString url = match.captured(2);
-
-      if (!url.endsWith(identifier + ".proto")) {
+      QString externProtoUrl = WbUrl::generateExternProtoPath(url, filename);
+      // printf("GEN %s\n", externProtoUrl.toUtf8().constData());
+      if (!externProtoUrl.endsWith(identifier + ".proto")) {
         WbLog::error(tr("Malformed extern proto url. The identifier and url do not coincide.\n"));
         return protoList;
       }
 
-      protoList.insert(identifier, url);  // if same identifier, only last url is kept
+      protoList.insert(identifier, externProtoUrl);  // if same identifier, only last url is kept
     }
   }
 
@@ -409,6 +423,7 @@ QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) 
 
 void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   printf("recursing: %s\n", filename.toUtf8().constData());
+  /*
   QString protoPath = filename;
   if (WbUrl::isWeb(filename)) {
     if (WbNetwork::instance()->isCached(filename))
@@ -432,7 +447,8 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   }
 
   assert(QFileInfo(protoPath).exists());  // by this point, the file should be locally accessible to recurse through it
-  QMap<QString, QString> externProtos = getExternProtoList(protoPath);
+  */
+  QMap<QString, QString> externProtos = getExternProtoList(filename);
   if (externProtos.isEmpty()) {
     emit protoRetrieved();
     return;  // nothing else to recurse into
@@ -442,18 +458,18 @@ void WbProtoList::recursiveProtoRetrieval(const QString &filename) {
   while (it.hasNext()) {
     it.next();
     // manufacture url of sub-proto based on url of the file that references it
-    QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
-    printf(" subproto >>%s<<\n parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
-           protoPath.toUtf8().constData(), externProtoUrl.toUtf8().constData());
-    if (WbUrl::isWeb(externProtoUrl)) {
+    // QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
+    // printf(" subproto >>%s<<\n parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
+    //        protoPath.toUtf8().constData(), externProtoUrl.toUtf8().constData());
+    if (WbUrl::isWeb(it.value())) {
       // retrieve any sub-proto references
       WbDownloader *downloader = new WbDownloader(this);
       connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);  // TODO: need intermediary recurser function?
       mRetrievers.push_back(downloader);
-      downloader->download(QUrl(externProtoUrl));
+      downloader->download(QUrl(it.value()));
       // return;
     } else
-      recursiveProtoRetrieval(externProtoUrl);
+      recursiveProtoRetrieval(it.value());
   }
 
   return;
