@@ -32,7 +32,7 @@ jobs:
         git commit -m "Update discord docs."
         git push origin discord-doc-update
     - name: GitHub Pull Request Action
-      uses: repo-sync/pull-request@v2.2
+      uses: repo-sync/pull-request@v2.6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         source_branch: discord-doc-update
