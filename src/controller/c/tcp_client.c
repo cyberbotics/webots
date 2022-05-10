@@ -44,26 +44,11 @@ TcpClient *tcp_client_new(const char *host, int port) {
     return NULL;
   }
 
-  int trial = 0;
-  while (true) {
-    int connect = tcp_client_connect(c, host, port);
-    if (connect == 1)  // success
-      break;
-    if (connect == 0) {  // failed to connect
-      if (trial++ == 10) {
-        fprintf(stderr, "Giving up.\n");
-        tcp_client_close(c);
-        exit(EXIT_FAILURE);
-      }
-      fprintf(stderr,
-              "Could not connect to Webots instance at %s:%d, retrying in %d "
-              "second%s...\n",
-              host, port, trial, trial > 1 ? "s" : "");
-      sleep(trial);
-    } else {  // failed to lookup host
-      tcp_client_close(c);
-      exit(EXIT_FAILURE);
-    }
+  int connect = tcp_client_connect(c, host, port);
+
+  if (connect == -1 || connect == 0) {  // Failed to lookup host or connection failed
+    tcp_client_close(c);
+    return NULL;
   }
 
   return c;

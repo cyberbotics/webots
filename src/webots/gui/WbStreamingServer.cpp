@@ -182,6 +182,25 @@ void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
+
+  if (request == "CTR") {
+    const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested robot.
+    QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
+
+    const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
+    if (robotNameIndex) {  // robot name is given
+      const QString robotName = tokens[robotNameIndex];
+      // Check in robot list for robot name
+      // If doesn't exist -> tell libController that connection failed
+      // If Tcp connection successfully transferred -> tell libController success
+    } else {  // no robot name given
+      // Take first in robot list with extern controller
+      // If no extern controller -> tell libController that connection failed
+      // If Tcp connection successfully transferred -> tell libController success
+    }
+    return;
+  }
+
   if (request != "GET")  // probably a WebSocket message
     return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.

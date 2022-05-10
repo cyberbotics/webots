@@ -80,7 +80,15 @@ int scheduler_init(const char *pipe) {
     if (scheduler_client == NULL)
       return false;
 
-    // extract robot name + tcp_send robot name + recieve (indicated or first in alphabetical)
+    const char *robot_name = strstr(url_suffix, "/");
+
+    char *init_msg = strdup("CTR");
+    if (robot_name != NULL) {
+      strcat(init_msg, "\nRobot-Name: ");
+      strcat(init_msg, &robot_name[1]);
+    }
+    tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
+    free(init_msg);
 
   } else {
     fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
