@@ -46,6 +46,7 @@ protected:
 #ifdef __APPLE__
   virtual bool event(QEvent *event);
 #endif
+  void timerEvent(QTimerEvent *event);
 
 private:
   WbApplication *mApplication;
@@ -57,7 +58,7 @@ private:
   WbMainWindow *mMainWindow;
   bool mShouldDoRendering;
   QString mThemeLoaded;
-  bool mStream;
+  char mStream;
 
   Task mTask;
   QStringList mTaskArguments;
@@ -66,7 +67,6 @@ private:
 
   void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();
-  void parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity);
   void showHelp();
   void showSysInfo();
   bool setup();
@@ -75,7 +75,6 @@ private:
   WbSimulationState::Mode startupModeFromPreferences() const;
   bool renderingFromPreferences() const;
   void loadInitialWorld();
-
   void udpateStyleSheet();
 };
 

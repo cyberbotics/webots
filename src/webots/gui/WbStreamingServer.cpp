@@ -45,12 +45,11 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer(bool monitorActivity, bool stream) :
+WbStreamingServer::WbStreamingServer(bool stream) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
   mClientsReadyToReceiveMessages(false),
-  mMonitorActivity(monitorActivity),
   mStream(stream) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
@@ -370,8 +369,6 @@ void WbStreamingServer::socketDisconnected() {
 }
 
 void WbStreamingServer::sendUpdatePackageToClients() {
-  sendActivityPulse();
-
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
@@ -379,19 +376,6 @@ void WbStreamingServer::sendUpdatePackageToClients() {
         pauseClientIfNeeded(client);
       mLastUpdateTime = currentTime;
     }
-  }
-}
-
-void WbStreamingServer::sendActivityPulse() const {
-  if (!mMonitorActivity)
-    return;
-
-  static qint64 lastTime = 0;
-  const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-  if (currentTime - lastTime >= 5000.0) {  // send a pulse every 5 second on stdout
-    lastTime = currentTime;                // to mean the simulation is up and running
-    printf(".\n");
-    fflush(stdout);
   }
 }
 
@@ -469,10 +453,8 @@ void WbStreamingServer::newWorld() {
   if (mWebSocketServer == NULL)
     return;
 
-  if (mMonitorActivity) {
-    printf("open\n");
-    fflush(stdout);
-  }
+  printf("open\n");
+  fflush(stdout);
 
   if (!prepareWorld())
     return;

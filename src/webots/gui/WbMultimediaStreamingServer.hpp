@@ -29,7 +29,7 @@ class WbMultimediaStreamingServer : public WbStreamingServer {
   Q_OBJECT
 
 public:
-  WbMultimediaStreamingServer(bool monitorActivity);
+  WbMultimediaStreamingServer();
   ~WbMultimediaStreamingServer();
   void sendImage(const QImage &image);
 

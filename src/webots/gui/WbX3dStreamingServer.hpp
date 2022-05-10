@@ -23,7 +23,7 @@ class WbX3dStreamingServer : public WbStreamingServer {
   Q_OBJECT
 
 public:
-  WbX3dStreamingServer(bool monitorActivity);
+  WbX3dStreamingServer();
   ~WbX3dStreamingServer();
 
 private slots:

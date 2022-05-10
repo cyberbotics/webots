@@ -33,9 +33,7 @@
 
 using namespace std;
 
-WbX3dStreamingServer::WbX3dStreamingServer(bool monitorActivity) :
-  WbStreamingServer(monitorActivity, true),
-  mX3dWorldGenerationTime(-1.0) {
+WbX3dStreamingServer::WbX3dStreamingServer() : WbStreamingServer(true), mX3dWorldGenerationTime(-1.0) {
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbX3dStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this,
           &WbX3dStreamingServer::propagateNodeDeletion);
@@ -128,8 +126,6 @@ void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
 }
 
 void WbX3dStreamingServer::sendUpdatePackageToClients() {
-  sendActivityPulse();
-
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {

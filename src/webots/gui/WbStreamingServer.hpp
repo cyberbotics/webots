@@ -35,7 +35,7 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer(bool monitorActivity, bool stream);
+  WbStreamingServer(bool stream);
   virtual ~WbStreamingServer();
 
   void setView3D(WbView3D *);
@@ -68,7 +68,6 @@ protected:
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
-  void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
 
   QList<QWebSocket *> mWebSocketClients;
