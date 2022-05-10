@@ -3,7 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # Left version of the Hey5 hand end-effector for the TIAGo robot from PAL Robotics.
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO TiagoLeftHey5 [
   field  SFVec3f     translation  0 0 0

@@ -1,17 +1,17 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO BunchOfSunFlowers "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO CeilingLight "webots://projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO Book "webots://projects/objects/school_furniture/protos/Book.proto"
-EXTERNPROTO VisualArmature "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
-EXTERNPROTO KeyHole "webots://projects/robots/softbank/nao/protos/KeyHole.proto"
-EXTERNPROTO NaoChallengeRoom "webots://projects/robots/softbank/nao/protos/NaoChallengeRoom.proto"
-EXTERNPROTO Tray "webots://projects/robots/softbank/nao/protos/Tray.proto"
-EXTERNPROTO KeyPot "webots://projects/robots/softbank/nao/protos/KeyPot.proto"
-EXTERNPROTO Nao "webots://projects/robots/softbank/nao/protos/Nao.proto"
-EXTERNPROTO Distributor "webots://projects/robots/softbank/nao/protos/Distributor.proto"
-EXTERNPROTO Key "webots://projects/robots/softbank/nao/protos/Key.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyHole.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoChallengeRoom.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Tray.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyPot.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Distributor.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Key.proto"
 
 WorldInfo {
   info [

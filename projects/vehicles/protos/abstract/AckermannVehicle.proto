@@ -7,7 +7,7 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO AckermannVehicle [
   field SFVec3f    translation                    0 0 0.4

@@ -4,9 +4,9 @@
 # An eye screw with variable radius and length.
 # template language: javascript
 
-EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO ScrewThread "webots://projects/appearances/protos/ScrewThread.proto"
-EXTERNPROTO TorusBoundingObject "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
+EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
 
 PROTO EyeScrew [
   field SFVec3f    translation      0 0 0.01

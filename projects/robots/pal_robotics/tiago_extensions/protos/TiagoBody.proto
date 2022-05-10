@@ -4,7 +4,7 @@
 # TIAGo robot's body from PAL Robotics.
 # The body can be extended with arms.
 
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO TiagoBody [
   field  SFVec3f     translation   -0.054 0 0.193

@@ -4,10 +4,10 @@
 # Generic and customizable stairs model.
 # template language: javascript
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-EXTERNPROTO StraightStairsRail "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
-EXTERNPROTO TexturedParallelepiped "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
 
 PROTO StraightStairs [
   field SFVec3f    translation        0 0 0

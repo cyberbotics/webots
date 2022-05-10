@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO SandyGround "webots://projects/appearances/protos/SandyGround.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO PitEscapeBenchmark "webots://projects/samples/robotbenchmark/pit_escape/protos/PitEscapeBenchmark.proto"
-EXTERNPROTO Pit "webots://projects/samples/robotbenchmark/pit_escape/protos/Pit.proto"
-EXTERNPROTO BB-8 "webots://projects/robots/sphero/bb8/protos/BB-8.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/pit_escape/protos/PitEscapeBenchmark.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/pit_escape/protos/Pit.proto"
+EXTERNPROTO "webots://projects/robots/sphero/bb8/protos/BB-8.proto"
 
 WorldInfo {
   info [

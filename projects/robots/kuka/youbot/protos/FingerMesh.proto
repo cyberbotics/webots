@@ -5,8 +5,8 @@
 # finger lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
-EXTERNPROTO BlackMetalAppearance "webots://projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
-EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
 PROTO FingerMesh [
 ]

@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO WoodenBox "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO SurveyorSrv1 "webots://projects/robots/surveyor/protos/SurveyorSrv1.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/surveyor/protos/SurveyorSrv1.proto"
 
 WorldInfo {
   info [

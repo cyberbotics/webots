@@ -4,7 +4,7 @@
 # Tinkerbots brick adapter.
 # https://www.tinkerbots.com
 
-EXTERNPROTO TinkerbotsPlasticAppearance "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsBrickAdapter [
   field SFVec3f    translation 0 0 0           # Is `Transform.translation`.

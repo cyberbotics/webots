@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A 4kg bucket of paint, with HingeJoint-based handle.
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO PaintBucket [
   field SFVec3f    translation     0 0 0

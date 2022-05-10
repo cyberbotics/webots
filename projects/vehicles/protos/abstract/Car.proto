@@ -6,9 +6,9 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO VehicleLights "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO AckermannVehicle "webots://projects/vehicles/protos/abstract/AckermannVehicle.proto"
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/AckermannVehicle.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO Car [
 #fields inherited from AckermannVehicle

@@ -6,7 +6,7 @@
 # It includes three infra-red proximity sensors
 # pointing down to the ground in front of the robot.
 
-EXTERNPROTO Pcb "webots://projects/appearances/protos/Pcb.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pcb.proto"
 
 PROTO E-puckGroundSensors [
   field SFVec3f    translation  0 0 0

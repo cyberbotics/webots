@@ -5,8 +5,8 @@
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "cameraSlot" field of the Robotino 3 robot.
 
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO CapScrew "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 
 PROTO Robotino3WebcamMountingSupport [
   field  SFVec3f     translation    0 0 0

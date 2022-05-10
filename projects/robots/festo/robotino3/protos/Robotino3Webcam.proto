@@ -6,8 +6,8 @@
 # The model is based on the Logitech® HD Pro Webcam C920.
 # template language: javascript
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Robotino3Webcam [
   field  SFVec3f     translation  0 0 0

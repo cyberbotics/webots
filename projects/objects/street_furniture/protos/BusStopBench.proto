@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO RoughPine "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO BusStopBench [
   field SFString name       "bus stop bench"

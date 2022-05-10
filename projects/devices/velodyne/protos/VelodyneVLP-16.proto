@@ -5,7 +5,7 @@
 # Velodyne VLP-16 sensor model based on the Lidar PROTO.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO VelodynePuck "webots://projects/devices/velodyne/protos/VelodynePuck.proto"
+EXTERNPROTO "webots://projects/devices/velodyne/protos/VelodynePuck.proto"
 
 PROTO VelodyneVLP-16 [
   field   SFVec3f    translation    0 0 0

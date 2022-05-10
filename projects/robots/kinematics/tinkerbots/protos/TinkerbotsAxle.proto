@@ -5,7 +5,7 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO TinkerbotsPlasticAppearance "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsAxle [
   field SFVec3f                  translation 0 0 0    # Is `Transform.translation`.

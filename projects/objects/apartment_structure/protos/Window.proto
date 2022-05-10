@@ -4,10 +4,10 @@
 # A customizable window including walls above and below.
 # template language: javascript
 
-EXTERNPROTO Roughcast "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO Window [
   field SFVec3f    translation            0 0 0

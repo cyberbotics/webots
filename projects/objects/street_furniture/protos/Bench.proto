@@ -3,9 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A bench.
 
-EXTERNPROTO RoughPine "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO Bench [
   field SFVec3f    translation          0 0 0

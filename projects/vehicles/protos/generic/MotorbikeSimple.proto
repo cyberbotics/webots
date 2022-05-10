@@ -5,13 +5,13 @@
 # Simple non-controllable model of a generic motorbike without physics properties
 # template language: javascript
 
-EXTERNPROTO MotorbikeRightIndicator "webots://projects/vehicles/protos/generic/MotorbikeRightIndicator.proto"
-EXTERNPROTO MotorbikeLeftIndicator "webots://projects/vehicles/protos/generic/MotorbikeLeftIndicator.proto"
-EXTERNPROTO MotorbikeWheel "webots://projects/vehicles/protos/generic/MotorbikeWheel.proto"
-EXTERNPROTO MotorbikeMesh "webots://projects/vehicles/protos/generic/MotorbikeMesh.proto"
-EXTERNPROTO MotorbikeBackwardsLight "webots://projects/vehicles/protos/generic/MotorbikeBackwardsLight.proto"
-EXTERNPROTO MotorbikeFrontLight "webots://projects/vehicles/protos/generic/MotorbikeFrontLight.proto"
-EXTERNPROTO MotorbikeDriver "webots://projects/vehicles/protos/generic/MotorbikeDriver.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeRightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeLeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeBackwardsLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeFrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeDriver.proto"
 
 PROTO MotorbikeSimple [
   field       SFVec3f    translation                0 0 0.25

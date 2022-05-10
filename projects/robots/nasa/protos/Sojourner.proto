@@ -4,7 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/sojourner
 # Sojourner is the NASA Pathfinder robotic rover that landed on 1997 in the Ares Vallis region, and explored Mars for around three months.
 
-EXTERNPROTO SolarCell "webots://projects/appearances/protos/SolarCell.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SolarCell.proto"
 
 PROTO Sojourner [
   field SFVec3f    translation     0 0 0       # Is `Transform.translation`.

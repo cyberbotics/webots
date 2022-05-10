@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO ExternalProtoSolid "webots://projects/TEST/protos/ExternalProtoSolid.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoSolid.proto"
 
 WorldInfo {
 }

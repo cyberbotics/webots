@@ -7,7 +7,7 @@
 # Size: 175/55/R15
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO CitroenCZeroRearWheel [
   field       SFString name           "Citroen C-Zero rear wheel"

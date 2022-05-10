@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A painting (0.05 x 0.82 x 1.01 m).
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO PortraitPainting [
   field SFVec3f    translation 0 0 0.505

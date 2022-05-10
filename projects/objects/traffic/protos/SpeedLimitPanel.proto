@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic panel: Speed limit panel (5mph to 80mph) or one way panel.
 
-EXTERNPROTO Extrusion "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO SpeedLimitPanel [
   field SFVec3f     translation        0 0 0

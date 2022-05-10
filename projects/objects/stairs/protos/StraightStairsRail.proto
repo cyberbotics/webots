@@ -4,9 +4,9 @@
 # Default stairs handrail.
 # template language: javascript
 
-EXTERNPROTO VarnishedPine "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO Pine "webots://projects/objects/trees/protos/Pine.proto"
-EXTERNPROTO TexturedParallelepiped "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
 
 PROTO StraightStairsRail [
   field SFVec3f    translation      0 0 0

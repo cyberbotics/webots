@@ -5,7 +5,7 @@
 # The soccer field is built on a total carpet area of length 10.4 m and width 7.4 m.
 # The field dimensions (within the white lines) are 9 x 6 m.
 
-EXTERNPROTO RobotstadiumGoal "webots://projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
+EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
 
 PROTO RobotstadiumSoccerField [
   field SFVec3f    translation     0 0 0

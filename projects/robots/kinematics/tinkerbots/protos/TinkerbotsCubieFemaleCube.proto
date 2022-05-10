@@ -4,7 +4,7 @@
 # Tinkerbots cubie: cube with female cross slots.
 # https://www.tinkerbots.com
 
-EXTERNPROTO TinkerbotsPlasticAppearance "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieFemaleCube [
   field SFVec3f    translation 0 0 0               # Is `Transform.translation`.

@@ -5,7 +5,7 @@
 # Extracted from:
 # https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
 
-EXTERNPROTO RHandMesh "webots://projects/robots/boston_dynamics/atlas/protos/RHandMesh.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RHandMesh.proto"
 
 PROTO RHandSolid [
   field SFVec3f    translation 0 0 0

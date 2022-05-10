@@ -10,12 +10,12 @@
 # The coordinate origin (1,1) of the grid layout is at the bottom left corner.
 # template language: javascript
 
-EXTERNPROTO PaintedWood "webots://projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO Door "webots://projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO CabinetDoor "webots://projects/objects/cabinet/protos/CabinetDoor.proto"
-EXTERNPROTO CabinetDrawer "webots://projects/objects/cabinet/protos/CabinetDrawer.proto"
-EXTERNPROTO CabinetHandle "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetDoor.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetDrawer.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
 
 PROTO Cabinet [
   field SFVec3f    translation    0 0 0

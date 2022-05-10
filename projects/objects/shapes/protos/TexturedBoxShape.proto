@@ -14,7 +14,7 @@
 # A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
 # template language: javascript
 
-EXTERNPROTO TexturedBox "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO TexturedBoxShape [
   field SFVec3f  size             0.1 0.1 0.1                    # Defines the size of the box.

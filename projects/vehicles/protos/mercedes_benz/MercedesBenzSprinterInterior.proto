@@ -3,9 +3,9 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
 
-EXTERNPROTO CarpetFibers "webots://projects/appearances/protos/CarpetFibers.proto"
-EXTERNPROTO Leather "webots://projects/appearances/protos/Leather.proto"
-EXTERNPROTO RoughPolymer "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CarpetFibers.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
 
 PROTO MercedesBenzSprinterInterior [
 ]

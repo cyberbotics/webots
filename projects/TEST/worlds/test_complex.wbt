@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO ExternalProtoSolid "webots://projects/TEST/protos/ExternalProtoSolid.proto"
-EXTERNPROTO ExternalProtoShape "webots://projects/TEST/protos/ExternalProtoShape.proto"
-EXTERNPROTO ExternalProtoSolid2 "webots://projects/TEST/protos/ExternalProtoSolid2.proto"
-EXTERNPROTO ExternalProtoShape2 "webots://projects/TEST/protos/ExternalProtoShape2.proto"
-EXTERNPROTO ExternalProtoSolid3 "webots://projects/TEST/protos/ExternalProtoSolid3.proto"
-EXTERNPROTO ExternalProtoShape3 "webots://projects/TEST/protos/ExternalProtoShape3.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoShape.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoSolid2.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoSolid3.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoShape2.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoShape3.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalProtoSolid.proto"
 
 WorldInfo {
 }

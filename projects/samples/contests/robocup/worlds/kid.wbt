@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Ball "webots://projects/objects/balls/protos/Ball.proto"
-EXTERNPROTO SoccerBall "webots://projects/objects/balls/protos/SoccerBall.proto"
-EXTERNPROTO RobocupSoccerBall "webots://projects/objects/balls/protos/RobocupSoccerBall.proto"
-EXTERNPROTO RobocupSoccerField "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
-EXTERNPROTO RobotisJersey "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
-EXTERNPROTO Darwin-opHinge2 "webots://projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/RobocupSoccerBall.proto"
+EXTERNPROTO "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
 
 WorldInfo {
   info [

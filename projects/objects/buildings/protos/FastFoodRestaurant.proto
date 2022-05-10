@@ -4,7 +4,7 @@
 # A customizable fast food restaurant.
 # template language: javascript
 
-EXTERNPROTO TexturedBox "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO FastFoodRestaurant [
   field SFVec3f       translation   0 0 0

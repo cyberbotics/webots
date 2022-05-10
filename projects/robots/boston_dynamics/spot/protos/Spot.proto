@@ -5,12 +5,12 @@
 # The "Spot" is a dog robot developed by Boston Dynamics.
 # Original model by Greg McKechnie.
 
-EXTERNPROTO MattePaint "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO PerforatedMetal "webots://projects/appearances/protos/PerforatedMetal.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO SpotLeftLeg "webots://projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto"
-EXTERNPROTO SpotRightLeg "webots://projects/robots/boston_dynamics/spot/protos/SpotRightLeg.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/spot/protos/SpotRightLeg.proto"
 
 PROTO Spot [
   field SFVec3f     translation      0 0 0.624                 # Is `Transform.translation`.

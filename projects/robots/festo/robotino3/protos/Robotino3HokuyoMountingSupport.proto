@@ -5,7 +5,7 @@
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "topSlot" or "middleSlot" field of the Robotino 3 robot.
 
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Robotino3HokuyoMountingSupport [
   field  SFVec3f     translation    0 0 0

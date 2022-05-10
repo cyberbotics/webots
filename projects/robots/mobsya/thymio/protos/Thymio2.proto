@@ -5,12 +5,12 @@
 # Thymio II mobile robot.
 # template language: javascript
 
-EXTERNPROTO Thymio2WheelIndexedFaceSet "webots://projects/robots/mobsya/thymio/protos/Thymio2WheelIndexedFaceSet.proto"
-EXTERNPROTO Thymio2LED "webots://projects/robots/mobsya/thymio/protos/Thymio2LED.proto"
-EXTERNPROTO Thymio2DistanceSensor "webots://projects/robots/mobsya/thymio/protos/Thymio2DistanceSensor.proto"
-EXTERNPROTO Thymio2TireIndexedFaceSet "webots://projects/robots/mobsya/thymio/protos/Thymio2TireIndexedFaceSet.proto"
-EXTERNPROTO Thymio2SecondaryIndexedFaceSet "webots://projects/robots/mobsya/thymio/protos/Thymio2SecondaryIndexedFaceSet.proto"
-EXTERNPROTO Thymio2MainIndexedFaceSet "webots://projects/robots/mobsya/thymio/protos/Thymio2MainIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2WheelIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2LED.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2DistanceSensor.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2TireIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2SecondaryIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2MainIndexedFaceSet.proto"
 
 PROTO Thymio2 [
   field SFVec3f    translation     0 0 0           # Is `Transform.translation`.

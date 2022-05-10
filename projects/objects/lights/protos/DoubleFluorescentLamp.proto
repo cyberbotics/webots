@@ -5,7 +5,7 @@
 # It does not contain any actual Light node, it only uses emissive color.
 # template language: javascript
 
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0

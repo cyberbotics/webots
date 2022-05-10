@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 # Example of  an external reference
 
-EXTERNPROTO ExternalGeometry2 "webots://projects/TEST/protos/ExternalGeometry2.proto"
-EXTERNPROTO ExternalAppearance2 "webots://projects/TEST/protos/ExternalAppearance2.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalGeometry2.proto"
+EXTERNPROTO "webots://projects/TEST/protos/ExternalAppearance2.proto"
 
 PROTO ExternalProtoShape2 [
 

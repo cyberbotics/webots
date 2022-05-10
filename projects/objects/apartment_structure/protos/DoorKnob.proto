@@ -5,7 +5,7 @@
 # This object can be used in the 'doorHandle' field of the Door object.
 # template language: javascript
 
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO DoorKnob [
   field SFVec3f    translation      0 0 0

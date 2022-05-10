@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic panel: Caution panel.
 
-EXTERNPROTO Extrusion "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO CautionPanel [
   field SFVec3f    translation        0 0 0

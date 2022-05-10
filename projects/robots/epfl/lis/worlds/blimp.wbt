@@ -1,14 +1,14 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO FloorLight "webots://projects/objects/lights/protos/FloorLight.proto"
-EXTERNPROTO CeilingLight "webots://projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO Chair "webots://projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO RoundTable "webots://projects/objects/tables/protos/RoundTable.proto"
-EXTERNPROTO Table "webots://projects/objects/tables/protos/Table.proto"
-EXTERNPROTO Blimp "webots://projects/robots/epfl/lis/protos/Blimp.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/RoundTable.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/robots/epfl/lis/protos/Blimp.proto"
 
 WorldInfo {
   info [

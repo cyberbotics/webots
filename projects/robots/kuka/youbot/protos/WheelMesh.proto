@@ -5,7 +5,7 @@
 # wheel lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
-EXTERNPROTO MetalAppearance "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
 PROTO WheelMesh [
 ]

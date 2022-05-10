@@ -4,9 +4,9 @@
 # A configurable circle arena composed of floor surrounded by wall.
 # template language: javascript
 
-EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO SolidPipe "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO CircleArena [
   field SFVec3f    translation     0 0 0

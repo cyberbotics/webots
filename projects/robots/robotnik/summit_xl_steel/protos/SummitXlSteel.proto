@@ -5,7 +5,7 @@
 # Designed by Robotnik, Summit-XL Steel is a four-wheeled (mecanum) robot used for logistics and indoor transport.
 # It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
 
-EXTERNPROTO Plastic "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 PROTO SummitXlSteel [
   field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.

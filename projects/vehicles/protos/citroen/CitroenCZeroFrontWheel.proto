@@ -7,7 +7,7 @@
 # Size: 145/65/R15
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO VehicleWheel "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO CitroenCZeroFrontWheel [
   field       SFString name           "Citroen C-Zero front wheel"

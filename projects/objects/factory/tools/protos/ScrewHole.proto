@@ -4,8 +4,8 @@
 # A screw hole with variable radius and depth.
 # template language: javascript
 
-EXTERNPROTO OldSteel "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO ScrewThread "webots://projects/appearances/protos/ScrewThread.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
 
 PROTO ScrewHole [
   field SFVec3f    translation     0 0 0.2

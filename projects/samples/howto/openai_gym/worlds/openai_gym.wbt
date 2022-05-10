@@ -1,12 +1,12 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO CorrodedMetal "webots://projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO OsbWood "webots://projects/appearances/protos/OsbWood.proto"
-EXTERNPROTO Parquetry "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Floor "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO Pioneer3at "webots://projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OsbWood.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
 
 WorldInfo {
   info [

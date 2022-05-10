@@ -1,12 +1,12 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO Grass "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Rock10cm "webots://projects/objects/rocks/protos/Rock10cm.proto"
-EXTERNPROTO Rock17cm "webots://projects/objects/rocks/protos/Rock17cm.proto"
-EXTERNPROTO Khr2hv "webots://projects/robots/kondo/khr-2hv/protos/Khr2hv.proto"
-EXTERNPROTO Create "webots://projects/robots/irobot/create/protos/Create.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "webots://projects/robots/kondo/khr-2hv/protos/Khr2hv.proto"
+EXTERNPROTO "webots://projects/robots/irobot/create/protos/Create.proto"
 
 WorldInfo {
   contactProperties [

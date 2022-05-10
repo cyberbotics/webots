@@ -4,12 +4,12 @@
 # Four roads crossing traffic light.
 # template language: javascript
 
-EXTERNPROTO TrafficLightStandardLampGeometry "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
-EXTERNPROTO TrafficLight "webots://projects/objects/traffic/protos/TrafficLight.proto"
-EXTERNPROTO TrafficLightHorizontal "webots://projects/objects/traffic/protos/TrafficLightHorizontal.proto"
-EXTERNPROTO TrafficLightBigPole "webots://projects/objects/traffic/protos/TrafficLightBigPole.proto"
-EXTERNPROTO TrafficLightArrowLampGeometry "webots://projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto"
-EXTERNPROTO Pole "webots://projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightHorizontal.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightBigPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0

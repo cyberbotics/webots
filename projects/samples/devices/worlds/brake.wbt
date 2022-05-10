@@ -1,15 +1,15 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO ThreadMetalPlate "webots://projects/appearances/protos/ThreadMetalPlate.proto"
-EXTERNPROTO CorrodedMetal "webots://projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO MetalPipePaint "webots://projects/appearances/protos/MetalPipePaint.proto"
-EXTERNPROTO BrushedSteel "webots://projects/appearances/protos/BrushedSteel.proto"
-EXTERNPROTO BrushedAluminium "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO TexturedBackground "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO TexturedBackgroundLight "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO Plate "webots://projects/objects/kitchen/utensils/protos/Plate.proto"
-EXTERNPROTO RectangleArena "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MetalPipePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Plate.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   info [

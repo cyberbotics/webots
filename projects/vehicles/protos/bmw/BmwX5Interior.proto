@@ -4,7 +4,7 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO Leather "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO BmwX5Interior [
   field MFString  baseColorMap     "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"

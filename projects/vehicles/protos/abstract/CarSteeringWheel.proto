@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A generic steering wheel to insert in the 'steeringWheel' field of some vehicles.
 
-EXTERNPROTO Leather "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO CarSteeringWheel [
   field SFString name "vehicle steering wheel"

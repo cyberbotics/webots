@@ -7,15 +7,15 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO ToyotaPriusMesh "webots://projects/vehicles/protos/toyota/ToyotaPriusMesh.proto"
-EXTERNPROTO ToyotaPriusLeftIndicator "webots://projects/vehicles/protos/toyota/ToyotaPriusLeftIndicator.proto"
-EXTERNPROTO ToyotaPriusAntiFogLight "webots://projects/vehicles/protos/toyota/ToyotaPriusAntiFogLight.proto"
-EXTERNPROTO ToyotaPriusRightIndicator "webots://projects/vehicles/protos/toyota/ToyotaPriusRightIndicator.proto"
-EXTERNPROTO ToyotaPriusRearLight "webots://projects/vehicles/protos/toyota/ToyotaPriusRearLight.proto"
-EXTERNPROTO ToyotaPriusFrontLight "webots://projects/vehicles/protos/toyota/ToyotaPriusFrontLight.proto"
-EXTERNPROTO ToyotaPriusWheel "webots://projects/vehicles/protos/toyota/ToyotaPriusWheel.proto"
-EXTERNPROTO Car "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO VehicleLights "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusLeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusAntiFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusRightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusRearLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusFrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
 
 PROTO ToyotaPrius [
   field     SFVec3f    translation       0 0 0.4

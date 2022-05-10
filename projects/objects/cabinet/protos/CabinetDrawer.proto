@@ -5,8 +5,8 @@
 # A drawer for the Cabinet PROTO.
 # template language: javascript
 
-EXTERNPROTO SolidBox "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO CabinetHandle "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
 
 PROTO CabinetDrawer [
   field SFVec3f  translation         0 0 0

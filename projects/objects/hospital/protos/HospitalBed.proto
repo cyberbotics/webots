@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An hospital bed.
 
-EXTERNPROTO GlossyPaint "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO Fabric "webots://projects/appearances/protos/Fabric.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Fabric.proto"
 
 PROTO HospitalBed [
   field SFVec3f    translation     0 0 0

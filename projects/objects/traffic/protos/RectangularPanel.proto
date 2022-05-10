@@ -4,7 +4,7 @@
 # A simple rectangular traffic pannel.
 # template language: javascript
 
-EXTERNPROTO TexturedBox "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO RectangularPanel [
   field SFVec3f     translation        0 0 0
