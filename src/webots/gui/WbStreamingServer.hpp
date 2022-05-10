@@ -35,7 +35,7 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer(bool stream);
+  explicit WbStreamingServer(bool stream);
   virtual ~WbStreamingServer();
 
   void setView3D(WbView3D *);
