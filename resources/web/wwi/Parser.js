@@ -928,7 +928,13 @@ export default class Parser {
     const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
     WbWorld.instance.nodes.set(mesh.id, mesh);
 
-    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => { mesh.scene = meshContent; }));
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      mesh.scene = meshContent;
+      for (let i = 0; i < mesh.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(mesh.useList[i]);
+        node.scene = meshContent;
+      }
+    }));
 
     return mesh;
   }

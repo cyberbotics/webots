@@ -15,17 +15,22 @@ export default class WbMesh extends WbTriangleMeshGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbMesh(customID, this.url, this.ccw, this.materialIndex);
+    const clonedMesh = new WbMesh(customID, this.url, this.ccw, this.name, this.materialIndex);
+    if (this.scene)
+      clonedMesh.scene = this.scene;
+    return clonedMesh;
   }
 
   _updateTriangleMesh() {
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
     if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
-      let matrix = new WbMatrix4();
-      matrix.set(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
-      let rootMatrix = new WbMatrix4();
-      rootMatrix.setFromArray(this.scene.rootnode.transformation);
-      this.scene.rootnode.transformation = matrix.mul(rootMatrix);
+      if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) { // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
+        let matrix = new WbMatrix4();
+        matrix.set(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
+        let rootMatrix = new WbMatrix4();
+        rootMatrix.setFromArray(this.scene.rootnode.transformation);
+        this.scene.rootnode.transformation = matrix.mul(rootMatrix);
+      }
     }
 
     // create the arrays
@@ -46,8 +51,13 @@ export default class WbMesh extends WbTriangleMeshGeometry {
       let transform = new WbMatrix4();
       let current = node;
       while (current) {
-        let transformationMatrix = new WbMatrix4();
-        transformationMatrix.setFromArray(current.transformation);
+        let transformationMatrix;
+        if (current.transformation instanceof WbMatrix4)
+          transformationMatrix = current.transformation;
+        else {
+          transformationMatrix = new WbMatrix4();
+          transformationMatrix.setFromArray(current.transformation);
+        }
         transform = transform.mul(transformationMatrix);
         current = current.parent;
       }
@@ -60,7 +70,11 @@ export default class WbMesh extends WbTriangleMeshGeometry {
         if (this.isCollada && this.materialIndex >= 0 && this.materialIndex !== mesh.materialIndex)
           continue;
 
-        for (let j = 0; j < mesh.vertices.length; j++) {
+        // Skip if we do not have triangles (e.g lines)
+        if (mesh.faces[0].length !== 3)
+          continue;
+
+        for (let j = 0; j < mesh.vertices.length / 3; j++) {
           // extract the coordinate
           const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 0));
           coordData.push(vertice.x);
@@ -89,7 +103,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
           indexData.push(face[2] + indexOffset);
         }
 
-        indexOffset += mesh.vertices.length;
+        indexOffset += mesh.vertices.length / 3;
       }
 
       // add all the children of this node to the queue
