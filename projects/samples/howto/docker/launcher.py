@@ -38,7 +38,7 @@ else:  # linux
     else:
         os.environ['LD_LIBRARY_PATH'] = path
 command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
-command += f' --port={port} --stream="monitorActivity" '
+command += f' --port={port} --heartbeat=5000 --batch '
 command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'camera.wbt')
 try:
     webots_process = subprocess.Popen(command.split(),
