@@ -1242,6 +1242,14 @@ function loadMeshData(prefix, urls) {
 
   if (typeof prefix !== 'undefined') {
     for (let i = 0; i < urls.length; i++) {
+      if (urls[i].startsWith('webots://')) {
+        if (typeof webots.currentView.repository === 'undefined')
+          webots.currentView.repository = 'cyberbotics';
+        if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+          webots.currentView.branch = 'released';
+        urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+      }
+
       if (!urls[i].startsWith('http'))
         urls[i] = prefix + urls[i];
     }

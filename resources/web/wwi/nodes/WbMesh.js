@@ -10,7 +10,8 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this.ccw = ccw;
     this.name = name;
     this.materialIndex = materialIndex;
-    this.isCollada = this.url.endsWith('.dae');
+    if (this.url)
+      this.isCollada = this.url.endsWith('.dae');
   }
 
   clone(customID) {
@@ -22,6 +23,9 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   }
 
   _updateTriangleMesh() {
+    if (!this.url || !this.scene)
+      return;
+
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
     if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
       if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) { // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
