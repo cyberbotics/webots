@@ -8,7 +8,7 @@ WorldInfo {
   SFFloat  gravity                        9.81       # [0, inf)
   SFFloat  CFM                            0.00001    # (0, inf)
   SFFloat  ERP                            0.2        # [0, 1]
-  SFString physics                        ""         # any string
+  SFString physics                        "<none>"   # any string
   SFFloat  basicTimeStep                  32         # [1, inf)
   SFFloat  FPS                            60         # [1, inf)
   SFInt32  optimalThreadCount             1          # [1, inf)
