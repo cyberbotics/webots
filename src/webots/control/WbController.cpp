@@ -184,8 +184,8 @@ bool WbController::isRunning() const {
 // the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
 void WbController::start() {
   mRobot->setControllerStarted(true);
-  if (mName == "<extern>") {
-    info(tr("Waiting for extern controller to connect to \"%1\" robot.").arg(mRobot->name()));
+  if (isExtern()) {
+    info(tr("waiting for connection."));
     std::cout << "ipc://" << WbStandardPaths::webotsTmpPathId() << '/' << QUrl::toPercentEncoding(mRobot->name()).constData()
               << std::endl;
   } else {
@@ -271,7 +271,12 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
+  if (isExtern())
+    info(tr("connected."));
+  if (mSocket)
+    mSocket->deleteLater();
   mSocket = mServer->nextPendingConnection();
+  mRobot->setConfigureRequest(true);
 
   // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
   // This request is forced because the first packets coming from libController
@@ -523,7 +528,10 @@ void WbController::setProcessEnvironment() {
 }
 
 void WbController::info(const QString &message) {
-  WbLog::info(name() + ": " + message);
+  if (isExtern())
+    WbLog::info(tr("\"%1\" extern controller: ").arg(mRobot->name()) + message);
+  else
+    WbLog::info(name() + ": " + message);
 }
 
 void WbController::warn(const QString &message) {
@@ -900,7 +908,7 @@ QString WbController::commandLine() const {  // returns the command line with do
 }
 
 void WbController::handleControllerExit() {
-  if (mRobot->controllerName() == "<extern>") {
+  if (isExtern()) {
     processFinished(0, QProcess::NormalExit);
     mRobot->setControllerNeedRestart();
   }
@@ -1125,5 +1133,6 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  info(tr("Extern controller terminated for \"%1\" robot.").arg(mRobot->name()));
+  if (isExtern())
+    info(tr("disconnected, waiting for new connection."));
 }
