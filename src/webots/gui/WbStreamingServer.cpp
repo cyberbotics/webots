@@ -45,13 +45,12 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool stream) :
+WbStreamingServer::WbStreamingServer(bool monitorActivity, bool stream) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
   mClientsReadyToReceiveMessages(false),
   mMonitorActivity(monitorActivity),
-  mDisableTextStreams(disableTextStreams),
   mStream(stream) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
@@ -135,8 +134,7 @@ void WbStreamingServer::create(int port) {
   connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
-  if (!mDisableTextStreams)
-    connect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
+  connect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
 }
 
 void WbStreamingServer::destroy() {

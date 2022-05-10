@@ -37,8 +37,8 @@ using namespace std;
 
 static WbView3D *gView3D = NULL;
 
-WbMultimediaStreamingServer::WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams) :
-  WbStreamingServer(monitorActivity, disableTextStreams, true),
+WbMultimediaStreamingServer::WbMultimediaStreamingServer(bool monitorActivity) :
+  WbStreamingServer(monitorActivity, true),
   mImageWidth(-1),
   mImageHeight(-1),
   mImageUpdateTimeStep(50),

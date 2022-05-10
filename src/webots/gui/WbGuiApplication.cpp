@@ -117,16 +117,13 @@ void WbGuiApplication::restart() {
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity,
-                                            bool &disableTextStreams) {
+void WbGuiApplication::parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity) {
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
     // "key" without value case
     if (option == "monitorActivity")
       monitorActivity = true;
-    else if (option == "disableTextStreams")
-      disableTextStreams = true;
     else {
       const QStringList list = option.split('=', Qt::SkipEmptyParts);
       if (list.size() != 2)
@@ -158,7 +155,6 @@ void WbGuiApplication::parseArguments() {
   QStringList args = arguments();
   bool logPerformanceMode = false, batch = false;
   bool monitorActivity = false;
-  bool disableTextStreams = false;
   int port = 1234;  // default value
   QString mode = "x3d";
   mStream = false;
@@ -225,7 +221,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      parseStreamArguments(serverArgument, mode, monitorActivity, disableTextStreams);
+      parseStreamArguments(serverArgument, mode, monitorActivity);
     } else if (arg == "--stdout")
       WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
@@ -259,14 +255,14 @@ void WbGuiApplication::parseArguments() {
     }
   }
   if (mStream == false)  // we need a simple streaming server for robot windows and remote controllers
-    mStreamingServer = new WbStreamingServer(false, false, mStream);
+    mStreamingServer = new WbStreamingServer(false, mStream);
   else {
     if (!batch)
       commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
     if (mode == "mjpeg")
-      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams);
+      mStreamingServer = new WbMultimediaStreamingServer(monitorActivity);
     else {
-      mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams);
+      mStreamingServer = new WbX3dStreamingServer(monitorActivity);
       WbWorld::enableX3DStreaming();
     }
   }

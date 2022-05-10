@@ -66,7 +66,7 @@ private:
 
   void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();
-  void parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity, bool &disableTextStreams);
+  void parseStreamArguments(const QString &streamArguments, QString &mode, bool &monitorActivity);
   void showHelp();
   void showSysInfo();
   bool setup();
