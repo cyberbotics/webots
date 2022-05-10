@@ -493,9 +493,7 @@ void WbRobot::updateRemoteControl() {
 
   if (mConfigureRequest) {
     QString key = mRemoteControl->value().trimmed();
-    if (key == "<none>")
-      return;
-    else if (!key.isEmpty()) {
+    if (!key.isEmpty() && key != "<none>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "remote_controls");
       if (absoluteFilePath.isEmpty())
         warn(tr("The remote control library has not been found."));
