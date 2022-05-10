@@ -70,13 +70,9 @@ export default class WbMesh extends WbTriangleMeshGeometry {
         if (this.isCollada && this.materialIndex >= 0 && this.materialIndex !== mesh.materialIndex)
           continue;
 
-        // Skip if we do not have triangles (e.g lines)
-        if (mesh.faces[0].length !== 3)
-          continue;
-
         for (let j = 0; j < mesh.vertices.length / 3; j++) {
           // extract the coordinate
-          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 0));
+          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 1));
           coordData.push(vertice.x);
           coordData.push(vertice.y);
           coordData.push(vertice.z);
@@ -97,7 +93,12 @@ export default class WbMesh extends WbTriangleMeshGeometry {
 
         // create the index array
         for (let j = 0; j < mesh.faces.length; ++j) {
+          // Skip if we do not have triangles (e.g lines)
           const face = mesh.faces[j];
+
+          if (face.length !== 3)
+            continue;
+
           indexData.push(face[0] + indexOffset);
           indexData.push(face[1] + indexOffset);
           indexData.push(face[2] + indexOffset);
