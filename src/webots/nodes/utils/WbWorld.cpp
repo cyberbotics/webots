@@ -713,19 +713,18 @@ void WbWorld::recursivelyRetrieveExternReferences(const QString &filename) {
   if (file.open(QIODevice::ReadOnly)) {
     const QString content = file.readAll();
 
-    QRegularExpression re("(?<=[#\\s+])EXTERNPROTO\\s+\\n*\\"(.*\\.proto)\\"");  // TODO: test it more
+    QRegularExpression re("(?<=[#\\s+])EXTERNPROTO\\s+\\n*\"(.*\\.proto)\"");  // TODO: test it more
     QRegularExpressionMatchIterator it = re.globalMatch(content);
     while (it.hasNext()) {
       QRegularExpressionMatch match = it.next();
       if (match.hasMatch()) {
-        const QString identifier = match.captured(1);
-        const QString url = match.captured(2);
-        if (!url.endsWith(identifier + ".proto")) {
-          WbLog::error(tr("Malformed extern proto url. The identifier and url do not coincide.\n"));
+        const QString url = match.captured(1);
+        if (!url.endsWith(".proto")) {
+          WbLog::error(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.\n"));
           return;
         }
 
-        printf("REGEX found >>%s<< >>%s<<\n", identifier.toUtf8().constData(), url.toUtf8().constData());
+        // printf("REGEX found >>%s<<\n", url.toUtf8().constData());
 
         // create directory for this proto
         if (!WbNetwork::instance()->isCached(url)) {
@@ -735,8 +734,10 @@ void WbWorld::recursivelyRetrieveExternReferences(const QString &filename) {
           mDownloader->download(QUrl(url));
 
           connect(mDownloader, &WbDownloader::complete, this, &WbWorld::downloadCompleted);
-        } else
-          printf("> %s already exists in cached\n", identifier.toUtf8().constData());
+        } else {
+          QString identifier = QUrl(url).fileName();
+          printf("> %s already exists in cache\n", identifier.toUtf8().constData());
+        }
       }
     }
   } else
