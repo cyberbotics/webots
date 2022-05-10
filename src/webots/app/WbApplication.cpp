@@ -266,8 +266,9 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     return false;  // when all extern proto are downloaded, loadWorld is called again
   }
 
-  printf("> proto assets available, begin load\n");
+  printf("> CURRENT PROJECT PROTO LIST:\n");
   WbProtoList::current()->printCurrentProjectProtoList();
+  printf("> ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
@@ -345,6 +346,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbBoundingSphere::enableUpdates(false);
 
   // the world takes ownership of the proto list
+  // TODO: no ownership anymore
   WbProject::setCurrent(new WbProject(newProjectPath));
   linkLibraries(WbProject::current()->librariesPath());
   mWorld = new WbControlledWorld(protoList, &tokenizer);

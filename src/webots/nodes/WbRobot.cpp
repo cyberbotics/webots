@@ -401,8 +401,11 @@ void WbRobot::pinToStaticEnvironment(bool pin) {
 }
 
 QString WbRobot::protoModelProjectPath() const {
-  if (isProtoInstance())
+  if (isProtoInstance()) {
+    printf("PROTO project path of (%30s): %s\n", proto()->name().toUtf8().constData(),
+           proto()->projectPath().toUtf8().constData());
     return proto()->projectPath();
+  }
   return QString();
 }
 
@@ -510,8 +513,9 @@ void WbRobot::updateControllerDir() {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();
-    if (protoModel)
+    if (protoModel) {
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
+    }
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
       path << extraProject->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';

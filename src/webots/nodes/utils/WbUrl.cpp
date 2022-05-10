@@ -191,6 +191,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
         // ex: EXTERNPROTO SubNode "webots://.../SubNode.proto"
         QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
         QRegularExpressionMatch match = re.match(parentProtoUrl);
+        // TODO: need to match? can't replace?
 
         assert(match.hasMatch());  // parent remote url should match the template
         return match.captured(0) + subProtoUrl.replace("webots://", "");

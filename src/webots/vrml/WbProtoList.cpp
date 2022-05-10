@@ -210,9 +210,12 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   // printf("WbProtoList::customFindModel\n");
   // return NULL;
 
-  foreach (WbProtoModel *model, mModels)
-    if (model->name() == modelName)
+  foreach (WbProtoModel *model, mModels) {
+    if (model->name() == modelName) {
+      // printf("No need to search for model %s, it's loaded already.\n", modelName.toUtf8().constData());
       return model;
+    }
+  }
 
   if (mCurrentProjectProtoList.contains(modelName)) {
     QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProtoList.value(modelName), false);
@@ -220,16 +223,17 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
     }
-    printf("%35s is known, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
+    printf("%35s is a known proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
     model->ref();
     return model;
-  } else
-    printf("proto %s not found in mCurrentProjectProtoList\n", modelName.toUtf8().constData());
-
+  } else {
+    if (!modelName.isEmpty())
+      printf("proto %s not found in mCurrentProjectProtoList ?\n", modelName.toUtf8().constData());
+  }
   return NULL;
 }
 
