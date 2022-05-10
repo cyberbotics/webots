@@ -396,6 +396,9 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   if (!writer.isX3d())
     return;
 
+  if (mUrl->size() == 0)
+    return;
+
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
