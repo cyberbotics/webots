@@ -85,7 +85,7 @@ class ProtoInfo:
                     tags = clean_line.replace('tags:', '').strip().split(',')
                     self.tags = [tag.strip() for tag in tags]
                 else:
-                    self.description += clean_line.strip() + '\n'
+                    self.description += clean_line.strip() + '&#xA;'
 
     def parse_body(self):
         # determine proto type (base type can be inferred only when all proto_types are known)

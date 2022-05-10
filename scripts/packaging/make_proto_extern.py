@@ -74,12 +74,15 @@ for asset in tqdm(assets):
 
   # find any match by bruteforce, to avoid parsing worlds/protos
   matches = []
+  position = []
   for key, value in known_proto.items():
     identifier = key.replace('+', '\+').replace('-', '\-')
-    regexp = re.compile(rf'{identifier}\s*' + re.escape('{'))
+    regexp = re.compile(rf'\s+{identifier}\s*' + re.escape('{'))
     if regexp.search(contents):
       matches.append(key)
+      position.append(regexp.search(contents).start())
 
+  matches = [x for _,x in sorted(zip(position, matches))]
   # find first non-commented line
   index = None
   contents = contents.splitlines(keepends=True)
