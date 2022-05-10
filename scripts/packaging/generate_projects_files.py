@@ -21,6 +21,7 @@ import os
 import sys
 import fnmatch
 import re
+import distro
 
 # add all the files from the projects folder except:
 # .gitignore
@@ -65,7 +66,11 @@ valid_environment = check_exist_in_projects(recurse_in_projects)
 
 with open("exist_in_projects.txt") as f:
     exist_in_projects = f.read().splitlines()
-with open("exist_in_projects_" + platform + ".txt") as f:
+exist_in_projects_platform_path = "exist_in_projects_"
+if sys.platform == 'linux':
+    exist_in_projects_platform_path += platform + '_' + distro.version()
+exist_in_projects_platform_path += ".txt"
+with open(exist_in_projects_platform_path) as f:
     exist_in_projects += f.read().splitlines()
 valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
 
