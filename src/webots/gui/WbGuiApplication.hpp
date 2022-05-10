@@ -46,7 +46,7 @@ protected:
 #ifdef __APPLE__
   virtual bool event(QEvent *event);
 #endif
-  void timerEvent(QTimerEvent *event);
+  void timerEvent(QTimerEvent *event) override;
 
 private:
   WbApplication *mApplication;
