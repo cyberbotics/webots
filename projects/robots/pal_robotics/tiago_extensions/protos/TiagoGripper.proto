@@ -5,8 +5,8 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 
 PROTO TiagoGripper [

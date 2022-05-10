@@ -4,9 +4,8 @@
 # Generic and customizable landing model for straight stairs.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 
 PROTO StraightStairsLanding [
   field SFVec3f    translation     0 0 0

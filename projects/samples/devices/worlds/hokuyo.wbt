@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUtm30lx.proto"
-EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lx.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUtm30lx.proto"
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lx.proto"
 
 WorldInfo {
   info [

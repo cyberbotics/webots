@@ -5,8 +5,8 @@
 # including physic properties and baseColorMaps
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "webots://projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 
 PROTO BmwX5Wheel [
   field       SFString name           "BMW X5 wheel"

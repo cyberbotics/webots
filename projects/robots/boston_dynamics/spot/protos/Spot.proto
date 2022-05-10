@@ -5,8 +5,8 @@
 # The "Spot" is a dog robot developed by Boston Dynamics.
 # Original model by Greg McKechnie.
 
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto"

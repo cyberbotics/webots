@@ -4,7 +4,6 @@
 # A round table (2 x 2 x 0.76 m).
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO RoundTable [
   field SFVec3f    translation 0 0 0

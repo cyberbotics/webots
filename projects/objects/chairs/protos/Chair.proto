@@ -3,10 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A chair (0.5 x 0.5 x 1 m).
 
-EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
-EXTERNPROTO "webots://projects/appearances/protos/ShinyLeather.proto"
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ShinyLeather.proto"
 
 PROTO Chair [
   field SFVec3f    translation 0 0 0

@@ -4,7 +4,6 @@
 # A radiator with a variable number of fins and optional bounding object.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 EXTERNPROTO "webots://projects/appearances/protos/HammeredCopper.proto"
 EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"

@@ -3,8 +3,8 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2Pen.proto"
 EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2Pen.proto"
 
 WorldInfo {
   basicTimeStep 10

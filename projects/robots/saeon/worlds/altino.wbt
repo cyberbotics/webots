@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/CircleArena.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/robots/saeon/protos/Altino.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/CircleArena.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 
 WorldInfo {
   basicTimeStep 8

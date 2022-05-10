@@ -3,9 +3,9 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
 EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3dx.proto"
 EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3Gripper.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
 
 WorldInfo {
   info [

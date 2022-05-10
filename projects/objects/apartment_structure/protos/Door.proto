@@ -4,11 +4,10 @@
 # A cutomizable openable door.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/GenericDoorAppearance.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "webots://projects/objects/apartment_structure/protos/GenericDoorAppearance.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 

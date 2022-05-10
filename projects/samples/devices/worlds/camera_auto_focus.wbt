@@ -2,12 +2,11 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
-EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
 EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
-EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
 EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
 
 WorldInfo {

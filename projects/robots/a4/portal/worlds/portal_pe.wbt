@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
 EXTERNPROTO "webots://projects/robots/a4/portal/protos/Portal.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
 
 WorldInfo {
   info [

@@ -4,7 +4,6 @@
 # A 4kg bucket of paint, with HingeJoint-based handle.
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO PaintBucket [
   field SFVec3f    translation     0 0 0

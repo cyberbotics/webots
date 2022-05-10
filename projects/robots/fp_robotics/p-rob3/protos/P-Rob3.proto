@@ -5,10 +5,10 @@
 # A P-Rob3 robotic arm from F&P Robotics.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO P-Rob3 [
   field SFVec3f    translation     0 0 0            # Is `Transform.translation`.

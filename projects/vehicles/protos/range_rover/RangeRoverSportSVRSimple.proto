@@ -4,20 +4,20 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the Range Rover Sport SVR 2015 to be moved with a Supervisor.
 
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVRSimple [
   field       SFVec3f    translation                    0 0.4 0

@@ -5,9 +5,9 @@
 # The length and number of wheels is configurable.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailerMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
 
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"

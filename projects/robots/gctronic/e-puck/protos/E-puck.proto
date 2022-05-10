@@ -8,8 +8,8 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puckDistanceSensor.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO E-puck [
   field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.

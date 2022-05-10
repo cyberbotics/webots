@@ -4,7 +4,6 @@
 # tags: hidden
 
 EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO BusStopBench [
   field SFString name       "bus stop bench"

@@ -7,8 +7,8 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/abstract/AckermannVehicle.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/AckermannVehicle.proto"
 
 PROTO Car [
 #fields inherited from AckermannVehicle

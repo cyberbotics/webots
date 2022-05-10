@@ -4,11 +4,8 @@
 # A small residential tower with variable number of floor and optional boundingObject.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTowerFloor.proto"
 EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTowerBase.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerFloor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerBase.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTowerFloor.proto"
 
 PROTO SmallResidentialTower [
   field SFVec3f    translation           0 0 0

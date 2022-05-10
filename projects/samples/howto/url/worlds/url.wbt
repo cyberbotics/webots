@@ -2,7 +2,6 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
 EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
 
 WorldInfo {

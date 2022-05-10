@@ -6,13 +6,13 @@
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/Rectangle.proto"
 EXTERNPROTO "webots://projects/robots/festo/robotino3/protos/Robotino3Wheel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Rectangle.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0

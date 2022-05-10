@@ -3,7 +3,6 @@
 
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
 PROTO MX430ServoShape [
 ]

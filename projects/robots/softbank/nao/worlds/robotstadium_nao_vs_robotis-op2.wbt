@@ -4,10 +4,10 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.pro
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto"
 EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoJersey.proto"
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoJersey.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
 
 WorldInfo {
   info [

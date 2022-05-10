@@ -2,8 +2,8 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://projects/robots/epfl/biorob/protos/GhostDog.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 
 WorldInfo {
   info [

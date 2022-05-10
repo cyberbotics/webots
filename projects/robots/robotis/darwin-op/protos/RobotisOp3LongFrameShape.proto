@@ -2,7 +2,6 @@
 # tags: hidden
 
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
 PROTO RobotisOp3LongFrameShape [
 ]

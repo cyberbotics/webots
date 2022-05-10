@@ -3,10 +3,10 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # The room of the Nao challenge
 
-EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO NaoChallengeRoom [
   field SFString name "Nao challenge room"

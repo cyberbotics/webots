@@ -5,9 +5,9 @@
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO TiagoBase [

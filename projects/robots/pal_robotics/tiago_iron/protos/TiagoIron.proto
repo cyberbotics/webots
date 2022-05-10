@@ -6,8 +6,8 @@
 # The robot is composed by the TIAGo base and a body without arm.
 
 EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
 
 PROTO TiagoIron [
   field  SFVec3f     translation      0 0 0.095

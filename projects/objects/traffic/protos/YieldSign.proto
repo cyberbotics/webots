@@ -3,10 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Yield sign.
 
-EXTERNPROTO "webots://projects/objects/panels/protos/Panel.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
 EXTERNPROTO "webots://projects/objects/traffic/protos/YieldPanel.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
 
 PROTO YieldSign [
   field SFVec3f    translation  0 0 0

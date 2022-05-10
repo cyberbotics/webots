@@ -3,9 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A photo frame with a customizable picture.
 
-EXTERNPROTO "webots://projects/appearances/protos/OsbWood.proto"
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OsbWood.proto"
 
 PROTO PhotoFrame [
   field SFVec3f    translation        0 0 0

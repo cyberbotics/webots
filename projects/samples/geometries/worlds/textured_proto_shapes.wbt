@@ -2,8 +2,8 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 WorldInfo {
 }

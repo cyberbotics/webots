@@ -3,9 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ShinyLeather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO ScooterMesh [
   field SFColor  primaryColor     0.43 0.11 0.1

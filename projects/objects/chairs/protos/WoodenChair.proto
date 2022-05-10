@@ -4,7 +4,6 @@
 # A wooden chair (0.42 x 0.44 x 0.944 m).
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO WoodenChair [
   field SFVec3f    translation 0 0 0

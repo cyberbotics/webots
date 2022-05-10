@@ -6,10 +6,10 @@
 # More info here: https://jetbot.org
 # Some of the meshes are taken from the original robot GitHub repository: https://github.com/NVIDIA-AI-IOT/jetbot
 
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "webots://projects/devices/nvidia/protos/JetsonNano.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidRoundedBox.proto"
-EXTERNPROTO "webots://projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO JetBot [
   field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.

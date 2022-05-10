@@ -5,20 +5,20 @@
 # Based on the model of Paul Salvador (zxys.com)
 # template language: javascript
 
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightFoot.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftUpperArm.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianTorso.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianNeck.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightUpperLeg.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftUpperArm.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerArm.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftHand.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightLowerLeg.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftFoot.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightUpperArm.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightLowerArm.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerLeg.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerArm.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightHand.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftUpperLeg.proto"
-EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianTorso.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftLowerLeg.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianLeftFoot.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightUpperLeg.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightLowerLeg.proto"
+EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianRightFoot.proto"
 EXTERNPROTO "webots://projects/humans/pedestrian/protos/PedestrianHead.proto"
 
 PROTO Pedestrian [

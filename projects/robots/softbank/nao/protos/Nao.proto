@@ -6,8 +6,8 @@
 
 EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoRightWristH25Realistic.proto"
 EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoRightWristH21.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoLeftWristH21.proto"
 EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoLeftWristH25Realistic.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoLeftWristH21.proto"
 
 PROTO Nao [
   field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.

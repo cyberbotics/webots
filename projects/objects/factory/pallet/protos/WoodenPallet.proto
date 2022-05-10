@@ -5,7 +5,6 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 
 PROTO WoodenPallet [
   field SFVec3f    translation    0 0 0

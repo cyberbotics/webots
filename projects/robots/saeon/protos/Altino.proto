@@ -5,7 +5,6 @@
 # The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BodyMesh.proto"
 EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoBodyMesh.proto"
 EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoWheel.proto"
 

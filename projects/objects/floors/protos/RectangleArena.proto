@@ -6,8 +6,8 @@
 
 EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO RectangleArena [
   field SFVec3f    translation     0 0 0

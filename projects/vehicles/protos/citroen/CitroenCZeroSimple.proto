@@ -5,15 +5,15 @@
 # Simple kinematic model of the Citroën C-Zero to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroTailLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroHeadLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroBrakeLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroLeftIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroLeftIndicator.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroBrakeLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroTailLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto"
 
 PROTO CitroenCZeroSimple [
   field     SFVec3f    translation         0 0 0.4

@@ -4,13 +4,9 @@
 # A large residential tower with variable number of floors and optional boundingObject.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerFloor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTowerFloor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTowerRoof.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerBase.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerRoof.proto"
 EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTowerBase.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTowerRoof.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTowerFloor.proto"
 
 PROTO LargeResidentialTower [
   field SFVec3f    translation            0 0 0

@@ -4,9 +4,8 @@
 # Customizable simple panel.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Panel [
   field SFVec3f    translation      0 0 0

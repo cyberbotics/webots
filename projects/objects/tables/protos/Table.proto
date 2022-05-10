@@ -5,7 +5,6 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO Table [

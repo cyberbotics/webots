@@ -2,9 +2,8 @@
 # tags: hidden,
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BrushedMetalAppearance.proto"
 EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BrushedMetalAppearance.proto"
 
 PROTO MX430FrontRotorShape [
   field SFBool screwA FALSE

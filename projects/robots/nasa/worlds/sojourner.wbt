@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/appearances/protos/Soil.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
 EXTERNPROTO "webots://projects/robots/nasa/protos/Sojourner.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Soil.proto"
 
 WorldInfo {
   info [

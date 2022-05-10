@@ -2,11 +2,11 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidRoundedBox.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidTorus.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidRoundedBox.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidTorus.proto"
 
 WorldInfo {
   lineScale 0.5
