@@ -68,6 +68,7 @@ signals:
 
 public slots:
   void readRequest();
+  void disconnected();
   void appendMessageToConsole(const QString &message, bool useStdout);
   void writeUserInputEventAnswer();
   void handleControllerExit();

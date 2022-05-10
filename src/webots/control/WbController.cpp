@@ -279,7 +279,8 @@ void WbController::addLocalControllerConnection() {
   while (mSocket->bytesAvailable() == 0)
     mSocket->waitForReadyRead();
   readRequest();
-  connect(mSocket, SIGNAL(readyRead()), this, SLOT(readRequest()));
+  connect(mSocket, &QLocalSocket::readyRead, this, &WbController::readRequest);
+  connect(mSocket, &QLocalSocket::disconnected, this, &WbController::disconnected);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
   connect(mRobot, &WbRobot::userInputEventNeedUpdate, this, &WbController::writeUserInputEventAnswer);
   writeAnswer();  // send configure message and immediate answers if any
@@ -1121,4 +1122,8 @@ void WbController::readRequest() {
 void WbController::robotDestroyed() {
   mRobot = NULL;
   WbControlledWorld::instance()->deleteController(this);
+}
+
+void WbController::disconnected() {
+  info(tr("Extern controller terminated for \"%1\" robot.").arg(mRobot->name()));
 }
