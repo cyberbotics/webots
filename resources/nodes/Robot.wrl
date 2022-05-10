@@ -27,8 +27,8 @@ Robot {
   field     MFFloat    battery         []                 # current (j), max (J), and load speed (W=J/s)
   field     SFFloat    cpuConsumption  10                 # Watt
   field     SFBool     selfCollision   FALSE              # detect inner robot collisions
-  field     SFString   window          ""                 # path of the library used to display the robot window
-  field     SFString   remoteControl   ""                 # path of the library used to remote control the real robot
+  field     SFString   window          "<generic>"        # path of the library used to display the robot window
+  field     SFString   remoteControl   "<none>"           # path of the library used to remote control the real robot
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity

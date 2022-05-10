@@ -41,7 +41,7 @@ PROTO AckermannVehicle [
   field MFNode     axisDevicesRearRight           [ ]
   field MFNode     axisDevicesRearLeft            [ ]
   field SFString   customData                     ""
-  field SFString   window                         ""
+  field SFString   window                         "<generic>"
 ]
 {
   %<

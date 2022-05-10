@@ -14,6 +14,8 @@
 
 #include "WbFieldModel.hpp"
 
+#include "WbLog.hpp"
+
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
 #include "WbMFDouble.hpp"

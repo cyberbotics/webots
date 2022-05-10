@@ -30,8 +30,8 @@ PROTO Supervisor [
   field     MFFloat    battery             []
   field     SFFloat    cpuConsumption      10
   field     SFBool     selfCollision       FALSE
-  field     SFString   window              ""
-  field     SFString   remoteControl       ""
+  field     SFString   window              "<generic>"
+  field     SFString   remoteControl       "<none>"
   hiddenField SFVec3f  linearVelocity      0 0 0
   hiddenField SFVec3f  angularVelocity     0 0 0
   deprecatedField SFString data            ""

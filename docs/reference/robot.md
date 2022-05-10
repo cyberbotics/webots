@@ -12,7 +12,7 @@ Robot {
   MFFloat  battery         []           # see below
   SFFloat  cpuConsumption  10           # [0, inf)
   SFBool   selfCollision   FALSE        # {TRUE, FALSE}
-  SFString window          ""           # any string
+  SFString window          "<generic>"  # any string
   SFString remoteControl   ""           # any string
 }
 ```
