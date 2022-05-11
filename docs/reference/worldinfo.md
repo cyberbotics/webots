@@ -4,10 +4,11 @@
 WorldInfo {
   SFString title                          ""         # any string
   MFString info                           [ ]        # any string
+  SFString window                         "<none>"   # any string
   SFFloat  gravity                        9.81       # [0, inf)
   SFFloat  CFM                            0.00001    # (0, inf)
   SFFloat  ERP                            0.2        # [0, 1]
-  SFString physics                        ""         # any string
+  SFString physics                        "<none>"   # any string
   SFFloat  basicTimeStep                  32         # [1, inf)
   SFFloat  FPS                            60         # [1, inf)
   SFInt32  optimalThreadCount             1          # [1, inf)
@@ -33,6 +34,9 @@ The [WorldInfo](#worldinfo) node provides general information on the simulated w
 
 - The `info` field should give additional information, like the author who created the world, the date of creation and a description of the purpose of the world.
 Several character strings can be used.
+
+- The `window` field refers to a window plugin for the world.
+This can be useful for having a supervisor window displaying information about each robot on a web simulation for example.
 
 - The `gravity` field defines the gravitational acceleration along the vertical axis to be used in physics simulation.
 The gravity is set by default to the gravity found on earth.

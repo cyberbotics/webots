@@ -17,7 +17,7 @@ Panda {
   SFVec3f    translation      0 0 0
   SFRotation rotation         0 0 1 0
   SFString   name             "panda"
-  SFString   controller       "void"
+  SFString   controller       "<generic>"
   MFString   controllerArgs   []
   SFBool     supervisor       FALSE
   SFBool     synchronization  TRUE

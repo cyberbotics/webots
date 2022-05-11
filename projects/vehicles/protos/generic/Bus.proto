@@ -11,7 +11,7 @@ PROTO Bus [
   field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.03 0.12 0.42
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    [ ]
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
