@@ -67,9 +67,9 @@ valid_environment = check_exist_in_projects(recurse_in_projects)
 
 with open("exist_in_projects.txt") as f:
     exist_in_projects = f.read().splitlines()
-exist_in_projects_platform_path = "exist_in_projects_"
+exist_in_projects_platform_path = "exist_in_projects"
 if sys.platform == 'linux':
-    exist_in_projects_platform_path += platform + '_' + distro.version()
+    exist_in_projects_platform_path += "_" + platform + '_' + distro.version()
 exist_in_projects_platform_path += ".txt"
 with open(exist_in_projects_platform_path) as f:
     exist_in_projects += f.read().splitlines()
