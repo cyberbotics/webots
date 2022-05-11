@@ -2051,7 +2051,7 @@ void WbMainWindow::showRobotWindow() {
   mRobotWindowClosed = false;
   if (robot) {
     if (robot->window() == "<none>")  // no robot window
-      WbMessageBox::info(tr("Cannot show Robot window <none>."));
+      WbMessageBox::info(tr("Cannot show <none> robot window."));
     else if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
