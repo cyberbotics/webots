@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
 PROTO TemplateRobotLua [
-  field SFString controller "void"
+  field SFString controller "<generic>"
   field SFString customData ""
   field SFString proceduralField "this is a string"
   field MFNode   slot []

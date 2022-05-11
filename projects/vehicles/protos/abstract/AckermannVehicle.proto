@@ -12,7 +12,7 @@ PROTO AckermannVehicle [
   field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
   field SFString   model                          "Ackermann vehicle"
-  field SFString   controller                     "void"
+  field SFString   controller                     "<generic>"
   field MFString   controllerArgs                 [ ]
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
@@ -41,7 +41,7 @@ PROTO AckermannVehicle [
   field MFNode     axisDevicesRearRight           [ ]
   field MFNode     axisDevicesRearLeft            [ ]
   field SFString   customData                     ""
-  field SFString   window                         ""
+  field SFString   window                         "<generic>"
 ]
 {
   %<

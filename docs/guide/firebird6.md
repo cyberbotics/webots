@@ -20,7 +20,7 @@ FireBird6 {
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   SFString   window          "fire_bird_6_window"
-  SFString   remoteControl   ""
+  SFString   remoteControl   "<none>"
   MFNode     bodySlot        []
 }
 ```

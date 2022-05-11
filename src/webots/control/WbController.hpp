@@ -29,13 +29,13 @@ class WbController : public QObject {
 
 public:
   // constructor & destructor
-  // name: controller name as in Robot.controller, e.g. "void"
+  // name: controller name as in Robot.controller, e.g. "<generic>"
   // arguments: controller arguments as in Robot.controllerArgs
   explicit WbController(WbRobot *robot);
   virtual ~WbController();
 
   // start the controller
-  // it never fails: the void controller is started as a fallback
+  // it never fails: the <generic> controller is started as a fallback
   void start();
 
   void writeAnswer(bool immediateAnswer = false);
@@ -77,7 +77,7 @@ private:
   WbFileUtil::FileType mType;
   bool mExtern;
   QString mControllerPath;  // path where the controller file is located
-  QString mName;            // controller name, e.g. "void"
+  QString mName;            // controller name, e.g. "<generic>"
   QString mCommand;         // command to be executed, e.g. "java"
   QStringList mArguments;   // command arguments
   QString mJavaCommand;
@@ -113,7 +113,7 @@ private:
 
   WbFileUtil::FileType findType(const QString &controllerPath);
   void startExecutable();
-  void startVoidExecutable();
+  void startGenericExecutable();
   void startJava(bool jar = false);
   void startPython();
   void startMatlab();

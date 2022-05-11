@@ -4,8 +4,9 @@
 Released on XX, XXth, 2022.
 
   - New Features:
-    - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259))
+    - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
+    - Added floating windows to web streaming ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
@@ -30,6 +31,8 @@ Released on XX, XXth, 2022.
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Feature Removal:
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Cleanup:
+    - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.

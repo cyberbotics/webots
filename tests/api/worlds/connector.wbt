@@ -31,7 +31,7 @@ Yamor {
   translation -7.3464e-07 0.23 0.077
   rotation 0 1 0 1.5708
   name "module_2"
-  controller ""
+  controller "<none>"
 }
 Solid {
   translation 0 0.1 0
