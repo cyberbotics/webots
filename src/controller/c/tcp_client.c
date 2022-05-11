@@ -114,7 +114,7 @@ int tcp_client_receive(TcpClient *c, char *buffer, int size) {
 
 void tcp_client_close(TcpClient *c) {
 #ifdef _WIN32
-  closesocket(fd);
+  closesocket(c->fd);
   free(c);
   if (WSACleanup() != 0)
     fprintf(stderr, "Cannot cleanup Winsock.\n");
