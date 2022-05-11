@@ -323,7 +323,7 @@ export default class Parser {
         areUrlsPresent = false;
         break;
       } else
-        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     }
 
     this.cubeImages = [];
@@ -359,7 +359,7 @@ export default class Parser {
         areIrradianceUrlsPresent = false;
         break;
       } else
-        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
@@ -563,7 +563,8 @@ export default class Parser {
 
     let urls = getNodeAttribute(node, 'url', '');
     if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => element); // filter removes empty elements
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -571,7 +572,6 @@ export default class Parser {
     const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
-    this._parseChildren(node, cadShape, false); // CadShape cannot be used as boundingObject
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
@@ -927,7 +927,7 @@ export default class Parser {
   _parseMesh(node, id) {
     let urls = getNodeAttribute(node, 'url', '');
     if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => element); // filter removes empty element.
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const name = getNodeAttribute(node, 'name', '');
@@ -1024,7 +1024,7 @@ export default class Parser {
     const id = this._parseId(node);
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
-      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
@@ -1248,19 +1248,16 @@ function loadMeshData(prefix, urls) {
   if (typeof urls === 'undefined')
     return;
 
-  if (typeof prefix !== 'undefined') {
-    for (let i = 0; i < urls.length; i++) {
-      if (urls[i].startsWith('webots://')) {
-        if (typeof webots.currentView.repository === 'undefined')
-          webots.currentView.repository = 'cyberbotics';
-        if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-          webots.currentView.branch = 'released';
-        urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
-      }
-
-      if (!urls[i].startsWith('http'))
-        urls[i] = prefix + urls[i];
+  for (let i = 0; i < urls.length; i++) {
+    if (urls[i].startsWith('webots://')) {
+      if (typeof webots.currentView.repository === 'undefined')
+        webots.currentView.repository = 'cyberbotics';
+      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+        webots.currentView.branch = 'released';
+      urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
+    if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
+      urls[i] = prefix + urls[i];
   }
 
   return assimpjs().then(function(ajs) {

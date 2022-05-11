@@ -613,8 +613,12 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     }
   }
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  for (QString material : objMaterialList(completeUrl))
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(material);
+  const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
+  for (QString material : objMaterialList(completeUrl)) {
+    QString completeMaterial = prefix + '/' + material;
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(completeMaterial);
+    writer.addResourceToList(completeMaterial, completeMaterial);
+  }
 
   urlFieldCopy.write(writer);
 
