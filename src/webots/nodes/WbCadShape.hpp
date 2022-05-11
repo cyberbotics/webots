@@ -100,7 +100,7 @@ private:
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
-  QString colladaPath() const;
+  QString cadPath() const;
 
   void setSegmentationColor(const WbRgb &color);
 

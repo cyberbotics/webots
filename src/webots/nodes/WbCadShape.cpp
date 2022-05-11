@@ -196,7 +196,7 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  if (colladaPath().isEmpty()) {
+  if (cadPath().isEmpty()) {
     deleteWrenObjects();
     return;
   }
@@ -370,7 +370,7 @@ void WbCadShape::createWrenObjects() {
     scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);
 
   if (!scene) {
-    warn(tr("Invalid data, please verify collada file: %1").arg(importer.GetErrorString()));
+    warn(tr("Invalid data, please verify mesh file: %1").arg(importer.GetErrorString()));
     return;
   }
 
@@ -465,7 +465,7 @@ void WbCadShape::createWrenObjects() {
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-      // determine how image textures referenced in the collada file will be searched for
+      // determine how image textures referenced in the collada/wavefront file will be searched for
       QString fileRoot = mUrl->item(0);
       fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
       fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
@@ -627,6 +627,6 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   findField("isPickable", true)->write(writer);
 }
 
-QString WbCadShape::colladaPath() const {
+QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, false);
 }
