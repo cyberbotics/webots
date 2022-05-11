@@ -12,7 +12,7 @@ PROTO CitroenCZeroSimple [
   field     MFColor    recognitionColors   [ 0.85 0.85 0.05 ]
   field     MFString   plate               "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   name                "vehicle"
-  field     SFString   controller          ""
+  field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]

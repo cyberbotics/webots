@@ -10,7 +10,7 @@ PROTO Moose [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
-  field SFString   controller      ""            # Is `Robot.controller`.
+  field SFString   controller      "<none>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
   field SFColor    color           0.8 0.5 0.1   # Set the bumper color.

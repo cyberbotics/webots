@@ -72,7 +72,7 @@ Thymio2 {
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
-  SFString   window          ""
+  SFString   window          "<generic>"
   SFString   contactMaterial "thymio body"
   SFBool     castLight       TRUE
   MFNode     bodySlot        []

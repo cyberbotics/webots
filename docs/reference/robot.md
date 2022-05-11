@@ -4,16 +4,16 @@ Derived from [Solid](solid.md).
 
 ```
 Robot {
-  SFString controller      "void"   # any string
-  MFString controllerArgs  []       # any string
-  SFString customData      ""       # any string
-  SFBool   supervisor      FALSE    # {TRUE, FALSE}
-  SFBool   synchronization TRUE     # {TRUE, FALSE}
-  MFFloat  battery         []       # see below
-  SFFloat  cpuConsumption  10       # [0, inf)
-  SFBool   selfCollision   FALSE    # {TRUE, FALSE}
-  SFString window          ""       # any string
-  SFString remoteControl   ""       # any string
+  SFString controller      "<generic>"  # any string
+  MFString controllerArgs  []           # any string
+  SFString customData      ""           # any string
+  SFBool   supervisor      FALSE        # {TRUE, FALSE}
+  SFBool   synchronization TRUE         # {TRUE, FALSE}
+  MFFloat  battery         []           # see below
+  SFFloat  cpuConsumption  10           # [0, inf)
+  SFBool   selfCollision   FALSE        # {TRUE, FALSE}
+  SFString window          "<generic>"  # any string
+  SFString remoteControl   "<none>"     # any string
 }
 ```
 
@@ -28,12 +28,12 @@ This program is located in a directory whose name is equal to the field's value.
 This directory is in turn located in the "controllers" subdirectory of the current project directory.
 For example, if the field value is "my\_controller" then the controller program should be located in "my\_project/controllers/my\_controller/my\_controller[.exe]".
 The ".exe" extension is added on the Windows platforms only.
-If this field is left empty, the robot will run no controller at all.
-Doing so may lead to better performance than using the `void` controller.
+If this field is set to `<none>`, the robot will run no controller at all.
+Doing so may lead to better performance than using the `<generic>` controller.
 Setting the value of this field to `<extern>` will make this robot runnable from an [extern robot controller](../guide/running-extern-robot-controllers.md).
 
 > **Note**: If the controller is not started the robot window will not work.
-If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
+If the robot window is required it is recommended to assign the `<generic>` controller instead of an empty string.
 
 - `controllerArgs`: list of strings containing the command line arguments to be passed to the controller program.
 Unlike in command line instructions, each `controllerArgs` item is interpreted as a single argument value, even if it contains spaces, and multiple arguments need to be specified on separate MFString items.
@@ -93,7 +93,7 @@ Here is an example of a robot leg with self collision enabled:
     set `minStop` and `maxStop` values for the "Knee" and "Ankle" joints.
 
 - `window`: defines the path of the robot window controller plugin used to display the robot window.
-If the `window` field is empty, the default generic robot window is loaded.
+By default, the `window` field is set to `<generic>` which loads the default generic robot window. When set to `<none>`, no robot window is loaded.
 The search algorithm works as following: Let $(VALUE) be the value of the `window` field, let $(EXT) be the shared library file extension of the OS (".so", ".dll" or ".dylib"), let $(PREFIX) be the shared library file prefix of the OS ("" on windows and "lib" on other OS), let $(PROJECT) be the current project path, let $(WEBOTS) be the webots installation path, and let $(...) be a recursive search, then the first existing file will be used as absolute path:
 
     $(PROJECT)/plugins/robot\_windows/$(VALUE)/$(PREFIX)$(VALUE)$(EXT)
@@ -101,7 +101,7 @@ The search algorithm works as following: Let $(VALUE) be the value of the `windo
     $(WEBOTS)/resources/$(...)/plugins/robot\_windows/$(VALUE)/$(PREFIX)$(VALUE)$(EXT)
 
 - `remoteControl`: defines the path of the remote-control controller plugin used to remote control the real robot.
-The search algorithm is identical to the one used for the `window` field, except that the subdirectory of `plugins` is `remote_controls` rather than `robot_windows`.
+The search algorithm is identical to the one used for the `window` field, except that the subdirectory of `plugins` is `remote_controls` rather than `robot_windows`. By default the `remoteControl` field is set to `<none>`.
 
 ### Synchronous versus Asynchronous Controllers
 

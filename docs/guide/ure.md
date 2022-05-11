@@ -21,7 +21,7 @@ UR5e/UR5e/UR10e {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "UR5e"
-  SFString   controller      "void"
+  SFString   controller      "<generic>"
   MFString   controllerArgs  []
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
