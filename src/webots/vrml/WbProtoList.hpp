@@ -22,6 +22,7 @@
 class WbProtoModel;
 class WbTokenizer;
 class WbDownloader;
+class WbProtoTreeItem;
 
 #include <QtCore/QFileInfoList>
 #include <QtCore/QMap>
@@ -123,8 +124,11 @@ public:
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 
   void recursiveProtoRetrieval(const QString &filename, const QStringList &graftedExternProto = QStringList());
+
   void retrieveAllExternProto(const QString &filename, bool reloading,
                               const QStringList &graftedExternProto = QStringList());  // TODO: need reloading?
+  bool retrieveAllExternProtoV2(const QString &filename, const QStringList &unreferencedProtos);
+
   QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
 
 signals:
@@ -133,6 +137,9 @@ signals:
 private slots:
   void recurser();
   void externProtoDownloadTracker();
+  void externProtoDownloadTrackerV2();
+  void tryWorldLoad();
+
   // void backwardsCompatibilityDownloadTracker();
 
 private:
@@ -156,8 +163,10 @@ private:
   QString mCurrentWorld;
   bool mReloading;
 
+  WbProtoTreeItem *mTreeRoot;
+
   QMap<QString, WbProtoInfo *> mOfficialProtoList;
-  QMap<QString, QString> mCurrentProjectProtoList;
+  QMap<QString, QString> mCurrentProjectProto;
 
   QMap<QString, QString> getExternProtoList(const QString &filename);
 

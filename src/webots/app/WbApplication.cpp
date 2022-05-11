@@ -275,16 +275,23 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     //  them
   }
 
-  WbProtoList::instance()->resetCurrentProjectProtoList();
-  if (!WbProtoList::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
+  if (!WbProtoList::instance()->retrieveAllExternProtoV2(worldName, externProtoToGraft)) {
     printf("> some proto assets are missing, downloading them.\n");
-    WbProtoList::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
     return false;  // when all extern proto are downloaded, loadWorld is called again
+  } else {
+    printf("> everything is available.\n");
   }
 
-  printf("> CURRENT PROJECT PROTO LIST:\n");
+  // WbProtoList::instance()->resetCurrentProjectProtoList();
+  // if (!WbProtoList::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
+  //  printf("> some proto assets are missing, downloading them.\n");
+  //  WbProtoList::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
+  //  return false;  // when all extern proto are downloaded, loadWorld is called again
+  //}
+
+  printf("\nCURRENT PROJECT PROTO LIST:\n");
   WbProtoList::instance()->printCurrentProjectProtoList();
-  printf("> ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
+  printf("ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;

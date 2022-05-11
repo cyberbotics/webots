@@ -25,6 +25,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
+#include "WbProtoTreeItem.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTokenizer.hpp"
 
@@ -199,11 +200,12 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
 }
 
 void WbProtoList::printCurrentProjectProtoList() {
-  QMapIterator<QString, QString> it(mCurrentProjectProtoList);
-  printf("-- mCurrentProjectProtoList ------\n");
+  QMapIterator<QString, QString> it(mCurrentProjectProto);
+  printf("-- mCurrentProjectProto ------\n");
   while (it.hasNext()) {
     it.next();
-    printf("%35s -> %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
+    printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(it.value()),
+           it.value().toUtf8().constData());
   }
   printf("----------------\n");
 }
@@ -219,12 +221,12 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     }
   }
 
-  if (mCurrentProjectProtoList.contains(modelName)) {
-    QString url =
-      WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProtoList.value(modelName), false);  // TODO: change this
+  if (mCurrentProjectProto.contains(modelName)) {
+    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProto.value(modelName), false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
+      // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
-      url = WbNetwork::instance()->get(mCurrentProjectProtoList.value(modelName));
+      url = WbNetwork::instance()->get(url);
     }
     printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
@@ -247,7 +249,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     }
   } else {
     if (!modelName.isEmpty())
-      printf("proto %s not found in mCurrentProjectProtoList ?\n", modelName.toUtf8().constData());
+      printf("proto %s not found in mCurrentProjectProto ?\n", modelName.toUtf8().constData());
   }
   return NULL;
 }
@@ -362,7 +364,7 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, const QString
   }
 
   if (buildProtoList)
-    mCurrentProjectProtoList.insert(externProtos);
+    mCurrentProjectProto.insert(externProtos);
 
   QMapIterator<QString, QString> it(externProtos);
   bool isProtoAssetAvailable = true;
@@ -393,7 +395,7 @@ bool WbProtoList::areProtoAssetsAvailable(const QString &filename, const QString
 
 void WbProtoList::retrieveAllExternProto(const QString &filename, bool reloading, const QStringList &graftedExternProto) {
   // reset current project related variables to prepare for a load
-  mCurrentProjectProtoList.clear();
+  mCurrentProjectProto.clear();
   mCurrentWorld = filename;
   mReloading = reloading;
   qDeleteAll(mDownloaders);
@@ -684,7 +686,7 @@ void WbProtoList::setupKnownProtoList() {
 }
 
 void WbProtoList::resetCurrentProjectProtoList(void) {
-  mCurrentProjectProtoList.clear();
+  mCurrentProjectProto.clear();
   mRetrievalError = QString();
 }
 
@@ -755,3 +757,39 @@ void WbProtoList::backwardsCompatibilityDownloadTracker() {
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);
 }
 */
+
+bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStringList &unreferencedProtos) {
+  QPair<QString, QString> unreferenced;
+
+  // create struture that will hold the proto tree being loaded
+  QFile rootFile(filename);
+  if (rootFile.open(QIODevice::ReadOnly)) {
+    printf("DELETING mTreeRoot\n");
+    mTreeRoot = new WbProtoTreeItem(filename, NULL);
+    const bool isReady = mTreeRoot->isReadyForLoad();
+    if (isReady)
+      mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
+    else
+      connect(mTreeRoot, &WbProtoTreeItem::protoTreeUpdated, this, &WbProtoList::tryWorldLoad);
+    return isReady;
+  } else
+    WbLog::error(tr("File '%1' is not readable.").arg(filename));
+
+  return false;
+}
+
+void WbProtoList::externProtoDownloadTrackerV2() {
+}
+
+void WbProtoList::tryWorldLoad() {
+  if (mTreeRoot && mTreeRoot->isReadyForLoad()) {
+    printf("RETRY WORLD LOAD\n");
+    // generate mCurrentProjectProto
+    mTreeRoot->generateProtoMap(mCurrentProjectProto);
+    // cleanup and attempt to reload
+    disconnect(mTreeRoot);
+    delete mTreeRoot;
+    mTreeRoot = NULL;
+    WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);  // load the world again
+  }
+}

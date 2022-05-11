@@ -374,6 +374,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbProtoList.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
+  WbProtoTreeItem.cpp \
   WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
