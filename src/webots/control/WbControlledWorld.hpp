@@ -41,6 +41,9 @@ public:
 
   void step() override;
 
+  // return the list of all controllers
+  QList<WbController *> controllers() const { return mControllers; }
+
 public slots:
   void deleteController(WbController *controller);
   void triggerStepFromTimer() override;

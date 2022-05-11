@@ -43,6 +43,7 @@
 #include <QtCore/QUrl>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
+#include <QtNetwork/QTcpSocket>
 
 #include <cassert>
 #include <iostream>
@@ -99,6 +100,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mType = WbFileUtil::UNKNOWN;
   mExtern = mRobot->controllerName() == "<extern>";
   mSocket = NULL;
+  mTcpSocket = NULL;
   mProcess = NULL;
   mRequestTime = 0.0;
   mDeltaTimeRequested = 0;
@@ -173,6 +175,12 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
+}
+
+void WbController::setTcpSocket(QTcpSocket *socket) {
+  mTcpSocket = socket;
+  qDebug(QString::number(mTcpSocket->peerPort()).toLatin1() + "\n");
+  qDebug(QString::number(socket->peerPort()).toLatin1() + "\n");
 }
 
 void WbController::resetRequestTime() {
@@ -267,6 +275,9 @@ void WbController::start() {
                                                                   mControllerPath);
     mProcess->start(mCommand, mArguments);
   }
+
+  mTcpSocket = new QTcpSocket(this);
+  connect(mTcpSocket, &QTcpSocket::readyRead, this, &WbController::addRemoteControllerConnection);
 }
 
 void WbController::addLocalControllerConnection() {
@@ -284,6 +295,10 @@ void WbController::addLocalControllerConnection() {
   connect(mSocket, &QLocalSocket::readyRead, this, &WbController::readRequest);
   connect(mSocket, &QLocalSocket::disconnected, this, &WbController::disconnected);
   writeAnswer();  // send configure message and immediate answers if any
+}
+
+void WbController::addRemoteControllerConnection() {
+  printf("hello world\n");
 }
 
 void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value,

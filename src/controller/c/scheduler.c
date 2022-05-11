@@ -105,6 +105,9 @@ int scheduler_init(const char *pipe) {
       exit(EXIT_FAILURE);
     }
 
+    char *test_msg = strdup("TST");
+    tcp_client_send(scheduler_client, test_msg, strlen(test_msg));
+
   } else {
     fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
     exit(EXIT_FAILURE);

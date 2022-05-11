@@ -22,6 +22,7 @@
 
 class QLocalServer;
 class QLocalSocket;
+class QTcpSocket;
 class QProcessEnvironment;
 
 class WbController : public QObject {
@@ -49,6 +50,7 @@ public:
     if (mStdoutNeedsFlush)
       flushBuffer(&mStdoutBuffer);
   }
+  void setTcpSocket(QTcpSocket *socket);
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
@@ -90,6 +92,7 @@ private:
   QProcess *mProcess;
   QLocalServer *mServer;
   QLocalSocket *mSocket;
+  QTcpSocket *mTcpSocket;
   QByteArray mRequest;
   double mRequestTime;
   bool mHasBeenTerminatedByItself;
@@ -126,6 +129,7 @@ private:
 
 private slots:
   void addLocalControllerConnection();
+  void addRemoteControllerConnection();
   void readStdout();
   void readStderr();
   void info(const QString &message);

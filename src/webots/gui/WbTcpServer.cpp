@@ -16,7 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbControlledWorld.hpp"
-//#include "WbController.hpp"
+#include "WbController.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -170,31 +170,34 @@ void WbTcpServer::closeClient(const QString &clientID) {
 void WbTcpServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   if (socket) {
-    mWebSocketServer->handleConnection(socket);
+    // mWebSocketServer->handleConnection(socket);
     connect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
   }
 }
 
 void WbTcpServer::onNewTcpData() {
-  // const QList<WbController *> &controllers = WbControlledWorld::instance()->activeControllersNames();
-  // printf("nb controllers = %d\n", controllers.length());
-
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  const QByteArray request = socket->peek(3);
-
+  const QByteArray request = socket->read(3);
+  qDebug(request);
   if (request == "CTR") {
-    const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested robot.
+    const QString &line(socket->read(8 * 1024));  // Peek the request header to determine the requested robot.
     QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
     QByteArray reply;
 
     const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+    const QList<WbController *> &controllers = WbControlledWorld::instance()->controllers();
     if (robotNameIndex) {  // robot name is given
       const QString robotName = tokens[robotNameIndex];
       foreach (WbRobot *const robot, robots)
         if (robot->name() == robotName && robot->isControllerExtern()) {
-          // TODO: transfer TCP connection to "robot"
+          foreach (WbController *const controller, controllers) {
+            if (controller->robot() == robot) {
+              controller->setTcpSocket(socket);
+              break;
+            }
+          }
           reply.append("CONNECTED");
           socket->write(reply);
           return;
@@ -202,21 +205,23 @@ void WbTcpServer::onNewTcpData() {
       reply.append("FAILED");
       socket->write(reply);
     } else {  // no robot name given
-      QList<WbRobot *> externSortedRobots;
+      WbRobot *lowestRobot = NULL;
       foreach (WbRobot *const robot, robots) {
         if (robot->isControllerExtern()) {
-          int i = 0;
-          foreach (WbRobot *const externRobot, externSortedRobots) {
-            if (externRobot->name() < robot->name())
-              i++;
-            else
-              break;
+          if (lowestRobot == NULL) {
+            lowestRobot = robot;
+          } else if (lowestRobot->name() > robot->name()) {
+            lowestRobot = robot;
           }
-          externSortedRobots.insert(i, robot);
         }
       }
-      if (!externSortedRobots.isEmpty()) {
-        // TODO: transfer TCP connection to "externSortedRobots.first()"
+      if (lowestRobot != NULL) {
+        foreach (WbController *const controller, controllers) {
+          if (controller->robot() == lowestRobot) {
+            controller->setTcpSocket(socket);
+            break;
+          }
+        }
         reply.append("CONNECTED");
         socket->write(reply);
         return;
