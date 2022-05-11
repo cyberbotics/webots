@@ -354,6 +354,8 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
         return;
       }
       controller = new WbController(robot);
+      if (newControllerName == "<extern>")
+        controller->start();
       if (paused)  // step finished
         mWaitingControllers << controller;
       else  // step executing
