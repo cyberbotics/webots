@@ -351,7 +351,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       delete controller;
       if (newControllerName == "<extern>")
         mRobotsWaitingExternController.append(robot);
-      if (newControllerName.isEmpty() || newControllerName == "<extern>") {
+      if (newControllerName.isEmpty()) {
         robot->setControllerStarted(false);
         return;
       }
@@ -365,10 +365,10 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
     }
   }
 
+  if (newControllerName.isEmpty())
+    return;
   if (newControllerName == "<extern>")
     mRobotsWaitingExternController.append(robot);
-  if (newControllerName.isEmpty() || newControllerName == "<extern>")
-    return;
 
   // The controller has never been created. Creates a new one
   WbController *const controller = new WbController(robot);

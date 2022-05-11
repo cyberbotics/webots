@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_STREAMING_SERVER_HPP
-#define WB_STREAMING_SERVER_HPP
+#ifndef WB_TCP_SERVER_HPP
+#define WB_TCP_SERVER_HPP
 
 #include <QtCore/QObject>
 
@@ -22,21 +22,21 @@
 #include "WbLog.hpp"
 
 class QTcpSocket;
+class QTcpServer;
 class QWebSocket;
 class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
 class WbRobot;
-class WbStreamingTcpServer;
 class WbView3D;
 
-class WbStreamingServer : public QObject {
+class WbTcpServer : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbStreamingServer(bool stream);
-  virtual ~WbStreamingServer();
+  explicit WbTcpServer(bool stream);
+  virtual ~WbTcpServer();
 
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
@@ -98,7 +98,7 @@ private:
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
 
   QWebSocketServer *mWebSocketServer;
-  WbStreamingTcpServer *mTcpServer;
+  QTcpServer *mTcpServer;
   qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;

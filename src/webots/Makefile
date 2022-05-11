@@ -420,9 +420,8 @@ QT_SOURCES = WbAboutBox.cpp \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
-  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
-  WbStreamingServer.cpp \
+  WbTcpServer.cpp \
   WbSupervisorUtilities.cpp \
   WbSyntaxHighlighter.cpp \
   WbTelemetry.cpp \

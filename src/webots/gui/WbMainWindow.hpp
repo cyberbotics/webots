@@ -34,7 +34,7 @@ class WbRecentFilesList;
 class WbRobot;
 class WbRobotWindow;
 class WbSimulationView;
-class WbStreamingServer;
+class WbTcpServer;
 
 class QMenu;
 class QMenuBar;
@@ -50,7 +50,7 @@ class WbMainWindow : public QMainWindow {
   Q_PROPERTY(QString toolBarAlign MEMBER mToolBarAlign READ toolBarAlign WRITE setToolBarAlign)
 
 public:
-  explicit WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent = NULL);
+  explicit WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidget *parent = NULL);
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
@@ -217,7 +217,7 @@ private:
   // QSS properties
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
-  WbStreamingServer *mStreamingServer;
+  WbTcpServer *mTcpServer;
   bool mSaveCheckboxStatus;
 
 private slots:
