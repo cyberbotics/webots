@@ -100,6 +100,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   connect(mRobot, &WbRobot::destroyed, this, &WbController::robotDestroyed);
 
   mType = WbFileUtil::UNKNOWN;
+  mExtern = mRobot->controllerName() == "<extern>";
   mSocket = NULL;
   mProcess = NULL;
   mRequestTime = 0.0;
@@ -184,7 +185,7 @@ bool WbController::isRunning() const {
 // the start() method  never fails: if the controller name is invalid, then the void controller starts instead.
 void WbController::start() {
   mRobot->setControllerStarted(true);
-  if (isExtern()) {
+  if (mExtern) {
     info(tr("waiting for connection."));
     std::cout << "ipc://" << WbStandardPaths::webotsTmpPathId() << '/' << QUrl::toPercentEncoding(mRobot->name()).constData()
               << std::endl;
@@ -244,7 +245,7 @@ void WbController::start() {
 
   const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
-  const QString serverName = path + '/' + (isExtern() ? "extern" : "intern");
+  const QString serverName = path + '/' + (mExtern ? "extern" : "intern");
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
@@ -271,7 +272,7 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
-  if (isExtern())
+  if (mExtern)
     info(tr("connected."));
   mSocket = mServer->nextPendingConnection();
   mRobot->setConfigureRequest(true);
@@ -526,7 +527,7 @@ void WbController::setProcessEnvironment() {
 }
 
 void WbController::info(const QString &message) {
-  if (isExtern())
+  if (mExtern)
     WbLog::info(tr("\"%1\" extern controller: ").arg(mRobot->name()) + message);
   else
     WbLog::info(name() + ": " + message);
@@ -906,7 +907,7 @@ QString WbController::commandLine() const {  // returns the command line with do
 }
 
 void WbController::handleControllerExit() {
-  if (isExtern()) {
+  if (mExtern) {
     processFinished(0, QProcess::NormalExit);
     mRobot->setControllerNeedRestart();
   }
@@ -1131,7 +1132,7 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  if (isExtern()) {
+  if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
     mRobot->setControllerNeedRestart();
   }
