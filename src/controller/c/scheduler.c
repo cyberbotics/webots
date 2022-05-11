@@ -90,6 +90,21 @@ int scheduler_init(const char *pipe) {
     tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
     free(init_msg);
 
+    char ack_msg[20];
+    fprintf(stdout, "Waiting for Webots...\n");
+    tcp_client_receive(scheduler_client, ack_msg, 20);  // wait for ack message from Webots
+    if (strcmp(ack_msg, "CONNECTED") == 0) {
+      fprintf(stdout, "Connection to robot established.\n");
+    } else if (strcmp(ack_msg, "FAILED") == 0) {
+      fprintf(stderr, "%s.\n",
+              robot_name == NULL ? "No robot with <extern> controllers is specified in the Webots simulation.\n" :
+                                   "The specified robot is not in the list of robots with <extern> controllers.\n");
+      exit(EXIT_FAILURE);
+    } else {
+      fprintf(stderr, "Unknown Webots response %s.\n", ack_msg);
+      exit(EXIT_FAILURE);
+    }
+
   } else {
     fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
     exit(EXIT_FAILURE);
