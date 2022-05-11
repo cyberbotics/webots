@@ -31,7 +31,6 @@ public:
   WbControlledWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
   virtual ~WbControlledWorld();
 
-  void startControllers();
   void startController(WbRobot *robot);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);

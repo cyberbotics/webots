@@ -84,13 +84,6 @@ void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
   connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
 }
 
-void WbControlledWorld::startControllers() {
-  foreach (WbRobot *const robot, robots()) {
-    if (!robot->isControllerStarted())
-      startController(robot);
-  }
-}
-
 void WbControlledWorld::startController(WbRobot *robot) {
   if (robot->controllerName() == "<none>") {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
@@ -201,8 +194,14 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
 }
 
 void WbControlledWorld::step() {
-  if (mFirstStep && !mRetryEnabled)
-    startControllers();
+  qDebug() << "step";
+  if (mFirstStep && !mRetryEnabled) {
+    foreach (WbRobot *const robot, robots()) {
+      if (!robot->isControllerStarted())
+        startController(robot);
+    }
+    qDebug() << "startControllers";
+  }
 
   WbSimulationState *const simulationState = WbSimulationState::instance();
 
