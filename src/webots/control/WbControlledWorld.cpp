@@ -121,7 +121,6 @@ void WbControlledWorld::startController(WbRobot *robot) {
     mRobotsWaitingExternController.removeAll(robot);
   }
   mControllers.append(controller);
-
   controller->start();
 }
 
@@ -208,7 +207,8 @@ void WbControlledWorld::step() {
   static QList<WbController *> justStartedControllers;
   if (!mWaitingControllers.isEmpty()) {
     foreach (WbController *const controller, mWaitingControllers) {
-      controller->start();
+      if (controller->robot()->controllerName() != "<extern>")
+        controller->start();
       mControllers << controller;
       if (!mFirstStep)
         justStartedControllers << controller;
