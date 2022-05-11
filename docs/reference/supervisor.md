@@ -3,6 +3,7 @@
 A [Supervisor](#supervisor) is a special type of [Robot](robot.md) which has additional powers.
 In fact, any [Robot](robot.md) can be turned into a supervisor when its field named `supervisor` is set to TRUE.
 A [Supervisor](#supervisor) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access it can be used to acquire measurements about the state of the simulation as well as track its evolution.
+However, even a [Supervisor](#supervisor) cannot access the internal information and measurements of devices mounted on a different robot, such as camera images and distance sensor measurements.
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
