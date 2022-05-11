@@ -73,19 +73,19 @@ class ProtoInfo:
                     break
 
                 clean_line = line[1:].strip()
-                if clean_line.startswith('VRML_SIM') or line.startswith('template language'):
+                if clean_line.startswith('VRML_SIM') or re.search('template language\s*:', clean_line):
                     continue
-                elif clean_line.startswith('license:'):
-                    self.license = clean_line.replace('license:', '').strip()
-                elif clean_line.startswith('license url:'):
-                    self.license_url = clean_line.replace('license url:', '').strip()
-                elif clean_line.startswith('documentation url:'):
-                    self.documentation_url = clean_line.replace('documentation url:', '').strip()
-                elif clean_line.startswith('tags:'):
-                    tags = clean_line.replace('tags:', '').strip().split(',')
+                elif re.search('license\s*:', clean_line):
+                    self.license = re.sub('license\s*:', '', clean_line).strip()
+                elif re.search('license url\s*:', clean_line):
+                    self.license_url = re.sub('license url\s*:', '', clean_line).strip()
+                elif re.search('documentation url\s*:', clean_line):
+                    self.documentation_url = re.sub('documentation url\s*:', '', clean_line).strip()
+                elif re.search('tags\s*:', clean_line):
+                    tags = re.sub('tags\s*:', '', clean_line).strip().split(',')
                     self.tags = [tag.strip() for tag in tags]
                 else:
-                    self.description += clean_line.strip() + '&#xA;'
+                    self.description += clean_line.strip() + '\\n'
 
     def parse_body(self):
         # determine proto type (base type can be inferred only when all proto_types are known)

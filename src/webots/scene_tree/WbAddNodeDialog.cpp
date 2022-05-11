@@ -350,7 +350,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 
     mInfoText->clear();
 
-    description = info->description();
+    description = info->description().replace("\\n", "\n");
     if (description.isEmpty())
       mInfoText->setPlainText(tr("No info available."));
     else {
