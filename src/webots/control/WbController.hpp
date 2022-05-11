@@ -60,7 +60,6 @@ public:
   bool isRequestPending() const { return mRequestPending; }
   bool isRunning() const;
   bool isProcessingRequest() const { return mProcessingRequest; }
-  bool isExtern() const { return mProcess == NULL; }
 
 signals:
   void hasTerminatedByItself(WbController *);
@@ -76,6 +75,7 @@ public slots:
 private:
   WbRobot *mRobot;
   WbFileUtil::FileType mType;
+  bool mExtern;
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
   QString mCommand;         // command to be executed, e.g. "java"
