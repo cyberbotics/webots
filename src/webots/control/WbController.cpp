@@ -93,7 +93,6 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 
 WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mRobot = robot;
-  mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
   updateName(mRobot->controllerName());
   connect(mRobot, &WbRobot::appendMessageToConsole, this, &WbController::appendMessageToConsole);
@@ -1132,8 +1131,6 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  if (mExtern) {
+  if (mExtern)
     info(tr("disconnected, waiting for new connection."));
-    mRobot->setControllerNeedRestart();
-  }
 }
