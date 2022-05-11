@@ -32,6 +32,7 @@ public:
   virtual ~WbControlledWorld();
 
   void startController(WbRobot *robot);
+  void externConnection(WbRobot *robot, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();

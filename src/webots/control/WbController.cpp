@@ -270,8 +270,10 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
-  if (mExtern)
+  if (mExtern) {
     info(tr("connected."));
+    WbControlledWorld::instance()->externConnection(mRobot, true);
+  }
   mSocket = mServer->nextPendingConnection();
   mRobot->setConfigureRequest(true);
 
@@ -1129,6 +1131,8 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  if (mExtern)
+  if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
+    WbControlledWorld::instance()->externConnection(mRobot, false);
+  }
 }

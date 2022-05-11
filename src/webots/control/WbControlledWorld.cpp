@@ -115,12 +115,13 @@ void WbControlledWorld::startController(WbRobot *robot) {
     controller = new WbController(robot);
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
+    if (robot->controllerName() == "<extern>")
+      mRobotsWaitingExternController.append(robot);
+  } else if (robot->controllerName() == "<extern>") {
+    mRobotsWaitingExternController.removeAll(robot);
   }
   mControllers.append(controller);
-  if (robot->controllerName() == "<extern>") {
-    mRobotsWaitingExternController.removeAll(robot);
-    restartStepTimer();  // restart simulation if waiting for extern controller
-  }
+
   controller->start();
 }
 
@@ -194,13 +195,11 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
 }
 
 void WbControlledWorld::step() {
-  qDebug() << "step";
   if (mFirstStep && !mRetryEnabled) {
     foreach (WbRobot *const robot, robots()) {
       if (!robot->isControllerStarted())
         startController(robot);
     }
-    qDebug() << "startControllers";
   }
 
   WbSimulationState *const simulationState = WbSimulationState::instance();
@@ -382,6 +381,16 @@ void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
   WbRobot *robot = static_cast<WbRobot *>(node);
   assert(robot);
   mRobotsWaitingExternController.removeAll(robot);
+}
+
+void WbControlledWorld::externConnection(WbRobot *robot, bool connect) {
+  if (connect) {
+    mRobotsWaitingExternController.removeAll(robot);
+    restartStepTimer();
+  } else {
+    mRobotsWaitingExternController.append(robot);
+    pauseStepTimer();
+  }
 }
 
 QStringList WbControlledWorld::activeControllersNames() const {
