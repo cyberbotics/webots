@@ -32,7 +32,7 @@ public:
   virtual ~WbControlledWorld();
 
   void startController(WbRobot *robot);
-  void externConnection(WbRobot *robot, bool connect);
+  void externConnection(WbController *controller, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();
@@ -59,8 +59,8 @@ private:
   QList<WbController *> mControllers;
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step mode and waiting next step to start
-  QList<WbController *> mTerminatingControllers;    // controllers waiting to be deleted
-  QList<WbRobot *> mRobotsWaitingExternController;  // robots with extern controller not started
+  QList<WbController *> mTerminatingControllers;   // controllers waiting to be deleted
+  QList<WbController *> mWaitingExternController;  // robots with extern controller not started
   QList<double> mRequests;
   bool mNeedToYield;
   bool mFirstStep;
