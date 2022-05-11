@@ -200,8 +200,8 @@ void WbTcpServer::onNewTcpData() {
     } else {  // no robot name given
       QList<WbRobot *> externSortedRobots;
       foreach (WbRobot *const robot, robots) {
-        int i = 0;
         if (robot->isControllerExtern()) {
+          int i = 0;
           foreach (WbRobot *const externRobot, externSortedRobots) {
             if (externRobot->name() < robot->name())
               i++;
