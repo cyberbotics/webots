@@ -95,8 +95,6 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mControllerPath = mRobot->controllerDir();
   updateName(mRobot->controllerName());
-  connect(mRobot, &WbRobot::appendMessageToConsole, this, &WbController::appendMessageToConsole);
-  connect(mRobot, &WbRobot::destroyed, this, &WbController::robotDestroyed);
 
   mType = WbFileUtil::UNKNOWN;
   mExtern = mRobot->controllerName() == "<extern>";
@@ -113,6 +111,10 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mStderrNeedsFlush = false;
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
+  connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
+  connect(mRobot, &WbRobot::userInputEventNeedUpdate, this, &WbController::writeUserInputEventAnswer);
+  connect(mRobot, &WbRobot::appendMessageToConsole, this, &WbController::appendMessageToConsole);
+  connect(mRobot, &WbRobot::destroyed, this, &WbController::robotDestroyed);
 }
 
 WbController::~WbController() {
@@ -284,8 +286,6 @@ void WbController::addLocalControllerConnection() {
   readRequest();
   connect(mSocket, &QLocalSocket::readyRead, this, &WbController::readRequest);
   connect(mSocket, &QLocalSocket::disconnected, this, &WbController::disconnected);
-  connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
-  connect(mRobot, &WbRobot::userInputEventNeedUpdate, this, &WbController::writeUserInputEventAnswer);
   writeAnswer();  // send configure message and immediate answers if any
 }
 
