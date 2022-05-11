@@ -1139,18 +1139,6 @@ static char *compute_socket_filename() {
           filenames = r;
           filenames[count++] = strdup(de->d_name);
         }
-        closedir(dr);
-        if (i == 0) {  // the robot folder was not yet created
-          free(folder);
-          return NULL;
-        }
-        if (i > 1) {  // sort folders (robot names) in alphabetical order
-          qsort(filenames, i, sizeof(char *), strcmp_sort);
-          for (int j = 1; j < i; j++)  // keep only the first one
-            free(filenames[j]);
-        }
-        robot_name = filenames[0];
-        free(filenames);
       }
       closedir(dr);
       if (count == 0) {  // no robot folder was created
@@ -1176,6 +1164,7 @@ static char *compute_socket_filename() {
     free(WEBOTS_CONTROLLER_URL);
     scheduler_protocol = strdup("IPC");
     return socket_filename;
+
   } else if (strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP
     const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
     int length = strlen(&WEBOTS_CONTROLLER_URL[6]) + 1;
