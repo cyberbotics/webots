@@ -386,6 +386,7 @@ void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
 void WbControlledWorld::externConnection(WbRobot *robot, bool connect) {
   if (connect) {
     mRobotsWaitingExternController.removeAll(robot);
+    robot->externControllerChanged();
     restartStepTimer();
   } else {
     mRobotsWaitingExternController.append(robot);

@@ -64,7 +64,8 @@ void WbAbstractCamera::init() {
   mSensor = NULL;
   mRefreshRate = 0;
   mNeedToConfigure = false;
-  mHasMemoryMappedFileChanged = false;
+  mSendMemoryMappedFile = false;
+  mHasExternControllerChanged = false;
   mNeedToCheckShaderErrors = false;
   mMemoryMappedFileReset = false;
   mExternalWindowEnabled = false;
@@ -181,7 +182,7 @@ void WbAbstractCamera::deleteWren() {
 }
 
 void WbAbstractCamera::initializeImageMemoryMappedFile() {
-  mHasMemoryMappedFileChanged = true;
+  mSendMemoryMappedFile = true;
   delete mImageMemoryMappedFile;
   mImageMemoryMappedFile = initializeMemoryMappedFile();
   if (mImageMemoryMappedFile)
@@ -321,7 +322,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mHasMemoryMappedFileChanged && mImageMemoryMappedFile) {
+  if (mSendMemoryMappedFile) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
     if (mImageMemoryMappedFile) {
@@ -330,7 +331,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
       stream.writeRawData(n.constData(), n.size() + 1);
     } else
       stream << (int)(0);
-    mHasMemoryMappedFileChanged = false;
+    mSendMemoryMappedFile = false;
   }
 }
 
@@ -367,7 +368,10 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
 
       if (!hasBeenSetup()) {
         setup();
-        mHasMemoryMappedFileChanged = true;
+        mSendMemoryMappedFile = true;
+      } else if (mHasExternControllerChanged) {
+        mSendMemoryMappedFile = true;
+        mHasExternControllerChanged = false;
       }
       break;
     default:
