@@ -314,17 +314,18 @@ void WbControlledWorld::updateCurrentRobotController() {
 
 void WbControlledWorld::updateRobotController(WbRobot *robot) {
   assert(robot);
-
-  const int robotID = robot->uniqueId();
+  const int robotId = robot->uniqueId();
   const int size = mControllers.size();
   bool paused = WbSimulationState::instance()->isPaused();
   const QString &newControllerName = robot->controllerName();
 
-  mRobotsWaitingExternController.removeAll(robot);
-
+  if (mRobotsWaitingExternController.removeAll(robot)) {
+    restartStepTimer();
+    WbLog::info(tr("\"%1\" extern controller: stopped.").arg(robot->name()));
+  }
   // There should not be any controller for `robot` in `mWaitingControllers`
   for (WbController *controller : mWaitingControllers)
-    if (controller->robotId() == robotID && !mControllers.contains(controller)) {
+    if (controller->robotId() == robotId && !mControllers.contains(controller)) {
       mWaitingControllers.removeOne(controller);
       delete controller;
     }
@@ -332,7 +333,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   // restart the controller if needed
   for (int i = 0; i < size; ++i) {
     WbController *controller = mControllers[i];
-    if (controller->robotId() == robotID) {
+    if (controller->robotId() == robotId) {
       controller->flushBuffers();
       disconnect(controller, &WbController::hasTerminatedByItself, this,
                  &WbControlledWorld::deleteController);  // avoids double delete
