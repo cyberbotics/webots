@@ -63,8 +63,7 @@ class WbProtoList : public QObject {
 public:
   enum { RESOURCES_PROTO_CACHE, PROJECTS_PROTO_CACHE, EXTRA_PROTO_CACHE };
 
-  // return the current proto list
-  static WbProtoList *current();
+  static WbProtoList *instance();
 
   // return all proto files stored in valid project folders located in the given path
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
@@ -79,7 +78,12 @@ public:
   // explicit WbProtoList(const QString &world, bool reloading = false);
   WbProtoList();
 
-  bool areProtoAssetsAvailable(const QString &filename, bool buildProtoList = true);  // TODO: is there better way to build it?
+  // TODO: is there better way to build it?
+  bool areProtoAssetsAvailable(const QString &filename, const QStringList &graftedExternProto, bool buildProtoList = true);
+  bool isOfficialProto(const QString &protoName);
+  const QString getOfficialProtoUrl(const QString &protoName);
+
+  // bool backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading);
 
   // destroys the list and all the contained models
   ~WbProtoList();
@@ -118,8 +122,9 @@ public:
 
   void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
 
-  void recursiveProtoRetrieval(const QString &filename);
-  void retrieveAllExternProto(QString filename, bool reloading);  // TODO: need reloading?
+  void recursiveProtoRetrieval(const QString &filename, const QStringList &graftedExternProto = QStringList());
+  void retrieveAllExternProto(const QString &filename, bool reloading,
+                              const QStringList &graftedExternProto = QStringList());  // TODO: need reloading?
   QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
 
 signals:
@@ -127,7 +132,8 @@ signals:
 
 private slots:
   void recurser();
-  void retrievalCompletionTracker();
+  void externProtoDownloadTracker();
+  // void backwardsCompatibilityDownloadTracker();
 
 private:
   // cppcheck-suppress unknownMacro
@@ -145,7 +151,7 @@ private:
   int mDownloadingFiles;
   WbDownloader *mDownloader;
 
-  QVector<WbDownloader *> mRetrievers;
+  QVector<WbDownloader *> mDownloaders;
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;

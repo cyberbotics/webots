@@ -263,7 +263,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   if (newProjectPath != WbProject::current()->path()) {
     // reset list of loaded and available PROTO nodes
     delete mProtos;
-    mProtos = WbProtoList::current();  // (isValidProject ? newProjectPath + "protos" : "");
+    mProtos = WbProtoList::instance();  // (isValidProject ? newProjectPath + "protos" : "");
     WbProject::current()->setPath(newProjectPath);
   }
 

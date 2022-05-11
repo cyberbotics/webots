@@ -37,6 +37,7 @@ public:
 
 signals:
   void complete();
+  void completeWithArg(QString string);  // TODO: worldpath can be removed?
   void progress(float progress);
 
 private:

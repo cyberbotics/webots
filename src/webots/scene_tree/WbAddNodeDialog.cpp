@@ -332,7 +332,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
   } else {
     // TODO: should have specific method for this?
-    QMap<QString, WbProtoInfo *> protoList = WbProtoList::current()->officialProtoList();
+    QMap<QString, WbProtoInfo *> protoList = WbProtoList::instance()->officialProtoList();
     if (!protoList.contains(modelName)) {
       WbLog::error(tr("'%1' is not a known official PROTO.\n").arg(modelName));
       return;
@@ -505,7 +505,7 @@ void WbAddNodeDialog::buildTree() {
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName))
-        nodeFilePath = WbProtoList::current()->findModelPath(currentModelName);
+        nodeFilePath = WbProtoList::instance()->findModelPath(currentModelName);
 
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -587,7 +587,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
 
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
-  QMapIterator<QString, WbProtoInfo *> it(WbProtoList::current()->officialProtoList());
+  QMapIterator<QString, WbProtoInfo *> it(WbProtoList::instance()->officialProtoList());
   while (it.hasNext()) {
     it.next();
 

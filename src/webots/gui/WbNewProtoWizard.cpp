@@ -120,7 +120,7 @@ void WbNewProtoWizard::accept() {
     // if base node was selected, define exposed parameters and PROTO body accordingly
     if (mBaseNode != "") {
       if (mIsProtoNode) {
-        WbProtoModel *protoModel = WbProtoList::current()->customFindModel(mBaseNode, "");
+        WbProtoModel *protoModel = WbProtoList::instance()->customFindModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
       } else {
@@ -340,7 +340,7 @@ void WbNewProtoWizard::updateNodeTree() {
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos
-  const QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
+  const QStringList protoNodesNames = WbProtoList::instance()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
     if (protoName.contains(regexp))
       protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
@@ -373,7 +373,7 @@ void WbNewProtoWizard::updateBaseNode() {
 
   QStringList fieldNames;
   if (topLevel->type() == PROTO_NODE_LIST) {
-    WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, WbStandardPaths::projectsPath());
+    WbProtoModel *protoModel = WbProtoList::instance()->findModel(mBaseNode, WbStandardPaths::projectsPath());
     fieldNames = protoModel->parameterNames();
     mIsProtoNode = true;
   } else {

@@ -236,7 +236,7 @@ bool WbParser::parseVrml(const QString &worldPath) {
         const int pos = mTokenizer->pos();
         parseProtoDefinition(worldPath);
         mTokenizer->seek(pos);
-        WbProtoList::current()->readModel(mTokenizer, worldPath);
+        WbProtoList::instance()->readModel(mTokenizer, worldPath);
         mMode = VRML;
       } else
         parseNode(worldPath);
@@ -366,7 +366,7 @@ void WbParser::parseNode(const QString &worldPath) {
   }
 
   // printf(" > node is a proto\n");
-  const WbProtoModel *const protoModel = WbProtoList::current()->customFindModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoList::instance()->customFindModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")
@@ -494,4 +494,25 @@ void WbParser::skipExternProto() {
   const WbToken *token = nextToken();
   if (!token->isString())
     reportUnexpected("string literal");
+}
+
+QStringList WbParser::getReferencedProtoList() {
+  QStringList protoList;
+
+  while (mTokenizer->hasMoreTokens()) {
+    // note: this function is part of the backwards compatibility mechanism and its purpose is to be able to load worlds even if
+    // they don't list the PROTO they use (with EXTERNPROTO). The mechanism applies only to PROTO nodes that are part of the
+    // official PROTO list and, if they are, they must be starting with an uppercase letter which allows to filter them out from
+    // other identifier tokens (ex: fields).
+    if (mTokenizer->peekToken()->isIdentifier() && mTokenizer->peekWord()[0].isUpper()) {
+      QString word = mTokenizer->peekWord();
+      word = WbNodeModel::compatibleNodeName(word);
+      if (word[0].isUpper() && !WbNodeModel::isBaseModelName(word) && !protoList.contains(word))
+        protoList << word;
+    }
+
+    mTokenizer->nextToken();
+  }
+
+  return protoList;
 }

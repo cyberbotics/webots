@@ -230,7 +230,7 @@ void WbExtendedStringEditor::editInTextEditor() {
   // Searches into the protos/../plugins of all the loaded protos
   // needed to load physics plugins
   if (dirLocation == noFile && isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoList::current()->models()) {
+    foreach (WbProtoModel *model, WbProtoList::instance()->models()) {
       QDir protoDir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
         dirLocation = externalProtoFile;
@@ -359,7 +359,7 @@ void WbExtendedStringEditor::select() {
   // needed only for physics plugins
   // add protos/../plugins
   if (isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoList::current()->models()) {
+    foreach (WbProtoModel *model, WbProtoList::instance()->models()) {
       if (!model->path().isEmpty()) {
         QDir dir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0));
         items += dir.entryList(FILTERS);

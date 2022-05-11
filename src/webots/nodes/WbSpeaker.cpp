@@ -215,7 +215,7 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
             if (QFile::exists(path + filename))
               break;
           }
-          protoModel = WbProtoList::current()->customFindModel(protoModel->ancestorProtoName(), "");
+          protoModel = WbProtoList::instance()->customFindModel(protoModel->ancestorProtoName(), "");
         } while (protoModel);
       }
     }

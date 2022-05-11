@@ -30,6 +30,7 @@
 #include "WbSysInfo.hpp"
 #include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVersion.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDateTime>
@@ -259,15 +260,30 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   printf("#########################################\nWbApplication::loadWorld()\n");
 
   printf("loading: %s\n", worldName.toUtf8().constData());
-  WbProtoList::current()->resetCurrentProjectProtoList();
-  if (!WbProtoList::current()->areProtoAssetsAvailable(worldName)) {
+
+  WbTokenizer tokenizer;
+  tokenizer.tokenize(worldName);
+  WbParser parser(&tokenizer);
+
+  // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
+  QStringList externProtoToGraft;
+  if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
+    printf("OPENING OLD WORLD: BACKWARDS COMPATIBILITY ON.\n");
+    externProtoToGraft = parser.getReferencedProtoList();
+    // if (!WbProtoList::instance()->backwardsCompatibilityProtoRetrieval(protoList, worldName, reloading))
+    //  return false;  // if some assets are not available, the function needs to be re-called since cannot continue without
+    //  them
+  }
+
+  WbProtoList::instance()->resetCurrentProjectProtoList();
+  if (!WbProtoList::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
     printf("> some proto assets are missing, downloading them.\n");
-    WbProtoList::current()->retrieveAllExternProto(worldName, reloading);
+    WbProtoList::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
     return false;  // when all extern proto are downloaded, loadWorld is called again
   }
 
   printf("> CURRENT PROJECT PROTO LIST:\n");
-  WbProtoList::current()->printCurrentProjectProtoList();
+  WbProtoList::instance()->printCurrentProjectProtoList();
   printf("> ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;
@@ -294,7 +310,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   // WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-  WbProtoList *protoList = WbProtoList::current();
+  WbProtoList *protoList = WbProtoList::instance();  // TODO: WTF?
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
@@ -304,7 +320,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     return cancelWorldLoading(true);
   }
 
-  WbTokenizer tokenizer;
+  tokenizer.rewind();  // the backwards compatibility mechanism might have consumed tokens
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
@@ -322,7 +338,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     return cancelWorldLoading(true);
   }
 
-  WbParser parser(&tokenizer);
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     delete protoList;
