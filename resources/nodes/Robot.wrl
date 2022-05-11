@@ -19,7 +19,7 @@ Robot {
   field     SFFloat    radarCrossSection   0.0                # radar cross section of this solid
   field     MFColor    recognitionColors   []                 # colors returned for this Solid by Cameras with a Recognition node
   #fields specific to the Robot node:
-  field     SFString   controller      "void"             # program controlling the robot
+  field     SFString   controller      "<generic>"        # program controlling the robot
   field     MFString   controllerArgs  []                 # arguments passed to the main() function
   field     SFString   customData      ""                 # for storing and getting user data
   field     SFBool     supervisor      FALSE              # defines if this robot is a supervisor or not
@@ -27,8 +27,8 @@ Robot {
   field     MFFloat    battery         []                 # current (j), max (J), and load speed (W=J/s)
   field     SFFloat    cpuConsumption  10                 # Watt
   field     SFBool     selfCollision   FALSE              # detect inner robot collisions
-  field     SFString   window          ""                 # path of the library used to display the robot window
-  field     SFString   remoteControl   ""                 # path of the library used to remote control the real robot
+  field     SFString   window          "<generic>"        # path of the library used to display the robot window
+  field     SFString   remoteControl   "<none>"           # path of the library used to remote control the real robot
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity

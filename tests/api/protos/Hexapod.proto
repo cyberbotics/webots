@@ -2,7 +2,7 @@
 
 PROTO Hexapod [
   field SFVec3f translation 0 0.06 0
-  field SFString controller ""
+  field SFString controller "<none>"
   field MFString controllerArgs []
 ]
 {

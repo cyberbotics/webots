@@ -18,7 +18,7 @@ For example if the controller's name is "xyz\_controller", then Webots looks for
 
 The first file that is found will be executed by Webots using the required language interpreter (Java, Python, MATLAB).
 So the priority is defined by the file extension, e.g. it won't be possible to execute "xyz\_controller.m" if a file named "xyz\_controller.py" is also present in the same controller directory.
-In the case that none of the above filenames exist or if the required language interpreter is not found, an error message will be issued and Webots will start the "void" controller instead.
+In the case that none of the above filenames exist or if the required language interpreter is not found, an error message will be issued and Webots will start the "<generic>" controller instead.
 
 > **Note** [Java]: In the Java case there are two options.
 The controller can be placed in a ".class" file or in a ".jar" file.
