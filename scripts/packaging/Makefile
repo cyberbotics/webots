@@ -106,7 +106,7 @@ install: all
 
 $(WEBOTS_DISTRO_EXE): webots_distro.c
 	+@echo "# compiling webots_distro.c"
-	+@$(CC) $(CFLAGS) -Wno-deprecated -Wall -o $@ webots_distro.c $(LIBRARIES)
+	+@$(CC) $(CFLAGS) -Wno-deprecated-declarations -Wall -o $@ webots_distro.c $(LIBRARIES)
 
 xvfb:
 	+@echo "# starting Xvfb: X Virtual Frame Buffer"
