@@ -63,6 +63,7 @@ WbProtoList::WbProtoList(const QString &primarySearchPath) {
 */
 
 WbProtoList::WbProtoList() {
+  mTreeRoot = NULL;
   setupKnownProtoList();
 }
 
@@ -759,23 +760,33 @@ void WbProtoList::backwardsCompatibilityDownloadTracker() {
 */
 
 bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStringList &unreferencedProtos) {
-  QPair<QString, QString> unreferenced;
-
-  // create struture that will hold the proto tree being loaded
+  // clear current project related variables
+  mCurrentProjectProto.clear();
+  delete mTreeRoot;
+  // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {
-    printf("DELETING mTreeRoot\n");
-    mTreeRoot = new WbProtoTreeItem(filename, NULL);
-    const bool isReady = mTreeRoot->isReadyForLoad();
-    if (isReady)
-      mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
-    else
-      connect(mTreeRoot, &WbProtoTreeItem::protoTreeUpdated, this, &WbProtoList::tryWorldLoad);
-    return isReady;
-  } else
+    QFile rootFile(filename);
+    mTreeRoot = new WbProtoTreeItem(filename);
+  } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
+    return false;
+  }
+  // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
+  foreach (const QString proto, unreferencedProtos) {
+    if (isOfficialProto(proto))
+      mTreeRoot->insert(WbProtoList::instance()->getOfficialProtoUrl(proto));
+    else
+      WbLog::error(tr("PROTO '%1' is not a known official PROTO. The backwards compatibility mechanism may fail.").arg(proto));
+  }
+  // generate mCurrentProjectProto list (map proto <-> path) and load world, if all assets are available
+  const bool isReady = mTreeRoot->isReadyForLoad();
+  if (isReady)
+    mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
+  else
+    connect(mTreeRoot, &WbProtoTreeItem::protoTreeUpdated, this, &WbProtoList::tryWorldLoad);
 
-  return false;
+  return isReady;
 }
 
 void WbProtoList::externProtoDownloadTrackerV2() {

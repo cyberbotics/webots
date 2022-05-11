@@ -268,11 +268,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
   QStringList externProtoToGraft;
   if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
-    printf("OPENING OLD WORLD: BACKWARDS COMPATIBILITY ON.\n");
+    printf("OPENING OLD WORLD, BACKWARDS COMPATIBILITY ON.\n");
     externProtoToGraft = parser.getReferencedProtoList();
-    // if (!WbProtoList::instance()->backwardsCompatibilityProtoRetrieval(protoList, worldName, reloading))
-    //  return false;  // if some assets are not available, the function needs to be re-called since cannot continue without
-    //  them
   }
 
   if (!WbProtoList::instance()->retrieveAllExternProtoV2(worldName, externProtoToGraft)) {

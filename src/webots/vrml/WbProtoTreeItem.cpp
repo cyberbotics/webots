@@ -17,13 +17,14 @@
 #include "../nodes/utils/WbUrl.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
+#include "WbStandardPaths.hpp"
 
+#include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url) :
   mUrl(url),
   mIsAvailable(false),
-  mParent(parent),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")) {
   // if the proto is locally available, parse it, otherwise download it first
@@ -35,8 +36,6 @@ WbProtoTreeItem::~WbProtoTreeItem() {
 }
 
 void WbProtoTreeItem::parseItem() {
-  assert(!mUrl.startsWith("webots://"));  // TODO: tmp, the structure should only contain direct urls (http or absolute)
-
   QString path = mUrl;
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
@@ -59,13 +58,7 @@ void WbProtoTreeItem::parseItem() {
           return;
         }
 
-        QString protoName;
-        if (WbUrl::isWeb(subProtoUrl))
-          protoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
-        else
-          assert(0);  // TODO: case not handled/tested yes (relative url, abs, ..). Clean this up
-
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl);
         mSubProto.append(child);
       }
     }
@@ -78,6 +71,13 @@ void WbProtoTreeItem::parseItem() {
 
 void WbProtoTreeItem::downloadAssets() {
   mSubProto.clear();
+
+  if (WbUrl::isLocalUrl(mUrl)) {
+    // note: this condition should only be possible in development mode when loading an old world since, during the compilation,
+    // proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility mechanism;
+    // under any other circumstance, the on-the-fly url manufacturing logic will convert any 'webots://' urls to remote ones
+    mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
+  }
 
   if (WbUrl::isWeb(mUrl)) {
     if (!WbNetwork::instance()->isCached(mUrl)) {
@@ -113,11 +113,16 @@ bool WbProtoTreeItem::isReadyForLoad() {
 }
 
 void WbProtoTreeItem::generateProtoMap(QMap<QString, QString> &map) {
-  if (!map.contains(mName) && mParent != NULL) {
+  if (!map.contains(mName) && mUrl.endsWith(".proto"))  // don't insert the root (world file typically)
     // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
     map.insert(mName, mUrl);
-  }
 
   foreach (WbProtoTreeItem *proto, mSubProto)
     proto->generateProtoMap(map);
+}
+
+void WbProtoTreeItem::insert(const QString &url) {
+  WbProtoTreeItem *child = new WbProtoTreeItem(url);
+  mSubProto.append(child);
+  printf("%35s grafted\n", child->name().toUtf8().constData());
 }
