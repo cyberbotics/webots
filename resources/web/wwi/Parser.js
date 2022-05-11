@@ -561,14 +561,14 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    let url = getNodeAttribute(node, 'url', '');
-    if (typeof url !== 'undefined')
-      url = url.split('"').filter(element => element)[0]; // filter removes empty elements
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => element); // filter removes empty elements
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, url, ccw, castShadows, isPickable);
+    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
     this._parseChildren(node, cadShape, false); // CadShape cannot be used as boundingObject
@@ -577,6 +577,14 @@ export default class Parser {
       cadShape.parent = parentNode.id;
       parentNode.children.push(cadShape);
     }
+
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      cadShape.scene = meshContent;
+      for (let i = 0; i < cadShape.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
+        node.scene = meshContent;
+      }
+    }));
 
     return cadShape;
   }
