@@ -184,15 +184,35 @@ void WbTcpServer::onNewTcpData() {
     QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
 
     const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
+    const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     if (robotNameIndex) {  // robot name is given
       const QString robotName = tokens[robotNameIndex];
-      // Check in robot list for robot name
-      // If doesn't exist -> tell libController that connection failed
-      // If Tcp connection successfully transferred -> tell libController success
+      foreach (WbRobot *const robot, robots)
+        if (robot->name() == robotName && robot->isControllerExtern()) {
+          // transfer TCP connection to "robot" and tell libController success
+          return;
+        }
+      // tell TCP connection that robot not found in extern controller list of robots -> fail on controller side
     } else {  // no robot name given
-      // Take first in robot list with extern controller
-      // If no extern controller -> tell libController that connection failed
-      // If Tcp connection successfully transferred -> tell libController success
+      QList<WbRobot *> externSortedRobots;
+      int i;
+      foreach (WbRobot *const robot, robots) {
+        i = 0;
+        if (robot->isControllerExtern()) {
+          foreach (WbRobot *const externRobot, externSortedRobots) {
+            if (externRobot->name() < robot->name())
+              i++;
+            else
+              break;
+          }
+          externSortedRobots.insert(i, robot);
+        }
+      }
+      if (!externSortedRobots.isEmpty()) {
+        // transfer TCP connection to "externSortedRobots.first()"" and tell libController success
+        return;
+      }
+      // tell TCP connection that no robot in extern controller list of robots -> fail on controller side
     }
     return;
   }
