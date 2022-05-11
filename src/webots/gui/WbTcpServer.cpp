@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbControlledWorld.hpp"
+//#include "WbController.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -175,6 +176,9 @@ void WbTcpServer::onNewTcpConnection() {
 }
 
 void WbTcpServer::onNewTcpData() {
+  // const QList<WbController *> &controllers = WbControlledWorld::instance()->activeControllersNames();
+  // printf("nb controllers = %d\n", controllers.length());
+
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
