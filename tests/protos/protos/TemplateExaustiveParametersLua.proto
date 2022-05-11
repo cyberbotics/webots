@@ -2,7 +2,7 @@
 
 PROTO TemplateExaustiveParametersLua [
 
-  field SFString controller ""
+  field SFString controller "<none>"
 
   field SFBool     sfb FALSE
   field SFInt32    sfi 1

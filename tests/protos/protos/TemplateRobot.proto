@@ -2,7 +2,7 @@
 # template language: javascript
 
 PROTO TemplateRobot [
-  field SFString controller "void"
+  field SFString controller "<generic>"
   field SFString customData ""
   field SFString proceduralField "this is a string"
   field MFNode   slot []

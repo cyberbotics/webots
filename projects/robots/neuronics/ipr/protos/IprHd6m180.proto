@@ -6,19 +6,19 @@
 # It was developed by Neuronics.
 
 PROTO IprHd6m180 [
-  field SFVec3f    translation      0 0 0.61 # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0  # Is `Transform.rotation`.
-  field SFString   name             "IPR"    # Is `Solid.name`.
-  field SFString   controller       "void"   # Is `Robot.controller`.
-  field MFString   controllerArgs   []       # Is `Robot.controllerArgs`.
-  field SFString   customData       ""       # Is `Robot.customData`.
-  field SFBool     supervisor       FALSE    # Is `Robot.supervisor`.
-  field SFBool     synchronization  TRUE     # Is `Robot.synchronization`.
-  field MFNode     sensorsSlot      []       # Extends the robot with new nodes in the sensors slot.
-  field MFNode     tableSlot        []       # Extends the robot with new nodes in the table slot.
-  field MFNode     wristSlot        []       # Extends the robot with new nodes in the wrist slot.
-  field MFNode     leftGripperSlot  []       # Extends the robot with new nodes in the left gripper slot.
-  field MFNode     rightGripperSlot []       # Extends the robot with new nodes in the right gripper slot.
+  field SFVec3f    translation      0 0 0.61     # Is `Transform.translation`.
+  field SFRotation rotation         0 0 1 0      # Is `Transform.rotation`.
+  field SFString   name             "IPR"        # Is `Solid.name`.
+  field SFString   controller       "<generic>"  # Is `Robot.controller`.
+  field MFString   controllerArgs   []           # Is `Robot.controllerArgs`.
+  field SFString   customData       ""           # Is `Robot.customData`.
+  field SFBool     supervisor       FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization  TRUE         # Is `Robot.synchronization`.
+  field MFNode     sensorsSlot      []           # Extends the robot with new nodes in the sensors slot.
+  field MFNode     tableSlot        []           # Extends the robot with new nodes in the table slot.
+  field MFNode     wristSlot        []           # Extends the robot with new nodes in the wrist slot.
+  field MFNode     leftGripperSlot  []           # Extends the robot with new nodes in the left gripper slot.
+  field MFNode     rightGripperSlot []           # Extends the robot with new nodes in the right gripper slot.
 ]
 {
   Robot {
