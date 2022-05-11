@@ -21,7 +21,7 @@ import os
 import sys
 import fnmatch
 import re
-if sys.platform == 'linux'
+if sys.platform == 'linux':
     import distro  # needed to retrieve the Ubuntu version
 
 # add all the files from the projects folder except:
