@@ -179,8 +179,6 @@ void WbController::updateName(const QString &name) {
 
 void WbController::setTcpSocket(QTcpSocket *socket) {
   mTcpSocket = socket;
-  printf("Setting socket in controller\n");
-  addRemoteControllerConnection();
 }
 
 void WbController::resetRequestTime() {
@@ -302,15 +300,15 @@ void WbController::addRemoteControllerConnection() {
 
   mRobot->setConfigureRequest(true);
 
-  /*// wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
+  // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
   // This request is forced because the first packets coming from libController
   // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
   while (mTcpSocket->bytesAvailable() == 0)
     mTcpSocket->waitForReadyRead();
-  readRequest();*/
+  readRequest();
   connect(mTcpSocket, &QTcpSocket::readyRead, this, &WbController::readRequest);
   connect(mTcpSocket, &QTcpSocket::disconnected, this, &WbController::disconnected);
-  // writeAnswer();  // send configure message and immediate answers if any*/
+  writeAnswer();  // send configure message and immediate answers if any
 }
 
 void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value,
@@ -955,8 +953,13 @@ void WbController::writeUserInputEventAnswer() {
   stream << size;
 
   // write the request
-  mSocket->write(buffer.constData(), size);
-  mSocket->flush();  // sometimes packets are simply not sent without flushing
+  if (mTcpSocket) {
+    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
+  } else {
+    mSocket->write(buffer.constData(), size);
+    mSocket->flush();  // sometimes packets are simply not sent without flushing
+  }
 }
 
 void WbController::writeAnswer(bool immediateAnswer) {
@@ -993,8 +996,13 @@ void WbController::writeAnswer(bool immediateAnswer) {
   stream << size;
 
   // write the request
-  mSocket->write(buffer.constData(), size);
-  mSocket->flush();  // sometimes packets are simply not sent without flushing
+  if (mTcpSocket) {
+    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
+  } else {
+    mSocket->write(buffer.constData(), size);
+    mSocket->flush();  // sometimes packets are simply not sent without flushing
+  }
 
   // reset request time
   if (!immediateAnswer)
@@ -1046,8 +1054,13 @@ void WbController::writeImmediateAnswer() {
   stream.device()->seek(0);
   stream << size;
   // write the request
-  mSocket->write(buffer.constData(), size);
-  mSocket->flush();  // sometimes packets are simply not sent without flushing
+  if (mTcpSocket) {
+    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
+  } else {
+    mSocket->write(buffer.constData(), size);
+    mSocket->flush();  // sometimes packets are simply not sent without flushing
+  }
 }
 
 // this function matches with the reception of a datagram
@@ -1059,7 +1072,10 @@ void WbController::readRequest() {
     return;
 
   // concat all the data which has not been parsed
-  mRequest += mSocket->readAll();
+  if (mTcpSocket)
+    mRequest += mTcpSocket->readAll();
+  else
+    mRequest += mSocket->readAll();
 
   const bool needToBlockRegeneration = robot()->supervisor();
   if (needToBlockRegeneration)

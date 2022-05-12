@@ -194,13 +194,13 @@ void WbTcpServer::onNewTcpData() {
           foreach (WbController *const controller, controllers) {
             if (controller->robot() == robot) {
               controller->setTcpSocket(socket);
-              break;
+              reply.append("CONNECTED");
+              socket->write(reply);
+              disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+              controller->addRemoteControllerConnection();
+              return;
             }
           }
-          reply.append("CONNECTED");
-          socket->write(reply);
-          disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-          return;
         }
       reply.append("FAILED");
       socket->write(reply);
@@ -219,13 +219,13 @@ void WbTcpServer::onNewTcpData() {
         foreach (WbController *const controller, controllers) {
           if (controller->robot() == lowestRobot) {
             controller->setTcpSocket(socket);
-            break;
+            reply.append("CONNECTED");
+            socket->write(reply);
+            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+            controller->addRemoteControllerConnection();
+            return;
           }
         }
-        reply.append("CONNECTED");
-        socket->write(reply);
-        disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-        return;
       }
       reply.append("FAILED");
       socket->write(reply);

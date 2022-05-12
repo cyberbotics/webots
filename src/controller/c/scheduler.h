@@ -25,14 +25,14 @@
 extern unsigned int scheduler_data_size;
 extern char *scheduler_date;
 extern unsigned int scheduler_actual_step;
-extern char *scheduler_protocol;
 
 int scheduler_init_remote(const char *host, int port, const char *robot_name);
 int scheduler_init_local(const char *pipe);
 void scheduler_cleanup();
 WbRequest *scheduler_read_data();
 void scheduler_send_request(WbRequest *);
-bool scheduler_is_local();
+bool scheduler_is_ipc();
+bool scheduler_is_tcp();
 int scheduler_get_pipe_handle();
 
 #endif  // SCHEDULER_HH

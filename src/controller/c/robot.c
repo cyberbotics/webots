@@ -335,7 +335,7 @@ static void robot_send_request(unsigned int step_duration) {
     remote_control_step(step_duration);
   }
 
-  if (scheduler_is_local() || request_get_size(req) != 8)
+  if (scheduler_is_ipc() || scheduler_is_tcp() || request_get_size(req) != 8)
     scheduler_send_request(req);
   request_delete(req);
 }
@@ -1247,7 +1247,6 @@ int wb_robot_init() {  // API initialization
     const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
     if (!(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
-      scheduler_protocol = strdup("TCP");
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
@@ -1264,7 +1263,6 @@ int wb_robot_init() {  // API initialization
         free(robot_name);
 
     } else {  // Intern or IPC extern controller
-      scheduler_protocol = strdup("IPC");
       char *socket_filename = compute_socket_filename();
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
       if (success) {

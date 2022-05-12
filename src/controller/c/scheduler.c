@@ -46,7 +46,6 @@ unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 GPipe *scheduler_pipe = NULL;
 TcpClient *scheduler_client = NULL;
-char *scheduler_protocol = NULL;
 
 int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   scheduler_client = tcp_client_new(host, port);
@@ -111,8 +110,10 @@ void scheduler_cleanup() {
 }
 
 void scheduler_send_request(WbRequest *r) {
-  if (scheduler_pipe)
+  if (scheduler_is_ipc())
     g_pipe_send(scheduler_pipe, r->data, r->pointer);
+  if (scheduler_is_tcp())
+    tcp_client_send(scheduler_client, r->data, r->pointer);
 
   // fprintf(stderr, "@ Send request:\n");
   // request_print(stderr, r);
@@ -122,11 +123,19 @@ void scheduler_send_request(WbRequest *r) {
 
 WbRequest *scheduler_read_data() {
   int delay = 0;
-  if (scheduler_pipe) {
+  WbRequest *r = NULL;
+  if (scheduler_is_ipc() || scheduler_is_tcp()) {
     int size = 0, socket_size = 0;
-    do
-      size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
-    while (size != sizeof(int));
+    if (scheduler_is_ipc()) {
+      do
+        size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
+      while (size != sizeof(int));
+    } else {
+      do
+        size += tcp_client_receive(scheduler_client, scheduler_data + size, sizeof(int) - size);
+      while (size != sizeof(int));
+    }
+
     // read the size of the socket chunk
     socket_size = scheduler_read_int32(scheduler_data);
     // if more than 1KB needs to be downloaded, show a progress bar
@@ -144,17 +153,16 @@ WbRequest *scheduler_read_data() {
       int chunk_size = socket_size - size;
       if (chunk_size > 4096)
         chunk_size = 4096;
-      if (scheduler_pipe)
+      if (scheduler_is_ipc())
         size += g_pipe_receive(scheduler_pipe, scheduler_data + size, chunk_size);
+      else
+        size += tcp_client_receive(scheduler_client, scheduler_data + size, chunk_size);
     }
     // save the time step
     delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
     if (delay >= 0)  // not immediate
       scheduler_actual_step = delay;
-  }
 
-  WbRequest *r = NULL;
-  if (scheduler_pipe) {
     // create a request to hold the data
     // printf("Message: Local (size=%d)\n", socket_size);
     r = request_new_from_data(scheduler_data, scheduler_data_size);
@@ -170,8 +178,12 @@ WbRequest *scheduler_read_data() {
   return r;
 }
 
-bool scheduler_is_local() {
-  return scheduler_pipe != NULL;
+bool scheduler_is_ipc() {
+  return (scheduler_pipe != NULL);
+}
+
+bool scheduler_is_tcp() {
+  return (scheduler_client != NULL);
 }
 
 int scheduler_get_pipe_handle() {

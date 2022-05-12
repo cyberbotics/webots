@@ -51,6 +51,7 @@ public:
       flushBuffer(&mStdoutBuffer);
   }
   void setTcpSocket(QTcpSocket *socket);
+  void addRemoteControllerConnection();
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
@@ -129,7 +130,6 @@ private:
 
 private slots:
   void addLocalControllerConnection();
-  void addRemoteControllerConnection();
   void readStdout();
   void readStderr();
   void info(const QString &message);
