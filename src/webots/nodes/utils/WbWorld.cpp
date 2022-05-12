@@ -587,8 +587,7 @@ void WbWorld::removeRobotIfPresent(WbRobot *robot) {
 }
 
 void WbWorld::addRobotIfNotAlreadyPresent(WbRobot *robot) {
-  if (!robot)
-    return;
+  assert(robot);
 
   // don't add a robot that's already in the global list
   if (mRobots.contains(robot))

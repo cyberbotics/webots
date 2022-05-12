@@ -49,29 +49,19 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
 }
 
 WbControlledWorld::~WbControlledWorld() {
-  WbController *controller = NULL;
-  mWaitingExternController.clear();
-  while (!mNewControllers.isEmpty()) {
-    controller = mNewControllers.takeFirst();
-    delete controller;
-  }
-  while (!mWaitingControllers.isEmpty()) {
-    controller = mWaitingControllers.takeFirst();
-    delete controller;
-  }
-  while (!mControllers.isEmpty()) {
-    controller = mControllers.takeFirst();
-    delete controller;
-  }
-  while (!mTerminatingControllers.isEmpty()) {
-    controller = mTerminatingControllers.takeFirst();
-    delete controller;
-  }
+  while (!mControllers.isEmpty())
+    delete mControllers.takeFirst();
+  while (!mNewControllers.isEmpty())
+    delete mNewControllers.takeFirst();
+  while (!mWaitingControllers.isEmpty())
+    delete mWaitingControllers.takeFirst();
+  while (!mTerminatingControllers.isEmpty())
+    delete mTerminatingControllers.takeFirst();
+  // dont delete items in mWaitingExternControllers list as they were already deleted above
 }
 
 void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
-  if (!robot)
-    return;
+  assert(robot);
 
   connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
   connect(robot, &WbRobot::isBeingDestroyed, this, &WbControlledWorld::handleRobotRemoval);
@@ -116,9 +106,10 @@ void WbControlledWorld::startController(WbRobot *robot) {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
     if (robot->controllerName() == "<extern>")
-      mWaitingExternController.append(controller);
+      mWaitingExternControllers.append(controller);
   } else if (robot->controllerName() == "<extern>") {
-    mWaitingExternController.removeAll(controller);
+    assert(mWaitingExternControllers.count(controller) == 1);
+    mWaitingExternControllers.removeOne(controller);
   }
   mControllers.append(controller);
   controller->start();
@@ -126,12 +117,18 @@ void WbControlledWorld::startController(WbRobot *robot) {
 
 // delete the controller only if it has not been already deleted
 void WbControlledWorld::deleteController(WbController *controller) {
+  assert(mControllers.count(controller) <= 1);
   mControllers.removeOne(controller);
+  assert(mWaitingControllers.count(controller) <= 1);
   mWaitingControllers.removeOne(controller);
+  assert(mNewControllers.count(controller) <= 1);
   mNewControllers.removeOne(controller);
+  // note: controller should not be removed from mWaitingExternControllers
+
   if (controller->isProcessingRequest())
     mTerminatingControllers.append(controller);
   else {
+    assert(mTerminatingControllers.count(controller) == 1);
     mTerminatingControllers.removeOne(controller);
     delete controller;
   }
@@ -175,7 +172,6 @@ void WbControlledWorld::reset(bool restartControllers) {
 void WbControlledWorld::checkIfReadRequestCompleted() {
   if (mControllers.isEmpty())
     return;
-  // FIXME: assert(!mControllers.isEmpty());
   if (!needToWait()) {
     WbSimulationState *state = WbSimulationState::instance();
     emit state->controllerReadRequestsCompleted();
@@ -211,9 +207,9 @@ void WbControlledWorld::step() {
     foreach (WbController *const controller, mWaitingControllers) {
       if (controller->robot()->controllerName() != "<extern>")
         controller->start();
-      mControllers << controller;
+      mControllers.append(controller);
       if (!mFirstStep)
-        justStartedControllers << controller;
+        justStartedControllers.append(controller);
     }
 
     mWaitingControllers.clear();
@@ -244,8 +240,10 @@ void WbControlledWorld::step() {
   if (!justStartedControllers.isEmpty()) {
     if ((simulationState->isStep() || simulationState->isPaused())) {
       foreach (WbController *const controller, justStartedControllers) {
-        if (!mControllers.contains(controller))
-          justStartedControllers.removeOne(controller);  // controller already terminated
+        if (!mControllers.contains(controller)) {  // controller already terminated
+          assert(justStartedControllers.count(controller) == 1);
+          justStartedControllers.removeOne(controller);
+        }
         if (controller->deltaTimeRequested() == 0) {
           retryStepLater();  // execute first step just after init step
           return;
@@ -269,6 +267,7 @@ void WbControlledWorld::step() {
   if (!mTerminatingControllers.isEmpty()) {
     foreach (WbController *controller, mTerminatingControllers) {
       if (!controller->isProcessingRequest()) {
+        assert(mTerminatingControllers.count(controller) == 1);
         mTerminatingControllers.removeOne(controller);
         delete controller;
       }
@@ -286,7 +285,7 @@ void WbControlledWorld::step() {
 bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
   if (waitForExternControllerStart)
     *waitForExternControllerStart = false;
-  foreach (WbController *const controller, mWaitingExternController) {
+  foreach (WbController *const controller, mWaitingExternControllers) {
     if (controller->robot()->synchronization()) {
       if (waitForExternControllerStart)
         *waitForExternControllerStart = true;
@@ -321,24 +320,21 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   bool paused = WbSimulationState::instance()->isPaused();
   const QString &newControllerName = robot->controllerName();
 
-  for (WbController *controller : mWaitingExternController) {
+  for (WbController *controller : mWaitingExternControllers) {
     if (controller->robotId() == robotId && !mControllers.contains(controller)) {
-      if (mWaitingExternController.removeOne(controller)) {
-        mNewControllers.removeOne(controller);
-        /* FIXME
-        if (!mNewControllers.removeOne(controller))
-          assert(false);
-        */
-        WbLog::info(tr("\"%1\" extern controller: stopped.").arg(controller->robot()->name()));
-        delete controller;
-        restartStepTimer();
-      } else
-        assert(false);
+      assert(mWaitingExternControllers.count(controller) == 1);
+      mWaitingExternControllers.removeOne(controller);
+      assert(mNewControllers.count(controller) == 1);
+      mNewControllers.removeOne(controller);
+      WbLog::info(tr("\"%1\" extern controller: stopped.").arg(controller->robot()->name()));
+      delete controller;
+      restartStepTimer();
     }
   }
   // There should not be any controller for `robot` in `mWaitingControllers`
   for (WbController *controller : mWaitingControllers)
     if (controller->robotId() == robotId && !mControllers.contains(controller)) {
+      assert(mWaitingControllers.count(controller) == 1);
       mWaitingControllers.removeOne(controller);
       delete controller;
     }
@@ -350,30 +346,37 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       controller->flushBuffers();
       disconnect(controller, &WbController::hasTerminatedByItself, this,
                  &WbControlledWorld::deleteController);  // avoids double delete
+      assert(mNewControllers.count(controller) <= 1);
       mNewControllers.removeOne(controller);
+      assert(mControllers.count(controller) <= 1);
       mWaitingControllers.removeOne(controller);
+      assert(mControllers.count(controller) == 1);
       mControllers.removeOne(controller);
       if (newControllerName == "<none>" || newControllerName == "<extern>") {
         if (controller->name() == "<extern>") {
           WbLog::info(tr("Terminating extern controller for robot \"%1\".").arg(controller->robot()->name()));
-          mWaitingExternController.append(controller);
+          if (newControllerName == "<extern>")
+            mWaitingExternControllers.append(controller);
         } else
           WbLog::info(tr("Terminating controller \"%1\".").arg(controller->name()));
       }
       delete controller;
+      assert(mWaitingExternControllers.count(controller) == 0);
       if (newControllerName == "<none>") {
         robot->setControllerStarted(false);
+        qDebug() << "<none> starting" << mWaitingExternControllers.count() << mNewControllers.count() << mControllers.count()
+                 << mTerminatingControllers.count() << mWaitingControllers.count();
         return;
       }
       controller = new WbController(robot);
       if (newControllerName == "<extern>") {
-        mWaitingExternController.append(controller);
+        mWaitingExternControllers.append(controller);
         controller->start();
       }
       if (paused)  // step finished
-        mWaitingControllers << controller;
+        mWaitingControllers.append(controller);
       else  // step executing
-        mNewControllers << controller;
+        mNewControllers.append(controller);
       connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController);
       return;
     }
@@ -385,11 +388,11 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   // The controller has never been created. Creates a new one
   WbController *const controller = new WbController(robot);
   if (newControllerName == "<extern>")
-    mWaitingExternController.append(controller);
+    mWaitingExternControllers.append(controller);
   if (paused)  // step finished
-    mWaitingControllers << controller;
+    mWaitingControllers.append(controller);
   else  // step executing
-    mNewControllers << controller;
+    mNewControllers.append(controller);
   connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController);
 }
 
@@ -398,14 +401,14 @@ void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
 
 void WbControlledWorld::externConnection(WbController *controller, bool connect) {
   if (connect) {
-    if (!mWaitingExternController.removeOne(controller))
-      assert(false);
+    assert(mWaitingExternControllers.count(controller) == 1);
+    mWaitingExternControllers.removeOne(controller);
     controller->robot()->externControllerChanged();
     restartStepTimer();
   } else {
-    if (!mControllers.removeOne(controller))
-      assert(false);
-    mWaitingExternController.append(controller);
+    assert(mControllers.count(controller) == 1);
+    mControllers.removeOne(controller);
+    mWaitingExternControllers.append(controller);
     mNewControllers.append(controller);
     pauseStepTimer();
   }
@@ -446,7 +449,7 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
       controller->robot()->updateSensors();
   }
   if (!mNewControllers.isEmpty()) {
-    mWaitingControllers << mNewControllers;
+    mWaitingControllers.append(mNewControllers);
     mNewControllers.clear();
   }
   if (!needToWait())
