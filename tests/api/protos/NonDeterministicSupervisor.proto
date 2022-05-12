@@ -5,7 +5,7 @@
 # template language: javascript
 
 PROTO NonDeterministicSupervisor [
-  field SFString controller     ""
+  field SFString controller     "<none>"
   field MFString controllerArgs []
   field SFString description    ""
   field MFNode   children       []

@@ -20,7 +20,7 @@ Floor {
   rotation 1 0 0 -1.5708
 }
 SlotifiedRobot {
-  controller "void"
+  controller "<generic>"
   slot [
     HingeJoint {
       jointParameters HingeJointParameters {
