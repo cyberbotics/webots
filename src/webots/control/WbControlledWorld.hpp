@@ -56,6 +56,11 @@ private:
   void updateRobotController(WbRobot *robot);
   void handleRobotRemoval(WbBaseNode *node);
 
+#ifndef NDEBUG
+  bool controllerInOnlyOneList(WbController *controller);  // debug method
+  bool controllerInNoList(WbController *controller);       // debug method
+#endif
+
   QList<WbController *> mControllers;         // currently running controllers (both intern and extern)
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step and waiting next step to start
