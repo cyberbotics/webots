@@ -76,8 +76,6 @@ WbProtoList::~WbProtoList() {
 
   foreach (WbProtoModel *model, mModels)
     model->unref();
-
-  clearProtoSearchPaths();
 }
 
 void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos) {
@@ -328,278 +326,7 @@ QStringList WbProtoList::fileList(int cache) {
   return list;
 }
 
-void WbProtoList::clearProtoSearchPaths(void) {
-  printf("> clearing proto search paths\n");
-  mProtoSearchPaths.clear();
-  // TODO: add current working project path by default (location of world file), others?
-}
-
-void WbProtoList::insertProtoSearchPath(const QString &path) {
-  QDir dir(path);
-  if (dir.exists() && !mProtoSearchPaths.contains(path))
-    mProtoSearchPaths << path;
-
-  printf("Searchable paths:\n");
-  foreach (const QString &path, mProtoSearchPaths)
-    printf("- %s\n", path.toUtf8().constData());
-}
-
-bool WbProtoList::areProtoAssetsAvailable(const QString &filename, const QStringList &graftedExternProto, bool buildProtoList) {
-  // printf("checking %s\n", filename.toUtf8().constData());
-  // navigate through all proto and referenced external subproto to ensure they are all available
-  QString url = filename;
-  if (WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url))
-    return false;
-
-  if (WbUrl::isLocalUrl(url)) {
-    url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + filename.mid(9));
-    if (!QFileInfo(url).exists())
-      return false;
-  }
-
-  // artificially insert all proto references inferred from the backwards compatibility mechanism
-  QMap<QString, QString> externProtos = getExternProtoList(url);
-  foreach (QString unreferencedProto, graftedExternProto) {
-    if (isOfficialProto(unreferencedProto))
-      externProtos.insert(unreferencedProto, WbProtoList::instance()->getOfficialProtoUrl(unreferencedProto));
-    else
-      WbLog::error(tr("PROTO '%1' is not a recognized official PROTO. The backwards compatibility mechanism may fail.\n")
-                     .arg(unreferencedProto));
-  }
-
-  if (buildProtoList)
-    mCurrentProjectProto.insert(externProtos);
-
-  QMapIterator<QString, QString> it(externProtos);
-  bool isProtoAssetAvailable = true;
-  while (it.hasNext()) {
-    it.next();
-
-    QString path = it.value();
-    // if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
-    //  path = WbNetwork::instance()->get(path)//;
-
-    // assert(!WbUrl::isLocalUrl(path));
-    // else if (WbUrl::isLocalUrl(path))
-    //  path = path;
-
-    bool success = areProtoAssetsAvailable(path, QStringList(), buildProtoList);
-    if (success) {
-      if (buildProtoList)
-        printf("> AVAILABLE: %s\n", path.toUtf8().constData());
-    } else {
-      if (buildProtoList)
-        printf("> NOT AVAILABLE: %s\n", path.toUtf8().constData());
-    }
-    isProtoAssetAvailable &= success;
-  }
-
-  return isProtoAssetAvailable;
-}
-
-void WbProtoList::retrieveAllExternProto(const QString &filename, bool reloading, const QStringList &graftedExternProto) {
-  // reset current project related variables to prepare for a load
-  mCurrentProjectProto.clear();
-  mCurrentWorld = filename;
-  mReloading = reloading;
-  qDeleteAll(mDownloaders);
-  mDownloaders.clear();
-  // ensure all referenced assets are available (locally), if not download them
-  connect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::externProtoDownloadTracker);
-  recursiveProtoRetrieval(filename, graftedExternProto);
-}
-
-QMap<QString, QString> WbProtoList::getExternProtoList(const QString &filename) {
-  // TODO: for now, assume this functions gets a clean locally accessible path. Is it better if this function does the
-  // cleaning?
-
-  QString path = filename;
-  if (WbUrl::isWeb(filename)) {
-    if (WbNetwork::instance()->isCached(filename))
-      path = WbNetwork::instance()->get(filename);
-    else
-      printf("ERROR, %s not cached but should?\n", filename.toUtf8().constData());
-  }
-
-  QMap<QString, QString> protoList;
-
-  QFile file(path);
-  if (!file.open(QIODevice::ReadOnly)) {
-    printf("ERROR, %s is not a valid filename for getExternProtoList\n", path.toUtf8().constData());
-    return protoList;
-  }
-
-  QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
-  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
-  while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
-    if (match.hasMatch()) {
-      // const QString identifier = match.captured(1);
-      const QString url = match.captured(1);
-      QString externProtoUrl = WbUrl::generateExternProtoPath(url, filename);
-      // printf("GEN %s\n", externProtoUrl.toUtf8().constData());
-      if (!externProtoUrl.endsWith(".proto")) {
-        WbLog::error(tr("Malformed extern proto url. The url should end with '.proto'\n"));
-        return protoList;
-      }
-
-      QString protoName;
-      if (WbUrl::isWeb(url) || WbUrl::isLocalUrl(url))
-        protoName = QUrl(url).fileName().replace(".proto", "");
-      else
-        assert(0);  // TODO: case not handled/tested yes (relative url, abs, ..)
-
-      protoList.insert(protoName, externProtoUrl);  // if same identifier, only last url is kept
-    }
-  }
-
-  return protoList;
-}
-
-void WbProtoList::recursiveProtoRetrieval(const QString &filename, const QStringList &graftedExternProto) {
-  printf("recursing: %s\n", filename.toUtf8().constData());
-  /*
-  QString protoPath = filename;
-  if (WbUrl::isWeb(filename)) {
-    if (WbNetwork::instance()->isCached(filename))
-      protoPath = WbNetwork::instance()->get(filename);
-    else {
-      // referenced proto not yet available, download it
-      printf(" > %s not locally available, downloading.\n", filename.toUtf8().constData());
-      WbDownloader *downloader = new WbDownloader(this);
-      connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);
-      mDownloaders.push_back(downloader);
-      downloader->download(QUrl(filename));
-      return;
-    }
-  } else {
-    // if it is a local file, it should exist on disk
-    if (!QFileInfo(filename).exists()) {
-      mRetrievalError = tr("Local proto asset '%1' not available.\n").arg(filename);
-      externProtoDownloadTracker();
-      return;
-    }
-  }
-
-  assert(QFileInfo(protoPath).exists());  // by this point, the file should be locally accessible to recurse through it
-  */
-  // artificially insert all proto references inferred from the backwards compatibility mechanism
-  QMap<QString, QString> externProtos = getExternProtoList(filename);
-  foreach (QString unreferencedProto, graftedExternProto) {  // TODO: repeated code with areprotoassets..
-    if (isOfficialProto(unreferencedProto))
-      externProtos.insert(unreferencedProto, WbProtoList::instance()->getOfficialProtoUrl(unreferencedProto));
-    else
-      WbLog::error(tr("PROTO '%1' is not a recognized official PROTO. The backwards compatibility mechanism may fail.\n")
-                     .arg(unreferencedProto));
-  }
-
-  if (externProtos.isEmpty()) {
-    emit protoRetrieved();
-    return;  // nothing else to recurse into
-  }
-
-  QMapIterator<QString, QString> it(externProtos);
-  while (it.hasNext()) {
-    it.next();
-    // manufacture url of sub-proto based on url of the file that references it
-    // QString externProtoUrl = WbUrl::generateExternProtoPath(it.value(), filename);
-    // printf(" subproto >>%s<<\n parent   >>%s<<\n   ====> will retrieve: %s\n", (it.value()).toUtf8().constData(),
-    //        protoPath.toUtf8().constData(), externProtoUrl.toUtf8().constData());
-    if (WbUrl::isWeb(it.value())) {
-      // retrieve any sub-proto references
-      WbDownloader *downloader = new WbDownloader(this);
-      connect(downloader, &WbDownloader::complete, this, &WbProtoList::recurser);  // TODO: need intermediary recurser function?
-      mDownloaders.push_back(downloader);
-      downloader->download(QUrl(it.value()));
-      // return;
-    } else
-      recursiveProtoRetrieval(it.value());
-  }
-
-  return;
-}
-
-void WbProtoList::recurser() {
-  if (!mRetrievalError.isEmpty()) {  // TODO: check if downloader has error instead
-    WbLog::error(tr("Proto retrieval error: %1").arg(mRetrievalError));
-    disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::externProtoDownloadTracker);
-    qDeleteAll(mDownloaders);
-    mDownloaders.clear();
-    return;
-  }
-
-  WbDownloader *retriever = dynamic_cast<WbDownloader *>(sender());
-  if (retriever) {
-    printf("> download complete for %s.\n", retriever->url().toString().toUtf8().constData());
-    recursiveProtoRetrieval(retriever->url().toString());
-  }
-}
-
-void WbProtoList::externProtoDownloadTracker() {
-  // TODO: function is weird
-  // TODO: if one file doesn't exist (webots://something/that/doesnt/exist), it gets stuck
-  // TODO: finishes before it actually finishes coz mDownloaders pushing back not fast enough?
-  for (int i = 0; i < mDownloaders.size(); ++i)
-    if (!mDownloaders[i]->error().isEmpty()) {
-      printf("ABORTING!\n");
-      // abort on download failure
-      WbLog::error(mDownloaders[i]->error());
-      // TODO: how to delete? What if some download already started?
-      return;
-    }
-
-  /*
-  bool finished = true;
-  for (int i = 0; i < mDownloaders.size(); ++i)
-    if (!mDownloaders[i]->hasFinished())
-      finished = false;
-
-  if (!mRetrievalError.isEmpty()) {
-    disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::externProtoDownloadTracker);
-    qDeleteAll(mDownloaders);
-    mDownloaders.clear();
-    WbLog::error(tr("Proto retrieval error: %1").arg(mRetrievalError));
-    return;
-  }
-  */
-
-  if (areProtoAssetsAvailable(mCurrentWorld, QStringList(), false)) {
-    printf("FINISHED, files downloaded: %lld\n", mDownloaders.size());
-    disconnect(this, &WbProtoList::protoRetrieved, this, &WbProtoList::externProtoDownloadTracker);
-    qDeleteAll(mDownloaders);
-    mDownloaders.clear();
-    // load the world again
-    WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);
-  }
-}
-
 void WbProtoList::setupKnownProtoList() {
-  /*
-  const QString &searchPath = WbStandardPaths::projectsPath();
-
-  QFileInfoList worlds;
-  QDirIterator dit(searchPath, QStringList() << "*.wbt", QDir::Files, QDirIterator::Subdirectories);
-  while (dit.hasNext())
-    worlds << QFileInfo(dit.next());
-
-  foreach (const QFileInfo &world, worlds) {
-    // printf("~~> %s\n", world.absoluteFilePath().toUtf8().constData());
-    QMap<QString, QString> externProtos = getExternProtoList(world.absoluteFilePath());
-    // note: if externProtos contains a key that already exists in mProtoList, the latter is overwritten
-    mProtoList.insert(externProtos);
-  }
-
-  printf("-- known proto %lld --\n", mProtoList.size());
-
-  //QMapIterator<QString, QString> it(mProtoList);
-  //while (it.hasNext()) {
-  //  it.next();
-  //  printf("  %30s %s\n", it.key().toUtf8().constData(), it.value().toUtf8().constData());
-  //}
-
-  printf("-- end known proto --\n");
-  */
-
   const QString filename(WbStandardPaths::resourcesPath() + QString("proto-list.xml"));
   QFile file(filename);
   if (!file.open(QFile::ReadOnly | QFile::Text)) {
@@ -662,23 +389,6 @@ void WbProtoList::setupKnownProtoList() {
   } else
     reader.raiseError(tr("The format of 'proto-list.xml' is invalid."));
 
-  /*
-  const WbVersion &version = WbApplicationInfo::version();
-  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-  const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-  const QString filename = WbStandardPaths::resourcesPath() + QString("proto-list-%1.txt").arg(reference);
-  QFile protoList(filename);
-
-  if (protoList.open(QIODevice::ReadOnly)) {
-    const QStringList lines = QString(protoList.readAll()).split('\n', Qt::SkipEmptyParts);
-    foreach (QString line, lines) {
-      const QString filename = QUrl(line).fileName().replace(".proto", "");
-      mProtoList.insert(filename, line);
-    }
-  } else
-    WbLog::error(tr("%1 not found.").arg(filename));
-  */
-
   // printf("-- known proto %lld --\n", mProtoList.size());
   // QMapIterator<QString, WbProtoInfo> it(mProtoList);
   // while (it.hasNext()) {
@@ -687,11 +397,6 @@ void WbProtoList::setupKnownProtoList() {
   //  printf("  %35s %s\n", it.key().toUtf8().constData(), info.url().toUtf8().constData());
   //}
   // printf("-- end known proto --\n");
-}
-
-void WbProtoList::resetCurrentProjectProtoList(void) {
-  mCurrentProjectProto.clear();
-  mRetrievalError = QString();
 }
 
 bool WbProtoList::isOfficialProto(const QString &protoName) {
@@ -704,68 +409,17 @@ const QString WbProtoList::getOfficialProtoUrl(const QString &protoName) {
   return mOfficialProtoList.value(protoName)->url();
 }
 
-/*
-bool WbProtoList::backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading) {
+bool WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
+  // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
-
-  // TODO: can the other downloader do both ?
-  qDeleteAll(mDownloaders);
-  mDownloaders.clear();
-
-  QVector<QUrl> urls;
-  foreach (QString protoName, protoList) {
-    if (isOfficialProto(protoName)) {
-      const QString url = WbProtoList::instance()->getOfficialProtoUrl(protoName);
-      if (WbNetwork::instance()->isCached(url)) {
-        printf("%35s is an OFFICIAL proto and is CACHED.\n", protoName.toUtf8().constData());
-        continue;
-      }
-
-      printf("%35s is an OFFICIAL proto but NOT CACHED.\n", protoName.toUtf8().constData());
-      // PROTO is known, but not currently cached
-      WbDownloader *downloader = new WbDownloader(this);
-      mDownloaders.push_back(downloader);
-      urls.push_back(QUrl(url));
-      connect(downloader, &WbDownloader::complete, this, &WbProtoList::backwardsCompatibilityDownloadTracker);
-    }
-  }
-
-  assert(urls.size() == mDownloaders.size());
-  // download only when the vectors are fully populated to avoid racing conditions on the download tracker
-  for (int i = 0; i < mDownloaders.size(); ++i)
-    mDownloaders[i]->download(urls[i]);
-
-  return mDownloaders.size() == 0;
-}
-
-void WbProtoList::backwardsCompatibilityDownloadTracker() {
-  // TODO: can be merged with the other tracker?
-
-  foreach (WbDownloader *downloader, mDownloaders) {
-    if (!downloader->error().isEmpty()) {
-      printf("ABORTING!\n");
-      // abort on download failure
-      WbLog::error(downloader->error());
-      return;
-    }
-
-    if (!downloader->hasFinished())
-      return;
-  }
-
-  printf("BACKWARDS download FINISHED, got %lld files\n", mDownloaders.size());
-  qDeleteAll(mDownloaders);
-  mDownloaders.clear();
-  // load the world again
-  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);
-}
-*/
-
-bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStringList &unreferencedProtos) {
-  // clear current project related variables
   mCurrentProjectProto.clear();
   delete mTreeRoot;
+  foreach (WbProtoModel *model, mModels) {
+    if (mCurrentProjectProto.contains(model->name()))
+      model->unref();
+  }
+
   // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {
@@ -779,6 +433,7 @@ bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStrin
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
     return false;
   }
+
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
   foreach (const QString proto, unreferencedProtos) {
     if (isOfficialProto(proto))
@@ -801,9 +456,6 @@ bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStrin
     connect(mTreeRoot, &WbProtoTreeItem::protoTreeUpdated, this, &WbProtoList::tryWorldLoad);
 
   return isReady;
-}
-
-void WbProtoList::externProtoDownloadTrackerV2() {
 }
 
 void WbProtoList::tryWorldLoad() {

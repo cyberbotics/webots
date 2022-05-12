@@ -272,7 +272,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     externProtoToGraft = parser.getReferencedProtoList();
   }
 
-  if (!WbProtoList::instance()->retrieveAllExternProtoV2(worldName, externProtoToGraft)) {
+  if (!WbProtoList::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft)) {
     printf("> some proto assets are missing, downloading them.\n");
     return false;  // when all extern proto are downloaded, loadWorld is called again
   } else {

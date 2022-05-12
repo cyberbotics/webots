@@ -115,33 +115,14 @@ public:
   // prerequisite: the syntax must have been checked with WbParser
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
 
-  // allows to manage active searchable paths for PROTO files
-  void clearProtoSearchPaths(void);
-  void insertProtoSearchPath(const QString &path);
-
-  void resetCurrentProjectProtoList(void);
   void printCurrentProjectProtoList();
 
-  void recursivelyRetrieveExternProto(const QString &filename, const QString &parent);
-
-  void recursiveProtoRetrieval(const QString &filename, const QStringList &graftedExternProto = QStringList());
-
-  void retrieveAllExternProto(const QString &filename, bool reloading,
-                              const QStringList &graftedExternProto = QStringList());  // TODO: need reloading?
-  bool retrieveAllExternProtoV2(const QString &filename, const QStringList &unreferencedProtos);
+  bool retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
 
   QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
 
-signals:
-  void protoRetrieved();
-
 private slots:
-  void recurser();
-  void externProtoDownloadTracker();
-  void externProtoDownloadTrackerV2();
   void tryWorldLoad();
-
-  // void backwardsCompatibilityDownloadTracker();
 
 private:
   // cppcheck-suppress unknownMacro
@@ -155,11 +136,6 @@ private:
   static QFileInfoList gExtraProtoCache;
   QFileInfoList mPrimaryProtoCache;
 
-  QStringList mProtoSearchPaths;
-  int mDownloadingFiles;
-  WbDownloader *mDownloader;
-
-  QVector<WbDownloader *> mDownloaders;
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
@@ -168,8 +144,6 @@ private:
 
   QMap<QString, WbProtoInfo *> mOfficialProtoList;
   QMap<QString, QString> mCurrentProjectProto;
-
-  QMap<QString, QString> getExternProtoList(const QString &filename);
 
   static void updateProjectsProtoCache();
   static void updateResourcesProtoCache();
