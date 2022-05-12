@@ -29,14 +29,6 @@ extern "C" {
 
 struct _TcpClient {
   int fd;
-#ifdef _WIN32
-  HANDLE handle;
-  char *buffer;
-  int pointer;
-  int read;
-  int buffer_size;
-  int fd_local[2];  // for the local pipe
-#endif
 };
 
 typedef struct _TcpClient TcpClient;
