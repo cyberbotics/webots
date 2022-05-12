@@ -119,8 +119,8 @@ void WbControlledWorld::startController(WbRobot *robot) {
 void WbControlledWorld::deleteController(WbController *controller) {
   mControllers.removeOne(controller);
   mWaitingControllers.removeOne(controller);
-  mWaitingExternControllers.removeOne(controller);
   mNewControllers.removeOne(controller);
+  // note: controller should not be removed from mWaitingExternControllers
 
   if (controller->isProcessingRequest())
     mTerminatingControllers.append(controller);
@@ -319,7 +319,8 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   for (WbController *controller : mWaitingExternControllers) {
     if (controller->robotId() == robotId && !mControllers.contains(controller)) {
       if (mWaitingExternControllers.removeOne(controller)) {
-        mNewControllers.removeOne(controller);  // needed in case the extern controller is connected, not needed otherwise
+        if (!mNewControllers.removeOne(controller))
+          assert(false);
         WbLog::info(tr("\"%1\" extern controller: stopped.").arg(controller->robot()->name()));
         delete controller;
         restartStepTimer();
