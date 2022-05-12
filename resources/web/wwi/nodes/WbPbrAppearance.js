@@ -7,7 +7,7 @@ import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 import {getAnId} from './utils/utils.js';
 
-export default class WbPBRAppearance extends WbAbstractAppearance {
+export default class WbPbrAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
     IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
     super(id, textureTransform);
@@ -80,7 +80,7 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     }
 
     this.useList.push(customID);
-    return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
+    return new WbPbrAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
       this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform);
   }
 
@@ -107,11 +107,11 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
 
   delete() {
     if (this.isPostFinalizeCalled)
-      WbPBRAppearance.cInstanceCounter--;
+      WbPbrAppearance.cInstanceCounter--;
 
-    if (WbPBRAppearance.cInstanceCounter === 0) {
-      _wr_texture_delete(WbPBRAppearance.cBrdfTexture);
-      WbPBRAppearance.cBrdfTexture = undefined;
+    if (WbPbrAppearance.cInstanceCounter === 0) {
+      _wr_texture_delete(WbPbrAppearance.cBrdfTexture);
+      WbPbrAppearance.cBrdfTexture = undefined;
     }
 
     if (typeof this.baseColorMap !== 'undefined')
@@ -190,7 +190,7 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     else
       _wr_material_set_texture_transform(wrenMaterial, null);
 
-    _wr_material_set_texture(wrenMaterial, WbPBRAppearance.cBrdfTexture, 5);
+    _wr_material_set_texture(wrenMaterial, WbPbrAppearance.cBrdfTexture, 5);
     _wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
     _wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
@@ -239,12 +239,12 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     if (typeof this.emissiveColorMap !== 'undefined')
       this.emissiveColorMap.preFinalize();
 
-    if (WbPBRAppearance.cInstanceCounter === 0) {
+    if (WbPbrAppearance.cInstanceCounter === 0) {
       const quality = textureQuality;
       const resolution = Math.pow(2, 6 + quality); // 0: 64, 1: 128, 2: 256
-      WbPBRAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
+      WbPbrAppearance.cBrdfTexture = _wr_texture_cubemap_bake_brdf(WbWrenShaders.iblBrdfBakingShader(), resolution);
     }
-    ++WbPBRAppearance.cInstanceCounter;
+    ++WbPbrAppearance.cInstanceCounter;
   }
 
   postFinalize() {
@@ -270,4 +270,4 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
   }
 }
 
-WbPBRAppearance.cInstanceCounter = 0;
+WbPbrAppearance.cInstanceCounter = 0;

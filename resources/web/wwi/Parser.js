@@ -20,7 +20,7 @@ import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
@@ -187,7 +187,7 @@ export default class Parser {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
-          result = this._parsePBRAppearance(node, id);
+          result = this._parsePbrAppearance(node, id);
           parentNode.appearance = result;
         }
       } else if (node.tagName === 'Appearance') {
@@ -521,7 +521,7 @@ export default class Parser {
         if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
         else if (child.tagName === 'PBRAppearance')
-          appearance = this._parsePBRAppearance(child);
+          appearance = this._parsePbrAppearance(child);
 
         if (typeof appearance !== 'undefined')
           continue;
@@ -1050,7 +1050,7 @@ export default class Parser {
     return imageTexture;
   }
 
-  _parsePBRAppearance(node, parentId) {
+  _parsePbrAppearance(node, parentId) {
     const use = this._checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1105,7 +1105,7 @@ export default class Parser {
       }
     }
 
-    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
+    const pbrAppearance = new WbPbrAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
       normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
 
     if (typeof pbrAppearance !== 'undefined') {

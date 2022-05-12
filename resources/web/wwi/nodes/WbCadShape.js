@@ -1,7 +1,10 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbPbrAppearance from './WbPbrAppearance.js';
 import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector4 from './utils/WbVector4.js';
+import WbWrenPicker from '../wren/WbWrenPicker.js';
+import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 
 export default class WbCadShape extends WbBaseNode {
   constructor(id, urls, ccw, castShadows, isPickable) {
@@ -96,7 +99,7 @@ export default class WbCadShape extends WbBaseNode {
         const texCoordData = [];
         const indexData = [];
 
-        for (let j = 0; j < vertices; ++j) {
+        for (let j = 0; j < vertices / 3; ++j) {
           // extract the coordinate
           const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 1));
           coordData.push(vertice.x);
@@ -140,68 +143,42 @@ export default class WbCadShape extends WbBaseNode {
         const staticMesh = _wr_static_mesh_new(vertices, indexData.length, coordDataPointer, normalDataPointer, texCoordDataPointer, texCoordDataPointer, indexDataPointer, false);
 
         this.wrenMeshes.push(staticMesh);
-        //
-        // delete[] coordData;
-        // delete[] normalData;
-        // delete[] texCoordData;
-        // delete[] indexData;
-        //
-        // // retrieve material properties
-        // const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-        //
-        // // determine how image textures referenced in the collada file will be searched for
-        // QString fileRoot = mUrl->item(0);
-        // fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
-        // fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
-        //
-        // // init from assimp material
-        // WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
+
+        // retrieve material properties
+        const material = this.scene.materials[mesh.materialindex];
+
+        // init from assimp material
+        // let pbrAppearance = new WbPbrAppearance(material, fileRoot);
         // pbrAppearance->preFinalize();
         // pbrAppearance->postFinalize();
-        // connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
         //
-        // WrMaterial *wrenMaterial = wr_pbr_material_new();
+        let wrenMaterial = _wr_pbr_material_new();
         // pbrAppearance->modifyWrenMaterial(wrenMaterial);
         //
         // mPbrAppearances.push_back(pbrAppearance);
-        // mWrenMaterials.push_back(wrenMaterial);
+        this.wrenMaterials.push(wrenMaterial);
       }
     }
-    //
-    // for (int i = 0; i < mWrenMeshes.size(); ++i) {
-    //   WrRenderable *renderable = wr_renderable_new();
-    //   wr_renderable_set_material(renderable, mWrenMaterials[i], NULL);
-    //   wr_renderable_set_mesh(renderable, WR_MESH(mWrenMeshes[i]));
-    //   wr_renderable_set_receive_shadows(renderable, true);
-    //   wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    //   wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
-    //   wr_renderable_invert_front_face(renderable, !mCcw->value());
-    //   WbWrenPicker::setPickable(renderable, uniqueId(), mIsPickable->value());
-    //
-    //   // set material for range finder camera rendering
-    //   WrMaterial *depthMaterial = wr_phong_material_new();
-    //   wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
-    //   wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
-    //
-    //   // set material for segmentation camera rendering
-    //   WrMaterial *segmentationMaterial = wr_phong_material_new();
-    //   wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
-    //   wr_renderable_set_material(renderable, segmentationMaterial, "segmentation");
-    //
-    //   WrTransform *transform = wr_transform_new();
-    //   wr_transform_attach_child(wrenNode(), WR_NODE(transform));
-    //   setWrenNode(transform);
-    //   wr_transform_attach_child(transform, WR_NODE(renderable));
-    //   wr_node_set_visible(WR_NODE(transform), true);
-    //
-    //   mWrenRenderables.push_back(renderable);
-    //   mWrenTransforms.push_back(transform);
-    //   mWrenEncodeDepthMaterials.push_back(depthMaterial);
-    //   mWrenSegmentationMaterials.push_back(segmentationMaterial);
-    // }
-    //
-    // if (mBoundingSphere)
-    //   recomputeBoundingSphere();
+
+    for (let i = 0; i < this.wrenMeshes.length; ++i) {
+      let renderable = _wr_renderable_new();
+      _wr_renderable_set_material(renderable, this.wrenMaterials[i], null);
+      _wr_renderable_set_mesh(renderable, this.wrenMeshes[i]);
+      _wr_renderable_set_receive_shadows(renderable, true);
+      _wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext.VM_REGULAR);
+      _wr_renderable_set_cast_shadows(renderable, this.castShadows);
+      _wr_renderable_invert_front_face(renderable, !this.ccw);
+      WbWrenPicker.setPickable(renderable, this.id, this.isPickable);
+
+      let transform = _wr_transform_new();
+      _wr_transform_attach_child(this.wrenNode, transform);
+      this.wrenNode = transform;
+      _wr_transform_attach_child(transform, renderable);
+      _wr_node_set_visible(transform, true);
+
+      this.wrenRenderables.push(renderable);
+      this.wrenTransforms.push(transform);
+    }
   }
 
   deleteWrenObjects() {
