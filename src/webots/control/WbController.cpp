@@ -179,8 +179,10 @@ void WbController::updateName(const QString &name) {
 
 void WbController::setTcpSocket(QTcpSocket *socket) {
   mTcpSocket = socket;
-  qDebug(QString::number(mTcpSocket->peerPort()).toLatin1() + "\n");
-  qDebug(QString::number(socket->peerPort()).toLatin1() + "\n");
+  // qDebug(QString::number(mTcpSocket->state()).toLatin1() + "\n");
+  // qDebug(QString::number(socket->state()).toLatin1() + "\n");
+  qDebug(QVariant(mTcpSocket->isValid()).toString().toLatin1() + "\n");
+  qDebug(QVariant(socket->isValid()).toString().toLatin1() + "\n");
 }
 
 void WbController::resetRequestTime() {
@@ -277,7 +279,7 @@ void WbController::start() {
   }
 
   mTcpSocket = new QTcpSocket(this);
-  connect(mTcpSocket, &QTcpSocket::readyRead, this, &WbController::addRemoteControllerConnection);
+  connect(mTcpSocket, &QTcpSocket::connected, this, &WbController::addRemoteControllerConnection);
 }
 
 void WbController::addLocalControllerConnection() {
