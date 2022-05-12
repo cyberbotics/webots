@@ -2,6 +2,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
@@ -11,6 +12,8 @@ export default class WbCadShape extends WbBaseNode {
     super(id);
 
     this.urls = urls;
+    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/'));
+    console.log(this.prefix)
     this.ccw = ccw;
     this.castShadows = castShadows;
     this.isPickable = isPickable;
@@ -36,6 +39,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   createWrenObjects() {
+    console.log(this.scene);
     super.createWrenObjects();
 
     this.deleteWrenObjects();
@@ -148,7 +152,7 @@ export default class WbCadShape extends WbBaseNode {
         const material = this.scene.materials[mesh.materialindex];
 
         // init from assimp material
-        // let pbrAppearance = new WbPbrAppearance(material, fileRoot);
+        let pbrAppearance = this.extractAppearance(material);
         // pbrAppearance->preFinalize();
         // pbrAppearance->postFinalize();
         //
@@ -196,5 +200,124 @@ export default class WbCadShape extends WbBaseNode {
     this.wrenMaterials = [];
     this.wrenTransforms = [];
     this.pbrAppearances = [];
+  }
+
+  extractAppearance(material) {
+    const properties = new Map(
+      material.properties.map(object => {
+        if (object.key === '$tex.file')
+          return [object.semantic, object.value];
+        return [object.key, object.value];
+      })
+    );
+
+    let baseColor;
+    if (properties.get('$clr.diffuse'))
+      baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1],properties.get('$clr.diffuse')[3])
+    else
+      baseColor = new WbVector3(1.0, 1.0, 1.0);
+
+    let emissiveColor;
+    if (properties.get('$clr.emissive'))
+      emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1],properties.get('$clr.emissive')[3])
+    else
+      emissiveColor = new WbVector3(0.0, 0.0, 0.0);
+
+    let opacity;
+    if (properties.get('$mat.opacity'))
+      opacity = properties.get('$mat.opacity');
+    else
+      opacity = 1.0;
+    let transparency = 1.0 - opacity;
+
+    let roughness;
+    if (properties.get('$mat.shininess'))
+      roughness = 1.0 - properties.get('$mat.shininess') / 255.0;
+    else if (properties.get('$mat.shininess.strength'))
+      roughness = 1.0 - properties.get('$mat.shininess.strength');
+    else if (properties.get('$mat.reflectivity'))
+      roughness = 1.0 - properties.get('$mat.reflectivity');
+    else
+      roughness = 1.0;
+
+    let metalness = 0.0;
+    let iblStrength = 1.0;
+    let normalMapFactor = 1.0;
+    let occlusionMapStrength = 1.0;
+    let emissiveIntensity = 1.0;
+
+
+    /* Semantic (source https://github.com/assimp/assimp/blob/master/include/assimp/material.h):
+      1: diffuse (map_Kd)
+      4: emissive (map_emissive or map_Ke)
+      6: normal (norm or map_Kn)
+      10: lightmap
+      12: base color
+      13: normal_camera
+      14: emission_color
+      15: metalness (map_Pm)
+      16: (diffuse_) roughness (map_Pr)
+      17: ambient occlusion
+    */
+
+    // initialize maps
+    let baseColorMap
+    if (properties.get(12))
+      baseColorMap = this.extractImageTexture();
+    else if (properties.get(1))
+      baseColorMap = this.extractImageTexture();
+
+    // if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
+    //   mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
+    // else
+    //   mRoughnessMap = new WbSFNode(NULL);
+    //
+    // if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
+    //   mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
+    // else
+    //   mMetalnessMap = new WbSFNode(NULL);
+    //
+    // if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
+    //   mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
+    // else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
+    //   mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
+    // else
+    //   mNormalMap = new WbSFNode(NULL);
+    //
+    // if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
+    //   mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
+    // else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
+    //   mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
+    // else
+    //   mOcclusionMap = new WbSFNode(NULL);
+    //
+    // if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
+    //   mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
+    // else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
+    //   mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
+    // else
+    //   mEmissiveColorMap = new WbSFNode(NULL);
+  }
+
+  extractImageTexture() {
+    // aiString path("");
+    // material->GetTexture(textureType, 0, &path);
+    // // generate url of texture from url of collada/wavefront file
+    // QString relativePath = QString(path.C_Str());
+    //
+    // relativePath.replace("\\", "/");  // use cross-platform forward slashes
+    // while (relativePath.startsWith("../")) {
+    //   parentPath = parentPath.left(parentPath.lastIndexOf("/"));
+    //   relativePath.remove(0, 3);
+    // }
+    //
+    // if (!relativePath.startsWith("/"))
+    //   relativePath.insert(0, '/');
+    //
+    // mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
+    // // init remaining variables with default wrl values
+    // mRepeatS = new WbSFBool(true);
+    // mRepeatT = new WbSFBool(true);
+    // mFiltering = new WbSFInt(4);
   }
 }
