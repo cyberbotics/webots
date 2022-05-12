@@ -173,7 +173,9 @@ void WbControlledWorld::reset(bool restartControllers) {
 }
 
 void WbControlledWorld::checkIfReadRequestCompleted() {
-  assert(!mControllers.isEmpty());
+  if (mControllers.isEmpty())
+    return;
+  // FIXME: assert(!mControllers.isEmpty());
   if (!needToWait()) {
     WbSimulationState *state = WbSimulationState::instance();
     emit state->controllerReadRequestsCompleted();
@@ -322,8 +324,11 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   for (WbController *controller : mWaitingExternController) {
     if (controller->robotId() == robotId && !mControllers.contains(controller)) {
       if (mWaitingExternController.removeOne(controller)) {
+        mNewControllers.removeOne(controller);
+        /* FIXME
         if (!mNewControllers.removeOne(controller))
           assert(false);
+        */
         WbLog::info(tr("\"%1\" extern controller: stopped.").arg(controller->robot()->name()));
         delete controller;
         restartStepTimer();
@@ -393,11 +398,15 @@ void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
 
 void WbControlledWorld::externConnection(WbController *controller, bool connect) {
   if (connect) {
-    mWaitingExternController.removeAll(controller);
+    if (!mWaitingExternController.removeOne(controller))
+      assert(false);
     controller->robot()->externControllerChanged();
     restartStepTimer();
   } else {
+    if (!mControllers.removeOne(controller))
+      assert(false);
     mWaitingExternController.append(controller);
+    mNewControllers.append(controller);
     pauseStepTimer();
   }
 }
