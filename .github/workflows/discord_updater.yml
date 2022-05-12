@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'discord publishing') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -26,7 +27,6 @@ jobs:
       run: |
         python ./docs/discord/update.py -t ${{ secrets.DISCORD_TOKEN }}
     - name: Branch and Commit
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'discord publishing') || github.event_name == 'schedule' }}
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
