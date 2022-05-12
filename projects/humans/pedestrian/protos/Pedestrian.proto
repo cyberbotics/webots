@@ -575,7 +575,7 @@ Robot {
   %< if (!rigid) { >%
     controller IS controller
   %< } else { >%
-    controller ""
+    controller "<none>"
   %< } >%
   controllerArgs IS controllerArgs
   supervisor TRUE

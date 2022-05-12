@@ -23,5 +23,5 @@ Robot {
   supervisor TRUE
 }
 Nao {
-  controller "void"
+  controller "<generic>"
 }

@@ -2,7 +2,7 @@
 
 PROTO DerivedPotoWithSlotExtension [
   field SFNode slotExtension SlotNode { }
-  field SFString controller ""
+  field SFString controller "<none>"
 ]
 {
   ProtoWithSlotExtension {

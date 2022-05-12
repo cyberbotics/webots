@@ -4,7 +4,7 @@
 # The content of the file is the number of times the PROTO was regenerated.
 
 PROTO NonDeterministicSupervisorLua [
-  field SFString controller     ""
+  field SFString controller     "<none>"
   field MFString controllerArgs []
   field SFString description    ""
   field MFNode   children       []

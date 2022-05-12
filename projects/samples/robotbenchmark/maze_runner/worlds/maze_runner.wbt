@@ -504,11 +504,11 @@ Desk {
 Laptop {
   translation 2.520944 -0.652021 0.709285
   rotation -0.0011619992155090305 -0.9999993248786837 0 0.001638
-  controller ""
+  controller "<none>"
 }
 Laptop {
   translation -2.231749 0.215506 0.709268
   rotation 0.0008149997293284472 0 0.9999996678876654 -3.141593
   name "laptop(1)"
-  controller ""
+  controller "<none>"
 }

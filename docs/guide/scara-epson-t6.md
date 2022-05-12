@@ -23,11 +23,11 @@ ScaraT6 [
   SFVec3f           translation     0 0 0
   SFRotation        rotation        0 0 1 0
   SFString          name            "Scara T6"
-  SFString          controller      ""
+  SFString          controller      "<none>"
   MFString          controllerArgs  []
   SFBool            supervisor      FALSE
   SFString          customData      ""
-  SFString          window          ""
+  SFString          window          "<generic>"
   SFBool            staticBase      FALSE
   MFNode            handSlot        []
 

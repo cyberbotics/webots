@@ -14,7 +14,7 @@ PROTO Thymio2 [
   field SFString   customData      ""              # Is `Robot.customData`.
   field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
-  field SFString   window          ""              # Is `Robot.window`.
+  field SFString   window          "<generic>"     # Is `Robot.window`.
   field SFString   contactMaterial "thymio body"   # Defines the `Solid.contactMaterial` for the body.
   field SFBool     castLight       TRUE            # Defines whether OpenGL lights are cerated for each LEDs.
   field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.
