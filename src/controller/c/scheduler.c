@@ -122,10 +122,9 @@ void scheduler_send_request(WbRequest *r) {
 // extern FILE *fd; TODO: to show possible memory leak
 
 WbRequest *scheduler_read_data() {
-  int delay = 0;
   WbRequest *r = NULL;
   if (scheduler_is_ipc() || scheduler_is_tcp()) {
-    int size = 0, socket_size = 0;
+    int delay = 0, size = 0, socket_size = 0;
     if (scheduler_is_ipc()) {
       do
         size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
