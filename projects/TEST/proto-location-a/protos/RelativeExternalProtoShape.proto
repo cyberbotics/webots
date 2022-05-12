@@ -1,0 +1,15 @@
+#VRML_SIM R2022b utf8
+# Relative external references
+
+EXTERNPROTO "../../protos/proto-location-b/protos/RelativeExternalAppearance.proto"
+EXTERNPROTO "proto-location-c/proto-location-d/protos/RelativeExternalGeometry.proto"
+
+PROTO ExternalProtoShape [
+
+]
+{
+  Shape {
+    appearance RelativeExternalAppearance {}
+    geometry RelativeExternalGeometry {}
+  }
+}

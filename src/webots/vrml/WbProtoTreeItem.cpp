@@ -15,7 +15,6 @@
 #include "WbProtoTreeItem.hpp"
 #include "../nodes/utils/WbDownloader.hpp"
 #include "../nodes/utils/WbUrl.hpp"
-#include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -26,7 +25,8 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url) :
   mUrl(url),
   mIsAvailable(false),
   mDownloader(NULL),
-  mName(QUrl(url).fileName().replace(".proto", "")) {
+  mName(QUrl(url).fileName().replace(".proto", "")),
+  mError() {
   // if the proto is locally available, parse it, otherwise download it first
   downloadAssets();
 }
@@ -51,10 +51,10 @@ void WbProtoTreeItem::parseItem() {
       if (match.hasMatch()) {
         const QString subProto = match.captured(1);
         QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);  // TODO: should this func be moved here?
-        // printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
-        //       subProtoUrl.toUtf8().constData());
+        printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
+               subProtoUrl.toUtf8().constData());
         if (!subProtoUrl.endsWith(".proto")) {
-          WbLog::error(tr("Malformed extern proto url. The url should end with '.proto'\n"));
+          mError = QString(tr("Malformed extern proto url. The url should end with '.proto'\n"));
           return;
         }
 
@@ -66,7 +66,7 @@ void WbProtoTreeItem::parseItem() {
     mIsAvailable = true;  // wait until mSubProto has been populated before flagging this item as ready
     emit protoTreeUpdated();
   } else
-    WbLog::error(tr("File '%1' is not readable.").arg(path));
+    mError = QString(tr("File '%1' is not readable.").arg(path));
 }
 
 void WbProtoTreeItem::downloadAssets() {
@@ -96,7 +96,7 @@ void WbProtoTreeItem::downloadAssets() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    WbLog::error(mDownloader->error());
+    mError = mDownloader->error();
     return;
   }
 

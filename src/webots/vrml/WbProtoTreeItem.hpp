@@ -26,6 +26,7 @@ public:
 
   const QString &name() { return mName; }
   const QString &url() { return mUrl; }
+  const QString &error() { return mError; }
 
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
@@ -49,6 +50,7 @@ private:
   // bool mIsParsed;            // has the file been parsed in order to define if it references any sub-proto
   WbDownloader *mDownloader;
   QString mName;  // TODO: tmp, not really needed
+  QString mError;
 
   QList<WbProtoTreeItem *> mSubProto;  // list of referenced sub-proto
 };

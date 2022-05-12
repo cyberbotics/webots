@@ -216,7 +216,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   // printf("WbProtoList::customFindModel\n");
   // return NULL;
 
-  foreach (WbProtoModel *model, mModels) {
+  foreach (WbProtoModel *model, mModels) {  // TODO: ensure mModels is cleared between loads
     if (model->name() == modelName) {
       // printf("No need to search for model %s, it's loaded already.\n", modelName.toUtf8().constData());
       return model;
@@ -771,6 +771,10 @@ bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStrin
   if (rootFile.open(QIODevice::ReadOnly)) {
     QFile rootFile(filename);
     mTreeRoot = new WbProtoTreeItem(filename);
+    if (!mTreeRoot->error().isEmpty()) {
+      WbLog::error(mTreeRoot->error());
+      return true;
+    }
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
     return false;
@@ -782,6 +786,13 @@ bool WbProtoList::retrieveAllExternProtoV2(const QString &filename, const QStrin
     else
       WbLog::error(tr("PROTO '%1' is not a known official PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
+
+  // TODO: not functional, in test_local.wbt rename "RelativeExternalProtoSolid" to "LocalExternalProtoSolid" to trigger it
+  if (!mTreeRoot->error().isEmpty()) {
+    WbLog::error(mTreeRoot->error());
+    return true;
+  }
+
   // generate mCurrentProjectProto list (map proto <-> path) and load world, if all assets are available
   const bool isReady = mTreeRoot->isReadyForLoad();
   if (isReady)

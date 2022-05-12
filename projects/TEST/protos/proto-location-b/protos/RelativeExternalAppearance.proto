@@ -1,0 +1,11 @@
+#VRML_SIM R2022b utf8
+# Relative external appearance.
+
+PROTO RelativeExternalAppearance [
+
+]
+{
+  PBRAppearance {
+    baseColor 1 0 0
+  }
+}

@@ -205,8 +205,11 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
         parentProtoUrl = parentProtoUrl.left(parentProtoUrl.lastIndexOf("/"));
         subProtoUrl.remove(0, 3);
       }
+
+      // printf(">>%s|||%s]][[%s|||%s]]\n", parentProtoUrl.toUtf8().constData(), subProtoUrl.toUtf8().constData(),
+      //       url.toUtf8().constData(), parentUrl.toUtf8().constData());
       // manufacture subproto url based on parent's url
-      return parentProtoUrl + subProtoUrl;
+      return parentProtoUrl + "/" + subProtoUrl;
     }
   }
 
