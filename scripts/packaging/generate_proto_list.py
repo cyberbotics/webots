@@ -171,16 +171,15 @@ if __name__ == "__main__":
     #         value.print()
 
     # generated a sorted list from the dictionary
-    ordered_protos = sorted([x.path for x in protos.values()])
+    #ordered_protos = sorted([x.path for x in protos.values()])
 
     # generate xml of proto list
     root = ET.Element('proto-list')
     root.set('version', VERSION)
 
-    for item in ordered_protos:
+    for key, info in protos.items():
         # retrieve proto meta info from dictionary following the alphabetical order of the paths
-        info = protos[os.path.basename(item).replace(".proto", "")]
-
+        #info = protos[os.path.basename(item).replace(".proto", "")]
         proto_element = ET.SubElement(root, 'proto')
         name_element = ET.SubElement(proto_element, 'name').text = info.name
         base_node_element = ET.SubElement(proto_element, 'basenode').text = info.base_type

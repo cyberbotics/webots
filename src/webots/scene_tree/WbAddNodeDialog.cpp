@@ -77,6 +77,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mTree = new QTreeWidget(this);
   mTree->setHeaderHidden(true);
   mTree->setSelectionMode(QAbstractItemView::SingleSelection);
+  mTree->setSortingEnabled(true);
+  mTree->sortByColumn(0, Qt::AscendingOrder);
   connect(mTree, &QTreeWidget::doubleClicked, this, &WbAddNodeDialog::checkAndAddSelectedItem);
 
   QFont font;
@@ -604,7 +606,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
     //    !baseNode.contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)))
     //  continue;
 
-    // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+    // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
     const QString baseNode = info->baseNode();
     if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && WbNodeUtilities::isDeviceTypeName(baseNode) &&
         baseNode != "Connector")

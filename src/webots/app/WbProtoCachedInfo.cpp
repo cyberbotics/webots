@@ -195,6 +195,7 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
     if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
+      printf(">>>%s\n", token->word().toUtf8().constData());
       protoInfo->mNeedsRobotAncestor = true;
       break;
     }
