@@ -22,14 +22,15 @@ SUMO_VERSION=1.10.0
 VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
+ SUMO_VERSION=1.13
  VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
- SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
+ SUMO_MD5SUM="89e34a7491bae2da4121d10abca4153e"
+ SUMO_PACKAGE=sumo-$(SUMO_VERSION)-Ubuntu_20.04.tar.bz2
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
- EXTRACT=tar xfz
- # remove .tar.gz
+ EXTRACT=tar xfj
+ # remove .tar.bz2
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
  WGET=wget --quiet
 endif
@@ -59,6 +60,7 @@ endif
 release debug profile: $(SUMO_TARGET)
 
 $(SUMO_TARGET):
+	@if [ -f $(SUMO_PACKAGE) ]; then echo "#" removing previous $(SUMO_PACKAGE); rm -rf $(SUMO_PACKAGE); fi
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(SUMO_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(SUMO_PACKAGE)
