@@ -267,41 +267,6 @@ static void copy_file(const char *file) {
 #endif
 }
 
-static bool compute_md5_of_file(const char *file_name, unsigned char *out) {
-  FILE *file;
-  file = fopen(file_name, "r");
-  if (file == NULL)
-    return false;
-
-  unsigned char buffer[8192];
-  unsigned char bufferUnix[8192];
-
-  MD5_CTX mc;
-  MD5_Init(&mc);
-
-  size_t len = fread(buffer, 1, sizeof(buffer), file);
-  while (len > 0) {
-    // convert all line endings to Unix '\n'
-    int i = 0;
-    int lenUnix = 0;
-    while (i < len) {
-      if (buffer[i] != '\r') {
-        // copy char
-        bufferUnix[lenUnix] = buffer[i];
-        ++lenUnix;
-      }
-      ++i;
-    }
-
-    MD5_Update(&mc, bufferUnix, lenUnix);
-    len = fread(buffer, 1, sizeof(buffer), file);
-  }
-
-  fclose(file);
-  MD5_Final(out, &mc);
-  return true;
-}
-
 static void make_dir(const char *directory) {
   char directory2[BUFFER_SIZE];
   test_dir(directory);
@@ -810,77 +775,6 @@ static void create_file(const char *name, int m) {
           while (expanded_filename[i][l++]);
           project_filename[--l] = '\0';  // remove the last 't'
           strcat(project_filename, "proj");
-#ifdef _WIN32  // we need to mark this file with the hidden attribute using the Windows C API
-          SetFileAttributes(project_filename, FILE_ATTRIBUTE_HIDDEN);
-#endif
-          copy_file(&project_filename[strlen(webots_home) + 1]);
-          free(project_filename);
-          free(expanded_filename[i]);
-        }
-        free(expanded_filename);
-      }
-
-      // check and copy the .*.cache hidden files
-      if (strcasecmp(&buffer[l - 6], ".proto") == 0 && strstr(buffer, "/protos/")) {
-        sprintf(big_buffer, "%s/%s", webots_home, buffer);
-        // we need to expand the possible wildcard
-        int n;
-        char **expanded_filename = expand_wildcard_filename(big_buffer, &n);
-        for (i = 0; i < n; i++) {
-          int l = strlen(expanded_filename[i]);
-          char *project_filename = (char *)malloc(l + 2);  // ".%scache", including the final '\0' minus 'proto'
-          strcpy(project_filename, expanded_filename[i]);
-          l--;
-          for (; l >= 0; l--)
-            if (project_filename[l] == '/')
-              break;
-          l++;
-          project_filename[l] = '.';
-          do
-            project_filename[l + 1] = expanded_filename[i][l];
-          while (expanded_filename[i][l++]);
-          l -= 5;
-          project_filename[l] = '\0';  // remove the last 'proto'
-          strcat(project_filename, "cache");
-
-          // compute MD5 of PROTO file
-          const int md5_len = 16;
-          unsigned char md5Value[md5_len];
-          if (!compute_md5_of_file(expanded_filename[i], md5Value)) {
-            SetForegroundColorToRed();
-            printf("Missing file: %s\n", &expanded_filename[i][strlen(webots_home) + 1]);
-            SetForegroundColorToDefault();
-            exit(-1);
-          }
-
-          // read cache file and check MD5 value
-          FILE *cacheFile;
-          char line[256];
-          int maxLen = 256;
-          cacheFile = fopen(project_filename, "r");
-          if (cacheFile == NULL) {
-            SetForegroundColorToRed();
-            printf("Missing file: %s\n", &project_filename[strlen(webots_home) + 1]);
-            SetForegroundColorToDefault();
-            exit(-1);
-          }
-          const char *header = "protoFileHash: ";
-          char md5Sum[33];
-          for (j = 0; j < 16; j++)
-            sprintf(&md5Sum[2 * j], "%02x", md5Value[j]);
-          md5Sum[32] = '\0';
-          while (fgets(line, maxLen, cacheFile) != NULL) {
-            if (strncmp(line, header, strlen(header)) == 0) {
-              if (strncmp(md5Sum, &line[strlen(header)], 32) != 0) {
-                SetForegroundColorToRed();
-                printf("Out-of-date file: %s\n", &project_filename[strlen(webots_home) + 1]);
-                SetForegroundColorToDefault();
-                exit(-1);
-              }
-            }
-          }
-          fclose(cacheFile);
-
 #ifdef _WIN32  // we need to mark this file with the hidden attribute using the Windows C API
           SetFileAttributes(project_filename, FILE_ATTRIBUTE_HIDDEN);
 #endif
