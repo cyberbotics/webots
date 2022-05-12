@@ -170,7 +170,7 @@ void WbTcpServer::closeClient(const QString &clientID) {
 void WbTcpServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   if (socket) {
-    // mWebSocketServer->handleConnection(socket);
+    mWebSocketServer->handleConnection(socket);
     connect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
   }
 }
@@ -200,6 +200,7 @@ void WbTcpServer::onNewTcpData() {
           }
           reply.append("CONNECTED");
           socket->write(reply);
+          disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
           return;
         }
       reply.append("FAILED");
@@ -224,6 +225,7 @@ void WbTcpServer::onNewTcpData() {
         }
         reply.append("CONNECTED");
         socket->write(reply);
+        disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
         return;
       }
       reply.append("FAILED");

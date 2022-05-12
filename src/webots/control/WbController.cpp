@@ -179,10 +179,8 @@ void WbController::updateName(const QString &name) {
 
 void WbController::setTcpSocket(QTcpSocket *socket) {
   mTcpSocket = socket;
-  // qDebug(QString::number(mTcpSocket->state()).toLatin1() + "\n");
-  // qDebug(QString::number(socket->state()).toLatin1() + "\n");
-  qDebug(QVariant(mTcpSocket->isValid()).toString().toLatin1() + "\n");
-  qDebug(QVariant(socket->isValid()).toString().toLatin1() + "\n");
+  printf("Setting socket in controller\n");
+  addRemoteControllerConnection();
 }
 
 void WbController::resetRequestTime() {
@@ -277,9 +275,6 @@ void WbController::start() {
                                                                   mControllerPath);
     mProcess->start(mCommand, mArguments);
   }
-
-  mTcpSocket = new QTcpSocket(this);
-  connect(mTcpSocket, &QTcpSocket::connected, this, &WbController::addRemoteControllerConnection);
 }
 
 void WbController::addLocalControllerConnection() {
@@ -302,7 +297,20 @@ void WbController::addLocalControllerConnection() {
 }
 
 void WbController::addRemoteControllerConnection() {
-  printf("hello world\n");
+  info(tr("connected."));
+  WbControlledWorld::instance()->externConnection(this, true);
+
+  mRobot->setConfigureRequest(true);
+
+  /*// wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
+  // This request is forced because the first packets coming from libController
+  // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
+  while (mTcpSocket->bytesAvailable() == 0)
+    mTcpSocket->waitForReadyRead();
+  readRequest();*/
+  connect(mTcpSocket, &QTcpSocket::readyRead, this, &WbController::readRequest);
+  connect(mTcpSocket, &QTcpSocket::disconnected, this, &WbController::disconnected);
+  // writeAnswer();  // send configure message and immediate answers if any*/
 }
 
 void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value,
