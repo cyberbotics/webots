@@ -1,6 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import {arrayXPointerFloat, arrayXPointerInt, getAnId} from './utils/utils.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -152,7 +152,7 @@ export default class WbCadShape extends WbBaseNode {
         const material = this.scene.materials[mesh.materialindex];
 
         // init from assimp material
-        let pbrAppearance = this.extractAppearance(material);
+        let pbrAppearance = this._createPbrAppearance(material);
         // pbrAppearance->preFinalize();
         // pbrAppearance->postFinalize();
         //
@@ -202,7 +202,7 @@ export default class WbCadShape extends WbBaseNode {
     this.pbrAppearances = [];
   }
 
-  extractAppearance(material) {
+  _createPbrAppearance(material) {
     const properties = new Map(
       material.properties.map(object => {
         if (object.key === '$tex.file')
@@ -261,45 +261,42 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     // initialize maps
-    let baseColorMap
+    let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this.extractImageTexture();
+      baseColorMap = this._createImageTexture(properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this.extractImageTexture();
+      baseColorMap = this._createImageTexture(properties.get(1));
 
-    // if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
-    //   mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
-    // else
-    //   mRoughnessMap = new WbSFNode(NULL);
-    //
-    // if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
-    //   mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
-    // else
-    //   mMetalnessMap = new WbSFNode(NULL);
-    //
-    // if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
-    //   mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
-    // else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
-    //   mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
-    // else
-    //   mNormalMap = new WbSFNode(NULL);
-    //
-    // if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
-    //   mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
-    // else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
-    //   mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
-    // else
-    //   mOcclusionMap = new WbSFNode(NULL);
-    //
-    // if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
-    //   mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
-    // else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
-    //   mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
-    // else
-    //   mEmissiveColorMap = new WbSFNode(NULL);
+    let roughnessMap;
+    if (properties.get(16))
+      roughnessMap = this._createImageTexture(properties.get(16));
+
+    let metalnessMap;
+    if (properties.get(15))
+      metalnessMap = this._createImageTexture(properties.get(15));
+
+    let normalMap;
+    if (properties.get(6))
+      normalMap = this._createImageTexture(properties.get(6));
+    else if (properties.get(13))
+      normalMap = this._createImageTexture(properties.get(13));
+
+    let occlusionMap;
+    if (properties.get(17))
+      occlusionMap = this._createImageTexture(properties.get(17));
+    else if (properties.get(10))
+      occlusionMap = this._createImageTexture(properties.get(10));
+
+    let emissiveColorMap;
+    if (properties.get(14))
+      emissiveColorMap = this._createImageTexture(properties.get(14));
+    else if (properties.get(4))
+      emissiveColorMap = this._createImageTexture(properties.get(4));
+
+    return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, undefined);
   }
 
-  extractImageTexture() {
+  _createImageTexture() {
     // aiString path("");
     // material->GetTexture(textureType, 0, &path);
     // // generate url of texture from url of collada/wavefront file
