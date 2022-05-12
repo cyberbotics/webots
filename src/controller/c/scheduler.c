@@ -48,70 +48,53 @@ GPipe *scheduler_pipe = NULL;
 TcpClient *scheduler_client = NULL;
 char *scheduler_protocol = NULL;
 
-int scheduler_init(const char *pipe) {
-  if (scheduler_protocol == NULL) {
-    fprintf(stderr, "Impossible to connect the controller to Webots: no connection protocol given.\n");
-    exit(EXIT_FAILURE);
+int scheduler_init_remote(const char *host, int port, const char *robot_name) {
+  scheduler_client = tcp_client_new(host, port);
+  if (scheduler_client == NULL)
+    return false;
+
+  char *init_msg = strdup("CTR");
+  if (robot_name != NULL) {
+    strcat(init_msg, "\nRobot-Name: ");
+    strcat(init_msg, &robot_name[1]);
   }
-  if (strncmp(scheduler_protocol, "IPC", 3) == 0) {
-    scheduler_pipe = g_pipe_new(pipe);
-    if (scheduler_pipe == NULL)
-      return false;
-    // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
-    char pipe_buffer[64];
-#ifdef _WIN32
-    sprintf(pipe_buffer, "WEBOTS_PIPE_IN=%d", scheduler_get_pipe_handle());
-    putenv(pipe_buffer);
-#else
-    sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
-    setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
-#endif
-  } else if (strncmp(scheduler_protocol, "TCP", 3) == 0) {
-    const char *url_suffix = strstr(pipe, ":");
-    int host_length = strlen(pipe) - strlen(url_suffix);
-    char *host = malloc(host_length);
-    int port;
+  tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
+  free(init_msg);
 
-    memcpy(host, pipe, host_length);
-    sscanf(url_suffix, ":%d", &port);
-    scheduler_client = tcp_client_new(host, port);
-    free(host);
-
-    if (scheduler_client == NULL)
-      return false;
-
-    const char *robot_name = strstr(url_suffix, "/");
-
-    char *init_msg = strdup("CTR");
-    if (robot_name != NULL) {
-      strcat(init_msg, "\nRobot-Name: ");
-      strcat(init_msg, &robot_name[1]);
-    }
-    tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
-    free(init_msg);
-
-    char ack_msg[20];
-    fprintf(stdout, "Waiting for Webots...\n");
-    tcp_client_receive(scheduler_client, ack_msg, 20);  // wait for ack message from Webots
-    if (strcmp(ack_msg, "CONNECTED") == 0) {
-      fprintf(stdout, "Connection to robot established.\n");
-    } else if (strcmp(ack_msg, "FAILED") == 0) {
-      fprintf(stderr, "%s.\n",
-              robot_name == NULL ? "No robot with <extern> controllers is specified in the Webots simulation.\n" :
-                                   "The specified robot is not in the list of robots with <extern> controllers.\n");
-      exit(EXIT_FAILURE);
-    } else {
-      fprintf(stderr, "Unknown Webots response %s.\n", ack_msg);
-      exit(EXIT_FAILURE);
-    }
-
-    char *test_msg = strdup("TST");
-    tcp_client_send(scheduler_client, test_msg, strlen(test_msg));
-
+  char ack_msg[12];
+  fprintf(stdout, "Waiting for Webots...\n");
+  tcp_client_receive(scheduler_client, ack_msg, 12);  // wait for ack message from Webots
+  if (strncmp(ack_msg, "CONNECTED", 9) == 0) {
+    fprintf(stdout, "Connection to robot established.\n");
+  } else if (strncmp(ack_msg, "FAILED", 6) == 0) {
+    fprintf(stderr, "%s.\n",
+            robot_name == NULL ? "No robot with <extern> controllers is specified in the Webots simulation.\n" :
+                                 "The specified robot is not in the list of robots with <extern> controllers.\n");
+    exit(EXIT_FAILURE);
   } else {
-    fprintf(stderr, "Impossible to connect the controller to Webots: unknown protocol %s.\n", scheduler_protocol);
+    fprintf(stderr, "Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
   }
+
+  scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
+  scheduler_data_size = SCHEDULER_DATA_CHUNK;
+
+  return true;
+}
+
+int scheduler_init_local(const char *pipe) {
+  scheduler_pipe = g_pipe_new(pipe);
+  if (scheduler_pipe == NULL)
+    return false;
+  // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
+  char pipe_buffer[64];
+#ifdef _WIN32
+  sprintf(pipe_buffer, "WEBOTS_PIPE_IN=%d", scheduler_get_pipe_handle());
+  putenv(pipe_buffer);
+#else
+  sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
+  setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
+#endif
 
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;

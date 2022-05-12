@@ -179,7 +179,6 @@ void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->read(3);
-  qDebug(request);
   if (request == "CTR") {
     const QString &line(socket->read(8 * 1024));  // Peek the request header to determine the requested robot.
     QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
