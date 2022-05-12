@@ -203,6 +203,8 @@ public:
   static void enableDefNodeTrackInWrite(bool substituteInStream);
   static void disableDefNodeTrackInWrite();
   static QList<QPair<WbNode *, int>> *externalUseNodesPositionsInWrite();
+  // exports the EXTERNPROTO reference
+  void writeExternProto(WbWriter &writer, QStringList &uniques) const;
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values

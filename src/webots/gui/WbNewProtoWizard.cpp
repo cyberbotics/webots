@@ -373,7 +373,8 @@ void WbNewProtoWizard::updateBaseNode() {
 
   QStringList fieldNames;
   if (topLevel->type() == PROTO_NODE_LIST) {
-    WbProtoModel *protoModel = WbProtoList::instance()->findModel(mBaseNode, WbStandardPaths::projectsPath());
+    WbProtoModel *protoModel =
+      WbProtoList::instance()->customFindModel(mBaseNode, WbStandardPaths::projectsPath());  // TODO: still functional?
     fieldNames = protoModel->parameterNames();
     mIsProtoNode = true;
   } else {

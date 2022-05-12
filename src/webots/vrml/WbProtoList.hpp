@@ -104,10 +104,11 @@ public:
   //  2. The current project's primary search path
   //  3. The system resources
   // if no matching model is found, NULL is returned and the error is notified on WbLog
-  WbProtoModel *findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
+  // WbProtoModel *findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
   WbProtoModel *customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
 
-  WbProtoModel *readModel(const QString &fileName, const QString &worldPath, QStringList baseTypeList = QStringList()) const;
+  WbProtoModel *readModel(const QString &fileName, const QString &worldPath, const QString &externUrl = QString(),
+                          QStringList baseTypeList = QStringList()) const;
 
   // read a proto model and place it in this list
   // prerequisite: the next token must be the "PROTO" keyword in the tokenizer

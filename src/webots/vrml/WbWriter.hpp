@@ -49,8 +49,6 @@ public:
   QHash<QString, QString> texturesList() const { return mTexturesList; }
   void addTextureToList(const QString &url, const QString &fileName) { mTexturesList[url] = fileName; }
 
-  void addExternProto(const QString &protoPath) { mExternProto << protoPath; }
-
   void writeLiteralString(const QString &string);
   void writeMFStart();
   void writeMFSeparator(bool first, bool smallSeparator);
@@ -100,7 +98,6 @@ private:
   QString mFileName;
   Type mType;
   int mIndent;
-  QStringList mExternProto;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
   QHash<QString, QString> mTexturesList;  // this hash represents the list of textures used and their associated filepath
   WbNode *mRootNode;

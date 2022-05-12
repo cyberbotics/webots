@@ -38,7 +38,8 @@ class WbProtoModel : public QObject {
 public:
   // create
   WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName = QString(),
-               QStringList baseTypeList = QStringList());
+               const QString &externPath = QString(),
+               QStringList baseTypeList = QStringList());  // TODO: merge filename & externprotourl
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
@@ -75,6 +76,8 @@ public:
 
   // path of the folder that contains this .proto file e.g. "/home/yvan/develop/webots/projects/robots/softbank/nao/protos/"
   const QString &path() const { return mPath; }
+
+  const QString &externPath() const { return mExternPath; }
 
   // path of the project that contains this .proto file
   const QString projectPath() const;
@@ -123,8 +126,9 @@ private:
   QString mInfo;
   bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
-  QString mFileName;  // .proto file name
-  QString mPath;      // path of .proto file
+  QString mFileName;    // .proto file name
+  QString mPath;        // path of .proto file
+  QString mExternPath;  // path from which it was loaded
   int mRefCount;
   int mAncestorRefCount;
   int mContentStartingLine;

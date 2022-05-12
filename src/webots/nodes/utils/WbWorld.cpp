@@ -249,7 +249,15 @@ bool WbWorld::saveAs(const QString &fileName) {
   WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
+  writer << "\n";  // leave one space between header and body regardless of whether there are externproto or not
   const int count = mRoot->childCount();
+  QStringList uniques;
+  for (int i = 0; i < count; ++i) {
+    mRoot->child(i)->writeExternProto(writer, uniques);
+    if (i == count - 1)
+      writer << "\n";
+  }
+
   for (int i = 0; i < count; ++i) {
     mRoot->child(i)->write(writer);
     writer << "\n";

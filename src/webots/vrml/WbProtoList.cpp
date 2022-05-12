@@ -153,7 +153,8 @@ void WbProtoList::updatePrimaryProtoCache() {
   mPrimaryProtoCache << protosInfo;
 }
 
-WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &worldPath, QStringList baseTypeList) const {
+WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
+                                     QStringList baseTypeList) const {
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName);
   if (errors > 0)
@@ -176,7 +177,7 @@ WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &wor
   bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, baseTypeList);
+    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, externUrl, baseTypeList);
     WbNode::setInstantiateMode(prevInstantiateMode);
     return model;
   } catch (...) {
@@ -185,7 +186,7 @@ WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &wor
   }
 }
 
-void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) {  // TODO: this constructor, still needed?
   WbProtoModel *model = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
   try {
@@ -230,7 +231,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
       url = WbNetwork::instance()->get(url);
     }
     printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-    WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
+    WbProtoModel *model = readModel(url, worldPath, mCurrentProjectProto.value(modelName), baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -241,7 +242,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     if (WbNetwork::instance()->isCached(url)) {
       url = WbNetwork::instance()->get(url);
       printf("%35s is an OFFICIAL proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-      WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, baseTypeList);
+      WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
       if (model == NULL)  // can occur if the PROTO contains errors
         return NULL;
       mModels << model;
@@ -255,6 +256,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   return NULL;
 }
 
+/*
 WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
   // see if model is already loaded
   foreach (WbProtoModel *model, mModels)
@@ -281,6 +283,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
 
   return NULL;  // not found
 }
+*/
 
 QString WbProtoList::findModelPath(const QString &modelName) const {
   QFileInfoList availableProtoFiles;
