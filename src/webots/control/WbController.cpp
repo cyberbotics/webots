@@ -1068,7 +1068,7 @@ void WbController::writeImmediateAnswer() {
 // a Webots packet can be splitted into several datagrams
 void WbController::readRequest() {
   mProcessingRequest = true;
-  if (mSocket == NULL || mRobot == NULL)
+  if ((mSocket == NULL && mTcpSocket == NULL) || mRobot == NULL)
     return;
 
   // concat all the data which has not been parsed
