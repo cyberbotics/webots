@@ -259,7 +259,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     if (!hasBeenSetup()) {
       setup();
-      mHasMemoryMappedFileChanged = true;
+      mSendMemoryMappedFile = true;
     }
 
     return;

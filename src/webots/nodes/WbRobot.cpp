@@ -1503,3 +1503,11 @@ int WbRobot::computeSimulationMode() {
       return WB_SUPERVISOR_SIMULATION_MODE_PAUSE;
   }
 }
+
+void WbRobot::externControllerChanged() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
+  }
+}
