@@ -22,7 +22,6 @@ import re
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
-import copy
 
 SKIPPED_PROTO = ['UsageProfile.proto']
 
@@ -133,6 +132,9 @@ if __name__ == "__main__":
             sub_proto = protos[info.base_type]
             info.base_type = sub_proto.proto_type
 
+    # order based on proto path
+    #protos = sorted(protos.items(), key=lambda x: x[1].path)
+
     # for key, value in protos.items():
     #     if 'Velodyne' in key:
     #         value.print()
@@ -168,11 +170,17 @@ if __name__ == "__main__":
     #     if value.base_type == 'Slot':
     #         value.print()
 
+    # generated a sorted list from the dictionary
+    ordered_protos = sorted([x.path for x in protos.values()])
+
     # generate xml of proto list
     root = ET.Element('proto-list')
     root.set('version', VERSION)
 
-    for key, info in protos.items():
+    for item in ordered_protos:
+        # retrieve proto meta info from dictionary following the alphabetical order of the paths
+        info = protos[os.path.basename(item).replace(".proto", "")]
+
         proto_element = ET.SubElement(root, 'proto')
         name_element = ET.SubElement(proto_element, 'name').text = info.name
         base_node_element = ET.SubElement(proto_element, 'basenode').text = info.base_type
@@ -202,73 +210,3 @@ if __name__ == "__main__":
 
     with open(filename, 'wb') as file:
         file.write(xml_string)
-
-    '''
-    # retrieve all proto and remove exceptions
-    assets = []
-    assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
-    assets = [proto for proto in assets if not any(x in str(proto) for x in SKIPPED_PROTO)]
-
-    # first pass: extract child node from proto itself
-    proto_base_nodes = {}
-    for proto in assets:
-        with open(proto, 'r') as file:
-            contents = file.read()
-
-            #print(proto.stem + ' ', end='')
-            #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
-            child_node = re.search(
-                "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
-            # print(child_node.groups()[-1])
-            proto_base_nodes[proto.stem] = child_node.groups()[-1]
-
-    # second pass: determine actual base node by traversing hierarchy until a valid base node is reached
-    valid_base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
-    for key, value in proto_base_nodes.items():
-        while value not in valid_base_nodes:
-            if value not in proto_base_nodes:
-                raise RuntimeError(f'Error: "{value}" node does not exist. Invalid captures must be occurring in the regex.')
-            value = proto_base_nodes[value]
-            proto_base_nodes[key] = value
-
-    # generate xml of proto list
-    root = ET.Element('proto-list')
-    root.set('version', VERSION)
-
-    for proto in assets:
-        name = proto.stem
-        complete_url = str(proto).replace(WEBOTS_HOME + '/', base_url)
-        base_node = proto_base_nodes[proto.stem]
-        slot_type = parse_proto_body(proto, base_node)
-        license, license_url, description, tags, documentation_url = parse_proto_header(proto)
-
-        proto_element = ET.SubElement(root, 'proto')
-        name_element = ET.SubElement(proto_element, 'name').text = name
-        base_node_element = ET.SubElement(proto_element, 'basenode').text = base_node
-        url_element = ET.SubElement(proto_element, 'url').text = complete_url
-
-        if license is not None:
-            license_element = ET.SubElement(proto_element, 'license').text = license
-        if license_url is not None:
-            license_url_element = ET.SubElement(proto_element, 'license-url').text = license_url
-        # if documentation_url is not None:
-        #    documentation_element = ET.SubElement(proto_element, 'documentation-url').text = documentation_url
-        if description is not None:
-            description_element = ET.SubElement(proto_element, 'description').text = description
-        if tags:
-            tags_element = ET.SubElement(proto_element, 'tags').text = ','.join(tags)
-        if slot_type:
-            slot_element = ET.SubElement(proto_element, 'slot-type').text = slot_type
-
-    # beautify xml
-    tree = ET.ElementTree(root)
-    xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml(encoding='utf-8')
-
-    # save to file
-    filename = f'{WEBOTS_HOME}/resources/proto-list.xml'
-    if (os.path.exists(filename)):
-        os.remove(filename)
-
-    with open(filename, 'wb') as file:
-        file.write(xml_string)
-    '''
