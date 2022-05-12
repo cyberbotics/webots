@@ -170,9 +170,17 @@ if not options.noNetconvert:
     if not os.path.isfile(netConfigurationFile) and tmpDirectory is not None:
         shutil.rmtree(tmpDirectory)
         sys.exit("Could not find any NETCONVERT configuration file (*.netccfg).")
-    if subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
-                       stdout=sys.stdout, stderr=sys.stderr) != 0:
-        sys.exit("NETCONVERT failed to generate the network file.")
+
+    last_line = None
+    with subprocess.Popen([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
+                          stdout=subprocess.PIPE, stderr=sys.stderr) as p:
+        for line in p.stdout:
+            last_line = line.decode()
+            print(last_line, end='')  # redirect to console
+        output, error = p.communicate()  # set return code
+        if p.returncode != 0 and last_line.strip() != 'Success.':  # ignore crash on exit on Ubuntu 22.04
+            sys.exit("NETCONVERT failed to generate the network file.")
+
 
 # this is the normal way of using traci. sumo is started as a
 # subprocess and then the python script connects and runs
