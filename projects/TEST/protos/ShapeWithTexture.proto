@@ -7,7 +7,31 @@ PROTO ShapeWithTexture [
 ]
 {
   Shape {
-    appearance Marble {}
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url [
+          "webots://projects/appearances/protos/textures/marble/marble_base_color.jpg"
+        ]
+      }
+      roughness 1
+      roughnessMap ImageTexture {
+        url [
+          "webots://projects/appearances/protos/textures/marble/marble_roughness.jpg"
+        ]
+      }
+      metalness 0
+      normalMap ImageTexture {
+        url [
+          "webots://projects/appearances/protos/textures/marble/marble_normal.jpg"
+        ]
+      }
+      normalMapFactor 0.2
+      occlusionMap ImageTexture {
+        url [
+          "webots://projects/appearances/protos/textures/marble/marble_occlusion.jpg"
+        ]
+      }
+    }
     geometry Sphere {
     }
   }
