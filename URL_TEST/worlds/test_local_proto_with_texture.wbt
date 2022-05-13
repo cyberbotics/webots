@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithLocalTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithRelativeTexture.proto"
+EXTERNPROTO "webots://URL_TEST/protos/ShapeWithWebTexture.proto"
+EXTERNPROTO "webots://URL_TEST/protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "webots://URL_TEST/protos/ShapeWithAbsoluteTexture.proto"
+EXTERNPROTO "webots://URL_TEST/protos/ShapeWithRelativeTexture.proto"
 
 WorldInfo {
 }

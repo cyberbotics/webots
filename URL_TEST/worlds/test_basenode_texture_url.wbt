@@ -1,10 +1,5 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithLocalTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "webots://projects/TEST/protos/ShapeWithRelativeTexture.proto"
-
 WorldInfo {}
 Viewpoint {
   position -22.547379638610273 -0.029663844872164113 2.901551289070885
@@ -65,7 +60,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "../../appearances/protos/textures/marble/marble_base_color.jpg"
+            "../../projects/appearances/protos/textures/marble/marble_base_color.jpg"
           ]
         }
       }

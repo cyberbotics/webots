@@ -10,7 +10,7 @@ PROTO ShapeWithRelativeTexture [
     appearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "../../appearances/protos/textures/marble/marble_base_color.jpg"
+          "../../projects/appearances/protos/textures/marble/marble_base_color.jpg"
         ]
       }
     }

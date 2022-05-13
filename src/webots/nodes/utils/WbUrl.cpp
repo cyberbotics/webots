@@ -129,7 +129,8 @@ QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QSt
   if (protoAncestor && protoAncestor->proto())
     externPath = protoAncestor->proto()->externPath();
   else
-    assert(0);  // parent is normal node?
+    externPath = "";
+  // assert(0);  // parent is normal node?
 
   if (isLocalUrl(url)) {
     // manipulate url based on whether it's a descendant of a PROTO
@@ -177,7 +178,7 @@ QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QSt
       return newUrl;
     }
 
-    assert(0);  // dunno
+    // assert(0);  // dunno
   }
 
   return missing(url);
