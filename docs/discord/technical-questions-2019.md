@@ -10754,7 +10754,7 @@ it is first time.  i can not open other word or create a new world now. i use th
 ##### David Mansolino [Moderator] 08/12/2019 12:17:49
 Can you please try to stasrt Webots in safe mode: [https://cyberbotics.com/doc/guide/starting-webots#safe-mode](https://cyberbotics.com/doc/guide/starting-webots#safe-mode)
 
-##### Clement 08/12/2019 14:46:50
+##### Deleted User 08/12/2019 14:46:50
 Hi everyone, I am playing with Webots physics/collision system and I'm facing a weird situation. I have a manipulator arm that I control manually through the Webots interface. When I make the arm push an object against a static object (no physic field), at some point the arm starts passing through the object. I was expecting the arm to be blocked. I tried setting the ERP field to 0 but it doesn't fix it. Is it possible to achieve my goal or is this a limitation from ODE ?
 
 ##### Olivier Michel [Cyberbotics] 08/12/2019 14:48:03
@@ -10766,7 +10766,7 @@ Does your static object have a boundingObject?
 
 What do you mean control manually from the Webots interface? If you do that from the scene tree, nothing will prevent you from colliding with objects. You should control your robot from your controller so that the simulation runs and the collision detector works.
 
-##### Clement 08/12/2019 14:52:16
+##### Deleted User 08/12/2019 14:52:16
 Well the static object is a Robot with no boundingObject but it has children which have boundingBox
 
 
@@ -10778,7 +10778,7 @@ Here is a video of the simulation: [https://drive.google.com/file/d/1y7L2c4tgUtV
 ##### David Mansolino [Moderator] 08/12/2019 15:04:45
 Have you tried decreasing the 'basciTimeStep' ? Or the motor acceleration (bedefault motors have an infinite acceleration)
 
-##### Clement 08/12/2019 15:08:00
+##### Deleted User 08/12/2019 15:08:00
 I've tried with 16 and 8ms but I haven't seen any difference.
 
 ##### Olivier Michel [Cyberbotics] 08/12/2019 15:10:07
@@ -10787,7 +10787,7 @@ It looks like the force of the motor is too strong...
 
 Can you reduce the maxTorque value of the motor to see whether it helps?
 
-##### Clement 08/12/2019 15:14:59
+##### Deleted User 08/12/2019 15:14:59
 indeed it was set to 10000!!
 
 
@@ -11738,13 +11738,13 @@ The Webots motion file mechanism aims to play back a stored motion in simulation
 ##### Smruti 08/29/2019 14:48:48
 okay thank you
 
-##### ClLebi 08/29/2019 15:21:59
+##### Deleted User 08/29/2019 15:21:59
 Hi, 
 
 Do you guys have a github where I can find an example of custom ROS controller written in C++ ? I've red in the Guide that it's possible ("It is possible to implement such a ROS node in C++ using the "roscpp" library on Linux and macOS. However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.") and I wonder if there is an example ? Thanks a lot ! I discovered Webots yersterday and I love it !
 
 ##### David Mansolino [Moderator] 08/29/2019 15:37:42
-Hi `@ClLebi`
+Hi `@Deleted User`
 
 
 We are recently doing a lots of progress on this topic. On our main github repo you can find the source of the default ros controller: [https://github.com/omichel/webots/tree/revision/projects/default/controllers/ros](https://github.com/omichel/webots/tree/revision/projects/default/controllers/ros)
@@ -11753,7 +11753,7 @@ This default controller can then be used as a base to create your own C++ ROS co
 
 Another possibility is to use the python API, we have a very simple example of this here: [https://github.com/omichel/webots/tree/revision/projects/languages/ros/controllers/ros\_python](https://github.com/omichel/webots/tree/revision/projects/languages/ros/controllers/ros_python)
 
-##### ClLebi 08/29/2019 15:41:29
+##### Deleted User 08/29/2019 15:41:29
 Thank you ! I tested with the Python but I'm working with LiDAR and it's too slow for me !
 
 
@@ -11776,34 +11776,34 @@ This package is released with ros and is documented here: [http://wiki.ros.org/w
 
 In that case C++ is indeed most probably the way to go. But make sure before that your GPU is powerful enough and your GPU drivers are up to date (this can drastically influence the simulation speed when using lidars).
 
-##### ClLebi 08/29/2019 15:44:48
+##### Deleted User 08/29/2019 15:44:48
 Yes I'm using it but I'm trying to have a ROS C++ controller for my robot to control topics, datatypes (like using PointCloud2 instead of PointCloud for LiDAR)
 
 ##### David Mansolino [Moderator] 08/29/2019 15:45:28
 Ok then creating your custom ros controller seems indeed the way to go.
 
-##### ClLebi 08/29/2019 15:59:43
+##### Deleted User 08/29/2019 15:59:43
 Based on the ros\_automobile example I successfully compiled my ros controller ! Thank you David !
 
 ##### David Mansolino [Moderator] 08/29/2019 16:03:44
 Very good news! You're welcome !
 
-##### ClLebi 08/29/2019 17:06:48
+##### Deleted User 08/29/2019 17:06:48
 Another question, I added the "--synchronize --clock --use-sim-time" args on  controllerArgs but still no /clock published. Is there any line to add in my controller to take this controllerArgs into account ?
 
 
 (Of course the use\_sim\_time rosparam is set to true)
 
 ##### David Mansolino [Moderator] 08/30/2019 06:30:25
-`@ClLebi`, no you should not need to change anything to your controller. The `launchRos` function will parse the arguments and publish the clock if needed: [https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132](https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132)
+`@Deleted User`, no you should not need to change anything to your controller. The `launchRos` function will parse the arguments and publish the clock if needed: [https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132](https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132)
 
 Can you please check if you have the same problem with the default ros controller?
 
-##### ClLebi 08/30/2019 09:05:52
+##### Deleted User 08/30/2019 09:05:52
 I didn't use launchRos in my controller, I'll test it
 
 ##### David Mansolino [Moderator] 08/30/2019 10:20:34
-`@ClLebi` if you call the ``ROS::run`` function the ``launchRos`` function is called automatically.
+`@Deleted User` if you call the ``ROS::run`` function the ``launchRos`` function is called automatically.
 
 ## September
 
@@ -12334,7 +12334,7 @@ Awesome, it really work. The overlapping problem is improved a lot. Thanks.
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:42:22
 To go deeper; this value is directly responsible of the physics engine accuracy. the smaller it is, the more physics steps there is per seconds. As our physics engine works with discrete steps, some penetration is required to be able to detect a collision. In any case, a penetration exists in such physics engine. It can only be reduced.
 
-##### ClLebi 09/04/2019 09:45:30
+##### Deleted User 09/04/2019 09:45:30
 Hi guys, I'm wondering if it's possible to change the world frame to have Z in up direction ? In my point of view it's weird to have Y up, and we make some mistakes using IMU etc ...
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:46:46
@@ -12352,13 +12352,13 @@ One thing to know is that the the WorldInfo.gravity vector should be changed acc
 
 Several computation (like the main viewpoint movements) are computed thanks to this vector.
 
-##### ClLebi 09/04/2019 09:48:52
+##### Deleted User 09/04/2019 09:48:52
 Nice ! I didn't know we have only this parameter to change !
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:49:55
 We choose y-axis up because it's in the VRML and X3D specification. So the geometric primitives are working directly (without transformation). Otherwise, we have to rotate all the plans and elevation grids for example.
 
-##### ClLebi 09/04/2019 09:59:10
+##### Deleted User 09/04/2019 09:59:10
 I got it !
 
 ##### SamSmurfitt 09/04/2019 14:00:45
@@ -12402,7 +12402,7 @@ ok thanks, looks like Ive got it working
 ##### David Mansolino [Moderator] 09/04/2019 15:32:50
 Perfect 🙂
 
-##### Clement 09/04/2019 16:02:11
+##### Deleted User 09/04/2019 16:02:11
 Hi guys, is there a way to constrain a robot to follow a curved rail and command its position along it ?
 
 
@@ -12420,7 +12420,7 @@ Do you need physics on the cube?
 
 i.e. Could a kinematic motion do the job?
 
-##### Clement 09/04/2019 16:08:19
+##### Deleted User 09/04/2019 16:08:19
 No,  the cube would just be a support for a robotic arm
 
 
@@ -12432,7 +12432,7 @@ In Webots we usually differentiate kinematics vs physics motions, respecively wi
 
 You may achieve results by removing physics from the solid and by moving the box using a Supervisor.
 
-##### Clement 09/04/2019 16:22:11
+##### Deleted User 09/04/2019 16:22:11
 ok I understand. And using the physics engine I'll have to represent all the mecanism of the moving part ?
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 16:24:56
@@ -12450,7 +12450,7 @@ then, you can move the 2 sliders in order to match your path, this will move the
 
 Could this match your expectations?
 
-##### Clement 09/04/2019 16:31:24
+##### Deleted User 09/04/2019 16:31:24
 you're speaking about SliderJoint ?
 
 
@@ -12846,7 +12846,7 @@ Or maybe, you want to teleport the robot? In this case, you should refer to:
 
 [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#resetting-the-robot](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#resetting-the-robot)
 
-##### Clement 09/11/2019 09:35:27
+##### Deleted User 09/11/2019 09:35:27
 Hi guys, I'm wondering if its possible to deform a mesh during a simulation
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 09:36:14
@@ -12858,13 +12858,13 @@ this is for example used in this example to draw the trail: [https://cyberbotics
 
 or here: [https://www.youtube.com/watch?v=OKxdaNqmQco](https://www.youtube.com/watch?v=OKxdaNqmQco)
 
-##### Clement 09/11/2019 09:41:16
+##### Deleted User 09/11/2019 09:41:16
 Wow cool! Is it possible to do this from the physics plugin ? The idea is to compute the deformation in the physics plugin through an external library and  modify the mesh accordingly.
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 09:42:12
 the physics plugin has only access to ODE, not the graphical parts.
 
-##### Clement 09/11/2019 09:45:17
+##### Deleted User 09/11/2019 09:45:17
 Ok I see. I think I've seen somewhere in the doc that the physics plugin can "speak" with a controller through an emiter/receiver. Is that right ?
 
 
@@ -12876,7 +12876,7 @@ Yes, exactly.
 
 You physics plugin may transmit instructions to a Supervisor.
 
-##### Clement 09/11/2019 09:49:32
+##### Deleted User 09/11/2019 09:49:32
 Nice, I'll try this. Thanks a lot for your answers !
 
 ##### SamSmurfitt 09/11/2019 11:41:13
@@ -12948,7 +12948,7 @@ hi -- is it possible to remove a joint/motor during simulation?
 ##### David Mansolino [Moderator] 09/12/2019 06:21:06
 Hi `@Edit` , yes you can use the Supervisor API ([https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)) to change the structure of your robot during the simulation, however new devices (such motors) requires that you reboot the controller (also feasible with the Supervisor API). Another alternative would be to use connectors: [https://cyberbotics.com/doc/reference/connector](https://cyberbotics.com/doc/reference/connector)
 
-##### Gaarci 09/13/2019 12:51:24
+##### Deleted User 09/13/2019 12:51:24
 Hey everyone, I'm working with clement and I've been trying to implements the "supervisor approach"  to deform a mesh (like this video) [https://www.youtube.com/watch?v=OKxdaNqmQco](https://www.youtube.com/watch?v=OKxdaNqmQco)
 
 
@@ -12966,7 +12966,7 @@ How did you get something so smooth ? Also, why do C++ supervisor seems to be so
 ##### David Mansolino [Moderator] 09/13/2019 13:11:44
 Hi Gaarci. Changing the vertices at each step is computationnally expensive on the Webots side and it seems 'normal' that you have a slow simulation speed. But this might also depend on the field you are changing, is it a field of a PROTO? About the C++, it is very strange as the C++ API is just a wrapper for the C API, is it possible to share your simulation/controller so that we can check if there is a way to speed this up ?
 
-##### Gaarci 09/13/2019 13:25:57
+##### Deleted User 09/13/2019 13:25:57
 Thank you a lot for the response !
 
 
@@ -12990,19 +12990,19 @@ Ok thank you, everything seems correct with your world and controllers.
 
 I will try to run them (a bite later in the afternoon) and let you know if a see any possible optimization.
 
-##### Gaarci 09/13/2019 13:33:04
+##### Deleted User 09/13/2019 13:33:04
 Ok, thank you a lot for the time you took to respond an help me !
 
 ##### David Mansolino [Moderator] 09/13/2019 13:34:04
 You're welcome
 
 
-`@Gaarci` , I have made several test and I can explain the difference you get between the C and C++ versions, it is because of the time step, in the C version you define the time step using a #define to be 64. But in the C++ version you use the  world time step (getBasicTimeStep()) which is equal to 8. therefore your C++ controller makes 4 times more steps than the equivalent C version. I have tested to use 64 in both and the simulation speed is very similar.
+`@Deleted User` , I have made several test and I can explain the difference you get between the C and C++ versions, it is because of the time step, in the C version you define the time step using a #define to be 64. But in the C++ version you use the  world time step (getBasicTimeStep()) which is equal to 8. therefore your C++ controller makes 4 times more steps than the equivalent C version. I have tested to use 64 in both and the simulation speed is very similar.
 
 
 About optimizing the simulation speed, unfortunately I don't see any simple solution for this, maybe my collegue `@Fabien Rohrer` (who originally did the video you are refeering to) has some idea, but he is out of the office today, I will ask him next week.
 
-##### Gaarci 09/13/2019 15:01:08
+##### Deleted User 09/13/2019 15:01:08
 Oh, I'm so sorry, it's such a stupid mistake !
 
 
@@ -13312,7 +13312,7 @@ streamVelocityField.setSFVec3f([0.0, 0.0, math.sin(time)])
 
 I'll try it.
 
-##### ClLebi 09/19/2019 15:03:25
+##### Deleted User 09/19/2019 15:03:25
 Hi guys ! Has anyone succeed to link new ros msg in controller ? Like nav\_msgs that is not in webots/projects/default/controllers/ros/include
 
 
@@ -13324,7 +13324,7 @@ What has to be done in the Makefile to link properly ros, tf, etc ?
 ##### David Mansolino [Moderator] 09/19/2019 15:45:25
 Hi, you probably want to have a look at this example controller that is extending the default ros controller of Webots: [https://github.com/cyberbotics/webots/tree/revision/projects/vehicles/controllers/ros\_automobile](https://github.com/cyberbotics/webots/tree/revision/projects/vehicles/controllers/ros_automobile)
 
-##### ClLebi 09/19/2019 15:55:43
+##### Deleted User 09/19/2019 15:55:43
 Yes I've already seen this, the problem is that it links webots-ros, not real ros
 
 
@@ -13335,7 +13335,7 @@ You're right, one possible solution would be to add the includes and libraries  
 
 [https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/controllers/ros\_automobile/Makefile#L53](https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/controllers/ros_automobile/Makefile#L53)
 
-##### ClLebi 09/19/2019 16:14:58
+##### Deleted User 09/19/2019 16:14:58
 It's what I did but I have a boost error : In file included from /usr/include/boost/thread/detail/move.hpp:12:0,
 
                  from /usr/include/boost/thread/lock\_types.hpp:11,
@@ -13373,7 +13373,7 @@ Hi I Just Got A WebBot
 I Need Some Help...
 
 ##### David Mansolino [Moderator] 09/20/2019 06:19:29
-`@ClLebi` 
+`@Deleted User` 
 
 > May be because ros boost is different than the version used to create webots deb ...
 
@@ -14867,7 +14867,7 @@ I didnt generate the project. I am gonna check the default one. Thanks Oliver Mi
 
 You are right. It works on the default epuck project.
 
-##### ClLebi 10/11/2019 17:47:22
+##### Deleted User 10/11/2019 17:47:22
 Hi Guys, I'm wondering if it's possible to have a Collision sensor without generating a collision. Like a box sensor that say : There is something in me without using radar or lidar or camera etc. Juste a Collision sensor without generating collision ?
 
 ##### JoHn 10/11/2019 19:49:06
@@ -14885,7 +14885,7 @@ But this begs the question as to why I was unable to specify the resolution in t
 Can I mirror a component?
 
 ##### Olivier Michel [Cyberbotics] 10/14/2019 06:09:23
-`@ClLebi`: yes, this is possible, you will have to program it from a physics plugin, detect the collision, then remove it, so that it won't be taken into account by the physics engine.
+`@Deleted User`: yes, this is possible, you will have to program it from a physics plugin, detect the collision, then remove it, so that it won't be taken into account by the physics engine.
 
 
 `@JoHn`: what you want to do is possible. I see no problem doing that. Did you try to do it? Did you experienced any problem?
@@ -16424,13 +16424,13 @@ Thank you very much !
 ##### Fabien Rohrer [Moderator] 10/30/2019 13:27:55
 you're welcome. Give us some news 🙂
 
-##### RenardBleu 10/31/2019 09:08:51
+##### Deleted User 10/31/2019 09:08:51
 Hello
 
 ##### David Mansolino [Moderator] 10/31/2019 09:09:12
-Hi `@RenardBleu`
+Hi `@Deleted User`
 
-##### RenardBleu 10/31/2019 09:09:28
+##### Deleted User 10/31/2019 09:09:28
 Is there some way to clear a "display" via a controller ?
 
 
@@ -16445,7 +16445,7 @@ Yes of course, you can draw a rectangle with the same size than the e-puck with 
 
 This is done for example in the 'display' sample, see for example: [https://github.com/cyberbotics/webots/blob/revision/projects/samples/devices/controllers/display/display.c#L111](https://github.com/cyberbotics/webots/blob/revision/projects/samples/devices/controllers/display/display.c#L111)
 
-##### RenardBleu 10/31/2019 09:13:03
+##### Deleted User 10/31/2019 09:13:03
 It's working ! Thank you a lot ! 😄
 
 ##### David Mansolino [Moderator] 10/31/2019 09:13:13

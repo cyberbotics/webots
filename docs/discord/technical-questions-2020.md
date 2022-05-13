@@ -4185,21 +4185,21 @@ VRML does not contain data about physics, and meshes are not very stable in Webo
 ##### sunnyjerai 02/19/2020 13:52:07
 Okay, understood. You've been of  great help. Thank you `@Fabien Rohrer`
 
-##### Ultra\_LcD 02/19/2020 14:39:53
+##### Deleted User 02/19/2020 14:39:53
 Hello first time here ! I'm newbee in ros2 and webots, I have a proble with my install. The error said : Webots not found, you should either define "ROS2\_WEBOTS\_HOME", "WEBOTS\_HOME" or install the "webots\_ros2\_desktop" package.
 
 Anybody have an idea ?
 
 ##### David Mansolino [Moderator] 02/19/2020 15:08:37
-Hi `@Ultra_LcD` wehlcome! How did you install the webots\_ros2 package? from sources or from APT ?
+Hi `@Deleted User` wehlcome! How did you install the webots\_ros2 package? from sources or from APT ?
 
-##### Ultra\_LcD 02/19/2020 15:09:37
+##### Deleted User 02/19/2020 15:09:37
 From the package manager
 
 ##### David Mansolino [Moderator] 02/19/2020 15:10:35
 Ok, the webots\_ros package doesn't include the Webots simulator (to be installed seperately), the simplest solution is to install the `webots_ros2_desktop` package from the package manager.
 
-##### Ultra\_LcD 02/19/2020 15:14:23
+##### Deleted User 02/19/2020 15:14:23
 It's already done, I found the solution.  I've manually set the environment variable: export ROS2\_WEBOTS\_HOME=/usr/local/webots
 
 ##### David Mansolino [Moderator] 02/19/2020 15:20:41
@@ -4208,7 +4208,7 @@ This is indeed one possible solution!
 
 Just for information, we are currently improving a lot the Webots-ROS2 interface, to have the latest improvement you can build the packages from sources from here: [https://github.com/cyberbotics/webots\_ros2.git](https://github.com/cyberbotics/webots_ros2.git)
 
-##### Ultra\_LcD 02/19/2020 15:22:46
+##### Deleted User 02/19/2020 15:22:46
 Ok, thank you for the help 😀
 
 ##### David Mansolino [Moderator] 02/19/2020 15:22:53
@@ -4851,11 +4851,11 @@ How I want to extract translation and rotation value while it's autonomously mov
 
        rotat = robotRotationField.getSFRotation()
 
-##### Wilhelm Saibot 02/25/2020 22:55:23
+##### Heat Saibot 02/25/2020 22:55:23
 I have a general question. What is the most accurate value for columb friction to simulate?
 
 ##### David Mansolino [Moderator] 02/26/2020 06:44:00
-`@Wilhelm Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
+`@Heat Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
 
 
 `@coderrr`, no. You should set the aperture from the scene-tree you can't change it from the API.
@@ -14386,7 +14386,7 @@ Not to a transform, but to a Solid node yes, the Supervisor can do this: [https:
 
 Thank you 👌, it was also one of my intuitions but was not sure if webots disable something to record videos.
 
-##### Алексей Александрович 05/12/2020 10:30:58
+##### Алексей Поляков 05/12/2020 10:30:58
 Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
 ##### jomell310 05/12/2020 11:20:46
@@ -14397,7 +14397,7 @@ Hello, I am programming robots in the Webots simulator. There is an example of a
 ##### David Mansolino [Moderator] 05/12/2020 11:39:53
 > Hello, I am programming robots in the Webots simulator. There is an example of a radar "radar.wbt", it is written in C++, is there an example of programming radar in Python?
 
-`@Алексей Александрович` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
+`@Алексей Поляков` the example is written in C indeed, however, the Python radar API is available here and works almost the same way as for the other devices: [https://cyberbotics.com/doc/reference/radar?tab-language=python](https://cyberbotics.com/doc/reference/radar?tab-language=python)
 
 
 > `@David Mansolino` Okay, so I do I need to setup anything? Because right now even if I run the sample project obstacle\_avoidance the simulation doesn't stop after the robot has crossed the line or crashed into something. In the console it says that the supervisor has been started though but It's not doing anything else
@@ -24031,7 +24031,7 @@ Yes exactly
 
 `@David Mansolino`  thanks , will try it out 👍
 
-##### Zeynep Öktem 07/06/2020 11:18:18
+##### Zeynep 07/06/2020 11:18:18
 Hi. I want to run the example of the Irb robot but I get this error:
 
 
@@ -24043,7 +24043,7 @@ Hi. I want to run the example of the Irb robot but I get this error:
 ##### David Mansolino [Moderator] 07/06/2020 11:19:16
 which version of ikpy and python are you using?
 
-##### Zeynep Öktem 07/06/2020 11:19:35
+##### Zeynep 07/06/2020 11:19:35
 pytho 3.7
 
 
@@ -24056,7 +24056,7 @@ Can you try applying this patch to your controler?
 
 [https://github.com/cyberbotics/webots/pull/1782/files](https://github.com/cyberbotics/webots/pull/1782/files)
 
-##### Zeynep Öktem 07/06/2020 11:24:33
+##### Zeynep 07/06/2020 11:24:33
 I will try, thank you
 
 
@@ -24067,7 +24067,7 @@ That's strange because another user reported the exact same issue and for him it
 
 Are you sure you changed the correct file and it is this one that is been used?
 
-##### Zeynep Öktem 07/06/2020 12:01:01
+##### Zeynep 07/06/2020 12:01:01
 Yes. I tried it on two different computers to make sure.
 
 ##### David Mansolino [Moderator] 07/06/2020 12:02:07
@@ -24075,13 +24075,13 @@ Ok, thank you for checking it. Can I ask you to test with a beta version of R202
 
 [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### Zeynep Öktem 07/06/2020 12:03:54
+##### Zeynep 07/06/2020 12:03:54
 Of course, I will try
 
 ##### David Mansolino [Moderator] 07/06/2020 12:04:05
 Perfect, let us know
 
-##### Zeynep Öktem 07/06/2020 12:53:05
+##### Zeynep 07/06/2020 12:53:05
 Thank you so much. It worked in this version.
 
 ##### David Mansolino [Moderator] 07/06/2020 12:53:20
