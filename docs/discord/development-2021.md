@@ -2840,7 +2840,7 @@ Hi guys. I create a simply webots  controller for my baby two-wheels car. I add 
 
 Did I miss something?
 
-##### Benjamin Hug [Cyberbotics] 12/01/2021 13:11:23
+##### Benjamin Hug [Moderator] 12/01/2021 13:11:23
 `LIBRARIES +=` instead of `LIBRARIES =` might be a solution.
 
 ##### tenglvjun 12/01/2021 13:15:53
