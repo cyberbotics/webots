@@ -335,7 +335,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   assert(robot);
   const int robotId = robot->uniqueId();
   const int size = mControllers.size();
-  bool paused = WbSimulationState::instance()->isPaused();
+  const bool paused = WbSimulationState::instance()->isPaused();
   const QString &newControllerName = robot->controllerName();
 
   for (WbController *controller : mExternControllers) {
@@ -391,9 +391,9 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       assert(showControllersLists("started " + newControllerName));
       return;
     }
-    assert(false);
   }
-  if (size == 0 && newControllerName == "<none>") {
+  assert(size == 0);
+  if (newControllerName == "<none>") {
     robot->setControllerStarted(false);
     return;
   }
@@ -424,7 +424,8 @@ void WbControlledWorld::externConnection(WbController *controller, bool connect)
            controllerInOnlyOneList(controller));
     mControllers.removeOne(controller);
     mExternControllers.append(controller);
-    pauseStepTimer();
+    if (controller->robot()->synchronization())
+      pauseStepTimer();
   }
 }
 
