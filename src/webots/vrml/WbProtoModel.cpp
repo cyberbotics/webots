@@ -119,8 +119,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url instead,
   // by doing so the location of the controllers can be inferred from the remote url
   mExternPath = externPath;
-  mExternPath =
-    mExternPath.replace(WbStandardPaths::webotsHomePath(), "webots://");  // TODO: ok to do this here? or pass original?
+  // mExternPath =
+  //  mExternPath.replace(WbStandardPaths::webotsHomePath(), "webots://");  // TODO: ok to do this here? or pass original?
   if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
     mFileName = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
     mPath = QUrl(mFileName).adjusted(QUrl::RemoveFilename).toString();
