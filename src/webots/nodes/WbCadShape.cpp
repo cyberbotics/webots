@@ -615,9 +615,15 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
   for (QString material : objMaterialList(completeUrl)) {
-    QString completeMaterial = prefix + '/' + material;
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(completeMaterial);
-    writer.addResourceToList(completeMaterial, completeMaterial);
+    QString newUrl;
+    if (writer.isWritingToFile())
+      newUrl = WbUrl::exportResource(this, material, WbUrl::computePath(this, "url", mUrl, 0), writer.relativeMeshesPath(),
+                                     writer, false);
+    else
+      newUrl = prefix + '/' + material;
+
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(newUrl);
+    writer.addResourceToList(newUrl, newUrl);
   }
 
   urlFieldCopy.write(writer);
