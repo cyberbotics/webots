@@ -371,9 +371,8 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       mWaitingControllers.removeOne(controller);
       mControllers.removeOne(controller);
       assert(newControllerName != controller->name());
-      if (newControllerName == "<none>" || newControllerName == "<extern>")
-        WbLog::info(
-          tr("Terminating \"%1\" controller for robot \"%2\".").arg(controller->name()).arg(controller->robot()->name()));
+      if (newControllerName == "<extern>")
+        WbLog::info(tr("Terminating extern controller for robot \"%2\".").arg(controller->robot()->name()));
       delete controller;
       assert(controllerInNoList(controller));
       if (newControllerName == "<none>") {
@@ -392,14 +391,19 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       assert(showControllersLists("started " + newControllerName));
       return;
     }
+    assert(false);
   }
-
-  if (newControllerName.isEmpty())
+  if (size == 0 && newControllerName == "<none>") {
+    robot->setControllerStarted(false);
     return;
+  }
 
   // The controller has never been created. Creates a new one
   WbController *const controller = new WbController(robot);
-  if (paused)  // step finished
+  if (newControllerName == "<extern>") {
+    mExternControllers.append(controller);
+    controller->start();
+  } else if (paused)  // step finished
     mWaitingControllers.append(controller);
   else  // step executing
     mNewControllers.append(controller);
@@ -485,7 +489,7 @@ bool WbControlledWorld::showControllersLists(const QString &message) {
   /*
   qDebug() << message << mControllers.count() << mNewControllers.count() << mWaitingControllers.count()
            << mTerminatingControllers.count() << mExternControllers.count();
-           */
+  */
   return true;
 }
 #endif
