@@ -44,6 +44,14 @@ else:
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     VERSION = file.readline().strip()
 
+# list of devices and regex to match if any of them is present
+devices = ['Brake', 'LinearMotor', 'PositionSensor', 'RotationalMotor', 'Skin', 'Accelerometer', 'Altimeter', 'Camera',
+           'Compass', 'Compass', 'Display', 'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar',
+           'LightSensor', 'Pen', 'Radar', 'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'Track']
+
+regex_device = [rf'\s+{device}\s*' for device in devices]
+regex_device = "(" + "|".join(regex_device) + ")"
+
 
 class ProtoInfo:
     def __init__(self, path, name):
@@ -58,50 +66,54 @@ class ProtoInfo:
         self.tags = []
         # exclusive to slots
         self.slot_type = None
+        self.needs_robot_ancestor = False
+
+        # file contents to avoid reading multiple times
+        with open(self.path, 'r') as file:
+            self.contents = file.read()
+            self.lines = self.contents.split('\n')
 
         self.parse_header()
         self.parse_body()
 
     def parse_header(self):
-        # TODO: if space between "license" and ":"?
-        with open(self.path, 'r') as file:
-            lines = file.readlines()
+        for line in self.lines:
+            if not line.startswith('#'):
+                break
 
-            for line in lines:
-                if not line.startswith('#'):
-                    break
-
-                clean_line = line[1:].strip()
-                if clean_line.startswith('VRML_SIM') or re.search('template language\s*:', clean_line):
-                    continue
-                elif re.search('license\s*:', clean_line):
-                    self.license = re.sub('license\s*:', '', clean_line).strip()
-                elif re.search('license url\s*:', clean_line):
-                    self.license_url = re.sub('license url\s*:', '', clean_line).strip()
-                elif re.search('documentation url\s*:', clean_line):
-                    self.documentation_url = re.sub('documentation url\s*:', '', clean_line).strip()
-                elif re.search('tags\s*:', clean_line):
-                    tags = re.sub('tags\s*:', '', clean_line).strip().split(',')
-                    self.tags = [tag.strip() for tag in tags]
-                else:
-                    self.description += clean_line.strip() + '\\n'
+            clean_line = line[1:].strip()
+            if clean_line.startswith('VRML_SIM') or re.search('template language\s*:', clean_line):
+                continue
+            elif re.search('license\s*:', clean_line):
+                self.license = re.sub('license\s*:', '', clean_line).strip()
+            elif re.search('license url\s*:', clean_line):
+                self.license_url = re.sub('license url\s*:', '', clean_line).strip()
+            elif re.search('documentation url\s*:', clean_line):
+                self.documentation_url = re.sub('documentation url\s*:', '', clean_line).strip()
+            elif re.search('tags\s*:', clean_line):
+                tags = re.sub('tags\s*:', '', clean_line).strip().split(',')
+                self.tags = [tag.strip() for tag in tags]
+            else:
+                self.description += clean_line.strip() + '\\n'
 
     def parse_body(self):
         # determine proto type (base type can be inferred only when all proto_types are known)
-        with open(self.path, 'r') as file:
-            contents = file.read()
+        #print(proto.stem + ' ', end='')
+        #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
+        # child_node = re.search(
+        #    "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
+        child_node = re.search(
+            '(?:\]\s*\n*)\{\n*\s*(?:\%\<[\s\S]*?(?:\>\%\n*\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{', self.contents)
+        # print(child_node.groups()[-1])
+        self.proto_type = child_node.groups()[-1]
 
-            #print(proto.stem + ' ', end='')
-            #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
-            # child_node = re.search(
-            #    "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
-            child_node = re.search(
-                '(?:\]\s*\n*)\{\n*\s*(?:\%\<[\s\S]*?(?:\>\%\n*\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{', contents)
-            # print(child_node.groups()[-1])
-            self.proto_type = child_node.groups()[-1]
+    def check_robot_ancestor_requirement(self):
+        global regex_device
+        if self.proto_type in ['Solid', 'Transform', 'Group']:
+            # check if contains devices
+            if re.search(regex_device, self.contents):
+                self.needs_robot_ancestor = True
 
-    def print(self):
-        print(f'{self.name}: {self.path}\n     ({self.proto_type}) -> ({self.base_type}) / {self.slot_type}')
 
 
 if __name__ == "__main__":
@@ -122,7 +134,6 @@ if __name__ == "__main__":
     base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
     # determine base_type from proto_type
     for key, info in protos.items():
-
         info.base_type = info.proto_type
         while info.base_type not in base_nodes:
             # the current proto depends on a sub-proto, so iterate over it until a base node is reached
@@ -131,6 +142,12 @@ if __name__ == "__main__":
                     f'Error: "{info.base_type}" proto node does not exist. Either it was skipped or the regex that retrieves the type is incorrect.')
             sub_proto = protos[info.base_type]
             info.base_type = sub_proto.proto_type
+
+    # all Solid, Transform and Group nodes might in fact be a collection of devices, so determine if it needs a Robot ancestor
+    for key, info in protos.items():
+        if info.name in ['FlowerPot', 'MercedesBenzSprinterMesh']:
+            continue # TODO: transform to obj!
+        info.check_robot_ancestor_requirement()
 
     # order based on proto path
     #protos = sorted(protos.items(), key=lambda x: x[1].path)
@@ -147,24 +164,23 @@ if __name__ == "__main__":
             current_proto = info
             while not found:
                 # check if the node defines a type
-                with open(current_proto.path, 'r') as file:
-                    matches = re.findall("type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"", file.read())
-                    if len(matches) > 0:
-                        info.slot_type = matches[0]  # we are interested in the first Slot, if multiple exist
-                        found = True
-                    else:
-                        # if this proto depends on a sub-proto, the type might be defined there instead
-                        if current_proto.proto_type in base_nodes:
-                            if current_proto.proto_type == "Slot":
-                                info.slot_type = ''  # default value of the 'type' field in a Slot node
-                                found = True
-                            else:
-                                raise RuntimeError(f'Reached a non-Slot base node. This should not be possible.')
+                matches = re.findall("type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"", current_proto.contents)
+                if len(matches) > 0:
+                    info.slot_type = matches[0]  # we are interested in the first Slot, if multiple exist
+                    found = True
+                else:
+                    # if this proto depends on a sub-proto, the type might be defined there instead
+                    if current_proto.proto_type in base_nodes:
+                        if current_proto.proto_type == "Slot":
+                            info.slot_type = ''  # default value of the 'type' field in a Slot node
+                            found = True
                         else:
-                            if current_proto.proto_type in protos:
-                                current_proto = protos[current_proto.proto_type]  # go one level deeper
-                            else:
-                                raise RuntimeError(f'Sub-proto "{current_proto.proto_type}" is not a known proto.')
+                            raise RuntimeError(f'Reached a non-Slot base node. This should not be possible.')
+                    else:
+                        if current_proto.proto_type in protos:
+                            current_proto = protos[current_proto.proto_type]  # go one level deeper
+                        else:
+                            raise RuntimeError(f'Sub-proto "{current_proto.proto_type}" is not a known proto.')
 
     # for key, value in protos.items():
     #     if value.base_type == 'Slot':
@@ -191,12 +207,14 @@ if __name__ == "__main__":
             license_url_element = ET.SubElement(proto_element, 'license-url').text = info.license_url
         # if info.documentation_url is not None:
         #    documentation_element = ET.SubElement(proto_element, 'documentation-url').text = info.documentation_url
-        if info.description is not None:
+        if info.description != '':
             description_element = ET.SubElement(proto_element, 'description').text = info.description
         if info.slot_type is not None:
             slot_element = ET.SubElement(proto_element, 'slot-type').text = info.slot_type
         if info.tags:
             tags_element = ET.SubElement(proto_element, 'tags').text = ','.join(info.tags)
+        if info.needs_robot_ancestor:
+            robot_ancestor_element = ET.SubElement(proto_element, 'needs-robot-ancestor').text = 'true'
 
     # beautify xml
     tree = ET.ElementTree(root)

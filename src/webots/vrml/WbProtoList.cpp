@@ -340,6 +340,7 @@ void WbProtoList::setupKnownProtoList() {
     if (reader.name().toString() == "proto-list") {
       while (reader.readNextStartElement()) {
         if (reader.name().toString() == "proto") {
+          bool needsRobotAncestor = false;
           QString name, url, basenode, license, licenseUrl, description, slotType;
           QStringList tags;
           while (reader.readNextStartElement()) {
@@ -376,11 +377,17 @@ void WbProtoList::setupKnownProtoList() {
               tags = reader.readElementText().split(',', Qt::SkipEmptyParts);
               reader.readNext();
             }
+            if (reader.name().toString() == "needs-robot-ancestor") {
+              needsRobotAncestor = reader.readElementText() == "true";
+              reader.readNext();
+            }
           }
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
           //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
-          mOfficialProtoList.insert(name, new WbProtoInfo(url, basenode, license, licenseUrl, description, slotType, tags));
+          WbProtoInfo *info =
+            new WbProtoInfo(url, basenode, license, licenseUrl, description, slotType, tags, needsRobotAncestor);
+          mOfficialProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
       }

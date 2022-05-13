@@ -608,8 +608,8 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
     const QString baseNode = info->baseNode();
-    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && WbNodeUtilities::isDeviceTypeName(baseNode) &&
-        baseNode != "Connector")
+    // printf("%d %d %d\n", !mHasRobotTopNode, !WbNodeUtilities::isRobotTypeName(baseNode), info->needsRobotAncestor());
+    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && info->needsRobotAncestor())
       continue;
 
     QString errorMessage;
