@@ -1010,9 +1010,13 @@ WbNode *WbNode::findUrdfLinkRoot() const {
 }
 
 void WbNode::writeExternProto(WbWriter &writer, QStringList &uniques) const {
-  if (isProtoInstance() && !uniques.contains(proto()->externPath())) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(proto()->externPath());
-    uniques.append(proto()->externPath());
+  if (isProtoInstance()) {
+    QString externPath = proto()->externPath();
+    externPath = externPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
+    if (!uniques.contains(externPath)) {
+      writer << QString("EXTERNPROTO \"%1\"\n").arg(externPath);
+      uniques.append(externPath);
+    }
   }
 
   foreach (WbField *field, fieldsOrParameters()) {

@@ -161,70 +161,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   // the asset has a PROTO ancestor
-  if (isLocalUrl(url)) {
-    // manipulate url based on whether it's a descendant of a PROTO
-    if (isWeb(externPath)) {
-      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-      QRegularExpressionMatch match = re.match(externPath);
-      // TODO: need to match? can't replace?
-      assert(match.hasMatch());  // ancestor remote url should match the template
-      QString newUrl = url;
-      newUrl = newUrl.replace("webots://", match.captured(0));
-      // printf("  PARENT_WEB-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
-      return newUrl;
-    }
-
-    if (isLocalUrl(externPath) || QDir::isAbsolutePath(externPath)) {
-      const QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-      // if (isLocalUrl(externPath))
-      //  printf("  PARENT_LOCAL-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
-      // else
-      //  printf("  PARENT_ABS-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
-
-      return newUrl;
-    }
-
-    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), externPath.toUtf8().constData());
-
-    // TODO: externPath is local? is abs? possible?
-    return missing(url);
-  }
-
-  if (QDir::isRelativePath(url)) {
-    // TODO: if "./asd/ewer/"?
-    if (isWeb(externPath) || QDir::isAbsolutePath(externPath) || isLocalUrl(externPath)) {
-      // consume directories in both urls accordingly
-      QString assetUrl = url;
-      externPath = QUrl(externPath)
-                     .adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash)
-                     .toString();  // remove filename and trailing slash
-      while (assetUrl.startsWith("../")) {
-        externPath = externPath.left(externPath.lastIndexOf("/"));
-        assetUrl.remove(0, 3);
-      }
-      QString newUrl = externPath + "/" + assetUrl;
-
-      if (isWeb(externPath) || QDir::isAbsolutePath(externPath)) {
-        // if (isWeb(externPath))
-        //  printf("  PARENT_WEB-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
-        // else
-        //  printf("  PARENT_ABS-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
-
-        return newUrl;
-      }
-
-      if (isLocalUrl(externPath)) {
-        newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
-        // printf("  PARENT_LOCAL-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
-        return newUrl;
-      }
-    }
-
-    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), externPath.toUtf8().constData());
-    // assert(0);  // dunno
-  }
-
-  return missing(url);
+  return generateExternProtoPath(url, externPath);
 }
 
 /*
@@ -299,6 +236,89 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
   // TODO: if there is typo, ex: webots::/ instead of webots:// ?
   // TODO: can't use new compute path?
 
+  // TODO: cleanse and make to see if there's warnings
+
+  // printf("  URL  is %s\n", url.toUtf8().constData());
+  // cases where no url manipulation is necessary
+
+  if (isWeb(url)) {
+    // printf("  CHILD_WEB => %s\n", url.toUtf8().constData());
+    return url;
+  }
+
+  if (QDir::isAbsolutePath(url)) {
+    const QString newUrl = QDir::cleanPath(url);
+    // printf("  CHILD_ABS => %s\n", newUrl.toUtf8().constData());
+    return newUrl;
+  }
+
+  // the asset has a PROTO ancestor
+  if (isLocalUrl(url)) {
+    // manipulate url based on whether it's a descendant of a PROTO
+    if (isWeb(parentUrl)) {
+      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpressionMatch match = re.match(parentUrl);
+      // TODO: need to match? can't replace?
+      assert(match.hasMatch());  // ancestor remote url should match the template
+      QString newUrl = url;
+      newUrl = newUrl.replace("webots://", match.captured(0));
+      // printf("  PARENT_WEB-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
+
+    if (isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl)) {
+      const QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      // if (isLocalUrl(parentUrl))
+      //  printf("  PARENT_LOCAL-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      // else
+      //  printf("  PARENT_ABS-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+
+      return newUrl;
+    }
+
+    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
+
+    return missing(url);
+  }
+
+  if (QDir::isRelativePath(url)) {
+    // TODO: if "./asd/ewer/"?
+    if (isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || isLocalUrl(parentUrl)) {
+      // consume directories in both urls accordingly
+      QString assetUrl = url;
+      QString externPath = QUrl(parentUrl)
+                             .adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash)
+                             .toString();  // remove filename and trailing slash
+      while (assetUrl.startsWith("../")) {
+        externPath = externPath.left(externPath.lastIndexOf("/"));
+        assetUrl.remove(0, 3);
+      }
+      QString newUrl = externPath + "/" + assetUrl;
+
+      if (isWeb(externPath) || QDir::isAbsolutePath(externPath)) {
+        // if (isWeb(externPath))
+        //  printf("  PARENT_WEB-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+        // else
+        //  printf("  PARENT_ABS-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+
+        return newUrl;
+      }
+
+      if (isLocalUrl(externPath)) {
+        newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
+        // printf("  PARENT_LOCAL-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+        return newUrl;
+      }
+    }
+
+    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
+    // assert(0);  // dunno
+  }
+
+  return missing(url);
+
+  /*
+
   QString path;
   // handle case if the parent proto references a subproto that is itself a remote asset
   // ex: EXTERNPROTO "https://raw.github.com/.../SubNode.proto"
@@ -347,6 +367,8 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
 
   assert(0);  // unhandled case
   return "";
+
+  */
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
