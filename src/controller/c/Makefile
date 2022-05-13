@@ -55,7 +55,7 @@ endif
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
-LD_FLAGS    = -shared -mwindows --def Controller.def
+LD_FLAGS    = -shared -mwindows -lws2_32 --def Controller.def
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
