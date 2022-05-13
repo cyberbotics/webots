@@ -153,12 +153,13 @@ private slots:
   void uploadFinished();
 
 private:
-  void showHtmlRobotWindow(WbRobot *robot);
+  void showHtmlRobotWindow(WbRobot *robot, bool manualTrigger);
   void closeClientRobotWindow(WbRobot *robot);
   void onSocketOpened();
   QList<WbRobotWindow *> mRobotWindows;
   QList<WbRobot *> mRobotsWaitingForWindowToOpen;
   bool mOnSocketOpen;
+  bool mRobotWindowClosed;
 
   int mExitStatus;
   QList<WbConsole *> mConsoles;

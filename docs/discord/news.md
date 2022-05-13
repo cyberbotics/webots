@@ -4,6 +4,27 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
+##### DDaniel [Cyberbotics] 05/06/2022 06:25:43
+A new article by OpenDR showcasing the dissemination and educational potential of Webots on the web
+
+Article: [https://opendr.eu/robotic-simulations-on-the-web-education-dissemination-and-competition-organization/](https://opendr.eu/robotic-simulations-on-the-web-education-dissemination-and-competition-organization/)
+
+##### Olivier Michel [Cyberbotics] 04/27/2022 13:08:06
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/568354695513374730/968861095953567804/unknown.png)
+%end
+
+
+We just passed 100 contributors to the webots repositories: [https://github.com/cyberbotics](https://github.com/cyberbotics)
+
+
+**Sideways crab-walking is faster and more efficient than forward walking for a hexapod robot**
+
+Paper: [https://iopscience.iop.org/article/10.1088/1748-3190/ac6847/pdf](https://iopscience.iop.org/article/10.1088/1748-3190/ac6847/pdf)
+
+Videos comparing Webots simulations to real robot: [https://drive.google.com/drive/folders/177CMmGKD1x23WKgBmd5N7fL3iEMmehJE](https://drive.google.com/drive/folders/177CMmGKD1x23WKgBmd5N7fL3iEMmehJE)
+
 ##### DDaniel [Cyberbotics] 03/11/2022 10:53:27
 **OpenDR: An Open Toolkit for Enabling High Performance, Low Footprint Deep Learning for Robotics.** New paper describing the architecture of the OpenDR toolkit. Cyberbotics (Webots) is a member of the OpenDR consortium. [https://arxiv.org/pdf/2203.00403.pdf](https://arxiv.org/pdf/2203.00403.pdf)
 
@@ -125,7 +146,7 @@ As you may have seen, I was elected at the ROS2 Technical Steering Committee. Th
 
 Open position in Germany for a research engineer with experience with Webots, ROS/ROS2 & python: [http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html](http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html)
 
-##### Benjamin Hug [Cyberbotics] 10/25/2021 11:54:35
+##### Benjamin Hug [Moderator] 10/25/2021 11:54:35
 Our Lightning Talk has been chosen and shown during the ROS World 2021 !
 
 

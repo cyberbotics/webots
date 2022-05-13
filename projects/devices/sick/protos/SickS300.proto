@@ -73,7 +73,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
     boundingObject Group {
       children [
         Transform {
-          translation 0.0315 0 -0.0712
+          translation -0.0315 0 -0.0712
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Shape {

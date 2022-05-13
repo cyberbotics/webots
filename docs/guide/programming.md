@@ -56,7 +56,7 @@ Please find a description of ODE functions here: [here](http://ode.org/wiki/inde
 
 Please see [this section](using-numerical-optimization-methods.md#resetting-the-robot).
 
-### What Does This Mean: "Could not find controller {...} Loading void controller instead." ?
+### What Does This Mean: "Could not find controller {...} Loading <generic> controller instead." ?
 
 This message means that Webots could neither find an executable file (e.g. `.exe`), nor an interpreted language file (e.g. `.class`, `.py`, `.m`) to run as controller program for a robot.
 In fact, Webots needs each controller file to be stored at specific location in order to be able to executed it.

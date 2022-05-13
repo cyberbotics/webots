@@ -10,8 +10,8 @@ PROTO JetsonNano [
   field SFRotation         rotation              0 0 1 0                  # Is `Robot.rotation`.
   field SFString           name                  "NVIDIA Jetson Nano"     # Is `Robot.name`.
   field SFNode             physics               NULL                     # Is `Robot.physics`.
-  field SFString           controller            ""                       # Is `Robot.controller`.
-  field SFString           window                ""                       # Is `Robot.window`.
+  field SFString           controller            "<none>"                 # Is `Robot.controller`.
+  field SFString           window                "<generic>"              # Is `Robot.window`.
   field MFNode             extensionSlot         []                       # Extends the board with meshes, solid parts or devices.
 ]
 {

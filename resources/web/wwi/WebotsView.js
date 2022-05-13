@@ -78,7 +78,7 @@ export default class WebotsView extends HTMLElement {
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/dependencies/quaternion.min.js'));
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/quaternion.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
   }

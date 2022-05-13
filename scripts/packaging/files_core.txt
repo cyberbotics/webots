@@ -243,10 +243,10 @@ resources/pico/lang/*.bin
 resources/pico/lang/*.mk
 resources/projects/
 resources/projects/controllers/
-resources/projects/controllers/void/
-resources/projects/controllers/void/Makefile
-resources/projects/controllers/void/void [exe]
-resources/projects/controllers/void/void.c
+resources/projects/controllers/generic/
+resources/projects/controllers/generic/Makefile
+resources/projects/controllers/generic/generic [exe]
+resources/projects/controllers/generic/generic.c
 resources/projects/libraries/
 resources/projects/libraries/generic_robot_window/
 resources/projects/libraries/generic_robot_window/Makefile
