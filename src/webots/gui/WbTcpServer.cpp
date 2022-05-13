@@ -449,9 +449,6 @@ void WbTcpServer::newWorld() {
   if (mWebSocketServer == NULL)
     return;
 
-  printf("open\n");
-  fflush(stdout);
-
   if (!prepareWorld())
     return;
 }
