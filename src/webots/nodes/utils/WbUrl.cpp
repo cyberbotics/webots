@@ -31,6 +31,7 @@
 #include <QtCore/QUrl>
 
 namespace {
+  /*
   QString checkIsFile(const WbNode *node, const QString &field, const QString &path) {
     if (QFileInfo(path).isFile())
       return path;
@@ -40,6 +41,7 @@ namespace {
       WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false, WbLog::PARSING);
     return "";
   }
+  */
 }  // namespace
 
 QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
@@ -88,6 +90,19 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
+/*
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
+  // check if mUrl is empty
+  if (urlField->size() < 1)
+    return "";
+
+  // get the url at specified index
+  const QString &url = urlField->item(index);
+
+  return computePath(node, field, url, warn);
+}
+*/
+
 QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
   // check if mUrl is empty
   if (urlField->size() < 1)
@@ -99,30 +114,19 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   return computePath(node, field, url, warn);
 }
 
-QString WbUrl::computePathV2(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
-  // check if mUrl is empty
-  if (urlField->size() < 1)
-    return "";
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool warn) {
+  // TODO: cleanse and make to see if there's warnings
 
-  // get the url at specified index
-  const QString &url = urlField->item(index);
-
-  return computePathV2(node, field, url, warn);
-}
-
-QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QString &url, bool warn) {
-  printf("NEW computePath:\n");
-
-  printf("  URL  is %s\n", url.toUtf8().constData());
+  // printf("  URL  is %s\n", url.toUtf8().constData());
   // cases where no url manipulation is necessary
   if (isWeb(url)) {
-    printf("  CHILD_WEB => %s\n", url.toUtf8().constData());
+    // printf("  CHILD_WEB => %s\n", url.toUtf8().constData());
     return url;
   }
 
   if (QDir::isAbsolutePath(url)) {
     const QString newUrl = QDir::cleanPath(url);
-    printf("  CHILD_ABS => %s\n", newUrl.toUtf8().constData());
+    // printf("  CHILD_ABS => %s\n", newUrl.toUtf8().constData());
     return newUrl;
   }
 
@@ -131,10 +135,32 @@ QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QSt
   const WbNode *protoAncestor = node->protoAncestor();
   if (protoAncestor && protoAncestor->proto())
     externPath = protoAncestor->proto()->externPath();
-  else
-    externPath = "";
-  // assert(0);  // parent is normal node?
+  else {
+    // the asset is not referenced with respect to a PROTO file (only have base nodes as ancestors)
+    if (isLocalUrl(url)) {
+      QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      // printf("  BASENODE-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
 
+    if (QDir::isRelativePath(url)) {  // then it must be relative to the world itself
+      QString worldsPath = WbProject::current()->worldsPath();
+      worldsPath.chop(1);  // remove trailing '/'
+      QString assetUrl = url;
+      while (assetUrl.startsWith("../")) {
+        worldsPath = worldsPath.left(worldsPath.lastIndexOf("/"));
+        assetUrl.remove(0, 3);
+      }
+      QString newUrl = worldsPath + "/" + assetUrl;
+      // printf("  BASENODE-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
+
+    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), externPath.toUtf8().constData());
+    return missing(url);
+  }
+
+  // the asset has a PROTO ancestor
   if (isLocalUrl(url)) {
     // manipulate url based on whether it's a descendant of a PROTO
     if (isWeb(externPath)) {
@@ -144,16 +170,16 @@ QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QSt
       assert(match.hasMatch());  // ancestor remote url should match the template
       QString newUrl = url;
       newUrl = newUrl.replace("webots://", match.captured(0));
-      printf("  PARENT_WEB-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      // printf("  PARENT_WEB-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
       return newUrl;
     }
 
     if (isLocalUrl(externPath) || QDir::isAbsolutePath(externPath)) {
       const QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-      if (isLocalUrl(externPath))
-        printf("  PARENT_LOCAL-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
-      else
-        printf("  PARENT_ABS-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      // if (isLocalUrl(externPath))
+      //  printf("  PARENT_LOCAL-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
+      // else
+      //  printf("  PARENT_ABS-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
 
       return newUrl;
     }
@@ -201,6 +227,7 @@ QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QSt
   return missing(url);
 }
 
+/*
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool warn) {
   printf("OLD computePath: %s\n", url.toUtf8().constData());
   // check if the first url is empty
@@ -264,12 +291,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   return missing(url);
-}
+}*/
 
 QString WbUrl::generateExternProtoPath(const QString &url, const QString &parentUrl) {
   // TODO: if backward slashes instead of forward?
   // TODO: simplify all this function when it works
   // TODO: if there is typo, ex: webots::/ instead of webots:// ?
+  // TODO: can't use new compute path?
 
   QString path;
   // handle case if the parent proto references a subproto that is itself a remote asset

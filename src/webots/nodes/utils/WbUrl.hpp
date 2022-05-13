@@ -24,10 +24,10 @@ class WbWriter;
 namespace WbUrl {
   // return search path ordered by decreasing priority
   QStringList orderedSearchPaths(const WbNode *node);
+  // QString computePath(const WbNode *node, const QString &field, const QString &url, bool warn = true);
+  // QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
   QString computePath(const WbNode *node, const QString &field, const QString &url, bool warn = true);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
-  QString computePathV2(const WbNode *node, const QString &field, const QString &url, bool warn);
-  QString computePathV2(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
 
   QString generateExternProtoPath(const QString &url, const QString &parentUrl = QString());
   QString exportTexture(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeTexturesPath,

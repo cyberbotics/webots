@@ -129,7 +129,7 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePathV2(this, "url", mUrl->item(0), false);
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -171,7 +171,7 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  const QString &completeUrl = WbUrl::computePathV2(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   const bool isWebAsset = WbUrl::isWeb(completeUrl);
   if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
     return false;
@@ -345,7 +345,7 @@ void WbImageTexture::updateUrl() {
   }
 
   if (n > 0) {
-    const QString completeUrl = WbUrl::computePathV2(this, "url", mUrl->item(0), false);
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -536,13 +536,13 @@ const QString WbImageTexture::path(bool warning) const {
     return "";
   if (WbUrl::isWeb(mUrl->item(0)))
     return mUrl->item(0);
-  return WbUrl::computePathV2(this, "url", mUrl, 0, warning);
+  return WbUrl::computePath(this, "url", mUrl, 0, warning);
 }
 
 void WbImageTexture::write(WbWriter &writer) const {
   if (!isUseNode() && writer.isProto()) {
     for (int i = 0; i < mUrl->size(); ++i) {
-      QString texturePath(WbUrl::computePathV2(this, "url", mUrl, i));
+      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
@@ -579,7 +579,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString texturePath(WbUrl::computePathV2(this, "url", mUrl, i));
+      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile()) {
         QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
