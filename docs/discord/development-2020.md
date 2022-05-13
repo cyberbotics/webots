@@ -1591,7 +1591,7 @@ Yes, sure I will answer it tomorrow morning
 `@David Mansolino` I seem to have figured it out. This shows joint 1 and 3 being changed in percent of their valid range. Looks correct now. Do you want me to make a PR with the new, 'correct' robotiq gripper?
 > **Attachment**: [3f\_gripper.mp4](https://cdn.discordapp.com/attachments/565155651395780609/729751244406521887/3f_gripper.mp4)
 
-##### Zeynep Öktem 07/06/2020 20:10:30
+##### Zeynep 07/06/2020 20:10:30
 
 %figure
 ![1.JPG](https://cdn.discordapp.com/attachments/565155651395780609/729791407081914508/1.JPG)
