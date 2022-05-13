@@ -78,7 +78,7 @@ export default class WbCadShape extends WbBaseNode {
         const mesh = this.scene.meshes[i];
 
         // compute absolute transform of this node from all the parents
-        const vertices = mesh.vertices.length;
+        const vertices = mesh.vertices.length / 3;
         if (vertices < 3) // silently ignore meshes with less than 3 vertices as they are invalid
           continue;
 
@@ -106,7 +106,7 @@ export default class WbCadShape extends WbBaseNode {
         const texCoordData = [];
         const indexData = [];
 
-        for (let j = 0; j < vertices / 3; ++j) {
+        for (let j = 0; j < vertices; ++j) {
           // extract the coordinate
           const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 1));
           coordData.push(vertice.x);
@@ -126,7 +126,6 @@ export default class WbCadShape extends WbBaseNode {
             texCoordData.push(0.5);
           }
         }
-
         // create the index array
         for (let j = 0; j < mesh.faces.length; ++j) {
           // Skip if we do not have triangles (e.g lines)
@@ -147,6 +146,7 @@ export default class WbCadShape extends WbBaseNode {
         const normalDataPointer = arrayXPointerFloat(normalData);
         const texCoordDataPointer = arrayXPointerFloat(texCoordData);
         const indexDataPointer = arrayXPointerInt(indexData);
+
         const staticMesh = _wr_static_mesh_new(vertices, indexData.length, coordDataPointer, normalDataPointer, texCoordDataPointer, texCoordDataPointer, indexDataPointer, false);
 
         this.wrenMeshes.push(staticMesh);
