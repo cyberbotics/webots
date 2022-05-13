@@ -72,8 +72,6 @@ public:
 
   void write(WbWriter &writer) const override;
 
-  void exportShallowNode(WbWriter &writer) const;
-
 signals:
   void changed();
 

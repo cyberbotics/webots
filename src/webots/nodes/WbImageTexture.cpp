@@ -602,28 +602,3 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       writer << " role=\'" << mRole << "\'";
   }
 }
-
-void WbImageTexture::exportShallowNode(WbWriter &writer) const {
-  if (!writer.isX3d() || mUrl->size() == 0)
-    return;
-
-  QString url = mUrl->item(0);
-  // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the
-  // image relative to the parent collada/wavefront file)
-  if (!url.startsWith("https://")) {  // local path
-    if (WbWorld::isX3DStreaming())
-      writer.addResourceToList(url, WbUrl::computePath(this, "url", url));
-    else {
-      url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addResourceToList(mUrl->item(0), url);
-    }
-  }
-
-  writer << "<ImageTexture";
-  writer << " url='\"" << url << "\"'";
-  writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
-  if (!mRole.isEmpty())
-    writer << " role='" << mRole << "'";
-  writer << "></ImageTexture>";
-}
