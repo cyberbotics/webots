@@ -28,6 +28,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 
 namespace {
   QString checkIsFile(const WbNode *node, const QString &field, const QString &path) {
@@ -98,7 +99,92 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   return computePath(node, field, url, warn);
 }
 
+QString WbUrl::computePathV2(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
+  // check if mUrl is empty
+  if (urlField->size() < 1)
+    return "";
+
+  // get the url at specified index
+  const QString &url = urlField->item(index);
+
+  return computePathV2(node, field, url, warn);
+}
+
+QString WbUrl::computePathV2(const WbNode *node, const QString &field, const QString &url, bool warn) {
+  printf("NEW computePath:\n");
+
+  printf("  URL  is %s\n", url.toUtf8().constData());
+  // cases where no url manipulation is necessary
+  if (isWeb(url))
+    return url;
+
+  if (QDir::isAbsolutePath(url)) {
+    const QString newUrl = QDir::cleanPath(url);
+    return newUrl;
+  }
+
+  // cases where url manipulation is necessary
+  QString externPath;
+  const WbNode *protoAncestor = node->protoAncestor();
+  if (protoAncestor && protoAncestor->proto())
+    externPath = protoAncestor->proto()->externPath();
+  else
+    assert(0);  // parent is normal node?
+
+  if (isLocalUrl(url)) {
+    // manipulate url based on whether it's a descendant of a PROTO
+    if (isWeb(externPath)) {
+      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpressionMatch match = re.match(externPath);
+      // TODO: need to match? can't replace?
+      assert(match.hasMatch());  // ancestor remote url should match the template
+      QString newUrl = url;
+      newUrl = newUrl.replace("webots://", match.captured(0));
+      printf("  GEN_ParentWeb_ChildLocal is %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
+
+    if (isLocalUrl(externPath)) {
+      const QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      printf("  GEN_ParentLocal_ChildLocal is %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
+
+    // TODO: externPath is local? is abs? possible?
+    return missing(url);
+  }
+
+  if (QDir::isRelativePath(url)) {
+    // TODO: if "./asd/ewer/"?
+    if (isWeb(externPath) || isLocalUrl(externPath)) {
+      // consume directories in both urls accordingly
+      QString assetUrl = url;
+      externPath = QUrl(externPath)
+                     .adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash)
+                     .toString();  // remove filename and trailing slash
+      while (assetUrl.startsWith("../")) {
+        externPath = externPath.left(externPath.lastIndexOf("/"));
+        assetUrl.remove(0, 3);
+      }
+      QString newUrl = externPath + "/" + assetUrl;
+      if (isLocalUrl(externPath)) {
+        newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
+        printf("  GEN_ParentLocal_ChildRelative is %s\n", newUrl.toUtf8().constData());
+        return newUrl;
+      }
+
+      printf("  GEN_ParentWeb_ChildRelative is %s\n", newUrl.toUtf8().constData());
+      return newUrl;
+    }
+
+    assert(0);  // dunno
+  }
+
+  return missing(url);
+}
+
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool warn) {
+  printf("OLD computePath: %s\n", url.toUtf8().constData());
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
