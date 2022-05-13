@@ -1,0 +1,14 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/TEST/protos/ShapeWithTexture.proto"
+
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+ShapeWithTexture{}
