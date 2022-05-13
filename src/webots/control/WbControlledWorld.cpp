@@ -120,24 +120,19 @@ void WbControlledWorld::startController(WbRobot *robot) {
 
 // delete the controller only if it has not been already deleted
 void WbControlledWorld::deleteController(WbController *controller) {
-  assert(showControllersLists("deleteController"));
-  assert(mControllers.count(controller) + mWaitingControllers.count(controller) + mNewControllers.count(controller) +
-           mExternControllers.count(controller) + mTerminatingControllers.count(controller) <=
-         1);
+  assert(showControllersLists("deleteController " + controller->name() + " for robot " + controller->robot()->name()));
+  assert(controllerInOnlyOneList(controller));
+
   mControllers.removeOne(controller);
   mWaitingControllers.removeOne(controller);
   mNewControllers.removeOne(controller);
   mExternControllers.removeOne(controller);
+  mTerminatingControllers.removeOne(controller);
 
-  if (controller->isProcessingRequest()) {
-    assert(mTerminatingControllers.count(controller) == 0);
+  if (controller->isProcessingRequest())
     mTerminatingControllers.append(controller);
-  } else {
-    assert(mTerminatingControllers.count(controller) == 1);
-    mTerminatingControllers.removeOne(controller);
+  else
     delete controller;
-    assert(controllerInNoList(controller));
-  }
 
   if (mRetryEnabled)  // avoid waiting for a terminated controller
     step();
