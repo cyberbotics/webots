@@ -10,7 +10,7 @@ PROTO ShapeWithLocalTexture [
     appearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "webots://appearances/protos/textures/marble/marble_base_color.jpg"
+          "webots://projects/appearances/protos/textures/marble/marble_base_color.jpg"
         ]
       }
     }

@@ -222,7 +222,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   }
 
   if (mCurrentProjectProto.contains(modelName)) {
-    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProto.value(modelName), false);  // TODO: change this
+    QString url = WbUrl::computePathV2(NULL, "EXTERNPROTO", mCurrentProjectProto.value(modelName), false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
       // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
