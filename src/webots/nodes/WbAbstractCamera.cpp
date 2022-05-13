@@ -66,6 +66,7 @@ void WbAbstractCamera::init() {
   mNeedToConfigure = false;
   mSendMemoryMappedFile = false;
   mHasExternControllerChanged = false;
+  mIsRemoteExternController = false;
   mNeedToCheckShaderErrors = false;
   mMemoryMappedFileReset = false;
   mExternalWindowEnabled = false;

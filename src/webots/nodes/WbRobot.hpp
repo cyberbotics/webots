@@ -59,6 +59,8 @@ public:
 
   // controller
   void externControllerChanged();
+  void newRemoteExternController();
+  void removeRemoteExternController();
   bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();

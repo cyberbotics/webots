@@ -1511,3 +1511,19 @@ void WbRobot::externControllerChanged() {
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
 }
+
+void WbRobot::newRemoteExternController() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->newRemoteExternController();  // data should be serialized and sent in the data stream (no mapped file)
+  }
+}
+
+void WbRobot::removeRemoteExternController() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->removeRemoteExternController();  // data should be serialized and sent in the data stream (no mapped file)
+  }
+}

@@ -57,6 +57,8 @@ public:
   virtual void updateCameraTexture();
 
   void externControllerChanged() { mHasExternControllerChanged = true; }
+  void newRemoteExternController() { mIsRemoteExternController = true; }
+  void removeRemoteExternController() { mIsRemoteExternController = false; }
   void enableExternalWindowForAttachedCamera(bool enabled);
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
@@ -152,6 +154,7 @@ protected:
   bool mNeedToConfigure;
   bool mSendMemoryMappedFile;
   bool mHasExternControllerChanged;
+  bool mIsRemoteExternController;
   bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;
