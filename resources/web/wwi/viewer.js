@@ -18,7 +18,7 @@ import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './Parser.js';
+import {loadImageTextureInWren} from './image_loader.js';
 
 let handle;
 let webotsView;

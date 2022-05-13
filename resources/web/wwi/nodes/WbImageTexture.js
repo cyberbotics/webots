@@ -63,6 +63,7 @@ export default class WbImageTexture extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
+
     this._wrenTextureIndex = mainTextureIndex;
     _wr_material_set_texture(wrenMaterial, this._wrenTexture, this._wrenTextureIndex);
     if (this._wrenTexture) {

@@ -1,4 +1,5 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import {arrayXPointerFloat, arrayXPointerInt, getAnId} from './utils/utils.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
@@ -7,13 +8,14 @@ import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 
+import {loadImageTextureInWren} from '../image_loader.js';
+
 export default class WbCadShape extends WbBaseNode {
   constructor(id, urls, ccw, castShadows, isPickable) {
     super(id);
 
     this.urls = urls;
-    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/'));
-    console.log(this.prefix)
+    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
     this.ccw = ccw;
     this.castShadows = castShadows;
     this.isPickable = isPickable;
@@ -23,6 +25,8 @@ export default class WbCadShape extends WbBaseNode {
     this.wrenMaterials = [];
     this.wrenTransforms = [];
     this.pbrAppearances = [];
+
+    this._promises = [];
   }
 
   clone(customID) {
@@ -39,10 +43,9 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   createWrenObjects() {
-    console.log(this.scene);
-    super.createWrenObjects();
-
     this.deleteWrenObjects();
+
+    super.createWrenObjects();
 
     if (this.urls.length === 0 || this.scene === 'undefined')
       return;
@@ -153,13 +156,13 @@ export default class WbCadShape extends WbBaseNode {
 
         // init from assimp material
         let pbrAppearance = this._createPbrAppearance(material);
-        // pbrAppearance->preFinalize();
-        // pbrAppearance->postFinalize();
-        //
+        pbrAppearance.preFinalize();
+        pbrAppearance.postFinalize();
+
         let wrenMaterial = _wr_pbr_material_new();
-        // pbrAppearance->modifyWrenMaterial(wrenMaterial);
-        //
-        // mPbrAppearances.push_back(pbrAppearance);
+        pbrAppearance.modifyWrenMaterial(wrenMaterial);
+
+        this.pbrAppearances.push(pbrAppearance);
         this.wrenMaterials.push(wrenMaterial);
       }
     }
@@ -183,17 +186,31 @@ export default class WbCadShape extends WbBaseNode {
       this.wrenRenderables.push(renderable);
       this.wrenTransforms.push(transform);
     }
+
+    Promise.all(this._promises).then(() => {
+      this.actualizeAppearance();
+    });
+  }
+
+  actualizeAppearance() {
+    for (let i = 0; i < this.pbrAppearances.length; i++) {
+      this.pbrAppearances[i].modifyWrenMaterial(this.wrenMaterials[i]);
+      _wr_renderable_set_material(this.wrenRenderables[i], this.wrenMaterials[i], null);
+    }
   }
 
   deleteWrenObjects() {
     this.wrenRenderables.forEach(renderable => {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']));
       _wr_node_delete(renderable);
-    })
+    });
     this.wrenMeshes.forEach(mesh => { _wr_static_mesh_delete(mesh); });
     this.wrenMaterials.forEach(material => { _wr_material_delete(material); });
     this.pbrAppearances.forEach(appearance => { appearance.delete(); });
-    this.wrenTransforms.forEach(transform => { _wr_node_delete(transform); });
+    for (let i = this.wrenTransforms.length - 1; i >= 0; --i) {
+      this.wrenNode = _wr_node_get_parent(this.wrenTransforms[i]);
+      _wr_node_delete(this.wrenTransforms[i]);
+    }
 
     this.wrenRenderables = [];
     this.wrenMeshes = [];
@@ -213,13 +230,13 @@ export default class WbCadShape extends WbBaseNode {
 
     let baseColor;
     if (properties.get('$clr.diffuse'))
-      baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1],properties.get('$clr.diffuse')[3])
+      baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1], properties.get('$clr.diffuse')[2]);
     else
       baseColor = new WbVector3(1.0, 1.0, 1.0);
 
     let emissiveColor;
     if (properties.get('$clr.emissive'))
-      emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1],properties.get('$clr.emissive')[3])
+      emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1], properties.get('$clr.emissive')[2]);
     else
       emissiveColor = new WbVector3(0.0, 0.0, 0.0);
 
@@ -245,7 +262,6 @@ export default class WbCadShape extends WbBaseNode {
     let normalMapFactor = 1.0;
     let occlusionMapStrength = 1.0;
     let emissiveIntensity = 1.0;
-
 
     /* Semantic (source https://github.com/assimp/assimp/blob/master/include/assimp/material.h):
       1: diffuse (map_Kd)
@@ -296,25 +312,11 @@ export default class WbCadShape extends WbBaseNode {
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, undefined);
   }
 
-  _createImageTexture() {
-    // aiString path("");
-    // material->GetTexture(textureType, 0, &path);
-    // // generate url of texture from url of collada/wavefront file
-    // QString relativePath = QString(path.C_Str());
-    //
-    // relativePath.replace("\\", "/");  // use cross-platform forward slashes
-    // while (relativePath.startsWith("../")) {
-    //   parentPath = parentPath.left(parentPath.lastIndexOf("/"));
-    //   relativePath.remove(0, 3);
-    // }
-    //
-    // if (!relativePath.startsWith("/"))
-    //   relativePath.insert(0, '/');
-    //
-    // mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
-    // // init remaining variables with default wrl values
-    // mRepeatS = new WbSFBool(true);
-    // mRepeatT = new WbSFBool(true);
-    // mFiltering = new WbSFInt(4);
+  _createImageTexture(imageUrl) {
+    const imageTexture = new WbImageTexture(getAnId(), imageUrl, false, true, true, 4);
+    const promise = loadImageTextureInWren(this.prefix, imageUrl, false);
+    promise.then(() => imageTexture.updateUrl());
+    this._promises.push(promise);
+    return imageTexture;
   }
 }
