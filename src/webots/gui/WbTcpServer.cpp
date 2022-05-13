@@ -178,58 +178,9 @@ void WbTcpServer::onNewTcpConnection() {
 void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  const QByteArray request = socket->read(3);
+  const QByteArray request = socket->peek(3);
   if (request == "CTR") {
-    const QString &line(socket->read(8 * 1024));  // Peek the request header to determine the requested robot.
-    QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
-    QByteArray reply;
-
-    const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
-    const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-    const QList<WbController *> &controllers = WbControlledWorld::instance()->controllers();
-    if (robotNameIndex) {  // robot name is given
-      const QString robotName = tokens[robotNameIndex];
-      foreach (WbRobot *const robot, robots)
-        if (robot->name() == robotName && robot->isControllerExtern()) {
-          foreach (WbController *const controller, controllers) {
-            if (controller->robot() == robot) {
-              controller->setTcpSocket(socket);
-              reply.append("CONNECTED");
-              socket->write(reply);
-              disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-              controller->addRemoteControllerConnection();
-              return;
-            }
-          }
-        }
-      reply.append("FAILED");
-      socket->write(reply);
-    } else {  // no robot name given
-      WbRobot *lowestRobot = NULL;
-      foreach (WbRobot *const robot, robots) {
-        if (robot->isControllerExtern()) {
-          if (lowestRobot == NULL) {
-            lowestRobot = robot;
-          } else if (lowestRobot->name() > robot->name()) {
-            lowestRobot = robot;
-          }
-        }
-      }
-      if (lowestRobot != NULL) {
-        foreach (WbController *const controller, controllers) {
-          if (controller->robot() == lowestRobot) {
-            controller->setTcpSocket(socket);
-            reply.append("CONNECTED");
-            socket->write(reply);
-            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-            controller->addRemoteControllerConnection();
-            return;
-          }
-        }
-      }
-      reply.append("FAILED");
-      socket->write(reply);
-    }
+    addNewTcpController(socket);
     return;
   }
 
@@ -246,6 +197,60 @@ void WbTcpServer::onNewTcpData() {
       WbLog::warning(tr("No host specified in HTTP header."));
     sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
   }
+}
+
+void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
+  const QString &line(socket->read(8 * 1024));
+  QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
+  const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
+  QByteArray reply;
+
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  const QList<WbController *> &controllers = WbControlledWorld::instance()->controllers();
+  if (robotNameIndex) {  // robot name is given
+    const QString robotName = tokens[robotNameIndex];
+    foreach (WbRobot *const robot, robots)
+      if (robot->name() == robotName && robot->isControllerExtern()) {
+        foreach (WbController *const controller, controllers) {
+          if (controller->robot() == robot) {
+            controller->setTcpSocket(socket);
+            reply.append("CONNECTED");
+            socket->write(reply);
+            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+            controller->addRemoteControllerConnection();
+            return;
+          }
+        }
+      }
+    reply.append("FAILED");
+    socket->write(reply);
+  } else {  // no robot name given
+    WbRobot *lowestRobot = NULL;
+    foreach (WbRobot *const robot, robots) {
+      if (robot->isControllerExtern()) {
+        if (lowestRobot == NULL) {
+          lowestRobot = robot;
+        } else if (lowestRobot->name() > robot->name()) {
+          lowestRobot = robot;
+        }
+      }
+    }
+    if (lowestRobot != NULL) {
+      foreach (WbController *const controller, controllers) {
+        if (controller->robot() == lowestRobot) {
+          controller->setTcpSocket(socket);
+          reply.append("CONNECTED");
+          socket->write(reply);
+          disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+          controller->addRemoteControllerConnection();
+          return;
+        }
+      }
+    }
+    reply.append("FAILED");
+    socket->write(reply);
+  }
+  return;
 }
 
 void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
