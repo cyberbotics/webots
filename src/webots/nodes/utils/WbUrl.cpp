@@ -132,7 +132,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   // cases where url manipulation is necessary
   QString externPath;
-  const WbNode *protoAncestor = node->protoAncestor();
+  const WbNode *protoAncestor = node->isProtoInstance() ? node : node->protoAncestor();
   if (protoAncestor && protoAncestor->proto())
     externPath = protoAncestor->proto()->externPath();
   else {
@@ -156,7 +156,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       return newUrl;
     }
 
-    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), externPath.toUtf8().constData());
+    // printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), externPath.toUtf8().constData());
     return missing(url);
   }
 
@@ -205,17 +205,17 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       QString newUrl = externPath + "/" + assetUrl;
 
       if (isWeb(externPath) || QDir::isAbsolutePath(externPath)) {
-        if (isWeb(externPath))
-          printf("  PARENT_WEB-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
-        else
-          printf("  PARENT_ABS-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+        // if (isWeb(externPath))
+        //  printf("  PARENT_WEB-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+        // else
+        //  printf("  PARENT_ABS-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
 
         return newUrl;
       }
 
       if (isLocalUrl(externPath)) {
         newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
-        printf("  PARENT_LOCAL-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
+        // printf("  PARENT_LOCAL-CHILD_RELATIVE => %s\n", newUrl.toUtf8().constData());
         return newUrl;
       }
     }

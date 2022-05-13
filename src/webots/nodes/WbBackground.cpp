@@ -425,7 +425,12 @@ bool WbBackground::loadTexture(int i) {
   // if a side is not defined, it should not even attempt to load the texture
   assert(mUrlFields[urlFieldIndex]->size() != 0);
 
-  QString url = mUrlFields[urlFieldIndex]->item(0);
+  QString url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[urlFieldIndex]->item(0), false);
+  if (url == WbUrl::missingTexture() || url.isEmpty()) {
+    warn(tr("Texture not found: '%1'").arg(url));
+    return false;
+  }
+
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
@@ -433,12 +438,6 @@ bool WbBackground::loadTexture(int i) {
       if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
       return false;  // should not move past this point unless the file is available in the cache
-    }
-  } else {
-    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
-    if (url == WbUrl::missingTexture() || url.isEmpty()) {
-      warn(tr("Texture not found: '%1'").arg(url));
-      return false;
     }
   }
 
@@ -514,7 +513,13 @@ bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
 
-  QString url = mIrradianceUrlFields[urlFieldIndex]->item(0);
+  QString url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]),
+                                   mIrradianceUrlFields[urlFieldIndex]->item(0), false);
+  if (url.isEmpty()) {
+    warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
+    return false;
+  }
+
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -523,17 +528,11 @@ bool WbBackground::loadIrradianceTexture(int i) {
         warn(mDownloader[i + 6]->error());
       return false;  // should not move past this point unless the file is available in the cache
     }
-  } else {
-    url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
-    if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
-      return false;
-    }
   }
 
   QFile irradianceFile(url);
   if (!irradianceFile.open(QIODevice::ReadOnly)) {
-    warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[urlFieldIndex]->item(0)));
+    warn(tr("Cannot open HDR texture file: '%1'").arg(url));
     return false;
   }
 
