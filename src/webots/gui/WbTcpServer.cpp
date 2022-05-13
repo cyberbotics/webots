@@ -191,8 +191,10 @@ void WbTcpServer::onNewTcpData() {
       const QString robotName = tokens[robotNameIndex];
       foreach (WbRobot *const robot, robots)
         if (robot->name() == robotName && robot->isControllerExtern()) {
+          printf("before controller loop\n");
           foreach (WbController *const controller, controllers) {
             if (controller->robot() == robot) {
+              printf("inside controller loop\n");
               controller->setTcpSocket(socket);
               reply.append("CONNECTED");
               socket->write(reply);
@@ -216,8 +218,13 @@ void WbTcpServer::onNewTcpData() {
         }
       }
       if (lowestRobot != NULL) {
+        printf("before controller loop\n");
+        printf("len controllers = %d\n", controllers.length());
         foreach (WbController *const controller, controllers) {
+          printf("controller found = %s\n", controller->robot()->name().toStdString().c_str());
+          printf("lowest = %s\n", lowestRobot->name().toStdString().c_str());
           if (controller->robot() == lowestRobot) {
+            printf("inside controller loop\n");
             controller->setTcpSocket(socket);
             reply.append("CONNECTED");
             socket->write(reply);
