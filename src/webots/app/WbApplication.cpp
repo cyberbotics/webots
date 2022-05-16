@@ -265,19 +265,25 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
 
-  // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
-  QStringList externProtoToGraft;
-  if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
-    printf("OPENING OLD WORLD, BACKWARDS COMPATIBILITY ON.\n");
-    externProtoToGraft = parser.getReferencedProtoList();
-  }
+  // decisive load signal should come from WbProtoList (to ensure all assets are available)
+  const WbProtoList *source = dynamic_cast<const WbProtoList *>(sender());
+  if (!source) {
+    // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
+    QStringList externProtoToGraft;
+    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
+      printf("OPENING OLD WORLD, BACKWARDS COMPATIBILITY ON.\n");
+      externProtoToGraft = parser.getReferencedProtoList();
+    }
 
-  if (!WbProtoList::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft)) {
-    printf("> some proto assets are missing, downloading them.\n");
-    return false;  // when all extern proto are downloaded, loadWorld is called again
-  } else {
-    printf("> everything is available.\n");
+    WbProtoList::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft);
+    return false;
   }
+  // if (!) {
+  //  printf("> some proto assets are missing, downloading them.\n");
+  //  return false;  // when all extern proto are downloaded, loadWorld is called again
+  //} else {
+  //  printf("> everything is available.\n");
+  //}
 
   // WbProtoList::instance()->resetCurrentProjectProtoList();
   // if (!WbProtoList::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {

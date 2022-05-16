@@ -416,7 +416,7 @@ const QString WbProtoList::getOfficialProtoUrl(const QString &protoName) {
   return mOfficialProtoList.value(protoName)->url();
 }
 
-bool WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
+void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
@@ -431,17 +431,15 @@ bool WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {
     QFile rootFile(filename);
-    mTreeRoot = new WbProtoTreeItem(filename);
-    if (!mTreeRoot->error().isEmpty()) {
-      WbLog::error(mTreeRoot->error());
-      return true;
-    }
+    mTreeRoot = new WbProtoTreeItem(filename, NULL);
+    connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
-    return false;
+    return;
   }
 
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
+  // TODO: end signal might be triggered before this is over
   foreach (const QString proto, unreferencedProtos) {
     if (isOfficialProto(proto))
       mTreeRoot->insert(WbProtoList::instance()->getOfficialProtoUrl(proto));
@@ -450,30 +448,26 @@ bool WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   }
 
   // TODO: not functional, in test_local.wbt rename "RelativeExternalProtoSolid" to "LocalExternalProtoSolid" to trigger it
-  if (!mTreeRoot->error().isEmpty()) {
-    WbLog::error(mTreeRoot->error());
-    return true;
-  }
 
   // generate mCurrentProjectProto list (map proto <-> path) and load world, if all assets are available
-  const bool isReady = mTreeRoot->isReadyForLoad();
-  if (isReady)
-    mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
-  else
-    connect(mTreeRoot, &WbProtoTreeItem::protoTreeUpdated, this, &WbProtoList::tryWorldLoad);
-
-  return isReady;
+  // const bool isReady = mTreeRoot->isReadyToLoad();
+  // if (isReady)
+  //  mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
+  // else
+  //  connect(mTreeRoot, &WbProtoTreeItem::treeUpdated, this, &WbProtoList::tryWorldLoad);
+  // return isReady;
+  mTreeRoot->print();
 }
 
 void WbProtoList::tryWorldLoad() {
-  if (mTreeRoot && mTreeRoot->isReadyForLoad()) {
-    printf("RETRY WORLD LOAD\n");
-    // generate mCurrentProjectProto
-    mTreeRoot->generateProtoMap(mCurrentProjectProto);
-    // cleanup and attempt to reload
-    disconnect(mTreeRoot);
-    delete mTreeRoot;
-    mTreeRoot = NULL;
-    WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);  // load the world again
-  }
+  // if (mTreeRoot && mTreeRoot->isReadyToLoad()) {
+  printf("RETRY WORLD LOAD\n");
+  // generate mCurrentProjectProto
+  mTreeRoot->generateProtoMap(mCurrentProjectProto);
+  // cleanup and attempt to reload
+  disconnect(mTreeRoot);
+  delete mTreeRoot;
+  mTreeRoot = NULL;
+  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);  // load the world again
+  //}
 }

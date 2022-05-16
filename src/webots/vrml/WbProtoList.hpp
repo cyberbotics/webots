@@ -120,7 +120,7 @@ public:
 
   void printCurrentProjectProtoList();
 
-  bool retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
+  void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
 
   QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
 
