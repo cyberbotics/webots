@@ -26,7 +26,7 @@ ifeq ($(OSTYPE),linux)
  VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- SUMO_MD5SUM="89e34a7491bae2da4121d10abca4153e"
+ SUMO_MD5SUM="860d1adc1bd9759307fe8e4e982f392f"
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-Ubuntu_20.04.tar.bz2
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfj
