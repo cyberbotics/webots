@@ -22,6 +22,8 @@ import re
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+import hashlib
+import time
 
 SKIPPED_PROTO = ['UsageProfile.proto']
 
@@ -67,6 +69,8 @@ class ProtoInfo:
         # exclusive to slots
         self.slot_type = None
         self.needs_robot_ancestor = False
+        # determines if needs to be re
+        self.hash = hashlib.sha1(str(self.path).encode('utf-8')).hexdigest()
 
         # file contents to avoid reading multiple times
         with open(self.path, 'r') as file:
@@ -98,8 +102,8 @@ class ProtoInfo:
 
     def parse_body(self):
         # determine proto type (base type can be inferred only when all proto_types are known)
-        #print(proto.stem + ' ', end='')
-        #child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
+        # print(proto.stem + ' ', end='')
+        # child_node = re.search("(?<=[^EXTERN])PROTO\s+[^\[]+\s+\[((.|\n|\r\n)*)\]\s*\n*[^\{]?\{\s*(\%\<((.|\n|\r\n)*)\>\%)?\n?\s*[DEF\s+[a-zA-Z0-9\_\-\+]*]?\s+([a-zA-Z]+)[\s.\n]*{", contents)
         # child_node = re.search(
         #    "(?:\]\s*\n*)\{\n*\s*(?:\%\<((.|\n|\r\n)*)\>\%)?\n*\s*(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{", contents)
         child_node = re.search(
@@ -115,12 +119,22 @@ class ProtoInfo:
                 self.needs_robot_ancestor = True
 
 
-
 if __name__ == "__main__":
     assets = []
     assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
 
+    proto_hashes = {}
+    # load hash list or generate it if unknown
+    hashfile = f'{WEBOTS_HOME}/resources/.proto-list.xml'
+    if os.path.exists(hashfile):
+        with open(hashfile, 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                line = line[0:-1].split(' ')
+                proto_hashes[line[0]] = line[1]
+
     protos = {}
+    needs_refresh = False  # whether or not proto-list needs to be regenerated
     for asset in assets:
         if asset.name in SKIPPED_PROTO:
             continue
@@ -130,6 +144,15 @@ if __name__ == "__main__":
             raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
         else:
             protos[info.name] = info
+            hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
+            if info.name not in proto_hashes or proto_hashes[info.name] != hash:
+                needs_refresh = True
+
+    if needs_refresh or len(proto_hashes) != len(protos):
+        print('Changes detected, proto-list will be regenerated. The process might take some time.')
+    else:
+        print('No changes detected, proto-list regeneration will be skipped')
+        exit(0)
 
     base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
     # determine base_type from proto_type
@@ -145,12 +168,10 @@ if __name__ == "__main__":
 
     # all Solid, Transform and Group nodes might in fact be a collection of devices, so determine if it needs a Robot ancestor
     for key, info in protos.items():
-        if info.name in ['FlowerPot', 'MercedesBenzSprinterMesh']:
-            continue # TODO: transform to obj!
         info.check_robot_ancestor_requirement()
 
     # order based on proto path
-    #protos = sorted(protos.items(), key=lambda x: x[1].path)
+    # protos = sorted(protos.items(), key=lambda x: x[1].path)
 
     # for key, value in protos.items():
     #     if 'Velodyne' in key:
@@ -187,7 +208,7 @@ if __name__ == "__main__":
     #         value.print()
 
     # generated a sorted list from the dictionary
-    #ordered_protos = sorted([x.path for x in protos.values()])
+    # ordered_protos = sorted([x.path for x in protos.values()])
 
     # generate xml of proto list
     root = ET.Element('proto-list')
@@ -195,7 +216,7 @@ if __name__ == "__main__":
 
     for key, info in protos.items():
         # retrieve proto meta info from dictionary following the alphabetical order of the paths
-        #info = protos[os.path.basename(item).replace(".proto", "")]
+        # info = protos[os.path.basename(item).replace(".proto", "")]
         proto_element = ET.SubElement(root, 'proto')
         name_element = ET.SubElement(proto_element, 'name').text = info.name
         base_node_element = ET.SubElement(proto_element, 'basenode').text = info.base_type
@@ -227,3 +248,12 @@ if __name__ == "__main__":
 
     with open(filename, 'wb') as file:
         file.write(xml_string)
+
+    # regenerate hashfile, either it didn't exist to begin with or was incomplete
+    if os.path.exists(hashfile):
+        os.remove(hashfile)
+
+    with open(hashfile, 'w') as file:
+        for key, info in protos.items():
+            hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
+            file.write(f'{key} {hash}\n')
