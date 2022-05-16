@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A simple gaz canister with optional physics.
+# A simple gas canister with optional physics.
 # template language: javascript
 
-PROTO GazCanister [
+PROTO GasCanister [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0
-  field SFString   name            "gaz canister"
+  field SFString   name            "gas canister"
   field SFBool     enablePhysics   TRUE                 # Defines whether the fire extinguisher should have physics.
 ]
 {
@@ -15,7 +15,7 @@ PROTO GazCanister [
     translation IS translation
     rotation IS rotation
     name IS name
-    model "gaz canister"
+    model "gas canister"
     children [
       Transform {
         rotation 0 0 1 -1.5708
@@ -24,24 +24,24 @@ PROTO GazCanister [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gaz_canister/protos/textures/gaz_canister_base_color.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_base_color.jpg"
                 ]
               }
               roughness 0
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gaz_canister/protos/textures/gaz_canister_roughness.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_roughness.jpg"
                 ]
               }
               metalness 1
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gaz_canister/protos/textures/gaz_canister_metalness.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gaz_canister/protos/textures/gaz_canister_normal.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_normal.jpg"
                 ]
               }
             }
