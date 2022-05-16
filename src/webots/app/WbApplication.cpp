@@ -256,7 +256,7 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
   return true;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading) {
+bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
   printf("#########################################\nWbApplication::loadWorld()\n");
 
   printf("loading: %s\n", worldName.toUtf8().constData());
@@ -266,8 +266,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbParser parser(&tokenizer);
 
   // decisive load signal should come from WbProtoList (to ensure all assets are available)
-  const WbProtoList *source = dynamic_cast<const WbProtoList *>(sender());
-  if (!source) {
+  if (!isLoadingAfterDownload) {
     // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
     QStringList externProtoToGraft;
     if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {

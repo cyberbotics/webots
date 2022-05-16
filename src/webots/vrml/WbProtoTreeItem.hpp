@@ -21,7 +21,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *root);
   ~WbProtoTreeItem();
 
   const QString &name() { return mName; }
@@ -32,9 +32,6 @@ public:
 
   void downloadAssets();
   bool isReadyToLoad();
-
-  bool isAvailable() { return mIsAvailable; }
-  bool isParsed() { return mIsParsed; }
 
   void generateProtoMap(QMap<QString, QString> &map);
 
@@ -49,17 +46,17 @@ protected:
 
 protected slots:
   void downloadUpdate();
-  void parentUpdate();
   void refresh();
 
 private:
   QString mUrl;
-  bool mIsAvailable;  // is it cached or otherwise accessible
-  bool mIsParsed;     // has the file been parsed in order to define if it references any sub-proto
+  bool mIsReady;  // for it to be ready, the asset must be available (on disk) and have been parsed
   WbDownloader *mDownloader;
   QString mName;  // TODO: tmp, not really needed
   QString mError;
-  WbProtoTreeItem *mParent;
+  WbProtoTreeItem *mRoot;
+
+  void disconnectAll();
 
   QList<WbProtoTreeItem *> mSubProto;  // list of referenced sub-proto
 };

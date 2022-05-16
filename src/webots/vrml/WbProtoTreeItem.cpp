@@ -21,22 +21,24 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root) :
   mUrl(url),
-  mIsAvailable(false),
-  mIsParsed(false),
+  mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
-  mError(),
-  mParent(parent) {
+  mError() {
   // asd
   // if (!mParent) {
+  mRoot = root ? root : this;
+  printf("creating %s, is root %d\n", mName.toUtf8().constData(), this == mRoot);
+
   // connect(this, &WbProtoTreeItem::treeUpdated, mParent, &WbProtoTreeItem::readyToLoad);
-  connect(this, &WbProtoTreeItem::treeUpdated, this, &WbProtoTreeItem::refresh);
+  connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::refresh);
   // connect(mIsParsed, &bool ::changed, mParent, &WbProtoTreeItem::parentUpdate);
   //}
   // if the proto is locally available, parse it, otherwise download it first
-  downloadAssets();
+  if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
+    downloadAssets();
 }
 WbProtoTreeItem::~WbProtoTreeItem() {
   qDeleteAll(mSubProto);
@@ -44,13 +46,14 @@ WbProtoTreeItem::~WbProtoTreeItem() {
 }
 
 void WbProtoTreeItem::parseItem() {
+  printf("parsing asset %s\n", mName.toUtf8().constData());
+
   QString path = mUrl;
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
   QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
-    mIsAvailable = true;
     // check if the root file references external PROTO
     QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
@@ -67,18 +70,19 @@ void WbProtoTreeItem::parseItem() {
           return;
         }
 
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, mRoot);
         mSubProto.append(child);
       }
     }
 
-    mIsParsed = true;    // wait until mSubProto has been populated before flagging this item as parsed
+    mIsReady = true;     // wait until mSubProto has been populated before flagging this item as ready
     emit treeUpdated();  // when we reach a dead end, notify parent about it
   } else
     mError = QString(tr("File '%1' is not readable.").arg(path));
 }
 
 void WbProtoTreeItem::downloadAssets() {
+  printf("downloading assets for %s\n", mName.toUtf8().constData());
   mSubProto.clear();
 
   if (WbUrl::isLocalUrl(mUrl)) {
@@ -115,34 +119,27 @@ void WbProtoTreeItem::downloadUpdate() {
 }
 
 void WbProtoTreeItem::refresh() {
-  if (mParent)
-    return;
-
-  if (isReadyToLoad())
-    emit readyToLoad();
+  if (mRoot == this) {  // only true for the root element
+    if (isReadyToLoad()) {
+      disconnectAll();  // to a void multiple firings
+      emit readyToLoad();
+    }
+  }
 }
 
-void WbProtoTreeItem::parentUpdate() {
-  if (mParent) {
-    // climb chain until
-    emit treeUpdated();
-  }
+void WbProtoTreeItem::disconnectAll() {
+  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::refresh);
 
-  // only the root node has a NULL parent
-  if (mParent) {
-    // if all children have been parsed and all are available (i.e. on disk), then rely the information upwards
-    if (isReadyToLoad())
-      emit treeUpdated();
-  } else
-    emit readyToLoad();
+  foreach (WbProtoTreeItem *subProto, mSubProto)
+    subProto->disconnectAll();
 }
 
 bool WbProtoTreeItem::isReadyToLoad() {
-  bool isReady = true;
+  bool isReady = mIsReady;
   foreach (WbProtoTreeItem *subProto, mSubProto)
     isReady = isReady && subProto->isReadyToLoad();
 
-  return isReady && mIsAvailable && mIsParsed;
+  return isReady;
 }
 
 void WbProtoTreeItem::generateProtoMap(QMap<QString, QString> &map) {
@@ -155,7 +152,7 @@ void WbProtoTreeItem::generateProtoMap(QMap<QString, QString> &map) {
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
-  WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
+  WbProtoTreeItem *child = new WbProtoTreeItem(url, mRoot);
   mSubProto.append(child);
   // printf("%35s grafted\n", child->name().toUtf8().constData());
 }
@@ -165,8 +162,8 @@ void WbProtoTreeItem::print(int indent) {
   for (int i = 0; i < indent; ++i)
     spaces += "  ";
 
-  printf("%s%30s %p [parent %p] has %lld children (%d %d)\n", spaces.toUtf8().constData(), mName.toUtf8().constData(), this,
-         mParent, mSubProto.size(), mIsAvailable, mIsParsed);
+  printf("%s%30s %p has %lld children (%d)\n", spaces.toUtf8().constData(), mName.toUtf8().constData(), this, mSubProto.size(),
+         mIsReady);
   foreach (WbProtoTreeItem *subProto, mSubProto)
     subProto->print(indent + 1);
 }

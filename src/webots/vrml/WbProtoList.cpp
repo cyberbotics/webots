@@ -431,7 +431,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {
     QFile rootFile(filename);
-    mTreeRoot = new WbProtoTreeItem(filename, NULL);
+    mTreeRoot = new WbProtoTreeItem(filename, NULL);  //
     connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
@@ -447,6 +447,11 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
       WbLog::error(tr("PROTO '%1' is not a known official PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
 
+  // status pre-firing
+  mTreeRoot->print();
+  // root node is now fully populated, trigger download
+  mTreeRoot->downloadAssets();
+
   // TODO: not functional, in test_local.wbt rename "RelativeExternalProtoSolid" to "LocalExternalProtoSolid" to trigger it
 
   // generate mCurrentProjectProto list (map proto <-> path) and load world, if all assets are available
@@ -456,7 +461,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // else
   //  connect(mTreeRoot, &WbProtoTreeItem::treeUpdated, this, &WbProtoList::tryWorldLoad);
   // return isReady;
-  mTreeRoot->print();
+  // mTreeRoot->print();
 }
 
 void WbProtoList::tryWorldLoad() {
@@ -465,9 +470,8 @@ void WbProtoList::tryWorldLoad() {
   // generate mCurrentProjectProto
   mTreeRoot->generateProtoMap(mCurrentProjectProto);
   // cleanup and attempt to reload
-  disconnect(mTreeRoot);
   delete mTreeRoot;
   mTreeRoot = NULL;
-  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading);  // load the world again
+  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
   //}
 }
