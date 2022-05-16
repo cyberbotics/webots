@@ -1509,7 +1509,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   selection->selectTransformFromView3D(selectedMatter,
                                        mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
 
-  if (WbSysInfo::environmentVariable("WEBOTS_DEVELOPMENT_ENVIRONMENT").isEmpty())
+  if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
 
   if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {

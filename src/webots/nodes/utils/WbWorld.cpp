@@ -87,12 +87,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldInfo(NULL),
   mViewpoint(NULL),
   mPerspective(NULL),
-  mProtos(NULL),
   mLastAwakeningTime(0.0),
   mIsLoading(true),
   mIsCleaning(false),
-  mIsVideoRecording(false),
-  mDownloader(NULL) {
+  mIsVideoRecording(false) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);
@@ -113,10 +111,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
-
-    // WbApplication::instance()->setWorldLoadingStatus(tr("Retrieving extern proto (if any)"));
-    // recursivelyRetrieveExternReferences(mFileName, QString());
-    mProtos = NULL;  // protos ? protos : new WbProtoList(mFileName); // TODO: TO RESTORE
 
     // read/create nodes
     WbNodeReader reader;
@@ -201,7 +195,6 @@ void WbWorld::finalize() {
 
 WbWorld::~WbWorld() {
   delete mRoot;
-  delete mProtos;
   WbNode::cleanup();
   gInstance = NULL;
 
@@ -270,9 +263,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
   if (newProjectPath != WbProject::current()->path()) {
     // reset list of loaded and available PROTO nodes
-    delete mProtos;
-    mProtos = WbProtoList::instance();  // (isValidProject ? newProjectPath + "protos" : "");
-    WbProject::current()->setPath(newProjectPath);
+    // TODO: does one of the lists need to be rebuilt/updated since we changed projet location?
   }
 
   mIsModified = false;
@@ -446,7 +437,6 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
 }
 
 void WbWorld::checkPresenceOfMandatoryNodes() {
-  printf("checkPresenceOfMandatoryNodes()\n");
   mWorldInfo = static_cast<WbWorldInfo *>(findTopLevelNode("WorldInfo", 0));
   if (!mWorldInfo) {
     mWorldInfo = new WbWorldInfo();
@@ -714,45 +704,4 @@ QString WbWorld::logWorldMetrics() const {
   }
 
   return QString("%1 solids, %2 joints, %3 graphical geometries").arg(solidCount).arg(jointCount).arg(geomCount);
-}
-
-void WbWorld::recursivelyRetrieveExternReferences(const QString &filename) {
-  QFile file(filename);
-  if (file.open(QIODevice::ReadOnly)) {
-    const QString content = file.readAll();
-
-    QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
-    QRegularExpressionMatchIterator it = re.globalMatch(content);
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch()) {
-        const QString url = match.captured(1);
-        if (!url.endsWith(".proto")) {
-          WbLog::error(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.\n"));
-          return;
-        }
-
-        // printf("REGEX found >>%s<<\n", url.toUtf8().constData());
-
-        // create directory for this proto
-        if (!WbNetwork::instance()->isCached(url)) {
-          if (mDownloader != NULL && mDownloader->hasFinished())
-            delete mDownloader;
-          mDownloader = new WbDownloader(this);
-          mDownloader->download(QUrl(url));
-
-          connect(mDownloader, &WbDownloader::complete, this, &WbWorld::downloadCompleted);
-        } else {
-          QString identifier = QUrl(url).fileName();
-          printf("> %s already exists in cache\n", identifier.toUtf8().constData());
-        }
-      }
-    }
-  } else
-    WbLog::error(tr("Could not open file: '%1'.").arg(filename));
-}
-
-void WbWorld::downloadCompleted() {
-  printf("Download completed\n");
-  recursivelyRetrieveExternReferences(mDownloader->url().toString());
 }

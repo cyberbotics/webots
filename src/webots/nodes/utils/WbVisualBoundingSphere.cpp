@@ -56,7 +56,7 @@ void WbVisualBoundingSphere::enable(bool enabled, const WbBaseNode *node) {
 }
 
 void WbVisualBoundingSphere::createSphere(const WbVector3 &center, float radius) {
-  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEVELOPMENT_ENVIRONMENT is set.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
   if (!mInitialized) {
     mWrenNode = wr_scene_get_root(wr_scene_get_instance());
     mWrenScaleTransform = wr_transform_new();
@@ -109,7 +109,7 @@ WbVisualBoundingSphere::~WbVisualBoundingSphere() {
 }
 
 void WbVisualBoundingSphere::show(const WbBaseNode *node) {
-  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEVELOPMENT_ENVIRONMENT is set.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
   if (!gEnabled) {
     if (mInitialized)
       deleteWrenObjects();

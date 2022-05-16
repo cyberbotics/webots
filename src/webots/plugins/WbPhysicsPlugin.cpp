@@ -267,6 +267,7 @@ const WbNode *WbPhysicsPlugin::findNodeByDef(const WbNode *node, const QString &
 }
 
 QString WbPhysicsPlugin::findSourceFileForPlugin(const QString &name) {
+  // TODO: ensure it works still
   static const char *EXTENSIONS[] = {".c", ".cc", ".cpp", NULL};
 
   for (int i = 0; EXTENSIONS[i]; ++i) {

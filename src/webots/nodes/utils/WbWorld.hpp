@@ -19,11 +19,11 @@
 // Description: Webots world
 //
 
+#include "WbWorldInfo.hpp"
+
 #include <QtCore/QMutex>
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include "WbDownloader.hpp"
-#include "WbWorldInfo.hpp"
 
 class WbGroup;
 class WbNode;
@@ -33,7 +33,6 @@ class WbSolid;
 class WbTokenizer;
 class WbViewpoint;
 class WbProtoList;
-class WbDownloader;
 
 struct dImmersionGeom;
 class WbOdeContact;
@@ -196,13 +195,11 @@ private:
   QList<WbSolid *> mTopSolids;
   QList<WbSolid *> mRadarTargets;
   QList<WbSolid *> mCameraRecognitionObjects;
-  WbProtoList *mProtos;
   QMutex mOdeContactsMutex;
   double mLastAwakeningTime;
   bool mIsLoading;
   bool mIsCleaning;
   bool mIsVideoRecording;
-  WbDownloader *mDownloader;
 
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
@@ -218,7 +215,6 @@ private:
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void updateTopLevelLists();
-  void downloadCompleted();  // TODO: find better name
 };
 
 #endif

@@ -612,7 +612,7 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbAction::RADAR_FRUSTUMS));
   subMenu->addAction(actionManager->action(WbAction::SKIN_SKELETON));
 
-  if (!WbSysInfo::environmentVariable("WEBOTS_DEVELOPMENT_ENVIRONMENT").isEmpty()) {
+  if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
     subMenu->addSeparator();
     subMenu->addAction(actionManager->action(WbAction::BOUNDING_SPHERE));
     subMenu->addAction(actionManager->action(WbAction::PHYSICS_CLUSTERS));
