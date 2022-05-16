@@ -2385,3 +2385,28 @@ Hello everyone, do you know if there is a class diagram for wren available somew
 ##### seenu 02/24/2022 14:24:00
 Please share detailed documentation for cross compilation, transfer .hex file via bluetooth in ubuntu
 
+##### goch [Moderator] 04/22/2022 13:39:25
+Hey. I want to get access to a linear motor on a robot. The Robot has a DEF. I can access the robot with getFromDef. The Documentation states that dots can be used to get acces to a node in the hirarchy 
+
+
+
+my Robot looks like this   DEF ROBOT -> children -> Solid 
+
+
+
+But neither getFromDef("ROBOT.children.Solid") or getFromDef("ROBOT.Solid") seems to work  and always returns None  
+
+
+
+Am I interpreting the Documentation wrong?
+
+
+
+The Docs -> [https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_from\_device](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_from_device)
+
+##### Benjamin Délèze [Cyberbotics] 04/22/2022 13:54:04
+The dot can be used as scoping operator. Which means that if you have a node with a def  `ARM` inside another node with def  `ROBOT1` and another node with also a def `ARM` inside a node `ROBOT2`, you can use `getFromDef("ROBOT2.ARM")` to be sure to select the `ARM` of the second robot.
+
+##### goch [Moderator] 04/22/2022 15:07:57
+Ok thanks. It seems that this system only works, if every child of a node has a DEF. If one child in the tree does not have a DEF the scoping breaks and None is returned.
+
