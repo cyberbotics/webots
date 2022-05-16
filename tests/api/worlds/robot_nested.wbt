@@ -19,13 +19,16 @@ DirectionalLight {
 TestSuiteSupervisor {
 }
 Robot {
+  name "father"
   children [
     TestSuiteEmitter {
     }
     DEF CHILD_ROBOT Robot {
+      name "child"
       translation 0 0.1 0
       children [
         Robot {
+          name "grand child"
           translation 0 0.1 0
           children [
             TestSuiteEmitter {
@@ -53,7 +56,7 @@ Robot {
             TestSuiteEmitter {
             }
           ]
-          name "robot(1)"
+          name "brother"
           controller "robot_nested_child"
           controllerArgs [
             "robot_nested_group_child"
@@ -64,6 +67,7 @@ Robot {
             rotation 1 0 0 0
             children [
               DEF JOINT_ROBOT Robot {
+                name "sister"
                 children [
                   TestSuiteEmitter {
                   }
@@ -83,7 +87,7 @@ Robot {
                 TestSuiteEmitter {
                 }
               ]
-              name "robot(2)"
+              name "cousin"
               controller "robot_nested_child"
               controllerArgs [
                 "robot_nested_slot_endpoint"
