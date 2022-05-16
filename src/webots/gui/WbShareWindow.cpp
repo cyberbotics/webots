@@ -27,7 +27,7 @@
 QString groupBoxStyleSheet;
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  QString uploadUrl = "testing.webots.cloud"; //WbPreferences::instance()->value("Network/uploadUrl").toString();
+  QString uploadUrl = "https://testing.webots.cloud"; //WbPreferences::instance()->value("Network/uploadUrl").toString();
   if (uploadUrl.contains("//"))
     uploadUrl = uploadUrl.split("//")[1];
   groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
@@ -101,6 +101,6 @@ void WbLinkWindow::reject() {
 }
 
 void WbLinkWindow::setLabelLink(QString url) {
-  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
+  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1?upload=webots'>%1</a>").arg(url));
   mGroupBoxLink->adjustSize();
 }

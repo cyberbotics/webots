@@ -1577,7 +1577,7 @@ void WbMainWindow::uploadScene() {
 }
 
 void WbMainWindow::upload(char type) {
-  const QString uploadUrl = "testing.webots.cloud"; //WbPreferences::instance()->value("Network/uploadUrl").toString();
+  const QString uploadUrl = "https://testing.webots.cloud"; //WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
