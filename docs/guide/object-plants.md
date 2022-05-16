@@ -51,7 +51,6 @@ FlowerPot {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "flower pot"
-  SFColor    vaseBaseColor        0.2313726 0.5843138 0.6745098
   SFNode     physics              NULL
 }
 ```
