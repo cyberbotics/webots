@@ -23,19 +23,19 @@ PROTO FlowerPot [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_base_color.png"
+                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_base_color.jpg"
                 ]
               }
-              roughness 0
+              roughness 1
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_roughness.png"
+                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_roughness.jpg"
                 ]
               }
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_normal.png"
+                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_normal.jpg"
                 ]
               }
             }
@@ -71,7 +71,7 @@ PROTO FlowerPot [
                   "webots://projects/objects/plants/protos/textures/flower_pot_vase_base_color.png"
                 ]
               }
-              roughness 0
+              roughness 1
               roughnessMap ImageTexture {
                 url [
                   "webots://projects/objects/plants/protos/textures/flower_pot_vase_roughness.png"
