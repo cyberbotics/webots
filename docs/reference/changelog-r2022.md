@@ -18,6 +18,7 @@ Released on XX, XXth, 2022.
   - New Objects
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
+    - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
   - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements
     - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
