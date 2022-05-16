@@ -67,7 +67,7 @@ Robot {
             rotation 1 0 0 0
             children [
               DEF JOINT_ROBOT Robot {
-                name "sister"
+                name "joint sister"
                 children [
                   TestSuiteEmitter {
                   }
@@ -87,7 +87,7 @@ Robot {
                 TestSuiteEmitter {
                 }
               ]
-              name "cousin"
+              name "slot brother"
               controller "robot_nested_child"
               controllerArgs [
                 "robot_nested_slot_endpoint"
