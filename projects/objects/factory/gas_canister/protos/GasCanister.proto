@@ -19,6 +19,7 @@ PROTO GasCanister [
     children [
       Transform {
         rotation 0 0 1 -1.5708
+        scale 0.8 0.8 0.8
         children [
           Shape {
             appearance PBRAppearance {
@@ -69,16 +70,18 @@ PROTO GasCanister [
       }
     ]
     boundingObject Transform {
-    translation 0 0 0.95
+    translation 0 0 0.75
       children [
         Cylinder {
-          height 1.9
-          radius 0.22
+          height 1.5
+          radius 0.175
         }
       ]
     }
     %< if (fields.enablePhysics.value) { >%
     physics Physics {
+      density -1
+      mass 75
     }
     %< } >%
   }
