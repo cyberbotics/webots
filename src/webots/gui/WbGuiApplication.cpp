@@ -180,8 +180,13 @@ void WbGuiApplication::parseArguments() {
       int index = arg.indexOf('=');
       if (index == -1)
         commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
-      else
+      else {
         port = arg.mid(index + 1).toInt();
+        if (port < 1 || port > 65535) {
+          commandLineError(tr("webots: port value %1 out of range [1;65535], reverting to 1234 default value").arg(port));
+          port = 1234;
+        }
+      }
     } else if (arg == "--stream") {
       mStream = 'x';  // x3d is the default mode
     } else if (arg.startsWith("--stream=")) {
