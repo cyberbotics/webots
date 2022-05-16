@@ -545,7 +545,10 @@ void WbCamera::writeAnswer(QDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
 
   if (mSegmentationImageChanged) {
-    copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
+    if (mIsRemoteExternController)
+      printf("get segmentation camera image + add in stream\n");
+    else
+      copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
     mSegmentationImageChanged = false;
   }
 

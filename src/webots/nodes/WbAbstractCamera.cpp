@@ -15,6 +15,7 @@
 #include "WbAbstractCamera.hpp"
 
 #include "WbBackground.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLens.hpp"
 #include "WbLight.hpp"
@@ -315,7 +316,40 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mImageChanged) {
-    copyImageToMemoryMappedFile(mWrenCamera, image());
+    if (mIsRemoteExternController) {
+      // stream << (short unsigned int)tag();
+      // stream << (unsigned char)C_CAMERA_SERIAL_IMG;
+      WbDataStream img;
+
+      img << (int)width();
+      // qDebug(img);
+      // printf("img size = %d\n", img.length());
+      int length = img.length();
+      img.resize(size());
+      unsigned char *chimg = new unsigned char[size()];
+
+      if (mWrenCamera) {
+        // printf("img size = %d\n", img.length());
+        mWrenCamera->enableCopying(true);
+        mWrenCamera->copyContentsToMemory(img.data() + length);
+        mWrenCamera->copyContentsToMemory(chimg);
+
+        for (int i = 0; i < size(); i++) {
+          printf("%d chimg %d\n", i, (int)chimg[i]);
+        }
+        // printf("img size = %d\n", img.length());
+        char *data = img.data();
+        int count = 0;
+        while (count < size() + 2) {
+          printf("data = %d\n", (unsigned char)*data);
+          ++data;
+          count++;
+        }
+        printf("count = %d\n", count);
+        img.clear();
+      }
+    } else
+      copyImageToMemoryMappedFile(mWrenCamera, image());
     mSensor->resetPendingValue();
     mImageChanged = false;
   }
@@ -323,7 +357,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mSendMemoryMappedFile) {
+  if (mSendMemoryMappedFile && !mIsRemoteExternController) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
     if (mImageMemoryMappedFile) {
@@ -365,7 +399,17 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
-      copyImageToMemoryMappedFile(mWrenCamera, image());
+      if (mIsRemoteExternController) {
+        /*stream << (short unsigned int)tag();
+        stream << (unsigned char)C_CAMERA_SERIAL_IMG;
+        unsigned char *img = new unsigned char[size()];
+        if (mWrenCamera) {
+          mWrenCamera->enableCopying(true);
+          mWrenCamera->copyContentsToMemory(img);
+          stream << (unsigned char *)img;
+        }*/
+      } else
+        copyImageToMemoryMappedFile(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();
