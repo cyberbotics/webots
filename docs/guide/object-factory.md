@@ -278,6 +278,38 @@ FireExtinguisher {
 
 - `enablePhysics`: Defines whether the fire extinguisher should have physics.
 
+## Gaz Canister
+
+### GazCanister
+
+A simple gaz canister with optional physics.
+
+%figure
+
+![GazCanister](images/objects/gaz_canister/GazCanister/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+GazCanister {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 0 1 0
+  SFString   name            "gaz canister"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/gaz\_canister/protos/GazCanister.proto]({{ url.github_tree }}/projects/objects/factory/gaz_canister/protos/GazCanister.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### GazCanister Field Summary
+
+- `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
 ## Manhole
 
 ### SquareManhole
