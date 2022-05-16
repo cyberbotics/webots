@@ -178,9 +178,10 @@ void WbGuiApplication::parseArguments() {
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--port")) {
       int index = arg.indexOf('=');
-      if (index == -1) {
+      if (index == -1)
         commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
-      }
+      else
+        port = arg.mid(index + 1).toInt();
     } else if (arg == "--stream") {
       mStream = 'x';  // x3d is the default mode
     } else if (arg.startsWith("--stream=")) {
