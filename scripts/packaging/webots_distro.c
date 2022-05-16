@@ -1140,7 +1140,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
  #endif
 
-#ifdef WEBOTS_UBUNTU_22_04
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 

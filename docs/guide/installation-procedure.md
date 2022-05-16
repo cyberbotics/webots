@@ -155,7 +155,7 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 #### Installing the Docker Image
 
-[Docker](https://www.docker.com) images of Webots based on Ubuntu 22.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
 These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
