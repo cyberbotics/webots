@@ -41,7 +41,7 @@ function resetIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
 }
 
 function resetColorIfInvalid(value) {
-  let clampedColor = clampValuesIfNeeded(value);
+  const clampedColor = clampValuesIfNeeded(value);
   if (value.x !== clampedColor.x || value.y !== clampedColor.y || value.z !== clampedColor.z) {
     console.warn('Invalid color ' + value + ' changed to ' + clampedColor);
     return clampedColor;
