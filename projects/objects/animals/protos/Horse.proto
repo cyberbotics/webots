@@ -1,0 +1,134 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A brown horse.
+# This object is physics-enabled so it can be pushed.
+# template language: javascript
+
+PROTO Horse [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFString   name        "horse"
+  field SFFloat    mass        750               # Defines the mass of the cow in kg.
+  field SFBool     enablePhysics   TRUE
+]
+{
+   %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  model "horse"
+  scale %<= scale >% %<= scale >% %<= scale >%
+  children [
+    Shape {
+      appearance PBRAppearance {
+        metalness 0
+        roughness 0.7
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/horse/textures/Image_0.jpeg"
+          ]
+        }
+      }
+      geometry Mesh {
+              url "webots://projects/objects/animals/horse/meshes/Horse.obj"
+            }
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation -0.0599978 0 1.27
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          DEF BODY Cylinder {
+            height 2
+            radius 0.45
+          }
+        ]
+      }
+      Transform {
+        translation 1.01197 0 0.991818
+        rotation 0 -1 0 0.261807
+        children [
+          DEF NECK Cylinder {
+            height 1
+            radius 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -0.672728 -0.14 0.499296
+        rotation 0 1 0 0
+        children [
+          DEF LEG2 Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation -0.672728 -0.14 0.499296
+        rotation 0 1 0 0
+        children [
+          DEF LEG4 Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation 0.76649 -0.08 0.498581
+        rotation 0 1 0 0
+        children [
+          DEF LEG3 Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation -0.56 0.14 0.51
+        rotation 0 0 1 0
+        children [
+          DEF LEG1 Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation 0.76649 -0.08 0.498581
+        rotation 0 1 0 0
+        children [
+          DEF TAIL Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation -1.15513 -0.02 1.879
+        rotation 0 -1 0 0.261796
+        children [
+          DEF HEAD Box {
+            size 1 0.4 0.6
+          }
+        ]
+      }
+    ]
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}

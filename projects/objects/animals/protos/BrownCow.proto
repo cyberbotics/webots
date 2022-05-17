@@ -1,0 +1,126 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A brown and white cow.
+# This object is physics-enabled so it can be pushed.
+# template language: javascript
+
+PROTO BrownCow [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFString   name        "cow"
+  field SFFloat    mass        750               # Defines the mass of the cow in kg.
+]
+{
+   %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  model "cow"
+  scale %<= scale >% %<= scale >% %<= scale >%
+  children [
+    Shape {
+      appearance PBRAppearance {
+        metalness 0
+        roughness 0.7
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/cow/textures/Cow_tornado_cow_material_BaseColor.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/cow/textures/Cow_tornado_cow_material_Roughness"
+          ]
+        }
+        metalnessMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/cow/textures/Cow_tornado_cow_material_Metallic.png"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/cow/textures/Cow_tornado_cow_material_Normal.png"
+          ]
+        }
+      }
+      geometry Mesh {
+              url "webots://projects/objects/animals/cow/meshes/cow/cow2.obj"
+            }
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0.170001 0 0.62
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Cylinder {
+            height 1.3
+            radius 0.35
+          }
+        ]
+      }
+      Transform {
+        translation -0.18 -0.14 0.25
+        rotation 0 0 1 0
+        children [
+          DEF LEG Cylinder {
+            height 0.5
+            radius 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -0.16 0.13 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation 0.77 -0.13 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation 0.79 0.13 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation 0.955013 0 0.578556
+        rotation 0 -1 0 0.523598
+        children [
+          Cylinder {
+            height 0.6
+            radius 0.05
+          }
+        ]
+      }
+      Transform {
+        translation -0.67 0 0.78
+        rotation 0 0 1 0
+        children [
+          Box {
+            size 0.4 0.5 0.4
+          }
+        ]
+      }
+    ]
+  }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}

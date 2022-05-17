@@ -1,0 +1,83 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A Rabbit.
+# This object is physics-enabled so it can be pushed.
+# template language: javascript
+
+PROTO Rabbit [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFString   name        "rabbit"
+  field SFFloat    mass        1                  # Defines the mass of the rabbit in kg.
+  field SFBool     enablePhysics   TRUE                                                                  # Defines whether the rabbit should have physics.
+]
+{
+%<
+ let scale = fields.scale.value;
+ if (scale <= 0) {
+   scale = fields.scale.defaultValue;
+   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+ }
+>%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  model "rabbit"
+  scale %<= scale >% %<= scale >% %<= scale >%
+  children [
+    Shape {
+      appearance PBRAppearance {
+      metalness 0
+      roughness 0.7
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/rabbit/textures/Material_0_baseColor.jpeg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/rabbit/textures/Material_0_metallicRoughness.png"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/rabbit/textures/Material_0_normal.png"
+          ]
+        }
+      }
+      geometry Mesh {
+              url "webots://projects/objects/animals/rabbit/meshes/rabbit.obj"
+            }
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation -0.08 0.08 0.2
+        rotation 0 1 0 0
+        children [
+          Cylinder {
+            height 0.13
+            radius 0.04
+          }
+        ]
+      }
+      Transform {
+        translation -0.04 0.05 0.08
+        children [
+          Box {
+            size 0.2 0.2 0.16
+          }
+        ]
+      }
+    ]
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}

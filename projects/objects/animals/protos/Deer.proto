@@ -1,0 +1,118 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A female deer.
+# This object is physics-enabled so it can be pushed.
+# template language: javascript
+
+PROTO Deer [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFString   name        "deer"
+  field SFFloat    mass        1                  # Defines the mass of the chair in kg.
+  field SFBool     enablePhysics   TRUE
+]
+{
+%<
+ let scale = fields.scale.value;
+ if (scale <= 0) {
+   scale = fields.scale.defaultValue;
+   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+ }
+>%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  model "deer"
+  scale %<= scale >% %<= scale >% %<= scale >%
+  children [
+    Shape {
+      appearance PBRAppearance {
+      metalness 0
+      roughness 0.7
+      transparency 0
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/deer/textures/material_0_baseColor.png"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "webots://projects/objects/animals/deer/textures/material_0_normal.png"
+          ]
+        }
+      }
+      geometry Mesh {
+              url "webots://projects/objects/animals/deer/meshes/deer.obj"
+            }
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation -0.009999 0 0.62
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Cylinder {
+            height 1
+            radius 0.2
+          }
+        ]
+      }
+      Transform {
+        translation -0.32 -0.09 0.25
+        rotation 0 0 1 0
+        children [
+          DEF LEG Cylinder {
+            height 0.5
+            radius 0.08
+          }
+        ]
+      }
+      Transform {
+        translation 0.3 0.13 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation 0.3 -0.13 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation -0.3 0.18 0.25
+        children [
+          USE LEG
+        ]
+      }
+      Transform {
+        translation -0.500918 0 0.80029
+        rotation 0 1 0 -0.523595307179586
+        children [
+          Cylinder {
+            height 0.3
+            radius 0.12
+          }
+        ]
+      }
+      Transform {
+        translation -0.65 0 1.04
+        rotation 0 0 1 0
+        children [
+          Box {
+            size 0.3 0.35 0.3
+          }
+        ]
+      }
+    ]
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}

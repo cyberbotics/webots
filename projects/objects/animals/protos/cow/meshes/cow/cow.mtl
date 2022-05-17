@@ -1,0 +1,8 @@
+newmtl tornado_cow_material
+Ka 0.300000 0.300000 0.300000
+Kd 0.700000 0.700000 0.700000
+Ks 0.000000 0.000000 0.000000
+Ns 20.000000
+Tr 0.000000
+illum 1
+map_Kd H:\Documents NAD\Projets 3D\tourNAD\Pictures\tornado_cow\tornado_cow_UV_albedo.png
