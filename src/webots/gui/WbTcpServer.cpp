@@ -451,6 +451,9 @@ void WbTcpServer::newWorld() {
 
   if (!prepareWorld())
     return;
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (WbRobot *const robot, robots)
+    connectNewRobot(robot);
 }
 
 void WbTcpServer::deleteWorld() {
