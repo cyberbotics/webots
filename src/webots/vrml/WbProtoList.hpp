@@ -68,8 +68,6 @@ private:
 class WbProtoList : public QObject {
   Q_OBJECT
 public:
-  enum { RESOURCES_PROTO_CACHE, PROJECTS_PROTO_CACHE, EXTRA_PROTO_CACHE };
-
   static WbProtoList *instance();
 
   // return all proto files stored in valid project folders located in the given path
@@ -137,11 +135,6 @@ private:
   QString mPrimarySearchPath;
   QList<WbProtoModel *> mModels;
 
-  static QFileInfoList gResourcesProtoCache;
-  static QFileInfoList gProjectsProtoCache;
-  static QFileInfoList gExtraProtoCache;
-  QFileInfoList mPrimaryProtoCache;
-
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
@@ -150,11 +143,6 @@ private:
 
   QMap<QString, WbProtoInfo *> mOfficialProtoList;
   QMap<QString, QString> mCurrentProjectProto;
-
-  static void updateProjectsProtoCache();
-  static void updateResourcesProtoCache();
-  static void updateExtraProtoCache();
-  void updatePrimaryProtoCache();
 
   void setupKnownProtoList();  // known == mentioned in a world file in the webots library (sub-proto not known)
 };

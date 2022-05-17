@@ -340,11 +340,14 @@ void WbNewProtoWizard::updateNodeTree() {
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos
+  // TODO: restore this
+  /*
   const QStringList protoNodesNames = WbProtoList::instance()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
   foreach (const QString &protoName, protoNodesNames) {
     if (protoName.contains(regexp))
       protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
   }
+  */
 
   mTree->addTopLevelItem(nodesItem);
   mTree->addTopLevelItem(protosItem);

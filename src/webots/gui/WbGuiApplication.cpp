@@ -223,13 +223,6 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--batch") {
       batch = true;
       WbMessageBox::disable();
-    } else if (arg.startsWith("--update-proto-cache")) {
-      QStringList items = arg.split('=');
-      if (items.size() > 1)
-        mTaskArguments.append(items[1]);
-      else
-        mTaskArguments.clear();
-      mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
     else if (arg == "--enable-x3d-meta-file-export")

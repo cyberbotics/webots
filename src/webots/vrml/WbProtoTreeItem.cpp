@@ -13,10 +13,10 @@
 // limitations under the License.
 
 #include "WbProtoTreeItem.hpp"
-#include "../nodes/utils/WbDownloader.hpp"
-#include "../nodes/utils/WbUrl.hpp"
+#include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>

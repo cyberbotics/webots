@@ -29,7 +29,6 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoCachedInfo.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
@@ -716,6 +715,7 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
 
 int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
                                const QRegularExpression &regexp, const QDir &rootDirectory) {
+  /*
   QTreeWidgetItem *item;
   int nAddedNodes = 0;
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
@@ -780,6 +780,7 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
   }
 
   return nAddedNodes;
+  */
 }
 
 void WbAddNodeDialog::import() {

@@ -17,7 +17,6 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
-#include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSoundEngine.hpp"
@@ -50,8 +49,6 @@ void WbSingleTaskApplication::run() {
     showHelp();
   else if (mTask == WbGuiApplication::VERSION)
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
-  else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
-    updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT)
@@ -243,40 +240,4 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("OpenGL version: %1").arg((const char *)gl->glGetString(GL_VERSION)).toUtf8().constData() << endl;
 
   delete context;
-}
-
-void WbSingleTaskApplication::updateProtoCacheFiles() const {
-  // TODO: to restore/delete
-  /*
-  const QString path = (mTaskArguments.size() > 0) ? mTaskArguments[0] : "";
-  QFileInfo argumentInfo(path);
-  if (argumentInfo.isFile()) {
-    if (argumentInfo.completeSuffix() == "proto")
-      WbProtoCachedInfo::computeInfo(argumentInfo.absoluteFilePath());
-    else
-      cout << tr("Invalid file: a PROTO file with suffix '.proto' is expected.").toUtf8().constData() << endl;
-
-    return;
-  }
-
-  QString dirPath = QDir::currentPath();
-  if (argumentInfo.isDir())
-    dirPath = path;
-
-  // init proto list
-  new WbProtoList(dirPath);
-
-  // get all proto files
-  QFileInfoList protoList;
-  WbProtoList::findProtosRecursively(dirPath, protoList);
-
-  if (protoList.isEmpty()) {
-    cout << tr("Folder '%1' doesn't contain any valid PROTO file.").arg(dirPath).toUtf8().constData() << endl;
-    return;
-  }
-
-  // recompute PROTO cache information
-  foreach (QFileInfo protoInfo, protoList)
-    WbProtoCachedInfo::computeInfo(protoInfo.absoluteFilePath());
-  */
 }

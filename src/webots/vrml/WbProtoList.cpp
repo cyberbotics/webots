@@ -14,12 +14,10 @@
 
 #include "WbProtoList.hpp"
 
-#include "../app/WbApplication.hpp"
-#include "../core/WbApplicationInfo.hpp"
-#include "../core/WbNetwork.hpp"
-#include "../nodes/utils/WbDownloader.hpp"
-#include "../nodes/utils/WbUrl.hpp"
+#include "WbApplication.hpp"
+#include "WbDownloader.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
@@ -28,6 +26,7 @@
 #include "WbProtoTreeItem.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
@@ -35,9 +34,6 @@
 #include <QtCore/QXmlStreamReader>
 
 static WbProtoList *gInstance = NULL;
-QFileInfoList WbProtoList::gResourcesProtoCache;
-QFileInfoList WbProtoList::gProjectsProtoCache;
-QFileInfoList WbProtoList::gExtraProtoCache;
 
 WbProtoList *WbProtoList::instance() {
   if (!gInstance)
@@ -95,34 +91,6 @@ void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &p
     }
     findProtosRecursively(subfolder.absoluteFilePath(), protoList, inProtos);
   }
-}
-
-void WbProtoList::updateProjectsProtoCache() {
-  gProjectsProtoCache.clear();
-  QFileInfoList protosInfo;
-  findProtosRecursively(WbStandardPaths::projectsPath(), protosInfo);
-  gProjectsProtoCache << protosInfo;
-}
-
-void WbProtoList::updateExtraProtoCache() {
-  gExtraProtoCache.clear();
-  QFileInfoList protosInfo;
-
-  foreach (const WbProject *project, *WbProject::extraProjects())
-    findProtosRecursively(project->path(), protosInfo);
-
-  gExtraProtoCache << protosInfo;
-}
-
-void WbProtoList::updatePrimaryProtoCache() {
-  mPrimaryProtoCache.clear();
-
-  if (mPrimarySearchPath.isEmpty())
-    return;
-
-  QFileInfoList protosInfo;
-  findProtosRecursively(mPrimarySearchPath, protosInfo, mPrimarySearchPath.endsWith("protos"));
-  mPrimaryProtoCache << protosInfo;
 }
 
 WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
@@ -258,6 +226,8 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
 */
 
 QString WbProtoList::findModelPath(const QString &modelName) const {
+  // TODO: restore this
+  /*
   QFileInfoList availableProtoFiles;
   availableProtoFiles << mPrimaryProtoCache << gExtraProtoCache << gProjectsProtoCache << gResourcesProtoCache;
 
@@ -265,7 +235,7 @@ QString WbProtoList::findModelPath(const QString &modelName) const {
     if (fi.baseName() == modelName)
       return fi.absoluteFilePath();
   }
-
+  */
   return QString();  // not found
 }
 
@@ -273,30 +243,6 @@ QStringList WbProtoList::fileList() {
   QStringList list;
   foreach (WbProtoModel *model, gInstance->mModels)
     list << model->fileName();
-  return list;
-}
-
-QStringList WbProtoList::fileList(int cache) {
-  QStringList list;
-
-  QFileInfoList availableProtoFiles;
-  switch (cache) {
-    case RESOURCES_PROTO_CACHE:
-      availableProtoFiles << gResourcesProtoCache;
-      break;
-    case PROJECTS_PROTO_CACHE:
-      availableProtoFiles << gProjectsProtoCache;
-      break;
-    case EXTRA_PROTO_CACHE:
-      availableProtoFiles << gExtraProtoCache;
-      break;
-    default:
-      return list;
-  }
-
-  foreach (const QFileInfo &fi, availableProtoFiles)
-    list.append(fi.baseName());
-
   return list;
 }
 
