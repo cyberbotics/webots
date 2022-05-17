@@ -28,6 +28,9 @@ import threading
 import time
 import multiprocessing
 
+if 'GITHUB_ACTIONS' in os.environ and os.platform == 'linux':
+    import distro
+
 from command import Command
 
 # monitor failures
@@ -194,8 +197,12 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
+            # robot window test not working on BETA Ubuntu 22.04 GitHub Action environment
             if (not filename.endswith('_temp.wbt') and
-                    not ('GITHUB_ACTIONS' in os.environ and filename.endswith('speaker.wbt'))):
+                    not ('GITHUB_ACTIONS' in os.environ and (
+                        filename.endswith('speaker.wbt') or
+                        (filename.endswith('robot_window_html.wbt') and os.platform == 'linux' and distro.version() == '22.04')
+                        ))):
                 f.write(filename + '\n')
                 worldsCount += 1
 
