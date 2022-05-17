@@ -132,6 +132,7 @@ public:
 
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
   void generateWorldProtoList();
+  void generateExtraProtoList();
 
 private slots:
   void tryWorldLoad();

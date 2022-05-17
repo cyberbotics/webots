@@ -448,9 +448,7 @@ void WbAddNodeDialog::buildTree() {
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
   QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World)"), PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
-  QTreeWidgetItem *const extraProtosItem = WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() ?
-                                             NULL :
-                                             new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
+  QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
 
@@ -538,11 +536,11 @@ void WbAddNodeDialog::buildTree() {
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
   int nWorldProtosNodes = 0;
   nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
-
   // add Current Project PROTO (all PROTO locally available in the project location)
 
   // add Extra PROTO (all PROTO available in the extra location)
-
+  int nExtraProtosNodes = 0;
+  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp);
   // add Webots PROTO
   int nWProtosNodes = 0;  // TODO: fix n's
   nWProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
@@ -585,6 +583,9 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   if (type == PROTO_WORLD) {
     WbProtoList::instance()->generateWorldProtoList();  // TODO: can return the list directly?
     protoList = WbProtoList::instance()->worldProtoList();
+  } else if (type == PROTO_EXTRA) {
+    WbProtoList::instance()->generateExtraProtoList();
+    protoList = WbProtoList::instance()->extraProtoList();
   } else if (type == PROTO_WEBOTS)
     protoList = WbProtoList::instance()->webotsProtoList();
 

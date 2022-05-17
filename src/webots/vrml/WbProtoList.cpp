@@ -391,9 +391,27 @@ void WbProtoList::generateWorldProtoList() {
     QString protoUrl = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
     if (WbUrl::isWeb(protoUrl) && WbNetwork::instance()->isCached(protoUrl))
       protoUrl = WbNetwork::instance()->get(protoUrl);
+
+    const QString protoName = QUrl(protoUrl).fileName().replace(".proto", "");
     WbProtoInfo *info = generateInfoFromProtoFile(protoUrl);
-    if (info)
-      mWorldProtoList.insert(QUrl(protoUrl).fileName().replace(".proto", ""), info);
+    if (info && !mWorldProtoList.contains(protoName))
+      mWorldProtoList.insert(protoName, info);
+  }
+}
+
+void WbProtoList::generateExtraProtoList() {
+  mExtraProtoList.clear();
+
+  // find all proto and instantiate the nodes to build WbProtoInfo
+  foreach (const WbProject *project, *WbProject::extraProjects()) {
+    QDirIterator it(project->path(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+      const QString path = it.next();
+      const QString protoName = QFileInfo(path).baseName();
+      WbProtoInfo *info = generateInfoFromProtoFile(path);
+      if (info && !mExtraProtoList.contains(protoName))
+        mExtraProtoList.insert(protoName, info);
+    }
   }
 }
 
@@ -445,7 +463,6 @@ WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName
     }
   }
 
-  // compute and store proto info
   WbProtoInfo *info = new WbProtoInfo(protoFileName, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
                                       protoModel->tags(), needsRobotAncestor);
