@@ -83,11 +83,6 @@ private:
   QString mImportFileName;
   bool mIsFolderItemSelected;
 
-  QStringList mUniqueLocalProtoNames;
-  QStringList mUniqueExtraProtoNames;
-  bool mIsAddingLocalProtos;
-  bool mIsAddingExtraProtos;
-
   WbDownloader *mDownloader;
   void downloadIcon(const QString &url);
 

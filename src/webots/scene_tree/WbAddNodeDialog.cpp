@@ -60,8 +60,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mIsAddingLocalProtos(false),
-  mIsAddingExtraProtos(false),
   mDownloader(NULL) {
   assert(mCurrentNode && mField);
 
@@ -442,8 +440,6 @@ void WbAddNodeDialog::buildTree() {
   mTree->clear();
   mUsesItem = NULL;
   mDefNodes.clear();
-  mUniqueLocalProtoNames.clear();
-  mUniqueExtraProtoNames.clear();
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
   QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World)"), PROTO_WORLD);
@@ -509,30 +505,6 @@ void WbAddNodeDialog::buildTree() {
     }
   }
 
-  mUniqueLocalProtoNames.clear();  // TODO needed?
-  mUniqueExtraProtoNames.clear();
-
-  /*
-  // add project PROTO
-  if (lprotosItem) {
-    mIsAddingLocalProtos = true;
-    addProtosFromDirectory(lprotosItem, WbProject::current()->path() + "/protos/", regexp,
-                           QDir(WbProject::current()->path() + "/protos/"));
-    mIsAddingLocalProtos = false;
-  }
-
-  // add extra PROTO from the 'General/extraProjectPath' preference and
-  // the environment variable 'WEBOTS_EXTRA_PROJECT_PATH'
-  // Multiple paths can be listed if separated by a ":" (or ";" on Windows)
-  if (aprotosItem) {
-    mIsAddingExtraProtos = true;
-
-    foreach (const WbProject *project, *WbProject::extraProjects())
-      addProtosFromDirectory(aprotosItem, project->path(), regexp, QDir(project->path()));
-    mIsAddingExtraProtos = false;
-  }
-  */
-
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
   int nWorldProtosNodes = 0;
   nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
@@ -579,6 +551,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
 
+  bool flattenHierarchy = true;
   QMap<QString, WbProtoInfo *> protoList;
   if (type == PROTO_WORLD) {
     WbProtoList::instance()->generateWorldProtoList();  // TODO: can return the list directly?
@@ -586,8 +559,10 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   } else if (type == PROTO_EXTRA) {
     WbProtoList::instance()->generateExtraProtoList();
     protoList = WbProtoList::instance()->extraProtoList();
-  } else if (type == PROTO_WEBOTS)
+  } else if (type == PROTO_WEBOTS) {
     protoList = WbProtoList::instance()->webotsProtoList();
+    flattenHierarchy = false;
+  }
 
   QMapIterator<QString, WbProtoInfo *> it(protoList);
   while (it.hasNext()) {
@@ -610,162 +585,50 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
       continue;
 
     QString errorMessage;
-    const QString nodeName = it.key();  // QUrl(info->url()).fileName().replace(".proto", "");
+    const QString nodeName = it.key();
     if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
                                             QStringList() << baseType << nodeName))
       continue;
 
     // populate tree
-    QStringList categories = path.split('/', Qt::SkipEmptyParts);
-    QTreeWidgetItem *parent = parentItem;
-    foreach (QString folder, categories) {
-      if (folder == "projects" || folder == "protos")
-        continue;
+    if (flattenHierarchy) {
+      QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << path);
+      parentItem->addChild(item);
+      item->setIcon(0, QIcon("enabledIcons:proto.png"));
+      ++nAddedNodes;
+    } else {
+      QStringList categories = path.split('/', Qt::SkipEmptyParts);
+      QTreeWidgetItem *parent = parentItem;
+      foreach (QString folder, categories) {
+        if (folder == "projects" || folder == "protos")
+          continue;
 
-      const bool isProto = folder.endsWith(".proto");
-
-      bool exists = false;
-      int i;
-      for (i = 0; i < parent->childCount(); ++i) {
-        if (parent->child(i)->text(0) == folder) {
-          exists = true;
-          break;
+        const bool isProto = folder.endsWith(".proto");
+        bool exists = false;
+        int i;
+        for (i = 0; i < parent->childCount(); ++i) {
+          if (parent->child(i)->text(0) == folder) {
+            exists = true;
+            break;
+          }
         }
-      }
 
-      QTreeWidgetItem *subFolder;
-      if (exists)
-        subFolder = parent->child(i);
-      else {
-        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
-        subFolder = new QTreeWidgetItem(QStringList() << name << path);
-      }
+        QTreeWidgetItem *subFolder;
+        if (exists)
+          subFolder = parent->child(i);
+        else {
+          const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
+          subFolder = new QTreeWidgetItem(QStringList() << name << path);
+        }
 
-      if (isProto) {
-        subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
-        ++nAddedNodes;
+        if (isProto) {
+          subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
+          ++nAddedNodes;
+        }
+        parent->addChild(subFolder);
+        parent = subFolder;
       }
-      parent->addChild(subFolder);
-      parent = subFolder;
     }
-  }
-
-  return nAddedNodes;
-}
-
-int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath,
-                                            const QRegularExpression &regexp, const QDir &rootDirectory, bool recurse,
-                                            bool inProtos) {
-  QDir dir(dirPath);
-  if (!dir.exists() || !dir.isReadable()) {
-    // no protos node
-    return 0;
-  }
-  int nAddedNodes = 0;
-  int nNodes = 0;
-  if (dirPath.endsWith("/protos/"))
-    inProtos = true;
-  if (inProtos) {
-    QStringList filter("*.proto");
-    // search in folder
-    const QStringList &protoFiles = dir.entryList(filter, QDir::Files, QDir::Name);
-    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), regexp, rootDirectory);
-  }
-  // search in subfolders
-  QTreeWidgetItem *newFolderItem;
-  QStringList list(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot));
-  const int size = list.size();
-  if (recurse)
-    for (int i = 0; i < size; ++i)
-      if (list[i] == "controllers" || list[i] == "worlds" || list[i] == "plugins" || list[i] == "protos") {
-        recurse = false;
-        break;
-      }
-  for (int i = 0; i < size; ++i) {
-    if (inProtos && (list[i] == "textures" || list[i] == "icons"))
-      continue;
-    if (list[i] == "worlds")
-      continue;
-    if (list[i] == "controllers")
-      continue;
-    if (list[i] == "plugins")
-      continue;
-    if (list[i] == "protos")
-      // do not add 'protos' item to the tree
-      newFolderItem = parentItem;
-    else {
-      newFolderItem = new QTreeWidgetItem(QStringList(list[i]));
-      parentItem->addChild(newFolderItem);
-    }
-    if (list[i] == "protos" || inProtos || recurse)
-      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", regexp, rootDirectory, recurse,
-                                      inProtos);
-    else
-      nNodes = 0;
-    if (nNodes == 0) {
-      if (parentItem != newFolderItem) {
-        parentItem->removeChild(newFolderItem);
-        delete newFolderItem;
-      }
-    } else
-      nAddedNodes += nNodes;
-  }
-  return nAddedNodes;
-}
-
-int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
-                               const QRegularExpression &regexp, const QDir &rootDirectory) {
-  QTreeWidgetItem *item;
-  int nAddedNodes = 0;
-  const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
-  foreach (const QString protoFile, protoList) {
-    const QString protoFilePath(dirPath + "/" + protoFile);
-    WbProtoInfo *info = WbProtoList::instance()->generateInfoFromProtoFile(protoFilePath);
-
-    // TODO: need to add some safety to WbProtoInfo?
-    // if (protoCachedInfo->baseType() == "UNKNOWN")
-    //  continue;
-
-    // don't display PROTOs which contain a "hidden" or a "deprecated" tag
-    QStringList tags = info->tags();
-    if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
-      continue;
-
-    // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    if (!rootDirectory.relativeFilePath(protoFilePath).contains(regexp) && !info->baseType().contains(regexp))
-      continue;
-
-    // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(info->baseType()) && info->needsRobotAncestor())
-      continue;
-
-    QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(mField, info->baseType(), mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            QStringList() << info->baseType() << protoFile.chopped(6)))
-      continue;
-
-    const QFileInfo fileInfo(protoFile);
-    item = new QTreeWidgetItem(
-      QStringList(QStringList() << QString("%1 (%2)").arg(fileInfo.baseName()).arg(info->baseType()) << protoFilePath));
-    item->setIcon(0, QIcon("enabledIcons:proto.png"));
-    parentItem->addChild(item);
-    ++nAddedNodes;
-
-    if (mUniqueLocalProtoNames.contains(fileInfo.baseName())) {
-      // disable item if PROTO model with same name already exists in local project
-      item->setDisabled(true);
-      item->setToolTip(
-        0,
-        tr("Node not available because another project PROTO model with the same name already exists in your local project."));
-    } else if (mUniqueExtraProtoNames.contains(fileInfo.baseName())) {
-      // disable item if PROTO model with same name already exists in extra projects
-      item->setDisabled(true);
-      item->setToolTip(0, tr("Node not available because another project PROTO model with the same name already exists in your "
-                             "extra projects."));
-    } else if (mIsAddingLocalProtos)
-      mUniqueLocalProtoNames.append(fileInfo.baseName());
-    else if (mIsAddingExtraProtos)
-      mUniqueExtraProtoNames.append(fileInfo.baseName());
   }
 
   return nAddedNodes;
