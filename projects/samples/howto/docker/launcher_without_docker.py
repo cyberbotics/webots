@@ -48,12 +48,10 @@ try:
 except Exception:
     print(f"error: Unable to start Webots: {command}")
     quit()
-print(f'Webots [{webots_process.pid}] started: "{command}"')
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
     if line.startswith('ipc://'):
-        print(line)
         os.environ['WEBOTS_CONTROLLER_URL'] = line
         os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'  # you may comment out these two
         os.environ['WEBOTS_STDERR_REDIRECT'] = '1'  # lines to disable redirections
