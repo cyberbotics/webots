@@ -56,10 +56,9 @@ function clampValuesIfNeeded(value) {
 function clampValue(value) {
   if (value < 0.0)
     return 0.0;
-  else if (value > 1.0)
+  if (value > 1.0)
     return 1.0;
-  else
-    return value;
+  return value;
 }
 
 export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid};
