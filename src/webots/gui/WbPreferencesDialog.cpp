@@ -117,7 +117,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 
   // robot window
   mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
-  mBrowserProgram->setText(prefs->value("RobotWindow/browser", "chromium").toString());
+  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
