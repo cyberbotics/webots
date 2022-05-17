@@ -30,7 +30,7 @@ import multiprocessing
 
 from command import Command
 
-if 'GITHUB_ACTIONS' in os.environ and os.platform == 'linux':
+if 'GITHUB_ACTIONS' in os.environ and sys.platform == 'linux':
     import distro
 
 # monitor failures
