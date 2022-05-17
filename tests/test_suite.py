@@ -28,10 +28,10 @@ import threading
 import time
 import multiprocessing
 
+from command import Command
+
 if 'GITHUB_ACTIONS' in os.environ and os.platform == 'linux':
     import distro
-
-from command import Command
 
 # monitor failures
 failures = 0
