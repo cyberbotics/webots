@@ -1,3 +1,5 @@
+import WbVector3 from './WbVector3.js';
+
 function resetIfNonPositive(value, defaultValue) {
   if (value <= 0) {
     console.warn('Invalid ' + value + ' changed to ' + defaultValue + '. The value should be positive.');
@@ -38,4 +40,26 @@ function resetIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
   return false;
 }
 
-export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds};
+function resetColorIfInvalid(value) {
+  let clampedColor = clampValuesIfNeeded(value);
+  if (value.x !== clampedColor.x || value.y !== clampedColor.y || value.z !== clampedColor.z) {
+    console.warn('Invalid color ' + value + ' changed to ' + clampedColor);
+    return clampedColor;
+  }
+  return false;
+}
+
+function clampValuesIfNeeded(value) {
+  return new WbVector3(clampValue(value.x), clampValue(value.y), clampValue(value.z));
+}
+
+function clampValue(value) {
+  if (value < 0.0)
+    return 0.0;
+  else if (value > 1.0)
+    return 1.0;
+  else
+    return value;
+}
+
+export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive, resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid};
