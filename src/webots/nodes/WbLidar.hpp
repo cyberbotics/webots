@@ -40,7 +40,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
   void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
@@ -119,7 +119,7 @@ private:
   WrMaterial *mLidarRaysMaterial;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   void copyAllLayersToMemoryMappedFile();
   void updatePointCloud(int minWidth, int maxWidth);

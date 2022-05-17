@@ -15,6 +15,7 @@
 #include "WbLidar.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPerspective.hpp"
 #include "WbRgb.hpp"
@@ -223,7 +224,7 @@ void WbLidar::write(WbWriter &writer) const {
   }
 }
 
-void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbLidar::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
   stream << (short)mNumberOfLayers->value();
@@ -234,7 +235,7 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (double)actualHorizontalResolution();
 }
 
-void WbLidar::writeAnswer(QDataStream &stream) {
+void WbLidar::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
     mImageChanged = false;  // prevent AbstractCamera from copying the whole content of the camera in the memory mapped file
     WbAbstractCamera::writeAnswer(stream);

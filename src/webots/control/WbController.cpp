@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbDataStream.hpp"
 #include "WbFileUtil.hpp"
 #include "WbIniParser.hpp"
 #include "WbLanguage.hpp"
@@ -938,27 +939,30 @@ void WbController::handleControllerExit() {
 
 void WbController::writeUserInputEventAnswer() {
   // prepare stream
-  QByteArray buffer;
+  WbDataStream stream;
+  stream << (int)0;
+  /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards
-  stream << (int)0;
+  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
 
   // dispatch the stream to the devices
   mRobot->setNeedToWriteUserInputEventAnswer();
   mRobot->dispatchAnswer(stream, false);
 
   // size management
-  const int size = stream.device()->pos();
+  const int size = stream.length() + sizeof(int);
+  stream.prepend(QByteArray::number(size));
+  /*const int size = stream.device()->pos();
   stream.device()->seek(0);
-  stream << size;
+  stream << size;*/
 
   // write the request
   if (mTcpSocket) {
-    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->write(stream.constData(), size);
     mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
   } else {
-    mSocket->write(buffer.constData(), size);
+    mSocket->write(stream.constData(), size);
     mSocket->flush();  // sometimes packets are simply not sent without flushing
   }
 }
@@ -971,10 +975,12 @@ void WbController::writeAnswer(bool immediateAnswer) {
   mHasPendingImmediateAnswer = false;
 
   // prepare stream
-  QByteArray buffer;
+  WbDataStream stream;
+  stream << (int)0;
+  /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards
+  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
 
   // delay management
   // the time including the controller process time is the
@@ -992,16 +998,18 @@ void WbController::writeAnswer(bool immediateAnswer) {
     mRobot->writeImmediateAnswer(stream);
 
   // size management
-  const int size = stream.device()->pos();
+  const int size = stream.length() + sizeof(int);
+  stream.prepend(QByteArray::number(size));
+  /*const int size = stream.device()->pos();
   stream.device()->seek(0);
-  stream << size;
+  stream << size;*/
 
   // write the request
   if (mTcpSocket) {
-    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->write(stream.constData(), size);
     mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
   } else {
-    mSocket->write(buffer.constData(), size);
+    mSocket->write(stream.constData(), size);
     mSocket->flush();  // sometimes packets are simply not sent without flushing
   }
 
@@ -1035,10 +1043,12 @@ void WbController::writeImmediateAnswer() {
     return;
 
   // prepare stream
-  QByteArray buffer;
+  WbDataStream stream;
+  stream << (int)0;
+  /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards
+  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
 
   // immediate message
   const int delay = -1;
@@ -1048,18 +1058,21 @@ void WbController::writeImmediateAnswer() {
   mRobot->writeImmediateAnswer(stream);
 
   // size management
-  const int size = stream.device()->pos();
+  const int size = stream.length() + sizeof(int);
+  // const int size = stream.device()->pos();
 
   assert(size > 8);  // the immediate message shouldn't be empty
 
-  stream.device()->seek(0);
-  stream << size;
+  stream.prepend(QByteArray::number(size));
+  // stream.device()->seek(0);
+  // stream << size;
+
   // write the request
   if (mTcpSocket) {
-    mTcpSocket->write(buffer.constData(), size);
+    mTcpSocket->write(stream.constData(), size);
     mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
   } else {
-    mSocket->write(buffer.constData(), size);
+    mSocket->write(stream.constData(), size);
     mSocket->flush();  // sometimes packets are simply not sent without flushing
   }
 }

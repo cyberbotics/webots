@@ -18,6 +18,7 @@
 
 #include "WbMotor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -620,7 +621,7 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
 // Control //
 /////////////
 
-void WbMotor::addConfigureToStream(QDataStream &stream) {
+void WbMotor::addConfigureToStream(WbDataStream &stream) {
   stream << (unsigned short)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)type();
@@ -641,7 +642,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   mNeedToConfigure = false;
 }
 
-void WbMotor::writeConfigure(QDataStream &stream) {
+void WbMotor::writeConfigure(WbDataStream &stream) {
   if (mForceOrTorqueSensor)
     mForceOrTorqueSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
@@ -773,7 +774,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbMotor::writeAnswer(QDataStream &stream) {
+void WbMotor::writeAnswer(WbDataStream &stream) {
   if (mForceOrTorqueSensor && (refreshSensorIfNeeded() || mForceOrTorqueSensor->hasPendingValue())) {
     stream << tag();
     stream << (unsigned char)C_MOTOR_FEEDBACK;

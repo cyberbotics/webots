@@ -17,6 +17,7 @@
 #include "WbAbstractCamera.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
+#include "WbDataStream.hpp"
 #include "WbDisplay.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
@@ -727,7 +728,7 @@ void WbRobot::keyReleased(int key) {
   emit keyboardChanged();
 }
 
-void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const {
+void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const {
   QListIterator<WbDevice *> it(devices);
   while (it.hasNext()) {
     const WbDevice *device = it.next();
@@ -743,7 +744,7 @@ void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &strea
   }
 }
 
-void WbRobot::writeConfigure(QDataStream &stream) {
+void WbRobot::writeConfigure(WbDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
@@ -1038,7 +1039,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     mSupervisorUtilities->handleMessage(stream);
 }
 
-void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
+void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
   if (mConfigureRequest) {
     assignDeviceTags(true);
     writeConfigure(stream);
@@ -1060,7 +1061,7 @@ void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
   }
 }
 
-void WbRobot::writeAnswer(QDataStream &stream) {
+void WbRobot::writeAnswer(WbDataStream &stream) {
   const double time = 0.001 * WbSimulationState::instance()->time();
   if (time != mPreviousTime) {
     stream << (short unsigned int)0;
@@ -1249,7 +1250,7 @@ bool WbRobot::hasImmediateAnswer() const {
   return mShowWindowMessage || mUpdateWindowMessage || mMessageFromWwi;
 }
 
-void WbRobot::writeImmediateAnswer(QDataStream &stream) {
+void WbRobot::writeImmediateAnswer(WbDataStream &stream) {
   if (mConfigureRequest)
     return;
   if (mShowWindowMessage) {

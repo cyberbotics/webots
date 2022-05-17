@@ -38,8 +38,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   bool refreshSensorIfNeeded() override;
   void reset(const QString &id) override;
 
@@ -65,7 +65,7 @@ private:
   WbNode *clone() const override { return new WbGps(*this); }
   void init();
 
-  void addConfigureToStream(QDataStream &stream);
+  void addConfigureToStream(WbDataStream &stream);
 
 private slots:
   void updateResolution();

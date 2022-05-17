@@ -50,8 +50,8 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void reset(const QString &id) override;
 
   virtual void updateCameraTexture();
@@ -100,7 +100,7 @@ protected:
   WbSFNode *mLens;
 
   // private functions
-  virtual void addConfigureToStream(QDataStream &stream, bool reconfigure = false);
+  virtual void addConfigureToStream(WbDataStream &stream, bool reconfigure = false);
   bool handleCommand(QDataStream &stream, unsigned char command);
 
   unsigned char *image() const { return mImageData; }

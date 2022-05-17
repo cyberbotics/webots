@@ -22,6 +22,7 @@
 #include "../../../include/controller/c/webots/types.h"  // WbDeviceTag definition
 
 class QDataStream;
+class WbDataStream;
 class QString;
 
 // logical device class
@@ -32,8 +33,8 @@ public:
 
   virtual double energyConsumption() const { return 0.0; }
   virtual void handleMessage(QDataStream &) {}
-  virtual void writeAnswer(QDataStream &) {}
-  virtual void writeConfigure(QDataStream &) {}
+  virtual void writeAnswer(WbDataStream &) {}
+  virtual void writeConfigure(WbDataStream &) {}
   virtual void powerOn(bool e) { mPowerOn = e; }  // power off when running out of battery
   bool isPowerOn() const { return mPowerOn; }
   bool hasTag() const { return mTag != UNASSIGNED; }

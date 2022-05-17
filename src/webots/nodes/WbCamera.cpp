@@ -17,6 +17,7 @@
 #include "WbAffinePlane.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
@@ -503,7 +504,7 @@ void WbCamera::rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, doubl
   }
 }
 
-void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbCamera::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   if (zoom()) {
     stream << (double)zoom()->minFieldOfView();
@@ -535,13 +536,13 @@ void WbCamera::resetMemoryMappedFile() {
     initializeSegmentationMemoryMappedFile();
 }
 
-void WbCamera::writeConfigure(QDataStream &stream) {
+void WbCamera::writeConfigure(WbDataStream &stream) {
   WbAbstractCamera::writeConfigure(stream);
 
   mRecognitionSensor->connectToRobotSignal(robot());
 }
 
-void WbCamera::writeAnswer(QDataStream &stream) {
+void WbCamera::writeAnswer(WbDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
 
   if (mSegmentationImageChanged) {

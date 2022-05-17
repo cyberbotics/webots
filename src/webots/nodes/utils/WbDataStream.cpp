@@ -14,6 +14,10 @@
 
 #include "WbDataStream.hpp"
 
+WbDataStream &WbDataStream::writeRawData(const char *s, int len) {
+  return (WbDataStream &)append(s, len);
+}
+
 WbDataStream &WbDataStream::operator<<(qint8 i) {
   return (WbDataStream &)append(QByteArray::number(i));
 }
@@ -43,7 +47,7 @@ WbDataStream &WbDataStream::operator<<(double f) {
 }
 
 WbDataStream &WbDataStream::operator<<(qfloat16 f) {
-  return (WbDataStream &)append(f);
+  return (WbDataStream &)append(QByteArray::number(f));
 }
 
 WbDataStream &WbDataStream::operator<<(const char *s) {

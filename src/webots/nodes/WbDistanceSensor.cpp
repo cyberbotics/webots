@@ -14,6 +14,7 @@
 
 #include "WbDistanceSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbGeometry.hpp"
 #include "WbLookupTable.hpp"
@@ -609,7 +610,7 @@ void WbDistanceSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbDistanceSensor::writeAnswer(QDataStream &stream) {
+void WbDistanceSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_DISTANCE_SENSOR_DATA;
@@ -622,7 +623,7 @@ void WbDistanceSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbDistanceSensor::addConfigure(QDataStream &stream) {
+void WbDistanceSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mRayType;
@@ -638,7 +639,7 @@ void WbDistanceSensor::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbDistanceSensor::writeConfigure(QDataStream &stream) {
+void WbDistanceSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

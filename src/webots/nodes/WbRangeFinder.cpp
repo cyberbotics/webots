@@ -14,6 +14,7 @@
 
 #include "WbRangeFinder.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
@@ -93,7 +94,7 @@ QString WbRangeFinder::pixelInfo(int x, int y) const {
   return QString::asprintf("depth(%d,%d)=%f", x, y, color.red());
 }
 
-void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbRangeFinder::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
 }

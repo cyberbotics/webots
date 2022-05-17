@@ -27,6 +27,7 @@
 #include <QtCore/QVector>
 
 class WbAbstractCamera;
+class WbDataStream;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -83,10 +84,10 @@ public:
   bool isPowerOn() { return mPowerOn; }
   void dispatchMessage(QDataStream &);
   virtual void handleMessage(QDataStream &);
-  virtual void writeAnswer(QDataStream &);
+  virtual void writeAnswer(WbDataStream &);
   virtual bool hasImmediateAnswer() const;
-  virtual void writeImmediateAnswer(QDataStream &);
-  void dispatchAnswer(QDataStream &, bool includeDevices = true);
+  virtual void writeImmediateAnswer(WbDataStream &);
+  void dispatchAnswer(WbDataStream &, bool includeDevices = true);
   void setConfigureRequest(bool b) { mConfigureRequest = b; }
 
   // device children
@@ -161,7 +162,7 @@ protected:
   // reimplemented protected functions
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  virtual void writeConfigure(QDataStream &);
+  virtual void writeConfigure(WbDataStream &);
 
   // export
   void exportNodeFields(WbWriter &writer) const override;
@@ -265,7 +266,7 @@ private:
   // if reset is TRUE reassign tags to devices (when device config changed)
   // if reset is FALSE, only tag of newly added devices will be assigned
   void assignDeviceTags(bool reset);
-  void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
+  void writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
   void pinToStaticEnvironment(bool pin);

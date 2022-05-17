@@ -15,6 +15,7 @@
 #include "WbEmitter.hpp"
 
 #include "WbDataPacket.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbReceiver.hpp"
 
@@ -141,7 +142,7 @@ void WbEmitter::updateChannel() {
   mNeedToSetChannel = true;
 }
 
-void WbEmitter::writeConfigure(QDataStream &stream) {
+void WbEmitter::writeConfigure(WbDataStream &stream) {
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mBufferSize->value();
@@ -159,7 +160,7 @@ void WbEmitter::writeConfigure(QDataStream &stream) {
   mNeedToSetAllowedChannels = false;
 }
 
-void WbEmitter::writeAnswer(QDataStream &stream) {
+void WbEmitter::writeAnswer(WbDataStream &stream) {
   if (mNeedToSetRange) {
     stream << tag();
     stream << (unsigned char)C_EMITTER_SET_RANGE;
