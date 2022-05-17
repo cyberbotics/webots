@@ -88,7 +88,6 @@ public slots:
   QString exportHtmlFiles();
   void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
   void uploadScene();
-  void test();
   void startAnimationRecording();
 
 protected:

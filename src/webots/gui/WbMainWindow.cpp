@@ -1649,29 +1649,6 @@ void WbMainWindow::upload(char type) {
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
 }
 
-void WbMainWindow::test() {
-  QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
-  assert(reply);
-  if (!reply)
-    return;
-
-  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::test);
-
-  const QStringList answers = QString(reply->readAll().data()).split("\n");
-  QString message;
-
-  foreach (const QString &answer, answers) {
-    if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
-      QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
-      QJsonObject jsonAnswer = document.object();
-      message = jsonAnswer["message"].toString();
-    }
-  }
-
-  WbMessageBox::warning(tr("Answer: %1").arg(message));
-}
-
-
 void WbMainWindow::updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal) {
   if (bytesTotal > 0)
     mUploadProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
