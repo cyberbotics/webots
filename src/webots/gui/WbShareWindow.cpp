@@ -88,6 +88,14 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   mLabelLink->setOpenExternalLinks(true);
   mLabelLink->setMinimumHeight(15);
   layout->addWidget(mLabelLink, 0, 0, 1, 1);
+
+  QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
+  layout->addItem(verticalSpacer, 1, 0, 1, 1);
+
+  QLabel *labelInfo = new QLabel(this);
+  labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to follow the link to associate the"
+                        "<br>upload with your webots.cloud account.</a></p></body></html>"));
+  layout->addWidget(labelInfo, 2, 0, 1, 1);
 }
 
 void WbLinkWindow::reject() {
@@ -100,7 +108,9 @@ void WbLinkWindow::reject() {
   QDialog::reject();
 }
 
-void WbLinkWindow::setLabelLink(QString url) {
-  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1?upload=webots'>%1</a>").arg(url));
+void WbLinkWindow::setLabelLink(QString url, QString uploadMessage) {
+  QString uploadUrl = url + uploadMessage;
+  mUrl = &uploadUrl;
+  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%2</a>").arg(uploadUrl, url));
   mGroupBoxLink->adjustSize();
 }

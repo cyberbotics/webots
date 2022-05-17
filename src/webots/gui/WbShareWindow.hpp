@@ -37,11 +37,12 @@ public:
   explicit WbLinkWindow(QWidget *parent = NULL);
   virtual ~WbLinkWindow() {}
 
-  void setLabelLink(QString url);
+  void setLabelLink(QString url, QString uploadMessage);
 
 private:
   QGroupBox *mGroupBoxLink;
   QLabel *mLabelLink;
+  QString *mUrl;
   void reject() override;
 };
 
