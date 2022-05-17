@@ -201,7 +201,7 @@ def generateWorldsList(groupName, worldsFilename):
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and os.platform == 'linux' and distro.version() == '22.04')
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'linux' and distro.version() == '22.04')
                         ))):
                 f.write(filename + '\n')
                 worldsCount += 1
