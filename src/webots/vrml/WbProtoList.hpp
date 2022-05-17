@@ -31,12 +31,13 @@ class WbProtoTreeItem;
 
 class WbProtoInfo {
 public:
-  WbProtoInfo(QString url, QString basenode, QString license, QString licenseUrl, QString description, QString slotType,
-              QStringList tags, bool needsRobotAncestor) :
+  WbProtoInfo(QString url, QString basenode, QString license, QString licenseUrl, QString documentationUrl, QString description,
+              QString slotType, QStringList tags, bool needsRobotAncestor) :
     mUrl(url),
     mBaseNode(basenode),
     mLicense(license),
     mLicenseUrl(licenseUrl),
+    mDocumentationUrl(documentationUrl),
     mDescription(description),
     mSlotType(slotType),
     mTags(tags),
@@ -46,6 +47,7 @@ public:
   QString baseNode() { return mBaseNode; }
   QString license() { return mLicense; }
   QString licenseUrl() { return mLicenseUrl; }
+  QString documentationUrl() { return mDocumentationUrl; }
   QString description() { return mDescription; }
   QString slotType() { return mSlotType; }
   QStringList tags() { return mTags; }
@@ -56,6 +58,7 @@ private:
   QString mBaseNode;
   QString mLicense;
   QString mLicenseUrl;
+  QString mDocumentationUrl;
   QString mDescription;
   QString mSlotType;
   QStringList mTags;

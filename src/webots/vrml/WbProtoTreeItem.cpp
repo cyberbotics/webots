@@ -27,15 +27,10 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root) :
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
   mError() {
-  // asd
-  // if (!mParent) {
+  // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
-  printf("creating %s, is root %d\n", mName.toUtf8().constData(), this == mRoot);
+  connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
-  // connect(this, &WbProtoTreeItem::treeUpdated, mParent, &WbProtoTreeItem::readyToLoad);
-  connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::refresh);
-  // connect(mIsParsed, &bool ::changed, mParent, &WbProtoTreeItem::parentUpdate);
-  //}
   // if the proto is locally available, parse it, otherwise download it first
   if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
     downloadAssets();
@@ -46,8 +41,6 @@ WbProtoTreeItem::~WbProtoTreeItem() {
 }
 
 void WbProtoTreeItem::parseItem() {
-  printf("parsing asset %s\n", mName.toUtf8().constData());
-
   QString path = mUrl;
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
@@ -118,17 +111,17 @@ void WbProtoTreeItem::downloadUpdate() {
   parseItem();
 }
 
-void WbProtoTreeItem::refresh() {
+void WbProtoTreeItem::rootUpdate() {
   if (mRoot == this) {  // only true for the root element
     if (isReadyToLoad()) {
-      disconnectAll();  // to a void multiple firings
+      disconnectAll();  // to avoid multiple firings
       emit readyToLoad();
     }
   }
 }
 
 void WbProtoTreeItem::disconnectAll() {
-  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::refresh);
+  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
   foreach (WbProtoTreeItem *subProto, mSubProto)
     subProto->disconnectAll();

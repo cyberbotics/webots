@@ -342,6 +342,13 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 
     WbProtoInfo *info = protoList.value(modelName);
 
+    // set documentation url
+    if (!info->documentationUrl().isEmpty()) {
+      mDocumentationLabel->show();
+      mDocumentationLabel->setText(
+        tr("Documentation: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(info->documentationUrl()));
+    }
+
     // set license
     if (!info->license().isEmpty()) {
       QString license =
@@ -374,8 +381,6 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
       mInfoText->appendPlainText(description.trimmed());
     }
     mInfoText->moveCursor(QTextCursor::Start);
-
-    // TODO: remove any reference to documentationUrl (?)
 
     pixmapPath = QString("%1icons/%2.png").arg(QUrl(info->url()).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
     printf("ICON WILL BE AT: %s\n", pixmapPath.toUtf8().constData());

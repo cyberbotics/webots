@@ -31,22 +31,17 @@ public:
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
   void downloadAssets();
-  bool isReadyToLoad();
-
-  void generateProtoMap(QMap<QString, QString> &map);
 
   void print(int indent = 0);
+  void generateProtoMap(QMap<QString, QString> &map);
 
 signals:
   void treeUpdated();
   void readyToLoad();
 
-protected:
-  void parseItem();
-
 protected slots:
   void downloadUpdate();
-  void refresh();
+  void rootUpdate();
 
 private:
   QString mUrl;
@@ -56,7 +51,10 @@ private:
   QString mError;
   WbProtoTreeItem *mRoot;
 
+  void parseItem();
+
   void disconnectAll();
+  bool isReadyToLoad();
 
   QList<WbProtoTreeItem *> mSubProto;  // list of referenced sub-proto
 };

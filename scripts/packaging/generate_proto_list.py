@@ -226,8 +226,8 @@ if __name__ == "__main__":
             license_element = ET.SubElement(proto_element, 'license').text = info.license
         if info.license_url is not None:
             license_url_element = ET.SubElement(proto_element, 'license-url').text = info.license_url
-        # if info.documentation_url is not None:
-        #    documentation_element = ET.SubElement(proto_element, 'documentation-url').text = info.documentation_url
+        if info.documentation_url is not None:
+           documentation_element = ET.SubElement(proto_element, 'documentation-url').text = info.documentation_url
         if info.description != '':
             description_element = ET.SubElement(proto_element, 'description').text = info.description
         if info.slot_type is not None:

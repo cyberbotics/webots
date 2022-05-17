@@ -45,23 +45,6 @@ WbProtoList *WbProtoList::instance() {
   return gInstance;
 }
 
-/*
-WbProtoList::WbProtoList(const QString &primarySearchPath) {
-  gInstance = this;
-  mPrimarySearchPath = primarySearchPath;
-
-  static bool firstCall = true;
-  if (firstCall) {
-    updateResourcesProtoCache();
-    updateProjectsProtoCache();
-    updateExtraProtoCache();
-    firstCall = false;
-  }
-
-  updatePrimaryProtoCache();
-}
-*/
-
 WbProtoList::WbProtoList() {
   mTreeRoot = NULL;
   setupKnownProtoList();
@@ -113,15 +96,6 @@ void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &p
     findProtosRecursively(subfolder.absoluteFilePath(), protoList, inProtos);
   }
 }
-
-/*
-void WbProtoList::updateResourcesProtoCache() {
-  gResourcesProtoCache.clear();
-  QFileInfoList protosInfo;
-  findProtosRecursively(WbStandardPaths::resourcesProjectsPath(), protosInfo);
-  gResourcesProtoCache << protosInfo;
-}
-*/
 
 void WbProtoList::updateProjectsProtoCache() {
   gProjectsProtoCache.clear();
@@ -341,10 +315,9 @@ void WbProtoList::setupKnownProtoList() {
       while (reader.readNextStartElement()) {
         if (reader.name().toString() == "proto") {
           bool needsRobotAncestor = false;
-          QString name, url, basenode, license, licenseUrl, description, slotType;
+          QString name, url, basenode, license, licenseUrl, documentationUrl, description, slotType;
           QStringList tags;
           while (reader.readNextStartElement()) {
-            // printf(">>%s\n", reader.name().toString().toUtf8().constData());
             if (reader.name().toString() == "name") {
               name = reader.readElementText();
               reader.readNext();
@@ -363,6 +336,10 @@ void WbProtoList::setupKnownProtoList() {
             }
             if (reader.name().toString() == "license-url") {
               licenseUrl = reader.readElementText();
+              reader.readNext();
+            }
+            if (reader.name().toString() == "documentation-url") {
+              documentationUrl = reader.readElementText();
               reader.readNext();
             }
             if (reader.name().toString() == "description") {
@@ -385,8 +362,8 @@ void WbProtoList::setupKnownProtoList() {
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
           //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
-          WbProtoInfo *info =
-            new WbProtoInfo(url, basenode, license, licenseUrl, description, slotType, tags, needsRobotAncestor);
+          WbProtoInfo *info = new WbProtoInfo(url, basenode, license, licenseUrl, documentationUrl, description, slotType, tags,
+                                              needsRobotAncestor);
           mOfficialProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
@@ -439,7 +416,6 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   }
 
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
-  // TODO: end signal might be triggered before this is over
   foreach (const QString proto, unreferencedProtos) {
     if (isOfficialProto(proto))
       mTreeRoot->insert(WbProtoList::instance()->getOfficialProtoUrl(proto));
@@ -451,27 +427,14 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   mTreeRoot->print();
   // root node is now fully populated, trigger download
   mTreeRoot->downloadAssets();
-
-  // TODO: not functional, in test_local.wbt rename "RelativeExternalProtoSolid" to "LocalExternalProtoSolid" to trigger it
-
-  // generate mCurrentProjectProto list (map proto <-> path) and load world, if all assets are available
-  // const bool isReady = mTreeRoot->isReadyToLoad();
-  // if (isReady)
-  //  mTreeRoot->generateProtoMap(mCurrentProjectProto);  // TODO: when to delete
-  // else
-  //  connect(mTreeRoot, &WbProtoTreeItem::treeUpdated, this, &WbProtoList::tryWorldLoad);
-  // return isReady;
-  // mTreeRoot->print();
 }
 
 void WbProtoList::tryWorldLoad() {
-  // if (mTreeRoot && mTreeRoot->isReadyToLoad()) {
   printf("RETRY WORLD LOAD\n");
   // generate mCurrentProjectProto
   mTreeRoot->generateProtoMap(mCurrentProjectProto);
-  // cleanup and attempt to reload
+  // cleanup and load world at last
   delete mTreeRoot;
   mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
-  //}
 }
