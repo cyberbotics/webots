@@ -195,7 +195,9 @@ void WbGuiApplication::parseArguments() {
         commandLineError(tr("invalid value \"%1\" to '--stream' option.").arg(mode));
       else
         mStream = mode[0].toLatin1();
-    } else if (arg == "--heartbeat")
+    } else if (arg == "--extern-urls")
+      WbWorld::setPrintExternUrls();
+    else if (arg == "--heartbeat")
       startTimer(1000);
     else if (arg.startsWith("--heartbeat=")) {
       bool ok;

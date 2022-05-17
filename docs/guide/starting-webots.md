@@ -69,8 +69,11 @@ Options:
     Start the Webots streaming server. The <mode> argument should be either
     x3d (default) or mjpeg.
 
+  --extern-urls
+    Print on stdout the url of extern controllers that should be started.
+
   --heartbeat[=<time>]
-    Print a dot (.) on stdout every <time> milliseconds.
+    Print a dot (.) on stdout every second or <time> milliseconds if specified.
 
   --log-performance=<file>[,<steps>]
     Measure the performance of Webots and log it in the file specified in the

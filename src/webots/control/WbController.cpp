@@ -188,9 +188,11 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    info(tr("waiting for connection."));
-    std::cout << "ipc://" << WbStandardPaths::webotsTmpPathId() << '/' << QUrl::toPercentEncoding(mRobot->name()).constData()
-              << std::endl;
+    const QString url =
+      "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
+    info(tr("waiting for connection on %1").arg(url));
+    if (WbWorld::printExternUrls())
+      std::cout << url.toUtf8().constData() << std::endl;
   } else {
     mProcess = new QProcess();
     connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);

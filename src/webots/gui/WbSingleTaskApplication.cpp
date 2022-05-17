@@ -188,8 +188,11 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << "  --stream[=<mode>]" << endl;
   cerr << tr("    Start the Webots streaming server. The <mode> argument should be either").toUtf8().constData() << endl;
   cerr << tr("    x3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
+  cerr << "  --extern-urls" << endl;
+  cerr << tr("    Print on stdout the url of extern controllers that should be started.").toUtf8().constData() << endl << endl;
   cerr << "  --heartbeat[=<time>]" << endl;
-  cerr << tr("    Print a dot (.) on stdout every <time> milliseconds.").toUtf8().constData() << endl << endl;
+  cerr << tr("    Print a dot (.) on stdout every second or <time> milliseconds if specified.").toUtf8().constData() << endl
+       << endl;
   cerr << "  --log-performance=<file>[,<steps>]" << endl;
   cerr << tr("    Measure the performance of Webots and log it in the file specified in the").toUtf8().constData() << endl;
   cerr << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
