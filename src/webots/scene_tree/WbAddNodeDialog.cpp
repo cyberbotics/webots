@@ -551,7 +551,7 @@ void WbAddNodeDialog::buildTree() {
   int nWProtosNodes = 0;
   // nWProtosNodes =
   //  addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
-  nWProtosNodes = addProtosFromOfficialProtoList(wprotosItem);
+  nWProtosNodes = addProtosFromOfficialProtoList(wprotosItem, regexp);
 
   mTree->addTopLevelItem(nodesItem);
   if (mUsesItem)
@@ -582,13 +582,8 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem) {
+int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem, const QRegularExpression &regexp) {
   // TODO: handle PROTO defined locally
-  // TODO: QMap isn't ordered, proto-list isn't ordered...
-
-  const WbVersion &version = WbApplicationInfo::version();
-  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-  const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
 
   int nAddedNodes = 0;
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
@@ -605,15 +600,13 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
     if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
       continue;
 
-    // TODO: broken
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    // if (!rootDirectory.relativeFilePath(info->url()).contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)) &&
-    //    !baseNode.contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)))
-    //  continue;
+    const QString baseNode = info->baseNode();
+    const QString path = info->url().replace("webots://", "").replace(re, "");
+    if (!path.contains(regexp) && !baseNode.contains(regexp))
+      continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-    const QString baseNode = info->baseNode();
-    // printf("%d %d %d\n", !mHasRobotTopNode, !WbNodeUtilities::isRobotTypeName(baseNode), info->needsRobotAncestor());
     if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && info->needsRobotAncestor())
       continue;
 
@@ -623,10 +616,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem)
                                             QStringList() << baseNode << nodeName))
       continue;
 
-    const QString path = info->url().replace("webots://", "").replace(re, "");
     // populate tree
-    // TODO: should only show nodes that can be inserted in this location, not everything
-
     QStringList categories = path.split('/', Qt::SkipEmptyParts);
     QTreeWidgetItem *parent = parentItem;
     foreach (QString folder, categories) {
