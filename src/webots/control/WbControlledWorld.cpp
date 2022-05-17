@@ -124,7 +124,7 @@ void WbControlledWorld::startController(WbRobot *robot) {
 
 // delete the controller only if it has not been already deleted
 void WbControlledWorld::deleteController(WbController *controller) {
-  assert(showControllersLists("deleteController " + controller->name() + " for robot " + controller->robot()->name()));
+  assert(showControllersLists("deleteController " + controller->name()));  // controller->robot() may be NULL at this point
   assert(controllerInOnlyOneList(controller));
 
   mControllers.removeOne(controller);
