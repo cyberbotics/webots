@@ -17,61 +17,78 @@ import subprocess
 import sys
 
 
+def run(command, sync):
+    try:
+        process = subprocess.Popen(command.split(),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT,
+                                   bufsize=1, universal_newlines=True)
+    except Exception:
+        print(f"Error: Unable to start {command}")
+        quit()
+    print(f"Started {command}")
+    if sync:
+        while process.poll() is None:
+            line = process.stdout.readline().rstrip()
+            if line:
+                print(line)
+        return None
+    else:
+        return process
+
+
+if sys.platform != 'linux':
+    sys.exit('This script runs only on Linux, not on ' + sys.platform)
+
 controllers = {
-  "MyBot": "controller_1/controllers/camera/camera"
+  "MyBot": "/webots_project/controllers/camera/camera"
 }
 port = 1234
+worlds = ['camera.wbt']
 
-WEBOTS_HOME = os.environ['WEBOTS_HOME']
-DOCKER_DEMO = os.path.join(WEBOTS_HOME, 'projects', 'samples', 'howto', 'docker')
-path = os.path.join(WEBOTS_HOME, 'lib', 'controller')
-if sys.platform == 'win32':
-    os.environ['PATH'] = path + os.pathsep + os.environ['PATH']
-elif sys.platform == 'darwin':
-    if 'DYLD_LIBRARY_PATH' in os.environ:
-        os.environ['DYLD_LIBRARY_PATH'] = path + os.pathsep + os.environ['DYLD_LIBRARY_PATH']
-    else:
-        os.environ['DYLD_LIBRARY_PATH'] = path
-else:  # linux
-    if 'LD_LIBRARY_PATH' in os.environ:
-        os.environ['LD_LIBRARY_PATH'] = path + os.pathsep + os.environ['LD_LIBRARY_PATH']
-    else:
-        os.environ['LD_LIBRARY_PATH'] = path
-command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
-command += f' --port={port} --heartbeat=5000 --batch '
-command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'camera.wbt')
+subprocess.run(['xhost', '+local:root'])
+with open('simulation/.env', 'w+') as env_file:
+    env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
+    env_file.write(f'PORT={port}\n')
+    env_file.write('ROBOT_NAME_1=MyBot\n')
+    env_file.write(f'WORLD=/webots_project/worlds/{worlds[0]}\n')
+
+command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT,
                                       bufsize=1, universal_newlines=True)
 except Exception:
-    print(f"error: Unable to start Webots: {command}")
+    print(f"error: Unable to start docker-compose: {command}")
     quit()
-print(f'Webots [{webots_process.pid}] started: "{command}"')
+print(f'docker-compose [{webots_process.pid}] started: "{command}"')
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
-    if line.startswith('ipc://'):
-        print('received ' + line)
-        os.environ['WEBOTS_CONTROLLER_URL'] = line
-        os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'
-        os.environ['WEBOTS_STDERR_REDIRECT'] = '1'
-        split = line.split('/')
-        name = split[3]
-        controller = controllers[name] if name in controllers else ''
-        if not controller:
-            continue
-        controller_path = os.path.join(DOCKER_DEMO, os.path.dirname(controller))
-        os.chdir(controller_path)
-        controller_process = subprocess.Popen([os.path.join(DOCKER_DEMO, controller)],
-                                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                              bufsize=1, universal_newlines=True
-                                              )
+    if line.startswith('webots_1  | '):  # output of the first docker container
+        line = line[12:]
+        if line.startswith('start:'):
+            split = line.split(':')
+            name = split[1]
+            controller = controllers[name] if name in controllers else ''
+            if not controller:
+                print('controller "' + name + '" not found, skipping...')
+                continue
+            print('starting ' + controller)
+            server = split[2]
+            command = ('docker build -t controller '
+                       '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
+                       'controller_1')
+            run(command, True)
+            command = (f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} '
+                       f'-v tmp-{port}:/tmp controller {controller}')
+            subprocess.Popen(command.split())  # launch in the background
     elif line:
-        print(line)
+        print(line)  # docker-compose output
     if controller_process:
         while controller_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()
             if line:
                 print('controller: ' + line)
+os.remove('simulation/.env')
