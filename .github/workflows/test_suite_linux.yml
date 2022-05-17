@@ -112,6 +112,7 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
+        sudo python -m pip install distro
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
     needs: build
