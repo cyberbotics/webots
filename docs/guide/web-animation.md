@@ -70,7 +70,17 @@ For more complex interaction with the web component, the following functions are
 
 ### Limitations
 
-The animation file contains only modifications over the following fields:  - `LED.color`  - `Material.diffuseColor`  - `Material.emissiveColor`  - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)  - `Transform.rotation`  - `Transform.translation` The other VRML97 fields are not recorded in the animation file.
+The animation file contains only modifications over the following fields:
+- `LED.color`
+- `Material.diffuseColor`
+- `Material.emissiveColor`
+- `TextureTransform.translation` (only for the [Track](../reference/track.md) node) 
+- `Transform.rotation` 
+- `Transform.translation`
+- `Light.color`
+- `Light.on`
+
+The other fields are not recorded in the animation file.
 Node insertion or deletion are also not recorded in the animation file.
 
 Additional limitations are described in [this section](web-scene.md#limitations).
