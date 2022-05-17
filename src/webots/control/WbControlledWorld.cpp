@@ -363,7 +363,6 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       mNewControllers.removeOne(controller);
       mWaitingControllers.removeOne(controller);
       mControllers.removeOne(controller);
-      assert(newControllerName != controller->name());
       if (newControllerName == "<extern>")
         WbLog::info(tr("Terminating extern controller for robot \"%2\".").arg(controller->robot()->name()));
       delete controller;
