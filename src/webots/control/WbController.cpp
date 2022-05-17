@@ -98,6 +98,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
 
   mType = WbFileUtil::UNKNOWN;
   mExtern = mRobot->controllerName() == "<extern>";
+  mServer = NULL;
   mSocket = NULL;
   mProcess = NULL;
   mRequestTime = 0.0;
