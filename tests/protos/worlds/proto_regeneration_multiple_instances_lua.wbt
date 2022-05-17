@@ -1,4 +1,11 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/protos/protos/ProtoNestedMultipleInstances.proto"
+EXTERNPROTO "webots://tests/protos/protos/ProceduralSolidWithPhysicsLua.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }

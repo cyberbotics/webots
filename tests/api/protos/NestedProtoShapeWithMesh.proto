@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/api/protos/ProtoShapeWithMesh.proto"
+
 PROTO NestedProtoShapeWithMesh
 [
   field MFString meshUrl []

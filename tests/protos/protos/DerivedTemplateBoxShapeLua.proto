@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/protos/protos/TemplateBoxShape.proto"
+
 PROTO DerivedTemplateBoxShapeLua [
   field SFVec3f translation 0 0 0
   field SFFloat dxSize 0.2

@@ -1,4 +1,10 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateSlotContainerLua.proto"
+EXTERNPROTO "webots://tests/protos/protos/NestedBoxShape.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }

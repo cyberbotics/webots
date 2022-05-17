@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/protos/protos/SolidCylinder.proto"
+
 PROTO BaseProtoWithDefaultParameter [
   field MFNode extensionSlot SolidCylinder { }
 ]

@@ -1,4 +1,9 @@
 #VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/protos/protos/DerivedNotAssociatedLua.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/api/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
