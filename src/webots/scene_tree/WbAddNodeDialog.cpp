@@ -407,36 +407,6 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
       mPixmapLabel->setPixmap(pixmap);
     }
   }
-
-  /*
-  mInfoText->clear();
-
-  if (!boundingObjectInfo.isEmpty())
-    mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
-                             "hence cannot be inserted in a bounding object.</font><br/>"));
-
-  if (info.isEmpty())
-    mInfoText->setPlainText(tr("No info available."));
-  else {
-    // replace carriage returns with spaces where appropriate:
-    // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
-    // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
-    // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
-    for (int i = 0; i < info.length(); i++) {
-      if (info[i] == '\n') {
-        if (i < (info.length() - 1)) {
-          if (info[i + 1] == '\n' || info[i + 1] == '-') {
-            i++;
-            continue;
-          }
-        }
-        info[i] = ' ';
-      }
-    }
-    mInfoText->appendPlainText(info.trimmed());
-  }
-  mInfoText->moveCursor(QTextCursor::Start);
-  */
 }
 
 bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
@@ -546,10 +516,14 @@ void WbAddNodeDialog::buildTree() {
     mIsAddingExtraProtos = false;
   }
 
+  // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
+
+  // add Current Project PROTO (all PROTO locally available in the project location)
+
+  // add Extra PROTO (all PROTO available in the extra location)
+
   // add Webots PROTO
   int nWProtosNodes = 0;
-  // nWProtosNodes =
-  //  addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), regexp, QDir(WbStandardPaths::projectsPath()));
   nWProtosNodes = addProtosFromOfficialProtoList(wprotosItem, regexp);
 
   mTree->addTopLevelItem(nodesItem);
@@ -600,19 +574,19 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem,
       continue;
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    const QString baseNode = info->baseNode();
+    const QString baseType = info->baseType();
     const QString path = info->url().replace("webots://", "").replace(re, "");
-    if (!path.contains(regexp) && !baseNode.contains(regexp))
+    if (!path.contains(regexp) && !baseType.contains(regexp))
       continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseNode) && info->needsRobotAncestor())
+    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseType) && info->needsRobotAncestor())
       continue;
 
     QString errorMessage;
     const QString nodeName = it.key();  // QUrl(info->url()).fileName().replace(".proto", "");
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseNode, mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            QStringList() << baseNode << nodeName))
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
+                                            QStringList() << baseType << nodeName))
       continue;
 
     // populate tree
@@ -637,7 +611,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem,
       if (exists)
         subFolder = parent->child(i);
       else {
-        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseNode) : folder;
+        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
         subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
       }
 
@@ -715,49 +689,38 @@ int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const Q
 
 int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
                                const QRegularExpression &regexp, const QDir &rootDirectory) {
-  /*
   QTreeWidgetItem *item;
   int nAddedNodes = 0;
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
   foreach (const QString protoFile, protoList) {
     const QString protoFilePath(dirPath + "/" + protoFile);
-    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(protoFilePath);
-    bool success = protoCachedInfo->load();
-    if (!success || protoCachedInfo->isOutOfDate()) {
-      // (re)compute if not valid
-      delete protoCachedInfo;
-      protoCachedInfo = WbProtoCachedInfo::computeInfo(protoFilePath);
-      if (!protoCachedInfo)
-        // ignore invalid PROTO file
-        continue;
-    }
+    WbProtoInfo *info = WbProtoList::instance()->generateInfoFromProtoFile(protoFilePath);
 
-    if (protoCachedInfo->baseType() == "UNKNOWN")
-      continue;
+    // TODO: need to add some safety to WbProtoInfo?
+    // if (protoCachedInfo->baseType() == "UNKNOWN")
+    //  continue;
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
-    QStringList tags = protoCachedInfo->tags();
+    QStringList tags = info->tags();
     if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
       continue;
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    if (!rootDirectory.relativeFilePath(protoFilePath).contains(regexp) && !protoCachedInfo->baseType().contains(regexp))
+    if (!rootDirectory.relativeFilePath(protoFilePath).contains(regexp) && !info->baseType().contains(regexp))
       continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(protoCachedInfo->baseType()) &&
-        protoCachedInfo->needsRobotAncestor())
+    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(info->baseType()) && info->needsRobotAncestor())
       continue;
 
     QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(mField, protoCachedInfo->baseType(), mCurrentNode, errorMessage, nodeUse,
-                                            protoCachedInfo->slotType(),
-                                            QStringList() << protoCachedInfo->baseType() << protoFile.chopped(6)))
+    if (!WbNodeUtilities::isAllowedToInsert(mField, info->baseType(), mCurrentNode, errorMessage, nodeUse, info->slotType(),
+                                            QStringList() << info->baseType() << protoFile.chopped(6)))
       continue;
 
     const QFileInfo fileInfo(protoFile);
     item = new QTreeWidgetItem(
-      QStringList(QStringList() << fileInfo.baseName() + " (" + protoCachedInfo->baseType() + ")" << protoFilePath));
+      QStringList(QStringList() << QString("%1 (%2)").arg(fileInfo.baseName()).arg(info->baseType()) << protoFilePath));
     item->setIcon(0, QIcon("enabledIcons:proto.png"));
     parentItem->addChild(item);
     ++nAddedNodes;
@@ -780,7 +743,6 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
   }
 
   return nAddedNodes;
-  */
 }
 
 void WbAddNodeDialog::import() {

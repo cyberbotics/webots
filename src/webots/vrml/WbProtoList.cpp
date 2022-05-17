@@ -19,12 +19,14 @@
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTreeItem.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
 
@@ -141,9 +143,9 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) { 
   model->ref();
 }
 
-void WbProtoList::printCurrentProjectProtoList() {
-  QMapIterator<QString, QString> it(mCurrentProjectProto);
-  printf("-- mCurrentProjectProto ------\n");
+void WbProtoList::printCurrentWorldProtoList() {
+  QMapIterator<QString, QString> it(mCurrentWorldProto);
+  printf("-- mCurrentWorldProto ------\n");
   while (it.hasNext()) {
     it.next();
     printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(it.value()),
@@ -163,15 +165,15 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     }
   }
 
-  if (mCurrentProjectProto.contains(modelName)) {
-    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentProjectProto.value(modelName), false);  // TODO: change this
+  if (mCurrentWorldProto.contains(modelName)) {
+    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentWorldProto.value(modelName), false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
       // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(url);
     }
     printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-    WbProtoModel *model = readModel(url, worldPath, mCurrentProjectProto.value(modelName), baseTypeList);
+    WbProtoModel *model = readModel(url, worldPath, mCurrentWorldProto.value(modelName), baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -191,7 +193,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     }
   } else {
     if (!modelName.isEmpty())
-      printf("proto %s not found in mCurrentProjectProto ?\n", modelName.toUtf8().constData());
+      printf("proto %s not found in mCurrentWorldProto ?\n", modelName.toUtf8().constData());
   }
   return NULL;
 }
@@ -261,15 +263,15 @@ void WbProtoList::setupKnownProtoList() {
       while (reader.readNextStartElement()) {
         if (reader.name().toString() == "proto") {
           bool needsRobotAncestor = false;
-          QString name, url, basenode, license, licenseUrl, documentationUrl, description, slotType;
+          QString name, url, baseType, license, licenseUrl, documentationUrl, description, slotType;
           QStringList tags;
           while (reader.readNextStartElement()) {
             if (reader.name().toString() == "name") {
               name = reader.readElementText();
               reader.readNext();
             }
-            if (reader.name().toString() == "basenode") {
-              basenode = reader.readElementText();
+            if (reader.name().toString() == "base-type") {
+              baseType = reader.readElementText();
               reader.readNext();
             }
             if (reader.name().toString() == "url") {
@@ -306,9 +308,9 @@ void WbProtoList::setupKnownProtoList() {
             }
           }
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
-          //       basenode.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
+          //       baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
-          WbProtoInfo *info = new WbProtoInfo(url, basenode, license, licenseUrl, documentationUrl, description, slotType, tags,
+          WbProtoInfo *info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType, tags,
                                               needsRobotAncestor);
           mOfficialProtoList.insert(name, info);
         } else
@@ -343,10 +345,10 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
-  mCurrentProjectProto.clear();
+  mCurrentWorldProto.clear();
   delete mTreeRoot;
   foreach (WbProtoModel *model, mModels) {
-    if (mCurrentProjectProto.contains(model->name()))
+    if (mCurrentWorldProto.contains(model->name()))
       model->unref();
   }
 
@@ -377,10 +379,56 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
 
 void WbProtoList::tryWorldLoad() {
   printf("RETRY WORLD LOAD\n");
-  // generate mCurrentProjectProto
-  mTreeRoot->generateProtoMap(mCurrentProjectProto);
+  // generate mCurrentWorldProto
+  mTreeRoot->generateProtoMap(mCurrentWorldProto);
   // cleanup and load world at last
   delete mTreeRoot;
   mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
+}
+
+WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName) {
+  WbTokenizer tokenizer;
+  int errors = tokenizer.tokenize(protoFileName);
+  if (errors > 0)
+    return NULL;  // invalid PROTO file
+
+  WbParser parser(&tokenizer);
+  if (!parser.parseProtoInterface(mCurrentWorld)) {  // TODO: ensure mCurrentWorld is always correct or ""
+    return NULL;                                     // invalid PROTO file
+  }
+
+  tokenizer.rewind();
+  WbProtoModel *protoModel = NULL;
+  bool prevInstantiateMode = WbNode::instantiateMode();
+  WbNode *previousParent = WbNode::globalParentNode();
+  try {
+    WbNode::setGlobalParentNode(NULL);
+    WbNode::setInstantiateMode(false);
+    protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, protoFileName);
+    WbNode::setInstantiateMode(prevInstantiateMode);
+    WbNode::setGlobalParentNode(previousParent);
+  } catch (...) {
+    WbNode::setInstantiateMode(prevInstantiateMode);
+    WbNode::setGlobalParentNode(previousParent);
+    return NULL;
+  }
+
+  tokenizer.rewind();
+  bool needsRobotAncestor = false;
+  while (tokenizer.hasMoreTokens()) {
+    WbToken *token = tokenizer.nextToken();
+    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
+      needsRobotAncestor = true;
+      break;
+    }
+  }
+
+  // compute and store proto info
+  WbProtoInfo *info = new WbProtoInfo(protoFileName, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
+                                      protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
+                                      protoModel->tags(), needsRobotAncestor);
+
+  protoModel->destroy();
+  return info;
 }

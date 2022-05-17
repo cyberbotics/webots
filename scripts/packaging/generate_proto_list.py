@@ -219,7 +219,7 @@ if __name__ == "__main__":
         # info = protos[os.path.basename(item).replace(".proto", "")]
         proto_element = ET.SubElement(root, 'proto')
         name_element = ET.SubElement(proto_element, 'name').text = info.name
-        base_node_element = ET.SubElement(proto_element, 'basenode').text = info.base_type
+        base_type_element = ET.SubElement(proto_element, 'base-type').text = info.base_type
         url_element = ET.SubElement(proto_element, 'url').text = info.path.replace(WEBOTS_HOME + '/', base_url)
 
         if info.license is not None:

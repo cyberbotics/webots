@@ -292,7 +292,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   //}
 
   printf("\nCURRENT PROJECT PROTO LIST:\n");
-  WbProtoList::instance()->printCurrentProjectProtoList();
+  WbProtoList::instance()->printCurrentWorldProtoList();
   printf("ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;

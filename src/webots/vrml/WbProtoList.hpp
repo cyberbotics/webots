@@ -31,10 +31,10 @@ class WbProtoTreeItem;
 
 class WbProtoInfo {
 public:
-  WbProtoInfo(QString url, QString basenode, QString license, QString licenseUrl, QString documentationUrl, QString description,
+  WbProtoInfo(QString url, QString baseType, QString license, QString licenseUrl, QString documentationUrl, QString description,
               QString slotType, QStringList tags, bool needsRobotAncestor) :
     mUrl(url),
-    mBaseNode(basenode),
+    mBaseType(baseType),
     mLicense(license),
     mLicenseUrl(licenseUrl),
     mDocumentationUrl(documentationUrl),
@@ -44,7 +44,7 @@ public:
     mNeedsRobotAncestor(needsRobotAncestor){};
 
   QString url() { return mUrl; }
-  QString baseNode() { return mBaseNode; }
+  QString baseType() { return mBaseType; }
   QString license() { return mLicense; }
   QString licenseUrl() { return mLicenseUrl; }
   QString documentationUrl() { return mDocumentationUrl; }
@@ -55,7 +55,7 @@ public:
 
 private:
   QString mUrl;
-  QString mBaseNode;
+  QString mBaseType;
   QString mLicense;
   QString mLicenseUrl;
   QString mDocumentationUrl;
@@ -119,11 +119,13 @@ public:
   // prerequisite: the syntax must have been checked with WbParser
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
 
-  void printCurrentProjectProtoList();
+  void printCurrentWorldProtoList();  // TODO: remove
 
   void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
 
   QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
+
+  WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
 
 private slots:
   void tryWorldLoad();
@@ -142,7 +144,9 @@ private:
   WbProtoTreeItem *mTreeRoot;
 
   QMap<QString, WbProtoInfo *> mOfficialProtoList;
+  QMap<QString, QString> mCurrentWorldProto;
   QMap<QString, QString> mCurrentProjectProto;
+  QMap<QString, QString> mExtraProjectProto;
 
   void setupKnownProtoList();  // known == mentioned in a world file in the webots library (sub-proto not known)
 };
