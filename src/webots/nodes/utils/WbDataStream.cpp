@@ -42,9 +42,9 @@ WbDataStream &WbDataStream::operator<<(double f) {
   return (WbDataStream &)append(QByteArray::number(f));
 }
 
-/*WbDataStream &WbDataStream::operator<<(qfloat16 f) {
+WbDataStream &WbDataStream::operator<<(qfloat16 f) {
   return (WbDataStream &)append(f);
-}*/
+}
 
 WbDataStream &WbDataStream::operator<<(const char *s) {
   return (WbDataStream &)append(s);

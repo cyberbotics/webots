@@ -16,11 +16,11 @@
 #define WB_DATA_STREAM_HPP
 
 #include <QtCore/QByteArray>
+#include <QtCore/QFloat16>
 
 class qfloat16;
 class QByteArray;
 
-// communication packet or datagram
 class WbDataStream : public QByteArray {
 public:
   using QByteArray::QByteArray;
@@ -37,7 +37,7 @@ public:
   WbDataStream &operator<<(bool i);
   WbDataStream &operator<<(float f);
   WbDataStream &operator<<(double f);
-  // WbDataStream &operator<<(qfloat16 f);
+  WbDataStream &operator<<(qfloat16 f);
   WbDataStream &operator<<(const char *s);
 };
 
