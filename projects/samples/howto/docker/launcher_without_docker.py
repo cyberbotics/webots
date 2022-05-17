@@ -39,7 +39,7 @@ else:  # linux
         os.environ['LD_LIBRARY_PATH'] = path
 command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
 command += f' --port={port} --extern-urls '
-command += os.path.join(DOCKER_DEMO, 'worlds', 'camera.wbt')
+command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'camera.wbt')
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,
@@ -53,7 +53,7 @@ controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
     if line.startswith('ipc://'):
-        print('received ' + line)
+        print(line)
         os.environ['WEBOTS_CONTROLLER_URL'] = line
         os.environ['WEBOTS_STDOUT_REDIRECT'] = '1'  # you may comment out these two
         os.environ['WEBOTS_STDERR_REDIRECT'] = '1'  # lines to disable redirections
