@@ -18,3 +18,29 @@ Thus, they cannot disrupt the simulation as they can only send and receive data 
 Also, they cannot change the behavior of the other controllers of the simulation (e.g., competing controllers, referee supervisor, etc.) thanks to docker containers isolation.
 
 ## Set-Up
+
+Two launcher examples are provided here: `launcher_without_docker.py` and `launcher.py`.
+They both launch the [camera.wbt](simulation/worlds/camera.wbt) world file and start the controller of the "MyBot" robot as an extern controller.
+It is recommended to run and understand the first script before stepping into the second one, which is more complicated.
+In both cases, you should see a Webots windows popping-up and running the camera controller as an extern controller.
+
+### Without Docker
+
+The `launcher_without_docker.py` script launches Webots with the `--extern-urls` command line option.
+This option will make that Webots will print on `stdout` the controller URLs that need to be started.
+The script will parse the output of Webots and start the extern controller as requested by Webots.
+
+It takes less than 3 seconds on laptop to get the robot moving after starting the launcher.
+
+### With Docker
+
+The `launcher.py` script goes through the following steps:
+
+1. It builds a first docker image based on a recent Webots docker image and adds the world file to it.
+2. It builds a second docker image based on the same Webots docker image as previously, adds the camera controller to it and compiles it.
+3. It runs Webots inside a container from the first docker image for which it shares the /tmp/webots-1234/ipc/MyBot folder.
+4. It parses the output of this container to get the controller URL printed by Webots for the extern controller.
+5. It runs the camera controller specifying the URL inside a container from the second docker image for which it shares the same folder as previously.
+
+It takes less than 4 seconds on laptop to get the robot moving after starting the launcher.
+That means the docker overhead is about one second.

@@ -50,7 +50,7 @@ with open('simulation/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write(f'PORT={port}\n')
     env_file.write('ROBOT_NAME_1=MyBot\n')
-    env_file.write(f'WORLD=/webots_project/worlds/camera.wbt\n')
+    env_file.write('WORLD=/webots_project/worlds/camera.wbt\n')
 
 command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:
@@ -61,7 +61,11 @@ try:
 except Exception:
     print(f"error: Unable to start docker-compose: {command}")
     quit()
-print(f'docker-compose [{webots_process.pid}] started: "{command}"')
+command = ('docker build -t controller '
+           '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
+           '--build-arg MAKE=1 '
+           'controllers/camera')
+run(command, True)
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
@@ -73,12 +77,6 @@ while webots_process.poll() is None:
             if not controller:
                 print('controller "' + name + '" not found, skipping...')
                 continue
-            print('starting ' + controller)
-            command = ('docker build -t controller '
-                       '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
-                       '--build-arg MAKE=1 '
-                       'controllers/camera')
-            run(command, True)
             command = (f'docker run -e WEBOTS_CONTROLLER_URL=ipc://{port}/{name} '
                        f'-v tmp-{port}-{name}:/tmp/webots-{port}/ipc/{name} controller /webots_project/{controller}')
             subprocess.Popen(command.split())  # launch in the background
