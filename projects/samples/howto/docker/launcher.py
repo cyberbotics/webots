@@ -41,17 +41,16 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 
 controllers = {
-  "MyBot": "/webots_project/controllers/camera/camera"
+  "MyBot": "controllers/camera/camera"
 }
 port = 1234
-worlds = ['camera.wbt']
 
 subprocess.run(['xhost', '+local:root'])
 with open('simulation/.env', 'w+') as env_file:
     env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
     env_file.write(f'PORT={port}\n')
     env_file.write('ROBOT_NAME_1=MyBot\n')
-    env_file.write(f'WORLD=/webots_project/worlds/{worlds[0]}\n')
+    env_file.write(f'WORLD=/webots_project/worlds/camera.wbt\n')
 
 command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:
@@ -68,21 +67,20 @@ while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
     if line.startswith('webots_1  | '):  # output of the first docker container
         line = line[12:]
-        if line.startswith('start:'):
-            split = line.split(':')
-            name = split[1]
+        if line.startswith('ipc://'):
+            name = line[line.rfind('/') + 1:]
             controller = controllers[name] if name in controllers else ''
             if not controller:
                 print('controller "' + name + '" not found, skipping...')
                 continue
             print('starting ' + controller)
-            server = split[2]
             command = ('docker build -t controller '
                        '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
-                       'controller_1')
+                       '--build-arg MAKE=1 '
+                       'controllers/camera')
             run(command, True)
-            command = (f'docker run -e WEBOTS_ROBOT_NAME={name} -e WEBOTS_SERVER={server} '
-                       f'-v tmp-{port}:/tmp controller {controller}')
+            command = (f'docker run -e WEBOTS_CONTROLLER_URL=ipc://{port}/{name} '
+                       f'-v tmp-{port}-{name}:/tmp/webots-{port}/ipc/{name} controller /webots_project/{controller}')
             subprocess.Popen(command.split())  # launch in the background
     elif line:
         print(line)  # docker-compose output
