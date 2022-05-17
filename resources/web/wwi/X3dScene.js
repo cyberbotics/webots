@@ -4,9 +4,10 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -245,6 +246,14 @@ export default class X3dScene {
             if (typeof shape !== 'undefined')
               shape.updateAppearance();
           }
+        }
+      } else if (object instanceof WbLight) {
+        if (key === 'color') {
+          object.color = convertStringToVec3(pose[key]);
+          object.updateColor();
+        } else if (key === 'on') {
+          object.on = pose[key].toLowerCase() === 'true';
+          object.updateOn();
         }
       }
     }
