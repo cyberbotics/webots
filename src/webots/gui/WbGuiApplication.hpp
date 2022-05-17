@@ -59,6 +59,7 @@ private:
   bool mShouldDoRendering;
   QString mThemeLoaded;
   char mStream;
+  int mHeartbeat;
 
   Task mTask;
   QStringList mTaskArguments;

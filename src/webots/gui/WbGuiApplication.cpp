@@ -61,6 +61,7 @@ using namespace std;
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QApplication(argc, argv),
   mMainWindow(NULL),
+  mHeartbeat(0),
   mTask(NORMAL),
   mTcpServer(NULL) {
   setApplicationName("Webots");
@@ -198,12 +199,12 @@ void WbGuiApplication::parseArguments() {
     } else if (arg == "--extern-urls")
       WbWorld::setPrintExternUrls();
     else if (arg == "--heartbeat")
-      startTimer(1000);
+      mHeartbeat = startTimer(1000);
     else if (arg.startsWith("--heartbeat=")) {
       bool ok;
       const int value = arg.mid(arg.indexOf('=') + 1).toInt(&ok);
       if (ok)
-        startTimer(value);
+        mHeartbeat = startTimer(value);
       else
         commandLineError(tr("invalid value \"%1\" to '--heartbeat' option.").arg(arg.mid(arg.indexOf('=') + 1)));
     } else if (arg == "--stdout")
@@ -589,5 +590,6 @@ void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
 }
 
 void WbGuiApplication::timerEvent(QTimerEvent *event) {
-  cout << "." << endl;
+  if (event->timerId() == mHeartbeat)
+    cout << "." << endl;
 }
