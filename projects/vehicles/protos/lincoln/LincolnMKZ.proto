@@ -30,7 +30,7 @@ PROTO LincolnMKZ [
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    []
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE

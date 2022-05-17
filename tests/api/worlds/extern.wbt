@@ -44,7 +44,7 @@ Robot {
 }
 Robot {
   name "null"
-  controller ""
+  controller "<none>"
 }
 TestSuiteSupervisor {
 }

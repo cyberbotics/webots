@@ -197,8 +197,9 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
+  const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
   foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(QString("delete:%1").arg(node->uniqueId()));
+    client->sendTextMessage(QString("delete:%1").arg(def->uniqueId()));
 }
 
 void WbX3dStreamingServer::generateX3dWorld() {
@@ -218,7 +219,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
-    throw tr("Cannot sent the entire world");
+    throw tr("Cannot send the entire world");
 
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())

@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
     WbFieldRef controller_field = wb_supervisor_node_get_field(robot_node, "controller");
-    wb_supervisor_field_set_sf_string(controller_field, "void");
+    wb_supervisor_field_set_sf_string(controller_field, "<generic>");
 
     wb_supervisor_world_save(temp_world_file_path);
     wb_supervisor_world_load(temp_world_file_path);

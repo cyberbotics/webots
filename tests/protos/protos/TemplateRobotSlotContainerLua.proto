@@ -3,7 +3,7 @@
 PROTO TemplateRobotSlotContainerLua [
   field SFVec3f translation 0 0 0
   field MFNode children []
-  field SFString controller ""
+  field SFString controller "<none>"
   field MFString controllerArgs []
   field SFBool isRegenerated FALSE
 ]

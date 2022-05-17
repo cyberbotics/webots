@@ -71,9 +71,9 @@ const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[N_STRING_TYPE_INFO] = {
   QStringList()
     << "plugins/remote_controls/" << tr("Remote control plugins choice")
     << tr("Please select a remote control plugin from the list\n(takes effect only after you save and reload the world)"),
-  QStringList()
-    << "plugins/robot_windows/" << tr("Robot window plugins choice")
-    << tr("Please select a robot window plugin from the list\n(takes effect only after you save and reload the world)"),
+  QStringList() << "plugins/robot_windows/" << tr("Robot window plugins choice")
+                << tr("Please select a robot window plugin from the list\n(takes effect only after you reset the "
+                      "simulation\nand show the new robot window)"),
   QStringList() << "" << tr("Solid choice") << tr("Please select a solid from the list\n")};
 
 const QStringList WbExtendedStringEditor::REFERENCE_AREA_ITEMS = QStringList() << "immersed area"
@@ -117,6 +117,7 @@ const QStringList &WbExtendedStringEditor::defaultControllersEntryList() const {
     mDefaultControllersEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
       mDefaultControllersEntryList << QDir(extraProject->controllersPath()).entryList(FILTERS);
+    mDefaultControllersEntryList.replaceInStrings("generic", "<generic>");
     firstCall = false;
   }
   return mDefaultControllersEntryList;
@@ -143,7 +144,7 @@ const QStringList &WbExtendedStringEditor::defaultRobotWindowsPluginsEntryList()
     foreach (const QString &item, list) {
       QFileInfo fi(item);
       QString name = fi.dir().dirName();
-      mDefaultRobotWindowPluginsEntryList << name;
+      mDefaultRobotWindowPluginsEntryList << ((name != "generic") ? name : "<generic>");
     }
     firstCall = false;
   }
@@ -371,10 +372,10 @@ void WbExtendedStringEditor::select() {
   items += defaultEntryList();
   items.sort();
 
-  if (mStringType == CONTROLLER || mStringType == PHYSICS_PLUGIN)
-    items.prepend("none");
   if (mStringType == CONTROLLER)
     items.prepend("<extern>");
+  if (mStringType == CONTROLLER || mStringType == ROBOT_WINDOW_PLUGIN || mStringType == PHYSICS_PLUGIN)
+    items.prepend("<none>");
 
   items.removeDuplicates();
 
@@ -387,12 +388,7 @@ void WbExtendedStringEditor::select() {
   int result = dialog.exec();
   if (result == QDialog::Rejected)
     return;
-
-  QString choice = dialog.textValue();
-  if (choice == "none")
-    choice = "";
-
-  lineEdit()->setText(choice);
+  lineEdit()->setText(dialog.textValue());
   apply();
 }
 
@@ -593,12 +589,7 @@ bool WbExtendedStringEditor::selectItem() {
   dialog.setOption(QInputDialog::UseListViewForComboBoxItems, true);
   if (dialog.exec() == QDialog::Rejected)
     return true;
-
-  QString choice = dialog.textValue();
-  if (choice == "none")
-    choice = "";
-
-  lineEdit()->setText(choice);
+  lineEdit()->setText(dialog.textValue());
   apply();
 
   return true;

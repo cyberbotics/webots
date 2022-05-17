@@ -1,11 +1,13 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import Toolbar from './Toolbar.js';
 import {webots} from './webots.js';
+import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
 webotsView.showIde             // defines whether the IDE button should be displayed.
+webotsView.showInfo            // defines whether the info button should be displayed.
 webotsView.showPlay            // defines whether the play button should be displayed.
 webotsView.showQuit            // defines whether the quit button should be displayed.
 webotsView.showReload          // defines whether the reload button should be displayed.
@@ -76,7 +78,7 @@ export default class WebotsView extends HTMLElement {
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/dependencies/quaternion.min.js'));
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/quaternion.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
   }
@@ -126,6 +128,7 @@ export default class WebotsView extends HTMLElement {
       this._view.x3dScene.render();
     }
   }
+
   // The value is updated only on the web side, do not used with simulation.
   updateNode(nodeId, field, value, render) {
     if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
@@ -143,6 +146,20 @@ export default class WebotsView extends HTMLElement {
   getNode(id) {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.nodes !== 'undefined')
       return WbWorld.instance.nodes.get('n' + id);
+  }
+
+  setAmbientOcclusion(level) {
+    level = Math.floor(level);
+    if (level > 4)
+      level = 4;
+    else if (level < 1)
+      level = 1;
+
+    if (typeof this.toolbar !== 'undefined') {
+      this.toolbar.changeGtao({srcElement: {id: this.toolbar.gtaoLevelToText(level)}});
+      this.toolbar.settingsPane.style.visibility = 'hidden';
+    } else
+      changeGtaoLevel(level);
   }
 
   // Animation's functions

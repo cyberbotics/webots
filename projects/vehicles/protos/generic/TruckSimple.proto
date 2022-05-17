@@ -16,7 +16,7 @@ PROTO TruckSimple [
   field     MFColor    recognitionColors   [ 0.39 0 0 ]
   field     SFNode     trailer             TruckTrailerSimple { }
   field     SFString   name                "vehicle"
-  field     SFString   controller          ""
+  field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]

@@ -1,5 +1,5 @@
 /*
- * File:         void.c
+ * File:         generic.c
  * Description:  This is an empty robot controller, the robot does nothing.
  * Author:       www.cyberbotics.com
  * Note:         !!! PLEASE DO NOT MODIFY THIS SOURCE FILE !!!

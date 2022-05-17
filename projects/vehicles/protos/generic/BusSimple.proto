@@ -14,7 +14,7 @@ PROTO BusSimple [
   field     SFColor    color               0.03 0.12 0.42
   field     MFColor    recognitionColors   [  0.03 0.12 0.42 ]
   field     SFString   name                "vehicle"
-  field     SFString   controller          ""
+  field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]

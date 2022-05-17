@@ -443,7 +443,7 @@ export default class Parser {
     } else if (type === 'solid' || type === 'robot') {
       newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
-        const window = node.hasAttribute('window') ? node.getAttribute('window') : 'generic';
+        const window = (node.hasAttribute('window') && node.getAttribute('window') != "<generic>") ? node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
@@ -715,8 +715,6 @@ export default class Parser {
       geometry = this._parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
-    else
-      console.error('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;

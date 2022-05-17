@@ -4,9 +4,10 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -131,11 +132,14 @@ export default class X3dScene {
         const loader = new Parser(prefix);
         await loader.parse(xmlhttp.responseText, renderer);
         onLoad();
+      } else if (xmlhttp.status === 404) {
+        if (document.getElementById('webotsProgressMessage'))
+          document.getElementById('webotsProgressMessage').innerHTML = 'File not found: ' + url;
       }
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'File not found.';
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'An unknown error occurred during the loading.';
     };
     xmlhttp.send();
   }
@@ -242,6 +246,14 @@ export default class X3dScene {
             if (typeof shape !== 'undefined')
               shape.updateAppearance();
           }
+        }
+      } else if (object instanceof WbLight) {
+        if (key === 'color') {
+          object.color = convertStringToVec3(pose[key]);
+          object.updateColor();
+        } else if (key === 'on') {
+          object.on = pose[key].toLowerCase() === 'true';
+          object.updateOn();
         }
       }
     }

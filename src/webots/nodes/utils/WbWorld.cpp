@@ -472,26 +472,24 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         if (motor) {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
-          deviceObject.insert("position", motor->position());
-          const WbJointParameters *jointParameters = NULL;
-          if (motor->positionIndex() == 3)
-            jointParameters = motor->joint()->parameters3();
-          else if (motor->positionIndex() == 2)
-            jointParameters = motor->joint()->parameters2();
-          else {
-            assert(motor->positionIndex() == 1);
-            jointParameters = motor->joint()->parameters();
-          }
-          deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
-          const WbBallJointParameters *ballJointParameters = dynamic_cast<const WbBallJointParameters *>(jointParameters);
-          const WbHingeJointParameters *hingeJointParameters = dynamic_cast<const WbHingeJointParameters *>(jointParameters);
-          if (hingeJointParameters)
-            deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
-          else if (ballJointParameters)
-            deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
-          else
-            deviceObject.insert("anchor", "0 0 0");
         }
+        deviceObject.insert("position", jointDevice->position());
+        const WbJointParameters *jointParameters = NULL;
+        if (jointDevice->positionIndex() == 3)
+          jointParameters = jointDevice->joint()->parameters3();
+        else if (jointDevice->positionIndex() == 2)
+          jointParameters = jointDevice->joint()->parameters2();
+        else {
+          assert(jointDevice->positionIndex() == 1);
+          jointParameters = jointDevice->joint()->parameters();
+        }
+        deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
+        const WbBallJointParameters *ballJointParameters = dynamic_cast<const WbBallJointParameters *>(jointParameters);
+        const WbHingeJointParameters *hingeJointParameters = dynamic_cast<const WbHingeJointParameters *>(jointParameters);
+        if (hingeJointParameters)
+          deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
+        else if (ballJointParameters)
+          deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
         deviceObject.insert("transformID", QString("n%1").arg(helix->uniqueId()));
@@ -499,7 +497,6 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
-        deviceObject.insert("anchor", "0 0 0");
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent =
           jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
@@ -524,6 +521,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         // LED case: export color data.
         const WbLed *led = dynamic_cast<const WbLed *>(device);
         if (led) {
+          deviceObject.insert("anchor", led->translation().toString(WbPrecision::FLOAT_MAX));
           deviceObject.insert("ledGradual", led->isGradual());
           QJsonArray colorArray;
           for (int c = 0; c < led->colorsCount(); ++c)

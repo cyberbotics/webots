@@ -20,7 +20,7 @@ PROTO Truck [
   field     SFFloat    kingPinDistance   1.35              # Defines the distance (along the Z direction) between the rear wheel axis and the trailer rotation axis.
   field     SFFloat    mass              8000              # Defines the mass of the truck (trailer not included).
   field     SFString   name              "vehicle"         # Is `Solid.name`.
-  field     SFString   controller        "void"            # Is `Robot.controller`.
+  field     SFString   controller        "<generic>"       # Is `Robot.controller`.
   field     MFString   controllerArgs    [ ]               # Is `Robot.controllerArgs`.
   field     SFBool     supervisor        FALSE             # Is `Robot.supervisor`.
   field     SFBool     synchronization   TRUE              # Is `Robot.synchronization`.

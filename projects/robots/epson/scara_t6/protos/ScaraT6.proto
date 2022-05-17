@@ -14,12 +14,12 @@ PROTO ScaraT6 [
   field SFVec3f           translation     0 0 0           # Is `Transform.translation`.
   field SFRotation        rotation        0 0 1 0         # Is `Transform.rotation`.
   field SFString          name            "ScaraT6"       # Is `Solid.name`.
-  field SFString          controller      ""              # Is `Robot.controller`.
+  field SFString          controller      "<none>"        # Is `Robot.controller`.
   field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
   field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE            # Is `Robot.synchronization`.
   field SFString          customData      ""              # Is `Robot.customData`.
-  field SFString          window          ""              # Is `Robot.window`.
+  field SFString          window          "<generic>"     # Is `Robot.window`.
   field SFBool            staticBase      FALSE           # Defines if the scara base should be pinned to the static environment.
   field MFNode            handSlot        []              # Extends the shaft with new nodes in the hand slot.
 
@@ -236,6 +236,7 @@ PROTO ScaraT6 [
         }
       }
       LED {
+        translation 0.023 0.028 0.451
         children [
           Group {
             children [
@@ -243,7 +244,6 @@ PROTO ScaraT6 [
                 attenuation 0 0 1
                 color 1 0.270588 0
                 intensity 0.05
-                location 0.023 0.028 0.451
                 on FALSE
                 radius 1
                 castShadows TRUE

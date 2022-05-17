@@ -60,6 +60,8 @@ For more complex interaction with the web component, the following functions are
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+    * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
   * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
@@ -68,7 +70,17 @@ For more complex interaction with the web component, the following functions are
 
 ### Limitations
 
-The animation file contains only modifications over the following fields:  - `LED.color`  - `Material.diffuseColor`  - `Material.emissiveColor`  - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)  - `Transform.rotation`  - `Transform.translation` The other VRML97 fields are not recorded in the animation file.
+The animation file contains only modifications over the following fields:
+- `LED.color`
+- `Material.diffuseColor`
+- `Material.emissiveColor`
+- `TextureTransform.translation` (only for the [Track](../reference/track.md) node) 
+- `Transform.rotation` 
+- `Transform.translation`
+- `Light.color`
+- `Light.on`
+
+The other fields are not recorded in the animation file.
 Node insertion or deletion are also not recorded in the animation file.
 
 Additional limitations are described in [this section](web-scene.md#limitations).

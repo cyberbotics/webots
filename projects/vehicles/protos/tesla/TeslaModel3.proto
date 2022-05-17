@@ -21,7 +21,7 @@ PROTO TeslaModel3 [
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    []
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE

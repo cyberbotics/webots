@@ -109,12 +109,12 @@ Floor {
 Darwin-op {
   translation -0.184108 -4.90072 0.820325
   rotation -0.6222989795058281 0.45366398505948424 -0.6379129789916121 -2.247155307179586
-  controller "void"
+  controller "<generic>"
 }
 AiboErs7 {
   translation 1.1565273 -4.9369095 0.82215018
   rotation -0.26735092200225136 0.7698527754008746 -0.5795258309274203 2.679
-  controller "void"
+  controller "<generic>"
 }
 LJoint {
   translation -7.571 3.19 0.712

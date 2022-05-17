@@ -4,8 +4,9 @@
 Released on XX, XXth, 2022.
 
   - New Features:
-    - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259))
+    - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
+    - Added floating windows to web streaming ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
@@ -14,9 +15,11 @@ Released on XX, XXth, 2022.
     **Previously set Extra project paths should be re-set in the preferences menu**.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
     - Added Franka Emika's [Panda](../guide/panda.md) robot ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
+    - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537).
   - New Objects:
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
+    - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
   - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements:
     - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
@@ -30,6 +33,8 @@ Released on XX, XXth, 2022.
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Feature Removal:
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Cleanup:
+    - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
 
 ## Webots R2022a Revision 1
 Released on XX XX, 2022.
@@ -39,6 +44,7 @@ Released on XX XX, 2022.
     - Replaced cubic background PNG images with more efficient JPG images ([#4182](https://github.com/cyberbotics/webots/pull/4182)).
     - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
     - Forbid the USE of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
+    - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - **Renamed CameraRecognitionObject and ContactPoint related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).**
@@ -62,6 +68,7 @@ Released on XX XX, 2022.
     - Fixed perspective (i.e., when the layout is changed) saving logic and camera menu overlay ([#4350](https://github.com/cyberbotics/webots/pull/4350)).
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
+    - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
 
 ## Webots R2022a
 Released on December 21th, 2021.

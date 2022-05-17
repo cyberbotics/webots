@@ -265,7 +265,7 @@ WoodenChair {
 Laptop {
   translation 1.52489 0.762533 0.72
   rotation 0 0 1 1.309
-  controller ""
+  controller "<none>"
 }
 Table {
   translation -0.411788 -0.19985 0

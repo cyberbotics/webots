@@ -115,6 +115,15 @@ lib/controller/python39_brew/ [mac]
 lib/controller/python39_brew/*.py [mac]
 lib/controller/python39_brew/_*.so [mac]
 
+lib/controller/python310/
+lib/controller/python310/*.py
+lib/controller/python310/_*.so [linux,mac]
+lib/controller/python310/_*.pyd [windows]
+
+lib/controller/python310_brew/ [mac]
+lib/controller/python310_brew/*.py [mac]
+lib/controller/python310_brew/_*.so [mac]
+
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m
@@ -235,10 +244,10 @@ resources/pico/lang/*.mk
 resources/proto-list.xml
 resources/projects/
 resources/projects/controllers/
-resources/projects/controllers/void/
-resources/projects/controllers/void/Makefile
-resources/projects/controllers/void/void [exe]
-resources/projects/controllers/void/void.c
+resources/projects/controllers/generic/
+resources/projects/controllers/generic/Makefile
+resources/projects/controllers/generic/generic [exe]
+resources/projects/controllers/generic/generic.c
 resources/projects/libraries/
 resources/projects/libraries/generic_robot_window/
 resources/projects/libraries/generic_robot_window/Makefile

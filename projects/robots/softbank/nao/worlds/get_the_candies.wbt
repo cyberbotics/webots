@@ -150,7 +150,7 @@ LollipopCandy {
 DEF NAO Nao {
   translation -0.2 2.05 0.34
   rotation 0 0 1 3.141527137608161
-  controller "void"
+  controller "<generic>"
   cameraWidth 320
   cameraHeight 240
 }

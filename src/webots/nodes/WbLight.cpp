@@ -226,14 +226,14 @@ int WbLight::numberOfLightsCastingShadows() {
 }
 
 void WbLight::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d())
+    findField("castShadows", true)->write(writer);
+}
 
-  findField("on", true)->write(writer);
-  findField("color", true)->write(writer);
-  findField("intensity", true)->write(writer);
-  findField("ambientIntensity", true)->write(writer);
-  findField("castShadows", true)->write(writer);
+QStringList WbLight::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "color"
+         << "on";
+  return fields;
 }

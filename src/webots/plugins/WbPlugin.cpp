@@ -78,6 +78,9 @@ QString WbPlugin::openLibrary(const QString &fullName) {
 }
 
 bool WbPlugin::load() {
+  if (mName == "<none>")
+    return false;
+
   const QString pluginName("plugins/" + type() + "/" + mName + "/");
   const QString fileName(WbStandardPaths::dynamicLibraryPrefix() + mName + WbStandardPaths::dynamicLibraryExtension());
 

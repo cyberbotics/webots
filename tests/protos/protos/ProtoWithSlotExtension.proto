@@ -5,7 +5,7 @@ EXTERNPROTO "webots://tests/api/protos/TestSuiteEmitter.proto"
 
 PROTO ProtoWithSlotExtension [
   field SFNode slotExtension SlotNode { }
-  field SFString controller ""
+  field SFString controller "<none>"
 ]
 {
   Robot {

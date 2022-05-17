@@ -176,7 +176,7 @@ export default class Toolbar {
 
   _checkLeftTooltips() {
     const toolbarLeft = document.getElementById('toolbar-left');
-    for (let child = toolbarLeft.firstChild; child !== null ; child = child.nextSibling) {
+    for (let child = toolbarLeft.firstChild; child !== null; child = child.nextSibling) {
       const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth / 2;
       if (left < 0) {
         document.getElementById(child.lastChild.id).style.left = '0';
@@ -213,7 +213,7 @@ export default class Toolbar {
       isPlaying = false;
 
     let settingsPane = true;
-    if (typeof this._settingsPane !== 'undefined' && this._settingsPane.style.visibility !== 'hidden')
+    if (typeof this.settingsPane !== 'undefined' && this.settingsPane.style.visibility !== 'hidden')
       settingsPane = false;
 
     let gtaoPane = true;
@@ -233,7 +233,7 @@ export default class Toolbar {
 
       canHide = isPlaying && settingsPane && gtaoPane;
     } else if (this.type === 'scene')
-      canHide = true;
+      canHide = settingsPane && gtaoPane;
 
     if (canHide)
       this.toolbar.style.display = 'none';
@@ -366,13 +366,16 @@ export default class Toolbar {
     this.robotWindowPane = document.createElement('div');
     this.robotWindowPane.id = 'robot-window-pane';
     this.robotWindowPane.className = 'vertical-list-pane';
-    this.robotWindowPane.innerHTML = '<h3 class="vertical-list-pane-title">Robot Windows</h3>';
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
+    const title = document.createElement('li');
+    title.className = 'vertical-list-pane-title';
+    title.innerHTML = 'Robot Windows';
+    this.robotWindowList.appendChild(title);
 
     const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
@@ -428,8 +431,14 @@ export default class Toolbar {
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window)));
-      WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
+      WbWorld.instance.robots.forEach((robot) => {
+        if (robot.window !== '<none>') {
+          this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window));
+          this._addRobotWindowToPane(robot.name);
+        }
+      });
+      const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
+      document.getElementById('robot-window-button').style.display = buttonDisplay;
     }
     this.robotWindowPane.style.right = '150px';
 
@@ -553,7 +562,10 @@ export default class Toolbar {
     this.toolbarRight.appendChild(this.infoButton);
     this._createInformation();
     window.addEventListener('click', _ => this._closeInfoOnClick(_));
-    this.minWidth += 44;
+    if (!(typeof this.parentNode.showInfo === 'undefined' || this.parentNode.showInfo))
+      this.infoButton.style.display = 'none';
+    else
+      this.minWidth += 44;
   }
 
   _createInformation() {
@@ -592,17 +604,17 @@ export default class Toolbar {
   }
 
   _createSettingsPane() {
-    this._settingsPane = document.createElement('div');
-    this._settingsPane.className = 'settings-pane';
-    this._settingsPane.id = 'settings-pane';
-    this._settingsPane.style.visibility = 'hidden';
+    this.settingsPane = document.createElement('div');
+    this.settingsPane.className = 'settings-pane';
+    this.settingsPane.id = 'settings-pane';
+    this.settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
-    this.parentNode.appendChild(this._settingsPane);
-    this._settingsPane.addEventListener('mouseover', () => this.showToolbar());
+    this.parentNode.appendChild(this.settingsPane);
+    this.settingsPane.addEventListener('mouseover', () => this.showToolbar());
 
     this.settingsList = document.createElement('ul');
     this.settingsList.id = 'settings-list';
-    this._settingsPane.appendChild(this.settingsList);
+    this.settingsPane.appendChild(this.settingsList);
 
     this._createResetViewpoint();
     this._createChangeShadows();
@@ -615,7 +627,7 @@ export default class Toolbar {
     if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
       return;
 
-    if (typeof this._settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
+    if (typeof this.settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
       return;
 
     let speedPanelHidden = true;
@@ -626,13 +638,13 @@ export default class Toolbar {
         speedPanelHidden = false;
     }
 
-    if (event.target.id === 'settings-button' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
-      this._settingsPane.style.visibility = 'visible';
+    if (event.target.id === 'settings-button' && this.settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+      this.settingsPane.style.visibility = 'visible';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
-    } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
-      this._settingsPane.style.visibility = 'hidden';
+    } else if (this.settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
+      this.settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         const tooltips = document.getElementsByClassName('tooltip');
         if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') || event.srcElement.id.startsWith('world-selection'))) {
@@ -650,6 +662,7 @@ export default class Toolbar {
   _createResetViewpoint() {
     const resetViewpoint = document.createElement('li');
     resetViewpoint.onclick = () => this._resetViewpoint();
+    resetViewpoint.id = 'reset-viewpoint';
     this.settingsList.appendChild(resetViewpoint);
 
     let label = document.createElement('span');
@@ -713,7 +726,7 @@ export default class Toolbar {
 
     label = document.createElement('span');
     label.className = 'setting-text';
-    label.innerHTML = this._gtaoLevelToText(GtaoLevel);
+    label.innerHTML = this.gtaoLevelToText(GtaoLevel);
     label.id = 'gtao-display';
     gtaoLi.appendChild(label);
 
@@ -758,7 +771,7 @@ export default class Toolbar {
       gtaoLevelLi = document.createElement('li');
       gtaoLevelLi.id = i;
       label = document.createElement('span');
-      if (this._gtaoLevelToText(GtaoLevel) === i)
+      if (this.gtaoLevelToText(GtaoLevel) === i)
         label.innerHTML = '&check;';
       label.id = 'c-' + i;
       label.className = 'check-gtao';
@@ -770,18 +783,18 @@ export default class Toolbar {
       label = document.createElement('div');
       label.className = 'spacer';
       gtaoLevelLi.appendChild(label);
-      gtaoLevelLi.onclick = _ => this._changeGtao(_);
+      gtaoLevelLi.onclick = _ => this.changeGtao(_);
       gtaoList.appendChild(gtaoLevelLi);
     }
   }
 
-  _changeGtao(event) {
+  changeGtao(event) {
     changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
     this._gtaoPane.style.visibility = 'hidden';
     const gtaoLabel = document.getElementById('gtao-display');
     if (gtaoLabel)
       gtaoLabel.innerHTML = event.srcElement.id;
-    this._settingsPane.style.visibility = 'visible';
+    this.settingsPane.style.visibility = 'visible';
     for (let i of document.getElementsByClassName('check-gtao')) {
       if (i.id === 'c-' + event.srcElement.id)
         i.innerHTML = '&check;';
@@ -795,16 +808,16 @@ export default class Toolbar {
   }
 
   _openGtaoPane() {
-    this._settingsPane.style.visibility = 'hidden';
+    this.settingsPane.style.visibility = 'hidden';
     this._gtaoPane.style.visibility = 'visible';
   }
 
   _closeGtaoPane() {
-    this._settingsPane.style.visibility = 'visible';
+    this.settingsPane.style.visibility = 'visible';
     this._gtaoPane.style.visibility = 'hidden';
   }
 
-  _gtaoLevelToText(number) {
+  gtaoLevelToText(number) {
     const pairs = {
       1: 'low',
       2: 'medium',
@@ -1077,7 +1090,7 @@ export default class Toolbar {
       const speedDisplay = document.getElementById('speed-display');
       if (speedDisplay)
         speedDisplay.innerHTML = animation.speed === '1' ? 'Normal' : animation.speed;
-      this._settingsPane.style.visibility = 'visible';
+      this.settingsPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('check-speed')) {
         if (i.id === 'c' + animation.speed)
           i.innerHTML = '&check;';
@@ -1089,12 +1102,12 @@ export default class Toolbar {
   }
 
   _openSpeedPane() {
-    this._settingsPane.style.visibility = 'hidden';
+    this.settingsPane.style.visibility = 'hidden';
     this._speedPane.style.visibility = 'visible';
   }
 
   _closeSpeedPane() {
-    this._settingsPane.style.visibility = 'visible';
+    this.settingsPane.style.visibility = 'visible';
     this._speedPane.style.visibility = 'hidden';
   }
 
@@ -1319,13 +1332,16 @@ export default class Toolbar {
     this.worldSelectionPane = document.createElement('div');
     this.worldSelectionPane.id = 'world-selection-pane';
     this.worldSelectionPane.className = 'vertical-list-pane';
-    this.worldSelectionPane.innerHTML = '<h3 class="vertical-list-pane-title">Worlds</h3>';
     this.parentNode.appendChild(this.worldSelectionPane);
     this.worldSelectionPane.style.visibility = 'hidden';
     this.worldSelectionPane.style.left = '1%';
     this.worldList = document.createElement('ul');
     this.worldList.id = 'world-list';
     this.worldSelectionPane.appendChild(this.worldList);
+    const title = document.createElement('li');
+    title.className = 'vertical-list-pane-title';
+    title.innerHTML = 'Worlds';
+    this.worldList.appendChild(title);
 
     this.worldSelectionPane.addEventListener('mouseover', () => this.showToolbar());
 
@@ -1434,9 +1450,9 @@ export default class Toolbar {
       this._gtaoPane = undefined;
     }
 
-    if (typeof this._settingsPane !== 'undefined') {
-      this.parentNode.removeChild(this._settingsPane);
-      this._settingsPane = undefined;
+    if (typeof this.settingsPane !== 'undefined') {
+      this.parentNode.removeChild(this.settingsPane);
+      this.settingsPane = undefined;
     }
 
     this.removeToolbar();

@@ -3,7 +3,7 @@
 EXTERNPROTO "webots://tests/api/protos/TestSuiteEmitter.proto"
 
 PROTO SupervisorInternalFields [
-  field       SFString   controller  ""
+  field       SFString   controller  "<none>"
   field       SFVec3f    translation 0 0 0
   hiddenField SFRotation rotation    0 0 1 0
 ]

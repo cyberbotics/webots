@@ -1186,9 +1186,10 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
       const QList<WbRobot *> &robots = world->robots();
+      mRobotWindowClosed = false;
       foreach (WbRobot *robot, robots) {
         if (perspective->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
-          showHtmlRobotWindow(robot);
+          showHtmlRobotWindow(robot, false);
       }
     }
     restoreState(perspective->mainWindowState());
@@ -2037,6 +2038,9 @@ void WbMainWindow::editRobotController() {
   if (controllerName.isEmpty()) {
     WbMessageBox::info(tr("Could not find the controller name of the '%1' robot.").arg(robot->name().toUpper()), this);
     return;
+  } else if (controllerName == "<none>") {
+    WbMessageBox::info(tr("Controller <none> cannot be modified."), this);
+    return;
   }
 
   QString filename = WbProject::current()->controllerPathFromDir(robot->controllerDir());
@@ -2050,39 +2054,50 @@ void WbMainWindow::editRobotController() {
 
 void WbMainWindow::showRobotWindow() {
   WbRobot *robot = mSimulationView->selectedRobot();
+  mRobotWindowClosed = false;
   if (robot) {
-    if (robot->windowFile().isEmpty())
+    if (robot->window() == "<none>")  // no robot window
+      WbMessageBox::info(tr("Cannot show <none> robot window."));
+    else if (robot->windowFile().isEmpty())
       robot->showWindow();  // not a HTML robot window
     else
-      showHtmlRobotWindow(robot);  // show HTML robot window
+      showHtmlRobotWindow(robot, true);  // show HTML robot window
   }
 }
 
-void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
+void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
+  WbRobotWindow *currentRobotWindow = NULL;
+  foreach (WbRobotWindow *robotWindow, mRobotWindows) {
+    if (robotWindow->robot() == robot) {  // close only the client of the robot window associated with the robot.
+      if (robotWindow->getClientID() == "-1" || robotWindow->getClientID().isEmpty()) {
+        if (manualTrigger)
+          robotWindow->setupPage(mStreamingServer->port());
+        else
+          mRobotWindowClosed = true;
+        return;
+      } else
+        mStreamingServer->closeClient(robotWindow->getClientID());
+      currentRobotWindow = robotWindow;
+    }
+  }
+
   if (mOnSocketOpen) {
     mOnSocketOpen = false;
-    WbRobotWindow *currentRobotWindow = NULL;
-    foreach (WbRobotWindow *robotWindow, mRobotWindows) {
-      if ((robotWindow->robot() == robot)) {  // close only the client of the robot window associated with the robot.
-        if (robotWindow->getClientID() != "-1" && !robotWindow->getClientID().isEmpty())
-          mStreamingServer->closeClient(robotWindow->getClientID());
-        currentRobotWindow = robotWindow;
-      }
-    }
 
     if (currentRobotWindow == NULL) {  // if no robot window associated with the robot, create one.
       currentRobotWindow = new WbRobotWindow(robot);
       mRobotWindows << currentRobotWindow;
       connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
-      connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
-      connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot); });
+      connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
+      connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
+      connect(robot, &WbRobot::windowChanged, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(currentRobotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
     }
 
-    if (currentRobotWindow && currentRobotWindow->robot() == robot)
+    if (currentRobotWindow && currentRobotWindow->robot() == robot && !mRobotWindowClosed)
       currentRobotWindow->setupPage(mStreamingServer->port());
-  } else {
+  } else if (!mRobotWindowClosed) {
     const int maxPendingRobotWindows = 3;
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
       mRobotsWaitingForWindowToOpen << robot;
@@ -2094,7 +2109,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot) {
 void WbMainWindow::onSocketOpened() {
   mOnSocketOpen = true;
   if (!mRobotsWaitingForWindowToOpen.isEmpty())
-    showHtmlRobotWindow(mRobotsWaitingForWindowToOpen.takeFirst());
+    showHtmlRobotWindow(mRobotsWaitingForWindowToOpen.takeFirst(), false);
 }
 
 void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
