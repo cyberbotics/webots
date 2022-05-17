@@ -230,3 +230,10 @@ void WbLight::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d())
     findField("castShadows", true)->write(writer);
 }
+
+QStringList WbLight::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "color"
+         << "on";
+  return fields;
+}
