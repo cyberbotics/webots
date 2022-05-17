@@ -184,7 +184,8 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
       // some Webots immediate messages could have been postponed
       // if the simulation is running these messages will be sent within the step message
       // otherwise we want to send them as soon as the libController request is over
-      writePendingImmediateAnswer();
+      foreach (WbController *const controller, mControllers)
+        controller->writePendingImmediateAnswer();
     }
 
     // print controller logs to Webots console(s)
@@ -317,11 +318,6 @@ bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
     }
   }
   return false;
-}
-
-void WbControlledWorld::writePendingImmediateAnswer() {
-  foreach (WbController *const controller, mControllers)
-    controller->writePendingImmediateAnswer();
 }
 
 void WbControlledWorld::updateCurrentRobotController() {

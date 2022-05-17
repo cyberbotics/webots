@@ -35,7 +35,6 @@ public:
   void externConnection(WbController *controller, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
-  void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
   void checkIfReadRequestCompleted();
   void reset(bool restartControllers) override;
