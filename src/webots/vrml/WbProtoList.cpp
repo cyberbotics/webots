@@ -45,7 +45,7 @@ WbProtoList *WbProtoList::instance() {
 
 WbProtoList::WbProtoList() {
   mTreeRoot = NULL;
-  setupKnownProtoList();
+  generateWebotsProtoList();
 }
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
@@ -144,12 +144,13 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) { 
 }
 
 void WbProtoList::printCurrentWorldProtoList() {
-  QMapIterator<QString, QString> it(mCurrentWorldProto);
+  QMapIterator<QString, QPair<QString, int>> it(mCurrentWorldProto);
   printf("-- mCurrentWorldProto ------\n");
   while (it.hasNext()) {
     it.next();
-    printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(it.value()),
-           it.value().toUtf8().constData());
+    QPair<QString, int> value = it.value();
+    printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(value.first),
+           value.first.toUtf8().constData());
   }
   printf("----------------\n");
 }
@@ -166,21 +167,22 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
   }
 
   if (mCurrentWorldProto.contains(modelName)) {
-    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentWorldProto.value(modelName), false);  // TODO: change this
+    QString url =
+      WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentWorldProto.value(modelName).first, false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
       // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(url);
     }
     printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-    WbProtoModel *model = readModel(url, worldPath, mCurrentWorldProto.value(modelName), baseTypeList);
+    WbProtoModel *model = readModel(url, worldPath, mCurrentWorldProto.value(modelName).first, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
     model->ref();
     return model;
-  } else if (mOfficialProtoList.contains(modelName)) {  // TODO: add version check as well?
-    QString url = mOfficialProtoList.value(modelName)->url();
+  } else if (mWebotsProtoList.contains(modelName)) {  // TODO: add version check as well?
+    QString url = mWebotsProtoList.value(modelName)->url();
     if (WbNetwork::instance()->isCached(url)) {
       url = WbNetwork::instance()->get(url);
       printf("%35s is an OFFICIAL proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
@@ -248,7 +250,53 @@ QStringList WbProtoList::fileList() {
   return list;
 }
 
-void WbProtoList::setupKnownProtoList() {
+void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
+  // clear current project related variables
+  mCurrentWorld = filename;
+  mReloading = reloading;
+  mCurrentWorldProto.clear();
+  delete mTreeRoot;
+  foreach (WbProtoModel *model, mModels) {
+    if (mCurrentWorldProto.contains(model->name()))
+      model->unref();
+  }
+
+  // populate the tree with urls expressed by EXTERNPROTO
+  QFile rootFile(filename);
+  if (rootFile.open(QIODevice::ReadOnly)) {
+    QFile rootFile(filename);
+    mTreeRoot = new WbProtoTreeItem(filename, NULL);  //
+    connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::tryWorldLoad);
+  } else {
+    WbLog::error(tr("File '%1' is not readable.").arg(filename));
+    return;
+  }
+
+  // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
+  foreach (const QString proto, unreferencedProtos) {
+    if (isWebotsProto(proto))
+      mTreeRoot->insert(WbProtoList::instance()->getWebotsProtoUrl(proto));
+    else
+      WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
+  }
+
+  // status pre-firing
+  mTreeRoot->print();
+  // root node is now fully populated, trigger download
+  mTreeRoot->downloadAssets();
+}
+
+void WbProtoList::tryWorldLoad() {
+  printf("RETRY WORLD LOAD\n");
+  // generate mCurrentWorldProto
+  mTreeRoot->generateProtoMap(mCurrentWorldProto);
+  // cleanup and load world at last
+  delete mTreeRoot;
+  mTreeRoot = NULL;
+  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
+}
+
+void WbProtoList::generateWebotsProtoList() {
   const QString filename(WbStandardPaths::resourcesPath() + QString("proto-list.xml"));
   QFile file(filename);
   if (!file.open(QFile::ReadOnly | QFile::Text)) {
@@ -257,7 +305,6 @@ void WbProtoList::setupKnownProtoList() {
   }
 
   QXmlStreamReader reader(&file);
-
   if (reader.readNextStartElement()) {
     if (reader.name().toString() == "proto-list") {
       while (reader.readNextStartElement()) {
@@ -310,9 +357,10 @@ void WbProtoList::setupKnownProtoList() {
           // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
           //       baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
           //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
+          description = description.replace("\\n", "\n");
           WbProtoInfo *info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType, tags,
                                               needsRobotAncestor);
-          mOfficialProtoList.insert(name, info);
+          mWebotsProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
       }
@@ -321,73 +369,46 @@ void WbProtoList::setupKnownProtoList() {
   } else
     reader.raiseError(tr("The format of 'proto-list.xml' is invalid."));
 
-  // printf("-- known proto %lld --\n", mProtoList.size());
-  // QMapIterator<QString, WbProtoInfo> it(mProtoList);
+  // printf("-- known proto %lld --\n", mWebotsProtoList.size());
+  // QMapIterator<QString, WbProtoInfo> it(mWebotsProtoList);
   // while (it.hasNext()) {
   //  it.next();
   //  WbProtoInfo info = it.value();
   //  printf("  %35s %s\n", it.key().toUtf8().constData(), info.url().toUtf8().constData());
   //}
-  // printf("-- end known proto --\n");
+  // printf("-- end mWebotsProtoList --\n");
 }
 
-bool WbProtoList::isOfficialProto(const QString &protoName) {
-  assert(mOfficialProtoList.size() > 0);
-  return mOfficialProtoList.contains(protoName);
-}
+void WbProtoList::generateWorldProtoList() {
+  mWorldProtoList.clear();
 
-const QString WbProtoList::getOfficialProtoUrl(const QString &protoName) {
-  assert(mOfficialProtoList.size() > 0);
-  return mOfficialProtoList.value(protoName)->url();
-}
+  QMapIterator<QString, QPair<QString, int>> it(mCurrentWorldProto);
+  while (it.hasNext()) {
+    it.next();
+    if (it.value().second != 1)  // only consider items level 1 (i.e. world file level)
+      continue;
 
-void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
-  // clear current project related variables
-  mCurrentWorld = filename;
-  mReloading = reloading;
-  mCurrentWorldProto.clear();
-  delete mTreeRoot;
-  foreach (WbProtoModel *model, mModels) {
-    if (mCurrentWorldProto.contains(model->name()))
-      model->unref();
+    QString protoUrl = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
+    if (WbUrl::isWeb(protoUrl) && WbNetwork::instance()->isCached(protoUrl))
+      protoUrl = WbNetwork::instance()->get(protoUrl);
+    WbProtoInfo *info = generateInfoFromProtoFile(protoUrl);
+    if (info)
+      mWorldProtoList.insert(QUrl(protoUrl).fileName().replace(".proto", ""), info);
   }
-
-  // populate the tree with urls expressed by EXTERNPROTO
-  QFile rootFile(filename);
-  if (rootFile.open(QIODevice::ReadOnly)) {
-    QFile rootFile(filename);
-    mTreeRoot = new WbProtoTreeItem(filename, NULL);  //
-    connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::tryWorldLoad);
-  } else {
-    WbLog::error(tr("File '%1' is not readable.").arg(filename));
-    return;
-  }
-
-  // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
-  foreach (const QString proto, unreferencedProtos) {
-    if (isOfficialProto(proto))
-      mTreeRoot->insert(WbProtoList::instance()->getOfficialProtoUrl(proto));
-    else
-      WbLog::error(tr("PROTO '%1' is not a known official PROTO. The backwards compatibility mechanism may fail.").arg(proto));
-  }
-
-  // status pre-firing
-  mTreeRoot->print();
-  // root node is now fully populated, trigger download
-  mTreeRoot->downloadAssets();
 }
 
-void WbProtoList::tryWorldLoad() {
-  printf("RETRY WORLD LOAD\n");
-  // generate mCurrentWorldProto
-  mTreeRoot->generateProtoMap(mCurrentWorldProto);
-  // cleanup and load world at last
-  delete mTreeRoot;
-  mTreeRoot = NULL;
-  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
+bool WbProtoList::isWebotsProto(const QString &protoName) {
+  assert(mWebotsProtoList.size() > 0);
+  return mWebotsProtoList.contains(protoName);
+}
+
+const QString WbProtoList::getWebotsProtoUrl(const QString &protoName) {
+  assert(mWebotsProtoList.size() > 0);
+  return mWebotsProtoList.value(protoName)->url();
 }
 
 WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName) {
+  assert(QFileInfo(protoFileName).exists());
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(protoFileName);
   if (errors > 0)

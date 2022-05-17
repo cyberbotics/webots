@@ -91,12 +91,12 @@ private:
   WbDownloader *mDownloader;
   void downloadIcon(const QString &url);
 
-  int addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem, const QRegularExpression &regexp);
+  int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp);
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
   int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
                 const QRegularExpression &regexp, const QDir &rootDirectory);
-  void showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo = "");
+  void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = 0, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 
 private slots:

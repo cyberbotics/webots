@@ -85,8 +85,8 @@ public:
 
   // TODO: is there better way to build it?
   bool areProtoAssetsAvailable(const QString &filename, const QStringList &graftedExternProto, bool buildProtoList = true);
-  bool isOfficialProto(const QString &protoName);
-  const QString getOfficialProtoUrl(const QString &protoName);
+  bool isWebotsProto(const QString &protoName);
+  const QString getWebotsProtoUrl(const QString &protoName);
 
   // bool backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading);
 
@@ -123,9 +123,15 @@ public:
 
   void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
 
-  QMap<QString, WbProtoInfo *> officialProtoList() { return mOfficialProtoList; };
+  // used primarely when populating the add-node dialog window
+  QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
+  QMap<QString, WbProtoInfo *> worldProtoList() { return mWorldProtoList; };
+  QMap<QString, WbProtoInfo *> projectProtoList() { return mProjectProtoList; };
+  QMap<QString, WbProtoInfo *> extraProtoList() { return mExtraProtoList; };
+  // proto list generators
 
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
+  void generateWorldProtoList();
 
 private slots:
   void tryWorldLoad();
@@ -143,12 +149,15 @@ private:
 
   WbProtoTreeItem *mTreeRoot;
 
-  QMap<QString, WbProtoInfo *> mOfficialProtoList;
-  QMap<QString, QString> mCurrentWorldProto;
-  QMap<QString, QString> mCurrentProjectProto;
-  QMap<QString, QString> mExtraProjectProto;
+  QMap<QString, QPair<QString, int>> mCurrentWorldProto;  // TODO: probably should be renamed
 
-  void setupKnownProtoList();  // known == mentioned in a world file in the webots library (sub-proto not known)
+  // stores metadata about
+  QMap<QString, WbProtoInfo *> mWebotsProtoList;   // loaded from proto-list.xml
+  QMap<QString, WbProtoInfo *> mWorldProtoList;    // compiled from EXTERNPROTO referenced in .wbt
+  QMap<QString, WbProtoInfo *> mProjectProtoList;  // compiled from PROTO in current project directory
+  QMap<QString, WbProtoInfo *> mExtraProtoList;    // compiled from PROTO in extra project directories
+
+  void generateWebotsProtoList();
 };
 
 #endif

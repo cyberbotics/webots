@@ -16,8 +16,6 @@
 
 #include <WbDownloader.hpp>
 #include <WbNetwork.hpp>
-#include "../core/WbApplicationInfo.hpp"
-#include "../vrml/WbProtoList.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
@@ -29,6 +27,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
@@ -49,7 +48,7 @@
 
 #include <cassert>
 
-enum { NEW = 10001, USE = 10002, PROTO_WEBOTS = 10003, PROTO_EXTRA = 10004, PROTO_PROJECT = 10005 };
+enum { NEW = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005, USE = 10006 };
 
 WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent) :
   QDialog(parent),
@@ -265,6 +264,15 @@ void WbAddNodeDialog::updateItemInfo() {
         mInfoText->setPlainText(
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
+      case PROTO_WORLD: {
+        const QString worldFile = "ASD";  // TODO
+        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the world file: '%1'.").arg(worldFile));
+        break;
+      }
+      case PROTO_PROJECT:
+        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
+                                  .arg(WbProject::current()->protosPath()));
+        break;
       case PROTO_EXTRA: {
         QString title("This folder lists all suitable PROTO nodes from the preferences Extra project path and "
                       "the 'WEBOTS_EXTRA_PROJECT_PATH' environment variable:\n");
@@ -272,10 +280,6 @@ void WbAddNodeDialog::updateItemInfo() {
           title.append(QString("- " + project->path() + "\n"));
         mInfoText->setPlainText(title);
       } break;
-      case PROTO_PROJECT:
-        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
-                                  .arg(WbProject::current()->protosPath()));
-        break;
       case PROTO_WEBOTS:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes provided by Webots."));
         break;
@@ -295,22 +299,23 @@ void WbAddNodeDialog::updateItemInfo() {
         mNewNodeType = USE;
         QString boi(selectedItem->text(BOUNDING_OBJECT_INFO));
         validForInsertionInBoundingObject = boi.isEmpty();
-        showNodeInfo(selectedItem->text(FILE_NAME), USE, boi);
+        showNodeInfo(selectedItem->text(FILE_NAME), USE, 0, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
         break;
       }
-      case PROTO_WEBOTS:
-      case PROTO_EXTRA:
+      case PROTO_WORLD:
       case PROTO_PROJECT:
+      case PROTO_EXTRA:
+      case PROTO_WEBOTS:
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
-        showNodeInfo(selectedItem->text(FILE_NAME), PROTO);
+        showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
-        showNodeInfo(selectedNode, BASIC);
+        showNodeInfo(selectedNode, BASIC, BASIC);
         break;
     }
   }
@@ -318,7 +323,8 @@ void WbAddNodeDialog::updateItemInfo() {
   mAddButton->setEnabled(!selectedItem->icon(0).isNull() && validForInsertionInBoundingObject);
 }
 
-void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo) {
+void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant,
+                                   const QString &boundingObjectInfo) {  // TODO: can variant be better?
   QString description;
   QString pixmapPath;
 
@@ -332,11 +338,20 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     // set icon path
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
   } else {
-    // TODO: should have specific method for this?
-    QMap<QString, WbProtoInfo *> protoList = WbProtoList::instance()->officialProtoList();
-    if (!protoList.contains(modelName)) {
-      WbLog::error(tr("'%1' is not a known official PROTO.\n").arg(modelName));
-      return;
+    QMap<QString, WbProtoInfo *> protoList;
+
+    if (variant == PROTO_WORLD) {
+      protoList = WbProtoList::instance()->worldProtoList();
+      if (!protoList.contains(modelName)) {
+        WbLog::error(tr("'%1' is not a known PROTO in this world.\n").arg(modelName));
+        return;
+      }
+    } else if (variant == PROTO_WEBOTS) {
+      protoList = WbProtoList::instance()->webotsProtoList();
+      if (!protoList.contains(modelName)) {
+        WbLog::error(tr("'%1' is not a known Webots PROTO.\n").arg(modelName));
+        return;
+      }
     }
 
     WbProtoInfo *info = protoList.value(modelName);
@@ -358,7 +373,11 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 
     mInfoText->clear();
 
-    description = info->description().replace("\\n", "\n");
+    if (!boundingObjectInfo.isEmpty())
+      mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
+                               "hence cannot be inserted in a bounding object.</font><br/>"));
+
+    description = info->description();
     if (description.isEmpty())
       mInfoText->setPlainText(tr("No info available."));
     else {
@@ -426,18 +445,16 @@ void WbAddNodeDialog::buildTree() {
   mUniqueLocalProtoNames.clear();
   mUniqueExtraProtoNames.clear();
 
-  // basic tree items
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
-
-  QStringList basicNodes;
+  QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World)"), PROTO_WORLD);
+  QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem = WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() ?
+                                             NULL :
+                                             new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
-  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), PROTO_PROJECT);
-  QTreeWidgetItem *aprotosItem = !WbProject::extraProjects()->isEmpty() ?
-                                   new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA) :
-                                   NULL;
-  basicNodes = WbNodeModel::baseModelNames();
 
+  const QStringList basicNodes = WbNodeModel::baseModelNames();
   QTreeWidgetItem *item = NULL;
 
   const QRegularExpression regexp(
@@ -494,9 +511,10 @@ void WbAddNodeDialog::buildTree() {
     }
   }
 
-  mUniqueLocalProtoNames.clear();
+  mUniqueLocalProtoNames.clear();  // TODO needed?
   mUniqueExtraProtoNames.clear();
 
+  /*
   // add project PROTO
   if (lprotosItem) {
     mIsAddingLocalProtos = true;
@@ -515,31 +533,34 @@ void WbAddNodeDialog::buildTree() {
       addProtosFromDirectory(aprotosItem, project->path(), regexp, QDir(project->path()));
     mIsAddingExtraProtos = false;
   }
+  */
 
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
+  int nWorldProtosNodes = 0;
+  nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
 
   // add Current Project PROTO (all PROTO locally available in the project location)
 
   // add Extra PROTO (all PROTO available in the extra location)
 
   // add Webots PROTO
-  int nWProtosNodes = 0;
-  nWProtosNodes = addProtosFromOfficialProtoList(wprotosItem, regexp);
+  int nWProtosNodes = 0;  // TODO: fix n's
+  nWProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
 
   mTree->addTopLevelItem(nodesItem);
+  mTree->addTopLevelItem(worldProtosItem);
+  mTree->addTopLevelItem(projectProtosItem);
+  if (extraProtosItem)
+    mTree->addTopLevelItem(extraProtosItem);
+  mTree->addTopLevelItem(webotsProtosItem);
   if (mUsesItem)
     mTree->addTopLevelItem(mUsesItem);
-  if (lprotosItem)
-    mTree->addTopLevelItem(lprotosItem);
-  if (aprotosItem)
-    mTree->addTopLevelItem(aprotosItem);
-  mTree->addTopLevelItem(wprotosItem);
 
   // initial selection
   const int nBasicNodes = nodesItem->childCount();
   const int nUseNodes = mUsesItem ? mUsesItem->childCount() : 0;
-  const int nLProtosNodes = lprotosItem ? lprotosItem->childCount() : 0;
-  const int nAProtosNodes = aprotosItem ? aprotosItem->childCount() : 0;
+  const int nLProtosNodes = 0;  // lprotosItem ? lprotosItem->childCount() : 0;
+  const int nAProtosNodes = 0;  // aprotosItem ? aprotosItem->childCount() : 0;
 
   // if everything can fit in the tree height then show all
   if (nBasicNodes + nUseNodes + nLProtosNodes + nAProtosNodes + nWProtosNodes < 20)
@@ -555,17 +576,21 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem, const QRegularExpression &regexp) {
-  // TODO: handle PROTO defined locally
-
+int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp) {
   int nAddedNodes = 0;
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
-
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
-  QMapIterator<QString, WbProtoInfo *> it(WbProtoList::instance()->officialProtoList());
+
+  QMap<QString, WbProtoInfo *> protoList;
+  if (type == PROTO_WORLD) {
+    WbProtoList::instance()->generateWorldProtoList();  // TODO: can return the list directly?
+    protoList = WbProtoList::instance()->worldProtoList();
+  } else if (type == PROTO_WEBOTS)
+    protoList = WbProtoList::instance()->webotsProtoList();
+
+  QMapIterator<QString, WbProtoInfo *> it(protoList);
   while (it.hasNext()) {
     it.next();
-
     WbProtoInfo *info = it.value();
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
@@ -575,7 +600,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem,
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
     const QString baseType = info->baseType();
-    const QString path = info->url().replace("webots://", "").replace(re, "");
+    const QString path = info->url().replace("webots://", "").replace(re, "").replace(WbStandardPaths::webotsHomePath(), "");
     if (!path.contains(regexp) && !baseType.contains(regexp))
       continue;
 
@@ -612,7 +637,7 @@ int WbAddNodeDialog::addProtosFromOfficialProtoList(QTreeWidgetItem *parentItem,
         subFolder = parent->child(i);
       else {
         const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
-        subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
+        subFolder = new QTreeWidgetItem(QStringList() << name << path);
       }
 
       if (isProto) {

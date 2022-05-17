@@ -33,7 +33,7 @@ public:
   void downloadAssets();
 
   void print(int indent = 0);
-  void generateProtoMap(QMap<QString, QString> &map);
+  void generateProtoMap(QMap<QString, QPair<QString, int>> &map, int level = 0);
 
 signals:
   void treeUpdated();

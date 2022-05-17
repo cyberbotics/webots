@@ -454,9 +454,8 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 bool WbParser::parseProtoInterface(const QString &worldPath) {
   mMode = PROTO;
   try {
-    // TODO: needed?
-    // while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
-    //  skipExternProto();
+    while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens
+      skipExternProto();
 
     parseExactWord("PROTO");
     parseIdentifier();

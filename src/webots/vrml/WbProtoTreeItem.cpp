@@ -135,13 +135,15 @@ bool WbProtoTreeItem::isReadyToLoad() {
   return isReady;
 }
 
-void WbProtoTreeItem::generateProtoMap(QMap<QString, QString> &map) {
-  if (!map.contains(mName) && mUrl.endsWith(".proto"))  // don't insert the root (world file typically)
+void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, int>> &map, int level) {
+  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // don't insert the root (world file typically)
     // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
-    map.insert(mName, mUrl);
+    QPair<QString, int> value(mUrl, level);
+    map.insert(mName, value);
+  }
 
   foreach (WbProtoTreeItem *proto, mSubProto)
-    proto->generateProtoMap(map);
+    proto->generateProtoMap(map, level + 1);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
