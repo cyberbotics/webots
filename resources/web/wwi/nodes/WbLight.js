@@ -54,7 +54,6 @@ export default class WbLight extends WbBaseNode {
     let newColor = resetColorIfInvalid(this.color);
     if (newColor !== false) {
       this.color = newColor;
-      console.log("aie");
       return;
     }
 
