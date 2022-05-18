@@ -136,7 +136,7 @@ bool WbProtoTreeItem::isReadyToLoad() {
 }
 
 void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, int>> &map, int level) {
-  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // don't insert the root (world file typically)
+  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root may be a world file
     // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
     QPair<QString, int> value(mUrl, level);
     map.insert(mName, value);

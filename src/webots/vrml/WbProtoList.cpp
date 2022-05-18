@@ -302,7 +302,7 @@ void WbProtoList::singleProtoRetrievalCompleted() {
   printf("--- hierarchy ----\n");
   mTreeRoot->print();
   printf("------------------\n");
-
+  mTreeRoot->generateProtoMap(mCurrentWorldProto);
   emit retrievalCompleted();
 }
 
