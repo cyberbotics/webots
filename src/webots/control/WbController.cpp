@@ -940,7 +940,8 @@ void WbController::handleControllerExit() {
 void WbController::writeUserInputEventAnswer() {
   // prepare stream
   WbDataStream stream;
-  stream << (int)0;
+  if (mTcpSocket)
+    stream << (char)0;  // number of chunks
   /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
@@ -951,11 +952,19 @@ void WbController::writeUserInputEventAnswer() {
   mRobot->dispatchAnswer(stream, false);
 
   // size management
-  const int size = stream.length() + sizeof(int);
-  stream.prepend(QByteArray::number(size));
-  /*const int size = stream.device()->pos();
-  stream.device()->seek(0);
-  stream << size;*/
+  int size = stream.length();
+  if (!mTcpSocket) {
+    size += sizeof(int);
+    // const int size = stream.device()->pos();
+    // prepend integer size in litte endian format to the buffer
+    QByteArray ba_size;
+    for (int i = 0; i != sizeof(size); ++i) {
+      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+    }
+    stream.prepend(ba_size);
+    // stream.device()->seek(0);
+    // stream << size;
+  }
 
   // write the request
   if (mTcpSocket) {
@@ -976,7 +985,8 @@ void WbController::writeAnswer(bool immediateAnswer) {
 
   // prepare stream
   WbDataStream stream;
-  stream << (int)0;
+  if (mTcpSocket)
+    stream << (char)0;  // number of chunks
   /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
@@ -998,11 +1008,18 @@ void WbController::writeAnswer(bool immediateAnswer) {
     mRobot->writeImmediateAnswer(stream);
 
   // size management
-  const int size = stream.length() + sizeof(int);
-  stream.prepend(QByteArray::number(size));
-  /*const int size = stream.device()->pos();
-  stream.device()->seek(0);
-  stream << size;*/
+  int size = stream.length();
+  if (!mTcpSocket) {
+    size += sizeof(int);
+    // const int size = stream.device()->pos();
+    QByteArray ba_size;
+    for (int i = 0; i != sizeof(size); ++i) {
+      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+    }
+    stream.prepend(ba_size);
+    // stream.device()->seek(0);
+    // stream << size;
+  }
 
   // write the request
   if (mTcpSocket) {
@@ -1044,7 +1061,8 @@ void WbController::writeImmediateAnswer() {
 
   // prepare stream
   WbDataStream stream;
-  stream << (int)0;
+  if (mTcpSocket)
+    stream << (char)0;  // number of chunks
   /*QByteArray buffer;
   QDataStream stream(&buffer, QIODevice::WriteOnly);
   stream.setByteOrder(QDataStream::LittleEndian);
@@ -1058,14 +1076,21 @@ void WbController::writeImmediateAnswer() {
   mRobot->writeImmediateAnswer(stream);
 
   // size management
-  const int size = stream.length() + sizeof(int);
-  // const int size = stream.device()->pos();
+  int size = stream.length();
+  if (!mTcpSocket) {
+    size += sizeof(int);
+    // const int size = stream.device()->pos();
 
-  assert(size > 8);  // the immediate message shouldn't be empty
+    assert(size > 8);  // the immediate message shouldn't be empty
 
-  stream.prepend(QByteArray::number(size));
-  // stream.device()->seek(0);
-  // stream << size;
+    QByteArray ba_size;
+    for (int i = 0; i != sizeof(size); ++i) {
+      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+    }
+    stream.prepend(ba_size);
+    // stream.device()->seek(0);
+    // stream << size;
+  }
 
   // write the request
   if (mTcpSocket) {

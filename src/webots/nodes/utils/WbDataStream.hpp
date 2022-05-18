@@ -39,7 +39,7 @@ public:
   WbDataStream &operator<<(bool i);
   WbDataStream &operator<<(float f);
   WbDataStream &operator<<(double f);
-  WbDataStream &operator<<(qfloat16 f);
+  // WbDataStream &operator<<(qfloat16 f);
   WbDataStream &operator<<(const char *s);
 };
 

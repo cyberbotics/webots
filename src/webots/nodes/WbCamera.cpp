@@ -546,9 +546,18 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
 
   if (mSegmentationImageChanged) {
-    if (mIsRemoteExternController)
-      printf("get segmentation camera image + add in stream\n");
-    else
+    if (mIsRemoteExternController) {
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_CAMERA_SERIAL_SEGM_IMG;
+
+      int length = stream.length();
+      stream.resize(size() + length);
+
+      if (mSegmentationCamera) {
+        mSegmentationCamera->enableCopying(true);
+        mSegmentationCamera->copyContentsToMemory(stream.data() + length);
+      }
+    } else
       copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
     mSegmentationImageChanged = false;
   }
@@ -607,7 +616,7 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
     }
 
     if (mSegmentationCamera) {
-      if (mHasSegmentationMemoryMappedFileChanged) {
+      if (mHasSegmentationMemoryMappedFileChanged && !mIsRemoteExternController) {
         stream << (short unsigned int)tag();
         stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
         if (mSegmentationMemoryMappedFile) {

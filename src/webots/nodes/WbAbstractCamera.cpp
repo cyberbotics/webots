@@ -317,36 +317,43 @@ void WbAbstractCamera::writeConfigure(WbDataStream &stream) {
 void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
     if (mIsRemoteExternController) {
-      // stream << (short unsigned int)tag();
-      // stream << (unsigned char)C_CAMERA_SERIAL_IMG;
-      WbDataStream img;
+      const char *nbChunks = stream.data();
+      int streamLength = stream.length();
+      if (*nbChunks > 0) {
+        // if streamLength == sum chunk size -> image after image -> add only one chunk (size()+ additional info)
+        // else add 2 chunks -> data (streamLength-sum) and new image (size()+ additional info)
+      } else {
+        // stream.at(1) add a int with the size of chunk (streamLength - 1 char)
+        // stream.at(1+sizeof(int)) add a int with the size of image (size()+ additional info)
+      }
 
-      img << (int)width();
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_CAMERA_SERIAL_IMG;
+
       // qDebug(img);
       // printf("img size = %d\n", img.length());
-      int length = img.length();
-      img.resize(size() + length);
-      unsigned char *chimg = new unsigned char[size()];
+      int length = stream.length();
+      stream.resize(size() + length);
+      // unsigned char *chimg = new unsigned char[size()];
 
       if (mWrenCamera) {
         // printf("img size = %d\n", img.length());
         mWrenCamera->enableCopying(true);
-        mWrenCamera->copyContentsToMemory(img.data() + length);
-        mWrenCamera->copyContentsToMemory(chimg);
+        mWrenCamera->copyContentsToMemory(stream.data() + length);
+        // mWrenCamera->copyContentsToMemory(chimg);
 
-        for (int i = 0; i < size(); i++) {
-          // printf("%d chimg %d\n", i, (int)chimg[i]);
-        }
+        // for (int i = 0; i < size(); i++) {
+        // printf("%d chimg %d\n", i, (int)chimg[i]);
+        //}
         // printf("img size = %d\n", img.length());
-        char *data = img.data();
+        /*char *data = img.data();
         int count = 0;
         while (count < size() + 10) {
           printf("data = %d\n", (unsigned char)*data);
           ++data;
           count++;
         }
-        printf("count = %d\n", count);
-        img.clear();
+        printf("count = %d\n", count);*/
       }
     } else
       copyImageToMemoryMappedFile(mWrenCamera, image());

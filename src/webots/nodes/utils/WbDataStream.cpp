@@ -13,42 +13,52 @@
 // limitations under the License.
 
 #include "WbDataStream.hpp"
+#include <QtCore/QtEndian>
 
 WbDataStream &WbDataStream::writeRawData(const char *s, int len) {
   return (WbDataStream &)append(s, len);
 }
 
-WbDataStream &WbDataStream::operator<<(qint8 i) {
-  return (WbDataStream &)append(QByteArray::number(i));
+WbDataStream &WbDataStream::operator<<(qint8 n) {
+  return (WbDataStream &)append(n);
 }
 
-WbDataStream &WbDataStream::operator<<(qint16 i) {
-  return (WbDataStream &)append(QByteArray::number(i));
+WbDataStream &WbDataStream::operator<<(qint16 n) {
+  for (int i = 0; i != sizeof(n); ++i) {
+    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  }
+  return (WbDataStream &)*this;
 }
 
-WbDataStream &WbDataStream::operator<<(qint32 i) {
-  return (WbDataStream &)append(QByteArray::number(i));
+WbDataStream &WbDataStream::operator<<(qint32 n) {
+  for (int i = 0; i != sizeof(n); ++i) {
+    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  }
+  return (WbDataStream &)*this;
 }
 
-WbDataStream &WbDataStream::operator<<(qint64 i) {
-  return (WbDataStream &)append(QByteArray::number(i));
+WbDataStream &WbDataStream::operator<<(qint64 n) {
+  for (int i = 0; i != sizeof(n); ++i) {
+    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  }
+  return (WbDataStream &)*this;
 }
 
-WbDataStream &WbDataStream::operator<<(bool i) {
-  return (WbDataStream &)append(QByteArray::number(i));
+WbDataStream &WbDataStream::operator<<(bool n) {
+  return *this << qint8(n);
 }
 
 WbDataStream &WbDataStream::operator<<(float f) {
-  return (WbDataStream &)append(QByteArray::number(f));
+  return (WbDataStream &)append(reinterpret_cast<const char *>(&f), sizeof(f));
 }
 
 WbDataStream &WbDataStream::operator<<(double f) {
-  return (WbDataStream &)append(QByteArray::number(f));
+  return (WbDataStream &)append(reinterpret_cast<const char *>(&f), sizeof(f));
 }
 
-WbDataStream &WbDataStream::operator<<(qfloat16 f) {
-  return (WbDataStream &)append(QByteArray::number(f));
-}
+/*WbDataStream &WbDataStream::operator<<(qfloat16 f) {
+  return (WbDataStream &)append(qToLittleEndian(QByteArray::number(f, 'g', 16)));
+}*/
 
 WbDataStream &WbDataStream::operator<<(const char *s) {
   return (WbDataStream &)append(s);
