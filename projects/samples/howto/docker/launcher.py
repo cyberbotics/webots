@@ -26,7 +26,6 @@ def run(command, sync):
     except Exception:
         print(f"Error: Unable to start {command}")
         quit()
-    print(f"Started {command}")
     if sync:
         while process.poll() is None:
             line = process.stdout.readline().rstrip()
