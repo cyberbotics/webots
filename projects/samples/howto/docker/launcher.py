@@ -39,10 +39,11 @@ controllers = {
   "MyBot": "controllers/camera/camera"
 }
 port = 1234
+docker_image = 'cyberbotics/webots:R2022b-1'
 
 subprocess.run(['xhost', '+local:root'])
 with open('simulation/.env', 'w+') as env_file:
-    env_file.write('IMAGE=cyberbotics/webots:R2022b-1\n')
+    env_file.write(f'IMAGE={docker_image}\n')
     env_file.write(f'PORT={port}\n')
     env_file.write('ROBOT_NAME_1=MyBot\n')
     env_file.write('WORLD=/webots_project/worlds/camera.wbt\n')
@@ -57,7 +58,7 @@ except Exception:
     print(f"error: Unable to start docker-compose: {command}")
     quit()
 command = ('docker build -t controller '
-           '--build-arg WEBOTS_DEFAULT_IMAGE=cyberbotics/webots:R2022b-1 '
+           f'--build-arg WEBOTS_DEFAULT_IMAGE={docker_image} '
            '--build-arg MAKE=1 '
            'controllers/camera')
 run(command, True)
