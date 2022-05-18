@@ -52,7 +52,9 @@ public:
   WbNode *defNode() const;  // returns the closest DEF node above the insertion location which matches the chosen USE name and
                             // avoids infinite recursion
 
-protected:
+public slots:
+  void accept() override;
+
 private slots:
   void updateItemInfo();
   void import();
@@ -83,7 +85,8 @@ private:
   QString mImportFileName;
   bool mIsFolderItemSelected;
 
-  WbDownloader *mDownloader;
+  WbDownloader *mIconDownloader;
+  WbDownloader *mProtoDownloader;
   void downloadIcon(const QString &url);
 
   int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp);

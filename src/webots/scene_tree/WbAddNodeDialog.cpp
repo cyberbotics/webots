@@ -60,7 +60,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mDownloader(NULL) {
+  mIconDownloader(NULL),
+  mProtoDownloader(NULL) {
   assert(mCurrentNode && mField);
 
   // check if top node is a robot node
@@ -184,24 +185,24 @@ WbAddNodeDialog::~WbAddNodeDialog() {
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
-  if (mDownloader != NULL && mDownloader->hasFinished())
-    delete mDownloader;
+  if (mIconDownloader != NULL && mIconDownloader->hasFinished())
+    delete mIconDownloader;
 
-  mDownloader = new WbDownloader(this);
-  connect(mDownloader, &WbDownloader::complete, this, &WbAddNodeDialog::downloadUpdate);
+  mIconDownloader = new WbDownloader(this);
+  connect(mIconDownloader, &WbDownloader::complete, this, &WbAddNodeDialog::downloadUpdate);
 
-  mDownloader->download(QUrl(url));
+  mIconDownloader->download(QUrl(url));
 }
 
 void WbAddNodeDialog::downloadUpdate() {
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    WbLog::error(mDownloader->error());  // failure downloading or file does not exist (404)
-    delete mDownloader;
-    mDownloader = NULL;
+  if (mIconDownloader && !mIconDownloader->error().isEmpty()) {
+    WbLog::error(mIconDownloader->error());  // failure downloading or file does not exist (404)
+    delete mIconDownloader;
+    mIconDownloader = NULL;
     return;
   }
 
-  QString pixmapPath = WbNetwork::instance()->get(mDownloader->url().toString());
+  QString pixmapPath = WbNetwork::instance()->get(mIconDownloader->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -226,7 +227,11 @@ QString WbAddNodeDialog::protoFilePath() const {
   if (mNewNodeType != PROTO)
     return QString();
 
-  return mTree->selectedItems().at(0)->text(FILE_NAME);
+  QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
+  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+    path = WbNetwork::instance()->get(path);
+
+  return path;
 }
 
 WbNode *WbAddNodeDialog::defNode() const {
@@ -670,4 +675,18 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
     return;
 
   accept();
+}
+
+void WbAddNodeDialog::accept() {
+  if (mNewNodeType != PROTO) {
+    QDialog::accept();
+    return;
+  }
+  // if inserting a proto, it's necessary to ensure the PROTO is cached otherwise it should be downloaded
+  QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
+  if (WbUrl::isWeb(path) && !WbNetwork::instance()->isCached(path)) {
+    WbProtoList::instance()->retrieveExternProto(path);
+    return;
+  }
+  QDialog::accept();
 }
