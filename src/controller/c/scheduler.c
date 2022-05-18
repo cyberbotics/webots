@@ -127,6 +127,8 @@ WbRequest *scheduler_read_data() {
     r = scheduler_read_data_local();
   else if (scheduler_is_tcp())
     r = scheduler_read_data_remote();
+
+  return r;
 }
 
 WbRequest *scheduler_read_data_remote() {
