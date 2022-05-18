@@ -593,8 +593,9 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
     const QString baseType = info->baseType();
-    const QString path = info->url().replace("webots://", "").replace(re, "").replace(WbStandardPaths::webotsHomePath(), "");
-    if (!path.contains(regexp) && !baseType.contains(regexp))
+    const QString cleanPath =
+      info->url().replace("webots://", "").replace(re, "").replace(WbStandardPaths::webotsHomePath(), "");
+    if (!cleanPath.contains(regexp) && !baseType.contains(regexp))
       continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
@@ -609,12 +610,13 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     // populate tree
     if (flattenHierarchy) {
-      QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << path);
+      QTreeWidgetItem *item =
+        new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << info->url());
       parentItem->addChild(item);
       item->setIcon(0, QIcon("enabledIcons:proto.png"));
       ++nAddedNodes;
     } else {
-      QStringList categories = path.split('/', Qt::SkipEmptyParts);
+      QStringList categories = cleanPath.split('/', Qt::SkipEmptyParts);
       QTreeWidgetItem *parent = parentItem;
       foreach (QString folder, categories) {
         if (folder == "projects" || folder == "protos")
@@ -635,7 +637,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
           subFolder = parent->child(i);
         else {
           const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
-          subFolder = new QTreeWidgetItem(QStringList() << name << path);
+          subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
         }
 
         if (isProto) {

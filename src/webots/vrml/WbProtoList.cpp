@@ -354,9 +354,9 @@ void WbProtoList::generateWebotsProtoList() {
               reader.readNext();
             }
           }
-          // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
-          //       baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
-          //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
+          printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
+                 baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
+                 description.toUtf8().constData(), tags.join(",").toUtf8().constData());
           description = description.replace("\\n", "\n");
           WbProtoInfo *info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType, tags,
                                               needsRobotAncestor);
