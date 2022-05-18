@@ -509,13 +509,14 @@ void WbAddNodeDialog::buildTree() {
   int nWorldProtosNodes = 0;
   nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
   // add Current Project PROTO (all PROTO locally available in the project location)
-
+  int nProjectProtosNodes = 0;
+  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_WORLD, regexp);
   // add Extra PROTO (all PROTO available in the extra location)
   int nExtraProtosNodes = 0;
   nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp);
   // add Webots PROTO
-  int nWProtosNodes = 0;  // TODO: fix n's
-  nWProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
+  int nWebotsProtosNodes = 0;
+  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
 
   mTree->addTopLevelItem(nodesItem);
   mTree->addTopLevelItem(worldProtosItem);
@@ -529,15 +530,13 @@ void WbAddNodeDialog::buildTree() {
   // initial selection
   const int nBasicNodes = nodesItem->childCount();
   const int nUseNodes = mUsesItem ? mUsesItem->childCount() : 0;
-  const int nLProtosNodes = 0;  // lprotosItem ? lprotosItem->childCount() : 0;
-  const int nAProtosNodes = 0;  // aprotosItem ? aprotosItem->childCount() : 0;
 
   // if everything can fit in the tree height then show all
-  if (nBasicNodes + nUseNodes + nLProtosNodes + nAProtosNodes + nWProtosNodes < 20)
+  if (nBasicNodes + nUseNodes + nWorldProtosNodes + nProjectProtosNodes + nExtraProtosNodes + nWebotsProtosNodes < 20)
     mTree->expandAll();
 
   // if no USE nor PROTO items
-  if (nBasicNodes && !nUseNodes && !nLProtosNodes && !nAProtosNodes && !nWProtosNodes)
+  if (nBasicNodes && !nUseNodes && !nWorldProtosNodes && !nProjectProtosNodes && !nExtraProtosNodes && !nWebotsProtosNodes)
     // then select first basic node
     mTree->setCurrentItem(nodesItem->child(0));
   else
@@ -556,6 +555,9 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   if (type == PROTO_WORLD) {
     WbProtoList::instance()->generateWorldProtoList();  // TODO: can return the list directly?
     protoList = WbProtoList::instance()->worldProtoList();
+  } else if (type == PROTO_PROJECT) {
+    WbProtoList::instance()->generateProjectProtoList();  // TODO: can return the list directly?
+    protoList = WbProtoList::instance()->projectProtoList();
   } else if (type == PROTO_EXTRA) {
     WbProtoList::instance()->generateExtraProtoList();
     protoList = WbProtoList::instance()->extraProtoList();

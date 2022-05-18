@@ -399,6 +399,20 @@ void WbProtoList::generateWorldProtoList() {
   }
 }
 
+void WbProtoList::generateProjectProtoList() {
+  mExtraProtoList.clear();
+
+  // find all proto and instantiate the nodes to build WbProtoInfo
+  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    const QString path = it.next();
+    const QString protoName = QFileInfo(path).baseName();
+    WbProtoInfo *info = generateInfoFromProtoFile(path);
+    if (info && !mProjectProtoList.contains(protoName))
+      mProjectProtoList.insert(protoName, info);
+  }
+}
+
 void WbProtoList::generateExtraProtoList() {
   mExtraProtoList.clear();
 
