@@ -155,6 +155,14 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
+  mExportProtoButton = new QPushButton(tr("Export"), this);
+  mExportProtoButton->setEnabled(true);
+  mExportProtoButton->setVisible(false);
+  mExportProtoButton->setFocusPolicy(Qt::ClickFocus);
+  connect(mExportProtoButton, &QPushButton::pressed, this, &WbAddNodeDialog::exportProto);
+  buttonBox->addButton(mExportProtoButton, QDialogButtonBox::AcceptRole);
+  buttonBox->setFocusPolicy(Qt::ClickFocus);
+
   QHBoxLayout *buttonLayout = new QHBoxLayout();
   buttonLayout->addWidget(buttonBox);
 
@@ -257,6 +265,7 @@ void WbAddNodeDialog::updateItemInfo() {
   mLicenseLabel->hide();
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
+    mExportProtoButton->setVisible(false);
     // a folder is selected
     mIsFolderItemSelected = true;
     mPixmapLabel->hide();
@@ -294,7 +303,6 @@ void WbAddNodeDialog::updateItemInfo() {
         mInfoText->setPlainText(tr("No info available."));
         break;
     }
-
   } else {
     // a node is selected
     mIsFolderItemSelected = false;
@@ -308,6 +316,7 @@ void WbAddNodeDialog::updateItemInfo() {
         showNodeInfo(selectedItem->text(FILE_NAME), USE, 0, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
+        mExportProtoButton->setVisible(false);
         break;
       }
       case PROTO_WORLD:
@@ -317,11 +326,13 @@ void WbAddNodeDialog::updateItemInfo() {
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
         showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
+        mExportProtoButton->setVisible(true);
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
         showNodeInfo(selectedNode, BASIC, BASIC);
+        mExportProtoButton->setVisible(false);
         break;
     }
   }
@@ -681,7 +692,7 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
 }
 
 void WbAddNodeDialog::accept() {
-  if (mNewNodeType != PROTO) {
+  if (mNewNodeType != PROTO || mActionType != CREATE) {
     QDialog::accept();
     return;
   }
@@ -701,4 +712,11 @@ void WbAddNodeDialog::accept() {
   }
 
   QDialog::accept();
+}
+
+void WbAddNodeDialog::exportProto() {
+  WbProtoList::instance()->exportProto(mTree->selectedItems().at(0)->text(FILE_NAME));  // TODO: tidy up when bugs are fixed
+
+  mActionType = EXPORT_PROTO;
+  // accept();  // TODO: this will trigger download since was overloaded, same on import button
 }

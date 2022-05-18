@@ -507,3 +507,43 @@ WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName
   protoModel->destroy();
   return info;
 }
+
+void WbProtoList::exportProto(const QString &proto) {
+  printf("EXPORTPROTO CALLED WITH %s\n", proto.toUtf8().constData());
+  QString path = proto;
+  if (WbUrl::isWeb(proto) && WbNetwork::instance()->isCached(path))
+    path = WbNetwork::instance()->get(path);
+  else {
+    delete mTreeRoot;
+    mTreeRoot = new WbProtoTreeItem(proto, NULL);
+    mTreeRoot->setRecursion(false);  // stop download at the first level
+    connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoList::exportProto);
+    mTreeRoot->downloadAssets();  // trigger download
+    return;
+  }
+
+  path = WbUrl::generateExternProtoPath(path, "");
+
+  QString destination = WbProject::current()->protosPath();
+  if (!QDir(destination).exists())
+    QDir().mkdir(destination);
+
+  QFile input(path);
+  if (input.open(QIODevice::ReadOnly)) {
+    QString contents = QString(input.readAll());
+    input.close();
+
+    QRegularExpression re("EXTERNPROTO\\s+\n*\"(webots://).*\\.proto\"");  // TODO: test it more
+    contents.replace(re, "TEST://");
+    QString filename = destination + "tmp.proto";
+    QFile output(filename);  // TODO: to fix
+    if (output.open(QIODevice::WriteOnly)) {
+      output.write(contents.toUtf8());
+      output.close();
+    } else
+      WbLog::error(tr("Impossible to export PROTO to '%1' as this location cannot be written to.").arg(filename));
+  } else
+    WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(proto));
+
+  printf("PROTO %s WILL BE EXPORTED TO %s\n", path.toUtf8().constData(), destination.toUtf8().constData());
+}

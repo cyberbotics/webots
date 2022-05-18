@@ -26,7 +26,8 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root) :
   mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
-  mError() {
+  mError(),
+  mRecurse(true) {
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
@@ -47,6 +48,12 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
+    if (!mRecurse) {  // when recursion is undesired, stop at the first parsing call (i.e. first level)
+      mIsReady = true;
+      emit treeUpdated();
+      return;
+    }
+
     // check if the root file references external PROTO
     QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
@@ -115,7 +122,10 @@ void WbProtoTreeItem::rootUpdate() {
   if (mRoot == this) {  // only true for the root element
     if (isReadyToLoad()) {
       disconnectAll();  // to avoid multiple firings
-      emit readyToLoad();
+      if (mRecurse)
+        emit readyToLoad();
+      else
+        emit downloadComplete(mUrl);
     }
   }
 }

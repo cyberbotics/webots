@@ -39,7 +39,7 @@ class WbAddNodeDialog : public QDialog {
   Q_OBJECT
 
 public:
-  enum ActionType { CREATE, IMPORT };
+  enum ActionType { CREATE, IMPORT, EXPORT_PROTO };
 
   explicit WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent = NULL);
   virtual ~WbAddNodeDialog();
@@ -58,6 +58,7 @@ public slots:
 private slots:
   void updateItemInfo();
   void import();
+  void exportProto();
   void checkAndAddSelectedItem();
   void buildTree();
 
@@ -75,6 +76,7 @@ private:
   QLabel *mLicenseLabel;
   QPlainTextEdit *mInfoText;
   QPushButton *mAddButton;
+  QPushButton *mExportProtoButton;
   QGroupBox *mNodeInfoGroupBox;
   QLineEdit *mFindLineEdit;
   NodeType mNewNodeType;

@@ -136,6 +136,8 @@ public:
   void generateExtraProtoList();
   void generateProjectProtoList();
 
+  void exportProto(const QString &proto);
+
 signals:
   void retrievalCompleted();
 

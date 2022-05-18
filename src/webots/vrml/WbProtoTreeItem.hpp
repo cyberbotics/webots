@@ -24,9 +24,11 @@ public:
   WbProtoTreeItem(const QString &url, WbProtoTreeItem *root);
   ~WbProtoTreeItem();
 
-  const QString &name() { return mName; }
-  const QString &url() { return mUrl; }
-  const QString &error() { return mError; }
+  void setRecursion(bool recurse) { mRecurse = recurse; }
+
+  const QString &name() const { return mName; }
+  const QString &url() const { return mUrl; }
+  const QString &error() const { return mError; }
 
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
@@ -38,6 +40,7 @@ public:
 signals:
   void treeUpdated();
   void readyToLoad();
+  void downloadComplete(const QString &filename);
 
 protected slots:
   void downloadUpdate();
@@ -49,6 +52,7 @@ private:
   WbDownloader *mDownloader;
   QString mName;  // TODO: tmp, not really needed
   QString mError;
+  bool mRecurse;
   WbProtoTreeItem *mRoot;
 
   void parseItem();

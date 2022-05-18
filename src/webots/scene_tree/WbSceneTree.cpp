@@ -906,9 +906,7 @@ void WbSceneTree::addNew() {
   if (dialog.action() == WbAddNodeDialog::IMPORT) {
     WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
     WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName());
-
-  } else {  // CREATE
-
+  } else if (dialog.action() == WbAddNodeDialog::CREATE) {
     // create node
     WbNode::setGlobalParentNode(selectedNodeParent);
     WbNode *newNode;
