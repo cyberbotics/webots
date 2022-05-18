@@ -34,8 +34,6 @@
 #include "scheduler.h"
 
 GPipe *g_pipe_new(const char *path) {
-  if (access(path, R_OK | W_OK) != 0)
-    return NULL;
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
@@ -68,7 +66,6 @@ GPipe *g_pipe_new(const char *path) {
   address.sun_family = AF_UNIX;
   strncpy(address.sun_path, path, sizeof(address.sun_path));
   if (connect(p->handle, (struct sockaddr *)&address, sizeof(struct sockaddr_un)) != 0) {
-    fprintf(stderr, "socket connect() failed for %s, errno=%d\n", path, errno);
     close(p->handle);
     free(p);
     return NULL;
