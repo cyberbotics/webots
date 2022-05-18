@@ -341,7 +341,19 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     if (variant == PROTO_WORLD) {
       protoList = WbProtoList::instance()->worldProtoList();
       if (!protoList.contains(modelName)) {
-        WbLog::error(tr("'%1' is not a known PROTO in this world.\n").arg(modelName));
+        WbLog::error(tr("'%1' is not a known EXTERNPROTO in this world.\n").arg(modelName));
+        return;
+      }
+    } else if (variant == PROTO_PROJECT) {
+      protoList = WbProtoList::instance()->projectProtoList();
+      if (!protoList.contains(modelName)) {
+        WbLog::error(tr("'%1' is not a known PROTO in this project.\n").arg(modelName));
+        return;
+      }
+    } else if (variant == PROTO_EXTRA) {
+      protoList = WbProtoList::instance()->extraProtoList();
+      if (!protoList.contains(modelName)) {
+        WbLog::error(tr("'%1' is not a known PROTO among the extra projects.\n").arg(modelName));
         return;
       }
     } else if (variant == PROTO_WEBOTS) {
@@ -353,6 +365,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     }
 
     WbProtoInfo *info = protoList.value(modelName);
+    assert(info);
 
     // set documentation url
     if (!info->documentationUrl().isEmpty()) {
@@ -510,7 +523,7 @@ void WbAddNodeDialog::buildTree() {
   nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
   // add Current Project PROTO (all PROTO locally available in the project location)
   int nProjectProtosNodes = 0;
-  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_WORLD, regexp);
+  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_PROJECT, regexp);
   // add Extra PROTO (all PROTO available in the extra location)
   int nExtraProtosNodes = 0;
   nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp);
@@ -521,11 +534,9 @@ void WbAddNodeDialog::buildTree() {
   mTree->addTopLevelItem(nodesItem);
   mTree->addTopLevelItem(worldProtosItem);
   mTree->addTopLevelItem(projectProtosItem);
-  if (extraProtosItem)
-    mTree->addTopLevelItem(extraProtosItem);
+  mTree->addTopLevelItem(extraProtosItem);
   mTree->addTopLevelItem(webotsProtosItem);
-  if (mUsesItem)
-    mTree->addTopLevelItem(mUsesItem);
+  mTree->addTopLevelItem(mUsesItem);
 
   // initial selection
   const int nBasicNodes = nodesItem->childCount();

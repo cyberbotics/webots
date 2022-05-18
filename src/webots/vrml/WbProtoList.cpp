@@ -380,27 +380,29 @@ void WbProtoList::generateWebotsProtoList() {
 }
 
 void WbProtoList::generateWorldProtoList() {
+  qDeleteAll(mWorldProtoList);
   mWorldProtoList.clear();
 
   QMapIterator<QString, QPair<QString, int>> it(mCurrentWorldProto);
   while (it.hasNext()) {
     it.next();
-    if (it.value().second != 1)  // only consider items level 1 (i.e. world file level)
+    if (it.value().second != 1)  // only consider items at level 1 (i.e. at world file level)
       continue;
 
-    QString protoUrl = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
-    if (WbUrl::isWeb(protoUrl) && WbNetwork::instance()->isCached(protoUrl))
-      protoUrl = WbNetwork::instance()->get(protoUrl);
+    QString protoPath = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
+    if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
+      protoPath = WbNetwork::instance()->get(protoPath);
 
-    const QString protoName = QUrl(protoUrl).fileName().replace(".proto", "");
-    WbProtoInfo *info = generateInfoFromProtoFile(protoUrl);
+    const QString protoName = QUrl(it.value().first).fileName().replace(".proto", "");
+    WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
     if (info && !mWorldProtoList.contains(protoName))
       mWorldProtoList.insert(protoName, info);
   }
 }
 
 void WbProtoList::generateProjectProtoList() {
-  mExtraProtoList.clear();
+  qDeleteAll(mProjectProtoList);
+  mProjectProtoList.clear();
 
   // find all proto and instantiate the nodes to build WbProtoInfo
   QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
@@ -414,11 +416,12 @@ void WbProtoList::generateProjectProtoList() {
 }
 
 void WbProtoList::generateExtraProtoList() {
+  qDeleteAll(mExtraProtoList);
   mExtraProtoList.clear();
 
   // find all proto and instantiate the nodes to build WbProtoInfo
   foreach (const WbProject *project, *WbProject::extraProjects()) {
-    QDirIterator it(project->path(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
       const QString path = it.next();
       const QString protoName = QFileInfo(path).baseName();
