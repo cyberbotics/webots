@@ -6768,3 +6768,142 @@ The commands like `apt-get ` etc are used inside the dockerfile to build the con
 
 Is WSL2 in the meantime supporting nvidia/GPU support officially? When I tried it last year, I needed to subscribe the Windows dev programm and build it from source to get GPU support in it.. 🙄
 
+##### AlexandrosNic 05/12/2022 07:35:42
+I just noticed that the webots dockerfile is built on "nvidia/cudagl:11.4.2-devel-ubuntu20.04" which itself is built on "ubuntu20.04", so now it makes sense
+
+
+yes is kind of new development, but either if you have Windows 10 and use Windows Insider program, either if you update to Windows 11, then you get GPU support through WSL2, which is great, since I can run my (windows-installed) webots through WSL2, with the (windows-installed) gpu drivers
+
+##### OS 05/12/2022 10:34:41
+Actually it works pretty well.
+
+
+Could anyone help me please?
+
+##### Olivier Michel [Cyberbotics] 05/13/2022 06:22:41
+Are you sure you set the `DYLIB_LIBRARY_PATH` and `WEBOTS_HOME` environment variables to point to the correct version of Webots? Have you several versions of Webots installed on your machine? Do the other controllers (the ones provided with Webots) work as extern controllers or is it only yours that crashes?
+
+##### OS 05/13/2022 12:17:04
+Yes, I've set those variables as i have only one version of Webots. As there's no error in importing from python Controller file in Vs Code. The ones provided with Webots gave me the same error when i try to run it.
+%figure
+![Screen_Shot_2022-05-13_at_2.15.55_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/974646460178137088/Screen_Shot_2022-05-13_at_2.15.55_PM.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 05/13/2022 12:23:37
+And did you try to run a non-python (e.g., binary) controller as an extern controller? The crash you get might be a mismatch between the python version needed by the Webots python library and the one you are actually using...
+
+##### Chi 05/15/2022 00:51:45
+Hi, I would like to add new functions to the  race\_wheel controller like getting GPS device information from the vehicle, which file should I edit?
+
+
+
+%figure
+![SUMOWebots.png](https://cdn.discordapp.com/attachments/565154703139405824/975199895076102184/SUMOWebots.png)
+%end
+
+##### Tom\_Wolf 05/16/2022 14:49:58
+Hi everyone, i am installing ros2 and webots on my new debian computer and when I build the webots\_ros2 packages I get this error 
+
+The following packages/stacks could not have their rosdep keys resolved to system dependencies 
+
+Webots\_ros2\_epuck: No definition for os debian
+
+
+I might need your help please
+
+##### Tomobomo 05/16/2022 23:15:36
+Hi everyone, I would like to change my webots python version from 3.6.9 to 3.8.10.  When I do tools->preferences, I see that the python used is the built-in (python) snap. I am not sure where this is or how to change it. Any suggestions
+
+##### Stefania Pedrazzi [Cyberbotics] 05/17/2022 06:26:46
+Hi, if it is not the case you first have to install python3.8, then simply change the command in the Webots preferences from "python" to "python.3.8".
+
+Here is the documentation:
+
+[https://www.cyberbotics.com/doc/guide/preferences](https://www.cyberbotics.com/doc/guide/preferences)
+
+##### robotnik 05/17/2022 10:08:38
+Hi everyone, I'm having problem changing the velocity for a linear motor with an external python controller. The controller is connected with ROS and is supposed to change the value of velocity with an action call, but the value stays the same.
+
+
+Some idea of what could be happening, I have tried many change like putting step inside the ROS Action
+
+##### DDaniel [Cyberbotics] 05/17/2022 10:30:13
+Are you controlling the motor in position or velocity? If you want to control the motor in velocity, you need to set the position `/set_position` to INFINITY beforehand
+
+##### robotnik 05/17/2022 10:33:11
+Already did that, I will try to restructure the code with classes to see if something changes.
+
+##### DDaniel [Cyberbotics] 05/17/2022 10:37:34
+This is an example of a controller that controls an e-puck robot using ROS: [https://github.com/cyberbotics/webots\_ros/blob/master/src/e\_puck\_line.cpp](https://github.com/cyberbotics/webots_ros/blob/master/src/e_puck_line.cpp), doesn't have linear motors but it's the same principle
+
+##### AlexandrosNic 05/17/2022 13:49:32
+Guys it would be very helpful if someone with working Webots on WSL, could give some hints. For example,
+
+1. Shall I also install webots inside WSL? or just leave the Windows native Webots only?
+
+2. What are the environment variables? Shall I use /usr/local/webots or /mnt/c/Program Files/Webots for WEBOTS\_HOME etc
+
+##### Kugelkopf 05/17/2022 21:06:14
+Hello  everyone,
+
+I would have a question regarding a bug or something weird in WSL 2 and Webots.
+
+I have a Windows 10 21H2 and I'm using VcXserv to use GUI apps in my WSL 2 instance. Everything seems to be ok as I can run different GUI app,s Xcalc, Gedit, Gazeboo and also Webots. I would like to use Webots , but when I click in the middle of the screen where there is an object, the screen goes black. So I cannot click on the objects in the given webots scene or the whole screen goes black.
+
+
+
+Does anybody has any idea of this issue? Or how this could be solved? Is it present on win 11, I can only use win 10 for now.
+
+I also use GPU acceleration, here is my ~/.bashrch 
+
+
+
+         source /opt/ros/noetic/setup.bash
+
+         export DISPLAY=$(ip route list default | awk '{print $3}'):0
+
+         export LIBGL\_ALWAYS\_INDIRECT=0
+
+If I use  export LIBGL\_ALWAYS\_SOFTWARE=1, the GPU acceleration is turned off, weird thing is the screen does not go black at that time. but the GPU usage remains at around 0-2%.
+
+
+
+BUt When I try to Utilize the GPU, the issue happens.
+
+
+
+Another weird thing is that glxgears shows a lot higher FPS with CPU only setting than when I use GPU acceleration as well:
+
+around 730 FPS with only CPU
+
+around 150 FPS with GPU acceeleration.
+
+
+
+Shouldnt be this the other way around?
+
+##### moebius 05/17/2022 22:40:01
+Does the bounding box have to be an existing Shape in the scene tree or can we draw simple bounding boxes around existing shapes?
+
+##### Kugelkopf 05/18/2022 05:48:41
+If your question is in regards to mine. Just create a New scene, add an arena field then a Wood box. Click on them with your mouse and the screen should go black in the scene view.
+
+
+
+You can however move around in the scene via the  mouse if you are not clicking on any objects,  just the empty space.
+
+
+Also im interested if this only happens on win 10 21H1 with VcXsrv or this also happens on Win 11 latest build. (I dont have Access to win 11 at the moment)
+
+##### DDaniel [Cyberbotics] 05/18/2022 06:07:54
+No, it can be a new geometry/shape (a single primitive or multiple ones if you insert a Group/Transform beforehand) or an existing one (using DEF/USE mechanism)
+
+##### Olivier Michel [Cyberbotics] 05/18/2022 06:09:32
+It's not recommended to install Webots in WSL as you won't be able to get 3D hardware acceleration. You should install the Windows native Webots only. The `WEBOTS_HOME` environment variable doesn't need to be set unless you want to run extern controllers.
+
+##### SeanLuTW 05/18/2022 10:26:05
+Hi, I am using `IndexedFaceSet` to define my Solid, and I found that there is a `normalPerVertex` field. I am confused why a vertex has a normal normal?
+
+##### DDaniel [Cyberbotics] 05/18/2022 12:58:20
+There's two ways of defining the normals for `IndexedFaceSet`. If `normalPerVertex` is TRUE then `normalCoordIndex/normalIndex` is used and has to be specified for each vertex. If it's FALSE, the normals are defined per-face
+

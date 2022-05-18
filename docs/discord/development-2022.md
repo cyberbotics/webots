@@ -725,3 +725,17 @@ Hi! I just realized R2022a is up to date with master, which I'm not sure is corr
 ##### DDaniel [Cyberbotics] 05/12/2022 07:10:16
 Thank you for the report, yes indeed there was a mixup between branches and tags which made the asset temporarily unavailable. It should be fixed now and you shouldn't need to do anything about it. Let us know if it fails to retrieve the .png again
 
+##### cnbarcelo 05/16/2022 17:15:27
+Works like a charm now, thanks!
+
+
+Hi!
+
+Is there any way on current version of opening the robot window on the browser? Or at least see its console.
+
+##### DDaniel [Cyberbotics] 05/18/2022 06:08:40
+Currently I don't think so, but in the new version that will be released in a couple of months the robot windows will open in the browser instead
+
+##### Olivier Michel [Cyberbotics] 05/18/2022 06:12:17
+You can test it in the Webots nightly builds of Webots R2022b.
+
