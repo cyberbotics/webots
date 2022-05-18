@@ -100,8 +100,6 @@ The four possible simulation modes are: `pause`, `realtime`, `run` and `fast`; t
 This option overrides, but does not modify, the startup mode saved in Webots' preferences.
 For example, type `webots --mode=pause filename.wbt` to start Webots in `pause` mode.
 
-The `--sysinfo` option displays misc information about the current system on the standard output stream and quits Webots.
-
 The `--stdout` and `--stderr` options have the effect of redirecting Webots console output to the calling terminal or process.
 For example, this can be used to redirect the controllers output to a file or to pipe it to a shell command.
 `--stdout` redirects the *stdout* stream of the controllers, while `--stderr` redirects the *stderr* stream.
@@ -112,10 +110,7 @@ The `--port` option changes the default TCP port used by Webots for serving robo
 The `--stream` option enables the Webots streaming server in either `x3d` (default) or `mjpeg` mode.
 You can get more information about web streaming in [this section](web-streaming.md).
 
-The `--heartbeat` option will print a dot (.) on stdout at regular time intervals to monitor that Webots is running smoothly.
-
-For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode and will disable the streaming of stdout and stderr: `webots --port=1235 --stream=mjpeg`
-
+For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode: `webots --port=1235 --stream=mjpeg`
 
 The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
 You can use a `-p` flag to override default PROTO parameters.
