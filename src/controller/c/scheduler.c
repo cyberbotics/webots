@@ -123,53 +123,101 @@ void scheduler_send_request(WbRequest *r) {
 
 WbRequest *scheduler_read_data() {
   WbRequest *r = NULL;
-  if (scheduler_is_ipc() || scheduler_is_tcp()) {
-    int delay = 0, size = 0, socket_size = 0;
-    if (scheduler_is_ipc()) {
-      do
-        size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
-      while (size != sizeof(int));
-    } else {
-      do
-        size += tcp_client_receive(scheduler_client, scheduler_data + size, sizeof(int) - size);
-      while (size != sizeof(int));
-    }
+  if (scheduler_is_ipc())
+    r = scheduler_read_data_local();
+  else if (scheduler_is_tcp())
+    r = scheduler_read_data_remote();
+}
 
-    // read the size of the socket chunk
-    socket_size = scheduler_read_int32(scheduler_data);
-    // if more than 1KB needs to be downloaded, show a progress bar
-    // reallocate the scheduler data buffer if necessary
-    if ((int)scheduler_data_size < socket_size) {
-      scheduler_data_size = socket_size;
-      scheduler_data = realloc(scheduler_data, scheduler_data_size);
-      if (scheduler_data == NULL) {
-        fprintf(stderr, "Error reading Webots socket messages: not enough memory.\n");
-        exit(EXIT_FAILURE);
-      }
-    }
-    // read all the remaining data from the packet
-    while (size < socket_size) {
-      int chunk_size = socket_size - size;
-      if (chunk_size > 4096)
-        chunk_size = 4096;
-      if (scheduler_is_ipc())
-        size += g_pipe_receive(scheduler_pipe, scheduler_data + size, chunk_size);
-      else
-        size += tcp_client_receive(scheduler_client, scheduler_data + size, chunk_size);
-    }
-    // save the time step
-    delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
-    if (delay >= 0)  // not immediate
-      scheduler_actual_step = delay;
+WbRequest *scheduler_read_data_remote() {
+  WbRequest *r = NULL;
 
-    // create a request to hold the data
-    // printf("Message: Local (size=%d)\n", socket_size);
-    r = request_new_from_data(scheduler_data, scheduler_data_size);
-    request_set_immediate(r, (delay < 0));
+  int delay = 0, size = 0, socket_size = 0;
 
-    // skip size and delay
-    request_set_position(r, 2 * sizeof(unsigned int));
+  do
+    size += tcp_client_receive(scheduler_client, scheduler_data + size, sizeof(int) - size);
+  while (size != sizeof(int));
+
+  // read the size of the socket chunk
+  socket_size = scheduler_read_int32(scheduler_data);
+  // if more than 1KB needs to be downloaded, show a progress bar
+  // reallocate the scheduler data buffer if necessary
+  if ((int)scheduler_data_size < socket_size) {
+    scheduler_data_size = socket_size;
+    scheduler_data = realloc(scheduler_data, scheduler_data_size);
+    if (scheduler_data == NULL) {
+      fprintf(stderr, "Error reading Webots socket messages: not enough memory.\n");
+      exit(EXIT_FAILURE);
+    }
   }
+  // read all the remaining data from the packet
+  while (size < socket_size) {
+    int chunk_size = socket_size - size;
+    if (chunk_size > 4096)
+      chunk_size = 4096;
+
+    size += tcp_client_receive(scheduler_client, scheduler_data + size, chunk_size);
+  }
+  // save the time step
+  delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
+  if (delay >= 0)  // not immediate
+    scheduler_actual_step = delay;
+
+  // create a request to hold the data
+  // printf("Message: Local (size=%d)\n", socket_size);
+  r = request_new_from_data(scheduler_data, scheduler_data_size);
+  request_set_immediate(r, (delay < 0));
+
+  // skip size and delay
+  request_set_position(r, 2 * sizeof(unsigned int));
+
+  // fprintf(stderr, "@ Read request:\n");
+  // request_print(stderr, r);
+
+  return r;
+}
+
+WbRequest *scheduler_read_data_local() {
+  WbRequest *r = NULL;
+
+  int delay = 0, size = 0, socket_size = 0;
+
+  do
+    size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
+  while (size != sizeof(int));
+
+  // read the size of the socket chunk
+  socket_size = scheduler_read_int32(scheduler_data);
+  // if more than 1KB needs to be downloaded, show a progress bar
+  // reallocate the scheduler data buffer if necessary
+  if ((int)scheduler_data_size < socket_size) {
+    scheduler_data_size = socket_size;
+    scheduler_data = realloc(scheduler_data, scheduler_data_size);
+    if (scheduler_data == NULL) {
+      fprintf(stderr, "Error reading Webots socket messages: not enough memory.\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+  // read all the remaining data from the packet
+  while (size < socket_size) {
+    int chunk_size = socket_size - size;
+    if (chunk_size > 4096)
+      chunk_size = 4096;
+
+    size += g_pipe_receive(scheduler_pipe, scheduler_data + size, chunk_size);
+  }
+  // save the time step
+  delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
+  if (delay >= 0)  // not immediate
+    scheduler_actual_step = delay;
+
+  // create a request to hold the data
+  // printf("Message: Local (size=%d)\n", socket_size);
+  r = request_new_from_data(scheduler_data, scheduler_data_size);
+  request_set_immediate(r, (delay < 0));
+
+  // skip size and delay
+  request_set_position(r, 2 * sizeof(unsigned int));
 
   // fprintf(stderr, "@ Read request:\n");
   // request_print(stderr, r);
