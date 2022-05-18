@@ -172,8 +172,10 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
     if (log)
       WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
     shortVersion = QString();
-  } else
-    shortVersion = QString(version[0][0]) + version[0][2];
+  } else {
+    const QStringList version_numbers(version[0].split("."));
+    shortVersion = version_numbers[0] + version_numbers[1];
+  }
   return shortVersion;
 }
 #endif
