@@ -184,7 +184,7 @@ endif
 
 # the objects files result from the C or C++ sources
 SOURCES_DIRECTORIES = $(sort $(dir $(C_SOURCES) $(CXX_SOURCES)))
-OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
+OBJECTS_LIST = $(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES))))))
 OBJECTS_EMCC = $(addprefix $(BUILD_GOAL_DIR_EMCC)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
 
 # automatic flags settings
@@ -250,7 +250,11 @@ BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
 BUILD_GOAL_DIR_EMCC = $(BUILD_DIR)/$(GOAL_EMCC)
 
 ifdef GOAL
+ifeq ($(OSTYPE),darwin)
+ $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) $(BUILD_GOAL_DIR)/x86_64 $(BUILD_GOAL_DIR)/arm64 2> /dev/null)
+else
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
+endif
 endif
 
 ifdef GOAL_EMCC
@@ -494,11 +498,34 @@ endif
 ###-----------------------------------------------------------------------------
 ### Rule to make the executable file from C/C++ objects
 ###-----------------------------------------------------------------------------
+
+ifeq ($(OSTYPE),darwin)
+X86_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/, $(OBJECTS_LIST))
+ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
+
+$(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+	@echo "# creating fat" $(notdir $@)
+	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+
+$(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@) "(x86_64)"
+	$(SILENT)$(LINKER) -target x86_64-apple-macos11 $(LFLAGS) $@ $(X86_64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
+$(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET): $(ARM64_OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@) "(arm64)"
+	$(SILENT)$(LINKER) -target arm64-apple-macos11 $(LFLAGS) $@ $(ARM64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
+else
+
+OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 endif
+
+endif
+
 ### End ifdef MAIN_TARGET
 
 ifdef WREN
@@ -540,6 +567,14 @@ endif
 $(BUILD_GOAL_DIR)/%.o:%.c
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CC) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/x86_64/%.o:%.c
+	@echo "# compiling" $(notdir $<) "(x86_64)"
+	$(SILENT)$(CC) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/arm64/%.o:%.c
+	@echo "# compiling" $(notdir $<) "(arm64)"
+	$(SILENT)$(CC) -c -target arm64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.cc
 	@echo "# compiling" $(notdir $<)
