@@ -21,6 +21,8 @@
 #include "request.h"
 
 #define scheduler_read_int32(d) (*((int *)(d)))
+#define scheduler_read_short(d) (*((short *)(d)))
+#define scheduler_read_char(d) (*((char *)(d)))
 
 extern unsigned int scheduler_data_size;
 extern char *scheduler_date;

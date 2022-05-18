@@ -25,6 +25,9 @@ class WbDataStream : public QByteArray {
 public:
   using QByteArray::QByteArray;
 
+  int size_ptr = 0;
+  int data_size = 0;
+
   WbDataStream &writeRawData(const char *s, int len);
 
   WbDataStream &operator<<(qint8 i);

@@ -317,55 +317,46 @@ void WbAbstractCamera::writeConfigure(WbDataStream &stream) {
 void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
     if (mIsRemoteExternController) {
-      const char *nb_chunks = stream.data();
-      int streamLength = stream.length();
-      int chunks_size = 0;
-      if (*nb_chunks > 0) {
-        QDataStream ds(stream);
-        for (int i = 0; i < *nb_chunks; i++) {
-          ds.device()->peek(i * sizeof(int) + 1);
-          int chunk_size;
-          ds >> chunk_size;
-          chunks_size += chunk_size;
-        }
+      int chunk_size = stream.length() - stream.size_ptr;
+      int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
+      QDataStream ds(stream);
+      ds.device()->seek(0);
+      ds.setByteOrder(QDataStream::LittleEndian);
+      unsigned short nb_chunks;
+      ds >> nb_chunks;
 
-        if (streamLength == (int)(chunks_size + sizeof(int) * *nb_chunks + sizeof(char))) {
-          // increase first char by 1
-          char new_nb_chunks_value = *nb_chunks + 1;
-          QByteArray new_nb_chunks(1, new_nb_chunks_value);
-          stream.replace(0, (int)sizeof(char), new_nb_chunks);
+      if (chunk_data_size) {  // data chunk between images
+        // increase first char by 2
+        WbDataStream new_nb_chunks;
+        unsigned short new_nb_chunks_value = nb_chunks + 2;
+        new_nb_chunks << new_nb_chunks_value;
+        stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
 
-          // add size information for the new image chunk
-          WbDataStream new_size;
-          int new_size_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
-          new_size << new_size_value;
-          stream.insert(sizeof(char) + sizeof(int) * *nb_chunks, new_size);
+        // add size and type information for the data chunk
+        WbDataStream new_data_meta;
+        unsigned char new_data_type = 0;
+        new_data_meta << chunk_data_size << new_data_type;
+        stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
+        stream.data_size += chunk_data_size;
 
-        } else {
-          // increase first char by 2
-          char new_nb_chunks_value = *nb_chunks + 2;
-          QByteArray new_nb_chunks(1, new_nb_chunks_value);
-          stream.replace(0, (int)sizeof(char), new_nb_chunks);
+        // add size and type information for the new image chunk
+        int new_img_size = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+        unsigned char new_img_type = 1;
+        stream << new_img_size << new_img_type;
 
-          // add size information for the data chunk and for the new image chunk
-          WbDataStream new_size;
-          int new_size_data_value = (streamLength - chunks_size - sizeof(char) - sizeof(int) * *nb_chunks);
-          int new_size_img_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
-          new_size << new_size_data_value << new_size_img_value;
-          stream.insert(sizeof(char) + sizeof(int) * *nb_chunks, new_size);
-        }
+      } else {  // two consecutive images
+        // increase first char by 1
+        WbDataStream new_nb_chunks;
+        unsigned short new_nb_chunks_value = nb_chunks + 1;
+        new_nb_chunks << new_nb_chunks_value;
+        stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
 
-      } else {
-        // set first char to 2
-        QByteArray new_nb_chunks(1, (char)2);
-        stream.replace(0, (int)sizeof(char), new_nb_chunks);
-
-        // add size information for the data chunk and for the new image chunk
-        WbDataStream new_size;
-        int new_size_data_value = (streamLength - sizeof(char));
-        int new_size_img_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
-        new_size << new_size_data_value << new_size_img_value;
-        stream.insert(sizeof(char), new_size);
+        // add size information for the new image chunk
+        WbDataStream new_img_meta;
+        int new_img_size = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+        unsigned char new_img_type = 1;
+        new_img_meta << new_img_size << new_img_type;
+        stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
       }
 
       stream << (short unsigned int)tag();
@@ -373,7 +364,7 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
 
       // qDebug(img);
       // printf("img size = %d\n", img.length());
-      streamLength = stream.length();
+      int streamLength = stream.length();
       stream.resize(size() + streamLength);
       // unsigned char *chimg = new unsigned char[size()];
 
@@ -396,6 +387,11 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
         }
         printf("count = %d\n", count);*/
       }
+
+      stream.size_ptr = stream.length();
+      stream << (int)0;
+      stream << (unsigned char)0;
+
     } else
       copyImageToMemoryMappedFile(mWrenCamera, image());
     mSensor->resetPendingValue();

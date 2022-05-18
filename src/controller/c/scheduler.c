@@ -134,47 +134,106 @@ WbRequest *scheduler_read_data() {
 WbRequest *scheduler_read_data_remote() {
   WbRequest *r = NULL;
 
-  int delay = 0, size = 0, socket_size = 0;
+  int delay = 0, data_size = sizeof(int), curr_data_size = 0, meta_size = 0, curr_meta_size = 0, nb_chunks = 0,
+      tot_data_size = 0, chunk_size = 0, chunk_type = 0;
+  char *scheduler_meta = malloc(SCHEDULER_DATA_CHUNK);
+  char *scheduler_img = malloc(20000);
 
+  // receive and read the number of chunks
   do
-    size += tcp_client_receive(scheduler_client, scheduler_data + size, sizeof(int) - size);
-  while (size != sizeof(int));
+    meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size, sizeof(unsigned short) - meta_size);
+  while (meta_size != sizeof(unsigned short));
 
-  // read the size of the socket chunk
-  socket_size = scheduler_read_int32(scheduler_data);
+  nb_chunks = scheduler_read_short(scheduler_meta);
+  printf("nb_chunks = %d\n", nb_chunks);
+
+  // receive and read the total data size (doesn't include image data)
+  do
+    curr_meta_size +=
+      tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size, sizeof(int) - curr_meta_size);
+  while (curr_meta_size != sizeof(int));
+  meta_size += curr_meta_size;
+
+  tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
+  printf("tot_data_size = %d\n", tot_data_size);
+
+  // set size at beginning of data array for request
+  *((int *)(scheduler_data)) = tot_data_size;
+
   // if more than 1KB needs to be downloaded, show a progress bar
   // reallocate the scheduler data buffer if necessary
-  if ((int)scheduler_data_size < socket_size) {
-    scheduler_data_size = socket_size;
+  if ((int)scheduler_data_size < tot_data_size) {
+    scheduler_data_size = tot_data_size;
     scheduler_data = realloc(scheduler_data, scheduler_data_size);
     if (scheduler_data == NULL) {
       fprintf(stderr, "Error reading Webots socket messages: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
   }
-  // read all the remaining data from the packet
-  while (size < socket_size) {
-    int chunk_size = socket_size - size;
-    if (chunk_size > 4096)
-      chunk_size = 4096;
 
-    size += tcp_client_receive(scheduler_client, scheduler_data + size, chunk_size);
+  for (int i = 0; i < nb_chunks; i++) {
+    curr_meta_size = 0;
+    do
+      curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
+                                           sizeof(int) + sizeof(unsigned char) - curr_meta_size);
+    while (curr_meta_size != sizeof(int) + sizeof(unsigned char));
+    chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
+    chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(int));
+    meta_size += curr_meta_size;
+
+    printf("chunk_size = %d\n", chunk_size);
+    printf("chunk_type = %d\n", chunk_type);
+
+    if (chunk_type == 0) {
+      curr_data_size = 0;
+      while (curr_data_size < chunk_size) {
+        int block_size = chunk_size - curr_data_size;
+        if (block_size > 4096)
+          block_size = 4096;
+
+        curr_data_size += tcp_client_receive(scheduler_client, scheduler_data + data_size + curr_data_size, block_size);
+      }
+      data_size += curr_data_size;
+
+      printf("curr_data_size = %d\n", curr_data_size);
+
+      // save the time step
+      if (i == 0) {
+        delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
+        if (delay >= 0)  // not immediate
+          scheduler_actual_step = delay;
+      }
+    } else if (chunk_type == 1) {
+      int curr_img_size = 0;
+      while (curr_img_size < chunk_size) {
+        int block_size = chunk_size - curr_img_size;
+        if (block_size > 4096)
+          block_size = 4096;
+
+        curr_img_size += tcp_client_receive(scheduler_client, scheduler_img + curr_img_size, block_size);
+      }
+
+      printf("curr_img_size = %d\n", curr_img_size);
+    } else {
+      fprintf(stderr, "Unsupported data type.\n");
+      exit(EXIT_FAILURE);
+    }
   }
-  // save the time step
-  delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
-  if (delay >= 0)  // not immediate
-    scheduler_actual_step = delay;
+
+  printf("tot_data_size = %d\n", tot_data_size);
+  // read the size of the socket chunk
 
   // create a request to hold the data
   // printf("Message: Local (size=%d)\n", socket_size);
+  printf("scheduler_data_size = %d\n", scheduler_data_size);
   r = request_new_from_data(scheduler_data, scheduler_data_size);
   request_set_immediate(r, (delay < 0));
 
   // skip size and delay
   request_set_position(r, 2 * sizeof(unsigned int));
 
-  // fprintf(stderr, "@ Read request:\n");
-  // request_print(stderr, r);
+  fprintf(stderr, "@ Read request:\n");
+  request_print(stderr, r);
 
   return r;
 }
@@ -215,14 +274,15 @@ WbRequest *scheduler_read_data_local() {
 
   // create a request to hold the data
   // printf("Message: Local (size=%d)\n", socket_size);
+  printf("scheduler_data_size = %d\n", scheduler_data_size);
   r = request_new_from_data(scheduler_data, scheduler_data_size);
   request_set_immediate(r, (delay < 0));
 
   // skip size and delay
   request_set_position(r, 2 * sizeof(unsigned int));
 
-  // fprintf(stderr, "@ Read request:\n");
-  // request_print(stderr, r);
+  fprintf(stderr, "@ Read request:\n");
+  request_print(stderr, r);
 
   return r;
 }
