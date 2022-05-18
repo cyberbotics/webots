@@ -287,6 +287,8 @@ void WbController::addLocalControllerConnection() {
   // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
   // This request is forced because the first packets coming from libController
   // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
+  while (mSocket->bytesAvailable() == 0)
+    mSocket->waitForReadyRead();
   readRequest();
   connect(mSocket, &QLocalSocket::readyRead, this, &WbController::readRequest);
   connect(mSocket, &QLocalSocket::disconnected, this, &WbController::disconnected);
