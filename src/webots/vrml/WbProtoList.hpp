@@ -122,6 +122,7 @@ public:
   void printCurrentWorldProtoList();  // TODO: remove
 
   void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
+  void retrieveExternProto(const QString &filename);
 
   // used primarely when populating the add-node dialog window
   QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
@@ -135,8 +136,12 @@ public:
   void generateExtraProtoList();
   void generateProjectProtoList();
 
+signals:
+  void retrievalCompleted();
+
 private slots:
   void tryWorldLoad();
+  void singleProtoRetrievalCompleted();
 
 private:
   // cppcheck-suppress unknownMacro

@@ -86,7 +86,8 @@ private:
   bool mIsFolderItemSelected;
 
   WbDownloader *mIconDownloader;
-  WbDownloader *mProtoDownloader;
+  bool mRetrievalTriggered;
+
   void downloadIcon(const QString &url);
 
   int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp);

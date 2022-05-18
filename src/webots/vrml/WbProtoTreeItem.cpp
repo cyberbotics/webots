@@ -75,7 +75,7 @@ void WbProtoTreeItem::parseItem() {
 }
 
 void WbProtoTreeItem::downloadAssets() {
-  printf("downloading assets for %s\n", mName.toUtf8().constData());
+  // printf("downloading assets for %s\n", mName.toUtf8().constData());
   mSubProto.clear();
 
   if (WbUrl::isLocalUrl(mUrl)) {
@@ -157,7 +157,7 @@ void WbProtoTreeItem::print(int indent) {
   for (int i = 0; i < indent; ++i)
     spaces += "  ";
 
-  printf("%s%30s %p has %lld children (%d)\n", spaces.toUtf8().constData(), mName.toUtf8().constData(), this, mSubProto.size(),
+  printf("%40s%s %p has %lld children (%d)\n", mName.toUtf8().constData(), spaces.toUtf8().constData(), this, mSubProto.size(),
          mIsReady);
   foreach (WbProtoTreeItem *subProto, mSubProto)
     subProto->print(indent + 1);

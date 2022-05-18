@@ -266,7 +266,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
       return newUrl;
     }
 
-    if (isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl)) {
+    if (isLocalUrl(parentUrl) || parentUrl.isEmpty() || QDir::isAbsolutePath(parentUrl)) {
       const QString newUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
       // if (isLocalUrl(parentUrl))
       //  printf("  PARENT_LOCAL-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
@@ -276,7 +276,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
       return newUrl;
     }
 
-    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
+    printf("UNKNOWN CASE, URL >%s< PARENT >%s<\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
 
     return missing(url);
   }
@@ -311,7 +311,7 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
       }
     }
 
-    printf("UNKNOWN CASE, URL %s PARENT %s\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
+    printf("UNKNOWN CASE, URL >%s< PARENT >%s<\n", url.toUtf8().constData(), parentUrl.toUtf8().constData());
     // assert(0);  // dunno
   }
 

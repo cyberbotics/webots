@@ -286,6 +286,26 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   mTreeRoot->downloadAssets();
 }
 
+void WbProtoList::retrieveExternProto(const QString &filename) {
+  printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
+  // populate the tree with urls expressed by EXTERNPROTO
+  delete mTreeRoot;
+  mTreeRoot = new WbProtoTreeItem(filename, NULL);
+  connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::singleProtoRetrievalCompleted);
+  // trigger download
+  mTreeRoot->downloadAssets();
+}
+
+void WbProtoList::singleProtoRetrievalCompleted() {
+  printf("PROTO DOWNLOAD ENDED, resulting hierarchy:\n");
+  // status pre-firing
+  printf("--- hierarchy ----\n");
+  mTreeRoot->print();
+  printf("------------------\n");
+
+  emit retrievalCompleted();
+}
+
 void WbProtoList::tryWorldLoad() {
   printf("RETRY WORLD LOAD\n");
   // generate mCurrentWorldProto
@@ -354,9 +374,9 @@ void WbProtoList::generateWebotsProtoList() {
               reader.readNext();
             }
           }
-          printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
-                 baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
-                 description.toUtf8().constData(), tags.join(",").toUtf8().constData());
+          // printf("inserting: [%s][%s][%s][%s][%s][%s][%s]\n", name.toUtf8().constData(), url.toUtf8().constData(),
+          //       baseType.toUtf8().constData(), license.toUtf8().constData(), licenseUrl.toUtf8().constData(),
+          //       description.toUtf8().constData(), tags.join(",").toUtf8().constData());
           description = description.replace("\\n", "\n");
           WbProtoInfo *info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType, tags,
                                               needsRobotAncestor);

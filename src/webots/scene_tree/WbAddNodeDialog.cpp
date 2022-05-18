@@ -61,7 +61,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mActionType(CREATE),
   mIsFolderItemSelected(true),
   mIconDownloader(NULL),
-  mProtoDownloader(NULL) {
+  mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
   // check if top node is a robot node
@@ -231,6 +231,9 @@ QString WbAddNodeDialog::protoFilePath() const {
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
+  path = WbUrl::generateExternProtoPath(path, "");
+
+  printf("INSERTING: %s\n", path.toUtf8().constData());
   return path;
 }
 
@@ -682,11 +685,20 @@ void WbAddNodeDialog::accept() {
     QDialog::accept();
     return;
   }
-  // if inserting a proto, it's necessary to ensure the PROTO is cached otherwise it should be downloaded
+
+  // when inserting a PROTO, it's necessary to ensure it is cached (both it and all the sub-proto it depends on). This may not
+  // typically be the case hence we are forced to assume nothing is available (the root proto might be available, but not
+  // necessarily all its subs, or vice-versa), then trigger the cascaded download (which will download the sub-proto only if
+  // necessary) and only when the retriever gives the go ahead the dialog's accept function can actually be executed entirely.
+  // In short, two passes are unavoidable for any inserted proto.
+
   QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
-  if (WbUrl::isWeb(path) && !WbNetwork::instance()->isCached(path)) {
+  if (!mRetrievalTriggered) {
+    connect(WbProtoList::instance(), &WbProtoList::retrievalCompleted, this, &WbAddNodeDialog::accept);
+    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoList::instance()->retrieveExternProto(path);
     return;
   }
+
   QDialog::accept();
 }
