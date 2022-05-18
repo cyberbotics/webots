@@ -42,27 +42,6 @@ int main(int argc, char **argv) {
   chanel = wb_camera_image_get_blue(image, 1, 0, 0);
   ts_assert_int_equal(chanel, 0, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
 
-  // TODO: this feature don't work both on Windows 6 and 7
-  // wb_distance_sensor_disable(ds0);
-  // wb_robot_step(TIME_STEP);
-
-  // test: the laser beam is not displayed
-  // const unsigned char *image = wb_camera_get_image(camera);
-  // value = (double)wb_camera_image_get_red(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
-
-  // value = (double) wb_camera_image_get_green(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
-
-  // value = (double) wb_camera_image_get_blue(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
-
   ts_send_success();
   return EXIT_SUCCESS;
 }
