@@ -285,7 +285,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       sendToClients();
       const int nameSize = data.indexOf(":");
       name = data.left(nameSize);
-      emit sendRobotWindowClientID(clientToId(client), name, "connected");  // issue here, client?
+      emit sendRobotWindowClientID(clientToId(client), name, "connected");
     } else {
       const QList<WbRobot *> &robots = WbWorld::instance()->robots();
       const QByteArray &byteRobotMessage = robotMessage.toUtf8();
@@ -554,7 +554,7 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
     const WbField *controllerField = robot->findField("controller");
     if (controllerField) {
       const QString &name = dynamic_cast<WbSFString *>(controllerField->value())->value();
-      if (name != "void")
+      if (name != "<generic>")
         mEditableControllers.append(name);
     }
   }

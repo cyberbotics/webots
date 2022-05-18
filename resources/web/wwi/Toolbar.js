@@ -431,8 +431,14 @@ export default class Toolbar {
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((robot) => this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window)));
-      WbWorld.instance.robots.forEach((robot) => this._addRobotWindowToPane(robot.name));
+      WbWorld.instance.robots.forEach((robot) => {
+        if (robot.window !== '<none>') {
+          this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window));
+          this._addRobotWindowToPane(robot.name);
+        }
+      });
+      const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
+      document.getElementById('robot-window-button').style.display = buttonDisplay;
     }
     this.robotWindowPane.style.right = '150px';
 

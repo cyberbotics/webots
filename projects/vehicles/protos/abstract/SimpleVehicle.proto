@@ -10,7 +10,7 @@ PROTO SimpleVehicle [
   field SFVec3f    translation                    0 0 0.4
   field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
-  field SFString   controller                     "void"
+  field SFString   controller                     "<generic>"
   field MFString   controllerArgs                 [ ]
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE

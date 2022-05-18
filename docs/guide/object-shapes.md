@@ -69,3 +69,4 @@ TexturedBoxShape {
 - `topFace`: Defines whether the top face is included.
 
 - `bottomFace`: Defines whether the bottom face is included.
+

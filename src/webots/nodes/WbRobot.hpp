@@ -142,6 +142,7 @@ signals:
   void immediateMessageAdded();
   void controllerChanged();
   void controllerExited();
+  void windowChanged();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);

@@ -118,7 +118,7 @@ void WbWorldInfo::preFinalize() {
   if (defaultDamping())
     defaultDamping()->preFinalize();
 
-  if (!mPhysics->value().isEmpty())
+  if (!mPhysics->value().isEmpty() || mPhysics->value() != "<none>")
     mPhysicsReceiver = WbReceiver::createPhysicsReceiver();
 
   updateGravity();

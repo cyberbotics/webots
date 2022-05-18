@@ -6,7 +6,7 @@
 # More information on this robot: http://www.nex-robotics.com/products/fire-bird-vi-robot/fire-bird-vi-robotic-research-platform.html
 
 PROTO FireBird6 [
-  field SFVec3f    translation     0 0 0.125                            # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.125                        # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Fire Bird 6"                    # Is `Solid.name`.
   field SFString   controller      "fire_bird_6_obstacle_avoidance" # Is `Robot.controller`.
@@ -15,7 +15,7 @@ PROTO FireBird6 [
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
   field SFString   window          "fire_bird_6_window"             # Is `Robot.window`.
-  field SFString   remoteControl   ""                               # Is `Robot.remoteControl`.
+  field SFString   remoteControl   "<none>"                         # Is `Robot.remoteControl`.
   field MFNode     bodySlot        []                               # Extends the robot with new nodes in the body slot.
 ]
 {
