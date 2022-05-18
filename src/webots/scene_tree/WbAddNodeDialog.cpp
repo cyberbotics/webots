@@ -326,7 +326,11 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   QString description;
   QString pixmapPath;
 
-  const QFileInfo fileInfo(nodeFileName);
+  QString path = nodeFileName;
+  if (path.startsWith(WbNetwork::instance()->cacheDirectory()))
+    path = WbNetwork::instance()->getUrlFromEphemeralCache(nodeFileName);
+
+  const QFileInfo fileInfo(path);
   const QString modelName = fileInfo.baseName();
   if (nodeType != PROTO && WbNodeModel::isBaseModelName(modelName)) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(modelName);
@@ -411,7 +415,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     }
     mInfoText->moveCursor(QTextCursor::Start);
 
-    pixmapPath = QString("%1icons/%2.png").arg(QUrl(info->url()).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
+    pixmapPath = QString("%1icons/%2.png").arg(QUrl(path).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
     printf("ICON WILL BE AT: %s\n", pixmapPath.toUtf8().constData());
   }
 
