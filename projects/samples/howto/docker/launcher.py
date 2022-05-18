@@ -17,7 +17,7 @@ import subprocess
 import sys
 
 
-def run(command, sync):
+def run(command):
     try:
         process = subprocess.Popen(command.split(),
                                    stdout=subprocess.PIPE,
@@ -26,14 +26,10 @@ def run(command, sync):
     except Exception:
         print(f"Error: Unable to start {command}")
         quit()
-    if sync:
-        while process.poll() is None:
-            line = process.stdout.readline().rstrip()
-            if line:
-                print(line)
-        return None
-    else:
-        return process
+    while process.poll() is None:
+        line = process.stdout.readline().rstrip()
+        if line:
+            print(line)
 
 
 if sys.platform != 'linux':
