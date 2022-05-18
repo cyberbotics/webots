@@ -30,11 +30,6 @@ import multiprocessing
 
 from command import Command
 
-is_ubuntu_22_04 = False
-if sys.platform == 'linux':
-    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
-    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
-
 # monitor failures
 failures = 0
 systemFailures = []
@@ -199,12 +194,8 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
-            # robot window test not working on BETA Ubuntu 22.04 GitHub Action environment
             if (not filename.endswith('_temp.wbt') and
-                    not ('GITHUB_ACTIONS' in os.environ and (
-                        filename.endswith('speaker.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04)
-                        ))):
+                    not ('GITHUB_ACTIONS' in os.environ and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
                 worldsCount += 1
 
