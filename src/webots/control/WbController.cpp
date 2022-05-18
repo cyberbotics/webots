@@ -1019,7 +1019,54 @@ void WbController::writeAnswer(bool immediateAnswer) {
     stream.prepend(ba_size);
     // stream.device()->seek(0);
     // stream << size;
+  } else {
+    const char *nb_chunks = stream.data();
+    int chunks_size = 0;
+    if (*nb_chunks > 0) {
+      QDataStream ds(stream);
+      for (int i = 0; i < *nb_chunks; i++) {
+        ds.device()->peek(i * sizeof(int) + 1);
+        int chunk_size;
+        ds >> chunk_size;
+        chunks_size += chunk_size;
+      }
+
+      if (size != (int)(chunks_size + sizeof(int) * *nb_chunks + sizeof(char))) {
+        // increase first char by 1
+        char new_nb_chunks_value = *nb_chunks + 1;
+        QByteArray new_nb_chunks(1, new_nb_chunks_value);
+        stream.replace(0, (int)sizeof(char), new_nb_chunks);
+
+        // add size information for the last data chunk
+        WbDataStream new_size;
+        int new_size_value = (size - chunks_size - sizeof(char) - sizeof(int) * *nb_chunks);
+        new_size << new_size_value;
+        stream.insert(sizeof(char) + sizeof(int) * *nb_chunks, new_size);
+      }
+
+    } else {
+      // set first char to 1
+      QByteArray new_nb_chunks(1, (char)1);
+      stream.replace(0, (int)sizeof(char), new_nb_chunks);
+
+      // add size information for the data chunk and for the new image chunk
+      WbDataStream new_size;
+      int new_size_value = (size - sizeof(char));
+      new_size << new_size_value;
+      stream.insert(sizeof(char), new_size);
+    }
+
+    size = stream.length();
   }
+
+  /*char *data = stream.data();
+  int count = 0;
+  while (count < stream.length()) {
+    printf("%d ", (unsigned char)*data);
+    ++data;
+    count++;
+  }
+  printf("count = %d\n", count);*/
 
   // write the request
   if (mTcpSocket) {

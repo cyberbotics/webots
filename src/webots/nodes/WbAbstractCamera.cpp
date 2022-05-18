@@ -317,14 +317,55 @@ void WbAbstractCamera::writeConfigure(WbDataStream &stream) {
 void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
     if (mIsRemoteExternController) {
-      const char *nbChunks = stream.data();
+      const char *nb_chunks = stream.data();
       int streamLength = stream.length();
-      if (*nbChunks > 0) {
-        // if streamLength == sum chunk size -> image after image -> add only one chunk (size()+ additional info)
-        // else add 2 chunks -> data (streamLength-sum) and new image (size()+ additional info)
+      int chunks_size = 0;
+      if (*nb_chunks > 0) {
+        QDataStream ds(stream);
+        for (int i = 0; i < *nb_chunks; i++) {
+          ds.device()->peek(i * sizeof(int) + 1);
+          int chunk_size;
+          ds >> chunk_size;
+          chunks_size += chunk_size;
+        }
+
+        if (streamLength == (int)(chunks_size + sizeof(int) * *nb_chunks + sizeof(char))) {
+          // increase first char by 1
+          char new_nb_chunks_value = *nb_chunks + 1;
+          QByteArray new_nb_chunks(1, new_nb_chunks_value);
+          stream.replace(0, (int)sizeof(char), new_nb_chunks);
+
+          // add size information for the new image chunk
+          WbDataStream new_size;
+          int new_size_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+          new_size << new_size_value;
+          stream.insert(sizeof(char) + sizeof(int) * *nb_chunks, new_size);
+
+        } else {
+          // increase first char by 2
+          char new_nb_chunks_value = *nb_chunks + 2;
+          QByteArray new_nb_chunks(1, new_nb_chunks_value);
+          stream.replace(0, (int)sizeof(char), new_nb_chunks);
+
+          // add size information for the data chunk and for the new image chunk
+          WbDataStream new_size;
+          int new_size_data_value = (streamLength - chunks_size - sizeof(char) - sizeof(int) * *nb_chunks);
+          int new_size_img_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+          new_size << new_size_data_value << new_size_img_value;
+          stream.insert(sizeof(char) + sizeof(int) * *nb_chunks, new_size);
+        }
+
       } else {
-        // stream.at(1) add a int with the size of chunk (streamLength - 1 char)
-        // stream.at(1+sizeof(int)) add a int with the size of image (size()+ additional info)
+        // set first char to 2
+        QByteArray new_nb_chunks(1, (char)2);
+        stream.replace(0, (int)sizeof(char), new_nb_chunks);
+
+        // add size information for the data chunk and for the new image chunk
+        WbDataStream new_size;
+        int new_size_data_value = (streamLength - sizeof(char));
+        int new_size_img_value = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+        new_size << new_size_data_value << new_size_img_value;
+        stream.insert(sizeof(char), new_size);
       }
 
       stream << (short unsigned int)tag();
@@ -332,14 +373,14 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
 
       // qDebug(img);
       // printf("img size = %d\n", img.length());
-      int length = stream.length();
-      stream.resize(size() + length);
+      streamLength = stream.length();
+      stream.resize(size() + streamLength);
       // unsigned char *chimg = new unsigned char[size()];
 
       if (mWrenCamera) {
         // printf("img size = %d\n", img.length());
         mWrenCamera->enableCopying(true);
-        mWrenCamera->copyContentsToMemory(stream.data() + length);
+        mWrenCamera->copyContentsToMemory(stream.data() + streamLength);
         // mWrenCamera->copyContentsToMemory(chimg);
 
         // for (int i = 0; i < size(); i++) {
