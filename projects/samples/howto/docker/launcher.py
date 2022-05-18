@@ -61,7 +61,7 @@ command = ('docker build -t controller '
            f'--build-arg WEBOTS_DEFAULT_IMAGE={docker_image} '
            '--build-arg MAKE=1 '
            'controllers/camera')
-run(command, True)
+run(command)
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
