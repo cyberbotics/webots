@@ -246,7 +246,12 @@ void WbController::start() {
 
   const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
+#ifndef _WIN32
   const QString serverName = path + '/' + (mExtern ? "extern" : "intern");
+#else
+  const QString serverName =
+    "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + QUrl::toPercentEncoding(mRobot->name());
+#endif
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
@@ -261,7 +266,6 @@ void WbController::start() {
       tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
     return;
   }
-
   if (mProcess) {
     info(tr("Starting controller: %1").arg(commandLine()));
     // for matlab controllers we must change to the lib/matlab directory
@@ -283,8 +287,10 @@ void WbController::addLocalControllerConnection() {
   // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
   // This request is forced because the first packets coming from libController
   // may be splitted (wb_robot_init() sends firstly the robotId and the robot_step(0) package which have to be eaten there)
+#ifndef _WIN32
   while (mSocket->bytesAvailable() == 0)
     mSocket->waitForReadyRead();
+#endif
   readRequest();
   connect(mSocket, &QLocalSocket::readyRead, this, &WbController::readRequest);
   connect(mSocket, &QLocalSocket::disconnected, this, &WbController::disconnected);

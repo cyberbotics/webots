@@ -1050,9 +1050,24 @@ static char *compute_socket_filename() {
   if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
     // regular controller case
     char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+#ifndef _WIN32
     const int length = strlen(WEBOTS_TMP_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_TMP_PATH, robot_name);
+#else
+    int i = 0;
+    int last = -1;
+    while (WEBOTS_TMP_PATH[i] != 0) {
+      if (WEBOTS_TMP_PATH[i++] == '-')
+        last = i;
+    }
+    int number = -1;
+    sscanf(&WEBOTS_TMP_PATH[last], "%d", &number);
+    assert(number != -1);
+    const int length = 28 + strlen(robot_name);  // "\\.\pipe\webots-XXXX-robot_name"
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
+#endif
     free(robot_name);
     return socket_filename;
   }
@@ -1111,7 +1126,7 @@ static char *compute_socket_filename() {
     fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  // fprintf(stderr, "Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
+  // fprintf(stderr, "WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
   int number = -1;
   sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
   int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
@@ -1119,9 +1134,17 @@ static char *compute_socket_filename() {
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
   char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
   if (robot_name) {
-    length += strlen(robot_name + 1) + 8;  // folder + robot_name + "/extern"
+#ifndef _WIN32
+    // socket file name is like: folder + robot_name + "/extern"
+    length += strlen(robot_name + 1) + 8;
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name + 1);
+#else
+    // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
+    length = 28 + strlen(robot_name + 1);
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
+#endif
   } else {  // take the first robot in the ipc folder (alphabetical order)
     DIR *dr = opendir(folder);
     if (dr == NULL) {  // the ipc folder was not yet created
@@ -1149,10 +1172,16 @@ static char *compute_socket_filename() {
     }
     if (count > 1)  // sort folders (robot names) in alphabetical order
       qsort(filenames, count, sizeof(char *), strcmp_sort);
-    for (int i = 0; i < count; i++) {                       // keep only the first extern controller
+    for (int i = 0; i < count; i++) {  // keep only the first extern controller
+#ifndef _WIN32
       const int l = length + strlen(filenames[i] + 1) + 8;  // folder + robot_name + "/extern"
       socket_filename = malloc(l);
       snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[i]);
+#else
+      const int l = 28 + strlen(filenames[i] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
+      socket_filename = malloc(l);
+      snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[i]);
+#endif
       if (access(socket_filename, R_OK | W_OK) == 0)
         break;
       free(socket_filename);
