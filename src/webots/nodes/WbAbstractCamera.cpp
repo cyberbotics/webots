@@ -189,11 +189,11 @@ void WbAbstractCamera::initializeImageMemoryMappedFile() {
     mImageData = (unsigned char *)mImageMemoryMappedFile->data();
 }
 
-WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile() {
+WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {
   // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
   // applications.
   const QString memoryMappedFileName = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name()) +
-                                       "/snap.webots." + QUrl::toPercentEncoding(name());
+                                       "/snap.webots." + QUrl::toPercentEncoding(name()) + id;
 
   WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller

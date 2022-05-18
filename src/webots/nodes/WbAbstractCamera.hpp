@@ -109,7 +109,7 @@ protected:
 
   void init();
   virtual void initializeImageMemoryMappedFile();
-  WbMemoryMappedFile *initializeMemoryMappedFile();
+  WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
   void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
 

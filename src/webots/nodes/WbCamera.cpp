@@ -259,7 +259,7 @@ void WbCamera::initializeImageMemoryMappedFile() {
 void WbCamera::initializeSegmentationMemoryMappedFile() {
   cCameraNumber++;
   delete mSegmentationMemoryMappedFile;
-  mSegmentationMemoryMappedFile = initializeMemoryMappedFile();
+  mSegmentationMemoryMappedFile = initializeMemoryMappedFile("segmentation");
   mHasSegmentationMemoryMappedFileChanged = true;
   if (mSegmentationMemoryMappedFile) {
     unsigned char *data = (unsigned char *)mSegmentationMemoryMappedFile->data();
