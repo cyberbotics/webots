@@ -30,8 +30,10 @@ import multiprocessing
 
 from command import Command
 
+is_ubuntu_22_04 = False
 if 'GITHUB_ACTIONS' in os.environ and sys.platform == 'linux':
-    import distro
+    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
+    is_ubuntu_22_04 = result.stdout().decode().strip() == '22.04'
 
 # monitor failures
 failures = 0
@@ -201,7 +203,7 @@ def generateWorldsList(groupName, worldsFilename):
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'linux' and distro.version() == '22.04')
+                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04)
                         ))):
                 f.write(filename + '\n')
                 worldsCount += 1
