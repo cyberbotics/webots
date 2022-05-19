@@ -921,9 +921,12 @@ void WbSceneTree::addNew() {
       newNode->makeUseNode(definitionNode);
 
     } else {
-      const QString &str = dialog.protoFilePath();
-      const QString *const protoFilePath = str.isEmpty() ? NULL : &str;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath);
+      const QString &strFilePath = dialog.protoFilePath();
+      const QString &strExternPath = dialog.protoFileExternPath();
+      const QString *const protoFilePath = strFilePath.isEmpty() ? NULL : &strFilePath;
+      const QString *const protoFileExternPath = strExternPath.isEmpty() ? NULL : &strExternPath;
+      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath,
+                                                              protoFileExternPath);
     }
 
     if (!newNode) {

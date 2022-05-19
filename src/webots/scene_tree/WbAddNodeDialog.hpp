@@ -48,6 +48,7 @@ public:
   QString modelName() const;
   QString fileName() const { return mImportFileName; }
   QString protoFilePath() const;
+  QString protoFileExternPath() const;
   bool isUseNode() const { return mNewNodeType == USE; };
   WbNode *defNode() const;  // returns the closest DEF node above the insertion location which matches the chosen USE name and
                             // avoids infinite recursion

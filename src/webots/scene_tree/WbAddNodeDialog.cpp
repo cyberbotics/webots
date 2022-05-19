@@ -236,13 +236,19 @@ QString WbAddNodeDialog::protoFilePath() const {
     return QString();
 
   QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
+  path = WbUrl::generateExternProtoPath(path, protoFileExternPath());
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
-  path = WbUrl::generateExternProtoPath(path, "");
-
   printf("INSERTING: %s\n", path.toUtf8().constData());
   return path;
+}
+
+QString WbAddNodeDialog::protoFileExternPath() const {
+  if (mNewNodeType != PROTO)
+    return QString();
+
+  return mTree->selectedItems().at(0)->text(FILE_NAME);
 }
 
 WbNode *WbAddNodeDialog::defNode() const {

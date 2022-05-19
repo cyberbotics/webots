@@ -111,7 +111,7 @@
 WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
 
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
-                                          const QString *protoFilePath) {
+                                          const QString *protoFilePath, const QString *protoFileExternPath) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
   if (modelName == "Altimeter")
@@ -286,10 +286,14 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbZoom(tokenizer);
 
   // look for PROTOs
-  WbProtoModel *const model =
-    protoFilePath ?
-      WbProtoList::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "") :
-      WbProtoList::instance()->customFindModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+  WbProtoModel *model;
+
+  if (protoFilePath && protoFileExternPath) {
+    model = WbProtoList::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
+                                               *protoFileExternPath);
+  } else
+    model = WbProtoList::instance()->customFindModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+
   if (!model)
     return NULL;
 
