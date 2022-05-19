@@ -35,6 +35,10 @@ It takes less than 3 seconds on a fairly powerful server to get the robot moving
 
 ### With Docker
 
+You will have to install docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`.
+You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+Finally, you will have to install docker-compose from pip: `pip install docker-compose`.
+
 The `launcher.py` script goes through the following steps:
 
 1. It builds a first docker image based on a recent Webots docker image and adds the world file to it.
