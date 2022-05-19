@@ -45,7 +45,7 @@ void WbX3dStreamingServer::start(int port) {
     try {
       WbAnimationRecorder::instance()->initFromStreamingServer();
     } catch (const QString &e) {
-      cerr << tr("Error when initializing the animation recorder: %1").arg(e).toUtf8().constData() << endl;
+      WbLog::error(tr("Error when initializing the animation recorder: %1").arg(e));
       return;
     }
   }
