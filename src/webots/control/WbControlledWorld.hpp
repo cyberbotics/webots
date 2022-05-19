@@ -53,7 +53,6 @@ protected:
 
 private:
   void updateRobotController(WbRobot *robot);
-  void handleRobotRemoval(WbBaseNode *node);
 
 #ifndef NDEBUG  // debug methods
   bool controllerInOnlyOneList(WbController *controller);

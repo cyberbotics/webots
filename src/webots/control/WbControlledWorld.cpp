@@ -46,10 +46,8 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
     return;
 
   mNeedToYield = false;
-  foreach (WbRobot *const robot, robots()) {
+  foreach (WbRobot *const robot, robots())
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
-    connect(robot, &WbRobot::isBeingDestroyed, this, &WbControlledWorld::handleRobotRemoval);
-  }
 }
 
 WbControlledWorld::~WbControlledWorld() {
@@ -69,7 +67,6 @@ void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
   assert(robot);
 
   connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
-  connect(robot, &WbRobot::isBeingDestroyed, this, &WbControlledWorld::handleRobotRemoval);
 
   if (mFirstStep && !mRetryEnabled)
     // simulation not started yet, controller will be created at first step() call
@@ -401,9 +398,6 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
     mNewControllers.append(controller);
   connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController);
   assert(controllerInOnlyOneList(controller));
-}
-
-void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
 }
 
 void WbControlledWorld::externConnection(WbController *controller, bool connect) {
