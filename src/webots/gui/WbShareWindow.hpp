@@ -38,11 +38,13 @@ public:
   virtual ~WbLinkWindow() {}
 
   void setLabelLink(QString url, QString uploadMessage);
+  void openUrl();
 
 private:
   QGroupBox *mGroupBoxLink;
   QLabel *mLabelLink;
-  QString *mUrl;
+  QString mUrl;
+
   void reject() override;
 };
 

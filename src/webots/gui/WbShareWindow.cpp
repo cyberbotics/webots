@@ -16,18 +16,20 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtGui/QDesktopServices>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QSpacerItem>
 
 #include "WbMainWindow.hpp"
+#include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 
 QString groupBoxStyleSheet;
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  QString uploadUrl = "https://testing.webots.cloud"; //WbPreferences::instance()->value("Network/uploadUrl").toString();
+  QString uploadUrl = "https://testing.webots.cloud";  // WbPreferences::instance()->value("Network/uploadUrl").toString();
   if (uploadUrl.contains("//"))
     uploadUrl = uploadUrl.split("//")[1];
   groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
@@ -87,15 +89,25 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   mLabelLink->setStyleSheet("border: none;");
   mLabelLink->setOpenExternalLinks(true);
   mLabelLink->setMinimumHeight(15);
-  layout->addWidget(mLabelLink, 0, 0, 1, 1);
+  layout->addWidget(mLabelLink, 0, 0, 1, 3);
 
   QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
-  layout->addItem(verticalSpacer, 1, 0, 1, 1);
+  layout->addItem(verticalSpacer, 1, 0, 1, 3);
+
+  QPushButton *pushButtonOpenLink = new QPushButton(this);
+  pushButtonOpenLink->setFocusPolicy(Qt::NoFocus);
+  pushButtonOpenLink->setText(tr("Open in Browser"));
+  layout->addWidget(pushButtonOpenLink, 2, 1, 1, 1);
+  connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbLinkWindow::openUrl);
+  connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbShareWindow::close);
+
+  verticalSpacer = new QSpacerItem(100, 10);
+  layout->addItem(verticalSpacer, 3, 0, 1, 3);
 
   QLabel *labelInfo = new QLabel(this);
-  labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to follow the link to associate the"
-                        "<br>upload with your webots.cloud account.</a></p></body></html>"));
-  layout->addWidget(labelInfo, 2, 0, 1, 1);
+  labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to click Open in Browser "
+                        "to associate<br>the upload with your webots.cloud account.</a></p></body></html>"));
+  layout->addWidget(labelInfo, 4, 0, 1, 3);
 }
 
 void WbLinkWindow::reject() {
@@ -110,7 +122,11 @@ void WbLinkWindow::reject() {
 
 void WbLinkWindow::setLabelLink(QString url, QString uploadMessage) {
   QString uploadUrl = url + uploadMessage;
-  mUrl = &uploadUrl;
-  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%2</a>").arg(uploadUrl, url));
+  mUrl = uploadUrl;
+  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
   mGroupBoxLink->adjustSize();
+}
+
+void WbLinkWindow::openUrl() {
+  QDesktopServices::openUrl(QUrl(mUrl, QUrl::TolerantMode));
 }

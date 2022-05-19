@@ -1627,7 +1627,6 @@ void WbMainWindow::upload(char type) {
   uploadInfo["type"] = type;
   uploadInfo["user"] = "null";
   uploadInfo["password"] = "null";
-  uploadInfo["upload"] = "webots";
 
   QMapIterator<QString, QString> iteratorUploadInfo(uploadInfo);
   while (iteratorUploadInfo.hasNext()) {
@@ -1664,15 +1663,14 @@ void WbMainWindow::uploadFinished() {
   disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
+  const QString uploadMessage = "?upload=webots";
   QString url;
-  QString uploadMessage;
 
   foreach (const QString &answer, answers) {
     if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
       QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
       QJsonObject jsonAnswer = document.object();
       url = jsonAnswer["url"].toString();
-      uploadMessage = jsonAnswer["upload"].toString();
     }
   }
   if (url.isEmpty()) {
