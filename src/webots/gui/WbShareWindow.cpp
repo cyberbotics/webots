@@ -22,7 +22,6 @@
 #include <QtWidgets/QSpacerItem>
 
 #include "WbMainWindow.hpp"
-#include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 
