@@ -93,6 +93,8 @@ ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
 C_FLAGS          += -Wno-deprecated-declarations
+else ifeq ($(PYTHON_SHORT_VERSION),310)
+C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
