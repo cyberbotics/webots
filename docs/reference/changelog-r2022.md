@@ -4,6 +4,7 @@
 Released on XX, XXth, 2022.
 
   - New Features:
+    - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
     - Added floating windows to web streaming ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
