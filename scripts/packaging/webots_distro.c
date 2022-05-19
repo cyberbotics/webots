@@ -1176,7 +1176,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.19 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.155 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
@@ -1187,9 +1186,9 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.7 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
-      //Sfprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
 #endif
       // libraries common to Ubuntu 20.04 and 22.04
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
