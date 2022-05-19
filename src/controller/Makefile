@@ -34,10 +34,6 @@ release debug profile clean:
 	@+make -s -C matlab $@
 ifeq ($(OSTYPE),linux)
 	@echo "#"
-	@echo "# Python 3.6 controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=python3.6 make -s -C python $@
-	@echo "#"
 	@echo "# Python 3.7 controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=python3.7 make -s -C python $@
