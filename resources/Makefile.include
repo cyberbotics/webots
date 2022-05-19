@@ -206,11 +206,15 @@ endif
 ifneq ($(C_SOURCES)$(CXX_SOURCES),)
  ifdef BUILD_EXECUTABLE
   MAIN_TARGET = $(NAME)$(EXE_EXTENSION)
+  X86_64_LINKER = -target x86_64-apple-macos11
+  ARM64_LINKER = -target arm64-apple-macos11
  else
   ifdef BUILD_STATIC_LIBRARY
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(STATIC_LIB_EXTENSION)
   else
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(SHARED_LIB_EXTENSION)
+   X86_64_LINKER = -target x86_64-apple-macos11
+   ARM64_LINKER = -target arm64-apple-macos11
   endif
  endif
 endif
@@ -509,11 +513,11 @@ $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUIL
 
 $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@) "(x86_64)"
-	$(SILENT)$(LINKER) -target x86_64-apple-macos11 $(LFLAGS) $@ $(X86_64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+	$(SILENT)$(LINKER) $(X86_64_LINKER) $(LFLAGS) $@ $(X86_64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET): $(ARM64_OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@) "(arm64)"
-	$(SILENT)$(LINKER) -target arm64-apple-macos11 $(LFLAGS) $@ $(ARM64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+	$(SILENT)$(LINKER) $(ARM64_LINKER) $(LFLAGS) $@ $(ARM64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 else
 
@@ -587,6 +591,14 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/x86_64/%.o:%.cpp
+	@echo "# compiling" $(notdir $<) "(x86_64)"
+	$(SILENT)$(CXX) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/arm64/%.o:%.cpp
+	@echo "# compiling" $(notdir $<) "(arm64)"
+	$(SILENT)$(CXX) -c -target arm64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
 	@echo "# compiling with emcc " $(notdir $<)
