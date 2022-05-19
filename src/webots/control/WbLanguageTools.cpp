@@ -168,7 +168,7 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
     shortVersion = QString();
   } else {
     const QStringList version_numbers(version[0].split("."));
-    shortVersion = QString(version_numbers[0]) + version_numbers[1];
+    shortVersion = version_numbers[0] + version_numbers[1];
   }
   return shortVersion;
 }
