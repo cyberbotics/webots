@@ -44,7 +44,7 @@ namespace {
   */
 }  // namespace
 
-QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
+QStringList WbUrl::orderedSearchPaths(const WbNode *node) {  // TODO: remove?
   // retrieve PROTOs search paths
   // - if project PROTO add search path before world path
   // - if Webots PROTO add search path after world path
@@ -282,13 +282,25 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
   }
 
   if (QDir::isRelativePath(url)) {
-    // TODO: if "./asd/ewer/"?
+    // for relative urls, begin by searching relative to the world and protos folders
+    QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
+    foreach (const QString &path, searchPaths) {
+      printf("searching relatively: %s\n", QString(path).toUtf8().constData());
+      QDir dir(path);
+      if (dir.exists(url)) {
+        printf("  found\n");
+        return QDir::cleanPath(dir.absoluteFilePath(url));
+      }
+    }
+    // if it isn't, manufacture the url based on the closest PROTO ancestor
     if (isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || isLocalUrl(parentUrl)) {
       // consume directories in both urls accordingly
       QString assetUrl = url;
       QString externPath = QUrl(parentUrl)
                              .adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash)
                              .toString();  // remove filename and trailing slash
+      if (assetUrl.startsWith("./"))
+        assetUrl.remove(0, 2);
       while (assetUrl.startsWith("../")) {
         externPath = externPath.left(externPath.lastIndexOf("/"));
         assetUrl.remove(0, 3);

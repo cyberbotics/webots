@@ -183,16 +183,18 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     return model;
   } else if (mWebotsProtoList.contains(modelName)) {  // TODO: add version check as well?
     QString url = mWebotsProtoList.value(modelName)->url();
-    if (WbNetwork::instance()->isCached(url)) {
+    if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
-      printf("%35s is an OFFICIAL proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-      WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
-      if (model == NULL)  // can occur if the PROTO contains errors
-        return NULL;
-      mModels << model;
-      model->ref();
-      return model;
-    }
+    else if (WbUrl::isLocalUrl(url))
+      url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+
+    printf("%35s is an OFFICIAL proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
+    WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
+    if (model == NULL)  // can occur if the PROTO contains errors
+      return NULL;
+    mModels << model;
+    model->ref();
+    return model;
   } else {
     if (!modelName.isEmpty())
       printf("proto %s not found in mCurrentWorldProto ?\n", modelName.toUtf8().constData());
