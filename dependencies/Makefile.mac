@@ -8,15 +8,13 @@ WGET = LANG=en_US.UTF-8 wget -qq
 
 QT_PACKAGE = qt-6.2.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp-5.2.3.zip
-FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.bz2
 LUA_GD_PACKAGE = gd.tar.bz2
-MINIGLU_PACKAGE = libminiglu.tar.gz
 OIS_PACKAGE = libOIS.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 
-PACKAGES = qt assimp freetype ffmpeg lua lua-gd miniglu ois pico
+PACKAGES = qt assimp ffmpeg lua lua-gd ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -63,21 +61,6 @@ $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
 	@tar xfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
-
-
-freetype-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9
-
-freetype: $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a
-
-$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
-	@echo "# downloading $(FREETYPE_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
-	@$(WGET) $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "44e72be43f677dedd0c547cb9a029178" != `md5 -q $(FREETYPE_PACKAGE)` ]; then echo "MD5 checksum failed for $(FREETYPE_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(FREETYPE_PACKAGE)"
-	@tar xfm $(FREETYPE_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
 
 
 ffmpeg-clean:
@@ -130,21 +113,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@$(WGET) $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "a48b974d568b07d8f8a9317ccd650268" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-
-
-miniglu-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
-
-miniglu: $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a
-
-$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
-	@echo "# downloading $(MINIGLU_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
-	@$(WGET) $(DEPENDENCIES_URL)/$(MINIGLU_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "504316e92609b37c8b749025e1dcf481" != `md5 -q $(MINIGLU_PACKAGE)` ]; then echo "MD5 checksum failed for $(MINIGLU_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(MINIGLU_PACKAGE)"
-	@tar xfm $(MINIGLU_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
 
 
 ois-clean:
