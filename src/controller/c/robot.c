@@ -1039,10 +1039,6 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static int strcmp_sort(const void *a, const void *b) {
-  return strcmp(*(const char **)a, *(const char **)b);
-}
-
 static char *compute_socket_filename() {
   const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
@@ -1170,25 +1166,22 @@ static char *compute_socket_filename() {
       free(folder);
       return NULL;
     }
-    if (count > 1)  // sort folders (robot names) in alphabetical order
-      qsort(filenames, count, sizeof(char *), strcmp_sort);
-    for (int i = 0; i < count; i++) {  // keep only the first extern controller
+    if (count > 1) {  // more than one extern controller in the current instance of Webots
+      fprintf(stderr, "Webots instance %d has several extern controller robots.\n", number);
+      fprintf(stderr, "Please set the WEBOTS_CONTROLLER_URL environment variable to select one among:\n");
+      for (int i = 0; i < count; i++)
+        fprintf(stderr, "ipc://%d/%s\n", number, filenames[i]);
+      exit(EXIT_FAILURE);
+    } else {
 #ifndef _WIN32
-      const int l = length + strlen(filenames[i] + 1) + 8;  // folder + robot_name + "/extern"
+      const int l = length + strlen(filenames[0] + 1) + 8;  // folder + robot_name + "/extern"
       socket_filename = malloc(l);
-      snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[i]);
+      snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[0]);
 #else
-      const int l = 28 + strlen(filenames[i] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
+      const int l = 28 + strlen(filenames[0] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
       socket_filename = malloc(l);
-      snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[i]);
+      snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[0]);
 #endif
-#ifndef _WIN32
-      if (access(socket_filename, R_OK | W_OK) == 0)
-#endif  // on Windows, access will open the pipe and cause Webots get a connection request, we want to avoid that
-        break;
-
-      free(socket_filename);
-      socket_filename = NULL;
     }
     for (int i = 0; i < count; i++)
       free(filenames[i]);
