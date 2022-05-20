@@ -180,7 +180,8 @@ This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable
 
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
-If the `WEBOTS_CONTROLLER_URL` is not set, the controller will connect to the first extern robot using the alphabetical name order.
+If the `WEBOTS_CONTROLLER_URL` is not set, the controller will connect to the only extern robot of a Webots instance.
+If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
 If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
 
