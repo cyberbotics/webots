@@ -57,11 +57,6 @@ try:
 except Exception:
     print(f"error: Unable to start docker-compose: {command}")
     quit()
-command = ('docker build -t controller '
-           f'--build-arg WEBOTS_DEFAULT_IMAGE={docker_image} '
-           '--build-arg MAKE=1 '
-           'controllers/camera')
-run(command)
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
@@ -71,8 +66,14 @@ while webots_process.poll() is None:
             name = line[line.rfind('/') + 1:]
             controller = controllers[name] if name in controllers else ''
             if not controller:
-                print('controller "' + name + '" not found, skipping...')
+                print('controller for robot "' + name + '" not found, skipping...')
                 continue
+            folder = os.path.split(controller)[0]
+            command = ('docker build -t controller '
+                       f'--build-arg WEBOTS_DEFAULT_IMAGE={docker_image} '
+                       '--build-arg MAKE=1 '
+                       f'{folder}')
+            run(command)
             command = (f'docker run -e WEBOTS_CONTROLLER_URL=ipc://{port}/{name} '
                        f'-v tmp-{port}-{name}:/tmp/webots-{port}/ipc/{name} controller /webots_project/{controller}')
             subprocess.Popen(command.split())  # launch in the background
