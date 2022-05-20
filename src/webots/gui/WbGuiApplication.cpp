@@ -253,7 +253,7 @@ void WbGuiApplication::parseArguments() {
 
   // create the Webots temporary path based on the TCP port early in the process
   // in order to be sure that the Qt internal files will be stored at the right place
-  else if (!WbStandardPaths::webotsTmpPathCreate(port))
+  else if (!WbStandardPaths::webotsTmpPathCreate(mTcpServer->port()))
     commandLineError(tr("failed to create the Webots temporary path \"%1\".\n").arg(WbStandardPaths::webotsTmpPath()));
 
   if (logPerformanceMode) {
