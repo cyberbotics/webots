@@ -1639,10 +1639,16 @@ void WbMainWindow::upload(char type) {
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), "Cancel", 0, 100, this);
+  QString cancelText = "cancel";
+  mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), cancelText, 0, 100, this);
   mUploadProgressDialog->setWindowTitle(tr("%1").arg(uploadUrl));
   mUploadProgressDialog->show();
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
+
+  QPushButton *pushButtonCancel = new QPushButton(mUploadProgressDialog);
+  mUploadProgressDialog->setCancelButton(pushButtonCancel);
+  mUploadProgressDialog->setCancelButtonText(cancelText);
+  connect(pushButtonCancel, &QPushButton::pressed, reply, &QNetworkReply::abort);
 
   multiPart->setParent(reply);
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
@@ -1663,7 +1669,6 @@ void WbMainWindow::uploadFinished() {
   disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
-  const QString uploadMessage = "?upload=webots";
   QString url;
 
   foreach (const QString &answer, answers) {
@@ -1681,10 +1686,14 @@ void WbMainWindow::uploadFinished() {
     WbLog::info(tr("link: %1\n").arg(url));
 
     WbLinkWindow linkWindow(this);
-    linkWindow.setLabelLink(url, uploadMessage);
+    linkWindow.setLabelLink(url);
     linkWindow.exec();
   }
   reply->deleteLater();
+}
+
+void WbMainWindow::deleteUpload(QString url) {
+  return;
 }
 
 void WbMainWindow::showAboutBox() {

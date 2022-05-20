@@ -119,9 +119,9 @@ void WbLinkWindow::reject() {
   QDialog::reject();
 }
 
-void WbLinkWindow::setLabelLink(QString url, QString uploadMessage) {
-  QString uploadUrl = url + uploadMessage;
-  mUrl = uploadUrl;
+void WbLinkWindow::setLabelLink(QString url) {
+  QString uploadMessage = "?upload=webots";
+  mUrl = url + uploadMessage;
   mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
   mGroupBoxLink->adjustSize();
 }
