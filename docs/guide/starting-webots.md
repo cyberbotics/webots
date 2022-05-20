@@ -105,7 +105,7 @@ For example, this can be used to redirect the controllers output to a file or to
 `--stdout` redirects the *stdout* stream of the controllers, while `--stderr` redirects the *stderr* stream.
 Note that the *stderr* stream may also contain Webots error or warning messages.
 
-The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234.
+The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234. When starting multiple Webots instances, the ports are configured with consecutive values of 1234.
 
 The `--stream` option enables the Webots streaming server in either `x3d` (default) or `mjpeg` mode.
 You can get more information about web streaming in [this section](web-streaming.md).
