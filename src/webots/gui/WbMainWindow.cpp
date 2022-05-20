@@ -1648,7 +1648,7 @@ void WbMainWindow::upload(char type) {
   QPushButton *pushButtonCancel = new QPushButton(mUploadProgressDialog);
   mUploadProgressDialog->setCancelButton(pushButtonCancel);
   mUploadProgressDialog->setCancelButtonText(cancelText);
-  connect(pushButtonCancel, &QPushButton::pressed, reply, &QNetworkReply::abort);
+  connect(pushButtonCancel, &QPushButton::pressed, reply, [reply] { reply->abort(); });
 
   multiPart->setParent(reply);
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
@@ -1695,32 +1695,17 @@ void WbMainWindow::uploadFinished() {
 
   const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
+
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-  QHttpPart uploadingPart;
-  uploadingPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
-  uploadingPart.setBody(0);
-  multiPart->append(uploadingPart);
-  QHttpPart idPart;
-  idPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
-  idPart.setBody(id.toUtf8());
-  multiPart->append(idPart);
+  QHttpPart infoPart;
+  infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
+  infoPart.setBody(0);
+  multiPart->append(infoPart);
+  infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
+  infoPart.setBody(id.toUtf8());
+  multiPart->append(infoPart);
 
   WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
-  //QNetworkReply *uploadingReply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
-  //multiPart->setParent(uploadingReply);
-  //connect(uploadingReply, &QNetworkReply::finished, this, &WbMainWindow::uploadConfirmed);
-}
-
-void WbMainWindow::uploadConfirmed() {
-  QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
-  assert(reply);
-  if (!reply)
-    return;
-
-  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadConfirmed);
-
-  QString message = QString(reply->readAll().data());
-  WbMessageBox::warning(tr("Answer: '%1'.").arg(message));
 }
 
 void WbMainWindow::showAboutBox() {
