@@ -209,7 +209,7 @@ void WbController::start() {
 #ifdef _WIN32
     if ((mType == WbFileUtil::CLASS || mType == WbFileUtil::JAR) &&
         QString(mControllerPath.toUtf8()) != QString::fromLocal8Bit(mControllerPath.toLocal8Bit()))
-      WbLog::warning(tr("\'%1\'\nThe path to this Webots project contains non 8-bit characters. "
+      WbLog::warning(tr("'%1'\nThe path to this Webots project contains non 8-bit characters. "
                         "Webots won't be able to execute any Java controller in this path. "
                         "Please move this Webots project into a folder with only 8-bit characters.")
                        .arg(mControllerPath));
@@ -246,15 +246,24 @@ void WbController::start() {
 
   const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   QDir().mkpath(path);
+  const QString fileName = path + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
-  const QString serverName = path + '/' + (mExtern ? "extern" : "intern");
+  const QString &serverName = fileName;
 #else
   const QString serverName =
     "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + QUrl::toPercentEncoding(mRobot->name());
+  // create an empty file, so that the controllers can see an extern controller is available here
+  QFile file(fileName);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    WbLog::error(tr("Cannot create empty extern file in '%1'.").arg(fileName));
+    return;
+  }
+  file.write("");
+  file.close();
 #endif
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
-    WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
+    WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
     return;
   }
   // create a new socket server to get connected with the controller process
@@ -262,8 +271,7 @@ void WbController::start() {
   connect(mServer, &QLocalServer::newConnection, this, &WbController::addLocalControllerConnection);
   success = mServer->listen(serverName);
   if (!success) {
-    WbLog::error(
-      tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
+    WbLog::error(tr("Cannot listen to the local server (server name = '%1'): %2").arg(serverName).arg(mServer->errorString()));
     return;
   }
   if (mProcess) {
@@ -538,7 +546,7 @@ void WbController::setProcessEnvironment() {
 
 void WbController::info(const QString &message) {
   if (mExtern)
-    WbLog::info(tr("\"%1\" extern controller: ").arg(mRobot->name()) + message);
+    WbLog::info(tr("'%1' extern controller: ").arg(mRobot->name()) + message);
   else
     WbLog::info(name() + ": " + message);
 }

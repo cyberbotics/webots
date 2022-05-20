@@ -1141,7 +1141,7 @@ static char *compute_socket_filename() {
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
 #endif
-  } else {  // take the first robot in the ipc folder (alphabetical order)
+  } else {  // check if a single extern robot is present in the ipc folder
     DIR *dr = opendir(folder);
     if (dr == NULL) {  // the ipc folder was not yet created
       free(folder);
@@ -1151,20 +1151,38 @@ static char *compute_socket_filename() {
     int count = 0;
     struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
-      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
-        char **r = realloc(filenames, (count + 1) * sizeof(char *));
-        if (!r) {
-          fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
-          exit(EXIT_FAILURE);
+      if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+        continue;
+      bool found = false;
+      // search the robot folder for a file named "extern"
+      const int l = length + strlen(de->d_name) + 1;
+      char *subfolder = malloc(l);
+      snprintf(subfolder, l, "%s/%s", folder, de->d_name);
+      DIR *d = opendir(subfolder);
+      free(subfolder);
+      if (d) {
+        struct dirent *sub;
+        while ((sub = readdir(d)) != NULL) {
+          if (strcmp(sub->d_name, "extern") == 0) {
+            found = true;
+            break;
+          }
         }
-        filenames = r;
-        filenames[count++] = strdup(de->d_name);
       }
+      if (!found)
+        continue;
+      char **r = realloc(filenames, (count + 1) * sizeof(char *));
+      if (!r) {
+        fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
+        exit(EXIT_FAILURE);
+      }
+      filenames = r;
+      filenames[count++] = strdup(de->d_name);
     }
     closedir(dr);
-    if (count == 0) {  // no robot folder was created
-      free(folder);
-      return NULL;
+    if (count == 0) {
+      fprintf(stderr, "Webots instance %d has no extern controller robots.\n", number);
+      exit(EXIT_FAILURE);
     }
     if (count > 1) {  // more than one extern controller in the current instance of Webots
       fprintf(stderr, "Webots instance %d has several extern controller robots.\n", number);
