@@ -267,7 +267,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {  // TODO: isn't readability checked in prototreeitem?
     QFile rootFile(filename);
-    mTreeRoot = new WbProtoTreeItem(filename, NULL);  //
+    mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);  //
     connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
@@ -293,7 +293,7 @@ void WbProtoList::retrieveExternProto(const QString &filename) {
   printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
   delete mTreeRoot;
-  mTreeRoot = new WbProtoTreeItem(filename, NULL);
+  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::singleProtoRetrievalCompleted);
   // trigger download
   mTreeRoot->downloadAssets();
@@ -525,7 +525,7 @@ void WbProtoList::exportProto(const QString &proto) {
     path = WbNetwork::instance()->get(path);
   else {
     delete mTreeRoot;
-    mTreeRoot = new WbProtoTreeItem(proto, NULL);
+    mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL);
     mTreeRoot->setRecursion(false);  // stop download at the first level
     connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoList::exportProto);
     mTreeRoot->downloadAssets();  // trigger download

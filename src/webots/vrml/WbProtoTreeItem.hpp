@@ -21,7 +21,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool isExternInWorldFile = false);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool isExternInWorldFile = false);
   ~WbProtoTreeItem();
 
   void setRecursion(bool recurse) { mRecurse = recurse; }
@@ -29,6 +29,8 @@ public:
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
   const QString &error() const { return mError; }
+
+  bool isRecursiveProto(const QString &proto);
 
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
@@ -48,6 +50,7 @@ protected slots:
 
 private:
   QString mUrl;
+  WbProtoTreeItem *mParent;
   bool mIsReady;  // for it to be ready, the asset must be available (on disk) and have been parsed
   WbDownloader *mDownloader;
   QString mName;   // TODO: tmp, not really needed

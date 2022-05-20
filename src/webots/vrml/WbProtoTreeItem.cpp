@@ -21,8 +21,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool isExternInWorldFile) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool isExternInWorldFile) :
   mUrl(url),
+  mParent(parent),
   mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
@@ -32,6 +33,11 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
+
+  // if (isRecursiveProto(mUrl)) {
+  //  mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(mName)));
+  //  return;
+  //}
 
   // if the proto is locally available, parse it, otherwise download it first
   if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
@@ -73,7 +79,7 @@ void WbProtoTreeItem::parseItem() {
         }
 
         bool isExternInWorldFile = (this == mRoot && mUrl.endsWith(".wbt")) ? true : false;
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, mRoot, isExternInWorldFile);
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot, isExternInWorldFile);
         mSubProto.append(child);
       }
     }
@@ -170,7 +176,7 @@ void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, bool>> &map)
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
-  WbProtoTreeItem *child = new WbProtoTreeItem(url, mRoot);
+  WbProtoTreeItem *child = new WbProtoTreeItem(url, this, mRoot);
   mSubProto.append(child);
   // printf("%35s grafted\n", child->name().toUtf8().constData());
 }
@@ -184,4 +190,14 @@ void WbProtoTreeItem::print(int indent) {
          mIsReady);
   foreach (WbProtoTreeItem *subProto, mSubProto)
     subProto->print(indent + 1);
+}
+
+bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
+  const WbProtoTreeItem *p = mParent;
+  while (p) {
+    if (p->url() == protoUrl)
+      return true;
+  }
+
+  return false;
 }
