@@ -14,7 +14,7 @@ services:
         - WEBOTS_DEFAULT_IMAGE=$IMAGE
     command: /usr/local/webots/webots --port=$PORT --mode=realtime --heartbeat=5000 --extern-urls --batch $WORLD
     environment:
-      - DISPLAY=:0
+      - DISPLAY
     ports:
       - '$PORT:$PORT'
     privileged: true
