@@ -1685,6 +1685,20 @@ void WbMainWindow::uploadFinished() {
     QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
+    const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
+    QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
+
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart infoPart;
+    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
+    infoPart.setBody(0);
+    multiPart->append(infoPart);
+    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
+    infoPart.setBody(id.toUtf8());
+    multiPart->append(infoPart);
+
+    WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
+
     WbLog::info(tr("link: %1\n").arg(url));
 
     WbLinkWindow linkWindow(this);
@@ -1692,20 +1706,6 @@ void WbMainWindow::uploadFinished() {
     linkWindow.exec();
   }
   reply->deleteLater();
-
-  const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
-  QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
-
-  QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-  QHttpPart infoPart;
-  infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
-  infoPart.setBody(0);
-  multiPart->append(infoPart);
-  infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
-  infoPart.setBody(id.toUtf8());
-  multiPart->append(infoPart);
-
-  WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 }
 
 void WbMainWindow::showAboutBox() {
