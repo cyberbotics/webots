@@ -88,7 +88,7 @@ private:
   QString mImportFileName;
   bool mIsFolderItemSelected;
 
-  WbDownloader *mIconDownloader;
+  QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
   void downloadIcon(const QString &url);
@@ -102,7 +102,7 @@ private:
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 
 private slots:
-  void downloadUpdate();
+  void iconUpdate();
 };
 
 #endif

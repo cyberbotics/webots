@@ -60,10 +60,10 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mIconDownloader(NULL),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
+  mIconDownloaders.clear();
   // check if top node is a robot node
   const WbNode *const topNode =
     field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
@@ -193,24 +193,22 @@ WbAddNodeDialog::~WbAddNodeDialog() {
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
-  if (mIconDownloader != NULL && mIconDownloader->hasFinished())
-    delete mIconDownloader;
+  WbDownloader *downloader = new WbDownloader(this);
+  mIconDownloaders.push_back(downloader);
+  connect(downloader, &WbDownloader::complete, this, &WbAddNodeDialog::iconUpdate);
 
-  mIconDownloader = new WbDownloader(this);
-  connect(mIconDownloader, &WbDownloader::complete, this, &WbAddNodeDialog::downloadUpdate);
-
-  mIconDownloader->download(QUrl(url));
+  downloader->download(QUrl(url));
 }
 
-void WbAddNodeDialog::downloadUpdate() {
-  if (mIconDownloader && !mIconDownloader->error().isEmpty()) {
-    WbLog::error(mIconDownloader->error());  // failure downloading or file does not exist (404)
-    delete mIconDownloader;
-    mIconDownloader = NULL;
+void WbAddNodeDialog::iconUpdate() {
+  WbDownloader *source = dynamic_cast<WbDownloader *>(sender());
+  if (source && !source->error().isEmpty()) {
+    WbLog::error(source->error());  // failure downloading or file does not exist (404)
     return;
   }
 
-  QString pixmapPath = WbNetwork::instance()->get(mIconDownloader->url().toString());
+  // set the image
+  QString pixmapPath = WbNetwork::instance()->get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -219,6 +217,12 @@ void WbAddNodeDialog::downloadUpdate() {
     }
     mPixmapLabel->show();
     mPixmapLabel->setPixmap(pixmap);
+  }
+
+  // purge completed downloaders
+  for (int i = mIconDownloaders.size() - 1; i >= 0; --i) {
+    if (mIconDownloaders[i] && !mIconDownloaders[i]->hasFinished())
+      mIconDownloaders.remove(i);
   }
 }
 
