@@ -21,13 +21,14 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool isExternInWorldFile) :
   mUrl(url),
   mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
   mError(),
-  mRecurse(true) {
+  mRecurse(true),
+  mIsExternInWorldFile(isExternInWorldFile) {
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
@@ -70,7 +71,8 @@ void WbProtoTreeItem::parseItem() {
           return;
         }
 
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, mRoot);
+        bool isExternInWorldFile = (this == mRoot && mUrl.endsWith(".wbt")) ? true : false;
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, mRoot, isExternInWorldFile);
         mSubProto.append(child);
       }
     }
@@ -145,15 +147,15 @@ bool WbProtoTreeItem::isReadyToLoad() {
   return isReady;
 }
 
-void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, int>> &map, int level) {
-  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root may be a world file
+void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, bool>> &map) {
+  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root file may be a world file
     // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
-    QPair<QString, int> value(mUrl, level);
+    QPair<QString, bool> value(mUrl, mIsExternInWorldFile);
     map.insert(mName, value);
   }
 
   foreach (WbProtoTreeItem *proto, mSubProto)
-    proto->generateProtoMap(map, level + 1);
+    proto->generateProtoMap(map);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {

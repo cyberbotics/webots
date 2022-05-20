@@ -144,11 +144,11 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) { 
 }
 
 void WbProtoList::printCurrentWorldProtoList() {
-  QMapIterator<QString, QPair<QString, int>> it(mCurrentWorldProto);
+  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
   printf("-- mCurrentWorldProto ------\n");
   while (it.hasNext()) {
     it.next();
-    QPair<QString, int> value = it.value();
+    QPair<QString, bool> value = it.value();
     printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(value.first),
            value.first.toUtf8().constData());
   }
@@ -399,14 +399,15 @@ void WbProtoList::generateWebotsProtoList() {
   // printf("-- end mWebotsProtoList --\n");
 }
 
-void WbProtoList::generateWorldProtoList() {
-  qDeleteAll(mWorldProtoList);
-  mWorldProtoList.clear();
+void WbProtoList::generateWorldFileProtoList() {
+  qDeleteAll(mWorldFileProtoList);
+  mWorldFileProtoList.clear();
 
-  QMapIterator<QString, QPair<QString, int>> it(mCurrentWorldProto);
+  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
   while (it.hasNext()) {
     it.next();
-    if (it.value().second != 1)  // only consider items at level 1 (i.e. at world file level)
+    QPair<QString, int> item = it.value();  // item.second == flag that indicates if it's a root proto in a world file
+    if (!item.second)
       continue;
 
     QString protoPath = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
@@ -415,8 +416,8 @@ void WbProtoList::generateWorldProtoList() {
 
     const QString protoName = QUrl(it.value().first).fileName().replace(".proto", "");
     WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
-    if (info && !mWorldProtoList.contains(protoName))
-      mWorldProtoList.insert(protoName, info);
+    if (info && !mWorldFileProtoList.contains(protoName))
+      mWorldFileProtoList.insert(protoName, info);
   }
 }
 

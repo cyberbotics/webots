@@ -368,7 +368,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     QMap<QString, WbProtoInfo *> protoList;
 
     if (variant == PROTO_WORLD) {
-      protoList = WbProtoList::instance()->worldProtoList();
+      protoList = WbProtoList::instance()->worldFileProtoList();
       if (!protoList.contains(modelName)) {
         WbLog::error(tr("'%1' is not a known EXTERNPROTO in this world.\n").arg(modelName));
         return;
@@ -484,7 +484,8 @@ void WbAddNodeDialog::buildTree() {
   mDefNodes.clear();
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World)"), PROTO_WORLD);
+  QTreeWidgetItem *const worldFileProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
@@ -548,8 +549,8 @@ void WbAddNodeDialog::buildTree() {
   }
 
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
-  int nWorldProtosNodes = 0;
-  nWorldProtosNodes = addProtosFromProtoList(worldProtosItem, PROTO_WORLD, regexp);
+  int nWorldFileProtosNodes = 0;
+  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, PROTO_WORLD, regexp);
   // add Current Project PROTO (all PROTO locally available in the project location)
   int nProjectProtosNodes = 0;
   nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_PROJECT, regexp);
@@ -561,7 +562,7 @@ void WbAddNodeDialog::buildTree() {
   nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
 
   mTree->addTopLevelItem(nodesItem);
-  mTree->addTopLevelItem(worldProtosItem);
+  mTree->addTopLevelItem(worldFileProtosItem);
   mTree->addTopLevelItem(projectProtosItem);
   mTree->addTopLevelItem(extraProtosItem);
   mTree->addTopLevelItem(webotsProtosItem);
@@ -572,11 +573,11 @@ void WbAddNodeDialog::buildTree() {
   const int nUseNodes = mUsesItem ? mUsesItem->childCount() : 0;
 
   // if everything can fit in the tree height then show all
-  if (nBasicNodes + nUseNodes + nWorldProtosNodes + nProjectProtosNodes + nExtraProtosNodes + nWebotsProtosNodes < 20)
+  if (nBasicNodes + nUseNodes + nWorldFileProtosNodes + nProjectProtosNodes + nExtraProtosNodes + nWebotsProtosNodes < 20)
     mTree->expandAll();
 
   // if no USE nor PROTO items
-  if (nBasicNodes && !nUseNodes && !nWorldProtosNodes && !nProjectProtosNodes && !nExtraProtosNodes && !nWebotsProtosNodes)
+  if (nBasicNodes && !nUseNodes && !nWorldFileProtosNodes && !nProjectProtosNodes && !nExtraProtosNodes && !nWebotsProtosNodes)
     // then select first basic node
     mTree->setCurrentItem(nodesItem->child(0));
   else
@@ -593,8 +594,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   bool flattenHierarchy = true;
   QMap<QString, WbProtoInfo *> protoList;
   if (type == PROTO_WORLD) {
-    WbProtoList::instance()->generateWorldProtoList();  // TODO: can return the list directly?
-    protoList = WbProtoList::instance()->worldProtoList();
+    WbProtoList::instance()->generateWorldFileProtoList();  // TODO: can return the list directly?
+    protoList = WbProtoList::instance()->worldFileProtoList();
   } else if (type == PROTO_PROJECT) {
     WbProtoList::instance()->generateProjectProtoList();  // TODO: can return the list directly?
     protoList = WbProtoList::instance()->projectProtoList();

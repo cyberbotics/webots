@@ -126,13 +126,13 @@ public:
 
   // used primarely when populating the add-node dialog window
   QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
-  QMap<QString, WbProtoInfo *> worldProtoList() { return mWorldProtoList; };
+  QMap<QString, WbProtoInfo *> worldFileProtoList() { return mWorldFileProtoList; };
   QMap<QString, WbProtoInfo *> projectProtoList() { return mProjectProtoList; };
   QMap<QString, WbProtoInfo *> extraProtoList() { return mExtraProtoList; };
   // proto list generators
 
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
-  void generateWorldProtoList();
+  void generateWorldFileProtoList();
   void generateExtraProtoList();
   void generateProjectProtoList();
 
@@ -158,13 +158,13 @@ private:
 
   WbProtoTreeItem *mTreeRoot;
 
-  QMap<QString, QPair<QString, int>> mCurrentWorldProto;  // TODO: probably should be renamed
+  QMap<QString, QPair<QString, bool>> mCurrentWorldProto;  // TODO: probably should be renamed
 
   // stores metadata about
-  QMap<QString, WbProtoInfo *> mWebotsProtoList;   // loaded from proto-list.xml
-  QMap<QString, WbProtoInfo *> mWorldProtoList;    // compiled from EXTERNPROTO referenced in .wbt
-  QMap<QString, WbProtoInfo *> mProjectProtoList;  // compiled from PROTO in current project directory
-  QMap<QString, WbProtoInfo *> mExtraProtoList;    // compiled from PROTO in extra project directories
+  QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml
+  QMap<QString, WbProtoInfo *> mWorldFileProtoList;  // compiled from EXTERNPROTO referenced in .wbt
+  QMap<QString, WbProtoInfo *> mProjectProtoList;    // compiled from PROTO in current project directory
+  QMap<QString, WbProtoInfo *> mExtraProtoList;      // compiled from PROTO in extra project directories
 
   void generateWebotsProtoList();
 };

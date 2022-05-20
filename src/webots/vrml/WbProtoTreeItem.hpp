@@ -21,7 +21,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *root);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool isExternInWorldFile = false);
   ~WbProtoTreeItem();
 
   void setRecursion(bool recurse) { mRecurse = recurse; }
@@ -35,7 +35,7 @@ public:
   void downloadAssets();
 
   void print(int indent = 0);
-  void generateProtoMap(QMap<QString, QPair<QString, int>> &map, int level = 0);
+  void generateProtoMap(QMap<QString, QPair<QString, bool>> &map);
 
 signals:
   void treeUpdated();
@@ -54,6 +54,7 @@ private:
   QString mError;
   bool mRecurse;
   WbProtoTreeItem *mRoot;
+  bool mIsExternInWorldFile;
 
   void parseItem();
 
