@@ -1692,10 +1692,6 @@ void WbMainWindow::uploadFinished() {
   reply->deleteLater();
 }
 
-void WbMainWindow::deleteUpload(QString url) {
-  return;
-}
-
 void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
