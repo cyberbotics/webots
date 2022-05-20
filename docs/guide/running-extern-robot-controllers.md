@@ -158,6 +158,7 @@ Different use cases are detailed here from the most simple to the most complex:
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
+Once an extern controller is connected to a robot, any other attempt to connect to that robot will be refused by Webots and the controller attempting to connect will terminate immediately.
 
 ### Single Simulation and Multiple Extern Robot Controllers
 
