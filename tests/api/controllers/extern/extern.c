@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
   if (argc == 1) {  // launched by Webots
     wb_robot_init();
     putenv("WEBOTS_ROBOT_ID=");  // clear environment variables set by Webots
-    putenv("WEBOTS_TMP_PATH=");
+    putenv("WEBOTS_INSTANCE_PATH=");
     putenv("WEBOTS_ROBOT_NAME=");
     putenv("WEBOTS_CONTROLLER_URL=extern1");  // set the WEBOTS_CONTROLLER_URL
 #ifdef _WIN32
