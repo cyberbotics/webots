@@ -170,6 +170,8 @@ WbController::~WbController() {
   delete mSocket;
   delete mServer;
   delete mProcess;
+  if (mRobot)
+    QDir(WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name())).removeRecursively();
 }
 
 void WbController::updateName(const QString &name) {
