@@ -39,7 +39,7 @@ public:
 
 signals:
   void treeUpdated();
-  void readyToLoad();
+  void finished();
   void downloadComplete(const QString &filename);
 
 protected slots:
@@ -50,8 +50,8 @@ private:
   QString mUrl;
   bool mIsReady;  // for it to be ready, the asset must be available (on disk) and have been parsed
   WbDownloader *mDownloader;
-  QString mName;  // TODO: tmp, not really needed
-  QString mError;
+  QString mName;   // TODO: tmp, not really needed
+  QString mError;  // note:
   bool mRecurse;
   WbProtoTreeItem *mRoot;
   bool mIsExternInWorldFile;
@@ -60,6 +60,8 @@ private:
 
   void disconnectAll();
   bool isReadyToLoad();
+
+  void failure(QString error);
 
   QList<WbProtoTreeItem *> mSubProto;  // list of referenced sub-proto
 };

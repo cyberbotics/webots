@@ -37,6 +37,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *root, bool
   if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
     downloadAssets();
 }
+
 WbProtoTreeItem::~WbProtoTreeItem() {
   qDeleteAll(mSubProto);
   mSubProto.clear();
@@ -67,7 +68,7 @@ void WbProtoTreeItem::parseItem() {
         // printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
         //       subProtoUrl.toUtf8().constData());
         if (!subProtoUrl.endsWith(".proto")) {
-          mError = QString(tr("Malformed extern proto url. The url should end with '.proto'\n"));
+          mRoot->failure(QString(tr("Malformed extern proto url. The url should end with '.proto'.")));
           return;
         }
 
@@ -80,7 +81,7 @@ void WbProtoTreeItem::parseItem() {
     mIsReady = true;     // wait until mSubProto has been populated before flagging this item as ready
     emit treeUpdated();  // when we reach a dead end, notify parent about it
   } else
-    mError = QString(tr("File '%1' is not readable.").arg(path));
+    mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
 }
 
 void WbProtoTreeItem::downloadAssets() {
@@ -110,8 +111,9 @@ void WbProtoTreeItem::downloadAssets() {
 }
 
 void WbProtoTreeItem::downloadUpdate() {
+  printf("download update %d\n", mDownloader->hasFinished());
   if (!mDownloader->error().isEmpty()) {
-    mError = mDownloader->error();
+    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1' from '%2'.").arg(mName).arg(mUrl));
     return;
   }
 
@@ -125,11 +127,19 @@ void WbProtoTreeItem::rootUpdate() {
     if (isReadyToLoad()) {
       disconnectAll();  // to avoid multiple firings
       if (mRecurse)
-        emit readyToLoad();
+        emit finished();
       else
         emit downloadComplete(mUrl);
     }
   }
+}
+
+void WbProtoTreeItem::failure(QString error) {
+  printf("aborting\n");
+  mError = error;
+  mRoot->disconnectAll();
+  mRoot->finished();
+  return;
 }
 
 void WbProtoTreeItem::disconnectAll() {
@@ -148,7 +158,8 @@ bool WbProtoTreeItem::isReadyToLoad() {
 }
 
 void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, bool>> &map) {
-  if (!map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root file may be a world file
+  // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
+  if (mIsReady && !map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root file may be a world file
     // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
     QPair<QString, bool> value(mUrl, mIsExternInWorldFile);
     map.insert(mName, value);

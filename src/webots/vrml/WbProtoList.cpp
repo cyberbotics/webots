@@ -263,10 +263,10 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
 
   // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
-  if (rootFile.open(QIODevice::ReadOnly)) {
+  if (rootFile.open(QIODevice::ReadOnly)) {  // TODO: isn't readability checked in prototreeitem?
     QFile rootFile(filename);
     mTreeRoot = new WbProtoTreeItem(filename, NULL);  //
-    connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::tryWorldLoad);
+    connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
     return;
@@ -283,6 +283,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // status pre-firing
   mTreeRoot->print();
   // root node is now fully populated, trigger download
+  printf("starting download\n");
   mTreeRoot->downloadAssets();
 }
 
@@ -291,7 +292,7 @@ void WbProtoList::retrieveExternProto(const QString &filename) {
   // populate the tree with urls expressed by EXTERNPROTO
   delete mTreeRoot;
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
-  connect(mTreeRoot, &WbProtoTreeItem::readyToLoad, this, &WbProtoList::singleProtoRetrievalCompleted);
+  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::singleProtoRetrievalCompleted);
   // trigger download
   mTreeRoot->downloadAssets();
 }
@@ -308,12 +309,18 @@ void WbProtoList::singleProtoRetrievalCompleted() {
 
 void WbProtoList::tryWorldLoad() {
   printf("RETRY WORLD LOAD\n");
-  // generate mCurrentWorldProto
-  mTreeRoot->generateProtoMap(mCurrentWorldProto);
+
+  if (mTreeRoot && !mTreeRoot->error().isEmpty())
+    WbLog::error(mTreeRoot->error());
+
+  // note: although it might have failed, generate the map for the nodes that didn't so that they can be loaded
+  mTreeRoot->generateProtoMap(mCurrentWorldProto);  // generate mCurrentWorldProto
+
   // cleanup and load world at last
   delete mTreeRoot;
   mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
+  // WbApplication::instance()->cancelWorldLoading(true, true);
 }
 
 void WbProtoList::generateWebotsProtoList() {
