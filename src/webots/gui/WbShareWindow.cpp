@@ -127,5 +127,6 @@ void WbLinkWindow::setLabelLink(QString url) {
 }
 
 void WbLinkWindow::openUrl() {
-  QDesktopServices::openUrl(QUrl(mUrl, QUrl::TolerantMode));
+  if (QDesktopServices::openUrl(QUrl(mUrl, QUrl::TolerantMode)))
+    return;
 }
