@@ -340,7 +340,7 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
         stream.data_size += chunk_data_size;
 
         // add size and type information for the new image chunk
-        int new_img_size = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+        int new_img_size = size();
         unsigned char new_img_type = 1;
         stream << new_img_size << new_img_type;
 
@@ -353,14 +353,14 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
 
         // add size information for the new image chunk
         WbDataStream new_img_meta;
-        int new_img_size = size() + sizeof(short unsigned int) + sizeof(unsigned char);
+        int new_img_size = size();
         unsigned char new_img_type = 1;
         new_img_meta << new_img_size << new_img_type;
         stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
       }
 
       stream << (short unsigned int)tag();
-      stream << (unsigned char)C_CAMERA_SERIAL_IMG;
+      stream << (unsigned char)C_ABS_CAMERA_SERIAL_IMG;
 
       // qDebug(img);
       // printf("img size = %d\n", img.length());

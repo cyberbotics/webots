@@ -579,6 +579,15 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   return NULL;
 }
 
+WbDevice *robot_get_device(WbDeviceTag tag) {
+  if (tag < robot.n_device) {  // exists
+    WbDevice *d = robot.device[tag];
+    return d;
+  }
+  fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
+  return NULL;
+}
+
 void wb_robot_cleanup() {  // called when the client quits
   html_robot_window_cleanup();
   default_robot_window_cleanup();

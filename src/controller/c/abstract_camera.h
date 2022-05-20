@@ -52,6 +52,8 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r);
 void wbr_abstract_camera_set_image(WbDevice *d, const unsigned char *image);
 unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d);
 
+void wb_abstract_camera_allocate_image(WbDevice *d, int size);
+
 void wb_abstract_camera_enable(WbDevice *d, int sampling_period);
 int wb_abstract_camera_get_sampling_period(WbDevice *d);
 int wb_abstract_camera_get_height(WbDevice *d);

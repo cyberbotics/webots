@@ -122,6 +122,10 @@
 #define C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE 102
 #define C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE 103
 
+// for the abstract camera device
+// sim -> ctr
+#define C_ABS_CAMERA_SERIAL_IMG 0
+
 // for the camera device
 // ctr -> sim
 #define C_CAMERA_SET_FOV 4
@@ -130,17 +134,16 @@
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
 #define C_CAMERA_MEMORY_MAPPED_FILE 8
-#define C_CAMERA_SERIAL_IMG 9
-#define C_CAMERA_SERIAL_SEGM_IMG 10
+#define C_CAMERA_SERIAL_SEGM_IMG 9
 
 // for the camera recognition
 // ctr -> sim
-#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 11
-#define C_CAMERA_ENABLE_SEGMENTATION 12
+#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 10
+#define C_CAMERA_ENABLE_SEGMENTATION 11
 // sim -> ctr
-#define C_CAMERA_OBJECTS 13
-#define C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE 14
-#define C_CAMERA_SET_SEGMENTATION 15
+#define C_CAMERA_OBJECTS 12
+#define C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE 13
+#define C_CAMERA_SET_SEGMENTATION 14
 
 // for the emitter device
 // ctr -> sim

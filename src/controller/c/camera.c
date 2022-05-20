@@ -897,3 +897,18 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
   robot_mutex_unlock_step();
   return ret;
 }
+
+void camera_allocate_segmentation_image(WbDeviceTag tag, int size) {
+  Camera *c = camera_get_struct(tag);
+  if (c) {
+    c->segmentation_image->data = malloc(size);
+    c->segmentation_image->size = size;
+  }
+}
+
+const unsigned char *camera_get_segmentation_image_buffer(WbDeviceTag tag) {
+  Camera *c = camera_get_struct(tag);
+  if (c)
+    return c->segmentation_image->data;
+  return NULL;
+}

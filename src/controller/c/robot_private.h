@@ -39,6 +39,7 @@ void wb_robot_flush_unlocked(const char *);
 void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
 WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning);
+WbDevice *robot_get_device(WbDeviceTag tag);
 int robot_get_number_of_devices();
 WbDeviceTag robot_get_device_tag(const WbDevice *);
 WbDevice *robot_get_robot_device();

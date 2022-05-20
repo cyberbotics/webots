@@ -21,8 +21,12 @@
 #include <stdio.h>
 #include <string.h>  // strlen, memcpy
 #include <unistd.h>
+#include <webots/camera.h>
 #include <webots/types.h>
+#include "abstract_camera.h"
+#include "device_private.h"
 #include "g_pipe.h"
+#include "messages.h"
 #include "robot_private.h"
 #include "scheduler.h"
 #include "tcp_client.h"
@@ -71,7 +75,7 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
                                  "The specified robot is not in the list of robots with <extern> controllers.\n");
     exit(EXIT_FAILURE);
   } else {
-    fprintf(stderr, "Unknown Webots response %s.\n", ack_msg);
+    fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
   }
 
@@ -103,10 +107,19 @@ int scheduler_init_local(const char *pipe) {
 
 void scheduler_cleanup() {
   int c = 0;
-  g_pipe_send(scheduler_pipe, (const char *)&c, 4);  // to make the Webots pipe reading thread exit
+  if (scheduler_is_ipc())
+    g_pipe_send(scheduler_pipe, (const char *)&c, 4);  // to make the Webots pipe reading thread exit
+  if (scheduler_is_tcp())
+    tcp_client_send(scheduler_client, (const char *)&c, 4);  // to make the Webots pipe reading thread exit
   free(scheduler_data);
+  /*for (int tag = 0; tag < scheduler_nb_devices; tag++) {
+    free(scheduler_devices[tag]);
+  }
+  free(scheduler_devices);*/
   if (scheduler_pipe)
     g_pipe_delete(scheduler_pipe);
+  if (scheduler_client)
+    tcp_client_close(scheduler_client);
 }
 
 void scheduler_send_request(WbRequest *r) {
@@ -135,9 +148,8 @@ WbRequest *scheduler_read_data_remote() {
   WbRequest *r = NULL;
 
   int delay = 0, data_size = sizeof(int), curr_data_size = 0, meta_size = 0, curr_meta_size = 0, nb_chunks = 0,
-      tot_data_size = 0, chunk_size = 0, chunk_type = 0;
+      tot_data_size = 0;
   char *scheduler_meta = malloc(SCHEDULER_DATA_CHUNK);
-  char *scheduler_img = malloc(20000);
 
   // receive and read the number of chunks
   do
@@ -145,7 +157,7 @@ WbRequest *scheduler_read_data_remote() {
   while (meta_size != sizeof(unsigned short));
 
   nb_chunks = scheduler_read_short(scheduler_meta);
-  printf("nb_chunks = %d\n", nb_chunks);
+  // printf("nb_chunks = %d\n", nb_chunks);
 
   // receive and read the total data size (doesn't include image data)
   do
@@ -155,7 +167,7 @@ WbRequest *scheduler_read_data_remote() {
   meta_size += curr_meta_size;
 
   tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
-  printf("tot_data_size = %d\n", tot_data_size);
+  // printf("tot_data_size = %d\n", tot_data_size);
 
   // set size at beginning of data array for request
   *((int *)(scheduler_data)) = tot_data_size;
@@ -177,12 +189,12 @@ WbRequest *scheduler_read_data_remote() {
       curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
                                            sizeof(int) + sizeof(unsigned char) - curr_meta_size);
     while (curr_meta_size != sizeof(int) + sizeof(unsigned char));
-    chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
-    chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(int));
+    int chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
+    unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(int));
     meta_size += curr_meta_size;
 
-    printf("chunk_size = %d\n", chunk_size);
-    printf("chunk_type = %d\n", chunk_type);
+    // printf("chunk_size = %d\n", chunk_size);
+    // printf("chunk_type = %d\n", chunk_type);
 
     if (chunk_type == 0) {
       curr_data_size = 0;
@@ -195,8 +207,6 @@ WbRequest *scheduler_read_data_remote() {
       }
       data_size += curr_data_size;
 
-      printf("curr_data_size = %d\n", curr_data_size);
-
       // save the time step
       if (i == 0) {
         delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
@@ -204,36 +214,76 @@ WbRequest *scheduler_read_data_remote() {
           scheduler_actual_step = delay;
       }
     } else if (chunk_type == 1) {
-      int curr_img_size = 0;
-      while (curr_img_size < chunk_size) {
-        int block_size = chunk_size - curr_img_size;
-        if (block_size > 4096)
-          block_size = 4096;
+      curr_meta_size = 0;
+      do
+        curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
+                                             sizeof(short unsigned int) + sizeof(unsigned char) - curr_meta_size);
+      while (curr_meta_size != sizeof(short unsigned int) + sizeof(unsigned char));
+      short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
+      unsigned char cmd = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
+      meta_size += curr_meta_size;
 
-        curr_img_size += tcp_client_receive(scheduler_client, scheduler_img + curr_img_size, block_size);
+      WbDevice *dev = robot_get_device(tag);
+      if (!dev) {
+        fprintf(stderr, "Error: Device doesn't no exist.\n");
+        exit(EXIT_FAILURE);
       }
 
-      printf("curr_img_size = %d\n", curr_img_size);
+      int curr_img_size = 0;
+      switch (cmd) {
+        case C_ABS_CAMERA_SERIAL_IMG:;
+          wb_abstract_camera_allocate_image(dev, chunk_size);
+          const unsigned char *img = wbr_abstract_camera_get_image_buffer(dev);
+          // test for NULL
+          while (curr_img_size < chunk_size) {
+            int block_size = chunk_size - curr_img_size;
+            if (block_size > 4096)
+              block_size = 4096;
+
+            curr_img_size += tcp_client_receive(scheduler_client, (char *)(img + curr_img_size), block_size);
+          }
+          break;
+        case C_CAMERA_SERIAL_SEGM_IMG:;
+          camera_allocate_segmentation_image(tag, chunk_size);
+          const unsigned char *img_segm = camera_get_segmentation_image_buffer(tag);
+          // test for NULL
+          while (curr_img_size < chunk_size) {
+            int block_size = chunk_size - curr_img_size;
+            if (block_size > 4096)
+              block_size = 4096;
+
+            curr_img_size += tcp_client_receive(scheduler_client, (char *)(img_segm + curr_img_size), block_size);
+          }
+          break;
+
+        default:
+          fprintf(stderr, "Error: Unsupported image data received on TCP connection.\n");
+          exit(EXIT_FAILURE);
+          break;
+      }
+
+      // printf("curr_img_size = %d\n", curr_img_size);
     } else {
-      fprintf(stderr, "Unsupported data type.\n");
+      fprintf(stderr, "Error: Unsupported data type.\n");
       exit(EXIT_FAILURE);
     }
   }
 
-  printf("tot_data_size = %d\n", tot_data_size);
+  free(scheduler_meta);
+  // printf("tot_data_size = %d\n", tot_data_size);
   // read the size of the socket chunk
 
   // create a request to hold the data
   // printf("Message: Local (size=%d)\n", socket_size);
-  printf("scheduler_data_size = %d\n", scheduler_data_size);
+  // printf("scheduler_data_size = %d\n", scheduler_data_size);
   r = request_new_from_data(scheduler_data, scheduler_data_size);
   request_set_immediate(r, (delay < 0));
 
   // skip size and delay
   request_set_position(r, 2 * sizeof(unsigned int));
 
-  fprintf(stderr, "@ Read request:\n");
-  request_print(stderr, r);
+  // fprintf(stderr, "@ Read request:\n");
+  // request_print(stderr, r);
 
   return r;
 }
@@ -274,19 +324,40 @@ WbRequest *scheduler_read_data_local() {
 
   // create a request to hold the data
   // printf("Message: Local (size=%d)\n", socket_size);
-  printf("scheduler_data_size = %d\n", scheduler_data_size);
+  // printf("scheduler_data_size = %d\n", scheduler_data_size);
   r = request_new_from_data(scheduler_data, scheduler_data_size);
   request_set_immediate(r, (delay < 0));
 
   // skip size and delay
   request_set_position(r, 2 * sizeof(unsigned int));
 
-  fprintf(stderr, "@ Read request:\n");
-  request_print(stderr, r);
+  // fprintf(stderr, "@ Read request:\n");
+  // request_print(stderr, r);
 
   return r;
 }
 
+/*void scheduler_init_devices(WbDevice **dev_list, int nb_dev) {
+  scheduler_devices = malloc(sizeof(WbDevice *) * nb_dev);
+  for (int tag = 0; tag < nb_dev; tag++) {
+    scheduler_devices[tag] = malloc(sizeof(WbDevice));
+    scheduler_devices[tag] = dev_list[tag];
+  }
+  scheduler_nb_devices = nb_dev;
+}
+
+void scheduler_update_devices(WbDevice **dev_list, int nb_dev) {
+  for (int tag = 0; tag < scheduler_nb_devices; tag++) {
+    free(scheduler_devices[tag]);
+  }
+  scheduler_devices = realloc(scheduler_devices, sizeof(WbDevice *) * nb_dev);
+  for (int tag = 0; tag < nb_dev; tag++) {
+    scheduler_devices[tag] = malloc(sizeof(WbDevice));
+    scheduler_devices[tag] = dev_list[tag];
+  }
+  scheduler_nb_devices = nb_dev;
+}
+*/
 bool scheduler_is_ipc() {
   return (scheduler_pipe != NULL);
 }
