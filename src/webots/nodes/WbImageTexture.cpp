@@ -570,13 +570,12 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
+    QString url = WbUrl::computePath(this, "url", mUrl, i);
+    if (WbUrl::isLocalUrl() {
       QString newUrl = mUrl->value()[i];
       newUrl = newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                              WbApplicationInfo::branch() + "/");
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      printf("URL WAS: %s and is %s\n", mUrl->value()[i].toUtf8().constData(), newUrl.toUtf8().constData());
-
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
