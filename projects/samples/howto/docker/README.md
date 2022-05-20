@@ -28,7 +28,7 @@ In both cases, you should see a Webots windows popping-up and running the camera
 ### Without Docker
 
 The `launcher_without_docker.py` script launches Webots with the `--extern-urls` command line option.
-This option will make that Webots will print on `stdout` the controller URLs that need to be started.
+This option allows Webots to print to `stdout` the controller URLs that need to be started.
 The script will parse the output of Webots and start the extern controller as requested by Webots.
 
 It takes less than 3 seconds on a fairly powerful server to get the robot moving after starting the launcher.
