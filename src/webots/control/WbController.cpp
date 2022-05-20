@@ -277,6 +277,11 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
+  if (mSocket) {  // already connected, refusing
+    mServer->nextPendingConnection()->close();
+    info(tr("refusing connection attempt from another extern controller."));
+    return;
+  }
   if (mExtern) {
     info(tr("connected."));
     WbControlledWorld::instance()->externConnection(this, true);
@@ -1138,6 +1143,8 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
+  mSocket->deleteLater();
+  mSocket = NULL;
   if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
     WbControlledWorld::instance()->externConnection(this, false);

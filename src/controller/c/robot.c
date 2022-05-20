@@ -1182,8 +1182,11 @@ static char *compute_socket_filename() {
       socket_filename = malloc(l);
       snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[i]);
 #endif
+#ifndef _WIN32
       if (access(socket_filename, R_OK | W_OK) == 0)
+#endif  // on Windows, access will open the pipe and cause Webots get a connection request, we want to avoid that
         break;
+
       free(socket_filename);
       socket_filename = NULL;
     }
