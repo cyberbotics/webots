@@ -1045,24 +1045,24 @@ static int strcmp_sort(const void *a, const void *b) {
 
 static char *compute_socket_filename() {
   const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
-  const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
+  const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
-  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
     // regular controller case
     char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
 #ifndef _WIN32
-    const int length = strlen(WEBOTS_TMP_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
+    const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_TMP_PATH, robot_name);
+    snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_INSTANCE_PATH, robot_name);
 #else
     int i = 0;
     int last = -1;
-    while (WEBOTS_TMP_PATH[i] != 0) {
-      if (WEBOTS_TMP_PATH[i++] == '-')
+    while (WEBOTS_INSTANCE_PATH[i] != 0) {
+      if (WEBOTS_INSTANCE_PATH[i++] == '-')
         last = i;
     }
     int number = -1;
-    sscanf(&WEBOTS_TMP_PATH[last], "%d", &number);
+    sscanf(&WEBOTS_INSTANCE_PATH[last], "%d", &number);
     assert(number != -1);
     const int length = 28 + strlen(robot_name);  // "\\.\pipe\webots-XXXX-robot_name"
     socket_filename = malloc(length);

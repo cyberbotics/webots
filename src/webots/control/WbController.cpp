@@ -529,7 +529,7 @@ void WbController::setProcessEnvironment() {
     env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
     env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
-  env.insert("WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
+  env.insert("WEBOTS_INSTANCE_PATH", WbStandardPaths::webotsTmpPath());
   // qDebug() << "Environment:";
   // foreach (const QString &element, env)
   //  qDebug() << element;
@@ -859,7 +859,7 @@ void WbController::startDocker() {
   const QStringList dockerArguments = {"run",  "--network",
                                        "none",  // add "--cpu-shares", "512",
                                        "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
-                                       "-e",   "WEBOTS_TMP_PATH=" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_INSTANCE_PATH=" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
                                        image};
   mArguments = dockerArguments + mRobot->controllerArgs();
