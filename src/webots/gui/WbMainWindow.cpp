@@ -1577,7 +1577,7 @@ void WbMainWindow::uploadScene() {
 }
 
 void WbMainWindow::upload(char type) {
-  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
+  const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
@@ -1670,12 +1670,14 @@ void WbMainWindow::uploadFinished() {
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
   QString url;
+  QString id;
 
   foreach (const QString &answer, answers) {
     if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
       QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
       QJsonObject jsonAnswer = document.object();
       url = jsonAnswer["url"].toString();
+      id = jsonAnswer["idString"].toString();
     }
   }
   if (url.isEmpty()) {
@@ -1690,6 +1692,35 @@ void WbMainWindow::uploadFinished() {
     linkWindow.exec();
   }
   reply->deleteLater();
+
+  const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
+  QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
+  QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+  QHttpPart uploadingPart;
+  uploadingPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
+  uploadingPart.setBody(0);
+  multiPart->append(uploadingPart);
+  QHttpPart idPart;
+  idPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
+  idPart.setBody(id.toUtf8());
+  multiPart->append(idPart);
+
+  WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
+  //QNetworkReply *uploadingReply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
+  //multiPart->setParent(uploadingReply);
+  //connect(uploadingReply, &QNetworkReply::finished, this, &WbMainWindow::uploadConfirmed);
+}
+
+void WbMainWindow::uploadConfirmed() {
+  QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
+  assert(reply);
+  if (!reply)
+    return;
+
+  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadConfirmed);
+
+  QString message = QString(reply->readAll().data());
+  WbMessageBox::warning(tr("Answer: '%1'.").arg(message));
 }
 
 void WbMainWindow::showAboutBox() {

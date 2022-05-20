@@ -28,7 +28,7 @@
 QString groupBoxStyleSheet;
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
+  QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
   if (uploadUrl.contains("//"))
     uploadUrl = uploadUrl.split("//")[1];
   groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
