@@ -1685,7 +1685,7 @@ void WbMainWindow::uploadFinished() {
     QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
-    const QString uploadUrl = "https://testing.webots.cloud";//WbPreferences::instance()->value("Network/uploadUrl").toString();
+    const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
     QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
 
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
