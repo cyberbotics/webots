@@ -88,36 +88,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   mRefCount = 0;
   mAncestorRefCount = 0;
-
-  // TEMPORARELY DISABLED, HOW TO DEAL WITH PROTO name == filename requirement when using cache?
-
-  // check that the proto name corresponds to the file name
-  // fileName is empty if the PROTO is inlined in a .wrl file
-  // in this case we don't need to check that
-  /*
-  if (fileName.isEmpty()) {
-    mFileName = "";
-    mPath = "";
-  } else {
-    mFileName = fileName;
-    QFileInfo fi(fileName);
-
-    // proto name and proto file name have to match
-    if (fi.baseName() != mName) {
-      tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
-      throw 0;
-    }
-
-    mPath = fi.absolutePath() + "/";
-  }
-  */
-
   // TODO: better to reference url or cached path? (if proto uses controller it might need url)
   // TODO: the reverse lookup is slow, should proto-list.xml contain it as well? (faster? or pass directly url instead of
   // path?)
 
-  // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url instead,
-  // by doing so the location of the controllers can be inferred from the remote url
+  // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
+  // instead, by doing so the location of the controllers can be inferred from the remote url
   mExternPath = externPath;
   // mExternPath =
   //  mExternPath.replace(WbStandardPaths::webotsHomePath(), "webots://");  // TODO: ok to do this here? or pass original?
@@ -130,6 +106,15 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   }
   // printf("%s ---v\n--[%s\n--[%s\n", fileName.toUtf8().constData(), mFileName.toUtf8().constData(),
   // mPath.toUtf8().constData());
+
+  // printf("\n%s\n%s\n%s\n%s\n", mName.toUtf8().constData(), mFileName.toUtf8().constData(), mPath.toUtf8().constData(),
+  //       mExternPath.toUtf8().constData());
+
+  // check that the proto name corresponds to the file name
+  if (!mFileName.contains(mName + ".proto")) {
+    tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
+    throw 0;
+  }
 
   // start proto parameters list
   tokenizer->skipToken("[");
