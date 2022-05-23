@@ -72,6 +72,7 @@
 static WbWorld *gInstance = NULL;
 bool WbWorld::cX3DMetaFileExport = false;
 bool WbWorld::cX3DStreaming = false;
+bool WbWorld::cPrintExternUrls = false;
 
 WbWorld *WbWorld::instance() {
   return gInstance;

@@ -34,8 +34,6 @@
 #include "scheduler.h"
 
 GPipe *g_pipe_new(const char *path) {
-  if (access(path, R_OK | W_OK) != 0)
-    return NULL;
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
@@ -68,7 +66,6 @@ GPipe *g_pipe_new(const char *path) {
   address.sun_family = AF_UNIX;
   strncpy(address.sun_path, path, sizeof(address.sun_path));
   if (connect(p->handle, (struct sockaddr *)&address, sizeof(struct sockaddr_un)) != 0) {
-    fprintf(stderr, "socket connect() failed for %s, errno=%d\n", path, errno);
     close(p->handle);
     free(p);
     return NULL;
@@ -89,18 +86,22 @@ void g_pipe_delete(GPipe *p) {
   free(p);
 }
 
+static void broken_pipe() {
+  exit(1);
+}
+
 void g_pipe_send(GPipe *p, const char *data, int size) {
 #ifdef _WIN32
   assert(p->handle);
   DWORD m = 0;
   if (WriteFile(p->handle, data, size, &m, NULL) == 0)
-    exit(1);
+    broken_pipe();
 #else
   int fd = p->handle;
   if (!fd)
     fd = p->fd[1];
   if (write(fd, data, size) == -1)
-    exit(1);
+    broken_pipe();
 #endif
 }
 
@@ -118,9 +119,9 @@ int g_pipe_receive(GPipe *p, char *data, int size) {
         break;
       e = ERROR_SUCCESS;
     }
-  } while (!success);      // repeat loop while ERROR_MORE_DATA
-  if (e != ERROR_SUCCESS)  // broken pipe due to the crash of Webots
-    exit(1);
+  } while (!success);  // repeat loop while ERROR_MORE_DATA
+  if (e != ERROR_SUCCESS)
+    broken_pipe();
   return (int)nb_read;
 #else
   int fd = p->handle;
@@ -135,7 +136,7 @@ int g_pipe_receive(GPipe *p, char *data, int size) {
   if (n == -1 && errno == EINTR)
     n = read(fd, data, size);
   if (n <= 0)
-    exit(1);  // broken pipe because Webots terminated
+    broken_pipe();
   return n;
 #endif
 }

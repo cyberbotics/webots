@@ -408,33 +408,8 @@ static char **expand_wildcard_filename(const char *big_buffer, int *n) {
 }
 
 static void add_ros_dependencies(const char *path) {
+#ifdef WEBOTS_UBUNTU_20_04
   fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
-#ifdef WEBOTS_UBUNTU_18_04
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n",
-          path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-#elif defined(WEBOTS_UBUNTU_20_04)
   fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -1152,6 +1127,19 @@ static void create_file(const char *name, int m) {
         fprintf(fd, "cd ..\n");
       }
 
+      // copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
+#ifdef WEBOTS_UBUNTU_22_04
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so debian/usr/local/webots/libcrypto.so\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so debian/usr/local/webots/libssl.so\n");
+#elif defined(WEBOTS_UBUNTU_20_04)
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+ #endif
+
 #ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
@@ -1164,7 +1152,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
-#if defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
@@ -1172,36 +1160,35 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_3.so.24 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_3.so.24 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-#else
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
 #endif
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
       add_ros_dependencies("debian/usr/local/webots");
-#ifdef WEBOTS_UBUNTU_18_04
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.16 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.5 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.152 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.57 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
-#elif defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.19 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.155 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.20 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.163 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
 #endif
-      // libraries common to Ubuntu 18.04 and 20.04
+      // libraries common to Ubuntu 20.04 and 22.04
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");

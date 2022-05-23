@@ -21,7 +21,7 @@
 #include <string.h>
 
 char *percent_encode(const char *source) {
-  int length = strlen(source);
+  const int length = strlen(source);
 
   char *buffer = malloc(length * 3 + 1);  // maximum size
   int j = 0;

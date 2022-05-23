@@ -31,10 +31,6 @@
 #include <QtGui/QMouseEvent>
 #include <QtWebSockets/QWebSocket>
 
-#include <iostream>
-
-using namespace std;
-
 static WbView3D *gView3D = NULL;
 
 WbMultimediaStreamingServer::WbMultimediaStreamingServer() :

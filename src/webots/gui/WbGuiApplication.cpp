@@ -61,6 +61,7 @@ using namespace std;
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QApplication(argc, argv),
   mMainWindow(NULL),
+  mHeartbeat(0),
   mTask(NORMAL),
   mTcpServer(NULL) {
   setApplicationName("Webots");
@@ -178,8 +179,14 @@ void WbGuiApplication::parseArguments() {
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--port")) {
       int index = arg.indexOf('=');
-      if (index == -1) {
+      if (index == -1)
         commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
+      else {
+        port = arg.mid(index + 1).toInt();
+        if (port < 1 || port > 65535) {
+          commandLineError(tr("webots: port value %1 out of range [1;65535], reverting to 1234 default value").arg(port));
+          port = 1234;
+        }
       }
     } else if (arg == "--stream") {
       mStream = 'x';  // x3d is the default mode
@@ -189,13 +196,15 @@ void WbGuiApplication::parseArguments() {
         commandLineError(tr("invalid value \"%1\" to '--stream' option.").arg(mode));
       else
         mStream = mode[0].toLatin1();
-    } else if (arg == "--heartbeat")
-      startTimer(1000);
+    } else if (arg == "--extern-urls")
+      WbWorld::setPrintExternUrls();
+    else if (arg == "--heartbeat")
+      mHeartbeat = startTimer(1000);
     else if (arg.startsWith("--heartbeat=")) {
       bool ok;
       const int value = arg.mid(arg.indexOf('=') + 1).toInt(&ok);
       if (ok)
-        startTimer(value);
+        mHeartbeat = startTimer(value);
       else
         commandLineError(tr("invalid value \"%1\" to '--heartbeat' option.").arg(arg.mid(arg.indexOf('=') + 1)));
     } else if (arg == "--stdout")
@@ -244,7 +253,7 @@ void WbGuiApplication::parseArguments() {
 
   // create the Webots temporary path based on the TCP port early in the process
   // in order to be sure that the Qt internal files will be stored at the right place
-  else if (!WbStandardPaths::webotsTmpPathCreate(port))
+  else if (!WbStandardPaths::webotsTmpPathCreate(mTcpServer->port()))
     commandLineError(tr("failed to create the Webots temporary path \"%1\".\n").arg(WbStandardPaths::webotsTmpPath()));
 
   if (logPerformanceMode) {
@@ -581,5 +590,6 @@ void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
 }
 
 void WbGuiApplication::timerEvent(QTimerEvent *event) {
-  cout << "." << endl;
+  if (event->timerId() == mHeartbeat)
+    cout << "." << endl;
 }

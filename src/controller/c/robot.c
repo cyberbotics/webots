@@ -1048,20 +1048,31 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static int strcmp_sort(const void *a, const void *b) {
-  return strcmp(*(const char **)a, *(const char **)b);
-}
-
 static char *compute_socket_filename() {
   const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
-  const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
+  const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
-  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
     // regular controller case
     char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
-    const int length = strlen(WEBOTS_TMP_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
+#ifndef _WIN32
+    const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_TMP_PATH, robot_name);
+    snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_INSTANCE_PATH, robot_name);
+#else
+    int i = 0;
+    int last = -1;
+    while (WEBOTS_INSTANCE_PATH[i] != 0) {
+      if (WEBOTS_INSTANCE_PATH[i++] == '-')
+        last = i;
+    }
+    int number = -1;
+    sscanf(&WEBOTS_INSTANCE_PATH[last], "%d", &number);
+    assert(number != -1);
+    const int length = 28 + strlen(robot_name);  // "\\.\pipe\webots-XXXX-robot_name"
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
+#endif
     free(robot_name);
     return socket_filename;
   }
@@ -1120,18 +1131,30 @@ static char *compute_socket_filename() {
     fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  // fprintf(stderr, "Computed WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
+  // fprintf(stderr, "WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
   int number = -1;
   sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
+  if (number == -1) {
+    fprintf(stderr, "Error: invalid WEBOTS_CONTROLLER_URL: %s (missing or wrong port value)\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
   int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
   char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
   if (robot_name) {
-    length += strlen(robot_name + 1) + 8;  // folder + robot_name + "/extern"
+#ifndef _WIN32
+    // socket file name is like: folder + robot_name + "/extern"
+    length += strlen(robot_name + 1) + 8;
     socket_filename = malloc(length);
     snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name + 1);
-  } else {  // take the first robot in the ipc folder (alphabetical order)
+#else
+    // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
+    length = 28 + strlen(robot_name + 1);
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
+#endif
+  } else {  // check if a single extern robot is present in the ipc folder
     DIR *dr = opendir(folder);
     if (dr == NULL) {  // the ipc folder was not yet created
       free(folder);
@@ -1141,31 +1164,53 @@ static char *compute_socket_filename() {
     int count = 0;
     struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
-      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
-        char **r = realloc(filenames, (count + 1) * sizeof(char *));
-        if (!r) {
-          fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
-          exit(EXIT_FAILURE);
+      if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+        continue;
+      bool found = false;
+      // search the robot folder for a file named "extern"
+      const int l = length + strlen(de->d_name) + 1;
+      char *subfolder = malloc(l);
+      snprintf(subfolder, l, "%s/%s", folder, de->d_name);
+      DIR *d = opendir(subfolder);
+      free(subfolder);
+      if (d) {
+        struct dirent *sub;
+        while ((sub = readdir(d)) != NULL) {
+          if (strcmp(sub->d_name, "extern") == 0) {
+            found = true;
+            break;
+          }
         }
-        filenames = r;
-        filenames[count++] = strdup(de->d_name);
       }
+      if (!found)
+        continue;
+      char **r = realloc(filenames, (count + 1) * sizeof(char *));
+      if (!r) {
+        fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
+        exit(EXIT_FAILURE);
+      }
+      filenames = r;
+      filenames[count++] = strdup(de->d_name);
     }
     closedir(dr);
-    if (count == 0) {  // no robot folder was created
-      free(folder);
-      return NULL;
-    }
-    if (count > 1)  // sort folders (robot names) in alphabetical order
-      qsort(filenames, count, sizeof(char *), strcmp_sort);
-    for (int i = 0; i < count; i++) {                       // keep only the first extern controller
-      const int l = length + strlen(filenames[i] + 1) + 8;  // folder + robot_name + "/extern"
-      socket_filename = malloc(l);
-      snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[i]);
-      if (access(socket_filename, R_OK | W_OK) == 0)
-        break;
-      free(socket_filename);
+    if (count == 0)
       socket_filename = NULL;
+    else if (count > 1) {  // more than one extern controller in the current instance of Webots
+      fprintf(stderr, "Webots instance %d has several extern controller robots.\n", number);
+      fprintf(stderr, "Please set the WEBOTS_CONTROLLER_URL environment variable to select one among:\n");
+      for (int i = 0; i < count; i++)
+        fprintf(stderr, "ipc://%d/%s\n", number, filenames[i]);
+      exit(EXIT_FAILURE);
+    } else {
+#ifndef _WIN32
+      const int l = length + strlen(filenames[0] + 1) + 8;  // folder + robot_name + "/extern"
+      socket_filename = malloc(l);
+      snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[0]);
+#else
+      const int l = 28 + strlen(filenames[0] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
+      socket_filename = malloc(l);
+      snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[0]);
+#endif
     }
     for (int i = 0; i < count; i++)
       free(filenames[i]);

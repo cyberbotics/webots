@@ -35,7 +35,6 @@ public:
   void externConnection(WbController *controller, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
-  void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
   void checkIfReadRequestCompleted();
   void reset(bool restartControllers) override;
@@ -57,18 +56,18 @@ protected:
 
 private:
   void updateRobotController(WbRobot *robot);
-  void handleRobotRemoval(WbBaseNode *node);
 
-#ifndef NDEBUG
-  bool controllerInOnlyOneList(WbController *controller);  // debug method
-  bool controllerInNoList(WbController *controller);       // debug method
+#ifndef NDEBUG  // debug methods
+  bool controllerInOnlyOneList(WbController *controller);
+  bool controllerInNoList(WbController *controller);
+  bool showControllersLists(const QString &message);
 #endif
 
   QList<WbController *> mControllers;         // currently running controllers (both intern and extern)
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step and waiting next step to start
-  QList<WbController *> mTerminatingControllers;    // controllers waiting to be deleted
-  QList<WbController *> mWaitingExternControllers;  // extern controllers not yet started
+  QList<WbController *> mTerminatingControllers;  // controllers waiting to be deleted
+  QList<WbController *> mExternControllers;       // extern controllers not yet connected
   QList<double> mRequests;
   bool mNeedToYield;
   bool mFirstStep;

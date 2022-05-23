@@ -93,13 +93,14 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 }
 */
 
-WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
+WbController::WbController(WbRobot *robot) {
   mRobot = robot;
   mControllerPath = mRobot->controllerDir();
   updateName(mRobot->controllerName());
 
   mType = WbFileUtil::UNKNOWN;
   mExtern = mRobot->controllerName() == "<extern>";
+  mServer = NULL;
   mSocket = NULL;
   mTcpSocket = NULL;
   mProcess = NULL;
@@ -110,8 +111,11 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mIncompleteRequest = false;
   mRequestPending = false;
   mProcessingRequest = false;
+  mHasPendingImmediateAnswer = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  QDir().mkpath(mIpcPath);
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
@@ -172,6 +176,7 @@ WbController::~WbController() {
   delete mSocket;
   delete mServer;
   delete mProcess;
+  QDir(mIpcPath).removeRecursively();
 }
 
 void WbController::updateName(const QString &name) {
@@ -194,9 +199,11 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    info(tr("waiting for connection."));
-    std::cout << "ipc://" << WbStandardPaths::webotsTmpPathId() << '/' << QUrl::toPercentEncoding(mRobot->name()).constData()
-              << std::endl;
+    const QString url =
+      "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
+    info(tr("waiting for connection on %1").arg(url));
+    if (WbWorld::printExternUrls())
+      std::cout << url.toUtf8().constData() << std::endl;
   } else {
     mProcess = new QProcess();
     connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
@@ -213,7 +220,7 @@ void WbController::start() {
 #ifdef _WIN32
     if ((mType == WbFileUtil::CLASS || mType == WbFileUtil::JAR) &&
         QString(mControllerPath.toUtf8()) != QString::fromLocal8Bit(mControllerPath.toLocal8Bit()))
-      WbLog::warning(tr("\'%1\'\nThe path to this Webots project contains non 8-bit characters. "
+      WbLog::warning(tr("'%1'\nThe path to this Webots project contains non 8-bit characters. "
                         "Webots won't be able to execute any Java controller in this path. "
                         "Please move this Webots project into a folder with only 8-bit characters.")
                        .arg(mControllerPath));
@@ -248,12 +255,24 @@ void WbController::start() {
   }
   // recover from a crash, when the previous server instance has not been cleaned up
 
-  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  QDir().mkpath(path);
-  const QString serverName = path + '/' + (mExtern ? "extern" : "intern");
+  const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
+#ifndef _WIN32
+  const QString &serverName = fileName;
+#else
+  const QString serverName =
+    "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + QUrl::toPercentEncoding(mRobot->name());
+  // create an empty file, so that the controllers can see an extern controller is available here
+  QFile file(fileName);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    WbLog::error(tr("Cannot create empty extern file in '%1'.").arg(fileName));
+    return;
+  }
+  file.write("");
+  file.close();
+#endif
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
-    WbLog::error(tr("Cannot cleanup the local server (server name = \"%1\").").arg(serverName));
+    WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
     return;
   }
   // create a new socket server to get connected with the controller process
@@ -261,11 +280,9 @@ void WbController::start() {
   connect(mServer, &QLocalServer::newConnection, this, &WbController::addLocalControllerConnection);
   success = mServer->listen(serverName);
   if (!success) {
-    WbLog::error(
-      tr("Cannot listen to the local server (server name = \"%1\"): %2").arg(serverName).arg(mServer->errorString()));
+    WbLog::error(tr("Cannot listen to the local server (server name = '%1'): %2").arg(serverName).arg(mServer->errorString()));
     return;
   }
-
   if (mProcess) {
     info(tr("Starting controller: %1").arg(commandLine()));
     // for matlab controllers we must change to the lib/matlab directory
@@ -277,6 +294,11 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
+  if (mSocket) {  // already connected, refusing
+    mServer->nextPendingConnection()->close();
+    info(tr("refusing connection attempt from another extern controller."));
+    return;
+  }
   if (mExtern) {
     info(tr("connected."));
     WbControlledWorld::instance()->externConnection(this, true);
@@ -542,7 +564,7 @@ void WbController::setProcessEnvironment() {
     env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
     env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
-  env.insert("WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
+  env.insert("WEBOTS_INSTANCE_PATH", WbStandardPaths::webotsTmpPath());
   // qDebug() << "Environment:";
   // foreach (const QString &element, env)
   //  qDebug() << element;
@@ -551,7 +573,7 @@ void WbController::setProcessEnvironment() {
 
 void WbController::info(const QString &message) {
   if (mExtern)
-    WbLog::info(tr("\"%1\" extern controller: ").arg(mRobot->name()) + message);
+    WbLog::info(tr("'%1' extern controller: ").arg(mRobot->name()) + message);
   else
     WbLog::info(name() + ": " + message);
 }
@@ -872,7 +894,7 @@ void WbController::startDocker() {
   const QStringList dockerArguments = {"run",  "--network",
                                        "none",  // add "--cpu-shares", "512",
                                        "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
-                                       "-e",   "WEBOTS_TMP_PATH=" + WbStandardPaths::webotsTmpPath(),
+                                       "-e",   "WEBOTS_INSTANCE_PATH=" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
                                        image};
   mArguments = dockerArguments + mRobot->controllerArgs();
@@ -1260,6 +1282,12 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
+  mSocket->deleteLater();
+  mSocket = NULL;
+  mRequestPending = false;
+  mProcessingRequest = false;
+  mHasPendingImmediateAnswer = false;
+
   if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
     WbControlledWorld::instance()->externConnection(this, false);

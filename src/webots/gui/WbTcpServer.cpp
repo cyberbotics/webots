@@ -509,11 +509,11 @@ void WbTcpServer::newWorld() {
   if (mWebSocketServer == NULL)
     return;
 
-  printf("open\n");
-  fflush(stdout);
-
   if (!prepareWorld())
     return;
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (WbRobot *const robot, robots)
+    connectNewRobot(robot);
 }
 
 void WbTcpServer::deleteWorld() {

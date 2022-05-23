@@ -703,3 +703,25 @@ I don't think so... Unless somebody around here as a backup of it...
 ##### amna 04/06/2022 06:06:47
 I need to add a robot which talks `@Mat198`
 
+##### Max\_K 04/21/2022 12:21:58
+Hello, we have released a ROS 2 package that enables to control the spot in webots.
+
+
+
+[https://github.com/MASKOR/webots\_ros2\_spot/](https://github.com/MASKOR/webots_ros2_spot/)
+> **Attachment**: [spot\_teleop.mp4](https://cdn.discordapp.com/attachments/565155651395780609/966675159937327104/spot_teleop.mp4)
+
+## May
+
+##### Sonsonroro17 05/07/2022 04:08:49
+That’s awesome, how long have you been working on it. Would like to contribute
+
+##### kimmcg 05/10/2022 07:07:33
+Hi! Thanks 😄 It's been a couple of months now but I've not worked on it for a few weeks now due to other commitments. The idea is to push it to Webots' repo this summer, so I hope to start on that soon. You can try out the current state of the simulator! There are now python bindings  of the crazyflie's onboard controller
+
+##### cnbarcelo 05/11/2022 15:45:05
+Hi! I just realized R2022a is up to date with master, which I'm not sure is correct. In particular, I have some worlds created with R2022a that are not able to find the mountains\_back.png image. The fix is easy because they're still there in jpg, but I'm not sure if that happened on purpose.
+
+##### DDaniel [Cyberbotics] 05/12/2022 07:10:16
+Thank you for the report, yes indeed there was a mixup between branches and tags which made the asset temporarily unavailable. It should be fixed now and you shouldn't need to do anything about it. Let us know if it fails to retrieve the .png again
+

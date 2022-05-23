@@ -91,6 +91,7 @@ private:
   QString mMatlabCommand;
   QString mMatlabOptions;
   QProcess *mProcess;
+  QString mIpcPath;  // path where the socket and memory mapped files are located
   QLocalServer *mServer;
   QLocalSocket *mSocket;
   QTcpSocket *mTcpSocket;
