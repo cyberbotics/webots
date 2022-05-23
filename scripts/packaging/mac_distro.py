@@ -24,8 +24,7 @@ import sys
 
 
 class MacWebotsPackage(WebotsPackage):
-    def __init__(self, application_name_lowercase_and_dashes):
-        self.application_file_path = application_name_lowercase_and_dashes + '.mac'
+    def __init__(self, package_name):
         self.bundle_name = self.application_name + '.app'
         self.package_webots_path = os.path.join(self.distribution_path, self.bundle_name)
 

@@ -23,31 +23,31 @@ import os
 
 
 class WindowsWebotsPackage(WebotsPackage):
-    def __init__(self, application_name_lowercase_and_dashes):
-        super().__init__(application_name_lowercase_and_dashes)
-        self.application_file_path = application_name_lowercase_and_dashes + '.iss'
+    def __init__(self, package_name):
+        super().__init__(package_name)
+        self.application_file_path = self.application_name_lowercase_and_dashes + '.iss'
 
     def create_webots_bundle(self):
         super().create_webots_bundle()
-        self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
+        # self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 
         print('  creating ISS package\n')
 
-        self.iss_script = open(self.application_file_path)
+        self.iss_script = open(self.application_file_path, 'w')
         self.iss_script.write(
           "[Setup]\n"
           "SourceDir=..\\..\n"
           "AppId=Webots\n"
           f"AppName={self.application_name}\n"
-          f"AppVersion={self.version}\n"
-          f"AppVerName={self.application_name} {self.version}\n"
-          f"AppCopyright=Copyright (c) {datetime.today().year} Cyberbotics, Ltd.\n"
+          f"AppVersion={self.full_version}\n"
+          f"AppVerName={self.application_name} {self.full_version}\n"
+          f"AppCopyright=Copyright (c) {datetime.date.today().year} Cyberbotics, Ltd.\n"
           "AppPublisher=Cyberbotics, Ltd.\n"
           "AppPublisherURL=https://www.cyberbotics.com\n"
           # tells Windows Explorer to reload environment variables (e.g., WEBOTS_HOME)
           "ChangesEnvironment=yes\n"
           "Compression=lzma2/fast\n"
-          "DefaultDirName={autopf}\\" + super.application_name + "\n"
+          "DefaultDirName={autopf}\\" + self.application_name + "\n"
           "DefaultGroupName=Cyberbotics\n"
           "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots-bin.exe\n"
           "PrivilegesRequired=admin\n"
@@ -94,13 +94,13 @@ class WindowsWebotsPackage(WebotsPackage):
             "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; ValueName: "
             "\"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-            "\"\"\"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
+            "\"\"\"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"\" \"\"%1\"\"\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
             "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
             "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
             "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
-            f"Root: HKCU; SubKey: \"Software\\Cyberbotics\\{self.application_name} {self.version}\"; Flags: uninsdeletekey "
+            f"Root: HKCU; SubKey: \"Software\\Cyberbotics\\{self.application_name} {self.full_version}\"; Flags: uninsdeletekey "
             "dontcreatekey\n"
             "Root: HKA; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
             "ValueName: \"WEBOTS_HOME\"; ValueData: \"{app}\"; Flags: preservestringtype\n"
@@ -212,7 +212,7 @@ class WindowsWebotsPackage(WebotsPackage):
             self.iss_script.write('; Attribs: hidden')
             if file_extension in ['.png', '.jpg']:
                 self.iss_script.write('; Flags: nocompression')
-            self.iss_script.write("\n")
+        self.iss_script.write("\n")
 
     def compute_name_with_prefix_and_extension(self, basename, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options

@@ -76,8 +76,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libx264.so.163"
     ]
 
-    def __init__(self, application_name_lowercase_and_dashes):
-        super().__init__(application_name_lowercase_and_dashes)
+    def __init__(self, package_name):
+        super().__init__(package_name)
         self.package_webots_path = os.path.join(self.distribution_path, 'debian', 'usr', 'local',
                                                 self.application_name_lowercase_and_dashes)
         self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap')

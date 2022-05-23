@@ -93,6 +93,8 @@ class WebotsPackage(ABC):
         if not os.path.isdir(self.distribution_path):
             sys.exit(f"Distribution path doesn't exists: {self.distribution_path}.")
 
+        with open(os.path.join(os.getenv('WEBOTS_HOME'), 'scripts', 'packaging', 'webots_version.txt'), 'r') as version_file:
+            self.full_version = version_file.readline().strip()
         self.package_version = get_webots_version()
 
         os.chdir(self.packaging_path)
@@ -102,7 +104,7 @@ class WebotsPackage(ABC):
         print('  listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
         print('  listing project files')
-        self.add_files(list_projects('projects'))
+        self.add_files(list_projects(os.path.join(self.webots_home, 'projects')))
         print('  listing textures')
         self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
 
