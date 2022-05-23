@@ -1685,7 +1685,7 @@ void WbMainWindow::uploadFinished() {
     QString error = reply->error() ? reply->errorString() : "Failed to confirm upload id";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
-    QString url = jsonAnswer["url"].toString();  
+    QString url = jsonAnswer["url"].toString();
     int id = jsonAnswer["id"].toInt();
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
