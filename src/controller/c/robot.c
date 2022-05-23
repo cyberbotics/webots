@@ -1184,11 +1184,9 @@ static char *compute_socket_filename() {
       filenames[count++] = strdup(de->d_name);
     }
     closedir(dr);
-    if (count == 0) {
-      fprintf(stderr, "Webots instance %d has no extern controller robots.\n", number);
-      exit(EXIT_FAILURE);
-    }
-    if (count > 1) {  // more than one extern controller in the current instance of Webots
+    if (count == 0)
+      socket_filename = NULL;
+    else if (count > 1) {  // more than one extern controller in the current instance of Webots
       fprintf(stderr, "Webots instance %d has several extern controller robots.\n", number);
       fprintf(stderr, "Please set the WEBOTS_CONTROLLER_URL environment variable to select one among:\n");
       for (int i = 0; i < count; i++)
