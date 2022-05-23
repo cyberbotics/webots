@@ -201,8 +201,7 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &
   if (imageMemoryMappedFile->attach())
     imageMemoryMappedFile->detach();
   if (!imageMemoryMappedFile->create(size())) {
-    const QString message =
-      tr("Cannot allocate memory mapped file for camera image: %1.").arg(imageMemoryMappedFile->errorString());
+    const QString message = tr("Cannot allocate memory mapped file for camera image.");
     warn(message);
     delete imageMemoryMappedFile;
     return NULL;
