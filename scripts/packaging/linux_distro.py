@@ -83,7 +83,7 @@ class LinuxWebotsPackage(WebotsPackage):
         self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap')
 
         self.tarball_enabled = True
-        self.deb_enabled = True  # distro.version() == '20.04'
+        self.deb_enabled = distro.version() == '20.04'
         self.snap_enabled = True
         if self.snap_enabled:
             # open snap script file and write header
@@ -152,7 +152,7 @@ class LinuxWebotsPackage(WebotsPackage):
         if self.snap_enabled:
             self.create_snap_bundle()
 
-        # remove_force(os.path.join(self.distribution_path, 'debian'))
+        remove_force(os.path.join(self.distribution_path, 'debian'))
         print('\nDone.\n')
 
     def create_debian_bundle(self):
