@@ -119,7 +119,7 @@ def list_folder(p):
 
     Skip .gitignore and build folders, mark EXE and DLL appropriately.
     """
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -128,28 +128,29 @@ def list_folder(p):
             if is_ignored_file(f):
                 continue
             if sys.platform == 'win32' and f.endswith('.exe'):
-                print(p + '/' + os.path.splitext(f)[0] + ' [exe]')
+                projects.append(p + '/' + os.path.splitext(f)[0] + ' [exe]')
             elif f.endswith(dll_extension):
                 lib = os.path.splitext(f)[0]
                 if sys.platform != 'win32' and lib.startswith('lib'):
                     lib = lib[3:]  # remove the 'lib' prefix on Linux and macOS
-                print(p + '/' + lib + ' [dll]')
+                projects.append(p + '/' + lib + ' [dll]')
             elif sys.platform != 'win32' and os.access(pf, os.X_OK) and f.find('.') == -1:
-                print(pf + ' [exe]')
+                projects.append(pf + ' [exe]')
             else:
-                print(pf)
+                projects.append(pf)
         else:
             if f == 'build' or f == 'com':
                 continue  # skip any build or com folder
             elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+                projects.append(pf + " [recurse]")
                 continue
-            list_folder(pf)  # recurse
+            projects += list_folder(pf)  # recurse
+    return projects
 
 
 def list_controller(p):
-    """Print the absolute path of controllers files to be released located in the current directory."""
-    print(p + '/')
+    """List the absolute path of controllers files to be released located in the current directory."""
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -158,23 +159,24 @@ def list_controller(p):
             if is_ignored_file(f):
                 continue
             if sys.platform == 'win32' and f.endswith('.exe'):
-                print(p + '/' + os.path.splitext(f)[0] + ' [exe]')
+                projects.append(p + '/' + os.path.splitext(f)[0] + ' [exe]')
             elif sys.platform != 'win32' and os.access(pf, os.X_OK) and f.find('.') == -1:
-                print(pf + ' [exe]')
+                projects.append(pf + ' [exe]')
             else:
-                print(pf)
+                projects.append(pf)
         else:
             if f == 'build' or f == 'com':
                 continue
             elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+                projects.append(pf + " [recurse]")
                 continue
-            list_folder(pf)
+            projects += list_folder(pf)
+    return projects
 
 
 def list_controllers(p):
     """List valid controllers files and directory."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -182,14 +184,15 @@ def list_controllers(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
         else:
-            list_controller(pf)
+            projects += list_controller(pf)
+    return projects
 
 
 def list_plugins(p):
     """List valid plugins files and directories."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -197,17 +200,18 @@ def list_plugins(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
         else:
             if (f == 'physics' or f == 'robot_windows' or f == 'remote_controls'):
-                list_folder(pf)
+                projects += list_folder(pf)
             else:
                 sys.stderr.write("unknow plugin: " + pf + "\n")
+    return projects
 
 
 def list_worlds(w):
     """List valid world files."""
-    print(w + '/')
+    projects = [w + '/']
     for f in os.listdir(w):
         wf = w + '/' + f
         if omit_match(wf):
@@ -216,12 +220,13 @@ def list_worlds(w):
             if is_ignored_file(f):
                 continue
             else:
-                print(wf)
+                projects.append(wf)
         else:
             if f in ['textures', 'meshes']:
                 continue
             else:
-                list_worlds(wf)
+                projects += list_worlds(wf)
+    return projects
 
 
 def proto_should_have_icon(f):
@@ -243,7 +248,7 @@ def list_protos(p):
 
     Skip the icons folder and cache files.
     """
-    print(p + '/')
+    projects = [p + '/']
     firstIcon = True
     for f in os.listdir(p):
         pf = p + '/' + f
@@ -253,28 +258,29 @@ def list_protos(p):
             if is_ignored_file(f) or (f[0] == '.' and f.endswith('.cache')):
                 continue
             if pf.endswith('.proto'):
-                print(pf)
+                projects.append(pf)
                 if proto_should_have_icon(pf):
                     if firstIcon:
-                        print(p + '/icons/')
+                        projects.append(p + '/icons/')
                         firstIcon = False
                     icon = p + '/icons/' + f.replace('.proto', '.png')
                     if not os.path.isfile(icon):
                         sys.stderr.write("missing icon: " + icon + "\n")
-                    print(icon)
+                    projects.append(icon)
             # elif not pf.endswith(('.png', '.jpg', '.jpeg', '.hdr', '.obj')):
             else:
-                print(pf)
+                projects.append(pf)
         else:
             if f in ['icons', 'textures', 'meshes']:
                 continue
             else:
-                list_protos(pf)
+                projects += list_protos(pf)
+    return projects
 
 
 def list_projects(p):
     """List files and directories located in the current path that need to be released."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -282,22 +288,23 @@ def list_projects(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
         else:
             if f == 'controllers':
-                list_controllers(pf)
+                projects += list_controllers(pf)
             elif f == 'plugins':
-                list_plugins(pf)
+                projects += list_plugins(pf)
             elif f == 'protos':
-                list_protos(pf)
+                projects += list_protos(pf)
             elif f == 'worlds':
-                list_worlds(pf)
+                projects += list_worlds(pf)
             elif f == 'libraries':
-                list_folder(pf)
+                projects += list_folder(pf)
             elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+                projects.append(pf + " [recurse]")
             else:
-                list_projects(pf)  # recurse in subprojects
+                projects += list_projects(pf)  # recurse in subprojects
+    return projects
 
 
-list_projects('projects')
+print(list_projects('projects'))

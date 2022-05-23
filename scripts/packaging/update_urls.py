@@ -24,41 +24,48 @@ import sys
 from pathlib import Path
 
 
-def replace_url(file, tag, github):
+def replace_url(file, tag, github, revert=False):
     if github:
         url = 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/'
     else:
         url = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@' + tag + '/'
     with open(file, 'r') as fd:
         content = fd.read()
-    content = content.replace('webots://', url)
+    if revert:
+        content = content.replace('webots://', url)
+    else:
+        content = content.replace(url, 'webots://')
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
 
-if 'WEBOTS_HOME' in os.environ:
-    WEBOTS_HOME = os.environ['WEBOTS_HOME']
-else:
-    WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+def replace_projects_urls(tag, revert=False):
+    if 'WEBOTS_HOME' in os.environ:
+        WEBOTS_HOME = os.environ['WEBOTS_HOME']
+    else:
+        WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+    paths = []
+    paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
+    paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.wbt'))
+    paths.extend(Path(WEBOTS_HOME + '/tests').rglob('*.wbt'))
+    paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
+
+    with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
+        paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
+
+    for path in paths:
+        replace_url(path, tag, True, revert)
+
+    paths = []
+    paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
+
+    for path in paths:
+        replace_url(path, tag, False, revert)
+
 
 if len(sys.argv) != 2:
     sys.exit('Missing argument: commit sha or tag.')
 else:
     tag = sys.argv[1]
-paths = []
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.wbt'))
-paths.extend(Path(WEBOTS_HOME + '/tests').rglob('*.wbt'))
-paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
-
-with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
-    paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
-
-for path in paths:
-    replace_url(path, tag, True)
-
-paths = []
-paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
-
-for path in paths:
-    replace_url(path, tag, False)
+replace_projects_urls(tag)
