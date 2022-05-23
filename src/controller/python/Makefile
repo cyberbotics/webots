@@ -38,11 +38,11 @@ SWIG            = swig
 SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
 WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
-WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/,$(INTERFACE:.i=.py))
 PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX))
 
 ifeq ($(OSTYPE),windows)
+WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
@@ -60,6 +60,11 @@ LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
+WRAPPER_OBJECT_X86_64 = $(addprefix x86_64/,$(WRAPPER:.cpp=.o))
+WRAPPER_OBJECT_ARM64 = $(addprefix arm64/,$(WRAPPER:.cpp=.o))
+LIBOUT_X86_64 = x86_64/_controller.so
+LIBOUT_ARM64 = arm64/_controller.so
+PYTHON_COMMAND ?= /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10
 PYTHON_PATH = $(shell $(PYTHON_COMMAND) -u -c "import sys; print(sys.exec_prefix)")
 SKIP_PYTHON_PYMALLOC := 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
@@ -90,6 +95,7 @@ LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
+WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
 C_FLAGS          += -Wno-deprecated-declarations
@@ -119,12 +125,26 @@ else
 release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	@echo "# generating "$@
+	@echo "# generating" $@
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
+ifeq ($(OSTYPE),darwin)
+$(LIBOUT):$(LIBOUT_X86_64) $(LIBOUT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# creating fat" $@
+	lipo -create -output $@ x86_64/_controller.so arm64/_controller.so
+else
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	@echo "# linking    "$@
+	@echo "# linking" $@
 	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
+endif
+
+$(LIBOUT_X86_64):$(WRAPPER_OBJECT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking" $@ "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $< $(LIBS) -o "$@"
+
+$(LIBOUT_ARM64):$(WRAPPER_OBJECT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking" $@ "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist"
@@ -133,8 +153,19 @@ $(LIBCPPCONTROLLER):
 	@echo "$(LIBCPPCONTROLLER) doesn't exist"
 
 $(WRAPPER_OBJECT):$(WRAPPER)
-	echo "# compiling  "$<
+	echo "# compiling" $<
 	$(CXX) $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_X86_64):$(WRAPPER)
+	mkdir -p x86_64
+	echo "# compiling" $< "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_ARM64):$(WRAPPER)
+	mkdir -p arm64
+	echo "# compiling" $< "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
 endif
 
 clean:
