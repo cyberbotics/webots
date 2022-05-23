@@ -110,6 +110,8 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mProcessingRequest = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  QDir().mkpath(mIpcPath);
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
@@ -171,7 +173,7 @@ WbController::~WbController() {
   delete mServer;
   delete mProcess;
   if (mRobot)
-    QDir(WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name())).removeRecursively();
+    QDir(mIpcPath).removeRecursively();
 }
 
 void WbController::updateName(const QString &name) {
@@ -246,9 +248,7 @@ void WbController::start() {
   }
   // recover from a crash, when the previous server instance has not been cleaned up
 
-  const QString path = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  QDir().mkpath(path);
-  const QString fileName = path + '/' + (mExtern ? "extern" : "intern");
+  const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
 #else
