@@ -40,7 +40,7 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# checking submodules update"
 	+@./check_submodules_update.sh
 	+@echo "# generating package"
-	+@./webots_distro.py
+	+@python3 webots_distro.py
 	+@echo "# done for" $(OSTYPE)
 
 install: all
