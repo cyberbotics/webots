@@ -34,6 +34,9 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   mIsExternInWorldFile(isExternInWorldFile) {
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
+  if (this == mRoot)
+    gAborting = false;  // reset global since a new tree is being generated
+
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
   if (isRecursiveProto(mUrl)) {

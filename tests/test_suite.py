@@ -246,12 +246,12 @@ for groupName in testGroups:
         supervisorControllerName
     if not os.path.exists(supervisorTargetDirectory):
         os.makedirs(supervisorTargetDirectory)
-    #shutil.copyfile(
-    #    defaultProjectPath + 'controllers' + os.sep +
-    #    supervisorControllerName + os.sep +
-    #    supervisorControllerName + '.py',
-    #    supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
-    #)
+    shutil.copyfile(
+        defaultProjectPath + 'controllers' + os.sep +
+        supervisorControllerName + os.sep +
+        supervisorControllerName + '.py',
+        supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
+    )
     # parser tests uses a slightly different Supervisor PROTO
     protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
     protosSourceDirectory = defaultProjectPath + 'protos' + os.sep
