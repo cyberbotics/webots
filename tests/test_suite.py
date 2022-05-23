@@ -33,7 +33,7 @@ from command import Command
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
     is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
-else
+else:
     is_ubuntu_22_04 = False
 
 # monitor failures
