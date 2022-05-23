@@ -91,7 +91,7 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 }
 */
 
-WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
+WbController::WbController(WbRobot *robot) {
   mRobot = robot;
   mControllerPath = mRobot->controllerDir();
   updateName(mRobot->controllerName());
@@ -108,6 +108,7 @@ WbController::WbController(WbRobot *robot) : mHasPendingImmediateAnswer(false) {
   mIncompleteRequest = false;
   mRequestPending = false;
   mProcessingRequest = false;
+  mHasPendingImmediateAnswer = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
   mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
@@ -989,10 +990,8 @@ void WbController::writeAnswer(bool immediateAnswer) {
   stream.device()->seek(0);
   stream << size;
 
-  if (mSocket) {  // write the request
-    mSocket->write(buffer.constData(), size);
-    mSocket->flush();  // sometimes packets are simply not sent without flushing
-  }
+  mSocket->write(buffer.constData(), size);
+  mSocket->flush();  // sometimes packets are simply not sent without flushing
 
   // reset request time
   if (!immediateAnswer)
@@ -1156,6 +1155,10 @@ void WbController::robotDestroyed() {
 void WbController::disconnected() {
   mSocket->deleteLater();
   mSocket = NULL;
+  mRequestPending = false;
+  mProcessingRequest = false;
+  mHasPendingImmediateAnswer = false;
+
   if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
     WbControlledWorld::instance()->externConnection(this, false);
