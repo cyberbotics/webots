@@ -679,18 +679,16 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
       mSegmentationChanged = false;
     }
 
-    if (mSegmentationCamera) {
-      if (mHasSegmentationMemoryMappedFileChanged && !mIsRemoteExternController) {
-        stream << (short unsigned int)tag();
-        stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
-        if (mSegmentationMemoryMappedFile) {
-          stream << (int)(mSegmentationMemoryMappedFile->size());
-          const QByteArray n = QFile::encodeName(mSegmentationMemoryMappedFile->nativeKey());
-          stream.writeRawData(n.constData(), n.size() + 1);
-        } else
-          stream << (int)(0);
-        mHasSegmentationMemoryMappedFileChanged = false;
-      }
+    if (mSegmentationCamera && mHasSegmentationMemoryMappedFileChanged && !mIsRemoteExternController) {
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
+      if (mSegmentationMemoryMappedFile) {
+        stream << (int)(mSegmentationMemoryMappedFile->size());
+        const QByteArray n = QFile::encodeName(mSegmentationMemoryMappedFile->nativeKey());
+        stream.writeRawData(n.constData(), n.size() + 1);
+      } else
+        stream << (int)(0);
+      mHasSegmentationMemoryMappedFileChanged = false;
     }
   }
 }
