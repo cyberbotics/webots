@@ -6,6 +6,7 @@ PROTO TwoSlotsContainer [
 ]
 {
   Robot {
+    name "two slots container"
     children [
       Slot {
         endPoint Slot {

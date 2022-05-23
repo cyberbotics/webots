@@ -121,14 +121,14 @@ private:
   // private functions
   void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
 
-  void copyAllLayersToSharedMemory();
+  void copyAllLayersToMemoryMappedFile();
   void updatePointCloud(int minWidth, int maxWidth);
   float *lidarImage() const;
 
   WbLidar &operator=(const WbLidar &);  // non copyable
   WbNode *clone() const override { return new WbLidar(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override {
     return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();
