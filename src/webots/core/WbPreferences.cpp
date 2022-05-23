@@ -84,7 +84,6 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllDisplayOverlays", false);
   setDefault("Network/cacheSize", 1024);
   setDefault("Network/uploadUrl", "https://beta.webots.cloud");
-  setDefault("Streaming/port", 1234);
   setDefault("RobotWindow/newBrowserWindow", false);
   setDefault("RobotWindow/browser", "");
 

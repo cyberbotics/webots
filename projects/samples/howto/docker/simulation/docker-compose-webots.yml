@@ -1,0 +1,25 @@
+version: "3.8"
+
+volumes:
+  tmp:
+    name: tmp-$PORT-$ROBOT_NAME_1
+
+services:
+  webots:
+    image: simulation
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - WEBOTS_DEFAULT_IMAGE=$IMAGE
+    command: /usr/local/webots/webots --port=$PORT --mode=realtime --heartbeat=5000 --extern-urls --batch $WORLD
+    environment:
+      - DISPLAY
+    ports:
+      - '$PORT:$PORT'
+    privileged: true
+    stdin_open: true  # docker run -i
+    tty: true         # docker run -t
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - tmp:/tmp/webots-$PORT/ipc/$ROBOT_NAME_1
