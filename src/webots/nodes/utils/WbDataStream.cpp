@@ -56,10 +56,6 @@ WbDataStream &WbDataStream::operator<<(double f) {
   return (WbDataStream &)append(reinterpret_cast<const char *>(&f), sizeof(f));
 }
 
-/*WbDataStream &WbDataStream::operator<<(qfloat16 f) {
-  return (WbDataStream &)append(qToLittleEndian(QByteArray::number(f, 'g', 16)));
-}*/
-
 WbDataStream &WbDataStream::operator<<(const char *s) {
   return (WbDataStream &)append(s);
 }
