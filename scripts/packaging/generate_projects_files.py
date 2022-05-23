@@ -96,6 +96,17 @@ def is_ignored_file(f):
         f.endswith(".xcf")
 
 
+def is_ignored_folder(f):
+    """Check if this file has to be ignored.
+
+    Ignored folders includes:
+    - build folders
+    - com Java folders
+    - __pycache__ Python folder
+    """
+    return f == 'build' or f == 'com' or f == '__pycache__'
+
+
 def omit_match(f):
     """Check if current file or directory has to be omitted.
 
@@ -139,8 +150,8 @@ def list_folder(p):
             else:
                 projects.append(pf)
         else:
-            if f == 'build' or f == 'com':
-                continue  # skip any build or com folder
+            if is_ignored_folder(f):
+                continue
             elif pf in recurse_in_projects:
                 projects.append(pf + " [recurse]")
                 continue
@@ -165,7 +176,7 @@ def list_controller(p):
             else:
                 projects.append(pf)
         else:
-            if f == 'build' or f == 'com':
+            if is_ignored_folder(f):
                 continue
             elif pf in recurse_in_projects:
                 projects.append(pf + " [recurse]")
@@ -201,11 +212,10 @@ def list_plugins(p):
             if is_ignored_file(f):
                 continue
             projects.append(pf)
+        elif f == 'physics' or f == 'robot_windows' or f == 'remote_controls':
+            projects += list_folder(pf)
         else:
-            if (f == 'physics' or f == 'robot_windows' or f == 'remote_controls'):
-                projects += list_folder(pf)
-            else:
-                sys.stderr.write("unknow plugin: " + pf + "\n")
+            sys.stderr.write("unknow plugin: " + pf + "\n")
     return projects
 
 
@@ -307,4 +317,6 @@ def list_projects(p):
     return projects
 
 
-print(list_projects('projects'))
+if __name__ == "__main__":
+    for item in list_projects('projects'):
+        print(item)

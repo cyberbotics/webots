@@ -16,7 +16,7 @@
 
 """Generate Windows Webots package."""
 
-from generic_distro import WebotsPackage
+from generic_distro import WebotsPackage, print_error_message_and_exit
 import ctypes
 import datetime
 import os
@@ -28,9 +28,9 @@ class WindowsWebotsPackage(WebotsPackage):
 
     def create_webots_bundle(self):
         super().create_webots_bundle(self)
-        self.add_folder_recursively('msys64', '[windows]')  # TODO
+        self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 
-        print('Create Windows package\n')
+        print('  creating ISS package\n')
 
         self.iss_script = open(self.application_file_path)
         self.iss_script.write(
@@ -63,10 +63,12 @@ class WindowsWebotsPackage(WebotsPackage):
         )
 
         # add directories
+        print('  adding folders in package descriptor')
         for dir in self.package_folders:
             self.make_dir(dir)
 
         # add files
+        print('  adding files in package descriptor')
         self.iss_script.write('\n[Files]\n')
         for file in self.package_files:
             self.copy_file(file)
@@ -182,22 +184,19 @@ class WindowsWebotsPackage(WebotsPackage):
             "skipifsilent\n"
             )
 
-        print('Done.\n')
+        print('\nDone.\n')
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):
             return   # ignore absolute file names
         if filename.find('*') != -1:
             return  # ignore wildcard filenames
-        # TODO
-        filename.replace("\\ ", ' ')
         local_file_path = os.path.join('..', '..', filename)
         if not os.access(local_file_path, os.F_OK):
-            self.print_error_message_and_exit(f"Missing file: {filename}")
+            print_error_message_and_exit(f"Missing file: {filename}")
 
     def make_dir(self, directory):
-        rel_dir_path = os.path.relpath(directory, self.webots_home)
-        self.iss_script.write("Name: \"{app}\\" + rel_dir_path + "\"\n")
+        self.iss_script.write("Name: \"{app}\\" + directory + "\"\n")
 
     def copy_file(self, path):
         super().copy_file(path)
@@ -228,7 +227,7 @@ class WindowsWebotsPackage(WebotsPackage):
         if attribute == 'HIDDEN':
             flag = 0x02
         else:
-            self.print_error_message_and_exit(f"Unknown file attribute: {attribute}")
+            print_error_message_and_exit(f"Unknown file attribute: {attribute}")
 
         ret = ctypes.windll.kernel32.SetFileAttributesW(file, flag)
         if not ret:

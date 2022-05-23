@@ -32,9 +32,9 @@ def replace_url(file, tag, github, revert=False):
     with open(file, 'r') as fd:
         content = fd.read()
     if revert:
-        content = content.replace('webots://', url)
-    else:
         content = content.replace(url, 'webots://')
+    else:
+        content = content.replace('webots://', url)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
@@ -64,8 +64,9 @@ def replace_projects_urls(tag, revert=False):
         replace_url(path, tag, False, revert)
 
 
-if len(sys.argv) != 2:
-    sys.exit('Missing argument: commit sha or tag.')
-else:
-    tag = sys.argv[1]
-replace_projects_urls(tag)
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        sys.exit('Missing argument: commit sha or tag.')
+    else:
+        tag = sys.argv[1]
+    replace_projects_urls(tag)

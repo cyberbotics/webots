@@ -95,5 +95,6 @@ def check_rpath(home_path):
         sys.exit(1)  # Quit the script with an error code.
 
 
-WEBOTS_HOME = os.getenv('WEBOTS_HOME')
-check_rpath(WEBOTS_HOME)
+if __name__ == "__main__":
+    WEBOTS_HOME = os.getenv('WEBOTS_HOME')
+    check_rpath(WEBOTS_HOME)

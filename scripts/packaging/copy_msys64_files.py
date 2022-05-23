@@ -93,4 +93,5 @@ def copy_msys64_files():
                 iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
 
 
-copy_msys64_files()
+if __name__ == "__main__":
+    copy_msys64_files()

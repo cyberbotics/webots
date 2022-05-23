@@ -35,16 +35,25 @@ except KeyError:
     sys.exit("WEBOTS_HOME not defined.")
 
 webots_version = get_webots_version()
-subprocess.run(["git", "fetch", "--all", "tags"])
-tags = subprocess.check_output(["git", "tag", "--points-at", "HEAD"])
-if webots_version in tags:
+subprocess.run(["git", "fetch", "--all", "--tags"])
+tags = subprocess.check_output(["git", "tag", "--points-at", "HEAD"]).decode()
+if webots_version not in tags:
     with open(os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')) as f:
-        current_tag = f.readline()
+        current_tag = f.readline().strip()
 else:
     current_tag = webots_version
 
 # changing URLs in world, proto and controller files"
+print('replace projects urls')
 replace_projects_urls(current_tag)
+
+# recompute PROTO cache and MD5sum value after changing URLs
+print('updating proto cache')
+if sys.platform == 'win32':
+    webots_command = 'webots'
+else:
+    webots_command = os.path.join(WEBOTS_HOME, 'webots')
+subprocess.run([webots_command, '--update-proto-cache=projects'])
 
 # generating asset cache
 generate_asset_cache(current_tag)
@@ -66,7 +75,7 @@ elif sys.platform == 'darwin':
 else:
     from linux_distro import LinuxWebotsPackage
     webots_package = LinuxWebotsPackage(application_name)
-print('building distribution source\n')
+print('generating webots bundle')
 webots_package.create_webots_bundle()
 
 # revert changes in URLs

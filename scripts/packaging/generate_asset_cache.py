@@ -73,8 +73,9 @@ def generate_asset_cache(tag):
     shutil.rmtree(folder_name)
 
 
-if len(sys.argv) != 2:
-    sys.exit('Missing argument: commit sha or tag.')
-else:
-    tag = sys.argv[1]
-generate_asset_cache(tag)
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        sys.exit('Missing argument: commit sha or tag.')
+    else:
+        tag = sys.argv[1]
+    generate_asset_cache(tag)

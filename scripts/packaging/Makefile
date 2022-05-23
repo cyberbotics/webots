@@ -25,14 +25,6 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-ifeq ($(OSTYPE),darwin)
-WEBOTS = $(WEBOTS_HOME_PATH)/webots
-endif
-
-ifeq ($(OSTYPE),linux)
-WEBOTS = $(WEBOTS_HOME_PATH)/webots
-endif
-
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
 ifeq ($(DISPLAY),)
 export DISPLAY = :99
@@ -40,22 +32,15 @@ XVFB = xvfb
 endif
 endif
 
-ifeq ($(OSTYPE),windows)
-WEBOTS = webots
-endif
-
-
 all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
-	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache=projects
 	+@echo "# checking submodules update"
 	+@./check_submodules_update.sh
+	+@echo "# generating package"
 	+@./webots_distro.py
-	#+@rm files_projects.txt
 	+@echo "# done for" $(OSTYPE)
 
 install: all
@@ -66,5 +51,5 @@ xvfb:
 	+@Xvfb :99 -screen 0 1024x768x16 &
 
 clean:
-	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.snap webots.iss files.txt
+	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.snap webots.iss
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f

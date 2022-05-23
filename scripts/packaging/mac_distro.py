@@ -43,12 +43,12 @@ class MacWebotsPackage(WebotsPackage):
         super().create_webots_bundle(self)
 
         # create package folders
-        print('create folders')
+        print('  creating folders')
         for folder in self.package_folders:
             self.make_dir(folder)
 
         # copy files in package
-        print('copy files')
+        print('  copying files')
         for file in self.package_files:
             self.copy_file(file)
 
@@ -63,21 +63,21 @@ class MacWebotsPackage(WebotsPackage):
 
         data = {
             'title': 'Webots',
-            "icon": os.path.join(self.webots_home, "Contents", "Resources", 'webots_icon.icns'),
-            "icon-size": 72,
-            "background": os.path.join(self.packaging_path, "MacOSXBackground.png"),
-            "format": "UDBZ",
-            "window": {
-                "position": {
-                    "x": 400, "y": 100
+            'icon': os.path.join(self.webots_home, 'Contents', 'Resources', 'webots_icon.icns'),
+            'icon-size': 72,
+            'background': os.path.join(self.packaging_path, 'MacOSXBackground.png'),
+            'format': 'UDBZ',
+            'window': {
+                'position': {
+                    'x': 400, 'y': 100
                 },
-                "size": {
-                    "width": 480, "height": 580
+                'size': {
+                    'width': 480, 'height': 580
                 }
             },
-            "contents": [
-                {"x": 375, "y": 100, "type": "link", "path": "/Applications"},
-                {"x": 100, "y": 100, "type": "file", "path": self.bundle_name}
+            'contents': [
+                {'x': 375, 'y': 100, 'type': 'link', 'path': '/Applications'},
+                {'x': 100, 'y': 100, 'type': 'file', 'path': self.bundle_name}
             ]
         }
         with open(os.path.join(self.distribution_path, 'appdmg.json')) as f:
@@ -86,34 +86,33 @@ class MacWebotsPackage(WebotsPackage):
                   "{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
 
         # clear distribution folder
-        # self.remove_force('appdmg.json') TODO
+        self.remove_force('appdmg.json')
 
-        print('Done.\n')
+        print('\nsDone.\n')
 
     def make_dir(self, directory):
-        # TODO rel_dir_path = os.path.join('usr', 'local', self.application_name_lowercase_and_dashes,
-        #                            os.path.relpath(directory, self.webots_home))
-
         # create folder in distribution path
-        dst_dir = os.path.join(self.distribution_path, self.bundle_name, directory)
+        dst_dir = os.path.join(self.package_webots_path, directory)
         if not os.path.isdir(dst_dir):
             os.makedirs(dst_dir)
 
     def copy_file(self, path):
         super().copy_file(path)
 
-        dir_path = os.path.dirname(path)
-        file_name = os.path.basename(path)
-
         # copy in distribution folder
-        rel_dir_path = os.path.relpath(dir_path, self.webots_home)
-        dst_dir = os.path.join(self.package_webots_path, rel_dir_path)
-        shutil.copy(os.path.join(dir_path, file_name), dst_dir)
+        dir_path = os.path.dirname(path)
+        dst_dir = os.path.join(self.package_webots_path, dir_path)
+        shutil.copy(os.path.join(dir_path, path), dst_dir)
 
-    def compute_name_with_prefix_and_extension(self, basename, options):
+    def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options
         if sys.platform == 'darwin' and (platform_independent or 'mac' in options):
             if 'dll' in options:
-                return 'lib' + basename + '.dylib'
-            return basename
+                basename = os.path.basename(path)
+                if basename.startswith('_'):
+                    basename = basename + '.dylib'
+                else:
+                    basename = 'lib' + basename + '.dylib'
+                return os.path.join(os.path.dirname(path), basename)
+            return path
         return ""

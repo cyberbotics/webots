@@ -16,7 +16,7 @@
 
 """Generic functions to generate Webots package."""
 
-from generate_projects_files_2 import list_projects, is_ignored_file
+from generate_projects_files import list_projects, is_ignored_file, is_ignored_folder
 import glob
 import hashlib
 import os
@@ -45,7 +45,7 @@ def remove_force(src):
         os.rm(src)
 
 
-def print_error_message_and_exit(self, text):
+def print_error_message_and_exit(text):
     CONSOLE_RED_COLOR = "\033[22;31;1m"
     CONSOLE_DEFAULT_COLOR = "\033[22;30;0m"
     sys.exit(CONSOLE_RED_COLOR + text + CONSOLE_DEFAULT_COLOR)
@@ -89,7 +89,7 @@ class WebotsPackage(ABC):
             else:
                 self.distribution_path = custom_distribution_path
         else:
-            self.distribution_path = os.path.join(self.webots_home, 'distribution_test')
+            self.distribution_path = os.path.join(self.webots_home, 'distribution')
         if not os.path.isdir(self.distribution_path):
             sys.exit(f"Distribution path doesn't exists: {self.distribution_path}.")
 
@@ -97,15 +97,13 @@ class WebotsPackage(ABC):
 
     def create_webots_bundle(self):
         # populate self.package_folders and self.package_files
-        print('add core files')
+        print('  listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
-        print('add project files')
+        print('  listing project files')
         self.add_files(list_projects('projects'))
-        print('add textures')
+        print('  listing textures')
         self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
-
         os.chdir(self.packaging_path)
-        print('create_webots_bundle')
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):
@@ -114,14 +112,14 @@ class WebotsPackage(ABC):
             return  # ignore wildcard filenames
         local_file_path = os.path.join('..', '..', filename)
         if not os.access(local_file_path, os.F_OK):
-            self.print_error_message_and_exit(f"Missing file: {filename}")
+            print_error_message_and_exit(f"Missing file: {filename}")
 
     def test_dir(self, dir_name):
         if dir_name == 'util':
             return  # this one is created and copied elsewhere
         local_dir_path = os.path.join('..', '..', dir_name)
         if not os.access(local_dir_path, os.F_OK):
-            self.print_error_message_and_exit(f"Missing dir: {dir_name}")
+            print_error_message_and_exit(f"Missing dir: {dir_name}")
 
     def compute_md5_of_file(self, filename):
         with open(filename, 'rb') as file_to_check:
@@ -135,7 +133,7 @@ class WebotsPackage(ABC):
 
     def copy_file(self, path):
         if is_ignored_file(os.path.basename(path)):
-            self.print_error_message_and_exit(f"Trying to copy ignored file: {path}")
+            print_error_message_and_exit(f"Trying to copy ignored file: {path}")
         self.test_file(path)
 
     def set_file_attribute(self, file_path, attribute):
@@ -150,8 +148,10 @@ class WebotsPackage(ABC):
         return ""
 
     def add_folder_recursively(self, folder_path):
+        if is_ignored_folder(os.path.basename(folder_path)):
+            return
         # add this folder and its content to self.package_folders and self.package_files
-        self.package_folders.append(folder_path)
+        self.package_folders.append(os.path.relpath(folder_path, self.webots_home))
         for subfile in os.listdir(folder_path):
             subfile_path = os.path.join(folder_path, subfile)
             if os.path.isdir(subfile_path):
@@ -166,12 +166,12 @@ class WebotsPackage(ABC):
 
         absolute_path = os.path.abspath(file_path)
         if not os.path.exists(absolute_path):
-            self.print_error_message_and_exit(f"File doesn't exists \"{absolute_path}\". "
-                                              "This can be caused by a broken symbolic link.")
+            print_error_message_and_exit(f"File doesn't exists \"{absolute_path}\". "
+                                         "This can be caused by a broken symbolic link.")
 
         if not os.path.isfile(absolute_path) or is_ignored_file(os.path.basename(file_path)):
             return
-        self.package_files.append(absolute_path)
+        self.package_files.append(os.path.relpath(absolute_path, self.webots_home))
 
         basename = os.path.basename(file_path)
         dirname = os.path.dirname(absolute_path)
@@ -179,28 +179,28 @@ class WebotsPackage(ABC):
             # copy the .*.wbproj hidden file
             world_project_file = os.path.join(dirname, '.' + re.sub(r'.wbt$', '.wbproj', basename))
             self.set_file_attribute(world_project_file, 'hidden')
-            self.package_files.append(world_project_file)
+            self.package_files.append(os.path.relpath(world_project_file, self.webots_home))
 
         if file_path.endswith('.proto') and str(os.path.sep + 'protos' + os.path.sep) in file_path:
             # compute MD5 fo PROTO file
             if not os.path.exists(absolute_path):
-                self.print_error_message_and_exit(f"Missing file: {absolute_path}")
+                print_error_message_and_exit(f"Missing file: {absolute_path}")
 
             md5Value = self.compute_md5_of_file(absolute_path)
             # read cache file and check MD5 value
             proto_cache_file = os.path.join(dirname, '.' + re.sub(r'.proto$', '.cache', basename))
             if not os.path.exists(proto_cache_file):
-                self.print_error_message_and_exit(f"Missing file: {absolute_path}")
+                print_error_message_and_exit(f"Missing file: {absolute_path}")
 
             with open(proto_cache_file, 'r') as proto_file:
                 for line in proto_file:
                     line.strip()
                     if line.startswith('protoFileHash:') and md5Value != line[len("protoFileHash:"):].strip():
-                        self.print_error_message_and_exit(f"Out-of-date file:: {proto_cache_file}")
+                        print_error_message_and_exit(f"Out-of-date file: {proto_cache_file}")
 
             # copy the .*.cache hidden file
             self.set_file_attribute(proto_cache_file, 'hidden')
-            self.package_files.append(proto_cache_file)
+            self.package_files.append(os.path.relpath(proto_cache_file, self.webots_home))
 
     def add_files_from_string(self, line):
         # add this file or folder to self.package_files and self.package_folders
@@ -226,6 +226,7 @@ class WebotsPackage(ABC):
             if 'recurse' in options:
                 self.add_folder_recursively(abs_path)
             elif os.path.isdir(abs_path):
+                abs_path = os.path.relpath(abs_path, self.webots_home)
                 self.package_folders.append(abs_path)
             else:
                 self.add_file(abs_path)

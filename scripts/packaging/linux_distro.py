@@ -16,7 +16,7 @@
 
 """Generate Linux Webots tarball, Debian and snap packages."""
 
-from generic_distro import WebotsPackage, remove_force, symlink_force
+from generic_distro import WebotsPackage, remove_force, symlink_force, print_error_message_and_exit
 import distro  # needed to retrieve the Ubuntu version
 import glob
 import os
@@ -80,8 +80,7 @@ class LinuxWebotsPackage(WebotsPackage):
         super().__init__(application_name_lowercase_and_dashes)
         self.package_webots_path = os.path.join(self.distribution_path, 'debian', 'usr', 'local',
                                                 self.application_name_lowercase_and_dashes)
-        print(os.path.join(self.packaging_path + self.application_name_lowercase_and_dashes + '.snap2'))
-        self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap2')
+        self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap')
 
         self.tarball_enabled = True
         self.deb_enabled = True  # distro.version() == '20.04'
@@ -103,7 +102,7 @@ class LinuxWebotsPackage(WebotsPackage):
                                        "mkdir -p $DESTDIR/usr/lib/x86_64-linux-gnu\n"
                                        f"mkdir $DESTDIR/usr/share/{self.application_name_lowercase_and_dashes}\n")
             except IOError:
-                self.print_error_message_and_exit(f"Could not open file: {self.snap_script_path}.")
+                print_error_message_and_exit(f"Could not open file: {self.snap_script_path}.")
 
         # clear distribution package folder
         print('clear distribution folder')
@@ -117,12 +116,12 @@ class LinuxWebotsPackage(WebotsPackage):
         super().create_webots_bundle()
 
         # create package folders
-        print('create folders')
+        print('  creating folders')
         for folder in self.package_folders:
             self.make_dir(folder)
 
         # copy files in package
-        print('copy files')
+        print('  copying files')
         for file in self.package_files:
             self.copy_file(file)
 
@@ -154,10 +153,10 @@ class LinuxWebotsPackage(WebotsPackage):
             self.create_snap_bundle()
 
         # remove_force(os.path.join(self.distribution_path, 'debian'))
-        print('Done.\n')
+        print('\nDone.\n')
 
     def create_debian_bundle(self):
-        print("creating the debian package\n")
+        print("\ncreating the debian package")
 
         # copy webots application files needed by the debian package
         packaging_files = [['webots.mime', 'mime-info'],
@@ -211,7 +210,7 @@ class LinuxWebotsPackage(WebotsPackage):
                         self.distribution_path])
 
     def create_tarball_bundle(self):
-        print("creating the {}/{}-{}-x86-64.tar.bz2 tarball\n"
+        print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
               .format(self.distribution_path, self.application_name_lowercase_and_dashes, self.package_version))
 
         package_include_dir = os.path.join(self.package_webots_path, 'include')
@@ -240,7 +239,7 @@ class LinuxWebotsPackage(WebotsPackage):
             tar.add(self.package_webots_path)
 
     def create_snap_bundle(self):
-        print('creating the snap package\n')
+        print('\ncreating the snap package')
         # copy system libraries and include files
         # libraries specific to snap package
         usr_lib_x68_64_linux_gnu = ["libblas.so.3",    # netconvert (sumo)
@@ -266,16 +265,14 @@ class LinuxWebotsPackage(WebotsPackage):
     def make_dir(self, directory):
         if self.tarball_enabled or self.deb_enabled:
             # create folder in distribution path
-            rel_dir_path = os.path.join('usr', 'local', self.application_name_lowercase_and_dashes,
-                                        os.path.relpath(directory, self.webots_home))
+            rel_dir_path = os.path.join('usr', 'local', self.application_name_lowercase_and_dashes, directory)
             dst_dir = os.path.join(self.distribution_path, 'debian', rel_dir_path)
             if not os.path.isdir(dst_dir):
                 os.makedirs(dst_dir)
 
         if self.snap_enabled:
             # add mkdir instruction in snap script
-            rel_dir_path = os.path.join('usr', 'share', self.application_name_lowercase_and_dashes,
-                                        os.path.relpath(directory, self.webots_home))
+            rel_dir_path = os.path.join('usr', 'share', self.application_name_lowercase_and_dashes, directory)
             self.snap_script.write("mkdir " + os.path.join('$DESTDIR', rel_dir_path) + "\n")
 
     def copy_file(self, path):
@@ -283,25 +280,29 @@ class LinuxWebotsPackage(WebotsPackage):
 
         dir_path = os.path.dirname(path)
         file_name = os.path.basename(path)
-        rel_dir_path = os.path.relpath(dir_path, self.webots_home)
 
         if self.tarball_enabled or self.deb_enabled:
             # copy in distribution folder
-            dst_dir = os.path.join(self.package_webots_path, rel_dir_path)
-            shutil.copy(os.path.join(dir_path, file_name), dst_dir)
+            dst_dir = os.path.join(self.package_webots_path, dir_path)
+            shutil.copy(os.path.join(self.webots_home, path), dst_dir)
 
         if self.snap_enabled:
             # add copy instruction in snap script
-            protected_filename = file_name.replace('$', '\\$').replace('(', '\\(').replace(')', '\\)')
-            self.snap_script.write(f"cp -a $WEBOTS_HOME/{os.path.join(rel_dir_path, protected_filename)} "
-                                   f"$DESTDIR/usr/share/{self.application_name_lowercase_and_dashes}/{rel_dir_path}\n")
+            protected_filename = file_name.replace('$', '\\$').replace('(', '\\(').replace(')', '\\)').replace(' ', '\\ ')
+            self.snap_script.write(f"cp -a $WEBOTS_HOME/{os.path.join(dir_path, protected_filename)} "
+                                   f"$DESTDIR/usr/share/{self.application_name_lowercase_and_dashes}/{dir_path}\n")
 
-    def compute_name_with_prefix_and_extension(self, basename, options):
+    def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options
         if sys.platform == 'linux' and (platform_independent or 'linux' in options):
             if 'dll' in options:
-                return 'lib' + basename + '.so'
-            return basename
+                basename = os.path.basename(path)
+                if basename.startswith('_'):
+                    basename = basename + '.so'
+                else:
+                    basename = 'lib' + basename + '.so'
+                return os.path.join(os.path.dirname(path), basename)
+            return path
         return ""
 
     def add_ros_dependencies(self, path, mode):
