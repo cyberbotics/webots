@@ -71,6 +71,7 @@ public:
   double roughness() const;
 
   QStringList fieldsToSynchronizeWithX3D() const override;
+  void exportShallowNode(WbWriter &writer) const;
 
 protected:
   bool exportNodeHeader(WbWriter &writer) const override;

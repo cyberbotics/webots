@@ -11,11 +11,13 @@ import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {loadImageTextureInWren} from '../image_loader.js';
 
 export default class WbCadShape extends WbBaseNode {
-  constructor(id, urls, ccw, castShadows, isPickable) {
+  constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
     this.urls = urls;
     this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
+    if (!this.prefix.startsWith('http'))
+      this.prefix = prefix;
     this.ccw = ccw;
     this.castShadows = castShadows;
     this.isPickable = isPickable;

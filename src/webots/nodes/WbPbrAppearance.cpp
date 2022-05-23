@@ -656,3 +656,29 @@ bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
     return true;
   return WbAbstractAppearance::exportNodeHeader(writer);
 }
+
+void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
+  if (!writer.isX3d())
+    return;
+
+  if (baseColorMap()) {
+    baseColorMap()->exportShallowNode(writer);
+  }
+
+  if (roughnessMap()) {
+    roughnessMap()->write(writer);
+  }
+
+  if (metalnessMap()) {
+    metalnessMap()->write(writer);
+  }
+  if (normalMap()) {
+    normalMap()->write(writer);
+  }
+  if (occlusionMap()) {
+    occlusionMap()->write(writer);
+  }
+  if (emissiveColorMap()) {
+    emissiveColorMap()->write(writer);
+  }
+}

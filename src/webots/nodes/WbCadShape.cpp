@@ -626,6 +626,9 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     writer.addResourceToList(newUrl, newUrl);
   }
 
+  for (int i = 0; i < mPbrAppearances.size(); ++i)
+    mPbrAppearances[i]->exportShallowNode(writer);
+
   urlFieldCopy.write(writer);
 
   findField("ccw", true)->write(writer);

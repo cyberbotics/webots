@@ -64,6 +64,7 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
+  mOriginalUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -99,6 +100,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   // generate url of texture from url of collada/wavefront file
   QString relativePath = QString(path.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
+  mOriginalUrl = relativePath;
   while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
     relativePath.remove(0, 3);
@@ -600,5 +602,23 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
+  }
+}
+
+void WbImageTexture::exportShallowNode(WbWriter &writer) const {
+  if (!writer.isX3d() || mUrl->size() == 0)
+    return;
+
+  QString url = mUrl->item(0);
+  // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
+  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the
+  // image relative to the parent collada/wavefront file)
+  if (!url.startsWith("https://")) {  // local path
+    if (WbWorld::isX3DStreaming())
+      writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
+    else {
+      url = WbUrl::exportTexture(this, mUrl, 0, writer);
+      writer.addResourceToList(mOriginalUrl, url);
+    }
   }
 }

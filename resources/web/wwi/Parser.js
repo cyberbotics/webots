@@ -567,7 +567,7 @@ export default class Parser {
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable);
+    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this._prefix);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
 

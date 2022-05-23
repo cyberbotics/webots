@@ -72,6 +72,8 @@ public:
 
   void write(WbWriter &writer) const override;
 
+  void exportShallowNode(WbWriter &writer) const;
+
 signals:
   void changed();
 
@@ -102,6 +104,8 @@ private:
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
   WbDownloader *mDownloader;
+
+  QString mOriginalUrl;  // Used with CadShape.
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
