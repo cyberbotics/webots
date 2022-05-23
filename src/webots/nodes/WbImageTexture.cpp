@@ -101,6 +101,8 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   QString relativePath = QString(path.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
   mOriginalUrl = relativePath;
+  if (mOriginalUrl.startsWith("./"))
+    mOriginalUrl.remove(0, 2);
   while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
     relativePath.remove(0, 3);
