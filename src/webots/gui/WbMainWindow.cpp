@@ -1669,43 +1669,55 @@ void WbMainWindow::uploadFinished() {
   disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
-  QString url;
-  QString id;
-
+  QJsonObject jsonAnswer;
   foreach (const QString &answer, answers) {
     if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
       QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
-      QJsonObject jsonAnswer = document.object();
-      url = jsonAnswer["url"].toString();
-      id = jsonAnswer["idString"].toString();
+      jsonAnswer = document.object();
     }
   }
-  if (url.isEmpty()) {
+  if (jsonAnswer["url"].toString().isEmpty()) {
     mUploadProgressDialog->close();
     QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
+  } else if (!jsonAnswer["id"].toInt()) {
+    mUploadProgressDialog->close();
+    QString error = reply->error() ? reply->errorString() : "Failed to confirm upload id";
+    WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
     QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart infoPart;
-    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploading"));
-    infoPart.setBody(0);
-    multiPart->append(infoPart);
-    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=uploadId"));
-    infoPart.setBody(id.toUtf8());
-    multiPart->append(infoPart);
+    QJsonObject obj;
+    obj.insert("uploading", 0);
+    obj.insert("uploadId", jsonAnswer["id"].toInt());
+    QJsonDocument doc(obj);
+    QByteArray data = doc.toJson();
 
-    WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
+    QNetworkReply *uploadReply = manager->post(request, data);
 
-    WbLog::info(tr("link: %1\n").arg(url));
+    QObject::connect(uploadReply, &QNetworkReply::finished, this, &WbMainWindow::uploadStatus);
+
+    WbLog::info(tr("link: %1\n").arg(jsonAnswer["url"].toString()));
 
     WbLinkWindow linkWindow(this);
-    linkWindow.setLabelLink(url);
+    linkWindow.setLabelLink(jsonAnswer["url"].toString());
     linkWindow.exec();
   }
   reply->deleteLater();
+}
+
+void WbMainWindow::uploadStatus() {
+  QNetworkReply *uploadReply = dynamic_cast<QNetworkReply *>(sender());
+  assert(uploadReply);
+  if (!uploadReply)
+    return;
+
+  QString answer = QString(uploadReply->readAll().data());
+  if (answer != "{\"status\": \"uploaded\"}")
+    WbMessageBox::critical(tr("Upload failed. Error::Upload status could not be modified."));
 }
 
 void WbMainWindow::showAboutBox() {

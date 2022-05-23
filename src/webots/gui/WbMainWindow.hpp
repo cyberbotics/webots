@@ -151,6 +151,7 @@ private slots:
   void upload(char type);
   void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
   void uploadFinished();
+  void uploadStatus();
 
 private:
   void showHtmlRobotWindow(WbRobot *robot, bool manualTrigger);
