@@ -73,9 +73,8 @@ public:
   // return all proto files stored in valid project folders located in the given path
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
 
-  static QStringList fileList();
-
-  static QStringList fileList(int cache);
+  enum { PROTO_WORLD, PROTO_PROJECT, PROTO_EXTRA, PROTO_WEBOTS };
+  QStringList nameList(int category);
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively

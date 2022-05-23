@@ -245,13 +245,6 @@ QString WbProtoList::findModelPath(const QString &modelName) const {
   return QString();  // not found
 }
 
-QStringList WbProtoList::fileList() {
-  QStringList list;
-  foreach (WbProtoModel *model, gInstance->mModels)
-    list << model->fileName();
-  return list;
-}
-
 void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
   // clear current project related variables
   mCurrentWorld = filename;
@@ -326,6 +319,9 @@ void WbProtoList::tryWorldLoad() {
 }
 
 void WbProtoList::generateWebotsProtoList() {
+  if (!mWebotsProtoList.empty())
+    return;  // webots proto list already generated
+
   const QString filename(WbStandardPaths::resourcesPath() + QString("proto-list.xml"));
   QFile file(filename);
   if (!file.open(QFile::ReadOnly | QFile::Text)) {
@@ -556,4 +552,48 @@ void WbProtoList::exportProto(const QString &proto) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(proto));
 
   printf("PROTO %s WILL BE EXPORTED TO %s\n", path.toUtf8().constData(), destination.toUtf8().constData());
+}
+
+QStringList WbProtoList::nameList(int category) {
+  QStringList names;
+
+  switch (category) {
+    case PROTO_WORLD: {
+      QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
+      while (it.hasNext()) {
+        QPair<QString, int> item = it.next().value();
+        if (!item.second)  // item.second == flag that indicates if it's a root proto in a world file
+          continue;
+
+        names << it.key();
+      }
+      break;
+    }
+    case PROTO_PROJECT: {
+      QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files,
+                      QDirIterator::Subdirectories);
+      while (it.hasNext())
+        names << QFileInfo(it.next()).baseName();
+      break;
+    }
+    case PROTO_EXTRA: {
+      foreach (const WbProject *project, *WbProject::extraProjects()) {
+        QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext())
+          names << QFileInfo(it.next()).baseName();
+      }
+      break;
+    }
+    case PROTO_WEBOTS: {
+      generateWebotsProtoList();  // generate list if not done yet
+      QMapIterator<QString, WbProtoInfo *> it(mWebotsProtoList);
+      while (it.hasNext())
+        names << it.next().key();
+      break;
+    }
+    default:
+      WbLog::error(tr("'%1' is an unknown PROTO list category.").arg(category));
+  }
+
+  return names;
 }

@@ -37,8 +37,8 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
 
-enum { INTRO, NAME, TAGS, BASE_NODE, CONCLUSION };
-enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
+enum { INTRO, NAME, TAGS, BASE_TYPE, CONCLUSION };
+enum { BASE_NODE = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005 };
 
 static const QStringList defaultFields = {"translation", "rotation", "name", "controller"};
 
@@ -326,8 +326,11 @@ void WbNewProtoWizard::updateNodeTree() {
   mTree->clear();
   mTree->setHeaderHidden(true);
 
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_NODE_LIST);
-  QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_TYPE);
+  QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), PROTO_WORLD);
+  QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
 
   // list of all available base nodes
   const QStringList nodes = WbNodeModel::baseModelNames();
@@ -339,18 +342,38 @@ void WbNewProtoWizard::updateNodeTree() {
     if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
-  // list of all available protos
-  // TODO: restore this
-  /*
-  const QStringList protoNodesNames = WbProtoList::instance()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
-  foreach (const QString &protoName, protoNodesNames) {
-    if (protoName.contains(regexp))
-      protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
-  }
-  */
 
-  mTree->addTopLevelItem(nodesItem);
-  mTree->addTopLevelItem(protosItem);
+  // list of all available protos in the current world file
+  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WORLD)) {
+    if (protoName.contains(regexp))
+      worldProtosItem->addChild(new QTreeWidgetItem(worldProtosItem, QStringList(protoName)));
+  }
+  // list of all available protos in the current project
+  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_PROJECT)) {
+    if (protoName.contains(regexp))
+      projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
+  }
+  // list of all available protos in the current project
+  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_EXTRA)) {
+    if (protoName.contains(regexp))
+      extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
+  }
+  // list of all available protos among the webots ones
+  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WEBOTS)) {
+    if (protoName.contains(regexp))
+      webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
+  }
+
+  if (nodesItem->childCount() > 0)
+    mTree->addTopLevelItem(nodesItem);
+  if (worldProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldProtosItem);
+  if (projectProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(projectProtosItem);
+  if (extraProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(extraProtosItem);
+  if (webotsProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(webotsProtosItem);
 
   if (mFindLineEdit->text().length() > 0)
     mTree->expandAll();
@@ -375,15 +398,15 @@ void WbNewProtoWizard::updateBaseNode() {
     mBaseNode = selectedItem->text(0);
 
   QStringList fieldNames;
-  if (topLevel->type() == PROTO_NODE_LIST) {
+  if (topLevel->type() == BASE_NODE) {
+    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+    fieldNames = nodeModel->fieldNames();
+    mIsProtoNode = false;
+  } else {
     WbProtoModel *protoModel =
       WbProtoList::instance()->customFindModel(mBaseNode, WbStandardPaths::projectsPath());  // TODO: still functional?
     fieldNames = protoModel->parameterNames();
     mIsProtoNode = true;
-  } else {
-    WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-    fieldNames = nodeModel->fieldNames();
-    mIsProtoNode = false;
   }
 
   QScrollArea *scrollArea = new QScrollArea();
