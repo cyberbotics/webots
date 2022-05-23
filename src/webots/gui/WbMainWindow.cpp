@@ -1685,6 +1685,9 @@ void WbMainWindow::uploadFinished() {
     QString error = reply->error() ? reply->errorString() : "Failed to confirm upload id";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
+    QString url = jsonAnswer["url"].toString();  
+    int id = jsonAnswer["id"].toInt();
+
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
     QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
@@ -1692,7 +1695,7 @@ void WbMainWindow::uploadFinished() {
 
     QJsonObject obj;
     obj.insert("uploading", 0);
-    obj.insert("uploadId", jsonAnswer["id"].toInt());
+    obj.insert("uploadId", id);
     QJsonDocument doc(obj);
     QByteArray data = doc.toJson();
 
@@ -1700,10 +1703,10 @@ void WbMainWindow::uploadFinished() {
 
     QObject::connect(uploadReply, &QNetworkReply::finished, this, &WbMainWindow::uploadStatus);
 
-    WbLog::info(tr("link: %1\n").arg(jsonAnswer["url"].toString()));
+    WbLog::info(tr("link: %1\n").arg(url));
 
     WbLinkWindow linkWindow(this);
-    linkWindow.setLabelLink(jsonAnswer["url"].toString());
+    linkWindow.setLabelLink(url);
     linkWindow.exec();
   }
   reply->deleteLater();
