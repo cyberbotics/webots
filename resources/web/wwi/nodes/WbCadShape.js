@@ -231,30 +231,30 @@ export default class WbCadShape extends WbBaseNode {
     );
 
     let baseColor;
-    if (properties.get('$clr.diffuse'))
+    if (typeof properties.get('$clr.diffuse') !== 'undefined')
       baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1], properties.get('$clr.diffuse')[2]);
     else
       baseColor = new WbVector3(1.0, 1.0, 1.0);
 
     let emissiveColor;
-    if (properties.get('$clr.emissive'))
+    if (typeof properties.get('$clr.emissive') !== 'undefined')
       emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1], properties.get('$clr.emissive')[2]);
     else
       emissiveColor = new WbVector3(0.0, 0.0, 0.0);
 
     let opacity;
-    if (properties.get('$mat.opacity'))
+    if (typeof properties.get('$mat.opacity') !== 'undefined')
       opacity = properties.get('$mat.opacity');
     else
       opacity = 1.0;
     let transparency = 1.0 - opacity;
 
     let roughness;
-    if (properties.get('$mat.shininess'))
+    if (typeof properties.get('$mat.shininess') !== 'undefined')
       roughness = 1.0 - properties.get('$mat.shininess') / 255.0;
-    else if (properties.get('$mat.shininess.strength'))
+    else if (typeof properties.get('$mat.shininess.strength') !== 'undefined')
       roughness = 1.0 - properties.get('$mat.shininess.strength');
-    else if (properties.get('$mat.reflectivity'))
+    else if (typeof properties.get('$mat.reflectivity') !== 'undefined')
       roughness = 1.0 - properties.get('$mat.reflectivity');
     else
       roughness = 1.0;
