@@ -29,6 +29,7 @@ public:
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
   const QString &error() const { return mError; }
+  const WbProtoTreeItem *parent() const { return mParent; }
 
   bool isRecursiveProto(const QString &proto);
 

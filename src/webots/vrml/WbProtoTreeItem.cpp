@@ -34,10 +34,10 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   mRoot = root ? root : this;
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
-  // if (isRecursiveProto(mUrl)) {
-  //  mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(mName)));
-  //  return;
-  //}
+  if (isRecursiveProto(mUrl)) {
+    mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(mName)));
+    return;
+  }
 
   // if the proto is locally available, parse it, otherwise download it first
   if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
@@ -197,6 +197,8 @@ bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
   while (p) {
     if (p->url() == protoUrl)
       return true;
+
+    p = p->parent();
   }
 
   return false;
