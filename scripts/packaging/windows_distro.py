@@ -24,10 +24,11 @@ import os
 
 class WindowsWebotsPackage(WebotsPackage):
     def __init__(self, application_name_lowercase_and_dashes):
+        super().__init__(application_name_lowercase_and_dashes)
         self.application_file_path = application_name_lowercase_and_dashes + '.iss'
 
     def create_webots_bundle(self):
-        super().create_webots_bundle(self)
+        super().create_webots_bundle()
         self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 
         print('  creating ISS package\n')
@@ -224,7 +225,7 @@ class WindowsWebotsPackage(WebotsPackage):
         return ""
 
     def set_file_attribute(self, file, attribute):
-        if attribute == 'HIDDEN':
+        if attribute.lower() == 'hidden':
             flag = 0x02
         else:
             print_error_message_and_exit(f"Unknown file attribute: {attribute}")

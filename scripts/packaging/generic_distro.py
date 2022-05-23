@@ -95,6 +95,8 @@ class WebotsPackage(ABC):
 
         self.package_version = get_webots_version()
 
+        os.chdir(self.packaging_path)
+
     def create_webots_bundle(self):
         # populate self.package_folders and self.package_files
         print('  listing core files')
@@ -103,7 +105,6 @@ class WebotsPackage(ABC):
         self.add_files(list_projects('projects'))
         print('  listing textures')
         self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
-        os.chdir(self.packaging_path)
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):

@@ -329,7 +329,7 @@ class LinuxWebotsPackage(WebotsPackage):
                        'libapr-1.so.0',
                        'libaprutil-1.so.0',
                        'libboost_program_options.so.1.71.0',
-                       'libpython3.8.so.1.0 ']
+                       'libpython3.8.so.1.0']
 
         ros_lib_path = os.path.join(path, 'projects', 'default', 'controllers', 'ros', 'lib', 'ros')
         if mode == 'SNAP':

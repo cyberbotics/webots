@@ -16,17 +16,15 @@
 
 """Update rpaths."""
 
-import commands
 import os
 import re
+import subprocess
 import sys
 
 
 def command(cmd):
-    result = commands.getstatusoutput(cmd)
-    if result[0] != 0:
-        raise RuntimeError('cmd failed: "' + cmd + '"')
-    return result[1]
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    return process.communicate()[0].strip()
 
 
 def check_rpath(home_path):
