@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "WbDataStream.hpp"
-#include <QtCore/QtEndian>
 
 WbDataStream &WbDataStream::writeRawData(const char *s, int len) {
   return (WbDataStream &)append(s, len);

@@ -16,9 +16,7 @@
 #define WB_DATA_STREAM_HPP
 
 #include <QtCore/QByteArray>
-#include <QtCore/QFloat16>
 
-class qfloat16;
 class QByteArray;
 
 class WbDataStream : public QByteArray {
