@@ -44,6 +44,8 @@ extern int gethostname(char *n, size_t l);  // fixes problem in unistd.h on Linu
 #define SCHEDULER_URL_OK 0
 #define SCHEDULER_URL_SYNTAX_ERROR 1
 #define SCHEDULER_DATA_CHUNK 4096
+#define SCHEDULER_DATA_TYPE 0
+#define SCHEDULER_IMG_TYPE 1
 
 unsigned int scheduler_data_size = 0;
 unsigned int scheduler_actual_step = 0;
@@ -147,27 +149,25 @@ WbRequest *scheduler_read_data() {
 WbRequest *scheduler_read_data_remote() {
   WbRequest *r = NULL;
 
-  int delay = 0, data_size = sizeof(int), curr_data_size = 0, meta_size = 0, curr_meta_size = 0, nb_chunks = 0,
-      tot_data_size = 0;
-  char *scheduler_meta = malloc(SCHEDULER_DATA_CHUNK);
+  int delay = 0, meta_size = 0, curr_meta_size = 0, data_size = sizeof(int), curr_data_size = 0;
+  char *scheduler_meta = malloc(sizeof(unsigned short) + sizeof(int));
 
   // receive and read the number of chunks
   do
     meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size, sizeof(unsigned short) - meta_size);
   while (meta_size != sizeof(unsigned short));
 
-  nb_chunks = scheduler_read_short(scheduler_meta);
+  int nb_chunks = scheduler_read_short(scheduler_meta);
   // printf("nb_chunks = %d\n", nb_chunks);
 
-  // receive and read the total data size (doesn't include image data)
+  // receive and read the total data size (excluding image data)
   do
     curr_meta_size +=
-      tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size, sizeof(int) - curr_meta_size);
-  while (curr_meta_size != sizeof(int));
+      tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size, sizeof(unsigned int) - curr_meta_size);
+  while (curr_meta_size != sizeof(unsigned int));
   meta_size += curr_meta_size;
 
-  tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
-  // printf("tot_data_size = %d\n", tot_data_size);
+  int tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
 
   // set size at beginning of data array for request
   *((int *)(scheduler_data)) = tot_data_size;
@@ -178,104 +178,112 @@ WbRequest *scheduler_read_data_remote() {
     scheduler_data_size = tot_data_size;
     scheduler_data = realloc(scheduler_data, scheduler_data_size);
     if (scheduler_data == NULL) {
-      fprintf(stderr, "Error reading Webots socket messages: not enough memory.\n");
+      fprintf(stderr, "Error reading Webots TCP socket messages: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
   }
 
-  for (int i = 0; i < nb_chunks; i++) {
+  // iterate over each chunk
+  for (int c = 0; c < nb_chunks; c++) {
+    // read chunk size and chunk type
+    scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(unsigned int) + sizeof(unsigned char));
     curr_meta_size = 0;
     do
       curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
-                                           sizeof(int) + sizeof(unsigned char) - curr_meta_size);
-    while (curr_meta_size != sizeof(int) + sizeof(unsigned char));
+                                           sizeof(unsigned int) + sizeof(unsigned char) - curr_meta_size);
+    while (curr_meta_size != sizeof(unsigned int) + sizeof(unsigned char));
     int chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
-    unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(int));
+    unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(unsigned int));
     meta_size += curr_meta_size;
 
     // printf("chunk_size = %d\n", chunk_size);
     // printf("chunk_type = %d\n", chunk_type);
+    switch (chunk_type) {
+      case SCHEDULER_DATA_TYPE:
+        curr_data_size = 0;
+        while (curr_data_size < chunk_size) {
+          int block_size = chunk_size - curr_data_size;
+          if (block_size > 4096)
+            block_size = 4096;
 
-    if (chunk_type == 0) {
-      curr_data_size = 0;
-      while (curr_data_size < chunk_size) {
-        int block_size = chunk_size - curr_data_size;
-        if (block_size > 4096)
-          block_size = 4096;
+          curr_data_size += tcp_client_receive(scheduler_client, scheduler_data + data_size + curr_data_size, block_size);
+        }
+        data_size += curr_data_size;
 
-        curr_data_size += tcp_client_receive(scheduler_client, scheduler_data + data_size + curr_data_size, block_size);
-      }
-      data_size += curr_data_size;
+        // save the time step from the first chunk
+        if (c == 0) {
+          delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
+          if (delay >= 0)  // not immediate
+            scheduler_actual_step = delay;
+        }
+        break;
 
-      // save the time step
-      if (i == 0) {
-        delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
-        if (delay >= 0)  // not immediate
-          scheduler_actual_step = delay;
-      }
-    } else if (chunk_type == 1) {
-      curr_meta_size = 0;
-      do
-        curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
-                                             sizeof(short unsigned int) + sizeof(unsigned char) - curr_meta_size);
-      while (curr_meta_size != sizeof(short unsigned int) + sizeof(unsigned char));
-      short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
-      unsigned char cmd = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
-      meta_size += curr_meta_size;
+      case SCHEDULER_IMG_TYPE:
+        // read the device tag and command
+        scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(short unsigned int) + sizeof(unsigned char));
+        curr_meta_size = 0;
+        do
+          curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
+                                               sizeof(short unsigned int) + sizeof(unsigned char) - curr_meta_size);
+        while (curr_meta_size != sizeof(short unsigned int) + sizeof(unsigned char));
+        short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
+        unsigned char cmd = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
+        meta_size += curr_meta_size;
 
-      WbDevice *dev = robot_get_device(tag);
-      if (!dev) {
-        fprintf(stderr, "Error: Device doesn't no exist.\n");
-        exit(EXIT_FAILURE);
-      }
-
-      int curr_img_size = 0;
-      switch (cmd) {
-        case C_ABS_CAMERA_SERIAL_IMG:;
-          wb_abstract_camera_allocate_image(dev, chunk_size);
-          const unsigned char *img = wbr_abstract_camera_get_image_buffer(dev);
-          // test for NULL
-          while (curr_img_size < chunk_size) {
-            int block_size = chunk_size - curr_img_size;
-            if (block_size > 4096)
-              block_size = 4096;
-
-            curr_img_size += tcp_client_receive(scheduler_client, (char *)(img + curr_img_size), block_size);
-          }
-          break;
-        case C_CAMERA_SERIAL_SEGM_IMG:;
-          camera_allocate_segmentation_image(tag, chunk_size);
-          const unsigned char *img_segm = camera_get_segmentation_image_buffer(tag);
-          // test for NULL
-          while (curr_img_size < chunk_size) {
-            int block_size = chunk_size - curr_img_size;
-            if (block_size > 4096)
-              block_size = 4096;
-
-            curr_img_size += tcp_client_receive(scheduler_client, (char *)(img_segm + curr_img_size), block_size);
-          }
-          break;
-
-        default:
-          fprintf(stderr, "Error: Unsupported image data received on TCP connection.\n");
+        WbDevice *dev = robot_get_device(tag);
+        if (!dev) {
+          fprintf(stderr, "Error: Device doesn't no exist.\n");
           exit(EXIT_FAILURE);
-          break;
-      }
+        }
 
-      // printf("curr_img_size = %d\n", curr_img_size);
-    } else {
-      fprintf(stderr, "Error: Unsupported data type.\n");
-      exit(EXIT_FAILURE);
+        int curr_img_size = 0;
+        switch (cmd) {
+          case C_ABS_CAMERA_SERIAL_IMG:
+            wb_abstract_camera_allocate_image(dev, chunk_size);
+            const unsigned char *img = wbr_abstract_camera_get_image_buffer(dev);
+            if (img == NULL) {
+              fprintf(stderr, "Error: Can't write the image to the rendering device memory.\n");
+              exit(EXIT_FAILURE);
+            }
+            while (curr_img_size < chunk_size) {
+              int block_size = chunk_size - curr_img_size;
+              if (block_size > 4096)
+                block_size = 4096;
+
+              curr_img_size += tcp_client_receive(scheduler_client, (char *)(img + curr_img_size), block_size);
+            }
+            break;
+          case C_CAMERA_SERIAL_SEGM_IMG:
+            camera_allocate_segmentation_image(tag, chunk_size);
+            const unsigned char *img_segm = camera_get_segmentation_image_buffer(tag);
+            if (img_segm == NULL) {
+              fprintf(stderr, "Error: Can't write the segmentation image to the camera memory.\n");
+              exit(EXIT_FAILURE);
+            }
+            while (curr_img_size < chunk_size) {
+              int block_size = chunk_size - curr_img_size;
+              if (block_size > 4096)
+                block_size = 4096;
+
+              curr_img_size += tcp_client_receive(scheduler_client, (char *)(img_segm + curr_img_size), block_size);
+            }
+            break;
+          default:
+            fprintf(stderr, "Error: Unsupported image data received on TCP connection.\n");
+            exit(EXIT_FAILURE);
+            break;
+        }
+        break;
+      default:
+        fprintf(stderr, "Error: Unsupported data type.\n");
+        exit(EXIT_FAILURE);
+        break;
     }
   }
 
   free(scheduler_meta);
-  // printf("tot_data_size = %d\n", tot_data_size);
-  // read the size of the socket chunk
 
   // create a request to hold the data
-  // printf("Message: Local (size=%d)\n", socket_size);
-  // printf("scheduler_data_size = %d\n", scheduler_data_size);
   r = request_new_from_data(scheduler_data, scheduler_data_size);
   request_set_immediate(r, (delay < 0));
 
