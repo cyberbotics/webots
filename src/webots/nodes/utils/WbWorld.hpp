@@ -76,6 +76,8 @@ public:
   static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
   static bool isX3DStreaming() { return cX3DStreaming; }
   static void enableX3DStreaming() { cX3DStreaming = true; }
+  static bool printExternUrls() { return cPrintExternUrls; }
+  static void setPrintExternUrls() { cPrintExternUrls = true; }
 
   // save
   bool save();
@@ -209,6 +211,7 @@ private:
 
   static bool cX3DMetaFileExport;
   static bool cX3DStreaming;
+  static bool cPrintExternUrls;
 
   void recursivelyRetrieveExternReferences(const QString &filename);
 

@@ -18,7 +18,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#else  // POSIX shared memory segments
+#else  // memory mapped files
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -34,7 +34,7 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
   AbstractCamera *c = d->pdata;
   if (c == NULL)
     return;
-  image_cleanup_shm(c->image);
+  image_cleanup(c->image);
   free(c->image);
   free(c);
 }
@@ -69,10 +69,10 @@ bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char 
   AbstractCamera *c = d->pdata;
 
   switch (command) {
-    case C_CAMERA_SHARED_MEMORY:
-      // Cleanup the previous shared memory if any.
-      image_cleanup_shm(c->image);
-      image_setup_shm(c->image, r);
+    case C_CAMERA_MEMORY_MAPPED_FILE:
+      // Cleanup the previous memory mapped file if any.
+      image_cleanup(c->image);
+      image_setup(c->image, r);
       break;
 
     default:

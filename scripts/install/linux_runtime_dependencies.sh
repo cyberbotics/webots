@@ -12,9 +12,7 @@ if [[ -z "$DISPLAY" ]]; then
 fi
 
 UBUNTU_VERSION=$(lsb_release -rs)
-if [[ $UBUNTU_VERSION == "18.04" ]]; then
-       apt install --yes ffmpeg
-elif [[ $UBUNTU_VERSION == "20.04" ]]; then
+if [[ $UBUNTU_VERSION == "20.04" || $UBUNTU_VERSION == "22.04" ]]; then
        apt install --yes ffmpeg
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."

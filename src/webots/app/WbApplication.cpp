@@ -51,11 +51,6 @@ WbApplication::WbApplication() {
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
-  // create the Webots temporary path early in the process
-  // in order to be sure that the Qt internal files will be stored
-  // at the right place
-  WbStandardPaths::webotsTmpPath();
-
   WbPreferences::createInstance("Cyberbotics", "Webots", WbApplicationInfo::version());
 
   mStartupPath = QDir::currentPath();
@@ -107,9 +102,6 @@ WbApplication::~WbApplication() {
   WbNodeOperations::cleanup();
   cInstance = NULL;
 
-  // remove links to project dynamic libraries
-  removeOldLibraries();
-
   // remove temporary folder
   QDir tmpDir(WbStandardPaths::webotsTmpPath());
   tmpDir.removeRecursively();
@@ -127,77 +119,6 @@ void WbApplication::setup() {
   connect(nodeOperations, &WbNodeOperations::nodeAdded, recorder, &WbAnimationRecorder::propagateNodeAddition);
   connect(this, &WbApplication::deleteWorldLoadingProgressDialog, this,
           &WbApplication::setWorldLoadingProgressDialogCreatedtoFalse);
-}
-
-void WbApplication::removeOldLibraries() {
-#ifdef _WIN32
-  // remove previous project lib folders from PATH
-  QString PATH(qgetenv("PATH"));
-  PATH.remove(gProjectLibsInPath);
-  qputenv("PATH", PATH.toUtf8());
-#else  // __linux__ || __APPLE__
-  QDir tmpLibDir(WbStandardPaths::webotsTmpPath() + "lib/");
-
-  // remove links to libraries of previous project
-  if (tmpLibDir.exists()) {
-    const QStringList &files = tmpLibDir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-    foreach (const QString fileName, files)
-      tmpLibDir.remove(fileName);
-  }
-#endif
-}
-
-void WbApplication::linkLibraries(QString projectLibrariesPath) {
-  // remove previous links
-  removeOldLibraries();
-
-  if (projectLibrariesPath.startsWith(WbStandardPaths::resourcesProjectsPath()))
-    // do not link resources libraries
-    return;
-
-  QString projectLibPath(QDir::toNativeSeparators(projectLibrariesPath));
-
-#ifdef _WIN32
-  // add project lib folder and subfolders to the PATH
-  QDir projectLibDir(projectLibPath);
-  QStringList libDirs = projectLibDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-  if (projectLibDir.exists() && !libDirs.isEmpty()) {
-    QString PATH(projectLibPath);
-    foreach (QString libDirName, libDirs)
-      PATH += ";" + projectLibPath + libDirName;
-
-    gProjectLibsInPath = PATH;
-    QString PATH_BEFORE(qgetenv("PATH"));
-    if (!PATH_BEFORE.isEmpty()) {
-      PATH += ";" + PATH_BEFORE;
-      gProjectLibsInPath += ";";
-    }
-    qputenv("PATH", PATH.toUtf8());
-  }
-#else  // __linux__ || __APPLE__
-  const QString tmpLibPath(WbStandardPaths::webotsTmpPath() + "lib/");
-  const QString dynamicLibraryExtension(WbStandardPaths::dynamicLibraryExtension());
-
-  QDirIterator iterator(projectLibPath, QDirIterator::Subdirectories);
-  bool success = false;
-  QString suffix, fileName, filePath;
-  while (iterator.hasNext()) {
-    iterator.next();
-
-    if (dynamicLibraryExtension == ("." + iterator.fileInfo().suffix())) {
-      filePath = iterator.fileInfo().absoluteFilePath();
-      fileName = iterator.fileName();
-
-      if (QFile::exists(tmpLibPath + fileName))
-        continue;
-
-      // create soft link of dynamic library in the project lib folder
-      success = QFile::link(filePath, tmpLibPath + fileName);
-      if (!success)
-        WbLog::error(tr("Could not create a symbolic link of dynamic library: '%1'.").arg(fileName));
-    }
-  }
-#endif
 }
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
@@ -372,7 +293,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   // the world takes ownership of the proto list
   // TODO: no ownership anymore
   WbProject::setCurrent(new WbProject(newProjectPath));
-  linkLibraries(WbProject::current()->librariesPath());
   mWorld = new WbControlledWorld(protoList, &tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)

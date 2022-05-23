@@ -23,6 +23,7 @@ DirectionalLight {
 ProtoWithTemplateDefaultParameter {
 }
 Robot {
+  name "testing"
   translation -0.9 0.4 0
   children [
     DistanceSensor {

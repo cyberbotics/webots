@@ -76,12 +76,6 @@ public:
   // reset physics on all solids in the world
   void resetPhysics();
 
-  // create links to the project dynamic libraries
-  void linkLibraries(QString projectLibrariesPath);
-
-  // delete the progress dialog and eventually load empty world
-  bool cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld = false);
-
 signals:
   void preWorldLoaded(bool reloading);
   void postWorldLoaded(bool reloading, bool firstLoad);
@@ -125,8 +119,8 @@ private:
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
 
-  // remove links to the project dynamic libraries
-  void removeOldLibraries();
+  // delete the progress dialog and eventually load empty world
+  bool cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld = false);
 };
 
 #endif

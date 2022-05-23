@@ -26,7 +26,7 @@
 class WbApplication;
 class WbMainWindow;
 class WbSplashScreen;
-class WbStreamingServer;
+class WbTcpServer;
 
 class WbGuiApplication : public QApplication {
   Q_OBJECT
@@ -44,8 +44,9 @@ public:
 
 protected:
 #ifdef __APPLE__
-  virtual bool event(QEvent *event);
+  virtual bool event(QEvent *event) override;
 #endif
+  void timerEvent(QTimerEvent *event) override;
 
 private:
   WbApplication *mApplication;
@@ -57,15 +58,16 @@ private:
   WbMainWindow *mMainWindow;
   bool mShouldDoRendering;
   QString mThemeLoaded;
-  bool mStream;
+  char mStream;
+  int mHeartbeat;
 
   Task mTask;
   QStringList mTaskArguments;
 
-  WbStreamingServer *mStreamingServer;
+  WbTcpServer *mTcpServer;
 
+  void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();
-  void parseStreamArguments(const QString &streamArguments);
   void showHelp();
   void showSysInfo();
   bool setup();
@@ -74,7 +76,6 @@ private:
   WbSimulationState::Mode startupModeFromPreferences() const;
   bool renderingFromPreferences() const;
   void loadInitialWorld();
-
   void udpateStyleSheet();
 };
 

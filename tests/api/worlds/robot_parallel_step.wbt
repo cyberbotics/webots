@@ -64,41 +64,9 @@ DEF ROBOT Robot {
     }
     DistanceSensor {
     }
-    TouchSensor {
-      translation 0.067 0 0.01
-      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
-      children [
-        Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 0 1 0
-            }
-          }
-          geometry DEF TS_BO Sphere {
-            radius 0.005
-          }
-        }
-      ]
-      boundingObject USE TS_BO
-      physics Physics {
-      }
-      type "force"
-    }
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
-    translation 0 -0.004 0
-    children [
-      Box {
-        size 0.05 0.05 0.05
-      }
-    ]
-  }
-  physics Physics {
-    density -1
-    mass 1
-  }
   controller "robot_parallel_step"
   supervisor TRUE
 }

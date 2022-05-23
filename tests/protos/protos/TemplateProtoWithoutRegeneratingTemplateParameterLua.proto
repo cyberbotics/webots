@@ -7,6 +7,7 @@ PROTO TemplateProtoWithoutRegeneratingTemplateParameterLua [
 ]
 {
   Robot {
+    name "template proto without regenerating template parameter"
     translation -0.75 0 0
     rotation 0 0 1 %{= 1.5708 }%
     children IS slot
