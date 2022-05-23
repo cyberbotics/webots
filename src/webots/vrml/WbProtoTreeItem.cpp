@@ -21,6 +21,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
+static bool gAborting = false;
+
 WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool isExternInWorldFile) :
   mUrl(url),
   mParent(parent),
@@ -58,7 +60,8 @@ void WbProtoTreeItem::parseItem() {
   if (file.open(QIODevice::ReadOnly)) {
     if (!mRecurse) {  // when recursion is undesired, stop at the first parsing call (i.e. first level)
       mIsReady = true;
-      emit treeUpdated();
+      if (!gAborting)
+        emit treeUpdated();
       return;
     }
 
@@ -84,8 +87,9 @@ void WbProtoTreeItem::parseItem() {
       }
     }
 
-    mIsReady = true;     // wait until mSubProto has been populated before flagging this item as ready
-    emit treeUpdated();  // when we reach a dead end, notify parent about it
+    mIsReady = true;  // wait until mSubProto has been populated before flagging this item as ready
+    if (!gAborting)
+      emit treeUpdated();  // when we reach a dead end, notify parent about it
   } else
     mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
 }
@@ -141,6 +145,7 @@ void WbProtoTreeItem::rootUpdate() {
 }
 
 void WbProtoTreeItem::failure(QString error) {
+  gAborting = true;
   printf("aborting\n");
   mError = error;
   mRoot->disconnectAll();
