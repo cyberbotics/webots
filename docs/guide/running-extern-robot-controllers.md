@@ -185,7 +185,11 @@ If this instance has several extern robots, Webots will refuse the connection an
 If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
 
+&nbsp;
+
 The following table summarizes the possible values of the `WEBOTS_CONTROLLER_URL` environment variable:
+
+&nbsp;
 
 | `WEBOTS_CONTROLLER_URL` value | Typical Use Case                                                       |
 |-------------------------------|------------------------------------------------------------------------|
