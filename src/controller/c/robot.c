@@ -1125,6 +1125,10 @@ static char *compute_socket_filename() {
   // fprintf(stderr, "WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
   int number = -1;
   sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
+  if (number == -1) {
+    fprintf(stderr, "Error: invalid WEBOTS_CONTROLLER_URL: %s (missing or wrong port value)\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
   int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
