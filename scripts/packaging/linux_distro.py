@@ -320,7 +320,7 @@ class LinuxWebotsPackage(WebotsPackage):
                        'librosconsole_log4cxx.so',
                        'librosconsole_backend_interface.so',
                        'librosconsole_backend_interface.so']
-        system_libs = ['libboost_thread.so.1.71',
+        system_libs = ['libboost_thread.so.1.71.0',
                        'libboost_chrono.so.1.71.0',
                        'libboost_filesystem.so.1.71.0',
                        'liblog4cxx.so.10',
