@@ -87,9 +87,10 @@ void WbProtoTreeItem::parseItem() {
       }
     }
 
-    mIsReady = true;  // wait until mSubProto has been populated before flagging this item as ready
-    if (!gAborting)
+    if (!gAborting) {
+      mIsReady = true;     // wait until mSubProto has been populated before flagging this item as ready
       emit treeUpdated();  // when we reach a dead end, notify parent about it
+    }
   } else
     mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
 }
@@ -182,6 +183,7 @@ void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, bool>> &map)
 
 void WbProtoTreeItem::insert(const QString &url) {
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, mRoot);
+  printf("appending %p\n", child);
   mSubProto.append(child);
   // printf("%35s grafted\n", child->name().toUtf8().constData());
 }

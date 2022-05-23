@@ -27,6 +27,7 @@ import subprocess
 import threading
 import time
 import multiprocessing
+import argparse
 
 from command import Command
 
@@ -36,20 +37,20 @@ systemFailures = []
 whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
 filesArguments = []
-nomakeOption = False
-ansiEscape = True
-if len(sys.argv) > 1:
-    for arg in sys.argv[1:]:
-        if arg == '--nomake':
-            nomakeOption = True
-        elif arg == '--no-ansi-escape':
-            ansiEscape = False
-        elif os.path.exists(arg):
-            filesArguments.append(arg)
-        else:
-            raise RuntimeError('Unknown option "' + arg + '"')
+parser = argparse.ArgumentParser(description='Test-suite command line options')
+parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
+parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
+parser.add_argument('--group', type=str, dest='group', default=[], help='Specifies which group of tests should be run',
+                    choices=['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+parser.add_argument('worlds', nargs='*', default=[])
+args = parser.parse_args()
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+filesArguments = args.worlds
+
+if args.group:
+    testGroups = [str(args.group)]
+else:
+    testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -206,11 +207,11 @@ def generateWorldsList(groupName, worldsFilename):
 def monitorOutputFile(finalMessage):
     """Display the output file on the console."""
     global monitorOutputCommand
-    monitorOutputCommand = Command('tail -f ' + outputFilename, ansiEscape)
+    monitorOutputCommand = Command('tail -f ' + outputFilename, args.ansi_escape)
     monitorOutputCommand.run(expectedString=finalMessage, silent=False)
 
 
-if not nomakeOption:
+if not args.nomake:
     executeMake()
 setupWebots()
 resetOutputFile()
@@ -245,12 +246,12 @@ for groupName in testGroups:
         supervisorControllerName
     if not os.path.exists(supervisorTargetDirectory):
         os.makedirs(supervisorTargetDirectory)
-    shutil.copyfile(
-        defaultProjectPath + 'controllers' + os.sep +
-        supervisorControllerName + os.sep +
-        supervisorControllerName + '.py',
-        supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
-    )
+    #shutil.copyfile(
+    #    defaultProjectPath + 'controllers' + os.sep +
+    #    supervisorControllerName + os.sep +
+    #    supervisorControllerName + '.py',
+    #    supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
+    #)
     # parser tests uses a slightly different Supervisor PROTO
     protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
     protosSourceDirectory = defaultProjectPath + 'protos' + os.sep

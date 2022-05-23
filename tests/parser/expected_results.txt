@@ -32,6 +32,7 @@ parser/worlds/proto_typo_in_is_keyword.wbt "Expected floating point value, found
 parser/worlds/proto_unknown_field_header.wbt "Expected 'field', 'unconnectedField', 'vrmlField' or 'hiddenField' keywords, found 'notfield'."
 parser/worlds/proto_unknown_field_type.wbt "Expected field type name, found 'SFIssue'."
 parser/worlds/proto_unknown_parameter.wbt "Skipped unknown 'wrongNode' parameter in Floor PROTO."
+parser/worlds/recursive_proto.wbt "Recursive definition of PROTO node 'RecursiveProto' is not allowed."
 parser/worlds/supplementary_curly_bracket.wbt "Expected node or PROTO name, found '}'."
 parser/worlds/supplementary_item_in_value.wbt "Expected field name or '}', found '1'."
 parser/worlds/supplementary_square_bracket.wbt "Expected field name or '}', found ']'."
