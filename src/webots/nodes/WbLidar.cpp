@@ -94,6 +94,8 @@ WbLidar::WbLidar(const WbNode &other) : WbAbstractCamera(other) {
 
 WbLidar::~WbLidar() {
   delete mTemporaryImage;
+  if (mIsRemoteExternController)
+    delete mTcpImage;
   if (areWrenObjectsInitialized())
     deleteWren();
 }
@@ -180,6 +182,7 @@ void WbLidar::initializeImageMemoryMappedFile() {
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];
+  mTcpImage = mIsRemoteExternController ? new float[2 * actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
@@ -266,9 +269,13 @@ void WbLidar::handleMessage(QDataStream &stream) {
     return;
   } else if (command == C_LIDAR_ENABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = true;
+    mTcpCloudPoints =
+      mIsRemoteExternController ? new WbLidarPoint[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
     return;
   } else if (command == C_LIDAR_DISABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = false;
+    if (mIsRemoteExternController)
+      delete mTcpCloudPoints;
     hidePointCloud();
     return;
   } else if (command == C_LIDAR_SET_FREQUENCY) {
@@ -286,7 +293,7 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
   if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
-  float *data = lidarImage();
+  float *data = mIsRemoteExternController ? mTcpImage : lidarImage();
   double skip = 1.0;
   if (height() != actualNumberOfLayers() && actualNumberOfLayers() != 1)
     skip = (double)(height() - 1) / (double)(actualNumberOfLayers() - 1);
@@ -354,7 +361,7 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
 
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
-  const float *image = lidarImage();
+  const float *image = mIsRemoteExternController ? mTcpImage : lidarImage();
   const int resolution = actualHorizontalResolution();
   const int numberOfLayers = actualNumberOfLayers();
   const double w = width();

@@ -99,6 +99,8 @@ private:
   double mPreviousRotatingAngle;
   double mCurrentTiltAngle;
   float *mTemporaryImage;
+  float *mTcpImage;
+  WbLidarPoint *mTcpCloudPoints;
 
   int mActualNumberOfLayers;
   int mActualHorizontalResolution;
@@ -136,7 +138,10 @@ private:
   double minRange() const override { return mMinRange->value(); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
-  WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }
+  WbLidarPoint *pointArray() {
+    return mIsRemoteExternController ? mTcpCloudPoints :
+                                       (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers());
+  }
 
   // WREN methods
   void createWrenCamera() override;
