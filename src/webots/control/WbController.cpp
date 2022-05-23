@@ -989,9 +989,10 @@ void WbController::writeAnswer(bool immediateAnswer) {
   stream.device()->seek(0);
   stream << size;
 
-  // write the request
-  mSocket->write(buffer.constData(), size);
-  mSocket->flush();  // sometimes packets are simply not sent without flushing
+  if (mSocket) {  // write the request
+    mSocket->write(buffer.constData(), size);
+    mSocket->flush();  // sometimes packets are simply not sent without flushing
+  }
 
   // reset request time
   if (!immediateAnswer)
