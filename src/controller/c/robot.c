@@ -1298,7 +1298,7 @@ int wb_robot_init() {  // API initialization
     bool success;
     const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
     const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
-    const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
+    const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
