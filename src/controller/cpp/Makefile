@@ -119,7 +119,7 @@ all debug profile release: $(TARGET)
 
 ifeq ($(OSTYPE),darwin)
 
-X64_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/,$(OBJECTS))
+X86_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/,$(OBJECTS))
 ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/,$(OBJECTS))
 
 $(TARGET): $(BUILD_GOAL_DIR)/x86_64/libCppController.dylib $(BUILD_GOAL_DIR)/arm64/libCppController.dylib
