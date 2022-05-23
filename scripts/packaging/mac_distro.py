@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.10
+#!/usr/bin/env python
 
 # Copyright 1996-2022 Cyberbotics Ltd.
 #
@@ -58,7 +58,7 @@ class MacWebotsPackage(WebotsPackage):
         for name in qt_modules:
             module_path = os.path.join(frameworks_path, name + '.framework')
             self.symlink_force(f"{module_path}Versions/A/{name}", f"{module_path}/name")
-            self.symlink_force(f"{module_path}/Versions/A/Headers", f"{module_path}/Headers")  # TODO check directory
+            self.symlink_force(f"{module_path}/Versions/A/Headers", f"{module_path}/Headers")
             self.symlink_force(f"{module_path}/A", f"{module_path}/Versions/Current")
 
         data = {

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.10
+#!/usr/bin/env python
 
 # Copyright 1996-2022 Cyberbotics Ltd.
 #
@@ -22,12 +22,6 @@ import subprocess
 from update_urls import replace_projects_urls
 from generate_asset_cache import generate_asset_cache
 from generic_distro import get_webots_version
-
-# Missing steps: $(WEBOTS_DISTRO_EXE) $(XVFB)
-# 	+@echo "# recompiling controller files"
-# 	+@make -s -f Makefile.controllers
-# 	+@echo "# checking submodules update"
-# 	+@./check_submodules_update.sh
 
 try:
     WEBOTS_HOME = os.getenv('WEBOTS_HOME')
