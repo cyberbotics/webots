@@ -173,8 +173,7 @@ WbController::~WbController() {
   delete mSocket;
   delete mServer;
   delete mProcess;
-  if (mRobot)
-    QDir(mIpcPath).removeRecursively();
+  QDir(mIpcPath).removeRecursively();
 }
 
 void WbController::updateName(const QString &name) {
