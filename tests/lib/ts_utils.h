@@ -82,13 +82,6 @@ void ts_send_success() {
   exit(EXIT_SUCCESS);
 }
 
-int ts_webots_major_version() {
-  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  if (WEBOTS_SERVER && strlen(WEBOTS_SERVER) >= 7)
-    return 7;
-  return 6;
-}
-
 bool ts_is_pointer_size_64_bits() {
   return (sizeof(void *) == 8);
 }

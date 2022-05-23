@@ -24,6 +24,7 @@ Robot {
   supervisor TRUE
 }
 DEF ROBOT Robot {
+  name "data"
   children [
     TestSuiteEmitter {
     }

@@ -420,9 +420,8 @@ QT_SOURCES = WbAboutBox.cpp \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
-  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
-  WbStreamingServer.cpp \
+  WbTcpServer.cpp \
   WbSupervisorUtilities.cpp \
   WbSyntaxHighlighter.cpp \
   WbTelemetry.cpp \
@@ -583,7 +582,7 @@ OTHER_SOURCES += \
   WbWindowsRegistry.cpp
 else
 OTHER_SOURCES += \
-  WbPosixSharedMemory.cpp
+  WbPosixMemoryMappedFile.cpp
 endif
 
 MOC_FILES=$(addprefix $(OBJDIR)/,$(notdir $(QT_SOURCES:%.cpp=%.moc.cpp)))

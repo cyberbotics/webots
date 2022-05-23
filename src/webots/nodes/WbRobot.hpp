@@ -58,6 +58,8 @@ public:
   void save(const QString &id) override;
 
   // controller
+  void externControllerChanged();
+  bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
   void setControllerStarted(bool started) { mControllerStarted = started; }

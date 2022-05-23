@@ -62,8 +62,8 @@
 #include "WbSimulationView.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
+#include "WbTcpServer.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbUpdatedDialog.hpp"
 #include "WbVideoRecorder.hpp"
@@ -103,7 +103,7 @@
 
 #include <wren/gl_state.h>
 
-WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
+WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
   mTextEditor(NULL),
@@ -114,7 +114,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   mWorldLoadingProgressDialog(NULL),
   mIsFullScreenLocked(false),
   mMaximizedWidget(NULL),
-  mStreamingServer(streamingServer) {
+  mTcpServer(tcpServer) {
 #ifdef __APPLE__
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
@@ -384,10 +384,10 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromSceneTree, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromView3D, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
-  if (mStreamingServer) {
-    mStreamingServer->setMainWindow(this);
-    if (mStreamingServer->streamStatus()) {
-      WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
+  if (mTcpServer) {
+    mTcpServer->setMainWindow(this);
+    if (mTcpServer->streamStatus()) {
+      WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mTcpServer);
       if (multimediaStreamingServer)
         multimediaStreamingServer->setView3D(mSimulationView->view3D());
     }
@@ -2065,12 +2065,12 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
     if (robotWindow->robot() == robot) {  // close only the client of the robot window associated with the robot.
       if (robotWindow->getClientID() == "-1" || robotWindow->getClientID().isEmpty()) {
         if (manualTrigger)
-          robotWindow->setupPage(mStreamingServer->port());
+          robotWindow->setupPage(mTcpServer->port());
         else
           mRobotWindowClosed = true;
         return;
       } else
-        mStreamingServer->closeClient(robotWindow->getClientID());
+        mTcpServer->closeClient(robotWindow->getClientID());
       currentRobotWindow = robotWindow;
     }
   }
@@ -2081,7 +2081,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
     if (currentRobotWindow == NULL) {  // if no robot window associated with the robot, create one.
       currentRobotWindow = new WbRobotWindow(robot);
       mRobotWindows << currentRobotWindow;
-      connect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
+      connect(mTcpServer, &WbTcpServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
@@ -2090,7 +2090,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
     }
 
     if (currentRobotWindow && currentRobotWindow->robot() == robot && !mRobotWindowClosed)
-      currentRobotWindow->setupPage(mStreamingServer->port());
+      currentRobotWindow->setupPage(mTcpServer->port());
   } else if (!mRobotWindowClosed) {
     const int maxPendingRobotWindows = 3;
     if (mRobotsWaitingForWindowToOpen.size() < maxPendingRobotWindows)
@@ -2109,7 +2109,7 @@ void WbMainWindow::onSocketOpened() {
 void WbMainWindow::closeClientRobotWindow(WbRobot *robot) {
   foreach (WbRobotWindow *robotWindow, mRobotWindows)
     if ((robotWindow->robot() == robot))
-      mStreamingServer->closeClient(robotWindow->getClientID());
+      mTcpServer->closeClient(robotWindow->getClientID());
 }
 
 void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
@@ -2117,7 +2117,7 @@ void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
   foreach (WbRobotWindow *robotWindow, mRobotWindows)
     if ((robotWindow->robot() == robot) || robot == NULL) {
       closeClientRobotWindow(robotWindow->robot());
-      disconnect(mStreamingServer, &WbStreamingServer::sendRobotWindowClientID, robotWindow, &WbRobotWindow::setClientID);
+      disconnect(mTcpServer, &WbTcpServer::sendRobotWindowClientID, robotWindow, &WbRobotWindow::setClientID);
       disconnect(robotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
       robotWindow->robot()->disconnect(this);
       mRobotWindows.removeAll(robotWindow);
