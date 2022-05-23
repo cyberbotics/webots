@@ -28,32 +28,32 @@ public:
 
   WbDataStream &writeRawData(const char *s, int len);
 
-  WbDataStream &operator<<(qint8 i);
-  WbDataStream &operator<<(quint8 i);
-  WbDataStream &operator<<(qint16 i);
-  WbDataStream &operator<<(quint16 i);
-  WbDataStream &operator<<(qint32 i);
-  WbDataStream &operator<<(quint32 i);
-  WbDataStream &operator<<(qint64 i);
-  WbDataStream &operator<<(quint64 i);
+  WbDataStream &operator<<(qint8 n);
+  WbDataStream &operator<<(quint8 n);
+  WbDataStream &operator<<(qint16 n);
+  WbDataStream &operator<<(quint16 n);
+  WbDataStream &operator<<(qint32 n);
+  WbDataStream &operator<<(quint32 n);
+  WbDataStream &operator<<(qint64 n);
+  WbDataStream &operator<<(quint64 n);
 
-  WbDataStream &operator<<(bool i);
+  WbDataStream &operator<<(bool n);
   WbDataStream &operator<<(float f);
   WbDataStream &operator<<(double f);
   WbDataStream &operator<<(const char *s);
 };
 
-inline WbDataStream &WbDataStream::operator<<(quint8 i) {
-  return *this << qint8(i);
+inline WbDataStream &WbDataStream::operator<<(quint8 n) {
+  return *this << qint8(n);
 }
-inline WbDataStream &WbDataStream::operator<<(quint16 i) {
-  return *this << qint16(i);
+inline WbDataStream &WbDataStream::operator<<(quint16 n) {
+  return *this << qint16(n);
 }
-inline WbDataStream &WbDataStream::operator<<(quint32 i) {
-  return *this << qint32(i);
+inline WbDataStream &WbDataStream::operator<<(quint32 n) {
+  return *this << qint32(n);
 }
-inline WbDataStream &WbDataStream::operator<<(quint64 i) {
-  return *this << qint64(i);
+inline WbDataStream &WbDataStream::operator<<(quint64 n) {
+  return *this << qint64(n);
 }
 
 #endif

@@ -67,16 +67,13 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   free(init_msg);
 
   char ack_msg[12];
-  fprintf(stdout, "Waiting for Webots...\n");
   tcp_client_receive(scheduler_client, ack_msg, 12);  // wait for ack message from Webots
-  if (strncmp(ack_msg, "CONNECTED", 9) == 0) {
-    fprintf(stdout, "Connection to robot established.\n");
-  } else if (strncmp(ack_msg, "FAILED", 6) == 0) {
+  if (strncmp(ack_msg, "FAILED", 6) == 0) {
     fprintf(stderr, "%s.\n",
             robot_name == NULL ? "No robot with <extern> controllers is specified in the Webots simulation.\n" :
                                  "The specified robot is not in the list of robots with <extern> controllers.\n");
     exit(EXIT_FAILURE);
-  } else {
+  } else if (strncmp(ack_msg, "CONNECTED", 9) != 0) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
   }
