@@ -1639,15 +1639,15 @@ void WbMainWindow::upload(char type) {
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  const QString cancelText = "Cancel";
+  const QString cancelText = tr("Cancel");
   mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), cancelText, 0, 100, this);
   mUploadProgressDialog->setWindowTitle(tr("%1").arg(uploadUrl));
   mUploadProgressDialog->show();
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
 
   QPushButton *cancelButton = new QPushButton(mUploadProgressDialog);
+  cancelButton->setText(cancelText);
   mUploadProgressDialog->setCancelButton(cancelButton);
-  mUploadProgressDialog->setCancelButtonText(cancelText);
   connect(cancelButton, &QPushButton::pressed, reply, [reply] { reply->abort(); });
 
   multiPart->setParent(reply);
