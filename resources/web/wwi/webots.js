@@ -160,8 +160,6 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
         if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
@@ -296,8 +294,7 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    //if (document.getElementById('webots-progress'))
-      //document.getElementById('webots-progress').style.display = 'none';
+    this.setProgress('none');
     this.removeLabels();
     if (document.getElementById('webots-clock'))
       document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
@@ -307,14 +304,10 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Bye bye...';
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'block';
+    this.setProgress('block', 'Bye bye...', 'hidden', 'See you soon!');
     setTimeout(() => {
-      //if (document.getElementById('webots-progress'))
-        //document.getElementById('webots-progress').style.display = 'none';
-    }, 1000);
+      
+    }, 500);
     this.quitting = true;
     this.onquit();
   }
@@ -328,7 +321,7 @@ webots.View = class View {
         if (typeof message !== 'undefined' && message !== 'same') {
           document.getElementById('webots-progress-message').style.visibility = 'visible';
           document.getElementById('webots-progress-message').innerHTML = message;
-        } else if (message === 'hidden')
+        } else
           document.getElementById('webots-progress-message').style.visibility = 'hidden';
 
         // Percentage bar value
@@ -338,6 +331,7 @@ webots.View = class View {
           else
             document.getElementById('webots-progress-percent').style.transition = '0.2s all ease-in-out';
           document.getElementById('webots-progress-percent').style.visibility = 'visible';
+          document.getElementById('webots-progress-background').style.visibility = 'visible';
           if (percent >= 100) {
             document.getElementById('webots-progress-percent').style.width = '100%';
             document.getElementById('webots-progress-percent').style.borderTopRightRadius = '3px';
@@ -347,8 +341,11 @@ webots.View = class View {
             document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
             document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
           }
-        } else if (percent === 'hidden')
+        } else {
+          document.getElementById('webots-progress-percent').style.transition = 'none';
           document.getElementById('webots-progress-percent').style.visibility = 'hidden';
+          document.getElementById('webots-progress-background').style.visibility = 'hidden';
+        }
 
         // Information style and text
         if (typeof info !== 'undefined' && info !== 'same') {
@@ -356,7 +353,7 @@ webots.View = class View {
             info = info.substring(0, 37) + '...';
           document.getElementById('webots-progress-info').style.visibility = 'visible';
           document.getElementById('webots-progress-info').innerHTML = info;
-        } else if (info === 'hidden')
+        } else
           document.getElementById('webots-progress-info').style.visibility = 'hidden';
       }
     }

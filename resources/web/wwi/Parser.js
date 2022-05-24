@@ -77,8 +77,7 @@ export default class Parser {
         this._parseNode(scene);
     }
 
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Finalizing...';
+    webots.currentView.setProgress('block', 'Finalizing...');
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -108,8 +107,7 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      if (document.getElementById('webots-progress'))
-        //document.getElementById('webots-progress').style.display = 'none';
+      webots.currentView.setProgress('none');
 
       if (typeof callback === 'function')
         callback();

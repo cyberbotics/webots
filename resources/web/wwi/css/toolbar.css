@@ -35,7 +35,6 @@ webots-view #webots-progress {
   padding: 10px;
   box-sizing: content-box;
   box-shadow: 0 0 15px #444;
-  transition: 0.2s all ease-in-out;
 }
 
 webots-view .webots-progress-bar {
@@ -65,8 +64,7 @@ webots-view #webots-progress-percent {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   background-color: #007acc;
-  transition: 0.2s all ease-in-out;
-  transition-delay: 5s;
+  /*transition: 0.2s all ease-in-out;*/
 }
 
 webots-view #webots-progress-info {
