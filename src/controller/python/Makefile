@@ -60,11 +60,11 @@ LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
+PYTHON_COMMAND ?= /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10
 WRAPPER_OBJECT_X86_64 = $(addprefix x86_64/,$(WRAPPER:.cpp=.o))
 WRAPPER_OBJECT_ARM64 = $(addprefix arm64/,$(WRAPPER:.cpp=.o))
 LIBOUT_X86_64 = x86_64/_controller.so
 LIBOUT_ARM64 = arm64/_controller.so
-PYTHON_COMMAND ?= /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10
 PYTHON_PATH = $(shell $(PYTHON_COMMAND) -u -c "import sys; print(sys.exec_prefix)")
 SKIP_PYTHON_PYMALLOC := 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
@@ -131,9 +131,17 @@ $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
 ifeq ($(OSTYPE),darwin)
+
+ifeq ($(PYTHON_SHORT_VERSION),37)
+$(LIBOUT):$(LIBOUT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# creating" $@
+	lipo -create -output $@ x86_64/_controller.so
+else
 $(LIBOUT):$(LIBOUT_X86_64) $(LIBOUT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# creating fat" $@
 	lipo -create -output $@ x86_64/_controller.so arm64/_controller.so
+endif
+
 else
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# linking" $@
